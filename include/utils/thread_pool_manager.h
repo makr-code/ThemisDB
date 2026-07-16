@@ -1,23 +1,20 @@
+/**
+ * @file thread_pool_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            thread_pool_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: thread_pool_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -115,8 +112,21 @@ public:
     
 private:
     void workerLoop();
+
+    // Priority comparator: higher priority value → dequeued first.
+    struct PriorityCompare {
+        bool operator()(const std::shared_ptr<Task>& a,
+                        const std::shared_ptr<Task>& b) const {
+            return static_cast<int>(a->getPriority()) <
+                   static_cast<int>(b->getPriority());
+        }
+    };
     
-    std::queue<std::shared_ptr<Task>> task_queue_;
+    std::priority_queue<
+        std::shared_ptr<Task>,
+        std::vector<std::shared_ptr<Task>>,
+        PriorityCompare
+    > task_queue_;
     std::vector<std::thread> workers_;
     
     mutable std::shared_mutex mutex_;
@@ -127,6 +137,10 @@ private:
     std::atomic<size_t> active_threads_{0};
     std::atomic<uint64_t> total_executed_{0};
     std::atomic<uint64_t> total_failed_{0};
+
+    // Latency tracking (running sum + count protected by mutex_).
+    double latency_sum_ms_  = 0.0;
+    uint64_t latency_count_ = 0;
 };
 
 /**
@@ -202,3 +216,4 @@ private:
 ThreadPoolManager& getThreadPoolManager();
 
 } // namespace themis::utils
+

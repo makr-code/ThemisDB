@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_streaming_exporter.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     456                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5b487cd13  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
-    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
-    • d525f93e5  2026-02-26  Audit: fix stray brace in test, update ROADMAP and IMPLEM... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_streaming_exporter.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -159,7 +141,10 @@ TEST_F(StreamingExporterTest, ExportEntitiesBasic) {
 
     // Every line must be valid JSON
     for (const auto& line : lines) {
-        EXPECT_NO_THROW(json::parse(line));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        });
     }
 }
 
@@ -384,6 +369,9 @@ TEST_F(StreamingExporterTest, CheckpointMetricsRecorded) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(StreamingExporterTest, GzipCompression) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD compression not available in this build (gzip type redirects to ZSTD)";
+#endif
     StreamingExporter exporter;
     ExportOptions options;
     options.output_path = test_dir_ + "/compressed.jsonl.gz";
@@ -399,6 +387,36 @@ TEST_F(StreamingExporterTest, GzipCompression) {
     // Compressed file should be smaller than uncompressed byte count
     auto file_size = std::filesystem::file_size(options.output_path);
     EXPECT_GT(file_size, 0u);
+}
+
+TEST_F(StreamingExporterTest, GzipTypeProducesZstdMagicNumber) {
+    // Acceptance criterion: "gzip" compression_type now redirects to ZSTD;
+    // output must be ZSTD-framed (first 4 bytes == ZSTD_MAGICNUMBER 0xFD2FB528).
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD compression not available in this build";
+#endif
+
+    StreamingExporter exporter;
+    ExportOptions options;
+    options.output_path = test_dir_ + "/gzip_is_zstd.zst";
+    options.compress = true;
+    options.compression_type = "gzip";
+    options.compression_level = 3;
+
+    exporter.exportEntities(test_entities_, options);
+
+    ASSERT_TRUE(std::filesystem::exists(options.output_path));
+    std::ifstream f(options.output_path, std::ios::binary);
+    ASSERT_TRUE(f.is_open());
+    // ZSTD magic number is 0xFD2FB528 (big-endian notation), stored in the
+    // frame as four little-endian bytes: 0x28, 0xB5, 0x2F, 0xFD.
+    unsigned char header[4] = {};
+    f.read(reinterpret_cast<char*>(header), sizeof(header));
+    ASSERT_FALSE(f.fail());
+    EXPECT_EQ(header[0], 0x28u);  // least-significant byte first
+    EXPECT_EQ(header[1], 0xB5u);
+    EXPECT_EQ(header[2], 0x2Fu);
+    EXPECT_EQ(header[3], 0xFDu);  // most-significant byte last
 }
 
 TEST_F(StreamingExporterTest, ZstdCompression) {

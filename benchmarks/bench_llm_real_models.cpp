@@ -1,140 +1,107 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_llm_real_models.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     375                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_llm_real_models.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// Example: Integration of Ollama models into ThemisDB benchmarks
-// File: benchmarks/bench_llm_real_models.cpp
-//
-// This benchmark uses real GGUF models downloaded via download-ollama-models.ps1
-
 #include <benchmark/benchmark.h>
-#include <memory>
 #include <vector>
 #include <string>
 #include <filesystem>
 #include <cstdlib>
 
+#include "benchmark_artifact_preflight.h"
+
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/llm_plugin_manager.h"
-#include "llm/llama_wrapper.h"
 #endif
-
-#include "storage/rocksdb_wrapper.h"
-#include "index/vector_index.h"
 
 using namespace themis;
 
-// Get model path from environment or use default
+// Resolve model path via the standardised preflight utility (Maßnahme #6).
+// Priority: THEMIS_LLM_MODEL_PATH > THEMIS_MODEL_DIR/{stub,real} > legacy paths.
 std::string getModelPath() {
-    const char* env_path = std::getenv("THEMIS_LLM_MODEL_PATH");
-    if (env_path && std::filesystem::exists(env_path)) {
-        return env_path;
+    std::string path = bench::resolveModelPath();
+    if (!path.empty()) {
+        return path;
     }
-    
-    // Check default locations
-    std::vector<std::string> default_paths = {
+
+    // Legacy fallback for local developer setups that pre-date Maßnahme #6.
+    // Deprecated: set THEMIS_MODEL_DIR or run scripts/download_models.sh instead.
+    const std::vector<std::string> legacy_paths = {
         "./models/tinyllama_1.1b.gguf",
         "./models/llama3.2_1b.gguf",
         "./models/phi3_mini.gguf",
         "../models/tinyllama_1.1b.gguf",
-        "C:/VCC/themis/models/tinyllama_1.1b.gguf"
     };
-    
-    for (const auto& path : default_paths) {
-        if (std::filesystem::exists(path)) {
-            return path;
+    for (const auto& p : legacy_paths) {
+        if (std::filesystem::exists(p)) {
+            return p;
         }
     }
-    
+
     return "";
 }
 
 #ifdef THEMIS_ENABLE_LLM
 
-// ============================================================================
-// REAL LLM MODEL BENCHMARKS
-// ============================================================================
-
 class RealLLMBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
+        (void)state;
         model_path_ = getModelPath();
-        
+
         if (model_path_.empty()) {
-            state.SkipWithError("No LLM model found. Run: .\\scripts\\download-ollama-models.ps1");
+            ready_ = false;
+            error_message_ =
+                "LLM artefact preflight FAILED: no model file found. "
+                "Run 'scripts/download_models.sh --stub-only' or set "
+                "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
+                "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
             return;
         }
-        
-        // Initialize DB
-        db_path_ = "C:\\tmp\\bench_real_llm_" + std::to_string(reinterpret_cast<uintptr_t>(this));
-        std::filesystem::remove_all(db_path_);
-        std::filesystem::create_directories(db_path_);
-        
-        RocksDBWrapper::Config cfg;
-        cfg.db_path = db_path_;
-        db_ = std::make_unique<RocksDBWrapper>(cfg);
-        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
-        // Initialize LLM Plugin Manager
-        auto& manager = llm::LLMPluginManager::getInstance();
-        
-        // Load model
-        try {
-            llm::LlamaWrapperConfig plugin_config;
-            plugin_config.n_threads = 4;
-            plugin_config.n_ctx = 2048;
-            plugin_config.use_mmap = true;
-            
-            manager.createLlamaWrapper("benchmark_model", model_path_, plugin_config);
-            
-        } catch (const std::exception& e) {
-            state.SkipWithError(std::string("Failed to load model: ") + e.what());
-            return;
+
+        model_id_ = "benchmark_model_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto& manager = llm::LLMPluginManager::instance();
+        loaded_model_ = manager.loadModel(model_id_, model_path_);
+        ready_ = loaded_model_;
+        if (!ready_) {
+            error_message_ = "Failed to load model via LLMPluginManager::loadModel";
         }
     }
-    
+
     void TearDown(const ::benchmark::State& state) override {
-        auto& manager = llm::LLMPluginManager::getInstance();
-        manager.unregisterPlugin("benchmark_model");
-        
-        db_.reset();
-        std::filesystem::remove_all(db_path_);
+        (void)state;
+        if (loaded_model_) {
+            auto& manager = llm::LLMPluginManager::instance();
+            manager.unloadModel(model_id_);
+        }
     }
 
 protected:
+    bool ensureReady(benchmark::State& state) const {
+        if (!ready_) {
+            state.SkipWithError(error_message_.c_str());
+            return false;
+        }
+        return true;
+    }
+
+    bool ready_ = false;
+    bool loaded_model_ = false;
+    std::string error_message_;
+    std::string model_id_;
     std::string model_path_;
-    std::string db_path_;
-    std::unique_ptr<RocksDBWrapper> db_;
 };
 
-// Benchmark: Text Embedding Generation (real model)
 BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& state) {
-    auto& manager = llm::LLMPluginManager::getInstance();
-    auto* plugin = manager.getPlugin("benchmark_model");
-    
-    if (!plugin) {
-        state.SkipWithError("Model not loaded");
+    if (!ensureReady(state)) {
         return;
     }
-    
+
+    auto& manager = llm::LLMPluginManager::instance();
     std::vector<std::string> test_texts = {
         "The quick brown fox jumps over the lazy dog",
         "Machine learning is transforming the world of technology",
@@ -146,28 +113,22 @@ BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& 
     
     for (auto _ : state) {
         const auto& text = test_texts[text_idx % test_texts.size()];
-        
-        // Generate embedding using real model
-        auto embedding = plugin->generateEmbedding(text);
-        
+
+        auto embedding = manager.embed(text);
         benchmark::DoNotOptimize(embedding);
         text_idx++;
     }
-    
+
     state.SetItemsProcessed(state.iterations());
-    state.SetBytesProcessed(state.iterations() * 64); // Avg text size estimate
+    state.SetBytesProcessed(state.iterations() * 64);
 }
 
-// Benchmark: Text Generation (real model)
 BENCHMARK_F(RealLLMBench, RealModel_TextGeneration_50Tokens)(benchmark::State& state) {
-    auto& manager = llm::LLMPluginManager::getInstance();
-    auto* plugin = manager.getPlugin("benchmark_model");
-    
-    if (!plugin) {
-        state.SkipWithError("Model not loaded");
+    if (!ensureReady(state)) {
         return;
     }
-    
+
+    auto& manager = llm::LLMPluginManager::instance();
     std::vector<std::string> prompts = {
         "Explain database indexing in one sentence:",
         "What is a vector database?",
@@ -179,96 +140,27 @@ BENCHMARK_F(RealLLMBench, RealModel_TextGeneration_50Tokens)(benchmark::State& s
     
     for (auto _ : state) {
         const auto& prompt = prompts[prompt_idx % prompts.size()];
-        
-        llm::GenerationParams params;
-        params.max_tokens = 50;
-        params.temperature = 0.7f;
-        params.top_p = 0.9f;
-        
-        auto response = plugin->generate(prompt, params);
-        
+
+        llm::InferenceRequest request;
+        request.prompt = prompt;
+        request.max_tokens = 50;
+        request.temperature = 0.7f;
+        request.top_p = 0.9f;
+
+        auto response = manager.generate(request);
         benchmark::DoNotOptimize(response);
         prompt_idx++;
     }
-    
+
     state.SetItemsProcessed(state.iterations());
 }
 
-// Benchmark: RAG Pipeline with Real Model
-BENCHMARK_F(RealLLMBench, RealModel_RAG_Pipeline_EndToEnd)(benchmark::State& state) {
-    auto& manager = llm::LLMPluginManager::getInstance();
-    auto* plugin = manager.getPlugin("benchmark_model");
-    
-    if (!plugin) {
-        state.SkipWithError("Model not loaded");
-        return;
-    }
-    
-    VectorIndexManager vim(*db_);
-    
-    // Populate knowledge base with embeddings
-    std::vector<std::string> documents = {
-        "ThemisDB is a high-performance vector database.",
-        "It supports semantic search and RAG workflows.",
-        "The database uses RocksDB as storage backend.",
-        "Vector indexing enables fast similarity search.",
-        "FAISS integration provides scalable vector operations."
-    };
-    
-    // Pre-generate embeddings for documents
-    std::vector<std::vector<float>> doc_embeddings;
-    for (const auto& doc : documents) {
-        doc_embeddings.push_back(plugin->generateEmbedding(doc));
-    }
-    
-    // Store in DB
-    for (size_t i = 0; i < documents.size(); ++i) {
-        BaseEntity entity("doc_" + std::to_string(i), BaseEntity::FieldMap{
-            {"embedding", doc_embeddings[i]},
-            {"text", documents[i]}
-        });
-        vim.addEntity(entity);
-    }
-    
-    std::string query = "What database features are available?";
-    
-    for (auto _ : state) {
-        // 1. Generate query embedding
-        auto query_embedding = plugin->generateEmbedding(query);
-        
-        // 2. Search for relevant documents
-        auto results = vim.searchKnn(query_embedding, 3);
-        
-        // 3. Build context from results
-        std::string context;
-        for (const auto& result : results) {
-            // In real scenario, retrieve text field
-            context += "Context: " + std::to_string(result.score) + "\n";
-        }
-        
-        // 4. Generate response with context
-        std::string rag_prompt = "Based on:\n" + context + "\nAnswer: " + query;
-        
-        llm::GenerationParams params;
-        params.max_tokens = 100;
-        auto response = plugin->generate(rag_prompt, params);
-        
-        benchmark::DoNotOptimize(response);
-    }
-    
-    state.SetItemsProcessed(state.iterations());
-}
-
-// Benchmark: Batch Embedding Generation
 BENCHMARK_F(RealLLMBench, RealModel_BatchEmbedding_100Docs)(benchmark::State& state) {
-    auto& manager = llm::LLMPluginManager::getInstance();
-    auto* plugin = manager.getPlugin("benchmark_model");
-    
-    if (!plugin) {
-        state.SkipWithError("Model not loaded");
+    if (!ensureReady(state)) {
         return;
     }
-    
+
+    auto& manager = llm::LLMPluginManager::instance();
     // Generate test documents
     std::vector<std::string> documents;
     for (int i = 0; i < 100; ++i) {
@@ -278,79 +170,73 @@ BENCHMARK_F(RealLLMBench, RealModel_BatchEmbedding_100Docs)(benchmark::State& st
     for (auto _ : state) {
         std::vector<std::vector<float>> embeddings;
         embeddings.reserve(documents.size());
-        
+
         for (const auto& doc : documents) {
-            embeddings.push_back(plugin->generateEmbedding(doc));
+            embeddings.push_back(manager.embed(doc));
         }
-        
+
         benchmark::DoNotOptimize(embeddings);
     }
-    
+
     state.SetItemsProcessed(state.iterations() * documents.size());
 }
 
-// Benchmark: Model Loading Performance
 static void BM_RealModel_LoadingTime(benchmark::State& state) {
     std::string model_path = getModelPath();
-    
+
     if (model_path.empty()) {
-        state.SkipWithError("No LLM model found");
+        state.SkipWithError(
+            "LLM artefact preflight FAILED: no model file found. "
+            "Run 'scripts/download_models.sh --stub-only' or set "
+            "THEMIS_MODEL_DIR / THEMIS_LLM_MODEL_PATH. "
+            "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".");
         return;
     }
-    
+
+    auto& manager = llm::LLMPluginManager::instance();
     for (auto _ : state) {
-        auto& manager = llm::LLMPluginManager::getInstance();
-        
-        llm::LlamaWrapperConfig config;
-        config.n_threads = 4;
-        config.n_ctx = 2048;
-        
-        state.PauseTiming();
-        std::string plugin_name = "load_test_" + std::to_string(state.iterations());
-        state.ResumeTiming();
-        
-        manager.createLlamaWrapper(plugin_name, model_path, config);
-        
-        state.PauseTiming();
-        manager.unregisterPlugin(plugin_name);
-        state.ResumeTiming();
+        std::string model_id = "load_test_" + std::to_string(static_cast<unsigned long long>(state.iterations()));
+        bool loaded = manager.loadModel(model_id, model_path);
+        benchmark::DoNotOptimize(loaded);
+        if (loaded) {
+            manager.unloadModel(model_id);
+        }
     }
 }
 
 BENCHMARK(BM_RealModel_LoadingTime)->Unit(benchmark::kSecond);
 
-// Benchmark: Context Size Scaling
 BENCHMARK_F(RealLLMBench, RealModel_ContextScaling)(benchmark::State& state) {
-    auto& manager = llm::LLMPluginManager::getInstance();
-    auto* plugin = manager.getPlugin("benchmark_model");
-    
-    if (!plugin) {
-        state.SkipWithError("Model not loaded");
+    if (!ensureReady(state)) {
         return;
     }
-    
+
+    auto& manager = llm::LLMPluginManager::instance();
     size_t context_tokens = state.range(0);
-    
+
     // Generate prompt with approximate token count
     std::string base_prompt = "Summarize the following text:\n";
     std::string long_text;
-    
+
     // Approximate: ~4 chars per token
     size_t target_chars = context_tokens * 4;
     while (long_text.size() < target_chars) {
         long_text += "This is sample text for context scaling benchmarks. ";
     }
-    
+
     std::string prompt = base_prompt + long_text;
-    
+
     for (auto _ : state) {
-        llm::GenerationParams params;
-        params.max_tokens = 50;
-        
-        auto response = plugin->generate(prompt, params);
+        llm::InferenceRequest request;
+        request.prompt = prompt;
+        request.max_tokens = 50;
+        request.temperature = 0.7f;
+        request.top_p = 0.9f;
+
+        auto response = manager.generate(request);
         benchmark::DoNotOptimize(response);
     }
-    
+
     state.SetItemsProcessed(state.iterations());
     state.SetLabel("ctx_tokens=" + std::to_string(context_tokens));
 }

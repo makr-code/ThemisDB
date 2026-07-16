@@ -1,23 +1,21 @@
+/**
+ * @file plugin_hot_plug_monitor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_hot_plug_monitor.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     581                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_hot_plug_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 581
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=9, L=0
+ * PR History (last 5): #1292 Plugin system production-re... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_hot_plug_monitor.h"
@@ -144,7 +142,7 @@ void PluginHotPlugMonitor::handleFileEvent(
                     std::this_thread::sleep_for(std::chrono::milliseconds(500));
                     
                     // Rescan directory to discover new plugin
-                    plugin_manager_->scanPluginDirectory(watch_directory_);
+                    (void)plugin_manager_->scanPluginDirectory(watch_directory_);
                     
                     // Try to load the plugin
                     auto result = plugin_manager_->loadPlugin(plugin_name);
@@ -181,8 +179,12 @@ void PluginHotPlugMonitor::handleFileEvent(
                     
                     // Unload if loaded
                     if (plugin_manager_->isPluginLoaded(plugin_name)) {
-                        plugin_manager_->unloadPlugin(plugin_name);
-                        THEMIS_INFO("Auto-unloaded plugin: {}", plugin_name);
+                        auto unload_result = plugin_manager_->unloadPlugin(plugin_name);
+                        if (unload_result.has_value()) {
+                            THEMIS_INFO("Auto-unloaded plugin: {}", plugin_name);
+                        } else {
+                            THEMIS_WARN("Failed to auto-unload plugin: {}", plugin_name);
+                        }
                     }
                 }
                 break;
@@ -553,6 +555,15 @@ void PluginHotPlugMonitor::stop() {
     }
     
     running_ = false;
+
+#ifdef _WIN32
+    // On Windows, ReadDirectoryChangesW can block indefinitely.
+    // Closing the watched directory handle first unblocks the monitor thread.
+    if (dir_handle_ != nullptr && dir_handle_ != INVALID_HANDLE_VALUE) {
+        CloseHandle(dir_handle_);
+        dir_handle_ = nullptr;
+    }
+#endif
     
     // Wait for thread to finish
     if (monitor_thread_.joinable()) {
@@ -560,10 +571,7 @@ void PluginHotPlugMonitor::stop() {
     }
     
 #ifdef _WIN32
-    if (dir_handle_ != nullptr && dir_handle_ != INVALID_HANDLE_VALUE) {
-        CloseHandle(dir_handle_);
-        dir_handle_ = nullptr;
-    }
+    // Handle already closed before join to unblock ReadDirectoryChangesW.
 #elif defined(__APPLE__)
     // Cleanup handled in thread
 #else

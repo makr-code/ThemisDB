@@ -1,23 +1,20 @@
+/**
+ * @file storage_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=2, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage_interface.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     192                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: storage_interface.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=2, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -54,7 +51,7 @@ public:
      * @param db_path Path to database directory
      * @return Result<void> - success or error with details
      */
-    virtual Result<void> open(const std::string& db_path) = 0;
+    [[nodiscard]] virtual Result<void> open(const std::string& db_path) = 0;
     
     /**
      * @brief Close the storage engine
@@ -68,7 +65,7 @@ public:
      * @param value The value
      * @return Result<void> - success or error with details
      */
-    virtual Result<void> put(const std::string& key, const std::string& value) = 0;
+    [[nodiscard]] virtual Result<void> put(const std::string& key, const std::string& value) = 0;
     
     /**
      * @brief Get a value by key
@@ -76,7 +73,7 @@ public:
      * @param key The key
      * @return Result<std::string> - The value if found, or error with details
      */
-    virtual Result<std::string> get(const std::string& key) = 0;
+    [[nodiscard]] virtual Result<std::string> get(const std::string& key) = 0;
     
     /**
      * @brief Delete a key-value pair
@@ -84,7 +81,7 @@ public:
      * @param key The key to delete
      * @return Result<void> - success or error with details
      */
-    virtual Result<void> del(const std::string& key) = 0;
+    [[nodiscard]] virtual Result<void> del(const std::string& key) = 0;
 
     /**
      * @brief Scan a key range [start_key, end_key).
@@ -101,12 +98,11 @@ public:
      * @param callback   Called for each key-value pair; return false to stop.
      * @return Result<void> – ok on success, error on failure.
      */
-    virtual Result<void> scanRange(
-        std::string_view start_key,
-        std::string_view end_key,
-        std::function<bool(std::string_view key, std::string_view value)> callback)
+    [[nodiscard]] virtual Result<void> scanRange(
+        [[maybe_unused]] std::string_view start_key,
+        [[maybe_unused]] std::string_view end_key,
+        [[maybe_unused]] std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
-        (void)start_key; (void)end_key; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanRange not implemented");
     }
@@ -122,11 +118,10 @@ public:
      * @param callback  Called for each key-value pair; return false to stop.
      * @return Result<void> – ok on success, error on failure.
      */
-    virtual Result<void> scanPrefix(
-        std::string_view prefix,
-        std::function<bool(std::string_view key, std::string_view value)> callback)
+    [[nodiscard]] virtual Result<void> scanPrefix(
+        [[maybe_unused]] std::string_view prefix,
+        [[maybe_unused]] std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
-        (void)prefix; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanPrefix not implemented");
     }
@@ -155,7 +150,7 @@ public:
      * @param callback  Called for each key-value pair; return false to stop.
      * @return Result<void> – ok on success, error on first failure.
      */
-    virtual Result<void> scanMultiRange(
+    [[nodiscard]] virtual Result<void> scanMultiRange(
         const std::vector<ScanRange>& ranges,
         std::function<bool(std::string_view key, std::string_view value)> callback)
     {
@@ -189,7 +184,7 @@ public:
      * @param db_path Path to database directory
      * @return Shared pointer to storage engine
      */
-    virtual IStorageEnginePtr create(const std::string& db_path) = 0;
+    [[nodiscard]] virtual IStorageEnginePtr create(const std::string& db_path) = 0;
 };
 
 } // namespace themis

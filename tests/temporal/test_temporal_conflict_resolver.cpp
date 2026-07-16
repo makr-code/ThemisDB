@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_temporal_conflict_resolver.cpp                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     480                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_temporal_conflict_resolver.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -480,4 +466,516 @@ TEST_F(TemporalConflictResolverTest, ExportAuditLog_PoliciesEncoded) {
         ASSERT_EQ(log.size(), 1u) << "policy=" << tc.expected_name;
         EXPECT_EQ(log[0]["policy"], tc.expected_name) << "policy=" << tc.expected_name;
     }
+}
+
+// ============================================================================
+// TemporalConflictDetector Tests
+// ============================================================================
+
+class TemporalConflictDetectorTest : public ::testing::Test {
+protected:
+    TemporalConflictDetector detector;
+
+    TemporalSnapshot makeSnap(
+        const std::string& id,
+        uint64_t physical,
+        uint32_t logical,
+        const std::string& node_id,
+        nlohmann::json data
+    ) {
+        TemporalSnapshot s;
+        s.snapshot_id    = id;
+        s.hlc.physical   = physical;
+        s.hlc.logical    = logical;
+        s.hlc.node_id    = node_id;
+        s.source_node_id = node_id;
+        s.data           = std::move(data);
+        s.checksum       = "chk";
+        return s;
+    }
+};
+
+// --- CONCURRENT_UPDATE ---
+
+TEST_F(TemporalConflictDetectorTest, DetectConcurrentUpdate_ConcurrentHLC) {
+    // Same physical + logical, different nodes, different data → concurrent update
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    auto it = std::find_if(conflicts.begin(), conflicts.end(), [](const Conflict& c) {
+        return c.type == themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    });
+    ASSERT_NE(it, conflicts.end());
+    EXPECT_EQ(it->affected_columns, std::vector<std::string>{"x"});
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectConcurrentUpdate_OrderedHLC_NoConflict) {
+    // local HLC < remote HLC: causally ordered — no concurrent conflict
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1001, 5, "node_b", {{"x", 2}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::CONCURRENT_UPDATE);
+    }
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectConcurrentUpdate_SameNode_SameData_NoConflict) {
+    // Same HLC, same node, same data — identical write, no conflict
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_a", {{"x", 1}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::CONCURRENT_UPDATE);
+    }
+}
+
+// --- OVERLAPPING_PERIODS ---
+
+TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_Overlap) {
+    // [100, 200) vs [150, 250): overlapping
+    auto local  = makeSnap("l1", 1000, 1, "node_a",
+                           {{"valid_start", 100}, {"valid_end", 200}, {"v", "a"}});
+    auto remote = makeSnap("r1", 1001, 1, "node_b",
+                           {{"valid_start", 150}, {"valid_end", 250}, {"v", "b"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    auto it = std::find_if(conflicts.begin(), conflicts.end(), [](const Conflict& c) {
+        return c.type == themisdb::temporal::ConflictType::OVERLAPPING_PERIODS;
+    });
+    ASSERT_NE(it, conflicts.end());
+    EXPECT_TRUE(std::find(it->affected_columns.begin(),
+                          it->affected_columns.end(), "valid_start") !=
+                it->affected_columns.end());
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_NoOverlap) {
+    // [100, 200) vs [200, 300): adjacent, not overlapping
+    auto local  = makeSnap("l1", 1000, 1, "node_a",
+                           {{"valid_start", 100}, {"valid_end", 200}, {"v", "a"}});
+    auto remote = makeSnap("r1", 1001, 1, "node_b",
+                           {{"valid_start", 200}, {"valid_end", 300}, {"v", "b"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::OVERLAPPING_PERIODS);
+    }
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_MissingFields_NoConflict) {
+    // Snapshots without valid_start/valid_end: no period conflict
+    auto local  = makeSnap("l1", 1000, 1, "node_a", {{"v", "a"}});
+    auto remote = makeSnap("r1", 1001, 1, "node_b", {{"v", "b"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::OVERLAPPING_PERIODS);
+    }
+}
+
+// --- REFERENTIAL_INTEGRITY ---
+
+TEST_F(TemporalConflictDetectorTest, DetectReferentialIntegrity_DifferentRef) {
+    auto local  = makeSnap("l1", 1000, 1, "node_a", {{"ref_entity_id", "entity_1"}});
+    auto remote = makeSnap("r1", 1000, 1, "node_b", {{"ref_entity_id", "entity_2"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    auto it = std::find_if(conflicts.begin(), conflicts.end(), [](const Conflict& c) {
+        return c.type == themisdb::temporal::ConflictType::REFERENTIAL_INTEGRITY;
+    });
+    ASSERT_NE(it, conflicts.end());
+    EXPECT_EQ(it->affected_columns, std::vector<std::string>{"ref_entity_id"});
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectReferentialIntegrity_SameRef_NoConflict) {
+    auto local  = makeSnap("l1", 1000, 1, "node_a", {{"ref_entity_id", "entity_1"}});
+    auto remote = makeSnap("r1", 1000, 1, "node_b", {{"ref_entity_id", "entity_1"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::REFERENTIAL_INTEGRITY);
+    }
+}
+
+// --- UNIQUENESS_VIOLATION ---
+
+TEST_F(TemporalConflictDetectorTest, DetectUniquenessViolation_DifferentNodes_DifferentData) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"name", "Alice"}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"name", "Bob"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    auto it = std::find_if(conflicts.begin(), conflicts.end(), [](const Conflict& c) {
+        return c.type == themisdb::temporal::ConflictType::UNIQUENESS_VIOLATION;
+    });
+    ASSERT_NE(it, conflicts.end());
+    EXPECT_FALSE(it->affected_columns.empty());
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectUniquenessViolation_SameNode_NoConflict) {
+    // Same source_node_id: not a distributed uniqueness conflict
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"name", "Alice"}});
+    auto remote = makeSnap("r1", 1001, 5, "node_a", {{"name", "Bob"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::UNIQUENESS_VIOLATION);
+    }
+}
+
+TEST_F(TemporalConflictDetectorTest, DetectUniquenessViolation_SameData_NoConflict) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"name", "Alice"}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"name", "Alice"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::UNIQUENESS_VIOLATION);
+    }
+}
+
+// --- autoResolveConflict ---
+
+TEST_F(TemporalConflictDetectorTest, AutoResolve_LWW_ReturnsNewer) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1001, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    c.entity_id      = "e1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    auto winner = detector.autoResolveConflict(c, ConflictPolicy::LAST_WRITE_WINS);
+
+    ASSERT_TRUE(winner.has_value());
+    EXPECT_EQ(winner->hlc.physical, 1001);  // remote is newer
+}
+
+TEST_F(TemporalConflictDetectorTest, AutoResolve_ManualPolicy_ReturnsNullopt) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    c.entity_id      = "e1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    auto result = detector.autoResolveConflict(c, ConflictPolicy::MANUAL);
+
+    EXPECT_FALSE(result.has_value());
+}
+
+// --- queueForManualResolution ---
+
+TEST_F(TemporalConflictDetectorTest, Queue_AddAndRetrieve) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    c.entity_id      = "entity_1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    bool queued = detector.queueForManualResolution("orders", c);
+    EXPECT_TRUE(queued);
+
+    auto queued_conflicts = detector.getQueuedConflicts();
+    ASSERT_EQ(queued_conflicts.size(), 1u);
+    EXPECT_EQ(queued_conflicts[0].type, themisdb::temporal::ConflictType::CONCURRENT_UPDATE);
+    EXPECT_EQ(queued_conflicts[0].entity_id, "entity_1");
+    EXPECT_EQ(queued_conflicts[0].table_name, "orders");
+}
+
+TEST_F(TemporalConflictDetectorTest, Queue_DuplicateNotQueued) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    c.entity_id      = "entity_1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    EXPECT_TRUE(detector.queueForManualResolution("orders", c));
+    EXPECT_FALSE(detector.queueForManualResolution("orders", c));  // duplicate
+
+    EXPECT_EQ(detector.getQueuedConflicts().size(), 1u);
+}
+
+TEST_F(TemporalConflictDetectorTest, Queue_SameConflictDifferentTables_BothQueued) {
+    // Identical conflict data but different table_name must be stored separately.
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::CONCURRENT_UPDATE;
+    c.entity_id      = "entity_1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    EXPECT_TRUE(detector.queueForManualResolution("table_a", c));
+    EXPECT_TRUE(detector.queueForManualResolution("table_b", c));  // different table
+
+    EXPECT_EQ(detector.getQueuedConflicts().size(), 2u);
+}
+
+TEST_F(TemporalConflictDetectorTest, Queue_ClearEmptiesQueue) {
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"x", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"x", 2}});
+
+    Conflict c;
+    c.type           = themisdb::temporal::ConflictType::UNIQUENESS_VIOLATION;
+    c.entity_id      = "entity_1";
+    c.local_version  = local;
+    c.remote_version = remote;
+
+    detector.queueForManualResolution("tbl", c);
+    ASSERT_EQ(detector.getQueuedConflicts().size(), 1u);
+
+    detector.clearQueue();
+    EXPECT_TRUE(detector.getQueuedConflicts().empty());
+}
+
+// --- detectConflicts: table_name and entity_id fields ---
+
+TEST_F(TemporalConflictDetectorTest, DetectConflicts_TableNameAndEntityIdSet) {
+    auto local  = makeSnap("snap1", 1000, 5, "node_a", {{"v", 1}});
+    auto remote = makeSnap("snap2", 1000, 5, "node_b", {{"v", 2}});
+
+    auto conflicts = detector.detectConflicts("orders", local, remote);
+    ASSERT_FALSE(conflicts.empty());
+    for (const auto& c : conflicts) {
+        EXPECT_EQ(c.table_name, "orders") << "table_name should be set to 'orders'";
+        EXPECT_EQ(c.entity_id, "snap1")   << "entity_id should be local snapshot_id";
+    }
+}
+
+// --- detectConflicts: no conflict for identical snapshots ---
+
+TEST_F(TemporalConflictDetectorTest, DetectConflicts_IdenticalSnapshots_Empty) {
+    auto local = makeSnap("s1", 1000, 5, "node_a", {{"k", "v"}});
+
+    // Identical snapshot from same node — no conflict of any kind
+    auto conflicts = detector.detectConflicts("tbl", local, local);
+    EXPECT_TRUE(conflicts.empty());
+}
+
+// --- Uniqueness violation: asymmetric keys ---
+
+TEST_F(TemporalConflictDetectorTest, DetectUniquenessViolation_AsymmetricKeys_Detected) {
+    // local has key "a"; remote has key "b". Shared keys all match (none).
+    // Both sides diverge because each has a key the other lacks.
+    auto local  = makeSnap("l1", 1000, 5, "node_a", {{"a", 1}});
+    auto remote = makeSnap("r1", 1000, 5, "node_b", {{"b", 2}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    auto it = std::find_if(conflicts.begin(), conflicts.end(), [](const Conflict& c) {
+        return c.type == themisdb::temporal::ConflictType::UNIQUENESS_VIOLATION;
+    });
+    ASSERT_NE(it, conflicts.end()) << "Asymmetric keys should trigger UNIQUENESS_VIOLATION";
+    // Both "a" (only in local) and "b" (only in remote) should be in affected_columns
+    EXPECT_TRUE(std::find(it->affected_columns.begin(), it->affected_columns.end(), "a") !=
+                it->affected_columns.end());
+    EXPECT_TRUE(std::find(it->affected_columns.begin(), it->affected_columns.end(), "b") !=
+                it->affected_columns.end());
+}
+
+// --- OVERLAPPING_PERIODS: non-integer valid_time fields are ignored ---
+
+TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_NonIntegerFields_NoConflict) {
+    // valid_start/valid_end present but as strings — should be treated as absent
+    auto local  = makeSnap("l1", 1000, 1, "node_a",
+                           {{"valid_start", "not-a-number"}, {"valid_end", "not-a-number"}, {"v", "a"}});
+    auto remote = makeSnap("r1", 1001, 1, "node_b",
+                           {{"valid_start", "not-a-number"}, {"valid_end", "not-a-number"}, {"v", "b"}});
+
+    auto conflicts = detector.detectConflicts("tbl", local, remote);
+
+    for (const auto& c : conflicts) {
+        EXPECT_NE(c.type, themisdb::temporal::ConflictType::OVERLAPPING_PERIODS);
+    }
+}
+
+// ============================================================================
+// MergeResolver Tests  (MCR-01..07)
+// ============================================================================
+// Tests verify that MergeResolver implementations satisfy the CRDT contracts
+// (commutativity, idempotency) and that TemporalConflictResolver correctly
+// delegates to an injected resolver.
+// ============================================================================
+
+namespace {
+
+// Helper: make a snapshot with arbitrary multi-field JSON data.
+TemporalSnapshot makeMultiFieldSnap(
+    const std::string& id,
+    uint64_t physical, uint32_t logical, const std::string& node_id,
+    nlohmann::json data
+) {
+    TemporalSnapshot s;
+    s.snapshot_id    = id;
+    s.hlc.physical   = physical;
+    s.hlc.logical    = logical;
+    s.hlc.node_id    = node_id;
+    s.source_node_id = node_id;
+    s.data           = std::move(data);
+    s.checksum       = "chk";
+    return s;
+}
+
+} // anonymous namespace
+
+// MCR-01: LWWFieldMergeResolver is commutative.
+//         merge(a,b).data == merge(b,a).data  (field content, not metadata)
+TEST(MergeResolverTest, LWWField_Commutative) {
+    LWWFieldMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"x", 1}, {"y", "hello"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"x", 2}, {"z", true}});
+
+    auto ab = resolver.merge(a, b);
+    auto ba = resolver.merge(b, a);
+
+    EXPECT_EQ(ab.data, ba.data)
+        << "LWWFieldMergeResolver must be commutative";
+}
+
+// MCR-02: LWWFieldMergeResolver is idempotent.
+//         merge(a,a).data == a.data
+TEST(MergeResolverTest, LWWField_Idempotent) {
+    LWWFieldMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"k", 42}});
+
+    auto aa = resolver.merge(a, a);
+
+    EXPECT_EQ(aa.data, a.data)
+        << "LWWFieldMergeResolver must be idempotent";
+}
+
+// MCR-03: UnionMergeResolver includes fields from both snapshots.
+TEST(MergeResolverTest, Union_IncludesAllFields) {
+    UnionMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"from_a", 1}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"from_b", 2}});
+
+    auto merged = resolver.merge(a, b);
+
+    ASSERT_TRUE(merged.data.contains("from_a"))
+        << "Union merge must include fields from the older snapshot";
+    ASSERT_TRUE(merged.data.contains("from_b"))
+        << "Union merge must include fields from the newer snapshot";
+    EXPECT_EQ(merged.data["from_a"], 1);
+    EXPECT_EQ(merged.data["from_b"], 2);
+}
+
+// MCR-04: UnionMergeResolver is commutative.
+TEST(MergeResolverTest, Union_Commutative) {
+    UnionMergeResolver resolver;
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"x", "alpha"}, {"shared", "old"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"y", "beta"},  {"shared", "new"}});
+
+    auto ab = resolver.merge(a, b);
+    auto ba = resolver.merge(b, a);
+
+    EXPECT_EQ(ab.data, ba.data)
+        << "UnionMergeResolver must be commutative";
+}
+
+// MCR-05: CustomMergeResolver uses the provided callable.
+TEST(MergeResolverTest, Custom_CallableInvoked) {
+    bool called = false;
+    TemporalSnapshot expected_result =
+        makeMultiFieldSnap("custom", 9999, 0, "custom", {{"result", "custom"}});
+
+    CustomMergeResolver resolver(
+        [&](const TemporalSnapshot&, const TemporalSnapshot&) -> TemporalSnapshot {
+            called = true;
+            return expected_result;
+        }
+    );
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {});
+
+    auto result = resolver.merge(a, b);
+
+    EXPECT_TRUE(called)
+        << "CustomMergeResolver must invoke the provided callable";
+    EXPECT_EQ(result.snapshot_id, "custom");
+    EXPECT_EQ(result.data["result"], "custom");
+}
+
+// MCR-06: TemporalConflictResolver::setMergeResolver injects custom strategy
+//         that is used when ConflictPolicy::CRDT_MERGE is active.
+TEST(MergeResolverTest, InjectedResolverUsedByCRDTMerge) {
+    TemporalConflictResolver cr(ConflictPolicy::CRDT_MERGE);
+
+    bool called = false;
+    auto custom = std::make_shared<CustomMergeResolver>(
+        [&](const TemporalSnapshot& l, const TemporalSnapshot& r) -> TemporalSnapshot {
+            called = true;
+            // Return the newer snapshot unchanged.
+            return (l.hlc < r.hlc) ? r : l;
+        }
+    );
+
+    cr.setMergeResolver(custom);
+    EXPECT_EQ(cr.getMergeResolver(), custom);
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"v", "a"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"v", "b"}});
+
+    auto result = cr.resolve(a, b);
+
+    EXPECT_TRUE(called)
+        << "TemporalConflictResolver must delegate to the injected MergeResolver";
+    EXPECT_EQ(result.data["v"], "b");
+}
+
+// MCR-07: setMergeResolver(nullptr) reverts to built-in LWW-per-field behaviour.
+TEST(MergeResolverTest, NullResolverFallsBackToBuiltInLWW) {
+    TemporalConflictResolver cr(ConflictPolicy::CRDT_MERGE);
+
+    // First inject a custom resolver that always returns a sentinel.
+    auto sentinel = std::make_shared<CustomMergeResolver>(
+        [](const TemporalSnapshot&, const TemporalSnapshot&) -> TemporalSnapshot {
+            TemporalSnapshot s;
+            s.snapshot_id = "SENTINEL";
+            s.data = {{"sentinel", true}};
+            return s;
+        }
+    );
+    cr.setMergeResolver(sentinel);
+
+    // Now reset to nullptr — built-in LWW should take over.
+    cr.setMergeResolver(nullptr);
+    EXPECT_EQ(cr.getMergeResolver(), nullptr);
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"v", "old"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"v", "new"}});
+
+    auto result = cr.resolve(a, b);
+
+    EXPECT_NE(result.snapshot_id, "SENTINEL")
+        << "After reset to nullptr, built-in LWW must be active";
+    // Built-in LWW should produce the newer snapshot's value for field "v".
+    EXPECT_EQ(result.data["v"], "new");
 }

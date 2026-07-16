@@ -1,7 +1,7 @@
 # OpenTelemetry Integration für ThemisDB
 
 **Version:** 1.0.0  
-**Stand:** 24. Januar 2026  
+**Stand:** 6. April 2026  
 **Kategorie:** Observability  
 **Status:** ✅ Produktionsreif
 
@@ -148,7 +148,7 @@ version: '3.8'
 
 services:
   themisdb:
-    image: themisdb/themis:1.4.0
+    image: themisdb/themisdb:1.4.0
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
       - OTEL_SERVICE_NAME=themisdb

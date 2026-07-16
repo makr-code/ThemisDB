@@ -1,23 +1,21 @@
+/**
+ * @file multi_gpu_lora_layer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=19, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_lora_layer.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_lora_layer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 296
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=29, M=13, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/multi_gpu_lora_layer.h"
@@ -137,10 +135,12 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
     outputs.reserve(inputs.size());
     
     // Forward pass on each GPU independently
-    for (size_t i = 0; i < inputs.size(); ++i) {
+    for (int device_index = 0; device_index < ctx_.num_gpus(); ++device_index) {
+        const size_t i = static_cast<size_t>(device_index);
+        const Device expected_device = ctx_.get_device(device_index);
         // Verify input is on correct device
-        if (inputs[i].device().device_id != ctx_.get_device(i).device_id ||
-            inputs[i].device().type != ctx_.get_device(i).type) {
+        if (inputs[i].device().device_id != expected_device.device_id ||
+            inputs[i].device().type != expected_device.type) {
             throw std::invalid_argument(
                 "Input tensor " + std::to_string(i) + " is not on correct device");
         }
@@ -304,3 +304,4 @@ std::vector<GPULoRALayer*> MultiGPULoRALayer::get_layers() {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

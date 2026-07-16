@@ -1,24 +1,21 @@
+/**
+ * @file timeseries_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timeseries_metrics.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     419                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: timeseries_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 504
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #4160 feat(timeseries): Increment... (2026-03-13) | #803 Add comprehensive monitorin... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/timeseries_metrics.h"
@@ -95,7 +92,7 @@ void TimeSeriesMetrics::recordCompression(const std::string& metric_name, size_t
 }
 
 void TimeSeriesMetrics::recordQuery(const std::string& metric_name, double latency_ms, 
-                                    size_t result_count, int64_t time_range_ms) {
+                                    size_t result_count, int64_t /*time_range_ms*/) {
     total_queries_executed_.fetch_add(1, std::memory_order_relaxed);
     total_data_points_returned_.fetch_add(result_count, std::memory_order_relaxed);
     
@@ -112,8 +109,8 @@ void TimeSeriesMetrics::recordQuery(const std::string& metric_name, double laten
     }
 }
 
-void TimeSeriesMetrics::recordAggregation(const std::string& metric_name, double latency_ms, 
-                                         size_t data_points_scanned, bool optimizer_used) {
+void TimeSeriesMetrics::recordAggregation(const std::string& /*metric_name*/, double latency_ms, 
+                                         size_t /*data_points_scanned*/, bool optimizer_used) {
     total_aggregations_executed_.fetch_add(1, std::memory_order_relaxed);
     
     if (optimizer_used) {
@@ -142,7 +139,7 @@ void TimeSeriesMetrics::updateStorageStats(size_t total_data_points, size_t tota
     current_storage_bytes_.store(total_size_bytes, std::memory_order_relaxed);
 }
 
-void TimeSeriesMetrics::recordRetention(const std::string& metric_name, size_t deleted_points, double latency_ms) {
+void TimeSeriesMetrics::recordRetention(const std::string& /*metric_name*/, size_t deleted_points, double /*latency_ms*/) {
     total_retention_runs_.fetch_add(1, std::memory_order_relaxed);
     total_data_points_deleted_.fetch_add(deleted_points, std::memory_order_relaxed);
 }
@@ -155,10 +152,37 @@ void TimeSeriesMetrics::recordOverdueFlush(const std::string& /*metric_name*/, d
     total_overdue_flush_events_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& metric_name, int64_t window_ms, 
-                                                         double latency_ms, size_t points_processed) {
+void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& /*metric_name*/, int64_t /*window_ms*/, 
+                                                         double /*latency_ms*/, size_t points_processed) {
     total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
     total_continuous_agg_points_generated_.fetch_add(points_processed, std::memory_order_relaxed);
+}
+
+void TimeSeriesMetrics::recordAggRefreshLatency(const std::string& agg_id, double latency_ms) {
+    total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    auto& stats = agg_refresh_stats_[agg_id];
+    stats.total_latency_ms += latency_ms;
+    stats.latency_count++;
+}
+
+void TimeSeriesMetrics::recordAggRefreshLag(const std::string& agg_id, double lag_ms) {
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    agg_refresh_stats_[agg_id].last_lag_ms = lag_ms;
+}
+
+double TimeSeriesMetrics::getAggRefreshLatency(const std::string& agg_id) const {
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    auto it = agg_refresh_stats_.find(agg_id);
+    if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) return -1.0;
+    return it->second.total_latency_ms / static_cast<double>(it->second.latency_count);
+}
+
+double TimeSeriesMetrics::getAggRefreshLag(const std::string& agg_id) const {
+    std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+    auto it = agg_refresh_stats_.find(agg_id);
+    if (it == agg_refresh_stats_.end()) return -1.0;
+    return it->second.last_lag_ms;
 }
 
 std::string TimeSeriesMetrics::exportPrometheus() const {
@@ -249,7 +273,37 @@ std::string TimeSeriesMetrics::exportPrometheus() const {
     oss << formatPrometheusMetric("themis_timeseries_continuous_agg_points_generated_total", "counter",
                                   "Total number of aggregate points generated",
                                   total_continuous_agg_points_generated_.load());
-    
+
+    // Per-aggregate refresh latency and lag metrics (labeled by agg_id)
+    {
+        std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        bool latency_header_emitted = false;
+        bool lag_header_emitted = false;
+        for (const auto& [agg_id, stats] : agg_refresh_stats_) {
+            if (stats.latency_count > 0) {
+                if (!latency_header_emitted) {
+                    oss << "# HELP themis_cagg_refresh_latency_ms_avg"
+                           " Average incremental refresh latency per aggregate\n"
+                           "# TYPE themis_cagg_refresh_latency_ms_avg gauge\n";
+                    latency_header_emitted = true;
+                }
+                double avg_lat = stats.total_latency_ms / static_cast<double>(stats.latency_count);
+                oss << "themis_cagg_refresh_latency_ms_avg{agg_id=\"" << agg_id << "\"} "
+                    << avg_lat << "\n";
+            }
+            if (stats.last_lag_ms >= 0.0) {
+                if (!lag_header_emitted) {
+                    oss << "# HELP themis_cagg_refresh_lag_ms"
+                           " Lag between aggregate watermark and wall-clock now\n"
+                           "# TYPE themis_cagg_refresh_lag_ms gauge\n";
+                    lag_header_emitted = true;
+                }
+                oss << "themis_cagg_refresh_lag_ms{agg_id=\"" << agg_id << "\"} "
+                    << stats.last_lag_ms << "\n";
+            }
+        }
+    }
+
     // Latency metrics
     oss << formatPrometheusMetric("themis_timeseries_write_latency_ms_avg", "gauge",
                                   "Average write operation latency in milliseconds",
@@ -322,6 +376,24 @@ std::string TimeSeriesMetrics::exportJson() const {
     // Continuous aggregate metrics
     j["continuous_aggregates"]["refreshes_total"] = total_continuous_agg_refreshes_.load();
     j["continuous_aggregates"]["points_generated_total"] = total_continuous_agg_points_generated_.load();
+
+    // Per-aggregate refresh latency and lag (incremental path)
+    {
+        std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        if (!agg_refresh_stats_.empty()) {
+            nlohmann::json per_agg;
+            for (const auto& [agg_id, stats] : agg_refresh_stats_) {
+                nlohmann::json entry;
+                entry["avg_refresh_latency_ms"] = stats.latency_count > 0
+                    ? stats.total_latency_ms / static_cast<double>(stats.latency_count)
+                    : 0.0;
+                entry["refresh_count"] = stats.latency_count;
+                entry["last_lag_ms"] = stats.last_lag_ms;
+                per_agg[agg_id] = entry;
+            }
+            j["continuous_aggregates"]["per_aggregate"] = per_agg;
+        }
+    }
     
     // Per-metric statistics
     if (config_.enable_per_metric_stats) {
@@ -385,6 +457,11 @@ void TimeSeriesMetrics::reset() {
     {
         std::lock_guard<std::mutex> lock(per_metric_mutex_);
         per_metric_stats_.clear();
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
+        agg_refresh_stats_.clear();
     }
 }
 

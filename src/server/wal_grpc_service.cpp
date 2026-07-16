@@ -1,23 +1,25 @@
+/**
+ * @file wal_grpc_service.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author makr-code
+ * @version 0.0.47
+ * @date 2026-06-02 20:56:29
+ * @note Maturity: 🟡 RELEASE-CANDIDATE
+ * @note Score: 78/100
+ * @note Lines: 283
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=1, L=0
+ * @note PR History (last 5): none
+ * @note Status: Release Candidate
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_grpc_service.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     189                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 282
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/wal_grpc_service.h"
@@ -27,7 +29,12 @@
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <cstdlib>
+#include <exception>
+#include <mutex>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
@@ -41,6 +48,54 @@
 
 namespace themis {
 namespace server {
+
+namespace {
+
+bool isProductionMode() {
+    const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+    const char* env_type = std::getenv("ENVIRONMENT");
+    const char* node_env = std::getenv("NODE_ENV");
+
+    if (prod_mode) {
+        const std::string s(prod_mode);
+        if (s == "1" || s == "true" || s == "True" || s == "TRUE" ||
+            s == "yes" || s == "Yes" || s == "on" || s == "On") {
+            return true;
+        }
+    }
+    if (environment) {
+        const std::string s(environment);
+        if (s == "production" || s == "prod") {
+            return true;
+        }
+    }
+    if (env_type) {
+        const std::string s(env_type);
+        if (s == "production" || s == "prod") {
+            return true;
+        }
+    }
+    if (node_env) {
+        const std::string s(node_env);
+        if (s == "production") {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isWalGrpcStubAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_WAL_GRPC_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+} // namespace
+
+namespace {
+std::mutex g_wal_grpc_service_mutex;
+themis::server::WalGrpcService::ServiceFn g_wal_grpc_service_fn;
+} // namespace
 
 class WalGrpcService::Impl {
 public:
@@ -65,6 +120,7 @@ private:
             if (!wal_applier_) {
                 return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "WALApplier not configured");
             }
+            auto& wal_applier = *wal_applier_;
 
             std::vector<sharding::WALEntry> entries;
             auto status = hydrateEntries(*request, entries);
@@ -72,7 +128,7 @@ private:
                 return status;
             }
 
-            auto result = wal_applier_->applyBatch(entries);
+            auto result = wal_applier.applyBatch(entries);
             response->set_success(result.success);
             response->set_entries_applied(static_cast<uint32_t>(result.entries_applied));
             response->set_last_applied_lsn(result.last_applied_lsn.toString());
@@ -173,20 +229,70 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
 #if THEMIS_HAS_SHARD_GRPC
     impl_ = std::make_unique<Impl>(wal_applier_);
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow WalGrpcService to be constructed and linked when the
+    //   protoc-generated shard gRPC stubs (from proto/shard.proto) have not
+    //   been compiled into the build.  WAL replication over gRPC is therefore
+    //   disabled; WAL entries are only applied locally.
+    // Activation: THEMIS_HAS_SHARD_GRPC is 0 (default in minimal builds or when
+    //   the gRPC code-gen step has not been run).  Set it to 1 by running protoc
+    //   on proto/shard.proto and compiling the generated files.
+    // Production Delta: WAL replication to replica shards is silently disabled;
+    //   this means replica nodes will not receive WAL entries and will diverge
+    //   from the primary over time.  Only use in single-node or test deployments.
+    // Removal Plan: Run the protoc code-gen step as part of the CMake build
+    //   (already wired in the CMakeLists.txt gRPC target) and ensure the output
+    //   is on the include path so THEMIS_HAS_SHARD_GRPC is set to 1.
+    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "WAL gRPC Replication"
     (void)wal_applier_;
-    THEMIS_WARN("Shard gRPC stubs not found; WalGrpcService is a no-op");
+    if (isProductionMode() && !isWalGrpcStubAllowed()) {
+        const std::string error =
+            "WalGrpcService cannot run in production without shard gRPC stubs. "
+            "Enable shard gRPC/protoc generation or set THEMIS_ALLOW_WAL_GRPC_STUB=1 "
+            "to explicitly allow insecure single-node/no-replication mode.";
+        THEMIS_CRITICAL("SECURITY ERROR: {}", error);
+        throw std::runtime_error(error);
+    }
+    THEMIS_WARN(
+        "Shard gRPC stubs not found; WalGrpcService replication endpoint is disabled. "
+        "Set THEMIS_ALLOW_WAL_GRPC_STUB=1 only for development/testing."
+    );
+
+    // Try injected accessor (for non-proto builds wiring an external service).
+    ServiceFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
+        fn = g_wal_grpc_service_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
 #endif
 }
 
 WalGrpcService::~WalGrpcService() = default;
 
+void WalGrpcService::setServiceFn(ServiceFn fn) {
+    std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
+    g_wal_grpc_service_fn = std::move(fn);
+}
+
 void* WalGrpcService::service() {
 #if THEMIS_HAS_SHARD_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
 #else
-    return nullptr;
+    return service_ptr_;
 #endif
 }
 
 } // namespace server
 } // namespace themis
+

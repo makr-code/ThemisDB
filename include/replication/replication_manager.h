@@ -1,27 +1,20 @@
+/**
+ * @file replication_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1724                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
-    • 072dbcc55  2026-02-27  feat(replication): add witness node support for quorum in... ║
-    • 4fc982b0d  2026-02-25  feat(replication): implement compressed WAL shipping (Zst... ║
-    • 76c3f5b7b  2026-02-25  fix(replication): audit fixes – remove dead session code,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -62,7 +55,7 @@ namespace themisdb {
 namespace replication {
 
 // Forward declarations
-class WALEntry;
+struct WALEntry;
 class ReplicationStream;
 class LeaderElection;
 class CompressedReplicationStream;
@@ -342,7 +335,7 @@ public:
      * @param remote Remote version
      * @return Resolved document (merged or selected)
      */
-    virtual std::string resolve(
+    [[nodiscard]] virtual std::string resolve(
         const std::string& local,
         const std::string& remote,
         const std::string& collection,
@@ -404,7 +397,7 @@ public:
     virtual void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) = 0;
 
     // Called each time a WAL entry is successfully replicated (used by CDC)
-    virtual void onWALEntryApplied(const WALEntry& entry) {}
+    virtual void onWALEntryApplied(const WALEntry& /*entry*/) {}
 };
 
 /**
@@ -438,6 +431,10 @@ public:
     
     // Get WAL size in bytes
     uint64_t getSize() const;
+    
+    // Get the internal WAL mutex for external synchronization
+    // (used by ReplicationStream for atomic read operations)
+    std::mutex& getMutex() { return wal_mutex_; }
 
 private:
     ReplicationConfig config_;
@@ -546,7 +543,7 @@ private:
     std::chrono::steady_clock::time_point last_heartbeat_time_;
 
     // Leader lease expiry time; epoch when no lease is held.
-    mutable std::mutex lease_mutex_;
+    mutable std::shared_mutex lease_mutex_;
     std::chrono::steady_clock::time_point lease_expires_at_;
     
     std::mutex election_mutex_;
@@ -598,6 +595,8 @@ private:
     std::atomic<uint64_t> last_acked_sequence_{0};
     std::atomic<bool> running_{false};
     std::thread stream_thread_;
+    mutable std::mutex wait_mutex_;
+    std::condition_variable wait_cv_;
     
     // Retry / backoff state
     std::atomic<uint32_t> consecutive_failures_{0};
@@ -646,7 +645,14 @@ public:
     const ReplicationStats& getStats() const { return stats_; }
     
     // Add/remove replicas
+    
+    /**
+     * Add a replica to the replication group.
+     * @param replica Replica information (node_id and endpoint must be non-empty)
+     * @note Rejects empty node_id or endpoint fail-closed to prevent silent replica registration failures
+     */
     void addReplica(const ReplicaInfo& replica);
+    
     void removeReplica(const std::string& node_id);
 
     /**
@@ -840,14 +846,16 @@ private:
 class ParallelReplicationWorker {
 public:
     struct ParallelConfig {
-        uint32_t worker_threads   = 4;
-        uint32_t queue_size       = 10000;
+        uint32_t worker_threads      = 4;
+        uint32_t queue_size          = 10000;
         bool use_dependency_tracking = true;
+        bool group_transactions      = true;  // Drain multiple entries per worker iteration
     };
 
     struct Stats {
         uint64_t entries_applied;
         uint64_t dependencies_detected;
+        uint64_t average_latency_us;  // Average submit-to-apply latency in microseconds
         uint64_t parallel_batches;
         double   parallelism_factor;  // average concurrent entries per batch
     };
@@ -876,6 +884,7 @@ private:
         WALEntry entry;
         std::shared_ptr<std::atomic<bool>> ready;  // Set to true when this entry is done
         std::vector<std::shared_ptr<std::atomic<bool>>> deps;
+        std::chrono::steady_clock::time_point submit_time;
     };
 
     std::queue<WorkItem> work_queue_;
@@ -893,6 +902,7 @@ private:
     std::atomic<uint64_t> stats_entries_applied_{0};
     std::atomic<uint64_t> stats_deps_detected_{0};
     std::atomic<uint64_t> stats_batches_{0};
+    std::atomic<uint64_t> stats_total_latency_us_{0};  // Sum of per-entry latencies
 
     void workerLoop();
 };
@@ -911,9 +921,10 @@ private:
 class QuorumReadManager {
 public:
     struct QuorumReadConfig {
-        uint32_t read_quorum      = 2;
-        uint32_t read_timeout_ms  = 1000;
-        bool     repair_on_read   = true;
+        uint32_t read_quorum          = 2;
+        uint32_t read_timeout_ms      = 1000;
+        bool     repair_on_read       = true;
+        uint32_t session_token_ttl_ms = 30000;  ///< TTL for session tokens (ms)
     };
 
     struct QuorumReadResult {
@@ -922,6 +933,7 @@ public:
         uint64_t    version;
         bool        had_conflicts;
         std::vector<std::string> sources;  // replica endpoints that responded
+        std::string session_token;         ///< Opaque token for session consistency
     };
 
     explicit QuorumReadManager(
@@ -932,18 +944,53 @@ public:
     QuorumReadResult read(
         const std::string& collection,
         const std::string& document_id,
-        uint32_t quorum = 0  // 0 = use config default
+        uint32_t quorum = 0,                    // 0 = use config default
+        const std::string& session_token = ""   // opaque token for session consistency
     );
 
     // Update the replica list (called when topology changes)
     void setReplicas(const std::vector<ReplicaInfo>& replicas);
 
+    /// Callback type for fetching a document from a specific replica.
+    /// Arguments: endpoint, collection, document_id.  Returns the serialised
+    /// document data, or an empty string when the replica does not hold the
+    /// document or the fetch fails.
+    using DocumentFetchFn = std::function<
+        std::string(const std::string& /*endpoint*/,
+                    const std::string& /*collection*/,
+                    const std::string& /*document_id*/)>;
+
+    /// Inject a data-fetch function so that queryReplica() can return real
+    /// document content.  The storage / RPC layer sets this at startup; tests
+    /// inject a local-memory lookup.  Without a callback the data field of
+    /// every ReplicaResponse remains empty (original behaviour).
+    void setDocumentFetchCallback(DocumentFetchFn fn);
+
+    /// Callback type for fetching a document from the local storage engine
+    /// when no replicas are configured (single-node deployment).
+    /// Arguments: collection, document_id.
+    /// Returns: {serialised document data, version}.  An empty data string is
+    /// valid when the document does not exist; version 0 means unknown.
+    ///
+    /// Injection API for the single-node local read path.
+    /// Provides concrete document content/version when no replica topology is present.
+    using LocalDocumentFetchFn = std::function<
+        std::pair<std::string, uint64_t>(const std::string& /*collection*/,
+                                         const std::string& /*document_id*/)>;
+
+    /// Inject a local-storage read function used by read() when the replica
+    /// list is empty (single-node deployments).  Without a callback the
+    /// data field remains empty and version=0 (original behaviour).
+    void setLocalDocumentFetchFn(LocalDocumentFetchFn fn);
+
 private:
     QuorumReadConfig config_;
     std::vector<ReplicaInfo> replicas_;
     mutable std::shared_mutex replicas_mutex_;
+    DocumentFetchFn      doc_fetch_fn_;         ///< Optional RPC / storage data fetcher
+    LocalDocumentFetchFn local_doc_fetch_fn_;   ///< Optional local-storage read for single-node mode
 
-    // Per-replica read simulation (real impl would use RPC)
+    // Per-replica read response
     struct ReplicaResponse {
         bool        ok;
         std::string data;
@@ -956,6 +1003,12 @@ private:
         const std::string& collection,
         const std::string& document_id
     ) const;
+
+    /// Generate an opaque session token encoding @p version and an expiry timestamp.
+    std::string generateSessionToken(uint64_t version) const;
+
+    /// Parse @p token and return the embedded version (0 on error or expiry).
+    uint64_t parseSessionToken(const std::string& token) const;
 };
 
 // ============================================================================
@@ -1494,10 +1547,41 @@ private:
 // ============================================================================
 
 /**
+ * IArchivalBackend
+ *
+ * Pluggable backend interface for WAL segment storage.  The default
+ * LocalArchivalBackend writes to the local filesystem; cloud backends
+ * (S3, GCS, Azure Blob) implement this interface for object-storage targets.
+ */
+class IArchivalBackend {
+public:
+    virtual ~IArchivalBackend() = default;
+
+    // Write a segment payload to the backend.  Returns true on success.
+    [[nodiscard]] virtual bool putObject(const std::string& key,
+                           const std::vector<uint8_t>& data) = 0;
+
+    // Read a segment payload from the backend.  Returns nullopt on failure.
+    [[nodiscard]] virtual std::optional<std::vector<uint8_t>> getObject(
+        const std::string& key) const = 0;
+
+    // Remove an object from the backend.
+    [[nodiscard]] virtual bool deleteObject(const std::string& key) = 0;
+
+    // Transition an object to a colder storage tier (e.g. "cold", "glacier").
+    // A no-op on backends that do not support tiering.
+    virtual void setStorageTier(const std::string& key,
+                                const std::string& tier) = 0;
+};
+
+/**
  * WALArchivalManager
  *
- * Archives completed WAL segments to a local (or cloud-pluggable) directory
- * with optional compression.  Provides retrieval for point-in-time recovery.
+ * Archives completed WAL segments to a local (or cloud-pluggable) destination
+ * with optional compression and AES-256-GCM encryption at rest.
+ * Provides retrieval for point-in-time recovery (PITR) and lifecycle
+ * management that transitions segments across storage tiers (standard → cold →
+ * glacier) based on configurable age thresholds.
  *
  * Cloud backends (S3, GCS, Azure) are pluggable via the `IArchivalBackend`
  * interface; the default backend writes to the local filesystem.
@@ -1505,31 +1589,55 @@ private:
 class WALArchivalManager {
 public:
     struct ArchivalConfig {
-        std::string wal_directory;          // Source WAL directory
-        std::string archive_directory;      // Local archive destination
-        uint32_t    archive_after_segments  = 100; // segments to accumulate before archiving
-        uint32_t    local_retention_segments= 10;  // segments to keep locally after archive
-        bool        compress_before_archive = true;
-        uint32_t    delete_after_days       = 365; // purge archived segments older than N days
+        // Source WAL directory
+        std::string wal_directory;
+        // Local archive destination (used by the default filesystem backend)
+        std::string archive_directory;
+
+        // Cloud object-storage target (ignored when storage_type == "local")
+        std::string storage_type           = "local"; // "local", "s3", "gcs", "azure"
+        std::string bucket_name;                      // Cloud bucket / container
+        std::string prefix;                           // Object-key prefix (e.g. "cluster-1/wal/")
+
+        // Archival policy
+        uint32_t    archive_after_segments   = 100; // segments to accumulate before archiving
+        uint32_t    local_retention_segments = 10;  // segments to keep locally after archive
+        bool        compress_before_archive  = true;
+        uint32_t    delete_after_days        = 365; // purge archived segments older than N days
+
+        // Encryption at rest (AES-256-GCM)
+        bool        encrypt_at_rest    = false;
+        // 64-character hex string encoding a 32-byte AES-256 key.
+        // Required when encrypt_at_rest == true.
+        std::string encryption_key_hex;
+
+        // Lifecycle management: transition segments to colder tiers.
+        // 0 = lifecycle management disabled.
+        uint32_t    transition_to_cold_after_days = 90;
     };
 
     struct ArchivedSegment {
-        uint64_t    segment_id;
-        uint64_t    start_sequence;
-        uint64_t    end_sequence;
-        uint64_t    size_bytes;
-        bool        compressed;
+        uint64_t    segment_id     = 0;
+        uint64_t    start_sequence = 0;
+        uint64_t    end_sequence   = 0;
+        uint64_t    size_bytes     = 0;
+        bool        compressed     = false;
+        bool        encrypted      = false;
         std::chrono::system_clock::time_point archived_at;
         std::string archive_path;
+        // Storage tier for lifecycle management: "standard", "cold", "glacier"
+        std::string storage_tier   = "standard";
     };
 
-    explicit WALArchivalManager(const ArchivalConfig& config);
+    explicit WALArchivalManager(const ArchivalConfig& config,
+                                std::shared_ptr<IArchivalBackend> backend = nullptr);
 
     // Archive the given WAL segment files (paths relative to wal_directory).
     // Returns number of segments successfully archived.
     uint32_t archiveSegments(const std::vector<std::string>& segment_paths);
 
-    // Retrieve an archived segment by ID; returns raw bytes (possibly compressed).
+    // Retrieve an archived segment by ID; returns the original raw bytes
+    // (decrypted and decompressed as required).
     std::optional<std::vector<uint8_t>> retrieveSegment(uint64_t segment_id) const;
 
     // List all archived segments (sorted by segment_id ascending).
@@ -1538,18 +1646,34 @@ public:
     // Purge archived segments older than delete_after_days.
     uint32_t purgeExpired();
 
+    // Apply lifecycle transitions: promote segments to colder storage tiers
+    // based on their age relative to transition_to_cold_after_days.
+    // Returns the number of segments whose tier was updated.
+    uint32_t transitionStorageTiers();
+
     // Background archival: scan wal_directory, archive old segments, return count.
     uint32_t runArchivalCycle();
 
 private:
     ArchivalConfig config_;
+    std::shared_ptr<IArchivalBackend> backend_;  // nullptr = local filesystem
     mutable std::mutex archive_mutex_;
-    std::vector<ArchivedSegment> index_;  // in-memory index; persisted via text-format index.txt side-car
+    std::vector<ArchivedSegment> index_;  // in-memory index; persisted via index.txt side-car
 
+    // Returns the archive destination key/path for a segment_id.
+    // When backend_ is set, returns the cloud object key (prefix + filename).
+    // When backend_ is null, returns the local filesystem path.
     std::string archivePath(uint64_t segment_id) const;
     void saveIndex() const;
     void loadIndex();
     static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
+    // AES-256-GCM encryption helpers. Format: IV(12) || Tag(16) || Ciphertext.
+    static std::vector<uint8_t> encryptAesGcm(const std::vector<uint8_t>& data,
+                                               const std::vector<uint8_t>& key);
+    static std::optional<std::vector<uint8_t>> decryptAesGcm(
+        const std::vector<uint8_t>& data,
+        const std::vector<uint8_t>& key);
+    static std::vector<uint8_t> hexToBytes(const std::string& hex);
 };
 
 // ============================================================================
@@ -1582,6 +1706,18 @@ struct RegionStalenessInfo {
 
 /**
  * Configuration for MultiRegionActiveActiveManager.
+ *
+ * ### Consistency Guarantees
+ * - `STRONG` consistency is only guaranteed within a single region.
+ * - Cross-region writes are always eventual unless `leader_region_id` is set
+ *   and all STRONG writes are routed exclusively through the designated leader.
+ * - Vector-clock-based conflict resolution (LAST_WRITE_WINS, MERGE) may produce
+ *   different outcomes across regions for concurrent writes; this is expected
+ *   in Active/Active deployments.
+ *
+ * @warning For SERIALIZABLE or STRONG guarantees on critical data, restrict
+ *          writes to a single region.  Cross-region `STRONG` writes are
+ *          rejected unless `local_region_id == leader_region_id`.
  */
 struct MultiRegionActiveActiveConfig {
     std::string local_region_id;                         ///< Identifier for the local region
@@ -1590,6 +1726,42 @@ struct MultiRegionActiveActiveConfig {
     uint32_t max_staleness_ms = 5000;                    ///< Upper bound for BOUNDED_STALENESS reads (ms)
     uint32_t session_token_ttl_ms = 30000;               ///< Time-to-live for session tokens (ms)
     ConflictResolution conflict_strategy = ConflictResolution::LAST_WRITE_WINS;
+
+    /**
+     * Per-collection consistency overrides.
+     *
+     * When a collection is present in this map, the configured level takes
+     * precedence over the caller-supplied level for both reads and writes.
+     * Use this to enforce STRONG consistency for critical collections while
+     * keeping the global default at BOUNDED_STALENESS or EVENTUAL.
+     *
+     * @note Configuring STRONG here for a non-leader region will cause all
+     *       writes to that collection to be rejected unless the local region
+     *       is the designated leader.
+     */
+    std::map<std::string, ConsistencyLevel> collection_consistency_overrides;
+
+    /**
+     * Designated leader region for STRONG cross-region writes.
+     *
+     * When non-empty, `write()` calls with effective consistency `STRONG` are
+     * rejected if `local_region_id != leader_region_id`.  This prevents
+     * split-brain lost-update scenarios for critical data by funnelling all
+     * strongly-consistent writes through a single region.
+     *
+     * Leave empty to allow STRONG writes on any region (legacy behaviour;
+     * provides no cross-region linearisability guarantee).
+     */
+    std::string leader_region_id;
+
+    /**
+     * Enable split-brain detection.
+     *
+     * When `true`, `isSplitBrain()` returns `true` if all peer regions report
+     * unhealthy staleness, indicating a possible network partition.  Callers
+     * may choose to reject STRONG writes or emit alerts in this state.
+     */
+    bool split_brain_detection_enabled = false;
 };
 
 /**
@@ -1597,10 +1769,13 @@ struct MultiRegionActiveActiveConfig {
  *
  * Coordinates multi-region active-active replication with bounded staleness
  * guarantees.  Every region can accept writes.  Reads are served according to
- * the requested ConsistencyLevel:
+ * the requested ConsistencyLevel (or the collection-level override when
+ * configured in `MultiRegionActiveActiveConfig::collection_consistency_overrides`):
  *
  *   STRONG            – Only served when the local replica is known to be
- *                       up-to-date (staleness_ms == 0 or within lease window).
+ *                       up-to-date (staleness_ms == 0).  Writes at STRONG
+ *                       are rejected when a `leader_region_id` is configured
+ *                       and the local region is not the leader.
  *   BOUNDED_STALENESS – Served when staleness_ms <= max_staleness_ms; otherwise
  *                       the read is rejected (caller should retry or fall back
  *                       to another region).
@@ -1608,6 +1783,17 @@ struct MultiRegionActiveActiveConfig {
  *                       least up to the sequence embedded in the session token
  *                       (read-your-writes guarantee).
  *   EVENTUAL          – Always served from the local region regardless of lag.
+ *
+ * ### Cross-Region Consistency Limitations
+ * STRONG consistency is **only** guaranteed within a single region.  Cross-region
+ * writes are always eventual in the absence of a leader-region fence.
+ * Vector-clock-based conflict resolution may produce different outcomes on
+ * concurrent writes; this is an inherent property of Active/Active deployments
+ * (see CAP theorem and Google Spanner TrueTime for background).
+ *
+ * For critical data requiring SERIALIZABLE isolation, restrict all writes to a
+ * single region or use `leader_region_id` to designate one region as the sole
+ * acceptor of STRONG writes.
  *
  * Staleness information must be fed in from the underlying replication layer
  * via updateRegionStaleness().  In a real deployment this is called by the
@@ -1622,6 +1808,7 @@ public:
         std::string region_id;          ///< Region that accepted the write
         uint64_t    sequence_number = 0;
         std::string session_token;      ///< Updated session token (for SESSION consistency)
+        bool        is_leader_region = false; ///< True when the write was accepted by the designated leader region
     };
 
     struct ReadResult {
@@ -1638,6 +1825,24 @@ public:
     /**
      * Record a write locally and return a WriteResult that includes a
      * session token embedding the new sequence number.
+     *
+     * If a collection-level override exists in
+     * `MultiRegionActiveActiveConfig::collection_consistency_overrides`, it
+     * replaces the caller-supplied `consistency` parameter.
+     *
+     * When `MultiRegionActiveActiveConfig::leader_region_id` is non-empty and
+     * the effective consistency is `STRONG`, the write is rejected
+     * (`success=false`) if the local region is not the designated leader.
+     * This prevents split-brain lost-update scenarios for critical writes.
+     *
+     * @param collection  Collection (table) name.
+     * @param document_id Unique document identifier within the collection.
+     * @param operation   Operation type string (e.g. "INSERT", "UPDATE", "DELETE").
+     * @param data        Serialized document payload.
+     * @param consistency Requested consistency level (may be overridden per collection).
+     * @param session_token Optional caller session token (currently unused by write).
+     * @return WriteResult with `success=true` on acceptance, or `success=false` when
+     *         rejected due to leader-region fencing.
      */
     WriteResult write(
         const std::string& collection,
@@ -1651,10 +1856,20 @@ public:
     /**
      * Attempt a read at the requested consistency level.
      *
-     * Returns success=false when:
-     *   - STRONG: local staleness > 0 (i.e., the replica is not fully caught up)
-     *   - BOUNDED_STALENESS: local staleness > max_staleness_ms
-     *   - SESSION: the local replica has not yet applied the sequence in the token
+     * If a collection-level override exists in
+     * `MultiRegionActiveActiveConfig::collection_consistency_overrides`, it
+     * replaces the caller-supplied `consistency` parameter.
+     *
+     * Returns `success=false` when:
+     *   - `STRONG`: local staleness > 0 (replica is not fully caught up)
+     *   - `BOUNDED_STALENESS`: local staleness > `max_staleness_ms`
+     *   - `SESSION`: the local replica has not yet applied the sequence in the token
+     *
+     * @param collection   Collection (table) name.
+     * @param document_id  Unique document identifier.
+     * @param consistency  Requested consistency level (may be overridden per collection).
+     * @param session_token Optional session token for SESSION consistency (read-your-writes).
+     * @return ReadResult with `success=true` when the consistency requirement is met.
      */
     ReadResult read(
         const std::string& collection,
@@ -1704,6 +1919,33 @@ public:
     /** Prometheus-format metrics snapshot. */
     std::string exportPrometheusMetrics() const;
 
+    /**
+     * Return the effective consistency level for a collection.
+     *
+     * If the collection has an entry in
+     * `MultiRegionActiveActiveConfig::collection_consistency_overrides`, that
+     * level is returned.  Otherwise `config_.default_consistency` is used.
+     *
+     * @param collection Collection (table) name to look up.
+     * @return The effective ConsistencyLevel for that collection.
+     */
+    [[nodiscard]] ConsistencyLevel getEffectiveConsistency(
+        const std::string& collection) const;
+
+    /**
+     * Return true when a split-brain condition is suspected.
+     *
+     * A split-brain is indicated when `split_brain_detection_enabled` is set
+     * in the configuration **and** every configured peer region reports an
+     * unhealthy staleness (i.e. no peer has been heard from within the
+     * `max_staleness_ms * 2` window).  Returns false when detection is
+     * disabled or when at least one peer is healthy.
+     *
+     * @note This is a heuristic based on the last staleness feed; a false
+     *       negative is possible if staleness updates are delayed.
+     */
+    [[nodiscard]] bool isSplitBrain() const;
+
 private:
     MultiRegionActiveActiveConfig config_;
 
@@ -1722,10 +1964,429 @@ private:
     std::atomic<uint64_t> bounded_staleness_reads_{0};
     std::atomic<uint64_t> session_reads_{0};
     std::atomic<uint64_t> eventual_reads_{0};
+    std::atomic<uint64_t> leader_write_rejections_{0}; ///< STRONG writes rejected because local is not the leader
 
     std::string generateWriteId(uint64_t sequence) const;
     std::string generateSessionToken(uint64_t sequence) const;
     uint64_t    parseSessionToken(const std::string& token) const;   ///< Returns 0 on error
+};
+
+// ============================================================================
+// BidirectionalReplicationManager  (v1.7.0)
+// ============================================================================
+
+/**
+ * BidirectionalReplicationManager
+ *
+ * Enables true bidirectional (active-active) replication between exactly two
+ * peer nodes.  Both nodes accept writes and push changes to each other.
+ *
+ * Key capabilities:
+ *  - Symmetric replication: every committed write is forwarded to the peer.
+ *  - Conflict detection using HLC timestamps and monotonic sequence numbers.
+ *  - Configurable conflict resolution per collection (LWW, FIRST_WRITE_WINS,
+ *    VECTOR_CLOCK, or CUSTOM).
+ *  - Origin tracking: each change is tagged with the node that originally
+ *    created it, preventing replication loops (a change that originated from
+ *    the peer is not forwarded back to the peer).
+ *  - DDL replication with conflict detection (schema changes are sequenced and
+ *    the later-arriving DDL wins by default, or a CUSTOM resolver is invoked).
+ *
+ * Lifecycle:
+ *   BidirectionalReplicationManager mgr(config);
+ *   mgr.start();
+ *   // … application runs …
+ *   mgr.stop();
+ *
+ * Thread safety: all public methods are thread-safe.
+ */
+class BidirectionalReplicationManager {
+public:
+    // ── Configuration ────────────────────────────────────────────────────────
+    struct BidiConfig {
+        std::string local_node_id;   ///< Identifier for this node (e.g. "us-west-1")
+        std::string remote_node_id;  ///< Identifier for the peer node (e.g. "us-east-1")
+        std::string remote_endpoint; ///< Network address of the peer (e.g. "host:port")
+
+        // Conflict resolution
+        ConflictResolution default_strategy = ConflictResolution::LAST_WRITE_WINS;
+        std::map<std::string, ConflictResolution> collection_strategies; ///< Per-collection overrides
+
+        // Origin tracking
+        bool track_origin             = true;  ///< Tag every write with its origin node
+        bool replicate_foreign_changes = false; ///< If false (default), suppress re-forwarding
+                                                ///< changes whose origin is the remote peer
+
+        // Synchronisation
+        uint32_t sync_interval_ms = 1000; ///< How often to push pending changes (ms)
+        bool bidirectional_sync   = true; ///< Enable the reverse (peer→local) replication path
+
+        // DDL
+        bool replicate_ddl = true; ///< Forward schema changes to the peer
+    };
+
+    // ── Data structures ───────────────────────────────────────────────────────
+
+    /**
+     * A single write event that participates in bidirectional replication.
+     */
+    struct BidiWriteEntry {
+        std::string document_id;
+        std::string collection;
+        std::string operation;   ///< "INSERT" | "UPDATE" | "DELETE"
+        std::string data;        ///< Serialised document payload
+        std::string origin_node; ///< Node that first created this change
+        uint64_t    origin_seq  = 0; ///< Monotonic sequence on the origin node
+        int64_t     timestamp_ms = 0; ///< Wall-clock milliseconds (for LWW)
+        bool        is_ddl       = false; ///< True for DDL (schema change) entries
+    };
+
+    /**
+     * Conflict record produced when two concurrent writes target the same
+     * document in the same collection.
+     */
+    struct BidiConflictRecord {
+        std::string conflict_id;
+        std::string document_id;
+        std::string collection;
+        BidiWriteEntry local_write;
+        BidiWriteEntry remote_write;
+        BidiWriteEntry resolved_write; ///< Winner after applying the strategy
+        ConflictResolution strategy_used;
+        std::chrono::system_clock::time_point detected_at;
+        bool is_ddl_conflict = false;
+    };
+
+    /**
+     * Synchronisation status snapshot.
+     */
+    struct SyncStatus {
+        uint64_t local_sequence     = 0; ///< Latest sequence committed on the local node
+        uint64_t remote_sequence    = 0; ///< Latest sequence acknowledged from the peer
+        int64_t  lag_ms             = 0; ///< Estimated replication lag (ms)
+        uint64_t conflicts_detected = 0; ///< Lifetime conflict count
+        uint64_t conflicts_resolved = 0; ///< Conflicts resolved (including manual overrides)
+        uint64_t conflicts_last_hour = 0; ///< Conflicts detected in the last 60 minutes (rolling)
+        bool     is_synchronized    = false; ///< True when lag < sync_interval_ms and both nodes healthy
+        bool     is_running         = false; ///< True while start() is active
+    };
+
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    explicit BidirectionalReplicationManager(const BidiConfig& config);
+    ~BidirectionalReplicationManager();
+
+    // Non-copyable, non-movable
+    BidirectionalReplicationManager(const BidirectionalReplicationManager&) = delete;
+    BidirectionalReplicationManager& operator=(const BidirectionalReplicationManager&) = delete;
+
+    /**
+     * Activate bidirectional replication.
+     * Returns true on success, false when the manager is already running or the
+     * configuration is invalid (e.g. local_node_id == remote_node_id).
+     */
+    bool start();
+
+    /**
+     * Gracefully stop replication and release all resources.
+     * Safe to call even if start() was never called.
+     */
+    void stop();
+
+    // ── Write path ────────────────────────────────────────────────────────────
+
+    /**
+     * Submit a local write for bidirectional replication.
+     *
+     * If track_origin is enabled, the entry is tagged with local_node_id.
+     * The write is enqueued for forwarding to the peer on the next sync cycle
+     * (or immediately if sync_interval_ms == 0).
+     *
+     * Returns the assigned local sequence number.  Returns 0 when stop() has
+     * been called.
+     */
+    uint64_t submitWrite(const std::string& document_id,
+                         const std::string& collection,
+                         const std::string& operation,
+                         const std::string& data,
+                         bool is_ddl = false);
+
+    /**
+     * Apply an incoming write that was received from the peer.
+     *
+     * Origin tracking: if the entry's origin_node equals remote_node_id and
+     * replicate_foreign_changes is false (default), the change is applied
+     * locally but NOT re-forwarded back to the peer, breaking the loop.
+     *
+     * Conflict detection: if a pending local write targets the same
+     * (collection, document_id), handleConflict() is called to resolve it.
+    *
+    * Fail-closed invariants:
+    * - When origin tracking is enabled, incoming writes must carry
+    *   non-empty origin_node and origin_seq > 0.
+    * - Stale/duplicate writes from the same origin (origin_seq <= last seen
+    *   sequence for the same document) are rejected.
+     *
+     * Returns true when the entry was accepted and applied.
+     */
+    bool applyRemoteWrite(const BidiWriteEntry& entry);
+
+    // ── Status & metrics ──────────────────────────────────────────────────────
+
+    /** Current synchronisation status snapshot. */
+    SyncStatus getSyncStatus() const;
+
+    /**
+     * Return all conflict records (both auto-resolved and pending manual
+     * resolution).
+     */
+    std::vector<BidiConflictRecord> getConflictHistory() const;
+
+    /**
+     * Return only the conflict records that are awaiting manual resolution
+     * (i.e. strategy == CUSTOM and no manual resolution has been applied yet).
+     */
+    std::vector<BidiConflictRecord> getPendingConflicts() const;
+
+    // ── Conflict resolution ───────────────────────────────────────────────────
+
+    /**
+     * Manually resolve a conflict by nominating which node's write wins.
+     *
+     * Locates the conflict record by document_id (most recent conflict for that
+     * document), marks it resolved, and updates resolved_write to the nominated
+     * node's write.  winner_node must be either local_node_id or remote_node_id.
+     *
+     * Returns true when a matching unresolved conflict was found and resolved.
+     */
+    bool resolveConflict(const std::string& document_id,
+                         const std::string& winner_node);
+
+    // ── Configuration helpers ─────────────────────────────────────────────────
+
+    /** Update the conflict resolution strategy for a specific collection. */
+    void setCollectionStrategy(const std::string& collection,
+                               ConflictResolution strategy);
+
+    /** Read back the effective strategy for a collection. */
+    ConflictResolution getEffectiveStrategy(const std::string& collection) const;
+
+    // ── Simulation helpers (testing / integration) ────────────────────────────
+
+    /**
+     * Inject a remote sequence number directly (used by tests and integration
+     * harnesses that do not run a real network layer).
+     */
+    void updateRemoteSequence(uint64_t remote_seq, int64_t lag_ms = 0);
+
+    /**
+     * Simulate an incoming DDL event from the peer.  Delegates to
+     * applyRemoteWrite() with is_ddl=true.
+     */
+    bool applyRemoteDDL(const std::string& ddl_statement,
+                        const std::string& schema_version,
+                        uint64_t origin_seq);
+
+private:
+    // ── Origin tracking ───────────────────────────────────────────────────────
+    struct OriginInfo {
+        std::string origin_node;
+        uint64_t    origin_sequence;
+        std::chrono::system_clock::time_point origin_timestamp;
+    };
+
+    OriginInfo getOrigin(const std::string& document_id) const;
+    bool       isLocalOrigin(const OriginInfo& origin) const;
+
+    // ── Conflict helpers ──────────────────────────────────────────────────────
+    /**
+     * Apply the configured resolution strategy and return the winning entry.
+     */
+    BidiWriteEntry resolveWrite(const BidiWriteEntry& local,
+                                const BidiWriteEntry& remote,
+                                ConflictResolution strategy) const;
+
+    /**
+     * Detect whether two entries targeting the same (collection, document_id)
+     * constitute a conflict.  Two writes conflict when both have been submitted
+     * since the last known-good sync point (i.e. their sequence numbers are
+     * both ahead of the last acknowledged remote sequence).
+     */
+    bool detectConflict(const BidiWriteEntry& incoming,
+                        const BidiWriteEntry& existing) const;
+
+    /**
+     * Record a conflict and apply the configured strategy.
+     */
+    void handleConflict(const BidiWriteEntry& local_write,
+                        const BidiWriteEntry& remote_write,
+                        bool is_ddl);
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    BidiConfig config_;
+
+    std::atomic<bool>     running_{false};
+    std::atomic<uint64_t> local_sequence_{0};
+    std::atomic<uint64_t> remote_sequence_{0};
+    std::atomic<int64_t>  replication_lag_ms_{0};
+    std::atomic<uint64_t> conflicts_detected_{0};
+    std::atomic<uint64_t> conflicts_resolved_{0};
+
+    // Pending local writes keyed by (collection + "\0" + document_id)
+    mutable std::mutex               pending_mutex_;
+    std::map<std::string, BidiWriteEntry> pending_writes_;
+
+    // Conflict history
+    mutable std::mutex                  conflicts_mutex_;
+    std::vector<BidiConflictRecord>     conflict_history_;
+    std::deque<std::chrono::system_clock::time_point> conflict_timestamps_; ///< For conflicts_last_hour
+
+    // Origin index: document key → last known origin info
+    mutable std::mutex                  origin_mutex_;
+    std::map<std::string, OriginInfo>   origin_map_;
+
+    std::string makeDocKey(const std::string& collection,
+                           const std::string& document_id) const;
+};
+
+// ============================================================================
+// GeoReplicationManager  (v1.7.0)
+// ============================================================================
+
+/**
+ * GeoReplicationManager
+ *
+ * Provides a simple key/value API for geo-distributed deployments with
+ * per-request consistency level control.  Applications can choose between
+ * four consistency levels depending on their trade-off between correctness
+ * and availability:
+ *
+ *   STRONG            – Linearizable reads; only served from a region with
+ *                       zero replication lag.
+ *   BOUNDED_STALENESS – Reads permitted when lag <= max_staleness_ms; the
+ *                       freshest eligible region is preferred.
+ *   SESSION           – Read-your-writes within a session token; the local
+ *                       region must have applied at least the sequence
+ *                       embedded in the token.
+ *   EVENTUAL          – Always served from the local region regardless of
+ *                       lag; maximum throughput, no freshness guarantee.
+ *
+ * The manager tracks per-region staleness and selects the appropriate region
+ * automatically (automatic routing).  In a real deployment, staleness is
+ * updated via updateRegionStaleness() whenever a WAL acknowledgement or
+ * heartbeat arrives from a remote region.
+ *
+ * Thread safety: all public methods are thread-safe.
+ */
+class GeoReplicationManager {
+public:
+    /**
+     * Configuration for GeoReplicationManager.
+     */
+    struct GeoConfig {
+        std::string              local_region;                   ///< ID of the local (primary) region
+        std::vector<std::string> regions;                        ///< All region IDs (including local)
+        uint32_t replication_factor  = 3;                        ///< Total number of replicas
+        uint32_t local_replicas      = 2;                        ///< Replicas in the local region
+        uint32_t global_replicas     = 1;                        ///< Replicas in remote regions
+        ConsistencyLevel default_consistency = ConsistencyLevel::SESSION;
+        uint32_t max_staleness_ms    = 5000;                     ///< Bound for BOUNDED_STALENESS (ms)
+        uint32_t session_token_ttl_ms = 30000;                   ///< Session token TTL (ms)
+    };
+
+    explicit GeoReplicationManager(const GeoConfig& config);
+
+    /**
+     * Write a key/value pair with the specified consistency level.
+     *
+     * Returns false only when consistency == STRONG and the local replica is
+     * not fully caught up (staleness > 0).  All other levels always succeed
+     * locally.  The returned session_token encodes the new sequence number
+     * for subsequent SESSION reads.
+     */
+    bool write(
+        const std::string& key,
+        const std::string& value,
+        ConsistencyLevel   consistency = ConsistencyLevel::SESSION
+    );
+
+    /**
+     * Read a value with the specified consistency level.
+     *
+     * Automatic routing rules:
+     *   STRONG            – served only if local staleness == 0.
+     *   BOUNDED_STALENESS – served only if local staleness <= max_staleness_ms.
+     *   SESSION           – served only if local sequence >= token sequence.
+     *   EVENTUAL          – always served.
+     *
+     * Returns std::nullopt when the consistency constraint cannot be satisfied
+     * by the local region (caller should retry or relax the level).
+     */
+    std::optional<std::string> read(
+        const std::string& key,
+        ConsistencyLevel   consistency  = ConsistencyLevel::SESSION,
+        const std::string& session_token = ""
+    );
+
+    /**
+     * Return a fresh session token embedding the current local sequence.
+     * Pass this token to subsequent read() calls to obtain read-your-writes
+     * (SESSION consistency).
+     */
+    std::string getSessionToken() const;
+
+    /**
+     * Return the estimated replication lag for a given region.
+     * Returns chrono::milliseconds::max() for unknown regions.
+     */
+    std::chrono::milliseconds getStaleness(const std::string& region) const;
+
+    /**
+     * Feed new staleness information from the replication layer.
+     * Called on every WAL acknowledgement or heartbeat from a remote region.
+     */
+    void updateRegionStaleness(const std::string& region,
+                               int64_t            staleness_ms,
+                               uint64_t           last_applied_sequence = 0);
+
+    /**
+     * Select the best read region for the given consistency level and optional
+     * session token.  Returns an empty string when no eligible region exists.
+     */
+    std::string selectReadRegion(
+        ConsistencyLevel   consistency,
+        const std::string& session_token = ""
+    ) const;
+
+    /**
+     * Validate a session token and return the sequence it encodes.
+     * Returns 0 for malformed or expired tokens.
+     */
+    uint64_t parseSessionToken(const std::string& token) const;
+
+    /** Prometheus-format metrics snapshot. */
+    std::string exportPrometheusMetrics() const;
+
+private:
+    GeoConfig config_;
+
+    // Per-region staleness
+    mutable std::shared_mutex             staleness_mutex_;
+    std::map<std::string, RegionStalenessInfo> region_staleness_;
+
+    // Monotonic write sequence for this region
+    std::atomic<uint64_t> local_sequence_{0};
+
+    // Metrics counters
+    std::atomic<uint64_t> writes_total_{0};
+    std::atomic<uint64_t> reads_total_{0};
+    std::atomic<uint64_t> reads_rejected_{0};
+    std::atomic<uint64_t> strong_reads_{0};
+    std::atomic<uint64_t> bounded_staleness_reads_{0};
+    std::atomic<uint64_t> session_reads_{0};
+    std::atomic<uint64_t> eventual_reads_{0};
+
+    std::string generateSessionToken(uint64_t sequence) const;
 };
 
 } // namespace replication

@@ -1,24 +1,21 @@
+/**
+ * @file embedded_llm.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedded_llm.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     281                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedded_llm.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 304
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #204 Complete llama.cpp implemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,7 +23,9 @@
 #include "llm/llama_wrapper.h"
 #include "llm/ethical_guidelines_manager.h"
 #include <memory>
+#include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <functional>
 
@@ -50,6 +49,9 @@ namespace llm {
  */
 class EmbeddedLLM {
 public:
+    using GenerateFullFn = std::function<InferenceResponse(const InferenceRequest&)>;
+    using EmbedFn = std::function<std::vector<float>(const std::string&)>;
+
     /**
      * @brief Configuration for embedded LLM
      */
@@ -58,6 +60,10 @@ public:
         std::string model_id = "default";
         int n_gpu_layers = 0;          // 0 = CPU only
         int n_ctx = 4096;              // Context size
+        /// @brief Batch size passed to llama_context. Must be >= the longest
+        /// prompt that will be submitted in a single llama_decode call.
+        /// Defaults to n_ctx so RAG/docs prompts are never truncated.
+        int n_batch = 4096;
         int n_threads = 4;             // CPU threads
         bool enable_caching = true;    // Response caching
         bool enable_streaming = false; // Default: no streaming
@@ -197,9 +203,28 @@ public:
      * @brief Get performance statistics
      */
     json getStats() const;
+
+    /**
+     * @brief Inject a generation backend override.
+     *
+     * When set, generation methods delegate to this callback before using the
+     * built-in wrapper/stub path.
+     */
+    void setGenerateFullFn(GenerateFullFn fn);
+
+    /**
+     * @brief Inject an embedding backend override.
+     *
+     * When set, embedding methods delegate to this callback before using the
+     * built-in wrapper/stub path.
+     */
+    void setEmbedFn(EmbedFn fn);
     
     /**
      * @brief Clear response cache
+     *
+     * Clears the in-memory embedding cache.  Subsequent calls to embed()
+     * will recompute embeddings from the model.
      */
     void clearCache();
     
@@ -222,6 +247,14 @@ private:
     std::unique_ptr<LlamaWrapper> wrapper_;
     Config config_;
     std::unique_ptr<EthicalGuidelinesManager> ethical_guidelines_;
+
+    mutable std::mutex callback_mutex_;
+    GenerateFullFn generate_full_fn_;
+    EmbedFn embed_fn_;
+
+    // Embedding cache: text → embedding vector (thread-safe via cache_mutex_)
+    mutable std::mutex cache_mutex_;
+    std::unordered_map<std::string, std::vector<float>> embedding_cache_;
     
     // Internal helpers
     InferenceRequest createRequest(

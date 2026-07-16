@@ -1,9 +1,10 @@
 # CI Scope Classification Configuration
 #
 # Maps file path patterns to CI scopes.
-# Used by .github/scripts/classify_ci_scope.py and
-# .github/workflows/ci-scope-classifier.yml to determine which workflows
-# are relevant for a given set of changed files.
+# Used by .github/scripts/classify_ci_scope.py.
+# Active workflows currently rely primarily on their own `paths:` filters; this
+# file remains as a maintained scope reference and for any future classifier-
+# based gating that is reintroduced under the quarantine rules.
 #
 # Pattern syntax follows Python's fnmatch (glob-style):
 #   *  matches any sequence of characters within a path segment
@@ -25,7 +26,6 @@ scopes:
       - 'cmake/CMakeLists.txt'
       - 'scripts/**/*.py'
       - 'scripts/**/*.sh'
-      - 'wordpress-plugin/**'
       - 'tools/**'
 
   # ── Security changes: auth / security modules ────────────────────────────
@@ -79,8 +79,15 @@ scopes:
       - 'src/rag/**'
       - 'src/voice/**'
       - 'src/prompt_engineering/**'
+      - 'include/voice/**'
       - 'include/llm/**'
       - 'include/rag/**'
+      - 'include/content/stt_processor.h'
+      - 'include/content/tts_processor.h'
+      - 'src/content/stt_processor.cpp'
+      - 'src/content/tts_processor.cpp'
+      - 'benchmarks/bench_voice_assistant.cpp'
+      - 'benchmarks/baselines/voice/**'
       - 'tests/llm/**'
 
   # ── Documentation-only changes ───────────────────────────────────────────
@@ -94,14 +101,15 @@ scopes:
       - 'README*'
       - 'CHANGELOG*'
       - 'LICENSE*'
-      - '.github/COPILOT_INSTRUCTIONS.md'
+      - '.github/copilot-instructions.md'
       - '.github/copilot/**'
       - '.github/GOVERNANCE.md'
       - '.github/SECURITY.md'
       - '.github/LABELS.md'
       - '.github/RELEASE.md'
-      - 'roadmap.md'
       - 'ROADMAP.md'
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
       - 'future_enhancement.md'
 
   # ── Config/CMake changes ──────────────────────────────────────────────────
@@ -112,9 +120,12 @@ scopes:
       - '*.cmake'
       - 'CMakeLists.txt'
       - '.github/workflows/**'
+      - '.github/no_workflows/**'
       - '.github/ci-scope-config.yaml'
       - '.github/scripts/**'
       - '.github/labeler.yml'
+      - '.github/WORKFLOW_GUIDELINES.md'
+      - '.github/WORKFLOW_REGISTRY.md'
       - 'vcpkg.json'
       - 'vcpkg-configuration.json'
 
@@ -127,7 +138,7 @@ scopes:
       - 'benchmarks/chimera/**'
       - 'benchmarks/baselines/chimera/**'
       - 'tests/chimera/**'
-      - '.github/workflows/chimera-benchmark-ci.yml'
+      - '.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml'
 
   # ── Grafana dashboard changes ─────────────────────────────────────────────
   has_grafana_changes:
@@ -137,20 +148,20 @@ scopes:
 
 # ── Workflow-to-scope mapping ─────────────────────────────────────────────────
 # Documents which scope each workflow requires.
-# Used as reference; enforcement is done via `if:` conditions in each workflow.
+# Used as reference only; active workflows enforce boundaries mainly via
+# `paths:` and dedicated guards rather than a global scope-classifier workflow.
 workflow_scope_map:
-  validate-ai-guardrails:     [has_doc_only_changes, has_config_changes]
-  validate-roadmap:           []   # gated by paths: in trigger; no ci-scope-classifier if: condition
-  research-validation:        []   # gated by paths: in trigger; no ci-scope-classifier if: condition
-  validate-grafana-dashboards: [has_grafana_changes]
-  acceleration-benchmark-ci:  [has_acceleration_changes]
-  gpu-ci:                     [has_gpu_changes]
-  llm-cuda-gpu-ci:            [has_llm_changes, has_gpu_changes]
-  llm-cpu-fallback-ci:        [has_llm_changes]
-  security-hardening-ci:      [has_security_changes]
-  themis-core-ci:             [has_code_changes]
-  pii-redaction-check:        [has_code_changes]
-  validate-config-mapping:    [has_config_changes]
-  chimera-benchmark-ci:      [has_chimera_changes]
-  chimera-tests:              [has_code_changes]
-  importer-tests:             [has_code_changes]
+  02-feature-modules_llm_voice-benchmark-ci: [has_llm_changes]
+  06-infrastructure_gpu_gpu-benchmark-matrix-ci: [has_acceleration_changes, has_gpu_changes, has_llm_changes]
+  07-quality_nightly-benchmark-sweep: []
+  09-pr-gates_workflow-boundary-guard: [has_config_changes]
+  copilot-ollama-router-ci:   [has_code_changes]
+  copilot-regression-guard:   [has_code_changes, has_config_changes]
+  performance-regression-check: [has_code_changes]
+
+# ── Quality gate tuning ─────────────────────────────────────────────────────
+# Maintainer knob for Doxygen XML coverage threshold used by
+# .github/workflows/08-quality_doxygen-coverage-gate.yml.
+# Increase gradually (recommended): 90 -> 92 -> 95.
+quality_gates:
+  docs_coverage_threshold: 90

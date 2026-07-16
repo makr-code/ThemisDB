@@ -1,23 +1,20 @@
+/**
+ * @file mqtt_session.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mqtt_session.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     279                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mqtt_session.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -66,6 +63,39 @@ struct MqttMetrics {
     std::chrono::steady_clock::time_point startTime;
     
     MqttMetrics() : startTime(std::chrono::steady_clock::now()) {}
+
+    MqttMetrics(const MqttMetrics& other)
+        : messagesReceived(other.messagesReceived.load())
+        , messagesSent(other.messagesSent.load())
+        , bytesReceived(other.bytesReceived.load())
+        , bytesSent(other.bytesSent.load())
+        , connectCount(other.connectCount.load())
+        , disconnectCount(other.disconnectCount.load())
+        , subscribeCount(other.subscribeCount.load())
+        , publishCount(other.publishCount.load())
+        , qos0Messages(other.qos0Messages.load())
+        , qos1Messages(other.qos1Messages.load())
+        , qos2Messages(other.qos2Messages.load())
+        , rateLimitedMessages(other.rateLimitedMessages.load())
+        , startTime(other.startTime) {}
+
+    MqttMetrics& operator=(const MqttMetrics& other) {
+        if (this == &other) return *this;
+        messagesReceived.store(other.messagesReceived.load());
+        messagesSent.store(other.messagesSent.load());
+        bytesReceived.store(other.bytesReceived.load());
+        bytesSent.store(other.bytesSent.load());
+        connectCount.store(other.connectCount.load());
+        disconnectCount.store(other.disconnectCount.load());
+        subscribeCount.store(other.subscribeCount.load());
+        publishCount.store(other.publishCount.load());
+        qos0Messages.store(other.qos0Messages.load());
+        qos1Messages.store(other.qos1Messages.load());
+        qos2Messages.store(other.qos2Messages.load());
+        rateLimitedMessages.store(other.rateLimitedMessages.load());
+        startTime = other.startTime;
+        return *this;
+    }
     
     void reset() {
         messagesReceived = 0;
@@ -136,7 +166,7 @@ public:
     
     explicit MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion = 4, 
                         TransportType transport = TransportType::TCP);
-    ~MqttSession();
+    ~MqttSession() noexcept;
 
     void start();
     void stop();
@@ -189,11 +219,12 @@ private:
     void doWebSocketRead();
     void doWebSocketWrite();
     void processQos2Timeouts();
-    void triggerWillMessage();
+    void triggerWillMessage() const;
     void updateRateLimiter();
     
     asio::ip::tcp::socket socket_;
     std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> wsStream_;
+    boost::beast::flat_buffer wsReadBuffer_;
     TransportType transportType_;
     std::array<char, 8192> buffer_;
     bool isConnected_;
@@ -263,6 +294,10 @@ public:
     // Connection retry
     void setRetryConfig(const MqttRetryConfig& config) { retryConfig_ = config; }
     const MqttRetryConfig& getRetryConfig() const { return retryConfig_; }
+
+    // Active-session registry — called by MqttSession on connect/disconnect
+    void registerActiveSession(std::weak_ptr<MqttSession> session);
+    void unregisterActiveSession(MqttSession* raw_ptr);
     
 private:
     MqttBroker() = default;
@@ -277,6 +312,8 @@ private:
     std::mutex mutex_;
     // Thread-safe round-robin index for shared subscriptions
     std::atomic<size_t> sharedSubscriptionRoundRobin_{0};
+    // All currently-connected sessions (weak refs; expired entries are cleaned up lazily)
+    std::vector<std::weak_ptr<MqttSession>> activeSessions_;
 };
 
 #endif // THEMIS_ENABLE_MQTT

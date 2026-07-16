@@ -1,25 +1,21 @@
+/**
+ * @file result_stream.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            result_stream.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2899b1627  2026-03-01  Fix ResultStream::nextBatch() to return error on exhauste... ║
-    • d8f3c7c0d  2026-02-28  feat(query): implement ResultStream updateCursor for curs... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: result_stream.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 319
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * PR History (last 5): #3638 feat(replication): Phase 4 ... (2026-03-12) | #3636 fix(query): build system au... (2026-03-12) | #3313 Fix ResultStream::nextBatch... (2026-03-12) | #3143 feat(query): implement Resu... (2026-03-12) | #810 Implement query result stre... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/result_stream.h"
@@ -331,3 +327,4 @@ std::shared_ptr<ResultStream<std::string>> createKeyStream(
 
 } // namespace query
 } // namespace themis
+

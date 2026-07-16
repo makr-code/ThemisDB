@@ -1,26 +1,21 @@
+/**
+ * @file olap.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            olap.h                                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     465                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 92f1b4a1f  2026-02-24  audit(analytics): fix stub annotations, add MaterializedV... ║
-    • 9f1c0c437  2026-02-24  feat(analytics): GPU-accelerated OLAP aggregations via OL... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: olap.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 475
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4328 Implement Arrow zero-copy I... (2026-03-18) | #2742 [analytics] Incremental mat... (2026-03-12) | #2741 [analytics] GPU-accelerated... (2026-03-12) | #2764 feat(analytics): Distribute... (2026-03-11) | #44 Implement GPU Acceleration,... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -163,6 +158,13 @@ struct OLAPQuery {
     std::vector<Sort> sorts;
     std::optional<int64_t> limit;
     std::optional<int64_t> offset;
+
+    /// Optional tenant identifier for multi-tenant deployments.
+    /// When non-empty, `DistributedAnalyticsSharding` enforces that every
+    /// registered shard belongs to (or is allowed for) this tenant before
+    /// dispatching the query.  Shard executors may also use this field to
+    /// scope their key-prefix access at the storage layer.
+    std::string tenant_id;
     
     // Advanced grouping
     enum class GroupingMode {
@@ -243,6 +245,14 @@ struct OLAPResult {
  */
 class OLAPEngine {
 public:
+    using ExportToParquetFn = std::function<bool(const OLAPResult&,
+                                                 const std::string&,
+                                                 const std::string&)>;
+    using ExportCollectionToParquetFn = std::function<bool(std::string_view,
+                                                           const std::string&,
+                                                           const std::vector<Filter>&,
+                                                           const std::string&)>;
+
     /**
      * @brief GPU acceleration configuration for the OLAP engine.
      */
@@ -255,6 +265,13 @@ public:
         size_t gpu_memory_limit = 4ULL * 1024 * 1024 * 1024;  // 4 GB
         /// Minimum row count per group before using the GPU path.
         size_t gpu_threshold_rows = 10'000;
+        /// Maximum number of OLAP query results to keep in the LRU result cache.
+        /// Set to 0 to disable caching entirely.
+        size_t result_cache_max_entries = 1'000;
+        /// Time-to-live for cached OLAP results in milliseconds.
+        /// Entries older than this are evicted on next access.
+        /// Set to 0 for no TTL-based expiry (cache entries live until evicted by LRU).
+        int64_t result_cache_ttl_ms = 60'000;  // 60 seconds
     };
 
     OLAPEngine();
@@ -338,6 +355,9 @@ public:
         const std::vector<Filter>& filters = {},
         const std::string& compression = "snappy"
     );
+
+    static void setExportToParquetFn(ExportToParquetFn fn);
+    static void setExportCollectionToParquetFn(ExportCollectionToParquetFn fn);
 
 private:
     // Internal helpers

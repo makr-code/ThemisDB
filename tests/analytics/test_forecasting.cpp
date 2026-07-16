@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_forecasting.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     632                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 502a332ac  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
-    • b605c564a  2026-02-24  fix(analytics): audit fixes – ARIMA serialization, precis... ║
-    • 682442535  2026-02-23  feat(analytics): implement predictive analytics and time-... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_forecasting.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -629,5 +612,520 @@ TEST(EdgeCaseTest, AllMethodsOnLargeSeries) {
             EXPECT_FALSE(std::isnan(fp.value));
             EXPECT_FALSE(std::isinf(fp.value));
         }
+    }
+}
+
+// ============================================================================
+// SIMD parity tests — Yule–Walker autocovariance (AVX-512 / AVX2 vs scalar)
+//
+// The autocovariance inner loop in yuleWalker() is accelerated by
+// computeAutocovariance() (AVX-512 → AVX2 → scalar dispatch).
+// These tests verify that the SIMD path produces identical AR coefficients
+// (and hence forecasts) as a plain scalar reference implementation.
+// Both the SIMD and scalar paths operate on the same input data, and the
+// scalar reference replicates exactly the yuleWalker algorithm from
+// forecasting.cpp using a simple C for-loop instead of SIMD intrinsics.
+// ============================================================================
+
+namespace {
+
+// Build a pure AR(1) series with known coefficient ≈ 0.8.
+static TimeSeries makeAR1Series(int n, double phi = 0.8,
+                                 int64_t interval_ms = 1000) {
+    TimeSeries ts;
+    double y = 0.0;
+    for (int i = 0; i < n; ++i) {
+        // Deterministic "noise" to avoid random seed dependency in CI
+        double noise = static_cast<double>((i * 7 + 13) % 11) * 0.05 - 0.25;
+        y = phi * y + noise;
+        ts.push(static_cast<int64_t>(i) * interval_ms, y);
+    }
+    return ts;
+}
+
+// ---------------------------------------------------------------------------
+// Scalar reference implementations for parity verification
+// These mirror the algorithm in forecasting.cpp but use plain C for-loops
+// instead of SIMD intrinsics.  A bit-faithful SIMD implementation must
+// produce results within the same floating-point tolerance.
+// ---------------------------------------------------------------------------
+
+static double scalarMean(const std::vector<double>& v) {
+    double s = 0.0;
+    for (double x : v) s += x;
+    return s / static_cast<double>(v.size());
+}
+
+// Scalar autocovariance: Σ (y[i] - mean)(y[i-lag] - mean) for i=[lag, n).
+// Mirrors the body of acov0_avx2 / acov0_avx512 / scalar fallback in
+// forecasting.cpp::computeAutocovariance().
+static double scalarAcov(const std::vector<double>& y, double mean, int lag) {
+    const size_t start = static_cast<size_t>(lag);
+    const size_t n     = y.size();
+    double acc = 0.0;
+    for (size_t i = start; i < n; ++i)
+        acc += (y[i] - mean) * (y[i - start] - mean);
+    return acc;
+}
+
+// Scalar Yule–Walker using Levinson–Durbin.
+// Mirrors yuleWalker() in forecasting.cpp, replacing computeAutocovariance()
+// with scalarAcov() above.
+static std::vector<double> scalarYuleWalker(const std::vector<double>& yc, int p) {
+    size_t n = yc.size();
+    if (n < static_cast<size_t>(p) + 1)
+        return std::vector<double>(static_cast<size_t>(p), 0.0);
+
+    double mean_yc = scalarMean(yc);
+
+    std::vector<double> r(static_cast<size_t>(p) + 1);
+    for (int k = 0; k <= p; ++k)
+        r[static_cast<size_t>(k)] =
+            scalarAcov(yc, mean_yc, k) / static_cast<double>(n);
+
+    if (r[0] < 1e-15)
+        return std::vector<double>(static_cast<size_t>(p), 0.0);
+
+    std::vector<double> phi(static_cast<size_t>(p), 0.0);
+    std::vector<double> phi_prev(static_cast<size_t>(p), 0.0);
+    double err = r[0];
+    for (int k = 1; k <= p; ++k) {
+        double lambda = r[static_cast<size_t>(k)];
+        for (int j = 1; j < k; ++j)
+            lambda -= phi_prev[static_cast<size_t>(j - 1)]
+                    * r[static_cast<size_t>(k - j)];
+        lambda /= err;
+        phi.assign(static_cast<size_t>(p), 0.0);
+        phi[static_cast<size_t>(k - 1)] = lambda;
+        for (int j = 1; j < k; ++j)
+            phi[static_cast<size_t>(j - 1)] =
+                phi_prev[static_cast<size_t>(j - 1)]
+                - lambda * phi_prev[static_cast<size_t>(k - j - 1)];
+        err *= (1.0 - lambda * lambda);
+        phi_prev = phi;
+    }
+    return phi_prev;
+}
+
+// Relative + absolute tolerance guard: loose enough for different FP summation
+// orders (SIMD vs scalar), tight enough to catch algorithmic errors.
+static double relTol(double ref, double rel = 1e-9, double abs_floor = 1e-300) {
+    return std::abs(ref) * rel + abs_floor;
+}
+
+// Scalar AR(p) one-step-ahead forecast replicating fitARIMA + predictARIMA
+// for d=0, q=0.  Returns the expected value of the next observation given
+// the fitted scalar AR coefficients.
+static double scalarARIMAForecast1(const std::vector<double>& y, int p) {
+    double mean_y = scalarMean(y);
+    size_t n = y.size();
+
+    std::vector<double> yc(n);
+    for (size_t i = 0; i < n; ++i) yc[i] = y[i] - mean_y;
+
+    std::vector<double> phi = scalarYuleWalker(yc, p);
+    size_t ap = phi.size();
+
+    double ar_contrib = 0.0;
+    for (size_t j = 0; j < ap; ++j)
+        ar_contrib += phi[j] * yc[n - 1 - j];
+
+    return mean_y + ar_contrib;
+}
+
+}  // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Parity: AR(1) — scalar reference vs SIMD production path
+//
+// The scalar reference (scalarARIMAForecast1) computes the one-step forecast
+// using a plain C for-loop for all autocovariance sums.  The production ARIMA
+// model internally calls computeAutocovariance() which dispatches to AVX-512,
+// AVX2, or scalar depending on the CPU.
+// A bit-faithful SIMD implementation must produce a forecast within a tight
+// relative tolerance (1 part in 10^9) of the scalar result.
+// ---------------------------------------------------------------------------
+TEST(SIMDParityTest, ARIMA_AR1_ScalarVsSIMD) {
+    auto ts = makeAR1Series(512);
+    std::vector<double> y = ts.values();
+
+    // Scalar reference: pure C loop autocovariance + Levinson–Durbin
+    double scalar_forecast = scalarARIMAForecast1(y, 1);
+
+    // Production path: internally uses SIMD computeAutocovariance
+    ForecastConfig cfg;
+    cfg.ar_order = 1;
+    cfg.diff_order = 0;
+    cfg.ma_order = 0;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto fp = model.predict(1);
+
+    ASSERT_FALSE(fp.empty());
+    EXPECT_FALSE(std::isnan(fp[0].value));
+    EXPECT_FALSE(std::isinf(fp[0].value));
+
+    // Tolerance: 1e-9 relative — tight enough to catch algorithmic errors,
+    // loose enough to allow different FP summation order between SIMD paths.
+    double tol = relTol(scalar_forecast);
+    EXPECT_NEAR(scalar_forecast, fp[0].value, tol)
+        << "ARIMA AR(1) SIMD forecast diverges from scalar reference";
+}
+
+// Parity: AR(2) on 1 000-sample series — exercises the AVX-512 inner loop
+// (≥8 doubles/cycle).  The fitted AR coefficients derived from scalar and SIMD
+// autocovariance must produce identical one-step forecasts within 1 part in 10^9.
+TEST(SIMDParityTest, ARIMA_AR2_ScalarVsSIMD) {
+    // AR(2): y[i] ≈ 0.7*y[i-1] - 0.2*y[i-2] + deterministic noise
+    TimeSeries ts;
+    double y0 = 0.0, y1 = 0.0;
+    for (int i = 0; i < 1000; ++i) {
+        double noise = static_cast<double>((i * 11 + 7) % 13) * 0.03 - 0.18;
+        double y2 = 0.7 * y1 - 0.2 * y0 + noise;
+        ts.push(static_cast<int64_t>(i) * 1000LL, y2);
+        y0 = y1; y1 = y2;
+    }
+    std::vector<double> y = ts.values();
+
+    // Scalar reference
+    double scalar_forecast = scalarARIMAForecast1(y, 2);
+
+    // Production SIMD path
+    ForecastConfig cfg;
+    cfg.ar_order = 2;
+    cfg.diff_order = 0;
+    cfg.ma_order = 0;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto fp = model.predict(1);
+
+    ASSERT_FALSE(fp.empty());
+    EXPECT_FALSE(std::isnan(fp[0].value))
+        << "ARIMA AR(2) forecast is NaN — SIMD autocovariance may be wrong";
+    EXPECT_FALSE(std::isinf(fp[0].value))
+        << "ARIMA AR(2) forecast is Inf — SIMD autocovariance may overflow";
+    EXPECT_LT(std::abs(fp[0].value), 1000.0)
+        << "ARIMA forecast diverged — AR coefficients out of range";
+
+    double tol = relTol(scalar_forecast);
+    EXPECT_NEAR(scalar_forecast, fp[0].value, tol)
+        << "ARIMA AR(2) SIMD forecast diverges from scalar reference";
+}
+
+// Parity: scalar and SIMD autocovariance agree on a flat series (all zeros).
+// This exercises the edge case r[0] < 1e-15 guard in yuleWalker — both paths
+// must return AR coefficients = 0 and a finite (mean) forecast.
+TEST(SIMDParityTest, ARIMA_FlatSeries_NoNaN) {
+    TimeSeries ts;
+    for (int i = 0; i < 50; ++i) ts.push(static_cast<int64_t>(i) * 1000LL, 0.0);
+    std::vector<double> y = ts.values();
+
+    // Scalar reference: mean is 0, phi = 0, forecast = 0.
+    double scalar_forecast = scalarARIMAForecast1(y, 2);
+    EXPECT_DOUBLE_EQ(scalar_forecast, 0.0);
+
+    ForecastConfig cfg;
+    cfg.ar_order = 2;
+    cfg.diff_order = 0;
+    cfg.ma_order = 0;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto forecast = model.predict(3);
+
+    for (const auto& fp : forecast) {
+        EXPECT_FALSE(std::isnan(fp.value));
+        EXPECT_FALSE(std::isinf(fp.value));
+        // Both scalar and SIMD must yield 0 (all-zeros series, mean = 0)
+        EXPECT_DOUBLE_EQ(fp.value, scalar_forecast);
+    }
+}
+
+// ============================================================================
+// ForecastingBatchStreamingTests — Issue #4054 (v1.9.0)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// predictBatch — basic shape and consistency
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_ReturnsCorrectShape) {
+    // 3 series, 20 steps each
+    std::vector<TimeSeries> batch;
+    for (int s = 0; s < 3; ++s) {
+        batch.push_back(makeLinearSeries(30, /*slope=*/static_cast<double>(s + 1)));
+    }
+
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(batch[0]);  // model must be fitted before predictBatch
+
+    auto results = model.predictBatch(batch, 20);
+
+    ASSERT_EQ(results.size(), 3u);
+    for (const auto& r : results) {
+        ASSERT_EQ(r.size(), 20u);
+        for (const auto& fp : r) {
+            EXPECT_FALSE(std::isnan(fp.value));
+            EXPECT_FALSE(std::isinf(fp.value));
+        }
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_SingleSeries_MatchesSinglePredict) {
+    TimeSeries ts = makeLinearSeries(50, 2.0, 5.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    auto single_result = model.predict(10);
+    auto batch_result  = model.predictBatch({ts}, 10);
+
+    ASSERT_EQ(batch_result.size(), 1u);
+    ASSERT_EQ(batch_result[0].size(), single_result.size());
+    for (size_t i = 0; i < single_result.size(); ++i) {
+        EXPECT_NEAR(batch_result[0][i].value, single_result[i].value, 1e-9)
+            << "Batch predict differs from single predict at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_InvalidSteps_Throws) {
+    TimeSeries ts = makeLinearSeries(20);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+    EXPECT_THROW(model.predictBatch({ts}, 0), std::invalid_argument);
+    EXPECT_THROW(model.predictBatch({ts}, -1), std::invalid_argument);
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_EmptyBatch_ReturnsEmpty) {
+    TimeSeries ts = makeLinearSeries(20);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+    auto results = model.predictBatch({}, 5);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(ForecastingBatchStreamingTests, PredictBatch_AllMethods) {
+    std::vector<TimeSeries> batch;
+    for (int i = 0; i < 3; ++i)
+        batch.push_back(makeSeasonalSeries(40, 4, 0.5));
+
+    for (auto method : {ForecastMethod::EXP_SMOOTHING,
+                        ForecastMethod::HOLT_WINTERS,
+                        ForecastMethod::ARIMA,
+                        ForecastMethod::ENSEMBLE}) {
+        ForecastModel model(method);
+        model.fit(batch[0]);
+        auto results = model.predictBatch(batch, 5);
+        ASSERT_EQ(results.size(), 3u) << "method=" << forecastMethodName(method);
+        for (const auto& r : results) {
+            ASSERT_EQ(r.size(), 5u) << "method=" << forecastMethodName(method);
+            for (const auto& fp : r)
+                EXPECT_FALSE(std::isnan(fp.value)) << "method=" << forecastMethodName(method);
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// update — incremental absorption
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, Update_NoOpOnUnfittedModel) {
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    EXPECT_NO_THROW(model.update(42.0));  // must be a no-op
+    EXPECT_FALSE(model.isFitted());
+}
+
+TEST(ForecastingBatchStreamingTests, Update_SES_ShiftsLevel) {
+    TimeSeries ts = makeLinearSeries(20, 1.0);
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    model.fit(ts);
+
+    auto before = model.predict(5);
+    model.update(25.0);  // add a new observation
+    auto after  = model.predict(5);
+
+    // The SES level must have moved toward the new observation
+    // — forecast values must differ from the pre-update forecast
+    bool changed = false;
+    for (size_t i = 0; i < before.size(); ++i) {
+        if (std::abs(after[i].value - before[i].value) > 1e-12) {
+            changed = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(changed) << "SES forecast unchanged after update()";
+}
+
+TEST(ForecastingBatchStreamingTests, Update_HW_ShiftsLevel) {
+    TimeSeries ts = makeSeasonalSeries(40, 4, 0.1);
+    ForecastModel model(ForecastMethod::HOLT_WINTERS);
+    model.fit(ts);
+
+    auto before = model.predict(4);
+    model.update(99.0);
+    auto after  = model.predict(4);
+
+    bool changed = false;
+    for (size_t i = 0; i < before.size(); ++i) {
+        if (std::abs(after[i].value - before[i].value) > 1e-9) { changed = true; break; }
+    }
+    EXPECT_TRUE(changed) << "HW forecast unchanged after update()";
+}
+
+TEST(ForecastingBatchStreamingTests, Update_ARIMA_ShiftsWindow) {
+    TimeSeries ts = makeLinearSeries(30, 1.0);
+    ForecastConfig cfg;
+    cfg.ar_order = 2;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+
+    auto before = model.predict(3);
+    model.update(999.0);
+    auto after  = model.predict(3);
+
+    bool changed = false;
+    for (size_t i = 0; i < before.size(); ++i) {
+        if (std::abs(after[i].value - before[i].value) > 1e-9) { changed = true; break; }
+    }
+    EXPECT_TRUE(changed) << "ARIMA forecast unchanged after update()";
+}
+
+TEST(ForecastingBatchStreamingTests, Update_MultipleUpdates_ModelStillFitted) {
+    TimeSeries ts = makeLinearSeries(20);
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    model.fit(ts);
+
+    for (int i = 0; i < 10; ++i) {
+        model.update(static_cast<double>(20 + i));
+        EXPECT_TRUE(model.isFitted());
+        EXPECT_NO_THROW(model.predict(3));
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, Update_LinearRegression_IncrementalOLS) {
+    // Verify that update() on a LINEAR_REGRESSION model produces the same
+    // alpha/beta/forecast as a full refit on the extended series.
+    // This exercises the O(1) running-moment OLS path.
+    TimeSeries ts = makeLinearSeries(20, 2.0, 5.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    double new_val = 50.0;
+    model.update(new_val);
+    auto after_update = model.predict(5);
+
+    // Build the reference: full refit on ts + new_val
+    TimeSeries ts_extended = ts;
+    ts_extended.push(static_cast<int64_t>(20) * 1000LL, new_val);
+    ForecastModel ref(ForecastMethod::LINEAR_REGRESSION);
+    ref.fit(ts_extended);
+    auto after_refit = ref.predict(5);
+
+    ASSERT_EQ(after_update.size(), after_refit.size());
+    for (size_t i = 0; i < after_update.size(); ++i) {
+        EXPECT_NEAR(after_update[i].value, after_refit[i].value, 1e-6)
+            << "Incremental OLS update differs from full refit at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, Update_LinearRegression_MultipleUpdatesConsistent) {
+    // Apply 5 successive update() calls and verify results match a full
+    // refit on the correspondingly extended series.
+    TimeSeries ts = makeLinearSeries(30, 1.5, 0.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+    model.fit(ts);
+
+    TimeSeries ts_ext = ts;
+    for (int i = 0; i < 5; ++i) {
+        double v = 30.0 + static_cast<double>(i) * 1.5;
+        model.update(v);
+        ts_ext.push(static_cast<int64_t>(30 + i) * 1000LL, v);
+    }
+    auto inc = model.predict(3);
+
+    ForecastModel ref(ForecastMethod::LINEAR_REGRESSION);
+    ref.fit(ts_ext);
+    auto full = ref.predict(3);
+
+    ASSERT_EQ(inc.size(), full.size());
+    for (size_t i = 0; i < inc.size(); ++i) {
+        EXPECT_NEAR(inc[i].value, full[i].value, 1e-5)
+            << "Incremental OLS (5 updates) differs from full refit at step " << i;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// fit-result cache — repeated fit on same data is O(1) lookup
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, FitCache_SecondFitOnSameDataIsConsistent) {
+    TimeSeries ts = makeLinearSeries(50, 3.0, 10.0);
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+
+    model.fit(ts);
+    auto first = model.predict(10);
+
+    // Second fit on identical data — should produce identical results (cache hit)
+    model.fit(ts);
+    auto second = model.predict(10);
+
+    ASSERT_EQ(first.size(), second.size());
+    for (size_t i = 0; i < first.size(); ++i) {
+        EXPECT_DOUBLE_EQ(first[i].value, second[i].value)
+            << "Cache hit produced different result at step " << i;
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, FitCache_DifferentDataProducesDifferentResult) {
+    TimeSeries ts1 = makeLinearSeries(30, 1.0);
+    TimeSeries ts2 = makeLinearSeries(30, 5.0);  // different slope
+    ForecastModel model(ForecastMethod::LINEAR_REGRESSION);
+
+    model.fit(ts1);
+    auto r1 = model.predict(5);
+
+    model.fit(ts2);
+    auto r2 = model.predict(5);
+
+    bool differs = false;
+    for (size_t i = 0; i < r1.size(); ++i) {
+        if (std::abs(r1[i].value - r2[i].value) > 1e-6) { differs = true; break; }
+    }
+    EXPECT_TRUE(differs) << "Fitting different data produced the same forecast";
+}
+
+// ---------------------------------------------------------------------------
+// Parallel auto-tune — verify alpha converges to a better value
+// ---------------------------------------------------------------------------
+
+TEST(ForecastingBatchStreamingTests, AutoTune_PicksBetterAlpha) {
+    // Series with a strong trend: best alpha should be relatively high
+    TimeSeries ts = makeLinearSeries(100, 2.0);
+    ForecastConfig cfg;
+    cfg.auto_tune = true;
+    ForecastModel model(ForecastMethod::EXP_SMOOTHING);
+    model.fit(ts, cfg);
+
+    // After auto-tune the model should still be fitted and produce finite forecasts
+    EXPECT_TRUE(model.isFitted());
+    auto preds = model.predict(10);
+    for (const auto& fp : preds) {
+        EXPECT_FALSE(std::isnan(fp.value));
+        EXPECT_FALSE(std::isinf(fp.value));
+    }
+}
+
+TEST(ForecastingBatchStreamingTests, AutoTune_HW_ProducesFiniteForecast) {
+    TimeSeries ts = makeSeasonalSeries(60, 4, 0.2);
+    ForecastConfig cfg;
+    cfg.auto_tune    = true;
+    cfg.seasonality  = 4;
+    ForecastModel model(ForecastMethod::HOLT_WINTERS);
+    model.fit(ts, cfg);
+
+    EXPECT_TRUE(model.isFitted());
+    auto preds = model.predict(8);
+    ASSERT_EQ(preds.size(), 8u);
+    for (const auto& fp : preds) {
+        EXPECT_FALSE(std::isnan(fp.value));
+        EXPECT_FALSE(std::isinf(fp.value));
     }
 }

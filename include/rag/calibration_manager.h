@@ -1,30 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            calibration_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     234                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file calibration_manager.h
- * @brief Calibration manager for RAG Judge evaluations
- * 
- * Phase 5: Implements calibration pipeline to align judge scores with human judgments
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -100,10 +82,13 @@ struct CalibrationConfig {
 class CalibrationManager {
 public:
     /**
-     * @brief Construct calibration manager
-     * @param config Calibration configuration
+     * @brief Construct calibration manager with default configuration.
      */
     CalibrationManager();
+    /**
+     * @brief Construct calibration manager.
+     * @param config Calibration configuration.
+     */
     explicit CalibrationManager(const CalibrationConfig& config);
     
     /**

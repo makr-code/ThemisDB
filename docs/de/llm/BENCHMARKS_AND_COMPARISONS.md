@@ -668,6 +668,6 @@ v2.0.0 (Q4 2025 - 8-12 weeks)
 ---
 
 **Document Version**: 1.0  
-**Last Updated**: December 2024  
+**Last Updated**:  April 2026
 **Contact**: ThemisDB Team  
 **License**: MIT

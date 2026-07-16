@@ -1,0 +1,400 @@
+/**
+ * @file sd_plugin.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: sd_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 388
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=13, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#include "stable_diffusion/sd_plugin.h"
+#include <stdexcept>
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <cstring>
+#include <iomanip>
+#include <sstream>
+
+namespace themis {
+namespace imggen {
+
+// ── constructors ──────────────────────────────────────────────────────────────
+
+SDPlugin::SDPlugin()
+#ifdef THEMIS_ENABLE_STABLE_DIFFUSION
+    : generator_(std::make_unique<SDCppGenerator>())
+#else
+    : generator_(std::make_unique<SDStubGenerator>())
+#endif
+    , sanitizer_() {}
+
+SDPlugin::SDPlugin(std::unique_ptr<ISDGenerator> generator, SDPromptSanitizer sanitizer)
+    : generator_(std::move(generator))
+    , sanitizer_(std::move(sanitizer)) {}
+
+// ── initialize ────────────────────────────────────────────────────────────────
+
+bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& config) {
+    model_path_ = model_path;
+    SDConfig cfg = SDConfig::fromJson(config);
+    cfg.model_path = model_path;
+
+    // Load content-policy keywords if configured
+    if (!cfg.blocked_keywords_file.empty()) {
+        try {
+            sanitizer_ = SDPromptSanitizer::fromFile(cfg.blocked_keywords_file);
+        } catch (...) {
+            // Non-fatal – proceed with empty sanitizer
+        }
+    }
+
+    initialized_ = generator_->initialize(cfg);
+    return initialized_;
+}
+
+// ── isPromptAllowed ───────────────────────────────────────────────────────────
+
+bool SDPlugin::isPromptAllowed(const std::string& prompt) const {
+    return sanitizer_.isAllowed(prompt);
+}
+
+// ── sha256Hex (simple FNV-based hex, used only as prompt fingerprint) ─────────
+
+std::string SDPlugin::sha256Hex(const std::string& input) {
+    // FNV-1a 64-bit – not cryptographic but sufficient as a stable prompt fingerprint
+    uint64_t hash = 14695981039346656037ULL;
+    for (unsigned char c : input) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= 1099511628211ULL;
+    }
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0') << std::setw(16) << hash;
+    return oss.str();
+}
+
+// ── encodeMinimalPng ──────────────────────────────────────────────────────────
+
+std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
+                                                  int width, int height) {
+    // ── CRC-32 (ISO 3309) ─────────────────────────────────────────────────────
+    static const auto kCrcTable = []() {
+        std::array<uint32_t, 256> t{};
+        for (uint32_t n = 0; n < 256u; ++n) {
+            uint32_t c = n;
+            for (int k = 0; k < 8; ++k)
+                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
+            t[n] = c;
+        }
+        return t;
+    }();
+
+    auto crc32_of = [&](const uint8_t* data, size_t len) -> uint32_t {
+        uint32_t crc = 0xFFFFFFFFu;
+        for (size_t i = 0; i < len; ++i)
+            crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);
+        return crc ^ 0xFFFFFFFFu;
+    };
+
+    // ── Adler-32 (RFC 1950) ───────────────────────────────────────────────────
+    auto adler32_of = [](const uint8_t* data, size_t len) -> uint32_t {
+        uint32_t s1 = 1u, s2 = 0u;
+        for (size_t i = 0; i < len; ++i) {
+            s1 = (s1 + data[i]) % 65521u;
+            s2 = (s2 + s1)      % 65521u;
+        }
+        return (s2 << 16) | s1;
+    };
+
+    // ── Write helpers ─────────────────────────────────────────────────────────
+    auto put_be32 = [](std::vector<uint8_t>& v, uint32_t x) {
+        v.push_back(static_cast<uint8_t>(x >> 24));
+        v.push_back(static_cast<uint8_t>(x >> 16));
+        v.push_back(static_cast<uint8_t>(x >>  8));
+        v.push_back(static_cast<uint8_t>(x      ));
+    };
+    auto put_le16 = [](std::vector<uint8_t>& v, uint16_t x) {
+        v.push_back(static_cast<uint8_t>(x     ));
+        v.push_back(static_cast<uint8_t>(x >> 8));
+    };
+
+    // Append a PNG chunk: 4-byte length + 4-byte type + data + 4-byte CRC-32.
+    auto append_chunk = [&](std::vector<uint8_t>& png,
+                             const uint8_t type[4],
+                             const uint8_t* data, uint32_t data_len) {
+        put_be32(png, data_len);
+        const size_t type_pos = png.size();
+        png.insert(png.end(), type, type + 4);
+        if (data_len > 0)
+            png.insert(png.end(), data, data + data_len);
+        put_be32(png, crc32_of(png.data() + type_pos, 4u + data_len));
+    };
+
+    // ── Filtered scanlines (PNG filter method 0: None) ────────────────────────
+    // Each row is preceded by a 0x00 "None" filter byte.
+    const size_t row_bytes = static_cast<size_t>(width)  * 3u;
+    const size_t num_rows  = static_cast<size_t>(height);
+    const size_t filt_size = num_rows * (1u + row_bytes);
+
+    std::vector<uint8_t> filtered(filt_size, 0u);
+    for (size_t y = 0; y < num_rows; ++y) {
+        filtered[y * (1u + row_bytes)] = 0x00u;  // filter type: None
+        const size_t src_off = y * row_bytes;
+        const size_t dst_off = y * (1u + row_bytes) + 1u;
+        const size_t avail = (src_off < rgb.size())
+                             ? std::min(row_bytes, rgb.size() - src_off) : 0u;
+        if (avail > 0)
+            std::copy(rgb.begin() + static_cast<ptrdiff_t>(src_off),
+                      rgb.begin() + static_cast<ptrdiff_t>(src_off + avail),
+                      filtered.begin() + static_cast<ptrdiff_t>(dst_off));
+    }
+
+    // ── zlib stream wrapping uncompressed (stored) deflate blocks ────────────
+    // zlib header CMF=0x78, FLG=0x01  →  (0x78*256 + 0x01) % 31 == 0  ✓
+    std::vector<uint8_t> idat_payload;
+    idat_payload.push_back(0x78u);
+    idat_payload.push_back(0x01u);
+
+    const uint8_t* src_ptr  = filtered.data();
+    size_t         remaining = filtered.size();
+
+    // Emit at least one stored deflate block (handles empty images too).
+    do {
+        const uint16_t block_len = static_cast<uint16_t>(
+                std::min(remaining, static_cast<size_t>(0xFFFFu)));
+        const bool is_final = (remaining - block_len == 0u);
+
+        idat_payload.push_back(is_final ? 0x01u : 0x00u);  // BFINAL | BTYPE=00
+        put_le16(idat_payload, block_len);
+        put_le16(idat_payload, static_cast<uint16_t>(~block_len));
+        idat_payload.insert(idat_payload.end(), src_ptr, src_ptr + block_len);
+
+        src_ptr   += block_len;
+        remaining -= block_len;
+    } while (remaining > 0u);
+
+    put_be32(idat_payload, adler32_of(filtered.data(), filtered.size()));
+
+    // ── Assemble PNG ──────────────────────────────────────────────────────────
+    std::vector<uint8_t> png;
+    png.reserve(8u + 25u + 12u + idat_payload.size() + 12u);
+
+    static const uint8_t kSig[] = {0x89u,'P','N','G','\r','\n',0x1Au,'\n'};
+    png.insert(png.end(), kSig, kSig + 8u);
+
+    // IHDR: width(4) + height(4) + bit_depth(1) + color_type(1)
+    //       + compression(1) + filter(1) + interlace(1) = 13 bytes
+    uint8_t ihdr[13];
+    ihdr[0]  = static_cast<uint8_t>(width  >> 24); ihdr[1]  = static_cast<uint8_t>(width  >> 16);
+    ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );
+    ihdr[4]  = static_cast<uint8_t>(height >> 24); ihdr[5]  = static_cast<uint8_t>(height >> 16);
+    ihdr[6]  = static_cast<uint8_t>(height >>  8); ihdr[7]  = static_cast<uint8_t>(height      );
+    ihdr[8]  = 8u;   // bit depth: 8
+    ihdr[9]  = 2u;   // color type: RGB truecolor
+    ihdr[10] = 0u;   // compression method: deflate
+    ihdr[11] = 0u;   // filter method: adaptive
+    ihdr[12] = 0u;   // interlace: none
+    static const uint8_t kIHDR[4] = {'I','H','D','R'};
+    append_chunk(png, kIHDR, ihdr, 13u);
+
+    // IDAT: one chunk containing the full zlib stream
+    static const uint8_t kIDAT[4] = {'I','D','A','T'};
+    append_chunk(png, kIDAT,
+                 idat_payload.data(),
+                 static_cast<uint32_t>(idat_payload.size()));
+
+    // IEND
+    static const uint8_t kIEND[4] = {'I','E','N','D'};
+    append_chunk(png, kIEND, nullptr, 0u);
+
+    return png;
+}
+
+// ── generateLocked (internal, called with generate_mutex_ held) ───────────────
+
+GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
+                                         const SDGenerationConfig& cfg) {
+    GeneratedImage img;
+    img.plugin_version = getPluginVersion();
+
+    if (!initialized_) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "SDPlugin not initialized";
+        return img;
+    }
+
+    // Content policy check – positive prompt
+    if (!isPromptAllowed(prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    // Content policy check – negative_prompt (security: prevent policy bypass via negation)
+    if (!cfg.negative_prompt.empty() && !isPromptAllowed(cfg.negative_prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "negative_prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    const std::string sanitized = sanitizer_.sanitize(prompt);
+    img.prompt_hash = sha256Hex(sanitized);
+
+    try {
+        int      w = 0, h = 0;
+        uint64_t seed_used = 0;
+        const auto rgb = generator_->generate(sanitized, cfg, w, h, seed_used);
+
+        img.png_data   = encodeMinimalPng(rgb, w, h);
+        img.width      = w;
+        img.height     = h;
+        img.sampler    = cfg.sampler;
+        img.seed_used  = seed_used;
+        img.model_id   = getModelId();
+        img.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        img.success = true;
+        ++generation_count_;
+    } catch (const std::exception& ex) {
+        ++error_count_;
+        img.success       = false;
+        img.error_message = ex.what();
+    }
+
+    return img;
+}
+
+// ── generate ──────────────────────────────────────────────────────────────────
+
+GeneratedImage SDPlugin::generate(const std::string& prompt,
+                                   const SDGenerationConfig& cfg) {
+    std::lock_guard<std::mutex> lock(generate_mutex_);
+    return generateLocked(prompt, cfg);
+}
+
+// ── generateBatch ─────────────────────────────────────────────────────────────
+
+std::vector<GeneratedImage> SDPlugin::generateBatch(
+        const std::vector<std::string>& prompts,
+        const SDGenerationConfig& cfg) {
+    std::lock_guard<std::mutex> lock(generate_mutex_);
+    std::vector<GeneratedImage> results;
+    results.reserve(prompts.size());
+    for (const auto& p : prompts) {
+        results.push_back(generateLocked(p, cfg));
+    }
+    return results;
+}
+
+// ── generateImg2Img ───────────────────────────────────────────────────────────
+
+GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
+                                          const Img2ImgConfig& cfg) {
+    std::lock_guard<std::mutex> lock(generate_mutex_);
+
+    GeneratedImage img;
+    img.plugin_version = getPluginVersion();
+
+    if (!initialized_) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "SDPlugin not initialized";
+        return img;
+    }
+
+    // Content policy check – positive prompt
+    if (!isPromptAllowed(prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    // Content policy check – negative_prompt
+    if (!cfg.negative_prompt.empty() && !isPromptAllowed(cfg.negative_prompt)) {
+        ++blocked_count_;
+        img.success = false;
+        img.error_message = "negative_prompt blocked by content policy";
+        img.prompt_hash   = sha256Hex(prompt);
+        return img;
+    }
+
+    const std::string sanitized = sanitizer_.sanitize(prompt);
+    img.prompt_hash = sha256Hex(sanitized);
+
+    try {
+        int      w = 0, h = 0;
+        uint64_t seed_used = 0;
+        const auto rgb = generator_->generateImg2Img(sanitized, cfg, w, h, seed_used);
+
+        img.png_data   = encodeMinimalPng(rgb, w, h);
+        img.width      = w;
+        img.height     = h;
+        img.sampler    = cfg.sampler;
+        img.seed_used  = seed_used;
+        img.model_id   = getModelId();
+        img.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        img.success = true;
+        ++generation_count_;
+    } catch (const std::exception& ex) {
+        ++error_count_;
+        img.success       = false;
+        img.error_message = ex.what();
+    }
+
+    return img;
+}
+
+// ── getModelId / getStatistics ────────────────────────────────────────────────
+
+std::string SDPlugin::getModelId() const {
+    return generator_ ? generator_->getModelId() : model_path_;
+}
+
+nlohmann::json SDPlugin::getStatistics() const {
+    return {
+        {"plugin",           "stable_diffusion"},
+        {"plugin_version",   getPluginVersion()},
+        {"model_id",         getModelId()},
+        {"initialized",      initialized_},
+        {"generation_count", generation_count_},
+        {"blocked_count",    blocked_count_},
+        {"error_count",      error_count_}
+    };
+}
+
+} // namespace imggen
+} // namespace themis
+
+// ── dynamic-loading entry points ──────────────────────────────────────────────
+
+#if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
+extern "C" THEMIS_PLUGIN_EXPORT
+themis::imggen::IImageGenerationBackend* themis_imggen_create() {
+    return new themis::imggen::SDPlugin();
+}
+
+extern "C" THEMIS_PLUGIN_EXPORT
+void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p) {
+    delete p;
+}
+#endif
+

@@ -1,3 +1,5 @@
+> ⚠️ **Historische Root-Cause-Analyse** – Beschreibt Phase-2-Ursachenforschung.
+
 # Phase 2 Fehleranalyse: Benchmark vs. Erwartung vs. ThemisDB
 
 ## Die Frage

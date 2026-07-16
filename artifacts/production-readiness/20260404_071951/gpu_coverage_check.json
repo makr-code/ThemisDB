@@ -1,0 +1,8 @@
+{
+  "coverage_ok": true,
+  "test_file_count": 44,
+  "checked_at": "2026-04-04T07:19:51.2378678+02:00",
+  "threshold_80pct": 24,
+  "min_required": 24,
+  "src_file_count": 30
+}

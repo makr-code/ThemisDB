@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_api_integration.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     624                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ad3addad8  2026-02-27  feat(api): add comprehensive API integration tests (Issue... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_api_integration.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -58,6 +42,13 @@ static const std::string  kDbPath = "data/themis_api_integration_test";
 
 class ApiIntegrationTest : public ::testing::Test {
 protected:
+    static bool isRedirectStatus(http::status status) {
+        return status == http::status::moved_permanently ||
+               status == http::status::found ||
+               status == http::status::temporary_redirect ||
+               status == http::status::permanent_redirect;
+    }
+
     void SetUp() override {
         if (std::filesystem::exists(kDbPath)) {
             std::filesystem::remove_all(kDbPath);
@@ -98,22 +89,30 @@ protected:
     http::response<http::string_body> get(const std::string& target,
                                           const std::string& auth = "") {
         try {
-            net::io_context ioc;
-            tcp::resolver resolver(ioc);
-            beast::tcp_stream stream(ioc);
-            stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
+            auto issue_get = [&](const std::string& path) {
+                net::io_context ioc;
+                tcp::resolver resolver(ioc);
+                beast::tcp_stream stream(ioc);
+                stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
 
-            http::request<http::string_body> req{http::verb::get, target, 11};
-            req.set(http::field::host, kHost);
-            if (!auth.empty()) req.set(http::field::authorization, auth);
-            req.prepare_payload();
-            http::write(stream, req);
+                http::request<http::string_body> req{http::verb::get, path, 11};
+                req.set(http::field::host, kHost);
+                if (!auth.empty()) req.set(http::field::authorization, auth);
+                req.prepare_payload();
+                http::write(stream, req);
 
-            beast::flat_buffer buf;
-            http::response<http::string_body> res;
-            http::read(stream, buf, res);
-            beast::error_code ec;
-            stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                beast::flat_buffer buf;
+                http::response<http::string_body> res;
+                http::read(stream, buf, res);
+                beast::error_code ec;
+                stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                return res;
+            };
+
+            auto res = issue_get(target);
+            if (isRedirectStatus(res.result()) && res.base().find(http::field::location) != res.base().end()) {
+                return issue_get(std::string(res.base()[http::field::location]));
+            }
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "GET " << target << " failed: " << e.what();
@@ -125,24 +124,33 @@ protected:
                                            const json& body,
                                            const std::string& auth = "") {
         try {
-            net::io_context ioc;
-            tcp::resolver resolver(ioc);
-            beast::tcp_stream stream(ioc);
-            stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
+            const std::string payload = body.dump();
+            auto issue_post = [&](const std::string& path) {
+                net::io_context ioc;
+                tcp::resolver resolver(ioc);
+                beast::tcp_stream stream(ioc);
+                stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
 
-            http::request<http::string_body> req{http::verb::post, target, 11};
-            req.set(http::field::host, kHost);
-            req.set(http::field::content_type, "application/json");
-            if (!auth.empty()) req.set(http::field::authorization, auth);
-            req.body() = body.dump();
-            req.prepare_payload();
-            http::write(stream, req);
+                http::request<http::string_body> req{http::verb::post, path, 11};
+                req.set(http::field::host, kHost);
+                req.set(http::field::content_type, "application/json");
+                if (!auth.empty()) req.set(http::field::authorization, auth);
+                req.body() = payload;
+                req.prepare_payload();
+                http::write(stream, req);
 
-            beast::flat_buffer buf;
-            http::response<http::string_body> res;
-            http::read(stream, buf, res);
-            beast::error_code ec;
-            stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                beast::flat_buffer buf;
+                http::response<http::string_body> res;
+                http::read(stream, buf, res);
+                beast::error_code ec;
+                stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                return res;
+            };
+
+            auto res = issue_post(target);
+            if (isRedirectStatus(res.result()) && res.base().find(http::field::location) != res.base().end()) {
+                return issue_post(std::string(res.base()[http::field::location]));
+            }
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "POST " << target << " failed: " << e.what();
@@ -153,22 +161,30 @@ protected:
     http::response<http::string_body> del(const std::string& target,
                                           const std::string& auth = "") {
         try {
-            net::io_context ioc;
-            tcp::resolver resolver(ioc);
-            beast::tcp_stream stream(ioc);
-            stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
+            auto issue_delete = [&](const std::string& path) {
+                net::io_context ioc;
+                tcp::resolver resolver(ioc);
+                beast::tcp_stream stream(ioc);
+                stream.connect(resolver.resolve(kHost, std::to_string(kPort)));
 
-            http::request<http::string_body> req{http::verb::delete_, target, 11};
-            req.set(http::field::host, kHost);
-            if (!auth.empty()) req.set(http::field::authorization, auth);
-            req.prepare_payload();
-            http::write(stream, req);
+                http::request<http::string_body> req{http::verb::delete_, path, 11};
+                req.set(http::field::host, kHost);
+                if (!auth.empty()) req.set(http::field::authorization, auth);
+                req.prepare_payload();
+                http::write(stream, req);
 
-            beast::flat_buffer buf;
-            http::response<http::string_body> res;
-            http::read(stream, buf, res);
-            beast::error_code ec;
-            stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                beast::flat_buffer buf;
+                http::response<http::string_body> res;
+                http::read(stream, buf, res);
+                beast::error_code ec;
+                stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+                return res;
+            };
+
+            auto res = issue_delete(target);
+            if (isRedirectStatus(res.result()) && res.base().find(http::field::location) != res.base().end()) {
+                return issue_delete(std::string(res.base()[http::field::location]));
+            }
             return res;
         } catch (const std::exception& e) {
             ADD_FAILURE() << "DELETE " << target << " failed: " << e.what();
@@ -387,6 +403,30 @@ TEST_F(ApiIntegrationTest, AqlQuery_AlternativeEndpoint_ApiAql) {
     EXPECT_NE(res.result(), http::status::internal_server_error) << res.body();
 }
 
+TEST_F(ApiIntegrationTest, QueryEndpoint_InvalidTimeoutType_Returns400) {
+    json req = {
+        {"table", "api_test_col"},
+        {"timeout_ms", "fast"}
+    };
+    auto res = post("/query", req);
+    EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+    json body;
+    ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_TRUE(body.contains("message"));
+}
+
+TEST_F(ApiIntegrationTest, QueryEndpoint_TimeoutTooLarge_Returns400) {
+    json req = {
+        {"table", "api_test_col"},
+        {"timeout_ms", 120001}
+    };
+    auto res = post("/query", req);
+    EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+    json body;
+    ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_TRUE(body.contains("message"));
+}
+
 // ===========================================================================
 // Index operations
 // ===========================================================================
@@ -525,6 +565,27 @@ TEST_F(ApiIntegrationTest, TransactionRollback_MissingId_Returns400) {
     EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
 }
 
+TEST_F(ApiIntegrationTest, TransactionExecute_InvalidTablePathTraversal_ReturnsConflict) {
+    json req = {
+        {"operations", json::array({
+            json{{"type", "put"}, {"table", "../bad_table"}, {"key", "k1"}, {"data", json::object()}}
+        })}
+    };
+    auto res = post("/transaction", req);
+    EXPECT_EQ(res.result(), http::status::conflict) << res.body();
+}
+
+TEST_F(ApiIntegrationTest, TransactionExecute_KeyTooLong_ReturnsConflict) {
+    std::string oversized_key(600, 'k');
+    json req = {
+        {"operations", json::array({
+            json{{"type", "put"}, {"table", "users"}, {"key", oversized_key}, {"data", json::object()}}
+        })}
+    };
+    auto res = post("/transaction", req);
+    EXPECT_EQ(res.result(), http::status::conflict) << res.body();
+}
+
 TEST_F(ApiIntegrationTest, TransactionStats_Returns200) {
     auto res = get("/transaction/stats");
     EXPECT_EQ(res.result(), http::status::ok) << res.body();
@@ -561,6 +622,21 @@ TEST_F(ApiIntegrationTest, ConfigPost_InvalidTimeout_Returns400) {
     json req = {{"request_timeout_ms", kInvalidTimeoutMs}};
     auto res = post("/config", req);
     EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+}
+
+TEST_F(ApiIntegrationTest, ConfigPost_ValidTimeout_UpdatesRuntimeValue) {
+    static constexpr int kNewTimeoutMs = 2000;
+    auto update_res = post("/config", json{{"request_timeout_ms", kNewTimeoutMs}});
+    ASSERT_EQ(update_res.result(), http::status::ok) << update_res.body();
+
+    auto get_res = get("/config");
+    ASSERT_EQ(get_res.result(), http::status::ok) << get_res.body();
+
+    json body;
+    ASSERT_NO_THROW(body = json::parse(get_res.body()));
+    ASSERT_TRUE(body.contains("server"));
+    ASSERT_TRUE(body["server"].contains("request_timeout_ms"));
+    EXPECT_EQ(body["server"]["request_timeout_ms"].get<int>(), kNewTimeoutMs);
 }
 
 // ===========================================================================

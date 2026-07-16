@@ -1,27 +1,20 @@
+/**
+ * @file error_registry.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            error_registry.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-    • f0de4a6e8  2026-02-22  feat(plugins): implement hot-reload with state preservati... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
-    • 45ed81ca1  2026-02-22  Add dedicated plugin dependency error codes and update RO... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: error_registry.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -135,6 +128,7 @@ enum class ErrorCode {
     ERR_CACHE_FULL = 6111,
     ERR_QUERY_INVALID_INPUT = 6150,
     ERR_QUERY_INSUFFICIENT_DATA = 6151,
+    ERR_QUERY_ACCESS_DENIED = 6152,  ///< Caller not permitted to access the requested collection (QE-2)
     
     // API Errors (6200-6299)
     ERR_API_INVALID_REQUEST = 6200,
@@ -155,6 +149,7 @@ enum class ErrorCode {
     ERR_PLUGIN_OCI_MANIFEST_NOT_FOUND = 6308, // OCI manifest not found or registry returned 404
     ERR_PLUGIN_OCI_HASH_MISMATCH = 6309,     // Downloaded plugin blob digest does not match manifest
     ERR_PLUGIN_OCI_INVALID_REFERENCE = 6310, // Malformed OCI image reference string
+    ERR_PLUGIN_CAPABILITY_ESCALATION = 6311, // Plugin attempted to escalate capabilities beyond manifest declaration
 
     // Graph Errors (6400-6499)
     ERR_GRAPH_NO_SUCH_VERTEX = 6400,    // Referenced vertex does not exist in the graph
@@ -215,7 +210,59 @@ enum class ErrorCode {
     ERR_EXPORT_FORMAT_INVALID = 9308,
     ERR_EXPORT_CONFIG_INVALID = 9309,
     ERR_EXPORT_POLICY_DENIED  = 9310,  ///< PolicyEngine::checkExportPermission() denied the request
-    
+    ERR_EXPORT_JOIN_COLLECTION_NOT_FOUND = 9311,  ///< Left or right collection not found
+    ERR_EXPORT_JOIN_PREDICATE_INVALID    = 9312,  ///< Join predicate could not be parsed
+    ERR_EXPORT_JOIN_AMBIGUOUS_FIELD      = 9313,  ///< Field present in both collections without alias
+    ERR_EXPORT_JOIN_MEMORY_LIMIT         = 9314,  ///< Right-side hash table exceeded memory budget
+
+    // Document Errors (9400-9499)
+    ERR_DOC_NOT_FOUND             = 9400,  ///< Document not found in the store
+    ERR_DOC_ALREADY_EXISTS        = 9401,  ///< Document with same ID already exists
+    ERR_DOC_INVALID_ID            = 9402,  ///< Document ID is empty or malformed
+    ERR_DOC_SCHEMA_SEALED         = 9403,  ///< Schema registry is sealed; cannot register new versions
+    ERR_DOC_SCHEMA_VERSION_NOT_FOUND = 9404, ///< Requested schema version does not exist
+    ERR_DOC_SCHEMA_VERSION_EXISTS = 9405,  ///< Schema version already registered
+    ERR_DOC_DIFF_NOT_FOUND        = 9406,  ///< One or both documents for diff/merge not found
+    ERR_DOC_MERGE_CONFLICT        = 9407,  ///< Three-way merge produced unresolvable conflicts
+    ERR_DOC_ACCESS_DENIED         = 9408,  ///< Collection ACL denied the requested operation
+    ERR_DOC_COLLECTION_NOT_FOUND  = 9409,  ///< Collection does not exist
+    ERR_DOC_ENCRYPT_FAILED        = 9410,  ///< Encrypted entity operation failed
+    ERR_DOC_INVALID_ARGUMENT      = 9411,  ///< A required argument is invalid or missing
+
+    // -------------------------------------------------------------------------
+    // Tool errors (ERR_TOOL_*) — 9500–9509
+    // -------------------------------------------------------------------------
+    ERR_TOOL_NOT_FOUND            = 9500,  ///< Named tool is not registered
+    ERR_TOOL_NOT_PERMITTED        = 9501,  ///< Tool not in mode's allowlist or in denylist
+    ERR_TOOL_EXECUTION_FAILED     = 9502,  ///< Tool execute() threw or returned error JSON
+    ERR_TOOL_INVALID_INPUT        = 9503,  ///< Input JSON does not satisfy the tool's inputSchema
+    ERR_TOOL_PLUGIN_NOT_A_TOOL    = 9504,  ///< Loaded plugin does not implement IThemisTool
+    ERR_TOOL_ALREADY_REGISTERED   = 9505,  ///< A tool with this name is already registered
+
+    // -------------------------------------------------------------------------
+    // Workflow / Ingestion-Step errors (ERR_WORKFLOW_*) — 9600–9619
+    // -------------------------------------------------------------------------
+    ERR_WORKFLOW_PROFILE_NOT_FOUND    = 9600,  ///< YAML workflow profile could not be loaded
+    ERR_WORKFLOW_PROFILE_INVALID      = 9601,  ///< YAML profile fails schema validation
+    ERR_WORKFLOW_NO_MATCHING_PROFILE  = 9602,  ///< No loaded profile matches the file's MIME/name
+    ERR_WORKFLOW_STEP_NOT_REGISTERED  = 9603,  ///< Step references plugin name not in StepRegistry
+    ERR_WORKFLOW_STEP_EXECUTION_FAILED= 9604,  ///< A workflow step returned an error
+    ERR_WORKFLOW_STEP_NOT_A_STEP      = 9605,  ///< Loaded plugin does not implement IIngestionStep
+    ERR_WORKFLOW_STEP_ALREADY_REGISTERED = 9606, ///< A step with this name is already registered
+    ERR_WORKFLOW_CONTEXT_INVALID      = 9607,  ///< ExtractionContext is in an invalid state
+    ERR_WORKFLOW_MANIFEST_INVALID     = 9608,  ///< FileManifest is missing required fields
+    ERR_WORKFLOW_QUALITY_GATE_FAILED  = 9609,  ///< Output failed minimum quality gate
+    ERR_WORKFLOW_DECOMPRESS_FAILED    = 9610,  ///< Archive decompression step failed
+    ERR_WORKFLOW_OCR_FAILED           = 9611,  ///< OCR extraction step failed
+    ERR_WORKFLOW_EMBED_FAILED         = 9612,  ///< Embedding step failed
+    ERR_WORKFLOW_ASSEMBLE_FAILED      = 9613,  ///< Base-entity assembler step failed
+    ERR_WORKFLOW_SINK_FAILED          = 9614,  ///< Writing to graph/vector/document sink failed
+    ERR_WORKFLOW_STEP_CONDITION_ERROR = 9615,  ///< Step condition expression evaluation failed
+    ERR_WORKFLOW_CIRCULAR_DEPENDENCY  = 9616,  ///< Workflow step graph has a circular dependency
+    ERR_WORKFLOW_TIMEOUT              = 9617,  ///< Workflow or individual step exceeded timeout
+    ERR_WORKFLOW_QUARANTINED          = 9618,  ///< File quarantined after step failure with on_failure=quarantine
+    ERR_WORKFLOW_PLUGIN_LOAD_FAILED   = 9619,  ///< Dynamic step plugin (.so/.dll) could not be loaded
+
     // Unknown
     ERR_UNKNOWN = 9999
 };

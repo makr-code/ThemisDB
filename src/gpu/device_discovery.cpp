@@ -1,24 +1,21 @@
+/**
+ * @file device_discovery.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            device_discovery.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99ae2c989  2026-02-28  feat(gpu): populate MIG fields in device_discovery and fi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: device_discovery.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #3561 docs(gpu): reality-check sr... (2026-03-12) | #3171 [gpu] Implement MIG partiti... (2026-03-12) | #2862 feat(geo): Raster elevation... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -31,20 +28,21 @@
  */
 
 #include "themis/gpu/device_discovery.h"
-#include "themis/edition.h"
 
 #include <algorithm>
 
+#include "themis/edition.h"
+
 #ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
+#include <cuda_runtime.h>
 #endif
 
 #ifdef THEMIS_ENABLE_NVML
-#  include <nvml.h>
+#include <nvml.h>
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
-#  include <hip/hip_runtime.h>
+#include <hip/hip_runtime.h>
 #endif
 
 namespace themis {
@@ -82,26 +80,26 @@ std::vector<DeviceInfo> EnumerateCUDA() {
     for (int i = 0; i < count; ++i) {
         cudaDeviceProp props{};
         DeviceInfo d;
-        d.index   = i;
+        d.index        = i;
         d.device_index = i;
-        d.backend = "CUDA";
+        d.backend      = "CUDA";
         if (cudaGetDeviceProperties(&props, i) != cudaSuccess) {
             d.is_healthy    = false;
             d.error_message = "cudaGetDeviceProperties failed for device " + std::to_string(i);
             result.push_back(d);
             continue;
         }
-        d.name          = props.name;
+        d.name             = props.name;
         d.total_vram_bytes = static_cast<uint64_t>(props.totalGlobalMem);
-        d.compute_major = props.major;
-        d.compute_minor = props.minor;
+        d.compute_major    = props.major;
+        d.compute_minor    = props.minor;
         // Query free memory.
         size_t free_mem = 0, total_mem = 0;
         cudaSetDevice(i);
         if (cudaMemGetInfo(&free_mem, &total_mem) == cudaSuccess) {
             d.free_vram_bytes = free_mem;
         } else {
-            d.free_vram_bytes = d.total_vram_bytes;  // best-effort fallback
+            d.free_vram_bytes = d.total_vram_bytes; // best-effort fallback
         }
         d.is_healthy = true;
 
@@ -111,34 +109,30 @@ std::vector<DeviceInfo> EnumerateCUDA() {
         // When NVML is available, the actual limit is queried from the driver
         // to handle variants such as the A30 (max 4) or A10 (max 4).
         if (props.major >= 8) {
-            d.mig_max_instances = 7;  // conservative default for A/H series
+            d.mig_max_instances = 7; // conservative default for A/H series
 
 #ifdef THEMIS_ENABLE_NVML
             // Query whether MIG mode is currently enabled via NVML, and
             // retrieve the hardware-accurate maximum instance count.
             nvmlDevice_t nvml_dev;
-            if (nvmlDeviceGetHandleByIndex(static_cast<unsigned int>(i),
-                                            &nvml_dev) == NVML_SUCCESS) {
+            if (nvmlDeviceGetHandleByIndex(static_cast<unsigned int>(i), &nvml_dev) == NVML_SUCCESS) {
                 unsigned int current_mode = 0, pending_mode = 0;
-                if (nvmlDeviceGetMIGMode(nvml_dev, &current_mode,
-                                          &pending_mode) == NVML_SUCCESS) {
+                if (nvmlDeviceGetMIGMode(nvml_dev, &current_mode, &pending_mode) == NVML_SUCCESS) {
                     d.mig_enabled = (current_mode == NVML_DEVICE_MIG_ENABLE);
                 }
                 unsigned int max_instances = 0;
-                if (nvmlDeviceGetMaxMIGDeviceCount(nvml_dev,
-                                                    &max_instances) == NVML_SUCCESS
-                    && max_instances > 0) {
+                if (nvmlDeviceGetMaxMIGDeviceCount(nvml_dev, &max_instances) == NVML_SUCCESS && max_instances > 0) {
                     d.mig_max_instances = static_cast<int>(max_instances);
                 }
             }
-#endif  // THEMIS_ENABLE_NVML
+#endif // THEMIS_ENABLE_NVML
         }
 
         result.push_back(d);
     }
     return result;
 }
-#endif  // THEMIS_ENABLE_CUDA
+#endif // THEMIS_ENABLE_CUDA
 
 #ifdef THEMIS_ENABLE_HIP
 std::vector<DeviceInfo> EnumerateROCm() {
@@ -150,9 +144,9 @@ std::vector<DeviceInfo> EnumerateROCm() {
     for (int i = 0; i < count; ++i) {
         hipDeviceProp_t props{};
         DeviceInfo d;
-        d.index   = i;
+        d.index        = i;
         d.device_index = i;
-        d.backend = "ROCm";
+        d.backend      = "ROCm";
         if (hipGetDeviceProperties(&props, i) != hipSuccess) {
             d.is_healthy    = false;
             d.error_message = "hipGetDeviceProperties failed for device " + std::to_string(i);
@@ -175,9 +169,9 @@ std::vector<DeviceInfo> EnumerateROCm() {
     }
     return result;
 }
-#endif  // THEMIS_ENABLE_HIP
+#endif // THEMIS_ENABLE_HIP
 
-}  // namespace
+} // namespace
 
 // ============================================================================
 // DeviceDiscovery — static method implementations
@@ -201,16 +195,20 @@ std::vector<DeviceInfo> DeviceDiscovery::Enumerate() {
     return devices;
 }
 
-DeviceInfo DeviceDiscovery::GetBestDevice(const std::vector<DeviceInfo>& devices) {
+DeviceInfo DeviceDiscovery::GetBestDevice(const std::vector<DeviceInfo> &devices) {
     if (devices.empty()) {
         return MakeCPUFallback();
     }
 
     // Prefer healthy GPU devices; fall back to CPU sentinel if none.
-    const DeviceInfo* best = nullptr;
-    for (const auto& d : devices) {
-        if (!d.is_healthy) continue;
-        if (d.backend == "CPU_FALLBACK") continue;
+    const DeviceInfo *best = nullptr;
+    for (const auto &d : devices) {
+        if (!d.is_healthy) {
+            continue;
+        }
+        if (d.backend == "CPU_FALLBACK") {
+            continue;
+        }
         if (best == nullptr || d.free_vram_bytes > best->free_vram_bytes) {
             best = &d;
         }
@@ -221,8 +219,10 @@ DeviceInfo DeviceDiscovery::GetBestDevice(const std::vector<DeviceInfo>& devices
     }
 
     // All GPUs unhealthy or only CPU fallback present — return the sentinel.
-    for (const auto& d : devices) {
-        if (d.backend == "CPU_FALLBACK") return d;
+    for (const auto &d : devices) {
+        if (d.backend == "CPU_FALLBACK") {
+            return d;
+        }
     }
 
     return MakeCPUFallback();
@@ -232,10 +232,9 @@ DeviceInfo DeviceDiscovery::GetBestDevice() {
     return GetBestDevice(Enumerate());
 }
 
-std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(
-    const std::vector<DeviceInfo>& devices) {
+std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(const std::vector<DeviceInfo> &devices) {
     std::vector<DeviceInfo> result;
-    for (const auto& d : devices) {
+    for (const auto &d : devices) {
         if (d.is_healthy) {
             result.push_back(d);
         }
@@ -243,8 +242,8 @@ std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(
     return result;
 }
 
-bool DeviceDiscovery::HasGPU(const std::vector<DeviceInfo>& devices) {
-    for (const auto& d : devices) {
+bool DeviceDiscovery::HasGPU(const std::vector<DeviceInfo> &devices) {
+    for (const auto &d : devices) {
         if (d.is_healthy && d.backend != "CPU_FALLBACK") {
             return true;
         }

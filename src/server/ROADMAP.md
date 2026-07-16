@@ -1,141 +1,76 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # Server Module Roadmap
 
 ## Current Status
-v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, and MCP server are implemented with 40+ specialized REST endpoints.
+Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, GraphQL, and MCP integration. Core API gateway, auth middleware, validation, and observability paths are available in production deployments.
 
-## Completed ✅
-- [x] HTTPServer – multi-protocol async I/O server (HTTP/1.1, HTTP/2, HTTP/3)
-- [x] TLS 1.3 with modern cipher suites
-- [x] 40+ specialized REST API handlers
-- [x] WebSocket support for real-time notifications and changefeeds
-- [x] MQTT broker integration for IoT use cases
-- [x] PostgreSQL wire protocol for SQL client compatibility
-- [x] gRPC services for high-performance RPC
-- [x] API Gateway (routing, versioning, load balancing)
-- [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
-- [x] Load shedding and circuit breaking
-- [x] Server-Sent Events (SSE) for changefeeds
-- [x] Multi-tenancy with tenant isolation
-- [x] Apache Ranger policy enforcement integration
-- [x] Response compression (Gzip, Brotli, Zstd)
-- [x] Model Context Protocol (MCP) server for AI integrations
-- [x] Graceful shutdown and connection draining
-- [x] Throughput: 50K–200K req/sec; p50 < 5 ms, p99 < 50 ms
-- [x] Async job API for long-running AQL queries with polling endpoint (`POST/GET/DELETE /v2/jobs[/{id}]`)
-- [x] API versioning strategy (deprecation headers, sunset dates, URL path prefixes `/v1/` / `/v2/`) (Issue: #2308)
-- [x] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
-- [x] Request validation middleware (JSON Schema per endpoint)
-- [x] Response streaming for large result sets (chunked transfer) (Issue: #2466, #2005)
-- [x] Serverless function hosting (run user code in-process) (Issue: #2467)
-- [x] HTTP/3 QUIC performance tuning and production hardening (`server/http3_session.cpp`) (Issue: #1436)
-- [x] GraphQL endpoint for schema-driven API access (`server/graphql_api_handler.cpp`) (Issue: #1437)
-- [x] WebSocket binary frame support for wire protocol upgrade (`server/websocket_session.cpp`) (Issue: #2299)
-- [x] gRPC-web proxy for browser clients (`server/grpc_web_proxy_handler.cpp`) (Issue: #2303)
-- [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`) (Issue: #2305)
-- [x] Service mesh sidecar proxy mode (Envoy xDS compatibility) (`network/service_mesh.cpp`, `server/service_mesh_api_handler.cpp`) (Issue: #2306)
+## Recently Completed
+- [x] Voice API Bearer-Token JWT/OIDC Validation (#302) — Completed Q2 2026
+  - JWT signature validation using JWTValidator from JWKS
+  - Token expiry (exp claim) checking
+  - Issuer (iss claim) validation
+  - Audience (aud claim) validation ("themis-voice-api")
+  - Token revocation (JTI blacklist) support
+  - Fail-closed rejection on any validation failure
+  - Comprehensive test coverage for all validation scenarios
 
-## In Progress 🚧
-*(none currently in progress – all Phase 1–4 items completed)*
+## In Progress
+- [~] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
+  - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
+  - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
 
-## Planned Features 📋
+## Planned Features
 
-### Short-term (Next 3-6 months)
-- [ ] OAuth2/OIDC native support (authorization code flow, PKCE, refresh token rotation) (Target: v1.6.0)
-  - Files: `server/auth_middleware.cpp`, new `server/oauth2_provider.cpp` + `include/server/oauth2_provider.h`
-  - Behavior: full RFC 6749 authorization-code + PKCE flow; discovery via `/.well-known/openid-configuration`; refresh token rotation on each use; JWT introspection at `POST /api/v1/auth/token/introspect`
-  - Errors: expired access token → 401 with `WWW-Authenticate: Bearer error="invalid_token"`; invalid refresh token → 400; PKCE verifier mismatch → 400
-  - Tests: unit (token validation, expiry, rotation), integration (full OIDC provider mock), negative (replay attacks, invalid verifier)
-  - Perf: token validation ≤ 1 ms with in-process JWT cache (LRU, 10 000 entries); no network round-trip for cached tokens
-- [ ] Distributed rate limiting via Redis backend (cluster-wide token bucket) (Target: v1.6.0)
-  - Files: `server/rate_limiter_v2.cpp` + `include/server/rate_limiter_v2.h` (add `Backend::REDIS` strategy)
-  - Behavior: all gateway nodes share a single token bucket per client key in Redis using atomic `EVALSHA`; propagation delay ≤ 10 ms; graceful fallback to local bucket on Redis unavailability
-  - Errors: Redis timeout → fall back to node-local limit + emit `WARN`; Redis connection failure → same fallback; over-limit → 429 with `Retry-After` header
-  - Tests: unit (local fallback), integration (multi-node Redis mock, concurrent burst), property-based (bucket never exceeds capacity under concurrent writers)
-  - Perf: Redis round-trip ≤ 5 ms p99 on same LAN; throughput ≥ 50 000 check/s per node
+### Short-term (3-6 months)
+- [ ] Plugin-based server adapter loading with signature validation and rollback guardrails (Target: Q4 2026)
+- [ ] Cluster-wide distributed rate-limit state hardening for mixed-node latency profiles (Target: Q4 2026)
+- [ ] GraphQL federation and schema governance hardening for multi-service deployments (Target: Q4 2026)
+- [ ] HTTP/3 congestion-control and connection migration tuning under production-like packet loss (Target: Q4 2026)
 
-### Long-term (6-12 months)
-- [ ] Distributed API Gateway with Raft-based config sync and automatic failover (Target: v1.7.0)
-  - Files: new `server/distributed_gateway.cpp` + `include/server/distributed_gateway.h`; reuses `replication/replication_manager.h` for Raft
-  - Behavior: multi-node gateway cluster (3 or 5 nodes); routing rules and rate-limit config replicated via Raft log; leader failover ≤ 500 ms; session affinity for WebSocket/SSE via consistent-hash ring
-  - Errors: quorum loss → gateway continues with last-known config + emits `CRITICAL` alert; split-brain → reject writes to config until quorum restored
-  - Tests: unit (config replication, consistent-hash routing), integration (5-node cluster, leader kill, rejoin), chaos (network partition, message drop)
-  - Perf: config propagation ≤ 100 ms across 5 nodes on LAN; no additional per-request latency vs single-node gateway
-- [ ] gRPC-Web TypeScript client auto-generation (Target: v1.7.0)
-  - Files: new `scripts/gen_grpc_web_ts.py`; reads existing `.proto` files under `protos/`
-  - Behavior: generates typed TypeScript stubs for all public gRPC services; emits `@themisdb/client-grpc-web` npm package
-  - Errors: proto syntax error → generator exits with non-zero code and line-level error message; missing import → clear diagnostic
-  - Tests: unit (generator parses protos, emits valid TS), integration (generated client calls live `GrpcWebProxyHandler`)
-  - Perf: generation completes in ≤ 5 s for current proto set (< 50 files)
-- [ ] WebAssembly API handlers (user-defined handlers in WASI sandbox) (Target: v1.8.0)
-  - Files: new `server/wasm_handler_registry.cpp` + `include/server/wasm_handler_registry.h`; depends on `themis/base/wasm_runtime_injector.h`
-  - Behavior: tenant uploads `.wasm` binary; handler registered at `POST /api/v1/functions/{id}/wasm`; invoked per request in isolated WASI sandbox with CPU-time limit (default 500 ms) and memory cap (default 64 MB)
-  - Errors: CPU limit exceeded → 504 + `grpc-status: DEADLINE_EXCEEDED`; memory overflow → 500 + sandbox kill; invalid wasm binary → 400 at upload time
-  - Tests: unit (sandbox isolation, memory cap enforcement), integration (Rust→wasm handler round-trip), security (escape-attempt wasm modules must not access host memory)
-  - Perf: wasm invocation overhead ≤ 5 ms per call; throughput ≥ 5 000 simple handler calls/s per node
-- [ ] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
-  - Files: new `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h`; integrates into `server/auth_middleware.cpp`
-  - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`
-  - Errors: invalid assertion signature → 401; expired assertion → 401 with clock-skew hint; missing required attribute → 403
-  - Tests: unit (assertion validation, attribute mapping, SLO), integration (mock IdP issuing real SAML2 XML), negative (tampered signatures, expired assertions, replay)
-  - Perf: assertion validation ≤ 5 ms (XML parse + RSA verify); no per-request overhead after session cookie issued
+### Mid-term (6-12 months)
+- [ ] Passwordless WebAuthn/FIDO2 auth integration for admin and API scopes (Target: Q1 2027)
+- [ ] CPU- and memory-governed WASM execution hardening with stricter runtime policy envelopes (Target: Q1 2027)
+- [ ] Service-mesh policy sync hardening and failover behavior validation under partition scenarios (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Multi-Protocol Server & Core API (Status: Completed ✅)
-- [x] `HTTPServer` – multi-protocol async I/O server (HTTP/1.1, HTTP/2, HTTP/3) on Boost.Beast/Asio
-- [x] TLS 1.3 with modern cipher suites
-- [x] 40+ specialized REST API handlers
-- [x] WebSocket support for real-time notifications and changefeeds
-- [x] MQTT broker integration for IoT use cases
-- [x] PostgreSQL wire protocol for SQL client compatibility
-- [x] gRPC services for high-performance RPC
-- [x] API Gateway (routing, versioning, load balancing)
-- [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
-- [x] Load shedding and circuit breaking
-- [x] Server-Sent Events (SSE) for changefeeds
-- [x] Multi-tenancy with tenant isolation
-- [x] Apache Ranger policy enforcement integration
-- [x] Response compression (Gzip, Brotli, Zstd)
-- [x] Model Context Protocol (MCP) server for AI integrations
-- [x] Graceful shutdown and connection draining
+### Phase 1: Security and Access Hardening
+- [ ] Complete route-by-route auth gate audit for privileged server endpoints (Target: Q2 2026)
+- [ ] Close remaining scanner-confirmed high-severity auth/logging findings with regression tests (Target: Q2 2026)
 
-### Phase 2: HTTP/3 Hardening & GraphQL (Status: Completed ✅)
-- [x] HTTP/3 QUIC performance tuning and production hardening (`server/http3_session.cpp`)
-- [x] GraphQL endpoint for schema-driven API access (`server/graphql_api_handler.cpp`)
-- [x] API versioning strategy (deprecation headers, sunset dates, URL path prefixes `/v1/` / `/v2/`)
+### Phase 2: Protocol and Gateway Hardening
+- [ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
+- [ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
 
-### Phase 3: OpenAPI & Request Validation (Status: Completed ✅)
-- [x] OpenAPI 3.1 spec auto-generation from handler annotations
-- [x] Request validation middleware (JSON Schema per endpoint)
-- [x] Response streaming for large result sets (chunked transfer)
-- [x] Per-tenant custom domain routing
-- [x] WebSocket binary frame support for wire protocol upgrade (`server/websocket_session.cpp`)
+### Phase 3: Validation and Contract Governance
+- [ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)
+- [ ] Add stricter backward-compat checks for gRPC and REST versioning contracts (Target: Q4 2026)
 
-### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: Completed ✅)
-- [x] Serverless function hosting (run user code in-process) (`server/serverless_function_api_handler.cpp`) (Issue: #2467)
-- [x] gRPC-web proxy for browser clients (`server/grpc_web_proxy_handler.cpp`)
-- [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`)
-- [x] Service mesh sidecar proxy mode (Envoy xDS compatibility) (`network/service_mesh.cpp`, `server/service_mesh_api_handler.cpp`)
-- [x] HTTP/3 datagram support for real-time low-latency streams
+### Phase 4: Tests and Reliability Gates
+- [ ] Expand integration and soak coverage for mixed protocol traffic (HTTP/gRPC/WebSocket/MQTT) (Target: Q4 2026)
+- [ ] Add deterministic fault-injection tests for distributed rate-limit and fallback behavior (Target: Q4 2026)
+
+### Phase 5: Performance and Operational Hardening
+- [ ] Re-baseline server latency/throughput gates with production-like payload mixes (Target: Q1 2027)
+- [ ] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)
+
+### Phase 6: Documentation and Release Readiness
+- [ ] Keep server developer docs aligned with source and routing behavior after each hardening wave (Target: Q2 2026)
+- [ ] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks (Target: ongoing)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — 208+ tests across 9 server test files (service_mesh_api_handler: 24, grpc_web_proxy_handler: 21, serverless_function_api_handler: 37, http_server_network: 28, service_mesh: 33, api_grpc_server: 13, http2_server_push: 10, themis_wire_protocol_server: 33, http2_protocol: 9); all Phase 1–4 components covered
-- [x] Integration tests (all 40+ endpoints, TLS, auth, rate limiting) — unified suite added in `tests/test_server_integration_complete.cpp` (111 tests, 6 sub-suites): live server auth enforcement (401 without/with invalid Bearer, non-401 with valid token), `RateLimitingMiddleware` token-bucket exhaustion + whitelist + endpoint overrides + stats + concurrency, legacy `RateLimiter` blacklist + anomaly-detection + per-user limits, `HttpServer::Config` completeness (HTTP/2, HTTP/3, WebSocket, feature flags, timeouts, connection limits), live server rate-limit enforcement via `X-Forwarded-For` (429 after bucket exhausted, whitelist bypass, `Retry-After` header), and 25+ additional endpoint-breadth tests; existing per-feature suites (`test_api_integration.cpp`, `test_http_audit.cpp`, `test_http_timeseries.cpp`, `test_http_vector.cpp`, `test_http_changefeed*.cpp`, `bench_api_endpoints.cpp`, `stress_test_wire_vs_http.sh`) complement the coverage
-- [x] Performance benchmarks (req/sec, p99 latency, concurrent connections) — `benchmarks/bench_api_endpoints.cpp` (634 lines, 14 micro-benchmarks: GraphQL parse/execute, JSON serialisation, correlation-ID overhead, REST roundtrip latency); `benchmarks/stress_test_wire_vs_http.sh` measures peak throughput under 1–500 concurrent clients; documented targets: 50K–200K req/sec, p50 < 5 ms, p99 < 50 ms
-- [x] Security audit (header injection, CORS misconfiguration, DoS vectors) — CORS fully implemented: `cors_allowed_origins_` / `cors_allow_all_` / `cors_allow_credentials_` / `cors_allowed_methods_` in `http_server.h`; `cors_allow_origin` in `grpc_web_proxy_handler.h`; header injection mitigated via `sanitize_filename_part` in `export_api_handler.cpp`; DoS protection via `RateLimiter` (http_server.h:936, initialised in http_server.cpp:1280) and configurable `max_request_size_mb` body limit
-- [x] Documentation complete — `include/server/README.md` (817 lines), `src/server/README.md` (1 342 lines), `docs/de/server/README.md` (130 lines, German), `src/server/ARCHITECTURE.md`, `src/server/FUTURE_ENHANCEMENTS.md`, `include/server/FUTURE_ENHANCEMENTS.md`, `src/server/rpc/README.md`; all public API handlers and configuration options documented
-- [x] API stability guaranteed — REST `/api/v1/` path versioning enforced; `v2` prefix introduced for breaking changes; deprecation headers and `Sunset` dates emitted by versioning middleware; gRPC `.proto` definitions stable (no breaking field removals planned); MCP server protocol tracks upstream spec; see §Breaking Changes below
+- Status: Tracking in progress
+- Nachweise: Integration tests, focused protocol tests, and security regression suites
+- Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
-## Known Issues & Limitations
-- HTTP/3 is implemented and hardened for high-throughput production workloads; further QUIC congestion-control tuning is ongoing.
-- GraphQL support is available via `server/graphql_api_handler.cpp`; advanced federation features are planned.
-- PostgreSQL wire protocol compatibility is partial; advanced PG features may not be supported.
+## Known Issues and Limitations
+- Plugin-based adapter loading still requires roadmap delivery.
+- Some advanced protocol features require additional soak/fault-injection validation before hard SLA commitments.
+- Cross-node consistency for globally distributed rate limits needs further hardening evidence.
 
 ## Breaking Changes
-- REST API path versioning (`/api/v1/`) guarantees stability for v1.x endpoints.
-- gRPC service `.proto` definitions are stable; no breaking field removals planned.
-- MCP server protocol follows the MCP spec; updates track upstream spec changes.
+- REST versioning remains path-based and backward-compatible for v1 clients.
+- gRPC schema evolution remains additive-only for active major lines.

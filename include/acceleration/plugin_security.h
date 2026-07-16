@@ -1,27 +1,21 @@
+/**
+ * @file plugin_security.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_security.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
-    • 40c623acf  2026-02-23  Implement security audit for backend plugin loading and r... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_security.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #30 Add comprehensive GPU accel... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -93,6 +87,9 @@ struct PluginSecurityPolicy {
     
     // Check certificate revocation (CRL/OCSP)
     bool checkRevocation = true;
+    
+    // Timeout for CRL/OCSP network requests in seconds (default: 5)
+    int revocation_timeout_seconds = 5;
     
     // Minimum trust level required
     PluginTrustLevel minTrustLevel = PluginTrustLevel::TRUSTED;
@@ -288,6 +285,13 @@ private:
     std::optional<PluginMetadata> loadPluginMetadataForChainValidation(
         const std::string& plugin_path
     );
+
+public:
+    // Exposes extractEmbeddedCertificate() for white-box unit testing only.
+    std::optional<std::vector<uint8_t>> extractSigningCertificateForTesting(
+        const std::string& plugin_path) {
+        return extractEmbeddedCertificate(plugin_path);
+    }
 };
 
 // Audit logging for plugin security events

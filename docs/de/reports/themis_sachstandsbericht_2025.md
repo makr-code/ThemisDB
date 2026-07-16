@@ -420,7 +420,7 @@ Frühere externe Analysen enthielten fehlerhafte Aussagen:
 - ✅ Recht auf Löschung (PII Manager)
 - ✅ Recht auf Auskunft (Audit Log Viewer)
 - ✅ Pseudonymisierung (PII Pseudonymizer)
-- ✅ Spaltenverschlüsselung (Column-Level Encryption - Design Phase)
+- ✅ Spaltenverschlüsselung (Column-Level Encryption - ✅ Produktionsreif, v1.5.0)
 - **Dokumentation:** `docs/compliance.md`, `docs/pii_detection_engines.md`
 
 ##### SOC 2 ✅
@@ -872,8 +872,8 @@ ACTION alert('security');
 ## V. Deployment & Infrastructure
 
 ### Container-Support ✅
-- **GitHub Container Registry:** `ghcr.io/makr-code/themis`
-- **Docker Hub:** `themisdb/themis` (optional)
+- **GitHub Container Registry:** `ghcr.io/makr-code/themisdb`
+- **Docker Hub:** `themisdb/themisdb` (optional)
 - **Multi-Arch:** x64-linux, arm64-linux
 - **Tags:** `latest`, `g<shortsha>`, arch-spezifisch
 - **Runtime:** `Dockerfile.runtime` mit Entrypoint `/usr/local/bin/themis_server`

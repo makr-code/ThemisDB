@@ -1,27 +1,21 @@
+/**
+ * @file adaptive_query_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_query_cache.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     657                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 04738e419  2026-02-24  fix(cache): fix duplicate enable_write_through field, fix... ║
-    • 0d58fbec9  2026-02-24  feat(cache): Add cache replication for high-availability ... ║
-    • 9a32a18e6  2026-02-24  feat(cache): implement predictive pre-fetching based on q... ║
-    • 91ad26ba8  2026-02-24  audit: fix docstring accuracy and update ROADMAP + FUTURE... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_query_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 743
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4949 [Docs][cache] Update module... (2026-05-11) | #4293 Implement predictive prefet... (2026-03-19) | #4306 docs: Release Aggregation f... (2026-03-17) | #4285 feat(server): Versioned API... (2026-03-17) | #3550 docs(cache): sync primary d... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,10 +26,14 @@
 #include <memory>
 #include <chrono>
 #include <mutex>
+#include <shared_mutex>
+#include <atomic>
+#include <thread>
 #include <unordered_map>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
+#include "cache/cache_interfaces.h"
 #include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "cache/predictive_prefetcher.h"
@@ -73,7 +71,7 @@ class RocksDBWrapper;
  * - Internal mutexes protect cache structures
  * - Lock-free fast path for L1 hits
  */
-class AdaptiveQueryCache {
+class AdaptiveQueryCache : public cache::ICacheBackend<std::string, nlohmann::json> {
 public:
     enum class CacheLevel {
         HOT,   // L1: In-memory, fast, small
@@ -138,6 +136,8 @@ public:
         size_t prefetch_max_predictions = 3;     // Max candidate fingerprints per prediction
         uint32_t prefetch_min_transition_count = 2; // Min observed transitions for a candidate
         double prefetch_min_confidence = 0.0;    // Min transition confidence (0.0 = disabled)
+        bool prefetch_enable_time_of_day_weighting = false; // Weight predictions by hour-of-day
+        bool prefetch_enable_ab_test = false;    // Route 50% tenants to Markov, 50% to baseline
         // Phase 4: Cache replication for high-availability multi-node deployments
         bool enable_replication = false;         // Enable cache replication via coordinator
         
@@ -149,7 +149,17 @@ public:
         // subsequent reads. Recommended for read-heavy workloads where writes are
         // infrequent relative to reads.
         bool enable_write_through = false;
-        
+
+        // Warmup: Parallel Bulk Load
+        // Maximum number of parallel worker threads used by warmupFromLog().
+        // Each worker processes an independent chunk of the NDJSON log and inserts
+        // entries concurrently, exploiting all available CPU cores.
+        // 0 is treated as 1 (single-threaded). Defaults to hardware concurrency.
+        uint32_t max_parallel_workers = static_cast<uint32_t>(
+            std::thread::hardware_concurrency() > 0
+                ? std::thread::hardware_concurrency()
+                : 1u);
+
         /**
          * @brief Validate configuration parameters
          * @return true if config is valid, false otherwise
@@ -223,7 +233,7 @@ public:
      * @return Cached result if found and not expired, nullopt otherwise
      */
     std::optional<CacheEntry> get(const std::string& fingerprint,
-                                   const std::string& tenant_id = "");
+                                   const std::string& tenant_id);
     
     /**
      * @brief Store query result in cache
@@ -260,7 +270,41 @@ public:
     /**
      * @brief Clear all cache entries
      */
-    void clear();
+    void clear() override;
+    
+    // ========================================================================
+    // ICacheBackend<std::string, nlohmann::json> — simple adapter interface
+    //
+    // Maps the rich multi-level, multi-tenant API to a plain K→V facade so
+    // that cache-agnostic consumers (query optimisers, RAG pipelines, etc.)
+    // can use AdaptiveQueryCache through the uniform ICacheBackend contract.
+    //
+    // The adapter always operates against the default (empty) tenant and
+    // forwards to the rich API.  Prefer the rich API for production paths.
+    // ========================================================================
+
+    /// Adapter get: returns `entry.result` for the default tenant.
+    std::optional<nlohmann::json> get(const std::string& fingerprint) override;
+
+    /// Adapter put: stores @p result in the default tenant with empty query params.
+    /// @note @p ttl_seconds is **not honoured** — AdaptiveQueryCache applies its own
+    ///       tier-based TTL policy (Config::l1/l2/l3_ttl_seconds).  Use the rich
+    ///       `put(fp, params, result, tenant_id)` overload when per-call TTL control
+    ///       is required.
+    void put(const std::string& fingerprint, nlohmann::json result,
+             uint32_t ttl_seconds = 0) override;
+
+    /// Adapter remove: removes @p fingerprint from all cache tiers.
+    /// @return true if the key was found in at least one tier.
+    bool remove(const std::string& fingerprint) override;
+
+    /// Adapter contains: checks presence in all tiers without updating LRU.
+    bool contains(const std::string& fingerprint) const override;
+
+    /// Adapter size: returns the number of entries in L1 + L2.
+    /// @note L3 (RocksDB) entries are **not counted** to avoid an O(n) full-scan.
+    ///       The returned value is therefore a lower bound on the total cache size.
+    std::size_t size() const override;
     
     /**
      * @brief Clear expired entries from all levels
@@ -436,6 +480,8 @@ public:
         size_t entries_total = 0;    ///< total lines read / entries considered
         bool   ok = true;            ///< false if the log file could not be opened
         std::string error;           ///< error message when ok == false
+        int64_t warmup_duration_ms = 0;          ///< wall-clock time for warmupFromLog (ms)
+        double  warmup_entries_per_second = 0.0; ///< throughput: entries loaded / second
     };
 
     /**
@@ -459,10 +505,13 @@ public:
      * - Validates SHA-256 hex format and entry size limits before insertion.
      * - Reports progress to the global MetricsCollector gauge
      *   `themis_cache_warmup_entries_loaded_total`.
+     * - Partitions the log into `config_.max_parallel_workers` chunks and
+     *   processes them concurrently using `std::async`, reducing startup
+     *   latency for large warmup logs.
      *
      * @param log_path    Path to the NDJSON warmup log.
      * @param max_entries Hard cap on total entries loaded (0 = no extra cap).
-     * @return WarmupResult with counts and error info.
+     * @return WarmupResult with counts, timing, throughput, and error info.
      */
     WarmupResult warmupFromLog(const std::string& log_path, size_t max_entries = 0);
 
@@ -519,6 +568,31 @@ public:
      * false.
      */
     nlohmann::json getPrefetchStats() const;
+
+    /**
+     * @brief Account for prefetch overhead bytes (entries fetched but never hit).
+     *
+     * Callers should invoke this when a prefetched cache entry is evicted or
+     * expires without having been accessed.  The accumulated total is exported
+     * via the `cache.prefetch.overhead_bytes` metric.
+     *
+     * @param bytes Estimated byte size of the wasted prefetch.
+     */
+    void recordPrefetchOverheadBytes(uint64_t bytes);
+
+    /**
+     * @brief Persist the prefetch Markov model to the L3 RocksDB instance.
+     *
+     * No-op when the prefetcher is disabled or L3 is unavailable.
+     */
+    void savePrefetchModel();
+
+    /**
+     * @brief Restore the prefetch Markov model from the L3 RocksDB instance.
+     *
+     * No-op when the prefetcher is disabled or L3 is unavailable.
+     */
+    void loadPrefetchModel();
     // Phase 4: Cache Replication for High-Availability
     // ========================================================================
 
@@ -544,14 +618,20 @@ public:
 
 private:
     struct L1Entry {
-        nlohmann::json result;
-        int64_t created_at_ms;
-        int64_t last_accessed_ms;
-        int64_t access_count = 0;
-        int ttl_seconds;
-        // Adaptive TTL: sliding 5-minute access window
-        int64_t window_start_ms = 0;
-        uint32_t window_count = 0;
+        nlohmann::json result;                         // Read-only after insert
+        std::atomic<int64_t> created_at_ms{0};         // Written at insert; reset by adaptive TTL
+        std::atomic<int64_t> last_accessed_ms{0};      // Updated lock-free on every get() hit
+        std::atomic<int64_t> access_count{0};          // Incremented lock-free
+        std::atomic<int> ttl_seconds{0};               // Adaptive TTL writes
+        std::atomic<int64_t> window_start_ms{0};       // Adaptive TTL window start
+        std::atomic<uint32_t> window_count{0};         // Accesses in current window
+        std::atomic<bool> expired_flag{false};         // CAS-based expiry marker for lazy cleanup
+
+        L1Entry() = default;
+        L1Entry(const L1Entry&)            = delete;
+        L1Entry& operator=(const L1Entry&) = delete;
+        L1Entry(L1Entry&&)                 = delete;
+        L1Entry& operator=(L1Entry&&)      = delete;
     };
     
     struct L2Entry {
@@ -578,6 +658,21 @@ private:
     // Phase 4: Replication coordinator for HA multi-node deployments
     std::shared_ptr<cache::ICacheCoordinator> coordinator_;
     mutable std::mutex coordinator_mutex_;
+    // C-4: Shared flag that the coordinator callbacks check before dereferencing
+    // 'this'.  Set to false in the destructor before tearing down callbacks, so
+    // any in-flight dispatch from the coordinator's background thread will find
+    // the flag false and return immediately instead of calling into freed memory.
+    std::shared_ptr<std::atomic<bool>> callback_alive_{ std::make_shared<std::atomic<bool>>(true) };
+
+    // [C-4] Alive guard: prevents coordinator callbacks from accessing a destroyed
+    // AdaptiveQueryCache. The guard is shared between the object and any captured
+    // callbacks. The destructor marks it inactive (under the guard mutex) before
+    // teardown; callbacks acquire the guard mutex and check the flag before use.
+    struct AliveGuard {
+        std::mutex mutex;
+        bool alive = true;
+    };
+    std::shared_ptr<AliveGuard> alive_guard_{std::make_shared<AliveGuard>()};
 
     // Internal: apply a replicated entry received from a peer
     void applyReplicatedEntry(const cache::ReplicationMessage& msg);
@@ -605,9 +700,10 @@ private:
     std::unordered_map<std::string, std::unordered_set<std::string>> pii_key_index_;
     mutable std::mutex pii_index_mutex_;
     
-    // L1: In-memory HashMap
-    std::unordered_map<std::string, L1Entry> l1_cache_;
-    mutable std::mutex l1_mutex_;
+    // L1: In-memory HashMap (lock-free read path)
+    std::unordered_map<std::string, std::unique_ptr<L1Entry>> l1_cache_;
+    mutable std::shared_mutex l1_mutex_;
+    mutable std::mutex l1_eviction_mutex_;  // Protects l1_eviction_strategy_ calls
     
     // L2: Compressed in-memory
     std::unordered_map<std::string, L2Entry> l2_cache_;
@@ -618,7 +714,7 @@ private:
     std::unique_ptr<core::concerns::IEvictionStrategy> l2_eviction_strategy_;
     
     // L3: RocksDB persistent cache
-    std::unique_ptr<RocksDBWrapper> l3_db_;
+    std::shared_ptr<RocksDBWrapper> l3_db_;
     mutable std::mutex l3_mutex_;
 
     // Phase 4: Predictive pre-fetcher (Markov-chain query sequence model)
@@ -655,3 +751,4 @@ private:
 };
 
 } // namespace themis
+

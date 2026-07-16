@@ -1,25 +1,21 @@
+/**
+ * @file delivery_tracker.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            delivery_tracker.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3ba0b14cb  2026-02-24  Audit fixes: remove unused include, ack_timeout precision... ║
-    • 970f1684c  2026-02-24  Add at-least-once delivery tracker for CDC module (issue ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: delivery_tracker.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 251
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2797 CDC: At-least-once delivery... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -197,10 +193,14 @@ public:
      * than returned.  Each call resets the delivery timestamp of returned events
      * so they are not returned again immediately.
      *
-     * @param consumer_id  Consumer whose pending events to check.
+     * @param consumer_id      Consumer whose pending events to check.
+     * @param timeout_override If provided, overrides the configured ack_timeout for
+     *                         this call only (useful for per-request timeout control).
      * @return Events ready for redelivery (may be empty).
      */
-    std::vector<Changefeed::ChangeEvent> getPendingRedelivery(const std::string& consumer_id);
+    std::vector<Changefeed::ChangeEvent> getPendingRedelivery(
+        const std::string& consumer_id,
+        std::optional<std::chrono::milliseconds> timeout_override = std::nullopt);
 
     /**
      * @brief Remove all tracked state for a consumer (e.g. on disconnect).

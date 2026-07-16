@@ -1,25 +1,21 @@
+/**
+ * @file tiered_index_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tiered_index_manager.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     340                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e102e2b8e  2026-02-28  feat(index): complete cold/warm tier index migration (Iss... ║
-    • 3a3113eda  2026-02-27  feat(index): Cold/warm tier index migration (Issue #2407) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tiered_index_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 327
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): #3327 feat(index): wire TieredInd... (2026-03-12) | #3196 feat(index): Cold/warm tier... (2026-03-12) | #3096 feat(index): Cold/warm tier... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Cold/Warm Tier Index Migration — implementation
@@ -54,23 +50,23 @@ TieredIndexManager::TieredIndexManager(std::string warm_base_dir,
 // ---------------------------------------------------------------------------
 
 void TieredIndexManager::setPolicy(const TierMigrationPolicy& policy) {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     policy_ = policy;
 }
 
 TierMigrationPolicy TieredIndexManager::policy() const {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     return policy_;
 }
 
 void TieredIndexManager::setExportFn(ExportFn fn) {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     export_fn_ = fn ? std::move(fn)
                     : [](const std::string&, const std::string&) { return true; };
 }
 
 void TieredIndexManager::setImportFn(ImportFn fn) {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     import_fn_ = fn ? std::move(fn)
                     : [](const std::string&, const std::string&) { return true; };
 }
@@ -91,7 +87,7 @@ bool TieredIndexManager::registerIndex(const std::string&  name,
                                          uint64_t            size_bytes) {
     if (name.empty()) return false;
 
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     if (registry_.count(name)) return false;   // already registered
 
     IndexTierMeta meta;
@@ -105,25 +101,25 @@ bool TieredIndexManager::registerIndex(const std::string&  name,
 }
 
 bool TieredIndexManager::unregisterIndex(const std::string& name) {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     return registry_.erase(name) > 0;
 }
 
 bool TieredIndexManager::hasIndex(const std::string& name) const {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     return registry_.count(name) > 0;
 }
 
 std::optional<IndexTierMeta> TieredIndexManager::getMetadata(
         const std::string& name) const {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) return std::nullopt;
     return it->second;
 }
 
 std::vector<std::string> TieredIndexManager::listIndexes() const {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     std::vector<std::string> names;
     names.reserve(registry_.size());
     for (const auto& [k, _] : registry_) names.push_back(k);
@@ -132,8 +128,9 @@ std::vector<std::string> TieredIndexManager::listIndexes() const {
 
 std::vector<std::string> TieredIndexManager::listIndexesByTier(
         IndexTierMeta::Tier tier) const {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     std::vector<std::string> names;
+    names.reserve(registry_.size());
     for (const auto& [k, v] : registry_) {
         if (v.tier == tier) names.push_back(k);
     }
@@ -145,7 +142,7 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
 // ---------------------------------------------------------------------------
 
 bool TieredIndexManager::recordAccess(const std::string& name) {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) return false;
     it->second.last_access = std::chrono::steady_clock::now();
@@ -154,7 +151,7 @@ bool TieredIndexManager::recordAccess(const std::string& name) {
 }
 
 bool TieredIndexManager::resetAccessCount(const std::string& name) {
-    std::lock_guard<std::mutex> lk(registry_mutex_);
+    std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) return false;
     it->second.access_count = 0;
@@ -170,10 +167,14 @@ MigrationResult TieredIndexManager::migrateTo(const std::string&  name,
     // Snapshot current tier under lock.
     IndexTierMeta::Tier current{};
     {
-        std::lock_guard<std::mutex> lk(registry_mutex_);
+        std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         auto it = registry_.find(name);
         if (it == registry_.end()) {
-            return MigrationResult::Err(name, "index not found");
+            return MigrationResult::Err(name,
+                                        target,
+                                        target,
+                                        MigrationDiagnosticCode::INDEX_NOT_FOUND,
+                                        "index not found");
         }
         current = it->second.tier;
     }
@@ -210,7 +211,7 @@ std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
     TierMigrationPolicy pol;
     std::vector<std::pair<std::string, IndexTierMeta>> snapshot;
     {
-        std::lock_guard<std::mutex> lk(registry_mutex_);
+        std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         pol = policy_;
         snapshot.reserve(registry_.size());
         for (const auto& [k, v] : registry_) snapshot.emplace_back(k, v);
@@ -219,6 +220,7 @@ std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
     const auto now = std::chrono::steady_clock::now();
 
     std::vector<MigrationResult> results;
+    results.reserve(snapshot.size());
 
     for (const auto& [name, meta] : snapshot) {
         const auto idle_secs = static_cast<uint64_t>(
@@ -292,10 +294,27 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
     ImportFn import_fn;
     std::string live_path;
     {
-        std::lock_guard<std::mutex> lk(registry_mutex_);
+        std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         auto it = registry_.find(name);
         if (it == registry_.end()) {
-            return MigrationResult::Err(name, "index not found during migration");
+            return MigrationResult::Err(name,
+                                        from,
+                                        to,
+                                        MigrationDiagnosticCode::INDEX_NOT_FOUND,
+                                        "index not found during migration");
+        }
+        if (it->second.tier != from) {
+            std::ostringstream oss;
+            oss << "migration aborted: tier changed from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(it->second.tier);
+            return MigrationResult::Err(name,
+                                        from,
+                                        to,
+                                        MigrationDiagnosticCode::TIER_MISMATCH,
+                                        oss.str(),
+                                        it->second.data_path,
+                                        pathForTier(name, to));
         }
         export_fn = export_fn_;
         import_fn = import_fn_;
@@ -304,37 +323,146 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
 
     const std::string dest_path = pathForTier(name, to);
     const std::string src_path  = pathForTier(name, from);
+    // Always report the registered path (live_path) in migration results
+    const std::string target_path = live_path;
+    const std::string source_path = live_path;
+    // Actual filesystem paths for export/import callbacks
+    const std::string export_dest = dest_path.empty() ? live_path : dest_path;
+    const std::string import_src  = src_path.empty() ? live_path : src_path;
 
     const bool is_demotion = (static_cast<int>(to) > static_cast<int>(from));
 
     if (is_demotion) {
         // Export (serialize) the index to the destination tier path.
-        if (!export_fn(name, dest_path.empty() ? live_path : dest_path)) {
+        try {
+            if (!export_fn(name, export_dest)) {
+                std::ostringstream oss;
+                oss << "export failed while demoting from "
+                    << IndexTierMeta::tierName(from) << " to "
+                    << IndexTierMeta::tierName(to)
+                    << " (target=" << export_dest << ")";
+                return MigrationResult::Err(
+                    name,
+                    from,
+                    to,
+                    MigrationDiagnosticCode::EXPORT_FAILED,
+                    oss.str(),
+                    source_path,
+                    target_path);
+            }
+        } catch (const std::exception& e) {
+            std::ostringstream oss;
+            oss << "export threw while demoting from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(to)
+                << " (target=" << export_dest << "): "
+                << e.what();
             return MigrationResult::Err(
                 name,
-                std::string("export failed while demoting to ") + IndexTierMeta::tierName(to));
+                from,
+                to,
+                MigrationDiagnosticCode::EXPORT_FAILED,
+                oss.str(),
+                source_path,
+                target_path);
+        } catch (...) {
+            std::ostringstream oss;
+            oss << "export threw non-standard exception while demoting from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(to)
+                << " (target=" << export_dest << ")";
+            return MigrationResult::Err(
+                name,
+                from,
+                to,
+                MigrationDiagnosticCode::EXPORT_FAILED,
+                oss.str(),
+                source_path,
+                target_path);
         }
     } else {
         // Promotion: import (deserialize) from the source tier path.
-        const std::string& load_from = src_path.empty() ? live_path : src_path;
-        if (!import_fn(name, load_from)) {
+        try {
+            if (!import_fn(name, import_src)) {
+                std::ostringstream oss;
+                oss << "import failed while promoting from "
+                    << IndexTierMeta::tierName(from) << " to "
+                    << IndexTierMeta::tierName(to)
+                    << " (source=" << import_src << ")";
+                return MigrationResult::Err(
+                    name,
+                    from,
+                    to,
+                    MigrationDiagnosticCode::IMPORT_FAILED,
+                    oss.str(),
+                    source_path,
+                    target_path);
+            }
+        } catch (const std::exception& e) {
+            std::ostringstream oss;
+            oss << "import threw while promoting from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(to)
+                << " (source=" << import_src << "): "
+                << e.what();
             return MigrationResult::Err(
                 name,
-                std::string("import failed while promoting to ") + IndexTierMeta::tierName(to));
+                from,
+                to,
+                MigrationDiagnosticCode::IMPORT_FAILED,
+                oss.str(),
+                source_path,
+                target_path);
+        } catch (...) {
+            std::ostringstream oss;
+            oss << "import threw non-standard exception while promoting from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(to)
+                << " (source=" << import_src << ")";
+            return MigrationResult::Err(
+                name,
+                from,
+                to,
+                MigrationDiagnosticCode::IMPORT_FAILED,
+                oss.str(),
+                source_path,
+                target_path);
         }
     }
 
     // Update registry.
     {
-        std::lock_guard<std::mutex> lk(registry_mutex_);
+        std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         auto it = registry_.find(name);
-        if (it != registry_.end()) {
-            it->second.tier      = to;
-            it->second.data_path = dest_path.empty() ? live_path : dest_path;
+        if (it == registry_.end()) {
+            return MigrationResult::Err(name,
+                                        from,
+                                        to,
+                                        MigrationDiagnosticCode::INDEX_NOT_FOUND,
+                                        "index disappeared before migration state could be updated",
+                                        source_path,
+                                        target_path);
         }
+        if (it->second.tier != from) {
+            std::ostringstream oss;
+            oss << "migration state update aborted: tier changed from "
+                << IndexTierMeta::tierName(from) << " to "
+                << IndexTierMeta::tierName(it->second.tier);
+            return MigrationResult::Err(name,
+                                        from,
+                                        to,
+                                        MigrationDiagnosticCode::TIER_MISMATCH,
+                                        oss.str(),
+                                        source_path,
+                                        target_path);
+        }
+        it->second.tier = to;
+        it->second.data_path = target_path;
+        it->second.last_access = std::chrono::steady_clock::now();
+        it->second.access_count = 0;
     }
 
-    return MigrationResult::Ok(name, from, to);
+    return MigrationResult::Ok(name, from, to, source_path, target_path);
 }
 
 } // namespace index

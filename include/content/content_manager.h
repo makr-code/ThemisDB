@@ -1,27 +1,21 @@
+/**
+ * @file content_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_manager.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     614                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
-    • 43013e4ee  2026-02-27  Add configurable processing pipeline (processor chain) fo... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
-    • b01dffc8f  2026-02-26  feat(content): Implement chunked streaming ingestion for ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 630
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3217 feat(content): Harden pipel... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -38,6 +32,7 @@
 #include "content/content_processor.h"
 #include "content/deduplication_checker.h"
 #include "content/embedding_pipeline.h"
+#include "content/mime_detector.h"
 #include "content/processor_chain_config.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -199,7 +194,7 @@ public:
      * @return Status mit message; bei Erfolg ist message="ok"
      */
     // user_context: z.B. Benutzer-ID für kontextabhängige Verschlüsselung
-    Status importContent(const json& spec, const std::optional<std::string>& blob = std::nullopt, const std::string& user_context = "");
+    [[nodiscard]] Status importContent(const json& spec, const std::optional<std::string>& blob = std::nullopt, const std::string& user_context = "");
 
     /**
      * @brief Ingest raw blob with automatic processor selection and archive handling
@@ -218,7 +213,7 @@ public:
      * @return Status with message and JSON result containing content_id(s)
      */
     struct IngestResult {
-        bool success;
+        bool success = false;          ///< True when all required pipeline stages succeeded (CON-018)
         std::string error_message;
         std::string primary_content_id;  // Main content ID (archive or single file)
         std::vector<std::string> extracted_content_ids;  // IDs of extracted files (for archives)
@@ -235,7 +230,7 @@ public:
         std::vector<StageOutcome> stage_outcomes; ///< Ordered per-stage outcomes for this ingestion.
     };
     
-    IngestResult ingestRawBlob(
+    [[nodiscard]] IngestResult ingestRawBlob(
         const std::string& blob,
         const std::string& filename,
         const std::string& mime_type = "",
@@ -264,7 +259,7 @@ public:
      * @param config       Optional JSON configuration overrides
      * @return IngestResult with success flag and content_id on success
      */
-    IngestResult ingestStream(
+    [[nodiscard]] IngestResult ingestStream(
         std::istream& stream,
         const std::string& filename,
         const std::string& mime_type = "",
@@ -403,7 +398,7 @@ public:
      * @param content_id Content UUID
      * @return Status
      */
-    Status deleteContent(const std::string& content_id);
+    [[nodiscard]] Status deleteContent(const std::string& content_id);
 
     /**
      * @brief Virtual Filesystem: Resolve path to content ID
@@ -428,7 +423,7 @@ public:
      * @param recursive Create parent directories if needed
      * @return Status
      */
-    Status createDirectory(const std::string& virtual_path, bool recursive = false);
+    [[nodiscard]] Status createDirectory(const std::string& virtual_path, bool recursive = false);
 
     /**
      * @brief Virtual Filesystem: Register path for existing content
@@ -437,7 +432,7 @@ public:
      * @param virtual_path Path to register
      * @return Status
      */
-    Status registerPath(const std::string& content_id, const std::string& virtual_path);
+    [[nodiscard]] Status registerPath(const std::string& content_id, const std::string& virtual_path);
 
     /**
      * @brief Get processor for a category
@@ -448,11 +443,11 @@ public:
      * @brief Get statistics
      */
     struct Stats {
-        int total_content_items;
-        int total_chunks;
-        int total_embeddings;
+        int total_content_items = 0;   ///< CON-018
+        int total_chunks = 0;          ///< CON-018
+        int total_embeddings = 0;      ///< CON-018
         std::unordered_map<ContentCategory, int> items_by_category;
-        int64_t total_storage_bytes;
+        int64_t total_storage_bytes = 0; ///< CON-018
     };
     Stats getStats();
 
@@ -537,6 +532,26 @@ public:
     std::vector<float> generateEmbedding(const std::string& text,
                                           const std::string& model_name = "");
 
+    // =========================================================================
+    // LLM-assisted content analysis
+    // =========================================================================
+
+    json analyzeContent(const std::string& content_id);
+
+    std::vector<std::string> generateTags(
+        const std::string& content_id,
+        int max_tags = 10
+    );
+
+    std::string summarizeContent(
+        const std::string& content_id,
+        int max_words = 100
+    );
+
+    std::string classifyContent(const std::string& content_id);
+
+    json extractEntities(const std::string& content_id);
+
     /**
      * @brief Attach a deduplication checker for near-duplicate detection.
      *
@@ -584,6 +599,12 @@ private:
     std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
     std::shared_ptr<DeduplicationChecker> dedup_checker_;
     ProcessorChainConfig processor_chain_config_;  ///< Configurable stage chain.
+
+    /// MIME type detector used for OCR routing via ContentPolicy::ocrEnabled().
+    /// Initialized once on construction (YAML config loaded from default path).
+    /// Call mime_detector_.enableOcr(true/false) before shouldTriggerOcr() to
+    /// apply the per-ingestion ContentPolicy::ocr_enabled flag.
+    MimeDetector mime_detector_;
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;
@@ -608,7 +629,13 @@ private:
         const std::vector<std::string>& child_ids,
         const std::string& edge_type
     );
+
+    json parseAnalysisResult(const std::string& analysis_text, const ContentMeta& meta);
+    std::vector<std::string> parseTags(const std::string& tags_text);
+    json parseEntities(const std::string& entities_text);
+    std::string getExtractedText(const std::string& content_id);
 };
 
 } // namespace content
 } // namespace themis
+

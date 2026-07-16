@@ -1,0 +1,28 @@
+# Doxygen Configuration File generated for ThemisDB API Documentation
+# This file is based on the paths synthesized in MASTER_MANIFEST.md 
+# and aims to provide comprehensive API retrofitting documentation using Doxygen.
+
+PROJECT_NAME             = "ThemisDB"
+OUTPUT_DIRECTORY        = "doxyfile_output"
+GENERATE_LATEX           = YES
+EXTRACT_ALL              = YES
+OPTIMIZE_OUTPUT_FOR_C    = NO
+RECURSIVE                = YES
+
+# --- Source Directories specified by MASTER_MANIFEST.md ---
+# We explicitly set the source directories based on the manifest structure.
+INPUT                    = "src include tests benchmarks"
+FILE_PATTERNS            = "*.cpp *.h *.hpp *.c *.cc" # Adjust extensions as needed
+INCLUDES                = "+src +include +tests +benchmarks"
+
+# --- General Options ---
+STRIP_FROM_PATH          = "${PWD}"  # Strips the current project root path from generated paths
+OPTIMIZE_OUTPUT_FOR_C    = NO         # Keep C++ style compatibility for documentation integrity
+
+# --- Advanced Settings (These may need manual tuning) ---
+ENABLE_PREPROCESSING    = YES
+JAVADOC_AUTOBRIEF        = YES
+SHORT_PROGRAMMES         = YES
+
+# Set the path to the master manifest file as a reference point in doc generation
+FILE_DEPENDENCY_PATH     = "./MASTER_MANIFEST.md" 

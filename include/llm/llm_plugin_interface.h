@@ -1,51 +1,29 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_plugin_interface.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     452                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
-    • 53b07730b  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include "plugins/plugin_interface.h"
-#include "llm/json_schema_converter.h"
-#include <string>
-#include <vector>
-#include <memory>
-#include <optional>
-#include <functional>
-#include <nlohmann/json.hpp>
 
 /**
  * @file llm_plugin_interface.h
- * @brief Plugin interface for LLM backends in ThemisDB
- * 
- * This interface enables plugin-based LLM integration for v1.3.0, supporting:
- * - Multiple LLM backends (llama.cpp, vLLM, etc.)
- * - LoRA adapter management
- * - Distributed reasoning capabilities
- * - Zero-copy memory access where possible
- * 
- * Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md design document.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/json_schema_converter.h"
+#include "plugins/plugin_interface.h"
+
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <atomic>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {
@@ -85,12 +63,21 @@ struct LLMCapabilities {
 
     // Multi-modal capabilities
     bool supports_multimodal = false;      // Image + text input (vision-language models)
+
+    // Embedding / RAG / function-call support
+    bool supports_embeddings = false;      // Text embedding (dense vector output)
+    bool supports_rag = false;             // Retrieval-Augmented Generation
+    bool supports_function_call = false;   // Structured function / tool calling
+
+    // Plugin metadata
+    std::string plugin_version;            // Semantic version of this plugin
 };
 
 /**
  * @brief Model information
  */
 struct ModelInfo {
+    virtual ~ModelInfo() = default;
     std::string name;              // e.g., "mistral-7b-instruct"
     std::string path;              // Path to model file
     std::string format;            // e.g., "gguf", "safetensors"
@@ -115,6 +102,7 @@ struct ModelInfo {
  * @brief LoRA adapter information
  */
 struct LoRAInfo {
+    virtual ~LoRAInfo() = default;
     std::string id;                // Unique identifier
     std::string name;              // Human-readable name
     std::string path;              // Path to LoRA weights
@@ -189,12 +177,27 @@ struct InferenceRequest {
     
     // Metadata for tracking
     json metadata;
+    
+    // F2-3: Tenant identifier used for cache isolation.  Without this, two
+    // tenants with identical prompts share a single cache entry, leaking
+    // inference results across tenant boundaries.
+    std::string tenant_id;
+
+    // Per-request cancellation token.
+    // The caller creates a shared atomic<bool> initialised to false and passes
+    // it here.  The inference path checks this flag before starting (and, where
+    // the underlying engine supports it, during) generation.  When the flag is
+    // set to true the generate() call returns an error response with
+    // success=false and error_message="Request cancelled".
+    // When nullptr (the default) no cancellation is active.
+    std::shared_ptr<std::atomic<bool>> cancellation_token;
 };
 
 /**
  * @brief Inference response
  */
 struct InferenceResponse {
+    virtual ~InferenceResponse() = default;
     std::string request_id;      // Mirrors request id if provided
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
@@ -228,12 +231,22 @@ struct InferenceResponse {
     std::vector<float> logprobs;   // Log probabilities per token
     
     json metadata;
+
+    // Status
+    bool success = false;          // true when inference completed without error
+    std::string error_message;     // Non-empty on failure
 };
 
 /**
  * @brief RAG (Retrieval-Augmented Generation) context
+ *
+ * max_context_tokens should be set to ModelInfo::context_length of the loaded
+ * model.  The RAGContextAssembler uses this value together with
+ * response_budget_tokens to compute the exact token budget available for the
+ * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
  */
 struct RAGContext {
+    virtual ~RAGContext() = default;
     std::string query;             // User query
     std::string collection_name;
     int top_k = 0;
@@ -248,8 +261,13 @@ struct RAGContext {
     std::vector<Document> documents;
     
     // Context assembly parameters
-    int max_context_tokens = 4096;
+    // NOTE: set from ModelInfo::context_length — do NOT hardcode.
+    int max_context_tokens = 0;    // 0 → falls back to kDefaultContextWindowTokens
     std::string context_template;  // How to format context
+
+    // Response-budget reservation (tokens kept for the model answer).
+    // The actual reservation is max(response_budget_tokens, 20 % of the window).
+    int response_budget_tokens = 512;
 };
 
 /**
@@ -272,7 +290,7 @@ public:
      * @param config Model configuration (JSON)
      * @return true if loaded successfully
      */
-    virtual bool loadModel(
+    [[nodiscard]] virtual bool loadModel(
         const std::string& model_path,
         const json& config = {}
     ) = 0;
@@ -285,12 +303,12 @@ public:
     /**
      * @brief Get current model information
      */
-    virtual std::optional<ModelInfo> getModelInfo() const = 0;
+    [[nodiscard]] virtual std::optional<ModelInfo> getModelInfo() const = 0;
     
     /**
      * @brief Check if model is loaded
      */
-    virtual bool isModelLoaded() const = 0;
+    [[nodiscard]] virtual bool isModelLoaded() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // LoRA Management
@@ -303,7 +321,7 @@ public:
      * @param scale LoRA scaling factor
      * @return true if loaded successfully
      */
-    virtual bool loadLoRA(
+    [[nodiscard]] virtual bool loadLoRA(
         const std::string& lora_id,
         const std::string& lora_path,
         float scale = 1.0f
@@ -312,23 +330,134 @@ public:
     /**
      * @brief Unload a LoRA adapter
      */
-    virtual bool unloadLoRA(const std::string& lora_id) = 0;
+    [[nodiscard]] virtual bool unloadLoRA(const std::string& lora_id) = 0;
     
     /**
      * @brief List loaded LoRA adapters
      */
-    virtual std::vector<LoRAInfo> listLoRAs() const = 0;
+    [[nodiscard]] virtual std::vector<LoRAInfo> listLoRAs() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Inference
     // ═══════════════════════════════════════════════════════════
-    
+
+    /**
+     * @brief Result of a draft-token generation pass for speculative decoding.
+     *
+     * Returned by generateDraftTokens().  Each element of `logits[i]` is a
+     * vocab_size-dimensional raw logit vector for draft position i, suitable
+     * for passing directly to SpeculativeDecoder::verify().
+     */
+    struct DraftTokensResult {
+        /// K draft token IDs (one per speculative step).
+        std::vector<int> tokens;
+        /// K × vocab_size raw logit rows (row i corresponds to tokens[i]).
+        std::vector<std::vector<float>> logits;
+        /// Vocabulary size used for the logit rows.
+        size_t vocab_size = 0;
+    };
+
+    // ─────────────────────────────────────────────────────────────────────
+    // STUB #261 bridge — callback injection for generateDraftTokens()
+    // ─────────────────────────────────────────────────────────────────────
+
+    /// Callback type that replaces the default heuristic implementation of
+    /// generateDraftTokens() without requiring a full plugin subclass.
+    using GenerateDraftTokensFn = std::function<
+        DraftTokensResult(const InferenceRequest& /*request*/,
+                          size_t                  /*k*/,
+                          size_t                  /*vocab_size_hint*/)>;
+
+    /// Inject (or remove) a real generateDraftTokens() implementation into
+    /// the default virtual method body.  Pass nullptr / empty fn to restore
+    /// the built-in text-heuristic path.  Thread-safe with concurrent calls
+    /// to generateDraftTokens().
+    static void setDefaultGenerateDraftTokensFn(GenerateDraftTokensFn fn) {
+        std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
+        s_default_draft_fn_ = std::move(fn);
+    }
+
+    /**
+     * @brief Generate K draft tokens with per-token logit distributions.
+     *
+     * Used by InferenceEngineEnhanced::trySpeculativeGeneration() to feed
+     * real token IDs and logit distributions into SpeculativeDecoder::verify().
+     *
+     * When a fn has been injected via setDefaultGenerateDraftTokensFn() the
+     * call is forwarded to that fn.  Otherwise the built-in heuristic applies:
+     * generate() is called internally and the returned text is mapped to token
+     * IDs via UTF-8 byte values modulo vocab_size; logit distributions are
+     * peaked (+5 / −5) at the mapped IDs (STUB #261 — Q1 2027).
+     *
+     * @param request        Inference request (prompt + generation parameters).
+     *                       max_tokens is overridden to k internally.
+     * @param k              Number of draft tokens to produce.
+     * @param vocab_size_hint Expected vocabulary size; 32 000 used as fallback.
+     * @return DraftTokensResult with k tokens and k logit rows.
+     */
+    [[nodiscard]] virtual DraftTokensResult generateDraftTokens(
+        const InferenceRequest& request,
+        size_t                  k,
+        size_t                  vocab_size_hint
+    ) {
+        // Check injected fn first (STUB #261 bridge).
+        GenerateDraftTokensFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
+            fn_copy = s_default_draft_fn_;
+        }
+        if (fn_copy) {
+            return fn_copy(request, k, vocab_size_hint);
+        }
+
+        // Built-in text-heuristic fallback.
+        InferenceRequest draft_req = request;
+        draft_req.max_tokens      = static_cast<int>(k);
+        draft_req.stream_callback = nullptr;
+
+        const auto resp = generate(draft_req);
+
+        const size_t vocab         = (vocab_size_hint > 0) ? vocab_size_hint : 32000u;
+        constexpr float kPeak      =  5.0f;
+        constexpr float kBaseline  = -5.0f;
+
+        DraftTokensResult result;
+        result.vocab_size = vocab;
+        result.tokens.reserve(k);
+        result.logits.reserve(k);
+
+        const std::string& text = resp.text;
+        for (size_t i = 0; i < k; ++i) {
+            const int token_id = (i < text.size())
+                ? (static_cast<int>(static_cast<unsigned char>(text[i])) %
+                   static_cast<int>(vocab))
+                : 0;
+            result.tokens.push_back(token_id);
+
+            std::vector<float> row(vocab, kBaseline);
+            row[static_cast<size_t>(token_id)] = kPeak;
+            result.logits.push_back(std::move(row));
+        }
+        return result;
+    }
+
+private:
+    // Inline static storage for the default generateDraftTokens() injection
+    // (STUB #261 bridge).  Using inline static avoids a separate .cpp TU.
+    // Placed in a private section between two public ones so that the injected
+    // state cannot be accessed directly; access is exclusively through the
+    // public static setter setDefaultGenerateDraftTokensFn().
+    inline static std::mutex              s_draft_fn_mutex_;
+    inline static GenerateDraftTokensFn   s_default_draft_fn_;
+
+public:
+
     /**
      * @brief Generate text from prompt
      * @param request Inference parameters
      * @return Generated response
      */
-    virtual InferenceResponse generate(const InferenceRequest& request) = 0;
+    [[nodiscard]] virtual InferenceResponse generate(const InferenceRequest& request) = 0;
     
     /**
      * @brief RAG-enhanced generation
@@ -336,7 +465,7 @@ public:
      * @param request Generation parameters
      * @return Generated response
      */
-    virtual InferenceResponse generateRAG(
+    [[nodiscard]] virtual InferenceResponse generateRAG(
         const RAGContext& rag_context,
         const InferenceRequest& request
     ) = 0;
@@ -346,7 +475,7 @@ public:
      * @param text Text to embed
      * @return Embedding vector (typically 768 or 1024 dimensions)
      */
-    virtual std::vector<float> embed(const std::string& text) = 0;
+    [[nodiscard]] virtual std::vector<float> embed(const std::string& text) = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Capabilities
@@ -355,17 +484,17 @@ public:
     /**
      * @brief Get plugin capabilities
      */
-    virtual LLMCapabilities getCapabilities() const = 0;
+    [[nodiscard]] virtual LLMCapabilities getCapabilities() const = 0;
     
     /**
      * @brief Get memory usage statistics
      */
-    virtual json getMemoryStats() const = 0;
+    [[nodiscard]] virtual json getMemoryStats() const = 0;
     
     /**
      * @brief Get performance statistics
      */
-    virtual json getPerformanceStats() const = 0;
+    [[nodiscard]] virtual json getPerformanceStats() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Distributed Features (for sharding architecture)
@@ -376,7 +505,7 @@ public:
      * @param lora_id LoRA identifier
      * @return Serialized LoRA weights
      */
-    virtual std::vector<uint8_t> exportLoRA(const std::string& lora_id) = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> exportLoRA(const std::string& lora_id) = 0;
     
     /**
      * @brief Import LoRA from another shard
@@ -384,7 +513,7 @@ public:
      * @param data Serialized LoRA weights
      * @return true if imported successfully
      */
-    virtual bool importLoRA(
+    [[nodiscard]] virtual bool importLoRA(
         const std::string& lora_id,
         const std::vector<uint8_t>& data
     ) = 0;
@@ -400,6 +529,8 @@ class LLMPluginAdapter : public plugins::IThemisPlugin {
 public:
     explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
         : llm_plugin_(std::move(llm_plugin)) {}
+    
+    ~LLMPluginAdapter() override = default;
     
     // IThemisPlugin interface implementation
     const char* getName() const override { return "LLM Plugin"; }
@@ -451,3 +582,15 @@ private:
 
 } // namespace llm
 } // namespace themis
+
+/**
+ * @brief Export macro for dynamic loading of LLM plugins.
+ *
+ * Add this macro once in the .cpp file of your LLM plugin implementation.
+ */
+#define THEMIS_LLM_PLUGIN()                                                        \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        themis::llm::ILLMPlugin* themis_llm_create();                             \
+    extern "C" THEMIS_PLUGIN_EXPORT                                                \
+        void themis_llm_destroy(themis::llm::ILLMPlugin* p)
+

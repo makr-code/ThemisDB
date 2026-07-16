@@ -1,27 +1,25 @@
+/**
+ * @file cdn_cache_middleware.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cdn_cache_middleware.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cdn_cache_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 231
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=2, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3394 feat(server): Edge caching ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/cdn_cache_middleware.h"
+#include "utils/hash_util.h"
 
 #include <boost/beast/core/string.hpp>
 #include <sstream>
@@ -34,22 +32,6 @@ namespace server {
 // ─────────────────────────────────────────────────────────────────────────────
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
-
-namespace {
-
-/// FNV-1a 64-bit hash (fast, no OpenSSL dependency).
-uint64_t fnv1a64(const std::string& data) {
-    constexpr uint64_t FNV_OFFSET = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME  = 1099511628211ULL;
-    uint64_t hash = FNV_OFFSET;
-    for (unsigned char c : data) {
-        hash ^= static_cast<uint64_t>(c);
-        hash *= FNV_PRIME;
-    }
-    return hash;
-}
-
-} // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Policy management
@@ -105,7 +87,7 @@ bool CdnCacheMiddleware::isServerError(http::status status) {
 }
 
 std::string CdnCacheMiddleware::generateETag(const std::string& body) {
-    uint64_t h = fnv1a64(body);
+    uint64_t h = themis::hash::fnv1a64(body);
     std::ostringstream oss;
     oss << "W/\"" << std::hex << std::setfill('0') << std::setw(16) << h << "\"";
     return oss.str();

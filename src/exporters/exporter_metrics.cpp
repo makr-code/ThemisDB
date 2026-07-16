@@ -1,27 +1,21 @@
+/**
+ * @file exporter_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            exporter_metrics.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
-    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
-    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
-    • 9d330002b  2026-02-28  Fix stale Stubs annotation in exporter_metrics and docume... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: exporter_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 408
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * PR History (last 5): #3215 [exporters] Implement incre... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "exporters/exporter_metrics.h"
@@ -84,6 +78,7 @@ void ExporterMetrics::reset() {
     encryption_plaintext_bytes_ = 0;
     encryption_output_bytes_    = 0;
     encrypted_bytes_written_ = 0;
+    rate_limit_hits_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -266,6 +261,14 @@ size_t ExporterMetrics::getEncryptedBytesWritten() const {
     return encrypted_bytes_written_.load();
 }
 
+void ExporterMetrics::recordRateLimitHit() {
+    rate_limit_hits_++;
+}
+
+size_t ExporterMetrics::getRateLimitHits() const {
+    return rate_limit_hits_.load();
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -338,6 +341,9 @@ json ExporterMetrics::toJson() const {
     // Encryption: bytes written to encrypted export files
     // (exporter_encrypted_bytes_written_total)
     j["exporter_encrypted_bytes_written_total"] = encrypted_bytes_written_.load();
+
+    // HuggingFace rate-limit hits (exporters.huggingface.rate_limit_hit)
+    j["exporters.huggingface.rate_limit_hit"] = rate_limit_hits_.load();
     
     return j;
 }

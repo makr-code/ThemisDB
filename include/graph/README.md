@@ -1,10 +1,47 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Graph Module - Header Reference
+
+## ⚠️ L0 Risk Alert (2026-06-25)
+
+**Status: CRITICAL GAPS DETECTED IN BACKING IMPLEMENTATIONS**
+
+- **Total Gaps**: 9 (8 critical, 1 high)
+- **Affected Backing Files**: 
+  - `src/graph/explain_plan.cpp` — 2 critical gaps (lines 68, 92 returning `{}`)
+  - `src/graph/ontology_manager.cpp` — 2 critical gaps (lines 73, 200 returning `{}`)
+  - `src/graph/rotate_completion.cpp` — 3 critical gaps
+- **Status**: Unimplemented function bodies; headers are API-stable, implementations pending.
+- **Reference**: `ai_working/gap_scanner_results.json` (2026-06-25T10:21:15)
+
+**Headers Listed Below Are API-Stable; Consult `src/graph/README.md` and `src/graph/ROADMAP.md` for Implementation Status.**
+
+---
 
 ## Overview
 
 This directory contains the public header files for ThemisDB's Graph module. These headers define the API for graph query optimization, constrained path finding, and advanced graph operations.
 
 ## Header Files
+
+## Public Header Entry Points
+
+| Header | Primary Public Entry Points | Backing Implementation |
+|--------|------------------------------|------------------------|
+| `graph_query_optimizer.h` | `GraphQueryOptimizer`, `QueryConstraints`, `OptimizationPlan` | `src/graph/graph_query_optimizer.cpp` |
+| `path_constraints.h` | `PathConstraints`, `PathResult` | `src/graph/path_constraints.cpp` |
+| `distributed_graph.h` | `DistributedGraph`, `DistributedGraphConfig` | `src/graph/distributed_graph.cpp` |
+| `parallel_traversal.h` | `ParallelTraversal`, `ParallelTraversal::Config` | `src/graph/parallel_traversal.cpp` |
+| `gpu_traversal.h` | `GPUGraphTraversal`, `GPUGraphTraversal::Config` | `src/graph/gpu_traversal.cpp`, `src/graph/gpu_traversal_cuda.cu` |
+| `scheduled_edge_refresh.h` | `ScheduledGraphEdgeRefreshEngine`, `RefreshPolicy`, `RefreshStats` | `src/graph/scheduled_edge_refresh.cpp` |
+| `graph_query_rewriter.h` | `GraphQueryRewriter`, `RewriteConfig` | `src/graph/graph_query_rewriter.cpp` |
+| `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner`, inference/LoRA integration API | `src/graph/knowledge_graph_reasoner.cpp` |
+| `ontology_manager.h` | `OntologyManager`, semantic ontology loading/lookup | `src/graph/ontology_manager.cpp` |
+| `graph_embedding.h` | `GraphEmbeddingModel`, `GraphEmbeddingConfig` | (header-level API; module implementation integrated via consumers) |
+| `graph_watermark.h` | `GraphWatermark` | `src/graph/graph_watermark.cpp` |
+| `explain_plan.h` | `ExplainPlan` | `src/graph/explain_plan.cpp` |
+| `tensor_fingerprint_graph.h` | `TensorFingerprintGraph`, `FingerprintGraphConfig` | `src/graph/tensor_fingerprint_graph.cpp` |
+| `tensor_deduplication_manager.h` | `TensorDeduplicationManager`, `DeduplicationConfig` | `src/graph/tensor_deduplication_manager.cpp` |
 
 ### graph_query_optimizer.h
 **Purpose:** Cost-based graph query optimization and algorithm selection
@@ -21,7 +58,7 @@ This directory contains the public header files for ThemisDB's Graph module. The
 // Traversal algorithms
 enum class TraversalAlgorithm {
     BFS,              // Breadth-First Search
-    DFS,              // Depth-First Search  
+    DFS,              // Depth-First Search
     BIDIRECTIONAL,    // Bidirectional search
     ASTAR,            // A* heuristic search
     DIJKSTRA          // Weighted shortest path
@@ -96,74 +133,74 @@ struct ExecutionStats {
 class GraphQueryOptimizer {
 public:
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
-    
+
     // Optimization
     Result<OptimizationPlan> optimizeShortestPath(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeKHopNeighborhood(
         std::string_view start, int k,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizePatternMatch(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeReachability(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeConstrainedPath(
         std::string_view start, std::string_view end,
         const PathConstraints& constraints
     );
-    
+
     // Execution
     Result<std::vector<std::string>> executeBFS(
         std::string_view start, int max_depth,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<std::vector<std::string>> executeDFS(
         std::string_view start, int max_depth,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeDijkstra(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeAStar(
         std::string_view start, std::string_view target,
         std::function<double(const std::string&)> heuristic,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeBidirectional(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     // Statistics
     Result<GraphStatistics> collectStatistics(
         std::optional<std::string_view> graph_id = std::nullopt
     );
-    
+
     const GraphStatistics& getStatistics() const;
     double estimateEdgeTypeSelectivity(std::string_view edge_type) const;
-    
+
     // Plan Management
     std::string explainPlan(const OptimizationPlan& plan) const;
     void setPlanCachingEnabled(bool enabled);
@@ -190,11 +227,11 @@ constraints.unique_vertices = true;
 auto plan = optimizer.optimizeShortestPath("A", "B", constraints);
 if (plan) {
     std::cout << optimizer.explainPlan(plan.value()) << std::endl;
-    
+
     // Execute
     GraphQueryOptimizer::ExecutionStats exec_stats;
     auto result = optimizer.executeBFS("A", 5, constraints, &exec_stats);
-    
+
     std::cout << "Nodes explored: " << exec_stats.nodes_explored << std::endl;
     std::cout << "Time: " << exec_stats.execution_time_ms << "ms" << std::endl;
 }
@@ -255,43 +292,43 @@ class PathConstraints {
 public:
     PathConstraints() = default;
     explicit PathConstraints(GraphIndexManager* graph_mgr);
-    
+
     void setGraphManager(GraphIndexManager* graph_mgr);
-    
+
     // Length constraints
     void addMinLength(int min_length);
     void addMaxLength(int max_length);
-    
+
     // Node constraints
     void addForbiddenNode(std::string_view node_id);
     void addRequiredNode(std::string_view node_id);
-    
+
     // Edge constraints
     void addForbiddenEdge(std::string_view edge_id);
     void addRequiredEdge(std::string_view edge_id);
-    
+
     // Uniqueness constraints
     void requireAcyclic();
     void requireUniqueNodes();
     void requireUniqueEdges();
-    
+
     // Custom validation
     void addCustomPredicate(
         std::function<bool(const std::vector<std::string>&)> predicate
     );
-    
+
     // Path operations
     Result<bool> validatePath(
         const std::vector<std::string>& nodes,
         const std::vector<std::string>& edges
     ) const;
-    
+
     Result<std::vector<PathResult>> findConstrainedPaths(
         std::string_view start_node,
         std::string_view end_node,
         int max_results = 10
     ) const;
-    
+
     // Inspection
     const std::vector<Constraint>& getConstraints() const;
     std::string describeConstraints() const;
@@ -488,9 +525,68 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 ## Related Documentation
 
 - [Graph Module Implementation](../../src/graph/README.md) - Detailed implementation documentation
+- [Graph Module Roadmap](../../src/graph/ROADMAP.md) - Delivery phases and production-readiness checklist
 - [Graph Future Enhancements](../../src/graph/FUTURE_ENHANCEMENTS.md) - Planned features
+- [Graph Architecture](../../src/graph/ARCHITECTURE.md) - Runtime design and control flow
+- [Graph Performance Expectations](../../src/graph/PERFORMANCE_EXPECTATIONS.md) - Targets and benchmark mappings
+- [Graph Security Notes](../../src/graph/SECURITY.md) - Security assumptions and controls
 - [Index Module](../index/README.md) - Graph infrastructure (GraphIndexManager, GraphAnalytics)
 - [Query Module](../query/README.md) - AQL integration
+- [German Graph Overview](../../docs/de/graph/README.md) - Einstieg, Usage, Troubleshooting (DE)
 
-*Last Updated: February 2026*  
+## Additional Public Headers
+
+| Header | Purpose |
+|--------|---------|
+| `distributed_graph.h` | `DistributedGraph` — partitioned graph execution across shards |
+| `explain_plan.h` | `ExplainPlan` — human-readable query plan explanation output |
+| `gpu_traversal.h` | `GPUGraphTraversal` — GPU-accelerated traversal with CPU fallback |
+| `graph_embedding.h` | `GraphEmbedding` — node and edge embedding computation |
+| `graph_query_rewriter.h` | `GraphQueryRewriter` — rewrite rules for graph query optimisation |
+| `graph_watermark.h` | `GraphWatermark` — temporal watermark tracking for streaming graph updates |
+| `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner` — rule-based + LoRA-assisted graph inference |
+| `ontology_manager.h` | `OntologyManager` — ontology loading and semantic type checks |
+| `parallel_traversal.h` | `ParallelTraversal` — multi-threaded BFS/DFS traversal engine |
+| `scheduled_edge_refresh.h` | `ScheduledEdgeRefresh` — periodic refresh of derived/cached edges |
+| `tensor_fingerprint_graph.h` | `TensorFingerprintGraph` — tensor-similarity graph via MinHash/LSH |
+| `tensor_deduplication_manager.h` | `TensorDeduplicationManager` — similarity-based tensor deduplication |
+
+## Configuration Surfaces (Runtime)
+
+| API | Configuration Surface | Typical Knobs |
+|-----|------------------------|---------------|
+| `GraphQueryOptimizer` | `QueryConstraints` + setter APIs | `max_depth`, `max_results`, `edge_type`, `graph_id`, cache size/TTL, adaptive learning, QPS limits |
+| `PathConstraints` | constraint builder methods | Min/max length, required/forbidden nodes or edges, acyclic/unique, semantic constraints |
+| `ParallelTraversal` | `ParallelTraversal::Config` | `max_depth`, `num_threads`, `fan_out_threshold`, `timeout_ms`, `max_results` |
+| `GPUGraphTraversal` | `GPUGraphTraversal::Config` | `gpu_device`, `min_vertices_for_gpu`, `max_depth`, `max_results`, forbidden vertices |
+| `ScheduledGraphEdgeRefreshEngine` | `RefreshPolicy` | `refresh_interval`, thresholds, add/remove limits, anomaly threshold, ANN switch |
+| `GraphQueryRewriter` | `RewriteConfig` | enabled rules, aggressive mode, rewrite-time budget |
+| Tensor redundancy APIs | `FingerprintGraphConfig`, `DeduplicationConfig` | similarity threshold, LSH parameters, top-k candidates, delta constraints |
+
+## Runtime Behavior, Failure Cases, and Limits
+
+- All fallible graph APIs return `Result<T>`; inspect `error().message` and code paths from `utils/error_registry.h`.
+- `GraphQueryOptimizer`, `PathConstraints`, and traversal helpers are not safe for concurrent mutation on the same instance.
+- GPU traversal can return valid results via CPU fallback when GPU runtime or size thresholds do not qualify for device execution.
+- `PathConstraints` and optimizer constraints can intentionally return empty results (`NOT_FOUND`) when filters are contradictory.
+- Refresh engine safety gates can abort a cycle before commit when removal/addition thresholds are exceeded.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Action |
+|---------|--------------|--------|
+| `INVALID_STATE` on optimization/constraint calls | Graph manager not set or object lifecycle mismatch | Ensure `GraphIndexManager` is configured before calling optimization/traversal APIs. |
+| Unexpectedly empty constrained paths | Contradictory `required_*` + `forbidden_*` constraints or too low `max_depth` | Relax constraints and inspect `describeConstraints()` output. |
+| No GPU path observed | `min_vertices_for_gpu` not reached or runtime without GPU support | Tune config for tests and rely on documented CPU fallback behavior in production. |
+| Refresh cycles repeatedly abort | `RefreshPolicy` thresholds too strict for current graph churn | Increase removal/add limits or rebalance thresholds incrementally. |
+
+*Last Updated: May 2026*
 *Module Version: v1.5.0*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

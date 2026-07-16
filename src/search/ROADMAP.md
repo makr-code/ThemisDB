@@ -1,97 +1,106 @@
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # Search Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-v2.2.0 – Production-ready hybrid search with highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support.
 
-## Completed ✅
-- [x] HybridSearch – RRF-based fusion of BM25 and vector results
-- [x] BM25 ranking (configurable k1 and b parameters)
-- [x] Term frequency and document frequency analysis
-- [x] Field-length normalization
-- [x] HNSW semantic vector indexing (Cosine, Dot Product, L2)
-- [x] Reciprocal Rank Fusion (RRF) with configurable weights
-- [x] Score normalization across search types
-- [x] Fuzzy matching (edit distance)
-- [x] Phonetic search (Soundex, Metaphone)
-- [x] Stemming and stop-word filtering
-- [x] Synonym expansion / query expansion
-- [x] Phrase search (exact phrase matching)
-- [x] Text-only, vector-only, and hybrid search modes
-- [x] High recall@10 (85%+) with hybrid search
-- [x] QueryParser – natural language query parsing
-- [x] ResultRanker – configurable score aggregation
-- [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
-- [x] `QueryExpander` – synonym expansion, Levenshtein spelling correction, zero-result relaxation (v1.5.0)
-- [x] `FuzzyMatcher` – Levenshtein, Soundex, Metaphone, N-gram (Dice) similarity (v1.5.0)
-- [x] `FacetedSearch` – per-field value-count facets, numeric range buckets, drill-down filtering (v1.5.0)
-- [x] `SearchAnalytics` – thread-safe query log; avg/p95/p99 latency, zero-result rate, top-20 queries (v1.5.0) (Issue: #2275)
-- [x] `AutocompleteEngine` – prefix-index + popular-query suggestions, score-ranked output (v1.5.0) (Issue: #2281)
-- [x] `LearningToRank` – linear re-ranker over 6-dimensional feature vector; online pairwise gradient-descent training (v1.5.0)
-- [x] `MultiModalSearch` – TEXT/IMAGE/AUDIO/CUSTOM modalities; weighted RRF fusion (v1.5.0)
-- [x] Faceted search with dynamic facet counting (`FacetedSearch`, v1.5.0) (Issue: #2283)
-- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
-- [x] Spelling correction suggestions (Issue: #2455)
-- [x] `PersonalizedRanker` – per-user interaction history tracking with time-decayed scoring and result re-ranking (v2.0.0) (Issue: #2279)
+Production-capable search runtime exists for hybrid lexical/vector retrieval, distributed shard merge, ranking utilities, and result analytics/stream behavior.
 
-## Completed ✅ (continued)
-- [x] Highlight / snippet generation for matched terms (`SearchHighlighter`, v2.1.0) (Issue: #2457)
-- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
+## In Progress
 
-## Planned Features 📋
+- [~] hardening distributed merge edge behavior under shard failures and overlap variance (Target: Q3 2026)
+- [~] improving diagnostics consistency across fusion/rerank utility stages (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for hybrid/distributed hot paths (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
+## Planned Features
 
-### Long-term (6-12 months)
-- [I] Distributed search across shards with result merging (Issue: #2280)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under sustained high-concurrency hybrid queries (Target: Q4 2026)
+- [ ] expand stress coverage for shard merge failure and k-limit edge paths (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for search degradation triage (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for hybrid and distributed merge paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for advanced multimodal and reranking workflows (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained search traffic pressure (Target: Q1 2027)
+- [~] Wave B B1: Self-RAG retrieval-controller integration for retrieval quality loops (Target: Q1–Q2 2027) — core impl + IEE callback integration + ALCE benchmark done
 
 ## Implementation Phases
 
-### Phase 1: Hybrid Search & BM25 Engine (Status: Completed ✅)
-- [x] `HybridSearch` – Reciprocal Rank Fusion (RRF) merging of BM25 and vector results
-- [x] BM25 ranking with configurable k1 and b parameters
-- [x] Term frequency and document frequency analysis with field-length normalization
-- [x] HNSW semantic vector indexing (Cosine, Dot Product, L2)
-- [x] Score normalization across search types
-- [x] Fuzzy matching (edit distance), phonetic search (Soundex, Metaphone)
-- [x] Stemming, stop-word filtering, synonym expansion, and phrase search
-- [x] Text-only, vector-only, and hybrid search modes with 85%+ recall@10
-- [x] `QueryParser` – natural language query parsing
-- [x] `ResultRanker` – configurable score aggregation
+### Phase 1: Design / API Contract
+- [ ] freeze retrieval/fusion/distributed contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for search failure classes (Target: Q3 2026)
 
-### Phase 2: LLM Query Rewriting & Faceted Search (Status: Completed ✅)
-- [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
-- [x] Faceted search with dynamic facet counting
-- [x] Highlight / snippet generation for matched terms (`SearchHighlighter`, v2.1.0)
+### Phase 2: Core Implementation
+- [ ] complete hardening for hybrid/distributed merge internals (Target: Q4 2026)
+- [ ] align utility-layer behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Multi-Field Boosting & Search Analytics (Status: Completed ✅)
-- [x] Multi-field boosting (title > body > tags) (`MultiFieldBoostedSearch`, v1.9.0)
-- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0)
-- [x] Configurable re-ranking with LLM feedback loop
-- [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)
-- [x] Spelling correction suggestions
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for shard failures, merge limits, and rerank faults (Target: Q4 2026)
+- [ ] unify diagnostics across retrieval/fusion/utility incident classes (Target: Q4 2026)
 
-### Phase 4: Neural Retrieval & Distributed Search (Status: In Progress 🚧)
-- [x] Neural sparse retrieval (SPLADE / BERT-based)
-- [x] Cross-lingual semantic search (multilingual embeddings)
-- [x] Personalized ranking based on user interaction history
-- [ ] Distributed search across shards with result merging
-- [x] Autocomplete / type-ahead query suggestions (`AutocompleteEngine`, v1.5.0)
+### Phase 4: Tests
+- [ ] expand focused regressions for overlap, shard-failure, and candidate-limit scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for hybrid/distributed workloads (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for search hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core search module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (LlmReranker: 29 tests; LearningToRank: 20 tests; HybridSearch: 30+ tests; v1.5.0 components: 162+ tests)
-- [x] Integration tests (BM25 correctness, hybrid recall@10, LlmReranker with real indices)
-- [?] Performance benchmarks (QPS, index build time, latency p99)
-- [?] Security audit (query injection, resource exhaustion on large datasets)
-- [x] Documentation complete (FUTURE_ENHANCEMENTS.md, class docblocks, ARCHITECTURE.md, ROADMAP.md)
-- [x] API stability guaranteed (HybridSearch v1.2.0+, setReranker() v1.8.0)
 
-## Known Issues & Limitations
-- Synonym expansion dictionary must be manually provided; no automatic synonym discovery.
-- Phonetic search accuracy varies by language; optimized for English.
+- [x] core search surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for distributed merge/utility edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on candidate sizing, shard topology, and utility-stage configuration.
+- selected distributed merge and rerank edge scenarios need continued hardening.
+- benchmark depth should continue expanding for advanced search workflows.
+- Wave B B1 work depends on upstream Wave A deployment and LLM latency prerequisites.
+
+## Wave B (Q1–Q2 2027) Tracking — B1 Self-RAG Search Integration
+
+### Scope
+- [x] retrieval-controller decision hooks for selective re-retrieval
+- [x] retrieval quality signals for critic feedback (Relevant/Partial/Irrelevant)
+- [x] bounded retrieval refinement integration support (max 3 rounds)
+- [x] search-path integration support for `InferenceEngineEnhanced` callback loops
+
+### Validation
+- [x] unit tests `SELF_RAG-SEARCH-01..08` (covered by SELF_RAG-01..12)
+- [x] ALCE retrieval-quality benchmark contribution vs vanilla RAG baseline
+
+### Acceptance Gates
+- [ ] precision@k retrieval contribution ≥ 0.85 on golden-doc tests
+- [ ] retrieval-path latency overhead remains within Self-RAG budget (≤ 1.5× overall baseline)
+- [ ] deterministic fallback behavior under shard/backend partial failures
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM inference P95 latency < 200 ms for iterative loops
+- [ ] RAG module Self-RAG controller/critic interfaces stabilized
+
+### References
+- AI tracker: `../ai/ROADMAP.md`
+- RAG tracker: `../rag/ROADMAP.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
+
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
 
 ## Breaking Changes
-- HybridSearch API (RRF weights, mode selection) is stable from v1.2.0.
-- BM25 default parameters (k1=1.2, b=0.75) remain unchanged in v1.5.0 and are configurable.
+
+No breaking search contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

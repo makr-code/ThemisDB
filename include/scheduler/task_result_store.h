@@ -1,48 +1,21 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_result_store.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     143                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f79e072b9  2026-02-23  feat(scheduler): implement scheduled task output persiste... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file task_result_store.h
- * @brief Persistent storage for scheduled task execution results in ThemisDB.
- *
- * Stores task output records in RocksDB under the key prefix
- * `_sched_result/<task_id>/<timestamp_ms_20digits>` so that results are
- * naturally ordered by task and time, enabling prefix-scan queries.
- *
- * Features:
- * - Append execution results (success or failure) after every task run.
- * - Query the N most-recent results for a given task.
- * - Automatic retention: trims oldest records when the per-task cap is exceeded.
- * - Thread-safe: all public methods are guarded by an internal mutex.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_TASK_RESULT_STORE_H
-#define THEMIS_TASK_RESULT_STORE_H
+#pragma once
 
 #include <string>
 #include <vector>
 #include <optional>
 #include <mutex>
+#include <shared_mutex>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
@@ -129,7 +102,7 @@ public:
 private:
     RocksDBWrapper& storage_;
     size_t          max_per_task_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
 
     /// Build the full RocksDB key for a result record.
     static std::string makeKey(const std::string& task_id, int64_t timestamp_ms);
@@ -140,5 +113,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_RESULT_STORE_H

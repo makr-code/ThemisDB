@@ -1,19 +1,47 @@
 # ThemisDB External Dependencies Management
 
 # vcpkg Integration
-if(DEFINED ENV{VCPKG_ROOT})
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-        CACHE STRING "Vcpkg toolchain file")
-    
-    # Add all vcpkg package directories to CMAKE_PREFIX_PATH for dependency resolution
-    file(GLOB _vcpkg_packages "$ENV{VCPKG_ROOT}/packages/*_x64-linux")
+if(DEFINED VCPKG_ROOT_DIR)
+    set(_the_vcpkg_root "${VCPKG_ROOT_DIR}")
+elseif(DEFINED ENV{VCPKG_ROOT})
+    set(_the_vcpkg_root "$ENV{VCPKG_ROOT}")
+else()
+    set(_the_vcpkg_root "${CMAKE_SOURCE_DIR}/vcpkg")
+endif()
+
+if(EXISTS "${_the_vcpkg_root}")
+    set(CMAKE_TOOLCHAIN_FILE "${_the_vcpkg_root}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+    if(WIN32)
+        file(GLOB _vcpkg_packages "${_the_vcpkg_root}/packages/*_x64-windows")
+    else()
+        file(GLOB _vcpkg_packages "${_the_vcpkg_root}/packages/*_x64-linux")
+    endif()
+    message(STATUS "vcpkg root: ${_the_vcpkg_root}")
+    message(STATUS "vcpkg package dirs: ${_vcpkg_packages}")
     foreach(_pkg_dir ${_vcpkg_packages})
         list(APPEND CMAKE_PREFIX_PATH 
             "${_pkg_dir}/lib/cmake"
             "${_pkg_dir}/share"
             "${_pkg_dir}/lib"
         )
+        list(APPEND CMAKE_LIBRARY_PATH "${_pkg_dir}/lib")
+        list(APPEND CMAKE_INCLUDE_PATH "${_pkg_dir}/include")
     endforeach()
+
+    # Pre-seed ZLIB variables from vcpkg package layout if present
+    set(_vcpkg_zlib_pkg "${_the_vcpkg_root}/packages/zlib_x64-windows")
+    if(EXISTS "${_vcpkg_zlib_pkg}")
+        set(_zlib_lib_path "${_vcpkg_zlib_pkg}/lib/zlib.lib")
+        set(_zlib_inc_path "${_vcpkg_zlib_pkg}/include")
+        if(EXISTS "${_zlib_lib_path}")
+            set(ZLIB_LIBRARY "${_zlib_lib_path}" CACHE FILEPATH "zlib library (preseeded from vcpkg)")
+        endif()
+        if(EXISTS "${_zlib_inc_path}")
+            set(ZLIB_INCLUDE_DIR "${_zlib_inc_path}" CACHE PATH "zlib include dir (preseeded from vcpkg)")
+        endif()
+    endif()
+else()
+    message(STATUS "vcpkg root not found at ${_the_vcpkg_root}; skipping vcpkg package prefix setup")
 endif()
 
 # Prefer CONFIG packages (vcpkg) over FindXXX modules
@@ -37,9 +65,10 @@ else()
     message(WARNING "OpenSSL not found - some features may be disabled")
 endif()
 
-find_package(ZLIB 1.3 QUIET)
+message(STATUS "Preseed ZLIB_LIBRARY=${ZLIB_LIBRARY} ZLIB_INCLUDE_DIR=${ZLIB_INCLUDE_DIR}")
+find_package(ZLIB QUIET)
 if(NOT ZLIB_FOUND)
-    find_package(ZLIB 1.3 REQUIRED)
+    find_package(ZLIB REQUIRED)
 endif()
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
@@ -84,7 +113,23 @@ else()
         add_library(RocksDB::rocksdb ALIAS unofficial::rocksdb)
         message(STATUS "RocksDB found via vcpkg (unofficial)")
     else()
-        message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+        # Try pkg-config as fallback (covers system-installed librocksdb-dev)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(RocksDB_PC QUIET rocksdb)
+        endif()
+        if(RocksDB_PC_FOUND)
+            add_library(RocksDB::rocksdb INTERFACE IMPORTED)
+            set_target_properties(RocksDB::rocksdb PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES     "${RocksDB_PC_LIBRARIES}"
+                INTERFACE_LINK_DIRECTORIES   "${RocksDB_PC_LIBRARY_DIRS}"
+            )
+            set(RocksDB_FOUND TRUE)
+            message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
+        else()
+            message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+        endif()
     endif()
 endif()
 
@@ -194,9 +239,9 @@ if(THEMIS_BUILD_BENCHMARKS)
         message(STATUS "Google Benchmark found - benchmarks enabled")
         add_compile_definitions(THEMIS_HAS_BENCHMARK=1)
     else()
-        message(WARNING "Google Benchmark not found - benchmarks will not be built")
+        message(WARNING "Google Benchmark not found - Google-Benchmark-dependent benchmarks will not be built")
         message(WARNING "Install with: vcpkg install benchmark OR apt-get install libbenchmark-dev")
-        set(THEMIS_BUILD_BENCHMARKS OFF CACHE BOOL "Build benchmarks" FORCE)
+        set(THEMIS_HAS_BENCHMARK OFF)
     endif()
 else()
     message(STATUS "Benchmarks disabled (THEMIS_BUILD_BENCHMARKS=OFF)")
@@ -210,6 +255,13 @@ if(prometheus-cpp_FOUND)
 else()
     message(STATUS "Prometheus C++ client not found - metrics collection disabled")
     message(STATUS "Install with: vcpkg install prometheus-cpp (optional)")
+    # Provide optional fallback targets so optional test/link declarations do not
+    # fail configure when prometheus-cpp is not installed on CI runners.
+    foreach(_prom_tgt core pull push util)
+        if(NOT TARGET prometheus-cpp::${_prom_tgt})
+            add_library(prometheus-cpp::${_prom_tgt} INTERFACE IMPORTED GLOBAL)
+        endif()
+    endforeach()
 endif()
 
 # ============================================================================
@@ -366,8 +418,12 @@ else()
 endif()
 
 # ONNX Runtime (ML model inference)
-find_package(onnxruntime QUIET CONFIG)
-if(onnxruntime_FOUND)
+# Guard repeated CONFIG loads: onnxruntimeConfig.cmake defines
+# safeint_interface without existence checks.
+if(NOT onnxruntime_FOUND AND NOT TARGET onnxruntime::onnxruntime AND NOT TARGET safeint_interface)
+    find_package(onnxruntime QUIET CONFIG)
+endif()
+if(onnxruntime_FOUND OR TARGET onnxruntime::onnxruntime)
     message(STATUS "ONNX Runtime found - enabling ONNX model serving backend")
     add_compile_definitions(THEMIS_HAS_ONNX=1)
 else()
@@ -582,10 +638,18 @@ if(THEMIS_ENABLE_GPU)
 endif()
 
 if(THEMIS_ENABLE_CUDA)
-    find_package(CUDA REQUIRED)
-    find_package(CUDAToolkit REQUIRED)
-    message(STATUS "CUDA Toolkit found: ${CUDAToolkit_VERSION}")
-    add_compile_definitions(THEMIS_ENABLE_CUDA=1)
+    find_package(CUDA QUIET)
+    find_package(CUDAToolkit QUIET)
+    if(CUDA_FOUND AND CUDAToolkit_FOUND)
+        message(STATUS "CUDA Toolkit found: ${CUDAToolkit_VERSION}")
+        add_compile_definitions(THEMIS_ENABLE_CUDA=1)
+    else()
+        message(WARNING "THEMIS_ENABLE_CUDA=ON but CUDA toolkit components were not found. Disabling CUDA backend.")
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "CUDA disabled: toolkit not found" FORCE)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_CUDA)
     
     # Optional: FAISS for GPU-accelerated vector search
     find_package(faiss QUIET)
@@ -615,9 +679,17 @@ endif()
 
 # HIP (AMD GPU acceleration) - optional alternative to CUDA
 if(THEMIS_ENABLE_HIP)
-    find_package(HIP REQUIRED)
-    message(STATUS "HIP found - enabling AMD GPU support")
-    add_compile_definitions(THEMIS_ENABLE_HIP=1)
+    find_package(HIP QUIET)
+    if(HIP_FOUND)
+        message(STATUS "HIP found - enabling AMD GPU support")
+        add_compile_definitions(THEMIS_ENABLE_HIP=1)
+    else()
+        message(WARNING "THEMIS_ENABLE_HIP=ON but HIP/ROCm was not found. Disabling HIP backend.")
+        set(THEMIS_ENABLE_HIP OFF CACHE BOOL "HIP disabled: toolkit not found" FORCE)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_HIP)
     
     # Optional: RCCL for multi-GPU communication on AMD (v2.5+)
     if(THEMIS_ENABLE_RCCL)
@@ -633,6 +705,14 @@ if(THEMIS_ENABLE_HIP)
             set(THEMIS_ENABLE_RCCL OFF CACHE BOOL "RCCL not available" FORCE)
             set(RCCL_FOUND FALSE)
         endif()
+    endif()
+endif()
+
+if(THEMIS_ENABLE_VULKAN)
+    find_package(Vulkan QUIET)
+    if(NOT Vulkan_FOUND)
+        message(WARNING "THEMIS_ENABLE_VULKAN=ON but Vulkan SDK was not found. Disabling Vulkan backend.")
+        set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Vulkan disabled: SDK not found" FORCE)
     endif()
 endif()
 
@@ -671,6 +751,31 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_BUILD_COMMON OFF CACHE BOOL "Build llama common utils" FORCE)
     set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Build llama server" FORCE)
     set(LLAMA_INSTALL OFF CACHE BOOL "Install llama" FORCE)
+
+    # Keep llama.cpp backend options aligned with Themis GPU toggles.
+    # Both LLAMA_* and GGML_* are set for compatibility across llama.cpp revisions.
+    if(THEMIS_ENABLE_VULKAN)
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan backend in llama.cpp" FORCE)
+        set(GGML_VULKAN ON CACHE BOOL "Enable Vulkan backend in ggml" FORCE)
+
+        # ggml-vulkan requires glslc at configure time. In local vcpkg setups,
+        # the executable is provided by shaderc under installed/tools.
+        if(DEFINED VCPKG_HOST_TRIPLET)
+            set(_themis_glslc_candidate
+                "${PROJECT_SOURCE_DIR}/vcpkg_installed/${VCPKG_HOST_TRIPLET}/tools/shaderc/glslc${CMAKE_EXECUTABLE_SUFFIX}")
+            if(EXISTS "${_themis_glslc_candidate}")
+                set(Vulkan_GLSLC_EXECUTABLE "${_themis_glslc_candidate}" CACHE FILEPATH
+                    "Path to glslc executable for Vulkan shader compilation" FORCE)
+                message(STATUS "llama.cpp backend: using glslc from vcpkg shaderc (${Vulkan_GLSLC_EXECUTABLE})")
+            endif()
+            unset(_themis_glslc_candidate)
+        endif()
+
+        message(STATUS "llama.cpp backend: Vulkan ENABLED")
+    else()
+        set(LLAMA_VULKAN OFF CACHE BOOL "Enable Vulkan backend in llama.cpp" FORCE)
+        set(GGML_VULKAN OFF CACHE BOOL "Enable Vulkan backend in ggml" FORCE)
+    endif()
     
     # =========================================================================
     # MSVC C++20 char8_t COMPATIBILITY FIX (PR #LLAMA-CPP-MSVC)
@@ -704,14 +809,25 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_CONTINUOUS_BATCHING ON CACHE BOOL "Enable continuous batching" FORCE)
     message(STATUS "Continuous Batching: ENABLED (+8x throughput)")
     
-    # Fetch llama.cpp from GitHub with pinned commit
-    FetchContent_Declare(
-        llama_cpp
-        GIT_REPOSITORY https://github.com/ggerganov/llama.cpp.git
-        GIT_TAG ${LLAMA_CPP_GIT_TAG}
-        GIT_SHALLOW FALSE  # Need full history for commit verification
-        SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
-    )
+    # Prefer repository-vendored llama.cpp when present to avoid fragile
+    # FetchContent git clone/update behavior in source archives/submodule snapshots.
+    if(EXISTS "${PROJECT_SOURCE_DIR}/llama.cpp/CMakeLists.txt")
+        message(STATUS "llama.cpp: using local vendored source")
+        FetchContent_Declare(
+            llama_cpp
+            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
+            DOWNLOAD_COMMAND ""
+            UPDATE_COMMAND ""
+        )
+    else()
+        FetchContent_Declare(
+            llama_cpp
+            GIT_REPOSITORY https://github.com/ggerganov/llama.cpp.git
+            GIT_TAG ${LLAMA_CPP_GIT_TAG}
+            GIT_SHALLOW FALSE  # Need full history for commit verification
+            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
+        )
+    endif()
     
     FetchContent_MakeAvailable(llama_cpp)
     
@@ -728,7 +844,20 @@ if(THEMIS_ENABLE_LLM)
         target_compile_options(ggml PRIVATE /Zc:char8_t-)
         message(STATUS "Applied /Zc:char8_t- to ggml target for MSVC compatibility")
     endif()
-    
+
+    # Fix: CompilerOptions.cmake adds -ffast-math globally for Release builds.
+    # -ffast-math implies -ffinite-math-only, which breaks ggml-cpu.c/vec.cpp/ops.cpp
+    # that explicitly require non-finite math (NaN/Inf).
+    # See: https://github.com/ggml-org/llama.cpp/pull/7154#issuecomment-2143844461
+    if(NOT MSVC)
+        foreach(_ggml_fix_target IN ITEMS ggml ggml-cpu ggml-alloc ggml-backend ggml-backend-reg)
+            if(TARGET ${_ggml_fix_target})
+                target_compile_options(${_ggml_fix_target} PRIVATE -fno-finite-math-only)
+            endif()
+        endforeach()
+        message(STATUS "llama.cpp: Applied -fno-finite-math-only to ggml targets (Release -ffast-math override)")
+    endif()
+
     # Ensure OpenMP is linked to llama target (only if found)
     if(TARGET llama)
         if(OpenMP_FOUND)

@@ -1,23 +1,21 @@
+/**
+ * @file sequence_packer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sequence_packer.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     125                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sequence_packer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 117
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #610 Dynamic Batch Size Adaptati... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -56,6 +54,7 @@ namespace lora {
  */
 class SequencePacker {
 public:
+    virtual ~SequencePacker() = default;
     /**
      * @brief Packed batch representation
      */
@@ -64,8 +63,8 @@ public:
         GPUTensor attention_mask;   // [total_tokens] - attention mask
         std::vector<size_t> sequence_lengths;  // Length per sequence
         std::vector<size_t> sequence_offsets;  // Start offset per sequence
-        size_t num_sequences;
-        size_t total_tokens;
+        size_t num_sequences = 0;
+        size_t total_tokens = 0;
         
         bool is_valid() const {
             return num_sequences > 0 && total_tokens > 0 && 
@@ -126,3 +125,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

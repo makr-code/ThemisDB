@@ -1,27 +1,21 @@
+/**
+ * @file parallel_traversal.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            parallel_traversal.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:53:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     197                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cf39e23c3  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
-    • 771ab826b  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • c97d71912  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: parallel_traversal.h | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 208
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5119 [Docs][Module] graph - Sync... (2026-05-13) | #2940 feat(graph): cost model cal... (2026-03-12) | #2523 [graph] Parallel multi-sour... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -137,16 +131,43 @@ public:
      * merged once all threads have completed.
      *
      * @param sources  Non-empty list of source vertex IDs.
+     * @return Merged MultiSourceResult, or an error if sources is empty.
+     */
+    Result<MultiSourceResult> multiSourceBFS(
+        const std::vector<std::string>& sources
+    );
+
+    /**
+     * @brief Run BFS from each source vertex in parallel with custom configuration.
+     *
+     * Each source vertex gets its own BFS executed in a separate thread.  The
+     * per-source BFS uses level-by-level frontier expansion.  Results are
+     * merged once all threads have completed.
+     *
+     * @param sources  Non-empty list of source vertex IDs.
      * @param config   Traversal configuration.
      * @return Merged MultiSourceResult, or an error if sources is empty.
      */
     Result<MultiSourceResult> multiSourceBFS(
         const std::vector<std::string>& sources,
-        const Config& config = {}
+        const Config& config
     );
 
     /**
      * @brief Run DFS from each source vertex in parallel and merge results.
+     *
+     * Each source vertex gets its own iterative DFS executed in a separate
+     * thread.  Results are merged once all threads have completed.
+     *
+     * @param sources  Non-empty list of source vertex IDs.
+     * @return Merged MultiSourceResult, or an error if sources is empty.
+     */
+    Result<MultiSourceResult> multiSourceDFS(
+        const std::vector<std::string>& sources
+    );
+
+    /**
+     * @brief Run DFS from each source vertex in parallel with custom configuration.
      *
      * Each source vertex gets its own iterative DFS executed in a separate
      * thread.  Results are merged once all threads have completed.
@@ -157,7 +178,7 @@ public:
      */
     Result<MultiSourceResult> multiSourceDFS(
         const std::vector<std::string>& sources,
-        const Config& config = {}
+        const Config& config
     );
 
 private:

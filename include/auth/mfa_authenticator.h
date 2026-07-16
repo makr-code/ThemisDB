@@ -1,26 +1,21 @@
+/**
+ * @file mfa_authenticator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mfa_authenticator.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     199                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e2379475  2026-02-24  audit: resolve Stubs:1 metadata in mfa_authenticator.h/.c... ║
-    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mfa_authenticator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 207
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #2779 feat(auth): Implement WebAu... (2026-03-12) | #621 Security Hardening: VRAM Se... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -35,6 +30,8 @@
 namespace themis {
 namespace utils { class AuditLogger; }
 namespace auth {
+class AuthAuditLogger;
+class AuthMetrics;
 
 /**
  * @brief TOTP-based Multi-Factor Authentication
@@ -69,6 +66,11 @@ public:
         // Time window tolerance (accept codes from N steps before/after)
         int time_window = 1;
         
+        // Maximum allowed time window steps; the constructor enforces that
+        // time_window may not exceed this value, capped at an absolute hard
+        // limit of 2 to prevent wide windows from weakening replay resistance.
+        uint8_t max_window_steps = 1;
+        
         // Number of recovery codes to generate
         int recovery_codes_count = 8;
         
@@ -99,6 +101,18 @@ public:
      * Pass nullptr to detach.  The authenticator does NOT take ownership.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
+    /**
+     * @brief Attach an AuthAuditLogger for typed MFA audit events including drift.
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setAuthAuditLogger(AuthAuditLogger* logger) { auth_audit_logger_ = logger; }
+
+    /**
+     * @brief Attach an AuthMetrics instance for TOTP drift observability.
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setMetrics(AuthMetrics* metrics) { metrics_ = metrics; }
     
     /**
      * @brief Generate new TOTP secret and recovery codes for user enrollment
@@ -124,12 +138,14 @@ public:
      * @param secret_base32 User's TOTP secret (base32 encoded)
      * @param code TOTP code to validate
      * @param timestamp Optional timestamp (defaults to current time)
+     * @param subject Optional user identifier recorded in drift audit entries
      * @return true if code is valid within time window
      */
     bool validateTOTP(
         const std::string& secret_base32,
         const std::string& code,
-        std::optional<std::chrono::system_clock::time_point> timestamp = std::nullopt
+        std::optional<std::chrono::system_clock::time_point> timestamp = std::nullopt,
+        const std::string& subject = ""
     ) const;
     
     /**
@@ -167,6 +183,8 @@ public:
 private:
     Config config_;
     utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning, optional.
+    AuthAuditLogger* auth_audit_logger_ = nullptr; ///< Non-owning, optional typed logger.
+    AuthMetrics* metrics_ = nullptr;               ///< Non-owning, optional metrics.
     
     // Generate random secret for TOTP (20 bytes = 160 bits)
     std::string generateSecret() const;

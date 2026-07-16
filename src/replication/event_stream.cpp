@@ -1,18 +1,21 @@
+/**
+ * @file event_stream.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            event_stream.cpp                                   ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 18:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     210                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: event_stream.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 282
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=11, M=3, L=0
+ * PR History (last 5): #3641 feat(modules): security/rep... (2026-03-12) | #3638 feat(replication): Phase 4 ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -26,6 +29,7 @@
 
 #include <algorithm>
 #include <string>
+#include <sstream>
 
 namespace themisdb {
 namespace replication {
@@ -266,12 +270,12 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     Event ev;
     ev.type      = EventType::NETWORK_PARTITION;
     ev.timestamp = std::chrono::system_clock::now();
-    std::string nodes;
-    for (const auto& n : affected) {
-        if (!nodes.empty()) nodes += ',';
-        nodes += n;
+    std::ostringstream nodes_stream;
+    for (size_t i = 0; i < affected.size(); ++i) {
+        if (i > 0) nodes_stream << ',';
+        nodes_stream << affected[i];
     }
-    ev.data["affected_nodes"] = nodes;
+    ev.data["affected_nodes"] = nodes_stream.str();
     emit(std::move(ev));
 }
 

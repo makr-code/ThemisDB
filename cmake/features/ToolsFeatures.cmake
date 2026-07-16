@@ -8,7 +8,12 @@ endif()
 
 # Benchmarks
 if(NOT DEFINED THEMIS_BUILD_BENCHMARKS)
-    option(THEMIS_BUILD_BENCHMARKS "Build benchmarks" ON)
+    option(THEMIS_BUILD_BENCHMARKS "Build benchmarks" OFF)
+endif()
+
+# CHIMERA Suite
+if(NOT DEFINED THEMIS_BUILD_CHIMERA)
+    option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
 endif()
 
 # Docker RAID benchmark (special build)
@@ -58,6 +63,9 @@ if(THEMIS_BUILD_TESTS)
 endif()
 if(THEMIS_BUILD_BENCHMARKS)
     message(STATUS "    Benchmarks: Enabled")
+endif()
+if(THEMIS_BUILD_CHIMERA)
+    message(STATUS "    CHIMERA suite: Enabled")
 endif()
 if(THEMIS_STRICT_BUILD)
     message(STATUS "    Strict build (warnings as errors): Enabled")

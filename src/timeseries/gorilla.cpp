@@ -1,23 +1,21 @@
+/**
+ * @file gorilla.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gorilla.cpp                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gorilla.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 249
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=7, L=0
+ * PR History (last 5): #4350 Update timeseries module: G... (2026-03-20) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #1090 Add comprehensive ARCHITECT... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/gorilla.h"
@@ -111,59 +109,6 @@ std::vector<uint8_t> BitWriter::finish() {
     return buf_;
 }
 
-// ------- BitReader -------
-BitReader::BitReader(const std::vector<uint8_t>& data)
-    : buf_(data) {
-    if (!buf_.empty()) { cur_ = buf_[0]; idx_ = 0; bitpos_ = 0; }
-}
-
-bool BitReader::readBit() {
-    if (idx_ >= buf_.size()) return false;
-    bool bit = ((cur_ >> bitpos_) & 1U) != 0;
-    bitpos_++;
-    if (bitpos_ == 8) {
-        idx_++;
-        if (idx_ < buf_.size()) cur_ = buf_[idx_];
-        bitpos_ = 0;
-    }
-    return bit;
-}
-
-uint64_t BitReader::readBits(int bits) {
-    uint64_t v = 0;
-    for (int i = 0; i < bits; ++i) {
-        if (readBit()) v |= (1ULL << i);
-    }
-    return v;
-}
-
-uint64_t BitReader::readVarUInt() {
-    // LEB128 unsigned; caller ensures byte alignment when required
-    uint64_t result = 0;
-    int shift = 0;
-    while (true) {
-        if (idx_ >= buf_.size()) return result;
-        uint64_t byte = readBits(8);
-        result |= static_cast<uint64_t>(byte & 0x7F) << shift;
-        if ((byte & 0x80) == 0) break;
-        shift += 7;
-    }
-    return result;
-}
-
-int64_t BitReader::readZigZag64() {
-    uint64_t zz = readVarUInt();
-    int64_t v = static_cast<int64_t>(zz >> 1);
-    if (zz & 1ULL) v = ~v;
-    return v;
-}
-
-bool BitReader::eof() const { return idx_ >= buf_.size(); }
-
-void BitReader::alignToByte() {
-    while (bitpos_ != 0) { (void)readBit(); }
-}
-
 // ------- GorillaEncoder -------
 void GorillaEncoder::add(int64_t timestamp_ms, double value) {
     if (first_) {
@@ -219,12 +164,38 @@ void GorillaEncoder::add(int64_t timestamp_ms, double value) {
 }
 
 std::vector<uint8_t> GorillaEncoder::finish() {
-    return bw_.finish();
+    auto payload = bw_.finish();
+    std::vector<uint8_t> result;
+    result.reserve(3 + payload.size());
+    result.push_back(kGorillaMagic0);
+    result.push_back(kGorillaMagic1);
+    result.push_back(kGorillaCurrentVersion);
+    result.insert(result.end(), payload.begin(), payload.end());
+    return result;
 }
 
 // ------- GorillaDecoder -------
 GorillaDecoder::GorillaDecoder(const std::vector<uint8_t>& data)
-    : br_(data) {}
+    : data_(gorilla_strip_header(data, error_))
+    , br_(data_) {}
+
+// Strip the 3-byte chunk header if present and return the payload slice.
+// Sets error=true when magic bytes are present but the version is unsupported.
+// Legacy chunks (no header) are returned unchanged.
+/* static */ std::vector<uint8_t> GorillaDecoder::gorilla_strip_header(
+        const std::vector<uint8_t>& data, bool& error_out) {
+    if (data.size() >= 3 &&
+            data[0] == kGorillaMagic0 &&
+            data[1] == kGorillaMagic1) {
+        if (data[2] != kGorillaCurrentVersion) {
+            error_out = true;
+            return {};
+        }
+        return std::vector<uint8_t>(data.begin() + 3, data.end());
+    }
+    // Legacy format: no header — return as-is
+    return data;
+}
 
 std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     if (error_) return std::nullopt;
@@ -286,3 +257,4 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
 }
 
 } // namespace themis
+

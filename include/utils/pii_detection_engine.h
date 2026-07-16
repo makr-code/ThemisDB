@@ -1,26 +1,20 @@
+/**
+ * @file pii_detection_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_detection_engine.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     305                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1914efd40  2026-02-22  audit(utils): fix broken test assertion and update qualit... ║
-    • a4012d8fa  2026-02-22  fix(utils): resolve stub in pii_detection_engine.h and lo... ║
-    • b5853f10c  2026-02-22  Implement ML-based NER detection engine for PII detection... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_detection_engine.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,6 +89,10 @@ struct PluginSignature {
     static std::string computeConfigHash(const nlohmann::json& config);
 };
 
+/// Default lookahead buffer size for cross-chunk entity span detection.
+/// Forward-declared here so IPIIDetectionEngine::maxPatternLength() can use it.
+static constexpr size_t kDefaultLookaheadBytes = 256;
+
 /**
  * @brief Abstract base class for PII detection engines
  * 
@@ -124,25 +122,25 @@ public:
      * @brief Get engine name
      * @return Engine identifier (e.g., "regex", "ner", "embedding")
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Get engine version
      * @return Semantic version string (e.g., "1.0.0")
      */
-    virtual std::string getVersion() const = 0;
+    [[nodiscard]] virtual std::string getVersion() const = 0;
     
     /**
      * @brief Check if engine is enabled
      * @return true if engine is active
      */
-    virtual bool isEnabled() const = 0;
+    [[nodiscard]] virtual bool isEnabled() const = 0;
     
     /**
      * @brief Get engine's signature metadata
      * @return Plugin signature for PKI verification
      */
-    virtual PluginSignature getSignature() const = 0;
+    [[nodiscard]] virtual PluginSignature getSignature() const = 0;
     
     /**
      * @brief Initialize engine with signed configuration
@@ -153,7 +151,7 @@ public:
      * @param config YAML configuration node for this engine
      * @return true on success, false on initialization failure
      */
-    virtual bool initialize(const nlohmann::json& config) = 0;
+    [[nodiscard]] virtual bool initialize(const nlohmann::json& config) = 0;
     
     /**
      * @brief Reload engine configuration at runtime
@@ -161,7 +159,7 @@ public:
      * @param config New YAML configuration node
      * @return true on success, false if reload failed (engine retains old config)
      */
-    virtual bool reload(const nlohmann::json& config) = 0;
+    [[nodiscard]] virtual bool reload(const nlohmann::json& config) = 0;
     
     /**
      * @brief Detect PII in plain text
@@ -169,7 +167,7 @@ public:
      * @param text Input text to scan
      * @return Vector of PII findings
      */
-    virtual std::vector<PIIFinding> detectInText(const std::string& text) const = 0;
+    [[nodiscard]] virtual std::vector<PIIFinding> detectInText(const std::string& text) const = 0;
     
     /**
      * @brief Classify field name for PII type
@@ -179,7 +177,7 @@ public:
      * @param field_name Field name to classify
      * @return PIIType if field suggests PII, PIIType::UNKNOWN otherwise
      */
-    virtual PIIType classifyFieldName(const std::string& field_name) const = 0;
+    [[nodiscard]] virtual PIIType classifyFieldName(const std::string& field_name) const = 0;
     
     /**
      * @brief Get recommended redaction mode for PII type
@@ -187,21 +185,32 @@ public:
      * @param type PII type
      * @return "strict", "partial", or "none"
      */
-    virtual std::string getRedactionRecommendation(PIIType type) const = 0;
+    [[nodiscard]] virtual std::string getRedactionRecommendation(PIIType type) const = 0;
     
     /**
      * @brief Get last error message
      * 
      * @return Error message from last failed operation
      */
-    virtual std::string getLastError() const = 0;
+    [[nodiscard]] virtual std::string getLastError() const = 0;
     
     /**
      * @brief Get engine-specific metadata (pattern count, model info, etc.)
      * 
      * @return JSON object with engine metadata
      */
-    virtual nlohmann::json getMetadata() const = 0;
+    [[nodiscard]] virtual nlohmann::json getMetadata() const = 0;
+
+    /**
+     * @brief Return the maximum number of bytes a single entity span can occupy.
+     *
+     * Used by PIIStreamScanner to size its cross-chunk lookahead buffer so that
+     * entity spans straddling a chunk boundary are detected correctly.  The
+     * sliding-window overlap used for cross-chunk regex matching equals this value.
+     *
+     * @return Maximum entity length in bytes (default: 256).
+     */
+    virtual size_t maxPatternLength() const { return kDefaultLookaheadBytes; }
 };
 
 /**
@@ -307,11 +316,16 @@ public:
 // PIIStreamScanner
 // ---------------------------------------------------------------------------
 
+/// Default lookahead buffer size for cross-chunk entity span detection.
+/// Also used as the floor value returned by IPIIDetectionEngine::maxPatternLength()
+/// when no patterns are loaded.
+// Note: kDefaultLookaheadBytes is forward-declared above IPIIDetectionEngine.
+
 /**
  * @brief Configuration for streaming PII scanner.
  */
 struct PIIStreamScannerConfig {
-    size_t lookahead_bytes = 256; ///< Buffer to handle cross-chunk entity spans
+    size_t lookahead_bytes = kDefaultLookaheadBytes; ///< Buffer to handle cross-chunk entity spans
     double min_confidence  = 0.5;
 };
 

@@ -1,24 +1,20 @@
+/**
+ * @file mvcc_store.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mvcc_store.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     280                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 886db4610  2026-02-24  Add atomic history/conflict layer to MVCCStore and Transa... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mvcc_store.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -30,8 +26,10 @@
 #include "storage/rocksdb_wrapper.h"
 #include <cstdint>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 #include <functional>
 #include <memory>
@@ -236,6 +234,19 @@ public:
         return gcAllBefore(min_ts, GCOptions{});
     }
 
+    /**
+     * @brief Enumerate every distinct base key that has at least one versioned
+     *        entry in the store.
+     *
+     * Performs a single O(N) full scan.  The callback receives each unique
+     * base key exactly once.  Return @c false from the callback to stop
+     * iteration early.
+     *
+     * Intended for use by MVCCChainPruner::pruneAll() so that the pruner can
+     * migrate-then-delete per-key without duplicating the key-discovery logic.
+     */
+    void scanBaseKeys(std::function<bool(std::string_view base_key)> callback);
+
     // ─── Clock access ─────────────────────────────────────────────────────────
 
     /** Return the current HLC timestamp without advancing it. */
@@ -249,14 +260,14 @@ public:
     /**
      * @brief Build the versioned storage key for @p base_key at @p ts.
      *
-     * Format: `<base_key>'\x00'<8-byte-big-endian-ts>`
+     * Format: `<base_key>'\\0'<8-byte-big-endian-ts>`
      */
     static std::string encodeVersionedKey(std::string_view base_key, HLCTimestamp ts);
 
     /**
      * @brief Build the prefix used to scan all versions of @p base_key.
      *
-     * Format: `<base_key>'\x00'`
+     * Format: `<base_key>'\\0'`
      */
     static std::string encodeVersionPrefix(std::string_view base_key);
 
@@ -265,8 +276,8 @@ public:
      *
      * The timestamp occupies the last 8 bytes of a versioned key.  This function
      * uses a fixed-width offset from the end of the key rather than searching for
-     * the '\x00' separator, because the 8-byte big-endian timestamp can itself
-     * contain '\x00' bytes.
+     * the '\\0' separator, because the 8-byte big-endian timestamp can itself
+     * contain '\\0' bytes.
      *
      * @return The decoded HLCTimestamp, or a zero-valued timestamp if @p key
      *         is shorter than 9 bytes (and therefore cannot be a valid versioned key).
@@ -276,6 +287,18 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper>     db_;
     std::shared_ptr<HybridLogicalClock> clock_;
+
+    // F-010: Latest-version cache — maps base key → HLC timestamp of the most
+    // recent non-transactional write.  Allows getLatest() to perform a direct
+    // db_->get() point-read instead of creating a RocksDB iterator every time.
+    //
+    // Invariant: latest_ts_map_[key] == ts of the last put()/putWithTimestamp()
+    // call for that key, provided ts >= any previous value in the map.
+    // Keys written exclusively via putInTxn()/delInTxn() will NOT be in the
+    // map; getLatest() falls back to the iterator path for those (safe).
+    mutable std::shared_mutex                    latest_mu_;
+    std::unordered_map<std::string, HLCTimestamp> latest_ts_map_;
 };
 
 } // namespace themis
+

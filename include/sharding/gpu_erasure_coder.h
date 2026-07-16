@@ -1,23 +1,21 @@
+/**
+ * @file gpu_erasure_coder.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_erasure_coder.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     265                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_erasure_coder.h | Version: 0.0.47 | Last Modified: 2026-06-01 19:17:11
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 260
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #250 [v1.5.0] GPU-Accelerated Er... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -97,11 +95,11 @@ public:
     
     ~GPUErasureCoder() override;
     
-    // Disable copy, allow move
+    // Disable copy and move (due to mutable std::mutex)
     GPUErasureCoder(const GPUErasureCoder&) = delete;
     GPUErasureCoder& operator=(const GPUErasureCoder&) = delete;
-    GPUErasureCoder(GPUErasureCoder&&) noexcept;
-    GPUErasureCoder& operator=(GPUErasureCoder&&) noexcept;
+    GPUErasureCoder(GPUErasureCoder&&) noexcept = delete;
+    GPUErasureCoder& operator=(GPUErasureCoder&&) noexcept = delete;
     
     /**
      * Encode data into data + parity chunks using GPU acceleration
@@ -185,7 +183,10 @@ public:
         double avg_cpu_decode_ms = 0.0;
     };
     
-    PerformanceStats getStats() const { return stats_; }
+    PerformanceStats getStats() const {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        return stats_;
+    }
     void resetStats();
 
 private:
@@ -202,7 +203,9 @@ private:
     // Force CPU mode flag
     bool force_cpu_ = false;
     
-    // Performance statistics
+    // Performance statistics and its mutex (stats_ is updated from encode/decode;
+    // protects all fields of stats_ against concurrent callers).
+    mutable std::mutex stats_mutex_;
     mutable PerformanceStats stats_;
     
     // Initialize GPU implementation
@@ -220,29 +223,29 @@ class GPUErasureCoderImpl {
 public:
     virtual ~GPUErasureCoderImpl() = default;
     
-    virtual bool initialize(const GPUConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const GPUConfig& config) = 0;
     virtual void shutdown() = 0;
     
-    virtual std::vector<std::vector<uint8_t>> encode(
+    [[nodiscard]] virtual std::vector<std::vector<uint8_t>> encode(
         const std::vector<uint8_t>& data,
         uint32_t data_shards,
         uint32_t parity_shards
     ) = 0;
     
-    virtual std::vector<uint8_t> decode(
+    [[nodiscard]] virtual std::vector<uint8_t> decode(
         const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
         const std::vector<uint32_t>& missing_indices,
         uint32_t data_shards,
         uint32_t parity_shards
     ) = 0;
     
-    virtual std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
+    [[nodiscard]] virtual std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
         const std::vector<std::vector<uint8_t>>& data_blocks,
         uint32_t data_shards,
         uint32_t parity_shards
     ) = 0;
     
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 
 /**

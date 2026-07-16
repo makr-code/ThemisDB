@@ -1,23 +1,20 @@
+/**
+ * @file json_path_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            json_path_functions.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     630                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: json_path_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -108,7 +105,14 @@ public:
                 }
                 
                 std::string index_str = working_path.substr(pos + 1, close - pos - 1);
-                int index = std::stoi(index_str);
+                // REL-22: wrap stoi() — index_str comes from user input and may be
+                // non-numeric or out-of-range (e.g. "[abc]", "[999999999999]").
+                int index;
+                try {
+                    index = std::stoi(index_str);
+                } catch (const std::exception&) {
+                    throw std::runtime_error("Invalid JSONPath: array index '" + index_str + "' is not a valid integer");
+                }
                 segments.push_back(Segment(index));
                 pos = close + 1;
             } else {
@@ -356,6 +360,7 @@ public:
  */
 class JsonExtractFunction : public IFunction {
 public:
+    ~JsonExtractFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_EXTRACT",
@@ -389,6 +394,7 @@ public:
  */
 class JsonSetFunction : public IFunction {
 public:
+    ~JsonSetFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_SET",
@@ -425,6 +431,7 @@ public:
  */
 class JsonRemoveFunction : public IFunction {
 public:
+    ~JsonRemoveFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_REMOVE",
@@ -460,6 +467,7 @@ public:
  */
 class JsonTypeFunction : public IFunction {
 public:
+    ~JsonTypeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_TYPE",
@@ -501,6 +509,7 @@ public:
  */
 class JsonContainsFunction : public IFunction {
 public:
+    ~JsonContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_CONTAINS",
@@ -530,6 +539,7 @@ public:
  */
 class JsonDepthFunction : public IFunction {
 public:
+    ~JsonDepthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_DEPTH",
@@ -558,6 +568,7 @@ public:
  */
 class JsonParseFunction : public IFunction {
 public:
+    ~JsonParseFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_PARSE",
@@ -590,6 +601,7 @@ public:
  */
 class JsonStringifyFunction : public IFunction {
 public:
+    ~JsonStringifyFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "JSON_STRINGIFY",

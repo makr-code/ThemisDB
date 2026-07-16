@@ -1,67 +1,41 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            inference_engine_enhanced.h                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     480                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
-    • a3ad5ddca  2026-02-28  feat(llm): implement multi-model routing based on prompt ... ║
-    • b9d87ac07  2026-02-28  feat(llm): LoRA adapter hot-loading at inference time ║
-    • 7664f3558  2026-02-28  feat(llm): mark shared worker pool complete; fix stale St... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include "llm/inference_handle.h"
-#include "llm/continuous_batch_scheduler.h"
-#include "llm/paged_kv_cache.h"
-#include "llm/llm_prefix_cache.h"
-#include "llm/llm_plugin_interface.h"
-#include "llm/model_router.h"
-#include "llm/multi_lora_manager.h"
-#include "llm/shared_worker_pool.h"
-#include "llm/speculative_decoder.h"
-#include <memory>
-#include <mutex>
-#include <vector>
-#include <unordered_map>
-#include <queue>
-#include <chrono>
-#include <atomic>
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
 
 /**
  * @file inference_engine_enhanced.h
- * @brief Enhanced LLM Inference Engine with P1 Features
- * 
- * Implements the P1 Enterprise Features:
- * 1. Context Caching (KV-Cache Reuse) with LRU eviction
- * 2. Batch Processing with dynamic sizing
- * 3. Request Queuing with priority and timeout
- * 4. Load Balancing with multi-model support
- * 
- * Acceptance Criteria:
- * - Context cache hit rate > 80%
- * - Batch processing improves throughput by > 2x
- * - Queue prevents request drops under load
- * - Load balancer distributes requests evenly
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/adapter_registry.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/i_federated_inference_backend.h"
+#include "llm/inference_handle.h"
+#include "llm/llm_prefix_cache.h"
+#include "llm/llm_plugin_interface.h"
+#include "llm/model_router.h"
+#include "llm/paged_block_manager.h"
+#include "llm/paged_kv_cache.h"
+#include "llm/shared_worker_pool.h"
+#include "llm/speculative_decoder.h"
+#include "llm/lookup_decoder.h"
+#include "rag/self_rag.h"
+#include "sharding/remote_executor.h"
+
+#include <chrono>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -84,6 +58,7 @@ public:
         size_t max_batch_size = 256;
         size_t batch_timeout_ms = 100;  // Wait up to 100ms to form batch
         size_t max_tokens_per_batch = 8192;
+        bool enable_adaptive_batch_retry = false;
         
         // Request queuing
         size_t max_queue_size = 1000;
@@ -112,6 +87,29 @@ public:
         /// The draft model is typically a small, quantised variant of the
         /// target model (e.g., INT4-quantised 0.5 B parameters).
         std::string speculative_draft_model_id;
+
+        /**
+         * @brief Remote shard identifier for cross-shard speculative decoding.
+         *
+         * When non-empty, trySpeculativeGeneration() will attempt to fetch
+         * draft tokens from this remote shard via RemoteExecutor::post() before
+         * falling back to the locally registered draft model.
+         *
+         * Format passed through to SpeculativeDecoder::Config::remote_draft_shard_id.
+         * Activate by also calling setRemoteExecutor() with a valid executor and
+         * the ShardInfo for the target shard.
+         */
+        std::string speculative_remote_draft_shard_id;
+
+        // Prompt lookup decoding (n-gram based speculation-light path)
+        bool enable_lookup_decoding = false;
+        size_t lookup_ngram_min = 2;
+        size_t lookup_ngram_max = 4;
+        /// Maximum draft tokens proposed per lookup step.
+        /// Defaults to lookup_ngram_max (one continuation token per key token),
+        /// but can be set independently to allow longer continuations than the
+        /// key length (e.g., ngram_max=4, max_draft=8).
+        size_t lookup_max_draft_tokens = 0;  // 0 = use lookup_ngram_max
     };
     
     /**
@@ -196,6 +194,13 @@ public:
         std::chrono::milliseconds timeout{30000};
         bool allow_caching = true;
         std::string preferred_model_id;  // Optional model preference
+        // RAID-sharding orchestration hints (optional, see src/llm/FUTURE_ENHANCEMENTS.md):
+        // - shard_routing_key: deterministic placement hint for shard routers.
+        // - target_instance_ids: explicit shard/instance fan-out subset.
+        // - allow_cross_instance_batching: opt-in guard for distributed co-batching.
+        std::string shard_routing_key;        // Set alone for deterministic shard placement.
+        std::vector<std::string> target_instance_ids; // Optional explicit fan-out subset; empty = router decides.
+        bool allow_cross_instance_batching = false;   // Explicit opt-in for coordinator-side co-batching.
         
         // For result tracking
         std::string request_id;
@@ -222,9 +227,35 @@ public:
     ~InferenceEngineEnhanced();
     
     // Model management
+    
+    /**
+     * Register a model with the inference engine.
+     * @param model_id Model identifier (non-empty required)
+     * @param plugin Pointer to LLM plugin implementation
+     * @note Rejects empty model_id fail-closed to prevent silent model registration failures
+     *       and key collision vulnerabilities in the models_ map
+     */
     void registerModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> plugin);
+    
     void unregisterModel(const std::string& model_id);
     std::vector<std::string> getAvailableModels() const;
+
+    /**
+     * @brief Attach an adapter registry for DRAFT model auto-discovery.
+     *
+     * When speculative decoding is enabled and @c Config::speculative_draft_model_id
+     * is empty, the engine will call
+     * @c AdapterRegistry::findDraftAdapterForFamily() with the target model's
+     * architecture/family string each time it selects a target model.  The
+     * first DRAFT adapter whose architecture matches the target model's family
+     * is used as the draft model for that request, provided its adapter_id is
+     * also registered as a model via @c registerModel().
+     *
+     * Thread-safe: the registry reference is stored under @c models_mutex_.
+     *
+     * @param registry Non-null adapter registry to query for DRAFT adapters.
+     */
+    void setAdapterRegistry(std::shared_ptr<AdapterRegistry> registry);
 
     /**
      * @brief Hot-swap the plugin for a registered model without restarting the engine.
@@ -344,6 +375,41 @@ public:
         const EnhancedInferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback
     );
+
+    /**
+     * @brief Token-streaming callback type (mirrors AsyncInferenceEngine::TokenCallback).
+     *
+     * Called once per decoded token with @p is_final == false, and once more
+     * with an empty token string and @p is_final == true when the stream ends
+     * (normal completion or cancellation).  Must be thread-safe.
+     *
+     * @note The @p token view is only valid for the duration of the callback
+     *       invocation.  If the value needs to be retained beyond the callback
+     *       return, copy it into a @c std::string before returning.
+     */
+    using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
+
+    /**
+     * @brief Submit a streaming inference request.
+     *
+     * Wraps the provided @p callback into the batch scheduler's streaming
+     * path: each decoded token is delivered via @p callback with
+     * @p is_final == false; once the stream ends (completion or
+     * InferenceHandle::cancel()) a final call with an empty token and
+     * @p is_final == true is made exactly once.
+     *
+     * Thread-safety: @p callback is invoked from the batch-processing thread;
+     * implementations must be safe for concurrent access from the HTTP layer.
+     *
+     * @param request  Enhanced inference request; any existing
+     *                 base_request.stream_callback is overwritten.
+     * @param callback Per-token callback (see TokenCallback).
+     * @return Handle for result retrieval and cancellation.
+     */
+    InferenceHandle submitStreaming(
+        const EnhancedInferenceRequest& request,
+        TokenCallback                   callback
+    );
     
     // Request management
     bool cancel(const std::string& request_id);
@@ -361,7 +427,88 @@ public:
     void start();
     void shutdown();
     bool isRunning() const;
-    
+
+    /**
+     * @brief Inject a RemoteExecutor for cross-shard speculative decoding.
+     *
+     * When set and @c Config::speculative_remote_draft_shard_id is non-empty,
+     * trySpeculativeGeneration() will POST draft-token requests to the remote
+     * shard before falling back to the locally registered draft model.
+     *
+     * @param exec          Pointer to the executor.  Pass @c nullptr to detach.
+     *                      Ownership is NOT transferred.
+     * @param draft_shard   ShardInfo describing the remote draft shard's
+     *                      endpoint, shard_id, and health status.
+     */
+    void setRemoteExecutor(sharding::RemoteExecutor* exec,
+                           const sharding::ShardInfo& draft_shard);
+
+    /**
+     * @brief Attach a federated inference backend for cross-instance fan-out.
+     *
+     * When a non-null backend is attached **and** an incoming
+     * `EnhancedInferenceRequest` carries a non-empty `target_instance_ids`
+     * list, the request is delegated to the backend's `execute()` instead of
+     * the local model pipeline.  The backend decides how to fan-out and
+     * fan-in across the listed instances.
+     *
+     * The engine adopts a "first-wins" merge strategy: it returns the text of
+     * the first successful `FanOutInstanceResult`.  If all instances fail, the
+     * response carries `success=false` and an aggregated error message.
+     *
+     * Pass @c nullptr to detach a previously attached backend.
+     */
+    void setFederatedBackend(std::shared_ptr<IFederatedInferenceBackend> backend);
+
+    // ── Wave B B1: Self-RAG integration ───────────────────────────────────
+
+    /**
+     * @brief Retrieval hook used when request metadata enables Self-RAG.
+     *
+     * Parameters: (query, top_k, request).
+     */
+    using SelfRAGRetrievalCallback = std::function<
+        std::vector<themis::rag::SelfRAGDocument>(
+            const std::string&,
+            size_t,
+            const InferenceRequest&)>;
+
+    /**
+     * @brief Optional critic hook used when request metadata enables Self-RAG.
+     *
+     * Parameters: (query, document, request) -> score in [0, 1].
+     */
+    using SelfRAGCriticCallback = std::function<
+        double(
+            const std::string&,
+            const themis::rag::SelfRAGDocument&,
+            const InferenceRequest&)>;
+
+    /// Inject the retrieval backend used by Self-RAG-enabled requests.
+    void setSelfRAGRetrievalCallback(SelfRAGRetrievalCallback cb);
+
+    /// Inject an optional critic backend used by Self-RAG-enabled requests.
+    void setSelfRAGCriticCallback(SelfRAGCriticCallback cb);
+
+    // ── STUB #262 bridge — target logit injection ─────────────────────────
+
+    /// Callback type for injecting real per-position target-model logits into
+    /// trySpeculativeGeneration() without requiring a full llama.cpp rewrite.
+    ///
+    /// Parameters: (request, K, vocab_size, target_plugin)
+    /// Must return exactly K+1 rows of vocab_size floats.
+    using TargetLogitsFn = std::function<
+        std::vector<std::vector<float>>(
+            const InferenceRequest&            /*request*/,
+            size_t                             /*K*/,
+            size_t                             /*vocab_size*/,
+            std::shared_ptr<ILLMPlugin>        /*target_plugin*/)>;
+
+    /// Inject a real target-logit computation into trySpeculativeGeneration().
+    /// Pass nullptr / empty fn to restore the built-in peaked-distribution
+    /// heuristic (STUB #262).  Thread-safe.
+    void setTargetLogitsFn(TargetLogitsFn fn);
+
 private:
     Config config_;
     std::atomic<bool> running_{false};
@@ -371,6 +518,7 @@ private:
 
     // Core components
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
+    mutable std::mutex cache_mutex_;  // Protects prefix_cache_ access
     std::shared_ptr<PagedKVCache> kv_cache_;
     std::shared_ptr<PagedBlockManager> block_manager_;
     std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;
@@ -378,6 +526,33 @@ private:
     // Speculative decoding — one decoder per engine instance.
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Optional RemoteExecutor for cross-shard speculative draft dispatch.
+    // nullptr when setRemoteExecutor() has not been called.  Not owned.
+    sharding::RemoteExecutor* remote_executor_ = nullptr;
+    // ShardInfo for the remote draft shard (valid only when remote_executor_ != nullptr).
+    sharding::ShardInfo remote_draft_shard_info_;
+
+    // Optional federated backend for cross-instance fan-out (Issue #1928).
+    // Protected by federated_backend_mutex_.
+    std::shared_ptr<IFederatedInferenceBackend> federated_backend_;
+    mutable std::mutex federated_backend_mutex_;
+    SelfRAGRetrievalCallback self_rag_retrieval_cb_;
+    SelfRAGCriticCallback self_rag_critic_cb_;
+    mutable std::mutex self_rag_mutex_;
+    // STUB #262 bridge — target logit injection.
+    TargetLogitsFn target_logits_fn_;
+    mutable std::mutex target_logits_fn_mutex_;
+
+    // Lookup decoder (n-gram based, draft-model-free).
+    // nullptr when enable_lookup_decoding == false.
+    std::unique_ptr<LookupDecoder> lookup_decoder_;
+
+    // Optional adapter registry for DRAFT model auto-discovery.
+    // When set and speculative_draft_model_id is empty, the engine queries
+    // this registry via findDraftAdapterForFamily() to auto-select the draft
+    // model based on the target model's architecture/family.
+    std::shared_ptr<AdapterRegistry> adapter_registry_;
 
     // Content-based / metadata-tag model router (Phase 3).
     // Evaluated in selectModel() before load-balancing strategies.
@@ -439,7 +614,6 @@ private:
     // Cache integration
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);
     void updateCache(const InferenceRequest& request, const InferenceResponse& response);
-    std::string generateCacheKey(const InferenceRequest& request);
     
     // Load balancing
     std::string selectModel(const EnhancedInferenceRequest& request);
@@ -452,6 +626,19 @@ private:
     // Timeout handling
     void checkAndHandleTimeouts();
     
+    // Embedding helper for cache operations.
+    // Uses the first available plugin (see implementation for selection rationale).
+    // Returns an empty vector when no plugin is registered or embedding fails
+    // (graceful degradation: falls back to exact-key matching only).
+    std::vector<float> computeEmbeddingForCache(const std::string& text);
+
+    // Build a token-ID sequence for a given prompt.
+    // Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight
+    // approximation.  A real tokenizer call would be required for exact counts,
+    // but the ILLMPlugin interface does not expose a standalone tokenize()
+    // method at this level of abstraction.
+    static std::vector<int> estimateTokenSequence(const std::string& text);
+
     // Statistics updates
     void recordCacheHit(size_t tokens_saved);
     void recordCacheMiss();
@@ -470,6 +657,14 @@ private:
         std::shared_ptr<ILLMPlugin> draft_plugin,
         InferenceResponse&         response
     );
+
+    // Resolve the draft model ID for a given target model.
+    // Returns config_.speculative_draft_model_id when non-empty.
+    // Otherwise, if adapter_registry_ is set, queries it for a DRAFT adapter
+    // matching the target model's family (architecture field); returns the
+    // matching adapter_id when the corresponding model is registered, or
+    // an empty string when no suitable draft model is found.
+    std::string resolveDraftModelId(const std::string& target_model_id) const;
     
     // Helper methods
     std::string generateRequestId();

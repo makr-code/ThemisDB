@@ -1,30 +1,32 @@
+/**
+ * @file adaptive_shard_router.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_shard_router.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     481                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 594
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=15, M=17, L=0
+ * PR History (last 5): #1171 Implement adaptive capabili... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/adaptive_shard_router.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include <algorithm>
+#include <cmath>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <numeric>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -65,6 +67,99 @@ AdaptiveShardRouter::AdaptiveShardRouter(
         truetime
     )
 {
+}
+
+void AdaptiveShardRouter::updateAdapterCapability(
+    const std::string& shard_id,
+    const themis::distributed_knowledge::AdapterCapabilityAnnouncement& announcement
+) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    shard_domain_scores_[shard_id][announcement.domain_type] = announcement.accuracy_delta;
+}
+
+void AdaptiveShardRouter::updateShardLLMLoad(
+    const std::string& shard_id,
+    uint64_t pending_requests,
+    double avg_queue_ms
+) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    auto& load = shard_llm_load_[shard_id];
+    load.pending_requests = pending_requests;
+    load.avg_queue_ms     = avg_queue_ms;
+    load.updated_at       = std::chrono::steady_clock::now();
+}
+
+std::string AdaptiveShardRouter::routeByDomain(
+    themis::distributed_knowledge::AdapterDomainType domain
+) const {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+
+    std::string best_shard;
+    double best_delta = std::numeric_limits<double>::lowest();
+    uint64_t best_pending = std::numeric_limits<uint64_t>::max();
+    int best_freshness_rank = 2;  // 0=fresh, 1=stale, 2=missing
+    bool found = false;
+    const auto now = std::chrono::steady_clock::now();
+    const auto freshness_window = std::chrono::milliseconds(adaptive_config_.llm_load_freshness_ms);
+
+    for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
+        auto it = domain_map.find(domain);
+        if (it == domain_map.end()) {
+            continue;
+        }
+        const double delta = it->second;
+        if (!std::isfinite(delta)) {
+            continue;
+        }
+
+        uint64_t pending = std::numeric_limits<uint64_t>::max();
+        int freshness_rank = 2;
+        auto load_it = shard_llm_load_.find(shard_id);
+        if (load_it != shard_llm_load_.end()) {
+            const auto age = now - load_it->second.updated_at;
+            if (age <= freshness_window) {
+                freshness_rank = 0;
+                pending = load_it->second.pending_requests;
+            } else {
+                freshness_rank = 1;
+            }
+        }
+
+        const bool better_score = delta > best_delta;
+        const bool tied_fresher_load = (delta == best_delta) && (freshness_rank < best_freshness_rank);
+        const bool tied_less_load =
+            (delta == best_delta) && (freshness_rank == best_freshness_rank) && (pending < best_pending);
+        const bool tied_lexical =
+            (delta == best_delta) && (freshness_rank == best_freshness_rank) &&
+            (pending == best_pending) && (!best_shard.empty()) && (shard_id < best_shard);
+
+        if (!found || better_score || tied_fresher_load || tied_less_load || tied_lexical) {
+            best_delta   = delta;
+            best_pending = pending;
+            best_freshness_rank = freshness_rank;
+            best_shard   = shard_id;
+            found        = true;
+        }
+    }
+
+    return best_shard; // empty string when no score exists for this domain
+}
+
+double AdaptiveShardRouter::getAdapterAccuracyDelta(
+    const std::string& shard_id,
+    themis::distributed_knowledge::AdapterDomainType domain
+) const {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+
+    auto shard_it = shard_domain_scores_.find(shard_id);
+    if (shard_it == shard_domain_scores_.end()) {
+        return 0.0;
+    }
+    auto domain_it = shard_it->second.find(domain);
+    if (domain_it == shard_it->second.end()) {
+        return 0.0;
+    }
+    return domain_it->second;
 }
 
 nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
@@ -172,13 +267,13 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
             already_queried.insert(shard_id);
         }
         
-        stats.total_shards_queried += shard_ids.size();
+        stats.total_shards_queried += static_cast<uint32_t>(shard_ids.size());
         
         // Count results
         uint32_t iteration_result_count = 0;
         for (const auto& result : iteration_results) {
             if (result.success && result.data.is_array()) {
-                iteration_result_count += result.data.size();
+                iteration_result_count += static_cast<uint32_t>(result.data.size());
             }
         }
         
@@ -224,9 +319,10 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         stats.end_time - stats.start_time).count();
     
     // Calculate iterations saved
-    uint32_t potential_iterations = (all_shards.size() + 
+    uint32_t potential_iterations = static_cast<uint32_t>(
+        (all_shards.size() + 
         adaptive_config_.results_per_iteration - 1) / 
-        adaptive_config_.results_per_iteration;
+        adaptive_config_.results_per_iteration);
     if (potential_iterations > stats.iterations_executed) {
         iterations_saved_ += (potential_iterations - stats.iterations_executed);
     }
@@ -263,31 +359,58 @@ void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
     matcher_ = std::make_shared<CapabilityMatcher>(config.matcher_config);
 }
 
+void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
+    std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
+    nlp_context_fn_ = std::move(fn);
+}
+
+void AdaptiveShardRouter::setNlpContextFn(LegacyNlpContextFn fn) {
+    setNlpContextFn([fn = std::move(fn)](
+        const std::string& query,
+        CapabilityMatcher::QueryContext& context
+    ) {
+        auto maybe_context = fn(std::string_view{query});
+        if (!maybe_context.has_value()) {
+            return;
+        }
+
+        auto enriched = std::move(*maybe_context);
+        if (enriched.query_text.empty()) {
+            enriched.query_text = query;
+        }
+        if (enriched.keywords.empty()) {
+            enriched.keywords = context.keywords;
+        }
+        context = std::move(enriched);
+    });
+}
+
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     const std::string& query
 ) {
     CapabilityMatcher::QueryContext context;
     context.query_text = query;
-    
-    // Extract keywords
     context.keywords = matcher_->extractKeywords(query);
+
+    // Prefer injected NLP/ML enrichment when available.
+    {
+        std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
+        if (nlp_context_fn_.has_value()) {
+            try {
+                nlp_context_fn_.value()(query, context);
+                return context;
+            } catch (const std::exception& e) {
+                spdlog::warn("AdaptiveShardRouter: NLP context fn failed: {}; "
+                             "falling back to pattern matching", e.what());
+            }
+        }
+    }
     
-    // TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:
-    // - Domain detection using NLP/ML models (e.g., "law", "medicine", "construction")
-    // - Named entity recognition for organization extraction (e.g., "hamburg bauamt")
-    // - Geographic entity recognition for region extraction (e.g., "hamburg", "berlin")
-    // - Data type detection from query structure and content
-    // - Embedding generation using sentence transformers or similar models
-    // 
-    // Current implementation uses simple pattern matching as a basic fallback.
-    // For production use, integrate with NLP/embedding services or pre-computed metadata.
-    // See docs/ADAPTIVE_SHARD_ROUTING.md for integration recommendations.
-    
-    // For now, do simple pattern matching for common terms
+    // Fallback heuristic path for deployments without an injected NLP service.
     std::string query_lower = query;
-    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), 
-                  [](unsigned char c) { return std::tolower(c); });
-    
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
     // Detect regions (example patterns)
     if (query_lower.find("hamburg") != std::string::npos) {
         context.regions.push_back("hamburg");
@@ -298,7 +421,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("münchen") != std::string::npos || query_lower.find("munich") != std::string::npos) {
         context.regions.push_back("munich");
     }
-    
+
     // Detect domains (example patterns)
     if (query_lower.find("baurecht") != std::string::npos || query_lower.find("building") != std::string::npos) {
         context.domains.push_back("construction");
@@ -306,7 +429,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("recht") != std::string::npos || query_lower.find("legal") != std::string::npos) {
         context.domains.push_back("law");
     }
-    
+
     return context;
 }
 
@@ -316,11 +439,22 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     size_t max_shards,
     const std::set<std::string>& already_queried
 ) {
-    std::vector<std::string> selected;
-    
+    struct Candidate {
+        std::string shard_id;
+        double score = 0.0;
+    };
+
+    std::vector<Candidate> candidates;
+    candidates.reserve(match_results.size());
+
     for (const auto& match : match_results) {
         // Skip if already queried
         if (already_queried.find(match.shard_id) != already_queried.end()) {
+            continue;
+        }
+
+        // Skip invalid scores explicitly to avoid undefined ranking.
+        if (!std::isfinite(match.score)) {
             continue;
         }
         
@@ -328,9 +462,27 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
         if (match.score < threshold) {
             continue;
         }
-        
-        selected.push_back(match.shard_id);
-        
+
+        // Skip stale topology entries (e.g., shard became unhealthy after scoring).
+        auto shard_info = topology_->getShard(match.shard_id);
+        if (!shard_info || !shard_info->is_healthy) {
+            continue;
+        }
+
+        candidates.push_back(Candidate{match.shard_id, match.score});
+    }
+
+    std::sort(candidates.begin(), candidates.end(), [](const Candidate& lhs, const Candidate& rhs) {
+        if (lhs.score != rhs.score) {
+            return lhs.score > rhs.score;
+        }
+        return lhs.shard_id < rhs.shard_id;
+    });
+
+    std::vector<std::string> selected;
+    selected.reserve(std::min(max_shards, candidates.size()));
+    for (const auto& candidate : candidates) {
+        selected.push_back(candidate.shard_id);
         if (selected.size() >= max_shards) {
             break;
         }
@@ -342,44 +494,13 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     const std::string& query,
     const std::vector<std::string>& shard_ids,
-    uint32_t timeout_ms
+    [[maybe_unused]] uint32_t timeout_ms
 ) {
-    std::vector<ShardResult> results;
-    
-    // For now, use the base class's scatterGather method but filtered to specific shards
-    // In production, this would be optimized to only query the specified shards
-    
-    // Simple approach: query each shard individually
-    for (const auto& shard_id : shard_ids) {
-        ShardResult result;
-        result.shard_id = shard_id;
-        
-        try {
-            // Get shard info
-            auto shard_info = topology_->getShard(shard_id);
-            if (!shard_info) {
-                result.success = false;
-                result.error_msg = "Shard not found";
-                results.push_back(result);
-                continue;
-            }
-            
-            // Execute query on shard
-            // For now, return empty successful result as placeholder
-            // In production, this would use RemoteExecutor to actually query the shard
-            result.success = true;
-            result.data = nlohmann::json::array();
-            result.execution_time_ms = 0;
-            
-        } catch (const std::exception& e) {
-            result.success = false;
-            result.error_msg = e.what();
-        }
-        
-        results.push_back(result);
-    }
-    
-    return results;
+    // Delegate to the base-class implementation which fans out via RemoteExecutor.
+    // timeout_ms is advisory; per-request timeouts are governed by the mTLS client
+    // configuration in RemoteExecutor. Per-iteration timeout enforcement is deferred
+    // until RemoteExecutor exposes a per-call timeout override API.
+    return ShardRouter::executeOnShards(query, shard_ids);
 }
 
 bool AdaptiveShardRouter::shouldStop(
@@ -445,7 +566,7 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
 ) {
     IterationStats stats;
     stats.iteration_number = iteration;
-    stats.shards_queried = shard_ids.size();
+    stats.shards_queried = static_cast<uint32_t>(shard_ids.size());
     stats.iteration_time_ms = iteration_time_ms;
     stats.shard_ids = shard_ids;
     
@@ -453,7 +574,7 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
     stats.results_received = 0;
     for (const auto& result : results) {
         if (result.success && result.data.is_array()) {
-            stats.results_received += result.data.size();
+            stats.results_received += static_cast<uint32_t>(result.data.size());
         }
     }
     

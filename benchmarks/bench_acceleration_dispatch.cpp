@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_acceleration_dispatch.cpp                    ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 03:51:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     250                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3c11df78a  2026-03-03  feat(benchmarks): add 6 missing benchmark suites for acce... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_acceleration_dispatch.cpp | Version: 0.0.14
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /// @file bench_acceleration_dispatch.cpp
@@ -84,7 +70,8 @@ class AnnDispatchBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         if (!backend_.initialize()) {
-            state.SkipWithError("CPUVectorBackend::initialize() failed");
+            auto& mutable_state = const_cast<benchmark::State&>(state);
+            mutable_state.SkipWithError("CPUVectorBackend::initialize() failed");
             return;
         }
         disp_ = backend_.populateANNDispatch();
@@ -202,7 +189,8 @@ class GeoDispatchBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
         if (!backend_.initialize()) {
-            state.SkipWithError("CPUGeoBackend::initialize() failed");
+            auto& mutable_state = const_cast<benchmark::State&>(state);
+            mutable_state.SkipWithError("CPUGeoBackend::initialize() failed");
             return;
         }
         disp_ = backend_.populateGeoDispatch();

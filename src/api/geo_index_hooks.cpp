@@ -1,26 +1,25 @@
+/**
+ * @file geo_index_hooks.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_index_hooks.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     572                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: geo_index_hooks.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 582
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=13, L=0
+ * PR History (last 5): #3546 docs(api): sync api module ... (2026-03-12) | #1135 Complete geospatial product... (2026-03-11) | #1209 Remove unused variable warn... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "api/geo_index_hooks.h"
+#include <stdexcept>
 #include "index/spatial_index.h"
 #include "storage/base_entity.h"
 #include "utils/geo/ewkb.h"
@@ -66,13 +65,19 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return false;
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
 
 // Helper function to validate and sanitize coordinate pair
-static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
+[[maybe_unused]] static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
     try {
         if (!coord.is_array() || coord.size() < 2) {
             return false;
@@ -88,7 +93,13 @@ static bool validateCoordinatePair(const json& coord, double& lon, double& lat) 
         }
         
         return true;
-    } catch (...) {
+    } catch (const nlohmann::json::exception &) {
+        return false;
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }
@@ -121,7 +132,13 @@ void GeoIndexHooks::onEntityPut(
             try {
                 std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
                 j = nlohmann::json::parse(blob_str);
-            } catch (const std::exception& e) {
+            } catch (const nlohmann::json::exception &) {
+                throw;
+            } catch (const std::exception &) {
+                throw;
+            } catch (const std::string &) {
+                throw;
+            } catch (const char *) {
                 throw;
             }
         } else {
@@ -573,3 +590,4 @@ void GeoIndexHooks::onEntityDelete(
 
 } // namespace api
 } // namespace themis
+

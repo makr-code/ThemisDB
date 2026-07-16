@@ -1,26 +1,25 @@
+/**
+ * @file lora_storage_service_themisdb.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=0, Debt=0, C=14, H=12, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_storage_service_themisdb.cpp                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     956                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_storage_service_themisdb.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 91/100 | Lines: 948
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=0, Debt=0, C=19, H=17, M=9, L=0
+ * PR History (last 5): #567 Integrate HSMProvider (PKCS... (2026-03-11) | #566 Integrate VaultKeyProvider ... (2026-03-11) | #541 Complete LoRa Storage Backe... (2026-03-11) | #568 Integrate PKIKeyProvider fo... (2026-03-11) | #585 Analyze ThemisDB gaps: remo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_storage_service.h"
+#include <stdexcept>
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
 #include "security/hsm_provider.h"
@@ -493,7 +492,7 @@ private:
         spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
         
         // Configure HSM
-        security::HSMConfig hsm_config;
+        ::themis::security::HSMConfig hsm_config;
         hsm_config.library_path = config_.hsm_library_path;
         hsm_config.slot_id = config_.hsm_slot_id;
         hsm_config.pin = config_.hsm_pin;
@@ -502,19 +501,19 @@ private:
         hsm_config.signature_algorithm = "RSA-SHA256";
         
         // Create HSM provider
-        auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+        auto hsm = std::make_shared<::themis::security::HSMProvider>(hsm_config);
         if (!hsm->initialize()) {
             throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
         }
         
         // Create HSM adapter
-        security::HSMKeyProviderAdapter::Config adapter_config;
+        ::themis::security::HSMKeyProviderAdapter::Config adapter_config;
         adapter_config.kek_label = config_.hsm_key_label;
         adapter_config.cache_ttl_ms = DEFAULT_HSM_CACHE_TTL_MS;
         adapter_config.max_cache_size = DEFAULT_HSM_MAX_CACHE_SIZE;
         adapter_config.enable_caching = true;
         
-        auto key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
+        auto key_provider = std::make_shared<::themis::security::HSMKeyProviderAdapter>(hsm, adapter_config);
         
         spdlog::info("  ✓ HSM-backed encryption initialized successfully");
         spdlog::info("  Hardware-backed keys provide maximum security");
@@ -565,7 +564,7 @@ private:
         spdlog::info("    Verify: {}", config_.pki_verify_certificate);
         
         // Initialize PKIKeyProvider with certificate files
-        auto key_provider = std::make_shared<security::PKIKeyProvider>(
+        auto key_provider = std::make_shared<::themis::security::PKIKeyProvider>(
             config_.pki_cert_path,
             config_.pki_private_key_path,
             config_.db,
@@ -628,7 +627,7 @@ private:
             spdlog::error("  For production, configure one of:");
             spdlog::error("    1. HSM (use_hsm_for_encryption=true, hsm_library_path=...)");
             spdlog::error("    2. Vault (use_vault_for_encryption=true, vault_addr=https://...)");
-            spdlog::error("    3. PKI (use_pki_for_encryption=true, pki_cert_path=..., pki_private_key_path=...)");
+            spdlog::error("    3. PKI (use_pki_for_encryption=true, pki_cert_path=<path>, pki_private_key_path=<path>)");
             throw std::runtime_error(
                 "Production environment requires HSM, Vault, or PKI key provider. "
                 "Set THEMIS_ENVIRONMENT=development to use MockKeyProvider."
@@ -957,3 +956,5 @@ json LoRAStorageService::getStats() const {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+
+

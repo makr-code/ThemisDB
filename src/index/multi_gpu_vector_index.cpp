@@ -1,42 +1,39 @@
+/**
+ * @file multi_gpu_vector_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_vector_index.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     726                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 825
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=14, M=17, L=0
+ * PR History (last 5): #3573 feat(index): parallel batch... (2026-03-12) | #1104 Update GPU master tracking ... (2026-03-11) | #1096 Implement Multi-GPU Vector ... (2026-03-11) | #992 GPU Vector Indexing: Multi-... (2026-03-11) | #1113 Implement Multi-GPU Vector ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/multi_gpu_vector_index.h"
 #include "index/gpu_vector_index.h"
 #include "acceleration/nccl_vector_backend.h"
 #include "acceleration/rccl_vector_backend.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cmath>
 #include <functional>
 #include <future>
-#include <mutex>
-#include <stdexcept>
-#include <iostream>
-#include <iomanip>
-#include <unordered_map>
-#include <sstream>
 #include <limits>
+#include <mutex>
+#include <sstream>
+#include <stdexcept>
+#include <unordered_map>
 
 namespace themis {
 namespace index {
@@ -76,6 +73,7 @@ public:
     // Per-GPU utilization tracking (microseconds of active query processing per GPU)
     std::vector<uint64_t> perGpuQueryTimeUs;
     mutable std::mutex statsMutex;
+    mutable std::mutex topologyMutex;
 
     Impl(const Config& cfg) : config(cfg) {
         startTime = std::chrono::steady_clock::now();
@@ -86,19 +84,19 @@ public:
     }
     
     bool initialize(int dim) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         dimension = dim;
         
         if (!config.enableMultiGPU || config.deviceIds.empty()) {
-            std::cerr << "MultiGPUVectorIndex: Multi-GPU not enabled or no device IDs specified\n";
+            THEMIS_ERROR("MultiGPUVectorIndex: Multi-GPU not enabled or no device IDs specified");
             return false;
         }
         
-        std::cout << "MultiGPUVectorIndex: Initializing with " << config.deviceIds.size() 
-                  << " GPUs\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Initializing with {} GPUs", config.deviceIds.size());
         
         // Initialize communication backend first (v2.5+)
         if (!initializeCommBackend()) {
-            std::cerr << "Warning: Communication backend initialization failed, using CPU fallback\n";
+            THEMIS_WARN("MultiGPUVectorIndex: Communication backend initialization failed, using CPU fallback");
             activeCommBackend = CommBackend::CPU;
         }
         
@@ -106,27 +104,27 @@ public:
         for (int deviceId : config.deviceIds) {
             if (!initializeGPU(deviceId)) {
                 if (config.enableFaultTolerance) {
-                    std::cerr << "Warning: Failed to initialize GPU " << deviceId 
-                             << ", continuing with remaining GPUs\n";
+                    THEMIS_WARN("MultiGPUVectorIndex: Failed to initialize GPU {}, continuing with remaining GPUs",
+                                deviceId);
                     failedDeviceIds.push_back(deviceId);
                     continue;
                 } else {
-                    std::cerr << "Error: Failed to initialize GPU " << deviceId << "\n";
+                    THEMIS_ERROR("MultiGPUVectorIndex: Failed to initialize GPU {}", deviceId);
                     return false;
                 }
             }
         }
         
         if (activeDeviceIds.empty()) {
-            std::cerr << "Error: No GPUs successfully initialized\n";
+            THEMIS_ERROR("MultiGPUVectorIndex: No GPUs successfully initialized");
             return false;
         }
         
         // Initialize per-GPU utilization counters (one entry per active GPU)
         perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0u);
 
-        std::cout << "Successfully initialized " << activeDeviceIds.size() << " GPUs\n";
-        std::cout << "Communication backend: " << getCommBackendName() << "\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs", activeDeviceIds.size());
+        THEMIS_INFO("MultiGPUVectorIndex: Communication backend: {}", getCommBackendName());
         initialized = true;
         return true;
     }
@@ -170,8 +168,8 @@ public:
                 success = ncclBackend->initialize(ncclConfig);
                 if (success) {
                     activeCommBackend = CommBackend::NCCL;
-                    std::cout << "NCCL backend initialized (version: " 
-                             << acceleration::NCCLVectorBackend::getNCCLVersionString() << ")\n";
+                    THEMIS_INFO("MultiGPUVectorIndex: NCCL backend initialized (version: {})",
+                                acceleration::NCCLVectorBackend::getNCCLVersionString());
                 }
                 break;
             }
@@ -190,8 +188,8 @@ public:
                 success = rcclBackend->initialize(rcclConfig);
                 if (success) {
                     activeCommBackend = CommBackend::RCCL;
-                    std::cout << "RCCL backend initialized (version: " 
-                             << acceleration::RCCLVectorBackend::getRCCLVersionString() << ")\n";
+                    THEMIS_INFO("MultiGPUVectorIndex: RCCL backend initialized (version: {})",
+                                acceleration::RCCLVectorBackend::getRCCLVersionString());
                 }
                 break;
             }
@@ -200,7 +198,7 @@ public:
             default:
                 activeCommBackend = CommBackend::CPU;
                 success = true;
-                std::cout << "Using CPU-based communication (no GPU collectives)\n";
+                THEMIS_INFO("MultiGPUVectorIndex: Using CPU-based communication (no GPU collectives)");
                 break;
         }
         
@@ -237,11 +235,12 @@ public:
         activeDeviceIds.push_back(deviceId);
         gpuIndices.push_back(std::move(gpuIndex));
         
-        std::cout << "  GPU " << deviceId << " initialized successfully\n";
+        THEMIS_INFO("MultiGPUVectorIndex: GPU {} initialized successfully", deviceId);
         return true;
     }
     
     void shutdown() {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         gpuIndices.clear();
         activeDeviceIds.clear();
         failedDeviceIds.clear();
@@ -258,14 +257,14 @@ public:
             case PartitionStrategy::ROUND_ROBIN: {
                 // Simple round-robin based on current vector count
                 size_t totalVectors = vectorToGPU.size();
-                return totalVectors % activeDeviceIds.size();
+                return static_cast<int>(totalVectors % activeDeviceIds.size());
             }
             
             case PartitionStrategy::HASH_BASED: {
                 // Hash the vector ID
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return hash % activeDeviceIds.size();
+                return static_cast<int>(hash % activeDeviceIds.size());
             }
             
             case PartitionStrategy::RANGE_BASED: {
@@ -273,7 +272,7 @@ public:
                 // This is simplified - production would use proper range mapping
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return hash % activeDeviceIds.size();
+                return static_cast<int>(hash % activeDeviceIds.size());
             }
             
             case PartitionStrategy::BALANCED: {
@@ -285,7 +284,7 @@ public:
                     auto stats = gpuIndices[i]->getStatistics();
                     if (stats.numVectors < minVectors) {
                         minVectors = stats.numVectors;
-                        selectedGPU = i;
+                        selectedGPU = static_cast<int>(i);
                     }
                 }
                 return selectedGPU;
@@ -297,7 +296,9 @@ public:
     }
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized) {
+            THEMIS_WARN("MultiGPUVectorIndex::addVector: not initialized, cannot add id={}", id);
             return false;
         }
         
@@ -307,14 +308,18 @@ public:
             // Update existing vector on its current GPU
             int gpuIdx = it->second;
             if (gpuIdx >= 0 && gpuIdx < static_cast<int>(gpuIndices.size())) {
-                return gpuIndices[gpuIdx]->updateVector(id, vector);
+                bool ok = gpuIndices[gpuIdx]->updateVector(id, vector);
+                if (!ok) THEMIS_WARN("MultiGPUVectorIndex::addVector: updateVector failed on gpu {} for id {}", gpuIdx, id);
+                return ok;
             }
+            THEMIS_WARN("MultiGPUVectorIndex::addVector: invalid gpuIdx when updating existing vector id={}", id);
             return false;
         }
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
         if (gpuIdx < 0 || gpuIdx >= static_cast<int>(gpuIndices.size())) {
+            THEMIS_WARN("MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {}", gpuIdx, id);
             return false;
         }
         
@@ -323,11 +328,12 @@ public:
             vectorToGPU[id] = gpuIdx;
             return true;
         }
-        
+        THEMIS_WARN("MultiGPUVectorIndex::addVector: gpuIndices[{}]->addVector failed for id {}", gpuIdx, id);
         return false;
     }
     
     bool removeVector(const std::string& id) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         auto it = vectorToGPU.find(id);
         if (it == vectorToGPU.end()) {
             return false;
@@ -341,14 +347,17 @@ public:
             }
             return success;
         }
-        
+        THEMIS_WARN("MultiGPUVectorIndex::removeVector: invalid gpuIdx {} for id {}", gpuIdx, id);
         return false;
     }
     
     std::vector<MultiGPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         
         if (!initialized || gpuIndices.empty()) {
+            THEMIS_WARN("MultiGPUVectorIndex::search: not initialized or no GPU indices available (initialized={} gpu_count={})",
+                        initialized, gpuIndices.size());
             return {};
         }
         
@@ -398,8 +407,10 @@ public:
     
     std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k) {
-
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.empty() || queries.empty()) {
+            THEMIS_WARN("MultiGPUVectorIndex::searchBatch: invalid state (initialized={} gpu_count={} queries={})",
+                        initialized, gpuIndices.size(), queries.size());
             return {};
         }
 
@@ -492,8 +503,9 @@ public:
     }
     
     Statistics getStatistics() const {
-        // Snapshot mutable stats under lock
-        std::lock_guard<std::mutex> lock(statsMutex);
+        // Snapshot mutable topology and stats under lock
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
+        std::lock_guard<std::mutex> statsLock(statsMutex);
 
         Statistics stats;
         stats.totalVectors = vectorToGPU.size();
@@ -564,7 +576,7 @@ public:
         // Actual speedup estimated from query time improvements
         if (gpuIndices.size() > 1) {
             // Simplified: assume linear scaling as baseline
-            double idealSpeedup = gpuIndices.size();
+            double idealSpeedup = static_cast<double>(gpuIndices.size());
             // For now, use a simple estimate based on load balance
             double actualSpeedup = gpuIndices.size() / (1.0 + stats.loadImbalance * 0.5);
             stats.scalingEfficiency = actualSpeedup / idealSpeedup;
@@ -594,20 +606,20 @@ public:
      * - Update routing tables
      */
     bool rebalance() {
+        std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.size() <= 1) {
             return false;
         }
         
-        std::cout << "MultiGPUVectorIndex: Rebalancing vectors across " 
-                  << gpuIndices.size() << " GPUs...\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...", gpuIndices.size());
         
         // Get current load distribution
         std::vector<size_t> vectorsPerGPU;
         for (size_t i = 0; i < gpuIndices.size(); ++i) {
             auto stats = gpuIndices[i]->getStatistics();
             vectorsPerGPU.push_back(stats.numVectors);
-            std::cout << "  Partition " << i << " (Device " << activeDeviceIds[i] 
-                     << "): " << stats.numVectors << " vectors\n";
+            THEMIS_INFO("MultiGPUVectorIndex: Partition {} (Device {}): {} vectors",
+                        i, activeDeviceIds[i], stats.numVectors);
         }
         
         // Calculate load imbalance
@@ -621,18 +633,16 @@ public:
         if (totalVectors > 0) {
             double avgVectors = static_cast<double>(totalVectors) / gpuIndices.size();
             double imbalance = (maxVectors - minVectors) / avgVectors;
-            std::cout << "  Load imbalance: " << std::fixed << std::setprecision(1) 
-                     << (imbalance * 100.0) << "%\n";
+            THEMIS_INFO("MultiGPUVectorIndex: Load imbalance: {:.1f}%", imbalance * 100.0);
             
             if (imbalance < 0.1) {  // Less than 10% imbalance
-                std::cout << "  Load is already well balanced, no action needed\n";
+                THEMIS_INFO("MultiGPUVectorIndex: Load is already well balanced, no action needed");
             } else {
-                std::cout << "  NOTE: Full rebalancing with data migration will be "
-                         << "implemented in v2.5+\n";
+                THEMIS_INFO("MultiGPUVectorIndex: Full rebalancing with data migration will be implemented in v2.5+");
             }
         }
         
-        std::cout << "Rebalancing check complete\n";
+        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing check complete");
         return true;
     }
 };
@@ -697,6 +707,7 @@ std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> MultiGPUVectorIndex:
 }
 
 bool MultiGPUVectorIndex::addGPU(int deviceId) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
     }
@@ -711,6 +722,7 @@ bool MultiGPUVectorIndex::addGPU(int deviceId) {
 }
 
 bool MultiGPUVectorIndex::removeGPU(int deviceId) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
     }
@@ -756,22 +768,27 @@ MultiGPUVectorIndex::Statistics MultiGPUVectorIndex::getStatistics() const {
 }
 
 std::vector<int> MultiGPUVectorIndex::getActiveGPUs() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->activeDeviceIds;
 }
 
 std::vector<int> MultiGPUVectorIndex::getFailedGPUs() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->failedDeviceIds;
 }
 
 void MultiGPUVectorIndex::setPartitionStrategy(PartitionStrategy strategy) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.partitionStrategy = strategy;
 }
 
 void MultiGPUVectorIndex::setLoadBalancingMode(LoadBalancingMode mode) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.loadBalancing = mode;
 }
 
 void MultiGPUVectorIndex::setEfSearch(int ef) {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.efSearch = ef;
     for (auto& gpuIndex : pImpl->gpuIndices) {
         gpuIndex->setEfSearch(ef);
@@ -779,15 +796,18 @@ void MultiGPUVectorIndex::setEfSearch(int ef) {
 }
 
 MultiGPUVectorIndex::PartitionStrategy MultiGPUVectorIndex::getPartitionStrategy() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->config.partitionStrategy;
 }
 
 // Communication backend control (v2.5+)
 MultiGPUVectorIndex::CommBackend MultiGPUVectorIndex::getCommBackend() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     return pImpl->activeCommBackend;
 }
 
 bool MultiGPUVectorIndex::isCollectiveOpsAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
 #if defined(THEMIS_ENABLE_NCCL) || defined(THEMIS_ENABLE_RCCL)
     return (pImpl->activeCommBackend == CommBackend::NCCL || 
             pImpl->activeCommBackend == CommBackend::RCCL);
@@ -797,6 +817,7 @@ bool MultiGPUVectorIndex::isCollectiveOpsAvailable() const {
 }
 
 bool MultiGPUVectorIndex::isP2PTransferAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->config.enableP2P) return false;
     
 #ifdef THEMIS_ENABLE_NCCL
@@ -814,6 +835,7 @@ bool MultiGPUVectorIndex::isP2PTransferAvailable() const {
 }
 
 bool MultiGPUVectorIndex::isNVLinkAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
 #ifdef THEMIS_ENABLE_NCCL
     if (pImpl->activeCommBackend == CommBackend::NCCL && pImpl->ncclBackend) {
         auto stats = pImpl->ncclBackend->getStatistics();
@@ -824,6 +846,7 @@ bool MultiGPUVectorIndex::isNVLinkAvailable() const {
 }
 
 bool MultiGPUVectorIndex::isXGMIAvailable() const {
+    std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
 #ifdef THEMIS_ENABLE_RCCL
     if (pImpl->activeCommBackend == CommBackend::RCCL && pImpl->rcclBackend) {
         auto stats = pImpl->rcclBackend->getStatistics();

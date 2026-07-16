@@ -1,4 +1,8 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # AQL Query Patterns for Ethical Discourse Retrieval
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 This document provides concrete AQL (Arango Query Language) patterns for retrieving ethical discourse data from ThemisDB's multi-model architecture.
 

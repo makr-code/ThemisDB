@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            create_issues_from_gaps.py                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:49                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,10 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     364                                            ║
     • Open Issues:     TODOs: 5, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 00f73b2e1  2026-02-25  fix: standardize priority labels in all issue creator scr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

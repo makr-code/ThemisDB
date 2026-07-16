@@ -1,28 +1,26 @@
+/**
+ * @file circuit_breaker.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            circuit_breaker.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     264                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: circuit_breaker.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 250
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=1, L=0
+ * PR History (last 5): #4357 feat(sharding): register 7 ... (2026-03-21) | #4259 feat(sharding): Wire Orphan... (2026-03-15) | #3090 sharding: integrate circuit... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/circuit_breaker.h"
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -149,9 +147,7 @@ void CircuitBreaker::transitionTo(State new_state) {
     State old_state = state_.load();
     if (old_state != new_state) {
         state_.store(new_state);
-        // TODO: Log state transition for monitoring
-        // THEMIS_INFO("Circuit breaker: {} → {}", 
-        //             stateToString(old_state), stateToString(new_state));
+        spdlog::info("CircuitBreaker: {} → {}", stateToString(old_state), stateToString(new_state));
     }
 }
 

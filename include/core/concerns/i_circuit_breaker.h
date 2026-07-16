@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_circuit_breaker.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a3fb23446  2026-02-23  feat(core): add ICircuitBreaker as first-class concern in... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file i_circuit_breaker.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -84,7 +72,7 @@ public:
      * @return true if the request should be attempted, false if it should be
      *         short-circuited.
      */
-    virtual bool allowRequest() = 0;
+    [[nodiscard]] virtual bool allowRequest() = 0;
 
     /**
      * @brief Notify the circuit breaker that the last request succeeded.
@@ -104,17 +92,17 @@ public:
     /**
      * @brief Return the current circuit breaker state.
      */
-    virtual State getState() const = 0;
+    [[nodiscard]] virtual State getState() const = 0;
 
     /**
      * @brief Return the number of failures recorded in the current window.
      */
-    virtual size_t getFailureCount() const = 0;
+    [[nodiscard]] virtual size_t getFailureCount() const = 0;
 
     /**
      * @brief Return the number of consecutive successes in HALF_OPEN state.
      */
-    virtual size_t getSuccessCount() const = 0;
+    [[nodiscard]] virtual size_t getSuccessCount() const = 0;
 
     /**
      * @brief Force the circuit breaker back to CLOSED and clear all counters.

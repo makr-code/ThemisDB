@@ -1,23 +1,20 @@
+/**
+ * @file crs_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            crs_functions.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1011                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: crs_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -132,16 +129,16 @@ struct UTMZone {
  * @brief EPSG code mapping
  */
 struct EPSGDefinition {
-    int code;
+    int code = 0;
     std::string name;
     std::string type;           // "geographic" or "projected"
     Ellipsoid ellipsoid;
-    int utmZone;                // For UTM-based systems
-    bool utmNorth;
-    double centralMeridian;     // For other projections
-    double scaleFactor;
-    double falseEasting;
-    double falseNorthing;
+    int utmZone = 0;            // For UTM-based systems
+    bool utmNorth = false;
+    double centralMeridian = 0.0;     // For other projections
+    double scaleFactor = 1.0;
+    double falseEasting = 0.0;
+    double falseNorthing = 0.0;
 };
 
 // EPSG code database
@@ -509,6 +506,7 @@ inline int getUTMEpsg(int zone, bool isNorth, bool isWGS84 = true) {
  */
 class StTransformFunction : public IFunction {
 public:
+    ~StTransformFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_TRANSFORM",
@@ -703,6 +701,7 @@ private:
  */
 class StSridFunction : public IFunction {
 public:
+    ~StSridFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_SRID",
@@ -729,9 +728,15 @@ public:
                 geom["crs"]["properties"].contains("name")) {
                 std::string name = geom["crs"]["properties"]["name"];
                 // Parse EPSG code from name like "EPSG:4326"
+                // REL-21: wrap stoi() — the suffix after ':' may be non-numeric or
+                // out-of-range; fall through to the default WGS84 (4326) on failure.
                 size_t colonPos = name.find(':');
                 if (colonPos != std::string::npos) {
-                    return std::stoi(name.substr(colonPos + 1));
+                    try {
+                        return std::stoi(name.substr(colonPos + 1));
+                    } catch (const std::exception&) {
+                        // Fall through to default 4326
+                    }
                 }
             }
             // Default to WGS84
@@ -756,6 +761,7 @@ public:
  */
 class StSetSridFunction : public IFunction {
 public:
+    ~StSetSridFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_SETSRID",
@@ -791,6 +797,7 @@ public:
  */
 class UtmZoneFunction : public IFunction {
 public:
+    ~UtmZoneFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "UTM_ZONE",
@@ -818,6 +825,7 @@ public:
  */
 class UtmEpsgFunction : public IFunction {
 public:
+    ~UtmEpsgFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "UTM_EPSG",
@@ -853,6 +861,7 @@ public:
  */
 class CrsNameFunction : public IFunction {
 public:
+    ~CrsNameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CRS_NAME",
@@ -886,6 +895,7 @@ public:
  */
 class CrsIsGeographicFunction : public IFunction {
 public:
+    ~CrsIsGeographicFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CRS_IS_GEOGRAPHIC",
@@ -919,6 +929,7 @@ public:
  */
 class CrsIsProjectedFunction : public IFunction {
 public:
+    ~CrsIsProjectedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CRS_IS_PROJECTED",
@@ -952,6 +963,7 @@ public:
  */
 class StMakePointUtmFunction : public IFunction {
 public:
+    ~StMakePointUtmFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_MAKEPOINT_UTM",
@@ -1011,4 +1023,5 @@ inline void registerCrsFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

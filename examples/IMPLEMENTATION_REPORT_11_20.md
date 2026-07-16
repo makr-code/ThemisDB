@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # Implementation Report: Examples 11-20
 
 ## Executive Summary

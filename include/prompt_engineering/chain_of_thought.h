@@ -1,45 +1,22 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            chain_of_thought.h                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 17:30:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file chain_of_thought.h
- * @brief Chain-of-Thought (CoT) prompt construction with step delimiters.
- *
- * Provides utilities to build structured reasoning prompts that guide LLMs
- * through explicit, step-by-step reasoning chains.  Three construction modes
- * are supported:
- *
- *  - **Builder mode** – add named reasoning steps incrementally then call
- *    `build()` to produce the final prompt string.
- *  - **Zero-shot** – append "Let's think step by step." to a question
- *    (`buildZeroShot()`).
- *  - **Few-shot** – prepend solved (question, reasoning+answer) examples
- *    before the target question (`buildFewShot()`).
- *
- * All output is pure text; no LLM inference is performed inside this class.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <utility>
+
+#include "cot_tracer.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -121,6 +98,13 @@ public:
     /**
      * @brief Assemble all added steps (and optional final answer) into a
      *        single prompt string.
+     *
+     * When a tracer is attached via `attachTracer()`, this method calls
+     * `IChainOfThoughtTracer::onStepBegin()` and `onStepEnd()` for each step
+     * before and after it is appended to the output buffer.  These callbacks
+     * are declared `noexcept` in `IChainOfThoughtTracer`, so tracer
+     * implementations must not throw; doing so would invoke `std::terminate`.
+     *
      * @return The complete prompt text.
      */
     std::string build() const;
@@ -139,6 +123,30 @@ public:
      * @brief Return a read-only reference to the current configuration.
      */
     const CoTConfig& getConfig() const;
+
+    // -------------------------------------------------------------------------
+    // Step Tracer
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach an `IChainOfThoughtTracer` to this builder.
+     *
+     * When set, `build()` calls `onStepBegin`/`onStepEnd` for each step.
+     * Passing `nullptr` is equivalent to calling `detachTracer()`.
+     *
+     * @param tracer  Tracer implementation to attach.
+     */
+    void attachTracer(std::shared_ptr<IChainOfThoughtTracer> tracer);
+
+    /**
+     * @brief Remove the currently attached tracer (no-op if none is set).
+     */
+    void detachTracer();
+
+    /**
+     * @brief Return `true` when a tracer is currently attached.
+     */
+    bool hasTracer() const noexcept;
 
     // -------------------------------------------------------------------------
     // Static factory helpers
@@ -192,6 +200,7 @@ private:
     CoTConfig           config_;
     std::vector<CoTStep> steps_;
     std::string          final_answer_;
+    std::shared_ptr<IChainOfThoughtTracer> tracer_;
 };
 
 } // namespace prompt_engineering

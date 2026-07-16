@@ -1,30 +1,26 @@
+/**
+ * @file quorum_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quorum_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     183                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quorum_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_QUORUM_MANAGER_H
-#define THEMISDB_SHARDING_QUORUM_MANAGER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -52,17 +48,31 @@ enum class QuorumType {
  * @brief Result of a quorum operation
  */
 struct QuorumResult {
-    bool success;
-    size_t acks_received;
-    size_t acks_required;
-    std::vector<std::string> successful_nodes;
-    std::vector<std::string> failed_nodes;
-    std::chrono::milliseconds latency;
-    std::string error_message;
-    
+    bool success;                                 ///< True when required quorum was reached.
+    size_t acks_received;                        ///< Number of successful acknowledgments.
+    size_t acks_required;                        ///< Required acknowledgments for success.
+    std::vector<std::string> successful_nodes;   ///< Nodes that completed the operation successfully.
+    std::vector<std::string> failed_nodes;       ///< Nodes that timed out or failed.
+    std::chrono::milliseconds latency;           ///< End-to-end latency observed by the coordinator.
+    std::string error_message;                   ///< Failure reason when success is false.
+
+    /**
+     * @brief Create successful quorum result.
+     * @param acks Number of acknowledged nodes.
+     * @param required Number of acknowledgments required by policy.
+     * @param nodes Node IDs that acknowledged successfully.
+     * @param lat Observed operation latency.
+     * @return Populated success result.
+     */
     static QuorumResult successful(size_t acks, size_t required,
                                    const std::vector<std::string>& nodes,
                                    std::chrono::milliseconds lat);
+
+    /**
+     * @brief Create failed quorum result with error text.
+     * @param error Human-readable failure reason.
+     * @return Populated failed result with zero acknowledgments.
+     */
     static QuorumResult failed(const std::string& error);
 };
 
@@ -70,13 +80,13 @@ struct QuorumResult {
  * @brief Configuration for quorum operations
  */
 struct QuorumConfig {
-    QuorumType write_quorum{QuorumType::MAJORITY};
-    QuorumType read_quorum{QuorumType::ONE};
-    size_t custom_write_quorum{2};
-    size_t custom_read_quorum{1};
-    std::chrono::milliseconds operation_timeout{5000};
-    bool fail_fast{false};  // Fail immediately if quorum impossible
-    bool enable_quorum_enforcement{true};  // Enable/disable for backward compat
+    QuorumType write_quorum{QuorumType::MAJORITY};            ///< Policy used for write operations.
+    QuorumType read_quorum{QuorumType::ONE};                  ///< Policy used for read operations.
+    size_t custom_write_quorum{2};                            ///< Required write acknowledgments when using CUSTOM.
+    size_t custom_read_quorum{1};                             ///< Required read acknowledgments when using CUSTOM.
+    std::chrono::milliseconds operation_timeout{5000};        ///< Maximum wait time for node responses.
+    bool fail_fast{false};                                    ///< Stop early once success quorum is reached.
+    bool enable_quorum_enforcement{true};                     ///< Disable to bypass quorum checks for compatibility.
 };
 
 /**
@@ -87,9 +97,15 @@ struct QuorumConfig {
  */
 class QuorumManager {
 public:
+    /** @brief Callable signature for node-local write execution. */
     using WriteOperation = std::function<bool(const std::string& node_id)>;
+    /** @brief Callable signature for node-local read execution. */
     using ReadOperation = std::function<std::optional<std::string>(const std::string& node_id)>;
-    
+
+    /**
+     * @brief Construct quorum manager with initial configuration.
+     * @param config Quorum policy and timeout settings.
+     */
     explicit QuorumManager(const QuorumConfig& config);
     ~QuorumManager() = default;
     
@@ -135,11 +151,13 @@ public:
     
     /**
      * @brief Update configuration
+        * @param config New runtime configuration to apply atomically.
      */
     void updateConfig(const QuorumConfig& config);
     
     /**
      * @brief Get current configuration
+        * @return Immutable reference to current configuration snapshot.
      */
     const QuorumConfig& getConfig() const { return config_; }
     
@@ -147,16 +165,18 @@ public:
      * @brief Get statistics
      */
     struct Statistics {
-        std::atomic<uint64_t> total_writes{0};
-        std::atomic<uint64_t> successful_writes{0};
-        std::atomic<uint64_t> failed_writes{0};
-        std::atomic<uint64_t> total_reads{0};
-        std::atomic<uint64_t> successful_reads{0};
-        std::atomic<uint64_t> failed_reads{0};
-        std::atomic<uint64_t> quorum_timeouts{0};
+        std::atomic<uint64_t> total_writes{0};        ///< Number of attempted write operations.
+        std::atomic<uint64_t> successful_writes{0};   ///< Writes that reached configured quorum.
+        std::atomic<uint64_t> failed_writes{0};       ///< Writes that did not reach quorum.
+        std::atomic<uint64_t> total_reads{0};         ///< Number of attempted read operations.
+        std::atomic<uint64_t> successful_reads{0};    ///< Reads that reached configured quorum.
+        std::atomic<uint64_t> failed_reads{0};        ///< Reads that did not reach quorum.
+        std::atomic<uint64_t> quorum_timeouts{0};     ///< Number of operations terminated due to timeout.
     };
-    
+
+    /** @brief Return live statistics counters. */
     const Statistics& getStatistics() const { return stats_; }
+    /** @brief Reset all statistics counters to zero. */
     void resetStatistics();
 
 private:
@@ -166,12 +186,21 @@ private:
     
     /**
      * @brief Calculate quorum size based on type
+        * @param type Quorum policy variant.
+        * @param custom_size Custom threshold when type is CUSTOM.
+        * @param total_nodes Total number of candidate nodes.
+        * @return Required acknowledgments for success.
      */
     size_t calculateQuorumSize(QuorumType type, size_t custom_size, 
                               size_t total_nodes) const;
     
     /**
      * @brief Wait for operation futures with timeout
+        * @tparam T Future result type (`bool` for writes, optional payload for reads).
+        * @param futures Pending futures associated with node IDs.
+        * @param required_acks Required successful acknowledgments for early success.
+        * @param timeout Maximum time window for collecting results.
+        * @return Node/result tuples for operations that completed within timeout.
      */
     template<typename T>
     std::vector<std::pair<std::string, T>> waitForOperations(
@@ -182,5 +211,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_QUORUM_MANAGER_H

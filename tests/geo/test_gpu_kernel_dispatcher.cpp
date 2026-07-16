@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gpu_kernel_dispatcher.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     207                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c1a4fe568  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gpu_kernel_dispatcher.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -123,6 +108,47 @@ TEST_F(GpuKernelDispatcherTest, DistanceDispatch_ZeroCount_ReturnsFalse) {
         lats1.data(), lons1.data(), lats2.data(), lons2.data(), 0);
     EXPECT_FALSE(res.dispatched);
 }
+
+#ifndef THEMIS_GEO_CUDA
+TEST_F(GpuKernelDispatcherTest, BridgeCallbacksEnableCpuDispatcher) {
+    GpuKernelDispatcher::setContainmentDispatchFn(
+        [](const double*, const double*, int num_points, const double*, int) {
+            GpuKernelDispatcher::ContainmentResult result;
+            result.dispatched = true;
+            result.mask.assign(static_cast<size_t>(num_points), 1);
+            return result;
+        });
+    GpuKernelDispatcher::setDistanceDispatchFn(
+        [](const double*, const double*, const double*, const double*, int count,
+           themis::acceleration::GeoDistanceFormula) {
+            GpuKernelDispatcher::DistanceResult result;
+            result.dispatched = true;
+            result.distances_km.assign(static_cast<size_t>(count), 42.0f);
+            return result;
+        });
+
+    EXPECT_TRUE(dispatcher_.isAvailable());
+
+    std::vector<double> lats  = {0.5, 1.5};
+    std::vector<double> lons  = {0.5, 0.5};
+    auto poly = makeSquarePolygon(0.0, 0.0, 1.0, 1.0);
+    auto containment = dispatcher_.dispatchContainment(
+        lats.data(), lons.data(), static_cast<int>(lats.size()),
+        poly.data(), static_cast<int>(poly.size() / 2));
+    ASSERT_TRUE(containment.dispatched);
+    ASSERT_EQ(containment.mask.size(), 2u);
+    EXPECT_EQ(containment.mask[0], 1u);
+
+    auto distance = dispatcher_.dispatchDistance(
+        lats.data(), lons.data(), lats.data(), lons.data(), static_cast<int>(lats.size()));
+    ASSERT_TRUE(distance.dispatched);
+    ASSERT_EQ(distance.distances_km.size(), 2u);
+    EXPECT_FLOAT_EQ(distance.distances_km[0], 42.0f);
+
+    GpuKernelDispatcher::setContainmentDispatchFn(nullptr);
+    GpuKernelDispatcher::setDistanceDispatchFn(nullptr);
+}
+#endif
 
 // ---------------------------------------------------------------------------
 // GpuBatchBackend contract — same results via both backends

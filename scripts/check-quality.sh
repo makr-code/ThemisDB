@@ -131,12 +131,18 @@ if [ "$SKIP_BUILD" != "1" ]; then
         SKIP_BUILD
 fi
 
+LOG_DIR="logs"
+mkdir -p "$LOG_DIR"
+TIDY_REPORT="$LOG_DIR/clang-tidy-report.txt"
+CPPCHECK_REPORT="$LOG_DIR/cppcheck-report.txt"
+GITLEAKS_REPORT="$LOG_DIR/gitleaks-report.json"
+
 # Run clang-tidy
 if [ "$SKIP_TIDY" != "1" ]; then
     TIDY_CMD="find src include -name '*.cpp' -o -name '*.h' | \
         xargs clang-tidy -p build --quiet 2>&1 | \
-        tee clang-tidy-report.txt; \
-        grep -E 'warning:|error:' clang-tidy-report.txt | wc -l | \
+        tee $TIDY_REPORT; \
+        grep -E 'warning:|error:' $TIDY_REPORT | wc -l | \
         awk '{if (\$1 > 0) {print \"Found \" \$1 \" issues\"; exit 1} else {print \"No issues found\"; exit 0}}'"
     
     if [ "$FIX_MODE" = "1" ]; then
@@ -158,10 +164,10 @@ if [ "$SKIP_CPPCHECK" != "1" ]; then
         --quiet \
         -I include/ \
         src/ \
-        2>&1 | tee cppcheck-report.txt; \
-        if [ -s cppcheck-report.txt ]; then \
+        2>&1 | tee $CPPCHECK_REPORT; \
+        if [ -s $CPPCHECK_REPORT ]; then \
             echo 'Found issues:'; \
-            cat cppcheck-report.txt; \
+            cat $CPPCHECK_REPORT; \
             exit 1; \
         else \
             echo 'No issues found'; \
@@ -176,12 +182,12 @@ if [ "$SKIP_GITLEAKS" != "1" ]; then
         --source . \
         --config .gitleaks.toml \
         --report-format json \
-        --report-path gitleaks-report.json \
+        --report-path $GITLEAKS_REPORT \
         --verbose \
         --no-git; \
-        if [ -f gitleaks-report.json ] && [ -s gitleaks-report.json ]; then \
+        if [ -f $GITLEAKS_REPORT ] && [ -s $GITLEAKS_REPORT ]; then \
             echo 'Secrets detected:'; \
-            jq -r '.[] | \"[\(.RuleID)] \(.File):\(.StartLine)\"' gitleaks-report.json; \
+            jq -r '.[] | \"[\(.RuleID)] \(.File):\(.StartLine)\"' $GITLEAKS_REPORT; \
             exit 1; \
         else \
             echo 'No secrets detected'; \
@@ -209,7 +215,7 @@ echo "  2. Fix issues if needed"
 echo "  3. Commit and push changes"
 echo ""
 echo "Reports generated:"
-echo "  - clang-tidy-report.txt"
-echo "  - cppcheck-report.txt"
-echo "  - gitleaks-report.json (if secrets found)"
+echo "  - $TIDY_REPORT"
+echo "  - $CPPCHECK_REPORT"
+echo "  - $GITLEAKS_REPORT (if secrets found)"
 echo ""

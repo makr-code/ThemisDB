@@ -1,24 +1,21 @@
+/**
+ * @file service_mesh.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=1, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            service_mesh.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     267                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a59b2a974  2026-03-01  feat(network): implement Istio/Envoy service mesh integra... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: service_mesh.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 254
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=7, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3395 Add service mesh sidecar pr... (2026-03-12) | #3337 feat(network): Implement Is... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB – Istio/Envoy service mesh integration for the network module.
@@ -31,11 +28,37 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <future>
 #include <stdexcept>
 #include <string>
 #include <thread>
 
 namespace themis::network {
+
+namespace {
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach on deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction / Destruction
@@ -146,6 +169,14 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
                 "Content-Length: 9\r\n"
                 "Connection: close\r\n\r\n"
                 "Not Found";
+            // no_timeout: set SO_SNDTIMEO so synchronous write doesn't block forever
+#ifdef __linux__
+            {
+                struct timeval tv{5, 0};  // 5 s send deadline
+                ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                             reinterpret_cast<const char*>(&tv), sizeof(tv));
+            }
+#endif
             boost::asio::write(socket, net::buffer(resp), ec);
             return;
         }
@@ -157,6 +188,14 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
             "Connection: close\r\n\r\n" +
             body;
 
+        // no_timeout: set SO_SNDTIMEO so synchronous write doesn't block forever
+#ifdef __linux__
+        {
+            struct timeval tv{5, 0};  // 5 s send deadline
+            ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                         reinterpret_cast<const char*>(&tv), sizeof(tv));
+        }
+#endif
         boost::asio::write(socket, net::buffer(resp), ec);
 
     } catch (const std::exception& ex) {
@@ -251,9 +290,7 @@ void ServiceMeshIntegration::stop() {
     }
 
     for (auto& t : threads_) {
-        if (t.joinable()) {
-            t.join();
-        }
+        timedJoin(t);
     }
     threads_.clear();
 

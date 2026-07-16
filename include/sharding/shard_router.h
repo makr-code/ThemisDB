@@ -1,23 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_router.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     262                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file shard_router.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -37,7 +26,11 @@
 namespace themis::sharding {
 
 /**
- * Query Routing Strategy
+ * @brief Routing mode selected for a logical query.
+ *
+ * The router chooses one of these strategies after inspecting the query text.
+ * The selected strategy determines fan-out, merge behavior, and whether the
+ * router may need cross-shard coordination.
  */
 enum class RoutingStrategy {
     SINGLE_SHARD,     // Query hits one shard (e.g., GET by URN)
@@ -47,41 +40,41 @@ enum class RoutingStrategy {
 };
 
 /**
- * Result from a shard
+ * @brief Result envelope returned for one shard invocation.
+ *
+ * A result may represent a successful local/remote execution or a transport,
+ * timeout, or routing failure. Callers should inspect @ref success before
+ * consuming @ref data.
  */
 struct ShardResult {
-    std::string shard_id;           // Shard identifier
-    nlohmann::json data;            // Result data
-    bool success;                   // true if successful
-    std::string error_msg;          // Error message if failed
-    uint64_t execution_time_ms;     // Execution time
+    std::string shard_id;           ///< Owning shard that processed or rejected the request.
+    nlohmann::json data;            ///< JSON payload returned by the shard on success.
+    bool success = false;           ///< True when the operation completed successfully.
+    std::string error_msg;          ///< Diagnostic message when @ref success is false.
+    uint64_t execution_time_ms = 0; ///< Observed execution latency in milliseconds.
+    uint64_t version_token = 0;     ///< Monotonic merge/version metadata for stale-read detection.
 };
 
 /**
- * Shard Router - Routes queries to appropriate shards
- * 
- * Responsible for:
- * - Determining which shard(s) to route to
- * - Executing single-shard operations
- * - Coordinating scatter-gather queries
- * - Merging results from multiple shards
- * - Handling cross-shard joins
+ * @brief Routes point operations and queries to the appropriate shard set.
+ *
+ * The router encapsulates shard resolution, local-vs-remote dispatch,
+ * scatter-gather fan-out, result merging, and optional TrueTime-backed
+ * distributed transaction coordination.
  */
 class ShardRouter {
 public:
     /**
-     * Configuration for Shard Router
+     * @brief Runtime configuration for @ref ShardRouter.
      */
     struct Config {
-        std::string local_shard_id;     // This shard's ID
+        std::string local_shard_id;      ///< Identifier of the shard hosting this router instance.
         
-        // Scatter-gather configuration
-        uint32_t scatter_timeout_ms = 30000;    // Timeout for scatter-gather
-        size_t max_concurrent_shards = 10;       // Max concurrent shard requests
+        uint32_t scatter_timeout_ms = 30000;     ///< Per-batch wait timeout for scatter-gather futures.
+        size_t max_concurrent_shards = 10;       ///< Upper bound for concurrent shard RPCs in one batch.
         
-        // Query optimization
-        bool enable_query_pushdown = true;      // Push predicates to shards
-        bool enable_result_caching = false;     // Cache query results
+        bool enable_query_pushdown = true;       ///< Enables predicate pushdown into shard-local execution.
+        bool enable_result_caching = false;      ///< Enables router-side result caching when supported.
     };
     
     /**
@@ -107,8 +100,8 @@ public:
     void setTrueTime(std::shared_ptr<TrueTime> truetime);
     
     /**
-     * Get distributed transaction coordinator
-     * @return Transaction coordinator or nullptr if not available
+     * @brief Return the optional distributed transaction coordinator.
+     * @return Shared coordinator instance or nullptr when TrueTime is unavailable.
      */
     std::shared_ptr<DistributedTransactionCoordinator> getTransactionCoordinator();
     
@@ -139,9 +132,10 @@ public:
     bool del(const URN& urn);
     
     /**
-     * Execute query (may span multiple shards)
-     * @param query Query string (e.g., AQL query)
-     * @return Combined results from all relevant shards
+     * @brief Execute a logical query using the routing strategy inferred from its text.
+     * @param query Query string, typically an AQL-style statement.
+     * @return Combined JSON result from the selected shard strategy.
+     * @note Falls back to scatter-gather when single-shard extraction is inconclusive.
      */
     virtual nlohmann::json executeQuery(const std::string& query);
     
@@ -159,7 +153,35 @@ public:
      * @param query Query to execute
      * @return Merged results from all shards
      */
-    std::vector<ShardResult> scatterGather(const std::string& query);
+    virtual std::vector<ShardResult> scatterGather(const std::string& query);
+
+    /**
+     * Execute a query on a specific subset of shards.
+     *
+     * Behaves identically to scatterGather but only contacts the shards
+     * whose IDs appear in @p shard_ids.  Unknown or unhealthy shard IDs are
+     * skipped with a WARN log rather than causing an error.
+     *
+     * @param query     AQL query string
+     * @param shard_ids Shard identifiers to target
+     * @return Results from the targeted shards (success + failure entries)
+     */
+    virtual std::vector<ShardResult> executeOnShards(
+        const std::string& query,
+        const std::vector<std::string>& shard_ids
+    );
+
+    /**
+     * @brief Access the resolver used for key-to-shard lookup decisions.
+     * @return Mutable reference to the configured resolver.
+     */
+    URNResolver& getResolver() { return *resolver_; }
+
+    /**
+     * @brief Access the resolver used for key-to-shard lookup decisions.
+     * @return Const reference to the configured resolver.
+     */
+    const URNResolver& getResolver() const { return *resolver_; }
     
     /**
      * Execute cross-shard join (simplified two-phase approach)
@@ -167,7 +189,8 @@ public:
      * Phase 2: Lookup in second collection
      * @param query Query string
      * @param join_field Field to join on
-     * @return Joined results
+     * @return Joined results with monotonic mergeVersion/version_token metadata so
+     *         callers can detect stale merged snapshots across shards.
      */
     nlohmann::json executeCrossShardJoin(
         const std::string& query,
@@ -175,34 +198,20 @@ public:
     );
     
     /**
-     * Get statistics about routing
-     * @return Statistics (requests routed, errors, etc.)
+     * @brief Return a snapshot of aggregate routing counters.
+     * @return JSON object containing total, local, remote, scatter, and error counters.
      */
     nlohmann::json getStatistics() const;
-
-private:
-    std::shared_ptr<URNResolver> resolver_;
-    std::shared_ptr<RemoteExecutor> executor_;
-    std::shared_ptr<PrometheusMetrics> metrics_;
-    std::shared_ptr<TrueTime> truetime_;
-    std::shared_ptr<DistributedTransactionCoordinator> txn_coordinator_;
-    Config config_;
-    
-    // Statistics
-    mutable std::atomic<uint64_t> total_requests_{0};
-    mutable std::atomic<uint64_t> local_requests_{0};
-    mutable std::atomic<uint64_t> remote_requests_{0};
-    mutable std::atomic<uint64_t> scatter_gather_requests_{0};
-    mutable std::atomic<uint64_t> errors_{0};
     
     /**
      * Route request to appropriate shard
      * Handles both local and remote execution
      * @param urn URN to route
-     * @param method HTTP method
-     * @param path Request path
+     * @param method HTTP method (non-empty required)
+     * @param path Request path (non-empty required)
      * @param body Optional request body
      * @return Result from shard
+     * @note Rejects empty method or path fail-closed
      */
     ShardResult routeRequest(
         const URN& urn,
@@ -213,22 +222,38 @@ private:
     
     /**
      * Execute request locally (this shard)
-     * @param path Request path
-     * @param method HTTP method
+     * @param method HTTP method (non-empty required)
+     * @param path Request path (non-empty required)
      * @param body Optional request body
      * @return Result from local execution
+     * @note Rejects empty method or path fail-closed
      */
     ShardResult executeLocal(
         const std::string& method,
         const std::string& path,
         const std::optional<nlohmann::json>& body = std::nullopt
     );
+
+private:
+    std::shared_ptr<URNResolver> resolver_;   ///< Resolves ownership and health information for shards.
+    std::shared_ptr<RemoteExecutor> executor_; ///< Performs remote shard RPCs when the target is non-local.
+    std::shared_ptr<PrometheusMetrics> metrics_; ///< Optional metrics sink for routing observability.
+    std::shared_ptr<TrueTime> truetime_;      ///< Optional bounded-time source for distributed coordination.
+    std::shared_ptr<DistributedTransactionCoordinator> txn_coordinator_; ///< Optional TrueTime-backed txn coordinator.
+    Config config_;                           ///< Immutable router configuration captured at construction.
+    
+    mutable std::atomic<uint64_t> total_requests_{0};          ///< Total number of routed operations.
+    mutable std::atomic<uint64_t> local_requests_{0};          ///< Requests executed on the local shard.
+    mutable std::atomic<uint64_t> remote_requests_{0};         ///< Requests dispatched to a remote shard.
+    mutable std::atomic<uint64_t> scatter_gather_requests_{0}; ///< Scatter-gather style requests executed.
+    mutable std::atomic<uint64_t> errors_{0};                  ///< Routing or execution failures observed.
     
     /**
      * Merge results from multiple shards
      * Combines data arrays and handles errors
      * @param results Results from shards
-     * @return Merged result
+     * @return Merged result with mergeVersion/version_token metadata derived from
+     *         shard payload versions or a local monotonic clock fallback.
      */
     nlohmann::json mergeResults(const std::vector<ShardResult>& results);
     

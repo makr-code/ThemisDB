@@ -1,6 +1,9 @@
-# Core Module - Future Enhancements
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-## Scope
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
+# Core Module - Future Enhancements
 
 - Central dependency injection (DI) context (`ConcernsContext`): owns and dispenses all adapter instances (storage, index, query, auth, logger, tracer, metrics, cache)
 - Adapter lifecycle management: registration, validation, hot-swap, and graceful shutdown of adapters
@@ -39,46 +42,52 @@
 ## Planned Features
 
 ### Dynamic Adapter Reconfiguration
-**Priority:** High  
-**Target Version:** v1.6.0
+**Priority:** High
+**Target Version:** v1.9.0
 
-Enable runtime switching of adapters without restarting the database.
+Harden runtime adapter switching for high-throughput production workloads.
 
 ```cpp
-// Future API
-context->replaceLogger(new_logger_adapter);
-context->reloadMetricsConfig(new_config);
+// Runtime adapter swap — no restart required
+context->replaceLogger(std::make_unique<SpdlogLoggerAdapter>(...));
+context->replaceMetrics(std::make_unique<PrometheusMetricsAdapter>(...));
 ```
+
+**Planned hardening work:**
+- Add swap-drain telemetry (duration, in-flight handles, error counts) per adapter type.
+- Add rollback guardrails for failed replacement attempts under load.
+- Add stress profile for repeated replace-cycles under mixed read/write traffic.
 
 **Benefits:**
 - Zero-downtime logging level changes
 - Switch between tracing backends without restart
 - Enable/disable metrics dynamically
 
-**Implementation Considerations:**
-- Thread-safe adapter swapping
-- Graceful handling of in-flight operations
-- Configuration validation before swap
-
 ---
 
 ### Distributed Cache Integration
-**Priority:** High  
-**Target Version:** v1.6.0
+**Priority:** High
+**Target Version:** v1.9.0
 
-Full Redis/Memcached adapter for distributed caching across cluster nodes.
+Expand distributed caching toward multi-region and failure-domain-aware operation.
 
 **Features:**
-- Cluster-wide cache invalidation
-- Consistent hashing for distributed keys
-- TTL support
-- Pub/sub for cache invalidation messages
+- Cluster-wide cache invalidation (via Redis pub/sub PUBLISH on DEL/clear)
+- Consistent hashing (FNV-1a hash ring with virtual nodes) for key routing
+- TTL support via Redis PSETEX (millisecond precision)
+- Pub/sub for cache invalidation messages (background subscriber thread)
+- Graceful degradation when Redis is unavailable (no exceptions, returns nullopt/false)
+
+**Planned expansion:**
+- Add multi-region keyspace strategy and region-local invalidation buffering.
+- Add partition tolerance mode with deterministic stale-read policies.
+- Add operator-facing cache health SLOs and alert thresholds.
 
 **API:**
 ```cpp
 auto redis_cache = RedisCache::create("redis://cluster:6379");
 auto context = ConcernsContext::createCustom(
-    logger, tracer, metrics, redis_cache
+    logger, tracer, metrics, std::move(redis_cache)
 );
 ```
 
@@ -90,7 +99,7 @@ auto context = ConcernsContext::createCustom(
 ---
 
 ### Contextual Logging
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Automatic context propagation through call chains for better log correlation.
@@ -115,7 +124,7 @@ logger->info("Processing query");
 ---
 
 ### Metrics Aggregation Service
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Centralized metrics aggregation across sharded nodes.
@@ -129,7 +138,7 @@ Centralized metrics aggregation across sharded nodes.
 ---
 
 ### Adaptive Cache Strategies
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Machine learning-based cache eviction that adapts to workload patterns.
@@ -143,7 +152,7 @@ Machine learning-based cache eviction that adapts to workload patterns.
 ---
 
 ### Custom Concern Types
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Allow users to register custom cross-cutting concerns.
@@ -160,43 +169,43 @@ context->registerConcern<ICustomConcern>(my_custom_concern);
 
 ---
 
-## Performance Optimizations
+## Performance Optimizations (Future)
 
 ### Zero-Copy Logging
-**Priority:** High  
-**Target Version:** v1.6.0
+**Priority:** High
+**Target Version:** v1.9.0
 
-Reduce memory allocations in logging hot paths.
+Further reduce logging overhead for high-cardinality workloads.
 
-**Current:** String formatting and copying for every log call  
-**Target:** Pre-allocated buffers and string_view usage
+**Current:** string_view hot path with thread-local format buffer
+**Target:** bounded queue backpressure and adaptive flush policy by latency target
 
 **Expected Improvement:** 30-50% reduction in logging overhead
 
 ---
 
 ### Lock-Free Metrics
-**Priority:** High  
-**Target Version:** v1.6.0
+**Priority:** High
+**Target Version:** v1.9.0
 
-Replace mutex-based counters with atomic operations.
+Extend lock-free metrics pipeline for predictable p99 under burst load.
 
-**Implementation:**
-- `std::atomic` for counters
-- Lock-free ring buffer for histograms
-- Thread-local aggregation with periodic flush
+**Planned work:**
+- Add bounded-memory histogram compaction mode.
+- Add low-contention exporter fan-out for multi-sink metric backends.
+- Add saturation metrics and adaptive flush interval.
 
 **Expected Improvement:** 80% reduction in metric update latency
 
 ---
 
 ### Span Pool Reuse
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Reuse span objects instead of allocating on every trace.
 
-**Current:** Allocate new span for every operation  
+**Current:** Allocate new span for every operation
 **Target:** Object pool with 1000 pre-allocated spans
 
 **Expected Improvement:** 60% reduction in tracing overhead
@@ -204,7 +213,7 @@ Reuse span objects instead of allocating on every trace.
 ---
 
 ### Lazy Context Initialization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Defer adapter creation until first use.
@@ -217,12 +226,12 @@ Defer adapter creation until first use.
 ---
 
 ### Batched Metrics Export
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Batch multiple metric updates before sending to Prometheus.
 
-**Current:** Export every metric update immediately  
+**Current:** Export every metric update immediately
 **Target:** Buffer updates and export every 100ms
 
 **Expected Improvement:** 90% reduction in network overhead
@@ -232,7 +241,7 @@ Batch multiple metric updates before sending to Prometheus.
 ## Refactoring Opportunities
 
 ### Separate Concerns into Individual Libraries
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Split concerns into standalone libraries for better modularity.
@@ -252,7 +261,7 @@ libthemis-caching.so      (ICache + implementations)
 ---
 
 ### Move Cache Strategies to Plugin System
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Allow custom cache eviction strategies via plugin API.
@@ -265,7 +274,7 @@ Allow custom cache eviction strategies via plugin API.
 ---
 
 ### Simplify ConcernsContext API
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Reduce boilerplate in context creation.
@@ -273,10 +282,10 @@ Reduce boilerplate in context creation.
 ```cpp
 // Current
 auto context = ConcernsContext::createCustom(
-    std::make_shared<SpdlogLogger>(),
-    std::make_shared<OtelTracer>(),
-    std::make_shared<PrometheusMetrics>(),
-    std::make_shared<InMemoryCache>()
+  std::make_unique<SpdlogLoggerAdapter>(),
+  std::make_unique<OpenTelemetryTracerAdapter>(),
+  std::make_unique<PrometheusMetricsAdapter>(),
+  std::make_unique<InMemoryCacheImpl>()
 );
 
 // Proposed
@@ -291,67 +300,67 @@ auto context = ConcernsContextBuilder()
 ---
 
 ### Standardize Error Handling
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Use `Expected<T, Error>` consistently across all concern interfaces.
 
-**Current:** Mix of exceptions, optionals, and error codes  
+**Current:** Mix of exceptions, optionals, and error codes
 **Target:** Uniform `Result<T>` return type
 
 ---
 
-## Known Issues
+## Risk Backlog
 
 ### Issue #1: Cache Stampede
-**Severity:** Medium  
-**Reported:** v1.5.0
+**Severity:** Medium
+**Signal:** Duplicate compute after concurrent cache misses under burst traffic
 
 Multiple threads simultaneously query cache miss, causing duplicate work.
 
-**Workaround:** Use lock-based cache warming  
+**Workaround:** Use lock-based cache warming
 **Fix:** Implement request coalescing in cache layer
 
-**Planned Fix:** v1.6.0
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
 ### Issue #2: Tracer Memory Leak (Edge Case)
-**Severity:** Low  
-**Reported:** v1.5.1
+**Severity:** Low
+**Signal:** Long-running spans can accumulate if `end()` is not called
 
 Long-running spans can accumulate if `end()` is not called.
 
-**Workaround:** Use RAII span guards  
+**Workaround:** Use RAII span guards
 **Fix:** Add automatic span timeout and cleanup
 
-**Planned Fix:** v1.6.1
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
 ### Issue #3: Metrics Label Cardinality Explosion
-**Severity:** High  
-**Reported:** v1.5.0
+**Severity:** High
+**Signal:** High-cardinality labels (e.g., user IDs) can cause unbounded memory growth
 
 High-cardinality labels (e.g., user IDs) cause unbounded memory growth.
 
-**Workaround:** Limit label values via configuration  
+**Workaround:** Limit label values via configuration
 **Fix:** Add automatic label cardinality limiting and warnings
 
-**Planned Fix:** v1.6.0
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
 ### Issue #4: Production Mode Detection False Positives
-**Severity:** Low  
-**Reported:** v1.5.2
+**Severity:** Low
+**Signal:** Environment variable combinations can incorrectly trigger production mode
 
 Environment variable detection can incorrectly trigger production mode.
 
-**Workaround:** Explicitly set `THEMIS_PRODUCTION_MODE=0`  
+**Workaround:** Explicitly set `THEMIS_PRODUCTION_MODE=0`
 **Fix:** More robust production detection logic
 
-**Planned Fix:** v1.6.0
+**Planned Fix:** backlog (pending scheduling)
 
 ---
 
@@ -421,26 +430,26 @@ Enable tracing from:
 
 ---
 
-## Migration Paths
+## Adoption Scenarios
 
-### v1.5.x → v1.6.x: Dynamic Adapter API
-**Breaking Changes:** None (additive)
+### Scenario A: Runtime Adapter Hardening Rollout
+**Breaking Changes:** None expected (additive)
 
 **New APIs:**
 ```cpp
 context->replaceLogger(new_logger);
-context->reloadConfig(new_config);
+context->replaceMetrics(new_metrics);
 ```
 
-**Migration Steps:**
-1. Update to v1.6.0
-2. Test existing code (no changes needed)
-3. Optionally adopt new dynamic APIs
+**Adoption Steps:**
+1. Enable replacement telemetry in non-production environment.
+2. Run swap stress profile with representative production traffic.
+3. Promote with rollback guardrails enabled.
 
 ---
 
-### v1.6.x → v1.7.x: Metrics API Refactor
-**Breaking Changes:** Metrics signature changes
+### Scenario B: Metrics API Refactor Preparation
+**Breaking Changes:** anticipated API shape changes
 
 **Old API:**
 ```cpp
@@ -454,17 +463,15 @@ metrics->counter("counter_name").increment();
 metrics->histogram("histogram_name").record(value);
 ```
 
-**Migration Steps:**
-1. Update all `metrics->` calls to new builder-style API
-2. Run provided migration script: `scripts/migrate_metrics_v17.sh`
-3. Rebuild and test
-
-**Timeline:** 6 months deprecation period
+**Adoption Steps:**
+1. Inventory all callsites using legacy metric methods.
+2. Prepare codemod/lint rule for builder-style calls.
+3. Roll out per module behind compatibility switch.
 
 ---
 
-### v1.7.x → v1.8.x: Modular Concerns Libraries
-**Breaking Changes:** Link flags changes
+### Scenario C: Modular Concerns Library Split
+**Breaking Changes:** link configuration changes expected
 
 **Old CMake:**
 ```cmake
@@ -473,20 +480,18 @@ target_link_libraries(my_app themis-core)
 
 **New CMake:**
 ```cmake
-target_link_libraries(my_app 
-    themis-logging 
-    themis-tracing 
-    themis-metrics 
+target_link_libraries(my_app
+    themis-logging
+    themis-tracing
+    themis-metrics
     themis-caching
 )
 ```
 
-**Migration Steps:**
-1. Update CMakeLists.txt with granular libraries
-2. Remove unnecessary dependencies for smaller binary size
-3. Rebuild
-
-**Timeline:** 12 months deprecation period (v1.7.x still provides monolithic library)
+**Adoption Steps:**
+1. Introduce module-level target mapping for granular concerns libraries.
+2. Validate binary size and startup deltas per build profile.
+3. Deprecate monolithic link target after migration window.
 
 ---
 
@@ -501,7 +506,6 @@ We welcome contributions in the following areas:
 - [ ] Documentation improvements and examples
 
 ### Medium Complexity
-- [ ] Redis cache adapter implementation
 - [ ] Contextual logging framework
 - [ ] Span pool for tracer optimization
 - [ ] Configuration hot-reload
@@ -526,9 +530,8 @@ Have ideas for core module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: February 2026*  
-*Module Version: v1.5.x*  
-*Next Review: v1.6.0 Release*
+*Last Updated: 2026-05-31*
+*Review Cadence: monthly backlog review*
 
 ---
 

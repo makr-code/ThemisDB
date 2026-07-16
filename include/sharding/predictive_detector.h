@@ -1,23 +1,20 @@
+/**
+ * @file predictive_detector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            predictive_detector.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     210                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: predictive_detector.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -72,7 +69,7 @@ struct PredictiveConfig {
 // Shard Metrics
 // ═══════════════════════════════════════════════════════════
 
-struct ShardMetrics {
+struct PredictiveShardMetrics {
     std::string shard_id;
     std::chrono::system_clock::time_point timestamp;
     
@@ -139,8 +136,8 @@ public:
     FailurePrediction predictShard(const std::string& shard_id);
     
     // Metrics collection
-    void recordMetrics(const ShardMetrics& metrics);
-    std::vector<ShardMetrics> getMetricsHistory(const std::string& shard_id, 
+    void recordMetrics(const PredictiveShardMetrics& metrics);
+    std::vector<PredictiveShardMetrics> getMetricsHistory(const std::string& shard_id, 
                                                  std::chrono::hours lookback) const;
     
     // Statistics
@@ -165,6 +162,35 @@ public:
     
     Stats getStats() const;
     void resetStats();
+
+    // ─── ONNX model prediction injection (stub #251) ─────────────────────────
+    /**
+     * @brief Type alias for an injectable ONNX-style prediction function.
+     *
+     * When set via @c setPredictFn(), @c predictShard() calls this function
+     * in place of the built-in sigmoid-calibrated heuristic.  The function
+     * receives the extracted feature vector and must return a two-element
+     * vector @c {failure_probability, days_to_failure}.
+     *
+     * Example (test injection):
+     * @code
+     *   detector.setPredictFn([](const std::vector<float>&) -> std::vector<float> {
+     *       return {0.9f, 1.0f};  // high-risk, 1 day
+     *   });
+     * @endcode
+     */
+    using PredictFn = std::function<std::vector<float>(const std::vector<float>&)>;
+
+    /**
+     * @brief Inject an ONNX-backed (or test-double) prediction function.
+     *
+     * Replaces the heuristic fallback with @p fn for all subsequent
+     * @c predictShard() calls.  Passing @c nullptr resets to the heuristic.
+     * Thread-safe: guarded by an internal mutex.
+     *
+     * @param fn Callable that maps a feature vector to {probability, days}.
+     */
+    void setPredictFn(PredictFn fn);
     
 private:
     // Background monitoring
@@ -173,7 +199,7 @@ private:
     
     // Feature extraction
     std::vector<float> extractFeatures(const std::string& shard_id);
-    std::vector<float> computeStatisticalFeatures(const std::vector<ShardMetrics>& history);
+    std::vector<float> computeStatisticalFeatures(const std::vector<PredictiveShardMetrics>& history);
     
     // ML inference
     FailurePrediction runInference(const std::string& shard_id, 
@@ -194,7 +220,7 @@ private:
     
     // Metrics storage
     mutable std::mutex metrics_mutex_;
-    std::map<std::string, std::vector<ShardMetrics>> metrics_history_;
+    std::map<std::string, std::vector<PredictiveShardMetrics>> metrics_history_;
     
     // Prediction cache
     mutable std::mutex predictions_mutex_;
@@ -207,6 +233,10 @@ private:
     // ML model handle (opaque pointer for ONNX Runtime)
     struct ModelImpl;
     std::unique_ptr<ModelImpl> model_;
+
+    // Injection slot for ONNX / test-double predict function (stub #251)
+    PredictFn predict_fn_;
+    mutable std::mutex predict_fn_mutex_;
 };
 
 } // namespace sharding

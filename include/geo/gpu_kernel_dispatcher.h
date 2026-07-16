@@ -1,30 +1,28 @@
+/**
+ * @file gpu_kernel_dispatcher.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_kernel_dispatcher.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     131                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c1a4fe568  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_kernel_dispatcher.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 136
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2852 feat(geo): CUDA kernel disp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <vector>
 
 #include "acceleration/kernel_invocation.h"
@@ -123,6 +121,23 @@ public:
 
     /// Returns true when at least one dispatch function in the table is non-null.
     bool isAvailable() const noexcept;
+
+#ifndef THEMIS_GEO_CUDA
+    using ContainmentDispatchFn = std::function<ContainmentResult(const double*,
+                                                                  const double*,
+                                                                  int,
+                                                                  const double*,
+                                                                  int)>;
+    using DistanceDispatchFn = std::function<DistanceResult(const double*,
+                                                            const double*,
+                                                            const double*,
+                                                            const double*,
+                                                            int,
+                                                            themis::acceleration::GeoDistanceFormula)>;
+
+    static void setContainmentDispatchFn(ContainmentDispatchFn fn);
+    static void setDistanceDispatchFn(DistanceDispatchFn fn);
+#endif
 
 private:
     themis::acceleration::GeoKernelDispatch dispatch_table_;

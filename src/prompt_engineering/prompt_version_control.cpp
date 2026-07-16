@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_version_control.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1128                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_version_control.cpp
- * @brief Implementation of version control system for prompts
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=18, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "prompt_engineering/prompt_version_control.h"
@@ -477,25 +461,26 @@ MergeResult PromptVersionControl::merge(
         result.conflicts.push_back("Prompt not found");
         return result;
     }
-    
-    if (!prompt_it->second.count(source_branch) || !prompt_it->second.count(target_branch)) {
+
+    const auto prompt_branches = prompt_it->second;
+    if (!prompt_branches.count(source_branch) || !prompt_branches.count(target_branch)) {
         result.conflicts.push_back("One or both branches not found");
         return result;
     }
-    
-    std::string source_id = prompt_it->second[source_branch];
-    std::string target_id = prompt_it->second[target_branch];
-    
+
+    const std::string source_id = prompt_branches.at(source_branch);
+    const std::string target_id = prompt_branches.at(target_branch);
+
     auto source_it = versions_.find(source_id);
     auto target_it = versions_.find(target_id);
-    
+
     if (source_it == versions_.end() || target_it == versions_.end()) {
         result.conflicts.push_back("Version data not found");
         return result;
     }
-    
-    const auto& source_version = source_it->second;
-    const auto& target_version = target_it->second;
+
+    const PromptVersion source_version = source_it->second;
+    const PromptVersion target_version = target_it->second;
     
     // Find the true lowest common ancestor (LCA) by walking the parent chain
     // from each branch and intersecting the two ancestor sets.
@@ -550,7 +535,8 @@ MergeResult PromptVersionControl::merge(
         } else {
             auto base_it = versions_.find(base_id);
             if (base_it != versions_.end()) {
-                result = autoMerge(base_it->second, source_version, target_version);
+                const PromptVersion base_version = base_it->second;
+                result = autoMerge(base_version, source_version, target_version);
             } else {
                 result.merged_content = source_version.content;
                 result.success = true;
@@ -648,8 +634,13 @@ std::optional<PromptVersion> PromptVersionControl::getByTag(
     if (tag_it == prompt_it->second.end()) {
         return std::nullopt;
     }
-    
-    return getVersion(tag_it->second);
+
+    auto version_it = versions_.find(tag_it->second);
+    if (version_it == versions_.end()) {
+        return std::nullopt;
+    }
+
+    return version_it->second;
 }
 
 std::unordered_map<std::string, std::string> PromptVersionControl::listTags(
@@ -775,10 +766,8 @@ void PromptVersionControl::loadFromDB() {
     if (!db_) return;
     
     size_t loaded_versions = 0;
-    size_t loaded_branches = 0;
-    
     // Load versions
-    db_->scanPrefix(KEY_PREFIX_VERSION, [this, &loaded_versions](std::string_view key, std::string_view value) -> bool {
+    db_->scanPrefix(KEY_PREFIX_VERSION, [this, &loaded_versions](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto j = nlohmann::json::parse(std::string(value));
             auto version = PromptVersion::fromJson(j);
@@ -1129,3 +1118,4 @@ MergeResult PromptVersionControl::autoMerge(
 
 } // namespace prompt_engineering
 } // namespace themis
+

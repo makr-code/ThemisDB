@@ -1,24 +1,21 @@
+/**
+ * @file policy_file_watcher.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_file_watcher.h                              ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:53:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     117                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e58f4c7a6  2026-02-22  feat(governance): add hot-reload for policy YAML with Pol... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_file_watcher.h | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 111
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -69,9 +66,16 @@ public:
      *
      * @param engine  Governance PolicyEngine to reload on file change.
      *                Must outlive this watcher.
+     */
+    explicit PolicyFileWatcher(PolicyEngine& engine);
+    /**
+     * @brief Construct a watcher bound to the given PolicyEngine.
+     *
+     * @param engine  Governance PolicyEngine to reload on file change.
+     *                Must outlive this watcher.
      * @param config  Watcher configuration.
      */
-    explicit PolicyFileWatcher(PolicyEngine& engine, Config config = {});
+    explicit PolicyFileWatcher(PolicyEngine& engine, Config config);
 
     ~PolicyFileWatcher();
 

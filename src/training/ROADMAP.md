@@ -1,96 +1,106 @@
 # Training Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabeler, IncrementalLoRATrainer, and KnowledgeGraphEnricher are production-ready with checkpoint/resume, adapter versioning, and graph-context enrichment.
 
-## Completed ✅
-- [x] LegalAutoLabeler – automated training sample generation from legal documents via NLP modality extraction
-- [x] `labelAll()`, `labelDocument()`, `labelQuery()` APIs
-- [x] Low-confidence sample flagging and human-review queue
-- [x] `updateSampleConfidence()` for recording human review decisions
-- [x] German (`de`) and multi-language support
-- [x] IncrementalLoRATrainer – full LoRA lifecycle (train, evaluate, deploy, rollback)
-- [x] INITIAL and INCREMENTAL training modes
-- [x] Checkpoint save and resume (`resumeFromCheckpoint`)
-- [x] Adapter version management (`deployVersion`, `rollbackVersion`, `listVersions`)
-- [x] Configurable LoRA rank, alpha, learning rate
-- [x] Training progress callback (epoch, step, loss)
-- [x] KnowledgeGraphEnricher – AQL graph traversal context enrichment
-- [x] `findRelatedProvisions()`, `findRelatedCaseLaw()`, `findSimilarDocuments()`
-- [x] Custom AQL query registration for domain-specific traversals
-- [x] Pimpl pattern for ABI stability across all three components
+Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA training, checkpoint handling, and training pipeline orchestration.
 
-## In Progress 🚧
-- [x] LoRA Checkpoint Manager with SHA-256 integrity validation (Target: Q1 2026)
-- [x] Training Sample Provenance and Lineage Tracking (Target: Q1 2026)
-- [x] Knowledge Graph Enrichment LRU Cache (Target: Q1 2026)
-- [x] ContentModality enum for multi-modality sample tracking (Target: Q1 2026)
-- [x] Confidence-Threshold Auto-Calibration via isotonic regression (Target: Q1 2026)
-- [?] Multi-GPU distributed training coordination (Target: Q2 2026)
-- [?] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
-- [?] Adapter serving integration with LLM inference layer (Target: Q3 2026)
+## In Progress
 
-## Planned Features 📋
+- [~] hardening training and checkpoint behavior under extended adapter lifecycle pressure (Target: Q3 2026)
+- [~] improving diagnostics consistency across labeling, training, and serving-handoff stages (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for training hot paths (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [?] Support for additional legal jurisdictions beyond German law
-- [?] Active learning loop (auto-select most informative samples for labeling)
-- [?] Training data deduplication and near-duplicate filtering
-- [?] Evaluation metrics dashboard (validation loss curves, accuracy)
-- [?] Export labeled datasets in standard formats (JSONL, Hugging Face datasets)
+## Planned Features
 
-### Long-term (6-12 months)
-- [?] Reinforcement learning from human feedback (RLHF) training loop
-- [?] Multi-modal training samples (text + table + chart)
-- [?] Domain adaptation beyond legal (medical, financial)
-- [?] Federated learning for privacy-preserving cross-institution training
-- [?] Model distillation from large to small adapters
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
+- [ ] expand stress coverage for GPU-backed and checkpoint-resume workloads (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for training and provenance incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for adapter lifecycle and training-step-sensitive paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for training pipeline and enrichment workload diversity (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained training and deployment pressure (Target: Q1 2027)
+- [~] Wave B B3: Multi-task LoRA shared-base/domain-gating training rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
-### Phase 1: Auto-Labeling & LoRA Training Pipeline (Status: Completed ✅)
-- [x] LegalAutoLabeler – NLP modality extraction from legal documents
-- [x] `labelAll()`, `labelDocument()`, `labelQuery()` public APIs
-- [x] Low-confidence sample flagging and human-review queue with `updateSampleConfidence()`
-- [x] IncrementalLoRATrainer – full LoRA lifecycle (train, evaluate, deploy, rollback)
-- [x] INITIAL and INCREMENTAL training modes with configurable rank/alpha/lr
-- [x] Checkpoint save and resume (`resumeFromCheckpoint()`)
-- [x] Adapter version management (`deployVersion`, `rollbackVersion`, `listVersions`)
-- [x] KnowledgeGraphEnricher – AQL graph traversal context enrichment (`findRelatedProvisions`, `findRelatedCaseLaw`)
-- [x] Confidence-threshold filtering for automatic sample acceptance
-- [x] Pimpl pattern for ABI stability across all three components
+### Phase 1: Design / API Contract
+- [ ] freeze training, checkpoint, and adapter lifecycle contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for labeling, checkpoint, and serving incidents (Target: Q3 2026)
 
-### Phase 2: Adapter Management & Multi-Domain (Status: In Progress 🚧)
-- [?] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026)
-- [?] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026)
-- [?] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
-- [?] Adapter serving integration with the LLM inference layer (Target: Q3 2026)
+### Phase 2: Core Implementation
+- [ ] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
+- [ ] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Multi-Modality & Provenance (Status: In Progress 🚧)
-- [x] `ContentModality` enum (TEXT_CLAUSE, TABLE, CITATION, OCR_IMAGE, UNKNOWN) added to `auto_labeler.h`
-- [x] `modality` field added to `TrainingSample` struct for per-modality confidence thresholds
-- [x] `LoRACheckpointManager` – SHA-256 integrity validation, atomic rotation, rolling 3-checkpoint window, manifest JSON (`lora_checkpoint_manager.h/.cpp`)
-- [x] `ProvenanceTracker` – ProvenanceRecord, write(), recordFilteredSample(), queryLineage(), getRecord() (`provenance_tracker.h/.cpp`)
-- [x] `EnrichmentLRUCache` – thread-safe LRU map inside `KnowledgeGraphEnricher`, enableCache/disableCache/getCacheStats API
-- [x] `ConfidenceCalibrator` – isotonic regression (PAV algorithm) per-category threshold selection in `training_pipeline.h/.cpp`
-- [?] Multi-modality full parser for code snippets and tabular data (`training/modality_parser.cpp`)
-- [?] Active learning loop (auto-select most informative unlabelled samples)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
+- [ ] unify diagnostics across dataset, training, and adapter incident classes (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for training-lifecycle workloads (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for training hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core training module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (label → train → evaluate → deploy lifecycle)
-- [?] Performance benchmarks (samples/sec labeling, training convergence)
-- [?] Security audit (training data access control, adapter integrity verification)
-- [?] Documentation complete
-- [?] API stability guaranteed
 
-## Known Issues & Limitations
-- NLP modality extractor is provided externally (`analytics::NlpTextAnalyzer`); not bundled.
-- Distributed/multi-GPU training is not yet coordinated; single-node only.
-- LoRA adapter serving (inference) must be handled by the LLM integration layer.
+- [x] core training surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for trainer/checkpoint/adapter edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on training configuration, adapter size, and available acceleration.
+- selected checkpoint, merge, and serving edge scenarios need continued hardening.
+- benchmark depth should continue expanding for broader training workloads.
+- Wave B B3 rollout depends on Wave A deployment readiness and stable LLM adapter lifecycle baselines.
+
+## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Training
+
+### Scope
+- [x] shared LoRA base training flow with task-specific projection support
+- [x] domain-gating training signals and routing metadata integration
+- [x] joint multi-task loss with configurable task weighting
+- [x] benchmark orchestration for three-task transfer and robustness evaluation
+
+### Validation
+- [x] unit tests `MTL-TRAINING-01..10`
+- [x] ablation study: shared-base vs separate-adapter training behavior
+
+### Acceptance Gates
+- [ ] average task performance gain ≥ +8% vs single-task baseline
+- [ ] training-time increase ≤ 15% across benchmarked task sets
+- [ ] robust convergence behavior across configured task-weight schedules
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] LLM module adapter lifecycle baseline stable for multi-task integration
+- [ ] benchmark harness available for repeatable three-task evaluations
+
+### References
+- AI tracker: `../ai/ROADMAP.md`
+- LLM tracker: `../llm/ROADMAP.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
+
+## Planning Traceability
+
+- Wave B dependency planning issue: `#5039`
+- Upstream planning context: Wave C `#5040`, Wave A `#5038`
 
 ## Breaking Changes
-- `TrainingSample` struct is stable from v1.x; new optional fields only.
-- `IncrementalTrainingConfig` may gain new hyperparameter fields in v1.5.0; backward-compatible.
+
+No breaking training contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

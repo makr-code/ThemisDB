@@ -1,31 +1,27 @@
+/**
+ * @file metadata_wal.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            metadata_wal.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: metadata_wal.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
 // Licensed under MIT License
 // Phase 2.2: Metadata Shard Durability
 
-#ifndef THEMISDB_SHARDING_METADATA_WAL_H
-#define THEMISDB_SHARDING_METADATA_WAL_H
+#pragma once
 
 #include "sharding/wal_manager.h"
 #include "sharding/metadata_shard.h"
@@ -43,30 +39,31 @@ using LSN = themis::sharding::LSN;
 using WALEntry = themis::sharding::WALEntry;
 using WALEntryType = themis::sharding::WALEntryType;
 
-/**
- * @brief Metadata WAL entry types
- */
+/** @brief Metadata-specific WAL operation types persisted in shared WAL stream. */
 enum class MetadataWALEntryType {
     PUT = 120,     // Put metadata entry
-    DELETE = 121,  // Delete metadata entry
+    DELETE_OP = 121,  // Delete metadata entry
     UPDATE = 122   // Update existing entry
 };
 
-/**
- * @brief Metadata WAL entry
- */
+/** @brief Metadata operation record stored/replayed via WAL manager. */
 struct MetadataWALEntry {
+    /** @brief LSN assigned by underlying WAL manager. */
     LSN lsn;
+    /** @brief Metadata operation kind (PUT/DELETE/UPDATE). */
     MetadataWALEntryType type;
+    /** @brief Operation timestamp in milliseconds since epoch. */
     uint64_t timestamp;
+    /** @brief Metadata partition owning the key. */
     MetadataPartitionKey partition;
+    /** @brief Metadata key affected by the operation. */
     std::string key;
+    /** @brief JSON payload for PUT/UPDATE (null for delete). */
     nlohmann::json value;
+    /** @brief Version carried for conflict-resolution/order checks. */
     uint64_t version;
     
-    /**
-     * @brief Convert to WALEntry for storage
-     */
+    /** @brief Convert metadata entry into generic WALEntry for persistence. */
     WALEntry toWALEntry() const {
         WALEntry entry;
         entry.type = static_cast<WALEntryType>(type);
@@ -80,9 +77,7 @@ struct MetadataWALEntry {
         return entry;
     }
     
-    /**
-     * @brief Create from WALEntry
-     */
+    /** @brief Reconstruct metadata entry from generic WAL entry payload. */
     static MetadataWALEntry fromWALEntry(const WALEntry& entry) {
         MetadataWALEntry metadata_entry;
         metadata_entry.lsn = entry.lsn;
@@ -97,20 +92,25 @@ struct MetadataWALEntry {
     }
 };
 
-/**
- * @brief Metadata WAL configuration
- */
+/** @brief Configuration for metadata WAL persistence and snapshot cadence. */
 struct MetadataWALConfig {
+    /** @brief Directory storing WAL segment files for metadata operations. */
     std::string wal_directory;
+    /** @brief Directory storing metadata snapshot files. */
     std::string snapshot_directory;
     
     // WAL settings
+    /** @brief Maximum bytes per WAL segment before rotation. */
     size_t segment_size = 16 * 1024 * 1024;  // 16 MB
+    /** @brief Buffered write threshold before flush. */
     size_t write_buffer_size = 64 * 1024;    // 64 KB
+    /** @brief Flush stream on each write for stronger durability. */
     bool sync_on_write = true;
     
     // Snapshot settings
+    /** @brief Operation count threshold triggering snapshot recommendation. */
     uint64_t snapshot_interval = 10000;  // Snapshot every 10K operations
+    /** @brief Maximum number of retained snapshot files. */
     size_t max_snapshots = 10;           // Keep last 10 snapshots
 };
 
@@ -122,13 +122,12 @@ struct MetadataWALConfig {
  */
 class MetadataWAL {
 public:
+    /** @brief Construct metadata WAL wrapper over shared WAL manager primitives. */
     explicit MetadataWAL(const MetadataWALConfig& config);
+    /** @brief Destructor for metadata WAL wrapper. */
     ~MetadataWAL();
     
-    /**
-     * @brief Initialize the WAL
-     * @return true if successful
-     */
+    /** @brief Initialize directories and underlying WAL manager instance. */
     bool initialize();
     
     /**
@@ -181,9 +180,7 @@ public:
      */
     std::vector<MetadataWALEntry> readEntries(const LSN& start_lsn);
     
-    /**
-     * @brief Flush WAL to disk
-     */
+    /** @brief Flush pending WAL bytes to underlying manager stream. */
     void flush();
     
     /**
@@ -195,15 +192,11 @@ public:
         return operations_count >= config_.snapshot_interval;
     }
     
-    /**
-     * @brief Get WAL configuration
-     */
+    /** @brief Return effective metadata WAL configuration. */
     const MetadataWALConfig& getConfig() const { return config_; }
     
 private:
-    /**
-     * @brief Write a metadata entry to WAL
-     */
+    /** @brief Internal helper to append one metadata WAL entry. */
     LSN writeEntry(const MetadataWALEntry& entry);
     
     MetadataWALConfig config_;
@@ -214,4 +207,3 @@ private:
 } // namespace sharding
 } // namespace themisdb
 
-#endif // THEMISDB_SHARDING_METADATA_WAL_H

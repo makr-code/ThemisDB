@@ -1,84 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            arc_cache.h                                        ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-09 03:52:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     449                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
-#pragma once
-
 /**
  * @file arc_cache.h
- * @brief ARC (Adaptive Replacement Cache) – production-ready, scan-resistant.
- *
- * ARC was introduced by Megiddo & Modha (IBM, 2003):
- *   "ARC: A Self-Tuning, Low Overhead Replacement Cache"
- *   FAST '03. https://www.usenix.org/node/12555
- *
- * ## Why ARC instead of plain LRU?
- *
- *   LRU                        ARC
- *   ─────────────────────────  ─────────────────────────────────────────────
- *   Thrashing on scan patterns  Scan-resistant via ghost-list filter
- *   Fixed policy                Self-tuning: adapts to recency vs. frequency
- *   50-60% hit rate (mixed)     70-85% hit rate (same workload)
- *
- * ## Algorithm overview
- *
- * ARC maintains four lists:
- *
- *   T1  Recently-seen (recency) pages currently in cache.
- *   T2  Frequently-seen (frequency) pages currently in cache.
- *   B1  Ghost (evicted) pages that were in T1.  No data, only keys.
- *   B2  Ghost (evicted) pages that were in T2.  No data, only keys.
- *
- * The parameter `p` (0 ≤ p ≤ capacity) is the target size of T1.  On a
- * B1 hit `p` increases; on a B2 hit `p` decreases.  This drives the cache
- * to self-tune toward the optimal mix of recency and frequency.
- *
- * ## Complexity
- *
- * All operations (put/get/evict) run in amortised O(1) time.
- *
- * ## Thread safety
- *
- * All public methods are thread-safe (protected by a single shared mutex).
- *
- * ## Usage
- *
- * @code
- * using namespace themis::cache;
- * ARCCache<std::string, std::vector<uint8_t>> buf_pool(8192); // 8k pages
- *
- * // Write a page
- * buf_pool.put("page:42", page_data);
- *
- * // Read a page (returns nullopt on miss)
- * auto data = buf_pool.get("page:42");
- *
- * // Check hit rate
- * auto stats = buf_pool.stats();
- * spdlog::info("ARC hit rate: {:.1f}%", stats.hit_rate() * 100);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.46
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cstddef>

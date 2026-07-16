@@ -1,0 +1,482 @@
+{
+  "module": "rag",
+  "summary": {
+    "total": 47,
+    "critical": 30,
+    "high": 17,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\rag\\calibration_manager.cpp",
+      "line_num": 132,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (predictions.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\calibration_manager.cpp",
+      "line_num": 191,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\claim_extractor.cpp",
+      "line_num": 42,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+      "line_num": 806,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE (residual):",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\document_splitter.cpp",
+      "line_num": 128,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (text.empty() || overlap_tokens == 0) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\document_splitter.cpp",
+      "line_num": 359,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (text.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\flare_retrieval.cpp",
+      "line_num": 186,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (window_.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\flare_retrieval.cpp",
+      "line_num": 188,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE (stub #260):",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\flare_retrieval.cpp",
+      "line_num": 223,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\flare_retrieval.cpp",
+      "line_num": 234,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\knowledge_gap_detector.cpp",
+      "line_num": 1054,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\knowledge_gap_detector.cpp",
+      "line_num": 1367,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\knowledge_gap_detector.cpp",
+      "line_num": 1387,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\knowledge_graph_retriever.cpp",
+      "line_num": 277,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == impl_->adj.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\llm_judge_client.cpp",
+      "line_num": 84,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\llm_judge_integration.cpp",
+      "line_num": 227,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\multi_hop_reasoner.cpp",
+      "line_num": 67,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (first == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\multi_hop_reasoner.cpp",
+      "line_num": 177,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (query.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\multi_hop_reasoner.cpp",
+      "line_num": 251,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (partial_answers.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\rag_ingestion_bridge.cpp",
+      "line_num": 164,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\rag\\rag_judge.cpp",
+      "line_num": 971,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\rag\\explainability_reason_builder.h",
+      "line_num": 84,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "* // STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\explainability_reason_builder.h",
+      "line_num": 228,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "* // STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\knowledge_gap_detector.h",
+      "line_num": 182,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "*           if (embedding.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\knowledge_gap_detector.h",
+      "line_num": 184,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "*           if (!st.ok) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\llm_judge_integration.h",
+      "line_num": 117,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock mode configuration",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\multi_step_rag.h",
+      "line_num": 134,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "/// Placeholders: {context} = assembled docs, {query} = original query.",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\multi_step_rag.h",
+      "line_num": 141,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "/// Placeholders: {partial_answers} = newline-separated partial answers,",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\rag\\multi_step_rag.h",
+      "line_num": 157,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "/// Placeholders: {query} = original query, {answer} = current answer.",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_acceleration_coverage.cpp",
+      "line_num": 646,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "const uint32_t adj[] = {0}; // Placeholder \u2014 not used in current impl",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_acceleration_coverage.cpp",
+      "line_num": 818,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub returns all-false capabilities",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 147,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 172,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 190,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 213,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 230,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 248,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 268,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 292,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 319,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_object_storage.cpp",
+      "line_num": 364,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_rag_multi_hop_reasoner.cpp",
+      "line_num": 203,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub LLM returns 3 sub-questions, but max_hops=2",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_rag_prompt_builder.cpp",
+      "line_num": 195,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder tokens should be replaced",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_rag_replug_retriever.cpp",
+      "line_num": 105,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock scorer that returns a fixed score per document.",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_rag_replug_retriever.cpp",
+      "line_num": 124,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock scorer that assigns higher scores to earlier documents (by counting",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_rag_reranker.cpp",
+      "line_num": 319,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub path \u2013 no actual file required for the interface test",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_storage_layout_advisor.cpp",
+      "line_num": 109,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static GdprFieldRegistry noGdpr() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

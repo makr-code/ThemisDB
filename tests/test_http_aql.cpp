@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_http_aql.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     634                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_http_aql.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -43,6 +29,7 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = net::ip::tcp;
+using namespace themis::query;
 
 class HttpAqlApiTest : public ::testing::Test {
 protected:
@@ -198,10 +185,10 @@ TEST_F(HttpAqlApiTest, ZZ_SimpleDirectRocksDBScan) {
 TEST_F(HttpAqlApiTest, DEBUG_QueryEngineDirectAccess) {
     // This test mimics exactly what the HTTP server should do
     // Create QueryEngine with the same database/index
-    themis::QueryEngine engine(*storage_, *secondary_index_);
+    QueryEngine engine(*storage_, *secondary_index_);
     
     // Try a simple conjunctive query like the HTTP handler would
-    themis::ConjunctiveQuery q;
+    ConjunctiveQuery q;
     q.table = "users";
     q.predicates = {{"city", "Berlin"}};
     

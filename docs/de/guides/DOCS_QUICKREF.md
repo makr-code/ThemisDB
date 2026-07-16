@@ -26,7 +26,7 @@ Quick reference guide to all ThemisDB documentation.
 
 Quick reference guide for all ThemisDB documentation resources.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Status:** ✅
 
@@ -44,7 +44,7 @@ Quick reference guide for all ThemisDB documentation resources.
 
 ## 🚀 Developer Links
 
-**Stand:** 30. November 2025
+**Stand:** 6. April 2026
 
 ## 🚀 Wichtigste Links
 
@@ -109,8 +109,8 @@ Quick reference guide for all ThemisDB documentation resources.
 - **Discussions:** https://github.com/makr-code/ThemisDB/discussions
 
 ### CI/CD Badges
-- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
-- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml)
+- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
+- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml)
 
 ## 📖 Nach Thema
 

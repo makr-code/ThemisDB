@@ -1,26 +1,21 @@
+/**
+ * @file graphql.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graphql.h                                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     549                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6e489011a  2026-02-28  feat(api/graphql): Implement multi-model schema - add exp... ║
-    • 89b024d9f  2026-02-23  feat(api/graphql): complete multi-model GraphQL schema wi... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graphql.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 584
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4453 fix(graphql): resolve varia... (2026-04-07) | #3128 feat(api/graphql): Implemen... (2026-03-12) | #2728 feat(api/graphql): Complete... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #779 Complete GraphQL Parser Res... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -56,7 +51,8 @@ struct Value {
         String,
         Enum,
         List,
-        Object
+        Object,
+        VariableRef  // Variable reference ($name) — resolved at execution time
     };
     
     Type type = Type::Null;
@@ -124,6 +120,15 @@ struct Value {
         return val;
     }
     
+    /// Create a variable-reference value.  @p name must be the bare variable
+    /// name WITHOUT the leading '$' (e.g. "id", not "$id").
+    static std::shared_ptr<Value> variableRef(std::string name) {
+        auto val = std::make_shared<Value>();
+        val->type = Type::VariableRef;
+        val->data = std::move(name);
+        return val;
+    }
+    
     // Type checkers
     bool isNull() const { return type == Type::Null; }
     bool isBool() const { return type == Type::Boolean; }
@@ -133,6 +138,10 @@ struct Value {
     bool isEnum() const { return type == Type::Enum; }
     bool isList() const { return type == Type::List; }
     bool isObject() const { return type == Type::Object; }
+    /// Returns true when the value is a variable reference ($name).
+    /// The variable will be resolved against ExecutionContext::variables at
+    /// execution time.
+    bool isVariableRef() const { return type == Type::VariableRef; }
     
     // Value getters
     bool asBool() const { return std::get<bool>(data); }
@@ -141,6 +150,8 @@ struct Value {
     const std::string& asString() const { return std::get<std::string>(data); }
     const ValueList& asList() const { return std::get<ValueList>(data); }
     const ValueMap& asObject() const { return std::get<ValueMap>(data); }
+    /// Returns the bare variable name (without '$') for a VariableRef value.
+    const std::string& asVariableRef() const { return std::get<std::string>(data); }
 };
 
 /**
@@ -275,7 +286,8 @@ struct QueryLimits {
  * - Query, Mutation, Subscription operations
  * - Field selections with aliases
  * - Arguments (all value types)
- * - Variables and variable definitions
+ * - Variables and variable definitions (with default values)
+ * - Variable substitution at execution time via ExecutionContext::variables
  * - Nested selections
  * - Comments (# to end of line)
  * 
@@ -468,6 +480,14 @@ private:
     std::shared_ptr<Value> executeField(
         const Field& field,
         const std::shared_ptr<Value>& parent,
+        const ExecutionContext& context
+    );
+
+    /// Resolve a single argument value: if it is a VariableRef, look it up in
+    /// @p context.variables and return the bound value (or null when unbound).
+    /// All other value types are returned unchanged.
+    static std::shared_ptr<Value> resolveValue(
+        const std::shared_ptr<Value>& value,
         const ExecutionContext& context
     );
 };

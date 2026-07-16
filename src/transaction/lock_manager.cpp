@@ -1,24 +1,21 @@
+/**
+ * @file lock_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.45
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lock_manager.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-09 04:00:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     564                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lock_manager.cpp | Version: 0.0.45 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 592
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=10, M=16, L=0
+ * PR History (last 5): #796 Implement deadlock detectio... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/lock_manager.h"
@@ -523,9 +520,34 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
                                         const std::string& start_key,
                                         const std::string& end_key)
 {
+    if (!predicate_locking_enabled_.load(std::memory_order_relaxed)) {
+        return false;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
+    size_t max_locks = max_predicate_locks_.load(std::memory_order_relaxed);
+    if (max_locks > 0 && predicate_locks_.size() >= max_locks) {
+        // Limit reached: drop the lock silently.  This may raise the
+        // false-positive abort rate but does not compromise correctness.
+        return false;
+    }
     predicate_locks_.push_back({txn_id, start_key, end_key});
     return true;
+}
+
+void LockManager::setMaxPredicateLocks(size_t max_locks) {
+    max_predicate_locks_.store(max_locks, std::memory_order_relaxed);
+}
+
+size_t LockManager::getMaxPredicateLocks() const {
+    return max_predicate_locks_.load(std::memory_order_relaxed);
+}
+
+void LockManager::setPredicateLockingEnabled(bool enabled) {
+    predicate_locking_enabled_.store(enabled, std::memory_order_relaxed);
+}
+
+bool LockManager::isPredicateLockingEnabled() const {
+    return predicate_locking_enabled_.load(std::memory_order_relaxed);
 }
 
 void LockManager::releasePredicateLocks(TransactionId txn_id)
@@ -542,6 +564,9 @@ void LockManager::releasePredicateLocks(TransactionId txn_id)
 LockManager::TransactionId LockManager::checkPredicateConflict(
     TransactionId writing_txn_id, const std::string& key) const
 {
+    if (!predicate_locking_enabled_.load(std::memory_order_relaxed)) {
+        return 0;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& pl : predicate_locks_) {
         if (pl.txn_id == writing_txn_id) continue;
@@ -560,6 +585,19 @@ size_t LockManager::getPredicateLockCount(TransactionId txn_id) const
                       [txn_id](const PredicateLock& pl) {
                           return pl.txn_id == txn_id;
                       }));
+}
+
+std::vector<std::pair<std::string, std::string>>
+LockManager::getPredicateLockRanges(TransactionId txn_id) const
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    std::vector<std::pair<std::string, std::string>> result;
+    for (const auto& pl : predicate_locks_) {
+        if (pl.txn_id == txn_id) {
+            result.emplace_back(pl.start_key, pl.end_key);
+        }
+    }
+    return result;
 }
 
 } // namespace themis

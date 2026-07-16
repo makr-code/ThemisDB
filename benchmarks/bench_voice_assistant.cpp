@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_voice_assistant.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     890                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e0a7ce222  2026-03-01  feat(voice): add STT latency and TTS generation speed ben... ║
-    • 5821357c2  2026-02-22  voice: add wake-word detection REST endpoint, benchmarks,... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_voice_assistant.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -42,6 +25,7 @@
 #include "content/content_plugin_interface.h"
 #include <nlohmann/json.hpp>
 #include <cmath>
+#include <numbers>
 #include <vector>
 #include <random>
 
@@ -478,7 +462,7 @@ static std::vector<uint8_t> generateSinePcm(int duration_ms, float amplitude,
     pcm.reserve(static_cast<size_t>(num_samples) * 2);
     for (int i = 0; i < num_samples; ++i) {
         float val = amplitude *
-            std::sin(2.0f * static_cast<float>(M_PI) * kFrequencyHz * i / sample_rate);
+            std::sin(2.0f * std::numbers::pi_v<float> * kFrequencyHz * i / sample_rate);
         auto s = static_cast<int16_t>(val * 32767.0f);
         pcm.push_back(static_cast<uint8_t>(s & 0xFF));
         pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));

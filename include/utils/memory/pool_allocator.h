@@ -1,23 +1,20 @@
+/**
+ * @file pool_allocator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pool_allocator.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     368                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pool_allocator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Memory Pool Allocator
@@ -133,19 +130,19 @@ public:
      * @param hint Optional allocation hint for optimization
      * @return Pointer to allocated memory or error
      */
-    virtual Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) = 0;
+    [[nodiscard]] virtual Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) = 0;
     
     /**
      * @brief Deallocate memory
      * @param ptr Pointer to memory to free
      * @return Success or error
      */
-    virtual Result<void> deallocate(void* ptr) = 0;
+    [[nodiscard]] virtual Result<void> deallocate(void* ptr) = 0;
     
     /**
      * @brief Get allocator statistics
      */
-    virtual const AllocationStats& getStats() const = 0;
+    [[nodiscard]] virtual const AllocationStats& getStats() const = 0;
     
     /**
      * @brief Reset allocator state (free all allocations)
@@ -154,12 +151,12 @@ public:
      * It should only be called when no other threads are actively using
      * the allocator. Typically used during shutdown or testing.
      */
-    virtual Result<void> reset() = 0;
+    [[nodiscard]] virtual Result<void> reset() = 0;
     
     /**
      * @brief Get allocator name for diagnostics
      */
-    virtual const char* getName() const = 0;
+    [[nodiscard]] virtual const char* getName() const = 0;
 };
 
 /**
@@ -179,7 +176,12 @@ public:
      * @param min_block_size Minimum allocation size (must be power of 2)
      */
     explicit BuddyAllocator(size_t total_size, size_t min_block_size = 64);
-    ~BuddyAllocator() override;
+    /**
+     * @brief Release the buddy pool and allocator metadata.
+     *
+     * Cleanup is RAII-backed and guaranteed not to throw during shutdown.
+     */
+    ~BuddyAllocator() noexcept override;
     
     Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) override;
     Result<void> deallocate(void* ptr) override;
@@ -218,7 +220,12 @@ public:
      */
     explicit SlabAllocator(size_t object_size, size_t objects_per_slab = 64, 
                           size_t max_slabs = 0);
-    ~SlabAllocator() override;
+    /**
+     * @brief Release all slabs owned by the allocator.
+     *
+     * Cleanup is RAII-backed and guaranteed not to throw during shutdown.
+     */
+    ~SlabAllocator() noexcept override;
     
     Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) override;
     Result<void> deallocate(void* ptr) override;

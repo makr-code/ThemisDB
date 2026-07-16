@@ -26,7 +26,7 @@ Complete guide to configuring TLS and mutual TLS for secure communication.
 
 ThemisDB supports both HTTP and HTTPS modes with optional mutual TLS (mTLS) for enhanced security. This guide covers certificate generation, configuration, and testing.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

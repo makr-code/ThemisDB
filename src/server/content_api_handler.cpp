@@ -1,27 +1,25 @@
+/**
+ * @file content_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=15, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_api_handler.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     878                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 886
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=21, L=0
+ * PR History (last 5): #2791 feat(cache): Adaptive TTL t... (2026-03-12) | #448 Refactor: Extract ContentAp... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/content_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "content/content_manager.h"
 #include "content/content_processor.h"
@@ -30,6 +28,7 @@
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 #include <algorithm>
 #include <cmath>
 #include <unordered_map>
@@ -80,13 +79,13 @@ static std::string extractUserId(const http::request<http::string_body>& req, st
         return "";
     }
     
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return "";
     }
     
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return "";
@@ -104,6 +103,10 @@ http::response<http::string_body> ContentApiHandler::handleImport(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto body = nlohmann::json::parse(req.body());
         
         // Extract optional blob (can be base64 or raw string)
@@ -150,7 +153,7 @@ http::response<http::string_body> ContentApiHandler::handleImport(
         
         // Call ContentManager::importContent with structured JSON spec
         std::string user_ctx = extractUserId(req, auth_);
-        auto status = content_manager_->importContent(body, blob, user_ctx);
+        auto status = content_manager.importContent(body, blob, user_ctx);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -175,9 +178,13 @@ http::response<http::string_body> ContentApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto id = extractPathParam(std::string(req.target()), "/content/");
         if (id.empty()) return makeErrorResponse(http::status::bad_request, "Missing content id", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         if (!meta) return makeErrorResponse(http::status::not_found, "Content not found", req);
         return makeResponse(http::status::ok, meta->toJson().dump(), req);
     } catch (const std::exception& e) {
@@ -189,6 +196,10 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/blob
         auto prefix = std::string("/content/");
@@ -196,9 +207,9 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
         if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         auto id = path.substr(prefix.size(), pos - prefix.size());
         std::string user_ctx = extractUserId(req, auth_);
-        auto blob = content_manager_->getContentBlob(id, user_ctx);
+        auto blob = content_manager.getContentBlob(id, user_ctx);
         if (!blob) return makeErrorResponse(http::status::not_found, "Blob not found", req);
-        auto meta = content_manager_->getContentMeta(id);
+        auto meta = content_manager.getContentMeta(id);
         std::string mime = (meta ? meta->mime_type : std::string("application/octet-stream"));
 
         http::response<http::string_body> res{http::status::ok, req.version()};
@@ -217,13 +228,17 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
     const http::request<http::string_body>& req
 ) {
     try {
+        if (!content_manager_) {
+            return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        }
+        auto& content_manager = *content_manager_;
         auto path = std::string(req.target());
         // path format: /content/{id}/chunks
         auto prefix = std::string("/content/");
         auto pos = path.find("/chunks");
         if (pos == std::string::npos) return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         auto id = path.substr(prefix.size(), pos - prefix.size());
-        auto chunks = content_manager_->getContentChunks(id);
+        auto chunks = content_manager.getContentChunks(id);
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& c : chunks) {
             nlohmann::json j = c.toJson();
@@ -243,6 +258,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
 ) {
     try {
         if (!content_manager_) return makeErrorResponse(http::status::service_unavailable, "ContentManager not initialized", req);
+        auto& content_manager = *content_manager_;
         nlohmann::json body = nlohmann::json::parse(req.body());
         std::string query = body.value("query", "");
         int k = body.value("k", 10);
@@ -254,7 +270,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
         if (body.contains("filters")) filters = body["filters"];
         if (body.contains("scoring")) filters["scoring"] = body["scoring"];
 
-        auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
+        auto results = content_manager.searchWithExpansion(query, k, hops, filters);
         nlohmann::json resp = nlohmann::json::array();
         for (const auto& result : results) {
             resp.push_back({{"pk", result.first}, {"score", result.second}});
@@ -278,6 +294,8 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "SecondaryIndexManager not initialized", req);
         if (!vector_index_) return makeErrorResponse(http::status::service_unavailable, "VectorIndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
+        auto& vector_index = *vector_index_;
         
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -287,6 +305,17 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         std::string table = body["table"];
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleFusionSearch");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         int k = body.value("k", 10);
         std::string fusionMode = body.value("fusion_mode", "rrf"); // "rrf" or "weighted"
         
@@ -299,12 +328,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             std::string textQuery = body["text_query"];
             int textLimit = body.value("text_limit", 1000);
             
-            if (!secondary_index_->hasFulltextIndex(table, textColumn)) {
+            if (!secondary_index.hasFulltextIndex(table, textColumn)) {
                 return makeErrorResponse(http::status::bad_request, 
                     "No fulltext index on " + table + "." + textColumn, req);
             }
             
-            auto [textStatus, textRes] = secondary_index_->scanFulltextWithScores(table, textColumn, textQuery, textLimit);
+            auto [textStatus, textRes] = secondary_index.scanFulltextWithScores(table, textColumn, textQuery, textLimit);
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
@@ -332,7 +361,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
             }
             
             int vectorLimit = body.value("vector_limit", 1000);
-            auto [vecStatus, vecRes] = vector_index_->searchKnn(vectorQuery, vectorLimit);
+            auto [vecStatus, vecRes] = vector_index.searchKnn(vectorQuery, vectorLimit);
             if (!vecStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Vector search failed: " + vecStatus.message, req);
             }
@@ -459,6 +488,7 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
 ) {
     try {
         if (!secondary_index_) return makeErrorResponse(http::status::service_unavailable, "IndexManager not initialized", req);
+        auto& secondary_index = *secondary_index_;
         
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -474,18 +504,29 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         }
         
         std::string table = body["table"];
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleFulltext");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         std::string column = body["column"];
         std::string query = body["query"];
         size_t limit = body.value("limit", 1000);
         
         // Check if fulltext index exists
-        if (!secondary_index_->hasFulltextIndex(table, column)) {
+        if (!secondary_index.hasFulltextIndex(table, column)) {
             return makeErrorResponse(http::status::bad_request, 
                 "No fulltext index on " + table + "." + column, req);
         }
         
         // Perform BM25-scored fulltext search
-        auto [status, results] = secondary_index_->scanFulltextWithScores(table, column, query, limit);
+        auto [status, results] = secondary_index.scanFulltextWithScores(table, column, query, limit);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, status.message, req);
@@ -772,6 +813,16 @@ http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaPut(
         
         // Validate each collection
         for (auto& [collection_name, collection_config] : body["collections"].items()) {
+            // QW-46 Guard: Fail-closed collection name validation for keys
+            {
+                utils::InputValidator validator;
+                if (!validator.validateStringLength(collection_name, 256) || !validator.validatePathSegment(collection_name)) {
+                    THEMIS_ERROR("QW-46 Guard: Invalid collection name in handleBatchConfig");
+                    return makeErrorResponse(http::status::bad_request,
+                        "Invalid collection name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+                }
+            }
+            
             if (!collection_config.is_object()) {
                 return makeErrorResponse(http::status::bad_request, 
                     "Collection config for '" + collection_name + "' must be an object", req);
@@ -877,3 +928,4 @@ http::response<http::string_body> ContentApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

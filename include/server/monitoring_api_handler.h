@@ -1,24 +1,20 @@
+/**
+ * @file monitoring_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            monitoring_api_handler.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     335                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3978fd6d9  2026-02-24  feat(server): OpenAPI 3.1 spec auto-generation from handl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: monitoring_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -41,6 +37,14 @@ class SecondaryIndexManager;
 namespace sharding {
 class PrometheusMetrics;
 class SLOMonitor;
+}
+
+namespace observability {
+class IProvenanceStore;
+}
+
+namespace rag::learning {
+class ContinuousLearningOrchestrator;
 }
 
 namespace server {
@@ -76,6 +80,7 @@ namespace server {
  * - GET /api/v1/observability/alerts - List active alerts (JSON)
  * - POST /api/v1/observability/alerts/{id}/silence - Silence an alert
  * - GET /api/v1/observability/health - Aggregate observability health
+ * - GET /api/v1/observability/provenance - Query persisted retrieval provenance records
  * 
  * Features:
  * - Health monitoring
@@ -268,6 +273,25 @@ public:
         const http::request<http::string_body>& req);
 
     /**
+     * @brief GET /api/v1/observability/provenance
+     * Returns persisted retrieval provenance records for operational analysis.
+     *
+     * Supported query parameters:
+     * - query_id=<id>: return full provenance chain for one query.
+     * - start_ts_ms=<epoch_ms>&end_ts_ms=<epoch_ms>: return records in time window.
+     * - limit=<n>: cap returned records (default 1000, max 10000).
+     *
+     * If both query_id and a time window are provided, the query chain is
+     * filtered to records inside the time window.
+     *
+     * @param req HTTP request
+     * @return HTTP 200 with JSON response, 400 for invalid query params, 503
+     *         when no provenance store is configured
+     */
+    http::response<http::string_body> handleObservabilityProvenance(
+        const http::request<http::string_body>& req);
+
+    /**
      * @brief GET /api/v1/license/status
      * Returns runtime license state as a JSON document:
      *   - initialized:      whether the RuntimeLicenseGate has been set up
@@ -305,6 +329,52 @@ public:
         alertmanager_ = std::move(alertmanager);
     }
 
+    /**
+     * @brief Set the provenance store used by observability export endpoints.
+     *
+     * Optional: when not set, provenance export endpoints return service
+     * unavailable instead of failing implicitly.
+     */
+    void setProvenanceStore(std::shared_ptr<observability::IProvenanceStore> provenance_store) {
+        provenance_store_ = std::move(provenance_store);
+    }
+
+    /**
+     * @brief Inject sharding / repair metrics into the monitoring handler.
+     *
+     * Optional: when set, GET /metrics and GET /v1/monitoring/sharding/{name} expose
+     * shard-level Prometheus metrics including anti-entropy repair statistics.
+     * Must be called before start() for the first scrape to include repair data.
+     */
+    void setShardingMetrics(std::shared_ptr<ShardingMetricsHandler> sharding_metrics) {
+        sharding_metrics_ = std::move(sharding_metrics);
+    }
+
+    /**
+     * @brief Inject the SchemaManager after deferred initialization.
+     *
+     * SchemaManager is initialized after MonitoringApiHandler due to construction
+     * ordering constraints (schema_manager_ depends on storage being fully open).
+     * Call this from HttpServer once schema_manager_ is available so that
+     * GET /api/v1/capabilities returns accurate schema capability information.
+     *
+     * Optional: when not set the capabilities endpoint omits schema details.
+     */
+    void setSchemaManager(::themis::SchemaManager* schema_manager) {
+        schema_manager_ = schema_manager;
+    }
+
+    /**
+     * @brief Inject the continuous-learning orchestrator for live ML loop status.
+     *
+     * When set, GET /stats and GET /metrics/html include the latest serialized
+     * signal and guardrail context for the live continuous-learning loops.
+     */
+    void setContinuousLearningOrchestrator(
+        std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator) {
+        continuous_learning_orchestrator_ = std::move(orchestrator);
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
@@ -319,6 +389,9 @@ private:
     const std::atomic<uint64_t>* active_connections_{nullptr};
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
+    std::shared_ptr<observability::IProvenanceStore> provenance_store_;
+    std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
+        continuous_learning_orchestrator_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

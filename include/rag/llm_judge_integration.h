@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_judge_integration.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     163                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file llm_judge_integration.h
- * @brief LLM integration wrapper for RAG Judge
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 89/100
+ * @note Gap Summary: total=13; TODO=1, Stub=3, Unimpl=0, Mock=9, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -37,6 +21,34 @@
 namespace themis::rag::judge {
 
 /**
+ * @brief Abstract inference engine interface for dependency injection
+ *
+ * Implement this interface to provide a real or test LLM backend to
+ * LLMJudgeIntegration via the engine-injection constructor.
+ *
+ * Example (test double returning random scores):
+ * @code
+ *   struct RandomEngine : ILLMInferenceEngine {
+ *       std::string generate(const std::string&) override {
+ *           return R"({"score":)" + std::to_string(dist_(rng_)) + R"(,"confidence":0.8})";
+ *       }
+ *   private:
+ *       std::mt19937 rng_{std::random_device{}()};
+ *       std::uniform_real_distribution<double> dist_{1.0, 5.0};
+ *   };
+ * @endcode
+ */
+struct ILLMInferenceEngine {
+    virtual ~ILLMInferenceEngine() = default;
+    /**
+     * @brief Generate a response for the given prompt.
+     * @param prompt The full prompt text.
+     * @return Generated response text.
+     */
+    [[nodiscard]] virtual std::string generate(const std::string& prompt) = 0;
+};
+
+/**
  * @brief LLM integration wrapper for judge evaluations
  * 
  * Handles communication with LLM inference engine, including:
@@ -44,19 +56,22 @@ namespace themis::rag::judge {
  * - Response retrieval and parsing
  * - Error handling and retries
  * 
- * Usage Example (Production with EmbeddedLLM):
+ * Usage Example (Production with injected engine):
+ * @code
+ *   struct MyEngine : ILLMInferenceEngine {
+ *       std::string generate(const std::string& prompt) override {
+ *           return myBackend.infer(prompt);
+ *       }
+ *   };
+ *   MyEngine engine;
+ *   LLMJudgeIntegration integration(&engine);
+ * @endcode
+ *
+ * Usage Example (Production with setInferenceFunction):
  * @code
  *   LLMJudgeIntegration::Config config;
  *   config.use_mock_mode = false;
  *   LLMJudgeIntegration integration(config);
- *   
- *   // Option 1: Use EmbeddedLLM directly
- *   auto& llm = EmbeddedLLMManager::instance().get();
- *   integration.setInferenceFunction([&llm](const std::string& prompt) {
- *       return llm.generate(prompt, 1024);
- *   });
- * 
- *   // Option 2: Use custom backend
  *   integration.setInferenceFunction([](const std::string& prompt) {
  *       return myCustomLLMBackend.infer(prompt);
  *   });
@@ -86,13 +101,36 @@ public:
         // Mock mode configuration
         bool use_mock_mode = false;           // Enable mock responses (for testing only)
         bool warn_on_mock_mode = true;        // Log warning once when mock mode is used
+        bool allow_mock = false;              // Allow nullptr engine (opt-in for tests; default false = fail fast in production)
     };
     
     /**
-     * @brief Construct LLM integration
-     * @param config Integration configuration
+     * @brief Construct with explicit inference engine (production path)
+     *
+     * @param engine Pointer to an ILLMInferenceEngine implementation.
+     *               Must not be nullptr unless config.allow_mock is true.
+     * @throws std::invalid_argument if engine is nullptr and allow_mock is false.
+     */
+    explicit LLMJudgeIntegration(ILLMInferenceEngine* engine);
+    
+    /**
+     * @brief Construct with inference engine and configuration
+     *
+     * @param engine Pointer to an ILLMInferenceEngine implementation.
+     * @param config Integration configuration.
+     * @throws std::invalid_argument if engine is nullptr and config.allow_mock is false.
+     */
+    explicit LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config);
+
+    /**
+     * @brief Construct with default configuration
      */
     LLMJudgeIntegration();
+    
+    /**
+     * @brief Construct with custom configuration
+     * @param config Integration configuration
+     */
     explicit LLMJudgeIntegration(const Config& config);
     
     /**
@@ -146,6 +184,7 @@ public:
 private:
     Config config_;
     std::function<std::string(const std::string&)> inference_fn_;
+    bool mock_mode_active_ = false;        // Tracks whether stub inference is currently active
     bool mock_mode_warning_shown_ = false;  // Track if warning has been shown
     
     /**

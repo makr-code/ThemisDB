@@ -1,24 +1,20 @@
+/**
+ * @file global_transaction_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            global_transaction_manager.h                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     375                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d928a3fdd  2026-03-01  feat(transaction): Add GlobalTransactionManager for multi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: global_transaction_manager.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -50,11 +46,11 @@
 //   A single GlobalTransaction handle must only be used from one thread
 //   at a time.
 
-#ifndef THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H
-#define THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H
+#pragma once
 
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include <atomic>
 #include <chrono>
 #include <map>
@@ -93,7 +89,7 @@ public:
      * @param ops        JSON array of operations for this region
      * @return           true → vote COMMIT; false → vote ABORT
      */
-    virtual bool prepare(
+    [[nodiscard]] virtual bool prepare(
         const std::string&    txn_id,
         const nlohmann::json& ops
     ) = 0;
@@ -196,7 +192,7 @@ struct GlobalTxnRecord {
  *   assert(outcome.committed());
  * @endcode
  */
-class GlobalTransactionManager {
+class GlobalTransactionManager : public IRecoverableTwoPhaseCoordinator {
 public:
     /** @brief Configuration for the global coordinator. */
     struct Config {
@@ -212,12 +208,23 @@ public:
      *
      * @param coordinator_id  Unique name for this coordinator instance
      * @param truetime        TrueTime clock for commit-timestamp assignment
+     */
+    explicit GlobalTransactionManager(
+        const std::string&                          coordinator_id,
+        std::shared_ptr<themis::sharding::TrueTime> truetime
+    );
+
+    /**
+     * @brief Construct a global transaction coordinator.
+     *
+     * @param coordinator_id  Unique name for this coordinator instance
+     * @param truetime        TrueTime clock for commit-timestamp assignment
      * @param config          Optional configuration (WAL, timeouts, …)
      */
     explicit GlobalTransactionManager(
-        const std::string&                         coordinator_id,
+        const std::string&                          coordinator_id,
         std::shared_ptr<themis::sharding::TrueTime> truetime,
-        const Config&                               config = {}
+        const Config&                               config
     );
 
     ~GlobalTransactionManager() = default;
@@ -315,7 +322,26 @@ public:
      *
      * @return Number of in-doubt transactions resolved
      */
-    size_t recoverInDoubtTransactions();
+    size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return "GlobalTransactionManager".
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL" when enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
 
     // ── Introspection ─────────────────────────────────────────────────────────
 
@@ -372,5 +398,3 @@ private:
 };
 
 } // namespace themis::transaction
-
-#endif // THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H

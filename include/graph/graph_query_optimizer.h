@@ -1,33 +1,26 @@
+/**
+ * @file graph_query_optimizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_query_optimizer.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1244                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8b26f1ce4  2026-02-26  feat: add cost estimation accuracy tracking to graph cost... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • be95daa7f  2026-02-26  fix(graph): code audit - iterator safety, benchmarks, met... ║
-    • 9a172b4d4  2026-02-26  fix(graph): audit fixes - sort schema hints in cache keys... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_query_optimizer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1291
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5119 [Docs][Module] graph - Sync... (2026-05-13) | #2957 [graph] Stream large path s... (2026-03-12) | #2951 feat(graph): plan cache evi... (2026-03-12) | #1070 Implement PathConstraints a... (2026-03-11) | #801 Implement Graph Query Engin... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "index/graph_index.h"
-#include "query/result_stream.h"
 #include "index/graph_analytics.h"
 #include "utils/expected.h"
 #include <string>
@@ -42,6 +35,14 @@
 #include <chrono>
 #include <future>
 #include <mutex>
+
+// Forward declaration to break circular dependency with query module
+namespace themis {
+namespace query {
+template<typename T> class ResultStream;
+struct StreamConfig;  // Forward declare StreamConfig for streamBFS/streamDFS parameters
+} // namespace query
+} // namespace themis
 
 namespace themis {
 namespace graph {
@@ -588,7 +589,62 @@ public:
     );
 
     /**
-     * @brief Stream BFS traversal results for large path sets.
+     * @brief Stream BFS traversal results for large path sets (uses default config).
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth
+    );
+
+    /**
+     * @brief Stream BFS traversal results for large path sets with custom config.
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @param stream_config Stream batch / buffer configuration
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const query::StreamConfig& stream_config
+    );
+
+    /**
+     * @brief Stream BFS traversal results with constraints (uses default config).
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints
+    );
+
+    /**
+     * @brief Stream BFS traversal results with constraints and custom config.
      *
      * Executes BFS from `start_vertex` up to `max_depth` hops and returns
      * the discovered vertices as a lazy `ResultStream`.  Consumers can page
@@ -604,12 +660,67 @@ public:
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
         std::string_view start_vertex,
         int max_depth,
-        const QueryConstraints& constraints = {},
-        query::StreamConfig stream_config = {}
+        const QueryConstraints& constraints,
+        const query::StreamConfig& stream_config
     );
 
     /**
-     * @brief Stream DFS traversal results for large path sets.
+     * @brief Stream DFS traversal results for large path sets (uses default config).
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth
+    );
+
+    /**
+     * @brief Stream DFS traversal results for large path sets with custom config.
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @param stream_config Stream batch / buffer configuration
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const query::StreamConfig& stream_config
+    );
+
+    /**
+     * @brief Stream DFS traversal results with constraints (uses default config).
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints
+    );
+
+    /**
+     * @brief Stream DFS traversal results with constraints and custom config.
      *
      * Executes DFS from `start_vertex` up to `max_depth` hops and returns
      * the discovered vertices as a lazy `ResultStream`.  Consumers can page
@@ -625,8 +736,8 @@ public:
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
         std::string_view start_vertex,
         int max_depth,
-        const QueryConstraints& constraints = {},
-        query::StreamConfig stream_config = {}
+        const QueryConstraints& constraints,
+        const query::StreamConfig& stream_config
     );
 
     /**
@@ -663,6 +774,31 @@ public:
      *     already-mapped vertices must be present in the data graph.
      *  3. The mapping is injective: each data vertex may appear at most once.
      *
+     * @param pattern_vertices  Ordered list of vertex labels in the pattern graph.
+     * @param pattern_edges     Directed edges as (source_label, target_label) pairs.
+     * @param stats             Optional output execution statistics.
+     * @return SubgraphIsomorphismResult containing all matches, or an error if the
+     *         query timed out before the first result could be produced.
+     */
+    Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
+        const std::vector<std::string>& pattern_vertices,
+        const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+        ExecutionStats* stats = nullptr
+    );
+
+    /**
+     * @brief Execute a subgraph isomorphism (pattern matching) query with constraints.
+     *
+     * Finds all injective mappings from the pattern graph onto subgraphs of the
+     * data graph.  The algorithm is a VF2-style recursive backtracking search:
+     *
+     *  1. The pattern is described by a list of vertex labels and directed edges
+     *     (pairs of labels).
+     *  2. For each candidate extension (pattern_vertex → data_vertex), the method
+     *     checks structural feasibility: every edge in the pattern that connects
+     *     already-mapped vertices must be present in the data graph.
+     *  3. The mapping is injective: each data vertex may appear at most once.
+     *
      * Constraints supported via `QueryConstraints`:
      *  - `timeout_ms`: abort and return partial results after the given deadline.
      *  - `max_results`: stop after the first N matches are found.
@@ -678,7 +814,7 @@ public:
     Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
-        const QueryConstraints& constraints = QueryConstraints{},
+        const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
 
@@ -1242,3 +1378,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

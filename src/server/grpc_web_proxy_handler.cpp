@@ -1,30 +1,30 @@
+/**
+ * @file grpc_web_proxy_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=10; TODO=1, Stub=4, Unimpl=3, Mock=1, Sim=1, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_web_proxy_handler.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     335                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_web_proxy_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 402
+ * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=3, Mock=1, Sim=1, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #3392 feat(server): gRPC-Web prox... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/grpc_web_proxy_handler.h"
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <mutex>
+#include <spdlog/spdlog.h>
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -32,12 +32,42 @@
 #endif
 
 #include <cstring>
+#include <mutex>
 #include <sstream>
+#include <utility>
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+std::mutex& backendInvokeFnMutex()
+{
+    static std::mutex mutex;
+    return mutex;
+}
+
+GrpcWebProxyHandler::BackendInvokeFn& backendInvokeFnStorage()
+{
+    static GrpcWebProxyHandler::BackendInvokeFn callback;
+    return callback;
+}
+
+GrpcWebProxyHandler::BackendInvokeFn getBackendInvokeFn()
+{
+    std::lock_guard<std::mutex> lock(backendInvokeFnMutex());
+    return backendInvokeFnStorage();
+}
+
+} // namespace
+
+void GrpcWebProxyHandler::setBackendInvokeFn(BackendInvokeFn fn)
+{
+    std::lock_guard<std::mutex> lock(backendInvokeFnMutex());
+    backendInvokeFnStorage() = std::move(fn);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Frame helpers
@@ -117,9 +147,23 @@ std::string GrpcWebProxyHandler::encodeGrpcWebResponse(
 // Constructor
 // ─────────────────────────────────────────────────────────────────────────────
 
+GrpcWebProxyHandler::GrpcWebProxyHandler()
+    : GrpcWebProxyHandler(Config{})
+{}
+
 GrpcWebProxyHandler::GrpcWebProxyHandler(Config config)
     : config_(std::move(config))
-{}
+{
+    // GAP-012: Warn when the CORS allow-origin is the wildcard '*' (CWE-346).
+    // A wildcard allows any browser origin to read gRPC-Web responses, which
+    // violates the principle of least privilege.  Set Config::cors_allow_origin
+    // to a specific origin (e.g. "https://app.example.com") in production.
+    if (config_.cors_allow_origin == "*") {
+        spdlog::warn("[SECURITY] GrpcWebProxy: cors_allow_origin='*' - any origin can read "
+                     "gRPC-Web responses. Configure a specific origin in production "
+                     "(GAP-012/CWE-346).");
+    }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Channel management
@@ -138,6 +182,21 @@ void GrpcWebProxyHandler::ensureChannel() const
     channel_holder_ = channel;
     stub_holder_    = std::make_shared<grpc::GenericStub>(channel);
 #endif
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow GrpcWebProxyHandler to be instantiated without gRPC.
+    //   When `THEMIS_ENABLE_GRPC` is not defined, `ensureChannel()` is a no-op,
+    //   `channel_holder_` and `stub_holder_` remain null, and any subsequent
+    //   `handlePost()` call returns HTTP 200 with a gRPC-Web trailer advertising
+    //   status code 12 (UNIMPLEMENTED) and the message
+    //   "gRPC backend not available in this build".
+    // Activation: `THEMIS_ENABLE_GRPC` not defined at compile time (default for
+    //   builds without the gRPC SDK or without `-DTHEMIS_ENABLE_GRPC=1`).
+    // Production Delta: All gRPC-Web proxy calls are rejected with UNIMPLEMENTED.
+    //   Browser/frontend clients using gRPC-Web will receive an error response
+    //   for every RPC.  CORS preflight and status endpoints remain functional.
+    // Removal Plan: Install gRPC C++ libraries and set `-DTHEMIS_ENABLE_GRPC=1`
+    //   in CMake.
+    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"gRPC-Web Proxy Activation"
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -237,7 +296,13 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     std::string response_proto;
     int grpc_code = 0;          // grpc::StatusCode::OK
     std::string grpc_message;
+    bool handled_by_override = false;
+    if (auto backend_invoke = getBackendInvokeFn(); backend_invoke) {
+        handled_by_override = backend_invoke(
+            method, proto_payload, response_proto, grpc_code, grpc_message);
+    }
 
+    if (!handled_by_override) {
 #ifdef THEMIS_ENABLE_GRPC
     ensureChannel();
 
@@ -253,14 +318,14 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
             const char unit = timeout_hdr.back();
             const int64_t value = std::stoll(timeout_hdr.substr(0, timeout_hdr.size() - 1));
             using namespace std::chrono;
-            system_clock::time_point deadline;
+            system_clock::time_point deadline = system_clock::now();
             switch (unit) {
-                case 'H': deadline = system_clock::now() + hours(value);        break;
-                case 'M': deadline = system_clock::now() + minutes(value);      break;
-                case 'S': deadline = system_clock::now() + seconds(value);      break;
-                case 'm': deadline = system_clock::now() + milliseconds(value); break;
-                case 'u': deadline = system_clock::now() + microseconds(value); break;
-                case 'n': deadline = system_clock::now() + nanoseconds(value);  break;
+                case 'H': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(hours(value));        break;
+                case 'M': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(minutes(value));      break;
+                case 'S': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(seconds(value));      break;
+                case 'm': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(milliseconds(value)); break;
+                case 'u': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(microseconds(value)); break;
+                case 'n': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(nanoseconds(value));  break;
                 default:  break;
             }
             if (unit == 'H' || unit == 'M' || unit == 'S' ||
@@ -317,10 +382,21 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
         }
     }
 #else
-    // gRPC not compiled in: return UNIMPLEMENTED
-    grpc_code    = 12; // grpc::StatusCode::UNIMPLEMENTED
-    grpc_message = "gRPC backend not available in this build";
+    // gRPC not compiled in: rely on injected callback when available.
+    if (auto fn = getBackendInvokeFn(); fn) {
+        const bool ok = fn(method, proto_payload, response_proto, grpc_code, grpc_message);
+        if (!ok && grpc_code == 0) {
+            grpc_code = 13; // INTERNAL
+            if (grpc_message.empty()) {
+                grpc_message = "BackendInvokeFn returned false";
+            }
+        }
+    } else {
+        grpc_code    = 12; // grpc::StatusCode::UNIMPLEMENTED
+        grpc_message = "gRPC backend not available in this build";
+    }
 #endif
+    }
 
     // Encode gRPC-Web response (data frame + trailer frame)
     const std::string grpc_web_body =
@@ -334,3 +410,5 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
 
 } // namespace server
 } // namespace themis
+
+

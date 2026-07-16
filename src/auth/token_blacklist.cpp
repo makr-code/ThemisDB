@@ -1,29 +1,25 @@
+/**
+ * @file token_blacklist.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            token_blacklist.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     180                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4318adfb2  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
-    • 4b86c62ed  2026-02-24  fix: ROADMAP audit logging status and token_blacklist sta... ║
-    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: token_blacklist.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 196
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #4126 feat(auth): Token Blacklist... (2026-03-12) | #3378 feat(auth): Real-time token... (2026-03-12) | #2811 [auth] Wire session revocat... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/token_blacklist.h"
+
 #include "auth/auth_audit_logger.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
@@ -31,13 +27,26 @@
 namespace themis {
 namespace auth {
 
-TokenBlacklist::TokenBlacklist(const Config& config)
-    : config_(config)
-    , last_cleanup_(std::chrono::steady_clock::now())
-{}
+TokenBlacklist::TokenBlacklist(const Config &config)
+    : config_(config), bloom_(config.max_entries), last_cleanup_(std::chrono::steady_clock::now()) {}
 
-void TokenBlacklist::revoke(const std::string& jti,
-                             std::chrono::system_clock::time_point expires_at) {
+// ============================================================================
+// ITokenBlacklist interface implementation
+// ============================================================================
+
+void TokenBlacklist::add(const std::string &jti, std::chrono::system_clock::time_point expiry) {
+    revoke(jti, expiry);
+}
+
+void TokenBlacklist::purgeExpired() {
+    pruneExpired();
+}
+
+// ============================================================================
+// Core implementation
+// ============================================================================
+
+void TokenBlacklist::revoke(const std::string &jti, std::chrono::system_clock::time_point expires_at) {
     if (jti.empty()) {
         THEMIS_WARN("TokenBlacklist::revoke called with empty JTI – ignored");
         return;
@@ -50,23 +59,12 @@ void TokenBlacklist::revoke(const std::string& jti,
 
         // Prune first to stay under the cap
         if (needsCleanup()) {
-            // Inline prune (lock already held)
-            auto now = std::chrono::system_clock::now();
-            for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {
-                if (it->second.expires_at <= now) {
-                    it = blacklist_.erase(it);
-                    stats_.pruned_entries++;
-                } else {
-                    ++it;
-                }
-            }
-            last_cleanup_ = std::chrono::steady_clock::now();
+            pruneExpiredLocked();
         }
 
         // Enforce hard cap
         if (blacklist_.size() >= config_.max_entries) {
-            THEMIS_WARN("TokenBlacklist: max_entries ({}) reached – dropping oldest entry",
-                        config_.max_entries);
+            THEMIS_WARN("TokenBlacklist: max_entries ({}) reached – dropping oldest entry", config_.max_entries);
             // Remove the entry that expires soonest (cheapest to lose)
             auto oldest = blacklist_.begin();
             for (auto it = blacklist_.begin(); it != blacklist_.end(); ++it) {
@@ -76,9 +74,12 @@ void TokenBlacklist::revoke(const std::string& jti,
             }
             blacklist_.erase(oldest);
             stats_.pruned_entries++;
+            // Bloom filter is not updated on single eviction; a rebuild
+            // happens on the next scheduled pruneExpiredLocked() pass.
         }
 
         blacklist_[jti] = Entry{expires_at};
+        bloom_.add(jti);
         stats_.total_revocations++;
 
         if (audit_logger_) {
@@ -98,11 +99,20 @@ void TokenBlacklist::revoke(const std::string& jti,
     }
 }
 
-bool TokenBlacklist::isRevoked(const std::string& jti) const {
-    if (jti.empty()) return false;
+bool TokenBlacklist::isRevoked(const std::string &jti) const {
+    if (jti.empty()) {
+        return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.total_checks++;
+
+    // Bloom filter fast path: a definitive NO means the token is not revoked.
+    // False positives cause a fall-through to the hash-map lookup.
+    if (!bloom_.mayContain(jti)) {
+        stats_.bloom_negatives++;
+        return false;
+    }
 
     auto it = blacklist_.find(jti);
     if (it == blacklist_.end()) {
@@ -119,32 +129,29 @@ bool TokenBlacklist::isRevoked(const std::string& jti) const {
     return true;
 }
 
-bool TokenBlacklist::unrevoke(const std::string& jti) {
+bool TokenBlacklist::unrevoke(const std::string &jti) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = blacklist_.find(jti);
-    if (it == blacklist_.end()) return false;
+    if (it == blacklist_.end()) {
+        return false;
+    }
     blacklist_.erase(it);
+    // Bloom filter cannot remove individual entries; the filter may still
+    // return true for this JTI until the next rebuild (pruneExpiredLocked).
+    // The hash-map lookup after a false-positive will correctly return false.
     THEMIS_INFO("TokenBlacklist: un-revoked JTI '{}'", jti);
     return true;
 }
 
 void TokenBlacklist::pruneExpired() {
     std::lock_guard<std::mutex> lock(mutex_);
-    auto now = std::chrono::system_clock::now();
-    for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {
-        if (it->second.expires_at <= now) {
-            it = blacklist_.erase(it);
-            stats_.pruned_entries++;
-        } else {
-            ++it;
-        }
-    }
-    last_cleanup_ = std::chrono::steady_clock::now();
+    pruneExpiredLocked();
 }
 
 void TokenBlacklist::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     blacklist_.clear();
+    bloom_.reset();
     THEMIS_INFO("TokenBlacklist cleared");
 }
 
@@ -155,16 +162,35 @@ size_t TokenBlacklist::size() const {
 
 TokenBlacklist::Statistics TokenBlacklist::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    Statistics s = stats_;
+    Statistics s   = stats_;
     s.current_size = blacklist_.size();
     return s;
 }
 
 bool TokenBlacklist::needsCleanup() const {
-    auto now = std::chrono::steady_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
-        now - last_cleanup_).count();
+    auto now     = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_cleanup_).count();
     return static_cast<uint32_t>(elapsed) >= config_.cleanup_interval_seconds;
+}
+
+void TokenBlacklist::pruneExpiredLocked() {
+    auto now = std::chrono::system_clock::now();
+
+    // Rebuild the Bloom filter in the same pass that prunes expired entries
+    // so we only traverse the blacklist once while holding the mutex.
+    bloom_.reset();
+
+    for (auto it = blacklist_.begin(); it != blacklist_.end();) {
+        if (it->second.expires_at <= now) {
+            it = blacklist_.erase(it);
+            stats_.pruned_entries++;
+        } else {
+            bloom_.add(it->first);
+            ++it;
+        }
+    }
+
+    last_cleanup_ = std::chrono::steady_clock::now();
 }
 
 void TokenBlacklist::setOnRevokeCallback(RevocationCallback cb) {

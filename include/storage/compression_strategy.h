@@ -1,23 +1,20 @@
+/**
+ * @file compression_strategy.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            compression_strategy.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     278                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: compression_strategy.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -25,6 +22,8 @@
 #include "utils/compression_metrics.h"
 #include "utils/zstd_codec.h"
 #include "utils/lossless_vector_compression.h"
+#include "storage/gpu_compression.h"
+#include "storage/codec_tags.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -46,7 +45,12 @@ enum class CompressionMethod {
     DELTA,          // Delta encoding
     DICTIONARY,     // Dictionary encoding
     SPARSE_CSR,     // Sparse vector compression
-    ADAPTIVE        // Auto-select best method
+    ADAPTIVE,       // Auto-select best method
+
+    // GPU-accelerated variants (CUDA/HIP with CPU fallback)
+    GPU_ZSTD,       // Zstd via NVIDIA nvCOMP or HIP; CPU fallback
+    GPU_SNAPPY,     // Snappy GPU-accelerated variant; CPU fallback
+    GPU_LZ4,        // LZ4 with parallel GPU decompression; CPU fallback
 };
 
 /**
@@ -77,6 +81,9 @@ struct CompressionConfig {
     // Adaptive thresholds
     float adaptive_ratio_threshold = 1.2f;  // Min ratio to consider successful
     size_t adaptive_sample_size = 1024;     // Bytes to sample for method selection
+
+    // GPU acceleration settings (used for GPU_ZSTD / GPU_SNAPPY / GPU_LZ4)
+    themis::storage::GpuCompressionConfig gpu_config; // Forwarded to GpuCompressionManager
 };
 
 /**
@@ -201,19 +208,33 @@ private:
     CompressionResult compress_rle(const uint8_t* data, size_t size);
     CompressionResult compress_delta(const uint8_t* data, size_t size);
     CompressionResult compress_dictionary(const uint8_t* data, size_t size);
+
+    // GPU-accelerated compression implementations
+    CompressionResult compress_gpu_zstd(const uint8_t* data, size_t size);
+    CompressionResult compress_gpu_snappy(const uint8_t* data, size_t size);
+    CompressionResult compress_gpu_lz4(const uint8_t* data, size_t size);
     
     // Decompression method implementations
     std::vector<uint8_t> decompress_zstd(const std::vector<uint8_t>& data);
     std::vector<uint8_t> decompress_rle(const std::vector<uint8_t>& data);
     std::vector<uint8_t> decompress_delta(const std::vector<uint8_t>& data);
     std::vector<uint8_t> decompress_dictionary(const std::vector<uint8_t>& data);
+
+    // GPU-accelerated decompression implementations
+    std::vector<uint8_t> decompress_gpu_zstd(const std::vector<uint8_t>& data);
+    std::vector<uint8_t> decompress_gpu_snappy(const std::vector<uint8_t>& data);
+    std::vector<uint8_t> decompress_gpu_lz4(const std::vector<uint8_t>& data);
     
     // Helper functions
     DataType detect_data_type(const uint8_t* data, size_t size);
     bool is_mostly_text(const uint8_t* data, size_t size);
     bool is_sparse_data(const uint8_t* data, size_t size);
+
+    // Lazy-init GPU compression manager (created on first GPU method call)
+    themis::storage::GpuCompressionManager& gpu_manager();
     
     CompressionConfig config_;
+    std::unique_ptr<themis::storage::GpuCompressionManager> gpu_manager_;
 };
 
 /**
@@ -276,6 +297,68 @@ public:
      */
     static std::vector<uint8_t> decompress(const std::vector<uint8_t>& data);
 };
+
+} // namespace compression
+} // namespace themis
+
+// ============================================================================
+// Codec-tag bridge (compression_strategy ↔ codec_tags.h)
+//
+// Maps between CompressionMethod and the canonical wire-format tag bytes
+// defined in storage/codec_tags.h.  Use these in any code path that writes
+// or reads a tagged framed payload instead of defining a local mapping.
+// ============================================================================
+
+namespace themis {
+namespace compression {
+
+/**
+ * @brief Map a @c CompressionMethod to its canonical wire-format tag byte.
+ *
+ * GPU variants are mapped to the same tag as their CPU counterpart because
+ * the on-wire format is identical.  Methods without a tag-byte representation
+ * (RLE, DELTA, DICTIONARY, SPARSE_CSR, ADAPTIVE) fall back to
+ * @c kTagPassthrough so that payloads are always decodable.
+ *
+ * @param m  Method to convert.
+ * @return   One of the @c kTag* constants from @c storage/codec_tags.h.
+ */
+[[nodiscard]] constexpr uint8_t method_to_tag(CompressionMethod m) noexcept {
+    switch (m) {
+        case CompressionMethod::LZ4:
+        case CompressionMethod::GPU_LZ4:
+            return kTagLZ4;
+        case CompressionMethod::SNAPPY:
+        case CompressionMethod::GPU_SNAPPY:
+            return kTagSnappy;
+        case CompressionMethod::ZSTD:
+        case CompressionMethod::GPU_ZSTD:
+            return kTagZstd;
+        default:
+            // NONE / RLE / DELTA / DICTIONARY / SPARSE_CSR / ADAPTIVE
+            // These algorithms use internal framing and do not share the
+            // kTag* wire-format; expose them as passthrough to callers that
+            // only understand the tagged-payload protocol.
+            return kTagPassthrough;
+    }
+}
+
+/**
+ * @brief Map a canonical wire-format tag byte back to a @c CompressionMethod.
+ *
+ * @param tag  Leading tag byte from a framed payload.
+ * @return     The matching method, or @c std::nullopt for unknown tags.
+ */
+[[nodiscard]] constexpr std::optional<CompressionMethod>
+tag_to_method(uint8_t tag) noexcept {
+    switch (tag) {
+        case kTagPassthrough: return CompressionMethod::NONE;
+        case kTagLZ4:        return CompressionMethod::LZ4;
+        case kTagSnappy:     return CompressionMethod::SNAPPY;
+        case kTagZstd:       return CompressionMethod::ZSTD;
+        default:             return std::nullopt;
+    }
+}
 
 } // namespace compression
 } // namespace themis

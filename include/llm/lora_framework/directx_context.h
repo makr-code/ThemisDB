@@ -1,24 +1,21 @@
+/**
+ * @file directx_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            directx_context.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     163                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: directx_context.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 153
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #572 Complete DirectX 12 Compute... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,12 +24,64 @@
 
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <wrl/client.h>
+
+// WRL (Windows Runtime Library) ComPtr support
+// Prefer the SDK-provided <wrl/client.h> when available; otherwise provide
+// a minimal, local ComPtr fallback so builds on trimmed SDKs succeed.
+#if defined(__has_include)
+  #if __has_include(<wrl/client.h>)
+    #include <wrl/client.h>
+    using Microsoft::WRL::ComPtr;
+  #else
+    // Minimal ComPtr fallback when WRL isn't present in the include paths
+    namespace Microsoft {
+      namespace WRL {
+        template <typename T>
+        class ComPtr {
+        private:
+          T* ptr = nullptr;
+        public:
+          ComPtr() = default;
+          ~ComPtr() { if (ptr) ptr->Release(); }
+          ComPtr(T* p) : ptr(p) { if (ptr) ptr->AddRef(); }
+          ComPtr(const ComPtr& other) { ptr = other.ptr; if (ptr) ptr->AddRef(); }
+          ComPtr& operator=(const ComPtr& other) {
+            if (this == &other) return *this;
+            if (ptr) ptr->Release();
+            ptr = other.ptr;
+            if (ptr) ptr->AddRef();
+            return *this;
+          }
+          T* Get() const { return ptr; }
+          T** GetAddressOf() { return &ptr; }
+          T** ReleaseAndGetAddressOf() { Reset(); return &ptr; }
+          T** operator&() { return GetAddressOf(); }
+          bool operator==(std::nullptr_t) const { return ptr == nullptr; }
+          bool operator!=(std::nullptr_t) const { return ptr != nullptr; }
+          T* operator->() const { return ptr; }
+          T& operator*() const { return *ptr; }
+          explicit operator bool() const { return ptr != nullptr; }
+          void Reset() { if (ptr) { ptr->Release(); ptr = nullptr; } }
+          ComPtr& operator=(T* p) {
+            if (ptr) ptr->Release();
+            ptr = p;
+            if (ptr) ptr->AddRef();
+            return *this;
+          }
+        };
+      }
+    }
+    using Microsoft::WRL::ComPtr;
+  #endif
+#else
+  // No __has_include support — attempt to include the SDK header and fall back
+  #include <wrl/client.h>
+  using Microsoft::WRL::ComPtr;
+#endif
+
 #include <cstdint>
 #include <memory>
 #include <string>
-
-using Microsoft::WRL::ComPtr;
 
 namespace themis {
 namespace lora {
@@ -113,8 +162,10 @@ public:
     
     /**
      * @brief Wait for GPU to complete all pending work
+     * @param timeout_ms Timeout in milliseconds
+     * @return true if the GPU completed within timeout
      */
-    void wait_for_gpu();
+    bool wait_for_gpu(uint32_t timeout_ms = 30000);
     
     /**
      * @brief Reset command list for new recording
@@ -123,8 +174,9 @@ public:
     
     /**
      * @brief Execute command list and wait for completion
+     * @param timeout_ms Timeout in milliseconds
      */
-    void execute_command_list();
+    void execute_command_list(uint32_t timeout_ms = 30000);
     
     /**
      * @brief Get GPU description string
@@ -139,22 +191,25 @@ private:
     bool create_fence();
     void enable_debug_layer();
     
-    int adapter_id_;
-    bool initialized_;
+    int adapter_id_ = 0;
+    bool initialized_ = false;
     std::string gpu_description_;
     
     // D3D12 objects
     ComPtr<IDXGIFactory4> dxgi_factory_;
     ComPtr<IDXGIAdapter1> adapter_;
     ComPtr<ID3D12Device> device_;
+    ComPtr<ID3D12InfoQueue> info_queue_;
     ComPtr<ID3D12CommandQueue> command_queue_;
     ComPtr<ID3D12CommandAllocator> command_allocator_;
     ComPtr<ID3D12GraphicsCommandList> command_list_;
     ComPtr<ID3D12Fence> fence_;
     
     // Synchronization
-    uint64_t fence_value_;
+    uint64_t fence_value_ = 0;
     void* fence_event_;  // HANDLE on Windows
+    // Whether the command list is currently in recording state
+    bool command_list_recording_ = false;
 };
 
 } // namespace directx

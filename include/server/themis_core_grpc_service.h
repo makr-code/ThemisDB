@@ -1,28 +1,25 @@
+/**
+ * @file themis_core_grpc_service.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_core_grpc_service.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     84                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bb592d7  2026-02-24  Implement ThemisDBGrpcService and fix ThemisCoreServiceIm... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_core_grpc_service.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -49,6 +46,10 @@ namespace core {
  */
 class ThemisCoreServiceImpl {
 public:
+    /// Callback type that provides an opaque grpc::Service* to the wrapper
+    /// when the generated proto stubs are absent from the build.
+    using ServiceInstanceFn = std::function<void*()>;
+
     /**
      * @brief Construct service with database components.
      * @param db         RocksDB wrapper for storage operations.
@@ -69,13 +70,30 @@ public:
      * Returns the concrete service implementation when `themis_core.grpc.pb.h`
      * is available (i.e. protoc has been run).  Returns nullptr otherwise so
      * that callers can safely skip registration without crashing.
+     *
+     * If a service-instance callback was registered via setServiceInstanceFn(),
+     * the result of that callback is returned for non-proto builds.
      */
     void* getServiceInstance();
+
+    /**
+     * @brief Configure a process-wide callback that provides a grpc::Service*.
+     *
+     * Used in non-proto builds to wire a service instance obtained from another
+     * module (e.g. a dynamically loaded plugin or a test double).  The callback
+     * is invoked once during construction in an exception-safe manner; exceptions
+     * cause the service pointer to remain null (fail-closed).
+     *
+     * Pass an empty function to remove a previously registered callback.
+     */
+    static void setServiceInstanceFn(ServiceInstanceFn fn);
 
 private:
     std::shared_ptr<RocksDBWrapper>     db_;
     std::shared_ptr<TransactionManager> txn_mgr_;
     std::shared_ptr<AQLEngine>          aql_engine_;
+
+    void* service_ptr_ = nullptr;
 
     class Impl;
     std::unique_ptr<Impl> impl_;

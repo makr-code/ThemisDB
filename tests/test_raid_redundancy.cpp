@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_raid_redundancy.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:06:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1667                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_raid_redundancy.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=8, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -31,6 +17,7 @@
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "storage/blob_redundancy_manager.h"
+#include <rocksdb/listener.h>
 #include <vector>
 #include <map>
 #include <string>
@@ -39,6 +26,7 @@
 using namespace themis::sharding;
 using themisdb::storage::BlobRedundancyManager;
 using themisdb::storage::BlobType;
+using themisdb::storage::RocksDBBlobListener;
 
 // ═══════════════════════════════════════════════════════════
 // Mock Implementations
@@ -673,6 +661,111 @@ TEST(BlobRedundancyManagerTest, PrometheusMetrics) {
     
     EXPECT_FALSE(metrics.empty());
     EXPECT_NE(metrics.find("themis_blob_redundancy_total_blobs"), std::string::npos);
+}
+
+// ═══════════════════════════════════════════════════════════
+// RocksDB Event Listener Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST(BlobRedundancyEventListenerTest, CreateRocksDBListenerSucceeds) {
+    BlobRedundancyManager::Config config;
+    BlobRedundancyManager manager(config);
+
+    auto result = manager.createRocksDBListener();
+    EXPECT_TRUE(result.has_value()) << "createRocksDBListener should succeed";
+    EXPECT_NE(result.value(), nullptr) << "returned listener must not be null";
+}
+
+TEST(BlobRedundancyEventListenerTest, NotifySSTFileDeletedMarksLocationUnhealthy) {
+    BlobRedundancyManager::Config config;
+    BlobRedundancyManager manager(config);
+
+    const std::string sst_path = "/data/db/000042.sst";
+    std::string blob_id = manager.registerBlob(
+        BlobType::SST_L1, sst_path, 1024 * 1024, "col1", "");
+
+    // Before notification the blob must have at least one healthy location.
+    auto before = manager.getBlobMetadata(blob_id);
+    ASSERT_FALSE(before.locations.empty());
+    EXPECT_TRUE(before.locations[0].is_healthy);
+
+    // Simulate RocksDB deleting the SST file.
+    manager.notifySSTFileDeleted(sst_path);
+
+    // After notification the primary location should be marked unhealthy.
+    auto after = manager.getBlobMetadata(blob_id);
+    ASSERT_FALSE(after.locations.empty());
+    EXPECT_FALSE(after.locations[0].is_healthy)
+        << "location backed by the deleted SST should be unhealthy";
+}
+
+TEST(BlobRedundancyEventListenerTest, NotifySSTFileDeletedUnknownPathIsNoOp) {
+    BlobRedundancyManager::Config config;
+    BlobRedundancyManager manager(config);
+
+    manager.registerBlob(BlobType::SST_L0, "/data/db/000001.sst", 512, "", "");
+
+    // Notifying with a path that was never registered must not crash or alter
+    // any existing blob.
+    EXPECT_NO_THROW(manager.notifySSTFileDeleted("/data/db/999999.sst"));
+}
+
+TEST(BlobRedundancyEventListenerTest, NotifySSTFileDeletedOnlyAffectsMatchingBlobs) {
+    BlobRedundancyManager::Config config;
+    BlobRedundancyManager manager(config);
+
+    const std::string deleted_path  = "/data/db/000010.sst";
+    const std::string surviving_path = "/data/db/000011.sst";
+
+    std::string deleted_blob_id  = manager.registerBlob(
+        BlobType::SST_L1, deleted_path, 1024, "", "");
+    std::string surviving_blob_id = manager.registerBlob(
+        BlobType::SST_L1, surviving_path, 1024, "", "");
+
+    manager.notifySSTFileDeleted(deleted_path);
+
+    auto deleted_meta  = manager.getBlobMetadata(deleted_blob_id);
+    auto surviving_meta = manager.getBlobMetadata(surviving_blob_id);
+
+    ASSERT_FALSE(deleted_meta.locations.empty());
+    EXPECT_FALSE(deleted_meta.locations[0].is_healthy)
+        << "deleted blob's location should be unhealthy";
+
+    ASSERT_FALSE(surviving_meta.locations.empty());
+    EXPECT_TRUE(surviving_meta.locations[0].is_healthy)
+        << "unaffected blob's location must stay healthy";
+}
+
+TEST(BlobRedundancyEventListenerTest, RocksDBListenerOnTableFileDeletedTriggersReplication) {
+    BlobRedundancyManager::Config config;
+    BlobRedundancyManager manager(config);
+
+    const std::string sst_path = "/data/db/000099.sst";
+    std::string blob_id = manager.registerBlob(
+        BlobType::SST_L2_PLUS, sst_path, 2048, "test_col", "");
+
+    // Obtain the listener through the official factory.
+    auto listener_result = manager.createRocksDBListener();
+    ASSERT_TRUE(listener_result.has_value());
+
+    auto* listener = dynamic_cast<RocksDBBlobListener*>(listener_result.value().get());
+    ASSERT_NE(listener, nullptr) << "listener must be a RocksDBBlobListener";
+
+    // Confirm the location is healthy before deletion.
+    auto before = manager.getBlobMetadata(blob_id);
+    ASSERT_FALSE(before.locations.empty());
+    EXPECT_TRUE(before.locations[0].is_healthy);
+
+    // Simulate RocksDB invoking OnTableFileDeleted.
+    rocksdb::TableFileDeletionInfo deletion_info;
+    deletion_info.file_path = sst_path;
+    listener->OnTableFileDeleted(deletion_info);
+
+    // The blob's primary location must now be marked unhealthy.
+    auto after = manager.getBlobMetadata(blob_id);
+    ASSERT_FALSE(after.locations.empty());
+    EXPECT_FALSE(after.locations[0].is_healthy)
+        << "location backed by deleted SST should be unhealthy after OnTableFileDeleted";
 }
 
 // ═══════════════════════════════════════════════════════════

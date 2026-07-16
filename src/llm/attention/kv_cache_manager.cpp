@@ -1,29 +1,29 @@
+/**
+ * @file kv_cache_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kv_cache_manager.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     263                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 293
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=14, M=3, L=0
+ * PR History (last 5): #5404 W1-L15 batch 38: Harden KV ... (2026-05-28) | #1031 Implement comprehensive res... (2026-03-11) | #1208 Establish compiler warning ... (2026-03-11) | #1210 Fix signed/unsigned compari... (2026-03-11) | #1213 Fix signed/unsigned compari... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/attention/kv_cache_manager.h"
 #include "utils/type_conversion.h"
 #include <stdexcept>
 #include <cstring>
+#include <limits>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -32,6 +32,11 @@ namespace attention {
 KVCacheManager::KVCacheManager(const FlashAttentionConfig& config)
     : config_(config) {
     
+    // IVB-KV-01: Guard zero kv_block_size before any block-size arithmetic
+    if (config_.kv_block_size == 0) {
+        throw std::invalid_argument("KVCacheManager: kv_block_size must be > 0");
+    }
+
     // Initialize physical blocks
     size_t total_blocks = config_.num_kv_blocks;
     blocks_.resize(total_blocks);
@@ -62,14 +67,21 @@ BlockTable KVCacheManager::allocateSequence(uint64_t seq_id, int expected_tokens
         throw std::runtime_error("Sequence ID already exists");
     }
     
+    // IVB-KV-02: Reject non-positive token counts
+    if (expected_tokens <= 0) {
+        throw std::invalid_argument("allocateSequence: expected_tokens must be > 0");
+    }
+    
     BlockTable table;
     table.sequence_id = seq_id;
     table.num_tokens = 0;
     
-    // Allocate blocks based on expected tokens
-    int blocks_needed = (expected_tokens + config_.kv_block_size - 1) / config_.kv_block_size;
+    // IVB-KV-03: Use size_t for block arithmetic to avoid signed/unsigned mismatch
+    // and guard against overflow: (expected_tokens - 1) / kv_block_size + 1
+    size_t uexpected = static_cast<size_t>(expected_tokens);
+    size_t blocks_needed = (uexpected - 1) / config_.kv_block_size + 1;
     
-    for (int i = 0; i < blocks_needed; ++i) {
+    for (size_t i = 0; i < blocks_needed; ++i) {
         if (free_blocks_.empty()) {
             // Out of memory - free allocated blocks and fail
             for (int block_id : table.block_ids) {
@@ -113,8 +125,10 @@ void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     BlockTable& table = it->second;
     
     // Check if we need to allocate a new block
-    int token_block_idx = table.num_tokens / config_.kv_block_size;
-    if (token_block_idx >= static_cast<int>(table.block_ids.size())) {
+    // IVB-KV-04: Use size_t division to avoid signed/unsigned mismatch; kv_block_size
+    // is already validated > 0 in the constructor so no zero-division risk here.
+    size_t token_block_idx = static_cast<size_t>(table.num_tokens) / config_.kv_block_size;
+    if (token_block_idx >= table.block_ids.size()) {
         if (free_blocks_.empty()) {
             throw std::runtime_error("Out of KV cache blocks");
         }
@@ -126,8 +140,10 @@ void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     int block_id = table.block_ids[token_block_idx];
     Block& block = blocks_[block_id];
     
-    // Simple copy - in real implementation, this would handle layer/head indexing
-    size_t offset = (table.num_tokens % config_.kv_block_size) * kv.data.size();
+    // IVB-KV-05: Compute offset using size_t arithmetic to avoid overflow;
+    // kv_block_size > 0 is guaranteed by the constructor guard.
+    size_t slot_in_block = static_cast<size_t>(table.num_tokens) % config_.kv_block_size;
+    size_t offset = slot_in_block * kv.data.size();
     if (offset + kv.data.size() <= block.data.size()) {
         std::memcpy(block.data.data() + offset, kv.data.data(), 
                     kv.data.size() * sizeof(float));
@@ -140,6 +156,11 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
                                   int prefix_length) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // IVB-KV-07: Reject non-positive prefix_length to avoid wrap-around in size_t cast
+    if (prefix_length <= 0) {
+        throw std::invalid_argument("sharePrefix: prefix_length must be > 0");
+    }
+
     auto parent_it = sequences_.find(parent_seq_id);
     if (parent_it == sequences_.end()) {
         throw std::runtime_error("Parent sequence not found");
@@ -160,8 +181,11 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
     new_table.num_tokens = prefix_length;
     
     // Share prefix blocks (Copy-on-Write)
-    int prefix_blocks = (prefix_length + config_.kv_block_size - 1) / config_.kv_block_size;
-    size_t max_blocks = std::min(static_cast<size_t>(prefix_blocks), parent_table.block_ids.size());
+    // IVB-KV-06: Use size_t for prefix_blocks to avoid signed/unsigned narrowing;
+    // kv_block_size > 0 is guaranteed by the constructor guard.
+    size_t uprefix = static_cast<size_t>(prefix_length);
+    size_t prefix_blocks = (uprefix - 1) / config_.kv_block_size + 1;
+    size_t max_blocks = std::min(prefix_blocks, parent_table.block_ids.size());
     for (size_t i = 0; i < max_blocks; ++i) {
         int block_id = parent_table.block_ids[i];
         new_table.block_ids.push_back(block_id);
@@ -256,11 +280,25 @@ void KVCacheManager::freeBlock(int block_id) {
 }
 
 size_t KVCacheManager::calculateBlockSize() const {
-    // block_size * num_layers * num_kv_heads * head_dim * 2 (K and V)
-    size_t num_layers = static_cast<size_t>(config_.num_layers);
-    return config_.kv_block_size * num_layers * config_.head_dim * config_.num_kv_heads * 2;
+    // IVB-KV-08: Guard against multiplication chain overflow.
+    // Each factor is independently bounded; check product fits in size_t before multiplying.
+    if (config_.num_layers <= 0 || config_.head_dim <= 0 || config_.num_kv_heads <= 0) {
+        throw std::invalid_argument("calculateBlockSize: num_layers, head_dim, and num_kv_heads must be > 0");
+    }
+    size_t num_layers   = static_cast<size_t>(config_.num_layers);
+    size_t head_dim     = static_cast<size_t>(config_.head_dim);
+    size_t num_kv_heads = static_cast<size_t>(config_.num_kv_heads);
+    constexpr size_t kMax = std::numeric_limits<size_t>::max();
+    if (num_layers > kMax / config_.kv_block_size ||
+        head_dim > kMax / (config_.kv_block_size * num_layers) ||
+        num_kv_heads > kMax / (config_.kv_block_size * num_layers * head_dim) ||
+        2 > kMax / (config_.kv_block_size * num_layers * head_dim * num_kv_heads)) {
+        throw std::overflow_error("calculateBlockSize: block size computation overflows size_t");
+    }
+    return config_.kv_block_size * num_layers * head_dim * num_kv_heads * 2;
 }
 
 } // namespace attention
 } // namespace llm
 } // namespace themis
+

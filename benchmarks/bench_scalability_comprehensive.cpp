@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_scalability_comprehensive.cpp                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:51:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     484                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 329b75bbb  2026-02-07  Add comprehensive test coverage and scientific benchmarks... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_scalability_comprehensive.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -121,7 +106,7 @@ protected:
                 {"data", rng.generateString(100)},
                 {"index", static_cast<int64_t>(i)}
             });
-            db_->put("entity:" + entity.id, entity.serialize());
+            db_->put("entity:" + entity.getPrimaryKey(), entity.serialize());
         }
     }
 };
@@ -170,7 +155,7 @@ BENCHMARK_F(ScalabilityBenchFixture, RangeScan_ScalingDataSize)(benchmark::State
 
     for (auto _ : state) {
         size_t start_id = rng.generateInt(0, dataset_size_ - scan_size);
-        std::vector<std::string> results;
+        std::vector<BaseEntity::Blob> results;
         results.reserve(scan_size);
 
         for (size_t i = 0; i < scan_size; ++i) {
@@ -351,7 +336,7 @@ static void BM_FullScanScaling(benchmark::State& state) {
         BaseEntity entity("scan_" + std::to_string(i), BaseEntity::FieldMap{
             {"value", rng.generateInt(0, 1000000)}
         });
-        db.put("entity:" + entity.id, entity.serialize());
+        db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
     }
 
     for (auto _ : state) {
@@ -403,7 +388,7 @@ static void BM_MemoryPressure(benchmark::State& state) {
         BaseEntity entity("prefill_" + std::to_string(i), BaseEntity::FieldMap{
             {"data", rng.generateString(1000)}
         });
-        db.put("entity:" + entity.id, entity.serialize());
+        db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
     }
 
     for (auto _ : state) {

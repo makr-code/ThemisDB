@@ -1,30 +1,26 @@
+/**
+ * @file paxos_wal.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_wal.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paxos_wal.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMIS_SHARDING_PAXOS_WAL_H
-#define THEMIS_SHARDING_PAXOS_WAL_H
+#pragma once
 
 #include "sharding/wal_manager.h"
 #include "sharding/consensus_module.h"
@@ -207,7 +203,28 @@ public:
      * @return true if snapshot should be created
      */
     bool shouldCreateSnapshot(size_t operations_since_last) const;
-    
+
+    /**
+     * @brief Compact (truncate) the WAL at the next segment boundary before `up_to_lsn`.
+     *
+     * Called after a Paxos snapshot has been successfully persisted.  WAL
+     * entries are discarded on a segment-granularity basis: all segments whose
+     * segment number is strictly less than `up_to_lsn.segment` are deleted by
+     * `WALManager::truncate()`.  The oldest retained data is therefore the
+     * beginning of the segment that contains `up_to_lsn`, not necessarily the
+     * exact record at `up_to_lsn`.  Callers should pass the LSN of the last
+     * committed entry in the snapshot so that recovery can always start from a
+     * valid segment boundary.
+     *
+     * The operation first writes a SNAPSHOT marker WAL entry so that a reader
+     * replaying from an older checkpoint can detect the compaction boundary.
+     *
+     * @param up_to_lsn  LSN whose preceding segments will be discarded
+     * @param node_id    Node performing the compaction (used in the marker)
+     * @return true on success
+     */
+    bool compact(const LSN& up_to_lsn, const std::string& node_id);
+
     /**
      * Get snapshot directory path
      */
@@ -236,5 +253,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_PAXOS_WAL_H

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "product_id": "sample.product",
+  "display_name": "Sample Product",
+  "support_url": "https://example.org/support",
+  "install": {
+    "default_path": {
+      "windows": "C:/Program Files/SampleProduct",
+      "linux": "/opt/sample-product",
+      "macos": "/Applications/SampleProduct.app"
+    },
+    "allow_custom_path": true,
+    "required_disk_mb": 1024
+  },
+  "update": {
+    "channel": "stable",
+    "allow_downgrade": false,
+    "check_interval_minutes": 360
+  },
+  "telemetry": {
+    "enabled_by_default": false
+  }
+}

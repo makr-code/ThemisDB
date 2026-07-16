@@ -1,27 +1,21 @@
+/**
+ * @file grafana_metrics.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=11; TODO=1, Stub=1, Unimpl=3, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grafana_metrics.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     463                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6e4b52d94  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
-    • b7c3c3b83  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
-    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grafana_metrics.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 455
+ * Gap Summary: total=11; TODO=1, Stub=1, Unimpl=3, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3036 [llm] Unified metrics dashb... (2026-03-12) | #689 Stabilize Extended Context ... (2026-03-11) | #214 Integrate Prometheus metric... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -100,7 +94,7 @@ public:
 private:
     struct MetricValue {
         MetricType type;
-        double value;
+        double value = 0.0;
         std::vector<double> histogram_buckets;  // For histograms
         std::chrono::system_clock::time_point last_updated;
     };
@@ -431,7 +425,22 @@ public:
     void setSessionDeleteCallback(std::function<std::string(const std::string&)> cb) {
         session_delete_cb_ = std::move(cb);
     }
-    
+
+    // ── Test-accessible request dispatch ──────────────────────────────────────
+    //
+    // These methods are called from the httplib route handlers inside Impl.
+    // They are exposed publicly so that unit tests can exercise the callback
+    // wiring without starting the HTTP listener.
+
+    /// Dispatch a POST request (reload / simulate) to the registered callback.
+    void handlePost(const std::string& path, const std::string& body,
+                    std::string& response);
+    /// Dispatch a DELETE request (session cancel) to the registered callback.
+    void handleDelete(const std::string& path, const std::string& resource_id,
+                      std::string& response);
+
+    const ServerConfig& serverConfig() const { return config_; }
+
 private:
     ServerConfig config_;
     PrometheusExporter* exporter_;
@@ -448,15 +457,8 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // HTTP request handling (called from httplib route handlers inside Impl)
+    // HTTP GET request handling (called from httplib route handlers inside Impl)
     void handleRequest(const std::string& path, std::string& response);
-    // POST body is passed separately to keep GET paths clean.
-    void handlePost(const std::string& path, const std::string& body,
-                    std::string& response);
-    // DELETE handler: path includes the resource prefix (e.g. "/admin/sessions"),
-    // resource_id carries the extracted ID segment (e.g. the session UUID).
-    void handleDelete(const std::string& path, const std::string& resource_id,
-                      std::string& response);
 };
 
 } // namespace monitoring

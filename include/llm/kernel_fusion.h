@@ -1,24 +1,21 @@
+/**
+ * @file kernel_fusion.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kernel_fusion.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     180                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kernel_fusion.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 171
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -91,7 +88,7 @@ void fusedSoftmaxDropoutAttention(
     float* attention_weights,   // Attention weights (for visualization)
     const float* scores,        // Attention scores (pre-softmax)
     const float* values,        // Value tensor
-    const float* attention_mask,// Optional attention mask
+    [[maybe_unused]] const float* attention_mask,// Optional attention mask
     int batch_size,
     int num_heads,
     int seq_len_q,
@@ -135,6 +132,7 @@ void fusedRMSNormLinear(
  */
 class KernelFusionManager {
 public:
+    virtual ~KernelFusionManager() = default;
     struct Config {
         bool enable_fusion = true;
         bool enable_ln_linear_fusion = true;
@@ -151,12 +149,15 @@ public:
     
     // Check if fusion is beneficial for given dimensions
     bool shouldFuseLayerNormLinear(int batch, int seq_len, int hidden_dim) const;
-    bool shouldFuseQKV(int batch, int seq_len, int hidden_dim) const;
-    bool shouldFuseFFN(int batch, int seq_len, int hidden_dim) const;
+    bool shouldFuseQKV([[maybe_unused]] int batch, [[maybe_unused]] int seq_len,
+                       [[maybe_unused]] int hidden_dim) const;
+    bool shouldFuseFFN(int batch, int seq_len, [[maybe_unused]] int hidden_dim) const;
     
     // Performance estimation
     double estimateSpeedup(const std::string& fusion_type,
-                          int batch, int seq_len, int hidden_dim) const;
+                          [[maybe_unused]] int batch,
+                          [[maybe_unused]] int seq_len,
+                          [[maybe_unused]] int hidden_dim) const;
     
     // Statistics
     struct FusionStats {

@@ -1,17 +1,25 @@
+/**
+ * @file paxos_state_persistence.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_state_persistence.cpp                        ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paxos_state_persistence.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 370
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/paxos_state_persistence.h"
+#include "sharding/paxos_consensus.h"
 #include "utils/logger.h"
 
 #include <filesystem>
@@ -24,6 +32,49 @@ using json     = nlohmann::json;
 
 namespace themis {
 namespace sharding {
+
+namespace {
+
+ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,
+                                                       uint64_t slot,
+                                                       uint64_t ballot_round) {
+    ConsensusLogEntry entry;
+    entry.index = slot;
+    entry.term = ballot_round;
+
+    const auto parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded() && parsed.is_object()) {
+        entry.operation = parsed.value("operation", std::string("paxos.accept"));
+        entry.data = parsed;
+    } else {
+        entry.operation = "paxos.accept";
+        entry.data = {
+            {"raw_value", value}
+        };
+    }
+
+    entry.data["accepted_round"] = ballot_round;
+    entry.data["slot"] = slot;
+    return entry;
+}
+
+std::string decodeAcceptedValueFromWalPayload(const json& payload) {
+    if (!payload.is_object()) {
+        return payload.dump();
+    }
+    if (payload.contains("data") && payload["data"].is_object()) {
+        const auto& data = payload["data"];
+        if (data.contains("raw_value") && data["raw_value"].is_string()) {
+            return data["raw_value"].get<std::string>();
+        }
+    }
+    if (payload.contains("operation") && payload["operation"].is_string()) {
+        return payload["operation"].get<std::string>();
+    }
+    return payload.dump();
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DurableAcceptorState
@@ -43,9 +94,14 @@ bool DurableAcceptorState::operator==(const DurableAcceptorState& o) const noexc
 // ─────────────────────────────────────────────────────────────────────────────
 
 PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
+                                              PaxosSnapshotManager* snapshot_mgr)
+    : PaxosStatePersistence(wal, snapshot_mgr, Config{})
+{}
+
+PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
                                               PaxosSnapshotManager* snapshot_mgr,
-                                              Config                config)
-    : wal_(wal), snapshot_mgr_(snapshot_mgr), config_(std::move(config))
+                                              const Config&         config)
+    : wal_(wal), snapshot_mgr_(snapshot_mgr), config_(config)
 {
     if (!wal_)          throw std::invalid_argument("PaxosStatePersistence: wal cannot be null");
     if (!snapshot_mgr_) throw std::invalid_argument("PaxosStatePersistence: snapshot_mgr cannot be null");
@@ -56,7 +112,7 @@ PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool PaxosStatePersistence::open(const std::string& node_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (is_open_.load()) return true;
 
     node_state_.node_id = node_id;
@@ -73,7 +129,7 @@ bool PaxosStatePersistence::open(const std::string& node_id) {
                         "slot={} round={} lsn={}",
                         node_state_.last_committed,
                         node_state_.current_round,
-                        node_state_.last_lsn);
+                        node_state_.last_lsn.toString());
         }
     } catch (const std::exception& ex) {
         THEMIS_WARN("PaxosStatePersistence: snapshot load failed: {}", ex.what());
@@ -119,7 +175,27 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
             case PaxosWALEntryType::ACCEPT:
             case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
-                s.accepted_value = entry.data.dump();
+                if (entry.data.contains("value")) {
+                    const auto& logged_value = entry.data["value"];
+                    if (logged_value.is_object() &&
+                        logged_value.contains("data") &&
+                        logged_value["data"].is_object() &&
+                        logged_value["data"].contains("raw_command") &&
+                        logged_value["data"]["raw_command"].is_string())
+                    {
+                        s.accepted_value = logged_value["data"]["raw_command"].get<std::string>();
+                    } else if (logged_value.is_object() &&
+                               logged_value.contains("operation") &&
+                               logged_value["operation"].is_string())
+                    {
+                        // Backward-compatible recovery path for old records.
+                        s.accepted_value = logged_value["operation"].get<std::string>();
+                    } else {
+                        s.accepted_value = logged_value.dump();
+                    }
+                } else {
+                    s.accepted_value = entry.data.dump();
+                }
                 break;
             case PaxosWALEntryType::COMMIT:
                 s.is_committed = true;
@@ -147,7 +223,7 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
 bool PaxosStatePersistence::persistPromise(uint64_t slot,
                                             uint64_t ballot_round,
                                             const std::string& proposer_node_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
     DurableAcceptorState& s = slot_cache_[slot];
@@ -173,7 +249,7 @@ bool PaxosStatePersistence::persistPromise(uint64_t slot,
 bool PaxosStatePersistence::persistAccept(uint64_t slot,
                                            uint64_t ballot_round,
                                            const std::string& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
     DurableAcceptorState& s = slot_cache_[slot];
@@ -181,9 +257,28 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
-    // Build a ConsensusLogEntry placeholder with the value as command
     ConsensusLogEntry entry;
-    entry.operation = value;
+    entry.index = slot;
+    entry.term = ballot_round;
+    entry.timestamp = std::chrono::system_clock::now();
+
+    json payload = json::object();
+    payload["raw_command"] = value;
+    
+    // Parse the command to extract structured metadata
+    json parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded() && parsed.is_object()) {
+        payload["parsed_command"] = parsed;
+        // Extract operation type from command metadata for better replay/debug fidelity
+        if (parsed.contains("operation") && parsed["operation"].is_string()) {
+            entry.operation = parsed["operation"].get<std::string>();
+        } else {
+            entry.operation = "paxos.accept";
+        }
+    } else {
+        entry.operation = "paxos.accept";
+    }
+    entry.data = std::move(payload);
 
     LSN lsn = wal_->logAccept(slot, ballot_round, node_state_.node_id, entry);
     if (config_.sync_on_write) wal_->flush();
@@ -196,7 +291,7 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool PaxosStatePersistence::persistCommit(uint64_t slot) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) return false;
 
     auto it = slot_cache_.find(slot);
@@ -216,17 +311,23 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
     ConsensusLogEntry entry;
     if (slot_cache_.count(slot) && !slot_cache_[slot].accepted_value.empty()) {
-        entry.operation = slot_cache_[slot].accepted_value;
+        entry = buildConsensusEntryFromAcceptedValue(slot_cache_[slot].accepted_value,
+                                                     slot,
+                                                     slot_cache_[slot].accepted_round);
     }
     LSN lsn = wal_->logCommit(slot, entry);
     if (config_.sync_on_write) wal_->flush();
     node_state_.last_lsn = lsn;
 
-    // Inline compaction check (lock already held)
+    // Inline compaction check: briefly release lock so forceCompact() can run
+    // without holding mutex_ (it may itself acquire storage locks).
     if (commits_since_compact_ >= config_.compact_interval) {
-        mutex_.unlock();
+        lock.unlock();
         forceCompact();
-        mutex_.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            spdlog::error("PaxosStatePersistence: timed out re-acquiring mutex after compaction");
+            return false;
+        }
     }
     return true;
 }
@@ -237,7 +338,7 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
 std::optional<DurableAcceptorState>
 PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     auto it = slot_cache_.find(slot);
     if (it == slot_cache_.end()) return std::nullopt;
     return it->second;
@@ -249,22 +350,23 @@ PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
 
 void PaxosStatePersistence::maybeCompact() {
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::timed_mutex> lock(mutex_);
         if (commits_since_compact_ < config_.compact_interval) return;
     }
     forceCompact();
 }
 
 bool PaxosStatePersistence::forceCompact() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     try {
         // Build snapshot data from the in-memory cache
         std::map<uint64_t, PaxosInstance>        instances;
         std::map<uint64_t, ConsensusLogEntry>     committed_log;
         for (const auto& [s, state] : slot_cache_) {
             if (state.is_committed) {
-                ConsensusLogEntry e;
-                e.operation = state.accepted_value;
+                auto e = buildConsensusEntryFromAcceptedValue(state.accepted_value,
+                                                              s,
+                                                              state.accepted_round);
                 committed_log[s] = e;
             }
         }

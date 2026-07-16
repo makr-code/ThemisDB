@@ -1,23 +1,21 @@
+/**
+ * @file custom_allreduce.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=11; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=5, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            custom_allreduce.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: custom_allreduce.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 307
+ * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=5, Debt=0, C=0, H=1, M=1, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/custom_allreduce.h"
@@ -142,31 +140,49 @@ void CustomAllReduce::barrier() {
     allreduce(dummy, false);
 }
 
+void CustomAllReduce::setRingAllreduceFn(RingAllreduceFn fn) {
+    ring_allreduce_fn_ = std::move(fn);
+}
+
 bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
-    // Simplified all-reduce implementation for single-process multi-GPU
-    // Note: Real ring all-reduce with multiple processes would use MPI or
-    // network communication. For single-process, we use a simpler approach.
-    
+    if (ring_allreduce_fn_) {
+        return (*ring_allreduce_fn_)(tensor, average);
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow single-process multi-GPU training to run an all-reduce step
+    //          without NCCL or MPI by doing peer reads through the CPU.
+    // Activation: Always when world_size_ > 1, no NCCL/MPI backend is linked,
+    //             and no RingAllreduceFn has been injected via setRingAllreduceFn().
+    // Production Delta: For `world_size_ > 1`, all ranks read the same in-process
+    //                   `tensor.cpu_data()` snapshot — peer-to-peer GPU copies are
+    //                   not performed.  Gradients from ranks ≠ rank_ are the
+    //                   initiating rank's own gradients, not their real gradients.
+    //                   The "all-reduce" is mathematically incorrect for true
+    //                   multi-process distributed training.
+    // Removal Plan: Inject a real NCCL/RCCL/MPI all-reduce via setRingAllreduceFn().
+    //               See src/llm/FUTURE_ENHANCEMENTS.md §CustomAllReduce NCCL Integration.
+
     if (world_size_ == 1) {
         return true;  // No reduction needed
     }
-    
+
     // For single-process multi-GPU, we can directly access all GPU memories
     // Collect data from all GPUs
     std::vector<std::vector<float>> all_gpu_data;
     all_gpu_data.reserve(world_size_);
-    
+
     for (int i = 0; i < world_size_; ++i) {
         Device device = ctx_.get_device(i);
         GPUTensor gpu_tensor({tensor.size()}, device);
-        
+
         // In real implementation, this would be the gradient tensor on each GPU
         // For now, copy the current tensor (assumes same layout on all GPUs)
         if (i == rank_) {
             all_gpu_data.push_back(tensor.cpu_data());
         } else {
-            // In real implementation: peer-to-peer GPU copy
-            all_gpu_data.push_back(tensor.cpu_data());  // Placeholder
+            // STUB: peer-to-peer GPU copy not implemented; using rank_ data as proxy
+            all_gpu_data.push_back(tensor.cpu_data());
         }
     }
     
@@ -224,12 +240,23 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                cudaDeviceCanAccessPeer(&can_access, 
-                                       ctx_.get_device(i).id, 
-                                       ctx_.get_device(j).id);
-                
+                if (cudaDeviceCanAccessPeer(&can_access,
+                                            ctx_.get_device(i).id,
+                                            ctx_.get_device(j).id) != cudaSuccess) {
+                    spdlog::warn("CustomAllReduce: cudaDeviceCanAccessPeer({},{}) failed; skipping P2P",
+                                 i, j);
+                    can_access = 0;
+                }
+
                 if (can_access) {
-                    cudaSetDevice(ctx_.get_device(i).id);
+                    // REL-38: check cudaSetDevice return value before enabling P2P
+                    cudaError_t set_err = cudaSetDevice(ctx_.get_device(i).id);
+                    if (set_err != cudaSuccess) {
+                        spdlog::warn("CustomAllReduce::enable_p2p_access: cudaSetDevice({}) failed: {}",
+                                     ctx_.get_device(i).id, cudaGetErrorString(set_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     cudaError_t err = cudaDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 
@@ -254,12 +281,23 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                hipDeviceCanAccessPeer(&can_access, 
-                                      ctx_.get_device(i).id, 
-                                      ctx_.get_device(j).id);
-                
+                if (hipDeviceCanAccessPeer(&can_access,
+                                           ctx_.get_device(i).id,
+                                           ctx_.get_device(j).id) != hipSuccess) {
+                    spdlog::warn("CustomAllReduce: hipDeviceCanAccessPeer({},{}) failed; skipping P2P",
+                                 i, j);
+                    can_access = 0;
+                }
+
                 if (can_access) {
-                    hipSetDevice(ctx_.get_device(i).id);
+                    // REL-39: check hipSetDevice return value before enabling P2P
+                    hipError_t set_err = hipSetDevice(ctx_.get_device(i).id);
+                    if (set_err != hipSuccess) {
+                        spdlog::warn("CustomAllReduce::enable_p2p_access: hipSetDevice({}) failed: {}",
+                                     ctx_.get_device(i).id, hipGetErrorString(set_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     hipError_t err = hipDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != hipSuccess && err != hipErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 

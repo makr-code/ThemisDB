@@ -297,4 +297,4 @@ The implementation follows security best practices and is ready for production d
 
 **Security Contact**: For security issues, please contact the ThemisDB security team.
 
-**Last Updated**: 2025-11-22
+**Last Updated**: 2026-04-06

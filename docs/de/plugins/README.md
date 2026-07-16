@@ -1,11 +1,11 @@
 # Plugins Modul
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/plugins/ -->
 
-**Stand:** 9. März 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** 🔌 Plugin-System  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -182,7 +182,7 @@ auto negotiation = pm.negotiateCapabilities("my_plugin", reqs);
 | [HOT_RELOAD_GUIDE.md](HOT_RELOAD_GUIDE.md) | Hot-Reload ohne Serverneustart |
 | [DEPENDENCY_RESOLVER_USAGE.md](DEPENDENCY_RESOLVER_USAGE.md) | Dependency-Resolution-Usage-Guide |
 | [SIGNED_PLUGIN_REPOSITORY.md](SIGNED_PLUGIN_REPOSITORY.md) | Signed Plugin Repository |
-| [missing-implementations.md](missing-implementations.md) | Reality-Check: offene Implementierungen mit Evidence |
+| [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) | Reality-Check: offene Implementierungen mit Evidence |
 | [missing-implementations.json](missing-implementations.json) | Maschinenlesbares Format |
 
 ### Verwandte Module

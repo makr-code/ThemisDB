@@ -341,7 +341,7 @@ The following criteria must be satisfied for a PR to be included in this release
 | **Migration guide available** | For every breaking change a migration note exists in CHANGELOG.md and this document |
 | **Security review** | Security-sensitive features (crypto, masking, sandboxing) reviewed and signed off |
 | **Performance baseline** | Performance-critical features benchmarked and baseline stored under `benchmarks/baselines/` |
-| **Roadmap item linkage** | Every PR is traced to at least one roadmap item (`roadmap.md` or module `ROADMAP.md`) |
+| **Roadmap item linkage** | Every PR is traced to at least one roadmap item (`ROADMAP.md` or module `ROADMAP.md`) |
 
 ### QA Status per PR Group
 
@@ -428,8 +428,9 @@ The following items are included in the v1.5.0 PR aggregation but require additi
 
 ## 🔗 Related Documentation
 
+- [RELEASE_TARGET_v1.5.0.md](./RELEASE_TARGET_v1.5.0.md) — Pre-release target definition: deliverables, scope, completion criteria, QA/performance requirements, and out-of-scope items
 - [CHANGELOG.md](../../../CHANGELOG.md) — Full change log
-- [roadmap.md](../../../roadmap.md) — Top-level project roadmap
+- [ROADMAP.md](../../../ROADMAP.md) — Top-level project roadmap
 - [src/geo/ROADMAP.md](../../../src/geo/ROADMAP.md) — Geo module roadmap
 - [src/gpu/ROADMAP.md](../../../src/gpu/ROADMAP.md) — GPU module roadmap
 - [src/security/ROADMAP.md](../../../src/security/ROADMAP.md) — Security module roadmap

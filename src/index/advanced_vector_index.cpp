@@ -1,26 +1,25 @@
+/**
+ * @file advanced_vector_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=5, H=4, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            advanced_vector_index.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     494                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: advanced_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 628
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=5, M=11, L=0
+ * PR History (last 5): #4138 feat(index): Implement CUDA... (2026-03-12) | #769 Refactor RPC Service Archit... (2026-03-11) | #1112 Implement v1.5.x roadmap: Q... (2026-03-11) | #1120 Add workload-specific index... (2026-03-11) | #145 Implement v1.3.0 Phase 2: C... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/advanced_vector_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cmath>
@@ -38,9 +37,23 @@
     #endif
     #include <faiss/index_io.h>
 #else
-    // Stub definitions for non-FAISS builds
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide empty faiss:: type stubs so the AdvancedVectorIndex
+    //   class can be compiled and linked on systems without FAISS installed.
+    //   All method bodies guarded by `#ifdef THEMIS_HAS_FAISS` fall back to
+    //   warn-and-return-false, so callers get a clear build-time error signal.
+    // Activation: THEMIS_HAS_FAISS is not defined (default); set via vcpkg
+    //   feature 'faiss' or -DTHEMIS_HAS_FAISS=ON in CMake.
+    // Production Delta: Vector search is fully disabled; initializeIndex()
+    //   returns false; train/add/search all log WARN and return false/empty.
+    // Removal Plan: Install FAISS via vcpkg and set THEMIS_HAS_FAISS=ON.
+    //   GPU path additionally requires -DTHEMIS_HAS_FAISS_GPU=ON.
+    // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md § "FAISS Integration (v1.5.0)"
     namespace faiss {
-        class Index {};
+        class Index {
+        public:
+            virtual ~Index() = default;
+        };
         class IndexIVFPQ : public Index {};
         class IndexIVFFlat : public Index {};
     }
@@ -76,16 +89,18 @@ bool AdvancedVectorIndex::initializeIndex() {
             case Config::Type::IVF_PQ: {
                 // IVF + Product Quantization (10-100x compression)
                 // Need a quantizer (flat L2 index for clustering)
-                auto* quantizer = new faiss::IndexFlat(dimension_, faiss::METRIC_L2);
-                auto* ivf_pq = new faiss::IndexIVFPQ(
-                    quantizer,
+                auto quantizer_owner = std::make_unique<faiss::IndexFlat>(dimension_, faiss::METRIC_L2);
+                auto ivf_pq_owner = std::make_unique<faiss::IndexIVFPQ>(
+                    quantizer_owner.get(),
                     dimension_,
                     config_.nlist,
                     config_.pq_m,
                     config_.pq_nbits,
                     faiss::METRIC_L2
                 );
+                auto* ivf_pq = ivf_pq_owner.get();
                 ivf_pq->own_fields = true; // FAISS will delete the quantizer
+                quantizer_owner.release(); // ownership transferred to ivf_pq
                 ivf_pq->nprobe = config_.nprobe;
                 
                 // v1.5.x: Enable ADC tables for ~40% faster search
@@ -99,7 +114,7 @@ bool AdvancedVectorIndex::initializeIndex() {
                     THEMIS_INFO("Enabled ADC tables for IVF+PQ (v1.5.x optimization)");
                 }
                 
-                idx = ivf_pq;
+                idx = ivf_pq_owner.release();
                 THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}, adc={}", 
                            config_.nlist, config_.pq_m, config_.pq_nbits, 
                            config_.use_adc_tables);
@@ -108,24 +123,26 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::IVF_FLAT: {
                 // IVF without compression (faster, more memory)
-                auto* quantizer = new faiss::IndexFlat(dimension_, faiss::METRIC_L2);
-                auto* ivf_flat = new faiss::IndexIVFFlat(
-                    quantizer,
+                auto quantizer_owner = std::make_unique<faiss::IndexFlat>(dimension_, faiss::METRIC_L2);
+                auto ivf_flat_owner = std::make_unique<faiss::IndexIVFFlat>(
+                    quantizer_owner.get(),
                     dimension_,
                     config_.nlist,
                     faiss::METRIC_L2
                 );
+                auto* ivf_flat = ivf_flat_owner.get();
                 ivf_flat->own_fields = true; // FAISS will delete the quantizer
+                quantizer_owner.release(); // ownership transferred to ivf_flat
                 ivf_flat->nprobe = config_.nprobe;
-                idx = ivf_flat;
+                idx = ivf_flat_owner.release();
                 THEMIS_INFO("Created IVF Flat index: nlist={}", config_.nlist);
                 break;
             }
             
             case Config::Type::HNSW_FLAT: {
                 // HNSW without IVF (best accuracy)
-                auto* hnsw = new faiss::IndexHNSWFlat(dimension_, 32);
-                idx = hnsw;
+                auto hnsw_owner = std::make_unique<faiss::IndexHNSWFlat>(static_cast<int>(dimension_), 32);
+                idx = hnsw_owner.release();
                 THEMIS_INFO("Created HNSW Flat index");
                 break;
             }
@@ -136,6 +153,7 @@ bool AdvancedVectorIndex::initializeIndex() {
         }
         
         index_ = static_cast<void*>(idx);
+        is_trained_ = idx->is_trained;
         return true;
         
     } catch (const std::exception& e) {
@@ -143,12 +161,28 @@ bool AdvancedVectorIndex::initializeIndex() {
         return false;
     }
 #else
-    THEMIS_WARN("FAISS not available - using stub implementation");
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.initialize) {
+        try {
+            return callbacks.initialize(dimension_, config_);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed: {}", e.what());
+            return false;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed");
+            return false;
+        }
+    }
+    THEMIS_WARN("AdvancedVectorIndex::initializeIndex: FAISS not available, returning stub");
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
+bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -184,18 +218,39 @@ bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.train) {
+        try {
+            const bool ok = callbacks.train(vectors, count);
+            is_trained_ = ok;
+            return ok;
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::train callback failed: {}", e.what());
+            return false;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::train callback failed");
+            return false;
+        }
+    }
     THEMIS_WARN("FAISS not available");
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
+bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return false;
+    }
+
+    auto* idx = static_cast<faiss::Index*>(index_);
+    if (idx->is_trained) {
+        is_trained_ = true;
     }
     
     if (!is_trained_) {
@@ -204,7 +259,6 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
     }
     
     try {
-        auto* idx = static_cast<faiss::Index*>(index_);
         idx->add(count, vectors);
         
         THEMIS_INFO("Added {} vectors to index (total: {})", count, idx->ntotal);
@@ -215,17 +269,36 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.add) {
+        try {
+            return callbacks.add(vectors, count);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::add callback failed: {}", e.what());
+            return false;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::add callback failed");
+            return false;
+        }
+    }
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, size_t count) {
+bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[maybe_unused]] const int64_t* ids, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return false;
+    }
+
+    auto* idx = static_cast<faiss::Index*>(index_);
+    if (idx->is_trained) {
+        is_trained_ = true;
     }
     
     if (!is_trained_) {
@@ -234,7 +307,6 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
     }
     
     try {
-        auto* idx = static_cast<faiss::Index*>(index_);
         idx->add_with_ids(count, vectors, ids);
         
         THEMIS_INFO("Added {} vectors with IDs to index", count);
@@ -245,14 +317,27 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
         return false;
     }
 #else
-    (void)vectors;
-    (void)ids;
-    (void)count;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.add_with_ids) {
+        try {
+            return callbacks.add_with_ids(vectors, ids, count);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed: {}", e.what());
+            return false;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed");
+            return false;
+        }
+    }
     return false;
 #endif
 }
 
-AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query, size_t k) {
+AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] const float* query, [[maybe_unused]] size_t k) {
     SearchResult result;
     
 #ifdef THEMIS_HAS_FAISS
@@ -276,16 +361,30 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query
         return result;
     }
 #else
-    (void)query;
-    (void)k;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.search) {
+        try {
+            return callbacks.search(query, k);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::search callback failed: {}", e.what());
+            return result;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::search callback failed");
+            return result;
+        }
+    }
     return result;
 #endif
 }
 
 std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
-    const float* queries,
-    size_t num_queries,
-    size_t k
+    [[maybe_unused]] const float* queries,
+    [[maybe_unused]] size_t num_queries,
+    [[maybe_unused]] size_t k
 ) {
     std::vector<SearchResult> results(num_queries);
     
@@ -323,9 +422,22 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         return results;
     }
 #else
-    (void)queries;
-    (void)num_queries;
-    (void)k;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.search_batch) {
+        try {
+            return callbacks.search_batch(queries, num_queries, k);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed: {}", e.what());
+            return results;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed");
+            return results;
+        }
+    }
     return results;
 #endif
 }
@@ -343,19 +455,34 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
         // Estimate compression ratio for PQ
         if (config_.index_type == Config::Type::IVF_PQ) {
             // PQ compresses each vector from d*4 bytes to m*nbits/8 bytes
-            double flat_size = dimension_ * sizeof(float);
+            double flat_size = static_cast<double>(dimension_) * sizeof(float);
             double pq_size = config_.pq_m * config_.pq_nbits / 8.0;
             stats.compression_ratio = flat_size / pq_size;
         }
         
-        stats.memory_usage_bytes = stats.total_vectors * dimension_ * sizeof(float) / stats.compression_ratio;
+            stats.memory_usage_bytes = static_cast<size_t>(static_cast<double>(stats.total_vectors * dimension_ * sizeof(float)) / stats.compression_ratio);
+    }
+#else
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.stats) {
+        try {
+            return callbacks.stats();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed");
+        }
     }
 #endif
     
     return stats;
 }
 
-bool AdvancedVectorIndex::save(const std::string& path) {
+bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -374,16 +501,32 @@ bool AdvancedVectorIndex::save(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.save) {
+        try {
+            return callbacks.save(path);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::save callback failed: {}", e.what());
+            return false;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::save callback failed");
+            return false;
+        }
+    }
     return false;
 #endif
 }
 
-bool AdvancedVectorIndex::load(const std::string& path) {
+bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     try {
         if (index_) {
             delete static_cast<faiss::Index*>(index_);
+            index_ = nullptr;  // prevent dangling pointer if read_index throws
         }
         
         auto* idx = faiss::read_index(path.c_str());
@@ -398,7 +541,22 @@ bool AdvancedVectorIndex::load(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
+    StubCallbacks callbacks;
+    {
+        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        callbacks = AdvancedVectorIndex::stubCallbacksStorage();
+    }
+    if (callbacks.load) {
+        try {
+            return callbacks.load(path);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("AdvancedVectorIndex::load callback failed: {}", e.what());
+            return false;
+        } catch (...) {
+            THEMIS_ERROR("AdvancedVectorIndex::load callback failed");
+            return false;
+        }
+    }
     return false;
 #endif
 }
@@ -495,3 +653,4 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
 }
 
 } // namespace themis
+

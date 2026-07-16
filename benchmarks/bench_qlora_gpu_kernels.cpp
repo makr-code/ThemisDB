@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_qlora_gpu_kernels.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     373                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_qlora_gpu_kernels.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,6 +25,15 @@ using namespace themis::llm::lora;
 using namespace themis::llm::lora::cuda;
 
 namespace {
+
+#define BENCH_CUDA_OK(state, call) \
+    do { \
+        const cudaError_t _cuda_err = (call); \
+        if (_cuda_err != cudaSuccess) { \
+            (state).SkipWithError(cudaGetErrorString(_cuda_err)); \
+            return; \
+        } \
+    } while (false)
 
 /**
  * @brief Generate random test data for benchmarks
@@ -76,21 +70,21 @@ static void BM_NF4_Quantization_GPU(benchmark::State& state) {
     float* d_scales;
     float* d_zeros;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_output, (num_elements + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_input, num_elements * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_output, (num_elements + 1) / 2));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    BENCH_CUDA_OK(state, cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Warmup
     launch_quantize_nf4_kernel(d_input, d_output, d_scales, d_zeros, num_elements, block_size);
-    cudaDeviceSynchronize();
+    BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     
     // Benchmark
     for (auto _ : state) {
         launch_quantize_nf4_kernel(d_input, d_output, d_scales, d_zeros, num_elements, block_size);
-        cudaDeviceSynchronize();
+        BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     }
     
     state.SetItemsProcessed(state.iterations() * num_elements);
@@ -125,19 +119,19 @@ static void BM_INT8_Quantization_GPU(benchmark::State& state) {
     int8_t* d_output;
     float* d_scales;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_output, num_elements * sizeof(int8_t));
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_input, num_elements * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_output, num_elements * sizeof(int8_t)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_scales, num_blocks * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    BENCH_CUDA_OK(state, cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Warmup
     launch_quantize_int8_kernel(d_input, d_output, d_scales, num_elements, block_size);
-    cudaDeviceSynchronize();
+    BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     
     for (auto _ : state) {
         launch_quantize_int8_kernel(d_input, d_output, d_scales, num_elements, block_size);
-        cudaDeviceSynchronize();
+        BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     }
     
     state.SetItemsProcessed(state.iterations() * num_elements);
@@ -173,22 +167,22 @@ static void BM_NF4_Dequantization_GPU(benchmark::State& state) {
     float* d_zeros;
     float* d_output;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_quantized, (num_elements + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
-    cudaMalloc(&d_output, num_elements * sizeof(float));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_input, num_elements * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_quantized, (num_elements + 1) / 2));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_output, num_elements * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    BENCH_CUDA_OK(state, cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Quantize once
     launch_quantize_nf4_kernel(d_input, d_quantized, d_scales, d_zeros, num_elements, block_size);
-    cudaDeviceSynchronize();
+    BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     
     // Benchmark dequantization
     for (auto _ : state) {
         launch_dequantize_nf4_kernel(d_quantized, d_scales, d_zeros, d_output, num_elements, block_size);
-        cudaDeviceSynchronize();
+        BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     }
     
     state.SetItemsProcessed(state.iterations() * num_elements);
@@ -231,24 +225,24 @@ static void BM_Fused_Dequant_MatMul_NF4(benchmark::State& state) {
     float* d_input;
     float* d_output;
     
-    cudaMalloc(&d_weights_fp32, K * N * sizeof(float));
-    cudaMalloc(&d_weights_quant, (K * N + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
-    cudaMalloc(&d_input, M * K * sizeof(float));
-    cudaMalloc(&d_output, M * N * sizeof(float));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_weights_fp32, K * N * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_weights_quant, (K * N + 1) / 2));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_input, M * K * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_output, M * N * sizeof(float)));
     
-    cudaMemcpy(d_weights_fp32, weights.data(), K * N * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_input, input.data(), M * K * sizeof(float), cudaMemcpyHostToDevice);
+    BENCH_CUDA_OK(state, cudaMemcpy(d_weights_fp32, weights.data(), K * N * sizeof(float), cudaMemcpyHostToDevice));
+    BENCH_CUDA_OK(state, cudaMemcpy(d_input, input.data(), M * K * sizeof(float), cudaMemcpyHostToDevice));
     
     launch_quantize_nf4_kernel(d_weights_fp32, d_weights_quant, d_scales, d_zeros, K * N, block_size);
-    cudaDeviceSynchronize();
+    BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     
     // Benchmark fused kernel
     for (auto _ : state) {
         launch_fused_dequant_matmul_kernel(
             d_weights_quant, d_scales, d_zeros, d_input, d_output, M, K, N, block_size, true);
-        cudaDeviceSynchronize();
+        BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     }
     
     // FLOPS: 2 * M * K * N (multiply-add)
@@ -285,20 +279,20 @@ static void BM_FP16_MatMul(benchmark::State& state) {
     float* d_B;
     float* d_C;
     
-    cudaMalloc(&d_A, M * K * sizeof(float));
-    cudaMalloc(&d_B, K * N * sizeof(float));
-    cudaMalloc(&d_C, M * N * sizeof(float));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_A, M * K * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_B, K * N * sizeof(float)));
+    BENCH_CUDA_OK(state, cudaMalloc(&d_C, M * N * sizeof(float)));
     
-    cudaMemcpy(d_A, input_a.data(), M * K * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, input_b.data(), K * N * sizeof(float), cudaMemcpyHostToDevice);
+    BENCH_CUDA_OK(state, cudaMemcpy(d_A, input_a.data(), M * K * sizeof(float), cudaMemcpyHostToDevice));
+    BENCH_CUDA_OK(state, cudaMemcpy(d_B, input_b.data(), K * N * sizeof(float), cudaMemcpyHostToDevice));
     
     // Warmup
     launch_fp16_matmul_kernel(d_A, d_B, d_C, M, K, N);
-    cudaDeviceSynchronize();
+    BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     
     for (auto _ : state) {
         launch_fp16_matmul_kernel(d_A, d_B, d_C, M, K, N);
-        cudaDeviceSynchronize();
+        BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     }
     
     state.SetItemsProcessed(state.iterations() * 2 * M * K * N);
@@ -324,11 +318,11 @@ static void BM_Memory_Transfer_HtoD(benchmark::State& state) {
     
     std::vector<float> host_data(state.range(0), 1.0f);
     float* d_data;
-    cudaMalloc(&d_data, size);
+    BENCH_CUDA_OK(state, cudaMalloc(&d_data, size));
     
     for (auto _ : state) {
-        cudaMemcpy(d_data, host_data.data(), size, cudaMemcpyHostToDevice);
-        cudaDeviceSynchronize();
+        BENCH_CUDA_OK(state, cudaMemcpy(d_data, host_data.data(), size, cudaMemcpyHostToDevice));
+        BENCH_CUDA_OK(state, cudaDeviceSynchronize());
     }
     
     state.SetBytesProcessed(state.iterations() * size);

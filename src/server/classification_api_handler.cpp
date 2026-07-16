@@ -1,28 +1,27 @@
+/**
+ * @file classification_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            classification_api_handler.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: classification_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 142
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/classification_api_handler.h"
 #include "utils/logger.h"
 #include "utils/pii_detection_engine.h"
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
@@ -32,6 +31,7 @@ ClassificationApiHandler::ClassificationApiHandler(std::shared_ptr<themis::utils
 
 nlohmann::json ClassificationApiHandler::listRules() {
     try {
+    auto span = Tracer::startSpan("listRules");
         if (!pii_detector_) {
             THEMIS_WARN("Classification API: PIIDetector not initialized");
             return {
@@ -85,6 +85,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
 
 nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("testClassification");
         if (!pii_detector_) {
             THEMIS_ERROR("Classification API: PIIDetector not initialized");
             return {
@@ -93,6 +94,7 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
                 {"status_code", 503}
             };
         }
+        auto& pii_detector = *pii_detector_;
         
         // Extract text from request body
         if (!body.contains("text") || !body["text"].is_string()) {
@@ -106,7 +108,7 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
         std::string text = body["text"].get<std::string>();
         
         // Run PII detection
-        auto findings = pii_detector_->detectInText(text);
+        auto findings = pii_detector.detectInText(text);
         
         // Determine overall classification based on findings
         std::string classification = "PUBLIC";

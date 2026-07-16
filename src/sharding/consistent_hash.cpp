@@ -1,39 +1,38 @@
+/**
+ * @file consistent_hash.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            consistent_hash.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     220                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: consistent_hash.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 276
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=0, M=6, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/consistent_hash.h"
-#include <sstream>
 #include <algorithm>
 #include <cmath>
-#include <set>
-
-#ifdef __has_include
-  #if __has_include(<xxhash.h>)
-    #include <xxhash.h>
-    #define HAS_XXHASH
-  #endif
-#endif
+#include <unordered_set>
 
 namespace themis::sharding {
+
+static uint64_t mix64(uint64_t x) {
+        x ^= x >> 33;
+        x *= 0xff51afd7ed558ccdULL;
+        x ^= x >> 33;
+        x *= 0xc4ceb9fe1a85ec53ULL;
+        x ^= x >> 33;
+        return x;
+}
 
 void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_nodes) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -51,12 +50,25 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     std::vector<uint64_t> tokens;
     tokens.reserve(virtual_nodes);
     
-    // Generate virtual nodes
+    // Generate virtual nodes.
+    // Collisions are possible with any finite hash width; if we overwrite an
+    // existing token in ring_, we silently lose virtual nodes and skew load.
+    // Resolve collisions with deterministic probing to preserve ring density.
+    // Build the virtual-node key as "<shard_id>#<i>" without ostringstream.
+    std::string vnode_key;
+    vnode_key.reserve(shard_id.size() + 1 + 20); // 20 digits covers uint64_t max
     for (size_t i = 0; i < virtual_nodes; ++i) {
-        std::ostringstream oss;
-        oss << shard_id << "#" << i;
-        uint64_t token = hash(oss.str());
-        
+        vnode_key = shard_id;
+        vnode_key += '#';
+        vnode_key += std::to_string(i);
+        uint64_t token = hash(vnode_key);
+
+        size_t probe = 0;
+        while (ring_.find(token) != ring_.end()) {
+            token = mix64(token + 0x9e3779b97f4a7c15ULL + probe);
+            ++probe;
+        }
+
         ring_[token] = shard_id;
         tokens.push_back(token);
     }
@@ -129,7 +141,9 @@ std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t
     }
     
     std::vector<std::string> result;
-    std::set<std::string> seen; // Track unique shards
+    std::unordered_set<std::string> seen; // Track unique shards; O(1) avg vs O(log n) for std::set
+    result.reserve(count);
+    seen.reserve(count);
     
     // Start from the position at or after the hash
     auto it = ring_.lower_bound(hash);
@@ -186,6 +200,54 @@ std::vector<std::string> ConsistentHashRing::getAllShards() const {
     return shards;
 }
 
+std::vector<std::string> ConsistentHashRing::getShardsInRange(
+    uint64_t hash_start, uint64_t hash_end
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (ring_.empty()) {
+        return {};
+    }
+
+    std::vector<std::string> result;
+    std::unordered_set<std::string> seen;
+
+    auto collect = [&](auto from, auto to_exclusive) {
+        // Walk from 'from' to just before 'to_exclusive', collecting shards.
+        for (auto it = from; it != to_exclusive; ++it) {
+            seen.insert(it->second);
+        }
+    };
+
+    if (hash_start > hash_end) {
+        // Wrap-around range: [hash_start, ring_max] ∪ [ring_min, hash_end]
+        // Part 1: hash_start → end of ring
+        auto it_start = ring_.lower_bound(hash_start);
+        if (it_start == ring_.end()) {
+            it_start = ring_.begin();
+        }
+        collect(it_start, ring_.end());
+
+        // Part 2: beginning of ring → hash_end (inclusive)
+        for (auto it = ring_.begin(); it != ring_.end() && it->first <= hash_end; ++it) {
+            seen.insert(it->second);
+        }
+    } else {
+        // Normal (non-wrapping) range: [hash_start, hash_end]
+        auto it = ring_.lower_bound(hash_start);
+        if (it == ring_.end()) {
+            it = ring_.begin(); // wrap-around: start is past the last token
+        }
+        while (it != ring_.end() && it->first <= hash_end) {
+            seen.insert(it->second);
+            ++it;
+        }
+    }
+
+    result.assign(seen.begin(), seen.end());
+    return result;
+}
+
 double ConsistentHashRing::getBalanceFactor() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -212,12 +274,14 @@ double ConsistentHashRing::getBalanceFactor() const {
 }
 
 uint64_t ConsistentHashRing::hash(const std::string& key) const {
-#ifdef HAS_XXHASH
-    return XXH64(key.data(), key.size(), 0);
-#else
-    std::hash<std::string> hasher;
-    return hasher(key);
-#endif
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
+    constexpr uint64_t kFNVPrime = 1099511628211ULL;
+    uint64_t h = kFNVOffsetBasis;
+    for (unsigned char c : key) {
+        h ^= static_cast<uint64_t>(c);
+        h *= kFNVPrime;
+    }
+    return mix64(h);
 }
 
 } // namespace themis::sharding

@@ -1,23 +1,20 @@
+/**
+ * @file wal_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_api_handler.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     147                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +23,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -108,7 +106,7 @@ public:
     uint64_t getApplyLatencySumUs() const { return wal_apply_latency_sum_us_.load(std::memory_order_relaxed); }
     uint64_t getApplyLatencyCount() const { return wal_apply_latency_count_.load(std::memory_order_relaxed); }
     std::string getLastAppliedLsn() const { 
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        std::shared_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         return wal_last_applied_lsn_; 
     }
 
@@ -132,7 +130,7 @@ private:
     std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
     std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
     std::atomic<uint64_t> wal_apply_latency_count_{0};
-    mutable std::mutex wal_metrics_mutex_;
+    mutable std::shared_mutex wal_metrics_mutex_;
     std::string wal_last_applied_lsn_;
 
     // Helper methods

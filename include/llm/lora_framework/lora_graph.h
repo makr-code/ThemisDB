@@ -1,23 +1,21 @@
+/**
+ * @file lora_graph.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_graph.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     340                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_graph.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 366
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #320 Implement Production-Ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -156,6 +154,31 @@ struct LoRAVectorEmbedding {
             {"dimensions", embedding.size()}
         };
     }
+
+    /**
+     * @brief Deserialise a LoRAVectorEmbedding from its JSON representation.
+     *
+     * All fields are optional; missing fields retain their zero-value defaults.
+     *
+     * @param j  JSON object produced by toJSON().
+     * @return   Populated LoRAVectorEmbedding.
+     */
+    static LoRAVectorEmbedding fromJSON(const json& j) {
+        LoRAVectorEmbedding emb;
+        if (j.contains("adapter_id"))      emb.adapter_id      = j["adapter_id"].get<std::string>();
+        if (j.contains("embedding_model")) emb.embedding_model = j["embedding_model"].get<std::string>();
+        if (j.contains("source_text"))     emb.source_text     = j["source_text"].get<std::string>();
+        if (j.contains("embedding") && j["embedding"].is_array()) {
+            emb.embedding = j["embedding"].get<std::vector<float>>();
+        }
+        if (j.contains("source") && j["source"].is_number_integer()) {
+            int s = j["source"].get<int>();
+            if (s >= 0 && s <= static_cast<int>(Source::COMBINED)) {
+                emb.source = static_cast<Source>(s);
+            }
+        }
+        return emb;
+    }
 };
 
 /**
@@ -227,6 +250,7 @@ struct LoRAGraphPath {
  * @brief Enhanced adapter metadata with graph and vector support
  */
 struct AdapterMetadataEnhanced : public AdapterMetadata {
+    ~AdapterMetadataEnhanced() override = default;
     // Graph information
     std::vector<LoRAGraphEdge> edges;           // All edges connected to this adapter
     LoRAGraphPath lineage_path;                 // Path from base model to this adapter
@@ -290,8 +314,16 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
             }
         }
         
-        // Vector info
-        // TODO: Parse embeddings
+        // Vector info — parse per-role embeddings from their JSON representations
+        if (j.contains("description_embedding") && j["description_embedding"].is_object()) {
+            metadata.description_embedding = LoRAVectorEmbedding::fromJSON(j["description_embedding"]);
+        }
+        if (j.contains("task_embedding") && j["task_embedding"].is_object()) {
+            metadata.task_embedding = LoRAVectorEmbedding::fromJSON(j["task_embedding"]);
+        }
+        if (j.contains("performance_embedding") && j["performance_embedding"].is_object()) {
+            metadata.performance_embedding = LoRAVectorEmbedding::fromJSON(j["performance_embedding"]);
+        }
         
         // Relationships
         if (j.contains("similar_adapters")) {
@@ -306,6 +338,7 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
  * @brief Enhanced adapter info with graph path and vectors
  */
 struct AdapterInfoEnhanced : public AdapterInfo {
+    ~AdapterInfoEnhanced() override = default;
     // Graph path
     LoRAGraphPath graph_path;
     
@@ -341,3 +374,4 @@ struct AdapterInfoEnhanced : public AdapterInfo {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

@@ -1,23 +1,21 @@
+/**
+ * @file transaction_wal.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_wal.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     347                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_wal.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 367
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=2, L=0
+ * PR History (last 5): #4212 fix(chimera/percolator): re... (2026-03-15) | #3649 feat(transaction): complete... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/transaction_wal.h"
@@ -27,11 +25,37 @@
 
 namespace sharding {
 
+// TWAL-2: static_assert guards lock the TransactionWALEntryType enum values so
+// that a future enum change causes a compile-time error instead of a silent
+// recovery failure (wrong entries silently filtered out in readEntries()).
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::BEGIN)      == 130,
+              "TWAL-2: TransactionWALEntryType::BEGIN must stay at 130 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::PREPARE)    == 131,
+              "TWAL-2: TransactionWALEntryType::PREPARE must stay at 131 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::PREPARED)   == 132,
+              "TWAL-2: TransactionWALEntryType::PREPARED must stay at 132 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMMIT)     == 133,
+              "TWAL-2: TransactionWALEntryType::COMMIT must stay at 133 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMMITTED)  == 134,
+              "TWAL-2: TransactionWALEntryType::COMMITTED must stay at 134 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::ABORT)      == 135,
+              "TWAL-2: TransactionWALEntryType::ABORT must stay at 135 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::ABORTED)    == 136,
+              "TWAL-2: TransactionWALEntryType::ABORTED must stay at 136 for WAL compatibility");
+static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMPENSATE) == 137,
+              "TWAL-2: TransactionWALEntryType::COMPENSATE must stay at 137 for WAL compatibility");
+
+/**
+ * @brief Construct transaction WAL wrapper with provided runtime configuration.
+ * @param config WAL directories, segment and sync settings.
+ */
 TransactionWAL::TransactionWAL(const TransactionWALConfig& config)
     : config_(config), current_lsn_(0, 0) {}
 
+/** @brief Destroy transaction WAL wrapper and owned WAL manager. */
 TransactionWAL::~TransactionWAL() = default;
 
+/** @brief Create directories and initialize base WAL manager. */
 bool TransactionWAL::initialize() {
     try {
         // Create WAL directory
@@ -62,6 +86,7 @@ bool TransactionWAL::initialize() {
     }
 }
 
+/** @brief Append BEGIN transaction lifecycle record to WAL. */
 LSN TransactionWAL::logBegin(const std::string& transaction_id,
                               TransactionProtocol protocol,
                               const std::vector<std::string>& participants) {
@@ -81,13 +106,14 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged BEGIN for transaction {} at LSN {}", transaction_id, lsn.toString());
     return lsn;
 }
 
+/** @brief Append PREPARE request record for one participant. */
 LSN TransactionWAL::logPrepare(const std::string& transaction_id,
                                 const std::string& participant_id,
                                 const nlohmann::json& data) {
@@ -101,7 +127,7 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARE for transaction {} participant {} at LSN {}",
@@ -109,6 +135,7 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append PREPARED participant vote record. */
 LSN TransactionWAL::logPrepared(const std::string& transaction_id,
                                  const std::string& participant_id,
                                  bool vote,
@@ -129,7 +156,7 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARED for transaction {} participant {} vote={} at LSN {}",
@@ -137,6 +164,7 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append COMMIT decision record. */
 LSN TransactionWAL::logCommit(const std::string& transaction_id,
                                const nlohmann::json& data) {
     TransactionWALEntry entry;
@@ -148,13 +176,14 @@ LSN TransactionWAL::logCommit(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMIT for transaction {} at LSN {}", transaction_id, lsn.toString());
     return lsn;
 }
 
+/** @brief Append COMMITTED acknowledgment record for one participant. */
 LSN TransactionWAL::logCommitted(const std::string& transaction_id,
                                   const std::string& participant_id) {
     TransactionWALEntry entry;
@@ -166,7 +195,7 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMITTED for transaction {} participant {} at LSN {}",
@@ -174,6 +203,7 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append ABORT decision record with reason text. */
 LSN TransactionWAL::logAbort(const std::string& transaction_id,
                               const std::string& reason) {
     TransactionWALEntry entry;
@@ -189,7 +219,7 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORT for transaction {} reason='{}' at LSN {}",
@@ -197,6 +227,7 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append ABORTED acknowledgment record for one participant. */
 LSN TransactionWAL::logAborted(const std::string& transaction_id,
                                 const std::string& participant_id) {
     TransactionWALEntry entry;
@@ -208,7 +239,7 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORTED for transaction {} participant {} at LSN {}",
@@ -216,6 +247,7 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append SAGA compensation step execution record. */
 LSN TransactionWAL::logCompensate(const std::string& transaction_id,
                                    const std::string& step_id,
                                    const nlohmann::json& compensation_data) {
@@ -229,7 +261,7 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     auto wal_entry = toWALEntry(entry);
     LSN lsn = wal_manager_->append(wal_entry);
     
-    current_lsn_ = lsn;
+    { std::lock_guard<std::mutex> lsn_guard(lsn_mutex_); current_lsn_ = wal_manager_->getCurrentLSN(); }
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMPENSATE for transaction {} step {} at LSN {}",
@@ -237,6 +269,7 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Read and decode transaction-specific entries from WAL starting at LSN. */
 std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     std::vector<TransactionWALEntry> entries;
 
@@ -244,9 +277,14 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
         auto wal_entries = wal_manager_->readRange(start_lsn);
         
         for (const auto& wal_entry : wal_entries) {
-            // Only process transaction-related entries (types 130-138)
+            // TWAL-2: Use the named enum boundaries instead of magic numbers.
+            // TransactionWALEntryType values range from BEGIN (130) to COMPENSATE (137).
             const auto wal_type = static_cast<uint8_t>(wal_entry.type);
-            if (wal_type >= 130 && wal_type <= 138) {
+            constexpr uint8_t kTxnTypeMin =
+                static_cast<uint8_t>(TransactionWALEntryType::BEGIN);
+            constexpr uint8_t kTxnTypeMax =
+                static_cast<uint8_t>(TransactionWALEntryType::COMPENSATE);
+            if (wal_type >= kTxnTypeMin && wal_type <= kTxnTypeMax) {
                 auto txn_entry = fromWALEntry(wal_entry);
                 if (txn_entry.has_value()) {
                     entries.push_back(txn_entry.value());
@@ -262,14 +300,21 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     return entries;
 }
 
+/** @brief Return whether snapshot interval threshold has been reached. */
 bool TransactionWAL::shouldCreateSnapshot(uint64_t operations_count) const {
     return operations_count >= config_.snapshot_interval;
 }
 
+/** @brief Return current LSN from WAL manager if initialized, else cached value. */
 LSN TransactionWAL::getCurrentLSN() const {
+    if (wal_manager_) {
+        return wal_manager_->getCurrentLSN();
+    }
+    std::lock_guard<std::mutex> lsn_guard(lsn_mutex_);
     return current_lsn_;
 }
 
+/** @brief Encode transaction WAL entry payload into generic WAL record. */
 WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     WALEntry wal_entry;
     wal_entry.lsn = txn_entry.lsn;
@@ -305,6 +350,7 @@ WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     return wal_entry;
 }
 
+/** @brief Decode generic WAL record into transaction WAL entry payload. */
 std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& wal_entry) {
     try {
         TransactionWALEntry txn_entry;
@@ -348,3 +394,4 @@ std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& 
 }
 
 } // namespace sharding
+

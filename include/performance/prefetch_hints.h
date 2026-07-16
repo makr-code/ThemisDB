@@ -1,23 +1,20 @@
+/**
+ * @file prefetch_hints.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prefetch_hints.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     242                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prefetch_hints.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Prefetch Hints for Random Access Performance Optimization
@@ -122,11 +119,22 @@ inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         // GCC/Clang: Use __builtin_prefetch(addr, rw, locality)
         // rw: 0 = read, 1 = write
         // locality: 0 (NTA) to 3 (T0)
-        __builtin_prefetch(ptr, 0, static_cast<int>(hint));
+        switch (hint) {
+            case PrefetchHint::T0:
+                __builtin_prefetch(ptr, 0, 3);
+                break;
+            case PrefetchHint::T1:
+                __builtin_prefetch(ptr, 0, 2);
+                break;
+            case PrefetchHint::T2:
+                __builtin_prefetch(ptr, 0, 1);
+                break;
+            case PrefetchHint::NTA:
+                __builtin_prefetch(ptr, 0, 0);
+                break;
+        }
     #else
         // No prefetch support on this platform
-        (void)ptr;
-        (void)hint;
     #endif
 }
 
@@ -147,10 +155,21 @@ inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         prefetch(ptr, hint);
     #elif defined(__GNUC__) || defined(__clang__)
         // GCC/Clang: rw = 1 for write
-        __builtin_prefetch(ptr, 1, static_cast<int>(hint));
+        switch (hint) {
+            case PrefetchHint::T0:
+                __builtin_prefetch(ptr, 1, 3);
+                break;
+            case PrefetchHint::T1:
+                __builtin_prefetch(ptr, 1, 2);
+                break;
+            case PrefetchHint::T2:
+                __builtin_prefetch(ptr, 1, 1);
+                break;
+            case PrefetchHint::NTA:
+                __builtin_prefetch(ptr, 1, 0);
+                break;
+        }
     #else
-        (void)ptr;
-        (void)hint;
     #endif
 }
 

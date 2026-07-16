@@ -1,24 +1,21 @@
+/**
+ * @file opencl_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=7, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            opencl_backend.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     384                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 78597cb45  2026-02-23  feat(acceleration): add OpenCL backend header and registr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: opencl_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 420
+ * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=8, M=1, L=1
+ * PR History (last 5): #2708 feat(acceleration): OpenCL ... (2026-03-12) | #417 [DOCS] CRITICAL: Correct pl... (2026-03-11) | #469 Fix 11 compilation errors: ... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // OpenCL Backend Implementation - Universal GPU Fallback
@@ -26,6 +23,7 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/opencl_backend.h"
+#include <stdexcept>
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include <iostream>
@@ -356,6 +354,37 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenCLVectorBackend::batchK
 
 #else // THEMIS_ENABLE_OPENCL not defined
 
+// STUB/SIMULATION NOTE:
+// Purpose: Satisfy the linker and allow ThemisDB to be built without an OpenCL
+//   SDK.  All vector backend methods return false/empty so that the
+//   BackendRegistry can probe and skip this backend gracefully.
+// Activation: `THEMIS_ENABLE_OPENCL` is not defined at compile time (default
+//   for CUDA-only builds and CPU-only builds).
+// Production Delta: `computeDistances()` and `batchKnnSearch()` return empty
+//   vectors; `isAvailable()` returns false.  Any query routed to the OpenCL
+//   backend will fail silently and fall through to the next registered backend
+//   (typically CPU).  Universal GPU support (AMD, Intel, Qualcomm, ARM Mali)
+//   via OpenCL is completely unavailable.
+// Removal Plan: Install an OpenCL SDK (e.g., Intel OpenCL Runtime, ROCm OpenCL,
+//   or CUDA OpenCL) and set `-DTHEMIS_ENABLE_OPENCL=1` in CMake.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"OpenCL Backend Activation"
+
+// STUB/SIMULATION NOTE (computeDistances bridge):
+// Purpose:    Allow injection of a real computeDistances implementation for the
+//             non-OpenCL stub path (tests / integration without an OpenCL SDK).
+// Activation: Runtime — when setComputeDistancesFn() is called with a non-empty fn.
+// Production Delta: With no fn, computeDistances() returns {}; with fn the
+//             provided implementation is called instead.
+// Removal Plan: Remove bridge once THEMIS_ENABLE_OPENCL is standard in all envs.
+static std::mutex s_opencl_compute_fn_mutex_;
+static OpenCLVectorBackend::ComputeDistancesFn s_compute_distances_fn_;
+
+void OpenCLVectorBackend::setComputeDistancesFn(
+    OpenCLVectorBackend::ComputeDistancesFn fn) {
+    std::lock_guard<std::mutex> lk(s_opencl_compute_fn_mutex_);
+    s_compute_distances_fn_ = std::move(fn);
+}
+
 // Stub method definitions when OpenCL is not available
 BackendType OpenCLVectorBackend::type() const noexcept { return BackendType::OPENCL; }
 const char* OpenCLVectorBackend::name() const noexcept { return "OpenCL (Not Available)"; }
@@ -365,7 +394,24 @@ bool OpenCLVectorBackend::initialize() { return false; }
 void OpenCLVectorBackend::shutdown() {}
 
 std::vector<float> OpenCLVectorBackend::computeDistances(
-    const float*, size_t, size_t, const float*, size_t, bool) {
+    const float* queries, size_t numQueries, size_t dimension,
+    const float* vectors, size_t numVectors, bool useL2) {
+    OpenCLVectorBackend::ComputeDistancesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_opencl_compute_fn_mutex_);
+        fn = s_compute_distances_fn_;
+    }
+    if (fn) [[unlikely]] {
+        try {
+            return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
+        } catch (const std::exception &) {
+            return {};
+        } catch (const std::string &) {
+            return {};
+        } catch (const char *) {
+            return {};
+        }
+    }
     return {};
 }
 

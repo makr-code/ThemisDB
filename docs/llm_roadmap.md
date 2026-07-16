@@ -2,7 +2,7 @@
 
 **Status:** Not Production Ready
 **Version:** 1.5.0
-**Last Updated:** February 19, 2026
+**Last Updated:** April 2026
 
 ---
 
@@ -34,7 +34,7 @@ The ThemisDB LLM module (`src/llm`) provides a substantial feature set including
 
 ### 1.3 GGUF Loader — Unsupported Formats
 
-**Finding:** The GGUF loader (`gguf_loader.cpp`, `gguf_loader_README.md`, `docs/GGUF_SUPPORT.md`) fully supports **F32, F16, Q4_K_M, Q8_0** only. The following quantization types are recognised in the `GGMLType` enum and `type_string()` but **have no conversion path and are silently skipped or return raw bytes without dequantization**:
+**Finding:** The GGUF loader (`gguf_loader.cpp`, `GGUF_LOADER_README.md`, `docs/GGUF_SUPPORT.md`) fully supports **F32, F16, Q4_K_M, Q8_0** only. The following quantization types are recognised in the `GGMLType` enum and `type_string()` but **have no conversion path and are silently skipped or return raw bytes without dequantization**:
 
 | Format | Block Size | Status |
 |--------|------------|--------|
@@ -297,8 +297,8 @@ Loading a model that uses any of these formats will not fail with an actionable 
 ## 6. Related Documents
 
 - `src/llm/README.md` — LLM module overview
-- `src/llm/gguf_loader_README.md` — GGUF quantization loading details
-- `src/llm/llama_lora_adapter_README.md` — LoRA adapter implementation notes
+- `src/llm/GGUF_LOADER_README.md` — GGUF quantization loading details
+- `src/llm/LLAMA_LORA_ADAPTER_README.md` — LoRA adapter implementation notes
 - `docs/GGUF_SUPPORT.md` — GGUF format support matrix
 - `docs/GRAFANA_METRICS_COMPLETE.md` — Grafana metrics integration history
 - `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` — Grammar implementation summary

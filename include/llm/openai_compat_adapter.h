@@ -1,66 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            openai_compat_adapter.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include "llm/llm_plugin_interface.h"
-#include <nlohmann/json.hpp>
-#include <string>
-#include <variant>
-#include <optional>
 
 /**
  * @file openai_compat_adapter.h
- * @brief OpenAI-compatible /v1/chat/completions passthrough adapter
- *
- * Translates OpenAI Chat Completions API requests into ThemisDB
- * @c InferenceRequest structs and converts @c InferenceResponse objects
- * back into OpenAI-compatible JSON, enabling existing OpenAI API clients
- * (LangChain, LlamaIndex, OpenAI Python SDK) to target ThemisDB's local
- * inference engine without code changes.
- *
- * Supported request fields:
- *   - @c model          — forwarded as @c InferenceRequest::model_id
- *   - @c messages       — mapped to @c system_prompt + @c prompt
- *   - @c temperature    — forwarded as-is
- *   - @c max_tokens     — forwarded as-is
- *   - @c stream         — when @c true, callers must supply a @c stream_callback
- *   - @c stop           — forwarded as @c InferenceRequest::stop_sequences
- *   - @c tools          — serialised to @c InferenceRequest::tools
- *
- * Usage:
- * @code
- *   auto result = OpenAICompatAdapter::parseRequest(json_body);
- *   if (std::holds_alternative<std::string>(result)) {
- *       // error message in the std::string variant
- *   } else {
- *       auto& req = std::get<InferenceRequest>(result);
- *       // submit req to InferenceEngineEnhanced or ILLMPlugin
- *   }
- * @endcode
- *
- * Thread safety: all public methods are stateless and reentrant.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_plugin_interface.h"
+
+#include <nlohmann/json.hpp>
+
+#include <cstdint>
+#include <optional>
+#include <string>
+#include <variant>
 
 namespace themis {
 namespace llm {
@@ -208,3 +166,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

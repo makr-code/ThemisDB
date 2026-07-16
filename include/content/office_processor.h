@@ -1,42 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            office_processor.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
-    • e144d6842  2026-02-26  Fix PowerPointInfo::slide_count uninitialized field (offi... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file office_processor.h
- * @brief Office Document Processor for ThemisDB
- * 
- * Extracts text, metadata, and structure from Office documents:
- * - DOCX (Word)
- * - XLSX (Excel)
- * - PPTX (PowerPoint)
- * - ODF formats (ODT, ODS, ODP)
- * 
- * Uses libzip + pugixml for OOXML parsing.
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -78,9 +48,9 @@ struct WordDocumentInfo {
     std::vector<std::string> paragraphs;
     std::vector<std::string> headings;
     std::vector<std::pair<std::string, std::string>> comments;  // author, text
-    int word_count;
-    int paragraph_count;
-    int page_count;
+    int word_count = 0;       ///< CON-021
+    int paragraph_count = 0;  ///< CON-021
+    int page_count = 0;       ///< CON-021
 };
 
 /**
@@ -89,8 +59,8 @@ struct WordDocumentInfo {
 struct ExcelWorkbookInfo {
     struct Sheet {
         std::string name;
-        int row_count;
-        int col_count;
+        int row_count = 0;  ///< CON-021
+        int col_count = 0;  ///< CON-021
         std::vector<std::vector<std::string>> cells;  // row-major
         std::vector<std::string> formulas;
     };
@@ -103,7 +73,7 @@ struct ExcelWorkbookInfo {
  */
 struct PowerPointInfo {
     struct Slide {
-        int slide_number;
+        int slide_number = 0;  ///< 1-based slide index (CON-021)
         std::string title;
         std::string text;
         std::vector<std::string> notes;
@@ -126,8 +96,8 @@ struct OfficeMetadata {
     std::string created_date;      // ISO 8601
     std::string modified_date;     // ISO 8601
     std::string application;       // e.g., "Microsoft Word 2019"
-    int revision;
-    int edit_time_minutes;
+    int revision = 0;              ///< Document revision number (CON-021)
+    int edit_time_minutes = 0;     ///< Total editing time in minutes (CON-021)
 };
 
 /**
@@ -156,6 +126,14 @@ public:
         int max_cell_count = 1000000;      // XLSX: limit cells to extract
         std::string password;              // For encrypted documents
         ContentMetrics* metrics = nullptr; // Optional: report office_extracted / extract_error counters
+
+        // LibreOffice headless fallback (DOC/XLS/PPT legacy formats).
+        // Sandboxing relies on POSIX_SPAWN_RESETIDS (drops SUID/SGID bits) and
+        // POSIX_SPAWN_SETPGROUP (isolated process group for clean kill on timeout).
+        // For additional OS-level isolation run the ThemisDB process itself under
+        // a restricted system account with no write access to the data directory.
+        std::string libreoffice_path;          // Absolute path to soffice binary; default: /usr/bin/soffice
+        int libreoffice_timeout_seconds = 30;  // Hard timeout in seconds; subprocess is killed on expiry
     };
 
     OfficeProcessor();
@@ -167,7 +145,9 @@ public:
      * 
      * @param blob Raw document bytes (ZIP-based OOXML or ODF)
      * @param content_type Content type info
-     * @return ExtractionResult with text and metadata
+      * @return ExtractionResult with text and metadata.
+      *         Returns ok=false for empty payloads and for payloads above
+      *         the internal safety size limit.
      */
     ExtractionResult extract(
         const std::string& blob,
@@ -228,6 +208,10 @@ private:
     ExtractionResult extractPPTX(const std::string& blob);
     ExtractionResult extractODF(const std::string& blob, OfficeDocumentType type);
 
+    // LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
+    // Spawns soffice --headless via posix_spawn with a configurable timeout.
+    ExtractionResult extractLegacyViaLibreOffice(const std::string& blob, OfficeDocumentType doc_type);
+
     // OOXML helpers
     std::string readZipEntry(const std::string& zip_blob, const std::string& entry_path);
     OfficeMetadata extractOOXMLMetadata(const std::string& zip_blob);
@@ -246,12 +230,15 @@ private:
 };
 
 /**
- * @brief Factory function for Office Processor
- * 
- * @param config Optional configuration
- * @return Unique pointer to OfficeProcessor
+ * @brief Factory function for Office Processor.
+ * @return Unique pointer to OfficeProcessor.
  */
 std::unique_ptr<IContentProcessor> createOfficeProcessor();
+/**
+ * @brief Factory function for Office Processor.
+ * @param config Optional configuration.
+ * @return Unique pointer to OfficeProcessor.
+ */
 std::unique_ptr<IContentProcessor> createOfficeProcessor(
     OfficeProcessor::Config config
 );

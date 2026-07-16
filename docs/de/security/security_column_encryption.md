@@ -1,8 +1,33 @@
-# Column-Level Encryption Design
+# Column-Level Encryption
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 6. April 2026  
+**Version:** 1.5.0  
 **Kategorie:** Security
+
+**Status:** ✅ Produktionsreif (seit v1.3.0; vollständig implementiert)
+
+> **Hinweis:** Dieses Dokument beschreibt das ursprüngliche Design (Okt 2025, Sprint C.3).
+> Die Implementierung ist vollständig abgeschlossen und produktionsreif.  
+> Implementierung: `include/security/encryption.h` (610 Zeilen), `src/security/field_encryption.cpp` (712 Zeilen), `src/security/encrypted_field.cpp`  
+> Security Modul-Status: `include/security/ROADMAP.md` (v1.5.0).
+
+## ✅ Implementierungsstatus (März 2026)
+
+| Komponente | Status | Implementierung |
+|------------|--------|-----------------|
+| **KeyProvider Interface** | ✅ Produktionsreif | `include/security/key_provider.h` |
+| **MockKeyProvider (Dev/Test)** | ✅ Produktionsreif | `src/security/mock_key_provider.cpp` |
+| **VaultKeyProvider (Enterprise)** | ✅ Produktionsreif | `src/security/vault_key_provider.cpp` (739 Zeilen) |
+| **HSMProvider PKCS#11** | ✅ Produktionsreif | `src/security/hsm_provider_pkcs11.cpp` (1056 Zeilen) |
+| **FieldEncryption (AES-256-GCM)** | ✅ Produktionsreif | `src/security/field_encryption.cpp` (712 Zeilen) |
+| **EncryptedField\<T\> Template** | ✅ Produktionsreif | `include/security/encryption.h` |
+| **Key Cache (TTL-basiert)** | ✅ Produktionsreif | `src/security/key_cache.cpp` |
+| **Key Rotation** | ✅ Produktionsreif | `src/security/field_encryption.cpp` |
+| **Post-Quantum Hybrid** | ✅ Produktionsreif | `src/security/post_quantum_crypto.cpp` |
+
+**Tests:** `tests/test_encryption.cpp`, `tests/test_field_encryption.cpp`, `tests/test_vault_key_provider.cpp`, `tests/test_hsm_provider.cpp`
+
+---
 
 
 ## 📑 Inhaltsverzeichnis
@@ -17,9 +42,7 @@
 
 ---
 
-
-**Status:** Design Phase (Sprint C.3)  
-**Datum:** 30. Oktober 2025  
+**Datum:** 30. Oktober 2025 (Design); März 2026 (Implementierung abgeschlossen)  
 **Autor:** Themis Development Team
 
 ---
@@ -643,47 +666,45 @@ TEST(EncryptionPerformanceTest, EncryptDecrypt_1000Operations) {
 
 ---
 
-## 10. Rollout Plan
+## 10. Rollout Plan ✅ Abgeschlossen
 
-### Phase 1: Core Implementation (Week 1)
-- [ ] Implement KeyProvider interface + MockKeyProvider
-- [ ] Implement FieldEncryption (AES-256-GCM)
-- [ ] Unit tests (15+ tests)
-- [ ] Deliverable: `include/security/`, `src/security/`, `tests/test_encryption.cpp`
+### Phase 1: Core Implementation ✅ Abgeschlossen
+- [x] Implement KeyProvider interface + MockKeyProvider (`include/security/key_provider.h`, `src/security/mock_key_provider.cpp`)
+- [x] Implement FieldEncryption (AES-256-GCM) (`src/security/field_encryption.cpp`, 712 Zeilen)
+- [x] Unit tests (15+ tests) (`tests/test_encryption.cpp`, `tests/test_field_encryption.cpp`)
+- [x] Deliverable: `include/security/`, `src/security/`, `tests/test_encryption.cpp` ✅
 
-### Phase 2: Template & Integration (Week 2)
-- [ ] Implement EncryptedField<T> template
-- [ ] Add serialization (toBase64/fromBase64)
-- [ ] Integration tests with User struct
-- [ ] Deliverable: Working PoC with 2-3 encrypted fields
+### Phase 2: Template & Integration ✅ Abgeschlossen
+- [x] Implement EncryptedField<T> template (`include/security/encryption.h`, 610 Zeilen)
+- [x] Add serialization (toBase64/fromBase64) (`src/security/encrypted_field.cpp`)
+- [x] Integration tests with User struct (`tests/test_encryption.cpp`)
+- [x] Deliverable: Working PoC with 2-3 encrypted fields ✅
 
-### Phase 3: VaultKeyProvider Interface (Week 3)
-- [ ] Define VaultKeyProvider interface (no implementation)
-- [ ] Document Vault API integration requirements
-- [ ] Add key cache implementation
-- [ ] Deliverable: `include/security/vault_key_provider.h` (header-only)
+### Phase 3: VaultKeyProvider Interface ✅ Abgeschlossen
+- [x] Define VaultKeyProvider interface (`include/security/vault_key_provider.h`)
+- [x] Implement VaultKeyProvider mit CURL-HTTP (`src/security/vault_key_provider.cpp`, 739 Zeilen)
+- [x] Add key cache implementation (`src/security/key_cache.cpp`)
+- [x] HSMProvider PKCS#11 (`src/security/hsm_provider_pkcs11.cpp`, 1056 Zeilen) ✅
 
-### Phase 4: Documentation & Review (Week 4)
-- [ ] Performance benchmarks
-- [ ] Security review
-- [ ] Operator documentation (key rotation playbook)
-- [ ] Deliverable: This document + ops runbook
+### Phase 4: Documentation & Review ✅ Abgeschlossen
+- [x] Performance benchmarks (`benchmarks/bench_hsm_provider.cpp`)
+- [x] Security review (BSI C5 compliance: `docs/de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md`)
+- [x] Operator documentation (key rotation playbook: `docs/de/security/security_key_management.md`)
+- [x] Post-Quantum Hybrid Encryption (`src/security/post_quantum_crypto.cpp`) ✅
 
 ---
 
-## 11. Open Questions
+## 11. Status (März 2026)
 
-1. **Key Storage Location**: Vault on-premise vs. Cloud KMS vs. Both?
-   - Recommendation: Start with MockKeyProvider, add Vault interface for production readiness
+Alle ursprünglichen offenen Fragen wurden beantwortet und umgesetzt:
 
-2. **Searchable Encryption**: Support for encrypted field queries?
-   - Recommendation: Phase 2 feature - use deterministic encryption or bloom filters
+1. **Key Storage Location**: Vault on-premise (`VaultKeyProvider`) und HSM (`HSMProvider PKCS#11`) produktionsreif. `MockKeyProvider` nur für Entwicklung/Tests.
 
-3. **Bulk Re-Encryption**: 10M+ rows, acceptable downtime?
-   - Recommendation: Online migration with dual-write (see Section 5.2)
+2. **Searchable Encryption**: Nicht in v1. Deterministic Encryption oder Bloom Filter geplant für Q3 2026.
 
-4. **Compliance**: FIPS 140-2 certification required?
-   - Recommendation: Use OpenSSL FIPS module if needed (build-time flag)
+3. **Bulk Re-Encryption**: Online-Migration mit Dual-Write implementiert (Schlüssel-Rotation ohne Downtime). Siehe `docs/de/security/security_key_management.md`.
+
+4. **Compliance**: OpenSSL FIPS-Modul via Build-Flag `-DTHEMIS_FIPS_MODE=ON` verfügbar. BSI C5 Compliance-Status: `docs/de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md`.
 
 ---
 
@@ -698,8 +719,4 @@ TEST(EncryptionPerformanceTest, EncryptDecrypt_1000Operations) {
 
 ---
 
-**Next Steps:**
-1. Review and approval of this design document
-2. Create GitHub issues for Phase 1-4 tasks
-3. Allocate 2-3 week sprint for implementation
-4. Security team review before production deployment
+**Implementierung abgeschlossen:** Alle Phasen 1-4 umgesetzt. Produktionsreif seit v1.3.0.

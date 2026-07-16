@@ -1,27 +1,21 @@
+/**
+ * @file delta_update_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.43
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=22, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            delta_update_engine.cpp                            ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-03-09 04:00:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     881                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 02c0a65e1  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-    • 31e1d71f8  2026-02-22  Audit: fix stale banner metadata in delta_update_engine f... ║
-    • 24df5358e  2026-02-22  fix(updates/security): path traversal prevention in Delta... ║
-    • 40f733e91  2026-02-22  feat(updates): implement DeltaUpdateEngine for binary dif... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: delta_update_engine.cpp | Version: 0.0.43 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 869
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=37, L=0
+ * PR History (last 5): #3661 feat(updates): build system... (2026-03-12) | #2586 Fix stale banner metadata i... (2026-03-12) | #2565 [updates] DeltaUpdateEngine... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/delta_update_engine.h"
@@ -75,27 +69,28 @@ namespace fs = std::filesystem;
 static bool isSafePath(const std::string& rel_path, const std::string& base_dir) {
     if (rel_path.empty()) return false;
     // Reject absolute paths and null bytes
-    if (rel_path[0] == '/' || rel_path.find('\0') != std::string::npos) return false;
+    if (rel_path[0] == '/' || rel_path[0] == '\\' || rel_path.find('\0') != std::string::npos) return false;
 
-    // Reject any ".." component
+    // Reject absolute/drive-rooted paths and any ".." component.
     fs::path p(rel_path);
+    if (p.is_absolute() || p.has_root_name() || p.has_root_directory()) return false;
     for (const auto& component : p) {
         if (component == "..") return false;
     }
 
-    // Final check: the resolved path must be strictly inside base_dir.
-    // We require full_str to begin with base_str followed by '/' to avoid
-    // the prefix-trick attack (e.g. base="/install", full="/installmalicious/f").
+    // Final check: the resolved path must be inside base_dir.
     try {
         auto full = fs::weakly_canonical(fs::path(base_dir) / p);
         auto base = fs::weakly_canonical(fs::path(base_dir));
-        auto full_str = full.string();
-        auto base_str = base.string();
-        // Must be strictly longer than base (not equal) and separated by '/'
-        if (full_str.size() <= base_str.size()) return false;
-        if (full_str[base_str.size()] != '/') return false;
-        if (full_str.substr(0, base_str.size()) != base_str) return false;
-    } catch (const std::exception&) {
+
+        // Use lexical relation instead of raw string prefix checks so Windows
+        // path separators and drive handling are evaluated correctly.
+        const auto rel = full.lexically_relative(base);
+        if (rel.empty() || rel.is_absolute()) return false;
+        for (const auto& component : rel) {
+            if (component == "..") return false;
+        }
+    } catch (...) {
         return false;
     }
     return true;
@@ -241,7 +236,7 @@ std::optional<FileDelta> FileDelta::fromJson(const json& j) {
         fd.algorithm  = algo.value_or(PatchAlgorithm::ZSTD_DICT);
 
         return fd;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -286,7 +281,7 @@ std::optional<DeltaManifest> DeltaManifest::fromJson(const json& j) {
             }
         }
         return dm;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -573,6 +568,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 
     return pf.good();
 #else
+    static_cast<void>(base);
     // Fallback without zstd: store raw target (no compression).
     // Still uses the ZSTD_DICT magic so the reader knows the format.
     // This path should never be hit in production builds.
@@ -645,6 +641,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
     }
     target.resize(result);
 #else
+    static_cast<void>(base);
     // Non-zstd fallback: the generator stored the raw target bytes
     target = std::move(compressed);
 #endif
@@ -880,3 +877,5 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
+
+

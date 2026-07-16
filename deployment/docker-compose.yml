@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # 1. Database Service
+  db:
+    image: postgres:14-alpine
+    container_name: themisdb_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: themisdb
+    volumes:
+      # Persist data volume for the database
+      - db_data:/var/lib/postgresql/data
+    expose:
+      - "5432"
+
+  # 2. Authentication Service (Handles JWT generation and user auth)
+  auth_api:
+    build: ./services/auth_api # Path relative to the root of the project, or within a subfolder Dockerfile should expect
+    container_name: themisdb_auth_service
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/themisdb
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY} # Loaded from .env and passed through docker-compose
+      ALGORITHM: HS256
+    depends_on:
+      - db
+    ports:
+      # Expose port for external testing, if needed. Usually best left internal.
+      - "8001:8001" 
+    volumes:
+      # Optional: For hot reloading during development
+      - ./services/auth_api:/app
+
+  # 3. Main API Gateway / Gateway Service (Handles request routing and protected routes)
+  main_gateway:
+    build: . # Assuming main project structure is the root directory
+    container_name: themisdb_main_gateway
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/themisdb
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      AUTH_SERVICE_URL: http://auth_api:8001 # Use service name as hostname
+    depends_on:
+      - auth_api
+      - db
+    ports:
+      # Expose the main facing port
+      - "80:80"
+    volumes:
+      - .:/app # Assuming this maps the entire codebase for development
+
+volumes:
+  db_data:

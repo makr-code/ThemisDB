@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_ai_orchestrator.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     784                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39e499706  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
-    • 847458a5a  2026-02-22  feat: Add YAML-configurable LLM Orchestration Modes (ask,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_ai_orchestrator.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -37,10 +21,219 @@
 #include <atomic>
 #include <thread>
 #include "llm/ai_orchestrator.h"
+#include "llm/llm_plugin_interface.h"
 
 using namespace themis::llm;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
+
+// Minimal ILLMPlugin stub that returns the raw prompt text as the response.
+// Used so AIOrchestrator::runAsk() returns a predictable string (the prompt /
+// query itself) without needing a real llama.cpp backend.
+class EchoLLMPlugin : public ILLMPlugin {
+public:
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id   = "echo";
+        info.is_loaded  = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        InferenceResponse resp;
+        resp.request_id       = request.request_id;
+        resp.model_id         = "echo";
+        // Return the raw prompt so that tests can control result.text by
+        // setting ctx.query to the desired tool-call JSON.
+        resp.text             = request.prompt;
+        // Placeholder token estimate: ~4 characters per token (BPE heuristic).
+        static constexpr int kAvgCharsPerToken = 4;
+        resp.tokens_generated = static_cast<int>(request.prompt.size() / kAvgCharsPerToken);
+        return resp;
+    }
+    InferenceResponse generateRAG(const RAGContext&,
+                                  const InferenceRequest& request) override {
+        return generate(request);
+    }
+    std::vector<float> embed(const std::string& text) override {
+        return std::vector<float>(8, 0.0f);
+    }
+
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return {}; }
+    json getPerformanceStats() const override { return {}; }
+
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+};
+
+class CaptureRagRequestLLMPlugin : public EchoLLMPlugin {
+public:
+    InferenceResponse generateRAG(const RAGContext&,
+                                  const InferenceRequest& request) override {
+        last_lora_adapter_id = request.lora_adapter_id;
+        return EchoLLMPlugin::generate(request);
+    }
+
+    std::optional<std::string> last_lora_adapter_id;
+};
+
+class FixedAdapterCandidateProvider : public IAdapterCandidateProvider {
+public:
+    explicit FixedAdapterCandidateProvider(std::string selected)
+        : selected_(std::move(selected)) {}
+
+    [[nodiscard]] AdapterSelectionResult
+    selectCandidates(const AdapterSelectionInput& input) const override {
+        AdapterSelectionResult out;
+        out.selected_adapter_id = selected_;
+        out.reason = "fixed_provider";
+
+        AdapterCandidate c;
+        c.adapter_id = selected_;
+        c.similarity = 0.93f;
+        c.source_layer = "layer_0";
+        c.tenant = input.tenant;
+        out.candidates.push_back(std::move(c));
+        return out;
+    }
+
+private:
+    std::string selected_;
+};
+
+class ThrowingAdapterCandidateProvider : public IAdapterCandidateProvider {
+public:
+    [[nodiscard]] AdapterSelectionResult
+    selectCandidates(const AdapterSelectionInput&) const override {
+        throw std::runtime_error("provider_failed");
+    }
+};
+
+class CapturingTopKAdapterCandidateProvider : public IAdapterCandidateProvider {
+public:
+    [[nodiscard]] AdapterSelectionResult
+    selectCandidates(const AdapterSelectionInput& input) const override {
+        last_top_k = static_cast<int>(input.top_k);
+        AdapterSelectionResult out;
+        out.reason = "capture_top_k";
+        return out;
+    }
+
+    mutable int last_top_k = -1;
+};
+
+class RecordingAdapterApplyService : public IAdapterApplyService {
+public:
+    bool applyAdapter(const std::string& adapter_id,
+                      const std::string&,
+                      float) override {
+        ++apply_calls;
+        current_adapter = adapter_id;
+        return apply_ok;
+    }
+
+    [[nodiscard]] std::string currentAdapter() const override {
+        return current_adapter;
+    }
+
+    [[nodiscard]] bool canSwitch() const override {
+        return allow_switch;
+    }
+
+    bool apply_ok = true;
+    bool allow_switch = true;
+    int apply_calls = 0;
+    std::string current_adapter;
+};
+
+class AutoBindingLLMPlugin : public EchoLLMPlugin {
+public:
+    bool isModelLoaded() const override { return model_loaded; }
+
+    bool loadLoRA(const std::string& lora_id,
+                  const std::string& lora_path,
+                  float) override {
+        ++load_calls;
+        last_loaded_id = lora_id;
+        last_loaded_path = lora_path;
+        if (!load_outcomes.empty()) {
+            const bool outcome = load_outcomes.front();
+            load_outcomes.erase(load_outcomes.begin());
+            return outcome;
+        }
+        return true;
+    }
+
+    bool unloadLoRA(const std::string& lora_id) override {
+        ++unload_calls;
+        last_unloaded_id = lora_id;
+        return unload_ok;
+    }
+
+    bool model_loaded = true;
+    int load_calls = 0;
+    int unload_calls = 0;
+    std::string last_loaded_id;
+    std::string last_loaded_path;
+    std::string last_unloaded_id;
+    bool unload_ok = true;
+    std::vector<bool> load_outcomes;
+};
+
+class FixedRagCostModelService : public IRagCostModelService {
+public:
+    explicit FixedRagCostModelService(double total = 12.5)
+        : total_cost_(total) {}
+
+    [[nodiscard]] std::optional<RagCostEstimate>
+    estimate(const RagCostModelInput& input) const override {
+        last_tokens_generated = input.tokens_generated;
+        RagCostEstimate est;
+        est.total_cost = total_cost_;
+        est.retrieval_cost = 3.0;
+        est.inference_cost = 8.0;
+        est.adapter_cost = 1.5;
+        est.model = "test_cost_model";
+        est.unit = "cost_units";
+        est.extra = {{"checked", true}};
+        return est;
+    }
+
+    mutable int last_tokens_generated = 0;
+
+private:
+    double total_cost_ = 12.5;
+};
+
+class LinearTopKRagCostModelService : public IRagCostModelService {
+public:
+    LinearTopKRagCostModelService(double base_cost, double per_doc_cost)
+        : base_cost_(base_cost), per_doc_cost_(per_doc_cost) {}
+
+    [[nodiscard]] std::optional<RagCostEstimate>
+    estimate(const RagCostModelInput& input) const override {
+        RagCostEstimate est;
+        est.retrieval_cost =
+            base_cost_ + per_doc_cost_ * static_cast<double>(input.retrieved_docs);
+        est.inference_cost = 0.0;
+        est.adapter_cost = 0.0;
+        est.total_cost = est.retrieval_cost;
+        est.model = "linear_topk_cost";
+        est.unit = "cost_units";
+        return est;
+    }
+
+private:
+    double base_cost_ = 0.0;
+    double per_doc_cost_ = 0.0;
+};
 
 static const char* kMinimalValidYaml = R"yaml(
 apiVersion: themis.ai/v1
@@ -569,6 +762,802 @@ TEST(AIOrchestrator_NoPluginTest, Run_RagMode_PrePopulatedDocs_Filtered) {
     EXPECT_EQ(result.metadata.retrieved_docs, 1);
 }
 
+TEST(AIOrchestrator_RagAdapterSelectionTest, SelectedAdapterIsPropagatedToRequest) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_legal_v2"));
+
+    OrchestratorContext ctx;
+    ctx.query = "contract clause interpretation";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-1";
+    ctx.extra["tenant"] = "tenant-a";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    ASSERT_TRUE(llm->last_lora_adapter_id.has_value());
+    EXPECT_EQ(llm->last_lora_adapter_id.value(), "adapter_legal_v2");
+    EXPECT_EQ(result.metadata.adapter_candidates, 1);
+    ASSERT_TRUE(result.metadata.selected_adapter_id.has_value());
+    EXPECT_EQ(result.metadata.selected_adapter_id.value(), "adapter_legal_v2");
+}
+
+TEST(AIOrchestrator_RagAdapterSelectionTest, ProviderFailureDoesNotBreakRag) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<CaptureRagRequestLLMPlugin>());
+    orch.setAdapterCandidateProvider(std::make_shared<ThrowingAdapterCandidateProvider>());
+
+    OrchestratorContext ctx;
+    ctx.query = "retry retrieval semantics";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-2";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.metadata.extra.contains("adapter_selection_error"));
+}
+
+TEST(AIOrchestrator_RagCostModelTest, CustomServicePopulatesRagCostEstimate) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<CaptureRagRequestLLMPlugin>());
+    auto cost_model = std::make_shared<FixedRagCostModelService>();
+    orch.setRagCostModelService(cost_model);
+
+    OrchestratorContext ctx;
+    ctx.query = "rag cost estimate";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-cost-1";
+    ctx.extra["tenant"] = "tenant-cost";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    ASSERT_TRUE(result.metadata.extra.contains("rag_cost_estimate"));
+
+    const json estimate = result.metadata.extra["rag_cost_estimate"];
+    EXPECT_DOUBLE_EQ(estimate.value("total_cost", 0.0), 12.5);
+    EXPECT_DOUBLE_EQ(estimate.value("retrieval_cost", 0.0), 3.0);
+    EXPECT_DOUBLE_EQ(estimate.value("inference_cost", 0.0), 8.0);
+    EXPECT_DOUBLE_EQ(estimate.value("adapter_cost", 0.0), 1.5);
+    EXPECT_EQ(estimate.value("model", std::string()), "test_cost_model");
+    EXPECT_EQ(estimate.value("unit", std::string()), "cost_units");
+    EXPECT_TRUE(estimate["extra"].value("checked", false));
+    EXPECT_GT(cost_model->last_tokens_generated, 0);
+}
+
+TEST(AIOrchestrator_RagCostModelTest, CostBudgetGateBlocksAdapterApplyWhenExceeded) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_budget_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.max_total_cost = 50.0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "budget gate";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-budget-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 0);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_attempted", true));
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_block_reason", std::string()),
+              "cost_budget_exceeded");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_block_code", std::string()),
+              "cost_budget_exceeded");
+    EXPECT_EQ(result.raw_response.value("adapter_apply_block_code", std::string()),
+              "cost_budget_exceeded");
+    EXPECT_EQ(result.raw_response.value("adapter_apply_error_code", std::string()),
+              "cost_budget_exceeded");
+    EXPECT_EQ(result.raw_response.value("adapter_apply_error_class", std::string()),
+              "non_retryable");
+    ASSERT_TRUE(result.raw_response.contains("decision_summary"));
+    const json summary = result.raw_response["decision_summary"];
+    EXPECT_EQ(summary.value("adapter_apply_block_code", std::string()),
+              "cost_budget_exceeded");
+    EXPECT_EQ(summary.value("adapter_apply_error_class", std::string()),
+              "non_retryable");
+    EXPECT_EQ(summary.value("cost_gate_phase", std::string()),
+              "pre_apply_switch");
+    EXPECT_EQ(summary.value("cost_gate_trigger_count", -1), 1);
+    EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit", 0.0), 50.0);
+    EXPECT_GT(result.metadata.extra.value("rag_cost_budget_projected_total", 0.0), 50.0);
+
+    json s = orch.stats();
+    EXPECT_GE(s["rag_cost_gate_pre_apply_total"].get<int64_t>(), 1);
+    EXPECT_EQ(s["rag_cost_gate_pre_retrieval_total"].get<int64_t>(), 0);
+    EXPECT_EQ(s["rag_cost_gate_multi_total"].get<int64_t>(), 0);
+}
+
+TEST(AIOrchestrator_RagCostModelTest, CostBudgetCanAdaptEffectiveTopK) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<CaptureRagRequestLLMPlugin>());
+
+    auto topk_provider = std::make_shared<CapturingTopKAdapterCandidateProvider>();
+    orch.setAdapterCandidateProvider(topk_provider);
+    orch.setRagCostModelService(std::make_shared<LinearTopKRagCostModelService>(0.0, 10.0));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.enable_cost_top_k_adaptation = true;
+    pol.max_total_cost = 25.0;
+    pol.min_top_k_under_budget = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "topk budget adaptation";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-topk-budget-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(topk_provider->last_top_k, 2);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_top_k_original", -1), 3);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_top_k_effective", -1), 2);
+    EXPECT_TRUE(result.metadata.extra.value("rag_cost_top_k_budget_adapted", false));
+    ASSERT_TRUE(result.raw_response.contains("decision_summary"));
+    const json summary = result.raw_response["decision_summary"];
+    EXPECT_EQ(summary.value("cost_gate_phase", std::string()), "pre_retrieval_top_k");
+    EXPECT_EQ(summary.value("cost_gate_trigger_count", -1), 1);
+
+    json s = orch.stats();
+    EXPECT_GE(s["rag_cost_gate_pre_retrieval_total"].get<int64_t>(), 1);
+    EXPECT_EQ(s["rag_cost_gate_pre_apply_total"].get<int64_t>(), 0);
+    EXPECT_EQ(s["rag_cost_gate_multi_total"].get<int64_t>(), 0);
+}
+
+TEST(AIOrchestrator_RagCostModelTest, CostGatePhaseCanBeMultiWithTwoTriggers) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_multi_gate_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.enable_cost_top_k_adaptation = true;
+    pol.max_total_cost = 50.0;
+    pol.min_top_k_under_budget = 2;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "multi gate";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-multi-gate-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 0);
+
+    ASSERT_TRUE(result.raw_response.contains("decision_summary"));
+    const json summary = result.raw_response["decision_summary"];
+    EXPECT_EQ(summary.value("cost_gate_phase", std::string()), "multi");
+    EXPECT_EQ(summary.value("cost_gate_trigger_count", -1), 2);
+    EXPECT_EQ(summary.value("top_k_effective", -1), 2);
+    EXPECT_EQ(summary.value("adapter_apply_block_code", std::string()),
+              "cost_budget_exceeded");
+
+    json s = orch.stats();
+    EXPECT_GE(s["rag_cost_gate_pre_retrieval_total"].get<int64_t>(), 1);
+    EXPECT_GE(s["rag_cost_gate_pre_apply_total"].get<int64_t>(), 1);
+    EXPECT_GE(s["rag_cost_gate_multi_total"].get<int64_t>(), 1);
+}
+
+TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_tenant_budget_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.max_total_cost = 50.0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "tenant budget override";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-tenant-budget-1";
+    ctx.extra["tenant"] = "tenant-enterprise";
+    ctx.extra["tenant_budget_override"] = 250.0;
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 1);
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_attempted", false));
+    EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit", 0.0), 250.0);
+    EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 250.0);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()),
+              "tenant_budget_override");
+}
+
+TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverTenantMap) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_budget_priority_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.max_total_cost = 50.0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "tenant budget priority";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-tenant-budget-prio-1";
+    ctx.extra["tenant"] = "tenant-enterprise";
+    ctx.extra["tenant_budget_override"] = 250.0;
+    ctx.extra["tenant_budgets"] = {
+        {"tenant-enterprise", 120.0}
+    };
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 1);
+    EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 250.0);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()),
+              "tenant_budget_override");
+}
+
+TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndReported) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_budget_invalid_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.max_total_cost = 50.0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "tenant budget invalid";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-tenant-budget-invalid-1";
+    ctx.extra["tenant"] = "tenant-enterprise";
+    ctx.extra["tenant_budget_override"] = -1.0;
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 0);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_attempted", true));
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_block_reason", std::string()),
+              "cost_budget_exceeded");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_block_code", std::string()),
+              "cost_budget_exceeded");
+
+    EXPECT_TRUE(result.metadata.extra.value("rag_cost_budget_override_invalid", false));
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_override_invalid_code", std::string()),
+              "tenant_budget_override_non_positive");
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_override_invalid_detail", std::string()),
+              "tenant_budget_override");
+    EXPECT_TRUE(result.raw_response.value("rag_cost_budget_override_invalid", false));
+    EXPECT_EQ(result.raw_response.value("rag_cost_budget_override_invalid_code", std::string()),
+              "tenant_budget_override_non_positive");
+    EXPECT_EQ(result.raw_response.value("rag_cost_budget_override_invalid_detail", std::string()),
+              "tenant_budget_override");
+    EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 50.0);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()), "policy");
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, SelectedAdapterIsAppliedWhenAllowed) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_finance_v1"));
+    orch.setAdapterApplyService(apply);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 2;
+    pol.min_similarity_gain = 0.0f;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "balance sheet guidance";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-apply-1";
+    ctx.extra["tenant"] = "tenant-fin";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 1);
+    EXPECT_EQ(apply->current_adapter, "adapter_finance_v1");
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_attempted", false));
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_success", false));
+    EXPECT_EQ(result.raw_response.value("adapter_apply_error_code", std::string()), "none");
+    EXPECT_EQ(result.raw_response.value("adapter_apply_error_class", std::string()), "none");
+    ASSERT_TRUE(result.raw_response.contains("decision_summary"));
+    const json summary = result.raw_response["decision_summary"];
+    EXPECT_TRUE(summary.value("adapter_apply_attempted", false));
+    EXPECT_TRUE(summary.value("adapter_apply_success", false));
+    EXPECT_EQ(summary.value("adapter_apply_block_code", std::string()), "none");
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, DebounceSkipsSameAdapter) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    apply->current_adapter = "adapter_same_v1";
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_same_v1"));
+    orch.setAdapterApplyService(apply);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "debounce test";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-apply-2";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 0);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_attempted", true));
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_block_reason", std::string()),
+              "same_adapter");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_block_code", std::string()),
+              "same_adapter");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "same_adapter");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "non_retryable");
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, CooldownBlocksSecondSwitch) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_cooldown_v1"));
+    orch.setAdapterApplyService(apply);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 60000;
+    pol.max_switches_per_request = 5;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext first;
+    first.query = "cooldown first";
+    first.mode_id = "rag";
+    first.request_id = "req-apply-3a";
+    OrchestratorResult first_result = orch.run(first);
+    EXPECT_TRUE(first_result.success);
+
+    OrchestratorContext second;
+    second.query = "cooldown second";
+    second.mode_id = "rag";
+    second.request_id = "req-apply-3b";
+    OrchestratorResult second_result = orch.run(second);
+    EXPECT_TRUE(second_result.success);
+
+    EXPECT_EQ(apply->apply_calls, 1);
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_block_reason", std::string()),
+              "cooldown");
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_block_code", std::string()),
+              "cooldown");
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "cooldown");
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "retryable");
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, ForceRollbackReappliesPreviousAdapter) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    apply->current_adapter = "adapter_prev_v1";
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_new_v2"));
+    orch.setAdapterApplyService(apply);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 2;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "rollback quality gate";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-apply-rollback";
+    ctx.extra["force_adapter_rollback"] = true;
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 2);
+    EXPECT_TRUE(result.metadata.extra.value("adapter_rollback_attempted", false));
+    EXPECT_TRUE(result.metadata.extra.value("adapter_rollback_success", false));
+}
+
+TEST(AIOrchestrator_RagAdapterObservabilityTest, StatsExposeAdapterRagCounters) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_metrics_v1"));
+    orch.setAdapterApplyService(apply);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 3;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "metrics path";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-metrics-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+
+    json s = orch.stats();
+    EXPECT_GE(s["rag_retrieval_trigger_total"].get<int64_t>(), 1);
+    EXPECT_GE(s["rag_reretrieval_total"].get<int64_t>(), 1);
+    EXPECT_GE(s["rag_adapter_candidates_total"].get<int64_t>(), 1);
+    EXPECT_GE(s["rag_adapter_switch_total"].get<int64_t>(), 1);
+    EXPECT_TRUE(s.contains("rag_adapter_switch_latency_ms"));
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, AutoBindsPluginApplyServiceWhenUnset) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<AutoBindingLLMPlugin>();
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_autobind_v1"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "autobind path";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-autobind-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(llm->load_calls, 1);
+    EXPECT_EQ(llm->last_loaded_id, "adapter_autobind_v1");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "none");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "none");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_attempts", -1), 1);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_retried", true));
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, AutoBindingUsesConfiguredPathResolver) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<AutoBindingLLMPlugin>();
+    orch.setAdapterPathResolver([](const std::string& adapter_id, const std::string& tenant)
+                                    -> std::optional<std::string> {
+        return "C:/adapters/" + tenant + "/" + adapter_id + ".safetensors";
+    });
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_path_v1"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "resolver path";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-path-1";
+    ctx.extra["tenant"] = "tenant-a";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(llm->load_calls, 1);
+    EXPECT_EQ(llm->last_loaded_path,
+              "C:/adapters/tenant-a/adapter_path_v1.safetensors");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "none");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "none");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_attempts", -1), 1);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_retried", true));
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, EmptyResolvedPathFailsApplyGracefully) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<AutoBindingLLMPlugin>();
+    orch.setAdapterPathResolver([](const std::string&, const std::string&)
+                                    -> std::optional<std::string> {
+        return std::nullopt;
+    });
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_missing"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "resolver miss";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-path-miss-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(llm->load_calls, 0);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_success", true));
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "resolver_empty_path");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "non_retryable");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_attempts", -1), 1);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_retried", true));
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, UnloadFailureIsReportedAsErrorCode) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<AutoBindingLLMPlugin>();
+    llm->unload_ok = false;
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_next_v2"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    orch.setAdapterSwitchPolicy(pol);
+
+    // First run sets active adapter.
+    OrchestratorContext first;
+    first.query = "first adapter";
+    first.mode_id = "rag";
+    first.request_id = "req-unload-1";
+    OrchestratorResult first_result = orch.run(first);
+    EXPECT_TRUE(first_result.success);
+    EXPECT_EQ(llm->load_calls, 1);
+
+    // Second run tries to switch and fails during unload of previous adapter.
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_next_v3"));
+
+    OrchestratorContext second;
+    second.query = "second adapter";
+    second.mode_id = "rag";
+    second.request_id = "req-unload-2";
+    OrchestratorResult second_result = orch.run(second);
+
+    EXPECT_TRUE(second_result.success);
+    EXPECT_EQ(llm->load_calls, 1);
+    EXPECT_EQ(llm->unload_calls, 1);
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "unload_failed");
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "non_retryable");
+    EXPECT_EQ(second_result.metadata.extra.value("adapter_apply_attempts", -1), 1);
+    EXPECT_FALSE(second_result.metadata.extra.value("adapter_apply_retried", true));
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, RetryableLoadFailureRetriesAndSucceeds) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<AutoBindingLLMPlugin>();
+    llm->load_outcomes = {false, true};
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_retry_v1"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.max_retry_attempts = 1;
+    pol.retry_backoff_ms = 0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "retry load";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-retry-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(llm->load_calls, 2);
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_success", false));
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "none");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "none");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_attempts", -1), 2);
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_retried", false));
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_retry_exhausted", true));
+
+    json s = orch.stats();
+    EXPECT_GE(s["rag_adapter_retry_total"].get<int64_t>(), 1);
+    EXPECT_GE(s["rag_adapter_retry_success_total"].get<int64_t>(), 1);
+    EXPECT_EQ(s["rag_adapter_retry_exhausted_total"].get<int64_t>(), 0);
+}
+
+TEST(AIOrchestrator_RagAdapterApplyTest, RetryableLoadFailureCanExhaustRetries) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<AutoBindingLLMPlugin>();
+    llm->load_outcomes = {false, false};
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_retry_fail_v1"));
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.max_retry_attempts = 1;
+    pol.retry_backoff_ms = 0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "retry exhaust";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-retry-exhaust-1";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(llm->load_calls, 2);
+    EXPECT_FALSE(result.metadata.extra.value("adapter_apply_success", true));
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_code", std::string()),
+              "load_failed");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_error_class", std::string()),
+              "retryable");
+    EXPECT_EQ(result.metadata.extra.value("adapter_apply_attempts", -1), 2);
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_retried", false));
+    EXPECT_TRUE(result.metadata.extra.value("adapter_apply_retry_exhausted", false));
+
+    json s = orch.stats();
+    EXPECT_GE(s["rag_adapter_retry_total"].get<int64_t>(), 1);
+    EXPECT_EQ(s["rag_adapter_retry_success_total"].get<int64_t>(), 0);
+    EXPECT_GE(s["rag_adapter_retry_exhausted_total"].get<int64_t>(), 1);
+}
+
 TEST(AIOrchestrator_NoPluginTest, Stats_IncreaseAfterRun) {
     ValidationResult res;
     ModePack pack = ModeSpecLoader::loadFromString(kMinimalValidYaml, &res);
@@ -782,4 +1771,153 @@ TEST(AuditRegressionTest, TypesInCorrectNamespace) {
     static_assert(std::is_class_v<themis::llm::ModeSpecLoader>,
                   "ModeSpecLoader must be in themis::llm");
     SUCCEED();
+}
+
+// ============================================================================
+// Agentic mode – tool call parsing (v1.8.0)
+// ============================================================================
+
+// YAML pack with an "agentic" mode and a registered tool.
+static const char* kAgenticYaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: agentic-pack
+  version: "1.0.0"
+default_mode: agentic
+tools:
+  - name: calc_tool
+    description: "Simple calculator tool"
+    timeout_ms: 3000
+    schema: {}
+modes:
+  - id: agentic
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+    tools_allowed: ["calc_tool"]
+)yaml";
+
+// When the LLM response is valid tool-call JSON the orchestrator should
+// dispatch the tool and return its result as response.text.
+TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok) << res.errors.front();
+
+    AIOrchestrator orch(pack);
+    // Inject a plugin that echoes the prompt back as response.text so that
+    // the tool-call JSON we put in ctx.query reaches runAgentic() intact.
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    // Register the tool with a known return value.
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json& args, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"result", args.value("x", 0) + args.value("y", 0)}};
+        });
+
+    // Set the query to a valid tool-call JSON: the EchoLLMPlugin will return
+    // it verbatim so runAgentic() sees it as result.text.
+    OrchestratorContext ctx;
+    ctx.query   = R"({"name":"calc_tool","arguments":{"x":3,"y":4}})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 1) << "Tool should have been dispatched exactly once";
+    EXPECT_FALSE(result.metadata.tool_calls_made.empty());
+    EXPECT_EQ(result.metadata.tool_calls_made[0], "calc_tool");
+    // The response text should be the serialised tool result.
+    json tool_out = json::parse(result.text);
+    EXPECT_EQ(tool_out.value("result", -1), 7);
+    // raw_response should carry the tool name and result.
+    EXPECT_EQ(result.raw_response.value("tool_name", ""), "calc_tool");
+}
+
+// When the LLM response is plain text (not JSON) the orchestrator should
+// return it unchanged without throwing.
+TEST(AgenticToolCallTest, PlainTextResponse_NoToolDispatched) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    OrchestratorContext ctx;
+    ctx.query   = "This is a plain text answer, not a tool call.";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 0) << "No tool should be dispatched for plain text";
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+    // The raw LLM echo text should be preserved.
+    EXPECT_FALSE(result.text.empty());
+}
+
+// Malformed JSON in the response must not crash; the raw text is preserved.
+TEST(AgenticToolCallTest, MalformedJson_GracefulFallback) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    orch.toolRegistry().registerTool(spec,
+        [](const json&, const ModeSpec&) -> json { return {{"ok", true}}; });
+
+    OrchestratorContext ctx;
+    ctx.query   = "{not valid json at all!!!";
+    ctx.mode_id = "agentic";
+
+    // Must not throw.
+    OrchestratorResult result;
+    EXPECT_NO_THROW(result = orch.run(ctx));
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
+}
+
+// Valid JSON that is NOT a tool call (missing "name" key) should be left alone.
+TEST(AgenticToolCallTest, ValidJsonButNotToolCall_NoDispatch) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    // Inject echo plugin so result.text is the raw JSON (not a prefixed echo).
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    std::atomic<int> call_count{0};
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    OrchestratorContext ctx;
+    ctx.query   = R"({"answer": "42", "confidence": 0.9})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(call_count.load(), 0);
+    EXPECT_TRUE(result.metadata.tool_calls_made.empty());
 }

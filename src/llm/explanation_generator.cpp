@@ -1,23 +1,21 @@
+/**
+ * @file explanation_generator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=4, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            explanation_generator.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     448                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: explanation_generator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 439
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=6, M=6, L=0
+ * PR History (last 5): #410 Add AI Decision Auditing an... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/explanation_generator.h"
@@ -385,6 +383,11 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     keywords.reserve(text.length() / 6); // Rough estimate: avg 6 chars per word
     
     // Common stop words to skip (could be expanded or made configurable)
+    // Note: In a production system, consider using a more comprehensive stop word list
+    // and possibly stemming/lemmatization for better keyword extraction.
+    // This method currently uses a simple heuristic to extract keywords. In a real implementation,
+    // we would use an NLP library like spaCy or NLTK for more accurate keyword extraction, including
+    // stemming and lemmatization. For now, it just extracts alphanumeric words and filters out common stop words.
     static const std::set<std::string> stop_words = {
         "the", "and", "for", "are", "was", "with", "this", "that",
         "from", "they", "have", "been", "will", "their", "what"
@@ -392,7 +395,7 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     
     // Process text character by character to avoid istringstream overhead
     std::string word;
-    word.reserve(20); // Most words are < 20 chars
+    word.reserve(20); // Most words are < 20 chars; this reduces allocations, maybe tuned based on typical input
     
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
@@ -449,3 +452,4 @@ float ExplanationGenerator::calculateSimilarity(
 
 } // namespace llm
 } // namespace themis
+

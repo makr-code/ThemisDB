@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
 # Security Module
 
 Comprehensive security infrastructure for ThemisDB providing encryption, authentication, authorization, and compliance features.
@@ -10,18 +12,18 @@ Provides encryption, key management, and PKI integration for ThemisDB, implement
 
 **In scope:** AES-256-GCM field-level encryption, TLS certificate lifecycle management, PKI client integration, key rotation, HSM support.
 
-**Out of scope:** Authentication logic (handled by auth module), audit logging (handled by utils module), policy enforcement (handled by governance module).
+**Out of scope:** Network protocol routing, storage/query execution internals, and non-security business logic.
 
 ## Relevant Interfaces
 
-- `encryption_manager.cpp` — AES-256-GCM encryption/decryption
-- `key_manager.cpp` — key lifecycle management and rotation
-- `pki_client.cpp` — PKI certificate integration
-- `tls_config.cpp` — TLS certificate and cipher configuration
+- `field_encryption.cpp` — AES-256-GCM field-level encryption/decryption
+- `vault_key_provider.cpp` / `hsm_provider_pkcs11.cpp` — key lifecycle management and rotation
+- `pki_key_provider.cpp` — PKI certificate-based key integration
+- `rbac.cpp` / `access_control_manager.cpp` — RBAC and ABAC authorization
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — AES-256-GCM encryption and TLS operational; HSM integration and automated key rotation in progress.
+**Maturity:** 🟢 Production-Ready — Defense-in-depth security stack (TLS/mTLS, encryption, RBAC/ABAC, HSM integration, audit/compliance) is operational.
 
 ## Architecture Overview
 
@@ -670,7 +672,7 @@ auto timestamp = tsa.getTimestamp(result.signature);
 if (timestamp.success) {
     // Attach timestamp to signature (long-term validation)
     result.timestamp_token = timestamp.tst_info;
-    
+
     std::cout << "Timestamp: " << timestamp.timestamp_utc << std::endl;
     std::cout << "TSA: " << timestamp.tsa_name << std::endl;
 }
@@ -802,10 +804,10 @@ if (response.success) {
 // Crypto-erasure for GDPR right to deletion
 void deleteUserData(const std::string& user_id) {
     std::string key_id = "user_" + user_id;
-    
+
     // Delete user-specific encryption key
     key_provider->deleteKey(key_id);
-    
+
     // Encrypted data is now cryptographically erased
     // (cannot be decrypted without key)
 }
@@ -894,7 +896,7 @@ ctest -R security
 ./tests/security/key_rotation_test
 ```
 
-### Integration Tests
+## Integration Tests
 
 ```bash
 # Test with real Vault instance
@@ -907,7 +909,7 @@ export SOFTHSM2_CONF=/etc/softhsm2.conf
 ./tests/security/hsm_integration_test
 ```
 
-### Security Auditing
+## Security Auditing
 
 ```bash
 # Run static analysis
@@ -946,13 +948,13 @@ void handleDataQuery(const Request& req, Response& res) {
         res.status(403).json({{"error", "Forbidden"}});
         return;
     }
-    
+
     // Execute query
     auto results = db.query(req.body["query"]);
-    
+
     // Decrypt sensitive fields
     decryptFields(results, req.user);
-    
+
     res.json(results);
 }
 ```
@@ -967,13 +969,13 @@ bool loadLoRAAdapter(const std::string& path) {
     if (!scan_result.is_clean) {
         throw SecurityException("Malware detected: " + scan_result.threat_name);
     }
-    
+
     // Manifest verification
     auto manifest = BinaryManifest::load(path + ".manifest");
     if (!manifest_signer.verify(manifest)) {
         throw SecurityException("Invalid manifest signature");
     }
-    
+
     // Load adapter
     return lora_manager.loadAdapter(path);
 }
@@ -1034,10 +1036,13 @@ bool loadLoRAAdapter(const std::string& path) {
 
 ## See Also
 
+- [ROADMAP.md](ROADMAP.md) - Security module roadmap and milestones
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned security features
-- [Security Configuration Guide](../../docs/security-config.md)
-- [Compliance Documentation](../../docs/compliance/)
-- [Key Management Guide](../../docs/key-management.md)
+- [Public Headers README](../../include/security/README.md) - Public API documentation
+- [Security Documentation Overview](../../docs/de/security/README.md) - Detailed guides
+- [Security Hardening Guide](../../docs/de/security/security_hardening.md)
+- [Key Management Guide](../../docs/de/security/security_key_management.md)
+- [Compliance Documentation](../../docs/de/security/security_compliance.md)
 
 ## Scientific References
 
@@ -1050,3 +1055,28 @@ bool loadLoRAAdapter(const std::string& path) {
 4. Saltzer, J. H., & Schroeder, M. D. (1975). **The Protection of Information in Computer Systems**. *Proceedings of the IEEE*, 63(9), 1278–1308. https://doi.org/10.1109/PROC.1975.9939
 
 5. Barker, E., & Roginsky, A. (2019). **Transitioning the Use of Cryptographic Algorithms and Key Lengths**. NIST Special Publication 800-131A Rev. 2. https://doi.org/10.6028/NIST.SP.800-131Ar2
+
+## Sourcecode Verification (Module: security/readme)
+
+- Verified files:
+    - `src/security/field_encryption.cpp`
+    - `src/security/vault_key_provider.cpp`
+    - `src/security/hsm_provider_pkcs11.cpp`
+    - `src/security/pki_key_provider.cpp`
+    - `src/security/access_control_manager.cpp`
+    - `src/security/rbac.cpp`
+    - `src/security/row_level_security.cpp`
+    - `src/security/query_masking_policy.cpp`
+    - `src/security/aql_injection_detector.cpp`
+    - `src/security/security_evidence_collector.cpp`
+- Verified surfaces:
+    - encryption/key-provider behavior
+    - access/policy enforcement paths
+    - masking/detection/evidence paths
+- Note:
+    - Forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+    - Historical implementation record remains in `CHANGELOG.md`.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

@@ -1,27 +1,21 @@
+/**
+ * @file wire_protocol_v2.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_v2.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     735                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • f5aaf5563  2026-02-26  Fix LZ4/Zstd connection-level compression in Wire Protoco... ║
-    • 40be9015b  2026-02-25  fix(network): code audit — fix aggregate stats, add COMPR... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_v2.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 791
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=10, L=0
+ * PR History (last 5): #5081 [Docs][themis] Refresh modu... (2026-05-13) | #4267 feat(themis): Wire Protocol... (2026-03-15) | #4266 feat(themis): Wire Protocol... (2026-03-15) | #3306 [network] Fix V2 multiplexi... (2026-03-12) | #2925 feat(network): Implement LZ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol V2 Implementation
@@ -29,11 +23,13 @@
 
 #include "themis/network/wire_protocol_v2.hpp"
 #include "network/connection_compression.h"
+#include "utils/logger.h"
 
 #include <atomic>
 #include <chrono>
 #include <cstring>
 #include <iostream>
+#include <future>
 #include <mutex>
 #include <sstream>
 #include <thread>
@@ -57,6 +53,31 @@ using tcp     = net::ip::tcp;
 // =============================================================================
 // Internal helpers
 // =============================================================================
+
+namespace {
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach on deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
+
+} // namespace
 
 static uint32_t htonl32(uint32_t v) { return htonl(v); }
 static uint32_t ntohl32(uint32_t v) { return ntohl(v); }
@@ -299,6 +320,48 @@ public:
                                           std::memory_order_relaxed);
     }
 
+    void set_stream_priority(uint32_t stream_id,
+                              uint32_t dependency,
+                              uint8_t  weight,
+                              bool     exclusive) override {
+        // RFC 7540 §6.3: PRIORITY on stream 0 is a connection error.
+        if (stream_id == 0) return;
+        // RFC 7540 §5.3.1: A stream cannot depend on itself.
+        if ((dependency & 0x7FFFFFFFu) == stream_id) return;
+
+        // Build the 5-byte PRIORITY frame payload (RFC 7540 §6.3):
+        //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
+        uint32_t dep_field = dependency & 0x7FFFFFFFu;
+        if (exclusive) dep_field |= 0x80000000u;
+        uint32_t dep_be = htonl32(dep_field);
+
+        V2FrameHeader hdr{};
+        hdr.magic          = WIRE_V2_MAGIC;
+        hdr.version        = WIRE_VERSION_2;
+        hdr.frame_type     = static_cast<uint8_t>(V2FrameType::PRIORITY);
+        hdr.stream_id      = stream_id;
+        hdr.payload_length = 5;
+
+        auto hdr_bytes = serializeHeader(hdr);
+        std::vector<uint8_t> frame;
+        frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
+        const uint8_t* p = reinterpret_cast<const uint8_t*>(&dep_be);
+        frame.insert(frame.end(), p, p + 4);
+        frame.push_back(weight);
+        sendFrame(std::move(frame));
+
+        // Also update local stream metadata so callers can inspect priority.
+        std::lock_guard<std::mutex> lock(streams_mutex_);
+        auto& s = streams_[stream_id];
+        if (s.state == V2StreamState::IDLE) {
+            s.stream_id = stream_id;
+            s.state     = V2StreamState::OPEN;
+        }
+        s.priority              = weight;
+        s.stream_dependency     = dependency & 0x7FFFFFFFu;
+        s.exclusive_dependency  = exclusive;
+    }
+
     uint64_t frames_received()  const override {
         return frames_received_.load(std::memory_order_relaxed);
     }
@@ -454,6 +517,37 @@ private:
             sendFrame(std::move(frame));
             break;
         }
+        case V2FrameType::PRIORITY: {
+            // RFC 7540 §6.3: PRIORITY on stream 0 is a connection error.
+            if (hdr.stream_id == 0) {
+                go_away(0, 1 /* PROTOCOL_ERROR */);
+                break;
+            }
+            // PRIORITY frame payload (RFC 7540 §6.3): 5 bytes
+            //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
+            if (payload.size() < 5) break;
+            uint32_t dep_field = 0;
+            std::memcpy(&dep_field, payload.data(), 4);
+            dep_field         = ntohl32(dep_field);
+            bool     exclusive  = (dep_field & 0x80000000u) != 0;
+            uint32_t dep_id     = dep_field & 0x7FFFFFFFu;
+            uint8_t  weight     = payload[4];
+            // RFC 7540 §5.3.1: A stream cannot depend on itself.
+            if (dep_id == hdr.stream_id) {
+                reset_stream(hdr.stream_id, 1 /* PROTOCOL_ERROR */);
+                break;
+            }
+            std::lock_guard<std::mutex> lock(streams_mutex_);
+            auto& s = streams_[hdr.stream_id];
+            if (s.state == V2StreamState::IDLE) {
+                s.stream_id = hdr.stream_id;
+                s.state     = V2StreamState::OPEN;
+            }
+            s.priority              = weight;
+            s.stream_dependency     = dep_id;
+            s.exclusive_dependency  = exclusive;
+            break;
+        }
         default:
             break; // Unknown frame types are ignored per spec
         }
@@ -607,7 +701,7 @@ public:
         if (!running_.exchange(false)) return;
         io_context_.stop();
         for (auto& t : io_threads_)
-            if (t.joinable()) t.join();
+            timedJoin(t);
         io_threads_.clear();
         acceptor_.close();
     }

@@ -1,23 +1,21 @@
+/**
+ * @file socket_timeout_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            socket_timeout_manager.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     443                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: socket_timeout_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 434
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=13, M=1, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #968 Complete documentation for ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "network/socket_timeout_manager.h"
@@ -275,7 +273,7 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
 }
 
 ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, size_t size,
-                                                std::chrono::milliseconds timeout_ms) {
+                                                [[maybe_unused]] std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
         return -1;
     }
@@ -320,7 +318,7 @@ ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, siz
 }
 
 ssize_t SocketTimeoutManager::writeWithTimeout(socket_t socket, const void* buffer, size_t size,
-                                                 std::chrono::milliseconds timeout_ms) {
+                                                 [[maybe_unused]] std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
         return -1;
     }
@@ -396,10 +394,8 @@ void SocketTimeoutManager::recordTimeout() {
 
 void SocketTimeoutManager::recordSuccess() {
     consecutive_timeouts_ = 0;
-    if (health_state_ == SocketHealthState::CIRCUIT_OPEN) {
-        // Circuit recovered
-        updateHealthState();
-    }
+    // Any successful operation resets timeout streak and should recover health state.
+    updateHealthState();
 }
 
 void SocketTimeoutManager::updateHealthState() {
@@ -444,3 +440,4 @@ void SocketTimeoutManager::triggerAlert(SocketHealthState new_state, const std::
 
 } // namespace network
 } // namespace themis
+

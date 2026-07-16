@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_cli.cpp                                     ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-10                                         ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     370                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     352                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e841bec3a2  2026-03-11  feat(exporters): complete validate_template - add CLI fla... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,19 +41,32 @@
 //   --user <id>               Requesting user ID (for audit / policy checks)
 //   --progress                Print progress to stderr
 //   --output-json             Print final ExportStats as JSON to stdout
+//   --validate-template <tpl> Dry-run: validate that all entities in the
+//                             collection have the required fields for the given
+//                             template (alpaca|sharegpt|chatml|openai).
+//                             Prints missing fields to stderr and exits with
+//                             code 1 when any are absent; exits 0 on success.
+//                             No output file is written.
+//   --template-instruction <f> Override instruction_field name for --validate-template
+//   --template-input <f>      Override input_field name
+//   --template-output <f>     Override output_field name
+//   --template-system <f>     Override system_field name
+//   --template-user <f>       Override user_field name
+//   --template-assistant <f>  Override assistant_field name
 //   --help                    Show this help message
 //
 // Exit codes:
-//   0  Export completed successfully
-//   1  Export failed (fatal error)
+//   0  Export completed successfully  (or --validate-template: all fields present)
+//   1  Export failed (fatal error)    (or --validate-template: missing fields found)
 //   2  Export completed with non-fatal errors
 //   3  Invalid arguments
 
 #include "exporters/export_format_registry.h"
 #include "exporters/exporter_interface.h"
+#include "exporters/format_template.h"
 #include "exporters/incremental_exporter.h"
-#include "exporters/streaming_exporter.h"
 #include "exporters/jsonl_llm_exporter.h"
+#include "exporters/streaming_exporter.h"
 #include "storage/base_entity.h"
 
 #include <nlohmann/json.hpp>
@@ -72,7 +88,7 @@ static void printUsage(const char* prog) {
         "\n"
         "Options:\n"
         "  --collection <name>       Source collection name (required)\n"
-        "  --output <path>           Output file or directory (required)\n"
+        "  --output <path>           Output file or directory (required, unless --validate-template)\n"
         "  --format <fmt>            Output format: jsonl (default), parquet, arrow,\n"
         "                            arrow_stream, huggingface, streaming, incremental\n"
         "  --incremental             Use incremental/delta exporter (alias for --format incremental)\n"
@@ -85,11 +101,21 @@ static void printUsage(const char* prog) {
         "  --user <id>               Requesting user ID (for audit logs)\n"
         "  --progress                Print export progress to stderr\n"
         "  --output-json             Print ExportStats JSON to stdout on completion\n"
+        "  --validate-template <tpl> Dry-run: check that collection fields satisfy\n"
+        "                            the template (alpaca|sharegpt|chatml|openai).\n"
+        "                            Exits 0 when all fields are present; 1 if any\n"
+        "                            required field is missing. No file is written.\n"
+        "  --template-instruction <f> Field name for 'instruction' (default: question)\n"
+        "  --template-input <f>      Field name for 'input'        (default: context)\n"
+        "  --template-output <f>     Field name for 'output'       (default: answer)\n"
+        "  --template-system <f>     Field name for 'system'       (default: system_prompt)\n"
+        "  --template-user <f>       Field name for 'user'         (default: user_message)\n"
+        "  --template-assistant <f>  Field name for 'assistant'    (default: assistant_response)\n"
         "  --help                    Show this message\n"
         "\n"
         "Exit codes:\n"
-        "  0  Success\n"
-        "  1  Fatal error\n"
+        "  0  Success (or --validate-template: all required fields present)\n"
+        "  1  Fatal error (or --validate-template: missing required fields)\n"
         "  2  Completed with non-fatal errors\n"
         "  3  Invalid arguments\n";
 }
@@ -110,6 +136,10 @@ struct ExportCliConfig {
     std::string user_id;
     bool show_progress       = false;
     bool output_json         = false;
+
+    // --validate-template mode
+    std::string validate_template;   // empty = disabled; else template name
+    FormatTemplateFieldMapping template_mapping;  // field-name overrides
 };
 
 static bool parseArgs(int argc, char** argv, ExportCliConfig& cfg) {
@@ -137,6 +167,13 @@ static bool parseArgs(int argc, char** argv, ExportCliConfig& cfg) {
         else if (arg == "--user")          { const char* v = next(); if (!v) return false; cfg.user_id         = v; }
         else if (arg == "--progress")      { cfg.show_progress = true; }
         else if (arg == "--output-json")   { cfg.output_json   = true; }
+        else if (arg == "--validate-template")    { const char* v = next(); if (!v) return false; cfg.validate_template = v; }
+        else if (arg == "--template-instruction") { const char* v = next(); if (!v) return false; cfg.template_mapping.instruction_field = v; }
+        else if (arg == "--template-input")       { const char* v = next(); if (!v) return false; cfg.template_mapping.input_field       = v; }
+        else if (arg == "--template-output")      { const char* v = next(); if (!v) return false; cfg.template_mapping.output_field      = v; }
+        else if (arg == "--template-system")      { const char* v = next(); if (!v) return false; cfg.template_mapping.system_field      = v; }
+        else if (arg == "--template-user")        { const char* v = next(); if (!v) return false; cfg.template_mapping.user_field        = v; }
+        else if (arg == "--template-assistant")   { const char* v = next(); if (!v) return false; cfg.template_mapping.assistant_field   = v; }
         else {
             std::cerr << "error: unknown argument '" << arg << "'\n";
             return false;
@@ -197,6 +234,42 @@ int main(int argc, char** argv) {
         std::cerr << "error: --collection is required\n";
         return 3;
     }
+
+    // ── validate-template dry-run mode ───────────────────────────────────────
+    if (!cfg.validate_template.empty()) {
+        // Map name → FormatTemplateType
+        FormatTemplateType tpl_type = FormatTemplateType::NONE;
+        const std::string& tname = cfg.validate_template;
+        if      (tname == "alpaca")             tpl_type = FormatTemplateType::ALPACA;
+        else if (tname == "sharegpt")           tpl_type = FormatTemplateType::SHAREGPT;
+        else if (tname == "chatml")             tpl_type = FormatTemplateType::CHATML;
+        else if (tname == "openai" ||
+                 tname == "openai_finetuning")  tpl_type = FormatTemplateType::OPENAI_FINETUNING;
+        else {
+            std::cerr << "error: unknown template '" << tname << "'\n"
+                      << "       supported: alpaca, sharegpt, chatml, openai\n";
+            return 3;
+        }
+
+        const auto entities = loadCollection(cfg.collection_name);
+        const auto result   = validateTemplate(tpl_type, cfg.template_mapping, entities);
+
+        if (result.valid) {
+            std::cout << "validate-template: OK ("
+                      << result.entities_checked << " entities checked, template '"
+                      << tname << "')\n";
+            return 0;
+        }
+
+        std::cerr << "validate-template: FAILED — " << result.entities_failed
+                  << " / " << result.entities_checked
+                  << " entities missing required fields (template '" << tname << "'):\n";
+        for (const auto& f : result.missing_fields) {
+            std::cerr << "  missing field: " << f << '\n';
+        }
+        return 1;
+    }
+
     if (cfg.output_path.empty()) {
         std::cerr << "error: --output is required\n";
         return 3;

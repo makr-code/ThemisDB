@@ -1,37 +1,34 @@
+/**
+ * @file mcp_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mcp_server.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     394                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39e499706  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
-    • e2cf1a07c  2026-02-22  feat: MCP ↔ AIOrchestrator bidirectional integration (MCP... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mcp_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #ifdef THEMIS_ENABLE_MCP
 
+#include <chrono>
 #include <string>
 #include <memory>
 #include <functional>
 #include <unordered_map>
 #include <queue>
 #include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 
@@ -41,6 +38,21 @@
 #ifdef THEMIS_ENABLE_LLM
 namespace themis::llm { class AIOrchestrator; }
 #endif
+
+// Forward-declare AiOperationGuard for the AI Safety Layer (Schichten 1 & 2).
+// AI Safety Layer docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+namespace themis::security {
+class AiOperationGuard;
+struct GuardDecision;
+}
+
+// Forward-declare AuditLogger for the AI Session Audit Trail (ASL-12).
+// Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+// NOTE: Do NOT include audit_logger.h here; mcp_server.cpp includes it.
+namespace themis::utils {
+class AuditLogger;
+enum class SecurityEventType : int;
+}
 
 namespace themis {
 namespace server {
@@ -118,7 +130,7 @@ public:
     // Lifecycle
     void start();
     void stop();
-    bool isRunning() const { return is_running_; }
+    bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
     // Tool registration
     void registerTool(const std::string& name, const std::string& description,
@@ -138,6 +150,18 @@ public:
     // Transport management
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
     void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
+
+    /**
+     * @brief Attach an AuditLogger for AI Session Audit Trail (ASL-12).
+     *
+     * When attached, all AI Safety Layer events (tool calls, approvals, denials,
+     * rollbacks, etc.) are recorded via the audit logger.
+     *
+     * Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+     *
+     * @param logger Shared pointer to a fully initialised AuditLogger.
+     */
+    void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
     /**
      * @brief Attach an AIOrchestrator to expose mode-based LLM pipelines as MCP tools.
@@ -223,7 +247,7 @@ private:
 private:
     asio::io_context& io_context_;
     Config config_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 
     // Tool registry
     struct ToolInfo {
@@ -271,13 +295,90 @@ private:
     std::unique_ptr<themis::prompt_engineering::PromptManager> prompt_mgr_;
 
     // Session state
-    bool initialized_ = false;
+    std::atomic<bool> initialized_{false};
     std::string client_info_;
 
     // AI Orchestrator reference (optional – set via attachOrchestrator())
     #ifdef THEMIS_ENABLE_LLM
     std::shared_ptr<themis::llm::AIOrchestrator> orchestrator_;
     #endif
+
+    // ── AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4..6) ──────────
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    // Roadmap: src/security/ROADMAP.md § Phase 2
+
+    /**
+     * @brief In-memory record for one pending HILG approval.
+     *
+     * Stored in `pending_approvals_` from the moment an AI-initiated
+     * DESTRUCTIVE/CRITICAL operation is classified until it either expires,
+     * is approved, or is denied.
+     */
+    struct PendingApproval {
+        std::string operation_id;       ///< UUID (matches GuardDecision::operation_id)
+        std::string ai_session_id;      ///< AI session that triggered the operation
+        std::string tool_name;          ///< MCP tool name
+        json        operation_args;     ///< Original, unmodified args
+        std::string classification;     ///< "DESTRUCTIVE" or "CRITICAL"
+        json        approval_response;  ///< Pre-built requires_approval JSON
+        std::chrono::system_clock::time_point created_at;
+        std::chrono::system_clock::time_point expires_at;
+        bool        is_executed = false;
+        std::string pre_snapshot_path;  ///< ASL-8: path of pre-op snapshot (empty if not taken)
+    };
+
+    /// Map: operation_id → PendingApproval entry.
+    std::unordered_map<std::string, PendingApproval> pending_approvals_;
+    mutable std::mutex pending_approvals_mutex_;
+
+    /// AI Safety Layer guard (DOG).  Constructed once in the constructor.
+    std::unique_ptr<themis::security::AiOperationGuard> operation_guard_;
+
+    /// AI Session Audit Logger (ASL-12).  Optional — null if not attached.
+    std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
+
+    // ── HILG handler methods ───────────────────────────────────────────────
+
+    /// Dispatch a write tool through the DOG + HILG pipeline.
+    /// Returns a "requires_approval" or "blocked" JSON when the guard fires,
+    /// std::nullopt when the operation may proceed immediately.
+    std::optional<json> checkOperationGuard(
+        const std::string& tool_name,
+        const json&        args,
+        const std::string& ai_session_id = "",
+        const std::string& caller_role   = ""
+    );
+
+    /// Handle POST /v1/ai/approve/{operation_id}
+    json handleAiApprove(const std::string& operation_id);
+
+    /// Handle POST /v1/ai/deny/{operation_id}
+    json handleAiDeny(const std::string& operation_id);
+
+    /// Handle GET /v1/ai/pending-approvals
+    json handleAiPendingApprovals();
+
+    /// Handle POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
+    json handleAiRollback(const std::string& snapshot_id);
+
+    /// Cleanup expired AI pre-operation snapshots (ASL-11)
+    json toolAiCleanupSnapshots(const json& args);
+
+    /// Remove expired entries from pending_approvals_.  Called on demand.
+    void purgeExpiredApprovals();
+
+    /// Log an AI Safety Layer audit event (ASL-12).
+    /// No-op when audit_logger_ is null.
+    void logAiEvent(
+        themis::utils::SecurityEventType type,
+        const std::string&               tool_name,
+        const std::string&               ai_session_id,
+        const nlohmann::json&            details = {}
+    );
+
+private:
+    int snapshot_retention_days_ = 7;   ///< ASL-9/11: from security.yaml
+    int snapshot_max_total_gb_   = 100; ///< ASL-9/11: from security.yaml
 };
 
 /**
@@ -302,7 +403,7 @@ protected:
 /**
  * @brief stdio transport for Claude Desktop integration
  */
-class StdioTransport : public McpTransport {
+class StdioTransport : public McpTransport, public std::enable_shared_from_this<StdioTransport> {
 public:
     explicit StdioTransport(asio::io_context& io_context, int buffer_size = 4096);
     ~StdioTransport() override;
@@ -310,6 +411,14 @@ public:
     void start() override;
     void stop() override;
     void send(const json& message) override;
+
+    // Bridge callback for exotic/embedded platforms that lack _WIN32, __unix__,
+    // and __APPLE__ (STUB #65). When set, the injected function is called from
+    // start() instead of the warn-only stub path, allowing platform-specific
+    // async stdin reading to be wired in without changing preprocessor guards.
+    // Passing nullptr reverts to the default warn-only behaviour.
+    using StdioReadFn = std::function<void()>;
+    static void setStdioReadFn(StdioReadFn fn);
 
 private:
     void readStdin();
@@ -320,13 +429,13 @@ private:
     int buffer_size_;
     std::vector<char> read_buffer_;
     std::string partial_message_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 /**
  * @brief SSE transport for HTTP-based clients
  */
-class SseTransport : public McpTransport {
+class SseTransport : public McpTransport, public std::enable_shared_from_this<SseTransport> {
 public:
     explicit SseTransport(asio::io_context& io_context, int keepalive_ms = 30000);
     ~SseTransport() override;
@@ -349,13 +458,13 @@ private:
     std::unordered_map<std::string, std::string> clients_; // client_id -> pending_data
     std::mutex clients_mutex_;
     asio::steady_timer keepalive_timer_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 /**
  * @brief WebSocket transport for bidirectional communication
  */
-class WebSocketTransport : public McpTransport {
+class WebSocketTransport : public McpTransport, public std::enable_shared_from_this<WebSocketTransport> {
 public:
     explicit WebSocketTransport(asio::io_context& io_context, int ping_interval_ms = 30000);
     ~WebSocketTransport() override;
@@ -386,7 +495,7 @@ private:
     std::unordered_map<std::string, SessionData> sessions_; // session_id -> session_data
     std::mutex sessions_mutex_;
     asio::steady_timer ping_timer_;
-    bool is_running_ = false;
+    std::atomic<bool> is_running_{false};
 };
 
 } // namespace server

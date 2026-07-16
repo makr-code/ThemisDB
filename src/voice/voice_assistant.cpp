@@ -1,35 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_assistant.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     690                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
-    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
-    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_assistant.cpp
- * @brief Voice Assistant Manager Implementation
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=11, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_assistant.h"
@@ -41,7 +18,9 @@ namespace themis {
 namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
-    : config_(config), voice_authenticator_(config.voice_auth_config) {
+        : config_(config),
+            voice_authenticator_(config.voice_auth_config),
+            voice_security_manager_(config.voice_security_config) {
     // Initialise wake-word detector regardless of the enable flag so that
     // detectWakeWord() is always safe to call; the caller can gate on the flag.
     wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
@@ -65,12 +44,13 @@ bool VoiceAssistant::initialize() {
         // Initialize STT processor
         stt_processor_ = std::make_unique<content::STTProcessor>();
         content::PluginConfig stt_config;
-        json stt_settings;
-        stt_settings["model_path"] = config_.stt_model_path;
-        stt_settings["model_size"] = config_.stt_model_size;
-        stt_settings["language"] = config_.stt_language;
-        stt_settings["timestamps"] = true;
-        stt_settings["speaker_diarization"] = true;
+        json stt_settings = json::object({
+            {"model_path", config_.stt_model_path},
+            {"model_size", config_.stt_model_size},
+            {"language", config_.stt_language},
+            {"timestamps", true},
+            {"speaker_diarization", true}
+        });
         stt_config = content::PluginConfig(stt_settings);
         
         if (!stt_processor_->initialize(stt_config)) {
@@ -80,10 +60,11 @@ bool VoiceAssistant::initialize() {
         // Initialize TTS processor
         tts_processor_ = std::make_unique<content::TTSProcessor>();
         content::PluginConfig tts_config;
-        json tts_settings;
-        tts_settings["model_path"] = config_.tts_model_path;
-        tts_settings["default_voice"] = config_.tts_voice;
-        tts_settings["default_speed"] = config_.tts_speed;
+        json tts_settings = json::object({
+            {"model_path", config_.tts_model_path},
+            {"default_voice", config_.tts_voice},
+            {"default_speed", config_.tts_speed}
+        });
         tts_config = content::PluginConfig(tts_settings);
         
         if (!tts_processor_->initialize(tts_config)) {
@@ -111,7 +92,11 @@ bool VoiceAssistant::initialize() {
         initialized_ = true;
         return true;
         
-    } catch (const std::exception& e) {
+    } catch (const std::string&) {
+        return false;
+    } catch (const char*) {
+        return false;
+    } catch (...) {
         return false;
     }
 }
@@ -151,6 +136,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
             if (!auth_result.authenticated) {
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
@@ -220,6 +206,10 @@ std::string VoiceAssistant::processTextCommand(
     const std::string& text,
     const std::string& session_id
 ) {
+    if (text.empty()) {
+        return "I need a prompt to generate a response. Please provide your question or request.";
+    }
+
     if (!initialized_) {
         return "Voice assistant not initialized";
     }
@@ -270,6 +260,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
             if (!auth_result.authenticated) {
                 content::TTSOptions tts_opts;
                 tts_opts.voice_id = config_.tts_voice;
@@ -505,10 +496,28 @@ std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
     const std::vector<uint8_t>& audio_data,
     const std::string& target_format
 ) {
-    // Real implementation would use FFmpeg or similar library
-    // to convert between formats (WAV -> OGG/MP3/MP4)
-    
-    // For now, return original data (placeholder)
+    // When an audio conversion backend has been injected, delegate to it.
+    if (audio_convert_fn_) {
+        auto converted = audio_convert_fn_(audio_data, target_format);
+        if (!converted.empty()) {
+            return converted;
+        }
+        // Empty result from fn → fall through to passthrough with a warning.
+        SPDLOG_WARN("VoiceAssistant::convertAudioFormat: injected AudioConvertFn "
+                    "returned empty result for target_format='{}'; returning original bytes.",
+                    target_format);
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the convertAudioFormat() API while FFmpeg (or equivalent
+    //          audio transcoding library) is not linked.
+    // Activation: audio_convert_fn_ is null (no real codec injected).
+    // Production Delta: Audio data is returned unchanged regardless of
+    //                   `target_format`; a WAV caller requesting OGG/MP3/MP4
+    //                   receives the original PCM bytes.
+    // Removal Plan: Inject a libavformat/libavcodec (FFmpeg) backend via
+    //               setAudioConvertFn() and guard with THEMIS_ENABLE_FFMPEG.
+    //               See src/voice/FUTURE_ENHANCEMENTS.md §Voice Audio Format Conversion.
     return audio_data;
 }
 
@@ -547,15 +556,17 @@ VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
 
 void VoiceAssistant::updateSession(const std::string& session_id, const json& context) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    
+
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
         it->second.context = context;
         it->second.last_activity = std::chrono::system_clock::now().time_since_epoch().count();
-    } else {
-        // Log warning: attempting to update non-existent session
-        // In production, this should be logged properly
     }
+}
+
+bool VoiceAssistant::deleteSession(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    return sessions_.erase(session_id) > 0;
 }
 
 json VoiceAssistant::getStatistics() const {
@@ -570,12 +581,7 @@ json VoiceAssistant::getStatistics() const {
     }
     
     if (llm_wrapper_) {
-        auto llm_stats = llm_wrapper_->getStats();
-        stats["llm"]["tokens_processed"] = llm_stats.total_tokens_processed;
-        stats["llm"]["cache_hits"] = llm_stats.cache_hits;
-        stats["llm"]["cache_misses"] = llm_stats.cache_misses;
-        stats["llm"]["avg_latency_ms"] = llm_stats.avg_latency_ms;
-        stats["llm"]["vram_used_mb"] = llm_stats.vram_used_mb;
+        stats["llm"] = llm_wrapper_->getPerformanceStats();
     }
     
     if (wake_word_detector_) {
@@ -583,6 +589,7 @@ json VoiceAssistant::getStatistics() const {
     }
 
     stats["voice_auth"] = voice_authenticator_.get_statistics();
+    stats["voice_security"] = voice_security_manager_.getSecurityStats();
 
     stats["macros"] = macro_manager_.getStatistics();
 
@@ -601,18 +608,33 @@ std::string VoiceAssistant::createRevisionEntry(
     const std::vector<uint8_t>& data,
     const json& metadata
 ) {
-    // Real implementation would:
-    // 1. Create revision entry in ThemisDB
-    // 2. Store previous version
-    // 3. Update current version
-    // 4. Add audit log entry
-    // 5. Return revision ID
-    
-    // Placeholder
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
+    // Build a unique revision ID from the entity ID and current time.
+    const auto now = std::chrono::system_clock::now().time_since_epoch().count();
     std::stringstream ss;
-    ss << "revision:" << std::hex << now;
-    return ss.str();
+    ss << "revision:" << entity_id << ":" << std::hex << now;
+    const std::string rev_id = ss.str();
+
+    // FNV-1a hash of the data payload for integrity / change-detection purposes.
+    uint32_t hash = 2166136261u;
+    for (const uint8_t byte : data) {
+        hash ^= static_cast<uint32_t>(byte);
+        hash *= 16777619u;
+    }
+
+    // Store the revision record so that history queries find it within this
+    // process lifetime.  A persistent backend (e.g., RocksDB collection) can
+    // be wired in by replacing this in-memory store without changing the API.
+    {
+        std::lock_guard<std::mutex> lock(revision_store_mutex_);
+        RevisionEntry entry;
+        entry.entity_id  = entity_id;
+        entry.data_hash  = hash;
+        entry.metadata   = metadata;
+        entry.timestamp  = now;
+        revision_store_[rev_id] = std::move(entry);
+    }
+
+    return rev_id;
 }
 
 // ---------------------------------------------------------------------------
@@ -632,21 +654,88 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::string&          user_id,
     const std::vector<uint8_t>& audio_sample)
 {
-    return voice_authenticator_.authenticate(user_id, audio_sample);
+    auto result = voice_authenticator_.authenticate(user_id, audio_sample);
+    logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
+    return result;
+}
+
+void VoiceAssistant::logVoiceAuthenticationAudit(
+    const std::string& user_id,
+    const std::string& session_id,
+    const std::string& action,
+    const VoiceAuthResult& result)
+{
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_authentication";
+    entry.session_id = session_id;
+    entry.user_id = user_id;
+    entry.action = action;
+    entry.resource = "voice_assistant";
+    entry.timestamp_ms = result.timestamp_ms;
+    if (entry.timestamp_ms <= 0) {
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+    }
+    entry.success = result.authenticated;
+    entry.details = result.decision_reason;
+    entry.metadata = {
+        {"confidence_score", result.confidence_score},
+        {"threshold", result.threshold}
+    };
+    voice_security_manager_.logEvent(entry);
 }
 
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(
     const VoiceProfileID&         profile_id,
     const std::vector<uint8_t>&   audio_sample)
 {
-    return voice_authenticator_.verify_speaker(profile_id, audio_sample);
+    auto result = voice_authenticator_.verify_speaker(profile_id, audio_sample);
+    
+    // Audit logging: record verification result for compliance
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_verification";
+    entry.session_id = "";
+    entry.user_id = "";  // Profile-based verification (user_id not always available)
+    entry.action = "verify_voice_speaker";
+    entry.resource = "voice_profile:" + profile_id;
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    entry.success = result.verified;
+    entry.details = "Verification against profile: " + profile_id;
+    entry.metadata = {
+        {"match_score", result.match_score},
+        {"threshold", result.threshold}
+    };
+    voice_security_manager_.logEvent(entry);
+    
+    return result;
 }
 
 IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     const std::vector<VoiceProfileID>& candidate_profiles,
     const std::vector<uint8_t>&        audio_sample)
 {
-    return voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+    auto result = voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+    
+    // Audit logging: record identification result for compliance
+    VoiceAuditEntry entry;
+    entry.event_type = "voice_identification";
+    entry.session_id = "";
+    entry.user_id = "";  // Identification may match any profile
+    entry.action = "identify_voice_profiles";
+    entry.resource = "voice_profiles:" + std::to_string(candidate_profiles.size());
+    entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    entry.success = !result.matches.empty();
+    entry.details = "Identification against " + std::to_string(candidate_profiles.size()) + 
+                    " candidate profiles, " + std::to_string(result.matches.size()) + " matched";
+    entry.metadata = {
+        {"candidate_count", candidate_profiles.size()},
+        {"match_count", result.matches.size()}
+    };
+    voice_security_manager_.logEvent(entry);
+    
+    return result;
 }
 
 bool VoiceAssistant::deleteVoiceProfile(const VoiceProfileID& profile_id)
@@ -686,5 +775,29 @@ const VoiceAudioStorage& VoiceAssistant::audioStorage() const {
     return audio_storage_;
 }
 
+content::TTSResult VoiceAssistant::synthesize(
+    const std::string& text,
+    const content::TTSOptions& options
+) {
+    if (!tts_processor_) {
+        content::TTSResult err;
+        err.success = false;
+        err.error_message = "TTS processor not initialized";
+        return err;
+    }
+    return tts_processor_->synthesize(text, options);
+}
+
+json VoiceAssistant::getAvailableVoices() const {
+    if (!tts_processor_) { return json::array(); }
+    return tts_processor_->getAvailableVoices();
+}
+
+std::vector<std::string> VoiceAssistant::getSupportedLanguages() const {
+    if (!tts_processor_) { return {}; }
+    return tts_processor_->getSupportedLanguages();
+}
+
 } // namespace voice
 } // namespace themis
+

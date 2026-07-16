@@ -1,27 +1,27 @@
+/**
+ * @file shared_worker_pool.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shared_worker_pool.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:59:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     225                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shared_worker_pool.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 217
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=3, L=0
+ * PR History (last 5): #3284 [llm] Implement prompt inje... (2026-03-12) | #3283 [llm] Propagate timeouts on... (2026-03-12) | #3282 [llm] Add tokens/sec and la... (2026-03-12) | #3281 [llm] Integrate single-mode... (2026-03-12) | #3270 [llm] Implement LoRA adapte... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/shared_worker_pool.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -30,6 +30,10 @@ namespace llm {
 // ═══════════════════════════════════════════════════════════
 // Construction / Destruction
 // ═══════════════════════════════════════════════════════════
+
+SharedWorkerPool::SharedWorkerPool()
+    : SharedWorkerPool(Config{}) {
+}
 
 SharedWorkerPool::SharedWorkerPool(const Config& config)
     : config_(config)
@@ -101,12 +105,12 @@ json SharedWorkerPool::getMetrics() const {
     m["num_threads"]      = config_.num_threads;
     m["queue_depth"]      = queueDepth();
     m["tasks_completed"]  = tasks_completed_.load(std::memory_order_relaxed);
-    m["running"]          = running_.load();
+    m["running"]          = running_.load(std::memory_order_acquire);
     return m;
 }
 
 void SharedWorkerPool::shutdown() {
-    if (!running_.exchange(false)) {
+    if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;  // already shut down
     }
 
@@ -115,7 +119,10 @@ void SharedWorkerPool::shutdown() {
 
     for (auto& worker : workers_) {
         if (worker.joinable()) {
-            worker.join();
+            // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+            if (!themis::utils::joinThreadWithin(worker)) {
+                THEMIS_WARN("[SharedWorkerPool] thread did not finish within shutdown deadline; detaching.");
+            }
         }
     }
     workers_.clear();
@@ -124,7 +131,7 @@ void SharedWorkerPool::shutdown() {
 }
 
 bool SharedWorkerPool::isRunning() const {
-    return running_.load();
+    return running_.load(std::memory_order_acquire);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -136,7 +143,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
 
     auto& local_q = *thread_queues_[thread_id];
 
-    while (running_.load()) {
+    while (running_.load(std::memory_order_acquire)) {
         Task task;
         bool found = false;
 
@@ -182,7 +189,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
         if (!found) {
             std::unique_lock<std::mutex> wlock(global_queue_mutex_);
             cv_.wait_for(wlock, std::chrono::milliseconds(10), [this] {
-                return !global_queue_.empty() || !running_.load();
+                return !global_queue_.empty() || !running_.load(std::memory_order_acquire);
             });
             continue;
         }
@@ -224,3 +231,4 @@ bool SharedWorkerPool::trySteal(size_t thread_id, Task& out_task) {
 
 } // namespace llm
 } // namespace themis
+

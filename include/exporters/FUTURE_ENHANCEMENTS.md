@@ -1,94 +1,63 @@
-# Exporters Module - Future Header Enhancements
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/exporters/FUTURE_ENHANCEMENTS.md -->
+
+# Exporters Module — Public Header Future Enhancements
+
+**Module Path:** `include/exporters/`  
+**Canonical implementation enhancements:** [`../../src/exporters/FUTURE_ENHANCEMENTS.md`](../../src/exporters/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Scope
 
-- `IExporter` interface extensions for format-agnostic export dispatch
-- Parquet schema builder API exposed via `IParquetSchemaBuilder` header
-- Streaming export cursor interface for pull-based large-collection export
-- Delta/incremental export interface via `IDeltaExporter`
-- Export encryption hook API for pluggable per-record encryption
-- Export format registry for runtime format discovery and selection
+Planned enhancements to the **public header contract** in `include/exporters/`. Runtime, algorithm, and benchmark work remains tracked in:
+
+→ [`../../src/exporters/FUTURE_ENHANCEMENTS.md`](../../src/exporters/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Design Constraints
 
-- [ ] All exporters must implement `IExporter`; no direct instantiation of concrete types across module boundaries
-- [ ] Parquet schema is generated once at export initialization time and is immutable during export
-- [ ] Streaming cursor is pull-based; consumers call `next()` to advance — no push callbacks
-- [ ] Encryption hook is optional and stateless; it must not retain any state between record calls
-- [ ] Export format registry entries are registered at static-init time and must be thread-safe to read
-- [ ] Delta exporter interface exposes only a cursor and a change-type enum; diff logic is internal
+- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
+- `[x]` Breaking changes to types in `include/exporters/` require a MAJOR version bump per `VERSIONING.md`.
+- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
+- `[x]` Layer association (**Tensor/Graph**) must be preserved in all header expansions.
 
-## Required Interfaces
+---
 
-| Interface | Consumer | Notes |
-|---|---|---|
-| `IExporter` | All export pipelines, CLI, REST export endpoint | Base interface; all exporters must derive from this |
-| `IParquetSchemaBuilder` | Parquet export adapter, schema inference pipeline | Generates Arrow/Parquet schema from collection metadata |
-| `IStreamingExportCursor` | Large-collection export, HTTP chunked response writer | Pull-based; yields one record batch per `next()` call |
-| `IDeltaExporter` | Incremental sync clients, CDC pipelines | Exposes change type (`INSERT`, `UPDATE`, `DELETE`) and record snapshot |
-| `IExportEncryptionHook` | Encrypted export adapter, compliance export pipeline | Stateless hook; called per record; returns encrypted bytes |
-| `IExportFormatRegistry` | Export dispatcher, plugin loader | Allows runtime registration and lookup of export format factories |
+## Required Interfaces (Header Contract)
 
-## Planned Features
+Current public surfaces cover: data export in Parquet, Arrow IPC, JSONL/LLM, HuggingFace, streaming, incremental, and encrypted formats.
 
-### Parquet Schema Builder Interface
+Planned extensions follow the same namespace (`themis::exporters`) and include-guard conventions.
 
-- [ ] Define `IParquetSchemaBuilder` with `addField()`, `addNestedGroup()`, and `build()` methods
-- [ ] Support nullable, repeated, and required field annotations
-- [ ] Expose `schemaFingerprint()` for schema versioning and cache keying
-- [ ] Schema builder must be invocable before any data rows are produced
+---
 
-### Streaming Export Cursor API
+## Planned Enhancements
 
-- [ ] Define `IStreamingExportCursor` with `next(RecordBatch&)` returning `ExportStatus`
-- [ ] Cursor must expose `estimatedRemainingRows()` for progress reporting
-- [ ] Support `reset()` to restart export from the beginning when the underlying source allows
-- [ ] Cursor lifetime tied to the originating `IExporter` instance
+### Short-Term (Q3 2026)
 
-### Incremental/Delta Export Interface
+- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
+- [ ] Add explicit `noexcept` specifications to query/read paths where safe
+- [ ] Add structured diagnostic types for all thrown exceptions
 
-- [ ] Define `IDeltaExporter` extending `IExporter` with `openDeltaCursor(since: Timestamp)`
-- [ ] Delta cursor yields `DeltaRecord` structs containing change type and full record snapshot
-- [ ] Checkpoint tokens exposed via `IDeltaExporter::lastCheckpoint()` for resumable export
-- [ ] Delta export must be composable with encryption and streaming cursor interfaces
+### Medium-Term (Q4 2026)
 
-### Export Encryption Hook
+- [ ] Expand public surface with convenience factory functions for common usage patterns
+- [ ] Add Concepts (C++20) constraints to template parameters in public headers
+- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
 
-- [ ] Define `IExportEncryptionHook` with `encrypt(std::span<const std::byte>) -> std::vector<std::byte>`
-- [ ] Hook registered per-export-job via `IExporter::setEncryptionHook()`
-- [ ] Hook must be stateless; key material injected via constructor, not stored in hook interface
-- [ ] HMAC tag generated and appended by hook implementation; verified by consumer
+### Long-Term (2027+)
 
-### Format Registry API
+- [ ] Module-interface (C++20 modules) wrapper for `include/exporters/` entry points
+- [ ] Header-only usage path for embedding scenarios (where feasible)
+- [ ] Extended layer-mapping documentation for Tensor/Graph integration patterns
 
-- [ ] Define `IExportFormatRegistry` with `registerFormat()`, `unregisterFormat()`, and `resolve()`
-- [ ] Registry keyed by MIME type and file extension
-- [ ] Factory functions registered at static-init time via `REGISTER_EXPORT_FORMAT` macro
-- [ ] Registry is read-only after module initialization; write access restricted to init phase
+---
 
-## Test Strategy
+## Alignment with Strategic Plan
 
-- Unit-test each interface contract using mock implementations; verify correct sequencing of `next()` calls on `IStreamingExportCursor`
-- Integration-test `IParquetSchemaBuilder` against the Arrow C++ library schema validator
-- Property-based test `IDeltaExporter` to verify that replaying a delta sequence reconstructs the original collection
-- Test `IExportEncryptionHook` round-trip: encrypt via hook, decrypt externally, assert byte-for-byte equality
-- Verify `IExportFormatRegistry` thread-safety by concurrent read access from 16 threads after init
-- Regression-test export initiation latency to enforce the ≤ 100 ms budget on a reference dataset
-
-## Performance Targets
-
-- Export initiation (`IExporter::open()`) completes in ≤ 100 ms for collections up to 10 M records
-- Streaming cursor `next()` returns one record batch in ≤ 1 ms per chunk at batch size 1,000
-- `IParquetSchemaBuilder::build()` completes in ≤ 50 ms for schemas with up to 500 fields
-- `IExportEncryptionHook::encrypt()` overhead ≤ 100 µs per record (AES-256-GCM reference impl)
-- Delta cursor `openDeltaCursor()` setup ≤ 200 ms regardless of total collection size
-- Format registry `resolve()` lookup ≤ 1 µs (hash-map backed, no lock on read path)
-
-## Security / Reliability
-
-- Export authorization is checked at `IExporter::open()` before any data is read; unauthorized callers receive `ExportStatus::FORBIDDEN`
-- Encrypted exports include an HMAC tag computed over the full export stream; consumers must verify before use
-- Export destination paths are validated against a configurable allow-list; relative paths and symlinks are rejected
-- `IExportEncryptionHook` implementations must not log plaintext record data; this is enforced by interface contract documentation
-- Delta export checkpoint tokens are signed to prevent tampering with the `since` timestamp
-- All `IExporter` implementations must handle partial write failures gracefully and surface `ExportStatus::IO_ERROR` without data corruption
+Enhancements align with `FUTURE_PLAN.md` layer **Tensor/Graph**. For cross-layer integration planning see:
+→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)

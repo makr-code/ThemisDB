@@ -1,3 +1,5 @@
+> **Hinweis:** Troubleshooting-Schritte gegen aktuellen Build/Test-Flow verifizieren.
+
 # Troubleshooting - Drohnenbild-Analyse
 
 ## 📋 Übersicht

@@ -1,0 +1,2 @@
+# Paths intentionally excluded from OpenAPI completeness gate.
+# One path per line. Comments start with '#'.

@@ -1,23 +1,21 @@
+/**
+ * @file pitr_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pitr_manager.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     393                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pitr_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 425
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=4, L=0
+ * PR History (last 5): #461 Refactor PITR implementatio... (2026-03-11) | #386 feat: Implement Phase 3 Poi... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1082 Implement Point-in-Time Rec... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/pitr_manager.h"
@@ -42,6 +40,9 @@ PITRManager::PITRManager(RocksDBWrapper* db,
                         Changefeed* changefeed,
                         transaction::SnapshotManager* snapshot_mgr)
     : db_(db), changefeed_(changefeed), snapshot_mgr_(snapshot_mgr) {
+    // uncaught_exception scanner alerts (lines 33, 36, 39): constructor throws
+    // std::invalid_argument for null dependencies; callers must provide valid objects —
+    // intentional API contract enforcement — false positives.
     if (!db_) {
         throw std::invalid_argument("PITRManager: db cannot be null");
     }
@@ -113,6 +114,10 @@ PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence,
 PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name,
                                               const RestoreOptions& options) {
     // Get snapshot by tag
+    // data_race scanner alert: snapshot_mgr_ is immutable after construction (set in
+    // the PITRManager constructor and never reassigned).  SnapshotManager::getTag() is
+    // internally thread-safe (uses its own lock).  The scanner incorrectly treats the
+    // call-through-pointer as unsynchronised shared access.
     auto snapshot = snapshot_mgr_->getTag(tag_name);
     if (!snapshot.has_value()) {
         return Status::Error("Tag not found: " + tag_name);
@@ -172,6 +177,10 @@ PITRManager::RestorePreview PITRManager::previewRestore(uint64_t target_sequence
             std::string table = event.key.substr(0, colon_pos);
             
             // Apply table filter if provided
+            // repeated_search scanner alerts (lines 167, 289): std::find on options.tables
+            // is intentional; the list is typically empty or contains very few entries and
+            // is not mutated during iteration — the O(n) linear scan is negligible and
+            // caching is not warranted — false positives.
             if (options.tables.empty() || 
                 std::find(options.tables.begin(), options.tables.end(), table) != options.tables.end()) {
                 tables.insert(table);
@@ -215,6 +224,8 @@ bool PITRManager::isRestoreInProgress() const {
 }
 
 std::optional<uint64_t> PITRManager::getSequenceForTag(const std::string& tag_name) const {
+    // data_race scanner alert: same rationale as restoreToTag — snapshot_mgr_ is
+    // immutable after construction and SnapshotManager::getTag() is thread-safe.
     auto snapshot = snapshot_mgr_->getTag(tag_name);
     if (snapshot.has_value()) {
         return snapshot->sequence_number;
@@ -249,6 +260,10 @@ std::optional<uint64_t> PITRManager::findSequenceForTimestamp(int64_t timestamp_
 
 PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t to_sequence,
                                                 const RestoreOptions& options) {
+    if (from_sequence <= to_sequence) {
+        return Status::Error("Invalid replay range: from_sequence must be greater than to_sequence");
+    }
+
     // Get events in range
     Changefeed::ListOptions list_opts;
     list_opts.from_sequence = to_sequence;
@@ -258,6 +273,19 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     }
 
     auto events = changefeed_->listEvents(list_opts);
+
+    // Fail closed: PITR must not silently proceed with truncated WAL coverage
+    // unless the caller explicitly requested a replay cap.
+    if (options.max_events_to_replay == 0) {
+        const auto expected_events = from_sequence - to_sequence;
+        if (events.size() < expected_events) {
+            return Status::Error(
+                "WAL replay coverage incomplete: expected " +
+                std::to_string(expected_events) +
+                " event(s), found " + std::to_string(events.size()));
+        }
+    }
+
     progress_.total_events = events.size();
     progress_.events_processed = 0;
 
@@ -268,6 +296,8 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     std::reverse(events.begin(), events.end());
 
     // Apply each event in reverse
+    uint64_t replay_errors = 0;
+    std::string first_replay_error;
     for (const auto& event : events) {
         // Apply table filter
         if (!options.tables.empty()) {
@@ -291,6 +321,10 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
         if (!options.dry_run) {
             auto status = applyEventReverse(event);
             if (!status.ok) {
+                replay_errors++;
+                if (first_replay_error.empty()) {
+                    first_replay_error = status.message;
+                }
                 if (options.abort_on_first_error) {
                     THEMIS_ERROR("Failed to apply event {}: {}", event.sequence, status.message);
                     return status;
@@ -304,6 +338,12 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
         progress_.events_processed++;
     }
 
+    if (replay_errors > 0) {
+        return Status::Error(
+            "WAL replay encountered " + std::to_string(replay_errors) +
+            " error(s); first error: " + first_replay_error);
+    }
+
     return Status::OK();
 }
 
@@ -312,6 +352,9 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
     switch (event.type) {
         case Changefeed::ChangeEventType::EVENT_PUT:
             // PUT → DELETE (remove the key)
+            // delete_no_nullptr scanner alert (line 338): db_->del() is a method call on
+            // RocksDBWrapper, not the delete operator; there is no raw pointer being
+            // deleted here — false positive.
             // RocksDBWrapper::del() returns bool - true on success
             if (!db_->del(event.key)) {
                 return Status::Error("Failed to delete key: " + event.key);
@@ -320,9 +363,22 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
 
         case Changefeed::ChangeEventType::EVENT_DELETE:
             // DELETE → PUT (restore the value)
-            // Note: This requires the previous value to be stored in metadata
-            // For now, we log a warning and skip
-            THEMIS_WARN("Cannot restore deleted key {} - previous value not available", event.key);
+            // Enforce strict recoverability: the previous value must be present
+            // either in value or in before_snapshot.
+            if (event.value.has_value()) {
+                if (!db_->put(event.key, *event.value)) {
+                    return Status::Error("Failed to restore deleted key from event value: " + event.key);
+                }
+                break;
+            }
+            if (event.before_snapshot.has_value()) {
+                if (!db_->put(event.key, *event.before_snapshot)) {
+                    return Status::Error("Failed to restore deleted key from before_snapshot: " + event.key);
+                }
+                break;
+            }
+            return Status::Error(
+                "Cannot reverse DELETE without previous value (key=" + event.key + ")");
             break;
 
         case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:

@@ -1,28 +1,23 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            slo_monitor.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     235                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file slo_monitor.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_SHARDING_SLO_MONITOR_H
-#define THEMIS_SHARDING_SLO_MONITOR_H
+/*
+ * ThemisDB | File: slo_monitor.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <map>
@@ -31,6 +26,7 @@
 #include <mutex>
 #include <atomic>
 #include <memory>
+#include <thread>
 
 namespace themis {
 namespace sharding {
@@ -65,32 +61,51 @@ struct SLOTarget {
  */
 class SLOWindow {
 public:
+    /**
+     * @brief Create an SLO measurement window.
+     * @param window_duration Rolling aggregation window duration.
+     */
     explicit SLOWindow(std::chrono::seconds window_duration = std::chrono::seconds(3600));
     
-    // Record an uptime/downtime event
+    /** @brief Record uptime duration sample. */
     void recordUptime(std::chrono::milliseconds duration);
+    /** @brief Record downtime duration sample. */
     void recordDowntime(std::chrono::milliseconds duration);
     
-    // Record latency observation
+    /**
+     * @brief Record latency observation in milliseconds.
+     * @param latency_ms Observed latency.
+     */
     void recordLatency(double latency_ms);
     
-    // Record data loss event
+    /** @brief Record observed lost bytes for durability accounting. */
     void recordDataLoss(uint64_t bytes_lost);
     
-    // Record replication lag
+    /**
+     * @brief Record replication lag sample in milliseconds.
+     * @param lag_ms Replication lag.
+     */
     void recordReplicationLag(double lag_ms);
     
-    // Calculate SLO compliance
+    /** @brief Compute availability ratio in [0,1]. */
     double getAvailability() const;
+    /** @brief Compute p50 latency from current samples (ms). */
     double getLatencyP50() const;
+    /** @brief Compute p99 latency from current samples (ms). */
     double getLatencyP99() const;
+    /** @brief Compute data-loss rate as lost_bytes / written_bytes. */
     double getDataLossRate() const;
+    /** @brief Compute average replication lag in milliseconds. */
     double getAvgReplicationLag() const;
     
-    // Get error budget remaining
+    /**
+     * @brief Compute remaining error budget fraction.
+     * @param target_availability Target availability ratio in [0,1].
+     * @return Remaining budget fraction where 1.0 means unused budget.
+     */
     double getErrorBudget(double target_availability) const;
     
-    // Reset the window
+    /** @brief Reset all accumulated samples and counters for this window. */
     void reset();
     
 private:
@@ -130,39 +145,106 @@ public:
         double alert_threshold = 0.9;  // Alert when error budget reaches 90%
         static Config defaults() { return {}; }
     };
-    
+
+    /**
+     * Repair progress snapshot reported by ShardRepairEngine.
+     * Allows operators to track time-to-full-repair for large shards.
+     */
+    struct RepairProgress {
+        std::string job_id;
+        uint64_t documents_scanned = 0;
+        uint64_t documents_total = 0;    ///< 0 = unknown total
+        uint64_t documents_repaired = 0;
+        uint64_t documents_failed = 0;
+        double percent_complete = 0.0;   ///< [0, 100]
+        std::chrono::system_clock::time_point started_at;
+        std::chrono::system_clock::time_point updated_at;
+        bool completed = false;
+    };
+
+    /** @brief Construct SLO monitor with runtime targets and alert policy. */
     explicit SLOMonitor(const Config& config = Config::defaults());
     ~SLOMonitor() = default;
     
-    // Update SLO measurements
+    /**
+     * @brief Record shard availability sample.
+     * @param shard_id Logical shard id.
+     * @param is_available True for uptime sample, false for downtime sample.
+     */
     void recordShardAvailability(const std::string& shard_id, bool is_available);
+
+    /**
+     * @brief Record query latency sample for query-type SLO tracking.
+     * @param shard_id Shard id (reserved for future per-shard query slicing).
+     * @param query_type Query-class label (for target selection).
+     * @param latency_ms Observed latency in milliseconds.
+     */
     void recordQueryLatency(const std::string& shard_id, const std::string& query_type, double latency_ms);
+
+    /**
+     * @brief Record transaction latency sample.
+     * @param transaction_type Transaction-class label.
+     * @param latency_ms Observed latency in milliseconds.
+     */
     void recordTransactionLatency(const std::string& transaction_type, double latency_ms);
+
+    /**
+     * @brief Record data-loss event for durability SLO.
+     * @param shard_id Shard id.
+     * @param bytes_lost Number of bytes lost.
+     */
     void recordDataLoss(const std::string& shard_id, uint64_t bytes_lost);
+
+    /**
+     * @brief Record replication lag observation.
+     * @param shard_id Shard id.
+     * @param lag_ms Replication lag in milliseconds.
+     */
     void recordReplicationLag(const std::string& shard_id, double lag_ms);
+
+    /**
+     * @brief Record leader-election duration sample.
+     * @param shard_id Shard id.
+     * @param duration_s Election duration in seconds.
+     */
     void recordLeaderElection(const std::string& shard_id, double duration_s);
-    
-    // SLO compliance checks
+
+    /** @brief Record or update repair-progress snapshot keyed by job id. */
+    void recordRepairProgress(const RepairProgress& progress);
+    /** @brief Return latest repair progress for one job id (empty shell if unknown). */
+    RepairProgress getRepairProgress(const std::string& job_id) const;
+    /** @brief Return all repair jobs that are not yet marked completed. */
+    std::vector<RepairProgress> getActiveRepairJobs() const;
+
+    /** @brief Check availability SLO compliance for a shard. */
     bool isAvailabilitySLOMet(const std::string& shard_id) const;
+    /** @brief Check latency SLO compliance for a query class. */
     bool isLatencySLOMet(const std::string& query_type) const;
+    /** @brief Check durability SLO compliance for a shard. */
     bool isDurabilitySLOMet(const std::string& shard_id) const;
+    /** @brief Check consistency SLO compliance for a shard. */
     bool isConsistencySLOMet(const std::string& shard_id) const;
     
-    // Error budget tracking
+    /** @brief Get remaining error budget for a shard in [0,1]. */
     double getErrorBudget(const std::string& shard_id) const;
+    /** @brief Get average remaining global error budget in [0,1]. */
     double getGlobalErrorBudget() const;
+    /** @brief Return true when shard error budget is fully exhausted. */
     bool isErrorBudgetExhausted(const std::string& shard_id) const;
     
-    // SLO reporting
+    /** @brief Render human-readable SLO compliance report. */
     std::string generateSLOReport() const;
+    /** @brief Render machine-readable SLO report as JSON string. */
     std::string generateSLOReportJSON() const;
+    /** @brief Return compliance map keyed by metric name. */
     std::map<std::string, double> getSLOCompliance() const;
     
-    // Alert generation
+    /** @brief Return currently active alert messages. */
     std::vector<std::string> getActiveAlerts() const;
     
-    // Configuration
+    /** @brief Get active SLO target configuration. */
     const SLOTarget& getTargets() const { return config_.targets; }
+    /** @brief Replace SLO target configuration at runtime. */
     void updateTargets(const SLOTarget& targets);
     
 private:
@@ -181,6 +263,9 @@ private:
     // Alert state
     mutable std::vector<std::string> active_alerts_;
     
+    // Per-job repair progress registry
+    std::map<std::string, RepairProgress> repair_progress_;
+
     // Helper methods
     std::shared_ptr<SLOWindow> getOrCreateShardWindow(const std::string& shard_id);
     std::shared_ptr<SLOWindow> getOrCreateQueryWindow(const std::string& query_type);
@@ -209,14 +294,16 @@ public:
         static Config defaults() { return {}; }
     };
     
+    /** @brief Construct periodic SLO reporter bound to monitor instance. */
     explicit SLOReporter(SLOMonitor& monitor, const Config& config = Config::defaults());
     ~SLOReporter();
     
-    // Start/stop periodic reporting
+    /** @brief Start periodic report generation loop. */
     void start();
+    /** @brief Stop periodic report generation loop. */
     void stop();
     
-    // Generate report immediately
+    /** @brief Generate and persist one report immediately. */
     void generateReport();
     
 private:
@@ -232,5 +319,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_SLO_MONITOR_H

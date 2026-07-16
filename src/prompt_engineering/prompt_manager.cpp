@@ -1,28 +1,25 @@
+/**
+ * @file prompt_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=9; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     477                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ce103509d  2026-02-23  Code audit: fix stale Stubs/Total-Lines metadata in promp... ║
-    • 928e297c4  2026-02-23  Implement multi-modal prompt support with image descriptions ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 464
+ * Gap Summary: total=9; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=18, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "prompt_engineering/prompt_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "utils/logger.h"
@@ -164,8 +161,8 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
     if (db_) {
         std::vector<PromptTemplate> out;
         std::string prefix = KEY_PREFIX;
-        db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-            (void)key; // silence unused parameter warning
+        db_->scanPrefix(prefix, [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {
+            // silence unused parameter warning
             try {
                 auto j = nlohmann::json::parse(std::string(value));
                 PromptTemplate t;
@@ -476,3 +473,4 @@ std::string PromptManager::buildMultiModalPrompt(
 
 } // namespace prompt_engineering
 } // namespace themis
+

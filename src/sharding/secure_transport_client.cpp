@@ -1,27 +1,26 @@
+/**
+ * @file secure_transport_client.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            secure_transport_client.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: secure_transport_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 270
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * PR History (last 5): #1134 Implement cross-shard LoRA ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/secure_transport_client.h"
 #include "utils/cursor.h"
+#include "utils/lz4_codec.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <chrono>
@@ -29,8 +28,41 @@
 
 namespace themis::sharding {
 
+// ============================================================================
+// LZ4 bridges (stub #295)
+// ============================================================================
+
+void SecureTransportClient::setLz4CompressFn(Lz4CompressFn fn) {
+    lz4CompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4CompressFn() {
+    lz4CompressFn_ = nullptr;
+}
+
+void SecureTransportClient::setLz4DecompressFn(Lz4DecompressFn fn) {
+    lz4DecompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4DecompressFn() {
+    lz4DecompressFn_ = nullptr;
+}
+
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
+
+    // Default LZ4 bridge uses the in-tree codec; tests may replace this path.
+    setLz4CompressFn([this](const std::string& input, std::string& output) {
+        const auto compressed_bytes = utils::lz4_compress_safe(
+            reinterpret_cast<const uint8_t*>(input.data()),
+            input.size(),
+            std::max(1, config_.compression_level));
+        if (!compressed_bytes || compressed_bytes->empty()) {
+            return false;
+        }
+        output.assign(compressed_bytes->begin(), compressed_bytes->end());
+        return true;
+    });
     
     // Create mTLS client if certificates provided
     if (!config_.cert_path.empty()) {
@@ -58,7 +90,9 @@ std::shared_ptr<MTLSClient> SecureTransportClient::getMTLSClient() const {
     return mtls_client_;
 }
 
-bool SecureTransportClient::compressData(const std::string& data, std::string& compressed) {
+bool SecureTransportClient::compressData(const std::string& data,
+                                         std::string& compressed,
+                                         std::string* compression_codec) {
     if (config_.compression == Config::CompressionType::None) {
         return false;
     }
@@ -73,13 +107,32 @@ bool SecureTransportClient::compressData(const std::string& data, std::string& c
             auto compressed_bytes = utils::zstd_compress(data, config_.compression_level);
             if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
                 compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
+                if (compression_codec != nullptr) {
+                    *compression_codec = "zstd";
+                }
                 spdlog::debug("SecureTransportClient: Compressed {} -> {} bytes (ratio: {:.2f}x)",
                              data.size(), compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }
         }
-        // TODO: Add LZ4 support in the future
+        if (config_.compression == Config::CompressionType::LZ4) {
+            std::string lz4_output;
+            const bool compressed_ok = lz4CompressFn_ && lz4CompressFn_(data, lz4_output);
+            if (compressed_ok && !lz4_output.empty() && lz4_output.size() < data.size()) {
+                compressed = std::move(lz4_output);
+                if (compression_codec != nullptr) {
+                    *compression_codec = "lz4";
+                }
+                spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
+                             data.size(), compressed.size(),
+                             static_cast<double>(data.size()) / compressed.size());
+                return true;
+            }
+            if (!compressed_ok) {
+                spdlog::warn("SecureTransportClient: LZ4 compression unavailable");
+            }
+        }
     } catch (const std::exception& e) {
         spdlog::warn("SecureTransportClient: Compression failed: {}", e.what());
     }
@@ -114,12 +167,14 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         size_t original_size = payload.data.size();
         std::string transfer_data;
         bool compressed = false;
+        std::string compression_codec = "none";
         
         // Try compression
         std::string compressed_data;
-        if (compressData(payload.data, compressed_data)) {
+        if (compressData(payload.data, compressed_data, &compression_codec)) {
             transfer_data = compressed_data;
             compressed = true;
+            compression_codec = (config_.compression == Config::CompressionType::LZ4) ? "lz4" : "zstd";
             result.bytes_compressed = compressed_data.size();
             result.compression_ratio = static_cast<double>(original_size) / compressed_data.size();
         } else {
@@ -146,7 +201,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         
         // Add compression info
         if (compressed) {
-            request["compression"] = "zstd";
+            request["compression"] = compression_codec;
             request["original_size"] = original_size;
         } else {
             request["compression"] = "none";
@@ -157,18 +212,20 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         request["data"] = data_base64;
         request["content_type"] = payload.content_type;
         
-        // TODO: MTLSClient doesn't currently support custom headers (like Authorization: Bearer)
-        // For cross-shard communication, the receiving endpoint needs to either:
-        // 1. Bypass JWT validation when mTLS certificate is valid (service-to-service auth)
-        // 2. MTLSClient needs to be extended to accept custom headers
-        // 3. Use a separate endpoint that doesn't require JWT (only mTLS)
-        // Currently: authorization_token in payload is not used
-        
-        // Send via mTLS POST
+        // Send via mTLS POST, forwarding the authorization_token as an Authorization: Bearer
+        // header so that the receiving endpoint can validate the service-to-service JWT.
+        // This removes the need for the receiver to bypass JWT validation for mTLS calls.
         spdlog::debug("SecureTransportClient: Sending {} bytes (compressed: {}) to {}{}",
                      original_size, compressed, endpoint, path);
         
-        auto response = mtls_client_->post(endpoint, path, request);
+        std::string auth_header;
+        if (!payload.authorization_token.empty()) {
+            auth_header = "Bearer " + payload.authorization_token;
+        }
+        
+        auto response = auth_header.empty()
+            ? mtls_client_->post(endpoint, path, request)
+            : mtls_client_->post(endpoint, path, request, auth_header);
         
         if (response.success) {
             result.success = true;

@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_performance_tracker.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     348                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_performance_tracker.cpp
- * @brief Implementation of prompt performance tracking
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "prompt_engineering/prompt_performance_tracker.h"
@@ -123,7 +107,10 @@ void PromptPerformanceTracker::recordExecution(
     if (db_) {
         persist(prompt_id, it->second);
     }
-    
+
+    // Safe logging note: this tracker emits only prompt identifiers and
+    // aggregate execution metrics. It never logs prompt bodies, user content,
+    // bearer tokens, or other credential material.
     THEMIS_DEBUG("Recorded execution for prompt {}: success={}, latency={}ms, success_rate={:.2f}",
                  prompt_id, success, latency_ms, it->second.success_rate);
 }
@@ -300,7 +287,7 @@ void PromptPerformanceTracker::loadFromDB() {
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;
     
-    db_->scanPrefix(prefix, [this, &loaded](std::string_view key, std::string_view value) -> bool {
+    db_->scanPrefix(prefix, [this, &loaded](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto j = nlohmann::json::parse(std::string(value));
             auto metrics = PromptMetrics::fromJson(j);

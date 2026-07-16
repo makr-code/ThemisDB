@@ -1,25 +1,21 @@
+/**
+ * @file columnar_execution.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            columnar_execution.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     498                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 623e3addf  2026-02-24  fix(analytics): remove dead intersect declaration and fix... ║
-    • f855855c8  2026-02-24  feat(analytics): implement columnar execution engine with... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: columnar_execution.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 505
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4317 feat(analytics): SIMD Vecto... (2026-03-18) | #4311 Implement memory pool alloc... (2026-03-17) | #2759 [analytics] Columnar execut... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -57,6 +53,9 @@
 #include <unordered_map>
 #include <variant>
 #include <vector>
+
+// Arena allocator used by AggregateOperator for GROUP BY scratch memory.
+#include "analytics/detail/memory_pool.h"
 
 namespace themisdb {
 namespace analytics {
@@ -133,6 +132,17 @@ public:
     const std::vector<std::string>& stringData() const noexcept { return string_data_; }
     const std::vector<bool>&        boolData()   const noexcept { return bool_data_;   }
 
+    /** Returns true when at least one null has been appended.
+     *  Use this in SIMD fast-path guards instead of nullBitmap().empty(),
+     *  since null_bitmap_ is always populated regardless of whether any
+     *  row is actually null. */
+    bool                            hasNulls()   const noexcept { return has_nulls_; }
+
+    /** Null bitmap — one entry per row; true == null.
+     *  Always populated (never empty for a non-empty column).
+     *  Call hasNulls() first to check whether any null is present. */
+    const std::vector<bool>&        nullBitmap() const noexcept { return null_bitmap_; }
+
     // Typed append
     void appendInt64(int64_t     value, bool is_null = false);
     void appendDouble(double     value, bool is_null = false);
@@ -160,6 +170,7 @@ private:
     std::vector<std::string> string_data_;
     std::vector<bool>       bool_data_;
     std::vector<bool>       null_bitmap_;   // true == null
+    bool                    has_nulls_ = false;  // true iff at least one null was ever appended
     size_t                  row_count_ = 0;
 };
 
@@ -337,6 +348,12 @@ private:
                                   const std::vector<std::string>& group_cols) const;
 
     std::vector<AggregateSpec> specs_;
+
+    // Per-operator arena allocator.  Mutable so const execute() / aggregateGroupBy()
+    // can call pool_.reset() at the start of each GROUP BY pass — no allocations
+    // escape this class, so the logical const-ness of the operator is preserved.
+    mutable themis::analytics::detail::AnalyticsMemoryPool pool_{
+        4ULL * 1024 * 1024};  // 4 MiB initial (GROUP BY scratch, much smaller than OLAP)
 };
 
 // ============================================================================

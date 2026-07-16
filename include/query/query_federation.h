@@ -1,32 +1,36 @@
+/**
+ * @file query_federation.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_federation.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     266                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_federation.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "sharding/shard_router.h"
+#include "sharding/urn_resolver.h"
+#include "sharding/sharding_manager.h"
+#include "sharding/adaptive_shard_router.h"
 #include "query/query_optimizer.h"
+#include "distributed_knowledge/federated_rag_merger.h"
 #include <string>
 #include <vector>
 #include <memory>
+#include <optional>
+#include <atomic>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis::query {
@@ -104,21 +108,117 @@ public:
         std::vector<std::string> target_shards;
         std::vector<std::string> sub_queries;
         std::string merge_operation;
-        uint64_t estimated_cost;
+        uint64_t estimated_cost = 0;
     };
     
     /**
      * @brief Construct query federation engine
      * 
      * @param shard_router Shard router for execution
-     * @param config Configuration
      */
     QueryFederation(std::shared_ptr<sharding::ShardRouter> shard_router);
+    
+    /**
+     * @brief Construct query federation engine with configuration
+     * 
+     * @param shard_router Shard router for execution
+     * @param config Configuration
+     */
     QueryFederation(
         std::shared_ptr<sharding::ShardRouter> shard_router,
         const Config& config
     );
     
+    /**
+     * @brief Construct query federation engine with explicit ShardingManager
+     *
+     * Enables shard-key routing (point-lookup and range queries) so that
+     * only the relevant shards are consulted instead of broadcasting to all.
+     *
+     * @param shard_router      Shard router for execution
+     * @param sharding_manager  ShardingManager owning the consistent-hash ring
+     */
+    QueryFederation(
+        std::shared_ptr<sharding::ShardRouter> shard_router,
+        sharding::ShardingManager& sharding_manager
+    );
+    
+    /**
+     * @brief Construct query federation engine with explicit ShardingManager and configuration
+     *
+     * Enables shard-key routing (point-lookup and range queries) so that
+     * only the relevant shards are consulted instead of broadcasting to all.
+     *
+     * @param shard_router      Shard router for execution
+     * @param sharding_manager  ShardingManager owning the consistent-hash ring
+     * @param config            Optional configuration
+     */
+    QueryFederation(
+        std::shared_ptr<sharding::ShardRouter> shard_router,
+        sharding::ShardingManager& sharding_manager,
+        const Config& config
+    );
+    
+    // ── DK-4: Federated RAG merge (Layer C) ─────────────────────────────────
+
+    /**
+     * @brief Inject a FederatedRAGMerger (DK-4 DI-setter).
+     *
+     * When set, `executeFederatedRAGQuery()` uses this merger to combine
+     * per-shard retrieval results via Reciprocal Rank Fusion.
+     */
+    void setRAGMerger(
+        std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger);
+
+    /**
+     * @brief Inject an AdaptiveShardRouter for per-shard accuracy-delta lookup
+     *        (DK-4 DI-setter).
+     *
+     * When set, `executeFederatedRAGQuery()` enriches each
+     * `ShardRetrievalResult` with `adapter_accuracy_delta` from the router
+     * so that specialised shards are boosted during RRF merge.
+     *
+     * @param router  Typed AdaptiveShardRouter — provides
+     *                `getAdapterAccuracyDelta(shard_id, domain)`.
+     */
+    void setShardRouter(
+        std::shared_ptr<sharding::AdaptiveShardRouter> router);
+
+    /**
+     * @brief Merge pre-built per-shard retrieval results via the injected
+     *        FederatedRAGMerger.
+     *
+     * Exposed publicly so unit tests can bypass the fan-out and verify merge
+     * logic directly without a running shard cluster.
+     *
+     * @throws std::logic_error when no RAGMerger has been injected.
+     */
+    [[nodiscard]] distributed_knowledge::MergedRAGContext mergeRAGResults(
+        const std::vector<distributed_knowledge::ShardRetrievalResult>& shard_results
+    ) const;
+
+    /**
+     * @brief Execute a RAG-aware federated query.
+     *
+     * Fan-out to all shards via `shard_router_->scatterGather()`, convert
+     * each `ShardResult` to `ShardRetrievalResult` (including
+     * `adapter_accuracy_delta` when an AdaptiveShardRouter is injected),
+     * then merge via `FederatedRAGMerger`.
+     *
+     * Timeout shards (`success == false`) are marked `ok = false` and
+     * skipped by the merger automatically.
+     *
+     * @throws std::logic_error when no RAGMerger has been injected.
+     * @param domain  Domain type used for accuracy-delta lookup (default: GENERAL).
+     */
+    [[nodiscard]] distributed_knowledge::MergedRAGContext executeFederatedRAGQuery(
+        const std::string& query,
+        distributed_knowledge::AdapterDomainType domain =
+            distributed_knowledge::AdapterDomainType::GENERAL
+    );
+
+    // ── Standard execution ───────────────────────────────────────────────────
+
     /**
      * @brief Execute federated query
      * 
@@ -183,8 +283,10 @@ public:
      */
     nlohmann::json getStatistics() const;
 
-private:
+public:
     std::shared_ptr<sharding::ShardRouter> shard_router_;
+    // Non-owning pointer; nullptr when no ShardingManager was injected.
+    sharding::ShardingManager* sharding_manager_ = nullptr;
     Config config_;
     
     // Statistics
@@ -193,6 +295,11 @@ private:
     std::atomic<uint64_t> partition_pruned_queries_{0};
     std::atomic<uint64_t> broadcast_joins_{0};
     std::atomic<uint64_t> shuffle_joins_{0};
+    mutable std::mutex routing_mutex_;
+
+    // ── DK-4: Federated RAG merge ────────────────────────────────────────────
+    std::shared_ptr<distributed_knowledge::FederatedRAGMerger> rag_merger_;
+    std::shared_ptr<sharding::AdaptiveShardRouter>             adaptive_router_;
     
     /**
      * @brief Analyze query to extract metadata
@@ -201,6 +308,18 @@ private:
      * @return Query metadata (tables, predicates, etc.)
      */
     struct QueryMetadata {
+        // ── Shard-key predicate ──────────────────────────────────────────────
+        // Populated by analyzeQuery() when it detects a _key == <value> or
+        // _key >= <min> AND _key <= <max> predicate, enabling partition pruning.
+        struct ShardKeyPredicate {
+            enum class Kind { POINT, RANGE };
+            Kind kind;
+            std::string collection;
+            std::string key_value;   // used when kind == POINT
+            std::string key_min;     // used when kind == RANGE
+            std::string key_max;     // used when kind == RANGE
+        };
+
         std::vector<std::string> tables;
         std::vector<std::string> predicates;
         std::vector<std::string> projections;
@@ -209,10 +328,21 @@ private:
         std::optional<std::string> order_by;
         std::optional<uint64_t> limit;
         std::optional<uint64_t> offset;
+
+        // Shard-key routing hint (nullopt → no routing hint, use scatter-gather)
+        std::optional<ShardKeyPredicate> shard_key_predicate;
         
         // Extended for adaptive capability-based routing
         std::string query_text;               // Original query text
         std::vector<float> embeddings;        // Query embeddings for semantic matching
+
+        // Shard-key routing fields (populated by analyzeQuery)
+        // Set when the query contains an equality predicate on _key:
+        //   FILTER doc._key == "<value>"
+        std::optional<std::string> point_lookup_key;
+        // Set when the query contains a range predicate on _key:
+        //   FILTER doc._key >= "<min>" AND doc._key <= "<max>"
+        std::optional<std::pair<std::string, std::string>> key_range;
     };
     QueryMetadata analyzeQuery(const std::string& query);
     

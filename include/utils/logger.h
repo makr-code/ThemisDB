@@ -1,25 +1,20 @@
+/**
+ * @file logger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            logger.h                                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     153                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5cc90811f  2026-02-23  fix(core): trace ID injection into JSON structured logs; ... ║
-    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: logger.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -134,12 +129,13 @@ public:
     static void critical(FormatString&& fmt, Args&&... args);
 
 private:
-    static std::shared_ptr<spdlog::logger> logger_;
+    inline static std::shared_ptr<spdlog::logger> logger_{};
     static LogMetrics metrics_;
-    static std::string trace_context_;
-    static std::mutex trace_context_mu_;
-    static bool json_mode_;
+    inline static std::string trace_context_{};
+    inline static std::mutex trace_context_mu_{};
+    inline static bool json_mode_ = false;
 
+    static LogMetrics& metricsStorage();
     static spdlog::level::level_enum toSpdlogLevel(Level level);
 };
 
@@ -173,6 +169,7 @@ class THEMIS_BASE_API SampledLogger {
 public:
     explicit SampledLogger(std::shared_ptr<Logger> underlying,
                            SampledLoggerConfig cfg = {});
+    ~SampledLogger();
 
     /// Log with sampling; file/line identify the call-site bucket.
     void log(Logger::Level level, const std::string& msg,

@@ -1,23 +1,21 @@
+/**
+ * @file sampling_strategy.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sampling_strategy.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     250                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sampling_strategy.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 241
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=5, L=0
+ * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #526 Implement token sampling st... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/sampling_strategy.h"
@@ -35,7 +33,7 @@ namespace llm {
 
 llama_token GreedySampling::sample(
     llama_context* ctx,
-    const std::vector<llama_token>& last_tokens,
+    const std::vector<llama_token>& /*last_tokens*/,
     int pos) {
     
     // Note: last_tokens parameter is not used in greedy sampling
@@ -169,7 +167,7 @@ MirostatSampling::MirostatSampling(float tau, float eta)
 
 llama_token MirostatSampling::sample(
     llama_context* ctx,
-    const std::vector<llama_token>& last_tokens,
+    const std::vector<llama_token>& /*last_tokens*/,
     int pos) {
     // Simplified Mirostat: approximate via nucleus with adaptive temperature
     spdlog::debug("MirostatSampling::sample - tau={}, eta={}", tau_, eta_);
@@ -251,3 +249,4 @@ std::unique_ptr<ISamplingStrategy> SamplingStrategyFactory::create(
 
 } // namespace llm
 } // namespace themis
+

@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-04-03T19:11:28.1638507+02:00",
+  "build_preset": "msvc-ninja-release",
+  "repeat_count": 20,
+  "output_dir": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_191127",
+  "gates": [
+    {
+      "name": "openapi-completeness-local",
+      "passed": false,
+      "details": "Undocumented source route hints found (see report)",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_191127\\openapi-completeness.json"
+    },
+    {
+      "name": "cluster-chaos-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "sla-99.99-local-proxy",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "pentest-report-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "beta-module-exit",
+      "passed": false,
+      "details": "6 beta modules still listed in ROADMAP.md",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_191127\\beta_modules.txt"
+    }
+  ],
+  "failed_gate_count": 5
+}

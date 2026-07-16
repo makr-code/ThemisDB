@@ -1,27 +1,21 @@
+/**
+ * @file auth_error.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_error.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     587                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e18972c32  2026-02-24  fix(auth): resolve PASSWORD_POLICY_VIOLATION enum collisi... ║
-    • ad8c8cf55  2026-02-23  feat(auth): implement API key authentication (static key ... ║
-    • 16d49bcf3  2026-02-22  fix(auth): register SAML 2.0 error codes in ErrorRegistry ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_error.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=0, L=0
+ * PR History (last 5): #4144 feat(auth): SAML Assertion ... (2026-03-13) | #2826 feat(auth): improve unit te... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12) | #2392 feat(auth): SAML 2.0 SP aut... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/auth_error.h"
@@ -215,15 +209,15 @@ std::string AuthError::maskToken(const std::string& token) {
 
 std::string AuthError::generateRequestId() {
     // Generate a random request ID (format: auth-XXXXXXXX)
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    static std::random_device local_rd;
+    static std::mt19937 local_gen(local_rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
     std::stringstream ss;
     ss << "auth-";
     
     for (int i = 0; i < 8; i++) {
-        ss << std::hex << dis(gen);
+        ss << std::hex << dis(local_gen);
     }
     
     return ss.str();
@@ -583,7 +577,21 @@ void registerAuthErrors() {
         {},
         {"password", "policy", "validation"}
     });
+
+    // SAML assertion decryption errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_DECRYPTION_FAILED),
+        "Authentication",
+        "Error",
+        "Assertion decryption failed",
+        "The EncryptedAssertion could not be decrypted with the configured SP private key",
+        "Verify that SAMLConfig::sp_private_key_loader returns the correct unencrypted SP "
+        "private key and that the IdP is encrypting assertions with the matching SP certificate",
+        {},
+        {"saml", "encryption", "assertion", "decryption"}
+    });
 }
 
 } // namespace auth
 } // namespace themis
+

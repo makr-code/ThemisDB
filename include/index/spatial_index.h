@@ -1,25 +1,21 @@
+/**
+ * @file spatial_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            spatial_index.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     325                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4e4639844  2026-02-24  feat(geo): integrate R-tree index with CPU backend (Spati... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: spatial_index.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 334
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #1135 Complete geospatial product... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11) | #63 Add complete 3D geospatial ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -35,6 +31,8 @@
 #include <optional>
 #include <cfloat>
 #include <atomic>
+#include <mutex>
+#include <shared_mutex>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -158,6 +156,29 @@ public:
     };
     IndexStats getStats(std::string_view table) const;
     
+    // ===== Bulk Operations =====
+
+    /**
+     * @brief Bulk-load a collection of (primary_key, sidecar) pairs into the
+     *        spatial index for a given table.
+     *
+     * Uses STR (Sort-Tile-Recursive) packing via GeoRTree::bulkLoad(), which
+     * is 3–5× faster than incremental insertion for read-heavy workloads.
+     * Replaces any previously cached in-memory R-tree for the table.
+     *
+     * Memory usage is reported as a structured log entry with field
+     * `geo_index_bytes_allocated` after the bulk load completes.
+     *
+     * @param table   Name of the table whose spatial index should be populated.
+     * @param entries Vector of {primary_key, GeoSidecar} pairs to index.
+     * @return Status::OK() on success or Status::Error() if the table has no
+     *         spatial index registered.
+     */
+    Status bulkLoad(
+        std::string_view table,
+        const std::vector<std::pair<std::string, geo::GeoSidecar>>& entries
+    );
+
     // ===== Insert/Update/Delete =====
     
     /// Insert entity into spatial index
@@ -275,6 +296,10 @@ private:
                                std::unordered_map<std::string, geo::MBR>> mbr_cache_;
     // Set of tables whose R-tree has been built (lazily or from writes).
     mutable std::unordered_set<std::string> rtree_built_;
+
+    // Mutex protecting rtrees_, mbr_cache_, and rtree_built_ for thread-safe
+    // concurrent read (shared) and exclusive write (unique) access.
+    mutable std::shared_mutex rtree_mutex_;
 
     // Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
     // No-op if already built.  Called automatically inside searchIntersects.

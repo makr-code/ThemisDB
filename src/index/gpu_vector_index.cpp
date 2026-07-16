@@ -1,40 +1,35 @@
+/**
+ * @file gpu_vector_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=16, M=15, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_vector_index.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1066                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bdf8bb008  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
-    • de87a9ce1  2026-02-28  feat(index): implement GPU-accelerated buildIndex, saveIn... ║
-    • b4714f29a  2026-02-26  fix(index): populate vramUsageBytes from per-index budget... ║
-    • 2813641e1  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_vector_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1613
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=25, M=22, L=0
+ * PR History (last 5): #4186 feat(index): GPU Memory Ove... (2026-03-13) | #4138 feat(index): Implement CUDA... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #3125 feat(index): GPU-accelerate... (2026-03-12) | #3015 [index] Configurable GPU me... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/gpu_vector_index.h"
+#include "index/gpu_memory_oversubscription.h"
 #include "acceleration/compute_backend.h"
 #include "acceleration/cuda_backend.h"
 #include "themis/gpu/memory_manager.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cmath>
 #include <fstream>
 #include <stdexcept>
-#include <iostream>
 #include <unordered_map>
 #include <memory>
 
@@ -42,15 +37,7 @@
 #include "llm/lora_framework/vulkan_context.h"
 #include "llm/lora_framework/vulkan_buffer.h"
 #include "llm/lora_framework/vulkan_pipeline.h"
-#endif
-
-// Forward declare Vulkan backend
-#ifdef THEMIS_ENABLE_VULKAN
-namespace themis {
-namespace index {
-class VulkanVectorIndexBackend;
-}
-}
+#include "index/gpu_vector_index_vulkan.h"
 #endif
 
 // Include GPU backend headers
@@ -86,6 +73,18 @@ public:
     std::unique_ptr<VulkanVectorIndexBackend> vulkanBackend;
     bool gpuDataDirty = false;  // Track if GPU needs re-upload
     #endif
+
+    #ifdef THEMIS_ENABLE_CUDA
+    std::unique_ptr<themis::acceleration::CUDAVectorBackend> cudaBackend;
+    std::vector<float> flatVectorCache;      // Flattened CPU-side copy for GPU transfer
+    bool flatVectorCacheDirty = true;        // Rebuild before next GPU search
+    #endif
+
+    #ifdef THEMIS_ENABLE_HIP
+    std::unique_ptr<themis::acceleration::HIPVectorBackend> hipBackend;
+    std::vector<float> hipFlatVectorCache;   // Flattened CPU-side copy for HIP transfer
+    bool hipFlatVectorCacheDirty = true;     // Rebuild before next HIP search
+    #endif
     
     // Statistics
     Statistics stats;
@@ -97,12 +96,127 @@ public:
     std::string vramBudgetTag;         // Unique tenant tag for GPUMemoryManager
     uint64_t vramAllocatedBytes = 0;   // Bytes currently tracked against the budget
 
+    // GPU Memory Oversubscription (v1.7.0)
+    // Active when config.enable_oversubscription == true.
+    std::unique_ptr<GPUMemoryOversubscriptionManager> oversubManager;
+
+    // When true, rebuildOversubPartitions() is a no-op.  Used by loadIndex()
+    // to defer the (expensive) full partition rebuild until after all vectors
+    // are loaded, avoiding O(n²) behaviour.
+    std::atomic<bool> oversubBulkLoading_{false};
+
+    // Rebuild the oversubscription manager partitions from the current vectorData.
+    // Called after every vector mutation when oversubscription is enabled.
+    void rebuildOversubPartitions() {
+        if (!oversubManager || vectorData.empty() || oversubBulkLoading_) return;
+
+        // Remove all existing partitions.
+        for (size_t pid : oversubManager->getAllPartitionIds()) {
+            oversubManager->removePartition(pid);
+        }
+
+        const size_t dim   = static_cast<size_t>(dimension);
+        const size_t psize = (config.oversubscription_partition_vectors > 0)
+                                 ? config.oversubscription_partition_vectors
+                                 : static_cast<size_t>(65536);
+        const size_t total = vectorData.size();
+
+        for (size_t start = 0; start < total; start += psize) {
+            const size_t end = std::min(start + psize, total);
+            const size_t n   = end - start;
+
+            std::vector<float> flat;
+            flat.reserve(n * dim);
+            for (size_t i = start; i < end; ++i) {
+                flat.insert(flat.end(), vectorData[i].begin(), vectorData[i].end());
+            }
+            const std::string tag = "vecs[" + std::to_string(start) + "," +
+                                    std::to_string(end) + ")";
+            oversubManager->addPartition(flat, n, dim, tag);
+        }
+    }
+
+    // Search all oversubscription partitions and return merged top-k results.
+    std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
+        if (!oversubManager || vectorData.empty() ||
+            query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
+                        static_cast<bool>(oversubManager), vectorData.size(), query.size(), dimension);
+            return {};
+        }
+
+        auto startTime = std::chrono::steady_clock::now();
+
+        const size_t dim   = static_cast<size_t>(dimension);
+        const size_t psize = (config.oversubscription_partition_vectors > 0)
+                                 ? config.oversubscription_partition_vectors
+                                 : static_cast<size_t>(65536);
+
+        // Accumulate candidates from each partition.
+        std::vector<std::pair<float, size_t>> candidates;
+        candidates.reserve(std::min(k * 4, vectorData.size()));
+
+        const auto partIds = oversubManager->getAllPartitionIds();
+        size_t globalOffset = 0;
+
+        for (size_t pid : partIds) {
+            // Ensure this partition is VRAM-resident (triggers LRU eviction if needed).
+            oversubManager->accessPartition(pid);
+
+            const std::vector<float>* data = oversubManager->getPartitionData(pid);
+            if (!data || data->empty()) {
+                globalOffset += psize;
+                continue;
+            }
+
+            const size_t numVecs = oversubManager->getPartitionVectorCount(pid);
+            // Brute-force distance computation on the partition data.
+            for (size_t vi = 0; vi < numVecs; ++vi) {
+                const float* vecPtr = data->data() + vi * dim;
+                float dist = computeDistance(query.data(), vecPtr, static_cast<int>(dim));
+                candidates.emplace_back(dist, globalOffset + vi);
+            }
+            globalOffset += numVecs;
+        }
+
+        // Select top-k from all candidates.
+        const size_t topK = std::min(k, candidates.size());
+        std::partial_sort(candidates.begin(), candidates.begin() + topK,
+                          candidates.end(),
+                          [](const auto& a, const auto& b) {
+                              return a.first < b.first;
+                          });
+
+        std::vector<SearchResult> results;
+        results.reserve(topK);
+        for (size_t i = 0; i < topK; ++i) {
+            const size_t idx = candidates[i].second;
+            if (idx < vectorIds.size()) {
+                results.push_back({vectorIds[idx], candidates[i].first});
+            }
+        }
+
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+
+        return results;
+    }
+
     // Returns the raw memory footprint of one vector in bytes
     uint64_t bytesPerVector() const {
         return static_cast<uint64_t>(dimension) * sizeof(float);
     }
 
     Impl(const Config& cfg) : config(cfg) {}
+
+    static std::string prefetchStrategyToString(PrefetchStrategy s) {
+        switch (s) {
+        case PrefetchStrategy::LRU:        return "LRU";
+        case PrefetchStrategy::MRU:        return "MRU";
+        case PrefetchStrategy::SEQUENTIAL: return "SEQUENTIAL";
+        default:                           return "NONE";
+        }
+    }
     
     ~Impl() {
         shutdown();
@@ -114,37 +228,34 @@ public:
         
         // Determine which backend to use
         Backend requestedBackend = config.backend;
-        if (requestedBackend == Backend::AUTO) {
-            requestedBackend = selectBestBackend();
-        }
-        
-        // Try to initialize requested backend
         bool backendInitialized = false;
-        
-        #ifdef THEMIS_ENABLE_VULKAN
-        if (requestedBackend == Backend::VULKAN) {
-            backendInitialized = initializeVulkanBackend(dim);
-            if (backendInitialized) {
-                activeBackend = Backend::VULKAN;
-                stats.isGPUActive = true;
-                std::cout << "GPUVectorIndex: Using Vulkan backend\n";
+
+        if (requestedBackend == Backend::AUTO) {
+            // AUTO means: probe and initialize the best available GPU backend
+            // in priority order, then fall back to CPU.
+            for (Backend candidateBackend : getBackendPriorityOrder()) {
+                if (tryInitializeBackend(candidateBackend, dim)) {
+                    backendInitialized = true;
+                    break;
+                }
             }
+        } else {
+            backendInitialized = tryInitializeBackend(requestedBackend, dim);
         }
-        #endif
         
         // Fall back to CPU if requested backend failed or not available
         if (!backendInitialized) {
             if (requestedBackend != Backend::CPU && !config.allowCPUFallback) {
-                std::cerr << "GPUVectorIndex: Requested backend not available and CPU fallback disabled\n";
+                THEMIS_WARN("GPUVectorIndex: Requested backend not available and CPU fallback disabled");
                 return false;
             }
             
             activeBackend = Backend::CPU;
             stats.isGPUActive = false;
             if (requestedBackend != Backend::CPU) {
-                std::cout << "GPUVectorIndex: Falling back to CPU backend\n";
+                THEMIS_WARN("GPUVectorIndex: Falling back to CPU backend");
             } else {
-                std::cout << "GPUVectorIndex: Using CPU backend\n";
+                THEMIS_INFO("GPUVectorIndex: Using CPU backend");
             }
         }
         
@@ -170,6 +281,24 @@ public:
                 vramBudgetTag, budgetBytes);
         }
 
+        // Initialise the GPU memory oversubscription manager when requested.
+        if (config.enable_oversubscription) {
+            GPUMemoryOversubscriptionManager::Config osmCfg;
+            osmCfg.enable_oversubscription = true;
+            osmCfg.vram_budget_mb          = config.vram_budget_mb;
+            osmCfg.prefetch_strategy       = config.prefetch_strategy;
+            osmCfg.partition_vectors       = config.oversubscription_partition_vectors > 0
+                                                 ? config.oversubscription_partition_vectors
+                                                 : static_cast<size_t>(65536);
+            osmCfg.use_unified_memory      = true;
+            oversubManager = std::make_unique<GPUMemoryOversubscriptionManager>(osmCfg);
+            THEMIS_INFO("GPUVectorIndex: GPU memory oversubscription enabled (VRAM budget: {}, prefetch: {})",
+                        (config.vram_budget_mb > 0
+                             ? std::to_string(config.vram_budget_mb) + " MB"
+                             : std::string("unlimited")),
+                        prefetchStrategyToString(config.prefetch_strategy));
+        }
+
         return true;
     }
     
@@ -177,6 +306,20 @@ public:
         #ifdef THEMIS_ENABLE_VULKAN
         if (vulkanBackend) {
             vulkanBackend.reset();
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_CUDA
+        if (cudaBackend) {
+            cudaBackend->shutdown();
+            cudaBackend.reset();
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (hipBackend) {
+            hipBackend->shutdown();
+            hipBackend.reset();
         }
         #endif
 
@@ -191,17 +334,110 @@ public:
             vramBudgetTag.clear();
         }
 
+        // Destroy the oversubscription manager (evicts all hot partitions).
+        oversubManager.reset();
+
         initialized = false;
     }
     
-    Backend selectBestBackend() {
-        // Try Vulkan first (cross-platform)
+    std::vector<Backend> getBackendPriorityOrder() {
+        std::vector<Backend> order;
+
+        // Prefer vendor-native backends first, then cross-vendor Vulkan.
+        #ifdef THEMIS_ENABLE_CUDA
+        order.push_back(Backend::CUDA);
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        order.push_back(Backend::HIP);
+        #endif
+
         #ifdef THEMIS_ENABLE_VULKAN
-        if (isVulkanAvailable()) {
-            return Backend::VULKAN;
+        order.push_back(Backend::VULKAN);
+        #endif
+
+        return order;
+    }
+
+    bool tryInitializeBackend(Backend backend, int dim) {
+        #ifdef THEMIS_ENABLE_CUDA
+        if (backend == Backend::CUDA) {
+            auto candidate = std::make_unique<themis::acceleration::CUDAVectorBackend>();
+            if (candidate->isAvailable() && candidate->initialize()) {
+                cudaBackend = std::move(candidate);
+                activeBackend = Backend::CUDA;
+                stats.isGPUActive = true;
+                flatVectorCacheDirty = true;
+                THEMIS_INFO("GPUVectorIndex: Using CUDA backend");
+                return true;
+            }
+            return false;
         }
         #endif
-        
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (backend == Backend::HIP) {
+            auto candidate = std::make_unique<themis::acceleration::HIPVectorBackend>();
+            if (candidate->isAvailable() && candidate->initialize()) {
+                hipBackend = std::move(candidate);
+                activeBackend = Backend::HIP;
+                stats.isGPUActive = true;
+                hipFlatVectorCacheDirty = true;
+                THEMIS_INFO("GPUVectorIndex: Using HIP backend");
+                return true;
+            }
+            return false;
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (backend == Backend::VULKAN) {
+            if (initializeVulkanBackend(dim)) {
+                activeBackend = Backend::VULKAN;
+                stats.isGPUActive = true;
+                THEMIS_INFO("GPUVectorIndex: Using Vulkan backend");
+                return true;
+            }
+            return false;
+        }
+        #endif
+
+        return false;
+    }
+
+    Backend selectBestBackend() {
+        const auto order = getBackendPriorityOrder();
+        for (Backend backend : order) {
+            switch (backend) {
+            case Backend::CUDA:
+                #ifdef THEMIS_ENABLE_CUDA
+                {
+                    themis::acceleration::CUDAVectorBackend checkBackend;
+                    if (checkBackend.isAvailable()) {
+                        return Backend::CUDA;
+                    }
+                }
+                #endif
+                break;
+            case Backend::HIP:
+                #ifdef THEMIS_ENABLE_HIP
+                if (themis::acceleration::HIPVectorBackend().isAvailable()) {
+                    return Backend::HIP;
+                }
+                #endif
+                break;
+            case Backend::VULKAN:
+                #ifdef THEMIS_ENABLE_VULKAN
+                if (isVulkanAvailable()) {
+                    return Backend::VULKAN;
+                }
+                #endif
+                break;
+            default:
+                break;
+            }
+        }
+
         // Fall back to CPU
         return Backend::CPU;
     }
@@ -212,7 +448,8 @@ public:
         try {
             lora::vulkan::VulkanContext testContext;
             return testContext.is_available();
-        } catch (...) {
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("GPUVectorIndex: Vulkan availability probe failed: {}", e.what());
             return false;
         }
     }
@@ -232,7 +469,7 @@ public:
             
             return true;
         } catch (const std::exception& e) {
-            std::cerr << "GPUVectorIndex: Vulkan initialization failed: " << e.what() << "\n";
+            THEMIS_ERROR("GPUVectorIndex: Vulkan initialization failed: {}", e.what());
             vulkanBackend.reset();
             return false;
         }
@@ -255,8 +492,7 @@ public:
                 uint64_t bytes = bytesPerVector();
                 auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
                 if (!mgr.TryAllocateGPU(bytes, "vector", vramBudgetTag)) {
-                    std::cerr << "GPUVectorIndex: VRAM budget exceeded (limit "
-                              << config.maxVRAM_MB << " MB)\n";
+                    THEMIS_WARN("GPUVectorIndex: VRAM budget exceeded (limit {} MB)", config.maxVRAM_MB);
                     return false;
                 }
                 vramAllocatedBytes += bytes;
@@ -269,8 +505,17 @@ public:
             idToIndex[id] = index;
         }
         
-        // Cache invalidation would be for CUDA backend (not currently used)
-        // invalidateFlatVectorsCache();
+        // Invalidate flattened vector caches for GPU backends
+        #ifdef THEMIS_ENABLE_CUDA
+        if (activeBackend == Backend::CUDA) {
+            flatVectorCacheDirty = true;
+        }
+        #endif
+        #ifdef THEMIS_ENABLE_HIP
+        if (activeBackend == Backend::HIP) {
+            hipFlatVectorCacheDirty = true;
+        }
+        #endif
         
         stats.numVectors = vectorData.size();
         
@@ -280,6 +525,11 @@ public:
             gpuDataDirty = true;
         }
         #endif
+
+        // Rebuild oversubscription partitions when the manager is active.
+        if (oversubManager) {
+            rebuildOversubPartitions();
+        }
         
         return true;
     }
@@ -315,8 +565,17 @@ public:
             }
         }
         
-        // Cache invalidation would be for CUDA backend (not currently used)
-        // invalidateFlatVectorsCache();
+        // Invalidate flattened vector caches for GPU backends
+        #ifdef THEMIS_ENABLE_CUDA
+        if (activeBackend == Backend::CUDA) {
+            flatVectorCacheDirty = true;
+        }
+        #endif
+        #ifdef THEMIS_ENABLE_HIP
+        if (activeBackend == Backend::HIP) {
+            hipFlatVectorCacheDirty = true;
+        }
+        #endif
         
         stats.numVectors = vectorData.size();
         
@@ -326,13 +585,25 @@ public:
             gpuDataDirty = true;
         }
         #endif
+
+        // Rebuild oversubscription partitions when the manager is active.
+        if (oversubManager) {
+            rebuildOversubPartitions();
+        }
         
         return true;
     }
     
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
         if (!initialized) {
+            THEMIS_WARN("GPUVectorIndex::search called on uninitialized index");
             return {};
+        }
+
+        // Use oversubscription-aware search path when the manager is active.
+        // This handles LRU eviction, streaming, and prefetching automatically.
+        if (oversubManager && !vectorData.empty()) {
+            return searchOversubscribed(query, k);
         }
         
         // Upload GPU data if dirty
@@ -359,7 +630,27 @@ public:
                 return results;
             }
             // Fall through to CPU if GPU search fails
-            std::cerr << "GPUVectorIndex: Vulkan search failed, falling back to CPU\n";
+            THEMIS_WARN("GPUVectorIndex: Vulkan search failed, falling back to CPU");
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_CUDA
+        if (activeBackend == Backend::CUDA && cudaBackend) {
+            auto result = searchGPU(query, k);
+            if (!result.empty()) {
+                return result;
+            }
+            THEMIS_WARN("GPUVectorIndex: CUDA search failed, falling back to CPU");
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (activeBackend == Backend::HIP && hipBackend) {
+            auto result = searchHIP(query, k);
+            if (!result.empty()) {
+                return result;
+            }
+            THEMIS_WARN("GPUVectorIndex: HIP search failed, falling back to CPU");
         }
         #endif
         
@@ -369,6 +660,8 @@ public:
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
         if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
+                        vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -404,6 +697,8 @@ public:
     // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
         if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
+                        static_cast<bool>(cudaBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -460,6 +755,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
         
         if (!cudaBackend || vectorData.empty() || queries.empty()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchGPU - invalid state (cudaBackend={} vectors={} queries={})",
+                        static_cast<bool>(cudaBackend), vectorData.size(), queries.size());
             return {};
         }
         
@@ -538,7 +835,135 @@ public:
         return results;
     }
 #endif // THEMIS_ENABLE_CUDA
-    
+
+#ifdef THEMIS_ENABLE_HIP
+    // Helper: map GPUVectorIndex::DistanceMetric to HIPVectorBackend::DistanceMetric
+    static themis::acceleration::HIPVectorBackend::DistanceMetric toHIPMetric(DistanceMetric m) {
+        switch (m) {
+            case DistanceMetric::COSINE:
+                return themis::acceleration::HIPVectorBackend::DistanceMetric::COSINE;
+            case DistanceMetric::INNER_PRODUCT:
+                return themis::acceleration::HIPVectorBackend::DistanceMetric::INNER_PRODUCT;
+            default:
+                return themis::acceleration::HIPVectorBackend::DistanceMetric::L2;
+        }
+    }
+
+    std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
+        if (!hipBackend || vectorData.empty() ||
+            query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
+                        static_cast<bool>(hipBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
+            return {};
+        }
+
+        auto startTime = std::chrono::steady_clock::now();
+
+        // Rebuild flattened vector cache when stale
+        if (hipFlatVectorCacheDirty) {
+            hipFlatVectorCache.clear();
+            hipFlatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                hipFlatVectorCache.insert(hipFlatVectorCache.end(), vec.begin(), vec.end());
+            }
+            hipFlatVectorCacheDirty = false;
+        }
+
+        const size_t effectiveK = std::min(k, vectorData.size());
+        auto gpuResults = hipBackend->batchKnnSearchWithMetric(
+            query.data(),
+            1,  // Single query
+            dimension,
+            hipFlatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            toHIPMetric(config.metric)
+        );
+
+        std::vector<SearchResult> results;
+        if (!gpuResults.empty() && !gpuResults[0].empty()) {
+            results.reserve(gpuResults[0].size());
+            for (const auto& [idx, dist] : gpuResults[0]) {
+                if (idx < vectorIds.size()) {
+                    results.push_back({vectorIds[idx], dist});
+                }
+            }
+        }
+
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+
+        return results;
+    }
+
+    std::vector<std::vector<SearchResult>> searchBatchHIP(
+        const std::vector<std::vector<float>>& queries, size_t k) {
+
+        if (!hipBackend || vectorData.empty() || queries.empty()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
+                        static_cast<bool>(hipBackend), vectorData.size(), queries.size());
+            return {};
+        }
+
+        auto startTime = std::chrono::steady_clock::now();
+
+        // Rebuild flattened vector cache when stale
+        if (hipFlatVectorCacheDirty) {
+            hipFlatVectorCache.clear();
+            hipFlatVectorCache.reserve(vectorData.size() * dimension);
+            for (const auto& vec : vectorData) {
+                hipFlatVectorCache.insert(hipFlatVectorCache.end(), vec.begin(), vec.end());
+            }
+            hipFlatVectorCacheDirty = false;
+        }
+
+        // Flatten query vectors for GPU transfer; fall back to CPU on bad input
+        std::vector<float> flatQueries;
+        flatQueries.reserve(queries.size() * dimension);
+        for (const auto& query : queries) {
+            if (query.size() != static_cast<size_t>(dimension)) {
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& q : queries) {
+                    results.push_back(searchCPU(q, k));
+                }
+                return results;
+            }
+            flatQueries.insert(flatQueries.end(), query.begin(), query.end());
+        }
+
+        const size_t effectiveK = std::min(k, vectorData.size());
+        auto gpuResults = hipBackend->batchKnnSearchWithMetric(
+            flatQueries.data(),
+            queries.size(),
+            dimension,
+            hipFlatVectorCache.data(),
+            vectorData.size(),
+            effectiveK,
+            toHIPMetric(config.metric)
+        );
+
+        // Convert GPU results to SearchResult format
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(gpuResults.size());
+        for (const auto& queryResults : gpuResults) {
+            std::vector<SearchResult> batch;
+            batch.reserve(queryResults.size());
+            for (const auto& [idx, dist] : queryResults) {
+                if (idx < vectorIds.size()) {
+                    batch.push_back({vectorIds[idx], dist});
+                }
+            }
+            results.push_back(std::move(batch));
+        }
+
+        auto endTime = std::chrono::steady_clock::now();
+        updateQueryStats(startTime, endTime);
+
+        return results;
+    }
+#endif // THEMIS_ENABLE_HIP
+
     float computeDistance(const float* a, const float* b, int dim) {
         switch (config.metric) {
             case DistanceMetric::L2: {
@@ -594,6 +1019,21 @@ public:
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
         backends.push_back(Backend::CPU); // Always available
+
+        #ifdef THEMIS_ENABLE_CUDA
+        {
+            themis::acceleration::CUDAVectorBackend checkBackend;
+            if (checkBackend.isAvailable()) {
+                backends.push_back(Backend::CUDA);
+            }
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (themis::acceleration::HIPVectorBackend().isAvailable()) {
+            backends.push_back(Backend::HIP);
+        }
+        #endif
         
         #ifdef THEMIS_ENABLE_VULKAN
         if (isVulkanAvailable()) {
@@ -633,14 +1073,100 @@ bool GPUVectorIndex::addVector(const std::string& id, const std::vector<float>& 
 
 bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                    const std::vector<std::vector<float>>& vectors) {
-    if (ids.size() != vectors.size()) {
+    if (!pImpl->initialized || ids.size() != vectors.size()) {
         return false;
     }
-    
-    for (size_t i = 0; i < ids.size(); ++i) {
-        if (!addVector(ids[i], vectors[i])) {
+
+    if (ids.empty()) {
+        return true;
+    }
+
+    // Snapshot dimension once to avoid a potential data race between a concurrent
+    // initialize() call that writes pImpl->dimension and the reads below
+    // (INDEX-GPU-DIM-RACE-01).
+    const int dim = pImpl->dimension;
+
+    // Fast-path for pure bulk inserts (all IDs are new, oversubscription disabled):
+    // reserve once and append directly to avoid per-item upsert and backend checks.
+    bool canUseFastPath = (pImpl->oversubManager == nullptr);
+    if (canUseFastPath) {
+        for (size_t i = 0; i < ids.size(); ++i) {
+            if (vectors[i].size() != static_cast<size_t>(dim) ||
+                pImpl->idToIndex.find(ids[i]) != pImpl->idToIndex.end()) {
+                canUseFastPath = false;
+                break;
+            }
+        }
+    }
+
+    if (canUseFastPath) {
+        uint64_t allocatedBytes = 0;
+        if (!pImpl->vramBudgetTag.empty()) {
+            allocatedBytes = static_cast<uint64_t>(dim) * sizeof(float) * static_cast<uint64_t>(ids.size());
+            auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
+            if (!mgr.TryAllocateGPU(allocatedBytes, "vector_batch", pImpl->vramBudgetTag)) {
+                THEMIS_WARN("GPUVectorIndex: VRAM budget exceeded (limit {} MB)", pImpl->config.maxVRAM_MB);
+                return false;
+            }
+        }
+
+        const size_t baseIndex = pImpl->vectorData.size();
+        try {
+            pImpl->vectorIds.reserve(baseIndex + ids.size());
+            pImpl->vectorData.reserve(baseIndex + vectors.size());
+            pImpl->idToIndex.reserve(baseIndex + ids.size());
+
+            for (size_t i = 0; i < ids.size(); ++i) {
+                pImpl->vectorIds.push_back(ids[i]);
+                pImpl->vectorData.push_back(vectors[i]);
+                pImpl->idToIndex.emplace(pImpl->vectorIds.back(), baseIndex + i);
+            }
+        } catch (...) {
+            if (allocatedBytes > 0) {
+                themis::gpu::GPUMemoryManager::GetInstance().DeallocateGPU(
+                    allocatedBytes, pImpl->vramBudgetTag);
+            }
             return false;
         }
+
+        if (allocatedBytes > 0) {
+            pImpl->vramAllocatedBytes += allocatedBytes;
+        }
+
+        #ifdef THEMIS_ENABLE_CUDA
+        if (pImpl->activeBackend == Backend::CUDA) {
+            pImpl->flatVectorCacheDirty = true;
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_HIP
+        if (pImpl->activeBackend == Backend::HIP) {
+            pImpl->hipFlatVectorCacheDirty = true;
+        }
+        #endif
+
+        #ifdef THEMIS_ENABLE_VULKAN
+        if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+            pImpl->gpuDataDirty = true;
+        }
+        #endif
+
+        pImpl->stats.numVectors = pImpl->vectorData.size();
+        return true;
+    }
+
+    // Suppress per-vector partition rebuilds during bulk ingestion; a single
+    // rebuild at the end is far cheaper than one rebuild per vector (O(n²)).
+    pImpl->oversubBulkLoading_ = true;
+    for (size_t i = 0; i < ids.size(); ++i) {
+        if (!pImpl->addVector(ids[i], vectors[i])) {
+            pImpl->oversubBulkLoading_ = false;
+            return false;
+        }
+    }
+    pImpl->oversubBulkLoading_ = false;
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        pImpl->rebuildOversubPartitions();
     }
     return true;
 }
@@ -668,6 +1194,17 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
     
     if (!pImpl->initialized) {
         return {};
+    }
+
+    // Route through oversubscription manager when active: each query is served
+    // through searchOversubscribed() which handles LRU eviction and prefetching.
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        std::vector<std::vector<SearchResult>> results;
+        results.reserve(queries.size());
+        for (const auto& query : queries) {
+            results.push_back(pImpl->searchOversubscribed(query, k));
+        }
+        return results;
     }
     
     // Upload GPU data if dirty
@@ -701,14 +1238,22 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
             
             return results;
         }
-        std::cerr << "GPUVectorIndex: Vulkan batch search failed, falling back to CPU\n";
+        THEMIS_WARN("GPUVectorIndex: Vulkan batch search failed, falling back to CPU");
     }
     #endif
     
     // Use appropriate backend or CPU fallback
     switch (pImpl->activeBackend) {
-        case Backend::HIP:
-            // HIP backend not implemented - fallback to CPU
+        case Backend::HIP: {
+            #ifdef THEMIS_ENABLE_HIP
+            if (pImpl->hipBackend) {
+                auto results = pImpl->searchBatchHIP(queries, k);
+                if (!results.empty()) {
+                    return results;
+                }
+                THEMIS_WARN("GPUVectorIndex: HIP batch search failed, falling back to CPU");
+            }
+            #endif
             if (pImpl->config.allowCPUFallback) {
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
@@ -717,18 +1262,30 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 }
                 return results;
             }
+            THEMIS_WARN("GPUVectorIndex::searchBatch: HIP backend failed and CPU fallback disabled");
             return {};
-        case Backend::CUDA:
-            // CUDA backend not implemented in this PR
+        }
+        case Backend::CUDA: {
+            #ifdef THEMIS_ENABLE_CUDA
+            if (pImpl->cudaBackend) {
+                auto results = pImpl->searchBatchGPU(queries, k);
+                if (!results.empty()) {
+                    return results;
+                }
+                THEMIS_WARN("GPUVectorIndex: CUDA batch search failed, falling back to CPU");
+            }
+            #endif
             if (pImpl->config.allowCPUFallback) {
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
                 for (const auto& query : queries) {
-                    results.push_back(search(query, k));
+                    results.push_back(pImpl->searchCPU(query, k));
                 }
                 return results;
             }
+            THEMIS_WARN("GPUVectorIndex::searchBatch: CUDA backend failed and CPU fallback disabled");
             return {};
+        }
         case Backend::CPU:
         case Backend::AUTO:
         default:
@@ -744,7 +1301,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
 
 bool GPUVectorIndex::buildIndex() {
     if (!pImpl->initialized) {
-        std::cerr << "GPUVectorIndex: buildIndex() called on uninitialized index\n";
+        THEMIS_WARN("GPUVectorIndex: buildIndex() called on uninitialized index");
         return false;
     }
 
@@ -776,7 +1333,7 @@ bool GPUVectorIndex::saveIndex(const std::string& path) {
 
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
     if (!ofs) {
-        std::cerr << "GPUVectorIndex: Failed to open '" << path << "' for writing\n";
+        THEMIS_ERROR("GPUVectorIndex: Failed to open '{}' for writing", path);
         return false;
     }
 
@@ -824,7 +1381,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     std::ifstream ifs(path, std::ios::binary);
     if (!ifs) {
-        std::cerr << "GPUVectorIndex: Failed to open '" << path << "' for reading\n";
+        THEMIS_ERROR("GPUVectorIndex: Failed to open '{}' for reading", path);
         return false;
     }
 
@@ -835,7 +1392,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     ifs.read(reinterpret_cast<char*>(&version), sizeof(version));
 
     if (!ifs || magic != 0x54484D53u || version != 1u) {
-        std::cerr << "GPUVectorIndex: Invalid or unsupported index file format\n";
+        THEMIS_ERROR("GPUVectorIndex: Invalid or unsupported index file format");
         return false;
     }
 
@@ -847,7 +1404,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     int32_t metric = 0;
     ifs.read(reinterpret_cast<char*>(&metric), sizeof(metric));
-    (void)metric; // Stored for future compatibility; callers set the metric via Config
+    // Stored for future compatibility; callers set the metric via Config
 
     if (!ifs || dim <= 0) {
         return false;
@@ -860,8 +1417,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
         static_cast<size_t>(kMaxReasonableFileSizeBytes /
         (static_cast<size_t>(dim) * sizeof(float) + 1));
     if (numVectors > maxReasonableVectors) {
-        std::cerr << "GPUVectorIndex: loadIndex rejected implausibly large vector count ("
-                  << numVectors << ")\n";
+        THEMIS_WARN("GPUVectorIndex: loadIndex rejected implausibly large vector count ({})", numVectors);
         return false;
     }
 
@@ -893,16 +1449,21 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
     pImpl->vectorIds.reserve(numVectors);
     pImpl->vectorData.reserve(numVectors);
 
+    // Suppress per-vector partition rebuilds; we do a single rebuild after
+    // the entire set of vectors is loaded (avoids O(n²) partition churn).
+    pImpl->oversubBulkLoading_ = true;
+
     for (size_t i = 0; i < numVectors; ++i) {
         size_t idLen = 0;
         ifs.read(reinterpret_cast<char*>(&idLen), sizeof(idLen));
         if (!ifs) {
-            std::cerr << "GPUVectorIndex: loadIndex read error at vector " << i << " (ID length)\n";
+            pImpl->oversubBulkLoading_ = false;
+            THEMIS_ERROR("GPUVectorIndex: loadIndex read error at vector {} (ID length)", i);
             return false;
         }
         if (idLen > (1u << 20u)) { // Sanity cap at 1 MiB per ID
-            std::cerr << "GPUVectorIndex: loadIndex rejected oversized ID (" << idLen
-                      << " bytes) at vector " << i << "\n";
+            pImpl->oversubBulkLoading_ = false;
+            THEMIS_WARN("GPUVectorIndex: loadIndex rejected oversized ID ({} bytes) at vector {})", idLen, i);
             return false;
         }
 
@@ -914,15 +1475,26 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
                  static_cast<std::streamsize>(dim) * static_cast<std::streamsize>(sizeof(float)));
 
         if (!ifs) {
+            pImpl->oversubBulkLoading_ = false;
             return false;
         }
 
-        // Use addVector() to respect VRAM budget tracking
+        // Use addVector() to respect VRAM budget tracking.
+        // oversubBulkLoading_ is set to suppress the per-vector partition
+        // rebuild; we do a single rebuild once all vectors are loaded.
         if (!pImpl->addVector(id, vec)) {
-            std::cerr << "GPUVectorIndex: loadIndex aborted at vector " << i
-                      << " (VRAM budget exceeded)\n";
+            pImpl->oversubBulkLoading_ = false;
+            THEMIS_WARN("GPUVectorIndex: loadIndex aborted at vector {} (VRAM budget exceeded)", i);
             return false;
         }
+    }
+
+    // Single partition rebuild after bulk load.
+    if (pImpl->oversubManager) {
+        pImpl->oversubBulkLoading_ = false;
+        pImpl->rebuildOversubPartitions();
+    } else {
+        pImpl->oversubBulkLoading_ = false;
     }
 
 #ifdef THEMIS_ENABLE_VULKAN
@@ -964,8 +1536,29 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
     if (!pImpl->vramBudgetTag.empty()) {
         stats.vramUsageBytes = pImpl->vramAllocatedBytes;
     }
+
+    // Merge oversubscription statistics when the manager is active.
+    if (pImpl->oversubManager) {
+        const auto osmStats = pImpl->oversubManager->getStats();
+        stats.oversubscriptionActive  = true;
+        stats.oversubHotPartitions    = osmStats.hot_partitions;
+        stats.oversubColdPartitions   = osmStats.cold_partitions;
+        stats.oversubEvictions        = osmStats.evictions;
+        stats.oversubLoads            = osmStats.loads;
+        stats.oversubPrefetchHitRate  = osmStats.prefetch_hit_rate;
+        // Reflect the VRAM used by the oversubscription manager.
+        stats.vramUsageBytes          = osmStats.vram_used_bytes;
+    }
     
     return stats;
+}
+
+GPUMemoryOversubscriptionManager::Stats
+GPUVectorIndex::getOversubscriptionStats() const {
+    if (pImpl->oversubManager) {
+        return pImpl->oversubManager->getStats();
+    }
+    return GPUMemoryOversubscriptionManager::Stats{};
 }
 
 bool GPUVectorIndex::switchBackend(Backend backend) {
@@ -976,7 +1569,7 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     // Can't switch if backend is not available
     auto available = getAvailableBackends();
     if (std::find(available.begin(), available.end(), backend) == available.end()) {
-        std::cerr << "GPUVectorIndex: Requested backend not available\n";
+        THEMIS_WARN("GPUVectorIndex: Requested backend not available");
         return false;
     }
     
@@ -984,11 +1577,25 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     if (pImpl->activeBackend == backend) {
         return true;
     }
-    
-    // Save current state
+
+    const Backend previousBackend = pImpl->config.backend;
     int dim = pImpl->dimension;
-    auto ids = pImpl->vectorIds;  // Save IDs
-    auto vectors = pImpl->vectorData;  // Save vectors
+
+    auto restorePreviousBackend = [&]() -> bool {
+        pImpl->shutdown();
+        pImpl->config.backend = previousBackend;
+        if (!pImpl->initialize(dim)) {
+            THEMIS_ERROR("GPUVectorIndex: Failed to restore previous backend after switch failure");
+            return false;
+        }
+
+        if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+            pImpl->rebuildOversubPartitions();
+        }
+
+        pImpl->stats.numVectors = pImpl->vectorData.size();
+        return true;
+    };
     
     // Shutdown current backend
     pImpl->shutdown();
@@ -996,15 +1603,16 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
     // Switch to new backend
     pImpl->config.backend = backend;
     if (!pImpl->initialize(dim)) {
+        THEMIS_WARN("GPUVectorIndex: Backend switch to requested backend failed; restoring previous backend");
+        restorePreviousBackend();
         return false;
     }
-    
-    // Restore vectors with saved IDs
-    for (size_t i = 0; i < vectors.size(); ++i) {
-        if (i < ids.size()) {
-            pImpl->addVector(ids[i], vectors[i]);
-        }
+
+    if (pImpl->oversubManager && !pImpl->vectorData.empty()) {
+        pImpl->rebuildOversubPartitions();
     }
+
+    pImpl->stats.numVectors = pImpl->vectorData.size();
     
     return true;
 }
@@ -1015,17 +1623,27 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
     // CPU is always available
     backends.push_back(Backend::CPU);
     
-    // Check for HIP availability
+    // Check for HIP availability (AMD GPUs)
 #ifdef THEMIS_ENABLE_HIP
-    // Use static method to check availability without needing instance
     if (themis::acceleration::HIPVectorBackend().isAvailable()) {
         backends.push_back(Backend::HIP);
     }
 #endif
-    
-    // Check for CUDA availability
+
+    // Check for CUDA availability (NVIDIA GPUs)
 #ifdef THEMIS_ENABLE_CUDA
-    // CUDA backend check would go here when implemented
+    {
+        themis::acceleration::CUDAVectorBackend checkBackend;
+        if (checkBackend.isAvailable()) {
+            backends.push_back(Backend::CUDA);
+        }
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->isVulkanAvailable()) {
+        backends.push_back(Backend::VULKAN);
+    }
 #endif
     
     return backends;
@@ -1035,33 +1653,6 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 // Vulkan Backend Implementation
 // =============================================================================
 
-#ifdef THEMIS_ENABLE_VULKAN
-// Include the Vulkan backend implementation
-// The actual implementation is in gpu_vector_index_vulkan.cpp
-
-/**
- * @brief Vulkan backend implementation for GPU vector indexing
- */
-class VulkanVectorIndexBackend {
-public:
-    explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
-    ~VulkanVectorIndexBackend();
-    
-    bool initialize(int dimension);
-    void shutdown();
-    bool uploadVectors(const std::vector<std::vector<float>>& vectors);
-    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
-    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
-    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
-        const std::vector<std::vector<float>>& queries, size_t k);
-    GPUVectorIndex::Statistics getStatistics() const;
-    bool isInitialized() const;
-    
-private:
-    class Impl;
-    std::unique_ptr<Impl> pImpl;
-};
-#endif
-
 } // namespace index
 } // namespace themis
+

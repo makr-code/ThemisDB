@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_anomaly_detection.cpp                         ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 04:00:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     814                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3a4cd6d2d  2026-02-25  fix(analytics): fix buildITree child-index bug and thresh... ║
-    • eec0dd3fa  2026-02-25  feat(analytics): implement explain() for ISOLATION_FOREST... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_anomaly_detection.cpp | Version: 0.0.32
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -46,7 +30,10 @@
 #include <gtest/gtest.h>
 #include "analytics/anomaly_detection.h"
 
+#include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <thread>
 #include <vector>
 
@@ -812,4 +799,73 @@ TEST(MoveTest, MoveAssignedDetectorWorks) {
     AnomalyDetector other(AnomalyMethod::Z_SCORE);
     other = std::move(det);
     EXPECT_TRUE(other.isTrained());
+}
+
+// ============================================================================
+// Concurrency stress test — 8 producer threads, P99 latency ≤ 1 ms
+// Gated on THEMIS_RUN_PERF_TESTS=1 to avoid CI flakiness.
+// ============================================================================
+
+TEST(StreamingConcurrencyStress, EightProducersP99Latency) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
+        GTEST_SKIP() << "Skipping performance/stress test; set THEMIS_RUN_PERF_TESTS=1 to run";
+    }
+
+    StreamingAnomalyDetector::Config cfg;
+    cfg.method            = AnomalyMethod::Z_SCORE;
+    cfg.threshold         = 0.6;
+    cfg.window_size       = 200;
+    cfg.auto_train        = true;
+    cfg.auto_train_after  = 50;
+    cfg.retrain_on_window = true;
+
+    StreamingAnomalyDetector sad(cfg);
+
+    // Warm up synchronously so all threads start with a trained model.
+    for (auto& p : makeNormalData(60)) sad.process(p);
+
+    constexpr int kThreads       = 8;
+    constexpr int kPointsPerThread = 500;   // total 4 000 calls
+
+    std::vector<std::vector<int64_t>> per_thread_latencies(kThreads);
+    for (auto& v : per_thread_latencies)
+        v.reserve(kPointsPerThread);
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&, t] {
+            auto data = makeNormalData(kPointsPerThread, 2, t * 0.01);
+            auto& lats = per_thread_latencies[t];
+            for (auto& p : data) {
+                auto t0 = std::chrono::steady_clock::now();
+                sad.process(p);
+                auto t1 = std::chrono::steady_clock::now();
+                lats.push_back(
+                    std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    // Collect all latencies and compute P99.
+    std::vector<int64_t> all_latencies;
+    all_latencies.reserve(kThreads * kPointsPerThread);
+    for (auto& v : per_thread_latencies)
+        all_latencies.insert(all_latencies.end(), v.begin(), v.end());
+
+    std::sort(all_latencies.begin(), all_latencies.end());
+    const size_t p99_idx = static_cast<size_t>(
+        std::ceil(static_cast<double>(all_latencies.size() - 1) * 0.99));
+    const int64_t p99_us = all_latencies[p99_idx];
+
+    EXPECT_LE(p99_us, 1000)   // P99 ≤ 1 ms = 1 000 µs
+        << "P99 latency " << p99_us << " µs exceeds 1 ms threshold";
+
+    // Sanity: detector must still be trained and window bounded.
+    auto stats = sad.getWindowStats();
+    EXPECT_TRUE(stats.trained);
+    EXPECT_LE(stats.window_size, cfg.window_size);
 }

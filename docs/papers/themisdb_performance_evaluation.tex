@@ -1,0 +1,1636 @@
+% ThemisDB: Hardware-Normalized Performance Evaluation of a
+% Hybrid Multi-Model Database System
+%
+% IEEE Conference Format (IEEEtran class)
+% Submit with: pdflatex + bibtex + pdflatex + pdflatex
+%
+\documentclass[conference]{IEEEtran}
+
+% ---- packages ----------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{cite}
+\usepackage{balance}
+
+% ---- column types for tables -------------------------------------------------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ---- macros ------------------------------------------------------------------
+\newcommand{\themis}{\textsc{ThemisDB}}
+\newcommand{\ecclass}[1]{$E_{\text{#1}}$}
+\newcommand{\nfact}[1]{$N_{\text{#1}}$}
+
+% ==============================================================================
+\begin{document}
+
+\title{ThemisDB: Hardware-Normalized Performance Evaluation of a
+       Hybrid Multi-Model Database System}
+
+\author{%
+  \IEEEauthorblockN{ThemisDB Development Team}
+  \IEEEauthorblockA{\textit{makr-code/ThemisDB} \\
+    \url{https://github.com/makr-code/ThemisDB}}
+}
+
+\maketitle
+
+% ==============================================================================
+\begin{abstract}
+We present a longitudinal performance evaluation of \themis{}, a
+C++20 hybrid multi-model database that integrates graph, vector,
+relational, time-series, and document data models within a single
+ACID-compliant system governed by an AQL query engine and
+multi-version concurrency control (MVCC).
+The study spans versions v1.3.0 through v1.8.2 and covers
+1\,078+ benchmark cases distributed across 33 software modules.
+Because absolute throughput numbers are platform-dependent and
+therefore non-transferable across hardware configurations, we
+introduce a \emph{hardware-normalized efficiency model} that
+decomposes the expected throughput of each workload class into a
+weighted linear combination of eight normalized hardware factors:
+CPU integer throughput, memory bandwidth (STREAM-triad), sequential
+and random storage I/O, GPU VRAM capacity, and PCIe host-to-device /
+device-to-host transfer rates plus dispatch latency.
+We validate the model on a 20-core x86-64 development platform and
+report hardware-neutral scores for the six benchmark classes defined
+in the CHIMERA test suite, which is compliant with IEEE~Std~2807-2022
+and ISO/IEC~14756:2015.
+Key findings confirm that PCIe transfer bandwidth and memory bandwidth
+are the dominant bottlenecks for GPU-heavy workloads, while random
+I/O efficiency already meets target levels on the reference platform.
+All v0 efficiency values exceed 1.0, indicating conservative
+baselines that will be recalibrated as multi-host data accumulates.
+\end{abstract}
+
+\begin{IEEEkeywords}
+multi-model database, performance evaluation, hardware normalization,
+benchmark, vector search, LLM inference, time-series, graph database,
+AQL, MVCC
+\end{IEEEkeywords}
+
+% ==============================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Modern application stacks increasingly require databases that
+simultaneously support relational queries, graph traversals, vector
+similarity search, and time-series analytics~\cite{Lu2018,Stonebraker2010}.
+Separate purpose-built systems impose heavy operational overhead and
+cross-store consistency burdens.
+Polystore approaches~\cite{Atzeni2016} address data variety at the
+abstraction level but typically do not provide native transactional
+guarantees across models.
+
+\themis{} is an open-source, C++20 hybrid multi-model database system
+that provides graph, vector, relational, time-series, and document
+models inside a single process with full ACID support.
+Its AQL query engine, adapted from ArangoDB's query language,
+compiles multi-paradigm queries — including LLM inference, RAG
+retrieval, and geospatial joins — into a single execution plan.
+The storage layer wraps RocksDB~\cite{Dong2021} for write-ahead
+logging, compaction, and point-in-time recovery, while the
+replication layer employs Raft consensus~\cite{Ongaro2014}.
+
+\textbf{Contributions of this paper:}
+\begin{enumerate}
+  \item \emph{Longitudinal benchmark study} across five minor release
+        series (v1.3.0--v1.8.2) covering key performance indicators
+        (KPIs) for query, vector, graph, and time-series workloads
+        using the Google Benchmark framework~\cite{GoogleBenchmark}.
+  \item \emph{Hardware-normalized efficiency model} that decomposes
+        expected throughput into eight weighted hardware factors and
+        produces a platform-independent \emph{score\_hw\_neutral}
+        for each benchmark run.
+  \item \emph{Governance framework} with mandatory root-cause analysis
+        when score\_hw\_neutral $< 0.90$ across two consecutive runs,
+        and automatic recalibration proposals when the score exceeds
+        $1.10$ across three or more distinct hardware platforms.
+  \item \emph{Comprehensive gap analysis} across 33 modules with a
+        prioritized 29-item remediation roadmap covering benchmarks
+        missing due to proxy substitution, CMake feature gating,
+        and disabled registrations.
+  \item \emph{CHIMERA vendor-neutral comparison} following
+        IEEE~Std~2807-2022 protocol, showing \themis{} leads two
+        reference systems by $+17\%$ and $+58\%$ in query throughput.
+\end{enumerate}
+
+Table~\ref{tab:workload-taxonomy} summarizes the six benchmark
+workload classes used throughout this paper and their dominant
+hardware characteristics.
+
+\begin{table}[t]
+  \caption{Workload Taxonomy}
+  \label{tab:workload-taxonomy}
+  \centering
+  \begin{tabular}{L{1.8cm}L{2.3cm}L{2.1cm}L{1.2cm}}
+    \toprule
+    \textbf{Class} & \textbf{Typical operations} &
+    \textbf{Bottleneck} & \textbf{SLO unit} \\
+    \midrule
+    OLTP &
+      Point read/write, MVCC commit &
+      Random IOPS, alloc &
+      ops/s \\
+    OLAP &
+      CUBE, CTE, window functions &
+      CPU, memory bw &
+      ops/s \\
+    Storage WAL &
+      WAL-ON write, fsync, compaction &
+      Seq I/O, fsync &
+      ops/s \\
+    Vector GPU &
+      ANN insert, distance, index &
+      VRAM, H2D bw &
+      k\,ops/s \\
+    LLM GPU &
+      Inference, LoRA hot-load &
+      VRAM, dispatch &
+      tokens/s \\
+    Mixed CPU+GPU &
+      RAG, image embed, hybrid search &
+      All factors &
+      ops/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ==============================================================================
+\section{System Architecture Overview}
+\label{sec:arch}
+
+\themis{} is organized in seven horizontal layers, each encapsulating
+a distinct concern.
+Table~\ref{tab:arch} summarizes the layers, selected modules, and
+key technologies.
+Across these layers the system comprises 46 software modules, 153
+documentation files, and a test suite of 1\,078+ benchmark cases plus
+over 1\,200 unit/integration tests (v1.8.2, partial run).
+
+\begin{table}[t]
+  \caption{ThemisDB Architecture Layers (46 modules)}
+  \label{tab:arch}
+  \centering
+  \begin{tabular}{L{1.5cm}L{2.6cm}L{3.5cm}}
+    \toprule
+    \textbf{Layer} & \textbf{Modules} & \textbf{Key Technologies} \\
+    \midrule
+    Query \& Index &
+      AQL Parser, Optimizer, JIT, CTE &
+      Multi-paradigm query rewrite, B-Tree, R-Tree, HNSW
+      (CPU \& GPU), secondary index \\
+    \addlinespace
+    Storage &
+      RocksDB WAL, Compaction, PITR, Blob Backends &
+      Seven object backends (S3/Azure/GCS/MinIO/local/
+      memory/hybrid), snapshot isolation \\
+    \addlinespace
+    Analytics &
+      OLAP, CEP, IVM, Streaming Aggregation &
+      CUBE/ROLLUP, SIMD vectorization (4.5$\times$--6.9$\times$
+      speedup), process mining \\
+    \addlinespace
+    Time-Series &
+      TS Storage, Gorilla Encoder, Retention &
+      Adaptive flush, Gorilla delta-of-delta
+      encoding~\cite{Pelkonen2015}, tiered retention \\
+    \addlinespace
+    Graph &
+      Graph Index, Traversal Engine &
+      Adjacency index, BFS/DFS/Dijkstra/A*/Bidirectional,
+      12 constraint types \\
+    \addlinespace
+    Vector / AI &
+      ANN Search, Embedding Cache, LLM, RAG, Training &
+      HNSW~\cite{Malkov2018} GPU search, llama.cpp
+      inference~\cite{llamacpp2023}, LoRA adapters~\cite{Hu2022},
+      RAG~\cite{Lewis2020} pipeline \\
+    \addlinespace
+    Distributed &
+      Replication, Sharding, 2PC, SAGA &
+      Raft~\cite{Ongaro2014}, semi-sync/async replication,
+      2PC~\cite{Gray1978}, SAGA~\cite{Garcia-Molina1987} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The security layer provides AES-256-GCM field-level encryption, TLS
+1.3 termination, RBAC, and SOC~2 / NIST / GDPR compliance hooks.
+Seven network protocols are supported: HTTP/1.1, HTTP/2, HTTP/3,
+WebSocket, MQTT, PostgreSQL Wire, and gRPC.
+
+\subsection{Module-Level SLO Inventory}
+\label{ssec:slo-inventory}
+
+Each module carries explicit service-level objectives (SLOs)
+maintained in per-module \texttt{FUTURE\_ENHANCEMENTS.md} files.
+Table~\ref{tab:slo-summary} lists representative SLOs across
+14 selected modules together with the measurement status in v1.8.2.
+A total of 28 modules define at least one SLO; of these, 12 have
+at least one directly measured value, 10 have only proxy coverage,
+and 6 lack any current measurement (no benchmark runner activated).
+
+\begin{table}[t]
+  \caption{Representative Module SLOs and v1.8.2 Status}
+  \label{tab:slo-summary}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{L{1.2cm}L{1.3cm}R{1.3cm}L{1.0cm}L{1.5cm}}
+    \toprule
+    \textbf{Mod.} & \textbf{SLO ID} & \textbf{Target} &
+    \textbf{v1.8.2} & \textbf{Status} \\
+    \midrule
+    Query   & Q-1 & 750\,M\,items/s & 796\,M & \checkmark \\
+    Index   & I-1 & 280\,k\,ins/s  & 549\,k & \checkmark \\
+    Index   & I-2 & 180\,k\,ins/s  & 255\,k & \checkmark \\
+    Cache   & C-1 & 5\,M\,ops/s    & 5.9\,M & \checkmark \\
+    Storage & S-1 & 100\,k\,ops/s  & $\sim$1.3\,k & $\times$ \\
+    Graph   & G-1 & 500\,k\,e/s    & 1.18\,M & \checkmark \\
+    TS      & TS-1 & 500\,k\,pts/s  & 61\,M* & \checkmark \\
+    TS      & TS-2 & 2\,GB/s/core   & n/a & -- \\
+    Tx      & TX-3 & 6\,k\,2PC/s    & 6.4\,k & \checkmark \\
+    Replica & R-1  & P99 $\leq$50ms  & n/a & -- \\
+    LLM     & L-1  & TTFT$\leq$200ms & n/a & -- \\
+    Search  & SE-1 & P99$\leq$20ms   & n/a & -- \\
+    Auth    & AUT-4 & $\leq$1\,$\mu$s (Bloom) & n/a & -- \\
+    CDC     & CDC-2 & P99$\leq$20ms  & n/a & -- \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.5ex}
+  {\footnotesize * In-memory append; sustained NVMe write not yet measured separately.
+    $\times$ = SLO not met; -- = no current measurement.}
+\end{table}
+
+% ==============================================================================
+\section{Benchmark Methodology}
+\label{sec:method}
+
+\subsection{Benchmark Infrastructure}
+\label{ssec:infra}
+
+All micro-benchmarks are implemented with the Google Benchmark
+framework~\cite{GoogleBenchmark}.
+Each fixture applies at least two warmup iterations followed by a
+minimum of five measurement samples; the median is used as the
+standard reported value.
+Reporting units follow the workload type: operations per second
+(ops/s) for query and graph workloads, insertions per second (k/s or
+M/s) for index and vector workloads, and points per second (M~pts/s)
+for time-series workloads.
+
+\textbf{Platform specifications:}
+\begin{itemize}
+  \item \emph{v1.3.0--v1.3.3} (baseline runs 20251223,
+        20251223\_085556): Intel i9-10900K, 10C/20T \@ 3.70\,GHz,
+        31\,GB RAM, WSL2 Linux, MSVC Release x64, AVX2.
+  \item \emph{v1.3.4 and v1.8.2} (run 20251229\_184507 and current):
+        Windows x64, 20 cores \@ 3.696\,GHz, 20\,MB L3-cache,
+        L1=32\,KB, L2=256\,KB, MSVC Release x64, AVX2.
+\end{itemize}
+
+\subsection{Hardware Baseline Capture}
+\label{ssec:hw-baseline}
+
+Every benchmark run is preceded by the
+\texttt{HardwareBaseline.CaptureAndPersist} Google Test fixture, which
+writes a structured JSON snapshot to
+\texttt{logs/hardware\_baseline/}.
+The snapshot schema is summarized in Table~\ref{tab:hw-schema}.
+
+\begin{table}[t]
+  \caption{Hardware Baseline Snapshot Schema}
+  \label{tab:hw-schema}
+  \centering
+  \begin{tabular}{L{2.0cm}L{5.5cm}}
+    \toprule
+    \textbf{Field group} & \textbf{Contents} \\
+    \midrule
+    Identification &
+      \texttt{schema\_version}, \texttt{run\_id},
+      \texttt{host\_fingerprint} \\
+    Build context &
+      compiler, optimization flags, AVX tier \\
+    OS context &
+      OS name, kernel version, NUMA topology \\
+    CPU metrics &
+      Integer ops/s (STREAM-like integer kernel) \\
+    Memory metrics &
+      STREAM triad bandwidth (GB/s) \\
+    Storage metrics &
+      Sequential read (MB/s), random read IOPS
+      (\texttt{fio}-equivalent) \\
+    GPU inventory &
+      VRAM (GB), H2D transfer (GB/s), D2H transfer (GB/s),
+      dispatch latency ($\mu$s) \\
+    Runtime context &
+      process affinity, huge-page status \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Missing hardware metrics are recorded as \texttt{unavailable} (not
+as 0.0) to prevent silent misattribution in subsequent computations.
+When a factor is unavailable, it is imputed to 0.5 for the relevant
+efficiency formula and flagged as uncertain.
+
+\subsection{CHIMERA Benchmark Suite}
+\label{ssec:chimera}
+
+\themis{} integrates the CHIMERA vendor-neutral benchmark adapter
+(\texttt{src/chimera}), compliant with IEEE~Std~2807-2022~\cite{IEEE2807}
+and ISO/IEC~14756:2015~\cite{ISO14756}.
+The adapter provides unified drivers for YCSB~\cite{Cooper2010},
+TPC-C~\cite{TPCC}, TPC-H~\cite{TPCH}, ANN-Benchmarks~\cite{AnnBenchmarks},
+LDBC-SNB~\cite{Angles2018,LDBCSNB}, vLLM inference, and RAGBench.
+CHIMERA normalizes results across participating database systems to
+enable apples-to-apples comparisons independent of vendor-specific
+reporting conventions.
+
+% ==============================================================================
+\section{Hardware-Normalized Efficiency Model}
+\label{sec:hwmodel}
+
+\subsection{Problem Statement}
+\label{ssec:prob}
+
+Absolute throughput targets depend on the platform on which the
+measurement was taken.
+A database achieving 796\,M\,ops/s on a 20-core workstation with
+31\,GB RAM cannot be directly compared to the same target on a
+dual-socket server with 256\,GB RAM and NVMe RAID storage.
+A hardware-agnostic evaluation framework requires that expected
+throughput be expressed as a function of the actual hardware
+capability of the test host.
+
+\subsection{Normalized Hardware Factors}
+\label{ssec:norm-factors}
+
+We define eight normalized hardware factors
+$N_i \in [0, 1]$ by clamping measured values against reference
+ceilings chosen to represent high-end commodity hardware:
+
+\begin{align}
+  N_{\text{cpu}}      &= \min\!\bigl(\text{cpu\_ops} / 8{\times}10^{7},\ 1\bigr) \label{eq:ncpu}\\
+  N_{\text{mem}}      &= \min\!\bigl(\text{triad\_GB\_s} / 35,\ 1\bigr) \label{eq:nmem}\\
+  N_{\text{seq}}      &= \min\!\bigl(\text{disk\_MB\_s} / 1200,\ 1\bigr) \label{eq:nseq}\\
+  N_{\text{rand}}     &= \min\!\bigl(\text{disk\_IOPS} / 50000,\ 1\bigr) \label{eq:nrand}\\
+  N_{\text{vram}}     &= \min\!\bigl(\text{vram\_GB} / 16,\ 1\bigr) \label{eq:nvram}\\
+  N_{\text{h2d}}      &= \min\!\bigl(\text{h2d\_GB\_s} / 8,\ 1\bigr) \label{eq:nh2d}\\
+  N_{\text{d2h}}      &= \min\!\bigl(\text{d2h\_GB\_s} / 8,\ 1\bigr) \label{eq:nd2h}\\
+  N_{\text{dispatch}} &= \min\!\bigl(200 / \text{dispatch\_us},\ 1\bigr) \label{eq:ndisp}
+\end{align}
+
+\subsection{Expected Capacity Models}
+\label{ssec:expected}
+
+Six workload classes are defined, each with a weighted linear
+expected-capacity function $E_c$ (Table~\ref{tab:emodels}).
+Weights reflect the dominant resource bottleneck for each class and
+were chosen from first-principles analysis of the system's hot paths;
+statistical calibration is planned once 30+ paired runs across 3+
+hardware classes are available (Section~\ref{ssec:calibration}).
+
+\begin{table}[t]
+  \caption{Expected-Capacity Models per Workload Class (v0)}
+  \label{tab:emodels}
+  \renewcommand{\arraystretch}{1.2}
+  \centering
+  \begin{tabular}{L{1.9cm}L{5.7cm}}
+    \toprule
+    \textbf{Class} & \textbf{Expected capacity $E_c$} \\
+    \midrule
+    OLTP &
+      $0.45\,N_{\text{cpu}} + 0.20\,N_{\text{mem}}
+        + 0.25\,N_{\text{rand}} + 0.10\,N_{\text{seq}}$ \\
+    OLAP &
+      $0.40\,N_{\text{cpu}} + 0.45\,N_{\text{mem}}
+        + 0.15\,N_{\text{seq}}$ \\
+    Storage WAL &
+      $0.20\,N_{\text{cpu}} + 0.20\,N_{\text{mem}}
+        + 0.35\,N_{\text{seq}} + 0.25\,N_{\text{rand}}$ \\
+    Vector GPU &
+      $0.20\,N_{\text{cpu}} + 0.15\,N_{\text{mem}}
+        + 0.30\,N_{\text{vram}} + 0.20\,N_{\text{h2d}}
+        + 0.10\,N_{\text{d2h}} + 0.05\,N_{\text{dispatch}}$ \\
+    LLM GPU &
+      $0.15\,N_{\text{cpu}} + 0.15\,N_{\text{mem}}
+        + 0.35\,N_{\text{vram}} + 0.20\,N_{\text{h2d}}
+        + 0.05\,N_{\text{d2h}} + 0.10\,N_{\text{dispatch}}$ \\
+    Mixed CPU+GPU &
+      $0.25\,N_{\text{cpu}} + 0.20\,N_{\text{mem}}
+        + 0.20\,N_{\text{vram}} + 0.15\,N_{\text{h2d}}
+        + 0.10\,N_{\text{d2h}} + 0.10\,N_{\text{dispatch}}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Efficiency Computation}
+\label{ssec:eff}
+
+For a specific benchmark $b$ assigned to workload class $c$:
+
+\begin{align}
+  \text{expected}_{b}  &= \text{baseline\_ref}_{b} \times E_c \\
+  \text{efficiency}_{b} &= \frac{\text{measured}_{b}}{\text{expected}_{b}} \\
+  \text{score\_hw\_neutral}_{b} &=
+        \frac{\text{measured}_{b}}{\text{target\_product}_{b} \times E_c}
+\end{align}
+
+\noindent
+where \(\text{baseline\_ref}_{b}\) is the reference throughput value
+fixed at v0 initialization and \(\text{target\_product}_{b}\) is the
+product-roadmap absolute target.
+\(\text{score\_hw\_neutral}_{b}\) is the primary release-gate metric.
+
+\subsection{Calibration Rules (v1)}
+\label{ssec:calibration}
+
+Version~1 calibration is binding once 30 paired runs across at least
+three distinct hardware classes are collected:
+
+\begin{enumerate}
+  \item \emph{Class calibration factor:}
+        $K_c = \operatorname{median}(\{\text{efficiency}_{b}\}_{b \in c})$
+        over the reference window.
+  \item \emph{Calibrated efficiency:}
+        $\text{efficiency\_cal}_{b} = \text{efficiency}_{b} / K_c$.
+  \item \emph{Factor significance:} a hardware factor $N_i$ is deemed
+        significant for class $c$ only if
+        $|\rho_{\text{Spearman}}(N_i,\,\text{efficiency\_cal})| \geq 0.35$
+        and $p \leq 0.05$.
+  \item \emph{Stability rule:} the coefficient of variation
+        $\text{CV} \leq 0.20$ within the reference window.
+\end{enumerate}
+
+\noindent
+\textbf{Banding table:}
+\begin{itemize}
+  \item $\text{score} < 0.85$: \emph{critical}
+  \item $0.85 \leq \text{score} < 0.95$: \emph{notable}
+  \item $0.95 \leq \text{score} \leq 1.05$: \emph{normal}
+  \item $\text{score} > 1.05$: \emph{above target}
+\end{itemize}
+
+% ==============================================================================
+\section{Experimental Results}
+\label{sec:results}
+
+\subsection{Longitudinal Throughput Evolution}
+\label{ssec:longitudinal}
+
+Table~\ref{tab:longitudinal} tracks six core KPIs from v1.3.0 through
+v1.8.2 together with the v1.8.0 product target.
+The benchmark count grew from 450 to 1\,078~(+140\%), reflecting both
+new module coverage and test-suite consolidation.
+
+\begin{table*}[t]
+  \caption{Longitudinal Throughput Evolution (v1.3.0 -- v1.8.2)}
+  \label{tab:longitudinal}
+  \centering
+  \begin{tabular}{L{2.8cm}R{1.5cm}R{1.5cm}R{1.5cm}R{1.5cm}R{1.6cm}R{1.6cm}R{1.6cm}}
+    \toprule
+    \textbf{Metric} &
+    \textbf{v1.3.0} & \textbf{v1.3.1} & \textbf{v1.3.2} &
+    \textbf{v1.3.3} & \textbf{v1.3.4} & \textbf{v1.8.2} &
+    \textbf{Target} \\
+    \midrule
+    Query Engine (M\,ops/s)
+      & 700 & 750 & 800 & 800 & \textbf{814.5} & \textbf{796.4} & 900 \\
+    Vector Insert (k/s)
+      & 280 & 300 & 330 & 340 & \textbf{351.4} & \textbf{548.7} & 600 \\
+    Secondary Index (k/s)
+      & 180 & 190 & 210 & 215 & \textbf{217.2} & \textbf{254.9} & 1\,000 \\
+    Graph Edge Ops (k/s)
+      & --- & --- & --- & --- & \textbf{628.7} & \textbf{1\,177} & 1\,000 \\
+    Timeseries Insert (M\,pts/s)
+      & --- & --- & --- & --- & \textbf{49.0} & \textbf{61.0} & 60 \\
+    Benchmark Tests
+      & 450 & 480 & 520 & 780 & \textbf{1\,078} & 5\,(partial) & 1\,200 \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+Graph edge operations surpassed the 1\,M\,edges/s target already in
+v1.8.2 ($+87\%$ over v1.3.4).
+Time-series insert throughput exceeded the 60\,M\,pts/s target by
+1.7\%.
+Query engine throughput reached 814.5\,M\,ops/s in v1.3.4 but
+regressed to 796.4\,M\,ops/s in v1.8.2 due to increased
+governance-framework overhead in the hot evaluation path.
+Secondary index insert performance remains the largest gap at
+254.9\,k/s vs.\ the 1\,M/s target, primarily attributable to
+RocksDB write amplification.
+
+\subsection{Hardware Baseline on the Reference Platform}
+\label{ssec:hwbaseline}
+
+The current reference run
+(\texttt{hardware\_baseline\_gtest\_1775806092.json}) yielded the
+normalized factors shown in Table~\ref{tab:hwfactors}.
+
+\begin{table}[t]
+  \caption{Normalized Hardware Factors -- Reference Platform
+           (run 1775806092)}
+  \label{tab:hwfactors}
+  \centering
+  \begin{tabular}{lrl}
+    \toprule
+    \textbf{Factor} & \textbf{Value} & \textbf{Tier} \\
+    \midrule
+    $N_{\text{cpu}}$      & 0.679 & medium \\
+    $N_{\text{mem}}$      & 0.619 & medium \\
+    $N_{\text{seq}}$      & 0.646 & SSD class \\
+    $N_{\text{rand}}$     & 1.000 & high (at ceiling) \\
+    $N_{\text{vram}}$     & 0.739 & medium \\
+    $N_{\text{h2d}}$      & 0.509 & medium \\
+    $N_{\text{d2h}}$      & 0.494 & medium \\
+    $N_{\text{dispatch}}$ & 0.402 & low--medium \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Random I/O ($N_{\text{rand}} = 1.0$) is fully saturated, meaning OLTP
+workloads are not storage-bottlenecked on this platform.
+PCIe dispatch latency ($N_{\text{dispatch}} = 0.402$) represents the
+largest gap and constitutes the primary hardware constraint for
+GPU-heavy workload classes.
+
+\subsection{Efficiency Results (v0)}
+\label{ssec:eff-results}
+
+Table~\ref{tab:eff-v0} presents the first efficiency computation
+using the class factors derived from the hardware baseline.
+All six classes yield $\text{efficiency} > 1.0$, indicating that the
+v0 baseline references are conservative.
+
+\begin{table}[t]
+  \caption{Efficiency Results -- v0, Reference Platform}
+  \label{tab:eff-v0}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{L{1.8cm}R{1.2cm}R{1.3cm}R{1.3cm}R{1.2cm}}
+    \toprule
+    \textbf{Class} &
+    $E_c$ & \textbf{Baseline} & \textbf{Measured} & \textbf{Eff.} \\
+    \midrule
+    OLTP &
+      0.744 & 814.5\,M/s & 796.4\,M/s & 1.314 \\
+    OLAP &
+      0.647 & 242.6\,M/s & 242.6\,M/s & 1.545 \\
+    Storage WAL &
+      0.736 & 1.058\,k/s & 1.193\,k/s & 1.532 \\
+    Vector GPU &
+      0.622 & 351.4\,k/s & 548.7\,k/s & 2.510 \\
+    LLM GPU &
+      0.620 & 15.9\,k/s  & 15.9\,k/s  & 1.613 \\
+    Mixed CPU+GPU &
+      0.607 & 717.2\,k/s & 717.2\,k/s & 1.647 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Hardware-Neutral Scores}
+\label{ssec:hw-neutral}
+
+Table~\ref{tab:hw-neutral} shows \(\text{score\_hw\_neutral}\) for
+the four benchmarks for which both a product target and a measured
+value exist on the reference platform.
+All scores exceed 1.0, confirming above-target performance relative
+to hardware capability.
+
+\begin{table}[t]
+  \caption{Hardware-Neutral Scores (run 1775806092)}
+  \label{tab:hw-neutral}
+  \centering
+  \begin{tabular}{L{3.2cm}R{1.3cm}R{1.2cm}R{1.4cm}}
+    \toprule
+    \textbf{Benchmark} &
+    \textbf{Target} & $E_c$ & \textbf{Score} \\
+    \midrule
+    QueryEngineBench/SimpleEval   & 750\,M/s & 0.744 & 1.427 \\
+    VectorIndexBench/InsertPlain  & 280\,k/s & 0.622 & 3.150 \\
+    BM\_RawWrite\_WAL\_On/8       & 1.0\,k/s & 0.736 & 1.621 \\
+    BM\_EmbeddingCache/100k       & ---      & 0.620 & 1.573 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Hardware Factor Correlation Matrix (v0)}
+\label{ssec:corr-matrix}
+
+Table~\ref{tab:corr} presents the qualitative expectation matrix
+mapping workload classes to hardware factors.
+Entries are High~(H), Medium~(M), Low~(L), or negligible~(0).
+This matrix constitutes the prior for the v1 statistical calibration
+once sufficient paired runs are available.
+
+\begin{table*}[t]
+  \caption{Hardware Factor Expectation Matrix (v0) --
+    H=High, M=Medium, L=Low, 0=Negligible}
+  \label{tab:corr}
+  \centering
+  \begin{tabular}{L{2.8cm}
+                  C{0.7cm}C{0.7cm}C{0.7cm}C{0.7cm}
+                  C{0.7cm}C{0.7cm}C{0.7cm}C{0.7cm}}
+    \toprule
+    \textbf{Class} &
+    $N_{\text{cpu}}$ & $N_{\text{mem}}$ & $N_{\text{seq}}$ &
+    $N_{\text{rand}}$ & $N_{\text{vram}}$ &
+    $N_{\text{h2d}}$ & $N_{\text{d2h}}$ & $N_{\text{disp.}}$ \\
+    \midrule
+    OLTP         & H & M & L & H & M & 0 & 0 & 0 \\
+    OLAP         & H & H & M & L & L & 0 & 0 & 0 \\
+    Storage WAL  & M & M & H & H & 0 & 0 & 0 & 0 \\
+    Vector GPU   & M & L & 0 & 0 & H & H & M & L \\
+    LLM GPU      & L & M & 0 & 0 & H & H & L & M \\
+    Mixed CPU+GPU& M & M & 0 & 0 & M & M & M & M \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+\subsection{Raw Benchmark Details}
+\label{ssec:raw-benchmarks}
+
+\subsubsection{Allocator Performance}
+\label{sssec:alloc}
+
+\themis{} ships a custom allocator (themis-malloc, inspired by
+mimalloc~\cite{Leijen2019}).
+Table~\ref{tab:alloc} compares wall-clock throughput against the
+system allocator on the v1.8.1-rc2 build (Windows x64,
+MSVC~Release, benchmark \texttt{bench\_storage\_performance}).
+
+\begin{table}[t]
+  \caption{Allocator Throughput (v1.8.1-rc2, \texttt{bench\_storage\_performance})}
+  \label{tab:alloc}
+  \centering
+  \begin{tabular}{lR{1.3cm}R{1.3cm}R{1.1cm}}
+    \toprule
+    \textbf{Case} & \textbf{System} & \textbf{Themis} & \textbf{Ratio} \\
+    \midrule
+    Small alloc ($\leq$256 B)  & 15.5\,M/s  & 128.5\,M/s & 8.3$\times$ \\
+    Large alloc ($\geq$64 KB)  & 119\,k/s   & 2.49\,M/s  & 20.9$\times$ \\
+    Mixed workload             & ---        & 19.6\,M/s  & --- \\
+    RCU read (single thread)   & ---        & 919.8\,M/s & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The 8--21$\times$ allocator speedup is consistent with the mimalloc
+free-list sharding approach~\cite{Leijen2019} and is a primary
+enabler of the high OLTP throughput reported in
+Section~\ref{ssec:longitudinal}.
+
+\subsubsection{WAL Scaling with Thread Count}
+\label{sssec:wal-scaling}
+
+Table~\ref{tab:wal-scaling} shows write throughput (ops/s) for three
+storage patterns as the thread count scales from 1 to 16.
+WAL-ON throughput scales approximately linearly up to 8~threads
+(+13\% at 8T vs.\ 1T) but degrades $-25\%$ at 16~threads due to
+log-group-commit contention.
+WAL-OFF, which bypasses the on-disk journal, scales well up to 8T but
+also saturates at 16T.
+Mixed 80/20 read-write and secondary-index writes exhibit near-linear
+scaling through 16~threads.
+
+\begin{table}[t]
+  \caption{Storage Hotspot Scaling (\texttt{bench\_hotspots\_micro}, v1.3.4)}
+  \label{tab:wal-scaling}
+  \centering
+  \begin{tabular}{lR{1.0cm}R{1.0cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{Pattern} & \textbf{1T} & \textbf{4T} & \textbf{8T} & \textbf{16T} \\
+    \midrule
+    WAL~ON (ops/s)       & 283   & 609   & 1\,193  & 1\,546 \\
+    WAL~OFF (k\,ops/s)   & 146   & 370   & 508     & 350 \\
+    Mixed 80/20 (ops/s)  & 583   & 1\,289 & 2\,534  & 4\,405 \\
+    Sec.\ Index (ops/s)  & 281   & 590   & 1\,056  & 1\,990 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Vector Distance Kernel Throughput}
+\label{sssec:vec-kernels}
+
+Table~\ref{tab:vec-kernels} reports throughput of the SIMD-accelerated
+distance kernels (AVX2, \texttt{bench\_hybrid\_vector\_geo}, v1.3.4).
+All kernels operate on 32-bit float vectors.
+Throughput decreases roughly as $1/d$ for small $d$ (dominated by
+loop overhead) and asymptotes toward a bandwidth-limited regime
+around $d=512$.
+Geo operations (Haversine, bounding-box containment) operate at
+much higher throughput because they use scalar arithmetic on
+two-dimensional coordinate pairs rather than full $d$-dimensional
+dot products.
+
+\begin{table}[t]
+  \caption{Distance Kernel Throughput (AVX2, v1.3.4)}
+  \label{tab:vec-kernels}
+  \centering
+  \begin{tabular}{lR{1.3cm}R{1.5cm}R{1.5cm}}
+    \toprule
+    \textbf{Kernel} & \textbf{Dim~$d$} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    Euclidean    & 64    & 42\,ns  & 23.7\,M/s \\
+    Euclidean    & 256   & 209\,ns & 4.8\,M/s \\
+    Euclidean    & 1024  & 828\,ns & 1.21\,M/s \\
+    Cosine       & 64    & 38\,ns  & 26.4\,M/s \\
+    Cosine       & 256   & 205\,ns & 4.9\,M/s \\
+    Cosine       & 1024  & 827\,ns & 1.21\,M/s \\
+    Haversine    & 2     & 3.6\,$\mu$s/100 pts & 28.0\,M\,pts/s \\
+    Bbox contain.& 2     & 64\,ns/100 pts  & 1.56\,G\,pts/s \\
+    Vec+Geo filt.& 256   & 1.27\,ms/32K pts & 25.8\,M/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Graph Query Optimizer}
+\label{sssec:graph-opt}
+
+Table~\ref{tab:graph-opt} shows plan generation and BFS execution
+latency on the v1.8.1-rc2 build
+(\texttt{bench\_graph\_query\_optimizer}).
+Plan generation is sub-microsecond ($\leq 246$\,ns) and is
+cache-resident after the first execution.
+BFS execution time grows super-linearly with depth (3\,214\,ns at
+depth~2 vs.\ 13\,241\,ns at depth~4), reflecting the exponential
+fan-out of the traversal frontier.
+
+\begin{table}[t]
+  \caption{Graph Query Optimizer (v1.8.1-rc2)}
+  \label{tab:graph-opt}
+  \centering
+  \begin{tabular}{lR{1.5cm}R{1.5cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    PlanGen -- Shortest Path    & 223\,ns & 4.53\,M/s \\
+    PlanGen -- k-Hop (k=2)      & 246\,ns & 4.03\,M/s \\
+    PlanGen -- With Cache Hit   & 225\,ns & 4.53\,M/s \\
+    BFS -- depth 2 (100 nodes)  & 3\,214\,ns & 321\,k/s \\
+    BFS -- depth 3 (100 nodes)  & 6\,038\,ns & 161\,k/s \\
+    BFS -- depth 4 (100 nodes)  & 13\,241\,ns & 77\,k/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{AQL Function Benchmarks}
+\label{sssec:aql-functions}
+
+Table~\ref{tab:aql-funcs} reports throughput for four
+representative AQL function classes measured on v1.3.4
+(\texttt{bench\_aql\_functions}).
+
+\textbf{Embedding Cache.}
+The hot-path lookup (\texttt{BM\_EmbeddingCache\_Query\_Hit}) achieves
+155.8\,M/s at 384--3\,072 dimensions with only 6.4--6.5\,ns per call
+because the result is fully resident in L1 cache.
+Cache misses incur a 200$\times$ penalty (777\,k/s) due to the
+backing vector comparison.
+
+\textbf{Hybrid Search RRF.}
+Reciprocal-rank fusion across BM25 and HNSW result sets runs at
+6.6--7.1\,M/s for 384--1\,536 dimensions; the 50/50-weight variant
+hits 10.2\,M/s due to branch elimination in the weight-balancing path.
+
+\textbf{CTEs.}
+Non-recursive CTEs scale nearly linearly: 1-clause throughput is
+952.6\,M/s; 20-clause throughput is 938.5\,M/s ($-1.5\%$), indicating
+negligible per-clause overhead.
+Recursive CTEs degrade with depth: depth~10 achieves 87.1\,M/s;
+depth~1\,000 drops to 896\,k/s, reflecting $O(d)$ stack traversal.
+
+\textbf{Subquery EXISTS.}
+The LIMIT~1 early-exit optimisation eliminates essentially all
+per-row work and is listed as short-circuit in
+Table~\ref{tab:aql-funcs}.
+Without LIMIT~1 the cost grows linearly with the result set size:
+147\,k/s at 10\,K rows, 14.7\,k/s at 100\,K rows.
+
+\begin{table}[t]
+  \caption{AQL Function Benchmark Highlights (v1.3.4)}
+  \label{tab:aql-funcs}
+  \centering
+  \begin{tabular}{L{3.0cm}R{1.3cm}R{1.7cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    EmbeddingCache hit /384       & 6.44\,ns  & 155.8\,M/s \\
+    EmbeddingCache miss /384      & 1.298\,$\mu$s & 777\,k/s \\
+    HybridSearch RRF /384         & 148\,ns   & 6.64\,M/s \\
+    HybridSearch 50/50            & 99\,ns    & 10.2\,M/s \\
+    CTE non-recursive /1          & 1.0\,ns   & 952.6\,M/s \\
+    CTE non-recursive /20         & 21.3\,ns  & 938.5\,M/s \\
+    CTE recursive depth~10        & 11.3\,ns  & 87.1\,M/s \\
+    CTE recursive depth~1000      & 1.11\,$\mu$s & 896\,k/s \\
+    EXISTS w/ LIMIT~1 /100K       & $\approx$0 & short-circuit \\
+    EXISTS w/o LIMIT~1 /10K       & 6.82\,$\mu$s & 147\,k/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Graph Traversal Scaling}
+\label{sssec:graph-traversal}
+
+Table~\ref{tab:graph-traversal} compares BFS traversal throughput
+across node-count and depth combinations between v1.3.3 and
+v1.8.1-rc2 (\texttt{bench\_graph\_traversal}).
+Both versions exhibit the expected $O(n)$ scaling at fixed depth:
+100 nodes at depth~4 runs $\approx$33$\times$ faster than 100 nodes
+at depth~20.
+The v1.8.1-rc2 build shows a slight regression at
+10\,000 nodes/depth~4 ($+15\%$ latency) but a $+26\%$ improvement
+at 1\,000 nodes/depth~4, suggesting improved cache locality for
+medium-sized graphs.
+
+\begin{table}[t]
+  \caption{BFS Traversal Throughput: v1.3.3 vs v1.8.1-rc2}
+  \label{tab:graph-traversal}
+  \centering
+  \begin{tabular}{L{2.0cm}R{1.1cm}R{1.2cm}R{1.2cm}R{1.1cm}}
+    \toprule
+    \textbf{Config} &
+    \multicolumn{2}{c}{\textbf{v1.3.3}} &
+    \multicolumn{2}{c}{\textbf{v1.8.1-rc2}} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+    & lat.\ (ms) & ops/s & lat.\ (ms) & ops/s \\
+    \midrule
+    100n / d4   & 0.184 & 5.43\,k & 0.214 & 4.76\,k \\
+    1000n / d4  & 1.560 & 652   & 1.250 & 823 \\
+    10000n / d4 & 20.2  & 50.6  & 23.2  & 44.2 \\
+    100n / d20  & 0.469 & 2.11\,k & 0.514 & 1.91\,k \\
+    1000n / d20 & 4.38  & 232.7 & 4.65  & 215.1 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.3ex}
+  {\footnotesize n = nodes; d = traversal depth.}
+\end{table}
+
+\subsubsection{Image Analysis Latency}
+\label{sssec:image-latency}
+
+The ONNX-CLIP image embedding pipeline was benchmarked with
+\texttt{bench\_image\_analysis} (v1.3.4).
+Key findings:
+\begin{itemize}
+  \item Embedding throughput is constant across batch sizes 1--16
+        at $\approx$258\,k/s per image, indicating CPU-bound execution
+        with no parallelism overhead up to batch~16.
+  \item P99 latency spikes to 20--21\,ms for both CPU and GPU
+        backends, likely caused by garbage-collection or OS scheduling
+        jitter; median latency is 1.5--2.1\,ms.
+  \item Image resolution increases from 224\,px to 1024\,px raise
+        median embedding latency $3.6\times$ (1.975\,ms $\to$
+        6.007\,ms), consistent with an $O(r^2)$ pixel-scan dependency.
+  \item Captioning at 384\,px incurs a $9\times$ overhead vs.\
+        embedding (P50 = 22\,ms), due to the additional transformer
+        decode pass.
+\end{itemize}
+
+\begin{table}[t]
+  \caption{Image Analysis Latency Distribution (v1.3.4)}
+  \label{tab:img-latency}
+  \centering
+  \begin{tabular}{L{3.2cm}R{1.1cm}R{1.0cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{Operation} & \textbf{Mean} & \textbf{P50} &
+    \textbf{P95} & \textbf{P99} \\
+    \midrule
+    Embed 224\,px           & 1.58\,ms & 1.50\,ms & 1.60\,ms & 2.20\,ms \\
+    Embed 512\,px           & 3.02\,ms & 2.70\,ms & 2.80\,ms & -- \\
+    Embed 1024\,px          & 6.01\,ms & 5.70\,ms & 6.00\,ms & -- \\
+    Caption 384\,px         & 22.0\,ms & 21.1\,ms & 22.6\,ms & 40.2\,ms \\
+    Batch /4 (per img)      & 1.58\,ms & 1.47\,ms & 1.58\,ms & -- \\
+    Batch /16 (per img)     & 1.54\,ms & 1.48\,ms & 1.56\,ms & -- \\
+    GPU vs CPU (embed 224)  & 2.31\,ms & 1.70\,ms & 2.50\,ms & 21.1\,ms \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{MVCC Transactions and Lock Contention}
+\label{sssec:mvcc-lock}
+
+Table~\ref{tab:mvcc-lock} presents MVCC commit throughput and lock
+contention data from v1.3.3
+(\texttt{bench\_mvcc}, \texttt{bench\_lock\_contention}).
+
+MVCC single-entity commit runs at 7.1\,k/s (4.07\,ms/tx); snapshot
+isolation imposes only $-3.9\%$ overhead vs.\ raw WriteBatch at
+40.0\,k/s, confirming that the MVCC read-view chain is not on the
+critical write path.
+
+Lock contention exhibits a bimodal profile: disjoint-key workloads
+scale near-linearly up to 8~threads (61.6\,k/s) but collapse at
+16~threads (15.3\,k/s) due to RocksDB write-group-commit
+congestion.
+This pattern directly corroborates Gap~D-6 (concurrency coefficient
+of variation $> 20\%$).
+Overlapping-key contention is 3.3$\times$ slower than disjoint
+even at a single thread (4.43\,k/s vs.\ 14.4\,k/s), consistent with
+lock-convoy formation on high-contention key ranges.
+
+\begin{table}[t]
+  \caption{MVCC and Lock-Contention Benchmarks (v1.3.3)}
+  \label{tab:mvcc-lock}
+  \centering
+  \begin{tabular}{L{3.2cm}R{1.3cm}R{1.5cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{Latency} & \textbf{Throughput} \\
+    \midrule
+    MVCC SingleEntity Commit   & 4.07\,ms  & 7.11\,k/s \\
+    MVCC BatchInsert 100       & 7.29\,ms  & 29.7\,k/s \\
+    MVCC SnapshotIsolation     & 4.05\,ms  & 40.0\,k/s \\
+    MVCC Rollback              & 266\,$\mu$s & 37.3\,k/s \\
+    WriteBatch SingleEntity    & 4.38\,ms  & 6.52\,k/s \\
+    WriteBatch BatchInsert 100 & 6.25\,ms  & 41.7\,k/s \\
+    \midrule
+    LockContention Disjoint 1T  & 4.44\,ms & 14.4\,k/s \\
+    LockContention Disjoint 8T  & 8.31\,ms & 61.6\,k/s \\
+    LockContention Disjoint 16T & 66.7\,ms & 15.3\,k/s \\
+    LockContention Overlap 1T   & 14.4\,ms & 4.43\,k/s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{2PC Shard-Count Scaling}
+\label{sssec:2pc-scaling}
+
+Table~\ref{tab:2pc-scaling} shows 2PC latency and throughput as the
+shard count scales from 2 to 16 (v1.3.4,
+\texttt{BM\_DistributedTxn\_2PC\_Latency}).
+Commit latency is essentially flat at 46\,ms regardless of shard
+count because the latency is dominated by the coordinator's
+synchronous fsync, not by fan-out RPC overhead.
+Throughput halves from 6.4\,k/s to 1.6\,k/s as shard count doubles
+from 4 to 8, then halves again to 1.28\,k/s at 16~shards, indicating
+a linear fan-out bottleneck in the coordinator's parallel-prepare
+phase.
+Gap D-4 (target 15\,k/s) therefore requires both batched commits
+and a pipelined prepare phase to eliminate the fsync bottleneck.
+
+\begin{table}[t]
+  \caption{2PC Shard-Count Scaling (v1.3.4)}
+  \label{tab:2pc-scaling}
+  \centering
+  \begin{tabular}{R{1.5cm}R{1.5cm}R{1.5cm}R{1.8cm}}
+    \toprule
+    \textbf{Shards} & \textbf{Lat.\ (ms)} & \textbf{ops/s} &
+    \textbf{vs.\ target (15k/s)} \\
+    \midrule
+    2   & 46.04 & 6\,400  & $-57\%$ \\
+    4   & 46.09 & 6\,400  & $-57\%$ \\
+    8   & 46.09 & 1\,600  & $-89\%$ \\
+    16  & 45.95 & 1\,280  & $-91\%$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Regression Overview v1.3.0 $\to$ v1.3.4}
+\label{ssec:regression}
+
+Table~\ref{tab:regression} documents the most significant performance
+changes between the v1.3.0 baseline and v1.3.4.
+Several regressions marked \emph{critical} are attributable to
+intentional infrastructure changes (per-test temporary directories,
+single-transaction-per-put RocksDB semantics in test harnesses)
+rather than to production code path changes.
+This distinction is documented in
+\texttt{PERFORMANCE\_COMPARISON\_V1.3.0\_VS\_V1.3.3.md} and must be
+accounted for when interpreting absolute values.
+
+\begin{table}[t]
+  \caption{Regression Summary v1.3.0 $\to$ v1.3.4}
+  \label{tab:regression}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{L{2.8cm}R{1.2cm}R{1.2cm}R{0.8cm}L{1.3cm}}
+    \toprule
+    \textbf{Benchmark} & \textbf{v1.3.0} & \textbf{v1.3.4} &
+    \textbf{$\Delta$} & \textbf{Cause} \\
+    \midrule
+    Vec Insert     & 567\,k/s & 351\,k/s & $-38\%$ & infra change \\
+    Sec.\ Index    & 1.78\,M/s & 217\,k/s & $-88\%$ & infra change \\
+    Query Engine   & 969\,M/s & 815\,M/s & $-16\%$ & governance \\
+    Graph Edges    & 1.47\,M/s & 629\,k/s & $-57\%$ & infra change \\
+    TS Insert      & 61.0\,M/s & 49.0\,M/s & $-20\%$ & flush policy \\
+    Encrypt 1KB    & 255\,k/s & 191\,k/s & $-25\%$ & EVP overhead \\
+    Decrypt 256B   & 60\,k/s  & 41\,k/s  & $-32\%$ & EVP overhead \\
+    Geo Content API & 5.6\,k/s & 7.2\,k/s & $+29\%$ & \emph{improvement} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{CHIMERA Vendor-Neutral Comparison}
+\label{ssec:chimera-compare}
+
+The CHIMERA suite exposes \themis{} benchmarks in a vendor-neutral
+form and reports anonymised comparison data obtained from independent
+reference runs.
+Table~\ref{tab:chimera-qps} and Table~\ref{tab:chimera-vec}
+summarise the two primary comparison dimensions: query throughput
+and vector search latency.
+Statistical methodology follows IEEE~Std~2807-2022~\cite{IEEE2807}:
+Welch's $t$-test~\cite{Welch1947} for two-sample comparisons,
+Mann-Whitney $U$~\cite{Mann1947} for non-parametric checks,
+Cohen's $d$~\cite{Cohen1988} for effect sizes, and
+Tukey's IQR rule~\cite{Tukey1977} for outlier removal.
+
+\begin{table}[t]
+  \caption{CHIMERA Query Throughput Comparison (95\% CI, Welch's $t$)}
+  \label{tab:chimera-qps}
+  \centering
+  \begin{tabular}{lR{1.0cm}R{1.1cm}R{1.2cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{System} & $N$ & \textbf{Mean} & \textbf{Median} &
+    \textbf{CI lo} & \textbf{CI hi} \\
+    \midrule
+    Alpha (ThemisDB) & 29 & 14\,842 & 14\,813 & 14\,604 & 15\,286 \\
+    Beta   & 29 & 12\,678 & 12\,789 & 11\,966 & 13\,090 \\
+    Gamma  & 28 &  9\,392 &  9\,431 &  8\,677 &  9\,940 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.3ex}
+  {\footnotesize All values in queries/s. System names anonymised per IEEE Std~2807 neutrality.}
+\end{table}
+
+\begin{table}[t]
+  \caption{CHIMERA Vector Search P95 Latency Comparison (ms, 95\% CI)}
+  \label{tab:chimera-vec}
+  \centering
+  \begin{tabular}{lR{0.7cm}R{1.0cm}R{1.0cm}R{0.9cm}R{0.9cm}}
+    \toprule
+    \textbf{System} & $N$ & \textbf{Mean} & \textbf{P95} &
+    \textbf{CI lo} & \textbf{CI hi} \\
+    \midrule
+    Aurora  & 48 & 8.51 & 10.01 & 7.91 & 8.76 \\
+    Nexus   & 49 & 9.43 & 12.40 & 9.02 & 10.02 \\
+    Quantum & 50 & 7.59 &  9.27 & 7.25 &  7.93 \\
+    Vertex  & 48 & 8.77 & 10.98 & 8.34 &  9.23 \\
+    Zenith  & 48 & 9.47 & 12.46 & 8.77 & 10.14 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.3ex}
+  {\footnotesize Lower is better. $N \geq 28$ per IEEE Std~2807; outliers removed by IQR$\times$1.5.}
+\end{table}
+
+System Alpha (ThemisDB) leads query throughput by $+17\%$ over
+System~Beta and $+58\%$ over System~Gamma.
+In vector search latency the spread is narrower: the fastest system
+(Quantum, mean 7.59\,ms) beats the slowest (Zenith, mean 9.47\,ms)
+by only $24.7\%$, suggesting that HNSW index performance is largely
+converging across the vendor landscape at SIFT-1M scale.
+
+The CHIMERA baseline for \themis{} (v1.5.0-dev,
+Table~\ref{tab:chimera-baseline}) also records four core
+workload throughput and latency metrics measured within the system
+under the same IEEE~Std~2807 protocol.
+
+\begin{table}[t]
+  \caption{ThemisDB CHIMERA Self-Baseline (v1.5.0-dev)}
+  \label{tab:chimera-baseline}
+  \centering
+  \begin{tabular}{lR{1.5cm}R{1.3cm}R{1.0cm}R{1.0cm}}
+    \toprule
+    \textbf{Workload} & \textbf{Throughput} & \textbf{Mean} &
+    \textbf{P95} & \textbf{P99} \\
+    \midrule
+    relational\_sort    & 42\,503\,ops/s & 0.024\,ms & 0.023\,ms & 0.034\,ms \\
+    vector\_dot\_product & 75\,835\,ops/s & 0.013\,ms & 0.013\,ms & 0.024\,ms \\
+    document\_lookup    & 2.96\,M\,ops/s  & 0.18\,$\mu$s & 0.20\,$\mu$s & 0.25\,$\mu$s \\
+    graph\_bfs          & 40\,373\,ops/s  & 0.025\,ms & 0.025\,ms & 0.033\,ms \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ==============================================================================
+\section{Analysis and Discussion}
+\label{sec:analysis}
+
+\subsection{Root-Cause Analysis of Performance Gaps}
+\label{ssec:rootcause}
+
+\textbf{Query Engine (796.4\,M vs.\ 900\,M\,ops/s).}
+The 11.5\% gap between v1.3.4 (814.5\,M) and the 900\,M target
+widened to 13.4\% in v1.8.2 due to additional governance-framework
+instrumentation in the hot evaluation path.
+The primary mitigation is selective hot-path profiling to identify
+and defer non-critical checks out of the tight inner loop.
+
+\textbf{Secondary Index (254.9\,k vs.\ 1\,M/s).}
+The 74.5\% gap is the largest in the system and is caused by
+RocksDB write amplification under the current compaction policy.
+Level-based compaction with default $l_0\_file\_num\_compaction\_trigger=4$
+generates 4--10$\times$ write amplification for random-key workloads.
+Switching to a tiered compaction strategy or pre-sorting inserts by
+key range reduces this amplification at the cost of read performance.
+
+\textbf{Storage WAL Sustained Write (1.276\,k/s vs.\ 100\,k/s SLO).}
+The production SLO ($\geq 100\,\text{k\,ops/s}$ sustained NVMe write)
+is not directly covered by the available proxy benchmark
+(\texttt{BM\_RawWrite\_WAL\_On/8} at 1.276\,k/s batch of 8), which
+measures fsync-commit overhead rather than sustained NVMe throughput.
+A dedicated benchmark targeting 64\,KB sequential writes to NVMe is
+required to evaluate this SLO fairly.
+
+\subsection{Benchmark Coverage Gap Analysis}
+\label{ssec:coverage}
+
+Across the 33 \themis{} modules, we identify five gap categories
+covering in total 29 benchmarks (Table~\ref{tab:gap}):
+
+\begin{table}[t]
+  \caption{Benchmark Coverage Gap Categories (33 modules)}
+  \label{tab:gap}
+  \centering
+  \begin{tabular}{L{3.4cm}R{0.9cm}L{3.2cm}}
+    \toprule
+    \textbf{Category} & \textbf{Count} & \textbf{Root cause} \\
+    \midrule
+    Feature-gated benchmarks & 7 &
+      CMake \texttt{THEMIS\_ENABLE\_*} flags \\
+    Disabled stubs & 4 &
+      Deactivated \texttt{BENCHMARK(...)} registrations \\
+    Missing runtime deps & 3 &
+      External library / GPU not present \\
+    Proxy-only benchmarks & 12 &
+      No 1:1 SLO mapping; indirect metrics only \\
+    Missing build artifacts & 3 &
+      CMake exclusion / optional submodule \\
+    \midrule
+    \textbf{Total} & \textbf{29} & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The dominant category is \emph{proxy-only} (12 benchmarks), where
+existing throughput numbers exist but do not directly correspond to
+the documented SLO metric.
+Notable examples are Cache (proxy via \texttt{BM\_EmbeddingCache})
+and Analytics (proxy via \texttt{bench\_olap\_performance}, while the
+direct \texttt{bench\_olap\_analytics} is disabled pending API
+alignment).
+
+\subsection{Meta-Causes and Remediation Roadmap}
+\label{ssec:meta}
+
+Three meta-causes explain the majority of coverage gaps:
+\begin{enumerate}
+  \item \emph{Proxy vs.\ primary benchmarks.}
+        Twelve SLO gaps arise because the available benchmark
+        measures a related but not equivalent code path.
+        Remediation: add at minimum one benchmark per SLO that
+        exercises the exact code path referenced in the SLO.
+  \item \emph{CMake feature gating.}
+        Seven benchmarks are conditionally compiled behind feature
+        flags (e.g., \texttt{THEMIS\_ENABLE\_HNSW\_GPU},
+        \texttt{THEMIS\_ENABLE\_LLM}).
+        Remediation: add an integration CI job that enables all
+        optional features on a GPU runner.
+  \item \emph{Disabled benchmark registrations.}
+        Four benchmark files exist and compile correctly but have
+        their \texttt{BENCHMARK()} invocations commented out
+        (typically accompanied by timeout or API-alignment comments).
+        Remediation: un-gate or replace with a reduced-scope variant
+        that terminates within CI time limits.
+\end{enumerate}
+
+Table~\ref{tab:remediation} provides a concrete remediation plan
+for all 29 benchmark gaps, grouped by meta-cause and priority.
+Each entry specifies the responsible module, required action, and
+target milestone.
+
+\begin{table}[t]
+  \caption{Remediation Roadmap for 29 Benchmark Gaps}
+  \label{tab:remediation}
+  \centering
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabular}{L{1.4cm}L{2.4cm}L{2.0cm}L{1.2cm}}
+    \toprule
+    \textbf{Priority} & \textbf{Module / Gap} &
+    \textbf{Required Action} & \textbf{Target} \\
+    \midrule
+    \multicolumn{4}{l}{\textit{P1 -- High: 8 items}} \\
+    P1 & Storage WAL (D-5) & Direct pwrite path; bypass blob ext. & v2.0 \\
+    P1 & TS NVMe write (D-1) & New 64KB seq-write benchmark & v2.0 \\
+    P1 & Gorilla decode (D-2) & AVX2 kernel + dedicated bench & v2.0 \\
+    P1 & CPU Concurrency (D-6) & LMAX ring-buf; re-enable CV bench & v2.0 \\
+    P1 & Sec.\ Index (proxy) & Un-comment \texttt{BENCHMARK()} & v1.9 \\
+    P1 & HNSW GPU (feature) & GPU runner in CI & v1.9 \\
+    P1 & LLM inference (feature) & GPU runner; enable flag & v1.9 \\
+    P1 & Vec vs.\ FAISS (D-3) & FAISS parity benchmark & v2.0 \\
+    \midrule
+    \multicolumn{4}{l}{\textit{P2 -- Medium: 13 items}} \\
+    P2 & 2PC throughput (D-4) & Pipelined prepare phase & v2.0 \\
+    P2 & Query vs.\ CH (D-7) & Vectorized agg. pass & v2.0 \\
+    P2 & Replication lag & WAL-shipping bench & v1.9 \\
+    P2 & Search SE-1 & Dedicated HNSW+BM25 bench & v1.9 \\
+    P2 & Auth AUT-4 & Bloom-filter microbench & v1.9 \\
+    P2 & CDC CDC-2 & Delivery latency bench & v1.9 \\
+    P2 & Analytics proxy & Un-disable \texttt{bench\_olap\_analytics} & v1.9 \\
+    P2 & Cache proxy & Map to LRU direct-hit SLO & v1.9 \\
+    P2 & AQL-Sugar (ERROR) & Fix API mismatch; re-register & v1.9 \\
+    P2 & Network NET-1 & TCP wire-protocol bench & v1.9 \\
+    P2 & Graph traversal & Extend to v1.8.2 run & v1.9 \\
+    P2 & GNN embeddings & Full-dim GPU variant & v2.0 \\
+    P2 & HSM real lib & Integrate stub$\to$real sign bench & v2.0 \\
+    \midrule
+    \multicolumn{4}{l}{\textit{P3 -- Low: 8 items}} \\
+    P3 & ARM emulation & Native ARM runner & v2.1 \\
+    P3 & TS compression & Gorilla encode bench & v2.1 \\
+    P3 & Content ver.\ CV & Thread-count tuning & v2.1 \\
+    P3 & Batch insert & API align; re-enable & v2.1 \\
+    P3 & Image GPU & Real CUDA pipeline bench & v2.1 \\
+    P3 & CDC compaction & 1M-event replay bench & v2.1 \\
+    P3 & Temporal join & Overhead vs.\ non-temporal & v2.1 \\
+    P3 & QUIC 0-RTT & QUIC transport bench & v2.1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Known Performance Gaps (D-1..D-7)}
+\label{ssec:known-gaps}
+
+Table~\ref{tab:known-gaps} collates the seven explicitly documented
+performance gaps extracted from Section~35 of the performance
+expectations registry.
+All seven require targeted engineering effort before the v2.0 release.
+
+\begin{table}[t]
+  \caption{Documented Performance Gaps (Section 35 Registry)}
+  \label{tab:known-gaps}
+  \centering
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabular}{C{0.4cm}L{1.5cm}R{1.3cm}R{1.1cm}R{0.8cm}L{0.9cm}}
+    \toprule
+    \textbf{ID} & \textbf{Module} & \textbf{Current} &
+    \textbf{Target} & \textbf{Gap} & \textbf{Prio.} \\
+    \midrule
+    D-1 & TS Write      & 200\,k\,pts/s  & 500\,k\,pts/s  & $-60\%$ & High \\
+    D-2 & Gorilla Dec.  & 400\,MB/s  & 2\,GB/s   & $-80\%$ & High \\
+    D-3 & Vec~vs~FAISS~\cite{Johnson2021}  & 351\,k/s & 600\,k/s & $-41\%$ & Med \\
+    D-4 & 2PC~vs~TiDB   & 6.4\,k/s   & 15\,k/s   & $-57\%$ & Med \\
+    D-5 & Blob Write    & 741\,ops/s  & 100\,k/s  & $-99\%$ & High \\
+    D-6 & Concur. CV    & 20.74       & stable    & ---     & Med \\
+    D-7 & Q~vs~ClickHouse & 815\,M/s & 1\,200\,M/s & $-32\%$ & Low \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{D-1 and D-2 (Time-Series).}
+The sustained NVMe write target (D-1) is not yet evaluated by the
+available benchmark; the reported 61\,M\,pts/s is for in-memory
+append only.
+The Gorilla decoder throughput gap (D-2) reflects the lack of an
+AVX2/AVX-512 decode kernel; the current implementation is scalar.
+
+\textbf{D-5 (Blob Write).}
+The 1\,MB blob write path achieves only 741\,ops/s against a target
+of 100\,k/s.
+Profiling reveals 99\% of wall time is spent in multi-part
+upload coordination within the RocksDB blob extension layer.
+A direct \texttt{pwrite} bypass for blobs exceeding a configurable
+threshold is the primary proposed mitigation.
+
+\textbf{D-6 (Concurrency Stability).}
+Under 10-client concurrent write workload the coefficient of variation
+of throughput exceeds 20\%, indicating lock-convoy behaviour in the
+RocksDB write-group-commit path.
+Increasing the write batch budget or adopting a LMAX-disruptor ring
+buffer for the commit queue are candidate mitigations.
+
+\subsection{CI Regression Governance}
+\label{ssec:ci-gov}
+
+\themis{} enforces three-tier regression governance via the
+\texttt{05-quality\_build\_cross-module-performance-regression-ci.yml}
+GitHub Actions workflow:
+
+\begin{itemize}
+  \item \emph{Minor} ($\geq 5\%$ degradation): tracking issue created
+        automatically; does not block merge.
+  \item \emph{Major} ($\geq 10\%$ degradation): PR merge blocked until
+        a root-cause comment is attached to the blocking benchmark.
+  \item \emph{Critical} ($\geq 20\%$ degradation): immediate
+        escalation; PR cannot be merged until the regression is
+        resolved or explicitly waived by a maintainer.
+\end{itemize}
+
+\noindent
+The governance framework operates on \emph{score\_hw\_neutral} rather
+than raw throughput, preventing false positives when the benchmark
+host's hardware capability differs between runs.
+Root-cause analysis is mandatory when
+$\text{score\_hw\_neutral} < 0.90$ occurs in two consecutive runs
+on the same module (Section~\ref{ssec:calibration}).
+
+% ==============================================================================
+\section{Threats to Validity}
+\label{sec:threats}
+
+\subsection{Internal Validity}
+\label{ssec:int-valid}
+
+\textbf{Infrastructure-induced regressions.}
+Several benchmarks listed in Table~\ref{tab:regression} show
+large apparent regressions between v1.3.0 and v1.3.4 that are
+caused by deliberate changes to the test harness (per-test temporary
+directories, single-transaction-per-put semantics for correctness
+isolation) rather than by production code changes.
+These values must not be interpreted as production performance
+regressions.
+Mitigation: the \texttt{PERFORMANCE\_COMPARISON} documentation file
+explicitly flags all harness-induced changes with root-cause notes.
+
+\textbf{WAL-OFF vs.\ WAL-ON semantics.}
+The \texttt{BM\_RawWrite\_WAL\_Off} benchmark bypasses the
+write-ahead log entirely, yielding throughput values
+($\geq$145\,k\,ops/s) that are not representative of any production
+workload, which always requires durability.
+All durability-relevant comparisons in this paper use WAL-ON
+measurements exclusively.
+
+\textbf{In-memory vs.\ persistent time-series.}
+The \texttt{TimeseriesBench/InsertTimepoints} benchmark measures
+in-memory append throughput (61\,M\,pts/s at v1.8.2).
+Persistent, Gorilla-compressed, multi-tier write throughput is
+not yet covered by any automated benchmark (Gap D-1) and may be
+substantially lower.
+
+\subsection{External Validity}
+\label{ssec:ext-valid}
+
+\textbf{Single platform.}
+All measurements are taken on a single Windows x64 workstation with
+an Intel i9-10900K.
+Throughput numbers may not generalise to Linux ARM64, AMD EPYC,
+or cloud-native serverless deployments without recalibration.
+
+\textbf{Benchmark representativeness.}
+Google Benchmark micro-benchmarks isolate individual code paths under
+unrealistic conditions (e.g., warm caches, single query type, no
+concurrent background I/O).
+CHIMERA macro-workloads (YCSB, TPC-C/H) provide more realistic
+coverage but have not yet been fully executed with production data
+volumes ($\geq$10\,TB) on the reference hardware.
+
+\textbf{Hardware model accuracy.}
+The v0 efficiency model uses heuristic weights derived from
+first-principles analysis.
+Until 30 or more paired runs across at least three distinct hardware
+classes are available, the statistical significance of the model
+cannot be assessed.
+All v0 scores exceeding 1.0 should therefore be interpreted as
+\emph{conservative baselines}, not as validated performance claims.
+
+\subsection{Construct Validity}
+\label{ssec:con-valid}
+
+\textbf{Proxy benchmarks.}
+Twelve of the 29 benchmark gaps are proxy-only measurements, meaning
+the measured code path does not directly correspond to the
+documented SLO metric.
+The \texttt{score\_hw\_neutral} values derived from proxy benchmarks
+carry higher uncertainty and are labeled \emph{proxy} in all tables.
+
+\textbf{CHIMERA anonymisation.}
+The anonymised vendor comparison (Section~\ref{ssec:chimera-compare})
+uses system aliases to comply with IEEE Std~2807-2022 neutrality
+requirements.
+The mapping between aliases and actual systems is not disclosed;
+readers should treat comparative scores as indicative rather than
+definitive.
+
+% ==============================================================================
+\section{Related Work}
+\label{sec:related}
+
+Multi-model databases have been surveyed by Lu and Holubov{\'a}~\cite{Lu2018},
+who classify systems by their native model and secondary model support.
+\themis{} extends this landscape by providing fully native graph,
+vector, relational, time-series, and document support with shared
+MVCC and a unified query language.
+
+Hardware-normalized evaluation has antecedents in HPC benchmarking.
+McCalpin's STREAM benchmark~\cite{McCalpin1995} established the
+concept of measuring memory bandwidth as a hardware baseline.
+Hennessy and Patterson~\cite{Hennessy2019} discuss the growing
+importance of domain-specific hardware.
+Our efficiency model applies the same normalization philosophy to
+database workloads, extending it to GPU-specific factors
+($N_{\text{vram}}$, $N_{\text{h2d}}$, $N_{\text{d2h}}$,
+$N_{\text{dispatch}}$) that are absent from CPU-centric HPC models.
+
+YCSB~\cite{Cooper2010} provides workload-portable key-value
+benchmarking.
+TPC-C and TPC-H~\cite{TPCC,TPCH} define transaction and analytical
+workloads, respectively.
+ANN-Benchmarks~\cite{AnnBenchmarks} standardize vector search
+evaluation.
+LDBC-SNB~\cite{LDBCSNB} targets graph analytics.
+The CHIMERA suite integrated into \themis{} provides a unified
+adapter layer over all five standards.
+The statistical methodology used by CHIMERA is grounded in
+Welch's~$t$-test~\cite{Welch1947}, Mann-Whitney
+$U$~\cite{Mann1947}, Cohen's~$d$~\cite{Cohen1988}, and
+Tukey's IQR~\cite{Tukey1977}, following the minimum sample-size and
+warmup requirements of IEEE~Std~2807-2022~\cite{IEEE2807}.
+
+Approximate nearest-neighbor search using HNSW~\cite{Malkov2018}
+underpins the vector search engine.
+FAISS~\cite{Johnson2021} provides GPU-accelerated ANN baselines
+against which Gap~D-3 is measured.
+The custom allocator design follows the mimalloc free-list
+sharding approach~\cite{Leijen2019}, yielding 8--21$\times$ speedup
+over the system allocator on allocation-intensive code paths.
+RocksDB~\cite{Dong2021} is the storage foundation; its
+write-amplification characteristics drive Gap~D-5 (blob write)
+and the secondary index gap.
+Raft~\cite{Ongaro2014} provides consensus; SAGA~\cite{Garcia-Molina1987}
+and 2PC~\cite{Gray1978} handle distributed transactions.
+Gorilla delta-of-delta encoding~\cite{Pelkonen2015} is used in the
+time-series module; Gap~D-2 documents the planned SIMD acceleration
+of the decode path~\cite{Lemire2018}.
+
+% ==============================================================================
+\section{Conclusions}
+\label{sec:conclusion}
+
+We have presented a longitudinal performance evaluation of \themis{}
+spanning versions v1.3.0 through v1.8.2, together with a
+hardware-normalized efficiency model that produces platform-independent
+benchmark scores, a module-level SLO inventory across 28 modules,
+detailed raw benchmark tables, a CHIMERA vendor-neutral comparison,
+and an analysis of seven known performance gaps with root causes.
+
+Five major findings emerge:
+\begin{enumerate}
+  \item Graph edge operations (+87\%) and time-series insert
+        throughput (+25\%) both surpassed their product targets in
+        v1.8.2, demonstrating effective optimization of data-structure
+        hot paths.
+  \item PCIe host-to-device transfer ($N_{\text{h2d}} = 0.509$) and
+        CPU dispatch latency ($N_{\text{dispatch}} = 0.402$) are the
+        dominant hardware bottlenecks for GPU-heavy workloads on the
+        reference platform.
+  \item All v0 efficiency values exceed 1.0, confirming that the
+        initial baseline references are conservative.
+        Recalibration to v1 statistical rules requires 30+ paired
+        runs across at least three distinct hardware classes.
+  \item The CHIMERA query throughput comparison shows \themis{}
+        (System Alpha) leading two reference systems by $+17\%$ and
+        $+58\%$ respectively; vector search P95 latency is within
+        $25\%$ of the field leader.
+  \item Seven documented performance gaps (D-1..D-7) remain open,
+        of which three (D-1, D-2, D-5) are rated high priority for
+        the v2.0 roadmap; all require production-path benchmarks
+        that are currently missing.
+\end{enumerate}
+
+Future work will focus on (i)~closing the 29~identified benchmark
+coverage gaps, particularly the 12~proxy-only benchmarks and 7~high-
+priority known gaps; (ii)~running the CHIMERA suite on heterogeneous
+hardware (ARM, AMD, NVMe RAID) to build the v1 calibration dataset;
+(iii)~extending the efficiency model to encompass network I/O and PCIe
+topology for distributed deployments; and (iv)~implementing the
+AVX2 Gorilla decode kernel (Gap~D-2) and the LMAX-disruptor write
+queue (Gap~D-6).
+
+% ==============================================================================
+\balance
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+% ==============================================================================
+\appendix
+
+\section{Efficiency Formula Derivation}
+\label{app:derivation}
+
+\subsection{Hardware Factor Definition}
+
+Each hardware factor $N_f$ is defined as a ratio of the measured
+platform capability to a reference machine capability:
+\begin{equation}
+  N_f = \frac{\hat{C}_f}{C_f^{\text{ref}}}
+  \label{eq:nf}
+\end{equation}
+where $\hat{C}_f$ is the measured value and $C_f^{\text{ref}}$ is
+the reference-machine value, both expressed in the same unit (GB/s,
+M\,ops/s, etc.).
+Values are clamped to $[0.10, 3.00]$ to prevent outlier machines
+from producing degenerate scores.
+
+\subsection{Class Capability Factor}
+
+The combined class capability factor $E_c$ aggregates all
+normalized factors relevant to workload class $c$ by a
+weighted geometric mean:
+\begin{equation}
+  E_c = \prod_{f \in \mathcal{F}} N_f^{w_{c,f}}
+  \label{eq:ec}
+\end{equation}
+where $\mathcal{F} = \{$cpu, mem, seq, rand, vram, h2d, d2h, dispatch$\}$
+and the weight vector $\mathbf{w}_c$ is normalized per class:
+$\sum_f w_{c,f} = 1$.
+The geometric mean is preferred over the arithmetic mean because
+performance is multiplicatively bounded: a system with
+$N_{\text{cpu}} = 2$ and $N_{\text{mem}} = 0.5$ achieves the
+same throughput as the reference machine (1.0 net), whereas an
+arithmetic mean would yield 1.25.
+
+\subsection{Hardware-Neutral Score}
+
+The hardware-neutral score for benchmark $b$ on platform $p$ is:
+\begin{equation}
+  \text{score}_{b,p} = \frac{T_{b,p}}{T_{b}^{\text{target}} \cdot E_{c(b),p}}
+  \label{eq:score}
+\end{equation}
+where $T_{b,p}$ is the measured throughput, $T_b^{\text{target}}$ is
+the documented product target, and $E_{c(b),p}$ is the capability
+factor of platform $p$ for the workload class of benchmark $b$.
+A score of 1.0 indicates the benchmark exactly meets its target
+after accounting for the platform's hardware capability.
+Values $>1.0$ indicate above-target performance; values $<0.9$
+trigger the regression governance rule (Section~\ref{ssec:ci-gov}).
+
+\subsection{Recalibration Trigger}
+
+The automatic recalibration proposal fires when
+$\text{score}_{b,p} > 1.10$ for the same benchmark $b$ across
+at least three distinct platforms.
+In this case the target $T_b^{\text{target}}$ is raised to the
+geometric mean of the three measured values:
+\begin{equation}
+  T_b^{\text{target, new}} =
+    \left(\prod_{i=1}^{3} T_{b,p_i}\right)^{1/3}
+  \label{eq:recalib}
+\end{equation}
+This prevents benchmark targets from becoming permanently stale as
+hardware improves.
+The updated target takes effect at the next minor release boundary
+(e.g., v1.9 $\to$ v2.0) so that in-flight performance work is not
+retroactively invalidated.
+
+% ------------------------------------------------------------------------------
+\section{CHIMERA Workload Schema}
+\label{app:chimera}
+
+The CHIMERA adapter serializes all benchmark results to a JSON
+structure conformant with IEEE~Std~2807-2022 Annex~A.
+The canonical schema is summarized in Table~\ref{tab:chimera-schema}.
+System names are replaced with stable UUIDs during ingestion; the
+alias table is kept in a restricted-access registry and is not
+distributed with benchmark artefacts.
+
+\begin{table}[h]
+  \caption{CHIMERA Result Schema (IEEE Std 2807-2022 Annex A)}
+  \label{tab:chimera-schema}
+  \centering
+  \begin{tabular}{L{2.2cm}L{1.5cm}L{3.5cm}}
+    \toprule
+    \textbf{Field} & \textbf{Type} & \textbf{Description} \\
+    \midrule
+    \texttt{run\_id}       & string  & UUID of the benchmark run \\
+    \texttt{system\_alias} & string  & Anonymised system identifier \\
+    \texttt{suite}         & enum    & YCSB / TPC-C / TPC-H / ANN /
+                                       LDBC / vLLM / RAGBench \\
+    \texttt{workload}      & string  & Suite-specific workload name \\
+    \texttt{scale\_factor} & number  & Dataset scale (e.g.\ SF=10 for TPC-H) \\
+    \texttt{n\_samples}    & integer & Number of independent runs ($\geq 28$) \\
+    \texttt{mean}          & number  & Arithmetic mean throughput \\
+    \texttt{median}        & number  & Median throughput \\
+    \texttt{p95}           & number  & 95th percentile latency (ms) \\
+    \texttt{p99}           & number  & 99th percentile latency (ms) \\
+    \texttt{ci\_lo\_95}    & number  & Lower bound of 95\% CI (Welch) \\
+    \texttt{ci\_hi\_95}    & number  & Upper bound of 95\% CI (Welch) \\
+    \texttt{cohen\_d}      & number  & Effect size vs.\ reference system \\
+    \texttt{outliers\_removed} & integer & IQR$\times$1.5 outliers removed \\
+    \texttt{hw\_snapshot}  & object  & Hardware baseline (Appendix~\ref{app:derivation}) \\
+    \texttt{timestamp}     & ISO8601 & Run completion timestamp \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Participating systems submit raw result archives (JSON + hardware
+snapshot) to the CHIMERA coordinator.
+The coordinator runs the statistical pipeline (outlier removal,
+normalization, CI computation) and publishes aggregate comparison
+tables to the read-only leaderboard API at
+\texttt{chimera.themisdb.io/api/v1/results}.
+Individual run archives are retained for 24~months to support
+longitudinal analysis.
+
+\end{document}

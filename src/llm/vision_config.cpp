@@ -1,34 +1,45 @@
+/**
+ * @file vision_config.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=63, H=8, M=33, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vision_config.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     539                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • edf27e3ee  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vision_config.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 690
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=88, H=11, M=40, L=0
+ * PR History (last 5): #690 Production-grade Vision/Mul... (2026-03-11) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/vision_config.h"
 #include "utils/logger.h"
 #include <yaml-cpp/yaml.h>
+#include <atomic>
 #include <fstream>
 #include <sstream>
 
 namespace themis {
 namespace llm {
+
+namespace {
+
+std::shared_ptr<VisionConfig> publishVisionConfig(std::shared_ptr<VisionConfig> vision_config) {
+    // The factory populates a freshly created VisionConfig that is not shared
+    // with other threads until the shared_ptr is returned to the caller.
+    // Publish that hand-off with release semantics so readers observe the
+    // fully initialized configuration after they acquire the shared pointer.
+    std::atomic_thread_fence(std::memory_order_release);
+    return vision_config;
+}
+
+} // namespace
 
 // =====================================================
 // ModelLicense Implementation
@@ -81,9 +92,13 @@ bool ModelLicense::validateUsage(bool is_commercial, bool will_modify, bool will
 std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& config_path) {
     try {
         YAML::Node config = YAML::LoadFile(config_path);
-        
+
+        // VisionConfig has a private constructor; construct directly here.
         auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
         
+        // Lock the config during initialization to prevent data races
+        std::unique_lock<std::shared_mutex> lock(vision_config->config_mutex_);
+
         // Load API configuration
         if (config["vision"]["api"]) {
             auto api = config["vision"]["api"];
@@ -369,7 +384,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
         spdlog::info("  - Monitoring: {}", vision_config->monitoring_config_.enabled ? "enabled" : "disabled");
         spdlog::info("  - Sandboxing: {}", vision_config->security_config_.sandboxing.enabled ? "enabled" : "disabled");
         
-        return vision_config;
+        return publishVisionConfig(vision_config);
         
     } catch (const YAML::Exception& e) {
         spdlog::error("Failed to load vision configuration: {}", e.what());
@@ -378,14 +393,184 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& config) {
-    // TODO: Implement JSON loading if needed
-    auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
-    return vision_config;
+    // Start from defaults so unspecified fields have sensible values.
+    auto vision_config = getDefault();
+    
+    // Lock the config during initialization to prevent data races
+    std::unique_lock<std::shared_mutex> lock(vision_config->config_mutex_);
+
+    auto get_str = [&](const nlohmann::json& j, const char* key, std::string& out) {
+        if (j.contains(key) && j[key].is_string()) {
+            out = j[key].get<std::string>();
+        }
+    };
+    auto get_bool = [&](const nlohmann::json& j, const char* key, bool& out) {
+        if (j.contains(key) && j[key].is_boolean()) {
+            out = j[key].get<bool>();
+        }
+    };
+    auto get_size = [&](const nlohmann::json& j, const char* key, size_t& out) {
+        if (j.contains(key) && j[key].is_number_unsigned()) {
+            out = j[key].get<size_t>();
+        }
+    };
+
+    // API configuration
+    get_str(config, "api_version", vision_config->api_version_);
+    get_str(config, "api_prefix",  vision_config->api_prefix_);
+    get_bool(config, "backward_compatible", vision_config->backward_compatible_);
+
+    if (config.contains("api_stability") && config["api_stability"].is_string()) {
+        const std::string stability = config["api_stability"].get<std::string>();
+        if (stability == "experimental") {
+            vision_config->api_stability_ = VisionAPIStability::EXPERIMENTAL;
+        } else if (stability == "beta") {
+            vision_config->api_stability_ = VisionAPIStability::BETA;
+        } else if (stability == "stable") {
+            vision_config->api_stability_ = VisionAPIStability::STABLE;
+        } else if (stability == "deprecated") {
+            vision_config->api_stability_ = VisionAPIStability::DEPRECATED;
+        }
+    }
+
+    // License configuration
+    get_bool(config, "enforce_licenses", vision_config->enforce_licenses_);
+    if (config.contains("allowed_licenses") && config["allowed_licenses"].is_array()) {
+        vision_config->allowed_licenses_.clear();
+        for (const auto& lic : config["allowed_licenses"]) {
+            if (lic.is_string()) {
+                vision_config->allowed_licenses_.push_back(lic.get<std::string>());
+            } else {
+                spdlog::warn("VisionConfig::loadFromJson: non-string entry in "
+                             "'allowed_licenses' (type={}) — entry skipped",
+                             static_cast<int>(lic.type()));
+            }
+        }
+    }
+
+    // Resource limits
+    if (config.contains("resource_limits") && config["resource_limits"].is_object()) {
+        const auto& rl = config["resource_limits"];
+        get_size(rl, "max_memory_mb",              vision_config->resource_limits_.max_memory_mb);
+        get_size(rl, "max_memory_per_request_mb",  vision_config->resource_limits_.max_memory_per_request_mb);
+        get_size(rl, "max_vram_mb",                vision_config->resource_limits_.max_vram_mb);
+        get_size(rl, "max_vram_per_model_mb",      vision_config->resource_limits_.max_vram_per_model_mb);
+        get_size(rl, "max_concurrent_requests",    vision_config->resource_limits_.max_concurrent_requests);
+        get_size(rl, "max_concurrent_models",      vision_config->resource_limits_.max_concurrent_models);
+        get_size(rl, "max_queue_size",             vision_config->resource_limits_.max_queue_size);
+        if (rl.contains("max_inference_time_s") && rl["max_inference_time_s"].is_number()) {
+            vision_config->resource_limits_.max_inference_time =
+                std::chrono::seconds(rl["max_inference_time_s"].get<int64_t>());
+        }
+        if (rl.contains("max_model_load_time_s") && rl["max_model_load_time_s"].is_number()) {
+            vision_config->resource_limits_.max_model_load_time =
+                std::chrono::seconds(rl["max_model_load_time_s"].get<int64_t>());
+        }
+        if (rl.contains("request_timeout_s") && rl["request_timeout_s"].is_number()) {
+            vision_config->resource_limits_.request_timeout =
+                std::chrono::seconds(rl["request_timeout_s"].get<int64_t>());
+        }
+    }
+
+    // Rate limits
+    if (config.contains("rate_limits") && config["rate_limits"].is_object()) {
+        const auto& ratel = config["rate_limits"];
+        get_bool(ratel, "enabled",               vision_config->rate_limits_.enabled);
+        get_size(ratel, "requests_per_minute",   vision_config->rate_limits_.requests_per_minute);
+        get_size(ratel, "requests_per_hour",     vision_config->rate_limits_.requests_per_hour);
+        get_size(ratel, "requests_per_day",      vision_config->rate_limits_.requests_per_day);
+        get_size(ratel, "burst_size",            vision_config->rate_limits_.burst_size);
+        get_str(ratel, "on_limit_exceeded",      vision_config->rate_limits_.on_limit_exceeded);
+    }
+
+    // Monitoring
+    if (config.contains("monitoring") && config["monitoring"].is_object()) {
+        const auto& mon = config["monitoring"];
+        get_bool(mon, "enabled",              vision_config->monitoring_config_.enabled);
+        get_bool(mon, "track_latency",        vision_config->monitoring_config_.track_latency);
+        get_bool(mon, "track_throughput",     vision_config->monitoring_config_.track_throughput);
+        get_bool(mon, "track_error_rate",     vision_config->monitoring_config_.track_error_rate);
+        get_bool(mon, "track_resource_usage", vision_config->monitoring_config_.track_resource_usage);
+        get_bool(mon, "track_model_usage",    vision_config->monitoring_config_.track_model_usage);
+        if (mon.contains("audit") && mon["audit"].is_object()) {
+            const auto& audit = mon["audit"];
+            get_bool(audit, "enabled",          vision_config->monitoring_config_.audit.enabled);
+            get_bool(audit, "include_pii",      vision_config->monitoring_config_.audit.include_pii);
+            get_str(audit,  "storage_type",     vision_config->monitoring_config_.audit.storage_type);
+            get_str(audit,  "compliance_mode",  vision_config->monitoring_config_.audit.compliance_mode);
+            if (audit.contains("retention_days") && audit["retention_days"].is_number_integer()) {
+                vision_config->monitoring_config_.audit.retention_days =
+                    audit["retention_days"].get<int>();
+            }
+        }
+    }
+
+    // Security configuration
+    if (config.contains("security") && config["security"].is_object()) {
+        const auto& sec = config["security"];
+        if (sec.contains("validation") && sec["validation"].is_object()) {
+            const auto& val = sec["validation"];
+            get_bool(val, "enabled",                  vision_config->security_config_.validation.enabled);
+            get_size(val, "max_image_size_mb",        vision_config->security_config_.validation.max_image_size_mb);
+            get_bool(val, "validate_image_integrity",  vision_config->security_config_.validation.validate_image_integrity);
+            get_bool(val, "sanitize_prompts",          vision_config->security_config_.validation.sanitize_prompts);
+            get_bool(val, "block_injection_attempts",  vision_config->security_config_.validation.block_injection_attempts);
+        }
+        if (sec.contains("sandboxing") && sec["sandboxing"].is_object()) {
+            const auto& sb = sec["sandboxing"];
+            get_bool(sb, "enabled",          vision_config->security_config_.sandboxing.enabled);
+            get_bool(sb, "isolate_memory",   vision_config->security_config_.sandboxing.isolate_memory);
+            get_bool(sb, "isolate_network",  vision_config->security_config_.sandboxing.isolate_network);
+            get_str(sb,  "type",             vision_config->security_config_.sandboxing.type);
+        }
+    }
+
+    // Pipeline configuration
+    if (config.contains("pipeline") && config["pipeline"].is_object()) {
+        const auto& pip = config["pipeline"];
+        get_str(pip, "stability", vision_config->pipeline_config_.stability);
+    }
+
+    // Feature flags
+    if (config.contains("feature_flags") && config["feature_flags"].is_object()) {
+        for (const auto& [key, val] : config["feature_flags"].items()) {
+            if (val.is_boolean()) {
+                vision_config->feature_flags_[key] = val.get<bool>();
+            } else {
+                spdlog::warn("VisionConfig::loadFromJson: non-boolean value for "
+                             "feature flag '{}' (type={}) — flag skipped",
+                             key, static_cast<int>(val.type()));
+            }
+        }
+    }
+
+    // Experimental feature flags
+    if (config.contains("experimental_features") && config["experimental_features"].is_object()) {
+        for (const auto& [key, val] : config["experimental_features"].items()) {
+            if (val.is_boolean()) {
+                vision_config->experimental_features_[key] = val.get<bool>();
+            } else {
+                spdlog::warn("VisionConfig::loadFromJson: non-boolean value for "
+                             "experimental feature '{}' (type={}) — entry skipped",
+                             key, static_cast<int>(val.type()));
+            }
+        }
+    }
+
+    spdlog::info("VisionConfig loaded from JSON (api_version={}, stability={})",
+                 vision_config->api_version_,
+                 static_cast<int>(vision_config->api_stability_));
+
+    return publishVisionConfig(vision_config);
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
+    // VisionConfig has a private constructor; construct directly here.
     auto config = std::shared_ptr<VisionConfig>(new VisionConfig());
     
+    // Lock the config during initialization to prevent data races
+    std::unique_lock<std::shared_mutex> lock(config->config_mutex_);
+
     // Set reasonable defaults
     config->api_stability_ = VisionAPIStability::STABLE;
     config->api_version_ = "1.0.0";
@@ -432,7 +617,7 @@ std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
     
     spdlog::info("Using default vision configuration");
     
-    return config;
+    return publishVisionConfig(config);
 }
 
 bool VisionConfig::validate(std::string& error_message) const {
@@ -461,7 +646,35 @@ bool VisionConfig::validate(std::string& error_message) const {
     return error_message.empty();
 }
 
+// API Configuration Getters
+VisionAPIStability VisionConfig::getAPIStability() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return api_stability_;
+}
+
+const std::string& VisionConfig::getAPIVersion() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return api_version_;
+}
+
+const std::string& VisionConfig::getAPIPrefix() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return api_prefix_;
+}
+
+bool VisionConfig::isBackwardCompatible() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return backward_compatible_;
+}
+
+// License Management Getters
+bool VisionConfig::isLicenseEnforced() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return enforce_licenses_;
+}
+
 bool VisionConfig::isLicenseAllowed(const std::string& license_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     if (!enforce_licenses_) {
         return true;
     }
@@ -469,7 +682,24 @@ bool VisionConfig::isLicenseAllowed(const std::string& license_id) const {
     return std::find(allowed_licenses_.begin(), allowed_licenses_.end(), license_id) != allowed_licenses_.end();
 }
 
+// Resource Management Getters
+const VisionResourceLimits& VisionConfig::getResourceLimits() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return resource_limits_;
+}
+
+const VisionRateLimits& VisionConfig::getRateLimits() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return rate_limits_;
+}
+
+const VisionResourceQuota& VisionConfig::getResourceQuota() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return resource_quota_;
+}
+
 std::shared_ptr<ModelLicense> VisionConfig::getModelLicense(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = licenses_.find(model_id);
     if (it != licenses_.end()) {
         return it->second;
@@ -477,7 +707,24 @@ std::shared_ptr<ModelLicense> VisionConfig::getModelLicense(const std::string& m
     return nullptr;
 }
 
+// Monitoring Getters
+const VisionMonitoringConfig& VisionConfig::getMonitoringConfig() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return monitoring_config_;
+}
+
+bool VisionConfig::isMonitoringEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return monitoring_config_.enabled;
+}
+
+bool VisionConfig::isAuditEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return monitoring_config_.audit.enabled;
+}
+
 bool VisionConfig::validateModelUsage(const std::string& model_id, bool is_commercial) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     if (!enforce_licenses_) {
         return true;
     }
@@ -491,15 +738,9 @@ bool VisionConfig::validateModelUsage(const std::string& model_id, bool is_comme
     return license->validateUsage(is_commercial, false, false);
 }
 
-std::string VisionConfig::getRequiredAttribution(const std::string& model_id) const {
-    auto it = models_.find(model_id);
-    if (it != models_.end() && it->second) {
-        return it->second->attribution;
-    }
-    return "";
-}
-
+// Model Registry Getters
 std::vector<std::string> VisionConfig::getAvailableModels() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     std::vector<std::string> model_ids;
     for (const auto& pair : models_) {
         model_ids.push_back(pair.first);
@@ -508,6 +749,7 @@ std::vector<std::string> VisionConfig::getAvailableModels() const {
 }
 
 std::shared_ptr<VisionModelMetadata> VisionConfig::getModelMetadata(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = models_.find(model_id);
     if (it != models_.end()) {
         return it->second;
@@ -516,11 +758,14 @@ std::shared_ptr<VisionModelMetadata> VisionConfig::getModelMetadata(const std::s
 }
 
 bool VisionConfig::isModelProductionReady(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto metadata = getModelMetadata(model_id);
     return metadata && metadata->production_ready;
 }
 
+// Feature Flag Getters
 bool VisionConfig::isFeatureEnabled(const std::string& feature_name) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = feature_flags_.find(feature_name);
     if (it != feature_flags_.end()) {
         return it->second;
@@ -529,6 +774,7 @@ bool VisionConfig::isFeatureEnabled(const std::string& feature_name) const {
 }
 
 bool VisionConfig::isExperimentalFeature(const std::string& feature_name) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = experimental_features_.find(feature_name);
     if (it != experimental_features_.end()) {
         return it->second;
@@ -536,5 +782,37 @@ bool VisionConfig::isExperimentalFeature(const std::string& feature_name) const 
     return false;
 }
 
+// Security Getters
+const VisionSecurityConfig& VisionConfig::getSecurityConfig() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return security_config_;
+}
+
+bool VisionConfig::isSandboxingEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return security_config_.sandboxing.enabled;
+}
+
+bool VisionConfig::isModelVerificationEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return security_config_.model_verification.enabled;
+}
+
+// Pipeline Getter
+const VisionPipelineConfig& VisionConfig::getPipelineConfig() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return pipeline_config_;
+}
+
+std::string VisionConfig::getRequiredAttribution(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    auto it = models_.find(model_id);
+    if (it != models_.end() && it->second) {
+        return it->second->attribution;
+    }
+    return "";
+}
+
 } // namespace llm
 } // namespace themis
+

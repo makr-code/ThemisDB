@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset <platform>-release && cmake --build --preset <platform>-release` (e.g. `linux-release`, `windows-release`)
+
 # ThemisDB Transaction Module
 
 ## Module Purpose
@@ -8,21 +10,31 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 
 | Interface / File | Role |
 |-----------------|------|
-| `transaction_manager.cpp` | SAGA coordinator and ACID transaction lifecycle |
-| `saga_log.cpp` | SAGA execution log for distributed transaction tracking |
-| `compensation_registry.cpp` | Compensating action registry for SAGA rollback |
-| `two_phase_commit.cpp` | Two-Phase Commit (2PC) protocol implementation |
+| `transaction_manager.cpp` | ACID transaction lifecycle: begin, commit, rollback |
+| `saga.cpp` | SAGA pattern: step execution + compensating actions |
+| `saga_orchestrator.cpp` | SAGA orchestration and multi-step coordination |
+| `distributed_saga.cpp` | Distributed SAGA across multiple nodes |
+| `distributed_transaction_manager.cpp` | Two-Phase Commit (2PC) protocol implementation |
+| `global_transaction_manager.cpp` | Multi-region ACID guarantees with TrueTime 2PC |
+
+## Module Documentation Links
+
+- [Public Header Overview](../../include/transaction/README.md)
+- [Roadmap](./ROADMAP.md)
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Architecture](./ARCHITECTURE.md)
+- [German Module Overview](../../docs/de/transaction/README.md)
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — SAGA pattern and 2PC distributed transactions operational; advanced conflict resolution in progress.
+**Maturity:** 🟢 Production-Ready — ACID/MVCC transaction engine with SAGA and distributed transaction capabilities is production-grade.
 
 ## Scope
 
 **In Scope:**
 - ACID transaction guarantees (Atomicity, Consistency, Isolation, Durability)
 - Session-based transaction lifecycle (begin → operations → commit/rollback)
-- Isolation levels: ReadCommitted (default), Snapshot (point-in-time consistency)
+- Isolation levels: ReadCommitted (default), Snapshot (point-in-time consistency), Serializable (SSI – prevents write skew and phantom reads)
 - MVCC via RocksDB native transactions
 - SAGA pattern for distributed transactions with compensating actions
 - Deadlock detection with configurable timeout
@@ -47,7 +59,7 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 Core transaction coordinator providing ACID guarantees through RocksDB WriteBatch.
 
 **Features:**
-- **Isolation Levels**: ReadCommitted (default), Snapshot
+- **Isolation Levels**: ReadCommitted (default), Snapshot (⚠️ write skew possible — see [Isolation Level Selection](#isolation-level-selection)), Serializable (SSI)
 - **MVCC Support**: Multi-version concurrency control via RocksDB transactions
 - **Atomic Updates**: Single WriteBatch for all layers (relational, graph, vector, indexes)
 - **Deadlock Detection**: Background thread monitors lock wait graph
@@ -61,7 +73,7 @@ Core transaction coordinator providing ACID guarantees through RocksDB WriteBatc
 - Transaction IDs generated atomically
 - Transaction map protected by internal mutex
 - Each Transaction object is NOT thread-safe (use from single thread)
-- Safe to commit/rollback from different threads
+- Commit/rollback must follow the same single-transaction ownership rules as other Transaction methods
 
 **Configuration:**
 ```cpp
@@ -169,11 +181,11 @@ Status deleteEdge(std::string_view edgeId);
 **Vector Operations:**
 ```cpp
 // Add vector with entity
-Status addVector(const BaseEntity& entity, 
+Status addVector(const BaseEntity& entity,
                 std::string_view vectorField = "embedding");
 
 // Update existing vector
-Status updateVector(const BaseEntity& entity, 
+Status updateVector(const BaseEntity& entity,
                    std::string_view vectorField = "embedding");
 
 // Remove vector by primary key
@@ -392,21 +404,21 @@ auto result = snapshot_mgr.createSnapshot(
 );
 
 if (result) {
-    std::cout << "Created snapshot at sequence: " 
+    std::cout << "Created snapshot at sequence: "
               << result->sequence_number << std::endl;
 }
 
 // List all snapshots
 auto snapshots = snapshot_mgr.listSnapshots();
 for (const auto& snap : snapshots) {
-    std::cout << snap.tag_name << " @ seq " 
+    std::cout << snap.tag_name << " @ seq "
               << snap.sequence_number << std::endl;
 }
 
 // Get specific snapshot
 auto snap = snapshot_mgr.getSnapshot("pre-deployment-v2.1");
 if (snap) {
-    std::cout << "Created at: " << snap->timestamp_ms 
+    std::cout << "Created at: " << snap->timestamp_ms
               << " by " << snap->created_by << std::endl;
 }
 
@@ -591,7 +603,7 @@ if (result.success) {
 } else {
     std::cout << "Merge failed: " << result.error_message << std::endl;
     std::cout << "Conflicts detected: " << result.conflicts.size() << std::endl;
-    
+
     // Examine conflicts
     for (const auto& conflict : result.conflicts) {
         std::cout << "Conflict on key: " << conflict.key << std::endl;
@@ -755,7 +767,7 @@ txn_mgr.setDeadlockTimeout(std::chrono::seconds(30));
 // Get recent deadlocks
 auto deadlocks = txn_mgr.getDeadlocks(std::chrono::hours(24));
 for (const auto& dl : deadlocks) {
-    std::cout << "Deadlock detected at: " 
+    std::cout << "Deadlock detected at: "
               << dl.detected_at << std::endl;
     std::cout << "Cycle: ";
     for (auto txn_id : dl.cycle) {
@@ -800,17 +812,17 @@ auto stats = txn_mgr.getStatsLockFree();
 // Periodic monitoring
 while (true) {
     auto stats = txn_mgr.getStatsLockFree();
-    
+
     std::cout << "Active: " << stats.active_count << std::endl;
     std::cout << "Committed: " << stats.total_committed << std::endl;
     std::cout << "Aborted: " << stats.total_aborted << std::endl;
     std::cout << "Avg Duration: " << stats.avg_duration_ms << "ms" << std::endl;
-    
+
     // Calculate success rate
     double total = stats.total_committed + stats.total_aborted;
     double success_rate = (stats.total_committed / total) * 100.0;
     std::cout << "Success Rate: " << success_rate << "%" << std::endl;
-    
+
     std::this_thread::sleep_for(std::chrono::seconds(10));
 }
 ```
@@ -898,12 +910,26 @@ for (int batch = 0; batch < 1000; batch++) {
 **ReadCommitted:** Use for general OLTP workloads (fastest)
 **Snapshot:** Use for analytical queries and reports (consistent reads)
 
+> ⚠️ **Write-Skew / Phantom-Read Warning (SNAPSHOT):**
+> Two concurrent SNAPSHOT transactions can each read the same data, make disjoint writes, and both commit — even when their combined effect violates an application invariant. Classic examples: double-booking, over-withdrawal, on-call scheduling (doctors problem). Use `SERIALIZABLE` whenever your workload requires strict invariant enforcement.
+
+**SerializableSnapshot (SSI):** Use for strict ACID correctness — prevents write skew and phantom reads at the cost of more aborts and slightly higher latency.
+
 ```cpp
-// OLTP: frequent, small transactions
+// OLTP: frequent, small transactions (fast, but write-skew possible)
 auto txn = txn_mgr.begin(IsolationLevel::ReadCommitted);
 
 // Analytics: long-running, consistent reads
+// WARNING: write skew and phantom reads are possible at this level
 auto txn = txn_mgr.begin(IsolationLevel::Snapshot);
+
+// Strict correctness: prevents write skew and phantom reads
+auto txn = txn_mgr.begin(IsolationLevel::SERIALIZABLE);
+// On commit, a serialization conflict aborts the transaction:
+auto status = txn_mgr.commitTransaction(txn_id);
+if (!status.ok && status.message.find("Serialization") != std::string::npos) {
+    // Retry with exponential back-off
+}
 ```
 
 ### Deadlock Prevention
@@ -1007,9 +1033,9 @@ auto& saga = txn.getSaga();
 try {
     performOperation1();
     saga.addStep("op1", []() { compensateOp1(); });
-    
+
     performOperation2();
-    saga.addStep("op2", []() { 
+    saga.addStep("op2", []() {
         try {
             compensateOp2();
         } catch (const std::exception& e) {
@@ -1017,7 +1043,7 @@ try {
             // Log for manual intervention
         }
     });
-    
+
     txn.commit();
 } catch (const std::exception& e) {
     // SAGA compensates automatically
@@ -1038,12 +1064,12 @@ if (!result.success) {
     if (!result.conflicts.empty()) {
         // Handle conflicts
         THEMIS_WARN("Merge conflicts detected: {}", result.conflicts.size());
-        
+
         for (const auto& conflict : result.conflicts) {
             THEMIS_INFO("Conflict on key: {}", conflict.key);
             // Resolve manually or use different strategy
         }
-        
+
         // Retry with MANUAL resolution
         auto manual_result = merge_engine.merge(
             "feature-branch",
@@ -1056,6 +1082,17 @@ if (!result.success) {
     }
 }
 ```
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Mitigation |
+|---------|--------------|------------|
+| Commit returns `Deadlock detected` | Writers acquired locks in conflicting order | Enforce deterministic lock ordering and enable deadlock detection |
+| `OCC version conflict` on `optimisticPut`/`optimisticErase` | Concurrent update changed entity version | Re-read version with `getEntityVersion(...)` and retry |
+| `Serialization conflict` with `IsolationLevel::Serializable` | Predicate-lock overlap with concurrent writers | Retry with backoff and reduce wide range predicates |
+| Savepoint rollback behaves unexpectedly | Named and anonymous savepoint APIs were mixed | Use only one savepoint API style per transaction |
 
 ---
 
@@ -1076,7 +1113,7 @@ ctest -R transaction_test -V
 ./tests/test_savepoints        # named and anonymous savepoint tests (20 cases)
 ```
 
-### Integration Tests
+## Integration Tests
 ```bash
 # End-to-end transaction tests
 ./tests/transaction_integration_test
@@ -1088,7 +1125,7 @@ ctest -R transaction_test -V
 ./tests/saga_integration_test
 ```
 
-### Performance Benchmarks
+## Performance Benchmarks
 ```bash
 # Transaction throughput benchmark (includes savepoint benchmarks)
 ./benchmarks/bench_transaction_throughput
@@ -1139,6 +1176,20 @@ ctest -R transaction_test -V
 
 ## Configuration
 
+### Public API Configuration Knobs
+
+The primary runtime configuration surface is the C++ API:
+
+| API | Default | Purpose |
+|-----|---------|---------|
+| `TransactionManager::setDeadlockDetection(bool)` | `false` | Enables/disables background deadlock detection |
+| `TransactionManager::setDeadlockTimeout(std::chrono::milliseconds)` | `1000ms` | Deadlock timeout and victim handling threshold |
+| `TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Applies default timeout to newly started transactions |
+| `TransactionManager::setTransactionTimeout(std::chrono::milliseconds)` | `0ms` | Timeout sweep over active transactions |
+| `TransactionManager::setSSIConfig(const SSIConfig&)` | `predicate_locking=true`, `max_predicate_locks=10000` | Tunes SERIALIZABLE predicate-lock behavior |
+| `Transaction::setTimeout(std::chrono::milliseconds)` | `0ms` | Per-transaction timeout override |
+| `Transaction::setReadOnly(bool)` | `false` | Enables read-only fast path for a transaction |
+
 ### Environment Variables
 ```bash
 # Deadlock detection
@@ -1158,32 +1209,32 @@ THEMIS_MAX_SNAPSHOTS=1000
 THEMIS_SNAPSHOT_CLEANUP_DAYS=90
 ```
 
-### Config File (YAML)
+## Config File (YAML)
 ```yaml
 transaction:
   isolation_level: ReadCommitted  # or Snapshot
-  
+
   deadlock_detection:
     enabled: true
     timeout_ms: 30000
     check_interval_ms: 100
-  
+
   limits:
     max_transaction_size: 1000
     max_active_transactions: 10000
     cleanup_interval_secs: 600
     cleanup_max_age_secs: 3600
-  
+
   saga:
     max_steps: 100
     compensation_timeout_ms: 5000
     enable_logging: true
-  
+
   snapshots:
     max_count: 1000
     cleanup_days: 90
     auto_cleanup: true
-  
+
   branches:
     max_branches: 100
     default_branch: "main"
@@ -1239,6 +1290,10 @@ txn.commit();  // Auto-compensate on failure
 - [Index Module](../index/README.md) - Secondary, graph, and vector indexes
 - [CDC Module](../cdc/README.md) - Change data capture integration
 - [Query Module](../query/README.md) - AQL query execution
+- [Public Header Documentation](../../include/transaction/README.md) - Public entry points and integration notes
+- [Transaction Roadmap](./ROADMAP.md) - Delivery phases and production-readiness checklist
+- [Future Enhancements](./FUTURE_ENHANCEMENTS.md) - Planned interfaces and constraints
+- [German Transaction Docs](../../docs/de/transaction/README.md) - Consolidated module status and inventory
 - [SAGA Pattern](https://microservices.io/patterns/data/saga.html) - Distributed transaction pattern
 - [RocksDB Transactions](https://github.com/facebook/rocksdb/wiki/Transactions) - Native MVCC support
 
@@ -1259,3 +1314,26 @@ Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
 4. Garcia-Molina, H., & Salem, K. (1987). **Sagas**. *Proceedings of the 1987 ACM SIGMOD International Conference on Management of Data*, 249–259. https://doi.org/10.1145/38713.38742
 
 5. Herlihy, M., & Wing, J. M. (1990). **Linearizability: A Correctness Condition for Concurrent Objects**. *ACM Transactions on Programming Languages and Systems*, 12(3), 463–492. https://doi.org/10.1145/78969.78972
+
+## Sourcecode Verification (Module: transaction/readme)
+
+- Verified core surfaces:
+    - `src/transaction/transaction_manager.cpp`
+    - `include/transaction/transaction_manager.h`
+    - `src/transaction/distributed_transaction_manager.cpp`
+    - `src/transaction/saga_orchestrator.cpp`
+    - `src/transaction/distributed_saga.cpp`
+    - `src/transaction/transaction_batcher.cpp`
+    - `src/transaction/transaction_auditor.cpp`
+- Verified behavior classes:
+    - Transaction lifecycle and isolation entry points
+    - Distributed prepare/commit/abort orchestration and recovery hooks
+    - SAGA compensation/orchestration flows
+    - Batching and audit utility paths
+- Note:
+    - Forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+    - Historical implementation record remains in `CHANGELOG.md`.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

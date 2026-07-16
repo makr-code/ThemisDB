@@ -1,25 +1,21 @@
+/**
+ * @file task_audit_event.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_audit_event.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     377                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4228c5bc5  2026-02-23  fix(scheduler): close remaining audit gaps in searchable ... ║
-    • ba3f28bb4  2026-02-23  feat(scheduler): implement searchable task execution hist... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: task_audit_event.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 364
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "scheduler/task_audit_event.h"
@@ -33,13 +29,13 @@ namespace scheduler {
 
 // UUID generation
 std::string generateUUID() {
-    static std::random_device rd;
-    static std::mt19937_64 gen(rd());
-    static std::uniform_int_distribution<uint64_t> dis;
-    
-    uint64_t high = dis(gen);
-    uint64_t low = dis(gen);
-    
+    // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
+    // Audit event UUIDs must be unguessable to prevent enumeration attacks.
+    std::random_device rd;
+
+    uint64_t high = (static_cast<uint64_t>(rd()) << 32) | rd();
+    uint64_t low  = (static_cast<uint64_t>(rd()) << 32) | rd();
+
     // Set version to 4 (random UUID)
     high = (high & 0xFFFFFFFFFFFF0FFFULL) | 0x0000000000004000ULL;
     // Set variant to RFC 4122
@@ -376,3 +372,4 @@ std::string TaskSecurityEvent::toCEF() const {
 
 } // namespace scheduler
 } // namespace themis
+

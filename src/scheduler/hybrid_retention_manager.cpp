@@ -1,23 +1,21 @@
+/**
+ * @file hybrid_retention_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hybrid_retention_manager.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     691                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hybrid_retention_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 681
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #1301 Scheduler Module: Productio... (2026-03-11) | #1049 GAP-002: Migrate QueryEngin... (2026-03-11) | #152 Add TaskScheduler for cron-... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "scheduler/hybrid_retention_manager.h"
@@ -62,7 +60,7 @@ HybridRetentionManager::~HybridRetentionManager() {
 // ===== Lifecycle =====
 
 void HybridRetentionManager::start() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (running_) {
         THEMIS_WARN("HybridRetentionManager already running");
@@ -91,7 +89,7 @@ void HybridRetentionManager::start() {
 }
 
 void HybridRetentionManager::stop() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (!running_) {
         return;
@@ -121,7 +119,7 @@ void HybridRetentionManager::stop() {
 // ===== Configuration =====
 
 void HybridRetentionManager::updateConfig(const HybridRetentionConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     bool was_running = running_;
     if (was_running) {
@@ -141,7 +139,7 @@ void HybridRetentionManager::updateConfig(const HybridRetentionConfig& config) {
 }
 
 HybridRetentionConfig HybridRetentionManager::getConfig() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     return config_;
 }
 
@@ -190,18 +188,18 @@ void HybridRetentionManager::executeAll() {
 // ===== Statistics =====
 
 HybridRetentionStats HybridRetentionManager::getStats() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return stats_;
 }
 
 void HybridRetentionManager::resetStats() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     stats_ = HybridRetentionStats{};
     THEMIS_INFO("HybridRetentionManager statistics reset");
 }
 
 nlohmann::json HybridRetentionManager::getStatusReport() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     nlohmann::json report;
     report["running"] = running_;
@@ -261,10 +259,10 @@ void HybridRetentionManager::setupStage1Tasks() {
     };
     stage1_task.interval = config_.stage1.check_interval;
     
-    stage1_task.on_success = [this](const std::string& task_id, const nlohmann::json& result) {
+    stage1_task.on_success = [this](const std::string& /*task_id*/, const nlohmann::json& result) {
         updateStats(1, true, result);
     };
-    stage1_task.on_failure = [this](const std::string& task_id, const std::string& error) {
+    stage1_task.on_failure = [this](const std::string& /*task_id*/, const std::string& error) {
         updateStats(1, false, nlohmann::json{{"error", error}});
     };
     
@@ -299,10 +297,10 @@ void HybridRetentionManager::setupStage2Tasks() {
     };
     stage2_task.interval = config_.stage2.check_interval;
     
-    stage2_task.on_success = [this](const std::string& task_id, const nlohmann::json& result) {
+    stage2_task.on_success = [this](const std::string& /*task_id*/, const nlohmann::json& result) {
         updateStats(2, true, result);
     };
-    stage2_task.on_failure = [this](const std::string& task_id, const std::string& error) {
+    stage2_task.on_failure = [this](const std::string& /*task_id*/, const std::string& error) {
         updateStats(2, false, nlohmann::json{{"error", error}});
     };
     
@@ -331,10 +329,10 @@ void HybridRetentionManager::setupStage3Tasks() {
     };
     stage3_task.interval = config_.stage3.check_interval;
     
-    stage3_task.on_success = [this](const std::string& task_id, const nlohmann::json& result) {
+    stage3_task.on_success = [this](const std::string& /*task_id*/, const nlohmann::json& result) {
         updateStats(3, true, result);
     };
-    stage3_task.on_failure = [this](const std::string& task_id, const std::string& error) {
+    stage3_task.on_failure = [this](const std::string& /*task_id*/, const std::string& error) {
         updateStats(3, false, nlohmann::json{{"error", error}});
     };
     
@@ -614,7 +612,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         };
     }
     
-    int stage2_deleted = result2->is_array() ? result2->size() : 0;
+    size_t stage2_deleted = result2->is_array() ? result2->size() : size_t{0};
     
     // Cleanup Stage 3 data (adaptive data that's been aggregated to daily)
     std::ostringstream aql_stage3;
@@ -648,7 +646,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         };
     }
     
-    int stage3_deleted = result3->is_array() ? result3->size() : 0;
+    size_t stage3_deleted = result3->is_array() ? result3->size() : size_t{0};
     
     return nlohmann::json{
         {"status", "success"},
@@ -659,7 +657,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
 }
 
 void HybridRetentionManager::updateStats(int stage, bool success, const nlohmann::json& result) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (stage == 1) {
         stats_.stage1.compressions_total++;

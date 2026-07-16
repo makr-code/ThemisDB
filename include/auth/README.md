@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Auth Module Headers
 
 Public interfaces and declarations for the ThemisDB authentication module.
@@ -48,6 +50,16 @@ session management, audit logging, and metrics.
 | `totp_replay_cache.h` | `TOTPReplayCache`, `SecureMFAValidator` | One-time code replay prevention |
 | `totp_secret_encryption.h` | `TOTPSecretEncryption`, `TOTPSecretRotationManager` | Encrypted TOTP secret storage |
 | `zero_trust_auth_verifier.h` | `ZeroTrustAuthVerifier` | Continuous per-request identity verification |
+| `eid_authenticator.h` | `EIDAuthenticator` | Electronic ID (eID) authenticator |
+| `passkey_authenticator.h` | `PasskeyAuthenticator` | Passkey (discoverable FIDO2) authenticator |
+| `authorization_policy.h` | `AuthorizationPolicy` | RBAC/ABAC authorization policy evaluator |
+| `auth_event_bus.h` | `AuthEventBus` | Publishes authentication lifecycle events |
+| `auth_worker_thread_pool.h` | `AuthWorkerThreadPool` | Dedicated thread pool for async auth operations |
+| `ldap_connection_pool.h` | `LDAPConnectionPool` | Pooled LDAP connection manager |
+| `rate_limiter_backend.h` | `IRateLimiterBackend` | Pluggable storage backend for rate-limit counters |
+| `redis_token_blacklist.h` | `RedisTokenBlacklist` | Redis-backed revoked-token store |
+| `rocksdb_token_blacklist.h` | `RocksDBTokenBlacklist` | RocksDB-backed revoked-token store |
+| `secure_memory.h` | `SecureMemory` | Guarded memory allocation for sensitive credential data |
 
 ## Header Files
 
@@ -94,7 +106,7 @@ std::cout << "User: " << claims.sub << std::endl;
 
 **Features:**
 - MIT Kerberos 5 support
-- Active Directory integration  
+- Active Directory integration
 - Heimdal Kerberos support
 - Cross-platform (Linux/GSSAPI, Windows/SSPI, macOS/Heimdal)
 - Service principal validation with keytab
@@ -554,7 +566,7 @@ struct JWTClaims {
     std::optional<std::chrono::system_clock::time_point> not_before;
     std::optional<std::chrono::system_clock::time_point> issued_at;
     std::vector<std::string> audience;
-    
+
     bool isExpired() const;
 };
 ```
@@ -576,7 +588,7 @@ struct KerberosConfig {
     std::string keytab_file;            // Path to keytab
     std::string krb5_config;            // Optional krb5.conf path
     bool fallback_to_basic = true;      // Allow fallback
-    
+
     struct PrincipalMapping {
         std::string principal_pattern;   // Supports wildcards
         std::string role;
@@ -604,7 +616,7 @@ struct EnrollmentData {
     std::vector<std::string> recovery_codes;
     std::chrono::system_clock::time_point enrolled_at;
     bool enabled = false;
-    
+
     nlohmann::json to_json() const;
     static EnrollmentData from_json(const nlohmann::json& j);
 };
@@ -888,18 +900,18 @@ std::string bearer_token = request.getHeader("Authorization");
 
 try {
     auto claims = jwt_validator.parseAndValidate(bearer_token);
-    
+
     // Check user has required role
-    bool is_admin = std::find(claims.roles.begin(), claims.roles.end(), "admin") 
+    bool is_admin = std::find(claims.roles.begin(), claims.roles.end(), "admin")
                     != claims.roles.end();
-    
+
     if (!is_admin) {
         return response.sendError(403, "Forbidden");
     }
-    
+
     // Process request
     // ...
-    
+
 } catch (const std::exception& e) {
     return response.sendError(401, "Unauthorized");
 }
@@ -1069,7 +1081,7 @@ try {
     auto claims = validator.parseAndValidate(token);
 } catch (const std::runtime_error& e) {
     std::string error = e.what();
-    
+
     if (error.find("expired") != std::string::npos) {
         // Token expired - prompt for refresh
     } else if (error.find("Invalid signature") != std::string::npos) {
@@ -1141,6 +1153,10 @@ See `../../src/auth/` for the implementation code.
 
 - [Authentication Module README](../../src/auth/README.md) — Comprehensive guide
 - [Architecture Guide](../../src/auth/ARCHITECTURE.md) — Component design and data flows
+- [Security Guide](../../src/auth/SECURITY.md) — Threat model, controls, and limitations
+- [Audit Report](../../src/auth/AUDIT.md) — Build/test/compliance verification snapshot
+- [Changelog](../../src/auth/CHANGELOG.md) — Versioned module change history
+- [Performance Expectations](../../src/auth/PERFORMANCE_EXPECTATIONS.md) — Release-gate performance targets
 - [Roadmap](../../src/auth/ROADMAP.md) — Implementation status and planned features
 - [Future Enhancements](../../src/auth/FUTURE_ENHANCEMENTS.md) — Planned features
 - [Secondary Docs (DE)](../../docs/de/auth/README.md) — German-language overview
@@ -1150,3 +1166,11 @@ See `../../src/auth/` for the implementation code.
 - **Security Module** (`../security/`): Encryption, TLS, key management
 - **Server Module** (`../server/`): HTTP request handling
 - **API Module** (`../api/`): REST API definitions
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

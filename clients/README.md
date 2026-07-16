@@ -2,7 +2,7 @@
 
 This directory contains official client SDKs for ThemisDB in multiple programming languages.
 
-## 🆕 SDK Enhancements (v1.4.0-alpha)
+## 🆕 SDK Enhancements (v1.8.0-rc1)
 
 **New Features** (All Backwards Compatible):
 - ✅ **Circuit Breaker Pattern**: Prevents cascading failures
@@ -86,7 +86,7 @@ All client SDKs have automated CI/CD workflows for building, testing, and packag
 
 ## SDK Feature Parity Matrix
 
-All SDKs now support the same feature set (as of v1.4.0-alpha, January 2026):
+All SDKs now support the same feature set (as of v1.8.0-rc1, April 2026):
 
 | Feature | Python | JavaScript | Go | Rust | Java | C# | Swift | PHP | Ruby |
 |---------|--------|------------|----|----|------|----|----|-----|------|

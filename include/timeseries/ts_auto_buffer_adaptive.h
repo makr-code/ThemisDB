@@ -1,64 +1,14 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ts_auto_buffer_adaptive.h                          ║
-  Version:         0.9.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v0.9.0  2026-03-09  feat(timeseries): TSAutoBuffer adaptive     ║
-                           flush controller with backpressure          ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
 
 /**
  * @file ts_auto_buffer_adaptive.h
- * @brief Adaptive flush controller for TSAutoBuffer.
- *
- * FlushController implements a feedback-control loop that dynamically adjusts
- * the flush batch size based on observed downstream write latencies from
- * TSStore.  The goal is to prevent buffer overruns without manual tuning while
- * still meeting the configurable SLO threshold.
- *
- * ## Algorithm
- * 1. Each completed flush records its wall-clock write latency.
- * 2. An EWMA (Exponentially Weighted Moving Average) of recent latencies is
- *    maintained with a configurable smoothing factor α.
- * 3. When EWMA_latency > slo_threshold_ms → reduce batch size (backpressure).
- * 4. When EWMA_latency < slo_threshold_ms * headroom_factor → grow batch size.
- * 5. Batch size is clamped to [min_batch_size, max_batch_size].
- * 6. If write latency exceeds @p slo_threshold_ms, a `ts_autobuffer_backpressure`
- *    counter is emitted and producers are blocked until the queue drains below
- *    the configured low-water mark.
- *
- * ## Performance Targets (from FUTURE_ENHANCEMENTS.md)
- * - Sustained single-point ingest: >500k points/s per node
- * - Buffer-to-storage flush latency P99: <10ms under normal load
- * - Backpressure event rate during sustained overload: <1 event/s
- *
- * ## Integration with TSAutoBuffer
- * ```cpp
- * FlushController ctrl(config);
- * ctrl.reportFlushLatency(measured_latency_ms);
- * size_t batch_sz = ctrl.recommendedBatchSize();
- * ```
- *
- * @note Thread Safety: FlushController is thread-safe; all methods may be
- *   called concurrently from the producer and flush threads.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "timeseries/ts_auto_buffer.h"

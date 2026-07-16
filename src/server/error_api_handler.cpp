@@ -1,28 +1,27 @@
+/**
+ * @file error_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            error_api_handler.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     157                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: error_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 153
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #382 Integrate Error API Endpoin... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11) | #323 Integrate AI-Explained Erro... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/error_api_handler.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -35,6 +34,7 @@ void ErrorApiHandler::handleGetErrors(const Request& req, Response& res) {
     // Check if category filter is provided
     std::string category;
     if (req.query.contains("category")) {
+    auto span = Tracer::startSpan("handleGetErrors");
         category = req.query["category"].get<std::string>();
     }
     
@@ -68,6 +68,7 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
     
     // Extract error code from params
     if (!req.params.contains("code")) {
+    auto span = Tracer::startSpan("handleGetError");
         res.status_code = 400;
         res.setJSON({
             {"status", "error"},
@@ -106,7 +107,8 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
     }
 }
 
-void ErrorApiHandler::handleGetCategories(const Request& req, Response& res) {
+void ErrorApiHandler::handleGetCategories(const Request& /*req*/, Response& res) {
+    auto span = Tracer::startSpan("handleGetCategories");
     auto& registry = errors::ErrorRegistry::getInstance();
     auto categories = registry.getAllCategories();
     
@@ -121,6 +123,7 @@ void ErrorApiHandler::handleGetCategories(const Request& req, Response& res) {
 }
 
 void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
+    auto span = Tracer::startSpan("handleSearchErrors");
     auto& registry = errors::ErrorRegistry::getInstance();
     
     // Get search query
@@ -158,3 +161,4 @@ void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
 
 } // namespace server
 } // namespace themis
+

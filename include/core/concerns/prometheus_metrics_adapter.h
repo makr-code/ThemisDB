@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prometheus_metrics_adapter.h                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     141                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file prometheus_metrics_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -40,6 +28,8 @@ namespace concerns {
  *
  * All IMetrics operations are forwarded to the MetricsCollector; the
  * adapter itself is stateless beyond holding a reference to the singleton.
+ * The adapter is therefore only as durable as the in-process collector; it
+ * does not persist metrics across process restarts.
  */
 class PrometheusMetricsAdapter : public IMetrics {
 public:
@@ -118,17 +108,32 @@ public:
     // Lifecycle hooks
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Flush the adapter state.
+     *
+     * MetricsCollector is pull-based (Prometheus scrapes); there is no
+     * network push to force here, so this is intentionally a no-op.
+     */
     void flush() noexcept override {
         // MetricsCollector is pull-based (Prometheus scrapes); no push needed.
     }
 
+    /**
+     * @brief Reset the in-process collector and release adapter state.
+     *
+     * After shutdown(), the collector is reset so subsequent scrapes start
+     * from an empty metric set unless the process recreates metrics first.
+     */
     void shutdown() noexcept override {
         collector_.reset();
     }
 
+    /**
+     * @brief Report whether the in-process collector can be used.
+     *
+     * The adapter is healthy as long as the singleton exists in-process.
+     */
     ProbeResult isHealthy() const override {
-        // The Prometheus adapter is healthy as long as the collector singleton
-        // is accessible (it is always constructed in-process).
         return ProbeResult::healthy();
     }
 

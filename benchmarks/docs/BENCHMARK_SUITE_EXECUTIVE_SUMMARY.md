@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # CHIMERA Suite - Executive Summary
 ## Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment
 
@@ -467,7 +470,7 @@ The foundation is now in place to implement world-class benchmarks that will rig
 ---
 
 **Status:** ✅ Phase 1 Complete - Ready for Phase 2 Implementation  
-**Last Updated:** 2025-12-23  
+**Last Updated:** 2026-04-06  
 **Total Documentation:** ~88KB  
 **Total Code:** ~18KB  
 **Next Milestone:** TPC Benchmarks (Phase 2, 3 weeks)

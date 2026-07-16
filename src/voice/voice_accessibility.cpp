@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_accessibility.cpp                            ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-03-09 04:00:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     422                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_accessibility.cpp
- * @brief Closed-captions generation and accessible transcript export (Phase 9)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.42
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_accessibility.h"
@@ -176,9 +160,8 @@ std::string VoiceAccessibility::formatAsVTT(
 
 std::string VoiceAccessibility::formatAsSRT(
     const std::vector<CaptionCue>& cues,
-    const TranscriptExportOptions& opts) const
+    [[maybe_unused]] const TranscriptExportOptions& opts) const
 {
-    (void)opts;
     std::ostringstream ss;
 
     auto sorted = mergeSortCues(cues);
@@ -423,3 +406,4 @@ json VoiceAccessibility::getStatistics() const {
 }
 
 }} // namespace themis::voice
+

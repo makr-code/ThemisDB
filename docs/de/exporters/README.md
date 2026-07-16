@@ -1,9 +1,9 @@
 # Exporters Module
 
-**Stand:** 9. März 2026  
-**Version:** 1.0  
+**Stand:** 6. April 2026  
+**Version:** 1.1  
 **Kategorie:** Datenexport / LLM-Training  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Validated:** 2026-03-22 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -19,6 +19,7 @@ Das Exporters-Modul stellt Datenexport-Funktionalität für ThemisDB bereit. Es 
 - Hugging Face Datasets-kompatibler Export (JSONL-Shards + `dataset_card.md` + `dataset_info.json`)
 - Streaming-Export für große Kollektionen ohne vollständiges In-Memory-Laden
 - Inkrementeller/Delta-Export mit Wasserzeichen-basierter Änderungsverfolgung
+- **Cross-Collection-Join-Export** — Hash-Join zweier Kollektionen; Output-Field-Aliasing, AQL-Prädikat, PII-Redaktion
 - AQL-Prädikat-Filterung zur Einschränkung exportierter Datensätze
 - AES-256-GCM-Verschlüsselung für sensible Exportdaten
 - PII-Erkennung und -Redaktion vor dem Export
@@ -44,9 +45,11 @@ Das Exporters-Modul stellt Datenexport-Funktionalität für ThemisDB bereit. Es 
 | `export_encryption.cpp` | AES-256-GCM-Verschlüsselung für Exportdaten; Schlüsselmaterial wird nur per ID referenziert |
 | `data_augmentation.cpp` | Synthetische Datenanreicherung (Synonym-Ersetzung, Paraphrase-Varianten) |
 | `pii_detector.cpp` | PII-Erkennung (E-Mail, Telefon, SSN, Kreditkarte, IP) und Redaktion vor dem Export |
+| `join_exporter.cpp` | Cross-Collection-Hash-Join-Export; Output-Field-Aliasing, AQL-Prädikat, PII-Redaktion |
+| `huggingface_hub_client.cpp` | Hugging Face Hub-Upload via libcurl mit PolicyEngine-Autorisierung und Audit-Log |
 | `exporter_metrics.cpp` | Export-Durchsatz, Datensatzzahl, PII-Trefferrate als Prometheus-Metriken |
 
-**Gesamt:** 13 Implementierungsdateien, ~7 200 Zeilen
+**Gesamt:** 16 Implementierungsdateien, ~8 100 Zeilen
 
 ---
 
@@ -64,8 +67,8 @@ Das Exporters-Modul stellt Datenexport-Funktionalität für ThemisDB bereit. Es 
 | `format_template.cpp` | Format-Templates | ✅ Produktionsreif | #1727 |
 | `export_encryption.cpp` | AES-256-GCM-Verschlüsselung | ✅ Produktionsreif | #1728 |
 | `data_augmentation.cpp` | Datenanreicherung | ✅ Produktionsreif | — |
-| Hub-Upload | Hugging Face Hub API | 🔜 Geplant | #1719 |
-| Join-Export | Cross-Collection-Join | 🔜 Geplant | #1722 |
+| `huggingface_hub_client.cpp` | Hugging Face Hub API | ✅ Produktionsreif | #1719 |
+| `join_exporter.cpp` | Cross-Collection-Join | ✅ Produktionsreif | #1722 |
 
 ---
 
@@ -98,6 +101,26 @@ IncrementalExporter exporter(config);
 ExportStats stats = exporter.exportEntities(entities, options);
 ```
 
+### Cross-Collection-Join-Export
+
+```cpp
+JoinExportConfig cfg;
+cfg.left_collection  = "documents";
+cfg.right_collection = "annotations";
+cfg.left_key_field   = "_key";
+cfg.right_key_field  = "doc_id";
+cfg.join_predicate   = "doc.score >= 0.5";
+cfg.output_fields    = {"_key", "content", "label"};
+
+JoinExporter exporter(cfg);
+exporter.setRightCollection(right_entities);  // Lädt Right-Side-Hash-Tabelle
+
+ExportOptions opts;
+opts.output_path = "/tmp/joined.jsonl";
+ExportStats stats = exporter.exportEntities(left_entities, opts);
+// Innerer Hash-Join: nicht übereinstimmende linke Datensätze werden übersprungen
+```
+
 ### PII-Redaktion vor dem Export
 
 ```cpp
@@ -125,6 +148,7 @@ std::string redacted = detector.redactPII(raw_text);
 | Peak-Speicher (50 GB-Export) | Begrenzt via `StreamingExporter` (≤ 512 MB) | ≤ 512 MB | `/proc/self/status` VmRSS |
 | Parquet-Export-Durchsatz | Implementiert (Fallback-Writer) | ≥ 500 MB/s unkomprimiert (Arrow-Pfad) | `benchmarks/export_bench.cpp` |
 | Delta-Export-Speedup (0,1 % Änderungsrate) | Implementiert | ≥ 10× vs. vollständiger Export | Integrations-Tests |
+| Join-Export-Durchsatz | Implementiert (Hash-Join) | ≥ 50 000 gemischte Dok/s | `tests/exporters/test_join_exporter.cpp` |
 
 ---
 
@@ -148,7 +172,7 @@ std::string redacted = detector.redactPII(raw_text);
 
 ### Reality-Check & Offene Implementierungen
 
-- [missing-implementations.md](missing-implementations.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
+- [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
 - [missing-implementations.json](missing-implementations.json) — Maschinenlesbares Format des obigen Berichts
 
 ### Verwandte Module

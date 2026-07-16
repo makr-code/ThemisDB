@@ -1,35 +1,32 @@
+/**
+ * @file data_lineage.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            data_lineage.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     223                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9b77cb47  2026-02-25  feat(governance): implement AI/ML model governance with t... ║
-    • 5a3c43579  2026-02-25  feat(governance): implement data lineage tracking for gov... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: data_lineage.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 223
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=6, L=0
+ * PR History (last 5): #2868 feat(governance): implement... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/data_lineage.h"
-#include "utils/audit_logger.h"
-#include "utils/logger.h"
-#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+
+#include "observability/metrics_collector.h"
+#include "utils/audit_logger.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace governance {
@@ -38,14 +35,22 @@ namespace governance {
 
 std::string lineageEventTypeToString(LineageEventType type) {
     switch (type) {
-        case LineageEventType::INGESTION:       return "INGESTION";
-        case LineageEventType::ENRICHMENT:      return "ENRICHMENT";
-        case LineageEventType::ANONYMIZATION:   return "ANONYMIZATION";
-        case LineageEventType::TRANSFORMATION:  return "TRANSFORMATION";
-        case LineageEventType::QUERY:           return "QUERY";
-        case LineageEventType::EXPORT:          return "EXPORT";
-        case LineageEventType::DELETION:        return "DELETION";
-        case LineageEventType::MODEL_TRAINING:  return "MODEL_TRAINING";
+        case LineageEventType::INGESTION:
+            return "INGESTION";
+        case LineageEventType::ENRICHMENT:
+            return "ENRICHMENT";
+        case LineageEventType::ANONYMIZATION:
+            return "ANONYMIZATION";
+        case LineageEventType::TRANSFORMATION:
+            return "TRANSFORMATION";
+        case LineageEventType::QUERY:
+            return "QUERY";
+        case LineageEventType::EXPORT:
+            return "EXPORT";
+        case LineageEventType::DELETION:
+            return "DELETION";
+        case LineageEventType::MODEL_TRAINING:
+            return "MODEL_TRAINING";
     }
     return "UNKNOWN";
 }
@@ -54,16 +59,24 @@ std::string lineageEventTypeToString(LineageEventType type) {
 
 nlohmann::json LineageEvent::toJson() const {
     nlohmann::json j;
-    j["event_id"]       = event_id;
-    j["dataset_id"]     = dataset_id;
-    j["event_type"]     = lineageEventTypeToString(event_type);
-    j["timestamp_ms"]   = timestamp_ms;
-    j["performed_by"]   = performed_by;
-    j["operation"]      = operation;
-    if (!input_schema.empty())   j["input_schema"]  = input_schema;
-    if (!output_schema.empty())  j["output_schema"] = output_schema;
-    if (!parent_event_id.empty()) j["parent_event_id"] = parent_event_id;
-    if (!metadata.is_null() && !metadata.empty()) j["metadata"] = metadata;
+    j["event_id"]     = event_id;
+    j["dataset_id"]   = dataset_id;
+    j["event_type"]   = lineageEventTypeToString(event_type);
+    j["timestamp_ms"] = timestamp_ms;
+    j["performed_by"] = performed_by;
+    j["operation"]    = operation;
+    if (!input_schema.empty()) {
+        j["input_schema"] = input_schema;
+    }
+    if (!output_schema.empty()) {
+        j["output_schema"] = output_schema;
+    }
+    if (!parent_event_id.empty()) {
+        j["parent_event_id"] = parent_event_id;
+    }
+    if (!metadata.is_null() && !metadata.empty()) {
+        j["metadata"] = metadata;
+    }
     return j;
 }
 
@@ -71,10 +84,10 @@ nlohmann::json LineageEvent::toJson() const {
 
 nlohmann::json LineageRecord::toJson() const {
     nlohmann::json j;
-    j["dataset_id"] = dataset_id;
-    j["event_count"] = events.size();
+    j["dataset_id"]           = dataset_id;
+    j["event_count"]          = events.size();
     nlohmann::json events_arr = nlohmann::json::array();
-    for (const auto& e : events) {
+    for (const auto &e : events) {
         events_arr.push_back(e.toJson());
     }
     j["events"] = std::move(events_arr);
@@ -100,8 +113,8 @@ void DataLineageTracker::recordEvent(LineageEvent event) {
     // Assign a timestamp if the caller left it at zero
     if (event.timestamp_ms == 0) {
         event.timestamp_ms = static_cast<int64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count());
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+                .count());
     }
 
     // Assign an event_id if the caller left it empty
@@ -125,42 +138,36 @@ void DataLineageTracker::recordEvent(LineageEvent event) {
         audit_log = audit_logger_;
     }
 
-    THEMIS_INFO("DataLineageTracker: recorded {} event '{}' for dataset '{}'",
-        event_type_str, event.event_id, event.dataset_id);
+    THEMIS_INFO("DataLineageTracker: recorded {} event '{}' for dataset '{}'", event_type_str, event.event_id,
+                event.dataset_id);
 
     // Emit Prometheus counter
-    observability::MetricsCollector::getInstance().addCounter(
-        "governance_lineage_events_total", 1, {{"event_type", event_type_str}});
+    observability::MetricsCollector::getInstance().addCounter("governance_lineage_events_total", 1,
+                                                              {{"event_type", event_type_str}});
 
     // Forward to audit trail (append-only, outside the mutex to avoid deadlock)
     if (audit_log) {
-        nlohmann::json audit_entry = {
-            {"event_type",      "data_lineage"},
-            {"lineage_event",   event.toJson()},
-            {"timestamp",       event.timestamp_ms}
-        };
+        nlohmann::json audit_entry
+            = {{"event_type", "data_lineage"}, {"lineage_event", event.toJson()}, {"timestamp", event.timestamp_ms}};
         audit_log->logEvent(audit_entry);
     }
 }
 
-LineageRecord DataLineageTracker::getLineage(const std::string& dataset_id) const {
+LineageRecord DataLineageTracker::getLineage(const std::string &dataset_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     LineageRecord record;
     record.dataset_id = dataset_id;
-    auto it = lineage_store_.find(dataset_id);
+    auto it           = lineage_store_.find(dataset_id);
     if (it != lineage_store_.end()) {
         record.events = it->second;
         // Ensure chronological order
         std::sort(record.events.begin(), record.events.end(),
-            [](const LineageEvent& a, const LineageEvent& b) {
-                return a.timestamp_ms < b.timestamp_ms;
-            });
+                  [](const LineageEvent &a, const LineageEvent &b) { return a.timestamp_ms < b.timestamp_ms; });
     }
     return record;
 }
 
-std::vector<LineageEvent> DataLineageTracker::getUpstreamLineage(
-        const std::string& event_id) const {
+std::vector<LineageEvent> DataLineageTracker::getUpstreamLineage(const std::string &event_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<LineageEvent> chain;
@@ -170,9 +177,13 @@ std::vector<LineageEvent> DataLineageTracker::getUpstreamLineage(
     constexpr int kMaxDepth = 1024;
     for (int depth = 0; depth < kMaxDepth; ++depth) {
         auto it = event_index_.find(current_id);
-        if (it == event_index_.end()) break;
+        if (it == event_index_.end()) {
+            break;
+        }
         chain.push_back(it->second);
-        if (it->second.parent_event_id.empty()) break;
+        if (it->second.parent_event_id.empty()) {
+            break;
+        }
         current_id = it->second.parent_event_id;
     }
 
@@ -181,8 +192,7 @@ std::vector<LineageEvent> DataLineageTracker::getUpstreamLineage(
     return chain;
 }
 
-std::vector<LineageEvent> DataLineageTracker::getDownstreamLineage(
-        const std::string& event_id) const {
+std::vector<LineageEvent> DataLineageTracker::getDownstreamLineage(const std::string &event_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<LineageEvent> result;
@@ -191,9 +201,11 @@ std::vector<LineageEvent> DataLineageTracker::getDownstreamLineage(
     std::vector<std::string> frontier{event_id};
     while (!frontier.empty()) {
         std::vector<std::string> next_frontier;
-        for (const auto& [eid, ev] : event_index_) {
-            if (ev.parent_event_id.empty()) continue;
-            for (const auto& parent : frontier) {
+        for (const auto &[eid, ev] : event_index_) {
+            if (ev.parent_event_id.empty()) {
+                continue;
+            }
+            for (const auto &parent : frontier) {
                 if (ev.parent_event_id == parent) {
                     result.push_back(ev);
                     next_frontier.push_back(eid);
@@ -205,13 +217,11 @@ std::vector<LineageEvent> DataLineageTracker::getDownstreamLineage(
     }
 
     std::sort(result.begin(), result.end(),
-        [](const LineageEvent& a, const LineageEvent& b) {
-            return a.timestamp_ms < b.timestamp_ms;
-        });
+              [](const LineageEvent &a, const LineageEvent &b) { return a.timestamp_ms < b.timestamp_ms; });
     return result;
 }
 
-nlohmann::json DataLineageTracker::exportLineageAsJson(const std::string& dataset_id) const {
+nlohmann::json DataLineageTracker::exportLineageAsJson(const std::string &dataset_id) const {
     return getLineage(dataset_id).toJson();
 }
 

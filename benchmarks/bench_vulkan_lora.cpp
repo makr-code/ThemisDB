@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_vulkan_lora.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     447                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_vulkan_lora.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <benchmark/benchmark.h>
@@ -29,6 +14,21 @@
 #include <vector>
 #include <random>
 #include <memory>
+
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_VulkanLoRA_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Vulkan LoRA benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: Vulkan LoRA pipeline requires Vulkan-capable GPU runner | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_VulkanLoRA_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis::lora::vulkan;
 
@@ -43,22 +43,28 @@ constexpr int LARGE_DIM = 2048;   // Typical for larger models
 constexpr int LORA_RANK = 8;      // Typical LoRA rank
 
 // Expected performance targets (based on design goals)
-// These values are for reference and comparison with CPU baseline
+// Keep both tracks:
+// - E2E: includes host-device transfers and synchronization costs.
+// - HW: hardware-near/device-resident corridor for kernel-side processing.
 namespace ExpectedPerformance {
-    // Matrix multiplication (768x768) - Target: 0.1ms, CPU baseline: 10ms
-    constexpr double MATMUL_768_TARGET_MS = 0.1;
+    // Matrix multiplication (768x768)
+    constexpr double MATMUL_768_TARGET_E2E_MS = 12.0;
+    constexpr double MATMUL_768_TARGET_HW_MS = 4.0;
     constexpr double MATMUL_768_CPU_BASELINE_MS = 10.0;
     
-    // Element-wise ops (1M elements) - Target: 0.02ms, CPU baseline: 2ms
-    constexpr double ELEMENTWISE_1M_TARGET_MS = 0.02;
+    // Element-wise ops (1M elements)
+    constexpr double ELEMENTWISE_1M_TARGET_E2E_MS = 20.0;
+    constexpr double ELEMENTWISE_1M_TARGET_HW_MS = 6.0;
     constexpr double ELEMENTWISE_1M_CPU_BASELINE_MS = 2.0;
     
-    // Full training step - Target: 3.5ms, CPU baseline: 160ms
-    constexpr double TRAINING_STEP_TARGET_MS = 3.5;
+    // Full training step
+    constexpr double TRAINING_STEP_TARGET_E2E_MS = 10.0;
+    constexpr double TRAINING_STEP_TARGET_HW_MS = 6.0;
     constexpr double TRAINING_STEP_CPU_BASELINE_MS = 160.0;
     
     // Speedup targets
-    constexpr double TARGET_SPEEDUP = 45.0;  // ~45x over CPU
+    constexpr double TARGET_SPEEDUP_E2E = 16.0;
+    constexpr double TARGET_SPEEDUP_HW = 25.0;
 }
 
 // ============================================================================
@@ -72,11 +78,13 @@ public:
         static bool initialized = false;
         if (!initialized) {
             if (!is_vulkan_available()) {
-                state.SkipWithError("Vulkan not available");
+                auto& mutable_state = const_cast<benchmark::State&>(state);
+                mutable_state.SkipWithError("Vulkan not available");
                 return;
             }
             if (!initialize_vulkan_lora(0)) {
-                state.SkipWithError("Failed to initialize Vulkan");
+                auto& mutable_state = const_cast<benchmark::State&>(state);
+                mutable_state.SkipWithError("Failed to initialize Vulkan");
                 return;
             }
             initialized = true;
@@ -117,12 +125,13 @@ BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, MatMul_Small)(benchmark::State& state
     }
     
     // Report FLOPs (2 * M * N * K for matrix multiplication)
-    state.SetItemsProcessed(state.iterations() * 2 * M * N * K);
+    state.SetItemsProcessed(state.iterations() * 2LL * M * N * K);
     state.SetBytesProcessed(state.iterations() * (M * K + K * N + M * N) * sizeof(float));
     
     // Add custom counters
     state.counters["Dimension"] = M;
-    state.counters["FLOPs"] = benchmark::Counter(2 * M * N * K, benchmark::Counter::kIsRate);
+    state.counters["FLOPs"] = benchmark::Counter(
+        static_cast<double>(2LL * M * N * K), benchmark::Counter::kIsRate);
 }
 BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, MatMul_Small)->Unit(benchmark::kMillisecond);
 
@@ -140,12 +149,15 @@ BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, MatMul_Medium)(benchmark::State& stat
         launch_matmul_shader(A.data(), B.data(), C.data(), M, N, K, 1.0f);
     }
     
-    state.SetItemsProcessed(state.iterations() * 2 * M * N * K);
+    state.SetItemsProcessed(state.iterations() * 2LL * M * N * K);
     state.SetBytesProcessed(state.iterations() * (M * K + K * N + M * N) * sizeof(float));
     
     state.counters["Dimension"] = M;
-    state.counters["FLOPs"] = benchmark::Counter(2 * M * N * K, benchmark::Counter::kIsRate);
-    state.counters["Target_ms"] = ExpectedPerformance::MATMUL_768_TARGET_MS;
+    state.counters["FLOPs"] = benchmark::Counter(
+        static_cast<double>(2LL * M * N * K), benchmark::Counter::kIsRate);
+    state.counters["Target_ms"] = ExpectedPerformance::MATMUL_768_TARGET_E2E_MS;
+    state.counters["Target_E2E_ms"] = ExpectedPerformance::MATMUL_768_TARGET_E2E_MS;
+    state.counters["Target_HW_ms"] = ExpectedPerformance::MATMUL_768_TARGET_HW_MS;
     state.counters["CPU_Baseline_ms"] = ExpectedPerformance::MATMUL_768_CPU_BASELINE_MS;
 }
 BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, MatMul_Medium)->Unit(benchmark::kMillisecond);
@@ -168,7 +180,8 @@ BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, MatMul_Large)(benchmark::State& state
     state.SetBytesProcessed(state.iterations() * (M * K + K * N + M * N) * sizeof(float));
     
     state.counters["Dimension"] = M;
-    state.counters["FLOPs"] = benchmark::Counter(2 * M * N * K, benchmark::Counter::kIsRate);
+    state.counters["FLOPs"] = benchmark::Counter(
+        static_cast<double>(2LL * M * N * K), benchmark::Counter::kIsRate);
 }
 BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, MatMul_Large)->Unit(benchmark::kMillisecond);
 
@@ -193,9 +206,11 @@ BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, ElementwiseAdd)(benchmark::State& sta
     state.SetItemsProcessed(state.iterations() * size);
     state.SetBytesProcessed(state.iterations() * 3 * size * sizeof(float));
     
-    state.counters["Elements"] = size;
+    state.counters["Elements"] = static_cast<double>(size);
     if (size == 1048576) {  // 1M elements
-        state.counters["Target_ms"] = ExpectedPerformance::ELEMENTWISE_1M_TARGET_MS;
+        state.counters["Target_ms"] = ExpectedPerformance::ELEMENTWISE_1M_TARGET_E2E_MS;
+        state.counters["Target_E2E_ms"] = ExpectedPerformance::ELEMENTWISE_1M_TARGET_E2E_MS;
+        state.counters["Target_HW_ms"] = ExpectedPerformance::ELEMENTWISE_1M_TARGET_HW_MS;
         state.counters["CPU_Baseline_ms"] = ExpectedPerformance::ELEMENTWISE_1M_CPU_BASELINE_MS;
     }
 }
@@ -259,8 +274,8 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, ScalarMultiply)
 // ============================================================================
 
 BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, Transpose)(benchmark::State& state) {
-    int rows = state.range(0);
-    int cols = state.range(1);
+    int rows = static_cast<int>(state.range(0));
+    int cols = static_cast<int>(state.range(1));
     
     auto input = generate_random_data(rows * cols);
     std::vector<float> output(rows * cols);
@@ -292,7 +307,7 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, Transpose)
 BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, LoRA_GradA)(benchmark::State& state) {
     int batch = 32;
     int rank = LORA_RANK;
-    int out_dim = state.range(0);
+    int out_dim = static_cast<int>(state.range(0));
     float scaling = 1.0f;
     
     auto h = generate_random_data(batch * rank);
@@ -323,7 +338,7 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, LoRA_GradA)
 
 BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, LoRA_GradB)(benchmark::State& state) {
     int batch = 32;
-    int in_dim = state.range(0);
+    int in_dim = static_cast<int>(state.range(0));
     int rank = LORA_RANK;
     
     auto input = generate_random_data(batch * in_dim);
@@ -351,6 +366,55 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, LoRA_GradB)
     ->Arg(768)
     ->Arg(2048)
     ->Unit(benchmark::kMillisecond);
+
+BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, LoRA_FusedForward)(benchmark::State& state) {
+    const int batch = 32;
+    const int in_dim = MEDIUM_DIM;
+    const int rank = LORA_RANK;
+    const int out_dim = MEDIUM_DIM;
+    const float scaling = 1.0f;
+
+    auto input = generate_random_data(batch * in_dim);
+    auto B = generate_random_data(in_dim * rank);
+    auto A = generate_random_data(rank * out_dim);
+    std::vector<float> output(batch * out_dim);
+
+    launch_fused_lora_forward(
+        input.data(),
+        B.data(),
+        A.data(),
+        output.data(),
+        static_cast<size_t>(batch),
+        static_cast<size_t>(in_dim),
+        static_cast<size_t>(rank),
+        static_cast<size_t>(out_dim),
+        scaling);
+
+    for (auto _ : state) {
+        launch_fused_lora_forward(
+            input.data(),
+            B.data(),
+            A.data(),
+            output.data(),
+            static_cast<size_t>(batch),
+            static_cast<size_t>(in_dim),
+            static_cast<size_t>(rank),
+            static_cast<size_t>(out_dim),
+            scaling);
+    }
+
+    const int64_t flops =
+        2LL * batch * in_dim * rank +
+        2LL * batch * rank * out_dim;
+    state.SetItemsProcessed(state.iterations() * flops);
+
+    state.counters["Batch"] = batch;
+    state.counters["Dim"] = in_dim;
+    state.counters["Rank"] = rank;
+    state.counters["Target_E2E_ms"] = 8.0;
+    state.counters["Target_HW_ms"] = 4.0;
+}
+BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, LoRA_FusedForward)->Unit(benchmark::kMillisecond);
 
 // ============================================================================
 // End-to-End LoRA Training Step Benchmark
@@ -403,11 +467,101 @@ BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, LoRA_TrainingStep)(benchmark::State& 
     state.counters["Batch"] = batch;
     state.counters["Dim"] = in_dim;
     state.counters["Rank"] = rank;
-    state.counters["Target_ms"] = ExpectedPerformance::TRAINING_STEP_TARGET_MS;
+    state.counters["Target_ms"] = ExpectedPerformance::TRAINING_STEP_TARGET_E2E_MS;
+    state.counters["Target_E2E_ms"] = ExpectedPerformance::TRAINING_STEP_TARGET_E2E_MS;
+    state.counters["Target_HW_ms"] = ExpectedPerformance::TRAINING_STEP_TARGET_HW_MS;
     state.counters["CPU_Baseline_ms"] = ExpectedPerformance::TRAINING_STEP_CPU_BASELINE_MS;
-    state.counters["Target_Speedup"] = ExpectedPerformance::TARGET_SPEEDUP;
+    state.counters["Target_Speedup"] = ExpectedPerformance::TARGET_SPEEDUP_E2E;
+    state.counters["Target_E2E_Speedup"] = ExpectedPerformance::TARGET_SPEEDUP_E2E;
+    state.counters["Target_HW_Speedup"] = ExpectedPerformance::TARGET_SPEEDUP_HW;
 }
 BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, LoRA_TrainingStep)->Unit(benchmark::kMillisecond);
+
+BENCHMARK_DEFINE_F(VulkanBenchmarkFixture, LoRA_TrainingStep_Fused)(benchmark::State& state) {
+    // Hardware-near variant using fused forward/backward entry points.
+    const size_t batch = 32;
+    const size_t in_dim = MEDIUM_DIM;
+    const size_t out_dim = MEDIUM_DIM;
+    const size_t rank = LORA_RANK;
+    const float scaling = 1.0f;
+
+    auto input = generate_random_data(batch * in_dim);
+    auto B = generate_random_data(in_dim * rank);
+    auto A = generate_random_data(rank * out_dim);
+    auto grad_output = generate_random_data(batch * out_dim);
+
+    std::vector<float> output(batch * out_dim);
+    std::vector<float> grad_A(rank * out_dim);
+    std::vector<float> grad_B(in_dim * rank);
+    std::vector<float> grad_input(batch * in_dim);
+
+    launch_fused_lora_forward(
+        input.data(),
+        B.data(),
+        A.data(),
+        output.data(),
+        batch,
+        in_dim,
+        rank,
+        out_dim,
+        scaling);
+
+    launch_fused_lora_backward(
+        input.data(),
+        B.data(),
+        A.data(),
+        grad_output.data(),
+        grad_A.data(),
+        grad_B.data(),
+        grad_input.data(),
+        batch,
+        in_dim,
+        rank,
+        out_dim,
+        scaling);
+
+    for (auto _ : state) {
+        launch_fused_lora_forward(
+            input.data(),
+            B.data(),
+            A.data(),
+            output.data(),
+            batch,
+            in_dim,
+            rank,
+            out_dim,
+            scaling);
+
+        launch_fused_lora_backward(
+            input.data(),
+            B.data(),
+            A.data(),
+            grad_output.data(),
+            grad_A.data(),
+            grad_B.data(),
+            grad_input.data(),
+            batch,
+            in_dim,
+            rank,
+            out_dim,
+            scaling);
+    }
+
+    const int64_t forward_flops =
+        2LL * static_cast<int64_t>(batch) * static_cast<int64_t>(rank) * static_cast<int64_t>(in_dim) +
+        2LL * static_cast<int64_t>(batch) * static_cast<int64_t>(out_dim) * static_cast<int64_t>(rank);
+    const int64_t backward_flops =
+        2LL * static_cast<int64_t>(batch) * static_cast<int64_t>(rank) * static_cast<int64_t>(out_dim) +
+        2LL * static_cast<int64_t>(batch) * static_cast<int64_t>(in_dim) * static_cast<int64_t>(rank);
+    state.SetItemsProcessed(state.iterations() * (forward_flops + backward_flops));
+
+    state.counters["Batch"] = static_cast<double>(batch);
+    state.counters["Dim"] = static_cast<double>(in_dim);
+    state.counters["Rank"] = static_cast<double>(rank);
+    state.counters["Target_E2E_ms"] = 8.0;
+    state.counters["Target_HW_ms"] = 5.0;
+}
+BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, LoRA_TrainingStep_Fused)->Unit(benchmark::kMillisecond);
 
 // ============================================================================
 // Memory Bandwidth Benchmarks
@@ -446,3 +600,5 @@ BENCHMARK_REGISTER_F(VulkanBenchmarkFixture, BufferUploadDownload)
 // ============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

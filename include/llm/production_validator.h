@@ -1,23 +1,21 @@
+/**
+ * @file production_validator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            production_validator.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: production_validator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 316
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #835 Implement Production-Ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,11 +24,15 @@
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/gpu_memory_manager.h"
 #include "llm/kernel_fusion.h"
+#include "llm/inference_engine_enhanced.h"
+#include <memory>
 #include <vector>
 #include <deque>
 #include <string>
 #include <chrono>
 #include <functional>
+#include <mutex>
+#include <atomic>
 
 namespace themis {
 namespace llm {
@@ -44,6 +46,7 @@ namespace testing {
  */
 class ProductionValidator {
 public:
+    virtual ~ProductionValidator() = default;
     struct ValidationConfig {
         // Stress test duration
         std::chrono::hours stress_test_duration{72};
@@ -194,18 +197,30 @@ public:
     };
     
     LiveStats getLiveStats() const;
+
+    /**
+     * @brief Set the inference engine used by benchmark and stress test.
+     *
+     * When set, benchmarkInference() and runStressTest() route requests
+     * through this engine.  Without an engine the benchmark logs a warning
+     * and reports skipped requests.
+     */
+    void setInferenceEngine(std::shared_ptr<InferenceEngineEnhanced> engine);
     
 private:
     ValidationConfig config_;
-    
+    std::shared_ptr<InferenceEngineEnhanced> inference_engine_;
+
     // Test state
-    bool stress_test_running_ = false;
+    std::atomic<bool> stress_test_running_ = false;
     std::chrono::system_clock::time_point stress_test_start_;
+    size_t memory_baseline_mb_ = 0;   ///< Set on first checkMemoryLeaks() call or reset()
     
     // Statistics
     std::deque<double> latency_samples_;  // Use deque for efficient removal of old samples
-    size_t total_requests_processed_ = 0;
-    size_t total_failures_ = 0;
+    mutable std::mutex latency_mutex_;    // Protects latency_samples_ in const and non-const paths
+    std::atomic<size_t> total_requests_processed_ = 0;
+    std::atomic<size_t> total_failures_ = 0;
     
     // Helper methods
     double calculatePercentile(const std::vector<double>& data, double percentile);
@@ -233,6 +248,7 @@ private:
  */
 class PerformanceRegressionDetector {
 public:
+    virtual ~PerformanceRegressionDetector() = default;
     struct Baseline {
         double avg_latency_ms = 0.0;
         double p99_latency_ms = 0.0;
@@ -301,9 +317,9 @@ public:
     
     struct TestResult {
         std::string test_name;
-        bool passed;
+        bool passed = false;
         std::string error_message;
-        double duration_ms;
+        double duration_ms = 0.0;
     };
     
     std::vector<TestResult> runAllTests();

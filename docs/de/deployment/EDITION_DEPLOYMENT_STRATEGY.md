@@ -1,6 +1,6 @@
 # ThemisDB Edition Deployment Strategy
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🚀 Deployment  
 **Status:** Under Development  
@@ -504,7 +504,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Community Edition
-        run: ./scripts/build-community-release.ps1
+        run: ./.github/workflows/04-release_build-binary-linux.yml
       - name: Upload to GitHub Releases (Public)
         uses: actions/upload-release-asset@v1
 
@@ -514,7 +514,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Enterprise Edition
-        run: ./scripts/build-enterprise-release.ps1 -Environment production
+        run: ./.github/workflows/04-release_publish-enterprise.yml -Environment production
       - name: Upload to Private Release Portal
         run: |
           $files = Get-ChildItem release/v*/enterprise/ -Recurse
@@ -528,7 +528,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Hyperscaler Edition (GPU)
-        run: ./scripts/build-hyperscaler-release.ps1 -GPU $true
+        run: ./.github/workflows/04-release_publish-hyperscaler.yml -GPU $true
       - name: Push to Private Registries
         run: |
           docker login -u ${{ secrets.ECR_USERNAME }} ...

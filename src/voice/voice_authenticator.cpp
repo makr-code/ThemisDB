@@ -1,57 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_authenticator.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     729                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ee2609e98  2026-02-23  fix(voice): audit gaps — require_liveness enforcement, do... ║
-    • d428e5be3  2026-02-23  feat(voice): implement speaker verification for voice bio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_authenticator.cpp
- * @brief Voice biometric authentication implementation.
- *
- * Feature Extraction (32-dimensional vector)
- * ------------------------------------------
- * The audio is split into 8 equal sub-bands.  For each sub-band:
- *   - RMS energy (normalised)         → 8 values
- *   - Zero-crossing rate              → 8 values
- * Global spectral features:
- *   - Spectral centroid               → 1 value
- *   - Spectral spread                 → 1 value
- *   - Spectral skewness               → 1 value
- *   - Spectral kurtosis               → 1 value
- * Global temporal features:
- *   - Overall RMS energy              → 1 value
- *   - Crest factor (peak / RMS)       → 1 value
- *   - Peak amplitude                  → 1 value
- *   - Spectral flatness (Wiener)      → 1 value
- * Delta sub-band RMS features (consecutive differences):
- *   - delta[i] = rms[i+1] - rms[i]   → 7 values, + 1 padding = 8 values
- *
- * Total: 8 + 8 + 4 + 4 + 8 = 32 dimensions.
- *
- * Profiles are stored as the L2-normalised mean over all enrollment samples.
- * Verification is computed as cosine similarity between the normalised probe
- * vector and the stored profile vector; the decision threshold defaults to 0.72.
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_auth.h"
@@ -357,10 +312,12 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
 
     if (user_id.empty()) {
         result.decision_reason = "empty_user_id";
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
     if (audio_sample.empty()) {
         result.decision_reason = "empty_audio";
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
 
@@ -368,6 +325,7 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     auto liveness = detect_liveness(audio_sample);
     if (!liveness.is_live) {
         result.decision_reason = "liveness_failed: " + liveness.reason;
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
 
@@ -376,11 +334,14 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = user_to_profile_.find(user_id);
-        if (it == user_to_profile_.end()) {
-            result.decision_reason = "profile_not_found";
-            return result;
+        if (it != user_to_profile_.end()) {
+            pid = it->second;
         }
-        pid = it->second;
+    }
+    if (pid.empty()) {
+        result.decision_reason = "profile_not_found";
+        emitAuthAuditEvent(user_id, result);
+        return result;
     }
 
     // 3. Verify speaker (acquires lock internally)
@@ -390,6 +351,7 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     if (!verification.verified) {
         result.decision_reason =
             "verification_failed: " + verification.decision_reason;
+        emitAuthAuditEvent(user_id, result);
         return result;
     }
 
@@ -397,8 +359,12 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     result.user_id         = user_id;
     result.decision_reason = "authenticated";
 
-    std::lock_guard<std::mutex> lock(mutex_);
-    ++successful_authentications_;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++successful_authentications_;
+    }
+
+    emitAuthAuditEvent(user_id, result);
 
     return result;
 }
@@ -457,6 +423,13 @@ void VoiceBiometricAuthenticator::set_config(const VoiceAuthConfig& config) {
     config_ = config;
 }
 
+void VoiceBiometricAuthenticator::setAuthAuditCallback(
+    std::function<void(const std::string&, const VoiceAuthResult&)> callback)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auth_audit_callback_ = std::move(callback);
+}
+
 VoiceAuthConfig VoiceBiometricAuthenticator::get_config() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
@@ -470,7 +443,28 @@ json VoiceBiometricAuthenticator::get_statistics() const {
     stats["total_verifications"]       = total_verifications_;
     stats["total_identifications"]     = total_identifications_;
     stats["successful_authentications"]= successful_authentications_;
+    stats["total_auth_audit_events"]   = total_auth_audit_events_;
     return stats;
+}
+
+void VoiceBiometricAuthenticator::emitAuthAuditEvent(
+    const std::string& claimed_user_id,
+    const VoiceAuthResult& result)
+{
+    std::function<void(const std::string&, const VoiceAuthResult&)> callback;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++total_auth_audit_events_;
+        callback = auth_audit_callback_;
+    }
+
+    if (callback) {
+        try {
+            callback(claimed_user_id, result);
+        } catch (...) {
+            // Audit callbacks must never affect authentication results.
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -728,3 +722,5 @@ std::string VoiceBiometricAuthenticator::generateProfileId(
 
 } // namespace voice
 } // namespace themis
+
+

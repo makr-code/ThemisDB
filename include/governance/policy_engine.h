@@ -1,27 +1,21 @@
+/**
+ * @file policy_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=13; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=10, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_engine.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     278                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
-    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
-    • eaca5e19d  2026-02-25  fix(governance): code audit – add PolicyEngine::checkExpo... ║
-    • b287de31a  2026-02-25  audit: update stale Stubs/Quality/LineCount header metada... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_engine.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 305
+ * Gap Summary: total=13; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=10, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3076 feat(governance): Integrate... (2026-03-12) | #2873 feat(governance): OPA polic... (2026-03-12) | #2867 feat(governance): PolicyEng... (2026-03-12) | #2775 [auth] OPA integration for ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -116,6 +110,26 @@ struct QueryPermissionResult {
     /// The query executor calls DataMasker::maskFields(doc, masking_policy)
     /// on every document before returning it to the client.
     FieldMaskingPolicy masking_policy;
+};
+
+/// Result returned by PolicyEngine::checkInferencePermission().
+/// Communicates whether a caller may submit an LLM inference request and,
+/// on denial, why the request was rejected so that the HTTP layer can return
+/// a properly structured error response (HTTP 401 or 403).
+struct InferencePermissionResult {
+    /// Whether the inference request is permitted.
+    bool allowed = false;
+
+    /// When @c allowed is false, the HTTP status code to return to the client.
+    /// 401 = missing or invalid API key; 403 = valid identity, but denied by
+    /// policy (e.g. data-classification restriction, rate-limit exceeded).
+    int http_status = 401;
+
+    /// Human-readable denial reason forwarded in the OpenAI-style error body.
+    std::string denial_reason;
+
+    /// Standard policy decision so callers can inspect classification flags.
+    PolicyDecision decision;
 };
 
 /// @brief Policy engine for data governance, classification, and field-level masking.
@@ -227,6 +241,30 @@ class PolicyEngine {
      */
     QueryPermissionResult checkQueryPermission(const std::unordered_map<std::string, std::string> &headers,
                                                const std::string &route) const;
+
+    /**
+     * @brief Validate that the caller is authorised to submit an LLM inference
+     *        request to the @c /v1/chat/completions endpoint.
+     *
+     * Extracts the caller identity from the @c Authorization header
+     * (`Bearer <api-key>`), evaluates the standard governance policy for the
+     * @c /v1/chat/completions route, and returns an @c InferencePermissionResult
+     * that the HTTP layer can act on:
+     *   - @c allowed=true  → proceed with inference
+     *   - @c allowed=false → return HTTP @c http_status with the @c denial_reason
+     *
+     * The method never throws; governance errors are reflected in the result's
+     * @c denial_reason field so the caller can propagate a structured OpenAI-style
+     * error body.
+     *
+     * @param headers  HTTP request headers.  The @c Authorization header must
+     *                 contain a `Bearer <api-key>` value for the identity to be
+     *                 extracted; missing or malformed tokens result in HTTP 401.
+     * @return @c InferencePermissionResult with the access decision and,
+     *         on denial, an HTTP status code and a human-readable reason.
+     */
+    InferencePermissionResult checkInferencePermission(
+        const std::unordered_map<std::string, std::string>& headers) const;
 
     /// @return A snapshot of the currently loaded FieldMaskingPolicy.
     FieldMaskingPolicy getMaskingPolicy() const;

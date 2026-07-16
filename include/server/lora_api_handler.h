@@ -1,23 +1,20 @@
+/**
+ * @file lora_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_api_handler.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -38,6 +35,7 @@ class LoRAOrchestrator;
 class LoRAStorageService;
 class LoRATrainingService;
 }
+class InferenceEngineEnhanced;
 }
 namespace auth {
 class JWTValidator;
@@ -69,9 +67,10 @@ using json = nlohmann::json;
  * - GET    /api/v1/llm/lora/adapters - List adapters with filters
  * 
  * Adapter Lifecycle:
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Load adapter
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Hot-load adapter (returns 202 Accepted + job_id)
  * - POST   /api/v1/llm/lora/adapters/{adapter_id}/unload - Unload adapter
  * - GET    /api/v1/llm/lora/adapters/{adapter_id}/status - Get adapter status
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/load-status - Get hot-load job status
  * 
  * Inference:
  * - POST   /api/v1/llm/lora/query - Query with LoRA adapter
@@ -107,6 +106,16 @@ public:
      * @param config JWT validator configuration
      */
     void configureJWT(const auth::JWTValidatorConfig& config);
+
+    /**
+     * @brief Attach an inference engine for LoRA query execution.
+     *
+     * When set, POST /api/v1/llm/lora/query routes inference requests
+     * through this engine.  Without an engine the endpoint returns 501.
+     *
+     * @param engine InferenceEngineEnhanced instance (may be null to detach).
+     */
+    void setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine);
     
     /**
      * @brief Handle LoRA API request
@@ -158,6 +167,11 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleAdapterStatus(
+        const http::request<http::string_body>& req);
+
+    /// GET /api/v1/llm/lora/adapters/{id}/load-status
+    /// Returns the status of the latest hot-load job for the adapter.
+    http::response<http::string_body> handleHotLoadStatus(
         const http::request<http::string_body>& req);
     
     // Cross-shard sync endpoint
@@ -212,6 +226,7 @@ private:
     
     std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
+    std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine_;
 };
 
 } // namespace themis::server

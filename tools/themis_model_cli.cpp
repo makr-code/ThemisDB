@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_model_cli.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:08:16                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,16 +32,69 @@
  */
 
 #include "llm/model_downloader.h"
+#include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
 #include <iostream>
 #include <iomanip>
 #include <filesystem>
 #include <chrono>
+#include <optional>
+#include <string_view>
 #include <yaml-cpp/yaml.h>
 #include <sstream>
 
 namespace fs = std::filesystem;
 using namespace themis::llm;
+
+namespace {
+
+struct ModelCliOptions {
+    std::string model_dir = "models/default";
+    std::string command;
+    std::vector<std::string> positional_args;
+    bool show_help = false;
+};
+
+using themis::cli::is_help_flag;
+
+bool parse_model_cli_options(int argc,
+                             char** argv,
+                             ModelCliOptions& options,
+                             std::string& error_message) {
+    for (int index = 1; index < argc; ++index) {
+        const std::string arg = argv[index];
+
+        if (options.command.empty() && is_help_flag(arg)) {
+            options.show_help = true;
+            continue;
+        }
+
+        if (options.command.empty() && arg == "--model-dir") {
+            if (index + 1 >= argc) {
+                error_message = "Missing value for option --model-dir";
+                return false;
+            }
+            options.model_dir = argv[++index];
+            continue;
+        }
+
+        if (options.command.empty() && arg.starts_with("--")) {
+            error_message = "Unknown option: " + arg;
+            return false;
+        }
+
+        if (options.command.empty()) {
+            options.command = arg;
+            continue;
+        }
+
+        options.positional_args.push_back(arg);
+    }
+
+    return true;
+}
+
+} // namespace
 
 // ANSI color codes for terminal output
 namespace Color {
@@ -134,7 +184,7 @@ int cmdPull(const std::string& model_name, const std::string& model_dir) {
     size_t last_downloaded = 0;
     auto last_time = start_time;
     
-    config.progress_callback = [&](size_t downloaded, size_t total, const std::string& status) {
+    config.progress_callback = [&](size_t downloaded, size_t total, const std::string&) {
         if (total > 0) {
             auto now = std::chrono::steady_clock::now();
             auto time_diff = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_time).count();
@@ -163,7 +213,7 @@ int cmdPull(const std::string& model_name, const std::string& model_dir) {
     
     if (result.success) {
         auto end_time = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
+        [[maybe_unused]] auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
         
         std::cout << Color::Green << "✓ " << Color::Bold << "Success!" << Color::Reset << "\n";
         std::cout << "Model: " << result.model_path << "\n";
@@ -291,69 +341,54 @@ void printUsage(const char* prog_name) {
 }
 
 int main(int argc, char** argv) {
-    // Default model directory
-    std::string model_dir = "models/default";
-    
-    // Parse global options
-    int arg_index = 1;
-    while (arg_index < argc && std::string(argv[arg_index]).starts_with("--")) {
-        std::string arg = argv[arg_index];
-        
-        if (arg == "--model-dir") {
-            if (arg_index + 1 < argc) {
-                model_dir = argv[++arg_index];
-                arg_index++;
-            } else {
-                std::cerr << Color::Red << "Error: --model-dir requires a value" << Color::Reset << "\n";
-                return 1;
-            }
-        } else {
-            std::cerr << Color::Red << "Error: Unknown option: " << arg << Color::Reset << "\n";
-            printUsage(argv[0]);
-            return 1;
-        }
-    }
-    
-    // Check if command provided
-    if (arg_index >= argc) {
+    ModelCliOptions options;
+    std::string parse_error;
+    if (!parse_model_cli_options(argc, argv, options, parse_error)) {
+        std::cerr << Color::Red << "Error: " << parse_error << Color::Reset << "\n";
         printUsage(argv[0]);
         return 1;
     }
-    
-    std::string command = argv[arg_index++];
+
+    if (options.show_help || options.command.empty()) {
+        printUsage(argv[0]);
+        return options.show_help ? 0 : 1;
+    }
+
+    const auto& model_dir = options.model_dir;
+    const auto& command = options.command;
     
     // Execute command
     if (command == "pull") {
-        if (arg_index >= argc) {
+        if (options.positional_args.empty()) {
             std::cerr << Color::Red << "Error: 'pull' requires a model name" << Color::Reset << "\n";
             std::cerr << "Usage: " << argv[0] << " pull <model>\n";
             return 1;
         }
-        std::string model_name = argv[arg_index];
+        const auto& model_name = options.positional_args[0];
         return cmdPull(model_name, model_dir);
         
     } else if (command == "list" || command == "ls") {
         return cmdList(model_dir);
         
     } else if (command == "rm" || command == "remove") {
-        if (arg_index >= argc) {
+        if (options.positional_args.empty()) {
             std::cerr << Color::Red << "Error: 'rm' requires a model name" << Color::Reset << "\n";
             std::cerr << "Usage: " << argv[0] << " rm <model>\n";
             return 1;
         }
-        std::string model_name = argv[arg_index];
+        const auto& model_name = options.positional_args[0];
         return cmdRemove(model_name, model_dir);
         
     } else if (command == "show" || command == "info") {
-        if (arg_index >= argc) {
+        if (options.positional_args.empty()) {
             std::cerr << Color::Red << "Error: 'show' requires a model name" << Color::Reset << "\n";
             std::cerr << "Usage: " << argv[0] << " show <model>\n";
             return 1;
         }
-        std::string model_name = argv[arg_index];
+        const auto& model_name = options.positional_args[0];
         return cmdShow(model_name, model_dir);
         
-    } else if (command == "help" || command == "--help" || command == "-h") {
+    } else if (command == "help" || is_help_flag(command)) {
         printUsage(argv[0]);
         return 0;
         

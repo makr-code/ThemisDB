@@ -1,27 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lifecycle.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     83                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
-    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
-    • 31c83c701  2026-02-23  fix(core): repair syntax errors from develop merge; resto... ║
-    • 454802e88  2026-02-23  fix(core): fix syntax errors in core headers and improve ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file lifecycle.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -61,6 +46,9 @@ struct ProbeResult {
  * ConcernsContext::readinessCheck(). A single unhealthy concern marks
  * the whole context as unhealthy so that Kubernetes / load-balancer
  * probes can react accordingly.
+ *
+ * Fields default to healthy for optional concerns so legacy contexts that do
+ * not wire every concern still report meaningful aggregate status.
  */
 struct HealthStatus {
     ProbeResult logger;
@@ -68,8 +56,8 @@ struct HealthStatus {
     ProbeResult metrics;
     ProbeResult cache;
     ProbeResult secrets = ProbeResult::healthy();
-  ProbeResult circuit_breaker = ProbeResult::healthy();
-  ProbeResult featureFlags = ProbeResult::healthy();
+        ProbeResult circuit_breaker = ProbeResult::healthy();
+        ProbeResult featureFlags = ProbeResult::healthy();
     ProbeResult auditLog = ProbeResult::healthy();
 
     /// @return true only when every concern reports healthy/ready.

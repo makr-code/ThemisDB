@@ -1,24 +1,21 @@
+/**
+ * @file llm_error_codes.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_error_codes.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     301                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_error_codes.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 320
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4170 feat(aql): Post-generation ... (2026-03-13) | #1262 Add production hardening fo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -44,6 +41,7 @@ enum class LLMErrorCode {
     INVALID_COLLECTION = 1005,
     INVALID_OPTIONS = 1006,
     PROMPT_INJECTION = 1007,   // Input rejected due to detected prompt injection attempt
+    ACCESS_DENIED    = 1008,   // Generated AQL references a collection the caller may not access
     
     // Model errors (2xxx)
     MODEL_NOT_FOUND = 2001,
@@ -62,6 +60,7 @@ enum class LLMErrorCode {
     RAG_FAILED = 4002,
     EMBEDDING_FAILED = 4003,
     TIMEOUT = 4004,
+    INVALID_RESPONSE = 4005,   ///< LLM-generated output failed post-generation validation
     
     // Resource errors (5xxx)
     OUT_OF_MEMORY = 5001,
@@ -112,6 +111,7 @@ public:
             case LLMErrorCode::INVALID_LORA_ID: return "LLM_INVALID_LORA_ID";
             case LLMErrorCode::INVALID_COLLECTION: return "LLM_INVALID_COLLECTION";
             case LLMErrorCode::INVALID_OPTIONS: return "LLM_INVALID_OPTIONS";
+            case LLMErrorCode::ACCESS_DENIED: return "LLM_ACCESS_DENIED";
             case LLMErrorCode::MODEL_NOT_FOUND: return "LLM_MODEL_NOT_FOUND";
             case LLMErrorCode::MODEL_LOAD_FAILED: return "LLM_MODEL_LOAD_FAILED";
             case LLMErrorCode::MODEL_UNLOAD_FAILED: return "LLM_MODEL_UNLOAD_FAILED";
@@ -124,6 +124,7 @@ public:
             case LLMErrorCode::RAG_FAILED: return "LLM_RAG_FAILED";
             case LLMErrorCode::EMBEDDING_FAILED: return "LLM_EMBEDDING_FAILED";
             case LLMErrorCode::TIMEOUT: return "LLM_TIMEOUT";
+            case LLMErrorCode::INVALID_RESPONSE: return "LLM_INVALID_RESPONSE";
             case LLMErrorCode::OUT_OF_MEMORY: return "LLM_OUT_OF_MEMORY";
             case LLMErrorCode::CACHE_FULL: return "LLM_CACHE_FULL";
             case LLMErrorCode::INTERNAL_ERROR: return "LLM_INTERNAL_ERROR";
@@ -139,7 +140,7 @@ private:
     /**
      * @brief Format error message for user consumption (masks internal details)
      */
-    static std::string formatErrorMessage(LLMErrorCode code, const std::string& internal_msg) {
+    static std::string formatErrorMessage(LLMErrorCode code, [[maybe_unused]] const std::string& internal_msg) {
         // For user-facing errors, provide generic safe messages
         switch (code) {
             case LLMErrorCode::INVALID_PROMPT:
@@ -156,6 +157,8 @@ private:
                 return "Invalid options provided";
             case LLMErrorCode::PROMPT_INJECTION:
                 return "Input rejected: potentially unsafe content detected";
+            case LLMErrorCode::ACCESS_DENIED:
+                return "Access denied: generated query references unauthorized collection(s)";
             case LLMErrorCode::MODEL_NOT_FOUND:
                 return "Requested model not found";
             case LLMErrorCode::MODEL_LOAD_FAILED:
@@ -180,6 +183,8 @@ private:
                 return "Embedding generation failed";
             case LLMErrorCode::TIMEOUT:
                 return "Operation timed out";
+            case LLMErrorCode::INVALID_RESPONSE:
+                return "LLM generated an invalid or structurally broken response";
             case LLMErrorCode::OUT_OF_MEMORY:
                 return "Insufficient memory for operation";
             case LLMErrorCode::CACHE_FULL:
@@ -223,6 +228,30 @@ namespace ValidationLimits {
     // (32 768 chars ≈ 8 192 tokens)
     constexpr size_t MAX_SCHEMA_CONTEXT_LENGTH = 32768;
 }
+
+/**
+ * @brief Runtime-configurable counterpart of the @c ValidationLimits constants.
+ *
+ * Inject an instance into @c LLMAQLHandler via
+ * @c LLMAQLHandler::setValidationLimits() to tune all input-length and
+ * query-count caps without recompilation. Fields default to the same values
+ * as the corresponding @c ValidationLimits constexpr constants so that
+ * existing deployments are unaffected until an explicit override is applied.
+ */
+struct ValidationLimitsConfig {
+    /// Maximum prompt length (chars).  Default: ValidationLimits::MAX_PROMPT_LENGTH
+    std::size_t max_prompt_length           = ValidationLimits::MAX_PROMPT_LENGTH;
+    /// Maximum NL query length (chars).  Default: ValidationLimits::MAX_NL_QUERY_LENGTH
+    std::size_t max_nl_query_length         = ValidationLimits::MAX_NL_QUERY_LENGTH;
+    /// Maximum schema context length (chars).  Default: ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH
+    std::size_t max_schema_context_length   = ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH;
+    /// Maximum RAG top_k.  Default: ValidationLimits::MAX_RAG_TOP_K
+    int         max_rag_top_k               = ValidationLimits::MAX_RAG_TOP_K;
+    /// Minimum RAG top_k.  Default: ValidationLimits::MIN_RAG_TOP_K
+    int         min_rag_top_k               = ValidationLimits::MIN_RAG_TOP_K;
+    /// Default execution timeout (seconds).  Default: ValidationLimits::DEFAULT_TIMEOUT_SECONDS
+    int         default_timeout_seconds     = ValidationLimits::DEFAULT_TIMEOUT_SECONDS;
+};
 
 /**
  * @brief Validation helper functions

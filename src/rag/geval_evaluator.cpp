@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geval_evaluator.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     495                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file geval_evaluator.cpp
- * @brief Implementation of G-Eval probabilistic scoring
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/geval_evaluator.h"
@@ -35,6 +19,7 @@
 #include <iomanip>
 #include <atomic>
 #include <regex>
+#include <stdexcept>
 
 // Forward declaration for llama.cpp types
 extern "C" {
@@ -235,11 +220,15 @@ struct GEvalEvaluator::Impl {
             return heuristicProbsForDimension(dimension);
         }
 
+        if (llm->getAvailableModels().empty()) {
+            return heuristicProbsForDimension(dimension);
+        }
+
         try {
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest req;
             req.base_request.prompt = prompt;
             req.base_request.max_tokens = 50;
-            req.base_request.temperature = config.temperature;
+            req.base_request.temperature = static_cast<float>(config.temperature);
             req.allow_caching = true;
             req.priority = 0;
 
@@ -275,7 +264,7 @@ struct GEvalEvaluator::Impl {
 
             return heuristicProbsForDimension(dimension);
 
-        } catch (const std::exception&) {
+        } catch (...) {
             return heuristicProbsForDimension(dimension);
         }
     }
@@ -386,7 +375,7 @@ GEvalResult GEvalEvaluator::evaluate(
 
 std::vector<double> GEvalEvaluator::extractTokenProbabilities(
     const std::string& prompt,
-    const std::vector<int>& score_tokens
+    const std::vector<int>&
 ) {
     // Use LLM engine to derive probabilities from the prompt when available;
     // otherwise fall back to heuristic distributions.
@@ -496,3 +485,5 @@ double GEvalEvaluator::aggregateScores(
 }
 
 } // namespace themis::rag::judge
+
+

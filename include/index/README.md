@@ -1,4 +1,53 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Index Module
+
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `adaptive_index.h` | Adaptive index recommendations from query patterns |
+| `advanced_vector_index.h` | Advanced vector index algorithms (DiskANN, ScaNN) |
+| `ann_index.h` | ANN index base interface |
+| `approximate_radius_search.h` | Approximate radius/range search |
+| `binary_quantizer.h` | Binary quantization (256x compression) |
+| `cuda_hnsw_graph_traversal.h` | CUDA-accelerated HNSW graph traversal |
+| `distributed_vector_index.h` | Distributed multi-node vector index |
+| `edge_types.h` | Edge type definitions for graph indexes |
+| `gnn_embeddings.h` | Graph Neural Network embedding integration |
+| `gpu_memory_oversubscription.h` | GPU memory oversubscription for large indexes |
+| `gpu_vector_index.h` | GPU-accelerated vector index (Vulkan/CUDA/HIP) |
+| `graph_analytics.h` | Graph analytics primitives (PageRank, centrality) |
+| `graph_auto_buffer.h` | Auto-sizing buffer for graph operations |
+| `graph_index.h` | Graph index (adjacency lists, BFS/DFS) |
+| `hnsw_layer_optimizer.h` | HNSW layer structure optimizer |
+| `hnsw_parameter_tuner.h` | HNSW parameter auto-tuning |
+| `hnsw_production_defaults.h` | Production-optimized HNSW defaults |
+| `index_compression.h` | Delta, prefix, dictionary, RLE, and Bloom filter compression |
+| `index_manager.h` | Unified index manager with dependency injection |
+| `inverted_index.h` | Full-text inverted index with BM25 scoring |
+| `learnable_rope.h` | Learnable rotary positional embeddings |
+| `learned_index.h` | ML-based RMI learned index structures |
+| `learned_quantizer.h` | Learned/neural quantizer |
+| `lora_rope.h` | LoRA-adapted rotary embeddings |
+| `matryoshka_truncation.h` | Matryoshka embedding truncation |
+| `multi_gpu_vector_index.h` | Multi-GPU distributed vector index |
+| `multi_vector_search.h` | Multi-vector (ColBERT-style) search |
+| `process_graph.h` | Process graph for workflow/BPMN indexing |
+| `product_quantizer.h` | Product quantization (PQ) with ADC tables |
+| `property_graph.h` | Property graph index |
+| `residual_quantizer.h` | Residual quantization |
+| `rotary_embeddings.h` | Rotary positional embeddings (RoPE) — CPU |
+| `rotary_embeddings_gpu.h` | Rotary positional embeddings — GPU |
+| `secondary_index.h` | Secondary indexes (B-tree, range, sparse, composite, TTL, geo) |
+| `secondary_index_metadata_cache.h` | Metadata cache for secondary indexes |
+| `spatial_index.h` | R-tree spatial index for geospatial queries |
+| `temporal_graph.h` | Temporal graph with time-versioned edges |
+| `tiered_index_manager.h` | Hot/warm/cold tiered index migration |
+| `vector_auto_buffer.h` | Auto-sizing buffer for vector operations |
+| `vector_index.h` | HNSW vector similarity search |
+| `vector_index_manager.h` | Vector index lifecycle manager |
+| `workload_replay.h` | Workload replay advisor for index recommendations |
 
 ## Module Purpose
 
@@ -8,20 +57,23 @@ The Index module provides high-performance indexing infrastructure for ThemisDB,
 
 **In Scope:**
 - Vector indexing (HNSW, GPU-accelerated similarity search)
-- Secondary indexes (B-tree, range, sparse, composite)
+- Secondary indexes (B-tree, range, sparse, composite, partial/filtered)
 - Graph indexing (adjacency lists, BFS/DFS traversal)
 - Spatial indexing (R-tree for geospatial queries, Z-order curves)
-- Adaptive indexing (automatic index recommendations)
+- Full-text search (InvertedIndex with BM25 scoring and positional posting lists)
+- Adaptive indexing (automatic index recommendations, workload replay advisor)
 - GPU acceleration (Vulkan, CUDA, HIP support)
 - Quantization for memory efficiency (Product Quantization, Binary Quantization, Residual Quantization)
 - Multi-distance metrics (L2, Cosine, Dot Product)
 - Advanced features (GNN embeddings, temporal graphs, rotary embeddings)
+- Tiered index migration (hot/warm/cold storage tiers)
+- Index compression (delta encoding, prefix compression, dictionary encoding, RLE, Bloom filters)
+- Learned indexes (ML-based RMI structures for ordered-key lookup)
 
 **Out of Scope:**
 - Query parsing and execution (handled by query module)
 - Data persistence (handled by storage module)
 - Network protocols and APIs (handled by server module)
-- Full-text search (planned for future release)
 
 ## Key Components
 
@@ -83,7 +135,7 @@ vim.addVector("embeddings", "doc123", embedding);
 // Search for similar vectors
 auto results = vim.search("embeddings", query_vector, /*k=*/10);
 for (const auto& result : results) {
-    std::cout << "ID: " << result.pk 
+    std::cout << "ID: " << result.pk
               << " Distance: " << result.distance << std::endl;
 }
 ```
@@ -464,7 +516,7 @@ adaptive.recordQuery(
 // Get index recommendations
 auto recommendations = adaptive.getRecommendations(/*min_benefit=*/100.0);
 for (const auto& rec : recommendations) {
-    std::cout << "Create index on " << rec.collection 
+    std::cout << "Create index on " << rec.collection
               << "." << rec.field
               << " (estimated benefit: " << rec.benefit_score << "ms/query)"
               << std::endl;
@@ -655,9 +707,9 @@ auto results = vim.searchWithFilter(
 void handleVectorSearch(const Request& req, Response& resp) {
     auto query_vector = req.getVector("vector");
     auto k = req.getInt("k", 10);
-    
+
     auto results = vim.search("embeddings", query_vector, k);
-    
+
     resp.setJson({
         {"results", results},
         {"count", results.size()}
@@ -684,17 +736,17 @@ sim.createIndex("documents", "year");
 for (const auto& doc : documents) {
     // Generate embedding
     auto embedding = model.encode(doc.text);
-    
+
     // Store in vector index
     vim.addVector("documents", doc.id, embedding);
-    
+
     // Store metadata
     BaseEntity entity;
     entity.set("id", doc.id);
     entity.set("category", doc.category);
     entity.set("year", doc.year);
     entity.set("text", doc.text);
-    
+
     auto batch = db.createWriteBatch();
     sim.updateIndex("documents", entity, batch);
     batch.commit();
@@ -803,10 +855,10 @@ for (const auto& result : nearby) {
   - macOS: MoltenVK
 - **CUDA**: NVIDIA GPU acceleration (optional)
   - Requires: CUDA Toolkit 11.0+
-- **HIP**: AMD GPU acceleration (optional, planned)
+- **HIP**: AMD GPU acceleration (optional)
   - Requires: ROCm 5.0+
 
-### Build Configuration
+## Build Configuration
 ```cmake
 # Enable GPU acceleration
 option(THEMIS_GPU_ENABLED "Enable GPU acceleration" ON)
@@ -819,6 +871,16 @@ find_package(FAISS QUIET)
 find_package(Vulkan QUIET)
 find_package(CUDAToolkit QUIET)
 ```
+
+## Runtime Configuration Options (Selection)
+
+| Component | Option(s) | Effect |
+|-----------|-----------|--------|
+| `VectorIndexManager::AdvancedIndexConfig` | `index_type`, `nlist`, `nprobe`, `use_pq`, `pq_m`, `use_gpu` | Controls ANN backend mode (IVF/PQ), recall/latency tradeoff, and optional GPU path |
+| `GPUVectorIndex::Config` | `backend`, `metric`, `M`, `efConstruction`, `efSearch`, `batchSize` | Selects GPU backend and HNSW/GPU search behavior |
+| `GPUVectorIndex::Config` | `enable_oversubscription`, `vram_budget_mb`, `prefetch_strategy` | Enables VRAM oversubscription and paging/prefetch behavior |
+| `HnswParameterTuner::Config` | `adaptive`, `target_recall` | Enables workload-adaptive construction parameter tuning |
+| `SecondaryIndexManager::Config` | `enable_compression`, `compression_algorithm`, `compression_level` | Controls index compression behavior and space/speed balance |
 
 ## Performance Characteristics
 
@@ -880,16 +942,14 @@ find_package(CUDAToolkit QUIET)
    - Workaround: Batch processing, multi-GPU sharding
 
 ### Secondary Index
-1. **No Full-Text Search**: Only equality and range queries
-   - Planned: Full-text index in v1.7.0
-2. **Composite Index Ordering**: Fixed column order for prefix scans
+1. **Composite Index Ordering**: Fixed column order for prefix scans
    - Workaround: Create multiple indexes for different orderings
-3. **Unique Constraint Race**: Possible with concurrent writes
+2. **Unique Constraint Race**: Possible with concurrent writes
    - Workaround: Use pessimistic transactions
 
 ### Graph Index
 1. **No Distributed Traversal**: Single-node only
-   - Planned: Distributed graph queries in v1.7.0
+   - Workaround: Use distributed vector index sharding for ANN workloads
 2. **Limited Cycle Detection**: Expensive on large graphs
    - Workaround: Set max_depth parameter
 3. **Memory Usage**: In-memory cache for topology
@@ -901,29 +961,54 @@ find_package(CUDAToolkit QUIET)
 2. **Global Bounds**: Must know bounds in advance
    - Workaround: Use conservative bounds, update periodically
 3. **LineString/Polygon**: Limited to MBR approximation
-   - Planned: Exact geometry intersection in v1.7.0
+   - Workaround: Post-filter results with exact geometry checks
+
+## Runtime Behavior, Error Cases, and Limits
+
+- **Vector dimension validation:** `addVector()` and `search()` require the initialized dimension; mismatches are rejected and the operation fails.
+- **GPU runtime fallback:** If selected GPU backend initialization fails or no compatible device is available, search falls back to CPU when fallback is enabled.
+- **Atomic write behavior:** Secondary index updates are expected to run inside RocksDB `WriteBatch`; skipping batched writes can produce inconsistent data/index state on failures.
+- **Topology limits:** Graph traversals are bounded by input constraints such as `max_depth`; high-degree graphs can increase latency and memory usage.
+- **Spatial approximation boundary:** Polygon and complex geometry handling remains bounding-box-first in core paths; exact geometry filtering is a caller responsibility where needed.
+
+## Troubleshooting
+
+- **No vector search results:** Verify metric/dimension alignment between indexed vectors and query vector; check that index initialization succeeded before ingestion.
+- **Lower-than-expected ANN recall:** Increase `efSearch`, review `M`/`efConstruction`, and validate workload-specific defaults via `HnswProductionDefaults`.
+- **GPU path not active:** Confirm build flags (`THEMIS_GPU_ENABLED`, backend-specific options), runtime driver availability, and selected `GPUVectorIndex::Backend`.
+- **High memory usage:** Enable PQ/quantization, tune HNSW parameters, and for GPU-heavy workloads use oversubscription and/or multi-GPU distribution.
+- **Stale secondary index entries:** Ensure all writes/deletes update indexes in the same write batch and schedule TTL cleanup for expiring datasets.
 
 ## Status
 
-**Current Version:** v1.5.0+
+**Current Version:** v1.7.0+
 
 **Maturity:**
 - Vector Index: ✅ **Production Ready** (v1.3.0+)
   - HNSW: Stable, well-tested
-  - GPU Acceleration: Beta (Vulkan v2.2)
+  - GPU Acceleration: Stable (Vulkan/CUDA/HIP)
   - FAISS Integration: Stable (v1.5.0+)
+  - DiskANN / ScaNN: Stable (v1.6.0+)
+  - Multi-GPU distributed search: Stable (v1.6.0+)
 - Secondary Index: ✅ **Production Ready** (v1.0.0+)
+  - Index Compression: Stable (v1.7.0+)
+- Full-Text Index: ✅ **Production Ready** (v1.5.0+)
+  - BM25 scoring: Stable
+  - Positional posting lists: Stable
 - Graph Index: ✅ **Production Ready** (v1.2.0+)
 - Spatial Index: ⚠️ **Beta** (v1.4.0+)
   - R-tree: Stable
   - GeoJSON: Stable
   - Full geometry operations: In progress
-- Adaptive Index: ⚠️ **Beta** (v1.5.0+)
-  - Pattern tracking: Stable
-  - Recommendations: Beta
+- Adaptive Index: ✅ **Production Ready** (v1.5.0+)
+  - Workload replay advisor: Stable (v1.6.0+)
+- Tiered Index Manager: ✅ **Production Ready** (v1.6.0+)
+- Learned Indexes: ✅ **Production Ready** (v1.7.0+)
 
 **Recent Changes:**
-- v1.5.0: FAISS integration, IVF+PQ, ADC tables, Product Quantization
+- v1.7.0: Index compression (delta, prefix, dictionary, RLE, Bloom filters), learned index structures
+- v1.6.0: Tiered index migration (hot/warm/cold), DiskANN/ScaNN, multi-GPU distributed index, workload replay advisor, HNSW incremental re-indexing
+- v1.5.0: Full-text inverted index (BM25), FAISS integration, IVF+PQ, ADC tables, Product Quantization
 - v1.4.2: Residual Quantization, Learned Quantization
 - v1.4.0: Spatial index (R-tree), Z-order curves
 - v1.3.0: GPU acceleration (Vulkan), rotary embeddings
@@ -945,9 +1030,15 @@ find_package(CUDAToolkit QUIET)
 - [Core Module](../core/README.md) - Dependency injection, concerns context
 
 ### Technical Documentation
-- [Vector Indexing Architecture](../../VECTOR_INDEXING_ARCHITECTURE.md) - Deep dive into HNSW, FAISS, GPU acceleration
-- [Vector Advanced Features](VECTOR_ADVANCED_FEATURES_README.md) - Quantization, rotary embeddings, multi-vector search
-- [Benchmark Best Practices](../../BENCHMARK_BEST_PRACTICES.md) - Performance tuning, benchmarking
+- [Implementation Overview](../../src/index/README.md) - Source-level module walkthrough and usage
+- [Index Roadmap](../../src/index/ROADMAP.md) - Module status, phases, production-readiness checklist
+- [Index Future Enhancements](../../src/index/FUTURE_ENHANCEMENTS.md) - Planned features, constraints, interfaces, targets
+- [Cross-Module Roadmap](../../src/ROADMAP.md) - Consolidated roadmap across all modules
+- [Cross-Module Future Enhancements](../../src/FUTURE_ENHANCEMENTS.md) - Cross-module enhancement backlog
+- [Index Roadmap Review (DE)](../../docs/de/roadmap/index_roadmap.md) - Production-readiness review and phased gap analysis
+- [Vector Indexing Architecture (DE)](../../docs/de/architecture/VECTOR_INDEXING_ARCHITECTURE.md) - Deep dive into HNSW, FAISS, GPU acceleration
+- [Vector Advanced Features](../../src/index/VECTOR_ADVANCED_FEATURES_README.md) - Quantization, rotary embeddings, multi-vector search
+- [Benchmark Best Practices (DE)](../../docs/de/guides/BENCHMARK_BEST_PRACTICES.md) - Performance tuning and benchmarking workflow
 
 ### API References
 - [IIndexManager Interface](../../include/themis/base/interfaces/index_interface.h)
@@ -955,13 +1046,21 @@ find_package(CUDAToolkit QUIET)
 - [IStorageEngine Interface](../../include/themis/base/interfaces/storage_interface.h)
 
 ### Examples
-- [RAG Pipeline Example](../../examples/rag_pipeline.cpp) - End-to-end RAG implementation
-- [Graph Knowledge Base](../../examples/graph_knowledge_base.cpp) - Hybrid vector + graph
-- [Geospatial Queries](../../examples/geospatial_queries.cpp) - Spatial index usage
-- [GPU Acceleration](../../examples/gpu_vector_search.cpp) - Vulkan/CUDA usage
+- [HNSW Recall Integration Test](../../tests/index/test_hnsw_recall_integration.cpp) - End-to-end ANN quality validation
+- [Spatial Correctness Integration Test](../../tests/index/test_spatial_correctness_integration.cpp) - Spatial query behavior and edge cases
+- [GPU Oversubscription Test](../../tests/index/test_gpu_memory_oversubscription.cpp) - GPU fallback/oversubscription behavior
+- [Distributed Vector Index Test](../../tests/index/test_distributed_vector_index.cpp) - Sharding and distributed index flow
 
 ### External Resources
 - [HNSW Paper](https://arxiv.org/abs/1603.09320) - Malkov & Yashunin (2018)
 - [FAISS Documentation](https://github.com/facebookresearch/faiss/wiki)
 - [Product Quantization Paper](https://hal.inria.fr/inria-00514462) - Jégou et al. (2011)
 - [R-tree Paper](http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf) - Guttman (1984)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

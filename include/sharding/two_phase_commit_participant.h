@@ -1,23 +1,20 @@
+/**
+ * @file two_phase_commit_participant.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            two_phase_commit_participant.h                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: two_phase_commit_participant.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -38,8 +35,7 @@
 // This class implements ShardRPCServer::RequestHandler so it can be attached
 // directly to a ShardRPCServer for real network deployments.
 
-#ifndef THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H
-#define THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H
+#pragma once
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/wal_manager.h"
@@ -59,22 +55,22 @@ namespace themis::sharding {
  * @brief State of a prepared transaction on the participant side
  */
 enum class ParticipantTxnState {
-    PREPARED,   // Voted COMMIT, waiting for coordinator decision
-    COMMITTED,  // Coordinator said COMMIT, changes applied
-    ABORTED     // Coordinator said ABORT (or timed out), changes discarded
+    PREPARED,   ///< Vote COMMIT abgegeben, wartet auf Coordinator-Entscheidung.
+    COMMITTED,  ///< COMMIT empfangen und Operationen erfolgreich angewendet.
+    ABORTED     ///< ABORT empfangen oder Timeout-Abbruch lokal ausgefuehrt.
 };
 
 /**
  * @brief Metadata tracked per prepared transaction at the participant
  */
 struct ParticipantTransaction {
-    std::string             transaction_id;
-    ParticipantTxnState     state = ParticipantTxnState::PREPARED;
-    nlohmann::json          operations;          // Buffered operations to apply on commit
+    std::string             transaction_id; ///< Globale Transaktions-ID.
+    ParticipantTxnState     state = ParticipantTxnState::PREPARED; ///< Aktueller Teilnehmerzustand.
+    nlohmann::json          operations; ///< Gepufferte Operationen fuer spaeteres COMMIT.
     std::chrono::steady_clock::time_point prepared_at;
-    int64_t                 prepare_timestamp = 0; // Coordinator timestamp
-    int64_t                 commit_timestamp  = 0; // MVCC commit timestamp (set on COMMIT)
-    bool                    vote_committed    = true; // Our vote in PREPARE phase
+    int64_t                 prepare_timestamp = 0; ///< Optionaler PREPARE-Zeitstempel vom Coordinator.
+    int64_t                 commit_timestamp  = 0; ///< MVCC-COMMIT-Zeitstempel (auf COMMIT gesetzt).
+    bool                    vote_committed    = true; ///< Gespeicherte PREPARE-Stimme (idempotente Antworten).
 };
 
 /**
@@ -123,15 +119,28 @@ public:
      * @brief Configuration for the participant
      */
     struct Config {
-        // WAL directory for durable logging; leave empty to disable WAL
-        std::string wal_directory;
-
-        // How long a PREPARED transaction may wait before being auto-aborted
-        std::chrono::milliseconds prepare_timeout{60000};
-
-        // Flush WAL synchronously on every write (safest; slightly slower)
-        bool sync_wal_writes = true;
+        std::string wal_directory; ///< WAL-Verzeichnis; leer deaktiviert WAL-Persistenz.
+        std::chrono::milliseconds prepare_timeout{60000}; ///< Max. PREPARED-Wartezeit bis Auto-ABORT.
+        bool sync_wal_writes = true; ///< Erzwingt synchrones WAL-Flush pro Eintrag.
     };
+
+    /**
+     * @brief Construct a participant with optional storage callbacks
+     *
+     * If validate_and_lock / apply / release are left nullptr the participant
+     * will accept all operations (useful in tests).
+     *
+     * @param shard_id   Identifier of this shard
+     * @param validate   Callback to validate & lock ops in PREPARE phase
+     * @param apply      Callback to apply ops in COMMIT phase
+     * @param release    Callback to release locks in ABORT/after COMMIT
+     */
+    explicit TwoPhaseCommitParticipant(
+        const std::string&          shard_id,
+        ValidateAndLockCallback     validate = nullptr,
+        ApplyOperationsCallback     apply    = nullptr,
+        ReleaseLockCallback         release  = nullptr
+    );
 
     /**
      * @brief Construct a participant with optional storage callbacks
@@ -147,7 +156,7 @@ public:
      */
     explicit TwoPhaseCommitParticipant(
         const std::string&          shard_id,
-        const Config&               config = {},
+        const Config&               config,
         ValidateAndLockCallback     validate = nullptr,
         ApplyOperationsCallback     apply    = nullptr,
         ReleaseLockCallback         release  = nullptr
@@ -164,6 +173,10 @@ public:
      * and returns VOTE_COMMIT (true) or VOTE_ABORT (false).
      * Idempotent: a duplicate PREPARE for the same txn_id returns the
      * same vote as the original call without re-locking.
+    * @param transaction_id Globale Transaktions-ID.
+    * @param coordinator_shard_id Coordinator-Identifikator fuer Nachvollziehbarkeit.
+    * @param transaction_data Serialisiertes JSON mit Teilnehmeroperationen.
+    * @return true fuer VOTE_COMMIT, false fuer VOTE_ABORT.
      */
     bool onPrepare(
         const std::string& transaction_id,
@@ -177,6 +190,8 @@ public:
      * Applies buffered operations using the MVCC commit timestamp,
      * releases locks, and writes COMMIT_TX to WAL.
      * Idempotent: duplicate COMMIT messages return true immediately.
+    * @param transaction_id Globale Transaktions-ID.
+    * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) COMMIT.
      */
     bool onCommit(const std::string& transaction_id) override;
 
@@ -185,11 +200,14 @@ public:
      *
      * Releases locks and writes ABORT_TX to WAL.
      * Idempotent: duplicate ABORT messages return true immediately.
+    * @param transaction_id Globale Transaktions-ID.
+    * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) ABORT.
      */
     bool onAbort(const std::string& transaction_id) override;
 
     /**
      * @brief Handle health-check request
+        * @return HealthInfo fuer ShardRPCServer-Liveness/Readiness.
      */
     ShardRPCServer::HealthInfo onHealthCheck() override;
 
@@ -197,16 +215,18 @@ public:
 
     /**
      * @brief Return the current state of a prepared transaction, or nullopt
+        * @param transaction_id Abzufragende Transaktions-ID.
+        * @return Optionaler Teilnehmerzustand; nullopt falls unbekannt.
      */
     std::optional<ParticipantTxnState> getTransactionState(
         const std::string& transaction_id
     ) const;
 
     /**
-     * @brief Abort prepared transactions that have exceeded prepare_timeout
+     * @brief Abort prepared transactions that have exceeded prepare_timeout.
      *
-     * Should be called periodically (e.g. from a background thread).
-     * @return Number of transactions timed out and aborted
+     * Should be called periodically (for example by maintenance/housekeeping).
+     * @return Number of transactions transitioned from PREPARED to ABORTED.
      */
     size_t abortTimedOutTransactions();
 
@@ -224,41 +244,41 @@ public:
 
     /**
      * @brief Statistics about this participant
+     * @return JSON mit Zaehlern, Zustandssummen und Uptime.
      */
     nlohmann::json getStatistics() const;
 
 private:
-    const std::string shard_id_;
-    Config            config_;
+    const std::string shard_id_; ///< Lokale Shard-ID dieses Participants.
+    Config            config_;   ///< Laufzeitkonfiguration (WAL/Timeout).
 
-    // Storage callbacks (may be nullptr → accept-all default)
-    ValidateAndLockCallback validate_and_lock_;
-    ApplyOperationsCallback apply_operations_;
-    ReleaseLockCallback     release_locks_;
+    // Storage callbacks (may be nullptr -> accept-all default)
+    ValidateAndLockCallback validate_and_lock_; ///< PREPARE-Validierung und Sperrverwaltung.
+    ApplyOperationsCallback apply_operations_;  ///< COMMIT-Anwendung der gepufferten Operationen.
+    ReleaseLockCallback     release_locks_;     ///< Freigabe gehaltener Sperren.
 
     // In-memory transaction state
-    mutable std::mutex                         mutex_;
-    std::map<std::string, ParticipantTransaction> transactions_;
+    mutable std::mutex                         mutex_; ///< Schutz fuer Teilnehmerzustandsmap.
+    std::map<std::string, ParticipantTransaction> transactions_; ///< In-Memory-Transaktionszustand.
 
     // WAL for durable logging
-    std::unique_ptr<WALManager> wal_;
+    std::unique_ptr<WALManager> wal_; ///< Optionales WAL-Backend fuer Crash-Recovery.
 
     // Statistics
-    std::atomic<uint64_t> total_prepares_{0};
-    std::atomic<uint64_t> total_commits_{0};
-    std::atomic<uint64_t> total_aborts_{0};
-    std::atomic<uint64_t> total_timeouts_{0};
+    std::atomic<uint64_t> total_prepares_{0}; ///< Anzahl verarbeiteter PREPARE-Aufrufe.
+    std::atomic<uint64_t> total_commits_{0};  ///< Anzahl erfolgreicher COMMIT-Entscheidungen.
+    std::atomic<uint64_t> total_aborts_{0};   ///< Anzahl ABORT-Entscheidungen inkl. Timeout-Aborts.
+    std::atomic<uint64_t> total_timeouts_{0}; ///< Anzahl timeout-basierter Auto-Aborts.
 
     // Startup time for uptime reporting
-    const std::chrono::steady_clock::time_point start_time_{std::chrono::steady_clock::now()};
+    const std::chrono::steady_clock::time_point start_time_{std::chrono::steady_clock::now()}; ///< Startzeit fuer Uptime-Berechnung.
 
     // ── Internal helpers ────────────────────────────────────────────────────
 
+    /** @brief Persist participant phase/state event to WAL if enabled. */
     void logToWAL(WALEntryType type,
                   const std::string& txn_id,
                   const nlohmann::json& data);
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H

@@ -1,6 +1,12 @@
+---
+status: stale
+doc_version: "1.3.0"
+validated: "2025-12-22"
+---
+
 # Development Documentation — Struktur
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🛠️ Development
 

@@ -1,25 +1,21 @@
+/**
+ * @file kafka_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_connector.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     541                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8dd9e8a0  2026-02-26  fix(ingestion): audit fixes – double error_count, enable.... ║
-    • 213187424  2026-02-26  feat(ingestion): Kafka consumer source connector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 595
+ * Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=2, H=5, M=5, L=0
+ * PR History (last 5): #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3287 security(ingestion): path t... (2026-03-12) | #3285 feat(ingestion): Plugin API... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12) | #3249 [ingestion] Implement CDC s... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_KAFKA is defined the full librdkafka-backed implementation
@@ -36,6 +32,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <chrono>
+#include <ctime>
 #include <thread>
 #include <cstring>
 
@@ -202,10 +199,50 @@ public:
 
     void setRetryConfig(const RetryConfig& c)   { retry_config_ = c; }
     void setMessageFetchForTesting(KafkaMessageFn fn) { message_fn_ = std::move(fn); }
+    void setCheckpointStore(std::shared_ptr<CheckpointStore> store) {
+        checkpoint_store_ = std::move(store);
+    }
 
 private:
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // Write a ThemisDB-level checkpoint for this source via the injected store.
+    // Called before Kafka offsets are committed (rd_kafka_consumer_close) so
+    // that the ThemisDB checkpoint is always written before Kafka forgets the
+    // messages, ensuring at-least-once delivery semantics.
+    // -----------------------------------------------------------------------
+    void writeCheckpoint(size_t processed_count) {
+        if (!checkpoint_store_) return;
+        IngestionCheckpoint cp;
+        cp.source_id       = config_.source_id;
+        cp.processed_count = processed_count;
+        auto now = std::chrono::system_clock::now();
+        auto tt  = std::chrono::system_clock::to_time_t(now);
+        std::tm tm_buf{};
+#ifdef _WIN32
+        gmtime_s(&tm_buf, &tt);
+#else
+        gmtime_r(&tt, &tm_buf);
+#endif
+        // Buffer for "YYYY-MM-DDTHH:MM:SSZ" (20 chars + NUL = 21 bytes).
+        // 32 bytes provides extra headroom for locale-specific variations.
+        constexpr std::size_t kTimestampBufSize = 32;
+        char buf[kTimestampBufSize] = {};
+        std::strftime(buf, kTimestampBufSize, "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
+        cp.timestamp = buf;
+        checkpoint_store_->write(cp);
+    }
+
+    // -----------------------------------------------------------------------
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of KafkaConnector without a live Kafka
+    //   broker by using an injected message_fn_ instead of a real consumer.
+    // Activation: Active when message_fn_ is non-null (set via
+    //   KafkaConnector::setMessageFnForTesting()).
+    // Production Delta: Messages come from the injected lambda instead of a
+    //   real Kafka consumer.  No broker connection, no offset management.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
+    // Removal Plan: Not removed — remains the test-injection path.
+    // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
@@ -245,6 +282,11 @@ private:
                            "Exception in Kafka mock ingest: " + std::string(e.what()),
                            config_.source_id);
         }
+        // Write ThemisDB checkpoint BEFORE the caller signals "done".
+        // In the mock path there are no Kafka offsets to commit, but writing
+        // the checkpoint here mirrors the production path so unit tests can
+        // verify the behaviour.
+        writeCheckpoint(stats.documents_processed);
     }
 
 #ifdef THEMIS_ENABLE_KAFKA
@@ -429,7 +471,15 @@ private:
                            config_.source_id);
         }
 
-        // Graceful shutdown: commit final offsets before closing
+        // Write ThemisDB checkpoint BEFORE committing Kafka offsets.
+        // This preserves at-least-once delivery: if the process crashes after
+        // the checkpoint write but before rd_kafka_consumer_close(), Kafka will
+        // re-deliver the messages and ThemisDB will deduplicate via the
+        // checkpoint.  The reverse order (Kafka first, checkpoint second) risks
+        // silently losing documents should the process die in between.
+        writeCheckpoint(stats.documents_processed);
+
+        // Graceful shutdown: commit final Kafka offsets before closing.
         rd_kafka_consumer_close(rk);
         rd_kafka_destroy(rk);
     }
@@ -500,6 +550,11 @@ private:
     std::string  auto_offset_reset_;  // set in initialize(); default "earliest"
     RetryConfig  retry_config_;
 
+    // Injected ThemisDB checkpoint store (optional).
+    // When set, writeCheckpoint() persists progress before Kafka offsets are
+    // committed, ensuring at-least-once delivery even across process crashes.
+    std::shared_ptr<CheckpointStore> checkpoint_store_;
+
     // Testing hook
     KafkaMessageFn message_fn_;
 };
@@ -534,9 +589,19 @@ void KafkaConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+void KafkaConnector::setCheckpointStore(std::shared_ptr<CheckpointStore> store) {
+    impl_->setCheckpointStore(std::move(store));
+}
+
 void KafkaConnector::setMessageFetchForTesting(KafkaMessageFn fn) {
+    setMessageBatchProvider(std::move(fn));
+}
+
+void KafkaConnector::setMessageBatchProvider(KafkaMessageFn fn) {
     impl_->setMessageFetchForTesting(std::move(fn));
 }
 
 } // namespace ingestion
 } // namespace themis
+
+

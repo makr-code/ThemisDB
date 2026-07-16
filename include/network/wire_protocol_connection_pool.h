@@ -1,23 +1,21 @@
+/**
+ * @file wire_protocol_connection_pool.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_connection_pool.h                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_connection_pool.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 403
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1118 Optimize connection efficie... (2026-03-11) | #1142 Implement TLS/mTLS support ... (2026-03-11) | #1158 Harden Wire Protocol transp... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol Connection Pool
@@ -36,6 +34,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace network {
@@ -43,6 +42,111 @@ namespace network {
 namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
+
+// =============================================================================
+// Pluggable Pool Sizing Strategy
+// =============================================================================
+
+/**
+ * @brief Abstract interface for connection pool sizing strategies.
+ *
+ * Implementations decide when to grow or shrink the pool based on
+ * real-time utilization metrics supplied by the pool itself.
+ */
+class IPoolingStrategy {
+public:
+    virtual ~IPoolingStrategy() = default;
+
+    /**
+     * @brief Compute the ideal total connection count for a target.
+     *
+     * @param current_count  Current total connections (active + idle)
+     * @param active_count   Connections currently in use
+     * @param load           Utilisation ratio (active / total), range [0, 1]
+     * @return Desired total connection count
+     */
+    virtual size_t getIdealConnectionCount(
+        size_t current_count,
+        size_t active_count,
+        double load) = 0;
+
+    /**
+     * @brief Return true if a new connection should be pre-created.
+     *
+     * @param current_count   Current total connections
+     * @param max_count       Configured maximum
+     * @param available_count Idle connections available for immediate use
+     */
+    virtual bool shouldCreateConnection(
+        size_t current_count,
+        size_t max_count,
+        size_t available_count) = 0;
+
+    /**
+     * @brief Return true if the oldest idle connection should be removed.
+     *
+     * @param current_count   Current total connections
+     * @param min_count       Configured minimum
+     * @param available_count Idle connections available
+     * @param idle_time       Time the oldest idle connection has been idle
+     */
+    virtual bool shouldRemoveConnection(
+        size_t current_count,
+        size_t min_count,
+        size_t available_count,
+        std::chrono::seconds idle_time) = 0;
+};
+
+/**
+ * @brief Adaptive pool sizing strategy based on utilization thresholds.
+ *
+ * - Scales up when the fraction of idle connections drops below
+ *   `(1 - scale_up_threshold)`.
+ * - Scales down when idle connections have been idle longer than
+ *   `min_idle_time` and the pool is above `min_count`.
+ */
+class AdaptivePoolingStrategy : public IPoolingStrategy {
+public:
+    struct Config {
+        /// Target utilization (fraction of connections that should be active).
+        double target_utilization  = 0.7;
+        /// Trigger scale-up when utilization exceeds this value.
+        double scale_up_threshold  = 0.8;
+        /// Trigger scale-down when utilization drops below this value.
+        double scale_down_threshold = 0.3;
+        /// Multiplier applied when growing the pool.
+        double scale_up_factor     = 1.5;
+        /// Multiplier applied when shrinking the pool.
+        double scale_down_factor   = 0.7;
+        /// An idle connection must have been unused for at least this long
+        /// before it is eligible for removal.
+        std::chrono::seconds min_idle_time{300};
+    };
+
+    explicit AdaptivePoolingStrategy(const Config& config);
+    AdaptivePoolingStrategy();
+
+    size_t getIdealConnectionCount(
+        size_t current_count,
+        size_t active_count,
+        double load) override;
+
+    bool shouldCreateConnection(
+        size_t current_count,
+        size_t max_count,
+        size_t available_count) override;
+
+    bool shouldRemoveConnection(
+        size_t current_count,
+        size_t min_count,
+        size_t available_count,
+        std::chrono::seconds idle_time) override;
+
+    const Config& strategyConfig() const { return config_; }
+
+private:
+    Config config_;
+};
 
 /**
  * @brief Socket wrapper supporting both plain and SSL sockets
@@ -104,6 +208,11 @@ public:
         std::string ssl_ca_cert_path;                 ///< CA certificate path
         size_t max_retries = 3;                       ///< Max connection retry attempts
         bool enable_warmup = true;                    ///< Pre-create min connections on startup
+        /// Enable adaptive pool sizing driven by real-time utilization metrics.
+        bool enable_adaptive_sizing = false;
+        /// Custom sizing strategy (default: AdaptivePoolingStrategy with default config).
+        /// Only consulted when enable_adaptive_sizing is true.
+        std::shared_ptr<IPoolingStrategy> adaptive_strategy;
     };
     
     explicit WireProtocolConnectionPool(const Config& config);
@@ -177,6 +286,10 @@ public:
         size_t connections_created = 0;
         size_t connections_reused = 0;
         size_t keepalive_checks_sent = 0;
+        /// Current utilization: active / (active + idle), averaged across all targets.
+        double utilization = 0.0;
+        /// Number of pool-size adaptations performed by the adaptive strategy.
+        size_t pool_size_adaptations = 0;
         
         /**
          * @brief Calculate connection reuse rate (0.0 - 1.0)
@@ -268,6 +381,12 @@ private:
      */
     void initializeSSLContext();
     
+    /**
+     * @brief Adapt pool size based on real-time utilization metrics.
+     * Called from the maintenance thread when adaptive sizing is enabled.
+     */
+    void adaptPoolSize();
+
     Config config_;
     std::shared_ptr<net::io_context> io_context_;
     std::shared_ptr<ssl::context> ssl_context_;
@@ -289,6 +408,7 @@ private:
     std::atomic<size_t> failed_connections_{0};
     std::atomic<size_t> acquire_timeouts_{0};
     std::atomic<size_t> keepalive_checks_{0};
+    std::atomic<size_t> pool_size_adaptations_{0};
 };
 
 } // namespace network

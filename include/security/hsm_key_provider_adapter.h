@@ -1,23 +1,20 @@
+/**
+ * @file hsm_key_provider_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hsm_key_provider_adapter.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hsm_key_provider_adapter.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +23,7 @@
 #include "security/hsm_provider.h"
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -236,6 +234,37 @@ public:
      * @return true if HSM is initialized and ready
      */
     bool isHSMReady() const;
+
+    // ─── Injectable DEK wrap/unwrap bridge (STUB #47 / #48) ──────────────────
+    // Allows non-HSM builds and tests to inject wrap/unwrap implementations
+    // without requiring a real PKCS#11 library.  When set, the injected
+    // function is invoked instead of the HSMProvider path.  When not set
+    // (default), the HSMProvider path is used (fail-closed on stub providers).
+
+    /// Signature for a DEK wrap (encrypt) callback.
+    using WrapDEKFn   = std::function<std::vector<uint8_t>(const std::vector<uint8_t>& plaintext_dek)>;
+    /// Signature for a DEK unwrap (decrypt) callback.
+    using UnwrapDEKFn = std::function<std::vector<uint8_t>(const std::vector<uint8_t>& encrypted_dek)>;
+
+    /**
+     * @brief Register a process-wide DEK wrap callback.
+     *
+     * When set, wrapDEK() calls @p fn instead of the HSMProvider.
+     * Pass an empty function to clear the override (default).
+     *
+     * Thread-safe.
+     */
+    static void setWrapDEKFn(WrapDEKFn fn);
+
+    /**
+     * @brief Register a process-wide DEK unwrap callback.
+     *
+     * When set, unwrapDEK() calls @p fn instead of the HSMProvider.
+     * Pass an empty function to clear the override (default).
+     *
+     * Thread-safe.
+     */
+    static void setUnwrapDEKFn(UnwrapDEKFn fn);
 
 private:
     std::shared_ptr<HSMProvider> hsm_;

@@ -1,27 +1,20 @@
+/**
+ * @file transaction_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1127                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 935e2696e  2026-03-01  feat(transaction): implement time-travel queries against ... ║
-    • f770f4a5b  2026-02-28  refactor(transaction): address code review feedback ║
-    • 14942b3a7  2026-02-28  feat(transaction): implement per-tenant transaction isola... ║
-    • e7f8e6a5e  2026-02-28  feat(transaction): add OCC performance benchmarks and fix... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -44,6 +37,7 @@
 #include "transaction/lock_manager.h"
 #include "transaction/isolation_level.h"
 #include "transaction/crash_recovery_manager.h"
+#include "transaction/deadlock_predictor.h"
 
 namespace themis {
 
@@ -86,7 +80,7 @@ public:
         /// Keys involved in the conflict (filled alongside conflict_id).
         std::vector<std::string> affected_keys;
         static Status OK() { return {}; }
-        static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        static Status Error(std::string msg) { return Status{false, std::move(msg), "", "", {}}; }
         static Status Conflict(std::string msg, std::string cid,
                                std::vector<std::string> keys) {
             Status s;
@@ -179,6 +173,23 @@ public:
         Status putEntity(std::string_view table, const BaseEntity& entity);
         Status eraseEntity(std::string_view table, std::string_view pk);
 
+        /**
+         * @brief Read an entity through the active transaction snapshot.
+         *
+         * Performs a point lookup on the canonical entity key
+         * `entity:{table}:{pk}` using the transaction's MVCC view. The lookup
+         * observes this transaction's own uncommitted writes (read-your-writes)
+         * and remains isolated from uncommitted writes of other transactions.
+         *
+         * @param table Logical table/collection name.
+         * @param pk    Primary key.
+         * @return JSON string representation of the entity when present;
+         *         std::nullopt when the entity does not exist in the current
+         *         transaction snapshot or when no active transaction exists.
+         */
+        std::optional<std::string> readEntityJson(std::string_view table,
+                              std::string_view pk);
+
         // Graph
         Status addEdge(const BaseEntity& edgeEntity);
         Status deleteEdge(std::string_view edgeId);
@@ -262,12 +273,17 @@ public:
         // ── Serializable Snapshot Isolation (SSI) / Predicate Locking ────────
 
         /**
-         * @brief Track a range predicate read for SERIALIZABLE isolation (SSI).
+         * @brief Acquire a SIREAD (predicate) lock for SERIALIZABLE isolation (SSI).
          *
          * Records that this transaction has read all keys in the closed interval
          * [@p start_key, @p end_key].  Any other SERIALIZABLE transaction that
          * subsequently writes a key inside this range will be detected as a
          * serialization conflict and aborted.
+         *
+         * This is the SIREAD ("Serializable Isolation READ") lock described in
+         * the SSI literature.  Unlike 2PL read locks, SIREAD locks do not block
+         * concurrent writers; conflicts are detected lazily at write time, which
+         * makes this approach better than traditional 2PL for read-heavy workloads.
          *
          * No-op when the isolation level is not SERIALIZABLE.
          *
@@ -415,6 +431,47 @@ public:
         Status bulkEraseEntities(std::string_view table,
                                  const std::vector<std::string>& pks);
 
+        // ── Read-Only Transaction Optimization ───────────────────────────────
+
+        /**
+         * @brief Mark this transaction as read-only.
+         *
+         * When @p read_only is true, any subsequent write operation (putEntity,
+         * eraseEntity, addEdge, deleteEdge, addVector, updateVector, removeVector,
+         * optimisticPut, optimisticErase, bulkPutEntities, bulkEraseEntities)
+         * will immediately return an error without modifying the write set.
+         * commit() on a read-only transaction is a no-op that releases the
+         * underlying snapshot without writing to the WAL.
+         *
+         * Calling setReadOnly(true) is rejected when the transaction already
+         * has writes in its write set (hasWrites() == true), because the
+         * read-only commit fast-path would silently discard those writes.
+         *
+         * @param read_only  true to enable read-only mode, false to disable.
+         * @return Status::OK() on success; error if the transaction is not
+         *         active, or if read_only=true but writes already exist.
+         */
+        Status setReadOnly(bool read_only = true);
+
+        /**
+         * @brief Return true if this transaction is in read-only mode.
+         *
+         * Read-only mode may be set explicitly via setReadOnly(true), or
+         * automatically detected after commit() when no writes were performed.
+         */
+        bool isReadOnly() const { return read_only_; }
+
+        /**
+         * @brief Return true if this transaction has accumulated any write
+         *        operations since it started (or since the last savepoint
+         *        rollback that undid all writes).
+         *
+         * Based on the write-set tracked for explain(); each putEntity,
+         * eraseEntity, addEdge, deleteEdge, addVector, optimisticPut, etc.
+         * contributes at least one entry.
+         */
+        bool hasWrites() const { return !write_set_.empty(); }
+
         // SAGA support
         Saga& getSaga() { return *saga_; }
         const Saga& getSaga() const { return *saga_; }
@@ -512,6 +569,9 @@ public:
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
 
         std::vector<ExplainWriteEntry> write_set_; ///< write-set accumulated for explain()
+
+        /// When true, write operations are rejected and commit() is a no-op.
+        bool read_only_{false};
 
         /// Tenant namespace for this transaction.  Empty = global / default namespace.
         std::string tenant_id_;
@@ -835,6 +895,64 @@ public:
      */
     DeadlockMetrics getDeadlockMetrics() const;
 
+    // ── Adaptive Deadlock Prevention (v1.9.0) ────────────────────────────────
+
+    /**
+     * @brief Attach an external DeadlockPredictor for adaptive prevention.
+     *
+     * When set, the TransactionManager will:
+     *  - Call DeadlockPredictor::recordTransaction() each time a transaction
+     *    commits or rolls back (so the predictor learns from history).
+     *  - Call DeadlockPredictor::recordDeadlock() each time a deadlock cycle
+     *    is resolved (so the predictor reinforces the cycle's key patterns).
+     *
+     * Ownership is *not* transferred; the caller must ensure the predictor
+     * outlives this TransactionManager.
+     *
+     * Pass nullptr to detach a previously set predictor.
+     */
+    void setDeadlockPredictor(DeadlockPredictor* predictor);
+
+    /**
+     * @brief Return the currently attached DeadlockPredictor, or nullptr.
+     */
+    DeadlockPredictor* getDeadlockPredictor() const;
+
+    /**
+     * @brief Estimate the probability that acquiring @p proposed_locks will
+     *        lead to a deadlock given the currently active transactions.
+     *
+     * Delegates to the attached DeadlockPredictor.  Returns 0.0 when no
+     * predictor is attached or insufficient history exists.
+     *
+     * @param proposed_locks  Keys the caller intends to lock next.
+     */
+    double predictDeadlockProbability(
+        const std::vector<std::string>& proposed_locks) const;
+
+    /**
+     * @brief Return the recommended lock-acquisition order for @p keys.
+     *
+     * Delegates to the attached DeadlockPredictor.  Returns @p keys sorted
+     * lexicographically when no predictor is attached.
+     *
+     * @param keys  Keys that need to be locked.
+     */
+    std::vector<std::string> recommendLockOrder(
+        const std::vector<std::string>& keys) const;
+
+    /**
+     * @brief Return the recommended transaction timeout for @p keys.
+     *
+     * Delegates to the attached DeadlockPredictor.  Returns the current
+     * deadlock-detection timeout (as configured by setDeadlockTimeout()) when
+     * no predictor is attached.
+     *
+     * @param keys  Keys that the transaction will lock.
+     */
+    std::chrono::milliseconds recommendTimeout(
+        const std::vector<std::string>& keys) const;
+
     /// Access the shared LockManager for external lock operations.
     LockManager& getLockManager() { return lock_manager_; }
     const LockManager& getLockManager() const { return lock_manager_; }
@@ -1023,6 +1141,86 @@ public:
         std::string_view table,
         std::string_view pk) const;
 
+    // ── Serializable Snapshot Isolation (SSI) configuration ──────────────────
+
+    /**
+     * @brief Tuning parameters for Serializable Snapshot Isolation (SSI).
+     *
+     * These settings control the predicate-lock subsystem used by
+     * SERIALIZABLE transactions.  Adjust them to balance memory usage, false-
+     * positive abort rate, and conflict-detection latency.
+     */
+    struct SSIConfig {
+        /// Enable or disable predicate lock tracking.  When false, SERIALIZABLE
+        /// transactions behave identically to REPEATABLE_READ (snapshot isolation
+        /// only; write-skew anomalies are not detected).
+        bool enable_predicate_locking = true;
+
+        /// Maximum total number of predicate locks that may be held
+        /// simultaneously across all active transactions.  Once the limit is
+        /// reached, new acquirePredicateLock() calls are silently dropped,
+        /// which may increase the false-positive abort rate.
+        size_t max_predicate_locks = 10000;
+
+        /// How often the background conflict-detection sweep (if any) is
+        /// triggered.  Currently informational; no background sweep is
+        /// implemented – conflict detection is performed inline at write time.
+        std::chrono::milliseconds conflict_detection_interval{100};
+    };
+
+    /**
+     * @brief Update the SSI configuration.
+     *
+     * Thread-safe.  New values take effect immediately for all subsequent
+     * predicate-lock operations; existing in-flight locks are unaffected.
+     *
+     * @param config  New SSI tuning parameters.
+     */
+    void setSSIConfig(const SSIConfig& config);
+
+    /**
+     * @brief Return the currently active SSI configuration.
+     */
+    SSIConfig getSSIConfig() const;
+
+    /**
+     * @brief Describes a single read-write or write-write serialization
+     *        conflict detected for a SERIALIZABLE transaction.
+     */
+    struct SerializationConflict {
+        /// The transaction ID of the other transaction involved in the conflict.
+        TransactionId other_txn_id{0};
+
+        /// The storage key that triggered the conflict.
+        std::string key;
+
+        /// Human-readable description of the conflict kind.
+        ///  "read-write"  – this transaction's read range overlaps a write by
+        ///                  @p other_txn_id (phantom / write-skew risk).
+        ///  "write-write" – both transactions wrote the same key concurrently
+        ///                  (lost-update risk).
+        std::string conflict_type;
+
+        /// Human-readable explanation.
+        std::string message;
+    };
+
+    /**
+     * @brief Enumerate predicate-lock conflicts for a SERIALIZABLE transaction.
+     *
+     * Scans every predicate lock held by @p txn_id against the predicate locks
+     * held by all other active SERIALIZABLE transactions and returns one
+     * SerializationConflict entry for each key range that would produce a
+     * serialization failure.
+     *
+     * Returns an empty vector for non-SERIALIZABLE transactions or when
+     * predicate locking is disabled.
+     *
+     * @param txn_id  Transaction to analyse.
+     * @return        List of detected conflicts; empty when none exist.
+     */
+    std::vector<SerializationConflict> detectConflicts(TransactionId txn_id) const;
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -1122,6 +1320,15 @@ private:
     ConflictManager* conflict_mgr_{nullptr};
     /// Optional SnapshotManager for resolving named tags in time-travel queries.
     transaction::SnapshotManager* snapshot_mgr_{nullptr};
+    /// Optional non-owning pointer to the adaptive deadlock predictor (v1.9.0).
+    /// Stored atomically so setDeadlockPredictor() can be called concurrently
+    /// with predict/recommend helpers without introducing a data race.
+    std::atomic<DeadlockPredictor*> deadlock_predictor_{nullptr};
+
+    // SSI configuration – protected by ssi_config_mutex_
+    mutable std::mutex ssi_config_mutex_;
+    SSIConfig ssi_config_;
 };
 
 } // namespace themis
+

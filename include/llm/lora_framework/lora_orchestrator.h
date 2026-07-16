@@ -1,23 +1,21 @@
+/**
+ * @file lora_orchestrator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_orchestrator.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     487                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_orchestrator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 491
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1134 Implement cross-shard LoRA ... (2026-03-11) | #320 Implement Production-Ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +25,7 @@
 #include "llm/lora_framework/lora_provenance.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
 #include "llm/multi_lora_manager.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -480,6 +479,18 @@ public:
     /// Returns true when the chain is intact; false when tampered or corrupt.
     bool verifyAuditChain(const std::string& adapter_id) const;
 
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every `loadAdapter()` call emits a `LOOP_TRIGGER` decision
+     * record written asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_LOOP_TRIGGER_<id>.yaml`.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -488,3 +499,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

@@ -13,7 +13,7 @@
 param(
     [string]$Platforms = "linux/amd64",
     [string]$Tag = (Get-Content -Path (Join-Path (Split-Path -Parent $PSScriptRoot) "VERSION") -ErrorAction SilentlyContinue | Select-Object -First 1).Trim(),
-    [string]$Dockerfile = "Dockerfile.simple",
+    [string]$Dockerfile = "Dockerfile.unified",
     [switch]$Push,
     [switch]$NoCache,
     [switch]$BuildBinary
@@ -45,48 +45,31 @@ Write-Host ""
 # Step 1: Build binary if requested
 if ($BuildBinary) {
     Write-Host "════════ Building themis_server binary ════════" -ForegroundColor Yellow
-    
-    $buildArgs = @(
-        "-B", "build-msvc",
-        "-G", "Visual Studio 17 2022",
-        "-A", "x64",
-        "-DCMAKE_TOOLCHAIN_FILE=$(Join-Path $repoRoot 'vcpkg/scripts/buildsystems/vcpkg.cmake')",
-        "-DVCPKG_TARGET_TRIPLET=x64-windows",
-        "-DTHEMIS_BUILD_TESTS=OFF",
-        "-DTHEMIS_BUILD_BENCHMARKS=OFF"
-    )
-    
+
+    Push-Location $repoRoot
+
     Write-Host "Configuring CMake..." -ForegroundColor Cyan
-    & cmake -S $repoRoot @buildArgs
+    & cmake --preset windows-release `
+        -DTHEMIS_BUILD_TESTS=OFF `
+        -DTHEMIS_BUILD_BENCHMARKS=OFF
     if ($LASTEXITCODE -ne 0) { throw "CMake configuration failed" }
-    
+
     Write-Host "Building themis_server..." -ForegroundColor Cyan
-    & cmake --build (Join-Path $repoRoot "build-msvc") --config Release --target themis_server --parallel 8
+    & cmake --build --preset windows-release --target themis_server
     if ($LASTEXITCODE -ne 0) { throw "Build failed" }
-    
+
+    Pop-Location
+
     # Copy binary to release directory
     if (-not (Test-Path $releaseDir)) { New-Item -ItemType Directory -Path $releaseDir | Out-Null }
-    $binaryPath = Join-Path $repoRoot "build-msvc/Release/themis_server.exe"
+    $binaryPath = Join-Path $repoRoot "build-msvc-windows-release/themis_server.exe"
     if (Test-Path $binaryPath) {
         Write-Host "Copying binary to $releaseDir..." -ForegroundColor Cyan
         Copy-Item -Path $binaryPath -Destination (Join-Path $releaseDir "themis_server.exe") -Force
     }
 }
 
-# Step 2: Ensure binary exists for Dockerfile.simple
-if ($Dockerfile -eq "Dockerfile.simple") {
-    $binaryFile = Join-Path $releaseDir "themis_server.exe"
-    if (-not (Test-Path $binaryFile)) {
-        Write-Host "ERROR: Binary not found at $binaryFile" -ForegroundColor Red
-        Write-Host "Either:" -ForegroundColor Yellow
-        Write-Host "  1. Build it first with: .\build-docker.ps1 -BuildBinary -Tag $Tag" -ForegroundColor Yellow
-        Write-Host "  2. Use full Dockerfile: .\build-docker.ps1 -Dockerfile Dockerfile -Tag $Tag" -ForegroundColor Yellow
-        exit 1
-    }
-    Write-Host "Binary found: $binaryFile" -ForegroundColor Green
-}
-
-# Step 3: Check Docker installation
+# Step 2: Check Docker installation
 Write-Host ""
 Write-Host "════════ Checking Docker installation ════════" -ForegroundColor Yellow
 $dockerVersion = docker --version 2>$null
@@ -96,7 +79,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host $dockerVersion -ForegroundColor Green
 
-# Step 4: Build Docker image
+# Step 3: Build Docker image
 Write-Host ""
 Write-Host "════════ Building Docker image ════════" -ForegroundColor Yellow
 
@@ -106,9 +89,13 @@ $imageTagLatest = "themisdb/themis:latest"
 # For multi-arch builds, use buildx
 if ($Platforms -match ",") {
     Write-Host "Building multi-architecture image..." -ForegroundColor Cyan
-    if (-not (docker buildx ls 2>$null)) {
+    $buildxList = & docker "buildx" "ls"
+    if ($LASTEXITCODE -ne 0) {
+        $buildxList = $null
+    }
+    if (-not $buildxList) {
         Write-Host "Setting up buildx builder..." -ForegroundColor Cyan
-        & docker buildx create --name themis-builder --use
+        & docker "buildx" "create" "--name" "themis-builder" "--use"
     }
     
     $buildxArgs = @(

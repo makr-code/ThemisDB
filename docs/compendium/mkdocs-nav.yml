@@ -1,0 +1,83 @@
+nav:
+  - Titelseite (generiert): __GENERATED_COVER__
+  - Vorwort: preface.md
+  - Startseite: index.md
+  - Inhaltsverzeichnis (automatisch): __GENERATED_TOC__
+  - Abbildungsverzeichnis (automatisch): __GENERATED_FIGURES__
+  - Stichwortverzeichnis (automatisch): __GENERATED_KEYWORDS__
+
+  - Teil I - Grundlagen:
+    - Kapitel 0 - Genesis: chapter_00_genesis.md
+    - Kapitel 1 - Einführung: chapter_01_introduction.md
+    - Kapitel 2 - Architektur: chapter_02_architecture.md
+    - Kapitel 3 - Multi-Model: chapter_03_multimodel.md
+    - Kapitel 4 - Installation: chapter_04_installation.md
+
+  - Teil II - Datenmodelle:
+    - Kapitel 5 - Relational: chapter_05_relational.md
+    - Kapitel 6 - Graph: chapter_06_graph.md
+    - Kapitel 7 - Dokumente: chapter_07_document.md
+    - Kapitel 8a - Vektoren: chapter_08_vector.md
+    - Kapitel 8b - Storage Layer: chapter_08_storage_layer.md
+    - Kapitel 9 - Time-Series: chapter_09_timeseries.md
+
+  - Teil III - Fach- und Spezialdomänen:
+    - Kapitel 10 - Enterprise: chapter_10_enterprise.md
+    - Kapitel 11 - Realtime: chapter_11_realtime.md
+    - Kapitel 12 - Computer Vision: chapter_12_computervision.md
+    - Kapitel 13 - Volltext: chapter_13_fulltext.md
+    - Kapitel 14 - Geospatial: chapter_14_geospatial.md
+    - Kapitel 15 - Analytics: chapter_15_analytics.md
+
+  - Teil IV - KI, ML & Skalierung:
+    - Kapitel 16a - ML Grundlagen: chapter_16_ml.md
+    - Kapitel 16b - Sharding: chapter_16_sharding.md
+    - Kapitel 17a - LLM Integration: chapter_17_llm_integration.md
+    - Kapitel 17b - Skalierungs-Patterns: chapter_17_scaling.md
+    - Kapitel 18a - ML Erweiterungen: chapter_18_ml.md
+    - Kapitel 18b - Hochverfügbarkeit: chapter_18_ha.md
+
+  - Teil V - Betrieb, Performance & Zuverlässigkeit:
+    - Kapitel 19a - Monitoring: chapter_19_monitoring.md
+    - Kapitel 19b - Observability: chapter_19_monitoring_observability.md
+    - Kapitel 20a - Backup: chapter_20_backup.md
+    - Kapitel 20b - Performance: chapter_20_performance.md
+    - Kapitel 21a - Authentifizierung: chapter_21_auth.md
+    - Kapitel 21b - Security Performance: chapter_21_performance.md
+    - Kapitel MVCC - HLC & Transaktionen: chapter_mvcc_hlc.md
+
+  - Teil VI - Security, Governance & Compliance:
+    - Kapitel 22a - Clients: chapter_22_clients.md
+    - Kapitel 22b - Verschlüsselung: chapter_22_encryption.md
+    - Kapitel 36 - Security Hardening: chapter_36_security_hardening.md
+    - Kapitel 40 - Data Governance & Compliance: chapter_40_data_governance_compliance.md
+
+  - Teil VII - Engineering, APIs & Best Practices:
+    - Kapitel 23 - Testing & QA: chapter_23_testing_qa.md
+    - Kapitel 24 - AI Ethics: chapter_24_ai_ethics.md
+    - Kapitel 25 - DevOps & Infrastructure: chapter_25_devops_infrastructure.md
+    - Kapitel 26 - Migration & Legacy: chapter_26_migration_legacy.md
+    - Kapitel 27 - Troubleshooting: chapter_27_troubleshooting.md
+    - Kapitel 28 - AQL Referenz: chapter_28_aql_reference.md
+    - Kapitel 29 - Analytics & Process Mining: chapter_29_analytics_process_mining.md
+    - Kapitel 30 - Deployment & Operations: chapter_30_deployment_operations.md
+    - Kapitel 31 - API Protokolle: chapter_31_api_protocols.md
+    - Kapitel 32a - API-Design & REST-Prinzipien: chapter_32_api_design_rest_principles.md
+    - Kapitel 32b - AQL OOP Implementierung: chapter_32_aql_oop_implementation.md
+    - Kapitel 33 - Best Practices: chapter_33_best_practices.md
+    - Kapitel 34 - Query Optimierung: chapter_34_query_optimization.md
+    - Kapitel 35 - Data Modeling Patterns: chapter_35_data_modeling_patterns.md
+    - Kapitel 37 - Ecosystem Integration: chapter_37_ecosystem_integration.md
+    - Kapitel 38 - Observability & SRE: chapter_38_observability_sre.md
+    - Kapitel 39 - Performance Tuning Cookbook: chapter_39_performance_tuning_cookbook.md
+    - Kapitel 41 - Hands-on Labs: chapter_41_hands_on_labs.md
+    - Kapitel 42 - Docs Assistant: chapter_42_docs_assistant_usage.md
+
+  - Anhänge:
+    - Anhang A - Literatur: appendix_literatur.md
+    - Anhang D - Feature Status: appendix_d_feature_status.md
+    - Anhang E - Incident Response Runbooks: appendix_e_incident_runbooks.md
+    - Anhang F - AQL Cheat Sheet: appendix_f_aql_cheatsheet.md
+    - Anhang G - Configuration Reference: appendix_g_configuration.md
+    - Anhang H - Glossary & Terminology: appendix_h_glossary.md
+    - Anhang I - Troubleshooting Guide: appendix_i_troubleshooting.md

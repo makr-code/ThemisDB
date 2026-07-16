@@ -1,27 +1,21 @@
+/**
+ * @file query_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=1, C=24, H=19, M=77, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_api_handler.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     3526                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fa06c3b8a  2026-03-01  feat(query): wire per-query resource limits into HTTP API... ║
-    • 64ea7ae22  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
-    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
-    • b629d06e4  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 3715
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=1, C=34, H=41, M=134, L=0
+ * PR History (last 5): #3427 feat(query): Per-query reso... (2026-03-12) | #3143 feat(query): implement Resu... (2026-03-12) | #3050 Wire QueryMaskingPolicy int... (2026-03-12) | #870 Error Handling: Complete mi... (2026-03-11) | #761 Phase 4A, 4B & 4C: Migrate ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Ensure correct WinSock include order on Windows
@@ -33,6 +27,7 @@
 #define NOMINMAX
 #endif
 #include <winsock2.h>
+#include <stdexcept>
 #include <windows.h>
 #endif
 
@@ -64,18 +59,30 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
+#include "utils/input_validator.h"
 #include "utils/cursor.h"
 #include "utils/type_conversion.h"
 
 #include <queue>
 #include <ctime>
 #include <algorithm>
+#include <chrono>
+#include <cmath>
 #include <cstring>
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+struct QueryExecStatus {
+    bool ok;
+    std::string message;
+
+    static QueryExecStatus OK() {
+        return QueryExecStatus{true, ""};
+    }
+};
 
 // Portable time conversion helpers (static)
 static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
@@ -92,6 +99,17 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #else
     gmtime_r(t, out);
 #endif
+}
+
+static inline bool nearly_equal(double lhs, double rhs,
+                                double abs_epsilon = 1e-12,
+                                double rel_epsilon = 1e-9) {
+    const double diff = std::fabs(lhs - rhs);
+    if (diff <= abs_epsilon) {
+        return true;
+    }
+    const double scale = std::max(std::fabs(lhs), std::fabs(rhs));
+    return diff <= (scale * rel_epsilon);
 }
 
 QueryApiHandler::QueryApiHandler(
@@ -149,11 +167,12 @@ nlohmann::json QueryApiHandler::applyMasking(
     const nlohmann::json& entities,
     const http::request<http::string_body>& req)
 {
-    if (!masking_policy_) {
+    auto masking_policy = std::atomic_load_explicit(&masking_policy_, std::memory_order_acquire);
+    if (!masking_policy) {
         return entities;
     }
     auto auth_ctx = extractAuthContext(req);
-    return masking_policy_->maskResultSet(entities, auth_ctx.groups);
+    return masking_policy->maskResultSet(entities, auth_ctx.groups);
 }
 
 // Implementation extracted from http_server.cpp (lines 5950-6222)
@@ -167,20 +186,72 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         if (auto resp = requireAccess(req, "data:read", "query", path_only)) return *resp;
     }
     auto span = Tracer::startSpan("POST /query");
+    if (!storage_ || !secondary_index_) {
+        span.setStatus(false, "query_dependencies_unavailable");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Query service dependencies are not available", req);
+    }
     
     try {
         auto body = json::parse(req.body());
+        constexpr uint32_t kMaxQueryTimeoutMs = 120000;
+
+        uint32_t timeout_ms = 0;
+        if (body.contains("timeout_ms")) {
+            if (!body["timeout_ms"].is_number_unsigned()) {
+                span.setStatus(false, "Invalid timeout_ms");
+                return makeErrorResponse(http::status::bad_request,
+                    "'timeout_ms' must be an unsigned integer", req);
+            }
+            timeout_ms = body["timeout_ms"].get<uint32_t>();
+            if (timeout_ms > kMaxQueryTimeoutMs) {
+                span.setStatus(false, "timeout_ms too large");
+                return makeErrorResponse(http::status::bad_request,
+                    "'timeout_ms' exceeds maximum of " + std::to_string(kMaxQueryTimeoutMs) + " ms", req);
+            }
+        }
+
+        const auto request_start = std::chrono::steady_clock::now();
+        auto isTimedOut = [&]() {
+            if (timeout_ms == 0) {
+                return false;
+            }
+            const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - request_start).count();
+            return elapsed_ms >= static_cast<long long>(timeout_ms);
+        };
+        auto timeoutResponse = [&]() {
+            span.setStatus(false, "query timeout");
+            return makeErrorResponse(http::status::request_timeout,
+                "query exceeded timeout of " + std::to_string(timeout_ms) + " ms", req);
+        };
+
         if (!body.contains("table")) {
             span.setStatus(false, "Missing table");
             return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
         }
 
         std::string table = body["table"].get<std::string>();
-        span.setAttribute("query.table", table);
         
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || 
+                !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name from request; only alphanumeric, underscore, and hyphen allowed; max 256 characters");
+                span.setStatus(false, "QW-46 Guard: Invalid table name");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
+        span.setAttribute("query.table", table);
+         
         std::vector<themis::PredicateEq> preds;
         if (body.contains("predicates")) {
-            for (const auto& p : body["predicates"]) {
+            const auto& pred_array = body["predicates"];
+            preds.reserve(pred_array.size());
+            for (const auto& p : pred_array) {
                 if (!p.contains("column") || !p.contains("value")) {
                     span.setStatus(false, "Invalid predicate");
                     return makeErrorResponse(http::status::bad_request, "Each predicate needs 'column' and 'value'", req);
@@ -194,7 +265,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         // Range predicates (optional)
         std::vector<themis::PredicateRange> rpreds;
         if (body.contains("range")) {
-            for (const auto& r : body["range"]) {
+            const auto& range_array = body["range"];
+            rpreds.reserve(range_array.size());
+            for (const auto& r : range_array) {
                 if (!r.contains("column")) {
                     return makeErrorResponse(http::status::bad_request, "Each range needs 'column'", req);
                 }
@@ -232,32 +305,111 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     q.orderBy = orderBy;
     q.fulltextPredicate = {};
     q.spatialPredicate = {};
-        themis::QueryEngine engine(*storage_, *secondary_index_);
-        if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
+    struct QueryExecStatus {
+        bool ok;
+        std::string message;
+    };
+
+    auto make_ok_status = []() -> QueryExecStatus {
+        return QueryExecStatus{true, ""};
+    };
+    auto make_error_status = [](const std::string& message) -> QueryExecStatus {
+        return QueryExecStatus{false, message};
+    };
+
+        themis::query::QueryEngine engine(*storage_, *secondary_index_);
+        auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
+        if (stats_collector) engine.setStatisticsCollector(stats_collector);
 
         // Optional plan/explain info
         std::string exec_mode;
         nlohmann::json plan_json;
 
-        if (ret == "keys") {
-            std::pair<themis::QueryEngine::Status, std::vector<std::string>> res;
+        if (ret == "count") {
+            std::pair<QueryExecStatus, size_t> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
                 auto result = engine.executeAndKeysWithFallback(q, optimize);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = {make_error_status(result.error().message()), 0};
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = {make_ok_status(), result->size()};
                 }
             } else {
                 if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
+                    themis::query::QueryOptimizer opt(*secondary_index_);
+                    auto plan = opt.chooseOrderForAndQuery(q);
+                    auto result = opt.executeOptimizedCount(engine, q, plan);
+                    if (!result) {
+                        res = {make_error_status(result.error().message()), 0};
+                    } else {
+                        res = {make_ok_status(), *result};
+                    }
+                    exec_mode = "index_optimized";
+                    if (explain) {
+                        plan_json["mode"] = exec_mode;
+                        plan_json["order"] = nlohmann::json::array();
+                        for (const auto& p : plan.orderedPredicates) {
+                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
+                        }
+                        plan_json["estimates"] = nlohmann::json::array();
+                        for (const auto& d : plan.details) {
+                            plan_json["estimates"].push_back({
+                                {"column", d.pred.column}, {"value", d.pred.value},
+                                {"estimatedCount", d.estimatedCount}, {"capped", d.capped}
+                            });
+                        }
+                    }
+                } else {
+                    exec_mode = "index_parallel";
+                    auto result = engine.executeAndCount(q);
+                    if (!result) {
+                        res = {make_error_status(result.error().message()), 0};
+                    } else {
+                        res = {make_ok_status(), *result};
+                    }
+                    if (explain) {
+                        plan_json = {
+                            {"mode", exec_mode},
+                            {"order", nlohmann::json::array()}
+                        };
+                        for (const auto& p : q.predicates) {
+                            plan_json["order"].push_back({{"column", p.column}, {"value", p.value}});
+                        }
+                    }
+                }
+            }
+            if (!res.first.ok) {
+                span.setStatus(false, res.first.message);
+                return makeErrorResponse(http::status::bad_request, res.first.message, req);
+            }
+
+            span.setAttribute("query.exec_mode", exec_mode);
+            span.setAttribute("query.result_count", static_cast<int64_t>(res.second));
+            span.setStatus(true);
+
+            json j = {{"table", table}, {"count", res.second}};
+            if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            return makeResponse(http::status::ok, j.dump(), req);
+        } else if (ret == "keys") {
+            std::pair<QueryExecStatus, std::vector<std::string>> res;
+            if (allow_full_scan) {
+                exec_mode = "full_scan_fallback";
+                auto result = engine.executeAndKeysWithFallback(q, optimize);
+                if (!result) {
+                    res = {make_error_status(result.error().message()), std::vector<std::string>{}};
+                } else {
+                    res = {make_ok_status(), std::move(*result)};
+                }
+            } else {
+                if (optimize) {
+                    themis::query::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
                     auto result = opt.executeOptimizedKeys(engine, q, plan);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<std::string>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     exec_mode = "index_optimized";
                     if (explain) {
@@ -278,9 +430,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     exec_mode = "index_parallel";
                     auto result = engine.executeAndKeys(q);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<std::string>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     if (explain) {
                         plan_json = {
@@ -308,6 +460,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 std::vector<nlohmann::json> key_items;
                 key_items.reserve(res.second.size());
                 for (const auto& k : res.second) {
+                    if (isTimedOut()) {
+                        return timeoutResponse();
+                    }
                     key_items.push_back(k);
                 }
                 ChunkedWriterConfig cfg;
@@ -315,24 +470,24 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             }
             return makeResponse(http::status::ok, j.dump(), req);
         } else {
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
+            std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
                 auto result = engine.executeAndEntitiesWithFallback(q, optimize);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = {make_error_status(result.error().message()), std::vector<themis::BaseEntity>{}};
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = {make_ok_status(), std::move(*result)};
                 }
             } else {
                 if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
+                    themis::query::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
                     auto result = opt.executeOptimizedEntities(engine, q, plan);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<themis::BaseEntity>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     exec_mode = "index_optimized";
                     if (explain) {
@@ -353,9 +508,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     exec_mode = "index_parallel";
                     auto result = engine.executeAndEntities(q);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<themis::BaseEntity>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     if (explain) {
                         plan_json = {
@@ -381,6 +536,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             json entities = json::array();
             if (!decrypt) {
                 for (const auto& e : res.second) {
+                    if (isTimedOut()) {
+                        return timeoutResponse();
+                    }
                     // Kompatible Rueckgabe: JSON-String je Entity
                     entities.push_back(e.toJson());
                 }
@@ -400,7 +558,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     auto coll = schema["collections"][table];
                     enabled = coll.contains("encryption") && coll["encryption"].value("enabled", false);
                     if (enabled && coll["encryption"].contains("fields")) {
-                        for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
+                        const auto& fields_array = coll["encryption"]["fields"];
+                        fields.reserve(fields_array.size());
+                        for (auto& f : fields_array) if (f.is_string()) fields.push_back(f.get<std::string>());
                         context_type = coll["encryption"].value("context_type", "user");
                     }
                 }
@@ -409,10 +569,16 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 std::string user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
                 auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
                 for (const auto& e : res.second) {
+                    if (isTimedOut()) {
+                        return timeoutResponse();
+                    }
                     nlohmann::json obj;
                     try { obj = nlohmann::json::parse(e.toJson()); } catch (...) { entities.push_back(e.toJson()); continue; }
                     if (enabled) {
                         for (const auto& f : fields) {
+                            if (isTimedOut()) {
+                                return timeoutResponse();
+                            }
                             if (!obj.contains(f + "_enc") || !obj.contains(f + "_encrypted")) continue;
                             bool encFlag = false; try { encFlag = obj[f + "_enc"].get<bool>(); } catch (...) { encFlag = false; }
                             if (!encFlag) continue;
@@ -441,11 +607,16 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                 std::string plain_str(plain_bytes.begin(), plain_bytes.end());
                                 
                                 // Heuristik: JSON-Strukturen erkennen und parsen
-                                if (!plain_str.empty() && (plain_str[0] == '[' || plain_str[0] == '{')) {
-                                    try {
-                                        auto parsed = nlohmann::json::parse(plain_str);
-                                        obj[f] = parsed;
-                                    } catch (...) {
+                                if (!plain_str.empty()) {
+                                    const char first_char = plain_str.front();
+                                    if (first_char == '[' || first_char == '{') {
+                                        try {
+                                            auto parsed = nlohmann::json::parse(plain_str);
+                                            obj[f] = parsed;
+                                        } catch (...) {
+                                            obj[f] = plain_str;
+                                        }
+                                    } else {
                                         obj[f] = plain_str;
                                     }
                                 } else {
@@ -462,7 +633,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             json j = {{"table", table}, {"count", res.second.size()}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
-                std::vector<nlohmann::json> entity_items(entities.begin(), entities.end());
+                std::vector<nlohmann::json> entity_items;
+                entity_items.reserve(entities.size());
+                for (const auto& e : entities) {
+                    entity_items.push_back(e);
+                }
                 ChunkedWriterConfig cfg;
                 return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, entity_items, cfg);
             }
@@ -482,6 +657,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("POST /query/aql");
+    if (!storage_ || !secondary_index_) {
+        span.setStatus(false, "query_dependencies_unavailable");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Query service dependencies are not available", req);
+    }
     
     try {
         auto body = json::parse(req.body());
@@ -528,16 +708,40 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
     // Cursor-Pagination: Wir verlagern Cursor-Handling in die Engine (Anker-basiert)
         
-        // Optional: Frontier-Limits f�r Traversal (Soft-Limit)
-        size_t max_frontier_size = body.contains("max_frontier_size") ? body["max_frontier_size"].get<size_t>() : 100000;
-        size_t max_results = body.contains("max_results") ? body["max_results"].get<size_t>() : 10000;
+        // Optional: Frontier-Limits für Traversal (Soft-Limit)
+        // GAP-021 fixed: cap max_frontier_size and max_results with server-side defaults
+        // to prevent OOM from adversarial large traversal requests.
+        static constexpr size_t kMaxFrontierSizeCap = 500'000;
+        static constexpr size_t kDefaultFrontierSize = 100'000;
+        static constexpr size_t kMaxResultsCap       = 50'000;
+        static constexpr size_t kDefaultMaxResults   = 10'000;
+        size_t max_frontier_size = body.contains("max_frontier_size")
+            ? std::min(body["max_frontier_size"].get<size_t>(), kMaxFrontierSizeCap)
+            : kDefaultFrontierSize;
+        size_t max_results = body.contains("max_results")
+            ? std::min(body["max_results"].get<size_t>(), kMaxResultsCap)
+            : kDefaultMaxResults;
 
         // Per-query resource limits (max rows, max memory, timeout)
         query::QueryResourceLimits resource_limits;
+        // GAP-022 fixed: when the user sends 0 OR omits max_memory_bytes, apply a
+        // server-side default of 256 MiB so the check in aql_runner.cpp is never skipped.
+        static constexpr size_t kDefaultMaxMemoryBytes = 256ULL * 1024 * 1024; // 256 MiB
         resource_limits.max_rows         = body.contains("max_rows")         ? body["max_rows"].get<size_t>()         : 0;
-        resource_limits.max_memory_bytes = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;
+        {
+            size_t user_mem = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;
+            resource_limits.max_memory_bytes = (user_mem > 0) ? user_mem : kDefaultMaxMemoryBytes;
+        }
         resource_limits.timeout_ms       = body.contains("timeout_ms")       ? body["timeout_ms"].get<uint32_t>()     : 0;
         auto resource_limit_start = std::chrono::steady_clock::now();
+        const auto timeout_deadline = (resource_limits.timeout_ms > 0)
+            ? std::optional<std::chrono::steady_clock::time_point>{
+                resource_limit_start + std::chrono::milliseconds(resource_limits.timeout_ms)}
+            : std::nullopt;
+        const auto timedOut = [&timeout_deadline]() {
+            return timeout_deadline.has_value() &&
+                   std::chrono::steady_clock::now() >= *timeout_deadline;
+        };
         
         // Parse AQL query
         auto parseSpan = Tracer::startSpan("aql.parse");
@@ -555,11 +759,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         parseSpan.setStatus(true);
 
         // EARLY: Join-Erkennung vor Translation (Translator unterstützt keine Field==Field Prädikate)
-        if (*parse_result && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
+        if (*parse_result && (*parse_result)->traversal == nullptr) {
+            const auto& for_nodes = (*parse_result)->for_nodes;
+            if (for_nodes.size() >= 2) {
             // Wiederverwendung der Join-Logik wie weiter unten
             auto joinSpan = Tracer::startSpan("aql.join");
-            const auto& f1_ref = (*parse_result)->for_nodes[0];
-            const auto& f2_ref = (*parse_result)->for_nodes[1];
+            const auto& f1_ref = for_nodes.front();
+            const auto second_for_node = std::next(for_nodes.begin());
+            const auto& f2_ref = *second_for_node;
             const std::string var1 = f1_ref.variable;
             const std::string var2 = f2_ref.variable;
             const std::string table1 = f1_ref.collection;
@@ -619,24 +826,25 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             }
             themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
             themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
-            themis::QueryEngine engine(*storage_, *secondary_index_);
-            if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
+            themis::query::QueryEngine engine(*storage_, *secondary_index_);
+            auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
+            if (stats_collector) engine.setStatisticsCollector(stats_collector);
             
             auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
+            std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res1;
             if (!result1) {
-                res1 = {themis::QueryEngine::Status{false, result1.error().message()}, {}};
+                res1 = {QueryExecStatus{false, result1.error().message()}, std::vector<themis::BaseEntity>{}};
             } else {
-                res1 = {themis::QueryEngine::Status::OK(), std::move(*result1)};
+                res1 = {QueryExecStatus::OK(), std::move(*result1)};
             }
             if (!res1.first.ok) { joinSpan.setStatus(false, res1.first.message); span.setStatus(false, "Left side execution failed"); return makeErrorResponse(http::status::bad_request, res1.first.message, req); }
             
             auto result2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;
+            std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res2;
             if (!result2) {
-                res2 = {themis::QueryEngine::Status{false, result2.error().message()}, {}};
+                res2 = {QueryExecStatus{false, result2.error().message()}, std::vector<themis::BaseEntity>{}};
             } else {
-                res2 = {themis::QueryEngine::Status::OK(), std::move(*result2)};
+                res2 = {QueryExecStatus::OK(), std::move(*result2)};
             }
             if (!res2.first.ok) { joinSpan.setStatus(false, res2.first.message); span.setStatus(false, "Right side execution failed"); return makeErrorResponse(http::status::bad_request, res2.first.message, req); }
             const auto& leftVec = res1.second; const auto& rightVec = res2.second; bool buildLeft = leftVec.size() <= rightVec.size();
@@ -649,15 +857,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::BaseEntity> out;
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
-            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
+            if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
             nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}};
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
             return makeResponse(http::status::ok, response_body.dump(), req);
+            }
         }
 
     // Translate AST to Query (relational oder traversal)
-    // Spezialfall: LET-Variablen in FILTER (MVP) – vor Übersetzung einfache Ersetzung erlauben
+    // Spezialfall: LET-Variablen in FILTER (MVP) - vor Übersetzung einfache Ersetzung erlauben
     bool letFilterHandled = false; // wenn true, nutzen wir einen manuell konstruierten ConjunctiveQuery
     themis::ConjunctiveQuery letQuery;
     if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty()) {
@@ -757,7 +966,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         translateSpan.setStatus(true);
 
     // Record column access patterns for IndexRecommender (non-blocking; best-effort)
-    if (index_recommender_) {
+    auto* index_recommender = index_recommender_.load(std::memory_order_acquire);
+    if (index_recommender) {
         // Selectivity weights passed to IndexRecommender.
         // kFilterEqSelectivity (0.5): average assumed selectivity for equality predicates
         //   (i.e. roughly half the rows match).  Real cardinality data from
@@ -772,15 +982,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         auto recordFromConjunct = [&](const themis::ConjunctiveQuery& cq) {
             for (const auto& p : cq.predicates) {
-                index_recommender_->recordAccess(cq.table, p.column,
+                index_recommender->recordAccess(cq.table, p.column,
                     IndexRecommender::AccessType::FILTER, kFilterEqSelectivity);
             }
             for (const auto& rp : cq.rangePredicates) {
-                index_recommender_->recordAccess(cq.table, rp.column,
+                index_recommender->recordAccess(cq.table, rp.column,
                     IndexRecommender::AccessType::FILTER, kFilterRangeSelectivity);
             }
             if (cq.orderBy.has_value()) {
-                index_recommender_->recordAccess(cq.table, cq.orderBy->column,
+                index_recommender->recordAccess(cq.table, cq.orderBy->column,
                     IndexRecommender::AccessType::SORT, kSortSelectivity);
             }
         };
@@ -790,9 +1000,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 recordFromConjunct(disjunct);
             }
         } else {
-            recordFromConjunct(translate_result.query);
+            recordFromConjunct(translate_result.conjunctive_query);
         }
-        index_recommender_->recordQuery();
+        index_recommender->recordQuery();
     }
 
     // If traversal present, execute via GraphIndexManager
@@ -801,6 +1011,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (!graph_index_) {
                 return makeErrorResponse(http::status::bad_request, "Graph traversal requested but graph index manager is not available", req);
             }
+            auto& graph_index = *graph_index_;
             const auto& t = translate_result.traversal.value();
             traversalSpan.setAttribute("traversal.start_vertex", t.startVertex);
             traversalSpan.setAttribute("traversal.min_depth", static_cast<int64_t>(t.minDepth));
@@ -830,10 +1041,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field> == <literal|funktion> oder FILTER e.<field> == <literal|funktion>
             struct SimplePred {
                 enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
-                char var; // 'v' oder 'e'
+                char var = '\0'; // 'v' or 'e'
                 std::string field;
-                nlohmann::json literal; // als JSON-Literal
-                Op op;
+                nlohmann::json literal; // as JSON literal
+                Op op = Op::Eq;
             };
             // Unterst�tzte Funktionsauswertung zur Reduktion auf Literale
             std::function<bool(std::shared_ptr<themis::query::Expression>, nlohmann::json&)> evalExprToLiteral;
@@ -978,7 +1189,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
                             if (!v) return false;
                             if (v->name != "v" && v->name != "e") return false;
-                            var = v->name[0];
+                            if (v->name.empty()) return false;
+                            var = v->name.front();
                             field = fa->field;
                             return true;
                         };
@@ -1039,7 +1251,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto* v = dynamic_cast<VariableExpr*>(fa->object.get());
                         if (!v) return false;
                         if (v->name != "v" && v->name != "e") return false;
-                        var = v->name[0];
+                        if (v->name.empty()) return false;
+                        var = v->name.front();
                         field = fa->field;
                         return true;
                     };
@@ -1106,8 +1319,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     double lit = b.get<double>();
                     double aval; if (!toDouble(a, aval)) return false;
                     switch (op) {
-                        case SimplePred::Op::Eq:  return aval == lit;
-                        case SimplePred::Op::Neq: return aval != lit;
+                        case SimplePred::Op::Eq:  return nearly_equal(aval, lit);
+                        case SimplePred::Op::Neq: return !nearly_equal(aval, lit);
                         case SimplePred::Op::Lt:  return aval <  lit;
                         case SimplePred::Op::Lte: return aval <= lit;
                         case SimplePred::Op::Gt:  return aval >  lit;
@@ -1184,10 +1397,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
                         // Expect two arguments: variable name (v or e) and a predicate expression
                         if (fe->arguments.size() != 2) return false;
-                        auto* varExpr = dynamic_cast<const VariableExpr*>(fe->arguments[0].get());
+                        const auto& path_args = fe->arguments;
+                        auto* varExpr = dynamic_cast<const VariableExpr*>(path_args.front().get());
                         if (!varExpr) return false;
                         std::string varName = varExpr->name; // 'v' or 'e'
-                        const Expression* inner = fe->arguments[1].get();
+                        const Expression* inner = path_args.back().get();
                         // Reconstruct path from startVertex to vpk using parent map
                         std::vector<std::string> pathNodes;
                         std::vector<std::string> pathEdges; // edges between pathNodes[i] -> pathNodes[i+1]
@@ -1219,11 +1433,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 all = all && r;
                             }
                         } else if (varName == "e") {
-                            // Iterate over edges; align edge i with nodes i -> i+1
-                            for (size_t i = 0; i < pathEdges.size(); ++i) {
-                                const auto& eid2 = pathEdges[i];
-                                // For edge evaluation, set vpk to the 'to' vertex (pathNodes[i+1]) and eid to edge id
-                                bool r = evalBoolExpr(inner, pathNodes[i+1], std::optional<std::string>(eid2));
+                            // Iterate over edges; align edge[i] with node[i+1] (to-vertex).
+                            // pathNodes.size() == pathEdges.size()+1 by construction, so the
+                            // node iterator always has a valid next element for each edge.
+                            auto nit = pathNodes.begin() + 1; // start at the first 'to' vertex
+                            for (const auto& eid2 : pathEdges) {
+                                // For edge evaluation, set vpk to the 'to' vertex and eid to edge id
+                                bool r = evalBoolExpr(inner, *nit++, std::optional<std::string>(eid2));
                                 any = any || r;
                                 all = all && r;
                             }
@@ -1250,7 +1466,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());
                             if (!v) return false;
                             if (v->name != "v" && v->name != "e") return false;
-                            var = v->name[0]; field = fa->field; return true;
+                            if (v->name.empty()) return false;
+                            var = v->name.front(); field = fa->field; return true;
                         };
                         auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op>{
                             switch (bop) {
@@ -1330,7 +1547,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             usesVE = [&](const Expression* e)->bool{
                 if (!e) return false;
                 if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
-                    (void)le; return false;
+                    return false;
                 }
                 if (auto* ve = dynamic_cast<const VariableExpr*>(e)) {
                     return (ve->name == "v" || ve->name == "e");
@@ -1390,11 +1607,14 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
                     // Joins via doppeltem FOR (MVP): Wenn mehrere FOR-Klauseln vorhanden sind und keine Traversal-Query aktiv ist
-                    if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty() && (*parse_result)->for_nodes.size() >= 2) {
+                    if ((*parse_result) && (*parse_result)->traversal == nullptr) {
+                        const auto& for_nodes = (*parse_result)->for_nodes;
+                        if (for_nodes.size() >= 2) {
                         auto joinSpan = Tracer::startSpan("aql.join");
                         // Beschränkung: Genau zwei FOR-Klauseln, Equality-Join über FILTER lhs.field == rhs.field
-                        const auto& f1 = (*parse_result)->for_nodes[0];
-                        const auto& f2 = (*parse_result)->for_nodes[1];
+                        const auto& f1 = for_nodes.front();
+                        const auto second_for_node = std::next(for_nodes.begin());
+                        const auto& f2 = *second_for_node;
                         const std::string var1 = f1.variable;
                         const std::string var2 = f2.variable;
                         const std::string table1 = f1.collection;
@@ -1516,15 +1736,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         // Führe Seitenabfragen aus
                         themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
                         themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
-                        themis::QueryEngine engine(*storage_, *secondary_index_);
-                        if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
+                        themis::query::QueryEngine engine(*storage_, *secondary_index_);
+                        auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
+                        if (stats_collector) engine.setStatisticsCollector(stats_collector);
                         
                         auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
-                        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
+                        std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res1;
                         if (!result1) {
-                            res1 = {themis::QueryEngine::Status{false, result1.error().message()}, {}};
+                            res1 = {QueryExecStatus{false, result1.error().message()}, std::vector<themis::BaseEntity>{}};
                         } else {
-                            res1 = {themis::QueryEngine::Status::OK(), std::move(*result1)};
+                            res1 = {QueryExecStatus::OK(), std::move(*result1)};
                         }
                         if (!res1.first.ok) {
                             joinSpan.setStatus(false, res1.first.message);
@@ -1533,11 +1754,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                         
                         auto result2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
-                        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;
+                        std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res2;
                         if (!result2) {
-                            res2 = {themis::QueryEngine::Status{false, result2.error().message()}, {}};
+                            res2 = {QueryExecStatus{false, result2.error().message()}, std::vector<themis::BaseEntity>{}};
                         } else {
-                            res2 = {themis::QueryEngine::Status::OK(), std::move(*result2)};
+                            res2 = {QueryExecStatus::OK(), std::move(*result2)};
                         }
                         if (!res2.first.ok) {
                             joinSpan.setStatus(false, res2.first.message);
@@ -1601,7 +1822,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (off < out.size()) {
                                 size_t last = std::min(out.size(), off + cnt);
                                 std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off);
-                                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i]));
+                                auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off);
+                                auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last);
+                                std::move(first_it, last_it, std::back_inserter(tmp));
                                 out.swap(tmp);
                             } else {
                                 out.clear();
@@ -1624,6 +1847,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         span.setAttribute("aql.result_count", static_cast<int64_t>(out.size()));
                         span.setStatus(true);
                         return makeResponse(http::status::ok, response_body.dump(), req);
+                        }
                     }
 
             }
@@ -1736,6 +1960,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             bfsSpan.setAttribute("traversal.max_results_limit", static_cast<int64_t>(max_results));
             
             while (!qnodes.empty()) {
+                if (timedOut()) {
+                    bfsSpan.setStatus(false, "timeout");
+                    span.setStatus(false, "Traversal timed out");
+                    return makeErrorResponse(http::status::request_timeout,
+                        "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
+                }
                 // Frontier-Size Limit Check (Soft Limit)
                 if (qnodes.size() > max_frontier_size) {
                     frontierLimitHits++;
@@ -1839,7 +2069,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                 if (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound ||
                     t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Any) {
-                    auto [stAdj, adj] = graph_index_->outAdjacency(node);
+                    auto [stAdj, adj] = graph_index.outAdjacency(node);
                     if (!stAdj.ok) {
                         return makeErrorResponse(http::status::internal_server_error, std::string("Graph outAdjacency failed: ") + stAdj.message, req);
                     }
@@ -1847,7 +2077,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound ||
                     t.direction == themis::AQLTranslator::TranslationResult::TraversalQuery::Direction::Any) {
-                    auto [stAdjIn, adjIn] = graph_index_->inAdjacency(node);
+                    auto [stAdjIn, adjIn] = graph_index.inAdjacency(node);
                     if (!stAdjIn.ok) {
                         return makeErrorResponse(http::status::internal_server_error, std::string("Graph inAdjacency failed: ") + stAdjIn.message, req);
                     }
@@ -1995,15 +2225,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             orSpan.setAttribute("or.table", dq.table);
             orSpan.setAttribute("or.disjunct_count", static_cast<int64_t>(dq.disjuncts.size()));
             
-            themis::QueryEngine engine(*storage_, *secondary_index_);
-            if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
+            themis::query::QueryEngine engine(*storage_, *secondary_index_);
+            auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
+            if (stats_collector) engine.setStatisticsCollector(stats_collector);
             // Nutze Fallback-Variante, damit OR-Queries auch ohne passende Indizes funktionieren
             auto result = engine.executeOrKeysWithFallback(dq, optimize);
-            std::pair<themis::QueryEngine::Status, std::vector<std::string>> statusKeys;
+            std::pair<QueryExecStatus, std::vector<std::string>> statusKeys;
             if (!result) {
-                statusKeys = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                statusKeys = {QueryExecStatus{false, result.error().message()}, std::vector<std::string>{}};
             } else {
-                statusKeys = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                statusKeys = {QueryExecStatus::OK(), std::move(*result)};
             }
             auto [status, keys] = statusKeys;
             
@@ -2060,7 +2291,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (jq.for_nodes.size() == 1 && jq.collect) {
                 // Reconstruct ConjunctiveQuery from JoinQuery
                 themis::ConjunctiveQuery cq;
-                cq.table = jq.for_nodes[0].collection;
+                const auto& first_for_node = jq.for_nodes.front();
+                cq.table = first_for_node.collection;
                 
                 // Convert simple equality filters to predicates
                 using namespace themis::query;
@@ -2085,7 +2317,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 
                                 // Verify it's rooted at the FOR variable
                                 if (auto* rootVar = dynamic_cast<VariableExpr*>(cur)) {
-                                    if (rootVar->name == jq.for_nodes[0].variable) {
+                                    if (rootVar->name == first_for_node.variable) {
                                         std::string col;
                                         for (auto it = parts.rbegin(); it != parts.rend(); ++it) {
                                             if (!col.empty()) col += ".";
@@ -2113,8 +2345,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
                 
-                // Store in translate_result.query for standard processing
-                translate_result.query = std::move(cq);
+                // Store in translate_result.conjunctive_query for standard processing
+                translate_result.conjunctive_query = std::move(cq);
                 // Clear join to fall through to standard path
                 translate_result.join = std::nullopt;
             } else if (!jq.collect) {
@@ -2124,8 +2356,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 joinSpan.setAttribute("join.let_count", static_cast<int64_t>(jq.let_nodes.size()));
                 joinSpan.setAttribute("join.filter_count", static_cast<int64_t>(jq.filters.size()));
                 
-                themis::QueryEngine engine(*storage_, *secondary_index_);
-                if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
+                themis::query::QueryEngine engine(*storage_, *secondary_index_);
+                auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
+                if (stats_collector) engine.setStatisticsCollector(stats_collector);
                 auto res = engine.executeJoin(
                     jq.for_nodes,
                     jq.filters,
@@ -2148,16 +2381,21 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 
                 // Determine table name for response (use first FOR collection)
-                std::string table = jq.for_nodes.empty() ? std::string("unknown") : jq.for_nodes[0].collection;
+                std::string table = jq.for_nodes.empty() ? std::string("unknown") : jq.for_nodes.front().collection;
 
                 // Fallback: Single-FOR + LET + Object/Projection RETURN produced no results due to join-path edge case
                 if (entities.empty() && jq.for_nodes.size() == 1 && !jq.let_nodes.empty() && jq.return_node) {
                     try {
                         THEMIS_WARN("Join path returned 0 rows; applying single-FOR LET projection fallback");
-                        const auto& forNode = jq.for_nodes[0];
+                        const auto& forNode = jq.for_nodes.front();
                         const std::string prefix = forNode.collection + ":";
                         // Minimal evaluator for LET + object projection
+                        bool fallback_scan_timed_out = false;
                         storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
+                            if (timedOut()) {
+                                fallback_scan_timed_out = true;
+                                return false;
+                            }
                             std::string pk = themis::KeySchema::extractPrimaryKey(key);
                             std::vector<uint8_t> blob(value.begin(), value.end());
                             try {
@@ -2216,6 +2454,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             }
                             return true; // continue scan
                         });
+                        if (fallback_scan_timed_out) {
+                            joinSpan.setStatus(false, "timeout");
+                            span.setStatus(false, "LET fallback scan timed out");
+                            return makeErrorResponse(http::status::request_timeout,
+                                "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
+                        }
                     } catch (const std::exception& ex) {
                         THEMIS_ERROR("LET projection fallback failed: {}", ex.what());
                     }
@@ -2243,7 +2487,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         // Relationale Query (mutable Kopie f�r Cursor-Anker/Limit-Anpassungen)
     auto forSpan = Tracer::startSpan("aql.for");
-    auto q = translate_result.query;
+    auto q = translate_result.conjunctive_query;
 
         // Detect function-based SORT (BM25(doc) or FULLTEXT_SCORE()) to avoid range-index ORDER BY
         bool sortByScoreFunction = false;
@@ -2284,7 +2528,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return false;
                 }
             };
-            const auto& spec = (*parse_result)->sort->specifications[0];
+            const auto& spec = (*parse_result)->sort->specifications.front();
             sortAsc = spec.ascending;
             if (exprContainsFn(spec.expression, "bm25") || exprContainsFn(spec.expression, "fulltext_score")) {
                 sortByScoreFunction = true;
@@ -2377,25 +2621,26 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         }
         
         // Execute query
-        themis::QueryEngine engine(*storage_, *secondary_index_);
-        if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
+        themis::query::QueryEngine engine(*storage_, *secondary_index_);
+        auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
+        if (stats_collector) engine.setStatisticsCollector(stats_collector);
         
         std::string exec_mode;
         nlohmann::json plan_json;
         
-        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
+        std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res;
         if (early_empty_due_to_cursor && use_cursor) {
             // Liefere leere Seite sofort zur�ck
-            res = { themis::QueryEngine::Status::OK(), {} };
+            res = std::make_pair(QueryExecStatus::OK(), std::vector<themis::BaseEntity>{});
         } else {
         
         if (allow_full_scan) {
             exec_mode = "full_scan_fallback";
             auto result = engine.executeAndEntitiesWithFallback(q, optimize);
             if (!result) {
-                res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
             } else {
-                res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
             }
         } else {
             // Wenn FULLTEXT vorhanden ist, delegiere direkt an Engine (Optimizer kennt FULLTEXT nicht)
@@ -2403,9 +2648,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 exec_mode = "fulltext";
                 auto result = engine.executeAndEntities(q);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
             }
             // Range-aware: Wenn Range-Prädikate oder ORDER BY vorhanden sind,
@@ -2414,18 +2659,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 exec_mode = "index_rangeaware";
                 auto result = engine.executeAndEntities(q);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
             } else if (optimize) {
-                themis::QueryOptimizer opt(*secondary_index_);
+                themis::query::QueryOptimizer opt(*secondary_index_);
                 auto plan = opt.chooseOrderForAndQuery(q);
                 auto result = opt.executeOptimizedEntities(engine, q, plan);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
                 exec_mode = "index_optimized";
                 
@@ -2447,9 +2692,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 exec_mode = "index_parallel";
                 auto result = engine.executeAndEntities(q);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
                 
                 if (explain) {
@@ -2524,7 +2769,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 size_t last = std::min(sliced.size(), off + cnt);
                 std::vector<themis::BaseEntity> tmp;
                 tmp.reserve(last - off);
-                for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(sliced[i]));
+                auto first_it = sliced.begin() + static_cast<std::ptrdiff_t>(off);
+                auto last_it = sliced.begin() + static_cast<std::ptrdiff_t>(last);
+                std::move(first_it, last_it, std::back_inserter(tmp));
                 sliced.swap(tmp);
             } else {
                 sliced.clear();
@@ -2586,9 +2833,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::string groupVarName;
             std::string groupColumn;
             if (!collect.groups.empty()) {
-                groupVarName = collect.groups[0].first;
-                if (collect.groups[0].second) {
-                    groupColumn = extractColumn(collect.groups[0].second);
+                const auto& first_group = collect.groups.front();
+                groupVarName = first_group.first;
+                if (first_group.second) {
+                    groupColumn = extractColumn(first_group.second);
                 }
             }
 
@@ -2832,8 +3080,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return false;
                     };
                     switch (bo->op) {
-                        case BinaryOperator::Eq:  return left == right;
-                        case BinaryOperator::Neq: return left != right;
+                        case BinaryOperator::Eq:  {
+                            double a, b;
+                            if (toNumber(left, a) && toNumber(right, b)) {
+                                return nearly_equal(a, b);
+                            }
+                            return left == right;
+                        }
+                        case BinaryOperator::Neq: {
+                            double a, b;
+                            if (toNumber(left, a) && toNumber(right, b)) {
+                                return !nearly_equal(a, b);
+                            }
+                            return left != right;
+                        }
                         case BinaryOperator::Lt:  return left < right;
                         case BinaryOperator::Lte: return left <= right;
                         case BinaryOperator::Gt:  return left > right;
@@ -2855,7 +3115,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         case BinaryOperator::Mul: {
                             double a,b; if (toNumber(left,a) && toNumber(right,b)) return a*b; return nullptr; }
                         case BinaryOperator::Div: {
-                            double a,b; if (toNumber(left,a) && toNumber(right,b) && b!=0.0) return a/b; return nullptr; }
+                            double a,b; if (toNumber(left,a) && toNumber(right,b) && !nearly_equal(b, 0.0)) return a/b; return nullptr; }
                         default: return nullptr;
                     }
                 }
@@ -2881,7 +3141,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (name == "bm25") {
                         // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
                         if (fc->arguments.size() != 1) return 0.0;
-                        auto arg = evalExpr(fc->arguments[0], ent, env);
+                        auto arg = evalExpr(fc->arguments.front(), ent, env);
                         if (arg.is_object()) {
                             std::string pk;
                             if (arg.contains("_key") && arg["_key"].is_string()) pk = arg["_key"].get<std::string>();
@@ -2901,8 +3161,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto evalArg = [&](size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out;
-                        for (size_t i=0;i<fc->arguments.size();++i) {
-                            auto a = evalArg(i);
+                        for (const auto& arg : fc->arguments) {
+                            auto a = evalExpr(arg, ent, env);
                             if (a.is_string()) out += a.get<std::string>();
                             else if (a.is_number()) out += std::to_string(a.get<double>());
                             else if (a.is_boolean()) out += (a.get<bool>()?"true":"false");
@@ -2964,7 +3224,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return nullptr;
                     }
                     if (name == "coalesce") {
-                        for (size_t i=0;i<fc->arguments.size();++i) { auto a = evalArg(i); if (!a.is_null()) return a; }
+                        for (const auto& arg : fc->arguments) { auto a = evalExpr(arg, ent, env); if (!a.is_null()) return a; }
                         return nullptr;
                     }
                     // Unsupported function in MVP eval
@@ -3158,6 +3418,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
         return makeErrorResponse(http::status::not_found, 
             "Feature 'llm_store' must be enabled for enhanced queries", req);
     }
+    if (!llm_store_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "LLM interaction store is not available", req);
+    }
+    auto& llm_store = *llm_store_;
     
     auto span = Tracer::startSpan("handleQueryEnhanced");
     span.setAttribute("http.path", "/query/enhanced");
@@ -3229,7 +3494,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
             list_opts.since_timestamp_ms = llm_options["since_timestamp_ms"].get<int64_t>();
         }
         
-        auto llm_interactions = llm_store_->listInteractions(list_opts);
+        auto llm_interactions = llm_store.listInteractions(list_opts);
         
         // Build enhanced response
         json enhanced_response;
@@ -3276,9 +3541,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
 // Helper method implementations
 std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    const std::string& permission,
-    const std::string& resource_type,
-    const std::string& resource_id
+    const std::string& /*permission*/,
+    const std::string& /*resource_type*/,
+    const std::string& /*resource_id*/
 ) {
     // If auth is disabled, allow
     if (!auth_ || !auth_->isEnabled()) {
@@ -3286,8 +3551,8 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     }
     
     // Extract and validate token
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -3298,7 +3563,7 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     }
     
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -3322,14 +3587,14 @@ QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext(const http::req
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -3378,14 +3643,17 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
             // Basic URL-decode: replace '+' with ' ' and %XX with char
             std::string decoded;
             decoded.reserve(raw.size());
-            for (size_t i = 0; i < raw.size(); ) {
-                if (raw[i] == '+') { decoded += ' '; ++i; }
-                else if (raw[i] == '%' && i + 2 < raw.size()) {
-                    char hex[3] = {raw[i+1], raw[i+2], '\0'};
+            for (auto it = raw.begin(); it != raw.end(); ) {
+                if (*it == '+') {
+                    decoded += ' ';
+                    ++it;
+                } else if (*it == '%' && std::distance(it, raw.end()) >= 3) {
+                    char hex[3] = {*(it + 1), *(it + 2), '\0'};
                     decoded += static_cast<char>(std::strtol(hex, nullptr, 16));
-                    i += 3;
+                    it += 3;
                 } else {
-                    decoded += raw[i++];
+                    decoded += *it;
+                    ++it;
                 }
             }
             return decoded;
@@ -3421,9 +3689,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         http::request<http::string_body> aql_req{http::verb::post, "/query/aql", req.version()};
         aql_req.set(http::field::content_type, "application/json");
         // Forward Authorization header so auth is properly propagated
-        auto auth_it = req.find(http::field::authorization);
-        if (auth_it != req.end()) {
-            aql_req.set(http::field::authorization, auth_it->value());
+        const auto auth_fwd = req[http::field::authorization];
+        if (!auth_fwd.empty()) {
+            aql_req.set(http::field::authorization, auth_fwd);
         }
         json aql_body = {{"query", aql_query}};
         aql_req.body() = aql_body.dump();
@@ -3445,7 +3713,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         res.set(http::field::content_type, "text/event-stream");
         res.set(http::field::cache_control, "no-cache, no-transform");
         res.set(http::field::connection, "keep-alive");
-        res.set(http::field::access_control_allow_origin, "*");
+        // GAP-012 fixed: no hardcoded CORS wildcard; CORS is applied by the central
+        // HttpServer dispatch layer via THEMIS_CORS_* env vars.
         res.keep_alive(true);
 
         std::ostringstream body;
@@ -3458,6 +3727,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
                               {"status_code", aql_resp.result_int()}};
             body << "event: error\n";
             body << "data: " << err_event.dump() << "\n\n";
+
+            json done_event = {
+                {"rows_streamed", 0},
+                {"total", 0},
+                {"error", true}
+            };
+            body << "event: done\n";
+            body << "data: " << done_event.dump() << "\n\n";
+
             span.setStatus(false, "query_error");
             res.body() = body.str();
             res.prepare_payload();

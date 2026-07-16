@@ -1,23 +1,21 @@
+/**
+ * @file paxos_wal.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_wal.cpp                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paxos_wal.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 301
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=1, L=0
+ * PR History (last 5): #4147 feat(sharding): Raft Snapsh... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
@@ -260,6 +258,39 @@ bool PaxosWAL::shouldCreateSnapshot(size_t operations_since_last) const {
     return operations_since_last >= config_.snapshot_interval;
 }
 
+bool PaxosWAL::compact(const LSN& up_to_lsn, const std::string& node_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (!wal_manager_) {
+        spdlog::error("PaxosWAL::compact: WAL not initialized");
+        return false;
+    }
+
+    try {
+        // 1. Write a SNAPSHOT marker entry so replay code can detect the
+        //    compaction boundary.
+        nlohmann::json marker_data = {
+            {"compacted_up_to_lsn", up_to_lsn.toString()},
+            {"compaction_ts", std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count()}
+        };
+        PaxosWALEntry marker = createEntry(
+            PaxosWALEntryType::SNAPSHOT, 0, 0, node_id, marker_data);
+        wal_manager_->append(marker.toWALEntry());
+
+        // 2. Delegate to WALManager for the actual segment truncation
+        wal_manager_->truncate(up_to_lsn);
+
+        spdlog::info("PaxosWAL: compacted WAL up to LSN={} node={}",
+                     up_to_lsn.toString(), node_id);
+        return true;
+
+    } catch (const std::exception& e) {
+        spdlog::error("PaxosWAL::compact: exception: {}", e.what());
+        return false;
+    }
+}
+
 PaxosWALEntry PaxosWAL::createEntry(PaxosWALEntryType type, uint64_t slot,
                                      uint64_t round, const std::string& node_id,
                                      const nlohmann::json& data) {
@@ -278,3 +309,4 @@ PaxosWALEntry PaxosWAL::createEntry(PaxosWALEntryType type, uint64_t slot,
 
 } // namespace sharding
 } // namespace themis
+

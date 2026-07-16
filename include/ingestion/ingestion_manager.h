@@ -1,30 +1,28 @@
+/**
+ * @file ingestion_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_manager.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1641                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
-    • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
-    • 16cb82276  2026-02-28  feat(ingestion): dynamic source reconfiguration without r... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 2032
+ * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #4227 feat(ingestion): S3-Compati... (2026-03-14) | #3694 feat(ingestion): configurab... (2026-03-12) | #3628 feat(ingestion): end-to-end... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 #include <string>
 #include <vector>
@@ -35,6 +33,10 @@
 #include <chrono>
 #include <atomic>
 #include <mutex>
+#include "ingestion/semantic_validator.h"
+#include "ingestion/inference_backend.h"
+#include "ingestion/ingestion_quality_judge.h"
+#include "ingestion/workflow_engine.h"
 
 namespace themis {
 namespace ingestion {
@@ -169,6 +171,13 @@ struct RetryConfig {
     double max_delay_ms           = 30000.0; ///< Cap on per-attempt delay (ms)
     int    timeout_ms             = 30000; ///< Per-request timeout (ms)
     int    max_quarantine_retries = 5;     ///< Max per-document quarantine retry attempts
+    /// Path to a CA bundle file (PEM) for TLS certificate verification.
+    /// Empty string means use the default system CA bundle (recommended for
+    /// most deployments).  Set to an explicit path when the server uses a
+    /// private or self-signed CA that is not in the system bundle.
+    /// @note CURLOPT_SSL_VERIFYPEER is always enabled; this field only
+    ///       overrides which CA store is used for verification.
+    std::string ca_bundle_path;           ///< CA bundle path; empty = system default
 
     RetryConfig() = default;
 };
@@ -744,6 +753,40 @@ class ISourceConnector;
  */
 using ConnectorFactory = std::function<std::unique_ptr<ISourceConnector>()>;
 
+// ============================================================================
+// Legal ingestion pipeline configuration
+// ============================================================================
+
+/**
+ * @brief Configuration for the LLM-driven legal text ingestion pipeline.
+ *
+ * When registered for a source via `IngestionManager::setLegalIngestionConfig()`,
+ * each document ingested from that source is run through the semantic extraction
+ * pipeline (deontic extraction + semantic validation + reference validation).
+ * The results are accessible via `IngestionManager::getLastLegalExtractionResult()`.
+ *
+ * Example:
+ * @code
+ * LegalIngestionConfig cfg;
+ * cfg.enabled                = true;
+ * cfg.confidence_threshold   = 0.75;
+ * cfg.validate_references    = true;
+ * mgr.setLegalIngestionConfig("bimschg_source", cfg);
+ * @endcode
+ */
+struct LegalIngestionConfig {
+    bool   enabled                = false; ///< Enable semantic extraction pipeline
+    double confidence_threshold   = 0.75;  ///< Minimum deontic extraction confidence
+    bool   validate_references    = true;  ///< Run AgenticReferenceValidator on each doc
+    bool   require_section_struct = false; ///< Reject docs without § section structure
+    bool   flag_low_confidence    = true;  ///< Add warning step to lineage when confidence low
+
+    LegalIngestionConfig() = default;
+
+    /** @brief Returns true when the pipeline is active */
+    bool isEnabled() const { return enabled; }
+};
+
 /**
  * @brief Unified multi-source ingestion manager
  * 
@@ -1157,6 +1200,147 @@ public:
      */
     void clearLineageRecords();
 
+    // ── Legal ingestion pipeline (LLM-driven semantic extraction) ───────────
+
+    /**
+     * @brief Register a legal ingestion configuration for a source.
+     *
+     * When enabled, documents ingested from @p source_id are run through the
+     * semantic extraction pipeline (deontic extraction + semantic validation +
+     * optional reference validation).  The pipeline results are recorded in
+     * the ingestion lineage as transformation steps.
+     *
+     * @param source_id  Source to configure
+     * @param config     Legal ingestion configuration
+     */
+    void setLegalIngestionConfig(const std::string& source_id,
+                                  const LegalIngestionConfig& config);
+
+    /**
+     * @brief Retrieve the legal ingestion configuration for a source.
+     *
+     * @param source_id  Source identifier
+     * @param out        Populated with the stored config on success
+     * @return true if a legal ingestion config exists for @p source_id
+     */
+    bool getLegalIngestionConfig(const std::string& source_id,
+                                  LegalIngestionConfig& out) const;
+
+    /**
+     * @brief Run the legal extraction pipeline on a single document text.
+     *
+     * Applies deontic extraction, semantic validation, and (when
+     * `LegalIngestionConfig::validate_references` is true) reference
+     * validation to the supplied text.  The result is independent of any
+     * registered source.
+     *
+     * Useful for ad-hoc extraction or testing the pipeline without
+     * triggering a full ingestion run.
+     *
+     * @param document_id  Identifier for the document (used in result)
+     * @param text         Raw legal document text
+     * @param config       Pipeline configuration to apply
+     * @return             LegalExtractionResult with provisions and quality scores
+     */
+    LegalExtractionResult runLegalExtraction(
+        const std::string& document_id,
+        const std::string& text,
+        const LegalIngestionConfig& config) const;
+
+    // ── AI backend injection (SoC / DIP) ─────────────────────────────────────
+
+    /**
+     * @brief Inject a text-generation backend into the ingestion pipeline.
+     *
+     * When set, `runLegalExtraction()` builds a `LegalLlmAdapter` backed by
+     * this backend and injects it into the `SemanticValidator` so deontic
+     * extraction uses LLM inference instead of regex.
+     *
+     * The ingestion module never sees a concrete LLM class — it only depends
+     * on `ITextGenerationBackend` (defined in `ingestion/inference_backend.h`).
+     * The `LlmIngestionBridge` (in `llm/`) is the only binding between the
+     * two modules and is provided by wiring code (main / server bootstrap).
+     *
+     * Passing `nullptr` (or not calling this method) resets to the default
+     * `NullTextGenerationBackend`, which falls back to regex extraction.
+     *
+     * Thread-safety: the backend pointer is stored once at startup; concurrent
+     * calls to `runLegalExtraction()` are safe as long as the backend itself
+     * is thread-safe (required by `ITextGenerationBackend` contract).
+     *
+     * Example (wiring code):
+     * @code
+     * #include "llm/llm_ingestion_bridge.h"
+     * auto bridge = std::make_shared<LlmIngestionBridge>();
+     * mgr.setTextGenerationBackend(bridge);
+     * @endcode
+     *
+     * @param backend  Shared pointer to any `ITextGenerationBackend`.
+     *                 Pass `nullptr` to fall back to `NullTextGenerationBackend`.
+     */
+    void setTextGenerationBackend(
+        std::shared_ptr<ITextGenerationBackend> backend);
+
+    /**
+     * @brief Return the currently configured text-generation backend.
+     *
+     * Never returns null: if no backend has been set the result is a
+     * `NullTextGenerationBackend`.
+     */
+    std::shared_ptr<ITextGenerationBackend> getTextGenerationBackend() const;
+
+    /**
+     * @brief Inject the workflow orchestration engine.
+     *
+     * When a `WorkflowEngine` is set, calls to `ingestFile()` route through
+     * the YAML-driven pipeline (Stage 1–5 as described in ARCHITECTURE.md)
+     * instead of the legacy `FileSystemIngester` / `runLegalExtraction()` path.
+     *
+     * The legacy path remains fully functional when no `WorkflowEngine` is
+     * set (backward compatibility).
+     *
+     * Passing `nullptr` disables the workflow engine and reverts to the legacy
+     * path.
+     *
+     * Thread-safety: the engine pointer is stored once at startup; concurrent
+     * calls to `ingestFile()` are safe as long as the engine itself is
+     * thread-safe (guaranteed by `WorkflowEngine`).
+     *
+     * @param engine  Shared pointer to a configured `WorkflowEngine`.
+     *                Pass `nullptr` to revert to legacy mode.
+     */
+    void setWorkflowEngine(std::shared_ptr<::themis::ingestion::WorkflowEngine> engine);
+
+    /**
+     * @brief Return the currently configured workflow engine, or nullptr.
+     */
+    std::shared_ptr<::themis::ingestion::WorkflowEngine> getWorkflowEngine() const;
+
+    // ---- LLM-as-judge re-ingestion quality control (v2.1) -----------------
+
+    /**
+     * @brief Attach a `ReIngestionController` for runtime quality control.
+     *
+     * When set, every call to `ingestFile()` (or the equivalent workflow-
+     * engine path) is wrapped in the quality-judge feedback loop:
+     *
+     *   1. Run WorkflowEngine on the document.
+     *   2. Evaluate extraction quality via the injected IngestionQualityJudge.
+     *   3. If quality fails and attempts remain, re-run with targeted hints.
+     *   4. Persist the best-quality extraction context.
+     *
+     * Pass `nullptr` to disable the quality-control loop and fall back to a
+     * single-pass ingestion (legacy behaviour).
+     *
+     * @param controller  Configured `ReIngestionController` instance, or nullptr.
+     */
+    void setReIngestionController(std::shared_ptr<ReIngestionController> controller);
+
+    /**
+     * @brief Return the active `ReIngestionController`, or nullptr when unset.
+     */
+    std::shared_ptr<ReIngestionController> getReIngestionController() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -1176,19 +1360,19 @@ public:
      * @param config Source configuration
      * @return true if initialization successful
      */
-    virtual bool initialize(const SourceConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const SourceConfig& config) = 0;
     
     /**
      * @brief Check if source is available
      * @return true if source can be accessed
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
     
     /**
      * @brief Get total number of documents available
      * @return Document count (0 if unknown)
      */
-    virtual size_t getDocumentCount() const = 0;
+    [[nodiscard]] virtual size_t getDocumentCount() const = 0;
     
     /**
      * @brief Ingest documents from source
@@ -1196,7 +1380,7 @@ public:
      * @param progress_callback Progress callback
      * @return Ingestion statistics
      */
-    virtual IngestionStats ingest(const std::string& target_collection,
+    [[nodiscard]] virtual IngestionStats ingest(const std::string& target_collection,
                                   ProgressCallback progress_callback) = 0;
 
     /**
@@ -1213,8 +1397,8 @@ public:
      *
      * @param validator Callback to invoke per document; empty fn = disable
      */
-    virtual void setDocumentValidator(DocumentValidatorFn validator) {
-        (void)validator; // default: no-op
+    virtual void setDocumentValidator([[maybe_unused]] DocumentValidatorFn validator) {
+        // default: no-op
     }
 };
 
@@ -1667,6 +1851,19 @@ public:
                                            const SchemaConfig& config);
 
     /**
+     * @brief Register a legal ingestion pipeline configuration for a source.
+     *
+     * Equivalent to calling `IngestionManager::setLegalIngestionConfig(source_id, config)`
+     * after `build()`.
+     *
+     * @param source_id Source whose documents the legal pipeline should process
+     * @param config    Legal ingestion configuration
+     * @return *this for chaining
+     */
+    IngestionBuilder& withLegalIngestionConfig(const std::string& source_id,
+                                                const LegalIngestionConfig& config);
+
+    /**
      * @brief Build and return the configured IngestionManager
      * @return Unique pointer to the fully configured manager
      */
@@ -1684,6 +1881,7 @@ private:
         bool dry_run = false;
         std::unordered_map<std::string, SchemaConfig> schema_configs;
         std::unordered_map<std::string, ConnectorFactory> plugin_factories;
+        std::unordered_map<std::string, LegalIngestionConfig> legal_ingestion_configs;
     };
     std::unique_ptr<Opts> opts_;
 };
@@ -1842,3 +2040,4 @@ private:
 
 } // namespace ingestion
 } // namespace themis
+

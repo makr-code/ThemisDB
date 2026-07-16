@@ -1,33 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            fulltext_functions.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     845                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 29b72e1f3  2026-02-21  feat(query): add HIGHLIGHT and FULLTEXT_SNIPPET AQL funct... ║
-    • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file fulltext_functions.cpp
- * @brief Implementation of fulltext search functions for ThemisDB AQL
- * 
- * This file provides implementations for fulltext search capabilities.
- * Most functions are placeholders that need to be wired to the SecondaryIndexManager.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=30, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "query/functions/function_registry.h"
@@ -59,7 +38,7 @@ std::vector<std::string> tokenize(const std::string& text) {
     
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
-            current += std::tolower(static_cast<unsigned char>(c));
+            current += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         } else if (!current.empty()) {
             tokens.push_back(current);
             current.clear();
@@ -90,10 +69,10 @@ std::string soundex(const std::string& s) {
     if (s.empty()) return "";
     
     std::string result;
-    result += std::toupper(static_cast<unsigned char>(s[0]));
+    result += static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
     
     auto getCode = [](char c) -> char {
-        c = std::toupper(static_cast<unsigned char>(c));
+        c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
         if (c == 'B' || c == 'F' || c == 'P' || c == 'V') return '1';
         if (c == 'C' || c == 'G' || c == 'J' || c == 'K' || c == 'Q' || c == 'S' || c == 'X' || c == 'Z') return '2';
         if (c == 'D' || c == 'T') return '3';
@@ -122,7 +101,7 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
     
     std::string result;
     std::string upper;
-    for (char c : word) upper += std::toupper(static_cast<unsigned char>(c));
+    for (char c : word) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     
     size_t i = 0;
     
@@ -300,9 +279,17 @@ size_t bestSnippetOffset(const std::string& lower,
             bestStart = mid > windowSize / 2 ? mid - windowSize / 2 : 0;
         }
     }
-    // Align bestStart to a word boundary to avoid splitting UTF-8 sequences
-    while (bestStart > 0 &&
-           std::isalnum(static_cast<unsigned char>(lower[bestStart]))) --bestStart;
+    // Align to a boundary without rewinding across a very long token.
+    // Rewinding can move the window far away from the actual match cluster.
+    if (bestStart > 0 && std::isalnum(static_cast<unsigned char>(lower[bestStart]))) {
+        while (bestStart < lower.size() &&
+               std::isalnum(static_cast<unsigned char>(lower[bestStart]))) {
+            ++bestStart;
+        }
+    }
+    if (bestStart >= lower.size()) {
+        bestStart = lower.size() > windowSize ? (lower.size() - windowSize) : 0;
+    }
     return bestStart;
 }
 
@@ -689,10 +676,10 @@ public:
             }
         }
         
-        int total = ngrams1.size() + ngrams2.size();
-        if (total == 0) return 0.0;
+        const size_t totalSz = ngrams1.size() + ngrams2.size();
+        if (totalSz == 0) return 0.0;
         
-        return 2.0 * intersection / total;
+        return 2.0 * static_cast<double>(intersection) / static_cast<double>(totalSz);
     }
 };
 
@@ -844,3 +831,4 @@ void registerFulltextFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+

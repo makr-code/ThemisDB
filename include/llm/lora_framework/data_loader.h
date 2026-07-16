@@ -1,24 +1,21 @@
+/**
+ * @file data_loader.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            data_loader.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: data_loader.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 324
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #548 Integrate LoRA Training wit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -59,11 +56,12 @@ struct InstructionDataSample {
  * @brief Batch of training samples
  */
 struct TrainingBatch {
+    virtual ~TrainingBatch() = default;
     std::vector<std::vector<int>> input_ids;      // [batch_size, seq_len]
     std::vector<std::vector<int>> label_ids;      // [batch_size, seq_len]
     std::vector<size_t> sequence_lengths;         // Actual lengths before padding
-    int batch_size;
-    int max_sequence_length;
+    int batch_size = 0;
+    int max_sequence_length = 0;
     
     bool empty() const { return input_ids.empty(); }
     size_t size() const { return input_ids.size(); }
@@ -94,7 +92,7 @@ public:
      * @param add_eos Add end-of-sequence token
      * @return Vector of token IDs
      */
-    virtual std::vector<int> encode(const std::string& text, 
+    [[nodiscard]] virtual std::vector<int> encode(const std::string& text, 
                                     bool add_bos = true, 
                                     bool add_eos = false) = 0;
     
@@ -103,31 +101,31 @@ public:
      * @param tokens Token IDs
      * @return Decoded text
      */
-    virtual std::string decode(const std::vector<int>& tokens) = 0;
+    [[nodiscard]] virtual std::string decode(const std::vector<int>& tokens) = 0;
     
     /**
      * @brief Get vocabulary size
      * @return Number of tokens in vocabulary
      */
-    virtual int vocab_size() const = 0;
+    [[nodiscard]] virtual int vocab_size() const = 0;
     
     /**
      * @brief Get BOS (beginning of sequence) token ID
      * @return BOS token ID
      */
-    virtual int bos_token_id() const = 0;
+    [[nodiscard]] virtual int bos_token_id() const = 0;
     
     /**
      * @brief Get EOS (end of sequence) token ID
      * @return EOS token ID
      */
-    virtual int eos_token_id() const = 0;
+    [[nodiscard]] virtual int eos_token_id() const = 0;
     
     /**
      * @brief Get PAD (padding) token ID
      * @return PAD token ID
      */
-    virtual int pad_token_id() const = 0;
+    [[nodiscard]] virtual int pad_token_id() const = 0;
 };
 
 /**
@@ -150,7 +148,7 @@ public:
     int pad_token_id() const override { return 0; }
     
 private:
-    int vocab_size_;
+    int vocab_size_ = 0;
     // Simple character-level tokenization for testing
     std::vector<int> char_to_token(const std::string& text);
     std::string token_to_char(const std::vector<int>& tokens);
@@ -160,6 +158,7 @@ private:
  * @brief Data loader configuration
  */
 struct DataLoaderConfig {
+    virtual ~DataLoaderConfig() = default;
     DatasetFormat format = DatasetFormat::JSONL;
     int max_sequence_length = 2048;
     int batch_size = 1;
@@ -278,7 +277,7 @@ private:
     
     std::vector<InstructionDataSample> samples_;
     std::vector<size_t> indices_;  // For shuffling
-    size_t current_index_;
+    size_t current_index_ = 0;
     
     // Custom formatter (optional)
     std::function<std::string(const InstructionDataSample&)> custom_formatter_;
@@ -333,3 +332,4 @@ namespace data_utils {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

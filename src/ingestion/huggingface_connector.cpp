@@ -1,33 +1,32 @@
+/**
+ * @file huggingface_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            huggingface_connector.cpp                          ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-03-09 15:27:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     637                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: huggingface_connector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 764
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=4, L=0
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #3694 feat(ingestion): configurab... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/huggingface_connector.h"
+#include "governance/model_governance.h"
+#include "utils/logger.h"
 #include <curl/curl.h>
 #include <stdexcept>
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <fstream>
 
 #ifdef ERROR
 #undef ERROR
@@ -57,7 +56,8 @@ static size_t hfCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
 // Production HTTP GET using libcurl.
 static HttpResponse hfHttpGet(const std::string& url,
                                const std::string& auth_token,
-                               int timeout_ms) {
+                               int timeout_ms,
+                               const std::string& ca_bundle_path = {}) {
     HttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -79,6 +79,15 @@ static HttpResponse hfHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -179,7 +188,8 @@ namespace {
 // Production HTTP POST via libcurl (OAuth 2.0 token refresh only).
 static HttpResponse hfHttpPost(const std::string& url,
                                 const std::string& body,
-                                int timeout_ms) {
+                                int timeout_ms,
+                                const std::string& ca_bundle_path = {}) {
     HttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -201,6 +211,15 @@ static HttpResponse hfHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -283,6 +302,9 @@ public:
         oauth_config_.refresh_token  = opt("oauth_refresh_token");
         oauth_config_.access_token   = opt("oauth_access_token");
 
+        // TLS configuration: optional custom CA bundle path
+        retry_config_.ca_bundle_path = opt("ca_bundle_path");
+
         return true;
     }
     
@@ -297,7 +319,7 @@ public:
             auto response = httpGet(api_url, buildAuthToken(), retry_config_.timeout_ms);
             return response.status_code == 200;
             
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -326,7 +348,7 @@ public:
                 return rows;
             }
             
-        } catch (const std::exception&) {}
+        } catch (...) {}
         
         return 0;
     }
@@ -389,7 +411,7 @@ private:
             r.body        = std::move(body);
             return r;
         }
-        return hfHttpGet(url, auth_token, timeout_ms);
+        return hfHttpGet(url, auth_token, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     // Perform an HTTP POST, delegating to the test hook when set.
@@ -402,7 +424,7 @@ private:
             r.body        = std::move(resp_body);
             return r;
         }
-        return hfHttpPost(url, body, timeout_ms);
+        return hfHttpPost(url, body, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     // Percent-encode a string for application/x-www-form-urlencoded.
@@ -618,6 +640,20 @@ public:
         document_validator_ = std::move(v);
     }
 
+    void setIngestionPolicy(
+        std::shared_ptr<governance::ModelGovernancePolicy> policy)
+    {
+        ingestion_policy_ = std::move(policy);
+    }
+
+    bool hasIngestionPolicy() const { return ingestion_policy_ != nullptr; }
+
+    governance::ModelGovernanceDecision checkIngestionPermission(
+        const governance::ModelTrainingExportRequest& req) const
+    {
+        return ingestion_policy_->checkExportPermission(req);
+    }
+
 private:
     SourceConfig config_;
     std::string dataset_name_;
@@ -626,10 +662,13 @@ private:
     size_t batch_size_;
     bool streaming_enabled_;
     RetryConfig retry_config_;
-    OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
-    ApiHttpGetFn  http_get_fn_;  // testing hook; empty = use real libcurl GET
-    ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
-    DocumentValidatorFn document_validator_; ///< Optional per-document validator
+    OAuthConfig   oauth_config_;
+    ApiHttpGetFn  http_get_fn_;
+    ApiHttpPostFn http_post_fn_;
+    DocumentValidatorFn document_validator_;
+    /// Optional governance policy set via setIngestionPolicy() (Gap 8).
+    std::shared_ptr<governance::ModelGovernancePolicy> ingestion_policy_;
+
 };
 
 // Public API implementation
@@ -639,7 +678,43 @@ HuggingFaceConnector::HuggingFaceConnector()
 
 HuggingFaceConnector::~HuggingFaceConnector() = default;
 
+// Gap 8 (AI_ML_IMPACT_ASSESSMENT.md §7 — Severity: Medium/S1) — implemented 2026-04-21.
+// The data classification gate is performed inside initialize() by calling
+// ModelGovernancePolicy::checkExportPermission() with purpose="DATA_INGESTION"
+// when an ingestion policy has been injected via setIngestionPolicy().
+// When no policy is set (nullptr), a WARN is logged and the gate is bypassed
+// (degraded mode) to preserve backward compatibility with existing connectors.
+// Tracked: src/ingestion/FUTURE_ENHANCEMENTS.md §"Data Classification Gate for
+//          External Connectors"
 bool HuggingFaceConnector::initialize(const SourceConfig& config) {
+    // ── Governance gate (Gap 8) ───────────────────────────────────────────────
+    if (impl_->hasIngestionPolicy()) {
+        governance::ModelTrainingExportRequest req;
+        req.export_job_id    = config.source_id;
+        req.requesting_user  = "HuggingFaceConnector";
+        req.adapter_id       = "";
+        req.purpose          = "DATA_INGESTION";
+        req.collection_ids   = {config.location};
+        req.classification   = "offen"; // default; callers may override via options
+        if (auto it = config.options.find("classification"); it != config.options.end()) {
+            req.classification = it->second;
+        }
+        const auto decision = impl_->checkIngestionPermission(req);
+        if (!decision.is_permitted) {
+            THEMIS_ERROR("HuggingFaceConnector::initialize: governance gate DENIED "
+                         "dataset='{}': {}",
+                         config.location, decision.denial_reason);
+            return false;
+        }
+        THEMIS_INFO("HuggingFaceConnector::initialize: governance gate PERMITTED "
+                    "dataset='{}' (lineage={})",
+                    config.location, decision.lineage_event_id);
+    } else {
+        THEMIS_WARN("HuggingFaceConnector::initialize: no ingestion policy set — "
+                    "governance gate bypassed for dataset '{}' (Gap 8 degraded mode).",
+                    config.location);
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     return impl_->initialize(config);
 }
 
@@ -688,6 +763,14 @@ void HuggingFaceConnector::setDocumentValidator(DocumentValidatorFn validator) {
     impl_->setDocumentValidator(std::move(validator));
 }
 
+void HuggingFaceConnector::setIngestionPolicy(
+    std::shared_ptr<governance::ModelGovernancePolicy> policy)
+{
+    impl_->setIngestionPolicy(std::move(policy));
+}
+
 } // namespace ingestion
 } // namespace themis
+
+
 

@@ -1,24 +1,21 @@
+/**
+ * @file tiered_index_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tiered_index_manager.h                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3a3113eda  2026-02-27  feat(index): Cold/warm tier index migration (Issue #2407) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tiered_index_manager.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 282
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3096 feat(index): Cold/warm tier... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -52,6 +49,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -123,20 +121,53 @@ struct TierMigrationPolicy {
 // MigrationResult – outcome of a single index migration
 // ---------------------------------------------------------------------------
 
+enum class MigrationDiagnosticCode {
+    NONE = 0,
+    INDEX_NOT_FOUND,
+    TIER_MISMATCH,
+    EXPORT_FAILED,
+    IMPORT_FAILED
+};
+
 struct MigrationResult {
     bool ok = true;
+    MigrationDiagnosticCode code = MigrationDiagnosticCode::NONE;
     std::string message;
     std::string index_name;
+    std::string source_path;
+    std::string target_path;
     IndexTierMeta::Tier from_tier{};
     IndexTierMeta::Tier to_tier{};
 
     static MigrationResult Ok(std::string name,
-                               IndexTierMeta::Tier from,
-                               IndexTierMeta::Tier to) {
-        return {true, "", std::move(name), from, to};
+                              IndexTierMeta::Tier from,
+                              IndexTierMeta::Tier to,
+                              std::string source = {},
+                              std::string target = {}) {
+        return {true,
+                MigrationDiagnosticCode::NONE,
+                "",
+                std::move(name),
+                std::move(source),
+                std::move(target),
+                from,
+                to};
     }
-    static MigrationResult Err(std::string name, std::string msg) {
-        return {false, std::move(msg), std::move(name), {}, {}};
+    static MigrationResult Err(std::string name,
+                               IndexTierMeta::Tier from,
+                               IndexTierMeta::Tier to,
+                               MigrationDiagnosticCode diagnostic_code,
+                               std::string msg,
+                               std::string source = {},
+                               std::string target = {}) {
+        return {false,
+                diagnostic_code,
+                std::move(msg),
+                std::move(name),
+                std::move(source),
+                std::move(target),
+                from,
+                to};
     }
 };
 
@@ -279,7 +310,7 @@ private:
                                IndexTierMeta::Tier from,
                                IndexTierMeta::Tier to);
 
-    mutable std::mutex registry_mutex_;
+    mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, IndexTierMeta> registry_;
 
     std::string warm_base_dir_;

@@ -1,25 +1,21 @@
+/**
+ * @file analytics_export.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            analytics_export.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     154                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: analytics_export.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1050 GAP-003: Analytics module w... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,7 +91,7 @@ public:
      * @param options Export options
      * @return Export result
      */
-    virtual ExportResult exportToFile(
+    [[nodiscard]] virtual ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
         const ExportOptions& options = ExportOptions()) = 0;
@@ -106,7 +102,7 @@ public:
      * @param options Export options
      * @return Exported data as string
      */
-    virtual std::string exportToString(
+    [[nodiscard]] virtual std::string exportToString(
         const ArrowRecordBatch& batch,
         const ExportOptions& options = ExportOptions()) = 0;
 
@@ -117,7 +113,7 @@ public:
      * @param options Export options
      * @return Export result
      */
-    virtual ExportResult exportWithCallback(
+    [[nodiscard]] virtual ExportResult exportWithCallback(
         const ArrowRecordBatch& batch,
         std::function<void(const std::vector<uint8_t>&)> callback,
         const ExportOptions& options = ExportOptions()) = 0;
@@ -125,12 +121,12 @@ public:
     /**
      * @brief Check if format is supported
      */
-    virtual bool supportsFormat(ExportFormat format) const = 0;
+    [[nodiscard]] virtual bool supportsFormat(ExportFormat format) const = 0;
 
     /**
      * @brief Get exporter name/version
      */
-    virtual std::string getExporterInfo() const = 0;
+    [[nodiscard]] virtual std::string getExporterInfo() const = 0;
 };
 
 /**
@@ -146,7 +142,13 @@ public:
     static std::unique_ptr<IAnalyticsExporter> createExporter(ExportFormat format);
 
     /**
-     * @brief Get default exporter (stub implementation)
+     * @brief Get the default JSON/CSV exporter
+     *
+     * Returns a @c JSONCSVExporter that handles @c ExportFormat::JSON and
+     * @c ExportFormat::CSV.  For Arrow-based formats (IPC, Parquet, Feather)
+     * use @c createExporter(format) which returns the appropriate concrete
+     * type, or throws @c std::runtime_error when the format requires Arrow
+     * support that was not compiled in.
      */
     static std::unique_ptr<IAnalyticsExporter> createDefaultExporter();
 };

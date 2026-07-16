@@ -47,7 +47,7 @@
 
 ### Release
 
-- **create-release-archive.yml** - Create Release Archive
+- **create-release-archive.yml** - [Manual] Create Release Archive
 
 ### Scheduled & Manual
 
@@ -87,12 +87,12 @@
 
 **Name:** Code Maturity Analysis & Auto-Versioning
 
-**Path:** `.github/workflows/code-maturity-analysis.yml`
+**Path:** `.github/workflows/08-maintenance_code-maturity-analysis.yml`
 
 **Triggers:**
-- Events: push
+- Events: push, schedule, workflow_dispatch
 - Branches: main, develop, feature/**
-- Paths: 6 path filters
+- Paths: src/**, include/**, tests/**, benchmarks/**, projects/**, plugins/**, script/workflow self-triggers
 
 **Jobs (1):**
 - `analyze-and-version`: Code Maturity Analysis & Auto-Versioning (runs-on: ubuntu-latest)
@@ -108,11 +108,11 @@
 
 ---
 
-### create-release-archive.yml
+### 04-release_create-release-archive.yml
 
-**Name:** Create Release Archive
+**Name:** [Manual] Create Release Archive
 
-**Path:** `.github/workflows/create-release-archive.yml`
+**Path:** `.github/workflows/04-release_create-release-archive.yml`
 
 **Triggers:**
 - Events: workflow_dispatch
@@ -383,4 +383,28 @@
 - `actions/checkout`
 - `actions/setup-python`
 - `actions/upload-artifact`
+
+---
+
+## Current Release Workflow Snapshot (2026-04-13)
+
+Der obere Inventory-Report ist historisch und nicht vollständig. Dieser Abschnitt dokumentiert den aktuell gültigen Release-Stand.
+
+### Release Workflows (aktuell)
+
+- `.github/workflows/04-release_bootstrap-release-branches.yml` — [Manual] Bootstrap Release Branches
+- `.github/workflows/04-release_build-binary-linux.yml` — Build Binary Release · Linux
+- `.github/workflows/04-release_build-binary-windows.yml` — Build Binary Release · Windows
+- `.github/workflows/04-release_canary-deployments-ci.yml` — Canary Deployments CI
+- `.github/workflows/04-release_create-release-archive.yml` — [Manual] Create Release Archive
+- `.github/workflows/04-release_docker-image.yml` — Docker Image CI
+- `.github/workflows/04-release_dockerhub-publish-on-release.yml` — Publish Docker image to Docker Hub (on GitHub Release)
+- `.github/workflows/04-release_publish-enterprise.yml` — Publish · Enterprise Edition
+- `.github/workflows/04-release_publish-hyperscaler.yml` — Publish · Hyperscaler Edition
+
+### Binary Packaging Standard (verbindlich)
+
+- Dokumentation: `docs/ci-cd/workflows/04-release/binary-package-layout.md`
+- Linux-Formate: `TGZ`, `DEB`, `RPM`
+- Windows-Formate: `ZIP` (verpflichtend), `MSI` (optional via CPack/WIX)
 

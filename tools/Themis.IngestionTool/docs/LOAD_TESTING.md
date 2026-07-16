@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Testplan** – Lasttest-Parameter gegen aktuelle Infrastruktur neu validieren.
+> Aktueller Test-Flow: `ctest --preset linux-ninja-release -R load`
+
 # Load Testing Guide - Phase 5
 
 ## Übersicht

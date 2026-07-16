@@ -1,51 +1,44 @@
+/**
+ * @file saml_authenticator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.20
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            saml_authenticator.cpp                             ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-09 03:57:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1024                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 879ea3571  2026-02-26  fix(auth): redact PII in log statements (LDAP, SAML, API ... ║
-    • 502a332ac  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
-    • 63f2b0f83  2026-02-24  feat(auth): implement SAML 2.0 SP-initiated and IdP-initi... ║
-    • 8bd556e18  2026-02-24  feat(auth): complete audit logging coverage for SAML, OAu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: saml_authenticator.cpp | Version: 0.0.20 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1288
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=10, L=0
+ * PR History (last 5): #4787 Security hardening in auth/... (2026-04-22) | #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #4144 feat(auth): SAML Assertion ... (2026-03-13) | #3311 fix(auth): register missing... (2026-03-12) | #2566 [auth] SAML 2.0: enforce En... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/saml_authenticator.h"
-#include "auth/auth_error.h"
-#include "utils/logger.h"
-#include "utils/audit_logger.h"
-
-#include <openssl/evp.h>
-#include <openssl/pem.h>
-#include <openssl/x509.h>
-#include <openssl/bio.h>
-#include <openssl/sha.h>
-#include <openssl/err.h>
-
-#include <pugixml.hpp>
-
-#include <zlib.h>
 
 #include <algorithm>
 #include <cstring>
 #include <iomanip>
+#include <openssl/bio.h>
+#include <openssl/err.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+#include <openssl/x509.h>
+#include <pugixml.hpp>
 #include <random>
 #include <sstream>
 #include <stdexcept>
+#include <zlib.h>
+
+#include "auth/auth_error.h"
+#include "utils/audit_logger.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace auth {
@@ -54,64 +47,66 @@ namespace auth {
 // Construction / destruction
 // ============================================================================
 
-SAMLAuthenticator::SAMLAuthenticator(const SAMLConfig& config)
-    : config_(config)
-    , clock_([]() { return std::chrono::system_clock::now(); })
-{
-    if (config_.sp_entity_id.empty())
+SAMLAuthenticator::SAMLAuthenticator(const SAMLConfig &config)
+    : config_(config), clock_([]() { return std::chrono::system_clock::now(); }) {
+    if (config_.sp_entity_id.empty()) {
         throw std::invalid_argument("SAMLConfig: sp_entity_id must not be empty");
-    if (config_.sp_acs_url.empty())
+    }
+    if (config_.sp_acs_url.empty()) {
         throw std::invalid_argument("SAMLConfig: sp_acs_url must not be empty");
-    if (config_.idp_sso_url.empty())
+    }
+    if (config_.idp_sso_url.empty()) {
         throw std::invalid_argument("SAMLConfig: idp_sso_url must not be empty");
-    if (config_.idp_entity_id.empty())
+    }
+    if (config_.idp_entity_id.empty()) {
         throw std::invalid_argument("SAMLConfig: idp_entity_id must not be empty");
-    if (config_.idp_certificate_pem.empty())
+    }
+    if (config_.idp_certificate_pem.empty()) {
         throw std::invalid_argument("SAMLConfig: idp_certificate_pem must not be empty");
+    }
 
     loadIdPCertificate();
 
-    THEMIS_INFO("SAMLAuthenticator initialized: sp_entity_id={}, idp_entity_id={}",
-                config_.sp_entity_id, config_.idp_entity_id);
+    THEMIS_INFO("SAMLAuthenticator initialized: sp_entity_id={}, idp_entity_id={}", config_.sp_entity_id,
+                config_.idp_entity_id);
 }
 
 SAMLAuthenticator::~SAMLAuthenticator() {
     if (idp_public_key_) {
-        EVP_PKEY_free(static_cast<EVP_PKEY*>(idp_public_key_));
+        EVP_PKEY_free(static_cast<EVP_PKEY *>(idp_public_key_));
         idp_public_key_ = nullptr;
     }
 }
 
 void SAMLAuthenticator::loadIdPCertificate() {
-    BIO* bio = BIO_new_mem_buf(config_.idp_certificate_pem.data(),
-                               static_cast<int>(config_.idp_certificate_pem.size()));
+    BIO *bio
+        = BIO_new_mem_buf(config_.idp_certificate_pem.data(), static_cast<int>(config_.idp_certificate_pem.size()));
     if (!bio) {
         throw std::runtime_error("SAML: Failed to create BIO for IdP certificate");
     }
 
-    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    X509 *cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
     BIO_free(bio);
 
     if (!cert) {
         throw std::runtime_error("SAML: Failed to parse IdP X.509 certificate (PEM)");
     }
 
-    EVP_PKEY* pkey = X509_get_pubkey(cert);
+    EVP_PKEY *pkey = X509_get_pubkey(cert);
     X509_free(cert);
 
     if (!pkey) {
         throw std::runtime_error("SAML: Failed to extract public key from IdP certificate");
     }
 
-    idp_public_key_ = static_cast<void*>(pkey);
+    idp_public_key_ = static_cast<void *>(pkey);
 }
 
 // ============================================================================
 // Clock override (testing)
 // ============================================================================
 
-void SAMLAuthenticator::setClockForTesting(
-        std::function<std::chrono::system_clock::time_point()> clock) {
+void SAMLAuthenticator::setClockForTesting(std::function<std::chrono::system_clock::time_point()> clock) {
     clock_ = std::move(clock);
 }
 
@@ -121,22 +116,18 @@ void SAMLAuthenticator::setClockForTesting(
 
 std::string SAMLAuthenticator::generateRequestId() {
     // SAML IDs must be NCName-safe: start with '_' + 32 hex chars
-    static std::random_device rd;
-    static std::mt19937_64 gen(rd());
+    static std::random_device local_rd;
+    static std::mt19937_64 local_gen(local_rd());
     std::uniform_int_distribution<uint64_t> dist;
 
     std::ostringstream oss;
     oss << '_';
-    oss << std::hex << std::setfill('0')
-        << std::setw(16) << dist(gen)
-        << std::setw(16) << dist(gen);
+    oss << std::hex << std::setfill('0') << std::setw(16) << dist(local_gen) << std::setw(16) << dist(local_gen);
     return oss.str();
 }
 
-std::string SAMLAuthenticator::buildAuthnRequestXml(
-        const std::string& request_id,
-        const std::string& issue_instant) const
-{
+std::string SAMLAuthenticator::buildAuthnRequestXml(const std::string &request_id,
+                                                    const std::string &issue_instant) const {
     std::ostringstream xml;
     xml << R"(<?xml version="1.0" encoding="UTF-8"?>)"
         << R"(<samlp:AuthnRequest)"
@@ -153,9 +144,7 @@ std::string SAMLAuthenticator::buildAuthnRequestXml(
         << " Format=\"" << config_.attr_name_id_format << "\""
         << " AllowCreate=\"true\"/>"
         << "<samlp:RequestedAuthnContext Comparison=\"exact\">"
-        << "<saml:AuthnContextClassRef>"
-        << config_.requested_authn_context
-        << "</saml:AuthnContextClassRef>"
+        << "<saml:AuthnContextClassRef>" << config_.requested_authn_context << "</saml:AuthnContextClassRef>"
         << "</samlp:RequestedAuthnContext>"
         << "</samlp:AuthnRequest>";
     return xml.str();
@@ -175,20 +164,19 @@ static std::string formatDateTime(std::chrono::system_clock::time_point tp) {
     return std::string(buf);
 }
 
-std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string& input) {
+std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) {
     // DEFLATE without zlib wrapper (RFC 1951)
     uLongf bound = compressBound(static_cast<uLong>(input.size()));
     std::vector<uint8_t> compressed(bound);
 
     z_stream zs{};
     // Use deflateInit2 with -MAX_WBITS (raw deflate, no zlib header)
-    if (deflateInit2(&zs, Z_BEST_COMPRESSION, Z_DEFLATED,
-                     -MAX_WBITS, 8, Z_DEFAULT_STRATEGY) != Z_OK) {
+    if (deflateInit2(&zs, Z_BEST_COMPRESSION, Z_DEFLATED, -MAX_WBITS, 8, Z_DEFAULT_STRATEGY) != Z_OK) {
         throw std::runtime_error("SAML: deflateInit2 failed");
     }
 
-    zs.avail_in = static_cast<uInt>(input.size());
-    zs.next_in  = reinterpret_cast<Bytef*>(const_cast<char*>(input.data()));
+    zs.avail_in  = static_cast<uInt>(input.size());
+    zs.next_in   = reinterpret_cast<Bytef *>(const_cast<char *>(input.data()));
     zs.avail_out = static_cast<uInt>(compressed.size());
     zs.next_out  = compressed.data();
 
@@ -202,8 +190,8 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string& input) 
     compressed.resize(zs.total_out);
 
     // Standard Base64 encode via OpenSSL BIO
-    BIO* b64_bio  = BIO_new(BIO_f_base64());
-    BIO* mem_bio  = BIO_new(BIO_s_mem());
+    BIO *b64_bio = BIO_new(BIO_f_base64());
+    BIO *mem_bio = BIO_new(BIO_s_mem());
     if (!b64_bio || !mem_bio) {
         BIO_free(b64_bio);
         BIO_free(mem_bio);
@@ -214,14 +202,14 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string& input) 
     BIO_write(b64_bio, compressed.data(), static_cast<int>(compressed.size()));
     BIO_flush(b64_bio);
 
-    BUF_MEM* buf_ptr{};
+    BUF_MEM *buf_ptr{};
     BIO_get_mem_ptr(mem_bio, &buf_ptr);
     std::string encoded(buf_ptr->data, buf_ptr->length);
     BIO_free_all(b64_bio);
     return encoded;
 }
 
-std::string SAMLAuthenticator::urlEncode(const std::string& input) {
+std::string SAMLAuthenticator::urlEncode(const std::string &input) {
     std::ostringstream oss;
     oss << std::hex << std::uppercase;
     for (unsigned char c : input) {
@@ -234,8 +222,8 @@ std::string SAMLAuthenticator::urlEncode(const std::string& input) {
     return oss.str();
 }
 
-AuthnRequestParams SAMLAuthenticator::buildAuthnRequest(const std::string& relay_state) const {
-    const std::string request_id   = generateRequestId();
+AuthnRequestParams SAMLAuthenticator::buildAuthnRequest(const std::string &relay_state) const {
+    const std::string request_id    = generateRequestId();
     const std::string issue_instant = formatDateTime(clock_());
     const std::string xml           = buildAuthnRequestXml(request_id, issue_instant);
     const std::string deflated      = deflateAndBase64Encode(xml);
@@ -248,7 +236,7 @@ AuthnRequestParams SAMLAuthenticator::buildAuthnRequest(const std::string& relay
     return {url, request_id};
 }
 
-std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string& relay_state) const {
+std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string &relay_state) const {
     return buildAuthnRequest(relay_state).url;
 }
 
@@ -256,9 +244,9 @@ std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string& relay_sta
 // Base64 decode (for SAMLResponse POST body)
 // ============================================================================
 
-std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string& input) {
-    BIO* b64_bio = BIO_new(BIO_f_base64());
-    BIO* mem_bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.size()));
+std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
+    BIO *b64_bio = BIO_new(BIO_f_base64());
+    BIO *mem_bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.size()));
     if (!b64_bio || !mem_bio) {
         BIO_free(b64_bio);
         BIO_free(mem_bio);
@@ -271,7 +259,9 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string& input) {
     int len = BIO_read(b64_bio, decoded.data(), static_cast<int>(decoded.size()));
     BIO_free_all(b64_bio);
 
-    if (len < 0) return {};
+    if (len < 0) {
+        return {};
+    }
     decoded.resize(static_cast<size_t>(len));
     return decoded;
 }
@@ -280,23 +270,22 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string& input) {
 // DateTime parsing
 // ============================================================================
 
-std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std::string& s) {
+std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std::string &s) {
     // Accepts: "2026-02-22T06:13:57Z" or "2026-02-22T06:13:57.000Z"
     if (s.size() < 20) {
         throw std::runtime_error("SAML: Invalid datetime format: " + s);
     }
     std::tm tm_val{};
     int year, mon, day, hour, min, sec;
-    if (std::sscanf(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d",
-                    &year, &mon, &day, &hour, &min, &sec) != 6) {
+    if (std::sscanf(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec) != 6) {
         throw std::runtime_error("SAML: Failed to parse datetime: " + s);
     }
-    tm_val.tm_year = year - 1900;
-    tm_val.tm_mon  = mon - 1;
-    tm_val.tm_mday = day;
-    tm_val.tm_hour = hour;
-    tm_val.tm_min  = min;
-    tm_val.tm_sec  = sec;
+    tm_val.tm_year  = year - 1900;
+    tm_val.tm_mon   = mon - 1;
+    tm_val.tm_mday  = day;
+    tm_val.tm_hour  = hour;
+    tm_val.tm_min   = min;
+    tm_val.tm_sec   = sec;
     tm_val.tm_isdst = 0;
 
 #ifdef _WIN32
@@ -311,14 +300,10 @@ std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std
 // XML Signature verification
 // ============================================================================
 
-bool SAMLAuthenticator::verifyXmlSignature(
-        const std::string& reference_xml,
-        const std::string& signature_value_b64,
-        const std::string& signed_info_c14n,
-        const std::string& digest_value_b64,
-        const std::string& digest_algorithm_uri,
-        const std::string& sig_algorithm_uri) const
-{
+bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, const std::string &signature_value_b64,
+                                           const std::string &signed_info_c14n, const std::string &digest_value_b64,
+                                           const std::string &digest_algorithm_uri,
+                                           const std::string &sig_algorithm_uri) const {
     // 1. Decode the claimed digest value from the Reference element
     auto claimed_digest = base64Decode(digest_value_b64);
     if (claimed_digest.empty()) {
@@ -334,12 +319,31 @@ bool SAMLAuthenticator::verifyXmlSignature(
     }
 
     // 3. Select digest algorithm
-    const EVP_MD* digest_md = nullptr;
-    if (digest_algorithm_uri.find("sha256") != std::string::npos ||
-        digest_algorithm_uri.find("SHA256") != std::string::npos) {
+    const EVP_MD *digest_md = nullptr;
+    if (digest_algorithm_uri.find("sha256") != std::string::npos
+        || digest_algorithm_uri.find("SHA256") != std::string::npos) {
         digest_md = EVP_sha256();
-    } else if (digest_algorithm_uri.find("sha1") != std::string::npos ||
-               digest_algorithm_uri.find("SHA1") != std::string::npos) {
+    } else if (digest_algorithm_uri.find("sha1") != std::string::npos
+               || digest_algorithm_uri.find("SHA1") != std::string::npos) {
+        // SHA-1 is cryptographically broken (CWE-327, NIST SP 800-131A rev. 2).
+        // Reject unless the operator has explicitly enabled the legacy fallback.
+        // Sanitize the URI before logging to prevent log injection — truncate to
+        // 128 chars and replace control characters with '?'.
+        std::string safe_uri = digest_algorithm_uri.substr(0, 128);
+        for (char &c : safe_uri) {
+            if (static_cast<unsigned char>(c) < 0x20 || c == '\n' || c == '\r') {
+                c = '?';
+            }
+        }
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 digest algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to SHA-256.",
+                    safe_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 digest rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         digest_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported digest algorithm: {}", digest_algorithm_uri);
@@ -347,12 +351,22 @@ bool SAMLAuthenticator::verifyXmlSignature(
     }
 
     // 4. Select signature algorithm
-    const EVP_MD* sig_md = nullptr;
-    if (sig_algorithm_uri.find("rsa-sha256") != std::string::npos ||
-        sig_algorithm_uri.find("RSA-SHA256") != std::string::npos) {
+    const EVP_MD *sig_md = nullptr;
+    if (sig_algorithm_uri.find("rsa-sha256") != std::string::npos
+        || sig_algorithm_uri.find("RSA-SHA256") != std::string::npos) {
         sig_md = EVP_sha256();
-    } else if (sig_algorithm_uri.find("rsa-sha1") != std::string::npos ||
-               sig_algorithm_uri.find("RSA-SHA1") != std::string::npos) {
+    } else if (sig_algorithm_uri.find("rsa-sha1") != std::string::npos
+               || sig_algorithm_uri.find("RSA-SHA1") != std::string::npos) {
+        // SHA-1 based signature algorithm is broken (CWE-327).
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 signature algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to RSA-SHA256.",
+                    sig_algorithm_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 signature rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         sig_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported signature algorithm: {}", sig_algorithm_uri);
@@ -369,35 +383,34 @@ bool SAMLAuthenticator::verifyXmlSignature(
     {
         std::vector<uint8_t> computed_digest(EVP_MAX_MD_SIZE);
         unsigned int computed_len = 0;
-        EVP_MD_CTX* mctx_ref = EVP_MD_CTX_new();
-        if (!mctx_ref) return false;
+        EVP_MD_CTX *mctx_ref      = EVP_MD_CTX_new();
+        if (!mctx_ref) {
+            return false;
+        }
         EVP_DigestInit_ex(mctx_ref, digest_md, nullptr);
         EVP_DigestUpdate(mctx_ref, reference_xml.data(), reference_xml.size());
         EVP_DigestFinal_ex(mctx_ref, computed_digest.data(), &computed_len);
         EVP_MD_CTX_free(mctx_ref);
         computed_digest.resize(computed_len);
 
-        if (computed_digest.size() != claimed_digest.size() ||
-            CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(),
-                          computed_digest.size()) != 0) {
+        if (computed_digest.size() != claimed_digest.size()
+            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(), computed_digest.size()) != 0) {
             THEMIS_WARN("SAML: Reference DigestValue mismatch");
             return false;
         }
     }
 
     // 6. Verify RSA signature over the SignedInfo canonicalization
-    EVP_PKEY* pkey = static_cast<EVP_PKEY*>(idp_public_key_);
-    EVP_MD_CTX* mctx_sig = EVP_MD_CTX_new();
-    if (!mctx_sig) return false;
+    EVP_PKEY *pkey       = static_cast<EVP_PKEY *>(idp_public_key_);
+    EVP_MD_CTX *mctx_sig = EVP_MD_CTX_new();
+    if (!mctx_sig) {
+        return false;
+    }
 
     int verify_result = 0;
     if (EVP_DigestVerifyInit(mctx_sig, nullptr, sig_md, nullptr, pkey) == 1) {
-        if (EVP_DigestVerifyUpdate(mctx_sig,
-                                   signed_info_c14n.data(),
-                                   signed_info_c14n.size()) == 1) {
-            verify_result = EVP_DigestVerifyFinal(mctx_sig,
-                                                  sig_bytes.data(),
-                                                  sig_bytes.size());
+        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(), signed_info_c14n.size()) == 1) {
+            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(), sig_bytes.size());
         }
     }
     EVP_MD_CTX_free(mctx_sig);
@@ -416,35 +429,37 @@ bool SAMLAuthenticator::verifyXmlSignature(
 namespace {
 
 /// Find the first child element with the given local name (ignoring namespace prefix)
-pugi::xml_node findChildByLocalName(const pugi::xml_node& parent, const char* local_name) {
+pugi::xml_node findChildByLocalName(const pugi::xml_node &parent, const char *local_name) {
     for (auto child : parent.children()) {
         std::string child_name = child.name();
-        auto colon = child_name.rfind(':');
-        std::string lname = (colon != std::string::npos)
-                            ? child_name.substr(colon + 1)
-                            : child_name;
-        if (lname == local_name) return child;
+        auto colon             = child_name.rfind(':');
+        std::string lname      = (colon != std::string::npos) ? child_name.substr(colon + 1) : child_name;
+        if (lname == local_name) {
+            return child;
+        }
     }
     return {};
 }
 
 /// Recursively find first element with given local name in the subtree
-pugi::xml_node findDescendantByLocalName(const pugi::xml_node& root, const char* local_name) {
+pugi::xml_node findDescendantByLocalName(const pugi::xml_node &root, const char *local_name) {
     for (auto child : root.children()) {
         std::string child_name = child.name();
-        auto colon = child_name.rfind(':');
-        std::string lname = (colon != std::string::npos)
-                            ? child_name.substr(colon + 1)
-                            : child_name;
-        if (lname == local_name) return child;
+        auto colon             = child_name.rfind(':');
+        std::string lname      = (colon != std::string::npos) ? child_name.substr(colon + 1) : child_name;
+        if (lname == local_name) {
+            return child;
+        }
         auto found = findDescendantByLocalName(child, local_name);
-        if (found) return found;
+        if (found) {
+            return found;
+        }
     }
     return {};
 }
 
 /// Extract all text content from a node (including child nodes)
-std::string nodeText(const pugi::xml_node& node) {
+std::string nodeText(const pugi::xml_node &node) {
     std::string result;
     for (auto child : node.children()) {
         if (child.type() == pugi::node_pcdata || child.type() == pugi::node_cdata) {
@@ -457,61 +472,319 @@ std::string nodeText(const pugi::xml_node& node) {
 }
 
 /// Serialize a node back to XML string
-std::string nodeToString(const pugi::xml_node& node) {
+std::string nodeToString(const pugi::xml_node &node) {
     std::ostringstream oss;
     node.print(oss, "", pugi::format_raw);
     return oss.str();
 }
 
 /// Find the Signature element inside a node
-pugi::xml_node findSignature(const pugi::xml_node& node) {
+pugi::xml_node findSignature(const pugi::xml_node &node) {
     return findDescendantByLocalName(node, "Signature");
 }
 
 } // anonymous namespace
 
 // ============================================================================
-// processResponse – main entry point
+// decryptAssertion - XML Encryption (XMLEnc) assertion decryption
+// Supports AES-128-CBC / AES-256-CBC data encryption and
+// RSA-OAEP (rsa-oaep-mgf1p) / RSA-PKCS1-v1.5 key transport.
+// IV is the first block_size bytes of the CipherValue (per XML Enc §5.2).
 // ============================================================================
 
-SAMLClaims SAMLAuthenticator::processResponse(
-        const std::string& saml_response_b64,
-        const std::string& in_response_to) const
-{
+std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_assertion_node) const {
+    // ----------------------------------------------------------------
+    // Step 1: Validate that a private key loader is configured
+    // ----------------------------------------------------------------
+    if (!config_.sp_private_key_loader) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "No SP private key loader configured. "
+                         "Set SAMLConfig::sp_private_key_loader to a callback that loads "
+                         "the SP private key from your HSM, KMS, or secrets manager.");
+    }
+
+    const std::string sp_key_pem = config_.sp_private_key_loader();
+    if (sp_key_pem.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "SP private key loader returned an empty string. "
+                         "Ensure the key is available in the configured secure store.");
+    }
+
+    // ----------------------------------------------------------------
+    // Step 2: Parse EncryptedData structure
+    // ----------------------------------------------------------------
+    auto enc_data_node = findChildByLocalName(encrypted_assertion_node, "EncryptedData");
+    if (!enc_data_node) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "EncryptedAssertion is missing the EncryptedData child element");
+    }
+
+    // Determine data encryption algorithm
+    std::string data_enc_alg;
+    {
+        auto enc_method = findChildByLocalName(enc_data_node, "EncryptionMethod");
+        if (enc_method) {
+            data_enc_alg = enc_method.attribute("Algorithm").as_string("");
+        }
+    }
+
+    // Locate EncryptedKey (inside KeyInfo or anywhere in the subtree)
+    pugi::xml_node enc_key_node;
+    {
+        auto key_info = findChildByLocalName(enc_data_node, "KeyInfo");
+        if (key_info) {
+            enc_key_node = findChildByLocalName(key_info, "EncryptedKey");
+        }
+        if (!enc_key_node) {
+            enc_key_node = findDescendantByLocalName(enc_data_node, "EncryptedKey");
+        }
+    }
+    if (!enc_key_node) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "EncryptedData contains no EncryptedKey; "
+                         "key-agreement methods are not supported");
+    }
+
+    // Key transport algorithm
+    std::string key_transport_alg;
+    {
+        auto key_enc_method = findChildByLocalName(enc_key_node, "EncryptionMethod");
+        if (key_enc_method) {
+            key_transport_alg = key_enc_method.attribute("Algorithm").as_string("");
+        }
+    }
+
+    // Extract base64-encoded encrypted symmetric key
+    std::string encrypted_key_b64;
+    {
+        auto key_cipher_data = findChildByLocalName(enc_key_node, "CipherData");
+        if (key_cipher_data) {
+            auto key_cipher_val = findChildByLocalName(key_cipher_data, "CipherValue");
+            if (key_cipher_val) {
+                encrypted_key_b64 = nodeText(key_cipher_val);
+            }
+        }
+    }
+    if (encrypted_key_b64.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "EncryptedKey CipherValue is missing or empty");
+    }
+    encrypted_key_b64.erase(std::remove_if(encrypted_key_b64.begin(), encrypted_key_b64.end(),
+                                           [](char c) { return std::isspace((unsigned char)c); }),
+                            encrypted_key_b64.end());
+
+    // Extract base64-encoded encrypted assertion
+    std::string encrypted_data_b64;
+    {
+        auto data_cipher_data = findChildByLocalName(enc_data_node, "CipherData");
+        if (data_cipher_data) {
+            auto data_cipher_val = findChildByLocalName(data_cipher_data, "CipherValue");
+            if (data_cipher_val) {
+                encrypted_data_b64 = nodeText(data_cipher_val);
+            }
+        }
+    }
+    if (encrypted_data_b64.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "EncryptedData CipherValue is missing or empty");
+    }
+    encrypted_data_b64.erase(std::remove_if(encrypted_data_b64.begin(), encrypted_data_b64.end(),
+                                            [](char c) { return std::isspace((unsigned char)c); }),
+                             encrypted_data_b64.end());
+
+    // ----------------------------------------------------------------
+    // Step 3: Load SP private key from the secure loader
+    // ----------------------------------------------------------------
+    BIO *key_bio = BIO_new_mem_buf(sp_key_pem.data(), static_cast<int>(sp_key_pem.size()));
+    if (!key_bio) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Failed to allocate BIO for SP private key");
+    }
+
+    EVP_PKEY *sp_pkey = PEM_read_bio_PrivateKey(key_bio, nullptr, nullptr, nullptr);
+    BIO_free(key_bio);
+
+    if (!sp_pkey) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Failed to parse SP private key PEM. "
+                         "The loader must return an unencrypted (passphrase-free) PKCS#8 or "
+                         "PKCS#1 RSA PEM.  If the key is passphrase-protected, decrypt it "
+                         "before returning it from sp_private_key_loader (e.g. using "
+                         "openssl rsa -in encrypted.pem -out plain.pem).");
+    }
+
+    // ----------------------------------------------------------------
+    // Step 4: RSA-decrypt the symmetric (AES) key
+    // ----------------------------------------------------------------
+    auto encrypted_key_bytes = base64Decode(encrypted_key_b64);
+    if (encrypted_key_bytes.empty()) {
+        EVP_PKEY_free(sp_pkey);
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Base64 decode of EncryptedKey CipherValue failed");
+    }
+
+    // Select RSA padding: OAEP is the default; fall back to PKCS1-v1.5 when
+    // explicitly indicated by the algorithm URI.
+    const bool using_pkcs1_v1_5 = (key_transport_alg.find("rsa-1_5") != std::string::npos);
+    const int rsa_padding       = using_pkcs1_v1_5 ? RSA_PKCS1_PADDING       // RSA-PKCS1-v1.5 (legacy)
+                                                   : RSA_PKCS1_OAEP_PADDING; // RSA-OAEP (default per XMLEnc)
+
+    if (using_pkcs1_v1_5) {
+        THEMIS_WARN("SAML: IdP is using RSA-PKCS1-v1.5 for EncryptedKey transport "
+                    "(algorithm URI: {}). This algorithm is deprecated and vulnerable to "
+                    "Bleichenbacher-style attacks. Configure the IdP to use "
+                    "RSA-OAEP (http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p) instead.",
+                    key_transport_alg);
+    }
+
+    EVP_PKEY_CTX *rsa_ctx = EVP_PKEY_CTX_new(sp_pkey, nullptr);
+    EVP_PKEY_free(sp_pkey);
+
+    if (!rsa_ctx) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Failed to create EVP_PKEY_CTX for key transport decryption");
+    }
+
+    std::vector<uint8_t> symmetric_key;
+    {
+        bool ok = false;
+        if (EVP_PKEY_decrypt_init(rsa_ctx) > 0 && EVP_PKEY_CTX_set_rsa_padding(rsa_ctx, rsa_padding) > 0) {
+            size_t key_len = 0;
+            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(), encrypted_key_bytes.size())
+                > 0) {
+                symmetric_key.resize(key_len);
+                if (EVP_PKEY_decrypt(rsa_ctx, symmetric_key.data(), &key_len, encrypted_key_bytes.data(),
+                                     encrypted_key_bytes.size())
+                    > 0) {
+                    symmetric_key.resize(key_len);
+                    ok = true;
+                }
+            }
+        }
+        EVP_PKEY_CTX_free(rsa_ctx);
+
+        if (!ok) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                             "RSA decryption of assertion symmetric key failed. "
+                             "Verify the SP private key matches the SP certificate "
+                             "advertised in the SAML metadata.");
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // Step 5: AES-CBC decrypt the assertion
+    // ----------------------------------------------------------------
+    auto encrypted_data_bytes = base64Decode(encrypted_data_b64);
+    if (encrypted_data_bytes.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Base64 decode of EncryptedData CipherValue failed");
+    }
+
+    // Select AES cipher from the data encryption algorithm URI.
+    // Per XML Encryption spec §5.2 the IV precedes the ciphertext in CipherValue.
+    const EVP_CIPHER *cipher = nullptr;
+    size_t required_key_size = 0;
+
+    if (data_enc_alg.find("aes256-cbc") != std::string::npos) {
+        cipher            = EVP_aes_256_cbc();
+        required_key_size = 32;
+    } else if (data_enc_alg.find("aes128-cbc") != std::string::npos) {
+        cipher            = EVP_aes_128_cbc();
+        required_key_size = 16;
+    } else if (data_enc_alg.empty()) {
+        // Infer from the decrypted key length when the algorithm is absent
+        if (symmetric_key.size() == 32) {
+            cipher            = EVP_aes_256_cbc();
+            required_key_size = 32;
+        } else if (symmetric_key.size() == 16) {
+            cipher            = EVP_aes_128_cbc();
+            required_key_size = 16;
+        }
+    }
+
+    if (!cipher) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Unsupported or unrecognized data encryption algorithm: '" + data_enc_alg
+                             + "'. Supported: aes128-cbc, aes256-cbc.");
+    }
+
+    if (symmetric_key.size() < required_key_size) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Decrypted symmetric key is shorter than required for the "
+                         "selected cipher (got "
+                             + std::to_string(symmetric_key.size()) + " bytes, need "
+                             + std::to_string(required_key_size) + ")");
+    }
+
+    const size_t iv_len = static_cast<size_t>(EVP_CIPHER_iv_length(cipher));
+    if (encrypted_data_bytes.size() <= iv_len) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "EncryptedData CipherValue is too short to contain an IV");
+    }
+
+    const uint8_t *iv         = encrypted_data_bytes.data();
+    const uint8_t *ciphertext = encrypted_data_bytes.data() + iv_len;
+    const int ct_len          = static_cast<int>(encrypted_data_bytes.size() - iv_len);
+
+    EVP_CIPHER_CTX *aes_ctx = EVP_CIPHER_CTX_new();
+    if (!aes_ctx) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "Failed to allocate AES cipher context");
+    }
+
+    std::vector<uint8_t> plaintext(static_cast<size_t>(ct_len) + static_cast<size_t>(EVP_CIPHER_block_size(cipher)));
+    int out1 = 0, out2 = 0;
+    bool aes_ok = (EVP_DecryptInit_ex(aes_ctx, cipher, nullptr, symmetric_key.data(), iv) == 1)
+                  && (EVP_DecryptUpdate(aes_ctx, plaintext.data(), &out1, ciphertext, ct_len) == 1)
+                  && (EVP_DecryptFinal_ex(aes_ctx, plaintext.data() + out1, &out2) == 1);
+    EVP_CIPHER_CTX_free(aes_ctx);
+
+    if (!aes_ok) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                         "AES-CBC decryption or PKCS#7 padding verification failed. "
+                         "The symmetric key or ciphertext may be corrupted.");
+    }
+
+    plaintext.resize(static_cast<size_t>(out1 + out2));
+    return std::string(reinterpret_cast<const char *>(plaintext.data()), plaintext.size());
+}
+
+// ============================================================================
+// processResponse - main entry point
+// ============================================================================
+
+SAMLClaims SAMLAuthenticator::processResponse(const std::string &saml_response_b64,
+                                              const std::string &in_response_to) const {
     try {
         return processResponseImpl(saml_response_b64, in_response_to);
-    } catch (const AuthException& ex) {
+    } catch (const AuthException &ex) {
         if (audit_logger_) {
-            const auto& err = ex.error();
+            const auto &err          = ex.error();
             const std::string reason = err.internalMessage().empty() ? err.publicMessage() : err.internalMessage();
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "saml/assertion", {{"reason", reason}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "saml/assertion",
+                                            {{"reason", reason}});
         }
         throw;
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         if (audit_logger_) {
-            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "saml/assertion", {{"reason", std::string(ex.what())}});
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "saml/assertion",
+                                            {{"reason", std::string(ex.what())}});
         }
         throw;
     }
 }
 
-SAMLClaims SAMLAuthenticator::processResponseImpl(
-        const std::string& saml_response_b64,
-        const std::string& in_response_to) const
-{
+SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_response_b64,
+                                                  const std::string &in_response_to) const {
     // ----------------------------------------------------------------
     // Step 1: Base64-decode the response
     // ----------------------------------------------------------------
     auto raw_bytes = base64Decode(saml_response_b64);
     if (raw_bytes.empty()) {
-        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                         "Invalid SAML response",
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                          "Base64 decode of SAMLResponse failed or produced empty output");
     }
-    const std::string xml_str(reinterpret_cast<const char*>(raw_bytes.data()),
-                               raw_bytes.size());
+    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()), raw_bytes.size());
 
     // ----------------------------------------------------------------
     // Step 2: Parse XML
@@ -519,16 +792,13 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     pugi::xml_document doc;
     auto parse_result = doc.load_string(xml_str.c_str());
     if (!parse_result) {
-        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                         "Invalid SAML response",
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                          std::string("XML parse error: ") + parse_result.description());
     }
 
     pugi::xml_node response_node = doc.first_child();
     if (!response_node) {
-        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                         "Invalid SAML response",
-                         "XML document is empty");
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response", "XML document is empty");
     }
 
     // ----------------------------------------------------------------
@@ -537,21 +807,17 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     {
         auto status_node = findDescendantByLocalName(response_node, "Status");
         if (!status_node) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                             "Invalid SAML response",
-                             "Missing Status element");
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response", "Missing Status element");
         }
         auto status_code_node = findChildByLocalName(status_node, "StatusCode");
         if (!status_code_node) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                             "Invalid SAML response",
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                              "Missing StatusCode element");
         }
-        std::string status_value = status_code_node.attribute("Value").as_string("");
+        std::string status_value         = status_code_node.attribute("Value").as_string("");
         const std::string SUCCESS_STATUS = "urn:oasis:names:tc:SAML:2.0:status:Success";
         if (status_value != SUCCESS_STATUS) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_STATUS_FAILURE,
-                             "Authentication failed",
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_STATUS_FAILURE, "Authentication failed",
                              "SAML Status is not Success: " + status_value);
         }
     }
@@ -568,11 +834,9 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
         if (irt_attr) {
             std::string irt = irt_attr.as_string("");
             if (irt != in_response_to) {
-                THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
-                                 "Invalid SAML response",
-                                 "Response InResponseTo '" + irt +
-                                 "' does not match expected AuthnRequest ID '" +
-                                 in_response_to + "'");
+                THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED, "Invalid SAML response",
+                                 "Response InResponseTo '" + irt + "' does not match expected AuthnRequest ID '"
+                                     + in_response_to + "'");
             }
         }
     }
@@ -583,99 +847,104 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     // Find Response-level signature
     auto response_sig = findSignature(response_node);
 
-    // Detect EncryptedAssertion elements (decryption is not yet supported)
+    // Detect EncryptedAssertion and attempt decryption when present.
+    // decryptAssertion() throws SAML_DECRYPTION_FAILED with an explicit
+    // diagnostic if the SP private key loader is not configured or decryption fails.
     auto encrypted_assertion_node = findDescendantByLocalName(response_node, "EncryptedAssertion");
+
+    // decrypted_assertion_doc keeps the decrypted XML document alive for the
+    // lifetime of this function so that assertion_node remains valid.
+    pugi::xml_document decrypted_assertion_doc;
+    pugi::xml_node assertion_node;
+
     if (encrypted_assertion_node) {
-        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
-                         "Encrypted assertion not supported",
-                         "SAMLResponse contains an EncryptedAssertion element. "
-                         "XML assertion decryption (requiring SP private key) is not yet implemented. "
-                         "Configure the IdP to send unencrypted assertions.");
-    }
+        const std::string decrypted_xml = decryptAssertion(encrypted_assertion_node);
+        auto dec_parse                  = decrypted_assertion_doc.load_string(decrypted_xml.c_str());
+        if (!dec_parse) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                             std::string("Decrypted assertion is not valid XML: ") + dec_parse.description());
+        }
+        assertion_node = decrypted_assertion_doc.document_element();
+        if (!assertion_node) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
+                             "Decrypted assertion XML document is empty");
+        }
+    } else {
+        // Find plain Assertion element
+        assertion_node = findDescendantByLocalName(response_node, "Assertion");
+        if (!assertion_node) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_MISSING_ASSERTION, "Invalid SAML response",
+                             "No Assertion element found in SAMLResponse");
+        }
 
-    // Find plain Assertion element
-    auto assertion_node = findDescendantByLocalName(response_node, "Assertion");
-    if (!assertion_node) {
-        THROW_AUTH_ERROR(AuthErrorCode::SAML_MISSING_ASSERTION,
-                         "Invalid SAML response",
-                         "No Assertion element found in SAMLResponse");
-    }
-
-    // Enforce require_encrypted_assertion: reject plain assertions when encryption is required
-    if (config_.require_encrypted_assertion) {
-        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
-                         "Encrypted assertion required but not supported",
-                         "require_encrypted_assertion=true is set but XML assertion decryption "
-                         "(requiring SP private key) is not yet implemented. "
-                         "Set require_encrypted_assertion=false or integrate an XML decryption library.");
+        // Enforce require_encrypted_assertion: reject plain (unencrypted) assertions
+        // when the SP policy mandates encryption.
+        if (config_.require_encrypted_assertion) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
+                             "require_encrypted_assertion=true but the SAMLResponse contains "
+                             "a plain (unencrypted) Assertion. Configure the IdP to send "
+                             "EncryptedAssertion elements and set sp_private_key_loader.");
+        }
     }
 
     auto assertion_sig = findSignature(assertion_node);
 
-    auto validateSignature = [&](const pugi::xml_node& element,
-                                  const pugi::xml_node& sig_node,
-                                  const std::string& element_name) {
-        auto signed_info_node = findChildByLocalName(sig_node, "SignedInfo");
-        if (!signed_info_node) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML signature",
-                             element_name + " Signature missing SignedInfo");
-        }
+    auto validateSignature
+        = [&](const pugi::xml_node &element, const pugi::xml_node &sig_node, const std::string &element_name) {
+              auto signed_info_node = findChildByLocalName(sig_node, "SignedInfo");
+              if (!signed_info_node) {
+                  THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML signature",
+                                   element_name + " Signature missing SignedInfo");
+              }
 
-        auto sig_value_node = findChildByLocalName(sig_node, "SignatureValue");
-        if (!sig_value_node) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML signature",
-                             element_name + " Signature missing SignatureValue");
-        }
+              auto sig_value_node = findChildByLocalName(sig_node, "SignatureValue");
+              if (!sig_value_node) {
+                  THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML signature",
+                                   element_name + " Signature missing SignatureValue");
+              }
 
-        auto sig_method_node = findChildByLocalName(signed_info_node, "SignatureMethod");
-        auto reference_node  = findChildByLocalName(signed_info_node, "Reference");
-        if (!sig_method_node || !reference_node) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML signature",
-                             element_name + " SignedInfo missing SignatureMethod or Reference");
-        }
+              auto sig_method_node = findChildByLocalName(signed_info_node, "SignatureMethod");
+              auto reference_node  = findChildByLocalName(signed_info_node, "Reference");
+              if (!sig_method_node || !reference_node) {
+                  THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML signature",
+                                   element_name + " SignedInfo missing SignatureMethod or Reference");
+              }
 
-        auto digest_method_node = findChildByLocalName(reference_node, "DigestMethod");
-        auto digest_value_node  = findChildByLocalName(reference_node, "DigestValue");
-        if (!digest_method_node || !digest_value_node) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML signature",
-                             element_name + " Reference missing DigestMethod or DigestValue");
-        }
+              auto digest_method_node = findChildByLocalName(reference_node, "DigestMethod");
+              auto digest_value_node  = findChildByLocalName(reference_node, "DigestValue");
+              if (!digest_method_node || !digest_value_node) {
+                  THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML signature",
+                                   element_name + " Reference missing DigestMethod or DigestValue");
+              }
 
-        std::string sig_alg     = sig_method_node.attribute("Algorithm").as_string("");
-        std::string digest_alg  = digest_method_node.attribute("Algorithm").as_string("");
-        std::string sig_value   = nodeText(sig_value_node);
-        std::string digest_val  = nodeText(digest_value_node);
+              std::string sig_alg    = sig_method_node.attribute("Algorithm").as_string("");
+              std::string digest_alg = digest_method_node.attribute("Algorithm").as_string("");
+              std::string sig_value  = nodeText(sig_value_node);
+              std::string digest_val = nodeText(digest_value_node);
 
-        // C14N of SignedInfo (use raw serialization as approximation; real
-        // implementations use exclusive C14N but for structural correctness
-        // the serialized form is used here—full C14N requires an XML C14N library)
-        std::string signed_info_c14n = nodeToString(signed_info_node);
-        std::string element_xml      = nodeToString(element);
+              // C14N of SignedInfo (use raw serialization as approximation; real
+              // implementations use exclusive C14N but for structural correctness
+              // the serialized form is used here—full C14N requires an XML C14N library)
+              std::string signed_info_c14n = nodeToString(signed_info_node);
+              std::string element_xml      = nodeToString(element);
 
-        // Strip whitespace from base64 values
-        sig_value.erase(std::remove_if(sig_value.begin(), sig_value.end(),
-                                        [](char c){ return std::isspace((unsigned char)c); }),
-                        sig_value.end());
-        digest_val.erase(std::remove_if(digest_val.begin(), digest_val.end(),
-                                         [](char c){ return std::isspace((unsigned char)c); }),
-                         digest_val.end());
+              // Strip whitespace from base64 values
+              sig_value.erase(std::remove_if(sig_value.begin(), sig_value.end(),
+                                             [](char c) { return std::isspace((unsigned char)c); }),
+                              sig_value.end());
+              digest_val.erase(std::remove_if(digest_val.begin(), digest_val.end(),
+                                              [](char c) { return std::isspace((unsigned char)c); }),
+                               digest_val.end());
 
-        if (!verifyXmlSignature(element_xml, sig_value, signed_info_c14n,
-                                digest_val, digest_alg, sig_alg)) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML signature",
-                             element_name + " XML signature verification failed");
-        }
-    };
+              if (!verifyXmlSignature(element_xml, sig_value, signed_info_c14n, digest_val, digest_alg, sig_alg)) {
+                  THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML signature",
+                                   element_name + " XML signature verification failed");
+              }
+          };
 
     if (config_.require_signed_response) {
         if (!response_sig) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML response",
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML response",
                              "SAMLResponse is not signed (require_signed_response=true)");
         }
         validateSignature(response_node, response_sig, "SAMLResponse");
@@ -685,8 +954,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
         if (!assertion_sig) {
             // If the Response was signed and contains the Assertion, that is
             // sometimes acceptable; however our default requires an Assertion sig.
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE,
-                             "Invalid SAML response",
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_SIGNATURE, "Invalid SAML response",
                              "Assertion is not signed (require_signed_assertion=true)");
         }
         validateSignature(assertion_node, assertion_sig, "Assertion");
@@ -696,33 +964,30 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     // Step 6: Validate Issuer
     // ----------------------------------------------------------------
     {
-        auto issuer_node = findChildByLocalName(assertion_node, "Issuer");
+        auto issuer_node   = findChildByLocalName(assertion_node, "Issuer");
         std::string issuer = issuer_node ? nodeText(issuer_node) : "";
         if (issuer != config_.idp_entity_id) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_ISSUER_MISMATCH,
-                             "Invalid SAML response",
-                             "Issuer mismatch: expected '" + config_.idp_entity_id +
-                             "', got '" + issuer + "'");
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_ISSUER_MISMATCH, "Invalid SAML response",
+                             "Issuer mismatch: expected '" + config_.idp_entity_id + "', got '" + issuer + "'");
         }
     }
 
     // ----------------------------------------------------------------
     // Step 7: Validate Conditions
     // ----------------------------------------------------------------
-    const auto now = clock_();
+    const auto now  = clock_();
     const auto skew = config_.clock_skew;
 
     {
         auto conditions_node = findDescendantByLocalName(assertion_node, "Conditions");
         if (conditions_node) {
-            auto nb_attr = conditions_node.attribute("NotBefore");
+            auto nb_attr  = conditions_node.attribute("NotBefore");
             auto noa_attr = conditions_node.attribute("NotOnOrAfter");
 
             if (nb_attr) {
                 auto not_before = parseDateTime(nb_attr.as_string(""));
                 if (now + skew < not_before) {
-                    THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
-                                     "Invalid SAML response",
+                    THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED, "Invalid SAML response",
                                      "Assertion not yet valid (NotBefore)");
                 }
             }
@@ -730,8 +995,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
             if (noa_attr) {
                 auto not_on_or_after = parseDateTime(noa_attr.as_string(""));
                 if (now - skew >= not_on_or_after) {
-                    THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
-                                     "Invalid SAML response",
+                    THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED, "Invalid SAML response",
                                      "Assertion has expired (NotOnOrAfter)");
                 }
             }
@@ -742,7 +1006,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                 bool audience_ok = false;
                 for (auto aud : audience_restriction.children()) {
                     std::string aud_name = aud.name();
-                    auto colon = aud_name.rfind(':');
+                    auto colon           = aud_name.rfind(':');
                     if ((colon != std::string::npos ? aud_name.substr(colon + 1) : aud_name) == "Audience") {
                         if (nodeText(aud) == config_.sp_entity_id) {
                             audience_ok = true;
@@ -751,8 +1015,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     }
                 }
                 if (!audience_ok) {
-                    THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
-                                     "Invalid SAML response",
+                    THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED, "Invalid SAML response",
                                      "SP entity ID not in AudienceRestriction");
                 }
             }
@@ -769,8 +1032,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     if (noa_attr2) {
                         auto not_on_or_after2 = parseDateTime(noa_attr2.as_string(""));
                         if (now - skew >= not_on_or_after2) {
-                            THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
-                                             "Invalid SAML response",
+                            THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED, "Invalid SAML response",
                                              "SubjectConfirmation has expired");
                         }
                     }
@@ -780,8 +1042,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     if (recipient_attr) {
                         std::string recipient = recipient_attr.as_string("");
                         if (!recipient.empty() && recipient != config_.sp_acs_url) {
-                            THROW_AUTH_ERROR(AuthErrorCode::SAML_DESTINATION_MISMATCH,
-                                             "Invalid SAML response",
+                            THROW_AUTH_ERROR(AuthErrorCode::SAML_DESTINATION_MISMATCH, "Invalid SAML response",
                                              "SubjectConfirmationData Recipient mismatch");
                         }
                     }
@@ -792,8 +1053,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                         if (irt_attr) {
                             std::string irt = irt_attr.as_string("");
                             if (!irt.empty() && irt != in_response_to) {
-                                THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
-                                                 "Invalid SAML response",
+                                THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED, "Invalid SAML response",
                                                  "InResponseTo mismatch");
                             }
                         }
@@ -808,8 +1068,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     // ----------------------------------------------------------------
     std::string assertion_id = assertion_node.attribute("ID").as_string("");
     if (assertion_id.empty()) {
-        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                         "Invalid SAML response",
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                          "Assertion is missing ID attribute");
     }
 
@@ -827,7 +1086,11 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     if (noa) {
                         try {
                             assertion_expiry = parseDateTime(noa.as_string("")) + config_.clock_skew;
-                        } catch (...) {}
+                        } catch (const std::exception &ex) {
+                            THEMIS_WARN("SAML: failed to parse SubjectConfirmationData@NotOnOrAfter "
+                                        "for replay TTL fallback: {}",
+                                        ex.what());
+                        }
                     }
                 }
             }
@@ -838,7 +1101,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
         std::lock_guard<std::mutex> lock(replay_cache_mutex_);
 
         // Evict expired entries before checking/inserting (lazy TTL eviction).
-        for (auto it = seen_assertion_ids_.begin(); it != seen_assertion_ids_.end(); ) {
+        for (auto it = seen_assertion_ids_.begin(); it != seen_assertion_ids_.end();) {
             if (now >= it->second) {
                 it = seen_assertion_ids_.erase(it);
             } else {
@@ -848,8 +1111,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
 
         // Check for replay
         if (seen_assertion_ids_.count(assertion_id)) {
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_REPLAY_DETECTED,
-                             "Authentication replay detected",
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_REPLAY_DETECTED, "Authentication replay detected",
                              "Assertion ID '" + assertion_id + "' has already been used");
         }
 
@@ -859,8 +1121,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                         "Rejecting assertion to prevent cache bypass. "
                         "Consider using a distributed TTL cache for high-volume deployments.",
                         config_.max_replay_cache_size);
-            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
-                             "Authentication temporarily unavailable",
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Authentication temporarily unavailable",
                              "SAML replay cache is full; assertion rejected");
         }
 
@@ -876,17 +1137,17 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     // Issuer
     {
         auto issuer_node = findChildByLocalName(assertion_node, "Issuer");
-        claims.issuer = issuer_node ? nodeText(issuer_node) : "";
+        claims.issuer    = issuer_node ? nodeText(issuer_node) : "";
     }
 
     // IssueInstant
     {
         auto ii_attr = assertion_node.attribute("IssueInstant");
         if (ii_attr) {
-            try { claims.issued_at = parseDateTime(ii_attr.as_string("")); }
-            catch (const std::exception& e) {
-                THEMIS_WARN("SAML: Failed to parse IssueInstant '{}': {}",
-                            ii_attr.as_string(""), e.what());
+            try {
+                claims.issued_at = parseDateTime(ii_attr.as_string(""));
+            } catch (const std::exception &e) {
+                THEMIS_WARN("SAML: Failed to parse IssueInstant '{}': {}", ii_attr.as_string(""), e.what());
             }
         }
     }
@@ -907,12 +1168,16 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     {
         auto cond_node = findDescendantByLocalName(assertion_node, "Conditions");
         if (cond_node) {
-            auto nb_attr = cond_node.attribute("NotBefore");
+            auto nb_attr  = cond_node.attribute("NotBefore");
             auto noa_attr = cond_node.attribute("NotOnOrAfter");
             try {
-                if (nb_attr)  claims.not_before       = parseDateTime(nb_attr.as_string(""));
-                if (noa_attr) claims.not_on_or_after   = parseDateTime(noa_attr.as_string(""));
-            } catch (const std::exception& e) {
+                if (nb_attr) {
+                    claims.not_before = parseDateTime(nb_attr.as_string(""));
+                }
+                if (noa_attr) {
+                    claims.not_on_or_after = parseDateTime(noa_attr.as_string(""));
+                }
+            } catch (const std::exception &e) {
                 THEMIS_WARN("SAML: Failed to parse Conditions datetime: {}", e.what());
             }
 
@@ -920,7 +1185,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
             if (ar_node) {
                 for (auto child : ar_node.children()) {
                     std::string cn = child.name();
-                    auto c = cn.rfind(':');
+                    auto c         = cn.rfind(':');
                     if ((c != std::string::npos ? cn.substr(c + 1) : cn) == "Audience") {
                         claims.audience.push_back(nodeText(child));
                     }
@@ -940,11 +1205,14 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     try {
                         auto nb  = scd_node.attribute("NotBefore");
                         auto noa = scd_node.attribute("NotOnOrAfter");
-                        if (nb)  claims.not_before       = parseDateTime(nb.as_string(""));
-                        if (noa) claims.not_on_or_after   = parseDateTime(noa.as_string(""));
-                    } catch (const std::exception& e) {
-                        THEMIS_WARN("SAML: Failed to parse SubjectConfirmationData datetime: {}",
-                                    e.what());
+                        if (nb) {
+                            claims.not_before = parseDateTime(nb.as_string(""));
+                        }
+                        if (noa) {
+                            claims.not_on_or_after = parseDateTime(noa.as_string(""));
+                        }
+                    } catch (const std::exception &e) {
+                        THEMIS_WARN("SAML: Failed to parse SubjectConfirmationData datetime: {}", e.what());
                     }
                 }
             }
@@ -956,7 +1224,9 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
         auto authn_stmt = findDescendantByLocalName(assertion_node, "AuthnStatement");
         if (authn_stmt) {
             auto si_attr = authn_stmt.attribute("SessionIndex");
-            if (si_attr) claims.session_index = si_attr.as_string("");
+            if (si_attr) {
+                claims.session_index = si_attr.as_string("");
+            }
         }
     }
 
@@ -967,31 +1237,33 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
             for (auto attr_node : attr_stmt.children()) {
                 // Attribute or saml:Attribute
                 std::string attr_tag = attr_node.name();
-                auto colon = attr_tag.rfind(':');
-                std::string lname = (colon != std::string::npos)
-                                    ? attr_tag.substr(colon + 1)
-                                    : attr_tag;
-                if (lname != "Attribute") continue;
+                auto colon           = attr_tag.rfind(':');
+                std::string lname    = (colon != std::string::npos) ? attr_tag.substr(colon + 1) : attr_tag;
+                if (lname != "Attribute") {
+                    continue;
+                }
 
                 std::string attr_name = attr_node.attribute("Name").as_string("");
                 for (auto val_node : attr_node.children()) {
                     std::string vn = val_node.name();
-                    auto cv = vn.rfind(':');
+                    auto cv        = vn.rfind(':');
                     if ((cv != std::string::npos ? vn.substr(cv + 1) : vn) == "AttributeValue") {
                         std::string val = nodeText(val_node);
                         claims.raw_attributes.emplace_back(attr_name, val);
 
                         // Map to known claims
-                        if (attr_name == config_.attr_email ||
-                            attr_name == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress") {
-                            if (claims.email.empty()) claims.email = val;
+                        if (attr_name == config_.attr_email
+                            || attr_name == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress") {
+                            if (claims.email.empty()) {
+                                claims.email = val;
+                            }
                         }
-                        if (attr_name == "groups" || attr_name == "memberOf" ||
-                            attr_name == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups") {
+                        if (attr_name == "groups" || attr_name == "memberOf"
+                            || attr_name == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups") {
                             claims.attributes_groups.push_back(val);
                         }
-                        if (attr_name == "roles" || attr_name == "Role" ||
-                            attr_name == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role") {
+                        if (attr_name == "roles" || attr_name == "Role"
+                            || attr_name == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role") {
                             claims.attributes_roles.push_back(val);
                         }
                     }
@@ -1001,21 +1273,24 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     }
 
     // Fallback: if email not found in attributes, use NameID if it looks like an email
-    if (claims.email.empty() &&
-        claims.name_id_format.find("emailAddress") != std::string::npos) {
+    if (claims.email.empty() && claims.name_id_format.find("emailAddress") != std::string::npos) {
         claims.email = claims.subject_name_id;
     }
 
-    THEMIS_INFO("SAML: Authentication successful: subject={}, email={}, issuer={}", // NOPII: both subject_name_id and email (which may equal subject_name_id) are individually masked via AuthError::maskSensitiveData() before logging
-                AuthError::maskSensitiveData(claims.subject_name_id),
-                AuthError::maskSensitiveData(claims.email),
-                claims.issuer);
+    THEMIS_INFO(
+        "SAML: Authentication successful: subject={}, email={}, issuer={}", // NOPII: both subject_name_id and email
+                                                                            // (which may equal subject_name_id) are
+                                                                            // individually masked via
+                                                                            // AuthError::maskSensitiveData() before
+                                                                            // logging
+        AuthError::maskSensitiveData(claims.subject_name_id), AuthError::maskSensitiveData(claims.email),
+        claims.issuer);
     if (audit_logger_) {
         nlohmann::json d;
         d["issuer"]       = claims.issuer;
         d["assertion_id"] = claims.assertion_id;
-        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS,
-            claims.subject_name_id, "saml/assertion", d);
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS, claims.subject_name_id,
+                                        "saml/assertion", d);
     }
     return claims;
 }

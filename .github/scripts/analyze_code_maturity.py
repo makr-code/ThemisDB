@@ -24,6 +24,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
+from urllib.parse import urlparse
 
 # ---------------------------------------------------------------------------
 # Konfiguration
@@ -67,14 +68,27 @@ EXCLUDE_DIRS: set = {
 # ---------------------------------------------------------------------------
 
 # Negative Muster (Abzüge)
+
+# Catches explicit stubs, placeholders, no-ops and "not yet implemented" patterns.
+# Includes the canonical STUB/SIMULATION NOTE: comment format.
+# Deliberately broad to surface undocumented shortcomings; the
+# PATTERN_DOCUMENTED_STUB pattern below is used to credit proper documentation.
 PATTERN_STUBS = re.compile(
-    r'\b(stub|STUB|NotImplemented|'
-    r'throw\s+std::runtime_error\s*\(\s*["\']not implemented["\'])',
+    r'\b(?:stub|placeholder|noop|NotImplemented)\b'
+    r'|no[-_\s]op\b'
+    r'|not\s+yet\s+implement\w*'
+    r'|throw\s+std::runtime_error\s*\(\s*["\']not\s+implemented["\']\s*\)',
     re.IGNORECASE,
 )
 
+# Catches simulation/mock code including camelCase variants such as
+# simulateQualityTest(), "simulated gradients", mockInference(), etc.
+# Uses the stem 'simulat' so it matches simulate/simulated/simulating/simulation.
 PATTERN_SIMULATIONS = re.compile(
-    r'\b(simulate|mock|fake|dummy|SIMULATION)\b',
+    r'\bsimulat\w*\b'
+    r'|\bmock(?:ed|ing|s)?\b'
+    r'|\bfake[ds]?\b'
+    r'|\bdummy\b',
     re.IGNORECASE,
 )
 
@@ -92,7 +106,26 @@ PATTERN_HARDCODED = re.compile(
     re.IGNORECASE,
 )
 
+# Catches deliberately disabled code blocks such as `if (false && condition)`
+# or `// DISABLED` comments.  These indicate known-broken paths left in source.
+PATTERN_DEAD_CODE = re.compile(
+    r'if\s*\(\s*false\s*&&'
+    r'|//\s*DISABLED\b'
+    r'|//\s*disabled:',
+    re.IGNORECASE,
+)
+
+# Detects the canonical STUB/SIMULATION NOTE: documentation format.
+# Lines carrying this marker are already counted as stubs/simulations above,
+# but their presence is credited in the score as properly-documented debt.
+PATTERN_DOCUMENTED_STUB = re.compile(
+    r'STUB/SIMULATION NOTE\s*:',
+)
+
 # Positive Muster (Bonuspunkte)
+
+# NOTE: The @production_ready / production_ready bonus is intentionally small
+# (3 pts, down from 10) to prevent gaming the metric by adding a single comment.
 PATTERN_PRODUCTION = re.compile(
     r'@production\b|production_ready',
     re.IGNORECASE,
@@ -111,18 +144,22 @@ PATTERN_DOCS = re.compile(
 # ---------------------------------------------------------------------------
 
 SCORE_PENALTIES: Dict[str, int] = {
-    'stub':       5,
-    'simulation': 3,
-    'todo':       2,
-    'debug':      1,
-    'hardcoded':  4,
+    'stub':            7,   # up from 5 – undocumented stubs are high-priority debt
+    'simulation':      5,   # up from 3 – untracked simulations need surfacing
+    'todo':            3,   # up from 2 – pending work items
+    'debug':           1,
+    'hardcoded':       4,
+    'dead_code':       6,   # new – deliberately disabled code (`if (false &&`)
+    'documented_stub': 2,   # lighter penalty for properly-documented stubs
 }
 
 SCORE_BONUSES: Dict[str, Tuple[int, int]] = {
     # (Punkte pro Vorkommen, Maximum)
-    'production': (10, 9999),
-    'tests':      (2,  20),
-    'docs':       (1,  15),
+    # NOTE: 'production' bonus reduced from 10→3 to prevent score gaming.
+    'production':       (3,  9),
+    'tests':            (2,  20),
+    'docs':             (1,  15),
+    'documented_stub':  (1,  10),  # credit for proper STUB/SIMULATION NOTE: usage
 }
 
 # ---------------------------------------------------------------------------
@@ -184,25 +221,29 @@ def analyze_file(file_path: Path) -> Dict[str, Any]:
 
     # Vorkommen pro Pattern mit Zeilennummern
     findings: Dict[str, List[Tuple[int, str]]] = {
-        'stub':       [],
-        'simulation': [],
-        'todo':       [],
-        'debug':      [],
-        'hardcoded':  [],
-        'production': [],
-        'tests':      [],
-        'docs':       [],
+        'stub':            [],
+        'simulation':      [],
+        'todo':            [],
+        'debug':           [],
+        'hardcoded':       [],
+        'dead_code':       [],
+        'documented_stub': [],
+        'production':      [],
+        'tests':           [],
+        'docs':            [],
     }
 
     pattern_map = {
-        'stub':       PATTERN_STUBS,
-        'simulation': PATTERN_SIMULATIONS,
-        'todo':       PATTERN_TODOS,
-        'debug':      PATTERN_DEBUG,
-        'hardcoded':  PATTERN_HARDCODED,
-        'production': PATTERN_PRODUCTION,
-        'tests':      PATTERN_TESTS,
-        'docs':       PATTERN_DOCS,
+        'stub':            PATTERN_STUBS,
+        'simulation':      PATTERN_SIMULATIONS,
+        'todo':            PATTERN_TODOS,
+        'debug':           PATTERN_DEBUG,
+        'hardcoded':       PATTERN_HARDCODED,
+        'dead_code':       PATTERN_DEAD_CODE,
+        'documented_stub': PATTERN_DOCUMENTED_STUB,
+        'production':      PATTERN_PRODUCTION,
+        'tests':           PATTERN_TESTS,
+        'docs':            PATTERN_DOCS,
     }
 
     for lineno, line in enumerate(lines, start=1):
@@ -210,10 +251,26 @@ def analyze_file(file_path: Path) -> Dict[str, Any]:
             if pattern.search(line):
                 findings[key].append((lineno, line.strip()))
 
+    # ---------------------------------------------------------------------------
     # Score berechnen
+    # ---------------------------------------------------------------------------
+    # Documented stubs (STUB/SIMULATION NOTE:) are already matched by the
+    # stub and simulation patterns.  To avoid triple-penalising them (stub +
+    # simulation + documented_stub), subtract the documented count from the
+    # effective stub and simulation counts before applying their heavier penalty,
+    # then apply the lighter documented_stub penalty once.
+    doc_count      = len(findings['documented_stub'])
+    eff_stubs      = max(0, len(findings['stub'])       - doc_count)
+    eff_simulations = max(0, len(findings['simulation']) - doc_count)
+
     score = 100.0
-    for key, penalty in SCORE_PENALTIES.items():
-        score -= len(findings[key]) * penalty
+    score -= eff_stubs                    * SCORE_PENALTIES['stub']
+    score -= eff_simulations              * SCORE_PENALTIES['simulation']
+    score -= doc_count                    * SCORE_PENALTIES['documented_stub']
+    score -= len(findings['todo'])        * SCORE_PENALTIES['todo']
+    score -= len(findings['debug'])       * SCORE_PENALTIES['debug']
+    score -= len(findings['hardcoded'])   * SCORE_PENALTIES['hardcoded']
+    score -= len(findings['dead_code'])   * SCORE_PENALTIES['dead_code']
 
     for key, (bonus_per, max_bonus) in SCORE_BONUSES.items():
         earned = min(len(findings[key]) * bonus_per, max_bonus)
@@ -416,6 +473,9 @@ def _build_header_lines(
     total_lines: int,
     todos: int,
     stubs: int,
+    simulations: int,
+    dead_code: int,
+    documented_stubs: int,
     status: str,
     history: Optional[List[Dict[str, str]]] = None,
 ) -> List[str]:
@@ -427,6 +487,14 @@ def _build_header_lines(
 
     def row(text: str) -> str:
         return f'  {_pad(text, inner)} ║'
+
+    # Build the Open Issues detail string
+    issue_parts = [f'TODOs: {todos}', f'Stubs: {stubs}', f'Simulations: {simulations}']
+    if dead_code:
+        issue_parts.append(f'DeadCode: {dead_code}')
+    if documented_stubs:
+        issue_parts.append(f'DocumentedStubs: {documented_stubs}')
+    open_issues_str = ', '.join(issue_parts)
 
     lines = [
         '╔' + '═' * (_BOX_WIDTH - 2) + '╗',
@@ -441,7 +509,7 @@ def _build_header_lines(
         row(f'  • Maturity Level:  {maturity}'),
         row(f'  • Quality Score:   {score}/100'),
         row(f'  • Total Lines:     {total_lines}'),
-        row(f'  • Open Issues:     TODOs: {todos}, Stubs: {stubs}'),
+        row(f'  • Open Issues:     {open_issues_str}'),
     ]
 
     # Revisionshistorie hinzufügen
@@ -520,6 +588,9 @@ def write_header(
         total_lines=result['total_lines'],
         todos=result['counts']['todo'],
         stubs=result['counts']['stub'],
+        simulations=result['counts']['simulation'],
+        dead_code=result['counts']['dead_code'],
+        documented_stubs=result['counts']['documented_stub'],
         status=result['status'],
         history=history,
     )
@@ -543,16 +614,19 @@ def generate_report(
     results: List[Dict[str, Any]],
     tracking: Dict[str, Any],
     output_path: Path,
+    repo_meta: Optional[Dict[str, str]] = None,
 ) -> None:
     """Generiert den Markdown-Report."""
     now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
     total = len(results)
 
     # Gesamtstatistiken berechnen
-    total_stubs   = sum(r['counts']['stub']       for r in results)
-    total_todos   = sum(r['counts']['todo']        for r in results)
-    total_sims    = sum(r['counts']['simulation']  for r in results)
-    avg_score     = (sum(r['score'] for r in results) / total) if total else 0
+    total_stubs       = sum(r['counts']['stub']            for r in results)
+    total_todos       = sum(r['counts']['todo']            for r in results)
+    total_sims        = sum(r['counts']['simulation']      for r in results)
+    total_dead        = sum(r['counts']['dead_code']       for r in results)
+    total_doc_stubs   = sum(r['counts']['documented_stub'] for r in results)
+    avg_score         = (sum(r['score'] for r in results) / total) if total else 0
 
     dist: Dict[str, int] = {
         '🟢 PRODUCTION-READY':  0,
@@ -572,12 +646,24 @@ def generate_report(
     lines.append(f'**Analyzed Files:** {total}  ')
     lines.append(f'**Average Maturity Score:** {avg_score:.1f}/100\n')
 
+    if repo_meta:
+        lines.append('## 🧭 Repository Context\n')
+        if repo_meta.get('name_with_owner'):
+            lines.append(f'**Repository:** {repo_meta["name_with_owner"]}  ')
+        if repo_meta.get('default_branch'):
+            lines.append(f'**Default Branch:** {repo_meta["default_branch"]}  ')
+        if repo_meta.get('url'):
+            lines.append(f'**Remote URL:** {repo_meta["url"]}  ')
+        lines.append('')
+
     lines.append('## 📊 Overall Statistics\n')
     lines.append('| Metric | Count |')
     lines.append('|--------|-------|')
-    lines.append(f'| 🔴 Stubs Found | {total_stubs} |')
+    lines.append(f'| 🔴 Stubs / Placeholders Found | {total_stubs} |')
     lines.append(f'| 📝 TODOs/FIXMEs | {total_todos} |')
     lines.append(f'| 🎭 Simulations/Mocks | {total_sims} |')
+    lines.append(f'| 💀 Dead Code Blocks (`if false &&`) | {total_dead} |')
+    lines.append(f'| ✅ Documented Stubs (STUB/SIMULATION NOTE:) | {total_doc_stubs} |')
     lines.append('')
 
     lines.append('## 📈 Maturity Distribution\n')
@@ -596,17 +682,19 @@ def generate_report(
 
         has_issues = any(
             r['counts'].get(k, 0) > 0
-            for k in ('stub', 'simulation', 'todo', 'debug', 'hardcoded')
+            for k in ('stub', 'simulation', 'todo', 'debug', 'hardcoded', 'dead_code', 'documented_stub')
         )
         if has_issues:
             lines.append('**Issues Found:**\n')
 
         issue_map = [
-            ('stub',       '🔴 STUB'),
-            ('simulation', '🎭 SIMULATION'),
-            ('todo',       '📝 TODO'),
-            ('debug',      '🐛 DEBUG'),
-            ('hardcoded',  '🔒 HARDCODED'),
+            ('stub',            '🔴 STUB/PLACEHOLDER'),
+            ('simulation',      '🎭 SIMULATION'),
+            ('todo',            '📝 TODO'),
+            ('debug',           '🐛 DEBUG'),
+            ('hardcoded',       '🔒 HARDCODED'),
+            ('dead_code',       '💀 DEAD CODE'),
+            ('documented_stub', '✅ DOCUMENTED STUB'),
         ]
         for key, label in issue_map:
             occurrences = r['findings'].get(key, [])
@@ -623,11 +711,18 @@ def generate_report(
     lines.append('## 🎯 Recommended Actions\n')
     actions = []
     if total_stubs:
-        actions.append(f'1. **Implement {total_stubs} stub(s)** - Replace placeholder code with real implementations')
+        actions.append(f'1. **Implement {total_stubs} stub(s)/placeholder(s)** – Replace placeholder code with real implementations')
     if total_todos:
-        actions.append(f'{len(actions)+1}. **Resolve {total_todos} TODO(s)** - Complete pending work items')
+        actions.append(f'{len(actions)+1}. **Resolve {total_todos} TODO(s)** – Complete pending work items')
     if total_sims:
-        actions.append(f'{len(actions)+1}. **Replace {total_sims} simulation(s)** - Integrate real services/data')
+        actions.append(f'{len(actions)+1}. **Replace {total_sims} simulation(s)** – Integrate real services/data')
+    if total_dead:
+        actions.append(f'{len(actions)+1}. **Fix {total_dead} dead code block(s)** – Remove or re-enable `if (false &&` guarded paths')
+    if total_doc_stubs:
+        actions.append(
+            f'{len(actions)+1}. **Track {total_doc_stubs} documented stub(s)** – '
+            'Properly documented via STUB/SIMULATION NOTE: – schedule removal per Removal Plan'
+        )
     if not actions:
         actions.append('✅ No critical issues found!')
     lines.extend(actions)
@@ -763,6 +858,99 @@ def find_source_files(root: Path) -> List[Path]:
     return sorted(files)
 
 
+def _parse_owner_repo_from_remote(remote_url: str) -> Tuple[Optional[str], Optional[str]]:
+    """Best-effort parsing of owner/repo from common git remote URL formats."""
+    if not remote_url:
+        return None, None
+
+    cleaned = remote_url.strip()
+    if cleaned.endswith('.git'):
+        cleaned = cleaned[:-4]
+
+    # SSH format: git@github.com:owner/repo
+    m = re.match(r'^[^@]+@[^:]+:(?P<owner>[^/]+)/(?P<repo>[^/]+)$', cleaned)
+    if m:
+        return m.group('owner'), m.group('repo')
+
+    # HTTPS format: https://github.com/owner/repo
+    try:
+        parsed = urlparse(cleaned)
+        if parsed.path:
+            parts = [p for p in parsed.path.split('/') if p]
+            if len(parts) >= 2:
+                return parts[0], parts[1]
+    except Exception:
+        pass
+
+    return None, None
+
+
+def get_repo_metadata(root: Path) -> Dict[str, str]:
+    """
+    Resolve repository metadata for report context.
+
+    Priority:
+      1) gh repo view --json ... (local-friendly when gh auth is configured)
+      2) git remote + git rev-parse fallback
+    """
+    meta: Dict[str, str] = {}
+
+    # 1) Preferred: GitHub CLI (works locally with auth)
+    try:
+        gh = subprocess.run(
+            [
+                'gh', 'repo', 'view',
+                '--json', 'nameWithOwner,defaultBranchRef,url',
+            ],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=8,
+        )
+        if gh.returncode == 0 and gh.stdout.strip():
+            data = json.loads(gh.stdout)
+            meta['name_with_owner'] = data.get('nameWithOwner', '')
+            meta['default_branch'] = (data.get('defaultBranchRef') or {}).get('name', '')
+            meta['url'] = data.get('url', '')
+            # If gh worked we already have the richest source.
+            return {k: v for k, v in meta.items() if v}
+    except Exception:
+        pass
+
+    # 2) Fallback: git origin + branch parsing
+    try:
+        remote = subprocess.run(
+            ['git', 'remote', 'get-url', 'origin'],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if remote.returncode == 0:
+            remote_url = remote.stdout.strip()
+            meta['url'] = remote_url
+            owner, repo = _parse_owner_repo_from_remote(remote_url)
+            if owner and repo:
+                meta['name_with_owner'] = f'{owner}/{repo}'
+    except Exception:
+        pass
+
+    try:
+        branch = subprocess.run(
+            ['git', 'rev-parse', '--abbrev-ref', 'origin/HEAD'],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if branch.returncode == 0 and branch.stdout.strip().startswith('origin/'):
+            meta['default_branch'] = branch.stdout.strip().split('/', 1)[1]
+    except Exception:
+        pass
+
+    return {k: v for k, v in meta.items() if v}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description='ThemisDB Code-Maturity-Analyse und Auto-Versionierung',
@@ -777,13 +965,28 @@ def main() -> int:
         action='store_true',
         help='Header-Aktualisierung deaktivieren',
     )
+    parser.add_argument(
+        '--report-path',
+        default=None,
+        help='Ausgabepfad für den Markdown-Report (Standard: docs/code_maturity_report.md)',
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
     write_headers = not args.no_headers
+    repo_meta = get_repo_metadata(root)
 
     tracking_path = root / '.github' / 'version_tracking.json'
-    report_path   = root / 'feature_enhancement.md'
+    # Use the provided --report-path, falling back to the canonical docs location.
+    # The old default (FEATURE_ENHANCEMENT.md) was semantically incorrect as that
+    # file is the product roadmap/feature wishlist, not a code quality report.
+    if args.report_path:
+        report_path = Path(args.report_path)
+        if not report_path.is_absolute():
+            report_path = root / report_path
+    else:
+        report_path = root / 'docs' / 'code_maturity_report.md'
+    report_path.parent.mkdir(parents=True, exist_ok=True)
 
     print('🔍 Starting code maturity analysis...')
     if write_headers:
@@ -833,8 +1036,12 @@ def main() -> int:
         print(f'📈 Total commits in history: {total_commits:,}')
 
     # Report generieren
-    generate_report(results, tracking, report_path)
-    print(f'✅ Report written to {report_path.relative_to(root)}')
+    generate_report(results, tracking, report_path, repo_meta=repo_meta)
+    try:
+        display_path = report_path.relative_to(root)
+    except ValueError:
+        display_path = report_path
+    print(f'✅ Report written to {display_path}')
 
     # Versions-Tracking speichern
     save_version_tracking(tracking_path, tracking)

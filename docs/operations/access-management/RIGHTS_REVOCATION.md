@@ -1,7 +1,7 @@
 # Rights Revocation Automation
 
 **Version:** 1.5.0  
-**Last Updated:** 2026-02-03  
+**Last Updated:** 2026-04-06  
 **Addresses:** FIND-028 - Automate Manual Rights Revocations
 
 ---

@@ -1,28 +1,27 @@
+/**
+ * @file policy_validation_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_validation_api_handler.cpp                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     224                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_validation_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=3, L=0
+ * PR History (last 5): #1075 Implement GAP-004 Phase 5: ... (2026-03-11) | #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_validation_api_handler.h"
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -42,6 +41,7 @@ PolicyValidationApiHandler::PolicyValidationApiHandler(
 http::response<http::string_body> PolicyValidationApiHandler::handleValidateRuleset(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleValidateRuleset");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -51,8 +51,8 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateRule
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
-        auto report = validator_->validateRuleset();
+        auto& validator = *validator_;
+        auto report = validator.validateRuleset();
         
         return makeResponse(http::status::ok, report.toJson().dump(2), req);
         
@@ -65,6 +65,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateRule
 http::response<http::string_body> PolicyValidationApiHandler::handleValidateSingleRule(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleValidateSingleRule");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -74,12 +75,12 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateSing
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
+        auto& validator = *validator_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
         auto rule = themis::governance::PolicyRule::fromJson(body);
-        auto issues = validator_->validateSingleRule(rule);
+        auto issues = validator.validateSingleRule(rule);
         
         nlohmann::json response = {
             {"rule_id", rule.id},
@@ -98,6 +99,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateSing
 http::response<http::string_body> PolicyValidationApiHandler::handleGetValidationReport(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetValidationReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -107,8 +109,8 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetValidatio
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
-        auto report = validator_->validateRuleset();
+        auto& validator = *validator_;
+        auto report = validator.validateRuleset();
         
         return makeResponse(http::status::ok, report.toJson().dump(2), req);
         
@@ -121,6 +123,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetValidatio
 http::response<http::string_body> PolicyValidationApiHandler::handleGetMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetMetrics");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -130,8 +133,8 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetMetrics(
             return makeErrorResponse(http::status::service_unavailable, 
                 "PolicyValidator not initialized", req);
         }
-        
-        auto metrics = validator_->calculateEffectiveness();
+        auto& validator = *validator_;
+        auto metrics = validator.calculateEffectiveness();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& metric : metrics) {
@@ -161,17 +164,18 @@ bool PolicyValidationApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy validation endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy validation endpoint");
         return false;
     }
     
     // Extract Bearer token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_it->value().data(), auth_it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     
     if (!token) {
@@ -183,7 +187,7 @@ bool PolicyValidationApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for policy validation endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,

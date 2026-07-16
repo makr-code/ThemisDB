@@ -1,0 +1,440 @@
+school_id: rationalism
+name: Rationalism
+name_de: Rationalismus
+taxonomy_class: deontological
+tags:
+- rationalismus
+- vernunft
+- descartes
+- leibniz
+- spinoza
+- apriorisch
+- vernunftethik
+applicable_domains:
+- ai_ethics
+- legal
+- technology
+convergence_compatible:
+- kant
+activation_conditions:
+- condition: dilemma.tags enthält reason ODER rationality ODER a_priori
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Vernunftprinzipien sind leitend
+domain_overrides: {}
+founders:
+- name: René Descartes
+  years: 1596-1650
+  nationality: Französisch
+  birthplace: La Haye en Touraine, Frankreich
+  key_works:
+  - title: Meditationes de prima philosophia (Meditationen über die Erste Philosophie)
+    year: 1641
+    significance: Methodischer Zweifel, Cogito ergo sum, Gottesbeweis
+  - title: Discours de la méthode (Abhandlung über die Methode)
+    year: 1637
+    significance: Vier Regeln der Methode, Grundlegung wissenschaftlicher Methodik
+  - title: Principia philosophiae (Prinzipien der Philosophie)
+    year: 1644
+    significance: Systematische Darstellung der cartesischen Philosophie
+  biography: 'Descartes gilt als Begründer des modernen Rationalismus und der analytischen Geometrie.
+
+    Sein methodischer Zweifel und das "Cogito ergo sum" revolutionierten die Philosophie.
+
+    Er verband mathematische Präzision mit philosophischer Spekulation.
+
+    '
+- name: Baruch de Spinoza
+  years: 1632-1677
+  nationality: Niederländisch
+  key_works:
+  - title: Ethica ordine geometrico demonstrata
+    year: 1677
+    significance: Systematische Ethik nach geometrischer Methode
+  biography: 'Spinoza entwickelte einen monistischen Rationalismus: Eine Substanz (Deus sive Natura).
+
+    Sein System folgt der geometrischen Methode mit Axiomen, Definitionen und Beweisen.
+
+    '
+- name: Gottfried Wilhelm Leibniz
+  years: 1646-1716
+  nationality: Deutsch
+  key_works:
+  - title: Monadologie
+    year: 1714
+    significance: Metaphysik der Monaden, prästabilierte Harmonie
+  - title: Nouveaux essais sur l'entendement humain
+    year: 1765
+    significance: Kritik an Lockes Empirismus, Verteidigung angeborener Ideen
+  biography: 'Leibniz war Universalgelehrter: Mathematiker, Philosoph, Logiker.
+
+    Er entwickelte unabhängig von Newton die Infinitesimalrechnung und eine
+
+    rationalistische Metaphysik basierend auf Monaden und prästabilierter Harmonie.
+
+    '
+historical_context:
+  period: 17. Jahrhundert (Frühe Neuzeit)
+  philosophical_movement: Rationalismus, Aufklärung
+  zeitgeist: Wissenschaftliche Revolution, mathematische Methode, Suche nach Gewissheit
+  influences:
+  - source: Scholastik
+    impact: Philosophische Systematik, aber Abkehr von Autoritätsdenken
+  - source: Renaissance-Humanismus
+    impact: Betonung menschlicher Vernunft
+  - source: Mathematik und Geometrie
+    impact: Methodisches Vorbild für Philosophie
+  - source: Platonismus
+    impact: Ideen als wahre Realität
+  reactions_against:
+  - Scholastischer Dogmatismus
+  - Sensualismus
+  - Skeptizismus
+  - Empirische Unsicherheit
+main_theses:
+- thesis_id: cogito_ergo_sum
+  name: Cogito ergo sum - Ich denke, also bin ich
+  description: Das denkende Selbst ist die erste unbezweifelbare Gewissheit.
+  explanation: 'Descartes'' methodischer Zweifel führt zum Cogito: Selbst wenn ich an allem zweifle,
+
+    kann ich nicht daran zweifeln, dass ich zweifle/denke. Das denkende Ich ist
+
+    unmittelbar gewiss und bildet das Fundament aller weiteren Erkenntnis.
+
+    '
+  method: '1. Universeller methodischer Zweifel (Sinne täuschen, Traum vs. Wachen, böser Geist)
+
+    2. Das Zweifelnd-Denkende selbst ist unbezweifelbar
+
+    3. Sum res cogitans - Ich bin ein denkendes Ding
+
+    '
+  significance: Fundament der neuzeitlichen Subjektphilosophie, Gewissheit ohne externe Autorität
+  implications:
+  - Subjekt als Ausgangspunkt der Erkenntnis
+  - Selbstbewusstsein als unmittelbare Evidenz
+  - Primat des Geistes über Körper
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: innate_ideas
+  name: Angeborene Ideen (Ideae innatae)
+  description: Der Geist besitzt von Geburt an bestimmte Ideen unabhängig von Erfahrung.
+  explanation: 'Gegen empiristische Tabula-rasa-Theorie: Einige Ideen (Gott, Mathematik, Logik)
+
+    sind angeboren. Sie stammen nicht aus Sinneserfahrung, sondern sind dem Verstand
+
+    eingepflanzt. Dies ermöglicht apriorische Erkenntnis.
+
+    '
+  types_of_innate_ideas:
+  - type: Idee Gottes
+    description: Perfektes, unendliches Wesen - kann nicht aus Erfahrung stammen
+  - type: Mathematische Ideen
+    description: Geometrische Wahrheiten, Zahlen - universell und notwendig
+  - type: Logische Prinzipien
+    description: Satz vom Widerspruch, Identitätsprinzip
+  argument: 'Objektivität und Notwendigkeit mathematischer Wahrheiten lässt sich nicht aus
+
+    kontingenter Erfahrung erklären. Diese Wahrheiten müssen im Verstand angelegt sein.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: clear_distinct_ideas
+  name: Klare und deutliche Ideen als Wahrheitskriterium
+  description: Ideen, die klar und deutlich erfasst werden, sind wahr.
+  explanation: 'Descartes'' epistemologisches Kriterium: Was ich klar und deutlich erkenne,
+
+    ist wahr. "Klar" = gegenwärtig und offenkundig; "deutlich" = präzise abgegrenzt
+
+    von anderen. Dies ist durch die Garantie eines nicht-täuschenden Gottes gesichert.
+
+    '
+  examples:
+    clear_and_distinct:
+    - Mathematische Wahrheiten (2+2=4)
+    - Logische Gesetze
+    - Cogito ergo sum
+    not_clear_distinct:
+    - Sinneswahrnehmungen (können täuschen)
+    - Vorurteile und konfuse Ideen
+  problem_circular: 'Zirkulärproblem (Cartesischer Zirkel): Gott garantiert klare und deutliche Ideen,
+
+    aber Gottesbeweis basiert auf klaren und deutlichen Ideen. Kritiker sehen
+
+    hier einen Zirkelschluss.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: substance_dualism
+  name: Substanzdualismus (Res cogitans vs. Res extensa)
+  description: Geist und Materie sind zwei grundlegend verschiedene Substanzen.
+  explanation: 'Ontologischer Dualismus: Res cogitans (denkendes Ding, Geist) und res extensa
+
+    (ausgedehntes Ding, Körper) sind wesensverschieden. Geist ist unausgedehnt,
+
+    denkend, unteilbar. Materie ist ausgedehnt, nicht-denkend, teilbar.
+
+    '
+  attributes:
+    res_cogitans:
+    - Denken, Wollen, Fühlen
+    - Keine räumliche Ausdehnung
+    - Unteilbar, einfach
+    - Unmittelbar zugänglich
+    res_extensa:
+    - Räumliche Ausdehnung
+    - Mechanische Gesetze
+    - Teilbar, zusammengesetzt
+    - Mathematisch beschreibbar
+  interaction_problem: 'Mind-Body-Problem: Wie interagieren zwei wesensverschiedene Substanzen?
+
+    Descartes'' Lösung (Zirbeldrüse) ist unbefriedigend. Dies wurde zum
+
+    zentralen Problem nachfolgender Philosophie.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- thesis_id: method_doubt
+  name: Methodischer Zweifel
+  description: Systematisches Anzweifeln aller Überzeugungen, um sichere Grundlagen zu finden.
+  explanation: 'Descartes beginnt mit radikalem Zweifel: An Sinneswahrnehmungen (können täuschen),
+
+    an Unterscheidung Traum/Wachen, sogar an mathematischen Wahrheiten (böser Geist
+
+    könnte täuschen). Ziel ist nicht Skeptizismus, sondern absolute Gewissheit.
+
+    '
+  stages:
+  - Zweifel an Sinneswahrnehmungen
+  - Traumargument
+  - Täuschender Gott / böser Dämon
+  result: Nur das Cogito übersteht den Zweifel
+- thesis_id: god_proofs
+  name: Gottesbeweise
+  description: Rationale Beweise der Existenz Gottes aus klaren und deutlichen Ideen.
+  explanation: 'Descartes bietet mehrere Gottesbeweise:
+
+    1. Kausalbeweis: Idee des unendlichen Gottes muss unendliche Ursache haben
+
+    2. Ontologischer Beweis: Gottes Wesen schließt Existenz ein (wie Dreieck drei Winkel hat)
+
+    Gott garantiert Wahrheit klarer und deutlicher Ideen - er ist kein Betrüger.
+
+    '
+  function: Gott als epistemologische Garantie - verbindet Metaphysik und Erkenntnistheorie
+- thesis_id: mechanical_universe
+  name: Mechanisches Weltbild
+  description: Materielle Welt funktioniert nach mechanischen Gesetzen ohne Zweckursachen.
+  explanation: 'Physik ist Geometrie in Bewegung. Keine Qualitäten, nur Quantitäten.
+
+    Tiere sind Automaten (Tier-Maschinen). Nur Menschen haben Geist/Seele.
+
+    Dies legt Grundstein für moderne mechanistische Naturwissenschaft.
+
+    '
+- thesis_id: four_rules_method
+  name: Vier Regeln der Methode
+  description: Methodische Prinzipien für sichere Erkenntnis.
+  rules:
+  - rule: Evidenz
+    description: Akzeptiere nur, was klar und deutlich ist
+  - rule: Analyse
+    description: Teile Probleme in kleinste Teile
+  - rule: Synthese
+    description: Vom Einfachen zum Komplexen fortschreiten
+  - rule: Enumeration
+    description: Vollständige Überprüfung, nichts auslassen
+  application: Nicht nur Philosophie, sondern alle Wissenschaften
+- thesis_id: pineal_gland
+  name: Zirbeldrüse als Sitz der Seele
+  description: Interaktion zwischen Geist und Körper erfolgt in der Zirbeldrüse.
+  explanation: 'Descartes'' Lösung des Interaktionsproblems: Zirbeldrüse (glandula pinealis)
+
+    ist Schnittstelle zwischen Geist und Körper. Lebensgeister (esprits animaux)
+
+    vermitteln. Heute als physiologisch unhaltbar angesehen, aber zeigt das
+
+    grundsätzliche Problem des Dualismus.
+
+    '
+epistemology:
+  source_of_knowledge: Vernunft (Ratio), nicht Sinneserfahrung
+  types_of_knowledge:
+  - type: A priori
+    description: Unabhängig von Erfahrung, notwendig und universell
+    examples:
+    - Mathematik
+    - Logik
+    - Metaphysische Prinzipien
+  - type: Intuition
+    description: Unmittelbare geistige Einsicht
+    examples:
+    - Cogito
+    - Klare und deutliche Ideen
+  - type: Deduktion
+    description: Logische Ableitung aus intuitiv gewissen Prinzipien
+  role_of_senses: Sekundär, unzuverlässig, nur für praktisches Leben relevant
+  certainty: Absolute Gewissheit durch rein rationale Methode erreichbar
+metaphysics:
+  substances:
+  - name: Res cogitans (Geist)
+    attributes:
+    - Denken
+    modes:
+    - Vorstellen
+    - Wollen
+    - Fühlen
+    - Zweifeln
+  - name: Res extensa (Materie)
+    attributes:
+    - Ausdehnung
+    modes:
+    - Figur
+    - Bewegung
+    - Lage
+  - name: Gott
+    nature: Unendliche, vollkommene Substanz
+    role: Schöpfer, Erhalter, Garant der Wahrheit
+  causality: Mechanische Kausalität in materieller Welt; Gott als Erstursache
+decision_framework:
+  method:
+  - Beginne mit methodischem Zweifel
+  - Suche nach klaren und deutlichen Ideen
+  - 'Prüfe auf rationale Deduzi
+
+    erbarkeit'
+  - Vergewissere, dass keine Vorurteile einfließen
+  - Nutze geometrische/mathematische Methode wo möglich
+  criteria:
+  - Klarheit und Deutlichkeit
+  - Logische Konsistenz
+  - Deduktive Stringenz
+  - Mathematische Präzision
+strengths:
+- point: Methodische Klarheit
+  elaboration: Klare, systematische Methode für Erkenntnisgewinnung
+- point: Fundierung der Subjektivität
+  elaboration: Selbstbewusstsein als sicherer Ausgangspunkt
+- point: Mathematische Naturwissenschaft
+  elaboration: Grundlegung moderner mathematischer Physik
+- point: Systematische Zweifelsmethode
+  elaboration: Kritisches Hinterfragen aller Annahmen
+weaknesses:
+- point: Cartesischer Zirkel
+  elaboration: Gott garantiert Wahrheit, aber Gottesbeweis nutzt diese Garantie
+- point: Mind-Body-Problem
+  elaboration: Interaktion zwischen getrennten Substanzen ungeklärt
+- point: Vernachlässigung der Erfahrung
+  elaboration: Empirische Erkenntnis wird unterschätzt
+- point: Innate-Ideas-Problem
+  elaboration: Empirische Evidenz für angeborene Ideen zweifelhaft
+- point: Tier-Maschinen
+  elaboration: Leugnung tierischen Bewusstseins heute unhaltbar
+contemporary_extensions:
+- thinker: Willard Van Orman Quine
+  contribution: Kritik an Analytisch-Synthetisch-Unterscheidung, Naturalisierte Erkenntnistheorie
+- thinker: Saul Kripke
+  contribution: Verteidigung des A-priori, aber gegen rationalistische Metaphysik
+- thinker: Laurence BonJour
+  contribution: Moderne Verteidigung rationalistischer Erkenntnistheorie
+application_areas:
+- domain: Wissenschaftsmethodik
+  issues:
+  - Mathematische Methode in Naturwissenschaften
+  - Deduktives Vorgehen
+  - Fundamentalistische Erkenntnistheorie
+- domain: Philosophie des Geistes
+  issues:
+  - Problem des Bewusstseins
+  - Dualismus vs. Materialismus
+  - Erste-Person-Perspektive
+- domain: Mathematische Philosophie
+  issues:
+  - Status mathematischer Wahrheiten
+  - Platonismus in Mathematik
+  - A-priori-Wissen
+major_criticisms:
+- critic: John Locke (Empirismus)
+  criticism: Keine angeborenen Ideen - alles kommt aus Erfahrung
+- critic: David Hume (Empirismus)
+  criticism: Kausalbegriff stammt aus Gewohnheit, nicht Vernunft
+- critic: Immanuel Kant
+  criticism: Synthetisches A priori statt reiner Rationalismus oder Empirismus
+- critic: Gilbert Ryle
+  criticism: Kategorienfehler - Geist ist kein 'Gespenst in der Maschine'
+famous_quotes:
+- quote: Cogito, ergo sum.
+  translation: Ich denke, also bin ich.
+  source: Discours de la méthode (1637)
+  context: Erste unbezweifelbare Gewissheit
+- quote: De omnibus dubitandum est.
+  translation: An allem ist zu zweifeln.
+  source: Grundprinzip der Methode
+- quote: Assentiri non nisi perspicuis.
+  translation: Nur dem Klaren und Deutlichen zustimmen.
+  source: Erkenntnisprinzip
+key_literature:
+  primary:
+  - Descartes, René. Meditationes de prima philosophia (1641)
+  - Descartes, René. Discours de la méthode (1637)
+  - Descartes, René. Principia philosophiae (1644)
+  - Spinoza, Baruch. Ethica (1677)
+  - Leibniz, Gottfried Wilhelm. Monadologie (1714)
+  secondary:
+  - Frankfurt, Harry. Demons, Dreamers, and Madmen (1970)
+  - 'Williams, Bernard. Descartes: The Project of Pure Enquiry (1978)'
+  - Cottingham, John. Descartes (1986)
+  - 'Gaukroger, Stephen. Descartes: An Intellectual Biography (1995)'
+cross_school_tensions:
+- own_thesis: rationalism
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: a_priori_reason_vs_empirical_outcome
+  rebuttal_cite_weight: 0.8
+- own_thesis: a_priori_reason
+  opposing_school: kant
+  opposing_thesis: pflicht_neigung
+  tension_type: pure_reason_vs_duty_from_will
+  rebuttal_cite_weight: 0.5

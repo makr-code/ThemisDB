@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_performance_allocator.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:05:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9b3cc73d2  2026-02-25  fix(audit): complete jemalloc integration post-review gaps ║
-    • 08786682d  2026-02-25  feat: integrate jemalloc as alternative allocator ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_performance_allocator.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test for performance allocator
@@ -30,6 +14,8 @@
 #include <vector>
 #include <cstring>
 #include <chrono>
+
+#include "test_performance_helpers.h"
 
 using namespace themis::memory;
 
@@ -124,26 +110,24 @@ TEST(PerformanceAllocatorTest, PerformanceBenchmark) {
     // Simple performance test (not a real benchmark, just for smoke testing)
     const int iterations = 1000;
     const size_t alloc_size = 256;
-    
-    auto start = std::chrono::high_resolution_clock::now();
-    
-    for (int i = 0; i < iterations; ++i) {
-        void* ptr = allocate(alloc_size);
-        ASSERT_NE(ptr, nullptr);
-        deallocate(ptr);
-    }
-    
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    
-    // Just verify it completes in reasonable time (not a real perf test)
-    EXPECT_LT(duration.count(), 100000) << "Allocations took too long: " << duration.count() << "us";
+
+    auto samples = themis::test::sampleLatencyMs([&]() {
+        for (int i = 0; i < iterations; ++i) {
+            void* ptr = allocate(alloc_size);
+            ASSERT_NE(ptr, nullptr);
+            deallocate(ptr);
+        }
+    });
+
+    const auto p95_ms = themis::test::percentileValue(samples, 95);
+    // Historical CI budget: 100ms for 1000 allocations/deallocations.
+    EXPECT_LT(p95_ms, 100.0) << "Allocations took too long: p95=" << p95_ms << "ms";
     
     #ifdef THEMIS_ENABLE_JEMALLOC
-    std::cout << "Jemalloc performance: " << duration.count() << "us for " 
+    std::cout << "Jemalloc performance p95: " << p95_ms << "ms for "
               << iterations << " allocations" << std::endl;
     #elif defined(THEMIS_ENABLE_MIMALLOC)
-    std::cout << "Mimalloc performance: " << duration.count() << "us for " 
+    std::cout << "Mimalloc performance p95: " << p95_ms << "ms for "
               << iterations << " allocations" << std::endl;
     #endif
 }

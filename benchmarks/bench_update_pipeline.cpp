@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_update_pipeline.cpp                          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 03:51:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3c11df78a  2026-03-03  feat(benchmarks): add 6 missing benchmark suites for acce... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_update_pipeline.cpp | Version: 0.0.14
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /// @file bench_update_pipeline.cpp
@@ -114,10 +100,10 @@ static void BM_ReleaseManifest_JsonRoundTrip(benchmark::State& state) {
     const int num_files = static_cast<int>(state.range(0));
 
     ReleaseManifest manifest;
-    manifest.version      = "1.5.0";
-    manifest.release_date = "2026-03-03";
-    manifest.min_version  = "1.4.0";
-    manifest.release_notes = "Performance benchmark release.";
+    manifest.version          = "1.5.0";
+    manifest.release_date     = std::chrono::system_clock::now();
+    manifest.min_upgrade_from = "1.4.0";
+    manifest.release_notes    = "Performance benchmark release.";
 
     for (int i = 0; i < num_files; ++i) {
         ReleaseFile f;

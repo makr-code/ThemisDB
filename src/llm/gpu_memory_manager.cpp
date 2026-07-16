@@ -1,32 +1,37 @@
+/**
+ * @file gpu_memory_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=28; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=24, Debt=0, C=7, H=28, M=36, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   57.0/100                                       ║
-    • Total Lines:     1665                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_memory_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2317
+ * Gap Summary: total=28; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=24, Debt=0, C=13, H=55, M=45, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #379 Migrate critical error logg... (2026-03-11) | #240 Replace GPU Memory Manager ... (2026-03-11) | #220 Add multi-GPU LoRA adapter ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/gpu_memory_manager.h"
+#include <stdexcept>
+#include <limits>
 #include "utils/error_registry.h"
 #include "security/vram_secure_clear.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
+#include <unordered_set>
+#include <optional>
+#include "themis/gpu/memory_manager.h"
+#if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
+#include <dlfcn.h>
+#endif
 
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
@@ -122,7 +127,13 @@ private:
     void freeGPUMemory() {
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
-            cudaSetDevice(gpu_device_id_);
+            // REL-73: check cudaSetDevice return value before secure-clear/free
+            cudaError_t set_err = cudaSetDevice(gpu_device_id_);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("MemoryHolder::freeGPUMemory: cudaSetDevice({}) failed: {}",
+                             gpu_device_id_, cudaGetErrorString(set_err));
+                return;
+            }
             security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
             CUDA_CHECK(cudaFree(ptr_));
         } else {
@@ -155,14 +166,183 @@ private:
         std::free(ptr_);
     }
     
-    void* ptr_;
-    size_t bytes_;
-    Type type_;
-    bool gpu_available_;
-    int gpu_device_id_;
+    void* ptr_ = nullptr;
+    size_t bytes_ = 0;
+    Type type_ = Type::CPU;
+    bool gpu_available_ = false;
+    int gpu_device_id_ = 0;
 };
 
 } // namespace detail
+
+namespace {
+// Helper: compute GPU utilization ratio in [0, 1].  Returns 0 when the
+// configured VRAM capacity is 0 to avoid division by zero.
+inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexcept {
+    return (max_vram_bytes > 0)
+        ? static_cast<float>(used_vram) / max_vram_bytes
+        : 0.0f;
+}
+
+inline size_t calculateAvailableBytes(size_t total_bytes, size_t used_bytes) noexcept {
+    return (used_bytes < total_bytes) ? (total_bytes - used_bytes) : 0;
+}
+
+inline bool tryAddSize(size_t lhs, size_t rhs, size_t& out) noexcept {
+    if (rhs > (std::numeric_limits<size_t>::max() - lhs)) {
+        return false;
+    }
+    out = lhs + rhs;
+    return true;
+}
+
+inline size_t clampUsedVRAM(size_t used_vram, size_t max_vram_bytes) noexcept {
+    return std::min(used_vram, max_vram_bytes);
+}
+
+inline float calculateUtilizationPercent(size_t used_vram, size_t max_vram_bytes) noexcept {
+    return (max_vram_bytes > 0)
+        ? (static_cast<float>(used_vram) * 100.0f) / static_cast<float>(max_vram_bytes)
+        : 0.0f;
+}
+
+inline bool isGPUAvailableNoLock(const std::unordered_map<int, bool>& gpu_health_status,
+                                 int gpu_device_id) noexcept {
+    auto it = gpu_health_status.find(gpu_device_id);
+    if (it == gpu_health_status.end()) {
+        return false;
+    }
+    return it->second;
+}
+
+inline bool isTrackedGpuHealthEntryNoLock(const std::unordered_map<int, bool>& gpu_health_status,
+                                          int gpu_device_id) noexcept {
+    return gpu_health_status.find(gpu_device_id) != gpu_health_status.end();
+}
+
+inline bool isTrackedGpuNoLock(const std::vector<int>& available_gpus, int gpu_device_id) noexcept {
+    return std::find(available_gpus.begin(), available_gpus.end(), gpu_device_id) != available_gpus.end();
+}
+
+inline std::vector<int> sanitizeGpuDeviceList(const std::vector<int>& requested_gpus,
+                                              std::optional<int> max_device_count = std::nullopt) {
+    std::vector<int> sanitized;
+    sanitized.reserve(requested_gpus.size());
+    std::unordered_set<int> seen;
+
+    for (int gpu_id : requested_gpus) {
+        if (gpu_id < 0) {
+            spdlog::warn("Ignoring invalid negative GPU id {}", gpu_id);
+            continue;
+        }
+        if (max_device_count.has_value() && gpu_id >= max_device_count.value()) {
+            spdlog::warn("GPU {} requested but only {} GPUs available, skipping",
+                         gpu_id, max_device_count.value());
+            continue;
+        }
+        if (!seen.insert(gpu_id).second) {
+            spdlog::warn("Ignoring duplicate GPU id {} in configuration", gpu_id);
+            continue;
+        }
+        sanitized.push_back(gpu_id);
+    }
+
+    return sanitized;
+}
+
+inline void cleanupRawAllocation(void* ptr,
+                                 size_t bytes,
+                                 detail::MemoryHolder::Type type,
+                                 bool gpu_available,
+                                 int gpu_device_id = 0) noexcept {
+    if (ptr == nullptr) {
+        return;
+    }
+
+    try {
+        detail::MemoryHolder cleanup_holder(ptr, bytes, type, gpu_available, gpu_device_id);
+    } catch (...) {
+        // Best-effort cleanup in failure fallback path.
+    }
+}
+
+inline std::optional<float> queryNvmlTemperatureCelsius(int gpu_device_id) {
+#if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
+    using nvmlReturn_t = int;
+    using nvmlDevice_t = void*;
+    constexpr nvmlReturn_t NVML_SUCCESS = 0;
+    constexpr unsigned int NVML_TEMPERATURE_GPU = 0;
+
+    void* nvml_lib = dlopen("libnvidia-ml.so.1", RTLD_LAZY | RTLD_LOCAL);
+    if (nvml_lib == nullptr) {
+        nvml_lib = dlopen("libnvidia-ml.so", RTLD_LAZY | RTLD_LOCAL);
+    }
+    if (nvml_lib == nullptr) {
+        return std::nullopt;
+    }
+
+    auto close_lib = [&nvml_lib]() {
+        if (nvml_lib != nullptr) {
+            dlclose(nvml_lib);
+            nvml_lib = nullptr;
+        }
+    };
+
+    using NvmlInitFn = nvmlReturn_t (*)();
+    using NvmlShutdownFn = nvmlReturn_t (*)();
+    using NvmlGetHandleFn = nvmlReturn_t (*)(unsigned int, nvmlDevice_t*);
+    using NvmlGetTemperatureFn = nvmlReturn_t (*)(nvmlDevice_t, unsigned int, unsigned int*);
+
+    auto init_fn = reinterpret_cast<NvmlInitFn>(dlsym(nvml_lib, "nvmlInit_v2"));
+    if (init_fn == nullptr) {
+        init_fn = reinterpret_cast<NvmlInitFn>(dlsym(nvml_lib, "nvmlInit"));
+    }
+    auto shutdown_fn = reinterpret_cast<NvmlShutdownFn>(dlsym(nvml_lib, "nvmlShutdown"));
+    auto get_handle_fn = reinterpret_cast<NvmlGetHandleFn>(dlsym(nvml_lib, "nvmlDeviceGetHandleByIndex_v2"));
+    if (get_handle_fn == nullptr) {
+        get_handle_fn = reinterpret_cast<NvmlGetHandleFn>(dlsym(nvml_lib, "nvmlDeviceGetHandleByIndex"));
+    }
+    auto get_temp_fn = reinterpret_cast<NvmlGetTemperatureFn>(dlsym(nvml_lib, "nvmlDeviceGetTemperature"));
+
+    if (init_fn == nullptr || shutdown_fn == nullptr || get_handle_fn == nullptr || get_temp_fn == nullptr) {
+        close_lib();
+        return std::nullopt;
+    }
+
+    if (init_fn() != NVML_SUCCESS) {
+        close_lib();
+        return std::nullopt;
+    }
+
+    std::optional<float> result = std::nullopt;
+    nvmlDevice_t device = nullptr;
+    if (get_handle_fn(static_cast<unsigned int>(gpu_device_id), &device) == NVML_SUCCESS && device != nullptr) {
+        unsigned int temperature_c = 0;
+        if (get_temp_fn(device, NVML_TEMPERATURE_GPU, &temperature_c) == NVML_SUCCESS) {
+            result = static_cast<float>(temperature_c);
+        }
+    }
+
+    shutdown_fn();
+    close_lib();
+    return result;
+#else
+    static_cast<void>(gpu_device_id);
+    return std::nullopt;
+#endif
+}
+} // namespace
+
+// NVML temperature injection state (stub #309 resolution).
+namespace {
+std::mutex nvml_temp_fn_mutex;
+GPUMemoryManager::NvmlTemperatureFn nvml_temp_fn;
+} // anonymous namespace
+
+void GPUMemoryManager::setNvmlTemperatureFn(NvmlTemperatureFn fn) {
+    std::lock_guard<std::mutex> lock(nvml_temp_fn_mutex);
+    nvml_temp_fn = std::move(fn);
+}
 
 GPUMemoryManager::GPUMemoryManager(const Config& config)
     : config_(config) {
@@ -207,26 +387,31 @@ void GPUMemoryManager::initializeGPU() {
         }
         
         // Query GPU properties
-        cudaDeviceProp prop;
+        cudaDeviceProp prop{};
         if (cudaGetDeviceProperties(&prop, gpu_device_id_) == cudaSuccess) {
             spdlog::info("GPU detected: {} (Compute {}.{})", 
                          prop.name, prop.major, prop.minor);
             spdlog::info("  Total VRAM: {:.2f} GB", prop.totalGlobalMem / (1024.0*1024*1024));
             spdlog::info("  Multiprocessors: {}", prop.multiProcessorCount);
+
+            // Auto-detect VRAM limit from device properties (0 = auto-detect)
+            if (config_.max_vram_bytes == 0) {
+                config_.max_vram_bytes = prop.totalGlobalMem;
+            }
         }
         
         // Initialize multi-GPU support (v1.4.0)
         if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
             spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
-            available_gpus_ = config_.gpu_devices;
-            
-            for (int gpu_id : config_.gpu_devices) {
-                // Check if GPU exists
-                if (gpu_id >= deviceCount) {
-                    spdlog::warn("GPU {} requested but only {} GPUs available, skipping", gpu_id, deviceCount);
-                    continue;
-                }
-                
+            available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices, deviceCount);
+
+            if (available_gpus_.empty()) {
+                spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
+                             gpu_device_id_);
+                available_gpus_.push_back(gpu_device_id_);
+            }
+
+            for (int gpu_id : available_gpus_) {
                 per_gpu_vram_used_[gpu_id] = 0;
                 gpu_health_status_[gpu_id] = true;
                 spdlog::info("  GPU {} initialized", gpu_id);
@@ -242,9 +427,19 @@ void GPUMemoryManager::initializeGPU() {
                         
                         // Check if peer access is possible
                         int can_access = 0;
-                        cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        cudaError_t can_access_err = cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        if (can_access_err != cudaSuccess) {
+                            spdlog::warn("  P2P capability query failed: GPU {} -> GPU {}: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(can_access_err));
+                            continue;
+                        }
                         if (can_access) {
-                            cudaSetDevice(src_gpu);
+                            cudaError_t set_err = cudaSetDevice(src_gpu);
+                            if (set_err != cudaSuccess) {
+                                spdlog::warn("  P2P setup failed: cudaSetDevice({}) failed: {}",
+                                             src_gpu, cudaGetErrorString(set_err));
+                                continue;
+                            }
                             cudaError_t p2p_err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
                             if (p2p_err == cudaSuccess) {
                                 spdlog::info("  P2P enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
@@ -284,9 +479,14 @@ void GPUMemoryManager::initializeGPU() {
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
         spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs", config_.gpu_devices.size());
-        available_gpus_ = config_.gpu_devices;
-        
-        for (int gpu_id : config_.gpu_devices) {
+        available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices);
+        if (available_gpus_.empty()) {
+            spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
+                         gpu_device_id_);
+            available_gpus_.push_back(gpu_device_id_);
+        }
+
+        for (int gpu_id : available_gpus_) {
             per_gpu_vram_used_[gpu_id] = 0;
             gpu_health_status_[gpu_id] = true;
             spdlog::info("  GPU {} initialized (simulated)", gpu_id);
@@ -305,6 +505,21 @@ void GPUMemoryManager::initializeGPU() {
     spdlog::info("GPU Memory Manager: Running in simulation mode (CUDA not enabled at build time)");
     spdlog::info("  Available GPUs: {} (simulated)", available_gpus_.size());
 #endif
+
+    // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
+    // initialization (e.g. no GPU available or cudaGetDeviceProperties failed), use a
+    // sensible simulation default so that canAllocate() and getLeastLoadedGPU() work.
+    if (config_.max_vram_bytes == 0) {
+        config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
+        spdlog::info("  VRAM limit defaulted to {:.2f} GB (simulation)",
+                     config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+    }
+
+    // Populate initial health metrics (temperature + utilization) for each GPU so that
+    // callers of getGPUHealth() immediately get real data rather than zero-defaults.
+    for (int gpu_id : available_gpus_) {
+        updateGPUHealth(gpu_id);
+    }
 }
 
 void GPUMemoryManager::shutdownGPU() {
@@ -314,11 +529,20 @@ void GPUMemoryManager::shutdownGPU() {
         if (config_.enable_peer_access && available_gpus_.size() > 1) {
             for (size_t i = 0; i < available_gpus_.size(); ++i) {
                 int src_gpu = available_gpus_[i];
-                cudaSetDevice(src_gpu);
+                cudaError_t set_err = cudaSetDevice(src_gpu);
+                if (set_err != cudaSuccess) {
+                    spdlog::warn("shutdownGPU: cudaSetDevice({}) failed while disabling peer access: {}",
+                                 src_gpu, cudaGetErrorString(set_err));
+                    continue;
+                }
                 for (size_t j = 0; j < available_gpus_.size(); ++j) {
                     if (i != j) {
                         int dst_gpu = available_gpus_[j];
-                        cudaDeviceDisablePeerAccess(dst_gpu);
+                        cudaError_t disable_err = cudaDeviceDisablePeerAccess(dst_gpu);
+                        if (disable_err != cudaSuccess && disable_err != cudaErrorPeerAccessNotEnabled) {
+                            spdlog::warn("shutdownGPU: cudaDeviceDisablePeerAccess({} -> {}) failed: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(disable_err));
+                        }
                     }
                 }
             }
@@ -326,7 +550,12 @@ void GPUMemoryManager::shutdownGPU() {
         
         // Reset all devices
         for (int gpu_id : available_gpus_) {
-            cudaSetDevice(gpu_id);
+            cudaError_t set_err = cudaSetDevice(gpu_id);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("shutdownGPU: cudaSetDevice({}) failed before reset: {}",
+                             gpu_id, cudaGetErrorString(set_err));
+                continue;
+            }
             CUDA_CHECK(cudaDeviceReset());
         }
     }
@@ -334,18 +563,35 @@ void GPUMemoryManager::shutdownGPU() {
 }
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
+    // Gate through the canonical VRAM policy so that edition limits and
+    // per-tenant quotas are enforced at a single, unified control point.
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled()) {
+        if (!policy.TryAllocateGPU(static_cast<uint64_t>(bytes), model_id)) {
+            spdlog::error("allocateGPU: canonical VRAM policy rejected {} bytes for model '{}'",
+                          bytes, model_id);
+            return nullptr;
+        }
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!canAllocate(bytes, 0)) {
         double bytes_mb = static_cast<double>(bytes) / (1024.0 * 1024.0);
-        double available_mb = static_cast<double>(config_.max_vram_bytes - total_vram_used_) / (1024.0 * 1024.0);
+        size_t available_bytes = calculateAvailableBytes(config_.max_vram_bytes, total_vram_used_.load(std::memory_order_relaxed));
+        double available_mb = static_cast<double>(available_bytes) / (1024.0 * 1024.0);
         spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
                       static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
                       bytes_mb, available_mb);
+        // Undo canonical reservation since the local limit rejected the request.
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     
     void* ptr = nullptr;
+    detail::MemoryHolder::Type alloc_type = detail::MemoryHolder::Type::CPU;
     
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
@@ -353,16 +599,25 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         cudaError_t err = cudaMalloc(&ptr, bytes);
         if (err != cudaSuccess) {
             spdlog::error("cudaMalloc failed: {}", cudaGetErrorString(err));
+            // Undo canonical reservation on physical allocation failure.
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
+        alloc_type = detail::MemoryHolder::Type::GPU;
     } else {
         // Fallback to simulation when CUDA is available but no GPU detected
         ptr = std::malloc(bytes);
         if (!ptr) {
             size_t bytes_mb = bytes / (1024 * 1024);
             errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
+        alloc_type = detail::MemoryHolder::Type::CPU;
     }
 #else
     // Simulation mode: use regular malloc when CUDA is not enabled at build time
@@ -370,27 +625,49 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     if (!ptr) {
         size_t bytes_mb = bytes / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
+    alloc_type = detail::MemoryHolder::Type::CPU;
 #endif
     
-    // Track allocation with RAII holder for automatic cleanup
-    MemoryAllocation alloc;
-    alloc.model_id = model_id;
-    alloc.vram_bytes = bytes;
-    alloc.gpu_ptr = ptr;
-    alloc.gpu_device_id = 0;  // Default GPU device
-    alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // Default GPU device
-    );
+    // Wrap in RAII holder immediately to prevent leaks on exceptions during bookkeeping
+    auto holder = std::make_shared<detail::MemoryHolder>(ptr, bytes, alloc_type, gpu_available_, 0);
     
-    allocations_[model_id].push_back(std::move(alloc));
+    // Track allocation with RAII holder for automatic cleanup.
+    // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
+    try {
+        MemoryAllocation alloc;
+        alloc.model_id = model_id;
+        alloc.vram_bytes = bytes;
+        alloc.gpu_ptr = ptr;
+        alloc.gpu_device_id = 0;  // Default GPU device
+        alloc.holder = holder;  // Use the already-created RAII holder
+        allocations_[model_id].push_back(std::move(alloc));
+    } catch (const std::exception& e) {
+        // holder will automatically clean up ptr through RAII
+        spdlog::error("allocateGPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
+        return nullptr;
+    } catch (...) {
+        // holder will automatically clean up ptr through RAII
+        spdlog::error("allocateGPU metadata bookkeeping failed for model {}: unknown exception", model_id);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
+        return nullptr;
+    }
+
     total_vram_used_ += bytes;
     
     spdlog::debug("Allocated {} MB VRAM for model {} (total: {} MB)", 
                   bytes / (1024.0 * 1024),
                   model_id,
-                  total_vram_used_ / (1024.0 * 1024));
+                  total_vram_used_.load(std::memory_order_relaxed) / (1024.0 * 1024));
     
     return ptr;
 }
@@ -405,6 +682,7 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
     }
     
     void* ptr = nullptr;
+    detail::MemoryHolder::Type holder_type = detail::MemoryHolder::Type::CPU;
     
 #ifdef THEMIS_ENABLE_CUDA
     if (pinned && gpu_available_) {
@@ -415,15 +693,20 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
                         cudaGetErrorString(err));
             pinned = false;
             ptr = std::malloc(bytes);
+            holder_type = detail::MemoryHolder::Type::CPU;
+        } else {
+            holder_type = detail::MemoryHolder::Type::PINNED;
         }
     } else {
         ptr = std::malloc(bytes);
         pinned = false;
+        holder_type = detail::MemoryHolder::Type::CPU;
     }
 #else
     // Simulation mode: always use regular malloc
     ptr = std::malloc(bytes);
     pinned = false;
+    holder_type = detail::MemoryHolder::Type::CPU;
 #endif
     
     if (!ptr) {
@@ -431,33 +714,42 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
         return nullptr;
     }
     
-    // Track allocation with RAII holder
-    MemoryAllocation alloc;
-    alloc.model_id = model_id;
-    alloc.ram_bytes = bytes;
-    alloc.cpu_ptr = ptr;
-    alloc.is_pinned = pinned;
+    // Wrap in RAII holder immediately to prevent leaks on exceptions during bookkeeping
+    auto holder = std::make_shared<detail::MemoryHolder>(ptr, bytes, holder_type, gpu_available_, 0);
     
-    // Create holder with appropriate type
-    auto holder_type = pinned ? detail::MemoryHolder::Type::PINNED 
-                              : detail::MemoryHolder::Type::CPU;
-    alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, holder_type, gpu_available_
-    );
-    
-    allocations_[model_id].push_back(std::move(alloc));
+    // Track allocation with RAII holder.
+    // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
+    try {
+        MemoryAllocation alloc;
+        alloc.model_id = model_id;
+        alloc.ram_bytes = bytes;
+        alloc.cpu_ptr = ptr;
+        alloc.is_pinned = pinned;
+        alloc.holder = holder;  // Use the already-created RAII holder
+        allocations_[model_id].push_back(std::move(alloc));
+    } catch (const std::exception& e) {
+        cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);
+        spdlog::error("allocateCPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
+        return nullptr;
+    } catch (...) {
+        cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);
+        spdlog::error("allocateCPU metadata bookkeeping failed for model {}: unknown exception", model_id);
+        return nullptr;
+    }
+
     total_ram_used_ += bytes;
     
     spdlog::debug("Allocated {} MB RAM ({}) for model {} (total: {} MB)", 
                   bytes / (1024.0 * 1024),
                   pinned ? "pinned" : "pageable",
                   model_id,
-                  total_ram_used_ / (1024.0 * 1024));
+                  total_ram_used_.load(std::memory_order_relaxed) / (1024.0 * 1024));
     
     return ptr;
 }
 
 bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
+    if (!ptr) return false;
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -469,13 +761,38 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
-            total_vram_used_ -= alloc_it->vram_bytes;
+            const size_t freed_bytes = alloc_it->vram_bytes;
+            const int gpu_id = alloc_it->gpu_device_id;
+            if (freed_bytes > total_vram_used_.load(std::memory_order_relaxed)) {
+                spdlog::error("GPUMemoryManager::freeGPU: VRAM accounting underflow for model '{}'; "
+                              "clamping to 0", model_id);
+                total_vram_used_.store(0, std::memory_order_relaxed);
+            } else {
+                total_vram_used_.fetch_sub(freed_bytes, std::memory_order_relaxed);
+            }
+
+            auto per_gpu_it = per_gpu_vram_used_.find(gpu_id);
+            if (per_gpu_it != per_gpu_vram_used_.end()) {
+                if (freed_bytes > per_gpu_it->second) {
+                    spdlog::error("GPUMemoryManager::freeGPU: per-GPU VRAM accounting underflow for model '{}' on GPU {}; clamping to 0",
+                                  model_id, gpu_id);
+                    per_gpu_it->second = 0;
+                } else {
+                    per_gpu_it->second -= freed_bytes;
+                }
+            }
             
             // Erase triggers holder destructor for automatic cleanup
             it->second.erase(alloc_it);
             
             if (it->second.empty()) {
                 allocations_.erase(it);
+            }
+
+            // Notify the canonical policy to keep global accounting consistent.
+            auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(freed_bytes));
             }
             
             return true;
@@ -486,6 +803,7 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
 }
 
 bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
+    if (!ptr) return false;
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -497,7 +815,13 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->cpu_ptr == ptr) {
-            total_ram_used_ -= alloc_it->ram_bytes;
+            if (alloc_it->ram_bytes > total_ram_used_.load(std::memory_order_relaxed)) {
+                spdlog::error("GPUMemoryManager::freeCPU: RAM accounting underflow for model '{}'; "
+                              "clamping to 0", model_id);
+                total_ram_used_.store(0, std::memory_order_relaxed);
+            } else {
+                total_ram_used_.fetch_sub(alloc_it->ram_bytes, std::memory_order_relaxed);
+            }
             
             // Erase triggers holder destructor for automatic cleanup
             it->second.erase(alloc_it);
@@ -530,8 +854,20 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
         freed_ram += alloc.ram_bytes;
     }
     
-    total_vram_used_ -= freed_vram;
-    total_ram_used_ -= freed_ram;
+    if (freed_vram > total_vram_used_.load(std::memory_order_relaxed)) {
+        spdlog::error("GPUMemoryManager::freeModel: VRAM accounting underflow for model '{}'; "
+                      "clamping to 0", model_id);
+        total_vram_used_.store(0, std::memory_order_relaxed);
+    } else {
+        total_vram_used_.fetch_sub(freed_vram, std::memory_order_relaxed);
+    }
+    if (freed_ram > total_ram_used_.load(std::memory_order_relaxed)) {
+        spdlog::error("GPUMemoryManager::freeModel: RAM accounting underflow for model '{}'; "
+                      "clamping to 0", model_id);
+        total_ram_used_.store(0, std::memory_order_relaxed);
+    } else {
+        total_ram_used_.fetch_sub(freed_ram, std::memory_order_relaxed);
+    }
     
     // Erase all allocations for this model
     // Holders will automatically clean up via RAII
@@ -541,6 +877,12 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
                  model_id,
                  freed_vram / (1024.0 * 1024),
                  freed_ram / (1024.0 * 1024));
+
+    // Notify the canonical policy to keep global VRAM accounting consistent.
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled() && freed_vram > 0) {
+        policy.DeallocateGPU(static_cast<uint64_t>(freed_vram));
+    }
     
     return true;
 }
@@ -579,39 +921,47 @@ size_t GPUMemoryManager::getModelRAM(const std::string& model_id) const {
 
 size_t GPUMemoryManager::getTotalVRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return total_vram_used_;
+    return config_.max_vram_bytes;
 }
 
 size_t GPUMemoryManager::getTotalRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return total_ram_used_;
+    return total_ram_used_.load(std::memory_order_relaxed);
 }
 
 size_t GPUMemoryManager::getFreeVRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (total_vram_used_ >= config_.max_vram_bytes) {
+    if (total_vram_used_.load(std::memory_order_relaxed) >= config_.max_vram_bytes) {
         return 0;
     }
     
-    return config_.max_vram_bytes - total_vram_used_;
+    return config_.max_vram_bytes - total_vram_used_.load(std::memory_order_relaxed);
 }
 
 size_t GPUMemoryManager::getFreeRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (total_ram_used_ >= config_.max_ram_bytes) {
+    if (total_ram_used_.load(std::memory_order_relaxed) >= config_.max_ram_bytes) {
         return 0;
     }
     
-    return config_.max_ram_bytes - total_ram_used_;
+    return config_.max_ram_bytes - total_ram_used_.load(std::memory_order_relaxed);
 }
 
 bool GPUMemoryManager::canAllocate(size_t vram_bytes, size_t ram_bytes) const {
-    // Already locked by caller
-    
-    size_t future_vram = total_vram_used_ + vram_bytes;
-    size_t future_ram = total_ram_used_ + ram_bytes;
+    // Thread-safe: uses atomic loads on total_vram_used_ and total_ram_used_
+
+    // Guard against size_t overflow before comparing against limits.
+    if (vram_bytes > 0 && total_vram_used_.load(std::memory_order_acquire) > std::numeric_limits<size_t>::max() - vram_bytes) {
+        return false;
+    }
+    if (ram_bytes > 0 && total_ram_used_.load(std::memory_order_acquire) > std::numeric_limits<size_t>::max() - ram_bytes) {
+        return false;
+    }
+
+    size_t future_vram = total_vram_used_.load(std::memory_order_acquire) + vram_bytes;
+    size_t future_ram = total_ram_used_.load(std::memory_order_acquire) + ram_bytes;
     
     // Check hard limits
     if (future_vram > config_.max_vram_bytes) {
@@ -667,7 +1017,24 @@ bool GPUMemoryManager::defragment() {
         return false;
     }
     
-    size_t initial_frag = getMemoryFragmentation();
+    auto compute_fragmentation_unlocked = [this]() -> size_t {
+        size_t total_allocations = 0;
+        for (const auto& [_, allocs] : allocations_) {
+            total_allocations += allocs.size();
+        }
+
+        const size_t num_models = allocations_.size();
+        if (num_models == 0) {
+            return 0;
+        }
+
+        const size_t excess_allocations =
+            total_allocations > num_models ? total_allocations - num_models : 0;
+        return std::min(static_cast<size_t>(100),
+                        static_cast<size_t>((excess_allocations * 100) / num_models));
+    };
+
+    size_t initial_frag = compute_fragmentation_unlocked();
     if (initial_frag < 10) {
         spdlog::debug("Fragmentation low ({}%), skipping defragmentation", initial_frag);
         return false;
@@ -717,7 +1084,7 @@ bool GPUMemoryManager::defragment() {
         }
     }
     
-    size_t final_frag = getMemoryFragmentation();
+    size_t final_frag = compute_fragmentation_unlocked();
     
     if (models_defragmented > 0) {
         spdlog::info("Defragmentation complete: {} models defragmented, {} allocations consolidated", 
@@ -753,16 +1120,42 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
-            cudaSetDevice(device_id);
-            if (cudaMalloc(&new_ptr, total_vram) != cudaSuccess) {
+            cudaError_t set_err = cudaSetDevice(device_id);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("Defrag: cudaSetDevice({}) failed for model {}: {}",
+                             device_id, model_id, cudaGetErrorString(set_err));
+                continue;
+            }
+
+            cudaError_t alloc_err = cudaMalloc(&new_ptr, total_vram);
+            if (alloc_err != cudaSuccess) {
                 spdlog::warn("Failed to allocate consolidated GPU memory for model {} on device {}", model_id, device_id);
                 continue;
             }
 
             size_t offset = 0;
+            bool copy_ok = true;
             for (const auto& alloc : device_allocs) {
-                cudaMemcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes, cudaMemcpyDeviceToDevice);
+                cudaError_t copy_err = cudaMemcpy(static_cast<char*>(new_ptr) + offset,
+                                                  alloc.gpu_ptr,
+                                                  alloc.vram_bytes,
+                                                  cudaMemcpyDeviceToDevice);
+                if (copy_err != cudaSuccess) {
+                    spdlog::warn("Defrag: cudaMemcpy failed for model {} on GPU {}: {}",
+                                 model_id, device_id, cudaGetErrorString(copy_err));
+                    copy_ok = false;
+                    break;
+                }
                 offset += alloc.vram_bytes;
+            }
+            if (!copy_ok) {
+                // REL-66: check cudaFree return value in defragment cleanup path
+                cudaError_t free_err = cudaFree(new_ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::warn("Defrag: cudaFree of scratch buffer failed: {}",
+                                 cudaGetErrorString(free_err));
+                }
+                continue;
             }
         } else {
             new_ptr = std::malloc(total_vram);
@@ -787,15 +1180,32 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         }
 #endif
 
-        // Update allocations list for this model/device
-        // Remove old allocations (which will trigger cleanup via RAII)
+        // Build replacement allocation holder first so failure keeps old allocations intact.
+        std::shared_ptr<detail::MemoryHolder> consolidated_holder;
+        try {
+            consolidated_holder = std::make_shared<detail::MemoryHolder>(
+                new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id
+            );
+        } catch (const std::exception& e) {
+            cleanupRawAllocation(new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id);
+            spdlog::warn("Defrag: failed to create consolidated GPU holder for model {} on GPU {}: {}",
+                         model_id, device_id, e.what());
+            continue;
+        } catch (...) {
+            cleanupRawAllocation(new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id);
+            spdlog::warn("Defrag: failed to create consolidated GPU holder for model {} on GPU {}",
+                         model_id, device_id);
+            continue;
+        }
+
+        // Update allocations list for this model/device.
+        // Remove only the allocations that were identified as fragmented (device_allocs),
+        // not all allocations for this device_id.
         auto& model_allocs = allocations_[model_id];
-        model_allocs.erase(
-            std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [device_id](const MemoryAllocation& alloc) {
-                    return alloc.gpu_device_id == device_id && alloc.vram_bytes > 0;
-                }),
-            model_allocs.end());
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : device_allocs) {
+            ptrs_to_erase.insert(alloc.gpu_ptr);
+        }
 
         // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
@@ -803,10 +1213,14 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         consolidated.vram_bytes = total_vram;
         consolidated.gpu_ptr = new_ptr;
         consolidated.gpu_device_id = device_id;
-        consolidated.holder = std::make_shared<detail::MemoryHolder>(
-            new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id
-        );
+        consolidated.holder = std::move(consolidated_holder);
         model_allocs.push_back(std::move(consolidated));
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.gpu_ptr) > 0;
+                }),
+            model_allocs.end());
 
         spdlog::debug("Consolidated {} GPU allocations for model {} on device {} into single {} MB block",
                       device_allocs.size(), model_id, device_id, total_vram / (1024.0 * 1024));
@@ -871,26 +1285,43 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             offset += alloc.ram_bytes;
         }
         
-        // Update allocations - removing old allocations will trigger cleanup via RAII
+        std::shared_ptr<detail::MemoryHolder> consolidated_holder;
+        try {
+            consolidated_holder = std::make_shared<detail::MemoryHolder>(
+                new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_
+            );
+        } catch (const std::exception& e) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated pinned holder for model {}: {}", model_id, e.what());
+            return false;
+        } catch (...) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated pinned holder for model {}", model_id);
+            return false;
+        }
+
+        // Update allocations - removing old allocations will trigger cleanup via RAII.
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : pinned_allocs) {
+            ptrs_to_erase.insert(alloc.cpu_ptr);
+        }
         auto& model_allocs = allocations_[model_id];
-        model_allocs.erase(
-            std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [](const MemoryAllocation& alloc) {
-                    return alloc.is_pinned && alloc.ram_bytes > 0;
-                }),
-            model_allocs.end()
-        );
-        
+
         // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.ram_bytes = total_ram;
         consolidated.cpu_ptr = new_ptr;
         consolidated.is_pinned = true;
-        consolidated.holder = std::make_shared<detail::MemoryHolder>(
-            new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_
-        );
+        consolidated.holder = std::move(consolidated_holder);
         model_allocs.push_back(std::move(consolidated));
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.cpu_ptr) > 0;
+                }),
+            model_allocs.end()
+        );
     }
     
     // Consolidate regular allocations
@@ -914,26 +1345,43 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             offset += alloc.ram_bytes;
         }
         
-        // Update allocations - removing old allocations will trigger cleanup via RAII
+        std::shared_ptr<detail::MemoryHolder> consolidated_holder;
+        try {
+            consolidated_holder = std::make_shared<detail::MemoryHolder>(
+                new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_
+            );
+        } catch (const std::exception& e) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated CPU holder for model {}: {}", model_id, e.what());
+            return false;
+        } catch (...) {
+            cleanupRawAllocation(new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_);
+            spdlog::warn("Defrag: failed to create consolidated CPU holder for model {}", model_id);
+            return false;
+        }
+
+        // Update allocations - removing old allocations will trigger cleanup via RAII.
+        std::unordered_set<void*> ptrs_to_erase;
+        for (const auto& alloc : regular_allocs) {
+            ptrs_to_erase.insert(alloc.cpu_ptr);
+        }
         auto& model_allocs = allocations_[model_id];
-        model_allocs.erase(
-            std::remove_if(model_allocs.begin(), model_allocs.end(),
-                [](const MemoryAllocation& alloc) {
-                    return !alloc.is_pinned && alloc.ram_bytes > 0;
-                }),
-            model_allocs.end()
-        );
-        
+
         // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.ram_bytes = total_ram;
         consolidated.cpu_ptr = new_ptr;
         consolidated.is_pinned = false;
-        consolidated.holder = std::make_shared<detail::MemoryHolder>(
-            new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_
-        );
+        consolidated.holder = std::move(consolidated_holder);
         model_allocs.push_back(std::move(consolidated));
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [&ptrs_to_erase](const MemoryAllocation& alloc) {
+                    return ptrs_to_erase.count(alloc.cpu_ptr) > 0;
+                }),
+            model_allocs.end()
+        );
     }
     
     return true;
@@ -944,12 +1392,12 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
     
     Stats stats;
     stats.total_vram_bytes = config_.max_vram_bytes;
-    stats.used_vram_bytes = total_vram_used_;
-    stats.free_vram_bytes = config_.max_vram_bytes - total_vram_used_;
+    stats.used_vram_bytes = clampUsedVRAM(total_vram_used_.load(std::memory_order_relaxed), stats.total_vram_bytes);
+    stats.free_vram_bytes = calculateAvailableBytes(stats.total_vram_bytes, total_vram_used_.load(std::memory_order_relaxed));
     
     stats.total_ram_bytes = config_.max_ram_bytes;
-    stats.used_ram_bytes = total_ram_used_;
-    stats.free_ram_bytes = config_.max_ram_bytes - total_ram_used_;
+    stats.used_ram_bytes = std::min(total_ram_used_.load(std::memory_order_relaxed), stats.total_ram_bytes);
+    stats.free_ram_bytes = calculateAvailableBytes(stats.total_ram_bytes, total_ram_used_.load(std::memory_order_relaxed));
     
     stats.num_models = allocations_.size();
     
@@ -959,7 +1407,13 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
     }
     stats.num_allocations = total_allocs;
     
-    stats.fragmentation_pct = getMemoryFragmentation();
+    size_t excess_allocations = total_allocs > stats.num_models
+        ? total_allocs - stats.num_models
+        : 0;
+    stats.fragmentation_pct = (stats.num_models > 0)
+        ? std::min(static_cast<size_t>(100),
+                   static_cast<size_t>((excess_allocations * 100) / stats.num_models))
+        : 0;
     
     return stats;
 }
@@ -978,9 +1432,11 @@ std::vector<std::string> GPUMemoryManager::getLoadedModels() const {
 }
 
 void GPUMemoryManager::updateMemoryStats() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     // Recalculate from allocations
-    total_vram_used_ = 0;
-    total_ram_used_ = 0;
+    total_vram_used_.store(0, std::memory_order_relaxed);
+    total_ram_used_.store(0, std::memory_order_relaxed);
     
     // Reset per-GPU counters
     for (auto& [gpu_id, _] : per_gpu_vram_used_) {
@@ -989,12 +1445,33 @@ void GPUMemoryManager::updateMemoryStats() {
     
     for (const auto& [_, allocs] : allocations_) {
         for (const auto& alloc : allocs) {
-            total_vram_used_ += alloc.vram_bytes;
-            total_ram_used_ += alloc.ram_bytes;
+            size_t updated_vram = 0;
+            if (!tryAddSize(total_vram_used_.load(std::memory_order_relaxed), alloc.vram_bytes, updated_vram)) {
+                spdlog::error("GPUMemoryManager::updateMemoryStats: VRAM accounting overflow; clamping to max");
+                total_vram_used_.store(std::numeric_limits<size_t>::max(), std::memory_order_relaxed);
+            } else {
+                total_vram_used_.store(updated_vram, std::memory_order_relaxed);
+            }
+
+            size_t updated_ram = 0;
+            if (!tryAddSize(total_ram_used_.load(std::memory_order_relaxed), alloc.ram_bytes, updated_ram)) {
+                spdlog::error("GPUMemoryManager::updateMemoryStats: RAM accounting overflow; clamping to max");
+                total_ram_used_.store(std::numeric_limits<size_t>::max(), std::memory_order_relaxed);
+            } else {
+                total_ram_used_.store(updated_ram, std::memory_order_relaxed);
+            }
             
             // Track per-GPU usage (operator[] auto-initializes to 0)
             if (alloc.vram_bytes > 0) {
-                per_gpu_vram_used_[alloc.gpu_device_id] += alloc.vram_bytes;
+                size_t& per_gpu_used = per_gpu_vram_used_[alloc.gpu_device_id];
+                size_t updated_per_gpu = 0;
+                if (!tryAddSize(per_gpu_used, alloc.vram_bytes, updated_per_gpu)) {
+                    spdlog::error("GPUMemoryManager::updateMemoryStats: per-GPU VRAM accounting overflow for GPU {}; clamping to max",
+                                  alloc.gpu_device_id);
+                    per_gpu_used = std::numeric_limits<size_t>::max();
+                } else {
+                    per_gpu_used = updated_per_gpu;
+                }
             }
         }
     }
@@ -1003,20 +1480,36 @@ void GPUMemoryManager::updateMemoryStats() {
 // Multi-GPU methods (v1.4.0)
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id) {
+    // Gate through the canonical VRAM policy (edition limit + tenant quotas).
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled()) {
+        if (!policy.TryAllocateGPU(static_cast<uint64_t>(bytes), model_id)) {
+            spdlog::error("allocateGPU(gpu={}): canonical VRAM policy rejected {} bytes for model '{}'",
+                          gpu_device_id, bytes, model_id);
+            return nullptr;
+        }
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Verify GPU is available
-    if (!isGPUAvailable(gpu_device_id)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, gpu_device_id)) {
         spdlog::error("GPU {} is not available", gpu_device_id);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     
     // Check per-GPU capacity
     size_t gpu_used = per_gpu_vram_used_[gpu_device_id];
-    if (gpu_used + bytes > config_.max_vram_bytes) {
+    if (gpu_used >= config_.max_vram_bytes || bytes > (config_.max_vram_bytes - gpu_used)) {
         size_t bytes_mb = bytes / (1024 * 1024);
-        size_t available_mb = (config_.max_vram_bytes - gpu_used) / (1024 * 1024);
+        size_t available_mb = calculateAvailableBytes(config_.max_vram_bytes, gpu_used) / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     
@@ -1025,12 +1518,20 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         // Set the target GPU device
-        CUDA_CHECK_RETURN(cudaSetDevice(gpu_device_id), nullptr);
+        if (cudaSetDevice(gpu_device_id) != cudaSuccess) {
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
+            return nullptr;
+        }
         
         // Use actual CUDA allocation
         cudaError_t err = cudaMalloc(&ptr, bytes);
         if (err != cudaSuccess) {
             spdlog::error("cudaMalloc failed on GPU {}: {}", gpu_device_id, cudaGetErrorString(err));
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
     } else {
@@ -1039,6 +1540,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
         if (!ptr) {
             size_t bytes_mb = bytes / (1024 * 1024);
             errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
     }
@@ -1048,23 +1552,61 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     if (!ptr) {
         size_t bytes_mb = bytes / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
 #endif
     
-    // Track allocation with RAII holder
-    MemoryAllocation alloc;
-    alloc.model_id = model_id;
-    alloc.vram_bytes = bytes;
-    alloc.gpu_ptr = ptr;
-    alloc.gpu_device_id = gpu_device_id;
-    alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id
-    );
-    
-    allocations_[model_id].push_back(std::move(alloc));
-    total_vram_used_ += bytes;
-    per_gpu_vram_used_[gpu_device_id] += bytes;
+    // Track allocation with RAII holder.
+    // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
+    try {
+        MemoryAllocation alloc;
+        alloc.model_id = model_id;
+        alloc.vram_bytes = bytes;
+        alloc.gpu_ptr = ptr;
+        alloc.gpu_device_id = gpu_device_id;
+        alloc.holder = std::make_shared<detail::MemoryHolder>(
+            ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id
+        );
+        allocations_[model_id].push_back(std::move(alloc));
+    } catch (const std::exception& e) {
+        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
+        spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: {}",
+                      gpu_device_id, model_id, e.what());
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
+        return nullptr;
+    } catch (...) {
+        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
+        spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: unknown exception",
+                      gpu_device_id, model_id);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
+        return nullptr;
+    }
+
+    size_t updated_vram_total = 0;
+    if (!tryAddSize(total_vram_used_.load(std::memory_order_relaxed), bytes, updated_vram_total)) {
+        spdlog::error("GPUMemoryManager::allocateGPU: global VRAM accounting overflow for model '{}'; clamping to max",
+                      model_id);
+        total_vram_used_.store(std::numeric_limits<size_t>::max(), std::memory_order_relaxed);
+    } else {
+        total_vram_used_.store(updated_vram_total, std::memory_order_relaxed);
+    }
+
+    size_t& per_gpu_used = per_gpu_vram_used_[gpu_device_id];
+    size_t updated_per_gpu = 0;
+    if (!tryAddSize(per_gpu_used, bytes, updated_per_gpu)) {
+        spdlog::error("GPUMemoryManager::allocateGPU: per-GPU VRAM accounting overflow on GPU {} for model '{}'; clamping to max",
+                      gpu_device_id, model_id);
+        per_gpu_used = std::numeric_limits<size_t>::max();
+    } else {
+        per_gpu_used = updated_per_gpu;
+    }
     
     spdlog::debug("Allocated {} MB on GPU {} for model {} (GPU total: {} MB)", 
                   bytes / (1024.0 * 1024),
@@ -1096,13 +1638,35 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         bool is_cpu_only = (alloc_it->vram_bytes == 0);
         
         if (is_target_gpu || is_cpu_only) {
-            freed_vram += alloc_it->vram_bytes;
-            freed_ram += alloc_it->ram_bytes;
+            size_t updated_freed_vram = 0;
+            if (!tryAddSize(freed_vram, alloc_it->vram_bytes, updated_freed_vram)) {
+                spdlog::error("GPUMemoryManager::freeModel(gpu): freed VRAM overflow for model '{}'; clamping to max",
+                              model_id);
+                freed_vram = std::numeric_limits<size_t>::max();
+            } else {
+                freed_vram = updated_freed_vram;
+            }
+
+            size_t updated_freed_ram = 0;
+            if (!tryAddSize(freed_ram, alloc_it->ram_bytes, updated_freed_ram)) {
+                spdlog::error("GPUMemoryManager::freeModel(gpu): freed RAM overflow for model '{}'; clamping to max",
+                              model_id);
+                freed_ram = std::numeric_limits<size_t>::max();
+            } else {
+                freed_ram = updated_freed_ram;
+            }
             
             // Update per-GPU tracking for this specific allocation
             if (is_target_gpu && alloc_it->vram_bytes > 0) {
                 if (per_gpu_vram_used_.find(alloc_it->gpu_device_id) != per_gpu_vram_used_.end()) {
-                    per_gpu_vram_used_[alloc_it->gpu_device_id] -= alloc_it->vram_bytes;
+                    size_t& per_gpu_used = per_gpu_vram_used_[alloc_it->gpu_device_id];
+                    if (alloc_it->vram_bytes > per_gpu_used) {
+                        spdlog::error("GPUMemoryManager::freeModel(gpu): per-GPU VRAM accounting underflow on GPU {}; clamping to 0",
+                                      alloc_it->gpu_device_id);
+                        per_gpu_used = 0;
+                    } else {
+                        per_gpu_used -= alloc_it->vram_bytes;
+                    }
                 }
             }
             
@@ -1113,8 +1677,21 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         }
     }
     
-    total_vram_used_ -= freed_vram;
-    total_ram_used_ -= freed_ram;
+    if (freed_vram > total_vram_used_.load(std::memory_order_relaxed)) {
+        spdlog::error("GPUMemoryManager::freeModel(gpu): VRAM accounting underflow for model '{}'; clamping to 0",
+                      model_id);
+        total_vram_used_.store(0, std::memory_order_relaxed);
+    } else {
+        total_vram_used_.fetch_sub(freed_vram, std::memory_order_relaxed);
+    }
+
+    if (freed_ram > total_ram_used_.load(std::memory_order_relaxed)) {
+        spdlog::error("GPUMemoryManager::freeModel(gpu): RAM accounting underflow for model '{}'; clamping to 0",
+                      model_id);
+        total_ram_used_.store(0, std::memory_order_relaxed);
+    } else {
+        total_ram_used_.fetch_sub(freed_ram, std::memory_order_relaxed);
+    }
     
     if (allocs.empty()) {
         allocations_.erase(it);
@@ -1124,6 +1701,12 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
                  model_id, gpu_device_id,
                  freed_vram / (1024.0 * 1024),
                  freed_ram / (1024.0 * 1024));
+
+    // Notify the canonical policy to keep global VRAM accounting consistent.
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled() && freed_vram > 0) {
+        policy.DeallocateGPU(static_cast<uint64_t>(freed_vram));
+    }
     
     return true;
 }
@@ -1136,7 +1719,14 @@ size_t GPUMemoryManager::getGPUVRAM(int gpu_device_id) const {
 
 size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    size_t used = getGPUVRAM(gpu_device_id);
+    if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        return 0;
+    }
+    size_t used = 0;
+    auto it = per_gpu_vram_used_.find(gpu_device_id);
+    if (it != per_gpu_vram_used_.end()) {
+        used = it->second;
+    }
     return used < config_.max_vram_bytes ? (config_.max_vram_bytes - used) : 0;
 }
 
@@ -1146,18 +1736,25 @@ std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
 }
 
 bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
-    // Already locked by caller in most cases, but safe to lock again
-    auto it = gpu_health_status_.find(gpu_device_id);
-    if (it == gpu_health_status_.end()) {
-        return false;
-    }
-    return it->second;
+    std::lock_guard<std::mutex> lock(mutex_);
+    return isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
 }
 
 bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    if (!config_.enable_peer_access) {
+        spdlog::warn("Cannot enable peer access: peer access is disabled in configuration");
+        return false;
+    }
+
+    if (src_gpu == dst_gpu) {
+        spdlog::warn("Cannot enable peer access: source and destination GPU are identical ({})", src_gpu);
+        return false;
+    }
     
-    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
+        !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
         spdlog::error("Cannot enable peer access: GPU {} or {} not available", src_gpu, dst_gpu);
         return false;
     }
@@ -1194,8 +1791,19 @@ bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
 
 bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    if (!config_.enable_peer_access) {
+        spdlog::warn("Cannot disable peer access: peer access is disabled in configuration");
+        return false;
+    }
+
+    if (src_gpu == dst_gpu) {
+        spdlog::warn("Cannot disable peer access: source and destination GPU are identical ({})", src_gpu);
+        return false;
+    }
     
-    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
+        !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
         return false;
     }
     
@@ -1225,8 +1833,15 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     if (!config_.enable_peer_access) {
         return false;
     }
+
+    if (src_gpu == dst_gpu) {
+        spdlog::warn("Cannot query peer access: source and destination GPU are identical ({})", src_gpu);
+        return false;
+    }
     
-    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+    if (!isGPUAvailableNoLock(gpu_health_status_, src_gpu) ||
+        !isGPUAvailableNoLock(gpu_health_status_, dst_gpu)) {
+        spdlog::warn("Cannot query peer access: GPU {} or {} not available", src_gpu, dst_gpu);
         return false;
     }
     
@@ -1235,6 +1850,8 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
         int can_access = 0;
         cudaError_t err = cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
         if (err != cudaSuccess) {
+            spdlog::warn("cudaDeviceCanAccessPeer({} -> {}) failed: {}",
+                         src_gpu, dst_gpu, cudaGetErrorString(err));
             return false;
         }
         return can_access != 0;
@@ -1245,6 +1862,16 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     return true;
 }
 
+void GPUMemoryManager::setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    temperature_provider_fn_ = std::move(fn);
+}
+
+void GPUMemoryManager::clearGPUTemperatureProviderFn() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    temperature_provider_fn_ = nullptr;
+}
+
 // GPU Health Monitoring Implementation
 
 GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) const {
@@ -1253,7 +1880,7 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     GPUStats stats = {};
     stats.device_id = gpu_device_id;
     
-    if (!isGPUAvailable(gpu_device_id)) {
+    if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
         return stats;
     }
     
@@ -1265,7 +1892,7 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     if (it != per_gpu_vram_used_.end()) {
         stats.used_vram_bytes = it->second;
     }
-    
+    stats.used_vram_bytes = clampUsedVRAM(stats.used_vram_bytes, stats.total_vram_bytes);
     stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
     
     // Count allocations on this GPU
@@ -1290,7 +1917,10 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) cons
     if (util_it != gpu_utilizations_.end()) {
         stats.utilization_percent = util_it->second;
     } else {
-        stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+        stats.utilization_percent = calculateUtilizationPercent(
+            stats.used_vram_bytes,
+            stats.total_vram_bytes
+        );
     }
     
     // Get temperature
@@ -1315,7 +1945,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
         GPUStats stats = {};
         stats.device_id = gpu_id;
         
-        if (isGPUAvailable(gpu_id)) {
+        if (isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id)) {
             // Get VRAM stats
             stats.total_vram_bytes = config_.max_vram_bytes;
             stats.used_vram_bytes = 0;
@@ -1324,7 +1954,7 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
             if (it != per_gpu_vram_used_.end()) {
                 stats.used_vram_bytes = it->second;
             }
-            
+            stats.used_vram_bytes = clampUsedVRAM(stats.used_vram_bytes, stats.total_vram_bytes);
             stats.free_vram_bytes = stats.total_vram_bytes - stats.used_vram_bytes;
             
             // Count allocations on this GPU
@@ -1349,7 +1979,10 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
             if (util_it != gpu_utilizations_.end()) {
                 stats.utilization_percent = util_it->second;
             } else {
-                stats.utilization_percent = (stats.used_vram_bytes * 100.0f) / stats.total_vram_bytes;
+                stats.utilization_percent = calculateUtilizationPercent(
+                    stats.used_vram_bytes,
+                    stats.total_vram_bytes
+                );
             }
             
             // Get temperature
@@ -1374,7 +2007,7 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth(int gpu_device_id) co
     
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isGPUAvailable(gpu_device_id);
+    health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
     
     if (!health.is_available) {
         return health;
@@ -1413,7 +2046,7 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
         // Get health inline to avoid deadlock (mutex already locked)
         GPUHealth health = {};
         health.device_id = gpu_id;
-        health.is_available = isGPUAvailable(gpu_id);
+        health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_id);
         
         if (health.is_available) {
             // Check if we have stored health data
@@ -1447,21 +2080,30 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
 
 bool GPUMemoryManager::isGPUHealthy(int gpu_device_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
+        return false;
+    }
+
     auto it = gpu_health_status_.find(gpu_device_id);
     return (it != gpu_health_status_.end()) ? it->second : false;
 }
 
 void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
+        spdlog::warn("Ignoring markGPUUnhealthy for untracked GPU {}", gpu_device_id);
+        return;
+    }
+
     spdlog::warn("GPU {} marked as unhealthy: {}", gpu_device_id, reason);
     gpu_health_status_[gpu_device_id] = false;
     
     // Update health data
     GPUHealth health = {};
     health.device_id = gpu_device_id;
-    health.is_available = isGPUAvailable(gpu_device_id);
+    health.is_available = isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id);
     health.is_healthy = false;
     health.last_error = reason;
     
@@ -1481,7 +2123,12 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
 
 void GPUMemoryManager::markGPUHealthy(int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
+        spdlog::warn("Ignoring markGPUHealthy for untracked GPU {}", gpu_device_id);
+        return;
+    }
+
     spdlog::info("GPU {} marked as healthy", gpu_device_id);
     gpu_health_status_[gpu_device_id] = true;
     
@@ -1510,14 +2157,14 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
             continue;
         }
         
-        // Calculate utilization
+        // Calculate utilization (guard against division by zero when max_vram_bytes is 0)
         size_t used_vram = 0;
         auto vram_it = per_gpu_vram_used_.find(gpu_id);
         if (vram_it != per_gpu_vram_used_.end()) {
             used_vram = vram_it->second;
         }
         
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes);
         
         if (utilization < min_utilization) {
             min_utilization = utilization;
@@ -1564,7 +2211,7 @@ float GPUMemoryManager::getAverageGPULoad() const {
             used_vram = vram_it->second;
         }
         
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes);
         total_load += utilization;
         healthy_count++;
     }
@@ -1579,7 +2226,23 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
         return false;  // No need to rebalance with single GPU
     }
     
-    float avg_load = getAverageGPULoad();
+    float total_load = 0.0f;
+    int healthy_count = 0;
+    for (int gpu_id : available_gpus_) {
+        auto health_it = gpu_health_status_.find(gpu_id);
+        if (health_it == gpu_health_status_.end() || !health_it->second) {
+            continue;
+        }
+
+        size_t used_vram = 0;
+        auto vram_it = per_gpu_vram_used_.find(gpu_id);
+        if (vram_it != per_gpu_vram_used_.end()) {
+            used_vram = vram_it->second;
+        }
+        total_load += calculateUtilization(used_vram, config_.max_vram_bytes);
+        healthy_count++;
+    }
+    float avg_load = (healthy_count > 0) ? (total_load / healthy_count) : 0.0f;
     
     // Check if any GPU is significantly overloaded compared to average
     for (int gpu_id : available_gpus_) {
@@ -1594,7 +2257,7 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
             used_vram = vram_it->second;
         }
         
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes);
         
         // If any GPU's load differs from average by more than threshold, rebalancing needed
         if (std::abs(utilization - avg_load) > threshold) {
@@ -1606,56 +2269,163 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
 }
 
 void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+        !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        spdlog::warn("updateGPUHealth: ignoring untracked GPU {}", gpu_device_id);
+        return;
+    }
+
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
-        CUDA_CHECK(cudaSetDevice(gpu_device_id));
-        
-        // Get temperature (if available through NVIDIA Management Library - NVML)
-        // This is a placeholder - actual implementation would use NVML
-        gpu_temperatures_[gpu_device_id] = 0.0f;
-        
+        cudaError_t set_err = cudaSetDevice(gpu_device_id);
+        if (set_err != cudaSuccess) {
+            spdlog::warn("updateGPUHealth: cudaSetDevice({}) failed: {}",
+                         gpu_device_id, cudaGetErrorString(set_err));
+            gpu_utilizations_[gpu_device_id] = 0.0f;
+            gpu_temperatures_[gpu_device_id] = 40.0f;
+            return;
+        }
+
         // Get memory info for utilization
-        size_t free_mem, total_mem;
-        CUDA_CHECK(cudaMemGetInfo(&free_mem, &total_mem));
-        size_t used_mem = total_mem - free_mem;
-        float utilization = static_cast<float>(used_mem) / total_mem * 100.0f;
+        size_t free_mem = 0;
+        size_t total_mem = 0;
+        cudaError_t mem_info_err = cudaMemGetInfo(&free_mem, &total_mem);
+        float utilization = 0.0f;
+        if (mem_info_err != cudaSuccess) {
+            spdlog::warn("updateGPUHealth: cudaMemGetInfo failed for GPU {}: {}",
+                         gpu_device_id, cudaGetErrorString(mem_info_err));
+        } else if (total_mem == 0) {
+            spdlog::warn("updateGPUHealth: cudaMemGetInfo returned zero total memory for GPU {}",
+                         gpu_device_id);
+        } else {
+            const size_t used_mem = total_mem - free_mem;
+            utilization = (static_cast<float>(used_mem) / static_cast<float>(total_mem)) * 100.0f;
+        }
+
+        GPUMemoryManager::NvmlTemperatureFn injected_temp_provider;
+        {
+            std::lock_guard<std::mutex> provider_lock(nvml_temp_fn_mutex);
+            injected_temp_provider = nvml_temp_fn;
+        }
+        // Capture instance-level provider while we hold the manager lock.
+        GPUTemperatureProviderFn instance_temp_provider = temperature_provider_fn_;
+
+        // Avoid invoking external callbacks while holding manager mutex to prevent re-entrant deadlocks.
+        lock.unlock();
+
+        std::optional<float> temperature = std::nullopt;
+        if (injected_temp_provider) {
+            try {
+                temperature = injected_temp_provider(gpu_device_id);
+            } catch (const std::exception& e) {
+                spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}: {}",
+                             gpu_device_id, e.what());
+            } catch (...) {
+                spdlog::warn("updateGPUHealth: injected NVML temperature provider failed for GPU {}",
+                             gpu_device_id);
+            }
+        }
+        if (!temperature.has_value()) {
+            temperature = queryNvmlTemperatureCelsius(gpu_device_id);
+        }
+        // Last-resort: try the instance-level provider (e.g. test injection or alternative NVML bridge).
+        if (!temperature.has_value() && instance_temp_provider) {
+            try {
+                float temp_out = 0.0f;
+                if (instance_temp_provider(gpu_device_id, temp_out)) {
+                    temperature = temp_out;
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}: {}",
+                             gpu_device_id, e.what());
+            } catch (...) {
+                spdlog::warn("updateGPUHealth: instance temperature provider failed for GPU {}",
+                             gpu_device_id);
+            }
+        }
+
+        lock.lock();
+        if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+            !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+            spdlog::warn("updateGPUHealth: dropping writeback for untracked GPU {}", gpu_device_id);
+            return;
+        }
         gpu_utilizations_[gpu_device_id] = utilization;
+        gpu_temperatures_[gpu_device_id] = temperature.value_or(40.0f + (utilization * 0.35f));
+        return;
     }
-#else
-    // Simulation mode - calculate based on allocations
+#endif
+
+    // Simulation / non-CUDA fallback.
     size_t used_vram = 0;
     auto it = per_gpu_vram_used_.find(gpu_device_id);
     if (it != per_gpu_vram_used_.end()) {
         used_vram = it->second;
     }
-    
-    float utilization = (static_cast<float>(used_vram) / config_.max_vram_bytes) * 100.0f;
+
+    const float utilization = calculateUtilization(used_vram, config_.max_vram_bytes) * 100.0f;
+    // Prefer the runtime instance provider (set via setGPUTemperatureProviderFn) over
+    // the construction-time config provider; this allows test injection and live overrides.
+    auto temperature_provider = temperature_provider_fn_
+                                    ? temperature_provider_fn_
+                                    : config_.temperature_provider_fn;
+    lock.unlock();
+
+    std::optional<float> measured_temperature = std::nullopt;
+    if (temperature_provider) {
+        try {
+            float temp_out = 0.0f;
+            if (temperature_provider(gpu_device_id, temp_out)) {
+                measured_temperature = temp_out;
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("GPU temperature callback failed for device {}: {}",
+                          gpu_device_id, e.what());
+        } catch (...) {
+            spdlog::error("GPU temperature callback failed for device {}", gpu_device_id);
+        }
+    }
+
+    lock.lock();
+    if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+        !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+        spdlog::warn("updateGPUHealth: dropping writeback for untracked GPU {}", gpu_device_id);
+        return;
+    }
     gpu_utilizations_[gpu_device_id] = utilization;
-    gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
-#endif
+    gpu_temperatures_[gpu_device_id] =
+        measured_temperature.value_or(45.0f + (utilization * 0.4f));  // Simulated temp
 }
 
 void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
     updateGPUHealth(gpu_device_id);
-    
-    auto util_it = gpu_utilizations_.find(gpu_device_id);
-    auto temp_it = gpu_temperatures_.find(gpu_device_id);
-    
+
     bool is_healthy = true;
     std::string reason;
-    
-    // Check temperature
-    if (temp_it != gpu_temperatures_.end() && temp_it->second > 85.0f) {
-        is_healthy = false;
-        reason = "Temperature too high: " + std::to_string(temp_it->second) + "°C";
-    }
-    
-    // Check utilization
-    if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
-        is_healthy = false;
-        if (!reason.empty()) reason += "; ";
-        reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
+            !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
+            return;
+        }
+        auto util_it = gpu_utilizations_.find(gpu_device_id);
+        auto temp_it = gpu_temperatures_.find(gpu_device_id);
+
+        // Check temperature
+        if (temp_it != gpu_temperatures_.end() && temp_it->second > 85.0f) {
+            is_healthy = false;
+            reason = "Temperature too high: " + std::to_string(temp_it->second) + "°C";
+        }
+
+        // Check utilization
+        if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
+            is_healthy = false;
+            if (!reason.empty()) reason += "; ";
+            reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
+        }
     }
     
     if (is_healthy) {
@@ -1667,3 +2437,4 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
 
 } // namespace llm
 } // namespace themis
+

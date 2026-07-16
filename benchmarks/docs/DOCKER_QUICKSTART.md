@@ -1,3 +1,5 @@
+> **Hinweis:** Docker-Kommandos gegen aktuellen Stand der Compose-Dateien und Images prüfen.
+
 #!/usr/bin/env markdown
 # Docker Comparative Benchmarks - Quick Start
 

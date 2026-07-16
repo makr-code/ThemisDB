@@ -1,23 +1,21 @@
+/**
+ * @file directx_pipeline.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            directx_pipeline.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     265                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: directx_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 255
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=0, L=0
+ * PR History (last 5): #572 Complete DirectX 12 Compute... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/directx_pipeline.h"
@@ -225,7 +223,9 @@ void DirectXPipeline::set_root_constants(const void* data, uint32_t num_values) 
     if (num_values > num_root_constants_) {
         throw std::runtime_error("DirectXPipeline: Too many root constants");
     }
-    
+    // Ensure root signature is set before setting root constants
+    context_->command_list()->SetComputeRootSignature(root_signature_.Get());
+
     // Root constants are at index 0
     context_->command_list()->SetComputeRoot32BitConstants(
         0,  // Root parameter index
@@ -238,6 +238,8 @@ void DirectXPipeline::set_root_constants(const void* data, uint32_t num_values) 
 void DirectXPipeline::bind_uav_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor) {
     // UAV table is after root constants (index 1)
     uint32_t root_index = (num_root_constants_ > 0) ? 1 : 0;
+    // Ensure root signature is set before binding descriptor tables
+    context_->command_list()->SetComputeRootSignature(root_signature_.Get());
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);
 }
 
@@ -246,7 +248,8 @@ void DirectXPipeline::bind_srv_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_
     uint32_t root_index = 0;
     if (num_root_constants_ > 0) root_index++;
     if (num_uavs_ > 0) root_index++;
-    
+    // Ensure root signature is set before binding descriptor tables
+    context_->command_list()->SetComputeRootSignature(root_signature_.Get());
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);
 }
 

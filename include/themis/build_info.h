@@ -1,23 +1,20 @@
+/**
+ * @file build_info.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            build_info.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: build_info.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -27,14 +24,15 @@
  * This header provides runtime access to CMake build flags and edition settings.
  */
 
-#ifndef THEMIS_BUILD_INFO_H
-#define THEMIS_BUILD_INFO_H
+#pragma once
 
 #include <string>
 #include <vector>
 #include <map>
 #include <utility>
+#include <functional>
 #include "themis/edition.h"
+#include "themis/export.h"
 
 namespace themis {
 namespace build_info {
@@ -73,22 +71,32 @@ struct BuildConfiguration {
 // ============================================================================
 // BUILD INFORMATION COLLECTION
 // ============================================================================
-
+//
+// Windows DLL / STL ABI note:
+//   The APIs below pass and return STL types (std::string, std::vector,
+//   std::optional, std::map) across the DLL boundary.  This is safe only
+//   when the consumer and the DLL are compiled with the *same* MSVC toolset
+//   version and the same CRT linkage (default: /MD, MultiThreadedDLL).
+//   Mixing toolset versions or CRT flavours (/MT vs /MD) will cause crashes
+//   or heap corruption at runtime.  Third-party consumers must therefore
+//   build against the same Visual Studio version that produced
+//   themis_base.dll.  A stable C ABI wrapper is planned for v2.0.
+//
 /**
  * Get complete build configuration including edition and modules
  */
-BuildConfiguration getBuildConfiguration();
+THEMIS_BASE_API BuildConfiguration getBuildConfiguration();
 
 /**
  * Format build configuration as a human-readable string
  * suitable for logging at server startup
  */
-std::string formatBuildInfo(const BuildConfiguration& config);
+THEMIS_BASE_API std::string formatBuildInfo(const BuildConfiguration& config);
 
 /**
  * Get a compact summary of key build information for version endpoint
  */
-std::string getVersionSummary();
+THEMIS_BASE_API std::string getVersionSummary();
 
 // ============================================================================
 // MODULE STATUS QUERIES
@@ -97,17 +105,17 @@ std::string getVersionSummary();
 /**
  * Check if a specific module was compiled into the binary
  */
-bool isModuleCompiledIn(const std::string& module_name);
+THEMIS_BASE_API bool isModuleCompiledIn(const std::string& module_name);
 
 /**
  * Get list of all modules compiled into this binary
  */
-std::vector<std::string> getCompiledModules();
+THEMIS_BASE_API std::vector<std::string> getCompiledModules();
 
 /**
  * Get list of all supported but not compiled modules
  */
-std::vector<std::string> getDisabledModules();
+THEMIS_BASE_API std::vector<std::string> getDisabledModules();
 
 // ============================================================================
 // BUILD REPRODUCIBILITY (Phase 1 - v1.7.0)
@@ -140,7 +148,7 @@ struct ReproducibilityInfo {
  * (THEMIS_GIT_COMMIT, THEMIS_GIT_BRANCH, THEMIS_GIT_DIRTY,
  *  THEMIS_BUILD_HOST, THEMIS_BUILD_USER).  Those definitions are read here.
  */
-ReproducibilityInfo getReproducibilityInfo();
+THEMIS_BASE_API ReproducibilityInfo getReproducibilityInfo();
 
 /**
  * @brief Write a JSON build-manifest to @p output_path.
@@ -152,7 +160,7 @@ ReproducibilityInfo getReproducibilityInfo();
  * @param output_path  Destination file path (will be created or overwritten).
  * @return true on success, false on I/O error.
  */
-bool exportBuildManifest(const std::string& output_path);
+THEMIS_BASE_API bool exportBuildManifest(const std::string& output_path);
 
 /**
  * @brief Verify that the build manifest at @p manifest_path matches the
@@ -164,9 +172,43 @@ bool exportBuildManifest(const std::string& output_path);
  * @param manifest_path  Path to a previously generated manifest JSON file.
  * @return true if all compared fields match, false otherwise.
  */
-bool verifyBuildManifest(const std::string& manifest_path);
+THEMIS_BASE_API bool verifyBuildManifest(const std::string& manifest_path);
+
+// ============================================================================
+// HSM MODULE STATUS BRIDGE (STUB #95)
+// ============================================================================
+//
+// Allows the server startup code to inject the actual runtime HSM state
+// into the build-info module report.  When the bridge is set, the HSM
+// PKCS#11 module entry in getBuildConfiguration() reflects the live state
+// of the HSM provider (stub vs. hardware-backed) instead of the static
+// compile-time default.
+//
+// The bridge is only consulted in builds WITHOUT THEMIS_ENABLE_HSM_REAL.
+// In THEMIS_ENABLE_HSM_REAL builds the real HSM is compiled in and always
+// reported as compiled_in=true.
+//
+// Usage (server startup):
+//   themis::build_info::setHsmModuleStatusFn([]() {
+//       bool real = !hsm->isStubProvider();
+//       std::string desc = real ? "HSM PKCS#11 (hardware-backed)"
+//                               : "HSM PKCS#11 (software stub – dev only)";
+//       return std::make_pair(real, desc);
+//   });
+//
+// Usage (tests / teardown):
+//   themis::build_info::clearHsmModuleStatusFn();  // restore default
+
+/// Callable that returns {is_real_hsm_active, description}.
+using HsmModuleStatusFn = std::function<std::pair<bool, std::string>()>;
+
+/// Register a bridge that reports runtime HSM module status.
+/// Thread-safe.  Pass an empty function to restore static defaults.
+THEMIS_BASE_API void setHsmModuleStatusFn(HsmModuleStatusFn fn);
+
+/// Remove any previously registered HSM module status bridge.
+/// Thread-safe.
+THEMIS_BASE_API void clearHsmModuleStatusFn();
 
 } // namespace build_info
 } // namespace themis
-
-#endif // THEMIS_BUILD_INFO_H

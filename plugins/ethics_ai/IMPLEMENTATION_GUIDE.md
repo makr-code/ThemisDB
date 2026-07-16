@@ -45,7 +45,7 @@ This document provides detailed guidance for completing and extending the Ethics
    - Scoring algorithms implemented
    - Weighted averages
 
-8. **Plugin Implementation** (`ethics_ai_plugin.cpp`)
+8. **Plugin Implementation** (`src/ethics_ai/ethics_ai_plugin.cpp`)
    - Full IEthicsAIPlugin implementation
    - Metrics collection
    - Prometheus export

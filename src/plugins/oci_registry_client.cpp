@@ -1,36 +1,16 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oci_registry_client.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     722                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file oci_registry_client.cpp
- * @brief OCI Registry Client – pull ThemisDB plugins from OCI-compliant registries.
- *
- * Implements a minimal OCI Distribution Specification client using libcurl.
- * Supports anonymous and Bearer-token authenticated registries.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "plugins/oci_registry_client.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <curl/curl.h>
@@ -722,3 +702,4 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
 
 } // namespace plugins
 } // namespace themis
+

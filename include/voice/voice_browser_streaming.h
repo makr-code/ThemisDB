@@ -1,62 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_browser_streaming.h                          ║
-  Version:         1.1.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.1.0  2026-03-09  feat(voice): WebSocket browser audio        ║
-                           streaming (Issue #2350)                     ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file voice_browser_streaming.h
- * @brief WebSocket-based voice streaming for browser clients.
- *
- * Implements real-time bidirectional audio streaming between a browser and
- * the ThemisDB voice pipeline via WebSocket connections (Issue #2350).
- *
- * ## Architecture
- * ```
- * Browser ──── wss://host/voice/stream ──── VoiceStreamingSession
- *   │  (64 KB max frames, binary)               │
- *   │  audio chunks (PCM/Opus/WebM)             ├── STT (incremental)
- *   │  ◄── PartialTranscript JSON               ├── NLU / LLM intent
- *   │  ◄── FinalTranscript JSON                 └── TTS audio chunks ──►
- * ```
- *
- * ## REST control endpoints (RFC 6455 upgrade handled by server layer)
- * | Method | Path                        | Action                   |
- * |--------|-----------------------------|--------------------------|
- * | POST   | /api/v1/voice/stream/start  | Create session, return stream_id |
- * | DELETE | /api/v1/voice/stream/end    | Terminate session        |
- *
- * ## Constraints (from FUTURE_ENHANCEMENTS.md)
- * - Max frame size: 64 KB
- * - Session duration: ≤10 minutes
- * - ≥100 simultaneous WebSocket clients
- * - End-to-end latency: ≤500 ms
- * - Audio encrypted in-transit (TLS) and at-rest
- *
- * @note Thread Safety: VoiceStreamingSession is NOT thread-safe per instance.
- *   Concurrent access from the send/receive WebSocket callbacks must be
- *   serialised with a mutex at the caller level.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>
@@ -116,8 +66,12 @@ struct FinalTranscript {
 
 /**
  * @brief Audio format description for incoming browser audio.
+ *
+ * Kept distinct from the storage-layer AudioFormat to avoid namespace-level
+ * collisions between streaming transport metadata and persisted audio
+ * inventory metadata.
  */
-struct AudioFormat {
+struct StreamAudioFormat {
     enum class Encoding { PCM16, OPUS, WEBM_OPUS };
     Encoding encoding      = Encoding::PCM16;
     uint32_t sample_rate   = 16000;  ///< Hz
@@ -161,13 +115,17 @@ public:
     struct Config {
         std::string session_id;               ///< Auth/user session ID
         std::string user_id;                  ///< Optional user ID for personalisation
-        AudioFormat audio_format;             ///< Expected incoming audio format
+        StreamAudioFormat audio_format;       ///< Expected incoming browser audio format
         std::string language = "en";          ///< BCP-47 language code
         bool        run_nlu  = true;          ///< Extract intent after each utterance
         bool        enable_tts = false;       ///< Synthesise and stream TTS back to browser
         uint32_t    max_frame_bytes = 65536;  ///< Max accepted WebSocket frame size (64 KB)
         uint32_t    max_duration_s  = 600;    ///< Auto-close after this many seconds (10 min)
         bool        partial_results = true;   ///< Emit PartialTranscript as audio arrives
+        /// Permitted WebRTC/HTTP request origins (e.g. "https://app.example.com").
+        /// An empty list means all origins are allowed.  When non-empty, only
+        /// exact string matches are accepted; pass the full scheme+host[:port].
+        std::vector<std::string> origin_allowlist;
     };
 
     /**
@@ -235,12 +193,52 @@ public:
     void onTtsChunk(TtsChunkCb cb);       ///< Called with TTS audio chunks when enable_tts=true
     void onError(ErrorCb cb);
 
+    // ── STT backend injection ─────────────────────────────────────────────────
+
+    /**
+     * @brief Inject a real STT transcription backend.
+     *
+     * The function receives the current audio buffer, an `is_final` flag
+     * (true when `endOfUtterance()` triggers the call), and the sequence
+     * counter.  It must return a populated `PartialTranscript`; the session
+     * will overwrite `stream_id` and, if `timestamp_ms` is zero, set it to
+     * the current wall-clock time.
+     *
+     * When no function is injected the session falls back to the built-in
+     * placeholder that returns `[partial#N:MBB]` text.
+     *
+     * Signature: (audio_buffer, is_final, seq) → PartialTranscript
+     */
+    using TranscribeFn = std::function<PartialTranscript(
+        const std::vector<uint8_t>& audio,
+        bool is_final,
+        uint32_t seq)>;
+
+    /// Inject an STT transcription backend.  Passing null resets to the
+    /// built-in placeholder.
+    void setTranscribeBackend(TranscribeFn fn);
+
     // ── Session info ──────────────────────────────────────────────────────────
 
     StreamID     streamId()    const noexcept;
     const Config& config()     const noexcept;
     int64_t      startedAtMs() const noexcept;
     size_t       bytesReceived()const noexcept;
+
+    // ── Origin allowlist ──────────────────────────────────────────────────────
+
+    /**
+     * @brief Check whether @p origin is permitted by this session's allowlist.
+     *
+     * Returns true when Config::origin_allowlist is empty (no restriction) or
+     * when @p origin is found verbatim in the allowlist.  The comparison is
+     * case-sensitive; callers should normalise the origin to lowercase before
+     * calling this method.
+     *
+     * @param origin  Full scheme+host[:port] of the connecting client
+     *                (e.g. "https://app.example.com").
+     */
+    bool checkOrigin(const std::string& origin) const;
 
 private:
     explicit VoiceStreamingSession(Config config);

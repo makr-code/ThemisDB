@@ -1,51 +1,57 @@
+/**
+ * @file mcp_server.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=1, H=27, M=36, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mcp_server.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   71.0/100                                       ║
-    • Total Lines:     2367                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e2cf1a07c  2026-02-22  feat: MCP ↔ AIOrchestrator bidirectional integration (MCP... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mcp_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 3241
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=2, H=36, M=38, L=0
+ * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #381 Migrate medium priority err... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11) | #388 Implement SchemaManager for... (2026-03-11) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_MCP
 
 #include "server/mcp_server.h"
+#include <stdexcept>
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "query/aql_safety_validator.h"
+#include "query/cypher_parser.h"
 #include "index/graph_index.h"
 #include "llm/embedded_llm.h"
 #include "prompt_engineering/prompt_manager.h"
+#include "security/ai_operation_guard.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include "config/config_path_resolver.h"
+#include "security/ai_snapshot_cleanup.h"
+#include "utils/audit_logger.h"
 #include "version.h"
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/ai_orchestrator.h"
 #endif
+#include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
+#include <filesystem>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <fmt/format.h>
 #include <regex>
+#include <cctype>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -70,6 +76,173 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     : io_context_(io_context), config_(config) {
     spdlog::info("MCP Server initializing with transports: stdio={}, sse={}, websocket={}",
                  config_.enable_stdio, config_.enable_sse, config_.enable_websocket);
+
+    // AI Safety Layer — Schichten 1 & 2: Initialise Destructive Operation Guard.
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    // Roadmap: src/security/ROADMAP.md § Phase 2 (ASL-4)
+    themis::security::AiOperationGuard::Config guard_cfg;
+    guard_cfg.enabled                = true;
+    guard_cfg.approval_threshold     = themis::security::OperationClass::DESTRUCTIVE;
+    guard_cfg.approval_timeout_s     = 60;
+    guard_cfg.auto_snapshot          = true;
+    guard_cfg.snapshot_dir           = themis::security::themisDefaultSnapshotDir();
+    guard_cfg.environment            = "development";  // Override via attachConfig()
+    guard_cfg.block_critical_in_prod = true;
+    operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
+    spdlog::info("MCP AI Safety Guard initialised (DOG+HILG, threshold=DESTRUCTIVE)");
+
+    // ASL-9: Load security.yaml to override guard config with deployment settings.
+    // Docs: src/security/ROADMAP.md § Phase 3 (ASL-9)
+    try {
+        std::string yaml_path;
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve("config/security.yaml")) {
+            yaml_path = *resolved;
+        } else {
+            yaml_path = "config/security.yaml";
+        }
+
+        const YAML::Node root = YAML::LoadFile(yaml_path);
+
+        themis::security::AiOperationGuard::Config new_cfg = operation_guard_->config();
+
+        if (const auto& env = root["environment"]) {
+            if (env["name"]) {
+                new_cfg.environment = env["name"].as<std::string>(new_cfg.environment);
+            }
+            if (const auto& restrictions = env["ai_agent_restrictions"]) {
+                if (restrictions["block_destructive"]) {
+                    new_cfg.block_critical_in_prod = restrictions["block_destructive"].as<bool>(
+                        new_cfg.block_critical_in_prod);
+                }
+                if (restrictions["denied_collections"]) {
+                    new_cfg.denied_collections.clear();
+                    for (const auto& c : restrictions["denied_collections"]) {
+                        new_cfg.denied_collections.push_back(c.as<std::string>());
+                    }
+                }
+                if (restrictions["allowed_collections"]) {
+                    new_cfg.allowed_collections.clear();
+                    for (const auto& c : restrictions["allowed_collections"]) {
+                        new_cfg.allowed_collections.push_back(c.as<std::string>());
+                    }
+                }
+                if (restrictions["require_role_for_critical"]) {
+                    new_cfg.critical_ops_role = restrictions["require_role_for_critical"].as<std::string>(
+                        new_cfg.critical_ops_role);
+                }
+            }
+        }
+
+        if (const auto& ai_safety = root["ai_safety"]) {
+            if (const auto& snapshot = ai_safety["snapshot"]) {
+                if (snapshot["dir"]) {
+                    new_cfg.snapshot_dir = snapshot["dir"].as<std::string>(new_cfg.snapshot_dir);
+                }
+                if (snapshot["retention_days"]) {
+                    snapshot_retention_days_ = snapshot["retention_days"].as<int>(snapshot_retention_days_);
+                }
+                if (snapshot["max_total_size_gb"]) {
+                    snapshot_max_total_gb_ = snapshot["max_total_size_gb"].as<int>(snapshot_max_total_gb_);
+                }
+            }
+        }
+
+        operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(new_cfg));
+        spdlog::info("MCP AI Safety Guard: config loaded from '{}' (env='{}', snapshot_dir='{}')",
+                     yaml_path, operation_guard_->config().environment,
+                     operation_guard_->config().snapshot_dir);
+    } catch (const std::exception& ex) {
+        spdlog::warn("MCP AI Safety Guard: could not load security.yaml ({}), using defaults", ex.what());
+    }
+
+    // ASL-7: Load the 'agentic' mode safety: block from the Mode-YAML spec.
+    // Overrides guard config fields (enabled, approval_threshold, approval_timeout_s,
+    // auto_snapshot, snapshot_dir, dry_run_preview) with values from the agentic mode.
+    // Falls back silently to the defaults already set by the security.yaml (ASL-9) load above.
+    // Docs:    src/security/ROADMAP.md § Phase 2 (ASL-7)
+    // Config:  config/ai_ml/llm/modes/default.yaml → modes[id=agentic].safety
+    try {
+        std::string mode_yaml_path;
+        const std::string kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
+            mode_yaml_path = *resolved;
+        } else {
+            mode_yaml_path = kModeYamlKey;
+        }
+
+        const YAML::Node mode_root = YAML::LoadFile(mode_yaml_path);
+        const auto& modes_node = mode_root["modes"];
+        if (modes_node && modes_node.IsSequence()) {
+            themis::security::AiOperationGuard::Config mode_cfg = operation_guard_->config();
+            bool applied = false;
+            for (const auto& mode : modes_node) {
+                const auto& id_node = mode["id"];
+                if (!id_node || id_node.as<std::string>() != "agentic") continue;
+                const auto& safety = mode["safety"];
+                if (!safety || !safety.IsMap()) break;
+
+                if (safety["enabled"]) {
+                    mode_cfg.enabled = safety["enabled"].as<bool>(mode_cfg.enabled);
+                }
+                if (safety["approval_timeout_s"]) {
+                    mode_cfg.approval_timeout_s =
+                        safety["approval_timeout_s"].as<int>(mode_cfg.approval_timeout_s);
+                }
+                if (safety["auto_snapshot"]) {
+                    mode_cfg.auto_snapshot =
+                        safety["auto_snapshot"].as<bool>(mode_cfg.auto_snapshot);
+                }
+                if (safety["snapshot_dir"]) {
+                    mode_cfg.snapshot_dir =
+                        safety["snapshot_dir"].as<std::string>(mode_cfg.snapshot_dir);
+                }
+                if (safety["dry_run_preview"]) {
+                    mode_cfg.dry_run_preview =
+                        safety["dry_run_preview"].as<bool>(mode_cfg.dry_run_preview);
+                }
+                // require_approval_for: [DESTRUCTIVE, CRITICAL]
+                // → approval_threshold = lowest class in the list
+                if (safety["require_approval_for"] &&
+                    safety["require_approval_for"].IsSequence()) {
+                    themis::security::OperationClass min_threshold =
+                        themis::security::OperationClass::CRITICAL;
+                    for (const auto& cls : safety["require_approval_for"]) {
+                        const std::string cls_name = cls.as<std::string>();
+                        if (cls_name == "WRITE_SAFE") {
+                            min_threshold = themis::security::OperationClass::WRITE_SAFE;
+                            break;
+                        }
+                        if (cls_name == "DESTRUCTIVE") {
+                            // DESTRUCTIVE < CRITICAL, keep searching for lower
+                            min_threshold = themis::security::OperationClass::DESTRUCTIVE;
+                        }
+                    }
+                    mode_cfg.approval_threshold = min_threshold;
+                }
+
+                applied = true;
+                break;
+            }
+            if (applied) {
+                operation_guard_ =
+                    std::make_unique<themis::security::AiOperationGuard>(std::move(mode_cfg));
+                spdlog::info(
+                    "MCP ASL-7: agentic mode safety config applied from '{}' "
+                    "(threshold={}, timeout={}s, auto_snapshot={}, dry_run_preview={})",
+                    mode_yaml_path,
+                    themis::security::operationClassName(operation_guard_->config().approval_threshold),
+                    operation_guard_->config().approval_timeout_s,
+                    operation_guard_->config().auto_snapshot,
+                    operation_guard_->config().dry_run_preview);
+            } else {
+                spdlog::debug(
+                    "MCP ASL-7: no 'agentic' mode with safety: block in '{}', "
+                    "guard config unchanged", mode_yaml_path);
+            }
+        }
+    } catch (const std::exception& ex) {
+        spdlog::warn("MCP ASL-7: could not load mode YAML ({}), guard config unchanged", ex.what());
+    }
 }
 
 McpServer::~McpServer() {
@@ -77,7 +250,8 @@ McpServer::~McpServer() {
 }
 
 void McpServer::start() {
-    if (is_running_) {
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         spdlog::warn("MCP Server already running");
         return;
     }
@@ -92,31 +266,45 @@ void McpServer::start() {
     // Initialize transports
     if (config_.enable_stdio) {
         stdio_transport_ = std::make_shared<StdioTransport>(io_context_, config_.stdio_buffer_size);
-        stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        stdio_transport_->start();
-        spdlog::info("MCP stdio transport started");
+        // Defensive null guard: make_shared throws on OOM, so stdio_transport_
+        // is always non-null here; the guard makes the invariant explicit for
+        // static analyzers and future refactors.
+        if (stdio_transport_) {
+            stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            stdio_transport_->start();
+            spdlog::info("MCP stdio transport started");
+        } else {
+            spdlog::error("MCP: stdio transport allocation failed — stdio disabled");
+        }
     }
 
     if (config_.enable_sse) {
         sse_transport_ = std::make_shared<SseTransport>(io_context_, config_.sse_keepalive_ms);
-        sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        sse_transport_->start();
-        spdlog::info("MCP SSE transport started");
+        if (sse_transport_) {
+            sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            sse_transport_->start();
+            spdlog::info("MCP SSE transport started");
+        } else {
+            spdlog::error("MCP: SSE transport allocation failed — SSE disabled");
+        }
     }
 
     if (config_.enable_websocket) {
         ws_transport_ = std::make_shared<WebSocketTransport>(io_context_, config_.websocket_ping_interval_ms);
-        ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        ws_transport_->start();
-        spdlog::info("MCP WebSocket transport started");
+        if (ws_transport_) {
+            ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            ws_transport_->start();
+            spdlog::info("MCP WebSocket transport started");
+        } else {
+            spdlog::error("MCP: WebSocket transport allocation failed — WebSocket disabled");
+        }
     }
 
-    is_running_ = true;
     spdlog::info("MCP Server started successfully");
 }
 
 void McpServer::stop() {
-    if (!is_running_) {
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
         return;
     }
 
@@ -132,7 +320,6 @@ void McpServer::stop() {
         ws_transport_->stop();
     }
 
-    is_running_ = false;
     spdlog::info("MCP Server stopped");
 }
 
@@ -182,6 +369,34 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
 }
 
 // ============================================================================
+// ASL-12: AI Session Audit Trail — setAuditLogger + logAiEvent
+// Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+// Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-12)
+// ============================================================================
+
+void McpServer::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
+    audit_logger_ = std::move(logger);
+}
+
+void McpServer::logAiEvent(
+    themis::utils::SecurityEventType type,
+    const std::string&               tool_name,
+    const std::string&               ai_session_id,
+    const nlohmann::json&            details
+) {
+    if (!audit_logger_) [[unlikely]] {
+        return;
+    }
+    auto& audit_logger = *audit_logger_;
+    audit_logger.logSecurityEvent(
+        type,
+        ai_session_id,
+        "mcp://" + tool_name,
+        details
+    );
+}
+
+// ============================================================================
 // AI Orchestrator Integration
 // ============================================================================
 
@@ -192,6 +407,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
         spdlog::warn("MCP Server: attachOrchestrator called with null orchestrator");
         return;
     }
+    auto& orchestrator_ref = *orchestrator_;
 
     // Register llm_orchestrate: run a named pipeline mode via the orchestrator
     registerTool("llm_orchestrate",
@@ -223,7 +439,7 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
         },
         [this](const json& args) { return toolLLMListModes(args); });
 
-    const auto& pack = orchestrator_->modePack();
+    const auto& pack = orchestrator_ref.modePack();
     spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
                  pack.name, pack.version, pack.modes.size(), pack.default_mode);
 }
@@ -317,7 +533,7 @@ json McpServer::handleRequest(const json& request) {
 }
 
 json McpServer::handleInitialize(const json& params) {
-    initialized_ = true;
+    initialized_.store(true, std::memory_order_release);
     
     if (params.contains("clientInfo")) {
         client_info_ = params["clientInfo"].dump();
@@ -370,6 +586,13 @@ json McpServer::handleToolsCall(const json& params) {
 
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
+    // Guard against an empty/null std::function stored for this tool.
+    // Calling an empty std::function throws std::bad_function_call; we
+    // catch that below, but making the guard explicit surfaces registration
+    // bugs as a distinct, unambiguous error code.
+    if (!it->second.handler) {
+        return createError(-32601, "Tool handler not available: " + name);
+    }
     try {
         json result = it->second.handler(args);
         return createSuccessResponse({{"content", {{{"type", "text"}, {"text", result.dump()}}}}});
@@ -405,6 +628,10 @@ json McpServer::handleResourcesRead(const json& params) {
         return createError(-32602, "Resource not found: " + uri);
     }
 
+    // Guard against an empty/null std::function stored for this resource.
+    if (!it->second.handler) {
+        return createError(-32601, "Resource handler not available: " + uri);
+    }
     try {
         json content = it->second.handler(uri);
         return createSuccessResponse({
@@ -447,6 +674,10 @@ json McpServer::handlePromptsGet(const json& params) {
 
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
+    // Guard against an empty/null std::function stored for this prompt.
+    if (!it->second.handler) {
+        return createError(-32601, "Prompt handler not available: " + name);
+    }
     try {
         json messages = it->second.handler(name, args);
         return createSuccessResponse({{"messages", messages}});
@@ -498,7 +729,9 @@ void McpServer::registerDefaultTools() {
         {
             {"type", "object"},
             {"properties", {
-                {"key", {{"type", "string"}}}
+                {"key", {{"type", "string"}}},
+                {"dry_run", {{"type", "boolean"}, {"default", false},
+                             {"description", "AI Safety: preview the delete without executing it (Phase 1 guard)"}}}
             }},
             {"required", {"key"}}
         },
@@ -534,7 +767,9 @@ void McpServer::registerDefaultTools() {
             {"properties", {
                 {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
                 {"column", {{"type", "string"}, {"description", "Column/property name"}}},
-                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}}
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}},
+                {"dry_run", {{"type", "boolean"}, {"default", false},
+                             {"description", "AI Safety: preview the drop without executing it (Phase 1 guard)"}}}
             }},
             {"required", {"table", "column"}}
         },
@@ -546,6 +781,12 @@ void McpServer::registerDefaultTools() {
             {"properties", {}}
         },
         [this](const json& args) { return toolListIndexes(args); });
+
+    // ASL-11: AI snapshot cleanup tool
+    registerTool("ai_cleanup_snapshots",
+        "Delete expired AI pre-operation snapshots (retention policy enforcement)",
+        json::object(),
+        [this](const json& args) { return toolAiCleanupSnapshots(args); });
 
     // ========================================================================
     // LLM Tools (NEW)
@@ -657,6 +898,10 @@ void McpServer::registerDefaultTools() {
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
     std::string language = args.value("language", "aql");
+    // AI Safety Layer (Schicht 3): enforce_read_only flag carried in args
+    // when this tool is called from the `agentic` mode with aql_execute.
+    // The flag is set by the MCP tool spec (enforce_read_only: true in YAML).
+    const bool enforce_read_only = args.value("enforce_read_only", false);
     
     spdlog::info("MCP Tool 'query' called: {} ({})", query, language);
     
@@ -700,7 +945,39 @@ json McpServer::toolQuery(const json& args) {
                     {"language", language}
                 };
             }
-            
+
+            // AI Safety Layer — Schicht 3: AQL Read-Only Enforcer (ASL-3)
+            // Activated when enforce_read_only=true is carried in the tool args
+            // (set by the `aql_execute` MCP tool spec in the agentic LLM mode).
+            // Docs: docs/de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md
+            if (enforce_read_only) {
+                themis::query::AqlSafetyValidator aql_validator;
+                auto violation = aql_validator.validate(query);
+                if (violation.has_value()) {
+                    spdlog::warn("AI Safety Layer (ASL-3): AQL read-only violation "
+                                 "blocked: keyword='{}' pos={} query='{}'",
+                                 violation->keyword, violation->position, query);
+                    return {
+                        {"status", "error"},
+                        {"error_code", "AQL_READ_ONLY_VIOLATION"},
+                        {"message", violation->message},
+                        {"query", query},
+                        {"language", language},
+                        {"blocked_by", "AqlSafetyValidator"},
+                        {"violation_keyword", violation->keyword},
+                        {"violation_position", violation->position}
+                    };
+                }
+            }
+
+            // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+            // For AQL write/delete operations: require approval before execution.
+            if (const auto guard_resp = checkOperationGuard(
+                    "query", args,
+                    /*ai_session_id=*/"", /*caller_role=*/"")) {
+                return *guard_resp;
+            }
+
             // Execute AQL query
             auto result = executeAql(query, *query_engine_);
             
@@ -722,14 +999,87 @@ json McpServer::toolQuery(const json& args) {
                 {"results", *result}
             };
         }
-        // SQL and Cypher not yet implemented
+        // SQL and Cypher: transpile to AQL, then execute through the AQL engine
         else if (language == "sql" || language == "cypher") {
+            if (!query_engine_) {
+                return {
+                    {"status", "error"},
+                    {"message", "Query engine not initialized"},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+
+            // Transpile SQL/Cypher → AQL
+            std::string aql_query;
+            if (language == "sql") {
+                themis::query::SQLParser sql_parser;
+                auto parse_result = sql_parser.parse(query);
+                if (!parse_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("SQL parse error: {}", parse_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                themis::query::SQLToAQLTranspiler transpiler;
+                auto transpile_result = transpiler.transpile(*parse_result);
+                if (!transpile_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("SQL→AQL transpilation failed: {}", transpile_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                aql_query = *transpile_result;
+            } else {  // cypher
+                themis::query::CypherParser cypher_parser;
+                auto parse_result = cypher_parser.parse(query);
+                if (!parse_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("Cypher parse error: {}", parse_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                themis::query::CypherToAQLTranspiler transpiler;
+                auto transpile_result = transpiler.transpile(*parse_result);
+                if (!transpile_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("Cypher→AQL transpilation failed: {}", transpile_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                aql_query = *transpile_result;
+            }
+
+            // Execute the transpiled AQL query
+            auto result = executeAql(aql_query, *query_engine_);
+            if (!result) {
+                return {
+                    {"status", "error"},
+                    {"message", fmt::format("{} execution failed (via AQL transpilation): {}",
+                                           language == "sql" ? "SQL" : "Cypher",
+                                           result.error().message())},
+                    {"query", query},
+                    {"transpiled_aql", aql_query},
+                    {"language", language}
+                };
+            }
+
             return {
-                {"status", "error"},
-                {"message", fmt::format("{} query language not yet implemented", language)},
+                {"status", "success"},
+                {"message", fmt::format("{} query executed successfully (via AQL transpilation)",
+                                        language == "sql" ? "SQL" : "Cypher")},
                 {"query", query},
+                {"transpiled_aql", aql_query},
                 {"language", language},
-                {"note", "Use 'aql' language for full query support"}
+                {"results", *result}
             };
         }
         // Unknown language
@@ -758,10 +1108,10 @@ json McpServer::toolPutEntity(const json& args) {
     
     spdlog::info("MCP Tool 'put_entity' called: key={}", key);
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key}
         };
     }
@@ -800,10 +1150,10 @@ json McpServer::toolGetEntity(const json& args) {
     
     spdlog::info("MCP Tool 'get_entity' called: key={}", key);
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key},
             {"value", nullptr}
         };
@@ -844,14 +1194,38 @@ json McpServer::toolGetEntity(const json& args) {
 
 json McpServer::toolDeleteEntity(const json& args) {
     std::string key = args["key"];
-    
-    spdlog::info("MCP Tool 'delete_entity' called: key={}", key);
-    
-    if (!db_) {
+    // AI Safety Layer (Phase 1): dry_run flag — preview the operation without
+    // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
+    const bool dry_run = args.value("dry_run", false);
+
+    spdlog::info("MCP Tool 'delete_entity' called: key={} dry_run={}", key, dry_run);
+
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key}
+        };
+    }
+
+    // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+    // Guard intercept for DESTRUCTIVE operations.
+    if (const auto guard_resp = checkOperationGuard(
+            "delete_entity", args,
+            /*ai_session_id=*/"", /*caller_role=*/"")) {
+        return *guard_resp;
+    }
+
+    // Dry-run mode: return a preview without touching the database.
+    if (dry_run) {
+        spdlog::info("AI Safety dry_run: delete_entity key={} — preview only", key);
+        return {
+            {"status", "dry_run"},
+            {"message", "Dry-run preview: entity would be deleted (not executed)"},
+            {"key", key},
+            {"dry_run", true},
+            {"classification", "DESTRUCTIVE"},
+            {"note", "Submit with dry_run=false after human approval to execute."}
         };
     }
 
@@ -897,6 +1271,7 @@ json McpServer::toolCreateIndex(const json& args) {
             {"message", "Index manager not initialized"}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     // Extract parameters
     std::string table = args.value("table", "");
@@ -923,13 +1298,13 @@ json McpServer::toolCreateIndex(const json& args) {
         
         // Convert index_type string to enum and create appropriate index
         if (index_type == "regular" || index_type == "secondary") {
-            status = index_mgr_->createIndex(table, column, unique);
+            status = index_mgr.createIndex(table, column, unique);
         } else if (index_type == "range") {
-            status = index_mgr_->createRangeIndex(table, column);
+            status = index_mgr.createRangeIndex(table, column);
         } else if (index_type == "sparse") {
-            status = index_mgr_->createSparseIndex(table, column, unique);
+            status = index_mgr.createSparseIndex(table, column, unique);
         } else if (index_type == "geo" || index_type == "geospatial") {
-            status = index_mgr_->createGeoIndex(table, column);
+            status = index_mgr.createGeoIndex(table, column);
         } else if (index_type == "fulltext") {
             // Get optional fulltext configuration from args
             SecondaryIndexManager::FulltextConfig config;
@@ -940,10 +1315,10 @@ json McpServer::toolCreateIndex(const json& args) {
                 config.stopwords_enabled = ft_config.value("stopwords", false);
                 config.normalize_umlauts = ft_config.value("normalize_umlauts", false);
             }
-            status = index_mgr_->createFulltextIndex(table, column, config);
+            status = index_mgr.createFulltextIndex(table, column, config);
         } else if (index_type == "ttl") {
             int64_t ttl_seconds = args.value("ttl_seconds", 86400); // default 1 day
-            status = index_mgr_->createTTLIndex(table, column, ttl_seconds);
+            status = index_mgr.createTTLIndex(table, column, ttl_seconds);
         } else {
             return {
                 {"status", "error"},
@@ -996,11 +1371,15 @@ json McpServer::toolDropIndex(const json& args) {
             {"message", "Index manager not initialized"}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     // Extract parameters
     std::string table = args.value("table", "");
     std::string column = args.value("column", "");
     std::string index_type = args.value("type", "regular");
+    // AI Safety Layer (Phase 1): dry_run flag — preview the drop without
+    // executing it. Phase 2 will replace this with the full HILG Approval-Flow.
+    const bool dry_run = args.value("dry_run", false);
     
     if (table.empty() || column.empty()) {
         return {
@@ -1008,23 +1387,47 @@ json McpServer::toolDropIndex(const json& args) {
             {"message", "Missing required parameters: table and column"}
         };
     }
-    
+
+    // AI Safety Layer — Schichten 1 & 2: DOG + HILG (ASL-4/5)
+    if (const auto guard_resp = checkOperationGuard(
+            "drop_index", args,
+            /*ai_session_id=*/"", /*caller_role=*/"")) {
+        return *guard_resp;
+    }
+
+    // Dry-run mode: return a preview without dropping the index.
+    if (dry_run) {
+        spdlog::info("AI Safety dry_run: drop_index {}.{} ({}) — preview only",
+                     table, column, index_type);
+        return {
+            {"status", "dry_run"},
+            {"message", fmt::format("Dry-run preview: index {}.{} ({}) would be dropped (not executed)",
+                                    table, column, index_type)},
+            {"table", table},
+            {"column", column},
+            {"index_type", index_type},
+            {"dry_run", true},
+            {"classification", "DESTRUCTIVE"},
+            {"note", "Submit with dry_run=false after human approval to execute."}
+        };
+    }
+
     try {
         SecondaryIndexManager::Status status;
         
         // Drop the appropriate index type
         if (index_type == "regular" || index_type == "secondary") {
-            status = index_mgr_->dropIndex(table, column);
+            status = index_mgr.dropIndex(table, column);
         } else if (index_type == "range") {
-            status = index_mgr_->dropRangeIndex(table, column);
+            status = index_mgr.dropRangeIndex(table, column);
         } else if (index_type == "sparse") {
-            status = index_mgr_->dropSparseIndex(table, column);
+            status = index_mgr.dropSparseIndex(table, column);
         } else if (index_type == "geo" || index_type == "geospatial") {
-            status = index_mgr_->dropGeoIndex(table, column);
+            status = index_mgr.dropGeoIndex(table, column);
         } else if (index_type == "fulltext") {
-            status = index_mgr_->dropFulltextIndex(table, column);
+            status = index_mgr.dropFulltextIndex(table, column);
         } else if (index_type == "ttl") {
-            status = index_mgr_->dropTTLIndex(table, column);
+            status = index_mgr.dropTTLIndex(table, column);
         } else {
             return {
                 {"status", "error"},
@@ -1076,17 +1479,19 @@ json McpServer::toolListIndexes(const json& args) {
             {"indexes", json::array()}
         };
     }
+    auto& index_mgr = *index_mgr_;
     
     try {
         // Get all tables from schema manager
         json indexes = json::array();
         
         if (schema_mgr_) {
-            auto tables = schema_mgr_->getAllTables();
+            auto& schema_mgr = *schema_mgr_;
+            auto tables = schema_mgr.getAllTables();
             
             for (const auto& table : tables) {
                 // Get index stats for each table
-                auto stats = index_mgr_->getAllIndexStats(table.name);
+                auto stats = index_mgr.getAllIndexStats(table.name);
                 
                 for (const auto& stat : stats) {
                     json index_info = {
@@ -1119,11 +1524,13 @@ json McpServer::toolListIndexes(const json& args) {
 
 json McpServer::toolGetSchema(const json& args) {
     spdlog::info("MCP Tool 'get_schema' called");
-    
-    if (!db_) {
+
+    const bool database_connected = db_ && db_->isOpen();
+    if (!database_connected) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
+            {"database_connected", false},
             {"nodes", json::array()},
             {"edges", json::array()},
             {"properties", json::object()}
@@ -1134,19 +1541,22 @@ json McpServer::toolGetSchema(const json& args) {
         return {
             {"status", "error"},
             {"message", "SchemaManager not initialized"},
+            {"database_connected", true},
             {"integration_level", "minimal"},
             {"nodes", json::array()},
             {"edges", json::array()},
             {"properties", json::object()}
         };
     }
+    auto& schema_mgr = *schema_mgr_;
 
     // Full integration: return real schema data from SchemaManager
     try {
-        auto schema_json = schema_mgr_->toJSON();
+        auto schema_json = schema_mgr.toJSON();
         
         // Add integration level indicator
         schema_json["integration_level"] = "full";
+        schema_json["database_connected"] = database_connected;
         
         return schema_json;
     } catch (const std::exception& e) {
@@ -1154,6 +1564,7 @@ json McpServer::toolGetSchema(const json& args) {
         return {
             {"status", "error"},
             {"message", std::string("Failed to retrieve schema: ") + e.what()},
+            {"database_connected", database_connected},
             {"integration_level", "full"},
             {"nodes", json::array()},
             {"edges", json::array()},
@@ -1164,11 +1575,13 @@ json McpServer::toolGetSchema(const json& args) {
 
 json McpServer::toolGetStats(const json& args) {
     spdlog::info("MCP Tool 'get_stats' called");
-    
-    if (!db_) {
+
+    const bool database_connected = db_ && db_->isOpen();
+    if (!database_connected) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
+            {"database_connected", false},
             {"node_count", 0},
             {"edge_count", 0},
             {"storage_size_bytes", 0}
@@ -1177,11 +1590,12 @@ json McpServer::toolGetStats(const json& args) {
 
     // Full integration: return real statistics from SchemaManager
     if (schema_mgr_) {
+        auto& schema_mgr = *schema_mgr_;
         try {
-            auto metadata = schema_mgr_->getDatabaseMetadata();
+            auto metadata = schema_mgr.getDatabaseMetadata();
             return {
                 {"status", "success"},
-                {"database_connected", db_->isOpen()},
+                {"database_connected", database_connected},
                 {"integration_level", "full"},
                 {"version", metadata.version},
                 {"table_count", metadata.table_count},
@@ -1193,7 +1607,7 @@ json McpServer::toolGetStats(const json& args) {
             return {
                 {"status", "error"},
                 {"message", std::string("Failed to retrieve stats: ") + e.what()},
-                {"database_connected", db_->isOpen()},
+                {"database_connected", database_connected},
                 {"integration_level", "full"}
             };
         }
@@ -1202,7 +1616,7 @@ json McpServer::toolGetStats(const json& args) {
     // Minimal integration: return connection status
     return {
         {"status", "success"},
-        {"database_connected", db_->isOpen()},
+        {"database_connected", database_connected},
         {"message", "Detailed statistics require full query engine integration"},
         {"integration_level", "minimal"},
         {"node_count", 0},
@@ -1338,6 +1752,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
     if (!orchestrator_) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached. Call attachOrchestrator() first."}};
     }
+    auto& orchestrator = *orchestrator_;
 
     try {
         themis::llm::OrchestratorContext ctx;
@@ -1352,7 +1767,7 @@ json McpServer::toolLLMOrchestrate(const json& args) {
             ctx.temperature = args["temperature"].get<float>();
         }
 
-        const auto result = orchestrator_->run(ctx);
+        const auto result = orchestrator.run(ctx);
 
         json out;
         out["status"]          = result.success ? "success" : "error";
@@ -1383,7 +1798,8 @@ json McpServer::toolLLMListModes(const json& /*args*/) {
         return {{"status", "error"}, {"message", "AIOrchestrator not attached."}};
     }
 
-    const auto& pack = orchestrator_->modePack();
+    auto& orchestrator = *orchestrator_;
+    const auto& pack = orchestrator.modePack();
 
     json modes_arr = json::array();
     for (const auto& m : pack.modes) {
@@ -1500,8 +1916,9 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     }
     
     // Build context from SchemaManager
+    auto& schema_mgr = *schema_mgr_;
     auto context = themis::prompt_engineering::PromptManager::buildContextFromSchema(
-        schema_mgr_.get(),
+        &schema_mgr,
         themis::version::getEditionString(),
         themis::version::getVersionString()
     );
@@ -1552,7 +1969,7 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         
         // Try to extract table name from question
         // This is a simple implementation - could be enhanced
-        auto tables = schema_mgr_->getAllTables();
+        auto tables = schema_mgr.getAllTables();
         for (const auto& table : tables) {
             if (utils::containsCaseInsensitive(question, table.name)) {
                 auto table_json = table.toJSON();
@@ -1742,9 +2159,10 @@ json McpServer::resourceSchema(const std::string& uri) {
             {"edges", json::array()}
         };
     }
+    auto& schema_mgr = *schema_mgr_;
     
     try {
-        return schema_mgr_->toJSON();
+        return schema_mgr.toJSON();
     } catch (const std::exception& e) {
         spdlog::error("Error retrieving schema resource: {}", e.what());
         return {
@@ -1767,8 +2185,9 @@ json McpServer::resourceStats(const std::string& uri) {
     }
     
     if (schema_mgr_) {
+        auto& schema_mgr = *schema_mgr_;
         try {
-            auto metadata = schema_mgr_->getDatabaseMetadata();
+            auto metadata = schema_mgr.getDatabaseMetadata();
             return {
                 {"status", "connected"},
                 {"database_open", true},
@@ -1929,8 +2348,435 @@ json McpServer::createSuccessResponse(const json& result) {
 }
 
 // ============================================================================
+// AI Safety Layer — HILG: Approval Pipeline (ASL-4..6)
+// Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+// Roadmap: src/security/ROADMAP.md § Phase 2
+// ============================================================================
+
+std::optional<json> McpServer::checkOperationGuard(
+    const std::string& tool_name,
+    const json&        args,
+    const std::string& ai_session_id,
+    const std::string& caller_role
+) {
+    if (!operation_guard_) {
+        return std::nullopt;  // Guard not initialised — pass through
+    }
+    auto& operation_guard = *operation_guard_;
+
+    const auto decision = operation_guard.evaluate(
+        tool_name, args, ai_session_id, caller_role);
+
+    // Hard block: return immediately without storing in queue
+    if (!decision.block_reason.empty()) {
+        spdlog::warn("AI Safety DOG: HARD BLOCK tool='{}' reason='{}'",
+                     tool_name, decision.block_reason);
+        logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
+                   tool_name, ai_session_id,
+                   {{"reason", decision.block_reason}, {"op_class", themis::security::operationClassName(decision.op_class)}});
+        return operation_guard.buildBlockedResponse(decision);
+    }
+
+    // READ_ONLY / WRITE_SAFE: no interception needed
+    if (!decision.requires_approval) {
+        logAiEvent(themis::utils::SecurityEventType::AI_TOOL_CALL,
+                   tool_name, ai_session_id,
+                   {{"op_class", themis::security::operationClassName(decision.op_class)}});
+        return std::nullopt;
+    }
+
+    // DESTRUCTIVE / CRITICAL: enter HILG queue
+    spdlog::warn("AI Safety HILG: requires_approval tool='{}' class='{}' op_id='{}'",
+                 tool_name,
+                 themis::security::operationClassName(decision.op_class),
+                 decision.operation_id);
+
+    // Build the approval response before locking
+    const json approval_resp = operation_guard.buildRequiresApprovalResponse(decision);
+
+    {
+        std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+
+        // Purge stale entries to keep the map bounded
+        purgeExpiredApprovals();
+
+        PendingApproval pa;
+        pa.operation_id      = decision.operation_id;
+        pa.ai_session_id     = ai_session_id;
+        pa.tool_name         = tool_name;
+        pa.operation_args    = args;
+        pa.classification    =
+            themis::security::operationClassName(decision.op_class);
+        pa.approval_response = approval_resp;
+        pa.created_at        = std::chrono::system_clock::now();
+        pa.expires_at        = pa.created_at +
+            std::chrono::seconds(operation_guard.config().approval_timeout_s);
+        pa.is_executed       = false;
+
+        pending_approvals_.emplace(decision.operation_id, std::move(pa));
+    }
+
+    logAiEvent(themis::utils::SecurityEventType::AI_APPROVAL_REQUIRED,
+               tool_name, ai_session_id,
+               {{"operation_id", decision.operation_id},
+                {"op_class", themis::security::operationClassName(decision.op_class)}});
+
+    return approval_resp;
+}
+
+json McpServer::handleAiApprove(const std::string& operation_id) {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+    purgeExpiredApprovals();
+
+    auto it = pending_approvals_.find(operation_id);
+    if (it == pending_approvals_.end()) {
+        return {
+            {"status",  "error"},
+            {"error_code", "OPERATION_NOT_FOUND"},
+            {"message", fmt::format(
+                "Operation '{}' not found. It may have expired or already been executed.",
+                operation_id)}
+        };
+    }
+
+    if (it->second.is_executed) {
+        return {
+            {"status",  "error"},
+            {"error_code", "ALREADY_EXECUTED"},
+            {"message", fmt::format("Operation '{}' was already executed.", operation_id)}
+        };
+    }
+
+    // Retrieve cached operation details
+    const std::string tool   = it->second.tool_name;
+    const json        op_args = it->second.operation_args;
+    it->second.is_executed = true;
+
+    spdlog::info("AI Safety HILG: APPROVED tool='{}' op_id='{}'", tool, operation_id);
+
+    // ASL-8: Pre-operation snapshot for DESTRUCTIVE/CRITICAL operations.
+    // Docs: src/security/ROADMAP.md § Phase 3 (ASL-8)
+    std::string pre_snapshot_path;
+    const bool needs_snapshot = db_ && operation_guard_ &&
+        (it->second.classification == "DESTRUCTIVE" || it->second.classification == "CRITICAL");
+    if (needs_snapshot) {
+        pre_snapshot_path = operation_guard_->config().snapshot_dir +
+                            "/" + operation_id + "_pre_op";
+        try {
+            if (db_->createCheckpoint(pre_snapshot_path)) {
+                it->second.pre_snapshot_path = pre_snapshot_path;
+                spdlog::info("AI Safety ASL-8: pre-op snapshot created at '{}' for op_id='{}'",
+                             pre_snapshot_path, operation_id);
+                logAiEvent(themis::utils::SecurityEventType::AI_SNAPSHOT_CREATED,
+                           tool, it->second.ai_session_id,
+                           {{"operation_id", operation_id}, {"snapshot_path", pre_snapshot_path}});
+            } else {
+                pre_snapshot_path.clear();
+                spdlog::warn("AI Safety ASL-8: createCheckpoint returned false for op_id='{}'",
+                             operation_id);
+            }
+        } catch (const std::exception& ex) {
+            pre_snapshot_path.clear();
+            spdlog::error("AI Safety ASL-8: snapshot failed for op_id='{}': {}", operation_id, ex.what());
+        }
+    }
+
+    // Execute the originally queued operation by re-dispatching through the
+    // normal tool handlers (with enforce_read_only=false, dry_run=false).
+    json mutable_args = op_args;
+    mutable_args["dry_run"]         = false;
+    mutable_args["enforce_read_only"] = false;
+
+    json exec_result;
+    try {
+        const auto tool_it = tools_.find(tool);
+        if (tool_it == tools_.end()) {
+            exec_result = {{"status","error"},{"message","Tool not found after approval"}};
+        } else if (!tool_it->second.handler) {
+            // Guard: handler stored as empty std::function — indicates a registration bug.
+            exec_result = {{"status","error"},{"message","Tool handler not available after approval: " + tool}};
+        } else {
+            exec_result = tool_it->second.handler(mutable_args);
+        }
+    } catch (const std::exception& e) {
+        exec_result = {{"status","error"},{"message", std::string("Execution failed: ") + e.what()}};
+    }
+
+    // Remove from pending map
+    const std::string approved_session = it->second.ai_session_id;
+    pending_approvals_.erase(it);
+
+    logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_EXECUTED,
+               tool, approved_session,
+               {{"operation_id", operation_id}, {"pre_snapshot", pre_snapshot_path}});
+
+    return {
+        {"status",                  "executed"},
+        {"operation_id",            operation_id},
+        {"approved_by",             "(http-approval-endpoint)"},
+        {"pre_operation_snapshot",  pre_snapshot_path},
+        {"result",                  exec_result}
+    };
+}
+
+json McpServer::handleAiDeny(const std::string& operation_id) {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+
+    auto it = pending_approvals_.find(operation_id);
+    if (it == pending_approvals_.end()) {
+        return {
+            {"status",     "error"},
+            {"error_code", "OPERATION_NOT_FOUND"},
+            {"message",    fmt::format("Operation '{}' not found.", operation_id)}
+        };
+    }
+
+    spdlog::info("AI Safety HILG: DENIED tool='{}' op_id='{}'",
+                 it->second.tool_name, operation_id);
+    const std::string denied_tool    = it->second.tool_name;
+    const std::string denied_session = it->second.ai_session_id;
+    pending_approvals_.erase(it);
+
+    logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_DENIED,
+               denied_tool, denied_session,
+               {{"operation_id", operation_id}});
+
+    return {
+        {"status",       "denied"},
+        {"operation_id", operation_id},
+        {"message",      "Operation was denied by operator."}
+    };
+}
+
+json McpServer::handleAiPendingApprovals() {
+    std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
+    purgeExpiredApprovals();
+
+    json list = json::array();
+    for (const auto& [op_id, pa] : pending_approvals_) {
+        if (!pa.is_executed) {
+            list.push_back({
+                {"operation_id",  pa.operation_id},
+                {"tool_name",     pa.tool_name},
+                {"classification",pa.classification},
+                {"ai_session_id", pa.ai_session_id},
+                {"created_at",    pa.approval_response.value("expires_at", "")},
+                {"expires_at",    pa.approval_response.value("expires_at", "")},
+                {"approve_url",   fmt::format("/v1/ai/approve/{}", pa.operation_id)},
+                {"deny_url",      fmt::format("/v1/ai/deny/{}", pa.operation_id)}
+            });
+        }
+    }
+
+    return {
+        {"status",  "success"},
+        {"count",   list.size()},
+        {"pending", list}
+    };
+}
+
+void McpServer::purgeExpiredApprovals() {
+    // Caller holds pending_approvals_mutex_.
+    const auto now = std::chrono::system_clock::now();
+    for (auto it = pending_approvals_.begin(); it != pending_approvals_.end(); ) {
+        if (now >= it->second.expires_at) {
+            spdlog::debug("AI Safety HILG: expired op_id='{}' tool='{}'",
+                          it->second.operation_id, it->second.tool_name);
+            logAiEvent(themis::utils::SecurityEventType::AI_OPERATION_EXPIRED,
+                       it->second.tool_name, it->second.ai_session_id,
+                       {{"operation_id", it->second.operation_id}});
+            it = pending_approvals_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+// ============================================================================
+// ASL-10: Rollback endpoint
+// Docs: src/security/ROADMAP.md § Phase 3 (ASL-10)
+// ============================================================================
+
+json McpServer::handleAiRollback(const std::string& snapshot_id) {
+    auto hasWindowsDrivePrefix = [](const std::string& value) {
+        return value.size() >= 2 &&
+               std::isalpha(static_cast<unsigned char>(value[0])) &&
+               value[1] == ':';
+    };
+    auto isSafeSnapshotId = [](const std::string& value) {
+        constexpr size_t kMaxSnapshotIdLength = 128;
+        if (value.empty() || value.size() > kMaxSnapshotIdLength) {
+            return false;
+        }
+
+        for (const unsigned char ch : value) {
+            if (std::iscntrl(ch)) {
+                return false;
+            }
+            const bool is_alnum = std::isalnum(ch) != 0;
+            const bool is_allowed_symbol = (ch == '_') || (ch == '-') || (ch == '.');
+            if (!is_alnum && !is_allowed_symbol) {
+                return false;
+            }
+        }
+        return true;
+    };
+    auto isPathWithinBase = [](const std::filesystem::path& child,
+                               const std::filesystem::path& base) {
+        const std::filesystem::path rel = child.lexically_relative(base);
+        if (rel.empty() || rel.is_absolute()) {
+            return false;
+        }
+        for (const auto& part : rel) {
+            if (part == "..") {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    if (!db_ || !db_->isOpen()) {
+        spdlog::warn("AI Safety ASL-10: rollback requested but database not attached/open");
+        return {
+            {"status",  "error"},
+            {"error_code", "NO_DATABASE"},
+            {"message", "Database not attached or not open"}
+        };
+    }
+
+    // Security: reject path traversal and absolute paths.
+    // Use lexically_normal() to normalise the path and verify it stays
+    // within the allowed snapshot directory after resolution.
+    if (!isSafeSnapshotId(snapshot_id) ||
+        snapshot_id.find("..") != std::string::npos ||
+        snapshot_id.find('%') != std::string::npos ||
+        snapshot_id.find('/') != std::string::npos ||
+        snapshot_id.find('\\') != std::string::npos ||
+        hasWindowsDrivePrefix(snapshot_id) ||
+        std::filesystem::path(snapshot_id).is_absolute()) {
+        spdlog::warn("AI Safety ASL-10: rejected invalid snapshot_id='{}'", snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+
+    const std::string snap_base = operation_guard_
+        ? operation_guard_->config().snapshot_dir
+        : themis::security::themisDefaultSnapshotDir();
+    const std::filesystem::path base_normal =
+        std::filesystem::path(snap_base).lexically_normal();
+    const std::filesystem::path snapshot_path =
+        (base_normal / snapshot_id).lexically_normal();
+
+    std::error_code ec;
+    const std::filesystem::path base_abs = std::filesystem::absolute(base_normal, ec).lexically_normal();
+    if (ec) {
+        spdlog::warn("AI Safety ASL-10: failed to resolve snapshot base path '{}'", snap_base);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+    ec.clear();
+    const std::filesystem::path snapshot_abs =
+        std::filesystem::absolute(snapshot_path, ec).lexically_normal();
+    if (ec || !isPathWithinBase(snapshot_abs, base_abs)) {
+        spdlog::warn("AI Safety ASL-10: path escape attempt, snapshot_id='{}'", snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "INVALID_SNAPSHOT_ID"},
+            {"message", "Invalid snapshot ID"}
+        };
+    }
+
+    // Verify the resolved path stays within the snapshot directory.
+    const std::string snap_str = snapshot_abs.string();
+
+    spdlog::info("AI Safety ASL-10: restoring checkpoint snapshot_id='{}' path='{}'",
+                 snapshot_id, snap_str);
+
+    try {
+        if (db_->restoreFromCheckpoint(snap_str)) {
+            spdlog::info("AI Safety ASL-10: restore succeeded for snapshot_id='{}'", snapshot_id);
+            logAiEvent(themis::utils::SecurityEventType::AI_ROLLBACK_EXECUTED,
+                       "ai_rollback", "",
+                       {{"snapshot_id", snapshot_id}, {"snapshot_path", snap_str}});
+            return {
+                {"status",      "success"},
+                {"snapshot_id", snapshot_id},
+                {"message",     "Database restored from checkpoint"}
+            };
+        }
+        spdlog::error("AI Safety ASL-10: restoreFromCheckpoint returned false for snapshot_id='{}'",
+                      snapshot_id);
+        return {
+            {"status",  "error"},
+            {"error_code", "RESTORE_FAILED"},
+            {"message", "Checkpoint restore failed"}
+        };
+    } catch (const std::exception& ex) {
+        spdlog::error("AI Safety ASL-10: restore threw exception for snapshot_id='{}': {}",
+                      snapshot_id, ex.what());
+        return {
+            {"status",  "error"},
+            {"error_code", "RESTORE_EXCEPTION"},
+            {"message", std::string("Checkpoint restore failed: ") + ex.what()}
+        };
+    }
+}
+
+// ============================================================================
+// ASL-11: Snapshot cleanup tool
+// Docs: src/security/ROADMAP.md § Phase 3 (ASL-11)
+// ============================================================================
+
+json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
+    const std::string snap_dir = operation_guard_
+        ? operation_guard_->config().snapshot_dir
+        : themis::security::themisDefaultSnapshotDir();
+
+    const int safe_retention_days = (snapshot_retention_days_ > 0) ? snapshot_retention_days_ : 7;
+    const int safe_max_gb         = (snapshot_max_total_gb_ > 0) ? snapshot_max_total_gb_ : 100;
+
+    themis::security::AiSnapshotCleanupJob job({
+        snap_dir,
+        safe_retention_days,
+        static_cast<std::uint64_t>(safe_max_gb)
+    });
+
+    try {
+        const int deleted = job.runCleanup();
+        spdlog::info("AI Safety ASL-11: snapshot cleanup complete, deleted={}", deleted);
+        logAiEvent(themis::utils::SecurityEventType::AI_CLEANUP_EXECUTED,
+                   "ai_cleanup_snapshots", "",
+                   {{"deleted_count", deleted}, {"snapshot_dir", snap_dir}});
+        return {{"status", "success"}, {"deleted_count", deleted}};
+    } catch (const std::exception& ex) {
+        spdlog::error("AI Safety ASL-11: snapshot cleanup failed: {}", ex.what());
+        return {
+            {"status",  "error"},
+            {"error_code", "CLEANUP_FAILED"},
+            {"message", std::string("Snapshot cleanup failed: ") + ex.what()}
+        };
+    }
+}
+
+// ============================================================================
 // StdioTransport Implementation
 // ============================================================================
+
+static std::mutex& stdioReadFnMutex() { static std::mutex m; return m; }
+static StdioTransport::StdioReadFn& stdioReadFnStorage() {
+    static StdioTransport::StdioReadFn fn;
+    return fn;
+}
+void StdioTransport::setStdioReadFn(StdioReadFn fn) {
+    std::lock_guard<std::mutex> lk(stdioReadFnMutex());
+    stdioReadFnStorage() = std::move(fn);
+}
 
 StdioTransport::StdioTransport(asio::io_context& io_context, int buffer_size)
     : io_context_(io_context), buffer_size_(buffer_size), read_buffer_(buffer_size) {
@@ -1941,40 +2787,68 @@ StdioTransport::~StdioTransport() {
 }
 
 void StdioTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP stdio transport started");
     
 #if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
     // Start async stdin reading
     readStdin();
 #else
-    spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow McpServer StdioTransport to be compiled and linked on
+    //   platforms other than Windows, Unix, and macOS (e.g., embedded or
+    //   exotic toolchain targets).  On those platforms, async stdin reading
+    //   via platform threads is not implemented; the transport runs but
+    //   silently ignores all stdin input — unless a StdioReadFn is injected
+    //   via StdioTransport::setStdioReadFn().
+    // Activation: Compiled when none of _WIN32, __unix__, __APPLE__ are defined.
+    // Production Delta: Without an injected StdioReadFn, MCP clients connected
+    //   via stdio receive no responses (transport deaf).
+    // Removal Plan: Implement `readStdin()` for the target platform and add the
+    //   preprocessor guard to the `#if` condition above, OR inject a platform-
+    //   specific reader via setStdioReadFn() at startup.
+    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"MCP StdioTransport Platform Support"
+    {
+        StdioReadFn fn;
+        {
+            std::lock_guard<std::mutex> lk(stdioReadFnMutex());
+            fn = stdioReadFnStorage();
+        }
+        if (fn) {
+            try { fn(); } catch (...) {}
+        } else {
+            spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
+        }
+    }
 #endif
 }
 
 void StdioTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     spdlog::info("MCP stdio transport stopped");
 }
 
 void StdioTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     writeStdout(message.dump() + "\n");
 }
 
 void StdioTransport::readStdin() {
 #if defined(_WIN32)
     // Windows implementation using PeekNamedPipe for non-blocking stdin
-    asio::post(io_context_, [this]() {
+    std::weak_ptr<StdioTransport> weak_self = weak_from_this();
+    asio::post(io_context_, [weak_self]() {
+        auto self = weak_self.lock();
+        if (!self) return;
+
         HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
         if (h_stdin == INVALID_HANDLE_VALUE) {
             errors::logError(ErrorCode::ERR_MCP_STDIO_INIT_FAILED, "stdin handle");
             return;
         }
 
-        while (is_running_) {
+        while (self->is_running_.load(std::memory_order_acquire)) {
             // Check if data is available
             DWORD bytes_available = 0;
             BOOL peek_result = PeekNamedPipe(h_stdin, NULL, 0, NULL, &bytes_available, NULL);
@@ -2008,50 +2882,50 @@ void StdioTransport::readStdin() {
                         std::cin.get();
                     }
                     
-                    partial_message_ += line;
+                    self->partial_message_ += line;
                     
                     // Try to parse as JSON
                     try {
-                        json request = json::parse(partial_message_);
+                        json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (message_handler_) {
-                            json response = message_handler_(request);
-                            send(response);
+                        if (self->message_handler_) {
+                            json response = self->message_handler_(request);
+                            self->send(response);
                         }
                         
                         // Clear partial message
-                        partial_message_.clear();
+                        self->partial_message_.clear();
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
-                } else if (!is_running_) {
+                } else if (!self->is_running_.load(std::memory_order_acquire)) {
                     break;
                 }
             } else if (bytes_available > 0) {
                 // Data available, read it
                 std::string line;
                 if (std::getline(std::cin, line)) {
-                    partial_message_ += line;
+                    self->partial_message_ += line;
                     
                     // Try to parse as JSON
                     try {
-                        json request = json::parse(partial_message_);
+                        json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (message_handler_) {
-                            json response = message_handler_(request);
-                            send(response);
+                        if (self->message_handler_) {
+                            json response = self->message_handler_(request);
+                            self->send(response);
                         }
                         
                         // Clear partial message
-                        partial_message_.clear();
+                        self->partial_message_.clear();
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
                 } else {
                     // EOF on stdin
-                    is_running_ = false;
+                    self->is_running_.store(false, std::memory_order_release);
                     break;
                 }
             } else {
@@ -2062,8 +2936,12 @@ void StdioTransport::readStdin() {
     });
 #elif defined(__unix__) || defined(__APPLE__)
     // POSIX implementation using select()
-    asio::post(io_context_, [this]() {
-        while (is_running_) {
+    std::weak_ptr<StdioTransport> weak_self = weak_from_this();
+    asio::post(io_context_, [weak_self]() {
+        auto self = weak_self.lock();
+        if (!self) return;
+
+        while (self->is_running_.load(std::memory_order_acquire)) {
             // Use select to check if stdin has data with timeout
             fd_set readfds;
             FD_ZERO(&readfds);
@@ -2079,26 +2957,26 @@ void StdioTransport::readStdin() {
                 // Read available data
                 std::string line;
                 if (std::getline(std::cin, line)) {
-                    partial_message_ += line;
+                    self->partial_message_ += line;
                     
                     // Try to parse as JSON
                     try {
-                        json request = json::parse(partial_message_);
+                        json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (message_handler_) {
-                            json response = message_handler_(request);
-                            send(response);
+                        if (self->message_handler_) {
+                            json response = self->message_handler_(request);
+                            self->send(response);
                         }
                         
                         // Clear partial message
-                        partial_message_.clear();
+                        self->partial_message_.clear();
                     } catch (const json::parse_error&) {
                         // Incomplete JSON, wait for more input
                     }
                 } else {
                     // EOF on stdin
-                    is_running_ = false;
+                    self->is_running_.store(false, std::memory_order_release);
                     break;
                 }
             }
@@ -2127,8 +3005,8 @@ SseTransport::~SseTransport() {
 }
 
 void SseTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP SSE transport started with {}ms keepalive interval", keepalive_ms_);
     
     // Start keepalive timer
@@ -2136,8 +3014,7 @@ void SseTransport::start() {
 }
 
 void SseTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     keepalive_timer_.cancel();
     
     // Clear all clients
@@ -2150,7 +3027,7 @@ void SseTransport::stop() {
 }
 
 void SseTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Format as SSE event
     std::string event_data = "data: " + message.dump() + "\n\n";
@@ -2188,7 +3065,7 @@ std::string SseTransport::getClientData(const std::string& client_id) {
 }
 
 void SseTransport::sendKeepalive() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Send SSE comment as keepalive
     std::string keepalive = ": keepalive\n\n";
@@ -2202,13 +3079,17 @@ void SseTransport::sendKeepalive() {
 }
 
 void SseTransport::scheduleKeepalive() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     keepalive_timer_.expires_after(std::chrono::milliseconds(keepalive_ms_));
-    keepalive_timer_.async_wait([this](const boost::system::error_code& ec) {
-        if (!ec && is_running_) {
-            sendKeepalive();
-            scheduleKeepalive();
+    std::weak_ptr<SseTransport> weak_self = weak_from_this();
+    keepalive_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
+        auto self = weak_self.lock();
+        if (!self) return;
+
+        if (!ec && self->is_running_.load(std::memory_order_acquire)) {
+            self->sendKeepalive();
+            self->scheduleKeepalive();
         }
     });
 }
@@ -2227,8 +3108,8 @@ WebSocketTransport::~WebSocketTransport() {
 }
 
 void WebSocketTransport::start() {
-    if (is_running_) return;
-    is_running_ = true;
+    bool expected = false;
+    if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
     spdlog::info("MCP WebSocket transport started with {}ms ping interval", ping_interval_ms_);
     
     // Start ping timer
@@ -2236,8 +3117,7 @@ void WebSocketTransport::start() {
 }
 
 void WebSocketTransport::stop() {
-    if (!is_running_) return;
-    is_running_ = false;
+    if (!is_running_.exchange(false, std::memory_order_acq_rel)) return;
     ping_timer_.cancel();
     
     // Clear all sessions
@@ -2250,7 +3130,7 @@ void WebSocketTransport::stop() {
 }
 
 void WebSocketTransport::send(const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     std::string msg_str = message.dump();
     
@@ -2265,7 +3145,7 @@ void WebSocketTransport::send(const json& message) {
 }
 
 void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     std::string msg_str = message.dump();
     
@@ -2304,7 +3184,7 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
 }
 
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     try {
         json request = json::parse(message);
@@ -2330,7 +3210,7 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
 }
 
 void WebSocketTransport::sendPing() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     // Send ping to all active sessions
     json ping_message = {
@@ -2351,13 +3231,17 @@ void WebSocketTransport::sendPing() {
 }
 
 void WebSocketTransport::schedulePing() {
-    if (!is_running_) return;
+    if (!is_running_.load(std::memory_order_acquire)) return;
     
     ping_timer_.expires_after(std::chrono::milliseconds(ping_interval_ms_));
-    ping_timer_.async_wait([this](const boost::system::error_code& ec) {
-        if (!ec && is_running_) {
-            sendPing();
-            schedulePing();
+    std::weak_ptr<WebSocketTransport> weak_self = weak_from_this();
+    ping_timer_.async_wait([weak_self](const boost::system::error_code& ec) {
+        auto self = weak_self.lock();
+        if (!self) return;
+
+        if (!ec && self->is_running_.load(std::memory_order_acquire)) {
+            self->sendPing();
+            self->schedulePing();
         }
     });
 }
@@ -2366,3 +3250,4 @@ void WebSocketTransport::schedulePing() {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_MCP
+

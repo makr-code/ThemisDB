@@ -1,28 +1,25 @@
+/**
+ * @file cron_parser.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cron_parser.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     716                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cc68749fe  2026-02-22  chore(scheduler): audit cleanup – update banners Stubs:0 ... ║
-    • c298befed  2026-02-22  feat(scheduler): implement full cron expression parsing (... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cron_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 716
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=6, L=0
+ * PR History (last 5): #2558 [scheduler] Full cron expre... (2026-03-12) | #1178 Verify and document complet... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/cron_parser.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
@@ -500,7 +497,13 @@ static std::optional<int> parseToken(const std::string& token,
             int v = std::stoi(token);
             if (v < min_value || v > max_value) return std::nullopt;
             return v;
-        } catch (...) {
+        } catch (const std::invalid_argument &) {
+            return std::nullopt;
+        } catch (const std::out_of_range &) {
+            return std::nullopt;
+        } catch (const std::string &) {
+            return std::nullopt;
+        } catch (const char *) {
             return std::nullopt;
         }
     }
@@ -668,7 +671,13 @@ std::optional<std::set<int>> CronExpression::parseStep(
         }
         
         return range_values.empty() ? std::nullopt : std::optional<std::set<int>>(range_values);
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        return std::nullopt;
+    } catch (const std::out_of_range &) {
+        return std::nullopt;
+    } catch (const std::string &) {
+        return std::nullopt;
+    } catch (const char *) {
         return std::nullopt;
     }
 }
@@ -715,3 +724,4 @@ std::chrono::system_clock::time_point CronExpression::advanceToNextMonth(
 }
 
 } // namespace themis
+

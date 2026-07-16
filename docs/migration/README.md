@@ -6,8 +6,9 @@ This directory contains version-specific migration guides for upgrading between 
 
 ### Current Guides
 
+- [v1.7.x to v1.8.0](./v1.7-to-v1.8.md) - Wire Protocol V2, versioned API routing, ZSTD compression, SAGA engine
 - [v1.3.x to v1.4.x](./v1.3-to-v1.4.md) - Extended context, LLM features, pagination
-- *(Additional guides will be added as versions are released)*
+- *(Guides for v1.4→v1.5, v1.5→v1.6, v1.6→v1.7 will be added retroactively)*
 
 ## Migration Guide Template
 
@@ -130,7 +131,7 @@ Continue gradually
 When upgrading across multiple versions, follow this path:
 
 ```
-v1.0.x → v1.1.x → v1.2.x → v1.3.x → v1.4.x
+v1.0.x → v1.1.x → v1.2.x → v1.3.x → v1.4.x → v1.5.x → v1.6.x → v1.7.x → v1.8.x
 ```
 
 **Important**: Do not skip minor versions. Upgrade sequentially to ensure proper migration of data structures and configurations.

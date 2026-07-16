@@ -1,54 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wasm_runtime_injector.h                            ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(base): WASM runtime injection API      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file wasm_runtime_injector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-/**
- * @file wasm_runtime_injector.h
- * @brief Runtime injection interface for pluggable WASM execution backends.
- *
- * The WasmPluginSandbox (wasm_plugin_sandbox.h) is runtime-agnostic by design.
- * This header provides the injection point: a narrow abstract interface
- * (IWasmRuntime) that concrete backends (Wasmtime, WasmEdge, wasm3, etc.)
- * implement, plus a WasmRuntimeInjector registry that maps runtime names to
- * factory functions and selects the best available backend at startup.
- *
- * ## Injection Contract
- * 1. Any translation unit that wishes to register a backend calls
- *    `WasmRuntimeInjector::registerRuntime()` before the first sandbox is
- *    constructed (typically at static-init time via a helper macro).
- * 2. `WasmRuntimeInjector::create()` resolves the requested name (or picks
- *    the highest-priority registered backend when the name is empty) and
- *    returns an owned `IWasmRuntime`.
- * 3. `WasmPluginSandbox` calls `WasmRuntimeInjector::create()` internally
- *    when its Config::runtime_name is set.
- *
- * ## Thread Safety
- * `registerRuntime()` is NOT thread-safe; call it only during static
- * initialisation or before any sandbox is created.
- * `create()` and `available()` are thread-safe once registration is complete.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
- */
 
 #include "themis/base/wasm_plugin_sandbox.h"
 
@@ -87,7 +48,7 @@ public:
      * @param memory_limit_bytes  Maximum linear-memory bytes (0 = runtime default).
      * @return true on success; false if compilation or instantiation fails.
      */
-    virtual bool instantiate(const std::vector<uint8_t>&       wasm_bytes,
+    [[nodiscard]] virtual bool instantiate(const std::vector<uint8_t>&       wasm_bytes,
                               const std::vector<WasmHostFunction>& host_fns,
                               size_t                             memory_limit_bytes) = 0;
 
@@ -99,7 +60,7 @@ public:
      * @param out      Output blob written by the function.
      * @return true on success; false on trap or if the function is not exported.
      */
-    virtual bool call(const std::string&         fn_name,
+    [[nodiscard]] virtual bool call(const std::string&         fn_name,
                       const std::vector<uint8_t>& args,
                       std::vector<uint8_t>&       out) = 0;
 
@@ -108,22 +69,22 @@ public:
      *
      * Callers must not hold this pointer across calls to `call()`.
      */
-    virtual uint8_t* linearMemory(size_t& out_size) = 0;
+    [[nodiscard]] virtual uint8_t* linearMemory(size_t& out_size) = 0;
 
     /**
      * @brief Human-readable name of this runtime (e.g. "wasmtime").
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
     /**
      * @brief Runtime version string.
      */
-    virtual std::string version() const = 0;
+    [[nodiscard]] virtual std::string version() const = 0;
 
     /**
      * @brief True if the runtime compiled and instantiated successfully.
      */
-    virtual bool isInstantiated() const = 0;
+    [[nodiscard]] virtual bool isInstantiated() const = 0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

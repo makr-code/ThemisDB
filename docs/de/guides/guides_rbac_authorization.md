@@ -28,7 +28,7 @@ Diese Seite beschreibt die vollständige Zugriffskontrolle in ThemisDB mit zweis
 1. **Token-basierte Authentifizierung** mit Scopes (RBAC-Ebene)
 2. **Policy Engine** mit Attribute-Based Access Control (ABAC, Ranger-kompatibel)
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

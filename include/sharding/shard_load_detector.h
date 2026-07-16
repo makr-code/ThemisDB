@@ -1,31 +1,28 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_load_detector.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     252                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file shard_load_detector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_SHARD_LOAD_DETECTOR_H
-#define THEMIS_SHARD_LOAD_DETECTOR_H
+/*
+ * ThemisDB | File: shard_load_detector.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <map>
 #include <vector>
+#include <deque>
 #include <memory>
 #include <chrono>
 #include <mutex>
@@ -40,9 +37,7 @@ namespace sharding {
 class ShardTopology;
 class PrometheusMetrics;
 
-/**
- * Load metrics for a single shard
- */
+/** @brief Latest observed load/resource metrics for one shard. */
 struct ShardLoadMetrics {
     std::string shard_id;
     
@@ -72,11 +67,30 @@ struct ShardLoadMetrics {
     std::chrono::system_clock::time_point last_update;
 };
 
-/**
- * Load imbalance detection result
- */
+/** @brief Trend-based load forecast for one shard and forecast horizon. */
+struct LoadForecast {
+    std::string shard_id;
+
+    // Predicted load values (0–100 scale)
+    double predicted_cpu_percent = 0.0;
+    double predicted_storage_percent = 0.0;
+    double predicted_composite_load = 0.0;  // Weighted composite score
+
+    // Confidence interval (±)
+    double confidence_interval = 0.0;
+
+    // Forecast horizon used
+    std::chrono::minutes horizon{5};
+
+    // Whether the forecast is based on sufficient history (false = best-guess only)
+    bool has_sufficient_history = false;
+};
+
+/** @brief Result payload emitted by one imbalance detection pass. */
 struct LoadImbalanceResult {
+    /** @brief True when at least one heuristic signaled imbalance. */
     bool is_imbalanced = false;
+    /** @brief Human-readable concatenation of triggered heuristic reasons. */
     std::string reason;
     
     // Hotspots (overloaded shards)
@@ -86,12 +100,17 @@ struct LoadImbalanceResult {
     std::vector<std::string> cold_shards;
     
     // Recommended rebalance operations
+    /** @brief Suggested movement plan from one hot shard to one cold shard. */
     struct RebalanceRecommendation {
         std::string source_shard;      // Overloaded shard
         std::string target_shard;      // Underloaded shard
+        /** @brief Inclusive token-range start suggested for migration. */
         uint64_t token_range_start;
+        /** @brief Inclusive token-range end suggested for migration. */
         uint64_t token_range_end;
+        /** @brief Estimated source-load reduction achieved by this move. */
         double expected_load_reduction_percent;
+        /** @brief Text rationale describing why this movement was recommended. */
         std::string justification;
     };
     std::vector<RebalanceRecommendation> recommendations;
@@ -127,6 +146,7 @@ struct LoadImbalanceResult {
  */
 class ShardLoadDetector {
 public:
+    /** @brief Runtime thresholds and cadence for imbalance detection logic. */
     struct Config {
         // Detection thresholds
         double storage_imbalance_threshold = 0.30;      // 30% difference
@@ -146,11 +166,13 @@ public:
         std::chrono::milliseconds rebalance_cooldown{std::chrono::hours(1)};
     };
     
+    /** @brief Construct detector with default detection configuration. */
     explicit ShardLoadDetector(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<PrometheusMetrics> metrics
     );
     
+    /** @brief Construct detector with explicit configuration. */
     ShardLoadDetector(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<PrometheusMetrics> metrics,
@@ -158,48 +180,67 @@ public:
     );
     
     /**
-     * Update load metrics for a shard
-     * @param shard_id Shard identifier
-     * @param metrics Current load metrics
+     * @brief Update latest load snapshot for one shard and append history sample.
+     * @param shard_id Stable shard identifier.
+     * @param metrics Latest observed metrics for that shard.
      */
     void updateShardLoad(const std::string& shard_id, const ShardLoadMetrics& metrics);
     
     /**
-     * Detect load imbalance across cluster
-     * @return Imbalance detection result with recommendations
+     * @brief Run all configured imbalance heuristics over current shard snapshots.
+     * @return Detection result with reason string, hotspots/cold-shards and recommendations.
      */
     LoadImbalanceResult detectImbalance() const;
     
     /**
-     * Get load metrics for specific shard
-     * @param shard_id Shard identifier
-     * @return Load metrics (nullopt if shard not found)
+     * @brief Get latest metrics for one shard.
+     * @param shard_id Stable shard identifier.
+     * @return Metrics snapshot, or std::nullopt if the shard has no tracked sample.
      */
     std::optional<ShardLoadMetrics> getShardLoad(const std::string& shard_id) const;
     
     /**
-     * Get load metrics for all shards
-     * @return Map of shard_id -> load metrics
+     * @brief Get latest metrics for all currently tracked shards.
+     * @return Map shard_id -> metrics snapshot.
      */
     std::map<std::string, ShardLoadMetrics> getAllShardLoads() const;
     
     /**
-     * Record that rebalancing was triggered
-     * Starts cooldown period
+     * @brief Record a rebalance trigger and start cooldown suppression window.
      */
     void recordRebalanceTriggered();
     
     /**
-     * Check if system is in cooldown period
-     * @return true if cooldown active
+     * @brief Check whether rebalance cooldown is currently active.
+     * @return true while cooldown window is active; false otherwise.
      */
     bool isInCooldown() const;
     
     /**
-     * Get detector statistics
-     * @return JSON statistics (detections, triggers, etc.)
+     * @brief Export detector counters and freshness diagnostics as JSON.
+     * @return JSON object with detection counters, tracked shard count and staleness info.
      */
     nlohmann::json getStatistics() const;
+
+    /**
+     * @brief Forecast shard load at a future horizon via linear trend extrapolation.
+     *
+     * Requires at least Config::min_samples_per_shard history points for a
+     * confidence-qualified forecast. With less history, the method returns a
+     * best-effort forecast based on the latest sample and marks
+     * LoadForecast::has_sufficient_history as false.
+     *
+     * @param shard_id Shard identifier to forecast.
+     * @param horizon Future horizon to project (defaults to 5 minutes).
+     * @return Forecast payload or std::nullopt when shard is unknown.
+     */
+    std::optional<LoadForecast> forecastLoad(
+        const std::string& shard_id,
+        std::chrono::minutes horizon = std::chrono::minutes{5}
+    ) const;
+
+    /** @brief Maximum retained history samples per shard for regression forecast. */
+    static constexpr size_t kMaxHistorySamples = 60;
     
 private:
     std::shared_ptr<ShardTopology> topology_;
@@ -208,8 +249,11 @@ private:
     
     mutable std::mutex mutex_;
     
-    // Load metrics per shard
+    // Load metrics per shard (latest snapshot)
     std::map<std::string, ShardLoadMetrics> shard_loads_;
+
+    // Per-shard history for trend-based forecasting (ring-buffer semantics via deque)
+    std::map<std::string, std::deque<ShardLoadMetrics>> shard_load_history_;
     
     // Cooldown tracking
     std::chrono::system_clock::time_point last_rebalance_time_;
@@ -220,36 +264,47 @@ private:
     std::atomic<uint64_t> rebalance_triggers_{0};
     
     // Detection helpers
+    /** @brief Detect shard byte-footprint skew beyond configured threshold. */
     bool detectStorageImbalance(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Detect request-rate skew beyond configured threshold. */
     bool detectRequestImbalance(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Detect p99 latency outliers relative to cluster average. */
     bool detectLatencyDegradation(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Detect shards above configured CPU/storage exhaustion thresholds. */
     bool detectResourceExhaustion(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Build rebalance recommendations from hotspot/cold-shard analysis. */
     void generateRebalanceRecommendations(
         const std::map<std::string, ShardLoadMetrics>& loads,
         LoadImbalanceResult& result
     ) const;
     
+    /** @brief Collapse multi-signal shard metrics into one weighted load score. */
     double calculateLoad(const ShardLoadMetrics& metrics) const;
+    /** @brief Compute standard deviation of value vector. */
     double calculateVariance(const std::vector<double>& values) const;
+
+    /**
+     * @brief Fit simple linear regression against sample series.
+     * @return Pair (slope_per_sample, intercept).
+     */
+    static std::pair<double, double> linearRegression(const std::vector<double>& values);
 };
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARD_LOAD_DETECTOR_H

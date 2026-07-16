@@ -1,7 +1,7 @@
 # ThemisDB - Feature Attribution & Third-Party Libraries
 
 **Version:** 2.0  
-**Last Updated:** 2. Februar 2026
+**Last Updated:** 6. April 2026
 
 ---
 

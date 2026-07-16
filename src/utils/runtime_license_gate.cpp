@@ -1,24 +1,21 @@
+/**
+ * @file runtime_license_gate.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.41
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            runtime_license_gate.cpp                           ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-03-09 04:00:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     207                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 151a5f3fc  2026-03-01  Fix runtime_license_gate unknown-feature allow logic for ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: runtime_license_gate.cpp | Version: 0.0.41 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 266
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * PR History (last 5): #4518 [WIP] Update developer docu... (2026-04-12) | #3408 Migrate Themis core impleme... (2026-03-12) | #3403 [themis] Fix edition featur... (2026-03-12) | #1351 Implement runtime license s... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -202,6 +199,78 @@ std::string RuntimeLicenseGate::buildDenialMessage(std::string_view feature_name
     }
 
     return msg.str();
+}
+
+// ============================================================================
+// GateResult::message()
+// ============================================================================
+
+std::string GateResult::message() const {
+    switch (denial_reason) {
+    case LicenseDenialReason::NONE:
+        return "Feature is allowed.";
+    case LicenseDenialReason::TIER_TOO_LOW:
+        return "Current edition tier does not include this feature. "
+               "Upgrade to Enterprise or Hyperscaler Edition.";
+    case LicenseDenialReason::LICENSE_EXPIRED:
+        return "License has expired. Please renew your license.";
+    case LicenseDenialReason::SIGNATURE_MISMATCH:
+        return "License signature verification failed or license has not been validated. "
+               "Ensure the server completes license validation at startup.";
+    case LicenseDenialReason::NODE_LIMIT_EXCEEDED:
+        return "Number of active nodes exceeds the limit in your license. "
+               "Upgrade your license or reduce the number of nodes.";
+    case LicenseDenialReason::STORAGE_LIMIT_EXCEEDED:
+        return "Storage usage exceeds the limit in your license. "
+               "Upgrade your license or reduce storage usage.";
+    }
+    return "Unknown denial reason.";
+}
+
+// ============================================================================
+// RuntimeLicenseGate::checkFeature()
+// ============================================================================
+
+GateResult RuntimeLicenseGate::checkFeature(std::string_view feature_name) const {
+    GateResult result;
+
+    // Step 1: Not a gated feature → always allowed.
+    if (!isEnterpriseFeature(feature_name)) {
+        result.allowed       = true;
+        result.denial_reason = LicenseDenialReason::NONE;
+        return result;
+    }
+
+    // Step 2: Compile-time gate (binary edition check).
+    if (!edition::IsFeatureEnabled(feature_name)) {
+        result.allowed       = false;
+        result.denial_reason = LicenseDenialReason::TIER_TOO_LOW;
+        return result;
+    }
+
+    // Step 3: Runtime license state.
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (!initialized_) {
+        result.allowed       = false;
+        result.denial_reason = LicenseDenialReason::SIGNATURE_MISMATCH;
+        return result;
+    }
+
+    if (!activation_.success || !isStatusAllowed(activation_.status)) {
+        result.allowed = false;
+        const auto& status = activation_.status;
+        if (status == "expired") {
+            result.denial_reason = LicenseDenialReason::LICENSE_EXPIRED;
+        } else {
+            result.denial_reason = LicenseDenialReason::SIGNATURE_MISMATCH;
+        }
+        return result;
+    }
+
+    result.allowed       = true;
+    result.denial_reason = LicenseDenialReason::NONE;
+    return result;
 }
 
 } // namespace license

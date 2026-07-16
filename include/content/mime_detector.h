@@ -1,24 +1,21 @@
+/**
+ * @file mime_detector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mime_detector.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     126                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mime_detector.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 131
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3797 feat(content): MimeDetector... (2026-03-12) | #3700 feat(content): add ContentP... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -85,6 +82,24 @@ public:
     /// Validate file upload against policy (whitelist/blacklist + size limits)
     /// Returns ValidationResult with allowed flag and detailed reason if denied
     ValidationResult validateUpload(const std::string& filename, uint64_t file_size) const;
+
+    /// Returns true if OCR should be triggered for the given MIME type.
+    /// OCR is triggered when policy.ocrEnabled() is true and the MIME type is
+    /// one of: image/png, image/jpeg, image/tiff.
+    bool shouldTriggerOcr(std::string_view mime_type) const;
+
+    /// Thread-safe, stateless overload: returns true if OCR should be triggered
+    /// for the given MIME type when the supplied policy flag is true.
+    /// Does NOT read or write the internal ContentPolicy — safe to call from
+    /// concurrent threads without external synchronization.
+    /// Use this overload when the ocr_enabled flag comes from a per-request config
+    /// rather than from a pre-configured detector instance.
+    bool shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept;
+
+    /// Enable or disable automatic OCR for image content in this detector's policy.
+    /// Setting this to true causes shouldTriggerOcr() to return true for
+    /// image/png, image/jpeg, and image/tiff.  Default: false.
+    void enableOcr(bool enable = true);
 
 private:
     // Extension -> MIME type mapping

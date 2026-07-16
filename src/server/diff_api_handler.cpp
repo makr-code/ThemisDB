@@ -1,24 +1,21 @@
+/**
+ * @file diff_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            diff_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: diff_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 238
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #2791 feat(cache): Adaptive TTL t... (2026-03-12) | #385 Phase 1 & 2: Implement Name... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1081 Enhance Diff-Engine: Fix ch... (2026-03-11) | #1085 Activate git-like features:... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/diff_api_handler.h"
@@ -28,6 +25,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include "utils/tracing.h"
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 
@@ -59,6 +57,7 @@ void DiffApiHandler::registerRoutes(httplib::Server& server) {
 
 void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetDiff");
         // Parse query parameters
         auto options = parseOptions(req);
         
@@ -110,8 +109,9 @@ void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Respons
     }
 }
 
-void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::Response& res) {
+void DiffApiHandler::handleGetCacheStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetCacheStats");
         auto stats = diff_engine_.getCacheStats();
         sendJson(res, stats);
     } catch (const std::exception& e) {
@@ -119,8 +119,9 @@ void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::R
     }
 }
 
-void DiffApiHandler::handleClearCache(const httplib::Request& req, httplib::Response& res) {
+void DiffApiHandler::handleClearCache(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleClearCache");
         diff_engine_.clearCache();
         json response;
         response["status"] = "success";
@@ -155,7 +156,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
-        } catch (const std::exception& e) {
+        } catch (...) {
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -165,7 +166,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
-        } catch (const std::exception& e) {
+        } catch (...) {
             throw std::invalid_argument("Invalid offset parameter");
         }
     }

@@ -1,25 +1,21 @@
+/**
+ * @file replication_coordinator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_coordinator.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
-    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_coordinator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 187
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #1031 Implement comprehensive res... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/replication_coordinator.h"
@@ -28,6 +24,10 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct replication coordinator.
+ * @param shipper WAL shipper dependency used for replica metadata.
+ */
 ReplicationCoordinator::ReplicationCoordinator(std::shared_ptr<WALShipper> shipper)
     : shipper_(std::move(shipper)) {
     if (!shipper_) {
@@ -35,11 +35,18 @@ ReplicationCoordinator::ReplicationCoordinator(std::shared_ptr<WALShipper> shipp
     }
 }
 
+/** @brief Destructor notifies waiters to unblock on shutdown. */
 ReplicationCoordinator::~ReplicationCoordinator() {
     // Notify any waiting threads
     pending_cv_.notify_all();
 }
 
+/**
+ * @brief Wait until write concern is met or timeout elapses.
+ * @param entry_lsn Written entry LSN.
+ * @param concern Requested write concern policy.
+ * @return Replication result including success state, counts and latency.
+ */
 ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplication(
     const LSN& entry_lsn,
     const WriteConcernConfig& concern
@@ -75,26 +82,32 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
         pending_writes_.try_emplace(lsn_key, entry_lsn, concern, 1);
     }
 
-    // Wait for acknowledgments with timeout
-    std::unique_lock<std::mutex> lock(pending_mutex_);
-    bool met_concern = pending_cv_.wait_for(
-        lock,
-        concern.timeout,
-        [this, &lsn_key, required, total_replicas]() {
-            auto it = pending_writes_.find(lsn_key);
-            if (it == pending_writes_.end()) return false;
-            return hasMetConcern(it->second, total_replicas);
+    bool met_concern = false;
+    {
+        // Wait for acknowledgments with timeout
+        std::unique_lock<std::mutex> lock(pending_mutex_);
+        met_concern = pending_cv_.wait_for(
+            lock,
+            concern.timeout,
+            [this, &lsn_key, required, total_replicas]() {
+                auto it = pending_writes_.find(lsn_key);
+                if (it == pending_writes_.end()) return false;
+                return hasMetConcern(it->second, total_replicas);
+            }
+        );
+
+        auto end = std::chrono::steady_clock::now();
+        result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+        // Check final status
+        auto it = pending_writes_.find(lsn_key);
+        if (it != pending_writes_.end()) {
+            result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
+            it->second.completed.store(true, std::memory_order_release);
         }
-    );
 
-    auto end = std::chrono::steady_clock::now();
-    result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    // Check final status
-    auto it = pending_writes_.find(lsn_key);
-    if (it != pending_writes_.end()) {
-        result.replicas_acknowledged = it->second.ack_count.load(std::memory_order_acquire);
-        it->second.completed = true;
+        // Cleanup this entry
+        pending_writes_.erase(lsn_key);
     }
 
     if (met_concern) {
@@ -110,16 +123,24 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
         THEMIS_WARN("{}", result.error_message);
     }
 
-    // Cleanup this entry
-    pending_writes_.erase(lsn_key);
-
     // Periodic cleanup of old entries
     cleanupPendingWrites();
 
     return result;
 }
 
+/**
+ * @brief Record one replica acknowledgment for an LSN.
+ * @param replica_id Acknowledging replica identifier (must be non-empty).
+ * @param lsn Acknowledged log sequence number.
+ */
 void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id, const LSN& lsn) {
+    // Fail-closed: reject empty replica_id immediately
+    if (replica_id.empty()) {
+        spdlog::error("ReplicationCoordinator::recordAcknowledgment: replica_id is empty");
+        return;
+    }
+
     if (!enabled_) return;
 
     std::string lsn_key = lsn.toString();
@@ -128,7 +149,8 @@ void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id,
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
         auto it = pending_writes_.find(lsn_key);
-        if (it != pending_writes_.end() && !it->second.completed) {
+        if (it != pending_writes_.end() &&
+            !it->second.completed.load(std::memory_order_acquire)) {
             it->second.ack_count.fetch_add(1, std::memory_order_release);
             notify = true;
             THEMIS_DEBUG("Replica {} acknowledged LSN {}", replica_id, lsn_key);
@@ -140,11 +162,16 @@ void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id,
     }
 }
 
+/** @brief Return current replica count from WAL shipper. */
 size_t ReplicationCoordinator::getReplicaCount() const {
     if (!shipper_) return 0;
     return shipper_->getReplicaInfo().size();
 }
 
+/**
+ * @brief Toggle coordinator active state.
+ * @param enabled New state; disabling wakes waiters.
+ */
 void ReplicationCoordinator::setEnabled(bool enabled) {
     enabled_.store(enabled, std::memory_order_release);
     if (!enabled) {
@@ -153,10 +180,12 @@ void ReplicationCoordinator::setEnabled(bool enabled) {
     }
 }
 
+/** @brief Return whether coordinator is active. */
 bool ReplicationCoordinator::isEnabled() const {
     return enabled_.load(std::memory_order_acquire);
 }
 
+/** @brief Return replica topology info from shipper or empty vector if unavailable. */
 std::vector<ReplicaInfo> ReplicationCoordinator::getReplicaInfo() const {
     if (shipper_) {
         return shipper_->getReplicaInfo();
@@ -164,6 +193,7 @@ std::vector<ReplicaInfo> ReplicationCoordinator::getReplicaInfo() const {
     return {};
 }
 
+/** @brief Return WAL shipper stats snapshot or defaults if unavailable. */
 WALShipperStats ReplicationCoordinator::getShipperStats() const {
     if (shipper_) {
         return shipper_->getStatistics();
@@ -171,25 +201,35 @@ WALShipperStats ReplicationCoordinator::getShipperStats() const {
     return {};
 }
 
+/**
+ * @brief Check if pending write currently satisfies configured concern.
+ * @param write Pending write state.
+ * @param total_replicas Total replicas including primary.
+ * @return true when ack_count >= required.
+ */
 bool ReplicationCoordinator::hasMetConcern(const PendingWrite& write, size_t total_replicas) const {
     size_t required = calculateRequiredReplicas(write.concern.level, total_replicas);
     size_t current_acks = write.ack_count.load(std::memory_order_acquire);
     return current_acks >= required;
 }
 
+/** @brief Remove completed or long-stale pending writes from tracking map. */
 void ReplicationCoordinator::cleanupPendingWrites() {
     auto now = std::chrono::steady_clock::now();
-    auto it = pending_writes_.begin();
-    while (it != pending_writes_.end()) {
+    std::vector<std::string> to_remove;
+    std::lock_guard<std::mutex> lock(pending_mutex_);
+    for (const auto& [lsn, pending] : pending_writes_) {
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            now - it->second.start_time
+            now - pending.start_time
         );
         // Remove entries older than 60 seconds or already completed
-        if (elapsed.count() > 60000 || it->second.completed) {
-            it = pending_writes_.erase(it);
-        } else {
-            ++it;
+        if (elapsed.count() > 60000 ||
+            pending.completed.load(std::memory_order_acquire)) {
+            to_remove.push_back(lsn);
         }
+    }
+    for (const auto& lsn : to_remove) {
+        pending_writes_.erase(lsn);
     }
 }
 

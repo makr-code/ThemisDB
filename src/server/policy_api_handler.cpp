@@ -1,23 +1,21 @@
+/**
+ * @file policy_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     123                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 118
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #453 Refactor PolicyApiHandler -... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_api_handler.h"
@@ -49,13 +47,15 @@ PolicyApiHandler::PolicyApiHandler(
 http::response<http::string_body> PolicyApiHandler::handleImportRanger(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleImportRanger");
     // Implementation moved from http_server.cpp handlePoliciesImportRanger()
     if (!ranger_client_) {
         return makeErrorResponse(http::status::service_unavailable, "Ranger client not configured", req);
     }
+    auto& ranger_client = *ranger_client_;
     try {
         std::string err;
-        auto jsonOpt = ranger_client_->fetchPolicies(&err);
+        auto jsonOpt = ranger_client.fetchPolicies(&err);
         if (!jsonOpt) {
             return makeErrorResponse(http::status::bad_gateway, std::string("Ranger fetch failed: ") + err, req);
         }
@@ -66,10 +66,11 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
         if (!policy_engine_) {
             return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
         }
-        policy_engine_->setPolicies(internal);
+        auto& policy_engine = *policy_engine_;
+        policy_engine.setPolicies(internal);
         // Persist to local file
         std::string save_err;
-        bool saved = policy_engine_->saveToFile("config/policies.json", &save_err);
+        bool saved = policy_engine.saveToFile("config/policies.json", &save_err);
         nlohmann::json resp = {
             {"imported", internal.size()},
             {"saved", saved}
@@ -84,12 +85,14 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
 http::response<http::string_body> PolicyApiHandler::handleExportRanger(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleExportRanger");
     // Implementation moved from http_server.cpp handlePoliciesExportRanger()
     try {
         if (!policy_engine_) {
             return makeErrorResponse(http::status::service_unavailable, "Policy engine not initialized", req);
         }
-        auto list = policy_engine_->listPolicies();
+        auto& policy_engine = *policy_engine_;
+        auto list = policy_engine.listPolicies();
         auto out = RangerClient::convertToRanger(list, service_name_);
         return makeResponse(http::status::ok, out.dump(2), req);
     } catch (const std::exception& e) {

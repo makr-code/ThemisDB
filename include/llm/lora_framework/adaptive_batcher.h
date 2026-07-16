@@ -1,24 +1,21 @@
+/**
+ * @file adaptive_batcher.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_batcher.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_batcher.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 150
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #610 Dynamic Batch Size Adaptati... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -52,6 +49,7 @@ namespace lora {
  */
 class AdaptiveBatcher {
 public:
+    virtual ~AdaptiveBatcher() = default;
     struct Config {
         size_t min_batch_size = 1;
         size_t max_batch_size = 32;
@@ -100,10 +98,10 @@ public:
      * @brief Get current statistics
      */
     struct Stats {
-        size_t current_batch_size;
-        float vram_utilization_pct;
-        int oom_events;
-        float avg_gpu_utilization;
+        size_t current_batch_size = 0;
+        float vram_utilization_pct = 0.0f;
+        int oom_events = 0;
+        float avg_gpu_utilization = 0.0f;
     };
     
     Stats getStats() const;
@@ -134,8 +132,8 @@ public:
 private:
     Config config_;
     ::themis::llm::GPUMemoryManager* mem_manager_;
-    size_t current_batch_size_;
-    int oom_count_;
+    size_t current_batch_size_ = 0;
+    int oom_count_ = 0;
     std::vector<float> recent_utilizations_;
     
     // Calibration state

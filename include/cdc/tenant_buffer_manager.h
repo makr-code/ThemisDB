@@ -1,24 +1,21 @@
+/**
+ * @file tenant_buffer_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tenant_buffer_manager.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     263                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tenant_buffer_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 251
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -50,6 +47,7 @@
 #include <mutex>
 #include <string>
 #include <optional>
+#include <functional>
 
 namespace themis {
 namespace cdc {
@@ -127,9 +125,9 @@ public:
                        const ChangefeedBufferConfig& default_config = ChangefeedBufferConfig());
     
     /**
-     * @brief Destructor - stops all tenant buffers
+     * @brief Destructor - stops all tenant buffers and suppresses shutdown exceptions.
      */
-    ~TenantBufferManager();
+    ~TenantBufferManager() noexcept;
     
     /**
      * @brief Start buffer management
@@ -189,13 +187,13 @@ public:
      * @param tenant_id Tenant identifier
      * @return Tenant metrics if exists
      */
-    std::optional<CDCMetrics> getTenantMetrics(const std::string& tenant_id) const;
+    std::optional<std::reference_wrapper<const CDCMetrics>> getTenantMetrics(const std::string& tenant_id) const;
     
     /**
      * @brief Get aggregated metrics across all tenants
-     * @return Aggregated metrics
+        * @return Aggregated metrics snapshot
      */
-    CDCMetrics getGlobalMetrics() const;
+        nlohmann::json getGlobalMetrics() const;
     
     /**
      * @brief Get all tenant statistics

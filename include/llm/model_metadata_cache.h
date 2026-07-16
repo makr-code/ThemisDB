@@ -1,23 +1,21 @@
+/**
+ * @file model_metadata_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_metadata_cache.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     130                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_metadata_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 121
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -43,11 +41,12 @@ namespace llm {
  * - Unified monitoring with other ThemisDB caches
  */
 struct ModelMetadata {
+    virtual ~ModelMetadata() = default;
     std::string model_id;
     std::string path;
-    size_t size_bytes;
-    int n_layers;
-    int n_ctx;
+    size_t size_bytes = 0;
+    int n_layers = 0;
+    int n_ctx = 0;
     std::chrono::system_clock::time_point loaded_timestamp;
     std::chrono::system_clock::time_point last_accessed;
     uint64_t access_count = 0;
@@ -110,10 +109,10 @@ public:
      * @brief Get cache statistics
      */
     struct Stats {
-        size_t total_entries;
-        size_t pinned_entries;
-        size_t total_size_bytes;
-        uint64_t total_accesses;
+        size_t total_entries = 0;
+        size_t pinned_entries = 0;
+        size_t total_size_bytes = 0;
+        uint64_t total_accesses = 0;
     };
     
     Stats getStats() const;

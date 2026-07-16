@@ -1,31 +1,27 @@
+/**
+ * @file graph_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=4, M=21, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_index.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2145                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5cac3c4d2  2026-02-26  audit(graph): fix allVertices RocksDB fallback, cleanup f... ║
-    • f22c734c5  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
-    • daf027b34  2026-02-25  feat(graph): implement subgraph isomorphism queries (patt... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2179
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=26, M=34, L=0
+ * PR History (last 5): #5145 research: fix and finalize ... (2026-05-14) | #634 Implement K-Shortest-Paths ... (2026-03-11) | #1057 PathConstraints and vector ... (2026-03-11) | #257 Research & Implementation: ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Graph adjacency index implementation
 
 #include "index/graph_index.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -34,11 +30,36 @@
 #include "utils/audit_logger.h"  // Phase 1: Knowledge Graph Protection
 
 #include <queue>
+#include <shared_mutex>
 #include <unordered_set>
 #include <algorithm>
 #include <chrono>
 
 namespace themis {
+
+namespace {
+
+std::optional<int64_t> parseTemporalFieldForEdge(const BaseEntity& edge,
+                                                 std::string_view field,
+                                                 std::string_view edge_id,
+                                                 std::string_view context) {
+	auto as_int = edge.getFieldAsInt(field);
+	if (as_int.has_value()) return as_int;
+	auto as_str = edge.getFieldAsString(field);
+	if (!as_str.has_value()) return std::nullopt;
+	try {
+		size_t pos = 0;
+		int64_t parsed = std::stoll(*as_str, &pos, 10);
+		if (pos == as_str->size()) return parsed;
+	} catch (const std::exception& e) {
+		THEMIS_DEBUG("{}: invalid temporal field '{}' on edge {}: {}", context, field, edge_id, e.what());
+	} catch (...) {
+		THEMIS_DEBUG("{}: invalid temporal field '{}' on edge {} with unknown error", context, field, edge_id);
+	}
+	return std::nullopt;
+}
+
+} // namespace
 
 // static
 std::vector<uint8_t> GraphIndexManager::toBytes(std::string_view sv) {
@@ -106,6 +127,10 @@ void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std:
 	}
 }
 
+std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> GraphIndexManager::createWriteBatch() {
+	return db_.createWriteBatch();
+}
+
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	if (!db_.isOpen()) return Status::Error("addEdge: Datenbank ist nicht geöffnet");
 
@@ -114,6 +139,20 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	auto toOpt = edge.getFieldAsString("_to");
 	if (!eidOpt || !fromOpt || !toOpt) {
 		return Status::Error("addEdge: Felder 'id', '_from' und '_to' sind erforderlich");
+	}
+
+	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
+	if (fromOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected - _from field is empty (fail-closed)");
+		return Status::Error("addEdge: QW-45 Guard - _from node ID cannot be empty");
+	}
+	if (toOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected - _to field is empty (fail-closed)");
+		return Status::Error("addEdge: QW-45 Guard - _to node ID cannot be empty");
+	}
+	if (eidOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected - id field is empty (fail-closed)");
+		return Status::Error("addEdge: QW-45 Guard - edge ID cannot be empty");
 	}
 
 	// Variablen verwendet in addEdge-Überladung
@@ -163,6 +202,21 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	auto fromOpt = edge.getFieldAsString("_from");
 	auto toOpt = edge.getFieldAsString("_to");
 	if (!eidOpt || !fromOpt || !toOpt) return Status::Error("addEdge(tx): Felder 'id', '_from', '_to' fehlen");
+	
+	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
+	if (fromOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - _from field is empty (fail-closed)");
+		return Status::Error("addEdge(batch): QW-45 Guard - _from node ID cannot be empty");
+	}
+	if (toOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - _to field is empty (fail-closed)");
+		return Status::Error("addEdge(batch): QW-45 Guard - _to node ID cannot be empty");
+	}
+	if (eidOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - id field is empty (fail-closed)");
+		return Status::Error("addEdge(batch): QW-45 Guard - edge ID cannot be empty");
+	}
+	
 	const std::string& eid = *eidOpt; const std::string& from = *fromOpt; const std::string& to = *toOpt;
 	// If FieldEncryption is configured, optionally encrypt fields listed in
 	// `encrypt_fields` (preferred) or fall back to legacy `_sensitive` boolean.
@@ -179,7 +233,10 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
+				} catch (const std::exception& e) {
+					THEMIS_DEBUG("addEdge: failed to parse encrypt_fields JSON, using CSV fallback: {}", e.what());
 				} catch (...) {
+					THEMIS_DEBUG("addEdge: failed to parse encrypt_fields JSON with unknown error, using CSV fallback");
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -196,6 +253,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
+			// LEGACY_COMPAT [INDEX-AUD-GI-01]: _sensitive boolean fallback — predates
+			// encrypt_fields (introduced in v2.1). Retained for existing edge documents;
+			// plan removal after data migration confirms no _sensitive=true records remain.
 			// Backwards compat: if no explicit list and _sensitive==true, encrypt weight+metadata
 			if (encryptList.empty()) {
 				auto sensitiveOpt = edge.getFieldAsBool("_sensitive");
@@ -253,15 +313,18 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	// Extract graphId from edge (optional field)
 	std::string graphId = edge.getFieldAsString("_graph").value_or("");
 
-	// Edge speichern (Primärspeicher)
-	batch.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
-	// Adjazenz-Indizes
-	batch.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
-	batch.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		// Edge speichern (Primärspeicher)
+		batch.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
+		// Adjazenz-Indizes
+		batch.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
+		batch.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
 
-	// Update in-memory topology if loaded
-	if (topologyLoaded_) {
-		addEdgeToTopology_(eid, from, to, graphId);
+		// Update in-memory topology if loaded
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			addEdgeToTopologyUnlocked_(eid, from, to, graphId);
+		}
 	}
 
 	return Status::OK();
@@ -276,17 +339,20 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId,
 	auto fromOpt = e.getFieldAsString("_from");
 	auto toOpt = e.getFieldAsString("_to");
 	std::string graphId = e.getFieldAsString("_graph").value_or("");
-	batch.del(edgeKey);
-	if (fromOpt && toOpt) {
-		batch.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
-		batch.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		batch.del(edgeKey);
+		if (fromOpt && toOpt) {
+			batch.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
+			batch.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
 
-		// Update in-memory topology if loaded
-		if (topologyLoaded_) {
-			removeEdgeFromTopology_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			// Update in-memory topology if loaded
+			if (topologyLoaded_.load(std::memory_order_acquire)) {
+				removeEdgeFromTopologyUnlocked_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			}
+
+			return Status::OK();
 		}
-
-		return Status::OK();
 	}
 	return Status::Error("deleteEdge(tx): _from/_to fehlen (inkonsistent)");
 }
@@ -296,8 +362,8 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	if (!db_.isOpen()) return {Status::Error("outNeighbors: Datenbank ist nicht geöffnet"), {}};
 
 	// Use in-memory topology if available (O(1) lookup)
-	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
@@ -330,8 +396,8 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 	if (!db_.isOpen()) return {Status::Error("inNeighbors: Datenbank ist nicht geöffnet"), {}};
 
 	// Use in-memory topology if available (O(1) lookup)
-	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
@@ -358,8 +424,8 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 	if (!db_.isOpen()) return {Status::Error("outAdjacency: Datenbank ist nicht geöffnet"), {}};
 
 	// In-Memory schnellpfad
-	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<AdjacencyInfo> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
@@ -387,8 +453,8 @@ std::pair<GraphIndexManager::Status, std::vector<GraphIndexManager::AdjacencyInf
 GraphIndexManager::inAdjacency(std::string_view toPk) const {
 	if (!db_.isOpen()) return {Status::Error("inAdjacency: Datenbank ist nicht geöffnet"), {}};
 
-	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<AdjacencyInfo> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
@@ -427,7 +493,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	visited.insert(std::string(startPk));
 
 	// Use in-memory topology for faster BFS if available
-	if (topologyLoaded_) {
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		while (!q.empty()) {
 			auto [node, depth] = q.front();
 			q.pop();
@@ -435,7 +501,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			order.push_back(node);
 			if (depth == maxDepth) continue;
 
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -506,7 +572,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 	std::string graphFilter(graph_id);
 
 	// Use in-memory topology for faster BFS if available
-	if (topologyLoaded_) {
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		while (!q.empty()) {
 			auto [node, depth] = q.front();
 			q.pop();
@@ -514,7 +580,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 			order.push_back(node);
 			if (depth == maxDepth) continue;
 
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -577,7 +643,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	if (!db_.isOpen()) return Status::Error("rebuildTopology: Datenbank ist nicht geöffnet");
 
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 
 	// Clear existing topology
 	outEdges_.clear();
@@ -587,7 +653,16 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	size_t out_scan_count = 0;
 	db_.scanPrefix("graph:out:", [this, &out_scan_count](std::string_view key, std::string_view val) {
 		std::string graphId, fromPk, edgeId;
-		if (!parseOutKey_(key, graphId, fromPk, edgeId)) return true;
+		const std::string keyStr(key);
+		const size_t lastColon = keyStr.rfind(':');
+		if (lastColon == std::string::npos) return true;
+		edgeId = keyStr.substr(lastColon + 1);
+		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
+			BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
+			fromPk = edge.getFieldAsString("_from").value_or("");
+			graphId = edge.getFieldAsString("_graph").value_or("");
+		}
+		if (fromPk.empty() && !parseOutKey_(key, graphId, fromPk, edgeId)) return true;
 		std::string toPk(val);
 		// Add to outEdges_
 		outEdges_[fromPk].push_back({edgeId, toPk, graphId});
@@ -599,26 +674,41 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	// Scan all incoming edges: graph:in:<graph_id>:<toPk>:<edgeId> -> fromPk
 	db_.scanPrefix("graph:in:", [this](std::string_view key, std::string_view val) {
 		std::string graphId, toPk, edgeId;
-		if (!parseInKey_(key, graphId, toPk, edgeId)) return true;
+		const std::string keyStr(key);
+		const size_t lastColon = keyStr.rfind(':');
+		if (lastColon == std::string::npos) return true;
+		edgeId = keyStr.substr(lastColon + 1);
+		if (auto blob = db_.get(KeySchema::makeGraphEdgeKey(edgeId)); blob.has_value()) {
+			BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
+			toPk = edge.getFieldAsString("_to").value_or("");
+			graphId = edge.getFieldAsString("_graph").value_or("");
+		}
+		if (toPk.empty() && !parseInKey_(key, graphId, toPk, edgeId)) return true;
 		std::string fromPk(val);
 		inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 		return true;
 	});
 
-	topologyLoaded_ = true;
+	topologyLoaded_.store(true, std::memory_order_release);
 	return Status::OK();
 }
 
 void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+	addEdgeToTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
+}
+
+void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
+	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+	removeEdgeFromTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
+}
+
+void GraphIndexManager::addEdgeToTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
 	outEdges_[fromPk].push_back({edgeId, toPk, graphId});
 	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 }
 
-void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
-	(void)graphId;
-	std::lock_guard<std::mutex> lock(topology_mutex_);
-
+void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
 	// Remove from outEdges_
 	auto outIt = outEdges_.find(fromPk);
 	if (outIt != outEdges_.end()) {
@@ -641,7 +731,7 @@ void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const
 }
 
 size_t GraphIndexManager::getTopologyNodeCount() const {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes;
 	for (const auto& [node, _] : outEdges_) nodes.insert(node);
 	for (const auto& [node, _] : inEdges_) nodes.insert(node);
@@ -651,8 +741,8 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::allVertices() const {
 	{
-		std::lock_guard<std::mutex> lock(topology_mutex_);
-		if (topologyLoaded_) {
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
 			// Fast path: in-memory topology is populated.
 			std::unordered_set<std::string> seen;
 			for (const auto& [v, _] : outEdges_) seen.insert(v);
@@ -676,7 +766,7 @@ GraphIndexManager::allVertices() const {
 		const size_t last  = tail.rfind(':');
 		std::string fromPk;
 		if (last == first) {
-			// legacy: no graphId
+			// legacy: no graphId — LEGACY_COMPAT [INDEX-AUD-GI-03]: pre-v2.0 key format without graphId segment
 			fromPk = std::string(tail.substr(0, first));
 		} else {
 			fromPk = std::string(tail.substr(first + 1, last - first - 1));
@@ -702,7 +792,7 @@ GraphIndexManager::allVertices() const {
 }
 
 size_t GraphIndexManager::getTopologyEdgeCount() const {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	size_t total = 0;
 	for (const auto& [_, edges] : outEdges_) {
 		total += edges.size();
@@ -711,7 +801,7 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 }
 
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes;
 	for (const auto& [node, _] : outEdges_) nodes.insert(node);
 	for (const auto& [node, _] : inEdges_) nodes.insert(node);
@@ -746,18 +836,30 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
+				} catch (const std::exception& e) {
+					THEMIS_DEBUG("getEdgeWeight_: decrypted _weight is not numeric for edge {}: {}", edgeId, e.what());
+					// fallthrough
 				} catch (...) {
+					THEMIS_DEBUG("getEdgeWeight_: decrypted _weight parse failed for edge {} with unknown error", edgeId);
 					// fallthrough
 				}
 			}
+		} catch (const std::exception& e) {
+			THEMIS_DEBUG("getEdgeWeight_: _weight is not encrypted/base64 for edge {}: {}", edgeId, e.what());
+			// not an encrypted blob
 		} catch (...) {
+			THEMIS_DEBUG("getEdgeWeight_: _weight decode failed for edge {} with unknown error", edgeId);
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
+		} catch (const std::exception& e) {
+			THEMIS_DEBUG("getEdgeWeight_: _weight is not numeric for edge {}: {}", edgeId, e.what());
+			return 1.0;
 		} catch (...) {
+			THEMIS_DEBUG("getEdgeWeight_: _weight parse failed for edge {} with unknown error", edgeId);
 			return 1.0;
 		}
 	}
@@ -793,18 +895,30 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
+				} catch (const std::exception& e) {
+					THEMIS_DEBUG("getEdgeWeight: decrypted {} is not numeric for edge {}: {}", attrName, edgeId, e.what());
+					// fallthrough
 				} catch (...) {
+					THEMIS_DEBUG("getEdgeWeight: decrypted {} parse failed for edge {} with unknown error", attrName, edgeId);
 					// fallthrough
 				}
 			}
+		} catch (const std::exception& e) {
+			THEMIS_DEBUG("getEdgeWeight: {} is not encrypted/base64 for edge {}: {}", attrName, edgeId, e.what());
+			// not an encrypted blob
 		} catch (...) {
+			THEMIS_DEBUG("getEdgeWeight: {} decode failed for edge {} with unknown error", attrName, edgeId);
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
+		} catch (const std::exception& e) {
+			THEMIS_DEBUG("getEdgeWeight: {} is not numeric for edge {}: {}", attrName, edgeId, e.what());
+			return 1.0;
 		} catch (...) {
+			THEMIS_DEBUG("getEdgeWeight: {} parse failed for edge {} with unknown error", attrName, edgeId);
 			return 1.0;
 		}
 	}
@@ -821,7 +935,7 @@ std::optional<std::string> GraphIndexManager::getEdgeField(
 	auto blob = db_.get(edgeKey);
 	if (!blob.has_value()) {
 		// Try the topology keys in the in-memory edge map to find a graphId
-		std::lock_guard<std::mutex> lk(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lk(topology_mutex_);
 		for (const auto& [from, adj_list] : outEdges_) {
 			for (const auto& adj : adj_list) {
 				if (adj.edgeId == edgeId && !adj.graphId.empty()) {
@@ -868,7 +982,11 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 			if (field_encryption_) {
 				return field_encryption_->decryptToString(eb);
 			}
+		} catch (const std::exception& e) {
+			THEMIS_DEBUG("getEdgeType_: _type decode/decrypt failed for edge {}: {}", edgeId, e.what());
+			// not an encrypted blob
 		} catch (...) {
+			THEMIS_DEBUG("getEdgeType_: _type decode/decrypt failed for edge {} with unknown error", edgeId);
 			// not an encrypted blob
 		}
 		return t;
@@ -887,7 +1005,7 @@ bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId,
 	// - graph:out:<graphId>:<fromPk>:<edgeId>
 	// - graph:out:<fromPk>:<edgeId>  (legacy)
 	if (last == first) {
-		// legacy: no graphId
+		// legacy: no graphId — LEGACY_COMPAT [INDEX-AUD-GI-03]: pre-v2.0 key format
 		graphId.clear();
 		fromPk = s.substr(0, first);
 		edgeId = s.substr(first + 1);
@@ -906,7 +1024,7 @@ bool GraphIndexManager::parseInKey_(std::string_view key, std::string& graphId, 
 	size_t first = s.find(':');
 	if (first == std::string::npos) return false;
 	size_t last = s.rfind(':');
-	// Support two formats: with graphId or legacy without
+	// LEGACY_COMPAT [INDEX-AUD-GI-03]: Support two formats — with graphId (v2.0+) or without (legacy)
 	if (last == first) {
 		graphId.clear();
 		toPk = s.substr(0, first);
@@ -953,8 +1071,8 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 
 		// Nachbarn holen (In-Memory falls verfügbar)
 		std::vector<std::string> neighbors;
-		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -1064,8 +1182,8 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 		if (node == target) break;
 
 		// Nachbarn holen (In-Memory falls verfügbar)
-		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -1178,8 +1296,8 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 		if (node == target) break;
 
 		// Nachbarn holen
-		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -1258,6 +1376,20 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	auto toOpt = edge.getFieldAsString("_to");
 	if (!eidOpt || !fromOpt || !toOpt) return Status::Error("addEdge(mvcc): Felder 'id', '_from', '_to' fehlen");
 	
+	// QW-45 Guard: Fail-closed validation for empty _from/_to fields
+	if (fromOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - _from field is empty (fail-closed)");
+		return Status::Error("addEdge(txn): QW-45 Guard - _from node ID cannot be empty");
+	}
+	if (toOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - _to field is empty (fail-closed)");
+		return Status::Error("addEdge(txn): QW-45 Guard - _to node ID cannot be empty");
+	}
+	if (eidOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - id field is empty (fail-closed)");
+		return Status::Error("addEdge(txn): QW-45 Guard - edge ID cannot be empty");
+	}
+	
 	const std::string& eid = *eidOpt; 
 	const std::string& from = *fromOpt; 
 	const std::string& to = *toOpt;
@@ -1277,7 +1409,10 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
+				} catch (const std::exception& e) {
+					THEMIS_DEBUG("addEdge(mvcc): failed to parse encrypt_fields JSON, using CSV fallback: {}", e.what());
 				} catch (...) {
+					THEMIS_DEBUG("addEdge(mvcc): failed to parse encrypt_fields JSON with unknown error, using CSV fallback");
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -1294,6 +1429,8 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
+			// LEGACY_COMPAT [INDEX-AUD-GI-02]: _sensitive boolean fallback — duplicate of GI-01
+			// for updateEdge path. Same migration dependency applies.
 			// Backwards compat: if no explicit list and _sensitive==true, encrypt weight+metadata
 			if (encryptList.empty()) {
 				auto sensitiveOpt = edge.getFieldAsBool("_sensitive");
@@ -1351,16 +1488,19 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	// Extract graphId from edge (optional field)
 	std::string graphId = edge.getFieldAsString("_graph").value_or("");
 
-	// Edge speichern (Primärspeicher)
-	txn.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
-	
-	// Adjazenz-Indizes
-	txn.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
-	txn.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		// Edge speichern (Primärspeicher)
+		txn.put(KeySchema::makeGraphEdgeKey(eid), stored.serialize());
 
-	// Update in-memory topology if loaded
-	if (topologyLoaded_) {
-		addEdgeToTopology_(eid, from, to, graphId);
+		// Adjazenz-Indizes
+		txn.put(KeySchema::makeGraphOutdexKey(from, eid), toBytes(to));
+		txn.put(KeySchema::makeGraphIndexKey(to, eid), toBytes(from));
+
+		// Update in-memory topology if loaded
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			addEdgeToTopologyUnlocked_(eid, from, to, graphId);
+		}
 	}
 
 	return Status::OK();
@@ -1381,18 +1521,20 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId,
 	auto toOpt = e.getFieldAsString("_to");
 	std::string graphId = e.getFieldAsString("_graph").value_or("");
 	
-	txn.del(edgeKey);
-	
-	if (fromOpt && toOpt) {
-		txn.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
-		txn.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
+	{
+		std::lock_guard<std::shared_mutex> lock(topology_mutex_);
+		txn.del(edgeKey);
+		if (fromOpt && toOpt) {
+			txn.del(KeySchema::makeGraphOutdexKey(*fromOpt, std::string(edgeId)));
+			txn.del(KeySchema::makeGraphIndexKey(*toOpt, std::string(edgeId)));
 
-		// Update in-memory topology if loaded
-		if (topologyLoaded_) {
-			removeEdgeFromTopology_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			// Update in-memory topology if loaded
+			if (topologyLoaded_.load(std::memory_order_acquire)) {
+				removeEdgeFromTopologyUnlocked_(std::string(edgeId), *fromOpt, *toOpt, graphId);
+			}
+
+			return Status::OK();
 		}
-
-		return Status::OK();
 	}
 	
 	return Status::Error("deleteEdge(mvcc): _from/_to fehlen (inkonsistent)");
@@ -1572,8 +1714,8 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
-		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+		std::optional<int64_t> valid_from = parseTemporalFieldForEdge(edge, "valid_from", edgeId, "getEdgesInTimeRange");
+		std::optional<int64_t> valid_to = parseTemporalFieldForEdge(edge, "valid_to", edgeId, "getEdgesInTimeRange");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 
@@ -1618,8 +1760,8 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
-		std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+		std::optional<int64_t> valid_from = parseTemporalFieldForEdge(edge, "valid_from", edgeId, "getOutEdgesInTimeRange");
+		std::optional<int64_t> valid_to = parseTemporalFieldForEdge(edge, "valid_to", edgeId, "getOutEdgesInTimeRange");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 
@@ -1657,7 +1799,7 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 		// - legacy: graph:out:<fromPk>:<edgeId>
 		std::string graphId, fromPk, edgeId;
 		if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
-			// fallback to legacy parsing used elsewhere
+			// LEGACY_COMPAT [INDEX-AUD-GI-03]: fallback to legacy key format (pre-v2.0) for backward compatibility
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
 			if (firstColon == std::string::npos) return true;
@@ -1854,7 +1996,7 @@ GraphIndexManager::bfsWithConstraints(
 	std::string graphFilter(graph_id);
 
 	// Use in-memory topology if available
-	if (topologyLoaded_) {
+	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		while (!q.empty()) {
 			auto [node, depth] = q.front();
 			q.pop();
@@ -1868,7 +2010,7 @@ GraphIndexManager::bfsWithConstraints(
 			
 			if (depth == maxDepth) continue;
 
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -2070,8 +2212,8 @@ GraphIndexManager::dijkstraWithConstraints(
 
 		// Get neighbors
 		std::vector<AdjacencyInfo> neighbors;
-		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto adj_it = outEdges_.find(current.node);
 			if (adj_it != outEdges_.end()) {
 				neighbors = adj_it->second;

@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_intent_detector.cpp                          ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-03-09 04:00:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_intent_detector.cpp
- * @brief Intent detection and NER implementation (Phase 3 LLM Integration)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.42
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_intent_detector.h"
@@ -113,7 +97,7 @@ VoiceIntentDetector::VoiceIntentDetector(const IntentDetectorConfig& config)
 
 namespace {
 
-std::string toLower(const std::string& s) {
+std::string intentToLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
         [](unsigned char c) { return std::tolower(c); });
@@ -121,7 +105,7 @@ std::string toLower(const std::string& s) {
 }
 
 bool containsAny(const std::string& text, const std::vector<std::string>& keywords) {
-    std::string lower = toLower(text);
+    std::string lower = intentToLower(text);
     for (const auto& kw : keywords) {
         if (lower.find(kw) != std::string::npos) return true;
     }
@@ -145,7 +129,7 @@ IntentCategory VoiceIntentDetector::classifyIntent(const std::string& text) {
 
 float VoiceIntentDetector::computeIntentConfidence(const std::string& text, IntentCategory cat) const {
     // Simple heuristic: count matching keywords and map to confidence
-    auto lower = toLower(text);
+    auto lower = intentToLower(text);
 
     struct KwSet { IntentCategory cat; std::vector<std::string> kws; };
     static const KwSet sets[] = {
@@ -169,7 +153,7 @@ float VoiceIntentDetector::computeIntentConfidence(const std::string& text, Inte
 
 std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::string& text) const {
     std::vector<NamedEntity> entities;
-    auto lower = toLower(text);
+    auto lower = intentToLower(text);
 
     static const std::vector<std::pair<std::string, std::string>> date_patterns = {
         {"yesterday",   "DATE"},
@@ -218,7 +202,7 @@ std::vector<NamedEntity> VoiceIntentDetector::extractNumberEntities(const std::s
 
 std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::string& text) const {
     std::vector<NamedEntity> entities;
-    auto lower = toLower(text);
+    auto lower = intentToLower(text);
 
     static const std::vector<std::string> metric_kw = {
         "revenue","sales","count","profit","loss","margin","rate",
@@ -315,3 +299,4 @@ json VoiceIntentDetector::getStatistics() const {
 }
 
 }} // namespace themis::voice
+

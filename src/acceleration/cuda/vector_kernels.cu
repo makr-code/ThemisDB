@@ -3,7 +3,20 @@
 
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
+#include <cub/cub.cuh>
+#include <thrust/device_vector.h>
+#include <thrust/device_ptr.h>
+#include <thrust/execution_policy.h>
+#include <thrust/iterator/zip_iterator.h>
+#include <thrust/sequence.h>
+#include <thrust/sort.h>
+#include <thrust/tuple.h>
+#include <thrust/copy.h>
 #include <cmath>
+#include <memory>
+
+#include "cosine_config.cuh"
+#include "topk_shared.cuh"
 
 namespace themis {
 namespace acceleration {
@@ -52,56 +65,90 @@ __global__ void computeL2DistanceKernel(
     distances[qIdx * numVectors + vIdx] = sum;
 }
 
-/**
- * Compute Cosine distance between query vectors and database vectors
- * Distance = 1 - cosine_similarity
- * 
- * @param queries      Query vectors (numQueries x dim)
- * @param vectors      Database vectors (numVectors x dim)
- * @param distances    Output distances (numQueries x numVectors)
- * @param numQueries   Number of query vectors
- * @param numVectors   Number of database vectors
- * @param dim          Vector dimension
- */
-__global__ void computeCosineDistanceKernel(
-    const float* queries,
-    const float* vectors,
-    float* distances,
+// Compile-time guard: require SM 7.0+ for vector kernels (Tensor Core availability).
+#if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 700)
+#  if (__CUDA_ARCH__ >= 600)
+#    warning "Building ThemisDB CUDA vector kernels for sm_6x; Tensor Core optimizations disabled and performance may degrade."
+#  else
+#    error "ThemisDB CUDA vector kernels require sm_70 or newer."
+#  endif
+#endif
+
+namespace {
+
+constexpr size_t kSharedBytes = cuda_cosine::CosineSharedBytes<float>();
+static_assert(kSharedBytes <= 64 * 1024, "CUDA cosine kernel shared memory exceeds 64KB sm_70+ limit");
+
+template <int TILE, int VECS_PER_BLOCK, int QUERIES_PER_BLOCK>
+__global__ void fusedCosineDistanceKernel(
+    const float* __restrict__ queries,
+    const float* __restrict__ vectors,
+    float* __restrict__ distances,
     int numQueries,
     int numVectors,
-    int dim
-) {
-    int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
-    int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
-    
+    int dim)
+{
+    constexpr int kWarp = 32;
+    static_assert(TILE == kWarp, "TILE must equal 32 (warp size) for CUB warp reduction");
+
+    const int linearY = threadIdx.y;
+    const int vLocal = linearY / QUERIES_PER_BLOCK;   // which vector in this block
+    const int qLocal = linearY % QUERIES_PER_BLOCK;   // which query lane
+    const int vIdx   = blockIdx.x * VECS_PER_BLOCK + vLocal;
+    const int qIdx   = blockIdx.y * QUERIES_PER_BLOCK + qLocal;
+
     if (qIdx >= numQueries || vIdx >= numVectors) return;
-    
-    const float* query = queries + qIdx * dim;
-    const float* vector = vectors + vIdx * dim;
-    
-    float dotProduct = 0.0f;
-    float normQuery = 0.0f;
-    float normVector = 0.0f;
-    
-    #pragma unroll 4
-    for (int i = 0; i < dim; i++) {
-        float q = query[i];
-        float v = vector[i];
-        dotProduct += q * v;
-        normQuery += q * q;
-        normVector += v * v;
+
+    __shared__ float queryTile[QUERIES_PER_BLOCK][TILE];
+    __shared__ float vectorTile[VECS_PER_BLOCK][TILE];
+    __shared__ typename cub::WarpReduce<float>::TempStorage warpReduceBuf[VECS_PER_BLOCK][QUERIES_PER_BLOCK][3];
+
+    float partialDot   = 0.0f;
+    float partialNormQ = 0.0f;
+    float partialNormV = 0.0f;
+
+    for (int base = 0; base < dim; base += TILE) {
+        // Load one query tile per query lane
+        if (vLocal == 0 && threadIdx.x < TILE) {
+            const int idx = base + threadIdx.x;
+            queryTile[qLocal][threadIdx.x] = (idx < dim)
+                ? queries[static_cast<size_t>(qIdx) * dim + idx]
+                : 0.0f;
+        }
+        // Load one vector tile per vector lane
+        if (qLocal == 0 && threadIdx.x < TILE) {
+            const int idx = base + threadIdx.x;
+            vectorTile[vLocal][threadIdx.x] = (idx < dim)
+                ? vectors[static_cast<size_t>(vIdx) * dim + idx]
+                : 0.0f;
+        }
+        __syncthreads();
+
+        // Each warp processes one vector lane
+        const int idx = base + threadIdx.x;
+        if (idx < dim) {
+            const float q = queryTile[qLocal][threadIdx.x];
+            const float v = vectorTile[vLocal][threadIdx.x];
+            partialDot   += q * v;
+            partialNormQ += q * q;
+            partialNormV += v * v;
+        }
+        __syncwarp();
     }
-    
-    normQuery = sqrtf(normQuery);
-    normVector = sqrtf(normVector);
-    
-    float cosineSim = (normQuery > 1e-10f && normVector > 1e-10f) 
-        ? dotProduct / (normQuery * normVector)
-        : 0.0f;
-    
-    // Store 1 - cosine_similarity as distance
-    distances[qIdx * numVectors + vIdx] = 1.0f - cosineSim;
+
+    const float dot   = cub::WarpReduce<float>(warpReduceBuf[vLocal][qLocal][0]).Sum(partialDot);
+    const float normQ = cub::WarpReduce<float>(warpReduceBuf[vLocal][qLocal][1]).Sum(partialNormQ);
+    const float normV = cub::WarpReduce<float>(warpReduceBuf[vLocal][qLocal][2]).Sum(partialNormV);
+
+    if (threadIdx.x == 0) {
+        const float denomQ = fmaxf(normQ, 1e-10f);
+        const float denomV = fmaxf(normV, 1e-10f);
+        const float cosineSim = dot * rsqrtf(denomQ) * rsqrtf(denomV);
+        distances[static_cast<size_t>(qIdx) * numVectors + vIdx] = 1.0f - cosineSim;
+    }
 }
+
+} // anonymous namespace
 
 /**
  * Compute Inner Product distance between query vectors and database vectors
@@ -188,89 +235,53 @@ __device__ void bitonicSortStep(
     }
 }
 
-/**
- * Extract top-k nearest neighbors for each query
- * 
- * @param distances       Distance matrix (numQueries x numVectors)
- * @param topkIndices     Output: top-k indices (numQueries x k)
- * @param topkDistances   Output: top-k distances (numQueries x k)
- * @param numQueries      Number of queries
- * @param numVectors      Number of vectors
- * @param k               Number of nearest neighbors
- */
-__global__ void extractTopKKernel(
-    const float* distances,
-    int* topkIndices,
-    float* topkDistances,
-    int numQueries,
-    int numVectors,
-    int k
-) {
-    extern __shared__ char sharedMem[];
-    float* sharedDist = (float*)sharedMem;
-    int* sharedIdx = (int*)(sharedMem + k * sizeof(float));
-    
-    int qIdx = blockIdx.x;
-    if (qIdx >= numQueries) return;
-    
-    const float* queryDistances = distances + qIdx * numVectors;
-    
-    // Initialize shared memory with first k elements
-    if (threadIdx.x < k) {
-        sharedDist[threadIdx.x] = (threadIdx.x < numVectors) 
-            ? queryDistances[threadIdx.x] 
-            : INFINITY;
-        sharedIdx[threadIdx.x] = threadIdx.x;
-    }
-    __syncthreads();
-    
-    // Process remaining elements
-    for (int i = k + threadIdx.x; i < numVectors; i += blockDim.x) {
-        float dist = queryDistances[i];
-        
-        // Find max in current top-k
-        if (threadIdx.x == 0) {
-            int maxIdx = 0;
-            float maxDist = sharedDist[0];
-            for (int j = 1; j < k; j++) {
-                if (sharedDist[j] > maxDist) {
-                    maxDist = sharedDist[j];
-                    maxIdx = j;
-                }
-            }
-            
-            // Replace if current distance is smaller
-            if (dist < maxDist) {
-                sharedDist[maxIdx] = dist;
-                sharedIdx[maxIdx] = i;
-            }
-        }
-        __syncthreads();
-    }
-    
-    // Sort top-k (bitonic sort for small k)
-    if (k <= 1024) {
-        for (int size = 2; size <= k; size *= 2) {
-            int dir = (threadIdx.x & (size / 2)) == 0 ? 0 : size;
-            for (int stride = size / 2; stride > 0; stride /= 2) {
-                bitonicSortStep(sharedIdx, sharedDist, k, stride, dir);
-                __syncthreads();
-            }
-        }
-    }
-    
-    // Write results
-    if (threadIdx.x < k) {
-        topkIndices[qIdx * k + threadIdx.x] = sharedIdx[threadIdx.x];
-        topkDistances[qIdx * k + threadIdx.x] = sharedDist[threadIdx.x];
-    }
-}
-
 // ============================================================================
 // Kernel Launchers (C++ interface)
 // ============================================================================
 
+// Module-level 2-D block dimension for the L2 and Inner Product distance
+// kernels.  The launchers use a (g_cuda_vec_block_dim × g_cuda_vec_block_dim)
+// workgroup; the default 16×16 gives 256 total threads which is optimal for
+// sm_86 (Ampere).  CUDAVectorBackend::initialize() overwrites this via
+// tuneVecKernelBlockSize() to accommodate different GPU micro-architectures.
+static int g_cuda_vec_block_dim = 16;
+
 extern "C" {
+
+/**
+ * Update the 2-D block dimension used by L2 / InnerProduct kernel launchers.
+ *
+ * @param dim  Per-axis thread count; total threads = dim².
+ *             Must be a power of 2 between 8 and 32.
+ */
+void setVecKernelBlockDim(int dim) {
+    g_cuda_vec_block_dim = dim;
+}
+
+/**
+ * Query the CUDA occupancy API for the L2 distance kernel and set the optimal
+ * 2-D block dimension.  Total threads = g_cuda_vec_block_dim².
+ *
+ * @return  The per-axis block dimension stored in g_cuda_vec_block_dim.
+ */
+int tuneVecKernelBlockSize() {
+    int minGridSize    = 0;
+    int tunedBlockSize = 256;  // 1-D suggestion from the occupancy API
+    cudaError_t err = cudaOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockSize, computeL2DistanceKernel, 0, 0);
+    if (err == cudaSuccess && tunedBlockSize > 0) {
+        // Convert 1-D count to a square 2-D block size (integer square root
+        // rounded to nearest power of 2, clamped to [8, 32]).
+        int dim = 1;
+        while (dim * dim * 4 <= tunedBlockSize) dim *= 2;
+        // dim is now the largest power of 2 so that dim*dim*4 <= tunedBlockSize
+        // Clamp: minimum 8, maximum 32 (32×32 = 1024, sm_70+ max threads).
+        if (dim < 8)  dim = 8;
+        if (dim > 32) dim = 32;
+        g_cuda_vec_block_dim = dim;
+    }
+    return g_cuda_vec_block_dim;
+}
 
 /**
  * Launch L2 distance computation kernel
@@ -284,7 +295,8 @@ void launchL2DistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    const int bd = g_cuda_vec_block_dim;
+    const dim3 blockDim(bd, bd);
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
@@ -308,13 +320,13 @@ void launchCosineDistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    dim3 blockDim(cuda_cosine::kTileSize, cuda_cosine::kVecsPerBlock * cuda_cosine::kQueriesPerBlock);
     dim3 gridDim(
-        (numVectors + blockDim.x - 1) / blockDim.x,
-        (numQueries + blockDim.y - 1) / blockDim.y
+        (numVectors + cuda_cosine::kVecsPerBlock - 1) / cuda_cosine::kVecsPerBlock,
+        (numQueries + cuda_cosine::kQueriesPerBlock - 1) / cuda_cosine::kQueriesPerBlock
     );
     
-    computeCosineDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+    fusedCosineDistanceKernel<cuda_cosine::kTileSize, cuda_cosine::kVecsPerBlock, cuda_cosine::kQueriesPerBlock><<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances,
         numQueries, numVectors, dim
     );
@@ -332,7 +344,8 @@ void launchInnerProductKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    const int bd = g_cuda_vec_block_dim;
+    const dim3 blockDim(bd, bd);
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
@@ -356,17 +369,21 @@ void launchTopKKernel(
     int k,
     cudaStream_t stream
 ) {
-    int threadsPerBlock = 256;
-    int sharedMemSize = k * (sizeof(float) + sizeof(int));
-    
-    extractTopKKernel<<<numQueries, threadsPerBlock, sharedMemSize, stream>>>(
-        d_distances, d_topkIndices, d_topkDistances,
-        numQueries, numVectors, k
-    );
+    if (k <= 0 || numQueries <= 0 || numVectors <= 0) return;
+    cuda_topk::segmentedTopK(
+        d_distances,
+        d_topkIndices,
+        d_topkDistances,
+        numQueries,
+        numVectors,
+        k,
+        stream);
 }
 
 /**
- * Launch Inner Product distance computation kernel
+ * Launch Inner Product distance computation kernel (alias).
+ * Note: Returns negative dot product (smaller = more similar), same implementation
+ * as launchInnerProductKernel; kept for interface compatibility.
  */
 void launchInnerProductDistanceKernel(
     const float* d_queries,
@@ -377,13 +394,14 @@ void launchInnerProductDistanceKernel(
     int dim,
     cudaStream_t stream
 ) {
-    dim3 blockDim(16, 16);
+    const int bd = g_cuda_vec_block_dim;
+    const dim3 blockDim(bd, bd);
     dim3 gridDim(
         (numVectors + blockDim.x - 1) / blockDim.x,
         (numQueries + blockDim.y - 1) / blockDim.y
     );
 
-    computeInnerProductDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+    computeInnerProductKernel<<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances,
         numQueries, numVectors, dim
     );

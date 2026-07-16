@@ -1,26 +1,28 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            logger.cpp                                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5cc90811f  2026-02-23  fix(core): trace ID injection into JSON structured logs; ... ║
-    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file logger.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=2
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+/*
+ * ThemisDB | File: logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 280
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=4, L=3
+ * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #2681 [core] Adjust dynamic log l... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+// This implementation TU defines Logger symbols, so force export semantics
+// to keep declaration/definition DLL attributes consistent in all build modes.
+#ifndef THEMIS_BASE_EXPORTS
+#define THEMIS_BASE_EXPORTS
+#endif
 
 #include "utils/logger.h"
 #include "utils/pii_redacting_sink.h"
@@ -40,6 +42,8 @@
 
 namespace themis {
 namespace utils {
+
+LogMetrics Logger::metrics_{};
 
 namespace {
 /// Minimal JSON-string escape for embedding a value inside "…".
@@ -65,12 +69,6 @@ std::string jsonEscapeTraceId(const std::string& s) {
 }
 } // anonymous namespace
 
-std::shared_ptr<spdlog::logger> Logger::logger_;
-LogMetrics Logger::metrics_;
-std::string Logger::trace_context_;
-std::mutex Logger::trace_context_mu_;
-bool Logger::json_mode_ = false;
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Private helper
 // ─────────────────────────────────────────────────────────────────────────────
@@ -85,6 +83,10 @@ spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
         case Level::CRITICAL: return spdlog::level::critical;
         default:              return spdlog::level::info;
     }
+}
+
+LogMetrics& Logger::metricsStorage() {
+    return metrics_;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -254,11 +256,11 @@ std::string Logger::getTraceContext() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const LogMetrics& Logger::getMetrics() {
-    return metrics_;
+    return metricsStorage();
 }
 
 void Logger::resetMetrics() {
-    metrics_.reset();
+    metricsStorage().reset();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

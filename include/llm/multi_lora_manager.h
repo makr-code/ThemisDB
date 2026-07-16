@@ -1,61 +1,36 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_lora_manager.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     942                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file multi_lora_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
+
+#include <chrono>
+#include <functional>
 #include <memory>
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include <mutex>
 #include <optional>
-#include <thread>
-#include <atomic>
-#include <condition_variable>
-#include <functional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-// Forward declaration from llama.cpp
+#include <nlohmann/json.hpp>
+
 struct llama_context;
-
-/**
- * @file multi_lora_manager.h
- * @brief vLLM-inspired multi-LoRA management for ThemisDB
- * 
- * This component implements efficient multi-LoRA adapter management similar to vLLM:
- * - Multiple LoRA adapters can be loaded simultaneously
- * - Efficient adapter switching during inference (minimal overhead)
- * - Batched inference with different LoRAs for different requests
- * - Memory-efficient adapter storage and composition
- * 
- * Key features from vLLM:
- * - Multi-LoRA inference: Different requests can use different adapters
- * - Adapter batching: Multiple LoRAs in a single batch
- * - Dynamic loading/unloading: Adapters load/unload on demand
- * - Memory pooling: Efficient VRAM usage for multiple adapters
- */
 
 namespace themis {
 namespace llm {
+
+using json = nlohmann::json;
 
 /**
  * @brief Multi-GPU placement strategy for LoRA adapters (v1.4.0)
@@ -124,6 +99,7 @@ struct LoRAQuantizationConfig {
  * @brief Quantization statistics for a LoRA adapter
  */
 struct QuantizationStats {
+    virtual ~QuantizationStats() = default;
     std::string lora_id;
     QuantizationMode mode = QuantizationMode::NONE;
     
@@ -169,6 +145,7 @@ enum class SchedulingStrategy {
  * - Context-based: different weights per request type
  */
 struct AlphaSchedule {
+    virtual ~AlphaSchedule() = default;
     std::string schedule_id;
     FusionStrategy strategy = FusionStrategy::STATIC;
     SchedulingStrategy scheduling_strategy = SchedulingStrategy::LINEAR;
@@ -230,6 +207,7 @@ struct FusionConfig {
  * @brief Fusion cache entry metadata
  */
 struct FusionCacheEntry {
+    virtual ~FusionCacheEntry() = default;
     std::string fusion_id;
     std::vector<std::string> source_lora_ids;
     std::vector<float> weights;
@@ -249,6 +227,7 @@ struct FusionCacheEntry {
  * @brief Fusion performance metrics
  */
 struct FusionMetrics {
+    virtual ~FusionMetrics() = default;
     std::string fusion_id;
     FusionStrategy strategy;
     
@@ -271,6 +250,7 @@ struct FusionMetrics {
  * Represents a loaded LoRA adapter with its metadata and handle.
  */
 struct LoRASlot {
+    virtual ~LoRASlot() = default;
     std::string lora_id;
     std::string path;
     std::string base_model_id;
@@ -327,6 +307,11 @@ public:
         size_t max_lora_vram_mb = 2048;  // 2 GB for all LoRAs
         size_t max_lora_slots = 16;      // Max concurrent LoRAs
         
+        // Trusted directory: LoRA files must reside under this path (F1-1/F1-2 fix).
+        // Defaults to an empty string which disables the check (legacy behaviour);
+        // production deployments must set this to the managed LoRA storage directory.
+        std::string lora_base_dir;
+
         // Cache policy
         std::chrono::seconds lora_ttl{1800};  // 30 min TTL
         bool enable_lazy_load = true;
@@ -343,6 +328,15 @@ public:
         
         // Multi-GPU support (v1.4.0)
         MultiGPUConfig multi_gpu;
+
+        // Security validation (v1.20.0): when set, loadLoRAInternal() calls
+        // validateMetadata() before any GGUF parse.  Optional: null disables
+        // validation (legacy / test deployments).
+        std::shared_ptr<LoRASecurityValidator> security_validator;
+        /// When true and security_validator is set, a metadata-validation
+        /// failure causes loadLoRA() to reject the adapter hard.
+        /// When false the failure is logged as a warning and loading continues.
+        bool enforce_security_validation = true;
     };
     
     explicit MultiLoRAManager(const Config& config);
@@ -467,6 +461,14 @@ public:
      * @param context Model context to apply to (llama_context*)
      * @return true if applied successfully
      */
+    /// Bridge callback for applying a LoRA adapter when no llama_context is available.
+    using ApplyAdapterFn = std::function<bool(const LoRASlot& slot)>;
+    /// Bridge callback for removing a LoRA adapter when no llama_context is available.
+    using RemoveAdapterFn = std::function<bool(const LoRASlot& slot)>;
+
+    void setApplyAdapterFn(ApplyAdapterFn fn);
+    void setRemoveAdapterFn(RemoveAdapterFn fn);
+
     bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
@@ -859,9 +861,9 @@ private:
         std::string event_type;  // "load", "unload", "migrate", "evict"
         std::string lora_id;
         std::string tenant_id;
-        int source_gpu;
-        int target_gpu;
-        size_t vram_bytes;
+        int source_gpu = 0;
+        int target_gpu = 0;
+        size_t vram_bytes = 0;
         std::string details;
     };
     std::vector<AuditEvent> audit_log_;
@@ -892,7 +894,12 @@ private:
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     std::atomic<bool> eviction_thread_running_{false};
+    /// @brief Set to true when the eviction thread has fully exited.
+    /// Used by stopEvictionThread() to implement a timed join (W1-L01 no_timeout fix).
+    std::atomic<bool> eviction_thread_done_{true};
     std::condition_variable eviction_cv_;
+    ApplyAdapterFn apply_adapter_fn_;
+    RemoveAdapterFn remove_adapter_fn_;
     
     // Internal helpers
     LoRASlot* loadLoRAInternal(
@@ -903,6 +910,16 @@ private:
         bool quantize = false,
         GPUPlacement placement = GPUPlacement::SINGLE_GPU
     );
+
+    /**
+     * @brief Verify that @p lora_path is contained within the trusted
+     *        @c config_.lora_base_dir directory (F1-1/F1-2 fix).
+     *
+     * Returns true when the check passes or when @c config_.lora_base_dir is
+     * empty (legacy/unconfigured deployments).  Returns false when the path
+     * escapes the base directory; callers must reject the request in that case.
+     */
+    bool isLoRAPathTrusted(const std::string& lora_path) const;
     
     // Background eviction worker
     void evictionWorker();
@@ -943,3 +960,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

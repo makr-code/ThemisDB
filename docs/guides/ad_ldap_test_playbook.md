@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Purpose:** Validate Active Directory/LDAP integration with ThemisDB and Apache Ranger  
-**Last Updated:** February 18, 2026
+**Last Updated:** April 2026
 
 ---
 

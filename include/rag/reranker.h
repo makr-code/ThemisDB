@@ -1,48 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            reranker.h                                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:54:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     268                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a152677ac  2026-02-22  Code audit: fix header metadata inaccuracies (line counts... ║
-    • 3987bc257  2026-02-22  Add CrossEncoderReranker: header, implementation, tests, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file reranker.h
- * @brief Re-ranking layer with cross-encoder model integration
- *
- * Two-stage retrieval: fast first-pass retrieval (bi-encoder / vector search)
- * followed by precise re-ranking using a cross-encoder model that jointly
- * encodes the query and each candidate document.
- *
- * Architecture:
- *   Query
- *     ↓
- *   Bi-Encoder Retrieval (fast, Top-100)
- *     ↓
- *   CrossEncoderReranker (accurate, Top-k)
- *     ↓
- *   RAG Generation
- *
- * When an ONNX cross-encoder model is available it is used for scoring;
- * otherwise the implementation falls back to a calibrated term-overlap
- * heuristic that preserves the same interface and produces usable scores
- * without requiring external model files.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -82,6 +46,15 @@ struct CrossEncoderConfig {
 
     /// Enable GPU inference when an ONNX model is loaded.
     bool use_gpu = false;
+
+    /// Require model checksum verification before accepting loadModel().
+    /// When enabled, loadModel() expects either expected_model_checksum or
+    /// "<model_path>.sha256" to be present and matching.
+    bool require_model_checksum = false;
+
+    /// Optional expected checksum for the model file (hex FNV-1a 64-bit).
+    /// If set, it takes precedence over a ".sha256" sidecar file.
+    std::string expected_model_checksum;
 
     /// Cache re-ranking scores for (query, document-id) pairs to avoid
     /// re-scoring identical inputs within the same reranker instance.
@@ -161,16 +134,22 @@ public:
     ~CrossEncoderReranker();
 
     /**
-     * @brief Re-rank candidate documents for a given query
+     * @brief Re-rank candidate documents for a given query.
      *
-     * Scores every candidate against the query and returns the top-k results
-     * sorted in descending relevance order.  The @c similarity_score field of
-     * each returned document is replaced with the cross-encoder relevance score.
+     * Scores every candidate against the query, optionally reuses the internal
+     * score cache for repeated `(query, document-id)` pairs, and returns the
+     * top-k results sorted in descending relevance order. The
+     * @c similarity_score field of each returned document is replaced with the
+     * cross-encoder relevance score.
      *
-     * @param query        Natural-language query
-     * @param candidates   Initial retrieval results (any order, any count)
-     * @param top_k        Number of documents to return; 0 uses config default
-     * @return             Re-rank result with sorted documents and score details
+     * Empty input, oversized queries/documents, or excessive candidate counts
+     * are rejected fail-closed and return an empty result instead of attempting
+     * partial scoring.
+     *
+     * @param query        Natural-language query.
+     * @param candidates   Initial retrieval results (any order, any count).
+     * @param top_k        Number of documents to return; 0 uses config default.
+     * @return             Re-rank result with sorted documents and score details.
      */
     RerankResult rerank(
         const std::string& query,
@@ -205,9 +184,18 @@ public:
     ) const;
 
     /**
-     * @brief Load (or replace) the ONNX cross-encoder model
-     * @param model_path Path to the ONNX model file
-     * @return           true if loading succeeded
+     * @brief Load (or replace) the ONNX cross-encoder model.
+     *
+     * The loader canonicalises @p model_path, rejects symlinks, requires a
+     * regular `.onnx` file, validates bounded file size and permissions, and
+     * computes a SHA-256 digest before accepting the model. When a
+     * `<model_path>.sha256` sidecar exists, the digest must match; when the
+     * sidecar is absent, the loader emits a warning and proceeds.
+     *
+     * @param model_path Path to the ONNX model file.
+     * @return           `true` when the model passed validation and was loaded;
+     *                   `false` on invalid paths, checksum mismatches, or other
+     *                   integrity/safety failures.
      */
     bool loadModel(const std::string& model_path);
 

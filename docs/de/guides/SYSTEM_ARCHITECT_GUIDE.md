@@ -30,7 +30,7 @@ ThemisDB provides enterprise-grade horizontal sharding with Raft consensus and G
 **Target Audience:** System architects, principal engineers, CTOs
 
 **Version:** 1.3.0  
-**Last Updated:** December 2025
+**Last Updated:** April 2026
 
 ---
 

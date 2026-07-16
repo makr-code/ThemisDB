@@ -1,26 +1,25 @@
+/**
+ * @file rope_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=9, M=14, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rope_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     906                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rope_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 938
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=10, M=16, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rope_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/vector_index.h"
@@ -34,6 +33,26 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+// ============================================================================
+// AuthorizeFn + StatsQueryFn bridges (stubs #280, #307)
+// ============================================================================
+
+void RopeApiHandler::setAuthorizeFn(AuthorizeFn fn) {
+    authorizeFn_ = std::move(fn);
+}
+
+void RopeApiHandler::clearAuthorizeFn() {
+    authorizeFn_ = nullptr;
+}
+
+void RopeApiHandler::setStatsQueryFn(StatsQueryFn fn) {
+    statsQueryFn_ = std::move(fn);
+}
+
+void RopeApiHandler::clearStatsQueryFn() {
+    statsQueryFn_ = nullptr;
+}
 
 RopeApiHandler::RopeApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -809,17 +828,48 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"normalize_after", config.normalize_after}
                 };
             }
-            
-            // Note: Detailed rotation statistics are not currently tracked by VectorIndexManager.
-            // Future enhancement: Add statistics tracking to RotaryEmbedding class
-            // - Track rotation count, average time, relational vs positional rotations
-            // - Integrate with performance monitoring infrastructure
-            response["statistics"] = {
-                {"note", "Detailed statistics not yet available"},
-                {"total_rotated_entities", "N/A"},
-                {"avg_rotation_time_us", "N/A"},
-                {"relational_rotations", "N/A"}
-            };
+
+            auto [stats_status, stats] = vector_index_->getStatistics();
+            if (!stats_status.ok) {
+                response["statistics"] = {
+                    {"status", "unavailable"},
+                    {"error", stats_status.message}
+                };
+            } else {
+                response["statistics"] = {
+                    {"status", "ok"},
+                    {"vector_count", stats.vector_count},
+                    {"index_dimension", stats.dimension},
+                    {"distance_metric", stats.metric_name},
+                    {"distance_min", stats.min_distance},
+                    {"distance_max", stats.max_distance},
+                    {"distance_mean", stats.mean_distance},
+                    {"distance_stddev", stats.std_dev_distance},
+                    {"rotation_ready", config_opt.has_value()}
+                };
+            }
+
+            // STUB #307 REMEDIATION: Query real rotation metrics
+            auto rope_stats_opt = vector_index_->getRotaryEmbeddingStats();
+            if (rope_stats_opt) {
+                const auto& rope_stats = *rope_stats_opt;
+                double avg_latency_ms = rope_stats.avg_rotation_time_us / 1000.0;
+                response["rope_metrics"] = {
+                    {"rotation_count", rope_stats.total_rotated_entities},
+                    {"relational_rotation_count", rope_stats.total_relational_rotations},
+                    {"avg_rotation_latency_ms", avg_latency_ms},
+                    {"status", "available"}
+                };
+                span.setAttribute("rope.rotation_count", static_cast<int64_t>(rope_stats.total_rotated_entities));
+                span.setAttribute("rope.avg_latency_ms", avg_latency_ms);
+            } else {
+                response["rope_metrics"] = {
+                    {"rotation_count", 0},
+                    {"relational_rotation_count", 0},
+                    {"avg_rotation_latency_ms", 0.0},
+                    {"status", "unavailable"}
+                };
+            }
         }
         
         span.setStatus(true);
@@ -860,24 +910,47 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& permission,
-    const std::string& resource,
-    const std::string& path)
+    [[maybe_unused]] const std::string& resource,
+    [[maybe_unused]] const std::string& path)
 {
-    // Suppress unused parameter warnings for parameters reserved for future use
-    (void)permission; (void)resource; (void)path;
-    
-    // Basic authentication check - if auth middleware is not configured or not enabled,
-    // allow access (open mode)
+    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
+    // When auth middleware is not configured or not enabled, fail-closed by denying access.
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;  // null = access allowed
+        // Fail-closed: ROPE endpoints require authentication and authorization
+        return makeErrorResponse(http::status::unauthorized,
+                                 "Authentication required for ROPE operations", req);
     }
     
-    // Note: Fine-grained permission checks (vector:read, vector:write, data:read, data:write)
-    // are not yet implemented. This matches the pattern used in VectorApiHandler.
-    // Current behavior: If authentication is enabled, all authenticated requests are allowed.
-    // Future enhancement: Integrate with ThemisDB RBAC system to check specific permissions.
-    // Example: if (!auth_->hasPermission(req, permission)) return makeErrorResponse(403, "Forbidden", req);
-    
+    // Extract ****** and verify the required permission scope via
+    // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
+    }
+
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header.data(), auth_header.size())
+    );
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    // Try custom authorization function first (stub #280 bridge)
+    if (authorizeFn_) {
+        if (!authorizeFn_(*token, permission)) {
+            return makeErrorResponse(http::status::forbidden,
+                                     "Insufficient permissions for scope: " + permission, req);
+        }
+        return std::nullopt;  // custom check approved
+    }
+
+    // Fall back to auth middleware authorization check
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
+    }
+
     return std::nullopt;  // null = access allowed
 }
 
@@ -907,3 +980,4 @@ std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& p
 
 } // namespace server
 } // namespace themis
+

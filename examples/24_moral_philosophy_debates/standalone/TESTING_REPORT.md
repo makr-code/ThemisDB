@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Bericht** – Dieser Bericht beschreibt den Stand zum Zeitpunkt der Erstellung.
+> Erneute Verifikation gegen aktuellen Sourcecode empfohlen.
+
 # Testing Report: Standalone Moral Dialectic Engine
 
 ## Test Execution Date

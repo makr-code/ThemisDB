@@ -1,34 +1,36 @@
+/**
+ * @file llama_resource_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_resource_manager.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     232                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_resource_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 226
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #1022 Add comprehensive llama.cpp... (2026-03-11) | #522 Implement llama.cpp resourc... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #679 Implement Multi-GPU Distrib... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
-#include <llama.h>
 #include <memory>
 #include <string>
 #include <vector>
 #include "acceleration/compute_backend.h"
 #include "llm/gpu_memory_manager.h"
+
+// Forward declarations keep this public header independent from llama.cpp include paths.
+struct llama_model;
+struct llama_context;
+struct llama_model_params;
+struct llama_context_params;
 
 namespace themis {
 namespace llm {
@@ -43,6 +45,7 @@ namespace llm {
  * and persistent pinning support.
  */
 struct GPUBackendConfig {
+    virtual ~GPUBackendConfig() = default;
     // Backend Selection (Vulkan prioritized)
     acceleration::BackendType preferred_backend = acceleration::BackendType::VULKAN;
     std::vector<acceleration::BackendType> fallback_backends = {
@@ -231,3 +234,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

@@ -1,38 +1,22 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            agentic_rag.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 141136c01  2026-02-24  audit(rag): fix dead code, unused include, wrong metadata... ║
-    • 7845f6477  2026-02-24  feat(rag): Agentic RAG with iterative retrieval loops (Ph... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file agentic_rag.cpp
- * @brief Implementation of agentic RAG with iterative retrieval loops (Phase 4).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/agentic_rag.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <sstream>
 #include <unordered_set>
 
@@ -42,6 +26,20 @@ namespace themis::rag::agentic {
 // Internal helpers
 // ---------------------------------------------------------------------------
 namespace {
+
+AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
+{
+    AgenticRAGConfig out = cfg;
+
+    // The budget logic uses an internal "budget + 1" sentinel to detect
+    // overflow/exceeded conditions. Clamp SIZE_MAX to keep that sentinel
+    // representable and avoid wrap-around.
+    if (out.max_session_tokens == std::numeric_limits<size_t>::max()) {
+        out.max_session_tokens = std::numeric_limits<size_t>::max() - 1u;
+    }
+
+    return out;
+}
 
 /**
  * Build a flat vector of IDs for the RetrievalFn signature.
@@ -110,14 +108,15 @@ struct AgenticRAG::Impl {
 // ===========================================================================
 
 AgenticRAG::AgenticRAG()
-    : impl_(std::make_unique<Impl>(AgenticRAGConfig{}))
+    : impl_(std::make_unique<Impl>(sanitizeConfig(AgenticRAGConfig{})))
 {}
 
 AgenticRAG::AgenticRAG(const AgenticRAGConfig& config)
-    : impl_(std::make_unique<Impl>(config))
+    : impl_(std::make_unique<Impl>(sanitizeConfig(config)))
 {
+    const auto safe_cfg = sanitizeConfig(config);
     THEMIS_DEBUG("AgenticRAG created: max_iterations={}, quality_threshold={:.2f}",
-                 config.max_iterations, config.quality_threshold);
+                 safe_cfg.max_iterations, safe_cfg.quality_threshold);
 }
 
 AgenticRAG::~AgenticRAG() = default;
@@ -131,9 +130,10 @@ AgenticRAGConfig AgenticRAG::getConfig() const {
 }
 
 void AgenticRAG::setConfig(const AgenticRAGConfig& config) {
-    impl_->config = config;
-    impl_->judge.setConfig(config.judge_config);
-    impl_->gap_detector.setConfig(config.gap_config);
+    const auto safe_cfg = sanitizeConfig(config);
+    impl_->config = safe_cfg;
+    impl_->judge.setConfig(safe_cfg.judge_config);
+    impl_->gap_detector.setConfig(safe_cfg.gap_config);
 }
 
 // ---------------------------------------------------------------------------
@@ -188,12 +188,15 @@ AgenticRAGResult AgenticRAG::run(
 
     const auto loop_start = std::chrono::steady_clock::now();
 
-    THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}",
-                initial_query, initial_docs.size(), impl_->config.max_iterations);
+    THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}, "
+                "max_session_tokens={}",
+                initial_query, initial_docs.size(), impl_->config.max_iterations,
+                impl_->config.max_session_tokens);
 
     AgenticRAGResult result;
-    result.stop_reason    = StopReason::MAX_ITERATIONS;
+    result.stop_reason       = StopReason::MAX_ITERATIONS;
     result.quality_satisfied = false;
+    result.tokens_consumed   = 0;
 
     // Accumulated document pool and seen-ID tracker.
     std::vector<judge::RetrievedDocument> accumulated;
@@ -210,6 +213,55 @@ AgenticRAGResult AgenticRAG::run(
             result.stop_reason = StopReason::CANCELLED;
             break;
         }
+
+        // ── Session token-budget check (Gap 4) ────────────────────────────
+        // Best-effort token accounting: estimate the tokens that will be
+        // consumed by this iteration as 1 token per 4 characters of document
+        // content (a conservative approximation).  Full integration with
+        // LLMTokenBudgetManager (Gap 6) will replace this heuristic once that
+        // component is available (see rag/FUTURE_ENHANCEMENTS.md §Gap 4).
+        if (impl_->config.max_session_tokens > 0) {
+            // Overflow-safe token estimation: cap each document's contribution at
+            // max_session_tokens to prevent size_t overflow on pathologically large
+            // document content, then clamp the running total to max_session_tokens+1
+            // (one above the limit) before comparing.
+            const size_t budget = impl_->config.max_session_tokens;
+            size_t iter_token_estimate = 0;
+            const auto& eval_docs =
+                impl_->config.accumulate_documents ? accumulated : initial_docs;
+            for (const auto& doc : eval_docs) {
+                // Per-document estimate: 1 token per 4 chars + 1; capped at budget.
+                const size_t doc_est = std::min(doc.content.size() / 4 + 1, budget);
+                // Saturating add: if already over budget, stop accumulating.
+                iter_token_estimate = (iter_token_estimate >= budget - doc_est)
+                                      ? budget + 1
+                                      : iter_token_estimate + doc_est;
+                if (iter_token_estimate > budget) break; // early-out
+            }
+            if (iter_token_estimate <= budget) {
+                // Also account for the query prompt itself.
+                const size_t q_est = std::min(current_query.size() / 4 + 1, budget);
+                iter_token_estimate = (iter_token_estimate >= budget - q_est)
+                                      ? budget + 1
+                                      : iter_token_estimate + q_est;
+            }
+
+            // Saturating add for accumulated tokens.
+            const size_t new_total = (result.tokens_consumed >= budget - iter_token_estimate ||
+                                      iter_token_estimate > budget)
+                                     ? budget + 1
+                                     : result.tokens_consumed + iter_token_estimate;
+
+            if (new_total > budget) {
+                THEMIS_WARN("AgenticRAG session token budget exceeded at iteration {}: "
+                            "consumed={}, estimate={}, limit={}",
+                            iter, result.tokens_consumed, iter_token_estimate, budget);
+                result.stop_reason = StopReason::BUDGET_EXCEEDED;
+                break;
+            }
+            result.tokens_consumed = new_total;
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         const auto iter_start = std::chrono::steady_clock::now();
 
@@ -327,11 +379,64 @@ AgenticRAGResult AgenticRAG::run(
         loop_end - loop_start);
 
     THEMIS_INFO("AgenticRAG::run complete: iterations={}, stop_reason={}, "
-                "quality_satisfied={}, elapsed={}ms",
+                "quality_satisfied={}, tokens_consumed={}, elapsed={}ms",
                 result.total_iterations,
                 static_cast<int>(result.stop_reason),
                 result.quality_satisfied,
+                result.tokens_consumed,
                 result.total_elapsed_ms.count());
+
+    // ----------------------------------------------------------------
+    // Optional DELEGATE-52 relay guard (best-effort safety net).
+    // ----------------------------------------------------------------
+    if (impl_->config.relay_guard.has_value()) {
+        const auto& guard = *impl_->config.relay_guard;
+        const bool guard_ready =
+            guard.simulator != nullptr &&
+            guard.evaluator  != nullptr &&
+            !guard.edit_pairs.empty() &&
+            guard.edit_fn;
+
+        if (guard_ready) {
+            try {
+                // Build a compact seed from all final document contents,
+                // separated by newlines.  This gives the relay a realistic
+                // snapshot of what the agent produced.
+                // Reserve capacity up-front to avoid quadratic reallocation.
+                size_t total_size = result.final_documents.empty() ? 0u
+                    : result.final_documents.size() - 1; // newline separators
+                for (const auto& doc : result.final_documents) {
+                    total_size += doc.content.size();
+                }
+                std::string seed;
+                seed.reserve(total_size);
+                for (const auto& doc : result.final_documents) {
+                    if (!seed.empty()) seed += '\n';
+                    seed += doc.content;
+                }
+
+                result.delegate_relay = guard.simulator->run(
+                    seed,
+                    guard.edit_pairs,
+                    *guard.evaluator,
+                    guard.edit_fn);
+
+                THEMIS_INFO("AgenticRAG delegate relay complete: rs_count={}, "
+                            "catastrophic_count={}, persistence_failures={}",
+                            result.delegate_relay->scores.rs_per_interaction.size(),
+                            result.delegate_relay->catastrophic_corruption_count,
+                            result.delegate_relay->persistence_write_failures);
+            } catch (const std::exception& ex) {
+                // Relay failure must not abort the agentic result.
+                THEMIS_WARN("AgenticRAG delegate relay failed (best-effort): {}", ex.what());
+            } catch (...) {
+                THEMIS_WARN("AgenticRAG delegate relay failed with unknown error (best-effort).");
+            }
+        } else {
+            THEMIS_DEBUG("AgenticRAG delegate relay guard configured but not ready "
+                         "(missing simulator, evaluator, edit_pairs, or edit_fn).");
+        }
+    }
 
     return result;
 }
@@ -375,3 +480,5 @@ std::unique_ptr<AgenticRAG> AgenticRAGFactory::createConservative() {
 }
 
 } // namespace themis::rag::agentic
+
+

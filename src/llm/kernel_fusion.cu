@@ -6,6 +6,7 @@
 #include <device_launch_parameters.h>
 #include <cmath>
 #include <cfloat>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -416,7 +417,7 @@ __global__ void fusedRoPEKernel(
     
     // Apply RoPE to pairs of dimensions
     for (int d = 0; d < head_dim; d += 2) {
-        float freq = 1.0f / powf((float)rope_base, (float)(2 * d) / head_dim);
+        float freq = 1.0f / powf(static_cast<float>(rope_base), static_cast<float>(2 * d) / static_cast<float>(head_dim));
         float angle = position * freq;
         float cos_val = cosf(angle);
         float sin_val = sinf(angle);
@@ -584,6 +585,13 @@ void launchFlashAttentionForward(
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );
+    // REL-77: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionForward: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -608,9 +616,25 @@ void launchFlashAttentionBackward(
 ) {
     // Initialize gradients to zero
     size_t size = batch_size * num_heads * seq_len * head_dim * sizeof(float);
-    cudaMemsetAsync(d_dQ, 0, size, stream);
-    cudaMemsetAsync(d_dK, 0, size, stream);
-    cudaMemsetAsync(d_dV, 0, size, stream);
+    // REL-74..REL-76: check cudaMemsetAsync return values
+    cudaError_t memset_err = cudaMemsetAsync(d_dQ, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(d_dQ) failed: {}",
+                      cudaGetErrorString(memset_err));
+        return;
+    }
+    memset_err = cudaMemsetAsync(d_dK, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(d_dK) failed: {}",
+                      cudaGetErrorString(memset_err));
+        return;
+    }
+    memset_err = cudaMemsetAsync(d_dV, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(d_dV) failed: {}",
+                      cudaGetErrorString(memset_err));
+        return;
+    }
     
     dim3 blockDim(BLOCK_SIZE);
     dim3 gridDim(
@@ -625,6 +649,13 @@ void launchFlashAttentionBackward(
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );
+    // REL-78: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -651,6 +682,13 @@ void launchFusedQKVProjection(
         d_Q, d_K, d_V,
         batch_size, seq_len, hidden_dim
     );
+    // REL-79: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedQKVProjection: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -675,6 +713,13 @@ void launchFusedRoPE(
         batch_size, num_heads, seq_len, head_dim,
         rope_base
     );
+    // REL-80: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedRoPE: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -702,6 +747,13 @@ void launchFusedLayerNormLinear(
         d_ln_weight, d_ln_bias,
         batch_size, seq_len, hidden_dim, epsilon
     );
+    // REL-81: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedLayerNormLinear: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 /**
@@ -729,6 +781,13 @@ void launchFusedGatedFFN(
         d_gate_weight, d_up_weight, d_down_weight,
         batch_size, seq_len, hidden_dim, intermediate_dim
     );
+    // REL-82: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        spdlog::error("launchFusedGatedFFN: kernel launch failed: {}",
+                      cudaGetErrorString(launch_err));
+        return;
+    }
 }
 
 } // extern "C"

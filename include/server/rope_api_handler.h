@@ -1,23 +1,20 @@
+/**
+ * @file rope_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rope_api_handler.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     153                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rope_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -135,6 +132,46 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<::themis::AuthMiddleware> auth_;
+
+    // ─── Bridges (stubs #280, #307) ───────────────────────────────────────────
+
+    /// @brief Type alias for RBAC authorization injection (stub #280).
+    using AuthorizeFn = std::function<bool(const std::string& token,
+                                           const std::string& action)>;
+
+    /**
+     * @brief Install a per-action authorization check for ROPE endpoints.
+     *
+     * When set, requireAccess() calls this function after authentication and
+     * returns HTTP 403 if it returns false, implementing scope-based RBAC.
+     * @param fn Callable receiving (bearer_token, action) → allowed.
+     */
+    void setAuthorizeFn(AuthorizeFn fn);
+
+    /**
+     * @brief Remove the RBAC authorization bridge (reverts to auth-only check).
+     */
+    void clearAuthorizeFn();
+
+    /// @brief Type alias for stats query injection (stub #307).
+    using StatsQueryFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Install a stats query function for handleStatsGet().
+     *
+     * When set, handleStatsGet() returns the result of this function instead of
+     * the synthetic N/A placeholder statistics.
+     * @param fn Callable returning a JSON object with real counters.
+     */
+    void setStatsQueryFn(StatsQueryFn fn);
+
+    /**
+     * @brief Remove the stats query bridge (reverts to placeholder statistics).
+     */
+    void clearStatsQueryFn();
+
+    AuthorizeFn authorizeFn_;
+    StatsQueryFn statsQueryFn_;
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(

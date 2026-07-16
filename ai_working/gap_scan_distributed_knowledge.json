@@ -1,0 +1,42 @@
+{
+  "module": "distributed_knowledge",
+  "summary": {
+    "total": 3,
+    "critical": 0,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+      "line_num": 341,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "tests\\test_distributed_knowledge_integration.cpp",
+      "line_num": 197,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock gossip bus: dispatch inbound summaries to registered receiver callbacks",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "benchmarks\\bench_distributed_knowledge.cpp",
+      "line_num": 166,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}

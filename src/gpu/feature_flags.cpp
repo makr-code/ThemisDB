@@ -1,27 +1,21 @@
+/**
+ * @file feature_flags.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feature_flags.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     222                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bafc919a5  2026-02-28  fix(gpu): correct disablePeerAccess device ordinals; fix ... ║
-    • 5b1bf176b  2026-02-28  feat(gpu): implement GPUP2PTransferManager for peer-to-pe... ║
-    • 082828cb4  2026-02-27  feat(gpu): Vulkan compute backend for cross-vendor GPU su... ║
-    • 3d5f51a2f  2026-02-27  feat(gpu): MIG partitioning support for NVIDIA A/H series ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feature_flags.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 205
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): #3339 feat(performance): io_uring... (2026-03-12) | #3292 feat(performance): Adaptive... (2026-03-12) | #3113 feat(gpu): Peer-to-peer GPU... (2026-03-12) | #3051 feat(gpu): WASM-based GPU k... (2026-03-12) | #2918 feat(performance): Memory p... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "themis/gpu/feature_flags.h"

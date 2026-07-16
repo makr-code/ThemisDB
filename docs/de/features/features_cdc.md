@@ -56,5 +56,5 @@ Die vollständige, aktuell gegen den Sourcecode abgeglichene Dokumentation befin
 - [features_change_data_capture.md](features_change_data_capture.md) — Vollständige End-User-Dokumentation
 - [CDC Operations Runbook](../../CDC_OPERATIONS_RUNBOOK.md) — Betrieb & Troubleshooting
 - [src/cdc/ROADMAP.md](../../../src/cdc/ROADMAP.md) — Statusübersicht aller Features
-- [Fehlende Implementierungen (Befund-Report)](../cdc/missing-implementations.md) — Reality-Check-Befunde
+- [Fehlende Implementierungen (Befund-Report)](../cdc/MISSING_IMPLEMENTATIONS.md) — Reality-Check-Befunde
 

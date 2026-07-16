@@ -1,3 +1,22 @@
+/**
+ * @file route_version_router.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: route_version_router.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include <string>
@@ -192,6 +211,8 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
     // Well-known paths that must NOT be redirected
     static constexpr std::string_view exempt[] = {
         "/health",
+        "/version",
+        "/stats",
         "/metrics",
         "/ready",
         "/_internal/",
@@ -199,7 +220,28 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
         "/graphql",
         "/static/",
         "/admin/",
+        "/changefeed",
         "/favicon.ico",
+        // Core CRUD / query endpoints registered directly without a /v1/ prefix
+        "/entities",
+        "/query/",
+        "/api/aql",
+        "/indexes",
+        "/index/",
+        "/spatial/",
+        "/graph/",
+        "/transaction",
+        "/config",
+        "/ts/",
+        "/streams",
+        "/vector/",
+        "/geo/",
+        "/search",
+        "/triggers",
+        "/jobs",
+        "/bpmn/",
+        "/crdt/",
+        "/timeseries/",
     };
     for (auto& ex : exempt) {
         if (path == ex || path.rfind(ex, 0) == 0) return true;
@@ -250,3 +292,4 @@ RouteVersionRouter::getRedirectTarget(std::string_view path) const
 
 } // namespace server
 } // namespace themis
+

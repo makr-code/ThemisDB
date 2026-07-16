@@ -1,6 +1,8 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
+
 # ThemisDB Network Module - Implementation
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 <!-- Primärdokumentation: src/network/ -->
 
@@ -26,12 +28,23 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 | `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
 | `service_mesh.cpp` | Istio/Envoy sidecar probe server (guarded by `THEMIS_ENABLE_SERVICE_MESH`) |
 | `envoy_xds.cpp` | Envoy xDS v3 REST polling client (guarded by `THEMIS_ENABLE_SERVICE_MESH`) |
+| `adaptive_circuit_breaker.cpp` | `AdaptiveCircuitBreaker` — CLOSED/OPEN/HALF_OPEN state machine with load-adaptive threshold |
+| `connection_compression.cpp` | `ZstdDictionaryCompressor` — dictionary-trained Zstd compression for wire payloads |
+| `wire_protocol_batch.cpp` | `WireProtocolBatcher` (writev coalescing) + `NagleController` (TCP_CORK/TCP_NOPUSH) |
+| `wire_protocol_zero_copy.cpp` | `ZeroCopyFrameBuilder` (writev, no heap alloc) + `MemoryMappedPayload` (mmap/sendfile) |
+| `udp_server.cpp` | `UDPServer` — fire-and-forget ingestion on port 8768 (METRIC, LOG, EVENT, BATCH, PING) |
+| `raft_load_balancer.cpp` | `RaftLoadBalancer` — 5 routing strategies, health-based failover, consistent hashing (port 8774) |
+| `io_uring_batcher.cpp` | `IoUringBatchedSender` — single `io_uring_enter` for N concurrent writev SQEs (guarded by `THEMIS_ENABLE_IO_URING`) |
+| `kernel_bypass.cpp` | `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` |
+| `network_audit_log.cpp` | `NetworkAuditLog` — structured audit log for network-level security events |
+| `quic_server.cpp` | `QUICServer` + `QUICClient` — QUIC/HTTP3 server with 0-RTT, BBR/Cubic congestion control (guarded by `THEMIS_ENABLE_HTTP3`) |
+| `adaptive_io_scaler.h` | `AdaptiveIOScaler` — background I/O thread scaler based on active connection ratio (header-only) |
 
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production-Ready — Transport infrastructure, connection pooling, multiplexing, compression, WebSocket, QUIC, gRPC, and service mesh operational. Core Wire Protocol V1 operation handlers (HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH) fully implemented; QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API (engine integration pending).
 
-**Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/missing-implementations.md](../../docs/de/network/missing-implementations.md))
+**Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/MISSING_IMPLEMENTATIONS.md](../../docs/de/network/MISSING_IMPLEMENTATIONS.md))
 
 ## Scope
 
@@ -55,7 +68,7 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 ## Key Components
 
 ### Wire Protocol Server
-**Location:** `wire_protocol_server.cpp` (1224 lines)  
+**Location:** `wire_protocol_server.cpp` (1224 lines)
 **Header:** `../include/network/wire_protocol_server.h`
 
 High-performance binary TCP server for native client communication with ThemisDB.
@@ -87,6 +100,10 @@ config.request_timeout_sec = 30;
 // Rate limiting (per IP)
 config.max_requests_per_second = 1000;
 config.max_requests_per_minute = 10000;
+
+// IPv6 dual-stack (optional — defaults to IPv4-only)
+// config.enable_ipv6    = true;  // bind to "::" instead of "0.0.0.0"
+// config.ipv6_dual_stack = true; // IPV6_V6ONLY=0: accepts IPv4-mapped connections too
 
 WireProtocolServer server(
     config, storage, secondary_index, graph_index,
@@ -271,7 +288,7 @@ double error_rate = (double)stats.total_errors / stats.total_requests;
 ---
 
 ### Wire Protocol Connection Pool
-**Location:** `wire_protocol_connection_pool.cpp` (599 lines)  
+**Location:** `wire_protocol_connection_pool.cpp` (599 lines)
 **Header:** `../include/network/wire_protocol_connection_pool.h`
 
 Client-side connection pooling for efficient reuse of TCP connections.
@@ -310,7 +327,7 @@ pool.warmup("server2.example.com:8766");
 {
     auto conn = pool.acquireConnection("server1.example.com:8766");
     // Use connection via conn.socket() or conn.socketWrapper()
-    
+
     // Connection automatically returned to pool when `conn` goes out of scope
 }
 ```
@@ -352,7 +369,7 @@ class SocketWrapper {
     // Supports both plain and SSL sockets
     std::shared_ptr<tcp::socket> plain_socket_;
     std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket_;
-    
+
 public:
     bool is_open() const;
     void close(boost::system::error_code& ec);
@@ -368,7 +385,7 @@ class ConnectionHandle {
     ~ConnectionHandle() {
         pool_->releaseConnection(target_, socket_);
     }
-    
+
 public:
     tcp::socket& socket();               // Backward compatible
     SocketWrapper& socketWrapper();      // Access SSL/plain wrapper
@@ -395,7 +412,7 @@ struct Stats {
     size_t connections_created;
     size_t connections_reused;
     size_t keepalive_checks_sent;
-    
+
     double getReuseRate() const;  // 0.0 - 1.0
 };
 
@@ -420,7 +437,7 @@ std::cout << "Connection reuse rate: " << (stats.getReuseRate() * 100) << "%\n";
 ---
 
 ### Socket Timeout Manager
-**Location:** `socket_timeout_manager.cpp` (422 lines)  
+**Location:** `socket_timeout_manager.cpp` (422 lines)
 **Header:** `../include/network/socket_timeout_manager.h`
 
 Cross-platform socket timeout management with circuit breaker pattern.
@@ -527,7 +544,7 @@ struct SocketTimeoutStats {
     std::atomic<uint64_t> failed_operations;
     std::atomic<uint64_t> total_bytes_read;
     std::atomic<uint64_t> total_bytes_written;
-    
+
     double getTimeoutRate() const;
 };
 
@@ -553,7 +570,7 @@ if (success) {
 ---
 
 ### Wire Protocol Helpers
-**Location:** `wire_protocol_helpers.cpp` (320 lines)  
+**Location:** `wire_protocol_helpers.cpp` (320 lines)
 **Header:** `../include/network/wire_protocol_helpers.h`
 
 Lightweight protobuf wire format parser/serializer without protobuf library dependency.
@@ -575,7 +592,7 @@ while (!parser.atEnd()) {
         // Error handling
         break;
     }
-    
+
     switch (field_number) {
         case 1: {  // collection field
             std::string collection;
@@ -621,8 +638,8 @@ struct TimeSeriesQueryRequest {
     uint64_t end_time_ns;
     uint32_t aggregation;  // 0=AVG, 1=SUM, 2=MIN, 3=MAX, 4=COUNT
     uint64_t bucket_size_ns;
-    
-    static bool parse(const std::vector<uint8_t>& data, 
+
+    static bool parse(const std::vector<uint8_t>& data,
                       TimeSeriesQueryRequest& request);
 };
 
@@ -631,7 +648,7 @@ struct TimeSeriesQueryResponse {
     std::vector<TimeSeriesBucket> buckets;
     uint64_t query_time_us;
     TimeSeriesStats stats;
-    
+
     std::vector<uint8_t> serialize() const;
 };
 ```
@@ -690,9 +707,9 @@ message StartProcessRequest { ... }
 message StartProcessResponse { ... }
 ```
 
-**Protocol Version:** v1.0.0  
-**Syntax:** proto3  
-**Optimization:** `optimize_for = SPEED`  
+**Protocol Version:** v1.0.0
+**Syntax:** proto3
+**Optimization:** `optimize_for = SPEED`
 **Arenas:** `cc_enable_arenas = true`
 
 ---
@@ -737,7 +754,7 @@ message StartProcessResponse { ... }
 // Direct buffer access without intermediate copies
 void asyncReadPayload(uint32_t payload_size) {
     payload_buffer_.resize(payload_size);
-    async_read(socket_, buffer(payload_buffer_), 
+    async_read(socket_, buffer(payload_buffer_),
                [this](const error_code& ec, size_t bytes) {
         // payload_buffer_ contains data without copy
     });
@@ -1056,9 +1073,33 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
 ## Known Limitations
 
-1. **QUERY_AQL and GEO_QUERY not yet integrated with wire protocol:** Both handlers return structured `{error_code:"AQL_NOT_INTEGRATED"/"GEO_NOT_INTEGRATED"}` responses directing clients to use the HTTP REST API (`POST /api/v1/query` / `GET /api/v1/geo/query`). Full engine dispatch over the binary wire protocol is planned.
+1. **QUERY_AQL and GEO_QUERY are integration-dependent:** `QUERY_AQL` executes only if `query_engine_` is wired, and `GEO_QUERY` requires either a configured spatial index or the near-query bridge callback. Without this wiring, handlers return structured integration errors (`AQL_NOT_INTEGRATED`/`GEO_NOT_INTEGRATED`) with HTTP REST fallback hints.
 2. **Limited Kernel Bypass:** No DPDK support; `io_uring` path is guarded by `THEMIS_ENABLE_IO_URING` and off by default.
 3. **WebSocket binary frames not dispatched:** Binary frames over WebSocket are received but not forwarded to storage; clients must use text/JSON frames.
+
+---
+
+## Troubleshooting
+
+### Server does not start with TLS enabled
+- Verify `config.tls_cert_path`, `config.tls_key_path`, and (for mTLS) `config.tls_ca_cert_path`.
+- Run `validateTransportSecurity(argc, argv)` before `start()` and fail fast on `false`.
+- Check certificate/key readability and matching keypair.
+
+### Frequent authentication timeouts
+- Increase `config.auth_timeout_sec` for high-latency environments.
+- Ensure client sends AUTH immediately after HELLO.
+- Validate server/client clock skew when token expiry is enforced externally.
+
+### High reject rate from limits/rate limiting
+- Inspect `Stats.rejected_connections` and `Stats.auth_failures`.
+- Revisit `max_connections`, `max_connections_per_ip`, `max_requests_per_second`, and `max_requests_per_minute`.
+- Confirm expected traffic path (TCP 8766, UDP 8769, QUIC 8770, gRPC 8771) and feature flags.
+
+### QUERY_AQL / GEO_QUERY return integration errors
+- `QUERY_AQL` executes only when `query_engine_` is wired on the server.
+- `GEO_QUERY` executes only when a spatial index is configured (or a near-query bridge callback is registered).
+- If these integrations are not present, the wire protocol returns structured integration errors (`AQL_NOT_INTEGRATED`, `GEO_NOT_INTEGRATED`) with HTTP REST fallback hints.
 
 ---
 
@@ -1079,9 +1120,15 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
 ## References
 
-- [Wire Protocol Specification](../../docs/wire-protocol.md)
-- [Network Security Best Practices](../../docs/security/network.md)
-- [Performance Tuning Guide](../../docs/performance/network-tuning.md)
+- [Wire Protocol Specification](../../docs/architecture/wire-protocol.md)
+- [Network Security Module Guide](./SECURITY.md)
+- [Network Performance Expectations](./PERFORMANCE_EXPECTATIONS.md)
+- [Network Architecture](./ARCHITECTURE.md)
+- [Network Roadmap](./ROADMAP.md)
+- [Network Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Public Header Documentation](../../include/network/README.md)
+- [German Network Overview](../../docs/de/network/README.md)
+- [Network Troubleshooting](../../docs/troubleshooting/network_troubleshooting.md)
 - [Boost.Asio Documentation](https://www.boost.org/doc/libs/release/doc/html/boost_asio.html)
 - [Protocol Buffers Wire Format](https://developers.google.com/protocol-buffers/docs/encoding)
 
@@ -1096,3 +1143,31 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 4. Nygard, M. T. (2018). **Release It!: Design and Deploy Production-Ready Software (2nd ed.)**. Pragmatic Bookshelf. ISBN: 978-1-680-50239-8
 
 5. Harchol-Balter, M. (2013). **Performance Modeling and Design of Computer Systems: Queueing Theory in Action**. Cambridge University Press. https://doi.org/10.1017/CBO9781139226424
+
+## Sourcecode Verification (Module: network/readme)
+
+- Verified files:
+    - `src/network/wire_protocol_server.cpp`
+    - `src/network/wire_protocol_connection_pool.cpp`
+    - `src/network/wire_protocol_v2.cpp`
+    - `src/network/wire_protocol_server_ws.cpp`
+    - `src/network/udp_fast_path.cpp`
+    - `src/network/udp_server.cpp`
+    - `src/network/quic_transport.cpp`
+    - `src/network/grpc_transport.cpp`
+    - `src/network/socket_timeout_manager.cpp`
+    - `src/network/adaptive_circuit_breaker.cpp`
+    - `src/network/connection_compression.cpp`
+    - `src/network/wire_protocol_batch.cpp`
+    - `src/network/wire_protocol_zero_copy.cpp`
+- Verified behavior surfaces:
+    - auth/session/frame validation and opcode dispatch
+    - transport gating and multi-transport module surfaces
+    - timeout/rate-limit/backpressure and batching/compression paths
+- Note:
+    - Forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+    - Historical implementation record remains in `CHANGELOG.md`.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

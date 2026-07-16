@@ -1,401 +1,471 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_distributed_transactions.cpp                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     398                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_distributed_transactions.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
-
-// Disable distributed transaction tests
-#if 0
-#include "sharding/distributed_transaction.h"
-#include "sharding/shard_rpc_client.h"
-#include "time/truetime.h"
-#include <thread>
+#include "storage/distributed_transaction_manager.h"
+#include <algorithm>
+#include <atomic>
 #include <chrono>
+#include <iostream>
+#include <map>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <thread>
+#include <vector>
 
-using namespace themis::sharding;
-using namespace themis::time;
+using namespace themis::storage;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// In-process mock shard participant for unit tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+class MockShardParticipant : public IDistributedShardParticipant {
+public:
+    enum class PreparePolicy { ALWAYS_COMMIT, ALWAYS_ABORT, THROW };
+
+    explicit MockShardParticipant(PreparePolicy policy = PreparePolicy::ALWAYS_COMMIT)
+        : policy_(policy) {}
+
+    bool prepare(const std::string& txn_id,
+                 const std::vector<DistributedOperation>& ops) override {
+        if (policy_ == PreparePolicy::THROW) {
+            throw std::runtime_error("mock prepare failure");
+        }
+        std::lock_guard<std::mutex> lk(mu_);
+        last_prepare_txn_ = txn_id;
+        prepared_ops_[txn_id] = ops;
+        ++prepare_count_;
+        return policy_ == PreparePolicy::ALWAYS_COMMIT;
+    }
+
+    void commit(const std::string& txn_id) override {
+        std::lock_guard<std::mutex> lk(mu_);
+        last_commit_txn_ = txn_id;
+        // Apply buffered ops to storage
+        auto it = prepared_ops_.find(txn_id);
+        if (it != prepared_ops_.end()) {
+            for (auto& op : it->second) {
+                if (op.type == DistributedOperation::Type::PUT) {
+                    store_[op.key] = op.value;
+                } else {
+                    store_.erase(op.key);
+                }
+            }
+            prepared_ops_.erase(it);
+        }
+        ++commit_count_;
+    }
+
+    void abort(const std::string& txn_id) override {
+        std::lock_guard<std::mutex> lk(mu_);
+        last_abort_txn_ = txn_id;
+        prepared_ops_.erase(txn_id);
+        ++abort_count_;
+    }
+
+    std::optional<std::string> get(const std::string& key) override {
+        std::lock_guard<std::mutex> lk(mu_);
+        auto it = store_.find(key);
+        if (it != store_.end()) return it->second;
+        return std::nullopt;
+    }
+
+    // Test helpers
+    int prepareCount() const { return prepare_count_.load(); }
+    int commitCount()  const { return commit_count_.load(); }
+    int abortCount()   const { return abort_count_.load(); }
+
+    std::string lastPrepareTxn() const {
+        std::lock_guard<std::mutex> lk(mu_);
+        return last_prepare_txn_;
+    }
+    std::string lastCommitTxn() const {
+        std::lock_guard<std::mutex> lk(mu_);
+        return last_commit_txn_;
+    }
+    std::string lastAbortTxn() const {
+        std::lock_guard<std::mutex> lk(mu_);
+        return last_abort_txn_;
+    }
+    std::optional<std::string> stored(const std::string& key) const {
+        std::lock_guard<std::mutex> lk(mu_);
+        auto it = store_.find(key);
+        if (it != store_.end()) return it->second;
+        return std::nullopt;
+    }
+
+private:
+    PreparePolicy policy_;
+    mutable std::mutex mu_;
+    std::string last_prepare_txn_;
+    std::string last_commit_txn_;
+    std::string last_abort_txn_;
+    std::atomic<int> prepare_count_{0};
+    std::atomic<int> commit_count_{0};
+    std::atomic<int> abort_count_{0};
+    std::map<std::string, std::vector<DistributedOperation>> prepared_ops_;
+    std::map<std::string, std::string> store_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test fixture
+// ─────────────────────────────────────────────────────────────────────────────
 
 class DistributedTransactionTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        truetime = std::make_shared<TrueTime>();
-        DistributedTransactionCoordinator::Config config;
-        coordinator = std::make_unique<DistributedTransactionCoordinator>(truetime, config);
+        shard1 = std::make_unique<MockShardParticipant>();
+        shard2 = std::make_unique<MockShardParticipant>();
+        shard3 = std::make_unique<MockShardParticipant>();
+
+        mgr = std::make_unique<DistributedTransactionManager>();
+        mgr->registerShard("shard1", shard1.get());
+        mgr->registerShard("shard2", shard2.get());
+        mgr->registerShard("shard3", shard3.get());
     }
-    
-    void TearDown() override {
-        coordinator.reset();
-        truetime.reset();
-    }
-    
-    std::shared_ptr<TrueTime> truetime;
-    std::unique_ptr<DistributedTransactionCoordinator> coordinator;
+
+    std::unique_ptr<MockShardParticipant> shard1;
+    std::unique_ptr<MockShardParticipant> shard2;
+    std::unique_ptr<MockShardParticipant> shard3;
+    std::unique_ptr<DistributedTransactionManager> mgr;
 };
 
 // ============================================================================
 // Basic Transaction Tests
 // ============================================================================
 
-TEST_F(DistributedTransactionTest, BeginTransaction) {
-    std::vector<std::string> shards = {"shard1", "shard2"};
-    
-    auto txn_id = coordinator->beginTransaction(shards);
-    EXPECT_FALSE(txn_id.empty());
-    EXPECT_TRUE(txn_id.find("txn-") == 0); // Should start with "txn-"
+TEST_F(DistributedTransactionTest, BeginTransactionReturnsValidId) {
+    auto tx = mgr->beginDistributedTransaction();
+    ASSERT_NE(tx, nullptr);
+    EXPECT_FALSE(tx->id().empty());
+    // IDs should start with "dtx-"
+    EXPECT_EQ(tx->id().substr(0, 4), "dtx-");
 }
 
-TEST_F(DistributedTransactionTest, SingleShardTransaction) {
-    std::vector<std::string> shards = {"shard1"};
-    
-    auto txn_id = coordinator->beginTransaction(shards);
-    ASSERT_FALSE(txn_id.empty());
-    
-    // Add operation
-    nlohmann::json operation;
-    operation["type"] = "insert";
-    operation["key"] = "test_key";
-    operation["value"] = "test_value";
-    
-    coordinator->addOperation(txn_id, "shard1", operation);
-    
-    // Commit
-    bool success = coordinator->commit(txn_id);
-    EXPECT_TRUE(success);
+TEST_F(DistributedTransactionTest, TxnStateIsActiveAfterBegin) {
+    auto tx = mgr->beginDistributedTransaction();
+    EXPECT_EQ(tx->state(), DistributedTxnState::ACTIVE);
 }
 
-TEST_F(DistributedTransactionTest, MultiShardTransaction) {
-    std::vector<std::string> shards = {"shard1", "shard2", "shard3"};
-    
-    auto txn_id = coordinator->beginTransaction(shards);
-    ASSERT_FALSE(txn_id.empty());
-    
-    // Add operations to different shards
-    nlohmann::json op1;
-    op1["type"] = "insert";
-    op1["key"] = "key1";
-    coordinator->addOperation(txn_id, "shard1", op1);
-    
-    nlohmann::json op2;
-    op2["type"] = "update";
-    op2["key"] = "key2";
-    coordinator->addOperation(txn_id, "shard2", op2);
-    
-    nlohmann::json op3;
-    op3["type"] = "delete";
-    op3["key"] = "key3";
-    coordinator->addOperation(txn_id, "shard3", op3);
-    
-    // Commit with 2PC
-    bool success = coordinator->commit(txn_id);
-    EXPECT_TRUE(success);
+TEST_F(DistributedTransactionTest, SingleShardPutAndCommit) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:user:1", "alice");
+    EXPECT_EQ(tx->operationCount(), 1u);
+
+    bool ok = tx->commit();
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(tx->state(), DistributedTxnState::COMMITTED);
+
+    EXPECT_EQ(shard1->prepareCount(), 1);
+    EXPECT_EQ(shard1->commitCount(), 1);
+    EXPECT_EQ(shard1->stored("user:1"), "alice");
+}
+
+TEST_F(DistributedTransactionTest, MultiShardAtomicCommit) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:key1", "value1");
+    tx->put("shard2:key2", "value2");
+    tx->put("shard3:key3", "value3");
+
+    bool ok = tx->commit();
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(tx->state(), DistributedTxnState::COMMITTED);
+
+    EXPECT_EQ(shard1->commitCount(), 1);
+    EXPECT_EQ(shard2->commitCount(), 1);
+    EXPECT_EQ(shard3->commitCount(), 1);
+
+    EXPECT_EQ(shard1->stored("key1"), "value1");
+    EXPECT_EQ(shard2->stored("key2"), "value2");
+    EXPECT_EQ(shard3->stored("key3"), "value3");
+}
+
+TEST_F(DistributedTransactionTest, EmptyTransactionCommitsSuccessfully) {
+    auto tx = mgr->beginDistributedTransaction();
+    EXPECT_EQ(tx->operationCount(), 0u);
+    bool ok = tx->commit();
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(tx->state(), DistributedTxnState::COMMITTED);
 }
 
 // ============================================================================
 // Two-Phase Commit Tests
 // ============================================================================
 
-TEST_F(DistributedTransactionTest, TwoPhaseCommitSuccess) {
-    std::vector<std::string> shards = {"shard1", "shard2"};
-    auto txn_id = coordinator->beginTransaction(shards);
-    
-    nlohmann::json op;
-    op["type"] = "insert";
-    coordinator->addOperation(txn_id, "shard1", op);
-    coordinator->addOperation(txn_id, "shard2", op);
-    
-    // Execute 2PC
-    // Phase 1: PREPARE - all shards vote
-    // Phase 2: COMMIT - coordinator sends commit to all
-    bool success = coordinator->commit(txn_id);
-    EXPECT_TRUE(success);
+TEST_F(DistributedTransactionTest, TwoPhaseCommitSuccessCallsPrepareAndCommit) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:a", "1");
+    tx->put("shard2:b", "2");
+
+    bool ok = tx->commit();
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(shard1->prepareCount(), 1);
+    EXPECT_EQ(shard1->commitCount(), 1);
+    EXPECT_EQ(shard1->abortCount(),  0);
+    EXPECT_EQ(shard2->prepareCount(), 1);
+    EXPECT_EQ(shard2->commitCount(), 1);
+    EXPECT_EQ(shard2->abortCount(),  0);
 }
 
-TEST_F(DistributedTransactionTest, TwoPhaseCommitAbort) {
-    std::vector<std::string> shards = {"shard1", "shard_fails"};
-    auto txn_id = coordinator->beginTransaction(shards);
-    
-    nlohmann::json op;
-    op["type"] = "insert";
-    coordinator->addOperation(txn_id, "shard1", op);
-    coordinator->addOperation(txn_id, "shard_fails", op);
-    
-    // If any shard fails to prepare, entire transaction aborts
-    // Simulated failure via shard name
-    bool success = coordinator->commit(txn_id);
-    // In real implementation, this would fail if shard_fails votes NO
+TEST_F(DistributedTransactionTest, TwoPhaseCommitAbortWhenShardVotesNo) {
+    // Replace shard2 with an always-aborting participant
+    MockShardParticipant aborting_shard(MockShardParticipant::PreparePolicy::ALWAYS_ABORT);
+    mgr->unregisterShard("shard2");
+    mgr->registerShard("shard2", &aborting_shard);
+
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:x", "hello");
+    tx->put("shard2:y", "world");
+
+    bool ok = tx->commit();
+    EXPECT_FALSE(ok);
+    EXPECT_EQ(tx->state(), DistributedTxnState::ABORTED);
+
+    // shard1 voted COMMIT, so it must receive ABORT
+    EXPECT_EQ(shard1->prepareCount(), 1);
+    EXPECT_EQ(shard1->abortCount(),   1);
+    EXPECT_EQ(shard1->commitCount(),  0);
+
+    // aborting_shard voted ABORT, no abort message is needed for it
+    // (it never received a successful prepare)
+    EXPECT_EQ(aborting_shard.commitCount(), 0);
 }
 
-TEST_F(DistributedTransactionTest, ExplicitAbort) {
-    std::vector<std::string> shards = {"shard1", "shard2"};
-    auto txn_id = coordinator->beginTransaction(shards);
-    
-    nlohmann::json op;
-    op["type"] = "insert";
-    coordinator->addOperation(txn_id, "shard1", op);
-    
-    // Abort instead of commit
-    coordinator->abort(txn_id);
-    
-    // Transaction should be aborted
-    bool success = coordinator->commit(txn_id);
-    EXPECT_FALSE(success); // Already aborted
-}
+TEST_F(DistributedTransactionTest, PrepareExceptionTreatedAsAbortVote) {
+    MockShardParticipant throwing_shard(MockShardParticipant::PreparePolicy::THROW);
+    mgr->unregisterShard("shard2");
+    mgr->registerShard("shard2", &throwing_shard);
 
-// ============================================================================
-// Snapshot Read Tests
-// ============================================================================
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:k", "v");
+    tx->put("shard2:k", "v");
 
-TEST_F(DistributedTransactionTest, SnapshotRead) {
-    std::vector<std::string> shards = {"shard1", "shard2"};
-    nlohmann::json operations = nlohmann::json::object();
-    
-    auto results = coordinator->executeReadOnly(shards, operations);
-    EXPECT_EQ(results.size(), 2); // One result per shard
-}
+    bool ok = tx->commit();
+    EXPECT_FALSE(ok);
+    EXPECT_EQ(tx->state(), DistributedTxnState::ABORTED);
 
-TEST_F(DistributedTransactionTest, SnapshotConsistency) {
-    std::vector<std::string> shards = {"shard1", "shard2", "shard3"};
-    nlohmann::json operations = nlohmann::json::object();
-    
-    // All shards should read at the same timestamp
-    auto results = coordinator->executeReadOnly(shards, operations);
-    EXPECT_EQ(results.size(), 3);
-    
-    // Verify all reads used same timestamp (implementation specific)
-    // In real implementation, check timestamp consistency
+    // shard1 must have been sent ABORT
+    EXPECT_EQ(shard1->abortCount(), 1);
+    EXPECT_EQ(shard1->commitCount(), 0);
 }
 
 // ============================================================================
-// RPC Client Tests
+// Rollback / Explicit Abort Tests
 // ============================================================================
 
-// Note: These tests require a running shard server to be meaningful.
-// For unit testing, we focus on the coordinator logic.
+TEST_F(DistributedTransactionTest, ExplicitRollbackAbortsTransaction) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:m", "n");
 
-TEST_F(DistributedTransactionTest, RPCClientConfiguration) {
-    ShardRPCClient::Config config;
-    config.endpoint = "test_shard:50051";
-    config.timeout_ms = 1000;
-    config.max_retries = 3;
-    
-    // Just verify configuration is accepted
-    ShardRPCClient client(config);
-    EXPECT_TRUE(true); // Config created successfully
+    tx->rollback();
+    EXPECT_EQ(tx->state(), DistributedTxnState::ABORTED);
+
+    // No prepare was sent, so no abort message either
+    EXPECT_EQ(shard1->prepareCount(), 0);
+    EXPECT_EQ(shard1->abortCount(),   0);
 }
 
-/*
-TEST_F(DistributedTransactionTest, RPCRetry) {
-    ShardRPCClient::Config config;
-    config.endpoint = "unreachable_shard:50051";
-    config.timeout_ms = 1000;
-    config.max_retries = 3;
-    
-    ShardRPCClient client(config);
-    
-    // Test retry logic with unreachable shard
-    // Note: This would require a mock server or integration test environment
+TEST_F(DistributedTransactionTest, CommitAfterRollbackReturnsFalse) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:p", "q");
+
+    tx->rollback();
+    bool ok = tx->commit();
+    EXPECT_FALSE(ok);
 }
 
-TEST_F(DistributedTransactionTest, RPCTimeout) {
-    ShardRPCClient::Config config;
-    config.endpoint = "slow_shard:50051";
-    config.timeout_ms = 100; // Very short timeout
-    config.max_retries = 1;
-    
-    ShardRPCClient client(config);
-    
-    // Test timeout behavior
-    // Note: This would require a mock server or integration test environment
+TEST_F(DistributedTransactionTest, RollbackIsIdempotent) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->rollback();
+    tx->rollback();  // Second call must not throw or crash
+    EXPECT_EQ(tx->state(), DistributedTxnState::ABORTED);
 }
-*/
+
+// ============================================================================
+// Delete operation Tests
+// ============================================================================
+
+TEST_F(DistributedTransactionTest, DeleteOperationIsBufferedAndCommitted) {
+    // Pre-populate shard via a separate transaction
+    {
+        auto tx = mgr->beginDistributedTransaction();
+        tx->put("shard1:toDelete", "exists");
+        tx->commit();
+    }
+    ASSERT_EQ(shard1->stored("toDelete"), "exists");
+
+    // Now delete it
+    auto tx = mgr->beginDistributedTransaction();
+    tx->del("shard1:toDelete");
+    bool ok = tx->commit();
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(shard1->stored("toDelete"), std::nullopt);
+}
+
+// ============================================================================
+// Read operation Tests
+// ============================================================================
+
+TEST_F(DistributedTransactionTest, GetReadsFromCorrectShard) {
+    // Pre-populate
+    {
+        auto tx = mgr->beginDistributedTransaction();
+        tx->put("shard2:readKey", "readValue");
+        tx->commit();
+    }
+
+    auto tx = mgr->beginDistributedTransaction();
+    auto val = tx->get("shard2:readKey");
+    ASSERT_TRUE(val.has_value());
+    EXPECT_EQ(*val, "readValue");
+}
+
+TEST_F(DistributedTransactionTest, GetMissingKeyReturnsNullopt) {
+    // A registered shard with no data for the key must return nullopt.
+    auto tx = mgr->beginDistributedTransaction();
+    auto val = tx->get("shard1:noSuchKey");
+    EXPECT_FALSE(val.has_value());
+}
+
+TEST_F(DistributedTransactionTest, GetUnknownShardThrows) {
+    // get() on an unregistered shard must throw, consistent with put()/del().
+    auto tx = mgr->beginDistributedTransaction();
+    EXPECT_THROW(tx->get("unregisteredShard:key"), std::invalid_argument);
+}
+
+// ============================================================================
+// Manager API Tests
+// ============================================================================
+
+TEST_F(DistributedTransactionTest, ShardCountReflectsRegistrations) {
+    EXPECT_EQ(mgr->shardCount(), 3u);
+    mgr->unregisterShard("shard3");
+    EXPECT_EQ(mgr->shardCount(), 2u);
+}
+
+TEST_F(DistributedTransactionTest, HasShardReturnsTrueForRegisteredShard) {
+    EXPECT_TRUE(mgr->hasShard("shard1"));
+    EXPECT_FALSE(mgr->hasShard("unknown_shard"));
+}
+
+TEST_F(DistributedTransactionTest, RegisterNullParticipantThrows) {
+    EXPECT_THROW(mgr->registerShard("newShard", nullptr), std::invalid_argument);
+}
+
+TEST_F(DistributedTransactionTest, RegisterEmptyShardIdThrows) {
+    MockShardParticipant p;
+    EXPECT_THROW(mgr->registerShard("", &p), std::invalid_argument);
+}
+
+TEST_F(DistributedTransactionTest, UnregisterNonExistentShardReturnsFalse) {
+    EXPECT_FALSE(mgr->unregisterShard("nonexistent"));
+}
+
+TEST_F(DistributedTransactionTest, PutUnknownShardThrows) {
+    auto tx = mgr->beginDistributedTransaction();
+    EXPECT_THROW(tx->put("unknownShard:key", "value"), std::invalid_argument);
+}
+
+TEST_F(DistributedTransactionTest, PutOnNonActiveTransactionThrows) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->rollback();
+    EXPECT_THROW(tx->put("shard1:k", "v"), std::invalid_argument);
+}
+
+TEST_F(DistributedTransactionTest, MultipleTransactionsAreIndependent) {
+    auto tx1 = mgr->beginDistributedTransaction();
+    auto tx2 = mgr->beginDistributedTransaction();
+
+    EXPECT_NE(tx1->id(), tx2->id());
+
+    tx1->put("shard1:tx1key", "tx1val");
+    tx2->put("shard1:tx2key", "tx2val");
+
+    EXPECT_TRUE(tx1->commit());
+    EXPECT_TRUE(tx2->commit());
+
+    EXPECT_EQ(shard1->stored("tx1key"), "tx1val");
+    EXPECT_EQ(shard1->stored("tx2key"), "tx2val");
+}
+
+// ============================================================================
+// Participating shards & operation count
+// ============================================================================
+
+TEST_F(DistributedTransactionTest, ParticipatingShards) {
+    auto tx = mgr->beginDistributedTransaction();
+    tx->put("shard1:a", "1");
+    tx->put("shard3:b", "2");
+
+    auto shards = tx->participatingShards();
+    ASSERT_EQ(shards.size(), 2u);
+    EXPECT_NE(std::find(shards.begin(), shards.end(), "shard1"), shards.end());
+    EXPECT_NE(std::find(shards.begin(), shards.end(), "shard3"), shards.end());
+}
+
+TEST_F(DistributedTransactionTest, OperationCountAccumulates) {
+    auto tx = mgr->beginDistributedTransaction();
+    EXPECT_EQ(tx->operationCount(), 0u);
+    tx->put("shard1:a", "1");
+    EXPECT_EQ(tx->operationCount(), 1u);
+    tx->put("shard2:b", "2");
+    EXPECT_EQ(tx->operationCount(), 2u);
+    tx->del("shard1:a");
+    EXPECT_EQ(tx->operationCount(), 3u);
+}
 
 // ============================================================================
 // Concurrent Transactions Tests
 // ============================================================================
 
-TEST_F(DistributedTransactionTest, ConcurrentTransactions) {
+TEST_F(DistributedTransactionTest, ConcurrentTransactionsAllSucceed) {
     const int num_transactions = 10;
     std::vector<std::thread> threads;
-    std::vector<bool> results(num_transactions);
-    
+    std::vector<bool> results(num_transactions, false);
+
     for (int i = 0; i < num_transactions; ++i) {
         threads.emplace_back([this, i, &results]() {
-            std::vector<std::string> shards = {"shard1", "shard2"};
-            auto txn_id = coordinator->beginTransaction(shards);
-            
-            nlohmann::json op;
-            op["type"] = "insert";
-            op["key"] = "key_" + std::to_string(i);
-            
-            coordinator->addOperation(txn_id, "shard1", op);
-            coordinator->addOperation(txn_id, "shard2", op);
-            
-            results[i] = coordinator->commit(txn_id);
+            auto tx = mgr->beginDistributedTransaction();
+            tx->put("shard1:key_" + std::to_string(i), "val_" + std::to_string(i));
+            tx->put("shard2:key_" + std::to_string(i), "val_" + std::to_string(i));
+            results[i] = tx->commit();
         });
     }
-    
-    for (auto& thread : threads) {
-        thread.join();
+
+    for (auto& t : threads) {
+        t.join();
     }
-    
-    // All transactions should succeed
-    for (bool result : results) {
-        EXPECT_TRUE(result);
+
+    for (bool r : results) {
+        EXPECT_TRUE(r);
     }
 }
 
 // ============================================================================
-// MVCC Integration Tests
+// Performance smoke test
 // ============================================================================
 
-TEST_F(DistributedTransactionTest, MVCCTimestampOrdering) {
-    std::vector<std::string> shards = {"shard1"};
-    
-    auto txn1_id = coordinator->beginTransaction(shards);
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    auto txn2_id = coordinator->beginTransaction(shards);
-    
-    // txn2 should have later timestamp than txn1
-    EXPECT_GT(txn2_id, txn1_id);
-}
-
-TEST_F(DistributedTransactionTest, SnapshotIsolation) {
-    std::vector<std::string> shards = {"shard1", "shard2"};
-    
-    // Start transaction 1
-    auto txn1_id = coordinator->beginTransaction(shards);
-    
-    nlohmann::json op1;
-    op1["type"] = "insert";
-    op1["key"] = "key1";
-    op1["value"] = "value1";
-    coordinator->addOperation(txn1_id, "shard1", op1);
-    
-    // Transaction 2 reads before transaction 1 commits
-    nlohmann::json operations = nlohmann::json::object();
-    auto snapshot = coordinator->executeReadOnly(shards, operations);
-    
-    // Transaction 1 commits
-    coordinator->commit(txn1_id);
-    
-    // Snapshot read should not see transaction 1's changes
-    // (snapshot isolation)
-}
-
-// ============================================================================
-// Error Handling Tests
-// ============================================================================
-
-TEST_F(DistributedTransactionTest, InvalidTransactionID) {
-    nlohmann::json op;
-    op["type"] = "insert";
-    
-    // Try to add operation to non-existent transaction
-    coordinator->addOperation(99999, "shard1", op);
-    
-    // Try to commit non-existent transaction
-    bool success = coordinator->commit(99999);
-    EXPECT_FALSE(success);
-}
-
-TEST_F(DistributedTransactionTest, EmptyTransaction) {
-    std::vector<std::string> shards = {"shard1"};
-    auto txn_id = coordinator->beginTransaction(shards);
-    
-    // Commit without adding any operations
-    bool success = coordinator->commit(txn_id);
-    EXPECT_TRUE(success); // Empty transaction should succeed
-}
-
-TEST_F(DistributedTransactionTest, NetworkPartition) {
-    std::vector<std::string> shards = {"shard1", "shard2_partitioned"};
-    auto txn_id = coordinator->beginTransaction(shards);
-    
-    nlohmann::json op;
-    op["type"] = "insert";
-    coordinator->addOperation(txn_id, "shard1", op);
-    coordinator->addOperation(txn_id, "shard2_partitioned", op);
-    
-    // Network partition causes shard2 to be unreachable
-    // 2PC should abort the transaction
-    bool success = coordinator->commit(txn_id);
-    // Should handle network failure gracefully
-}
-
-// ============================================================================
-// Performance Tests
-// ============================================================================
-
-TEST_F(DistributedTransactionTest, HighThroughput) {
+TEST_F(DistributedTransactionTest, HighThroughputSingleShard) {
     const int num_txns = 100;
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     for (int i = 0; i < num_txns; ++i) {
-        std::vector<std::string> shards = {"shard1"};
-        auto txn_id = coordinator->beginTransaction(shards);
-        
-        nlohmann::json op;
-        op["type"] = "insert";
-        op["key"] = "key_" + std::to_string(i);
-        coordinator->addOperation(txn_id, "shard1", op);
-        
-        coordinator->commit(txn_id);
+        auto tx = mgr->beginDistributedTransaction();
+        tx->put("shard1:key_" + std::to_string(i), std::to_string(i));
+        ASSERT_TRUE(tx->commit());
     }
-    
+
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    
-    // Should process 100 transactions reasonably quickly
-    std::cout << "Processed " << num_txns << " transactions in " 
-              << duration.count() << "ms" << std::endl;
-    std::cout << "Throughput: " << (num_txns * 1000.0 / duration.count()) 
-              << " txn/sec" << std::endl;
-}
+    auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-TEST_F(DistributedTransactionTest, ParallelExecution) {
-    std::vector<std::string> shards = {"shard1", "shard2", "shard3", "shard4"};
-    auto txn_id = coordinator->beginTransaction(shards);
-    
-    // Add operations to all shards
-    for (const auto& shard : shards) {
-        nlohmann::json op;
-        op["type"] = "insert";
-        coordinator->addOperation(txn_id, shard, op);
-    }
-    
-    auto start = std::chrono::high_resolution_clock::now();
-    bool success = coordinator->commit(txn_id);
-    auto end = std::chrono::high_resolution_clock::now();
-    
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    
-    EXPECT_TRUE(success);
-    std::cout << "4-shard 2PC completed in " << duration.count() << "ms" << std::endl;
-    
-    // Parallel execution should be faster than sequential
-    // (implementation specific - check if RPCs are parallelized)
-}
+    std::cout << "Processed " << num_txns << " transactions in " << ms << "ms ("
+              << (ms > 0 ? (num_txns * 1000.0 / ms) : 0.0) << " txn/sec)\n";
 
-#endif // 0
-
-TEST(DistributedTransactionsDisabled, DISABLED_AllTestsSkipped) {
-    GTEST_SKIP() << "Distributed transaction tests are currently disabled";
+    EXPECT_EQ(shard1->commitCount(), num_txns);
 }

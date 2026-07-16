@@ -1,24 +1,20 @@
+/**
+ * @file raft_state.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            raft_state.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 429d2af3c  2026-02-25  fix(audit): close all gaps in joint consensus implementation ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: raft_state.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -40,7 +36,7 @@ namespace sharding {
 /**
  * @brief Raft Consensus Protocol Implementation
  * 
- * @sources
+ * Sources:
  * - Algorithm: Raft Consensus Protocol
  * - Paper: Ongaro, D., & Ousterhout, J. (2014)
  *          "In Search of an Understandable Consensus Algorithm"
@@ -59,9 +55,9 @@ namespace sharding {
  * @brief Raft node states
  */
 enum class RaftNodeState {
-    FOLLOWER,   // Receives heartbeats and votes in elections
-    CANDIDATE,  // Campaigns for leadership
-    LEADER      // Sends heartbeats and replicates log
+    FOLLOWER,   ///< Receives heartbeats and votes in elections.
+    CANDIDATE,  ///< Campaigns for leadership.
+    LEADER      ///< Sends heartbeats and drives log replication.
 };
 
 // VoteRequest and VoteResponse are defined in consensus_module.h
@@ -70,11 +66,11 @@ enum class RaftNodeState {
  * @brief Raft configuration
  */
 struct RaftConfig {
-    std::string node_id;                        // This node's ID
-    std::vector<std::string> cluster_members;   // All cluster member IDs
-    uint32_t election_timeout_min_ms = 150;     // Min election timeout (ms)
-    uint32_t election_timeout_max_ms = 300;     // Max election timeout (ms)
-    uint32_t heartbeat_interval_ms = 50;        // Heartbeat interval (ms)
+    std::string node_id;                        ///< Local node identifier.
+    std::vector<std::string> cluster_members;   ///< Current cluster member IDs.
+    uint32_t election_timeout_min_ms = 150;     ///< Lower bound for randomized election timeout.
+    uint32_t election_timeout_max_ms = 300;     ///< Upper bound for randomized election timeout.
+    uint32_t heartbeat_interval_ms = 50;        ///< Leader heartbeat interval.
 };
 
 /**
@@ -211,13 +207,13 @@ public:
 
     /**
      * @brief Get reference to the Raft log
-     * @return Reference to RaftLog
+        * @return Mutable reference to RaftLog storage state.
      */
     RaftLog& getLog();
 
     /**
      * @brief Get reference to the Raft log (const)
-     * @return Const reference to RaftLog
+        * @return Const reference to RaftLog storage state.
      */
     const RaftLog& getLog() const;
 
@@ -235,7 +231,8 @@ public:
 
     /**
      * @brief Update the cluster member list after a committed membership change
-     * @param members New authoritative list of cluster member IDs
+        * @param members New authoritative list of cluster member IDs.
+        * @note Caller is responsible for applying this only after consensus commit.
      */
     void setClusterMembers(const std::vector<std::string>& members);
 
@@ -257,16 +254,43 @@ public:
      */
     size_t getVotesReceived() const;
 
+    // ------------------------------------------------------------------
+    // Snapshot state (persistent – survives restarts / log compaction)
+    // ------------------------------------------------------------------
+
+    /**
+     * @brief Record the index and term of the most recently installed snapshot
+     *
+     * Called by RaftSnapshotManager after a snapshot has been successfully
+     * persisted and the log has been compacted up to snapshot_index.
+     *
+     * @param index Index of the last log entry covered by the snapshot
+     * @param term  Term of the last log entry covered by the snapshot
+     */
+    void setSnapshotMeta(uint64_t index, uint64_t term);
+
+    /**
+     * @brief Get the index of the last installed snapshot
+     * @return Snapshot index (0 if no snapshot has been taken)
+     */
+    uint64_t getSnapshotIndex() const;
+
+    /**
+     * @brief Get the term of the last installed snapshot
+     * @return Snapshot term (0 if no snapshot has been taken)
+     */
+    uint64_t getSnapshotTerm() const;
+
 private:
     /**
      * @brief Calculate random election timeout
-     * @return Timeout duration
+        * @return Random timeout in configured [min,max] range.
      */
     std::chrono::milliseconds getRandomElectionTimeout();
 
     /**
      * @brief Check if have enough votes to become leader
-     * @return True if have quorum
+        * @return True when granted votes satisfy current quorum size.
      */
     bool hasQuorum() const;
 
@@ -274,19 +298,23 @@ private:
     RaftConfig config_;
 
     // Persistent state (would be persisted to disk in production)
-    std::atomic<uint64_t> current_term_{0};     // Latest term server has seen
-    std::string voted_for_;                     // Candidate ID voted for in current term
-    RaftLog log_;                               // Log entries
-    
+    std::atomic<uint64_t> current_term_{0};     ///< Latest term observed by this node.
+    std::string voted_for_;                     ///< Candidate ID voted for in current term.
+    RaftLog log_;                               ///< Durable replicated log abstraction.
+
+    // Persistent snapshot state (§7 of the Raft paper)
+    uint64_t snapshot_index_{0};   ///< Index of the last installed snapshot.
+    uint64_t snapshot_term_{0};    ///< Term of the last installed snapshot.
+
     // Volatile state
-    mutable std::mutex state_mutex_;            // Protects mutable state
+    mutable std::mutex state_mutex_;            ///< Protects mutable consensus state.
     RaftNodeState state_{RaftNodeState::FOLLOWER};
-    std::string leader_id_;                     // Current leader ID
+    std::string leader_id_;                     ///< Current known leader ID.
     
     // Election state
     std::chrono::steady_clock::time_point election_timeout_time_;
     std::chrono::steady_clock::time_point last_heartbeat_time_;
-    std::map<std::string, bool> votes_received_;  // Votes in current election
+    std::map<std::string, bool> votes_received_;  ///< Votes collected in active election.
     
     // Random number generator for election timeout
     mutable std::random_device rd_;

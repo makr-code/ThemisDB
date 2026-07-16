@@ -1,23 +1,20 @@
+/**
+ * @file system_versioned_table.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            system_versioned_table.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: system_versioned_table.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -33,6 +30,7 @@
 #pragma once
 
 #include "temporal/temporal_types.h"
+#include <chrono>
 #include <functional>
 #include <map>
 #include <mutex>
@@ -46,16 +44,92 @@ namespace temporal {
 /**
  * SystemVersionedTable
  *
- * Every mutating operation (insert / update / delete) on the current row
- * automatically creates a history entry.  Rows are stored as a sequence of
- * VersionedDocument entries keyed by (key, sys_start).
+ * SQL:2011-compliant system-time versioning.  Every mutating operation
+ * (insert / update / delete) on the current row automatically creates a
+ * history entry.  Rows are stored as a sequence of VersionedDocument entries
+ * keyed by (key, sys_start).
  *
  * Thread-safety: all public methods are thread-safe.
  */
 class SystemVersionedTable {
 public:
+    /**
+     * Configuration for system-versioned table behaviour.
+     *
+     * Follows the design specified in FUTURE_ENHANCEMENTS.md §Full
+     * System-Versioned Table Support (v1.1.0).
+     */
+    struct Config {
+        /** Name of the logical history table (informational; used in
+         *  statistics/logging).  Defaults to "<table>_history". */
+        std::string history_table_name;
+
+        /** When true, historical versions are marked as eligible for
+         *  compression.  This flag is currently reserved for future
+         *  compression integration and does not change runtime behaviour. */
+        bool compress_history = true;
+
+        /** Maximum age of historical versions before automatic purge.
+         *  Default: 1 year.  Set to 0 to disable automatic purging. */
+        std::chrono::milliseconds retention_period{365LL * 24 * 3600 * 1000};
+
+        /** When true, the source node / user identifier is recorded in
+         *  VersionedDocument::modified_by on every DML operation. */
+        bool track_user_id = true;
+    };
+
+    // ── Construction ─────────────────────────────────────────────────────────
+
+    /**
+     * Construct with explicit table name and optional source-node label.
+     * Uses default Config values.
+     */
     explicit SystemVersionedTable(std::string table_name,
                                   std::string source_node = "local");
+
+    /**
+     * Construct with full Config.
+     *
+     * @param table_name   Name of this table.
+     * @param config       Runtime configuration (retention, compression, …).
+     * @param source_node  Node/user label written to VersionedDocument::modified_by.
+     */
+    SystemVersionedTable(std::string table_name,
+                         Config config,
+                         std::string source_node = "local");
+
+    /**
+     * Move constructor.  Required because std::mutex is not movable; we
+     * default-construct the destination mutex (which is always correct for a
+     * newly-constructed object that nobody else holds a lock to).
+     */
+    SystemVersionedTable(SystemVersionedTable&& other) noexcept;
+
+    /**
+     * Static factory that creates a system-versioned table from a schema
+     * descriptor (arbitrary JSON) and a Config.
+     *
+     * The schema is stored in the table's statistics under "schema" and can
+     * be retrieved via getStatistics().  It does not affect storage behaviour
+     * but enables DDL-aware tools to inspect column definitions.
+     *
+     * @param table_name  Logical table name (used for the history_table_name
+     *                    default if config.history_table_name is empty).
+     * @param schema      JSON object describing the table columns/types.
+     * @param config      Runtime configuration.
+     * @param source_node Source-node label for DML attribution.
+     * @return            Fully configured SystemVersionedTable instance.
+     */
+    static SystemVersionedTable createVersionedTable(
+        const std::string&  table_name,
+        const Document&     schema,
+        Config              config,
+        const std::string&  source_node  = "local");
+
+    /** Overload with default Config. */
+    static SystemVersionedTable createVersionedTable(
+        const std::string&  table_name,
+        const Document&     schema);
 
     // ── DML ──────────────────────────────────────────────────────────────────
 
@@ -68,6 +142,15 @@ public:
      * opened.  Returns false if no current row exists for the key.
      */
     bool update(const std::string& key, const Document& updates);
+
+    /**
+     * Insert a new row or update an existing one atomically.
+     * If a current version exists the row is updated (patch-merge semantics);
+     * otherwise a fresh row is inserted.
+     *
+     * @return true if an insert was performed, false if an update was performed.
+     */
+    bool upsert(const std::string& key, const Document& doc);
 
     /**
      * Logically delete the current row (closes its sys_time period).
@@ -142,9 +225,44 @@ public:
     size_t purgeHistoricalVersions(
         const std::function<bool(const VersionedDocument&)>& predicate);
 
+    /**
+     * Replace the `data` payload of an existing historical version in-place.
+     *
+     * Identifies the version by `key` and the exact `sys_start` timestamp.
+     * Only closed (non-current) versions may be replaced; attempting to
+     * replace a current version returns false.
+     *
+     * This method is intended for use by TemporalCompressor to substitute
+     * a compressed payload without altering the version's time metadata.
+     *
+     * @param key        Row key.
+     * @param sys_start  sys_time.start of the target version.
+     * @param new_data   Replacement payload (may be compressed).
+     * @return           true if the version was found and replaced.
+     */
+    bool replaceHistoricalPayload(const std::string& key,
+                                  Timestamp sys_start,
+                                  const Document& new_data);
+
+    // ── Retention ─────────────────────────────────────────────────────────────
+
+    /**
+     * Apply the configured retention policy to all keys.
+     *
+     * Historical versions older than Config::retention_period are physically
+     * removed.  If Config::retention_period is zero the call is a no-op.
+     * The current (open-ended) version is never removed.
+     *
+     * @return Number of historical versions physically removed.
+     */
+    size_t enforceRetentionPolicy();
+
     // ── Metadata ─────────────────────────────────────────────────────────────
 
     const std::string& tableName() const noexcept { return table_name_; }
+
+    /** Returns the active Config for this table. */
+    const Config& getConfig() const noexcept { return config_; }
 
     /** Number of distinct keys (including deleted ones). */
     size_t keyCount() const;
@@ -158,6 +276,8 @@ public:
 private:
     std::string table_name_;
     std::string source_node_;
+    Config      config_;
+    Document    schema_;   ///< Table schema provided via createVersionedTable()
 
     // key → ordered list of versions (ascending sys_start)
     using VersionList = std::vector<VersionedDocument>;
@@ -167,6 +287,11 @@ private:
 
     // Close the current (open-ended) version for a key.  Caller must hold lock.
     void closeCurrentVersion(VersionList& versions, Timestamp close_time);
+
+    // Build a VersionedDocument for a new (or replacement) row version.
+    VersionedDocument makeVersion(const std::string& key,
+                                  Document data,
+                                  Timestamp ts) const;
 };
 
 } // namespace temporal

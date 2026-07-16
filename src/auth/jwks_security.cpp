@@ -1,27 +1,26 @@
+/**
+ * @file jwks_security.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=2, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            jwks_security.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     496                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: jwks_security.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 497
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=5, M=8, L=0
+ * PR History (last 5): #4112 feat(auth): Secure memory f... (2026-03-12) | #2826 feat(auth): improve unit te... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/jwks_security.h"
 #include "utils/logger.h"
+#include <openssl/crypto.h>
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 #include <openssl/pem.h>
@@ -49,7 +48,7 @@ std::string base64Encode(const unsigned char* data, size_t len) {
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data, len);
+    BIO_write(bio, data, static_cast<int>(len));
     BIO_flush(bio);
     
     BUF_MEM* bufferPtr;
@@ -196,6 +195,15 @@ struct JWKSSecureFetcher::Impl {
     }
     
     ~Impl() {
+        // Explicitly zero the key password before CURL cleanup (defence-in-depth).
+        // SecureString's destructor also zeroes this field; the explicit call here
+        // ensures zeroing is visible at the point of use and survives any future
+        // refactoring that might replace SecureString with a plain std::string.
+        if (!config.client_key_password.empty()) {
+            OPENSSL_cleanse(
+                config.client_key_password.data(),
+                config.client_key_password.size() + 1);  // +1 to include null terminator
+        }
         if (curl) {
             curl_easy_cleanup(curl);
         }
@@ -390,7 +398,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
 }
 
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
-    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO");
     }
@@ -497,3 +505,4 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
 
 } // namespace auth
 } // namespace themis
+

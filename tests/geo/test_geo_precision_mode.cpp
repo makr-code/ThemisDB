@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_geo_precision_mode.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     263                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 604dfea3d  2026-02-25  audit(geo): add false-positive test, update ARCHITECTURE.... ║
-    • 5f06b5069  2026-02-24  feat(geo): add configurable precision mode (exact vs. app... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_geo_precision_mode.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -261,4 +245,89 @@ TEST(GeoPrecisionModeBuffer, ApproximateBuffer_SameAsExact) {
         EXPECT_NEAR(r_exact.rings[0][i].x, r_approx.rings[0][i].x, 1e-12);
         EXPECT_NEAR(r_exact.rings[0][i].y, r_approx.rings[0][i].y, 1e-12);
     }
+}
+
+// ---------------------------------------------------------------------------
+// GeoContainmentFn injection tests (GEO-CF-01 … GEO-CF-04)
+// ---------------------------------------------------------------------------
+
+// GEO-CF-01 — Injected containment fn returning true → point always inside polygon
+TEST(GeoCpuContainmentFn, GEO_CF_01_InjectedFnAlwaysTrue) {
+    setCpuExactContainmentFn([](double, double, const std::vector<Coordinate>&) {
+        return true;
+    });
+
+    ISpatialComputeBackend* backend = getCpuExactBackend();
+    // Point clearly outside the unit box — injected fn returns true anyway
+    const GeometryInfo pt  = makePoint(100.0, 100.0);
+    const GeometryInfo box = makeBox(0.0, 0.0, 1.0, 1.0);
+
+    EXPECT_TRUE(backend->exactIntersects(pt, box))
+        << "GEO-CF-01: injected always-true fn must override ray-casting result";
+
+    // Restore default
+    setCpuExactContainmentFn(nullptr);
+}
+
+// GEO-CF-02 — Injected containment fn returning false → point always outside polygon
+TEST(GeoCpuContainmentFn, GEO_CF_02_InjectedFnAlwaysFalse) {
+    setCpuExactContainmentFn([](double, double, const std::vector<Coordinate>&) {
+        return false;
+    });
+
+    ISpatialComputeBackend* backend = getCpuExactBackend();
+    // Point clearly inside the unit box — injected fn returns false
+    const GeometryInfo pt  = makePoint(0.5, 0.5);
+    const GeometryInfo box = makeBox(0.0, 0.0, 1.0, 1.0);
+
+    EXPECT_FALSE(backend->exactIntersects(pt, box))
+        << "GEO-CF-02: injected always-false fn must override ray-casting result";
+
+    setCpuExactContainmentFn(nullptr);
+}
+
+// GEO-CF-03 — Clearing the injection (nullptr) restores built-in ray-casting
+TEST(GeoCpuContainmentFn, GEO_CF_03_ClearInjection_RestoresBuiltin) {
+    // Inject an always-true fn, then clear it.
+    setCpuExactContainmentFn([](double, double, const std::vector<Coordinate>&) {
+        return true;
+    });
+    setCpuExactContainmentFn(nullptr); // clear
+
+    ISpatialComputeBackend* backend = getCpuExactBackend();
+    const GeometryInfo pt_inside  = makePoint(0.5, 0.5);
+    const GeometryInfo pt_outside = makePoint(5.0, 5.0);
+    const GeometryInfo box        = makeBox(0.0, 0.0, 1.0, 1.0);
+
+    // Built-in ray-casting should now be in effect
+    EXPECT_TRUE(backend->exactIntersects(pt_inside, box))
+        << "GEO-CF-03: after clearing fn, built-in ray-casting must correctly report containment";
+    EXPECT_FALSE(backend->exactIntersects(pt_outside, box))
+        << "GEO-CF-03: after clearing fn, built-in ray-casting must correctly reject exterior point";
+}
+
+// GEO-CF-04 — Injected fn receives correct (px, py, ring) arguments
+TEST(GeoCpuContainmentFn, GEO_CF_04_InjectedFnReceivesCorrectArgs) {
+    double last_px = -1.0, last_py = -1.0;
+    bool fn_called = false;
+
+    setCpuExactContainmentFn([&](double px, double py,
+                                  const std::vector<Coordinate>& /*ring*/) {
+        last_px    = px;
+        last_py    = py;
+        fn_called  = true;
+        // Use the expected coordinates to decide the result
+        return (std::abs(px - 0.5) < 1.0 && std::abs(py - 0.5) < 1.0);
+    });
+
+    ISpatialComputeBackend* backend = getCpuExactBackend();
+    const GeometryInfo pt  = makePoint(0.5, 0.5);
+    const GeometryInfo box = makeBox(0.0, 0.0, 1.0, 1.0);
+    static_cast<void>(backend->exactIntersects(pt, box));
+
+    EXPECT_TRUE(fn_called) << "GEO-CF-04: injected fn must be called";
+    EXPECT_NEAR(last_px, 0.5, 1e-12) << "GEO-CF-04: px must match point x coordinate";
+    EXPECT_NEAR(last_py, 0.5, 1e-12) << "GEO-CF-04: py must match point y coordinate";
+
+    setCpuExactContainmentFn(nullptr);
 }

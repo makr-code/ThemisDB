@@ -1,0 +1,229 @@
+{
+  "name": "copilot-ollama-router",
+  "displayName": "Copilot ↔ Ollama Router",
+  "description": "Routes Copilot chat requests to a local Ollama model for cost-effective code generation while keeping Copilot for security review, architecture, and complex debugging.",
+  "version": "0.4.0",
+  "publisher": "makr-code",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/makr-code/ThemisDB"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "ollama",
+    "copilot",
+    "delegation",
+    "llm",
+    "local-ai"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "copilot-ollama-router.delegate",
+        "fullName": "Ollama Router",
+        "name": "ollama",
+        "description": "Routes your request to a local Ollama model or Copilot based on task type.",
+        "isSticky": false,
+        "commands": [
+          {
+            "name": "local",
+            "description": "Force delegation to local Ollama model"
+          },
+          {
+            "name": "cloud",
+            "description": "Force delegation to Copilot (cloud)"
+          },
+          {
+            "name": "auto",
+            "description": "Auto-route based on task classification"
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "copilotOllamaRouter.delegateToOllama",
+        "title": "Delegate to Ollama",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.askCopilot",
+        "title": "Ask Copilot (Cloud)",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.autoRoute",
+        "title": "Auto-Route (Classify & Delegate)",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.checkOllamaHealth",
+        "title": "Check Ollama Connection",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.setupModels",
+        "title": "Set Up / Download Coding Models",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.listInstalledModels",
+        "title": "List Installed Models",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.openSettings",
+        "title": "Open Settings Panel",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.applyWorkspaceConfig",
+        "title": "Apply Workspace Config (Admin)",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.showAuditLog",
+        "title": "Show Routing Audit Log",
+        "category": "Copilot Ollama Router"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Ollama Router",
+      "properties": {
+        "copilotOllamaRouter.endpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Base URL of the local Ollama API server."
+        },
+        "copilotOllamaRouter.defaultModel": {
+          "type": "string",
+          "default": "codellama:13b",
+          "description": "Default Ollama model for code-generation tasks."
+        },
+        "copilotOllamaRouter.reasoningModel": {
+          "type": "string",
+          "default": "llama3",
+          "description": "Ollama model used for reasoning/documentation tasks."
+        },
+        "copilotOllamaRouter.delegationMode": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "always",
+            "never"
+          ],
+          "enumDescriptions": [
+            "Automatically classify and route each request.",
+            "Always delegate to local Ollama.",
+            "Never delegate; always use Copilot (cloud)."
+          ],
+          "default": "auto",
+          "description": "Controls when requests are sent to local Ollama vs Copilot cloud."
+        },
+        "copilotOllamaRouter.copilotReviewEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run an optional Copilot quality-check pass on Ollama-generated output."
+        },
+        "copilotOllamaRouter.requestTimeoutMs": {
+          "type": "number",
+          "default": 60000,
+          "description": "Maximum time in milliseconds to wait for an Ollama streaming response."
+        },
+        "copilotOllamaRouter.contextTokenBudget": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 128,
+          "maximum": 32768,
+          "description": "Approximate token budget for editor context preamble. The router truncates context when this limit is exceeded (estimate: 1 token ≈ 4 chars)."
+        },
+        "copilotOllamaRouter.themisDbRules": {
+          "type": "boolean",
+          "default": true,
+          "description": "Apply ThemisDB-specific routing rules: C++ codegen → Ollama local; security/architecture → Copilot cloud."
+        },
+        "copilotOllamaRouter.routeBoilerplateToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route boilerplate/scaffolding prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeTestsToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route test/spec/mock generation prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeRefactorsToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route refactor/cleanup prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeDocsToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route documentation prompts (README/JSDoc/Doxygen) to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeCmakeToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route CMake/build-system prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.auditLogVerbosity": {
+          "type": "string",
+          "enum": [
+            "off",
+            "info",
+            "verbose"
+          ],
+          "enumDescriptions": [
+            "Disable routing audit log.",
+            "Log destination and reason for each routing decision.",
+            "Log full routing decision including prompt preview (first 80 chars)."
+          ],
+          "default": "info",
+          "description": "Controls verbosity of routing decisions logged to the 'Copilot Ollama Router' Output Channel."
+        },
+        "copilotOllamaRouter.languageProfiles": {
+          "type": "object",
+          "default": {},
+          "description": "Map of VS Code language ID to preferred Ollama model tag. Overrides the default model for that language. Built-in profiles: cpp/c/rust → deepseek-coder-v2:16b, python/typescript/javascript/go/java → qwen2.5-coder:7b.",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "examples": [
+            { "cpp": "deepseek-coder-v2:16b", "python": "qwen2.5-coder:7b" }
+          ]
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src",
+    "test": "npm run compile && mocha",
+    "package": "npx -y @vscode/vsce@latest package"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "mocha": "^11.7.5",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.59.0"
+  }
+}

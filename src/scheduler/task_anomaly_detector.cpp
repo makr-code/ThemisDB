@@ -1,23 +1,21 @@
+/**
+ * @file task_anomaly_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_anomaly_detector.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     566                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: task_anomaly_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 556
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=14, L=0
+ * PR History (last 5): #1301 Scheduler Module: Productio... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "scheduler/task_anomaly_detector.h"
@@ -131,7 +129,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     
     // Record resource usage
     stats.cpu_usage.push_back(event.resource_usage.cpu_time_ms);
-    stats.memory_usage.push_back(event.resource_usage.memory_bytes);
+    stats.memory_usage.push_back(static_cast<double>(event.resource_usage.memory_bytes));
     
     // Limit history size
     if (stats.execution_times.size() > config_.max_history_size) {
@@ -234,7 +232,7 @@ double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
-                                                 const std::chrono::system_clock::time_point& now) {
+                                                 [[maybe_unused]] const std::chrono::system_clock::time_point& now) {
     const auto& stats = task_stats_[task_id];
     
     if (stats.execution_times.size() < config_.pattern_window_size) {
@@ -305,7 +303,7 @@ double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
-                                                     bool success) {
+                                                     [[maybe_unused]] bool success) {
     const auto& stats = task_stats_[task_id];
     
     if (stats.execution_results.size() < config_.min_samples) {

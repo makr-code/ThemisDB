@@ -1,27 +1,21 @@
+/**
+ * @file hot_reload_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hot_reload_engine.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     660                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8f228e0d  2026-03-01  feat(updates): automatic rollback on post-update health c... ║
-    • 1490a2be3  2026-03-01  feat(updates): implement update history log (who, when, f... ║
-    • 02c0a65e1  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hot_reload_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 647
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=12, L=0
+ * PR History (last 5): #3432 [WIP] Update HSM-based bund... (2026-03-12) | #3419 feat(updates): automatic ro... (2026-03-12) | #2587 Canary rollout mode for par... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/hot_reload_engine.h"
@@ -70,8 +64,8 @@ HotReloadEngine::HotReloadEngine(
 
 HotReloadEngine::~HotReloadEngine() = default;
 
-DownloadResult HotReloadEngine::downloadRelease(const std::string& version) {
-    DownloadResult result;
+HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::string& version) {
+    HotReloadEngine::DownloadResult result;
     result.success = false;
     
     reportProgress(0, "Fetching manifest for version " + version);
@@ -512,6 +506,8 @@ bool HotReloadEngine::downloadFile(const ReleaseFile& file, const std::string& d
     
     return true;
 #else
+    static_cast<void>(file);
+    static_cast<void>(dest);
     LOG_ERROR("CURL support not enabled - cannot download files");
     return false;
 #endif
@@ -659,3 +655,4 @@ UpdateHistoryLogger* HotReloadEngine::historyLogger() {
 
 } // namespace updates
 } // namespace themis
+

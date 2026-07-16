@@ -1,23 +1,20 @@
+/**
+ * @file runtime_config.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            runtime_config.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     150                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: runtime_config.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +24,7 @@
 #include <string>
 #include <unordered_set>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace performance {
@@ -75,7 +73,7 @@ public:
         if (rate == 0) return false;
         if (rate == 1) return true;
         
-        const uint32_t count = operation_counter_.fetch_add(1, std::memory_order_relaxed);
+        const uint32_t count = static_cast<uint32_t>(operation_counter_.fetch_add(1, std::memory_order_relaxed));
         return (count % rate) == 0;
     }
 
@@ -84,7 +82,7 @@ public:
      * @param operation_name Operation name
      */
     void enableOperation(const std::string& operation_name) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.insert(operation_name);
     }
 
@@ -93,7 +91,7 @@ public:
      * @param operation_name Operation name
      */
     void disableOperation(const std::string& operation_name) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.erase(operation_name);
     }
 
@@ -103,7 +101,7 @@ public:
      * @return true if enabled
      */
     bool isOperationEnabled(const std::string& operation_name) const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         // If no specific operations are enabled, all are enabled
         if (enabled_operations_.empty()) return true;
         return enabled_operations_.find(operation_name) != enabled_operations_.end();
@@ -113,7 +111,7 @@ public:
      * @brief Clear all operation filters
      */
     void clearOperationFilters() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.clear();
     }
 
@@ -145,7 +143,7 @@ private:
     std::atomic<uint32_t> sampling_rate_;
     std::atomic<uint64_t> operation_counter_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::unordered_set<std::string> enabled_operations_;
 };
 

@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_acceleration_coverage.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     740                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 746376acf  2026-02-23  feat(tests): add test_acceleration_coverage.cpp to raise ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_acceleration_coverage.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -56,6 +40,7 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/kernel_invocation.h"
+#include "acceleration/graphics_backends.h"
 
 using namespace themis::acceleration;
 
@@ -739,4 +724,91 @@ TEST(ANNKernelDispatchTest, EmptyDispatch_DistanceLauncherFor_ReturnsNull) {
     EXPECT_EQ(empty.distanceLauncherFor(DistanceMetric::L2),            nullptr);
     EXPECT_EQ(empty.distanceLauncherFor(DistanceMetric::COSINE),        nullptr);
     EXPECT_EQ(empty.distanceLauncherFor(DistanceMetric::INNER_PRODUCT), nullptr);
+}
+
+// ============================================================================
+// 8. DirectXVectorBackend — stub behaviour on non-Windows / non-DIRECTX builds
+// ============================================================================
+
+// These tests cover the non-Windows code path where DirectX is unavailable.
+// On Windows with THEMIS_ENABLE_DIRECTX, the tests still compile but the
+// assertions are skipped under the THEMIS_ENABLE_DIRECTX guard so as not to
+// require real GPU hardware in CI.
+
+TEST(DirectXBackendTest, NameAndType) {
+    DirectXVectorBackend backend;
+    EXPECT_STREQ(backend.name(), "DirectX");
+    EXPECT_EQ(backend.type(), BackendType::DIRECTX);
+}
+
+TEST(DirectXBackendTest, StubNotAvailableOnNonWindows) {
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+    DirectXVectorBackend backend;
+    EXPECT_FALSE(backend.isAvailable());
+#else
+    GTEST_SKIP() << "Skipping on Windows with DirectX; hardware required";
+#endif
+}
+
+TEST(DirectXBackendTest, StubInitializeFalseOnNonWindows) {
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+    DirectXVectorBackend backend;
+    EXPECT_FALSE(backend.initialize());
+#else
+    GTEST_SKIP() << "Skipping on Windows with DirectX; hardware required";
+#endif
+}
+
+TEST(DirectXBackendTest, StubComputeDistancesEmptyOnNonWindows) {
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+    DirectXVectorBackend backend;
+    std::vector<float> queries = { 1.0f, 0.0f };
+    std::vector<float> vectors = { 0.0f, 1.0f, 1.0f, 1.0f };
+    auto result = backend.computeDistances(
+        queries.data(), 1, 2,
+        vectors.data(), 2,
+        true);
+    EXPECT_TRUE(result.empty());
+#else
+    GTEST_SKIP() << "Skipping on Windows with DirectX; hardware required";
+#endif
+}
+
+TEST(DirectXBackendTest, StubBatchKnnSearchEmptyOnNonWindows) {
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+    DirectXVectorBackend backend;
+    std::vector<float> queries = { 1.0f, 0.0f };
+    std::vector<float> vectors = { 0.0f, 1.0f, 1.0f, 1.0f };
+    auto result = backend.batchKnnSearch(
+        queries.data(), 1, 2,
+        vectors.data(), 2,
+        1, true);
+    EXPECT_TRUE(result.empty());
+#else
+    GTEST_SKIP() << "Skipping on Windows with DirectX; hardware required";
+#endif
+}
+
+TEST(DirectXBackendTest, ShutdownIdempotentOnNonWindows) {
+    // Should not crash when called multiple times before/after initialize
+    DirectXVectorBackend backend;
+    backend.shutdown();
+    backend.shutdown();
+}
+
+TEST(DirectXBackendTest, GetCapabilitiesReturnsBackendType) {
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+    DirectXVectorBackend backend;
+    // On non-Windows, getCapabilities returns a default-constructed struct.
+    auto caps = backend.getCapabilities();
+    // Stub returns all-false capabilities
+    EXPECT_FALSE(caps.supportsVectorOps);
+    EXPECT_FALSE(caps.supportsBatchProcessing);
+#else
+    DirectXVectorBackend backend;
+    auto caps = backend.getCapabilities();
+    EXPECT_TRUE(caps.supportsVectorOps);
+    EXPECT_TRUE(caps.supportsBatchProcessing);
+    EXPECT_FALSE(caps.deviceName.empty());
+#endif
 }

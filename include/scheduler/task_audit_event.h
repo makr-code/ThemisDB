@@ -1,40 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_audit_event.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ba3f28bb4  2026-02-23  feat(scheduler): implement searchable task execution hist... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file task_audit_event.h
- * @brief Audit event structures for task scheduler execution tracking
- * 
- * Implements comprehensive audit logging for all trigger executions with:
- * - Structured event data for compliance (ISO 27001, SOC2)
- * - Security event reporting for violations
- * - Anomaly detection for frequency/pattern deviations
- * - GDPR-compliant data handling
- * - Tamper-evident logging support
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_TASK_AUDIT_EVENT_H
-#define THEMIS_TASK_AUDIT_EVENT_H
+#pragma once
 
 #include <string>
 #include <chrono>
@@ -294,4 +269,3 @@ TaskEventType taskEventTypeFromString(const std::string& s);
 } // namespace scheduler
 } // namespace themis
 
-#endif // THEMIS_TASK_AUDIT_EVENT_H

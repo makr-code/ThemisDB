@@ -1,30 +1,25 @@
+/**
+ * @file mongo_importer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=15, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mongo_importer.cpp                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:58:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     864                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
-    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
-    • 477e08400  2026-02-22  fix(importers): audit and fix 3 bugs in MongoDB importer ... ║
-    • 0729043db  2026-02-22  feat(importers): implement MongoDB importer for document ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mongo_importer.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 850
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=22, L=0
+ * PR History (last 5): #4242 feat(importers): v1.8.0 Mon... (2026-03-15) | #3241 [importers] Integrate with ... (2026-03-12) | #3240 [importers] Wire import con... (2026-03-12) | #3239 [importers] Implement dry-r... (2026-03-12) | #3232 [importers] S3-compatible o... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/mongo_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -863,3 +858,5 @@ extern "C" {
         delete plugin;
     }
 }
+
+

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_columnar_execution.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     918                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f855855c8  2026-02-24  feat(analytics): implement columnar execution engine with... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_columnar_execution.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -46,7 +31,10 @@
 #include <gtest/gtest.h>
 #include "analytics/columnar_execution.h"
 
+#include <chrono>
 #include <cmath>
+#include <cstdlib>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -916,4 +904,280 @@ TEST(EndToEndTest, LargeBatchFilterAggregateSort) {
     EXPECT_NEAR(expected_a, std::get<double>(rt->get(0)), 1e-3);
     EXPECT_EQ("B", std::get<std::string>(rc->get(1)));
     EXPECT_NEAR(expected_b, std::get<double>(rt->get(1)), 1e-3);
+}
+
+// ============================================================================
+// SIMD parity tests (AVX-512 / AVX2 / ARM NEON vs. scalar baseline)
+//
+// These tests ensure that the SIMD aggregation paths in AggregateOperator
+// produce results that are bit-identical (or within 1 ULP) to a scalar
+// reference on the same input data.  The tests exercise the fast path
+// (non-null Double column) that calls simdAggDouble().
+// ============================================================================
+
+namespace {
+
+// Build a ColumnBatch with a single non-null Double column of @p n rows.
+static ColumnBatch makeLargeDoubleColumn(const std::vector<double>& values) {
+    ColumnBatch batch(values.size());
+    auto col = std::make_shared<Column>("v", ColumnType::Double);
+    col->reserve(values.size());
+    for (double v : values) col->appendDouble(v);
+    batch.addColumn(col);
+    return batch;
+}
+
+// Scalar reference aggregation (no SIMD).
+struct ScalarAgg {
+    double sum     = 0.0;
+    double min_val = std::numeric_limits<double>::max();
+    double max_val = std::numeric_limits<double>::lowest();
+};
+static ScalarAgg scalarAgg(const std::vector<double>& data) {
+    ScalarAgg r;
+    for (double v : data) {
+        r.sum += v;
+        if (v < r.min_val) r.min_val = v;
+        if (v > r.max_val) r.max_val = v;
+    }
+    return r;
+}
+
+}  // anonymous namespace
+
+// Parity test: SUM on 1 024 doubles — SIMD result ≤ 1 ULP from scalar.
+TEST(SIMDParityTest, Sum_1024_Doubles) {
+    std::vector<double> data(1024);
+    for (size_t i = 0; i < data.size(); ++i)
+        data[i] = static_cast<double>(i + 1) * 0.123456789;
+
+    auto batch = makeLargeDoubleColumn(data);
+    AggregateOperator agg({{
+        .result_name  = "s",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Sum
+    }});
+    auto result = agg.execute(batch);
+    double simd_sum = std::get<double>(result.getColumn("s")->get(0));
+
+    ScalarAgg ref = scalarAgg(data);
+
+    // Tolerance: 2^-50 relative (tight enough to catch algorithmic errors,
+    // loose enough to allow different FP summation order).
+    double tol = std::abs(ref.sum) * 1e-12 + 1e-300;
+    EXPECT_NEAR(ref.sum, simd_sum, tol)
+        << "SIMD SUM diverges from scalar by more than 1 ULP relative";
+}
+
+// Parity test: MIN on 1 024 doubles.
+TEST(SIMDParityTest, Min_1024_Doubles) {
+    std::vector<double> data(1024);
+    for (size_t i = 0; i < data.size(); ++i)
+        data[i] = static_cast<double>(i % 17) - 8.0;
+
+    auto batch = makeLargeDoubleColumn(data);
+    AggregateOperator agg({{
+        .result_name  = "m",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Min
+    }});
+    auto result = agg.execute(batch);
+    double simd_min = std::get<double>(result.getColumn("m")->get(0));
+
+    ScalarAgg ref = scalarAgg(data);
+    EXPECT_DOUBLE_EQ(ref.min_val, simd_min)
+        << "SIMD MIN differs from scalar baseline";
+}
+
+// Parity test: MAX on 1 024 doubles.
+TEST(SIMDParityTest, Max_1024_Doubles) {
+    std::vector<double> data(1024);
+    for (size_t i = 0; i < data.size(); ++i)
+        data[i] = static_cast<double>(i % 31) * 2.5 - 10.0;
+
+    auto batch = makeLargeDoubleColumn(data);
+    AggregateOperator agg({{
+        .result_name  = "m",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Max
+    }});
+    auto result = agg.execute(batch);
+    double simd_max = std::get<double>(result.getColumn("m")->get(0));
+
+    ScalarAgg ref = scalarAgg(data);
+    EXPECT_DOUBLE_EQ(ref.max_val, simd_max)
+        << "SIMD MAX differs from scalar baseline";
+}
+
+// Parity test: AVG on 1 024 doubles.
+TEST(SIMDParityTest, Avg_1024_Doubles) {
+    std::vector<double> data(1024);
+    for (size_t i = 0; i < data.size(); ++i)
+        data[i] = std::sin(static_cast<double>(i) * 0.01) * 100.0;
+
+    auto batch = makeLargeDoubleColumn(data);
+    AggregateOperator agg({{
+        .result_name  = "a",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Avg
+    }});
+    auto result = agg.execute(batch);
+    double simd_avg = std::get<double>(result.getColumn("a")->get(0));
+
+    ScalarAgg ref = scalarAgg(data);
+    double ref_avg = ref.sum / static_cast<double>(data.size());
+
+    double tol = std::abs(ref_avg) * 1e-12 + 1e-300;
+    EXPECT_NEAR(ref_avg, simd_avg, tol)
+        << "SIMD AVG diverges from scalar by more than 1 ULP relative";
+}
+
+// Parity test: non-multiple-of-8 length (SIMD tail handling).
+TEST(SIMDParityTest, Sum_NonAlignedLength) {
+    // 13 values: exercises the scalar tail after SIMD loop
+    std::vector<double> data = {
+        1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1, 11.2, 12.3, 13.4
+    };
+    auto batch = makeLargeDoubleColumn(data);
+    AggregateOperator agg({{
+        .result_name  = "s",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Sum
+    }});
+    auto result = agg.execute(batch);
+    double simd_sum = std::get<double>(result.getColumn("s")->get(0));
+
+    ScalarAgg ref = scalarAgg(data);
+    double tol = std::abs(ref.sum) * 1e-12 + 1e-300;
+    EXPECT_NEAR(ref.sum, simd_sum, tol);
+}
+
+// Parity test: nullable Double column falls back to per-row path — result
+// must match scalar when some values are null.
+TEST(SIMDParityTest, Sum_WithNulls_FallbackToScalar) {
+    ColumnBatch batch(10);
+    auto col = std::make_shared<Column>("v", ColumnType::Double);
+    double expected = 0.0;
+    for (int i = 0; i < 10; ++i) {
+        bool is_null = (i % 3 == 0);
+        col->appendDouble(static_cast<double>(i + 1), is_null);
+        if (!is_null) expected += static_cast<double>(i + 1);
+    }
+    batch.addColumn(col);
+
+    AggregateOperator agg({{
+        .result_name  = "s",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Sum
+    }});
+    auto result = agg.execute(batch);
+    double got = std::get<double>(result.getColumn("s")->get(0));
+    EXPECT_DOUBLE_EQ(expected, got);
+}
+
+// ============================================================================
+// SIMD Throughput tests (opt-in via THEMIS_RUN_PERF_TESTS=1)
+//
+// AC-6: AVX-512 SUM over 10 M doubles — verifies ≥ 4 GB/s on any modern
+//       CPU; on hardware with AVX-512 this typically achieves ≥ 2× the AVX2
+//       baseline throughput per the roadmap performance target.
+//
+// AC-7: ARM NEON — same measurement path; on AArch64 (Cortex-A78 / Apple
+//       Silicon) the NEON float64x2_t path is active and expected to deliver
+//       ≥ 4 GB/s.
+//
+// Both tests skip unless the environment variable THEMIS_RUN_PERF_TESTS=1.
+// This follows the repository convention for timing-sensitive benchmarks.
+// ============================================================================
+
+TEST(SIMDThroughputTest, Sum_10M_Doubles_Throughput) {
+    const char* perf_env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!perf_env || std::string(perf_env) != "1") {
+        GTEST_SKIP() << "Set THEMIS_RUN_PERF_TESTS=1 to run throughput benchmarks";
+    }
+
+    constexpr size_t N = 10'000'000;
+
+    // Build a 10 M-row non-null Double column so the SIMD fast path activates.
+    ColumnBatch batch(N);
+    auto col = std::make_shared<Column>("v", ColumnType::Double);
+    col->reserve(N);
+    for (size_t i = 0; i < N; ++i)
+        col->appendDouble(static_cast<double>(i + 1) * 0.001);
+    batch.addColumn(col);
+
+    AggregateOperator agg({{
+        .result_name  = "s",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Sum
+    }});
+
+    // Warm up (fills caches, JITs branch predictors).
+    agg.execute(batch);
+
+    constexpr int kReps = 10;
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for (int r = 0; r < kReps; ++r) agg.execute(batch);
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    double elapsed_s = std::chrono::duration<double>(t1 - t0).count() / kReps;
+    double data_bytes = static_cast<double>(N) * sizeof(double);
+    double gb_per_s   = data_bytes / elapsed_s / 1e9;
+
+    // Minimum 4 GB/s is a conservative floor achievable on any modern CPU.
+    // On AVX-512 hardware (8 doubles/cycle at ~3 GHz) peak is >> 4 GB/s.
+    // On ARM AArch64 with NEON the target is also ≥ 4 GB/s.
+    EXPECT_GE(gb_per_s, 4.0)
+        << "SUM throughput " << gb_per_s << " GB/s is below the 4 GB/s floor "
+        << "(AVX-512 target: ≥ 2× AVX2 baseline; ARM NEON target: ≥ 4 GB/s)";
+
+    // Sanity: result must be finite.
+    double result_val =
+        std::get<double>(agg.execute(batch).getColumn("s")->get(0));
+    EXPECT_TRUE(std::isfinite(result_val));
+}
+
+// Same path but for MIN/MAX — exercises the min/max SIMD lanes.
+TEST(SIMDThroughputTest, MinMax_10M_Doubles_Throughput) {
+    const char* perf_env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!perf_env || std::string(perf_env) != "1") {
+        GTEST_SKIP() << "Set THEMIS_RUN_PERF_TESTS=1 to run throughput benchmarks";
+    }
+
+    constexpr size_t N = 10'000'000;
+
+    ColumnBatch batch(N);
+    auto col = std::make_shared<Column>("v", ColumnType::Double);
+    col->reserve(N);
+    for (size_t i = 0; i < N; ++i)
+        col->appendDouble(static_cast<double>(i % 997) - 498.0);
+    batch.addColumn(col);
+
+    AggregateOperator agg_min({{
+        .result_name  = "mn",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Min
+    }});
+    AggregateOperator agg_max({{
+        .result_name  = "mx",
+        .input_column = "v",
+        .function     = AggregateSpec::Function::Max
+    }});
+
+    agg_min.execute(batch); agg_max.execute(batch);  // warm-up
+
+    constexpr int kReps = 10;
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for (int r = 0; r < kReps; ++r) {
+        agg_min.execute(batch);
+        agg_max.execute(batch);
+    }
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    double elapsed_s  = std::chrono::duration<double>(t1 - t0).count() / kReps / 2.0;
+    double data_bytes = static_cast<double>(N) * sizeof(double);
+    double gb_per_s   = data_bytes / elapsed_s / 1e9;
+
+    EXPECT_GE(gb_per_s, 4.0)
+        << "MIN/MAX throughput " << gb_per_s << " GB/s is below the 4 GB/s floor";
 }

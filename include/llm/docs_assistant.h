@@ -1,39 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            docs_assistant.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file docs_assistant.h
- * @brief Documentation Assistant using LLM and pre-compiled docs database
- * 
- * This component provides LLM-based assistance for ThemisDB configuration
- * and troubleshooting by leveraging a pre-compiled documentation database.
- * 
- * Features:
- * - Load pre-compiled documentation database
- * - Vector-based similarity search for relevant documentation
- * - RAG (Retrieval Augmented Generation) for context-aware answers
- * - Configuration assistance
- * - Troubleshooting support
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -42,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -54,6 +28,7 @@ using json = nlohmann::json;
  * @brief Represents a single documentation document
  */
 struct DocumentEntry {
+    virtual ~DocumentEntry() = default;
     std::string file_path;
     std::string file_hash;
     std::string file_name;
@@ -62,6 +37,13 @@ struct DocumentEntry {
     int content_length = 0;
     json metadata;
     json themis_metadata;
+
+    // Optional precomputed embedding payload (load-only runtime path)
+    std::vector<float> embedding;
+    std::vector<int16_t> embedding_q;
+    float embedding_scale = 0.0f;
+    bool has_embedding = false;
+    bool is_quantized_embedding = false;
     
     // Computed at runtime
     float relevance_score = 0.0f;
@@ -98,10 +80,13 @@ struct DocsAssistantConfig {
         
         // Search order
         std::vector<std::pair<std::string, std::string>> search_paths = {
+            {"data/docs_artifact.json", "json"},
             {"data/docs.db", "rocksdb"},
             {"data/docs_database.json", "json"},
+            {"./docs_artifact.json", "json"},
             {"./docs.db", "rocksdb"},
             {"./docs_database.json", "json"},
+            {"../data/docs_artifact.json", "json"},
             {"../data/docs.db", "rocksdb"},
             {"../data/docs_database.json", "json"}
         };
@@ -123,6 +108,7 @@ struct DocsAssistantConfig {
  * @brief Query result from documentation search
  */
 struct DocsQueryResult {
+    virtual ~DocsQueryResult() = default;
     std::vector<DocumentEntry> relevant_docs;
     std::string generated_answer;
     float confidence_score = 0.0f;

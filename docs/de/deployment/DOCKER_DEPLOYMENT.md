@@ -1,7 +1,7 @@
 # ThemisDB Docker Deployment Guide
 
-**Stand:** 26. Dezember 2025  
-**Version:** v1.3.1  
+**Stand:** 5. April 2026  
+**Version:** v1.8.1-rc1  
 **Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready
 
@@ -23,6 +23,9 @@
 
 ### Pull & Run (Docker Hub)
 
+> Aktiver Community-Release-Pfad: Docker Hub `themisdb/themisdb`
+> (publiziert durch `.github/workflows/04-release_publish-community.yml`).
+
 ```bash
 # Latest version
 docker pull themisdb/themisdb:latest
@@ -33,23 +36,23 @@ docker run -d \
   -v themis_data:/data \
   themisdb/themisdb:latest
 
-# Specific version (v1.3.0 - LLM Integration)
-docker pull themisdb/themisdb:v1.3.0
+# Specific release tag (example: 1.8.1-rc1)
+docker pull themisdb/themisdb:1.8.1-rc1
 docker run -d \
   --name themis \
   -p 8080:8080 \
   -p 18765:18765 \
   -v themis_data:/data \
-  themisdb/themisdb:v1.3.0
+  themisdb/themisdb:1.8.1-rc1
 ```
 
-### Quick Start with GPU Support (v1.3.0+)
+### Quick Start with GPU Support
 
-**NEW in v1.3.0:** Native LLM inference with GPU acceleration
+GPU-spezifische Tags koennen release-abhaengig bereitgestellt werden.
 
 ```bash
-# Pull GPU-enabled image
-docker pull themisdb/themisdb:v1.3.0-gpu
+# Pull GPU-enabled image (example tag)
+docker pull themisdb/themisdb:<version>-gpu
 
 # Run with NVIDIA GPU support
 docker run -d \
@@ -59,7 +62,7 @@ docker run -d \
   -p 18765:18765 \
   -v themis_data:/data \
   -v themis_models:/models \
-  themisdb/themisdb:v1.3.0-gpu
+  themisdb/themisdb:<version>-gpu
 
 # Verify GPU access
 docker exec themis-gpu nvidia-smi
@@ -95,13 +98,11 @@ docker logs -f themis
 
 | Tag | Architecture | Status | Use Case |
 |-----|--------------|--------|----------|
-| `latest` | amd64 + arm64 | ✅ Production | Recommended for most users (v1.3.0) |
-| `v1.3.0` | amd64 + arm64 | ✅ Production | LLM Integration Release (December 2025) |
-| `v1.3.0-gpu` | amd64 | ✅ Production | With CUDA support for GPU acceleration |
+| `latest` | amd64 + arm64 | ✅ Production | Empfohlener Community-Tag |
+| `1.8.1-rc1` | amd64 + arm64 | ✅ Production | Aktueller Release-Candidate |
+| `<version>-gpu` | amd64 | ✅ Optional | Mit CUDA-Unterstuetzung (falls publiziert) |
 | `qnap` | amd64 | ✅ Production | QNAP NAS optimized (Ubuntu 20.04, SSE4.2 baseline) |
-| `v1.2.0` | amd64 + arm64 | ✅ Production | Previous stable release |
-| `v1.0.2` | amd64 + arm64 | ✅ Production | Legacy stable release |
-| `v1` | amd64 + arm64 | ✅ Production | Major version track |
+| `v1.3.0`, `v1.2.0`, `v1.0.2`, `v1` | amd64 + arm64 | 🗂️ Legacy | Historische Kompatibilitaets-Tags |
 
 ### Image Specs
 

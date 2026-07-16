@@ -1,26 +1,21 @@
+/**
+ * @file module_dependency_resolver.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_dependency_resolver.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     351                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 445546674  2026-02-27  Add plugin dependency graph visualization for base module ║
-    • eda60be50  2026-02-23  Fix version-constraint enforcement and update ROADMAP.md ║
-    • 3908bbb54  2026-02-23  Add module dependency resolution and load-order managemen... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_dependency_resolver.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 360
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=26, L=0
+ * PR History (last 5): #3646 fix(themis): complete build... (2026-03-12) | #3408 Migrate Themis core impleme... (2026-03-12) | #3085 Add plugin dependency graph... (2026-03-12) | #2603 themis: Add module dependen... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Module dependency resolver implementation
@@ -146,12 +141,33 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
     // Build the closure: moduleNames + all registered transitive dependencies.
     std::map<std::string, bool> visited;
     std::queue<std::string> toVisit;
+    DependencyResolutionResult precheck;
 
     for (const auto& n : moduleNames) {
-        if (!visited[n]) {
-            visited[n] = true;
+        if (!modules_.count(n)) {
+            precheck.missingRequired.push_back(n);
+            continue;
+        }
+
+        if (visited.emplace(n, true).second) {
             toVisit.push(n);
         }
+    }
+
+    if (!precheck.missingRequired.empty()) {
+        std::sort(precheck.missingRequired.begin(), precheck.missingRequired.end());
+        precheck.missingRequired.erase(
+            std::unique(precheck.missingRequired.begin(), precheck.missingRequired.end()),
+            precheck.missingRequired.end());
+
+        std::ostringstream oss;
+        oss << "Missing required dependencies:";
+        for (const auto& m : precheck.missingRequired) {
+            oss << ' ' << m;
+        }
+        precheck.errorMessage = oss.str();
+        precheck.success = false;
+        return precheck;
     }
 
     while (!toVisit.empty()) {
@@ -163,8 +179,11 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
             continue;
         }
         for (const auto& dep : it->second.deps) {
-            if (!visited[dep.name] && modules_.count(dep.name)) {
-                visited[dep.name] = true;
+            if (!modules_.count(dep.name)) {
+                continue;
+            }
+
+            if (visited.emplace(dep.name, true).second) {
                 toVisit.push(dep.name);
             }
         }

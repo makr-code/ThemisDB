@@ -1,31 +1,27 @@
+/**
+ * @file spatial_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=17, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            spatial_index.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1212                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0f15754c5  2026-02-26  fix(geo): address code review feedback on searchKNN and s... ║
-    • bf209ef92  2026-02-26  feat(geo): implement missing R-tree spatial index methods... ║
-    • 6e8398a0c  2026-02-25  fix(geo): clear R-tree state in dropSpatialIndex and crea... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: spatial_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1372
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=30, M=21, L=0
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #3007 [geo] Implement R-tree spat... (2026-03-12) | #805 Add RPC geospatial query su... (2026-03-11) | #1135 Complete geospatial product... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/spatial_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
+#include "utils/geometric_distances.h"
 #include <cmath>
 #include <algorithm>
 #include <cstdio>
@@ -37,9 +33,6 @@ namespace index {
 using json = nlohmann::json;
 
 // Constants
-constexpr double EARTH_RADIUS_METERS = 6371000.0;
-constexpr double PI_CONST = 3.14159265358979323846;
-constexpr double DEG_TO_RAD = PI_CONST / 180.0;
 constexpr double Z_BUCKET_SIZE = 10.0;  // 10 meter buckets for elevation
 
 // ===== Morton Encoder Implementation =====
@@ -111,20 +104,109 @@ std::pair<double, double> MortonEncoder::decode2D(uint64_t code, const geo::MBR&
     return {real_x, real_y};
 }
 
-// Get Morton ranges for MBR query (simplified: just return min/max range)
+// Get Morton ranges for MBR query using quadtree-style range decomposition.
+//
+// The 2D space is encoded as a 64-bit Morton (Z-order) code where x occupies
+// even-numbered bits and y occupies odd-numbered bits.  A power-of-2-aligned
+// quadtree cell at depth d forms a *contiguous* Morton range because all points
+// in the cell share the same upper 2d prefix bits — the lower 2*(32-d) bits
+// vary freely, so the range is [prefix<<free_bits, prefix<<free_bits | mask].
+//
+// The algorithm uses an explicit stack of quadtree nodes.  For each node:
+//   • No overlap with query bbox  → skip
+//   • Fully contained in query    → emit range (no false positives from this node)
+//   • Partially overlapping       → subdivide into 4 children (or emit as superset
+//                                   if the output budget is exhausted)
+//
+// The calling layer already applies a geometric post-filter, so emitting superset
+// ranges (false positives) is correct — it only affects query performance, not
+// correctness.  False negatives would be a bug; the algorithm never skips an
+// overlapping node.
 std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& query_bbox,
     const geo::MBR& total_bounds,
-    int max_ranges
-) {
-    (void)max_ranges; // unused parameter
-    // Simplified implementation: compute min/max Morton codes
-    uint64_t min_code = encode2D(query_bbox.minx, query_bbox.miny, total_bounds);
-    uint64_t max_code = encode2D(query_bbox.maxx, query_bbox.maxy, total_bounds);
-    
-    // For accurate query, we'd need to decompose into multiple ranges
-    // For MVP, use single range (may include false positives)
-    return {{min_code, max_code}};
+    int max_ranges)
+{
+    if (max_ranges <= 0) max_ranges = 8;
+
+    // Clip query to the declared total bounds and normalize to [0, 2^32-1].
+    uint32_t qx_lo = normalizeCoord(
+        std::max(query_bbox.minx, total_bounds.minx), total_bounds.minx, total_bounds.maxx);
+    uint32_t qx_hi = normalizeCoord(
+        std::min(query_bbox.maxx, total_bounds.maxx), total_bounds.minx, total_bounds.maxx);
+    uint32_t qy_lo = normalizeCoord(
+        std::max(query_bbox.miny, total_bounds.miny), total_bounds.miny, total_bounds.maxy);
+    uint32_t qy_hi = normalizeCoord(
+        std::min(query_bbox.maxy, total_bounds.maxy), total_bounds.miny, total_bounds.maxy);
+
+    if (qx_lo > qx_hi || qy_lo > qy_hi) {
+        THEMIS_DEBUG("MortonEncoder::getRanges - clipped query bbox is empty after normalization");
+        return {};
+    }
+
+    // Quadtree node: x0/y0 are the inclusive low corners; `bits` is the number
+    // of free bits per dimension (32 = root covering [0, 2^32-1], 0 = leaf).
+    struct QNode { uint32_t x0, y0; int bits; };
+
+    std::vector<std::pair<uint64_t, uint64_t>> ranges;
+    std::vector<QNode> stack = {{0u, 0u, 32}};  // root covers the full space
+
+    while (!stack.empty()) {
+        QNode n = stack.back();
+        stack.pop_back();
+
+        // Inclusive high corner of this node.
+        uint32_t x1 = (n.bits < 32) ? n.x0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
+        uint32_t y1 = (n.bits < 32) ? n.y0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
+
+        // Skip nodes that do not overlap the query bbox.
+        if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) continue;
+
+        // Morton range for this power-of-2-aligned quadtree node.
+        // lo = code of (x0, y0) with all free bits set to 0.
+        // hi = lo | mask, where mask fills all 2*bits free low bits with 1.
+        uint64_t lo = interleaveBits2D(n.x0, n.y0);
+        uint64_t hi;
+        if (n.bits == 0) {
+            hi = lo;
+        } else {
+            const uint64_t free_bits = 2u * static_cast<uint64_t>(n.bits);
+            const uint64_t mask = (free_bits < 64u) ? (1ULL << free_bits) - 1u : ~0ULL;
+            hi = lo | mask;
+        }
+
+        bool fully_inside = (n.x0 >= qx_lo && x1 <= qx_hi &&
+                             n.y0 >= qy_lo && y1 <= qy_hi);
+        bool budget_full  = (static_cast<int>(ranges.size()) >= max_ranges - 1);
+
+        if (fully_inside || n.bits == 0 || budget_full) {
+            // Emit this range.  Merge with the previous entry when adjacent to
+            // reduce the output size.
+            if (!ranges.empty() && ranges.back().second + 1u == lo) {
+                ranges.back().second = hi;
+            } else {
+                ranges.emplace_back(lo, hi);
+            }
+        } else {
+            // Subdivide into four children (SW, SE, NW, NE).
+            // Push in reverse processing order so SW is popped/processed first,
+            // keeping output ranges sorted in ascending Morton-code order.
+            const int cb   = n.bits - 1;
+            const uint32_t half = (cb < 32) ? (1u << cb) : 0x80000000u;
+            stack.push_back({n.x0 + half, n.y0 + half, cb});  // NE
+            stack.push_back({n.x0,        n.y0 + half, cb});  // NW
+            stack.push_back({n.x0 + half, n.y0,        cb});  // SE
+            stack.push_back({n.x0,        n.y0,        cb});  // SW
+        }
+    }
+
+    if (ranges.empty()) {
+        // Safety fallback: return a single superset range covering the query.
+        ranges.emplace_back(interleaveBits2D(qx_lo, qy_lo),
+                            interleaveBits2D(qx_hi, qy_hi));
+    }
+
+    return ranges;
 }
 
 // ===== SpatialIndexManager Implementation =====
@@ -191,9 +273,19 @@ geo::GeometryInfo SpatialIndexManager::mbrToGeometryInfo(const geo::MBR& mbr) {
 /// the Morton code scan instead.
 void SpatialIndexManager::ensureRTree(std::string_view table) const {
     std::string table_str(table);
+
+    // Fast path: already built — check with a shared (read) lock.
+    {
+        std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
+        if (rtree_built_.count(table_str)) return;
+    }
+
+    // Slow path: acquire exclusive write lock and build.
+    std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+    // Double-check after acquiring write lock to avoid redundant work.
     if (rtree_built_.count(table_str)) return;
 
-    // Mark as built immediately to avoid re-entry in recursive / concurrent paths.
+    // Mark as built before populating to block concurrent callers.
     rtree_built_.insert(table_str);
 
     // Scan all per-PK spatial keys for this table.
@@ -298,10 +390,10 @@ SpatialIndexManager::Status SpatialIndexManager::saveConfig(std::string_view tab
 // Create spatial index
 SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     std::string_view table,
-    std::string_view geometry_column,
+    [[maybe_unused]] std::string_view geometry_column,
     const RTreeConfig& config
 ) {
-    (void)geometry_column; // unused parameter
+    // unused parameter
     // Save config
     RTreeConfig cfg = config;
     if (cfg.total_bounds.minx == 0.0 && cfg.total_bounds.maxx == 0.0) {
@@ -312,9 +404,12 @@ SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     // Invalidate any stale in-memory R-tree state for this table so that a
     // subsequent ensureRTree() rebuilds cleanly from the new (empty) index.
     std::string table_str(table);
-    rtrees_.erase(table_str);
-    mbr_cache_.erase(table_str);
-    rtree_built_.erase(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        rtrees_.erase(table_str);
+        mbr_cache_.erase(table_str);
+        rtree_built_.erase(table_str);
+    }
 
     return saveConfig(table, cfg);
 }
@@ -334,9 +429,12 @@ SpatialIndexManager::Status SpatialIndexManager::dropSpatialIndex(std::string_vi
     // Clear in-memory R-tree state so stale entries are not returned if the
     // index is recreated later.
     std::string table_str(table);
-    rtrees_.erase(table_str);
-    mbr_cache_.erase(table_str);
-    rtree_built_.erase(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        rtrees_.erase(table_str);
+        mbr_cache_.erase(table_str);
+        rtree_built_.erase(table_str);
+    }
 
     return Status::OK();
 }
@@ -403,6 +501,93 @@ std::string SpatialIndexManager::serializeSidecarList(
     }
     
     return j.dump();
+}
+
+// Bulk-load
+SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
+    std::string_view table,
+    const std::vector<std::pair<std::string, geo::GeoSidecar>>& entries
+) {
+    auto config = getConfig(table);
+    if (!config) {
+        return Status::Error("Spatial index not found for table: " + std::string(table));
+    }
+
+    std::string table_str(table);
+
+    // Purge all spatial keys (legacy Morton buckets + per-PK keys) so that
+    // empty bulk-load fully clears query-visible state and restart rebuilds
+    // cannot resurrect stale entries.
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        rtrees_[table_str].clear();
+        mbr_cache_[table_str].clear();
+        rtree_built_.erase(table_str);
+    }
+    const std::string spatial_prefix = getSpatialKeyPrefix(table);
+    db_.scanRange(spatial_prefix, spatial_prefix + "~",
+        [this](std::string_view key, std::string_view /*value*/) {
+            db_.del(key);
+            return true;
+        });
+
+    // Build per-PK RocksDB entries and collect in-memory data.
+    // RocksDB writes and local cache/rtree construction happen outside the
+    // mutex to avoid holding the write lock during I/O.
+    std::unordered_map<std::string, geo::MBR> local_cache;
+    local_cache.reserve(entries.size());
+    std::vector<std::pair<std::string, geo::GeometryInfo>> rtree_entries;
+    rtree_entries.reserve(entries.size());
+
+    for (const auto& [pk, sidecar] : entries) {
+        // Persist per-PK sidecar key so lazy rebuild after restart can recover
+        // the full collection without requiring another bulk load call.
+        const uint64_t morton = MortonEncoder::encode2D(
+            sidecar.centroid.x, sidecar.centroid.y, config->total_bounds);
+        const std::string pk_key = makeSpatialPerPKKey(table, morton, pk);
+
+        json pk_sidecar;
+        pk_sidecar["mbr"] = {
+            {"minx", sidecar.mbr.minx},
+            {"miny", sidecar.mbr.miny},
+            {"maxx", sidecar.mbr.maxx},
+            {"maxy", sidecar.mbr.maxy}
+        };
+        if (sidecar.z_min != 0.0 || sidecar.z_max != 0.0) {
+            pk_sidecar["z_min"] = sidecar.z_min;
+            pk_sidecar["z_max"] = sidecar.z_max;
+        }
+        const auto dump = pk_sidecar.dump();
+        const std::vector<uint8_t> bytes(dump.begin(), dump.end());
+        db_.put(pk_key, bytes);  // Best effort; query path rebuilds from per-PK scan
+
+        local_cache[pk] = sidecar.mbr;
+        rtree_entries.emplace_back(pk, mbrToGeometryInfo(sidecar.mbr));
+
+        metrics_.insert_count++;
+    }
+
+    // Atomically swap in the new in-memory state under the write lock.
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        mbr_cache_[table_str] = std::move(local_cache);
+        rtrees_[table_str].clear();
+        if (!rtree_entries.empty()) {
+            // STR bulk-load the R-tree (3–5× faster than incremental insert).
+            rtrees_[table_str].bulkLoad(rtree_entries);
+        }
+        rtree_built_.insert(table_str);
+    }
+
+    {
+        std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
+        THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
+                    "geo_index_bytes_allocated={}",
+                    table_str, entries.size(),
+                    rtrees_[table_str].memoryBytes());
+    }
+
+    return Status::OK();
 }
 
 // Insert
@@ -472,11 +657,14 @@ SpatialIndexManager::Status SpatialIndexManager::insert(
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
-    mbr_cache_[table_str][pk_str] = sidecar.mbr;
-    rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
-    // Mark the table's R-tree as built so ensureRTree won't overwrite our
-    // incrementally maintained index on the first query.
-    rtree_built_.insert(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        mbr_cache_[table_str][pk_str] = sidecar.mbr;
+        rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
+        // Mark the table's R-tree as built so ensureRTree won't overwrite our
+        // incrementally maintained index on the first query.
+        rtree_built_.insert(table_str);
+    }
 
     return Status::OK();
 }
@@ -531,9 +719,12 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     // updating it here keeps it consistent with the pending batch write).
     std::string table_str(table);
     std::string pk_str(primary_key);
-    mbr_cache_[table_str][pk_str] = sidecar.mbr;
-    rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
-    rtree_built_.insert(table_str);
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        mbr_cache_[table_str][pk_str] = sidecar.mbr;
+        rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
+        rtree_built_.insert(table_str);
+    }
 
     return Status::OK();
 }
@@ -584,24 +775,27 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
-    auto& cache = mbr_cache_[table_str];
-    auto it = cache.find(pk_str);
-    const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
-    const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
-    if (it != cache.end()) {
-        cache.erase(it);
-    }
-    if (!removed) {
-        // Keep in-memory R-tree consistent even when direct remove misses
-        // (e.g. geometry representation mismatch). Rebuild from cache.
-        std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
-        bulk_entries.reserve(cache.size());
-        for (const auto& [cached_pk, cached_mbr] : cache) {
-            bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        auto& cache = mbr_cache_[table_str];
+        auto it = cache.find(pk_str);
+        const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
+        const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
+        if (it != cache.end()) {
+            cache.erase(it);
         }
-        rtrees_[table_str].clear();
-        if (!bulk_entries.empty()) {
-            rtrees_[table_str].bulkLoad(bulk_entries);
+        if (!removed) {
+            // Keep in-memory R-tree consistent even when direct remove misses
+            // (e.g. geometry representation mismatch). Rebuild from cache.
+            std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+            bulk_entries.reserve(cache.size());
+            for (const auto& [cached_pk, cached_mbr] : cache) {
+                bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+            }
+            rtrees_[table_str].clear();
+            if (!bulk_entries.empty()) {
+                rtrees_[table_str].bulkLoad(bulk_entries);
+            }
         }
     }
 
@@ -651,24 +845,27 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
-    auto& cache = mbr_cache_[table_str];
-    auto it = cache.find(pk_str);
-    const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
-    const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
-    if (it != cache.end()) {
-        cache.erase(it);
-    }
-    if (!removed) {
-        // Keep in-memory R-tree consistent even when direct remove misses
-        // (e.g. geometry representation mismatch). Rebuild from cache.
-        std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
-        bulk_entries.reserve(cache.size());
-        for (const auto& [cached_pk, cached_mbr] : cache) {
-            bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+    {
+        std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
+        auto& cache = mbr_cache_[table_str];
+        auto it = cache.find(pk_str);
+        const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
+        const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
+        if (it != cache.end()) {
+            cache.erase(it);
         }
-        rtrees_[table_str].clear();
-        if (!bulk_entries.empty()) {
-            rtrees_[table_str].bulkLoad(bulk_entries);
+        if (!removed) {
+            // Keep in-memory R-tree consistent even when direct remove misses
+            // (e.g. geometry representation mismatch). Rebuild from cache.
+            std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+            bulk_entries.reserve(cache.size());
+            for (const auto& [cached_pk, cached_mbr] : cache) {
+                bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+            }
+            rtrees_[table_str].clear();
+            if (!bulk_entries.empty()) {
+                rtrees_[table_str].bulkLoad(bulk_entries);
+            }
         }
     }
 
@@ -699,16 +896,7 @@ SpatialIndexManager::Status SpatialIndexManager::update(
 
 // Haversine distance
 double SpatialIndexManager::haversineDistance(double lat1, double lon1, double lat2, double lon2) const {
-    double dlat = (lat2 - lat1) * DEG_TO_RAD;
-    double dlon = (lon2 - lon1) * DEG_TO_RAD;
-    
-    double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
-               std::cos(lat1 * DEG_TO_RAD) * std::cos(lat2 * DEG_TO_RAD) *
-               std::sin(dlon / 2) * std::sin(dlon / 2);
-    
-    double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1 - a));
-    
-    return EARTH_RADIUS_METERS * c;
+    return themis::geo::haversine_m(lat1, lon1, lat2, lon2);
 }
 
 // Euclidean 3D distance
@@ -735,7 +923,10 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     metrics_.query_count++;
 
     auto config = getConfig(table);
-    if (!config) return {};
+    if (!config) {
+        THEMIS_WARN("SpatialIndexManager::searchIntersects - missing config for table {}", std::string(table));
+        return {};
+    }
 
     // ── Fast path: use in-memory R-tree when available ───────────────────
     // ensureRTree() builds the R-tree lazily from per-PK RocksDB keys on the
@@ -743,25 +934,42 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     ensureRTree(table);
 
     std::string table_str(table);
-    const auto& rtree = rtrees_[table_str];
 
-    if (rtree.size() > 0) {
+    // Snapshot candidate keys and their MBRs under a shared lock, then
+    // release before any I/O (db_ / exact_backend_) to avoid lock inversion.
+    std::vector<std::string> candidate_keys;
+    std::unordered_map<std::string, geo::MBR> candidate_mbrs;
+    bool rtree_populated = false;
+    {
+        std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
+        const auto& rtree = rtrees_[table_str];
+        if (rtree.size() > 0) {
+            rtree_populated = true;
+            candidate_keys = rtree.intersects(query_bbox);
+            const auto& cache = mbr_cache_[table_str];
+            for (const auto& pk : candidate_keys) {
+                auto it = cache.find(pk);
+                if (it != cache.end()) {
+                    candidate_mbrs[pk] = it->second;
+                }
+            }
+        }
+    }
+
+    if (rtree_populated) {
         // R-tree path: O(log n + k) MBR pre-filter, where k = number of hits.
-        auto candidate_keys = rtree.intersects(query_bbox);
-
         std::vector<SpatialResult> results;
-        const auto& cache = mbr_cache_[table_str];
 
         size_t mbr_candidates_this_query = static_cast<size_t>(candidate_keys.size());
         size_t exact_checks_this_query = 0;
         size_t exact_passed_this_query = 0;
 
         for (const auto& pk : candidate_keys) {
-            // Look up the stored MBR from the in-memory cache.
-            auto cache_it = cache.find(pk);
+            // Look up the stored MBR from the snapshot.
             geo::MBR entry_mbr;
-            if (cache_it != cache.end()) {
-                entry_mbr = cache_it->second;
+            auto mbr_it = candidate_mbrs.find(pk);
+            if (mbr_it != candidate_mbrs.end()) {
+                entry_mbr = mbr_it->second;
             }
 
             // Phase 2: Exact geometry check (if backend available).
@@ -928,23 +1136,67 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::string_view table,
     double x,
     double y,
-    std::optional<double> z
+    [[maybe_unused]] std::optional<double> z
 ) const {
-    (void)z; // unused parameter
-    // Create small query box around point
+    // unused parameter
+
+    auto config = getConfig(table);
+    if (!config) {
+        THEMIS_WARN("SpatialIndexManager::searchWithin - missing config for table {}", std::string(table));
+        return {};
+    }
+
+    // ── Fast path: use the R-tree's point-containment query directly ─────
+    // GeoRTree::contains(x, y) issues a zero-area bounding-box query and
+    // verifies MBR containment inside the tree, which is more precise than
+    // the tiny-bbox workaround and avoids a redundant filter pass.
+    ensureRTree(table);
+
+    std::string table_str(table);
+
+    // Snapshot candidate keys and their MBRs under a shared lock.
+    std::vector<std::string> candidate_keys;
+    std::unordered_map<std::string, geo::MBR> candidate_mbrs;
+    bool rtree_populated = false;
+    {
+        std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
+        const auto& rtree = rtrees_[table_str];
+        if (rtree.size() > 0) {
+            rtree_populated = true;
+            candidate_keys = rtree.contains(x, y);
+            const auto& cache = mbr_cache_[table_str];
+            for (const auto& pk : candidate_keys) {
+                auto it = cache.find(pk);
+                if (it != cache.end()) {
+                    candidate_mbrs[pk] = it->second;
+                }
+            }
+        }
+    }
+
+    if (rtree_populated) {
+        std::vector<SpatialResult> results;
+        results.reserve(candidate_keys.size());
+        for (const auto& pk : candidate_keys) {
+            SpatialResult result;
+            result.primary_key = pk;
+            auto it = candidate_mbrs.find(pk);
+            if (it != candidate_mbrs.end()) result.mbr = it->second;
+            results.push_back(std::move(result));
+        }
+        return results;
+    }
+
+    // ── Fallback: tiny-bbox approach (legacy Morton-bucket data, no R-tree) ─
     geo::MBR point_bbox(x - 0.0001, y - 0.0001, x + 0.0001, y + 0.0001);
-    
     auto candidates = searchIntersects(table, point_bbox);
-    
-    // Filter: MBR must contain point
+
     std::vector<SpatialResult> results;
-    
     for (const auto& cand : candidates) {
         if (cand.mbr.contains(x, y)) {
             results.push_back(cand);
         }
     }
-    
     return results;
 }
 
@@ -954,10 +1206,10 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
     double x,
     double y,
     double max_distance_meters,
-    std::optional<double> z,
+    [[maybe_unused]] std::optional<double> z,
     size_t limit
 ) const {
-    (void)z; // unused parameter
+    // unused parameter
     // Expand to bbox (approximate)
     double degrees_delta = max_distance_meters / 111320.0;  // Rough approximation
     geo::MBR query_bbox(x - degrees_delta, y - degrees_delta, x + degrees_delta, y + degrees_delta);
@@ -1000,13 +1252,19 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     double x,
     double y,
     size_t k,
-    std::optional<double> z
+    [[maybe_unused]] std::optional<double> z
 ) const {
-    (void)z; // unused parameter — reserved for future 3D distance filtering
-    if (k == 0) return {};
+    // unused parameter — reserved for future 3D distance filtering
+    if (k == 0) {
+        THEMIS_DEBUG("SpatialIndexManager::searchKNN - k==0, returning empty result");
+        return {};
+    }
 
     auto config = getConfig(table);
-    if (!config) return {};
+    if (!config) {
+        THEMIS_WARN("SpatialIndexManager::searchKNN - missing config for table {}", std::string(table));
+        return {};
+    }
 
     // Ensure the R-tree is built before we start querying.
     ensureRTree(table);
@@ -1210,3 +1468,5 @@ SpatialIndexManager::IndexStats SpatialIndexManager::getStats(std::string_view t
 
 }  // namespace index
 }  // namespace themis
+
+

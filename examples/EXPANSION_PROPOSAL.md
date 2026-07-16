@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # ThemisDB Examples - Erweiterungsvorschlag
 
 ## Status der bestehenden 10 Beispiele

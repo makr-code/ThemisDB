@@ -1,35 +1,20 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            analytics_export.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   72.0/100                                       ║
-    • Total Lines:     736                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 6                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 80742c94d  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
-    • 6fb48cf3e  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file analytics_export.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "analytics/analytics_export.h"
-#include <fstream>
-#include <sstream>
+
 #include <chrono>
 #include <cstring>
-#include <string_view>
+#include <fstream>
+
 #include <spdlog/spdlog.h>
 
 // Apache Arrow integration (optional)
@@ -54,19 +39,21 @@ namespace analytics {
  * Returns nullptr when there are no nulls, which is the common case and
  * allows Arrow to skip allocating a validity buffer entirely.
  */
-static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(
-    const ArrowRecordBatch::Column& col, int64_t length) {
-
+static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(const ArrowRecordBatch::Column &col,
+                                                                         int64_t length) {
     bool has_nulls = false;
     for (bool is_null : col.null_bitmap) {
-        if (is_null) { has_nulls = true; break; }
+        if (is_null) {
+            has_nulls = true;
+            break;
+        }
     }
     if (!has_nulls) {
-        return nullptr;  // All values valid; Arrow treats nullptr as all-valid
+        return nullptr; // All values valid; Arrow treats nullptr as all-valid
     }
 
     ARROW_ASSIGN_OR_RAISE(auto bitmap, arrow::AllocateBitmap(length));
-    uint8_t* raw = bitmap->mutable_data();
+    uint8_t *raw = bitmap->mutable_data();
     // Initialise to all-valid (all bits = 1)
     std::memset(raw, 0xFF, static_cast<size_t>(bitmap->size()));
     // Clear bits for null positions
@@ -87,15 +74,13 @@ static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(
  * ArrowRecordBatch with arrow::Buffer::Wrap().  STRING and BOOLEAN columns
  * still use Arrow builders because their data is not stored contiguously.
  */
-static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBatch(
-    const ArrowRecordBatch& batch) {
-
+static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBatch(const ArrowRecordBatch &batch) {
     // Build schema
     std::vector<std::shared_ptr<arrow::Field>> fields;
-    const auto& columns = batch.getColumns();
+    const auto &columns    = batch.getColumns();
     const int64_t num_rows = static_cast<int64_t>(batch.rowCount());
 
-    for (const auto& col : columns) {
+    for (const auto &col : columns) {
         std::shared_ptr<arrow::DataType> arrow_type;
 
         switch (col.schema.type) {
@@ -127,36 +112,30 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
     std::vector<std::shared_ptr<arrow::Array>> arrays;
 
     for (size_t col_idx = 0; col_idx < columns.size(); ++col_idx) {
-        const auto& col = columns[col_idx];
+        const auto &col = columns[col_idx];
         std::shared_ptr<arrow::Array> array;
 
         switch (col.schema.type) {
             case ArrowRecordBatch::DataType::INT64: {
                 // Zero-copy: wrap the contiguous int64 buffer
                 ARROW_ASSIGN_OR_RAISE(auto validity, buildValidityBitmap(col, num_rows));
-                auto data_buf = arrow::Buffer::Wrap(
-                    batch.getInt64Data(col_idx), num_rows);
-                array = std::make_shared<arrow::Int64Array>(
-                    num_rows, data_buf, validity);
+                auto data_buf = arrow::Buffer::Wrap(batch.getInt64Data(col_idx), num_rows);
+                array         = std::make_shared<arrow::Int64Array>(num_rows, data_buf, validity);
                 break;
             }
             case ArrowRecordBatch::DataType::DOUBLE: {
                 // Zero-copy: wrap the contiguous double buffer
                 ARROW_ASSIGN_OR_RAISE(auto validity, buildValidityBitmap(col, num_rows));
-                auto data_buf = arrow::Buffer::Wrap(
-                    batch.getDoubleData(col_idx), num_rows);
-                array = std::make_shared<arrow::DoubleArray>(
-                    num_rows, data_buf, validity);
+                auto data_buf = arrow::Buffer::Wrap(batch.getDoubleData(col_idx), num_rows);
+                array         = std::make_shared<arrow::DoubleArray>(num_rows, data_buf, validity);
                 break;
             }
             case ArrowRecordBatch::DataType::TIMESTAMP: {
                 // Zero-copy: wrap the contiguous int64 buffer
                 ARROW_ASSIGN_OR_RAISE(auto validity, buildValidityBitmap(col, num_rows));
-                auto data_buf = arrow::Buffer::Wrap(
-                    batch.getInt64Data(col_idx), num_rows);
-                array = std::make_shared<arrow::TimestampArray>(
-                    arrow::timestamp(arrow::TimeUnit::MILLI),
-                    num_rows, data_buf, validity);
+                auto data_buf = arrow::Buffer::Wrap(batch.getInt64Data(col_idx), num_rows);
+                array = std::make_shared<arrow::TimestampArray>(arrow::timestamp(arrow::TimeUnit::MILLI), num_rows,
+                                                                data_buf, validity);
                 break;
             }
             case ArrowRecordBatch::DataType::STRING: {
@@ -195,174 +174,137 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
 #endif // THEMIS_HAS_ARROW
 
 /**
- * @brief Analytics Exporter with optional Arrow support
- * 
- * This implementation provides JSON/CSV export always, and Arrow exports
- * when the THEMIS_HAS_ARROW flag is enabled.
+ * @brief JSON and CSV exporter.
+ *
+ * Handles ExportFormat::JSON and ExportFormat::CSV.  Arrow-based formats
+ * (IPC, Parquet, Feather) are handled by dedicated exporter classes that are
+ * only compiled when THEMIS_HAS_ARROW is defined.  Use
+ * ExporterFactory::createExporter(format) to obtain the correct exporter for
+ * a given format.
  */
-class StubAnalyticsExporter : public IAnalyticsExporter {
-public:
-    StubAnalyticsExporter() {
-        spdlog::debug("AnalyticsExporter initialized (Arrow support: {})", 
-#ifdef THEMIS_HAS_ARROW
-            "enabled"
-#else
-            "disabled"
-#endif
-        );
+class JSONCSVExporter : public IAnalyticsExporter {
+  public:
+    JSONCSVExporter() {
+        spdlog::debug("JSONCSVExporter initialized");
     }
-    ~StubAnalyticsExporter() override = default;
+    ~JSONCSVExporter() override = default;
 
-    ExportResult exportToFile(
-        const ArrowRecordBatch& batch,
-        const std::string& output_path,
-        const ExportOptions& options) override {
-        
+    ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
+                              [[maybe_unused]] const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
-        
+
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
-        
+
         spdlog::debug("Exporting {} rows to file: {}", batch.rowCount(), output_path);
-        
+
         try {
             std::string data;
-            
+
             switch (options.format) {
                 case ExportFormat::JSON:
                     data = batch.toJSON();
                     break;
-                
+
                 case ExportFormat::CSV:
                     data = exportToCSV(batch);
                     break;
-                
+
                 case ExportFormat::FMT_ARROW_IPC:
                 case ExportFormat::FMT_ARROW_PARQUET:
                 case ExportFormat::FMT_ARROW_FEATHER:
-#ifdef THEMIS_HAS_ARROW
-                {
-                    // Real Arrow implementation
-                    spdlog::debug("Using Apache Arrow for export format");
-                    return exportToFileArrow(batch, output_path, options);
-                }
-#else
-                {
-                    // Arrow not available
-                    spdlog::warn("Arrow export requested but THEMIS_HAS_ARROW not enabled");
-                    result.status = ExportStatus::NOT_SUPPORTED;
-                    result.message = "Arrow/Parquet/Feather export is not available. "
-                                   "Rebuild with -DTHEMIS_HAS_ARROW=ON and install Apache Arrow library.";
+                    spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
+                    result.status  = ExportStatus::NOT_SUPPORTED;
+                    result.message = "Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
+                                     "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
                     return result;
-                }
-#endif
             }
-            
-            // Write to file (JSON/CSV)
+
+            // Write to file
             std::ofstream outfile(output_path);
             if (!outfile) {
                 spdlog::error("Failed to open output file: {}", output_path);
-                result.status = ExportStatus::FAILED;
+                result.status  = ExportStatus::FAILED;
                 result.message = "Failed to open output file: " + output_path;
                 return result;
             }
-            
+
             outfile << data;
             outfile.close();
-            
+
             result.rows_exported = batch.rowCount();
             result.bytes_written = data.size();
-            
-            spdlog::info("Export successful: {} rows, {} bytes", 
-                        result.rows_exported, result.bytes_written);
-            
-        } catch (const std::exception& e) {
+
+            spdlog::info("Export successful: {} rows, {} bytes", result.rows_exported, result.bytes_written);
+
+        } catch (const std::exception &e) {
             spdlog::error("Export failed with exception: {}", e.what());
-            result.status = ExportStatus::FAILED;
+            result.status  = ExportStatus::FAILED;
             result.message = std::string("Export failed: ") + e.what();
         }
-        
-        auto end = std::chrono::high_resolution_clock::now();
+
+        auto end           = std::chrono::high_resolution_clock::now();
         result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+
         return result;
     }
 
-    std::string exportToString(
-        const ArrowRecordBatch& batch,
-        const ExportOptions& options) override {
-        
+    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
         switch (options.format) {
             case ExportFormat::JSON:
                 return batch.toJSON();
-            
+
             case ExportFormat::CSV:
                 return exportToCSV(batch);
-            
+
             case ExportFormat::FMT_ARROW_IPC:
             case ExportFormat::FMT_ARROW_PARQUET:
             case ExportFormat::FMT_ARROW_FEATHER:
-#ifdef THEMIS_HAS_ARROW
-            {
-                spdlog::debug("Arrow string export requested for {} rows", batch.rowCount());
-                return exportToStringArrow(batch, options);
-            }
-#else
-            {
-                spdlog::warn("Arrow export to string requested but not available");
-                return "# ERROR: Arrow export not available. "
-                       "Rebuild with -DTHEMIS_HAS_ARROW=ON and install Apache Arrow library.";
-            }
-#endif
+                spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
+                return "# ERROR: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
+                       "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
         }
-        
+
         return "";
     }
 
-    ExportResult exportWithCallback(
-        const ArrowRecordBatch& batch,
-        std::function<void(const std::vector<uint8_t>&)> callback,
-        const ExportOptions& options) override {
-        
+    ExportResult exportWithCallback(const ArrowRecordBatch &batch,
+                                    std::function<void(const std::vector<uint8_t> &)> callback,
+                                    const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
-        
+
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
-        
+
         try {
             std::string data = exportToString(batch, options);
-            
+
             // Convert string to bytes and call callback in chunks
-            size_t chunk_size = options.batch_size * 100;  // Approximate chunk size
-            size_t offset = 0;
-            
+            size_t chunk_size = options.batch_size * 100; // Approximate chunk size
+            size_t offset     = 0;
+
             while (offset < data.size()) {
                 size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback(chunk);
                 offset += len;
             }
-            
+
             result.rows_exported = batch.rowCount();
             result.bytes_written = data.size();
-            
-        } catch (const std::exception& e) {
-            result.status = ExportStatus::FAILED;
+
+        } catch (const std::exception &e) {
+            result.status  = ExportStatus::FAILED;
             result.message = std::string("Export failed: ") + e.what();
         }
-        
-        auto end = std::chrono::high_resolution_clock::now();
+
+        auto end           = std::chrono::high_resolution_clock::now();
         result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+
         return result;
     }
 
     bool supportsFormat(ExportFormat format) const override {
-#ifdef THEMIS_HAS_ARROW
-        // With Arrow, all formats are supported
-        return true;
-#else
-        // Without Arrow, only JSON and CSV are supported
         switch (format) {
             case ExportFormat::JSON:
             case ExportFormat::CSV:
@@ -373,23 +315,18 @@ public:
                 return false;
         }
         return false;
-#endif
     }
 
     std::string getExporterInfo() const override {
-#ifdef THEMIS_HAS_ARROW
-        return "AnalyticsExporter v1.0 (Apache Arrow enabled)";
-#else
-        return "AnalyticsExporter v1.0 (JSON/CSV only, Arrow support not compiled)";
-#endif
+        return "JSONCSVExporter v1.0 (JSON/CSV export)";
     }
 
-private:
-    std::string exportToCSV(const ArrowRecordBatch& batch) const {
+  private:
+    std::string exportToCSV(const ArrowRecordBatch &batch) const {
         std::ostringstream oss;
-        
+
         // Header
-        const auto& columns = batch.getColumns();
+        const auto &columns = batch.getColumns();
         for (size_t i = 0; i < columns.size(); ++i) {
             oss << columns[i].schema.name;
             if (i < columns.size() - 1) {
@@ -397,17 +334,17 @@ private:
             }
         }
         oss << "\n";
-        
+
         // Data rows
         for (size_t row = 0; row < batch.rowCount(); ++row) {
             for (size_t col = 0; col < columns.size(); ++col) {
-                const auto& column = columns[col];
-                
+                const auto &column = columns[col];
+
                 if (column.null_bitmap[row]) {
                     // Null value
                 } else {
-                    const auto& value = column.data[row];
-                    
+                    const auto &value = column.data[row];
+
                     if (std::holds_alternative<int64_t>(value)) {
                         oss << std::get<int64_t>(value);
                     } else if (std::holds_alternative<double>(value)) {
@@ -423,18 +360,19 @@ private:
                         std::string str = std::get<std::string>(value);
 
                         static constexpr std::string_view kFormulaChars = "=+-@";
-                        bool needs_quotes =
-                            str.find(',')  != std::string::npos ||
-                            str.find('"')  != std::string::npos ||
-                            str.find('\n') != std::string::npos ||
-                            str.find('\r') != std::string::npos ||
-                            (!str.empty() && kFormulaChars.find(str[0]) != std::string::npos);
+                        bool needs_quotes = str.find(',') != std::string::npos || str.find('"') != std::string::npos
+                                            || str.find('\n') != std::string::npos
+                                            || str.find('\r') != std::string::npos
+                                            || (!str.empty() && kFormulaChars.find(str[0]) != std::string::npos);
 
                         if (needs_quotes) {
                             oss << "\"";
                             for (char c : str) {
-                                if (c == '"') oss << "\"\"";  // Escape double-quotes per RFC 4180
-                                else oss << c;
+                                if (c == '"') {
+                                    oss << "\"\""; // Escape double-quotes per RFC 4180
+                                } else {
+                                    oss << c;
+                                }
                             }
                             oss << "\"";
                         } else {
@@ -444,294 +382,552 @@ private:
                         oss << (std::get<bool>(value) ? "true" : "false");
                     }
                 }
-                
+
                 if (col < columns.size() - 1) {
                     oss << ",";
                 }
             }
             oss << "\n";
         }
-        
+
         return oss.str();
     }
+};
 
 #ifdef THEMIS_HAS_ARROW
-    ExportResult exportToFileArrow(
-        const ArrowRecordBatch& batch,
-        const std::string& output_path,
-        const ExportOptions& options) {
-        
+
+/**
+ * @brief Arrow IPC (stream) exporter.
+ *
+ * Writes data in the Apache Arrow IPC stream format.  Requires
+ * THEMIS_HAS_ARROW to be defined at compile time.
+ */
+class ArrowIPCExporter : public IAnalyticsExporter {
+  public:
+    ArrowIPCExporter() {
+        spdlog::debug("ArrowIPCExporter initialized");
+    }
+    ~ArrowIPCExporter() override = default;
+
+    ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
+                              [[maybe_unused]] const ExportOptions &options) override {
+        auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
-        
+
         try {
-            // Convert to Arrow RecordBatch
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
-                spdlog::error("Failed to convert to Arrow RecordBatch: {}", 
-                             arrow_batch_result.status().ToString());
-                result.status = ExportStatus::FAILED;
+                spdlog::error("Failed to convert to Arrow RecordBatch: {}", arrow_batch_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
                 result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
                 return result;
             }
-            
             auto arrow_batch = arrow_batch_result.ValueOrDie();
-            
-            switch (options.format) {
-                case ExportFormat::FMT_ARROW_IPC: {
-                    // Arrow IPC Stream format
-                    std::shared_ptr<arrow::io::FileOutputStream> outfile;
-                    auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
-                    if (!outfile_result.ok()) {
-                        spdlog::error("Failed to open Arrow IPC file: {}", 
-                                     outfile_result.status().ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Failed to open file: " + outfile_result.status().ToString();
-                        return result;
-                    }
-                    outfile = outfile_result.ValueOrDie();
-                    
-                    std::shared_ptr<arrow::ipc::RecordBatchWriter> writer;
-                    auto writer_result = arrow::ipc::MakeStreamWriter(outfile, arrow_batch->schema());
-                    if (!writer_result.ok()) {
-                        spdlog::error("Failed to create IPC writer: {}", 
-                                     writer_result.status().ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Failed to create IPC writer: " + writer_result.status().ToString();
-                        return result;
-                    }
-                    writer = writer_result.ValueOrDie();
-                    
-                    auto write_status = writer->WriteRecordBatch(*arrow_batch);
-                    if (!write_status.ok()) {
-                        spdlog::error("Failed to write Arrow IPC batch: {}", 
-                                     write_status.ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Write failed: " + write_status.ToString();
-                        return result;
-                    }
-                    
-                    auto close_status = writer->Close();
-                    if (!close_status.ok()) {
-                        spdlog::error("Failed to close Arrow IPC writer: {}", 
-                                     close_status.ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Close failed: " + close_status.ToString();
-                        return result;
-                    }
-                    
-                    result.bytes_written = outfile->Tell().ValueOrDie();
-                    break;
-                }
-                
-                case ExportFormat::FMT_ARROW_PARQUET: {
-                    // Parquet format
-                    std::shared_ptr<arrow::io::FileOutputStream> outfile;
-                    auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
-                    if (!outfile_result.ok()) {
-                        spdlog::error("Failed to open Parquet file: {}", 
-                                     outfile_result.status().ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Failed to open file: " + outfile_result.status().ToString();
-                        return result;
-                    }
-                    outfile = outfile_result.ValueOrDie();
-                    
-                    // Create table from batch
-                    auto table = arrow::Table::Make(arrow_batch->schema(), arrow_batch->columns());
-                    
-                    // Build writer properties with optional compression
-                    parquet::WriterProperties::Builder props_builder;
-                    if (options.compress) {
-                        if (options.compression_codec == "snappy") {
-                            props_builder.compression(parquet::Compression::SNAPPY);
-                        } else if (options.compression_codec == "gzip") {
-                            props_builder.compression(parquet::Compression::GZIP);
-                            props_builder.compression_level(options.compression_level);
-                        } else if (options.compression_codec == "zstd") {
-                            props_builder.compression(parquet::Compression::ZSTD);
-                            props_builder.compression_level(options.compression_level);
-                        } else if (options.compression_codec == "lz4") {
-                            props_builder.compression(parquet::Compression::LZ4);
-                        } else {
-                            props_builder.compression(parquet::Compression::SNAPPY);
-                        }
-                    }
-                    auto props = props_builder.build();
-                    
-                    auto write_status = parquet::arrow::WriteTable(
-                        *table, 
-                        arrow::default_memory_pool(),
-                        outfile, 
-                        options.batch_size,
-                        props
-                    );
-                    
-                    if (!write_status.ok()) {
-                        spdlog::error("Failed to write Parquet file: {}", 
-                                     write_status.ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Parquet write failed: " + write_status.ToString();
-                        return result;
-                    }
-                    
-                    result.bytes_written = outfile->Tell().ValueOrDie();
-                    break;
-                }
-                
-                case ExportFormat::FMT_ARROW_FEATHER: {
-                    // Feather format (Arrow IPC File format)
-                    std::shared_ptr<arrow::io::FileOutputStream> outfile;
-                    auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
-                    if (!outfile_result.ok()) {
-                        spdlog::error("Failed to open Feather file: {}", 
-                                     outfile_result.status().ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Failed to open file: " + outfile_result.status().ToString();
-                        return result;
-                    }
-                    outfile = outfile_result.ValueOrDie();
-                    
-                    std::shared_ptr<arrow::ipc::RecordBatchWriter> writer;
-                    auto writer_result = arrow::ipc::MakeFileWriter(outfile, arrow_batch->schema());
-                    if (!writer_result.ok()) {
-                        spdlog::error("Failed to create Feather writer: {}", 
-                                     writer_result.status().ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Failed to create Feather writer: " + writer_result.status().ToString();
-                        return result;
-                    }
-                    writer = writer_result.ValueOrDie();
-                    
-                    auto write_status = writer->WriteRecordBatch(*arrow_batch);
-                    if (!write_status.ok()) {
-                        spdlog::error("Failed to write Feather batch: {}", 
-                                     write_status.ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Write failed: " + write_status.ToString();
-                        return result;
-                    }
-                    
-                    auto close_status = writer->Close();
-                    if (!close_status.ok()) {
-                        spdlog::error("Failed to close Feather writer: {}", 
-                                     close_status.ToString());
-                        result.status = ExportStatus::FAILED;
-                        result.message = "Close failed: " + close_status.ToString();
-                        return result;
-                    }
-                    
-                    result.bytes_written = outfile->Tell().ValueOrDie();
-                    break;
-                }
-                
-                default:
-                    result.status = ExportStatus::FAILED;
-                    result.message = "Unsupported export format";
-                    return result;
+
+            auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
+            if (!outfile_result.ok()) {
+                spdlog::error("Failed to open Arrow IPC file: {}", outfile_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to open file: " + outfile_result.status().ToString();
+                return result;
             }
-            
+            auto outfile = outfile_result.ValueOrDie();
+
+            auto writer_result = arrow::ipc::MakeStreamWriter(outfile, arrow_batch->schema());
+            if (!writer_result.ok()) {
+                spdlog::error("Failed to create IPC writer: {}", writer_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to create IPC writer: " + writer_result.status().ToString();
+                return result;
+            }
+            auto writer = writer_result.ValueOrDie();
+
+            auto write_status = writer->WriteRecordBatch(*arrow_batch);
+            if (!write_status.ok()) {
+                spdlog::error("Failed to write Arrow IPC batch: {}", write_status.ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Write failed: " + write_status.ToString();
+                return result;
+            }
+
+            auto close_status = writer->Close();
+            if (!close_status.ok()) {
+                spdlog::error("Failed to close Arrow IPC writer: {}", close_status.ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Close failed: " + close_status.ToString();
+                return result;
+            }
+
+            result.bytes_written = outfile->Tell().ValueOrDie();
             result.rows_exported = batch.rowCount();
-            spdlog::info("Arrow export successful: {} rows, {} bytes", 
-                        result.rows_exported, result.bytes_written);
-            
-        } catch (const std::exception& e) {
-            spdlog::error("Arrow export failed with exception: {}", e.what());
-            result.status = ExportStatus::FAILED;
-            result.message = std::string("Arrow export failed: ") + e.what();
+            spdlog::info("Arrow IPC export successful: {} rows, {} bytes", result.rows_exported, result.bytes_written);
+
+        } catch (const std::exception &e) {
+            spdlog::error("Arrow IPC export failed: {}", e.what());
+            result.status  = ExportStatus::FAILED;
+            result.message = std::string("Arrow IPC export failed: ") + e.what();
         }
-        
+
+        auto end           = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         return result;
     }
-    
-    std::string exportToStringArrow(
-        const ArrowRecordBatch& batch,
-        const ExportOptions& options) {
-        
+
+    std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
+        // format is implicitly FMT_ARROW_IPC for this exporter
         try {
-            // Convert to Arrow RecordBatch
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
-                spdlog::error("Failed to convert to Arrow RecordBatch for string export");
+                spdlog::error("Failed to convert to Arrow RecordBatch for IPC string export");
                 return "# ERROR: Failed to convert to Arrow format";
             }
-            
             auto arrow_batch = arrow_batch_result.ValueOrDie();
-            
-            // Use in-memory buffer
+
             auto buffer_result = arrow::io::BufferOutputStream::Create();
             if (!buffer_result.ok()) {
                 return "# ERROR: Failed to create buffer";
             }
             auto buffer = buffer_result.ValueOrDie();
-            
-            switch (options.format) {
-                case ExportFormat::FMT_ARROW_IPC: {
-                    auto writer_result = arrow::ipc::MakeStreamWriter(buffer, arrow_batch->schema());
-                    if (!writer_result.ok()) {
-                        return "# ERROR: Failed to create IPC writer";
-                    }
-                    auto writer = writer_result.ValueOrDie();
-                    
-                    if (!writer->WriteRecordBatch(*arrow_batch).ok()) {
-                        return "# ERROR: Failed to write IPC batch";
-                    }
-                    if (!writer->Close().ok()) {
-                        return "# ERROR: Failed to close IPC writer";
-                    }
-                    break;
-                }
-                
-                case ExportFormat::FMT_ARROW_FEATHER: {
-                    auto writer_result = arrow::ipc::MakeFileWriter(buffer, arrow_batch->schema());
-                    if (!writer_result.ok()) {
-                        return "# ERROR: Failed to create Feather writer";
-                    }
-                    auto writer = writer_result.ValueOrDie();
-                    
-                    if (!writer->WriteRecordBatch(*arrow_batch).ok()) {
-                        return "# ERROR: Failed to write Feather batch";
-                    }
-                    if (!writer->Close().ok()) {
-                        return "# ERROR: Failed to close Feather writer";
-                    }
-                    break;
-                }
-                
-                case ExportFormat::FMT_ARROW_PARQUET: {
-                    // Parquet to string is not practical due to binary format
-                    return "# ERROR: Parquet format cannot be exported to string (use file export instead)";
-                }
-                
-                default:
-                    return "# ERROR: Unsupported format";
+
+            auto writer_result = arrow::ipc::MakeStreamWriter(buffer, arrow_batch->schema());
+            if (!writer_result.ok()) {
+                return "# ERROR: Failed to create IPC writer";
             }
-            
+            auto writer = writer_result.ValueOrDie();
+
+            if (!writer->WriteRecordBatch(*arrow_batch).ok()) {
+                return "# ERROR: Failed to write IPC batch";
+            }
+            if (!writer->Close().ok()) {
+                return "# ERROR: Failed to close IPC writer";
+            }
+
             auto result_buffer = buffer->Finish();
             if (!result_buffer.ok()) {
                 return "# ERROR: Failed to finalize buffer";
             }
-            
             auto data = result_buffer.ValueOrDie();
-            return std::string(reinterpret_cast<const char*>(data->data()), data->size());
-            
-        } catch (const std::exception& e) {
-            spdlog::error("Arrow string export failed: {}", e.what());
+            return std::string(reinterpret_cast<const char *>(data->data()), data->size());
+
+        } catch (const std::exception &e) {
+            spdlog::error("Arrow IPC string export failed: {}", e.what());
             return "# ERROR: " + std::string(e.what());
         }
     }
-#endif // THEMIS_HAS_ARROW
+
+    ExportResult exportWithCallback(const ArrowRecordBatch &batch,
+                                    std::function<void(const std::vector<uint8_t> &)> callback,
+                                    const ExportOptions &options) override {
+        auto start = std::chrono::high_resolution_clock::now();
+        ExportResult result;
+        result.status = ExportStatus::SUCCESS;
+
+        try {
+            // Serialize directly to an Arrow-managed BufferOutputStream.
+            // This avoids the intermediate std::string copy that the
+            // exportToString() path would introduce; the IPC bytes are
+            // written once into a contiguous Arrow buffer and then chunked
+            // out to the callback without an extra full-buffer copy.
+            auto arrow_batch_result = convertToArrowRecordBatch(batch);
+            if (!arrow_batch_result.ok()) {
+                result.status  = ExportStatus::FAILED;
+                result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
+                return result;
+            }
+            auto arrow_batch = arrow_batch_result.ValueOrDie();
+
+            auto bos_result = arrow::io::BufferOutputStream::Create();
+            if (!bos_result.ok()) {
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to create buffer stream: " + bos_result.status().ToString();
+                return result;
+            }
+            auto bos = bos_result.ValueOrDie();
+
+            auto writer_result = arrow::ipc::MakeStreamWriter(bos, arrow_batch->schema());
+            if (!writer_result.ok()) {
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to create IPC writer: " + writer_result.status().ToString();
+                return result;
+            }
+            auto writer = writer_result.ValueOrDie();
+
+            auto write_status = writer->WriteRecordBatch(*arrow_batch);
+            if (!write_status.ok()) {
+                result.status  = ExportStatus::FAILED;
+                result.message = "Write failed: " + write_status.ToString();
+                return result;
+            }
+            auto close_status = writer->Close();
+            if (!close_status.ok()) {
+                result.status  = ExportStatus::FAILED;
+                result.message = "Close failed: " + close_status.ToString();
+                return result;
+            }
+
+            auto buf_result = bos->Finish();
+            if (!buf_result.ok()) {
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to finalize IPC buffer: " + buf_result.status().ToString();
+                return result;
+            }
+            // ipc_buffer is the contiguous, Arrow-managed serialised IPC stream.
+            // arrow::Buffer::Wrap() exposes the same memory region zero-copy for
+            // consumers that accept arrow::Buffer; for this callback interface
+            // (which requires std::vector<uint8_t>) one copy per chunk is made
+            // directly from the buffer data pointer, eliminating the redundant
+            // full-buffer copy that went through the intermediate std::string.
+            auto ipc_buffer = buf_result.ValueOrDie();
+
+            const uint8_t *base   = ipc_buffer->data();
+            const size_t total_sz = static_cast<size_t>(ipc_buffer->size());
+            const size_t chunk_sz = options.batch_size * 100;
+            size_t offset         = 0;
+
+            while (offset < total_sz) {
+                size_t len = std::min(chunk_sz, total_sz - offset);
+                callback(std::vector<uint8_t>(base + offset, base + offset + len));
+                offset += len;
+            }
+
+            result.rows_exported = batch.rowCount();
+            result.bytes_written = total_sz;
+        } catch (const std::exception &e) {
+            result.status  = ExportStatus::FAILED;
+            result.message = std::string("Export failed: ") + e.what();
+        }
+
+        auto end           = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        return result;
+    }
+
+    bool supportsFormat(ExportFormat format) const override {
+        return format == ExportFormat::FMT_ARROW_IPC;
+    }
+
+    std::string getExporterInfo() const override {
+        return "ArrowIPCExporter v1.0 (Apache Arrow IPC stream format)";
+    }
 };
+
+/**
+ * @brief Apache Parquet exporter.
+ *
+ * Writes data in the Apache Parquet columnar format with optional compression
+ * (snappy, gzip, zstd, lz4).  Requires THEMIS_HAS_ARROW to be defined.
+ */
+class ParquetExporter : public IAnalyticsExporter {
+  public:
+    ParquetExporter() {
+        spdlog::debug("ParquetExporter initialized");
+    }
+    ~ParquetExporter() override = default;
+
+    ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
+                              [[maybe_unused]] const ExportOptions &options) override {
+        auto start = std::chrono::high_resolution_clock::now();
+        ExportResult result;
+        result.status = ExportStatus::SUCCESS;
+
+        try {
+            auto arrow_batch_result = convertToArrowRecordBatch(batch);
+            if (!arrow_batch_result.ok()) {
+                spdlog::error("Failed to convert to Arrow RecordBatch: {}", arrow_batch_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
+                return result;
+            }
+            auto arrow_batch = arrow_batch_result.ValueOrDie();
+
+            auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
+            if (!outfile_result.ok()) {
+                spdlog::error("Failed to open Parquet file: {}", outfile_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to open file: " + outfile_result.status().ToString();
+                return result;
+            }
+            auto outfile = outfile_result.ValueOrDie();
+
+            auto table = arrow::Table::Make(arrow_batch->schema(), arrow_batch->columns());
+
+            parquet::WriterProperties::Builder props_builder;
+            if (options.compress) {
+                if (options.compression_codec == "snappy") {
+                    props_builder.compression(parquet::Compression::SNAPPY);
+                } else if (options.compression_codec == "gzip") {
+                    props_builder.compression(parquet::Compression::GZIP);
+                    props_builder.compression_level(options.compression_level);
+                } else if (options.compression_codec == "zstd") {
+                    props_builder.compression(parquet::Compression::ZSTD);
+                    props_builder.compression_level(options.compression_level);
+                } else if (options.compression_codec == "lz4") {
+                    props_builder.compression(parquet::Compression::LZ4);
+                } else {
+                    props_builder.compression(parquet::Compression::SNAPPY);
+                }
+            }
+            auto props = props_builder.build();
+
+            auto write_status
+                = parquet::arrow::WriteTable(*table, arrow::default_memory_pool(), outfile, options.batch_size, props);
+
+            if (!write_status.ok()) {
+                spdlog::error("Failed to write Parquet file: {}", write_status.ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Parquet write failed: " + write_status.ToString();
+                return result;
+            }
+
+            result.bytes_written = outfile->Tell().ValueOrDie();
+            result.rows_exported = batch.rowCount();
+            spdlog::info("Parquet export successful: {} rows, {} bytes", result.rows_exported, result.bytes_written);
+
+        } catch (const std::exception &e) {
+            spdlog::error("Parquet export failed: {}", e.what());
+            result.status  = ExportStatus::FAILED;
+            result.message = std::string("Parquet export failed: ") + e.what();
+        }
+
+        auto end           = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        return result;
+    }
+
+    std::string exportToString(const ArrowRecordBatch & /*batch*/, const ExportOptions & /*options*/) override {
+        // Parquet is a binary columnar format; exporting to a plain string is not
+        // meaningful.  Throw to signal this clearly, consistent with the factory's
+        // error-handling convention.  Use exportToFile() instead.
+        throw std::runtime_error("Parquet is a binary columnar file format and cannot be meaningfully "
+                                 "represented as a plain string. Use exportToFile() to write Parquet output "
+                                 "to disk.");
+    }
+
+    ExportResult exportWithCallback(const ArrowRecordBatch & /*batch*/,
+                                    std::function<void(const std::vector<uint8_t> &)> /*callback*/,
+                                    const ExportOptions & /*options*/) override {
+        ExportResult result;
+        result.status  = ExportStatus::NOT_SUPPORTED;
+        result.message = "Parquet streaming export via callback is not supported; use exportToFile().";
+        return result;
+    }
+
+    bool supportsFormat(ExportFormat format) const override {
+        return format == ExportFormat::FMT_ARROW_PARQUET;
+    }
+
+    std::string getExporterInfo() const override {
+        return "ParquetExporter v1.0 (Apache Parquet columnar format)";
+    }
+};
+
+/**
+ * @brief Apache Feather (Arrow IPC file) exporter.
+ *
+ * Writes data in the Apache Feather v2 format (Arrow IPC file format).
+ * Requires THEMIS_HAS_ARROW to be defined.
+ */
+class FeatherExporter : public IAnalyticsExporter {
+  public:
+    FeatherExporter() {
+        spdlog::debug("FeatherExporter initialized");
+    }
+    ~FeatherExporter() override = default;
+
+    ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
+                              [[maybe_unused]] const ExportOptions &options) override {
+        auto start = std::chrono::high_resolution_clock::now();
+        ExportResult result;
+        result.status = ExportStatus::SUCCESS;
+
+        try {
+            auto arrow_batch_result = convertToArrowRecordBatch(batch);
+            if (!arrow_batch_result.ok()) {
+                spdlog::error("Failed to convert to Arrow RecordBatch: {}", arrow_batch_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
+                return result;
+            }
+            auto arrow_batch = arrow_batch_result.ValueOrDie();
+
+            auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
+            if (!outfile_result.ok()) {
+                spdlog::error("Failed to open Feather file: {}", outfile_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to open file: " + outfile_result.status().ToString();
+                return result;
+            }
+            auto outfile = outfile_result.ValueOrDie();
+
+            auto writer_result = arrow::ipc::MakeFileWriter(outfile, arrow_batch->schema());
+            if (!writer_result.ok()) {
+                spdlog::error("Failed to create Feather writer: {}", writer_result.status().ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Failed to create Feather writer: " + writer_result.status().ToString();
+                return result;
+            }
+            auto writer = writer_result.ValueOrDie();
+
+            auto write_status = writer->WriteRecordBatch(*arrow_batch);
+            if (!write_status.ok()) {
+                spdlog::error("Failed to write Feather batch: {}", write_status.ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Write failed: " + write_status.ToString();
+                return result;
+            }
+
+            auto close_status = writer->Close();
+            if (!close_status.ok()) {
+                spdlog::error("Failed to close Feather writer: {}", close_status.ToString());
+                result.status  = ExportStatus::FAILED;
+                result.message = "Close failed: " + close_status.ToString();
+                return result;
+            }
+
+            result.bytes_written = outfile->Tell().ValueOrDie();
+            result.rows_exported = batch.rowCount();
+            spdlog::info("Feather export successful: {} rows, {} bytes", result.rows_exported, result.bytes_written);
+
+        } catch (const std::exception &e) {
+            spdlog::error("Feather export failed: {}", e.what());
+            result.status  = ExportStatus::FAILED;
+            result.message = std::string("Feather export failed: ") + e.what();
+        }
+
+        auto end           = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        return result;
+    }
+
+    std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
+        // format is implicitly FMT_ARROW_FEATHER for this exporter
+        try {
+            auto arrow_batch_result = convertToArrowRecordBatch(batch);
+            if (!arrow_batch_result.ok()) {
+                spdlog::error("Failed to convert to Arrow RecordBatch for Feather string export");
+                return "# ERROR: Failed to convert to Arrow format";
+            }
+            auto arrow_batch = arrow_batch_result.ValueOrDie();
+
+            auto buffer_result = arrow::io::BufferOutputStream::Create();
+            if (!buffer_result.ok()) {
+                return "# ERROR: Failed to create buffer";
+            }
+            auto buffer = buffer_result.ValueOrDie();
+
+            auto writer_result = arrow::ipc::MakeFileWriter(buffer, arrow_batch->schema());
+            if (!writer_result.ok()) {
+                return "# ERROR: Failed to create Feather writer";
+            }
+            auto writer = writer_result.ValueOrDie();
+
+            if (!writer->WriteRecordBatch(*arrow_batch).ok()) {
+                return "# ERROR: Failed to write Feather batch";
+            }
+            if (!writer->Close().ok()) {
+                return "# ERROR: Failed to close Feather writer";
+            }
+
+            auto result_buffer = buffer->Finish();
+            if (!result_buffer.ok()) {
+                return "# ERROR: Failed to finalize buffer";
+            }
+            auto data = result_buffer.ValueOrDie();
+            return std::string(reinterpret_cast<const char *>(data->data()), data->size());
+
+        } catch (const std::exception &e) {
+            spdlog::error("Feather string export failed: {}", e.what());
+            return "# ERROR: " + std::string(e.what());
+        }
+    }
+
+    ExportResult exportWithCallback(const ArrowRecordBatch &batch,
+                                    std::function<void(const std::vector<uint8_t> &)> callback,
+                                    const ExportOptions &options) override {
+        auto start = std::chrono::high_resolution_clock::now();
+        ExportResult result;
+        result.status = ExportStatus::SUCCESS;
+
+        try {
+            std::string data  = exportToString(batch, options);
+            size_t chunk_size = options.batch_size * 100;
+            size_t offset     = 0;
+            while (offset < data.size()) {
+                size_t len = std::min(chunk_size, data.size() - offset);
+                std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
+                callback(chunk);
+                offset += len;
+            }
+            result.rows_exported = batch.rowCount();
+            result.bytes_written = data.size();
+        } catch (const std::exception &e) {
+            result.status  = ExportStatus::FAILED;
+            result.message = std::string("Export failed: ") + e.what();
+        }
+
+        auto end           = std::chrono::high_resolution_clock::now();
+        result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        return result;
+    }
+
+    bool supportsFormat(ExportFormat format) const override {
+        return format == ExportFormat::FMT_ARROW_FEATHER;
+    }
+
+    std::string getExporterInfo() const override {
+        return "FeatherExporter v1.0 (Apache Feather / Arrow IPC file format)";
+    }
+};
+
+#endif // THEMIS_HAS_ARROW
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+#ifndef THEMIS_HAS_ARROW
+[[noreturn]] static void throwArrowUnavailable(const char *format_name) {
+    spdlog::warn("ExporterFactory: {} export is not available – rebuild with -DTHEMIS_HAS_ARROW=ON", format_name);
+    throw std::runtime_error(std::string(format_name)
+                             + " export is not available. "
+                               "Rebuild with -DTHEMIS_HAS_ARROW=ON and install Apache Arrow library.");
+}
+#endif
 
 // Factory implementations
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat format) {
-    // For now, return stub exporter for all formats
-    // In the future, this would return format-specific exporters
-    return std::make_unique<StubAnalyticsExporter>();
+    switch (format) {
+        case ExportFormat::JSON:
+        case ExportFormat::CSV:
+            return std::make_unique<JSONCSVExporter>();
+
+        case ExportFormat::FMT_ARROW_IPC:
+#ifdef THEMIS_HAS_ARROW
+            return std::make_unique<ArrowIPCExporter>();
+#else
+            throwArrowUnavailable("Arrow IPC");
+#endif
+
+        case ExportFormat::FMT_ARROW_PARQUET:
+#ifdef THEMIS_HAS_ARROW
+            return std::make_unique<ParquetExporter>();
+#else
+            throwArrowUnavailable("Parquet");
+#endif
+
+        case ExportFormat::FMT_ARROW_FEATHER:
+#ifdef THEMIS_HAS_ARROW
+            return std::make_unique<FeatherExporter>();
+#else
+            throwArrowUnavailable("Feather");
+#endif
+    }
+    throw std::runtime_error("Unknown export format");
 }
 
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createDefaultExporter() {
-    return std::make_unique<StubAnalyticsExporter>();
+    return std::make_unique<JSONCSVExporter>();
 }
 
 } // namespace analytics

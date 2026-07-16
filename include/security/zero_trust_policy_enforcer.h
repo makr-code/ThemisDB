@@ -1,24 +1,20 @@
+/**
+ * @file zero_trust_policy_enforcer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zero_trust_policy_enforcer.h                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 72c5fa5ba  2026-02-23  feat(security): implement zero-trust network policy enfor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: zero_trust_policy_enforcer.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +28,8 @@
 #include <mutex>
 #include <atomic>
 #include <functional>
+#include <array>
+#include <cstdint>
 
 namespace themis {
 namespace security {
@@ -42,6 +40,15 @@ namespace security {
  * Every inbound request must supply this context.  The enforcer uses
  * the fields to (a) re-verify the caller's identity and (b) check whether
  * the source network location is permitted under the active policies.
+ *
+ * Continuous verification fields (Phase 3.1):
+ *   - last_verified_at: when the session was last successfully verified.
+ *     Used by the continuous re-verification logic to decide whether a
+ *     full re-check is needed for this request.
+ *   - session_risk_score: a [0.0, 1.0] risk score accumulated during the
+ *     session.  Scores closer to 1.0 represent higher risk.  When the
+ *     score exceeds the NetworkPolicy::risk_score_threshold the session
+ *     is revoked and DENIED is returned.
  */
 struct ZeroTrustContext {
     std::string request_id;   ///< Unique request identifier (UUID or similar)
@@ -53,6 +60,17 @@ struct ZeroTrustContext {
     std::optional<std::string> device_id; ///< Optional device identifier
     std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();
     std::unordered_map<std::string, std::string> attributes; ///< Extensible context
+
+    // ── Continuous re-verification fields (Phase 3.1) ─────────────────────
+    /// When the session was last successfully zero-trust verified.
+    /// Set to epoch (default) to force re-verification on the first request.
+    std::chrono::system_clock::time_point last_verified_at{};
+
+    /// Accumulated session risk score [0.0, 1.0].  A score of 0.0 means
+    /// no risk detected; 1.0 means the session should be immediately revoked.
+    /// Callers should update this field (e.g. from BehavioralAnomalyDetector)
+    /// before passing the context to verify().
+    double session_risk_score = 0.0;
 };
 
 /**
@@ -60,14 +78,30 @@ struct ZeroTrustContext {
  *
  * Zero-trust requires that access is granted only from explicitly permitted
  * network locations.  Policies can target a specific user or a role.
+ *
+ * Continuous re-verification fields (Phase 3.1):
+ *   - continuous_verification_interval_ms: when non-zero, force a full
+ *     re-verification whenever (now - last_verified_at) exceeds this value.
+ *     Set to 0 to disable continuous re-verification (per-request only).
+ *   - risk_score_threshold: if context.session_risk_score exceeds this
+ *     value the session is immediately revoked regardless of IP/token state.
+ *     Set to 1.0 (default) to effectively disable threshold-based revocation.
  */
 struct NetworkPolicy {
     std::string policy_id;                    ///< Unique policy identifier
     std::string identity;                     ///< user_id or role name this policy applies to
-    std::vector<std::string> allowed_cidrs;   ///< CIDRs from which access is permitted
+    std::vector<std::string> allowed_cidrs;   ///< CIDRs from which access is permitted (IPv4 and IPv6)
     std::vector<std::string> denied_cidrs;    ///< CIDRs that are always blocked (takes precedence)
     bool default_deny = true;                 ///< Zero-trust: deny unless explicitly allowed
     std::optional<std::chrono::seconds> max_token_age; ///< Maximum token age for this identity
+
+    // ── Continuous re-verification (Phase 3.1) ────────────────────────────
+    /// Interval between forced re-verifications (0 = disabled).
+    std::chrono::milliseconds continuous_verification_interval_ms{0};
+
+    /// Risk-score threshold in [0.0, 1.0].  Sessions with a risk score above
+    /// this value are immediately revoked.  Default 1.0 disables the check.
+    double risk_score_threshold = 1.0;
 };
 
 /**
@@ -153,7 +187,9 @@ public:
     /**
      * @brief Construct with optional token verifier
      * @param token_verifier Optional callback for token validation.
-     *        When null, token verification is skipped (identity_verified = true).
+     *        When null, `verifyToken()` denies by default (fail-closed).
+     *        Call `setAllowUnverifiedToken(true)` to allow access without a
+     *        verifier (test environments only).
      */
     explicit ZeroTrustPolicyEnforcer(TokenVerifier token_verifier = nullptr);
 
@@ -205,17 +241,53 @@ public:
     // Individual checks (usable for testing or staged enforcement)
     // ========================================================================
 
+    // ========================================================================
+    // Fail-closed configuration
+    // ========================================================================
+
+    /**
+     * @brief Allow access when no TokenVerifier is configured (default: false)
+     *
+     * By default, `verifyToken()` denies every request when the TokenVerifier
+     * callback is null (fail-closed).  Call `setAllowUnverifiedToken(true)` to
+     * restore the old pass-through behaviour in unit-test environments where a
+     * real verifier is deliberately absent.
+     *
+     * SECURITY NOTE: never enable this in production.  Document the override
+     * clearly in test fixtures using a STUB/SIMULATION NOTE comment.
+     */
+    void setAllowUnverifiedToken(bool allow) noexcept { allow_unverified_token_ = allow; }
+
+    /**
+     * @brief Allow access when no network policies are registered (default: false)
+     *
+     * By default, `isIpAllowed()` denies all requests when `policies_` is
+     * empty (fail-closed).  Set to `true` during phased roll-out of network
+     * policy configuration to preserve the legacy "unconfigured = allow"
+     * behaviour.  Remove all call-sites before moving to production.
+     */
+    void setAllowEmptyNetworkPolicies(bool allow) noexcept { allow_empty_network_policies_ = allow; }
+
+    // ========================================================================
+    // Individual checks (usable for testing or staged enforcement)
+    // ========================================================================
+
     /**
      * @brief Verify a token/credential for the given user_id
-     * @return true if no TokenVerifier is set (token check skipped) or
-     *         if the TokenVerifier confirms the token
+     *
+     * Returns `false` (deny) when no TokenVerifier is configured unless
+     * `setAllowUnverifiedToken(true)` has been called explicitly.
      */
     bool verifyToken(const std::string& token, const std::string& user_id) const;
 
     /**
      * @brief Check whether a source IP is allowed under the policies for identity
      *
-     * @param client_ip IPv4 address (e.g. "192.168.1.1")
+     * Supports both IPv4 (dotted-decimal) and IPv6 (colon-hex) CIDRs.
+     * IPv4-mapped IPv6 addresses (::ffff:a.b.c.d) are normalised to IPv4
+     * before matching.
+     *
+     * @param client_ip IPv4 or IPv6 address string
      * @param identity  user_id whose policies are evaluated
      * @return true if access is permitted from this IP
      */
@@ -229,6 +301,7 @@ public:
      *   - Network policy passed: +0.4
      *   - Device ID present: +0.1
      *   - Request freshness (< 60 s): +0.1
+     *   - session_risk_score deducted from the final score
      *
      * @return Score in [0.0, 1.0]
      */
@@ -258,6 +331,23 @@ private:
     /// Returns false on parse error
     static bool parseIpv4(const std::string& ip, uint32_t& out);
 
+    /// Parse an IPv6 address string (colon-hex notation, including :: abbreviation)
+    /// into a 16-byte big-endian array.  Returns false on parse error.
+    static bool parseIpv6(const std::string& ip, std::array<uint8_t, 16>& out);
+
+    /// Check if a single IPv6 address falls within an IPv6 CIDR block.
+    /// The CIDR string must be in "addr/prefix" notation.
+    static bool ipv6MatchesCidr(const std::string& ip, const std::string& cidr);
+
+    /// Attempt to normalise an IPv4-mapped IPv6 address (::ffff:a.b.c.d) to
+    /// its IPv4 form.  Returns the original string unchanged if it is not
+    /// IPv4-mapped.
+    static std::string normaliseIpv4MappedIpv6(const std::string& ip);
+
+    /// Dispatch to the correct CIDR-matching implementation based on whether
+    /// the CIDR (and address) look like IPv6 or IPv4.
+    static bool ipMatchesCidrAny(const std::string& ip, const std::string& cidr);
+
     /// Find the first policy that applies to the given identity (by user_id).
     /// Returns nullptr if no policy is registered for this identity.
     const NetworkPolicy* findPolicyForIdentity(const std::string& identity) const;
@@ -266,6 +356,10 @@ private:
     std::unordered_map<std::string, NetworkPolicy> policies_; ///< Keyed by policy_id
     TokenVerifier token_verifier_;
     mutable Metrics metrics_;
+    /// When false (default), verifyToken() denies if token_verifier_ is null (fail-closed).
+    bool allow_unverified_token_{false};
+    /// When false (default), isIpAllowed() denies if policies_ is empty (fail-closed).
+    bool allow_empty_network_policies_{false};
 };
 
 } // namespace security

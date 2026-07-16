@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            relevance_evaluator.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     384                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file relevance_evaluator.cpp
- * @brief Implementation of relevance evaluation
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/relevance_evaluator.h"
@@ -178,6 +162,11 @@ Questions:)";
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Reverse question generation failed: {}", e.what());
+    }
+
+    if (questions.empty()) {
+        // Offline/no-model fallback: nutze die Antwort selbst als Rueckfrage-Anker.
+        questions.push_back(answer);
     }
     
     THEMIS_DEBUG("Generated {} reverse questions", questions.size());

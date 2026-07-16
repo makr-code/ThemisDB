@@ -1,23 +1,21 @@
+/**
+ * @file build_info.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=26, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            build_info.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1015                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: build_info.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1023
+ * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=29, L=0
+ * PR History (last 5): #3830 feat(themis): Modular Build... (2026-03-12) | #3646 fix(themis): complete build... (2026-03-12) | #3408 Migrate Themis core impleme... (2026-03-12) | #3404 [themis] Register BuildInfo... (2026-03-12) | #3403 [themis] Fix edition featur... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -61,13 +59,13 @@ BuildConfiguration getBuildConfiguration() {
     
     switch (edition_info.type) {
         case edition::EditionType::COMMUNITY:
-            config.edition_type = "Community";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::ENTERPRISE:
-            config.edition_type = "Enterprise";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::HYPERSCALER:
-            config.edition_type = "Hyperscaler";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         default:
             config.edition_type = "Unknown";
@@ -542,6 +540,24 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
+    // STUB #95 — RESOLVED via HsmModuleStatusFn bridge in canonical
+    // src/themis/build_info.cpp (setHsmModuleStatusFn / clearHsmModuleStatusFn).
+    // This legacy file is no longer compiled; the note is kept for reference.
+    //
+    // Original STUB/SIMULATION NOTE:
+    // Purpose: Report HSM PKCS#11 as not-enabled in the build-info module list
+    //   so that operators can detect that the server is running with the
+    //   in-process stub HSM (HSMProvider::isStubProvider() == true).
+    // Activation: THEMIS_ENABLE_HSM_REAL is not defined (default in dev builds
+    //   and when no PKCS#11 library is available).
+    // Production Delta: HSM operations (DEK wrapping/unwrapping, firmware
+    //   signing) use an in-memory AES-256-GCM stub KEK instead of the HSM's
+    //   hardware-protected key.  Blocked at startup by HSMSecurityChecker
+    //   unless --allow-stub-hsm is passed.
+    // Removal Plan: Configure a real PKCS#11 library (library_path) and build
+    //   with -DTHEMIS_ENABLE_HSM_REAL=ON; the `#ifdef THEMIS_ENABLE_HSM_REAL`
+    //   branch above becomes active.
+    // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Provider Production"
     config.modules.push_back({
         "HSM PKCS#11",
         false,

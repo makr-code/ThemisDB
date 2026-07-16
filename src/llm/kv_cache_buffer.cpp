@@ -1,27 +1,26 @@
+/**
+ * @file kv_cache_buffer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kv_cache_buffer.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     239                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kv_cache_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 263
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=1, L=0
+ * PR History (last 5): #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/kv_cache_buffer.h"
 #include <algorithm>
+#include <limits>
 #include <stdexcept>
 
 namespace themis {
@@ -43,6 +42,13 @@ KVCacheBuffer::~KVCacheBuffer() {
 }
 
 bool KVCacheBuffer::appendToken(int sequence_id, const float* key, const float* value) {
+    if (key == nullptr || value == nullptr) {
+        return false;
+    }
+    if (config_.embedding_dim == 0) {
+        return false;
+    }
+
     auto& cache = getCacheForSequence(sequence_id);
     
     // Append key and value
@@ -64,12 +70,31 @@ bool KVCacheBuffer::appendToken(int sequence_id, const float* key, const float* 
 
 bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys,
                                  const std::vector<float>& values, size_t n_tokens) {
-    if (keys.size() != n_tokens * config_.embedding_dim ||
-        values.size() != n_tokens * config_.embedding_dim) {
+    if (config_.embedding_dim == 0 && n_tokens > 0) {
+        return false;
+    }
+
+    if (config_.embedding_dim != 0 &&
+        n_tokens > (std::numeric_limits<size_t>::max() / config_.embedding_dim)) {
+        throw std::invalid_argument("n_tokens * embedding_dim overflows size_t");
+    }
+
+    const size_t expected_elements = n_tokens * config_.embedding_dim;
+
+    if (keys.size() != expected_elements ||
+        values.size() != expected_elements) {
         throw std::invalid_argument("Keys/values size mismatch with n_tokens and embedding_dim");
+    }
+
+    if (current_batch_tokens_ > (std::numeric_limits<size_t>::max() - n_tokens)) {
+        throw std::overflow_error("current batch token count overflow");
     }
     
     auto& cache = getCacheForSequence(sequence_id);
+
+    if (cache.n_tokens > (std::numeric_limits<size_t>::max() - n_tokens)) {
+        throw std::overflow_error("sequence token count overflow");
+    }
     
     // Append all keys and values
     cache.keys.insert(cache.keys.end(), keys.begin(), keys.end());
@@ -81,6 +106,9 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
     // Update stats
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
+        if (stats_.total_appends > (std::numeric_limits<size_t>::max() - n_tokens)) {
+            throw std::overflow_error("stats total_appends overflow");
+        }
         stats_.total_appends += n_tokens;
         stats_.current_batch_size = current_batch_tokens_;
     }
@@ -105,7 +133,11 @@ void KVCacheBuffer::flush() {
         stats_.total_tokens_cached += current_batch_tokens_;
         
         // Update average batch utilization
-        double current_utilization = static_cast<double>(current_batch_tokens_) / config_.max_tokens_per_batch;
+        double current_utilization = 0.0;
+        if (config_.max_tokens_per_batch != 0) {
+            current_utilization = static_cast<double>(current_batch_tokens_) /
+                                  static_cast<double>(config_.max_tokens_per_batch);
+        }
         stats_.avg_batch_utilization = 
             (stats_.avg_batch_utilization * (stats_.total_flushes - 1) + current_utilization) / stats_.total_flushes;
         

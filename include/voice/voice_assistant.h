@@ -1,38 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_assistant.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     420                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
-    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
-    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • 7bdfe2da2  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_assistant.h
- * @brief Voice Assistant Manager
- * 
- * Integrates STT, TTS, and LLM for natural language voice interactions.
- * Handles phone call recording, meeting protocols, and voice commands.
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -42,11 +16,15 @@
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
 #include "voice/voice_auth.h"
+#include "voice/voice_security.h"
 #include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
 #include <string>
 #include <memory>
 #include <functional>
+#include <map>
+#include <unordered_map>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -132,6 +110,9 @@ public:
         bool enable_voice_auth = false;
         VoiceAuthConfig voice_auth_config;
 
+        // Voice security and audit logging configuration
+        VoiceSecurityConfig voice_security_config;
+
         // Wake-word configuration
         bool enable_wake_word = false;
         WakeWordConfig wake_word_config;
@@ -144,6 +125,28 @@ public:
     
     VoiceAssistant(const Config& config);
     ~VoiceAssistant();
+
+    /**
+     * @brief Callback type for audio format conversion.
+     *
+     * Receives (audio_data, target_format) and returns the converted audio
+     * bytes.  An empty return is treated as a conversion failure; the original
+     * bytes are returned to the caller in that case.
+     */
+    using AudioConvertFn =
+        std::function<std::vector<uint8_t>(const std::vector<uint8_t>&,
+                                           const std::string&)>;
+
+    /**
+     * @brief Inject an audio format conversion backend.
+     *
+     * When set, convertAudioFormat() delegates to @p fn instead of returning
+     * the input bytes unchanged.  Callers inject a libavformat-backed (FFmpeg)
+     * implementation at startup; unit tests inject a scripted converter.
+     *
+     * @param fn  Callable(audio_data, target_format) → converted bytes.
+     */
+    void setAudioConvertFn(AudioConvertFn fn) { audio_convert_fn_ = std::move(fn); }
     
     /**
      * @brief Initialize voice assistant
@@ -178,6 +181,19 @@ public:
         const std::string& text,
         const std::string& session_id
     );
+
+    /**
+     * @brief Sanitize voice-related LLM prompt text with shared prompt policy.
+     *
+     * Applies the repository-wide shared prompt-safety policy used across
+     * LLM/RAG/training paths. Blocked prompt patterns fail closed to a fixed
+     * safe marker string. Allowed prompt text is returned with control-token
+     * redaction where configured.
+     *
+     * @param input Raw prompt fragment.
+     * @return Sanitized prompt text, or a fixed safe marker when blocked.
+     */
+    static std::string sanitizeLLMPromptText(const std::string& input);
 
     /**
      * @brief Process voice command with real-time streaming STT
@@ -258,8 +274,10 @@ public:
      * @brief Perform 1:1 speaker verification against a stored profile (no liveness check).
      *
      * @param profile_id    Previously enrolled profile identifier.
-     * @param audio_sample  Raw PCM probe audio.
+     * @param audio_sample  Raw PCM probe audio — profile_id validation via voice_security_manager_.logEvent
      * @return VerificationResult with verified==true when match_score ≥ threshold.
+     * @note Audit logging: all verification attempts are logged to voice_security_manager for compliance.
+     *       Logs include: match_score, threshold, success/failure flag, timestamp.
      */
     VerificationResult verifyVoiceSpeaker(
         const VoiceProfileID&         profile_id,
@@ -269,8 +287,10 @@ public:
      * @brief 1:N speaker identification: search audio against a set of candidate profiles.
      *
      * @param candidate_profiles  Profile IDs to compare against.
-     * @param audio_sample        Raw PCM probe audio.
+     * @param audio_sample        Raw PCM probe audio — identification logged to voice_security_manager
      * @return IdentificationResult with all matches above the identification threshold.
+     * @note Audit logging: all identification attempts are logged to voice_security_manager for compliance.
+     *       Logs include: candidate_count, match_count, success/failure flag, timestamp.
      */
     IdentificationResult identifyVoiceProfiles(
         const std::vector<VoiceProfileID>& candidate_profiles,
@@ -367,6 +387,39 @@ public:
      * @brief Update session context
      */
     void updateSession(const std::string& session_id, const json& context);
+
+    /**
+     * @brief Delete an existing voice session.
+     *
+     * Removes the session entry from the in-memory session table. If the
+     * session does not exist, no state is modified.
+     *
+     * @param session_id Session identifier to delete.
+     * @return true when a session was removed, false when it was not found.
+     */
+    bool deleteSession(const std::string& session_id);
+
+    /**
+     * @brief Synthesize text to speech using the embedded TTS processor.
+     *
+     * @param text       Text to synthesize.
+     * @param options    TTS options (voice, speed, pitch, format).
+     * @return TTS result containing audio_data, mime_type, duration_ms.
+     */
+    content::TTSResult synthesize(
+        const std::string& text,
+        const content::TTSOptions& options = {}
+    );
+
+    /**
+     * @brief Return the list of available TTS voices.
+     */
+    json getAvailableVoices() const;
+
+    /**
+     * @brief Return the list of supported TTS language codes.
+     */
+    std::vector<std::string> getSupportedLanguages() const;
     
     /**
      * @brief Get statistics
@@ -387,6 +440,9 @@ private:
     // Voice biometric authenticator
     VoiceBiometricAuthenticator voice_authenticator_;
 
+    // Voice security and audit manager
+    VoiceSecurityManager voice_security_manager_;
+
     // Voice command macro manager
     VoiceMacroManager macro_manager_;
 
@@ -396,10 +452,31 @@ private:
     // Session management
     std::map<std::string, VoiceSession> sessions_;
     std::mutex sessions_mutex_;
-    
+
+    // Revision store — tracks all createRevisionEntry() calls so that
+    // history queries, version diffing, and audit log consumers can find
+    // the records within the same process lifetime.
+    struct RevisionEntry {
+        std::string entity_id;   ///< Owning entity key
+        uint32_t    data_hash;   ///< FNV-1a hash of the data payload
+        json        metadata;    ///< Caller-supplied metadata snapshot
+        int64_t     timestamp;   ///< Epoch nanoseconds at entry creation
+    };
+    std::unordered_map<std::string, RevisionEntry> revision_store_;
+    std::mutex revision_store_mutex_;
+
     bool initialized_ = false;
+    AudioConvertFn audio_convert_fn_;  ///< Optional audio format converter; null = passthrough stub.
     
     // Internal methods
+    /**
+     * @brief Generate LLM response from user input with fail-closed empty-input guard.
+     * 
+     * @param user_input User prompt text — empty string rejected via fail-closed guard
+     * @param session Voice session context
+     * @return Generated LLM response or fallback message
+     * @note Fail-closed: rejects empty user_input with spdlog::error and returns safe fallback
+     */
     std::string generateLLMResponse(
         const std::string& user_input,
         const VoiceSession& session
@@ -413,6 +490,13 @@ private:
         const std::string& entity_id,
         const std::vector<uint8_t>& data,
         const json& metadata
+    );
+
+    void logVoiceAuthenticationAudit(
+        const std::string& user_id,
+        const std::string& session_id,
+        const std::string& action,
+        const VoiceAuthResult& result
     );
 };
 

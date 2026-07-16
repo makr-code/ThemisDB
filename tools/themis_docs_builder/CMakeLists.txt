@@ -17,7 +17,7 @@ find_package(RocksDB REQUIRED)
 if(WITH_YAML)
     find_package(yaml-cpp)
     if(yaml-cpp_FOUND)
-        add_definitions(-DWITH_YAML_SUPPORT)
+        target_compile_definitions(themis_docs_builder PRIVATE WITH_YAML_SUPPORT)
     endif()
 endif()
 

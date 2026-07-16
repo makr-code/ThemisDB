@@ -1,26 +1,25 @@
+/**
+ * @file knowledge_graph_enricher.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_graph_enricher.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     411                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: knowledge_graph_enricher.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 08:11:44
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 663
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=7, L=0
+ * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3777 feat(training): wire findSi... (2026-03-12) | #3768 [WIP] Implement vector simi... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "training/knowledge_graph_enricher.h"
+#include "index/vector_index.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -79,6 +78,14 @@ namespace graph_aql {
         "FOR sample IN @@collection "
         "FILTER sample.input != null "
         "RETURN sample._key";
+
+    // Find internal administrative guidance documents via OUTBOUND graph traversal
+    constexpr const char* RELATED_GUIDANCE =
+        "FOR doc IN @@documents FILTER doc._key == @document_id "
+        "FOR guidance, edge IN 1..@depth OUTBOUND doc @@references "
+        "FILTER guidance.document_type == 'guidance' "
+        "LIMIT @max_results "
+        "RETURN guidance._key";
 } // namespace graph_aql
 
 // ============================================================================
@@ -164,6 +171,8 @@ private:
 // ============================================================================
 class KnowledgeGraphEnricher::Impl {
 public:
+    friend class KnowledgeGraphEnricher;
+
     explicit Impl(const EnrichmentConfig& config, const std::string& db_connection)
         : config_(config)
         , db_connection_(db_connection) {
@@ -204,7 +213,7 @@ public:
                 // Phase 6: Persist enriched context back to collection
                 persistContext(sample_id, context);
 
-                stats.graph_queries_executed += 3; // provisions + case_law + similar
+                stats.graph_queries_executed += 4; // provisions + case_law + guidance + similar
                 stats.samples_processed++;
                 processed++;
 
@@ -213,7 +222,7 @@ public:
                              "Enriched sample " + sample_id);
                 }
 
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Continue with remaining samples (error recovery)
             }
         }
@@ -271,6 +280,11 @@ public:
             }
         }
 
+        if (config_.include_guidance) {
+            context.internal_guidance = findRelatedGuidance(source_document_id,
+                                                            config_.max_related_items);
+        }
+
         // Phase 6: Build context summary
         context.context_summary = buildContextSummary(context);
 
@@ -305,13 +319,14 @@ public:
 
                 stats.context_items_added += context.related_provisions.size()
                                            + context.case_law.size()
+                                           + context.internal_guidance.size()
                                            + context.similar_documents.size();
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
                 }
 
                 persistContext(sample_id, context);
-                stats.graph_queries_executed += 3;
+                stats.graph_queries_executed += 4;
                 stats.samples_processed++;
                 processed++;
 
@@ -319,7 +334,7 @@ public:
                     callback(processed, sample_ids.size(),
                              "Query-enriched sample " + sample_id);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // continue
             }
         }
@@ -334,7 +349,7 @@ public:
     // Phase 6: Graph traversal helpers
     // -------------------------------------------------------------------------
     std::vector<std::string> findRelatedProvisions(const std::string& document_id,
-                                                    size_t max_results) {
+                                                    [[maybe_unused]] size_t max_results) {
         std::vector<std::string> provisions;
 
         if (document_id.empty()) return provisions;
@@ -345,29 +360,42 @@ public:
         //   FOR provision IN 1..@depth OUTBOUND doc references
         //   LIMIT @max_results RETURN provision._key
         //   (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // bound as @max_results in production AQL query
 
         // Check custom query override
         auto it = custom_queries_.find("find_provisions");
-        (void)it; // used when database is connected
+        // used when database is connected
 
         // Return empty in test environment (no database)
         return provisions;
     }
 
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
-                                                 size_t max_results) {
+                                                 [[maybe_unused]] size_t max_results) {
         std::vector<std::string> case_law;
 
         if (document_id.empty()) return case_law;
 
         // Phase 6: AQL traversal for case law (graph_aql::RELATED_CASE_LAW)
         // (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // bound as @max_results in production AQL query
         auto it = custom_queries_.find("find_case_law");
-        (void)it;
 
         return case_law;
+    }
+
+    std::vector<std::string> findRelatedGuidance(const std::string& document_id,
+                                                  size_t max_results) {
+        std::vector<std::string> guidance;
+
+        if (document_id.empty() || max_results == 0) return guidance;
+
+        // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
+        // (max_results bound as @max_results in production AQL query)
+        // bound as @max_results in production AQL query
+        auto it = custom_queries_.find("find_guidance");
+
+        return guidance;
     }
 
     std::vector<std::pair<std::string, float>> findSimilarDocuments(
@@ -376,20 +404,59 @@ public:
 
         std::vector<std::pair<std::string, float>> similar;
 
-        if (document_id.empty()) return similar;
+        if (document_id.empty() || max_results == 0) return similar;
 
-        // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
-        // Uses cosine similarity on pre-computed embeddings
-        // (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // Check custom query override (AQL path – used when a query executor
+        // is connected rather than a VectorIndexManager)
         auto it = custom_queries_.find("find_similar");
-        (void)it;
 
+        // In production builds, a VectorIndexManager must be injected via
+        // setVectorIndex() before requesting similarity search.  Returning an
+        // empty result silently would hide a configuration error; fail fast
+        // instead so callers are forced to wire the dependency correctly.
+        if (!vector_index_) {
+#ifdef THEMIS_TEST_MODE
+            // Silent stub in test mode: return empty result set.
+            return similar;
+#else
+            throw std::runtime_error(
+                "KnowledgeGraphEnricher: VectorIndexManager not injected. "
+                "Call setVectorIndex() with an initialized VectorIndexManager "
+                "before invoking findSimilarDocuments() in production builds.");
+#endif
+        }
+        // Use the VectorIndexManager (already confirmed non-null above).
+        // Fetch the embedding of the query document.
+        auto query_vec_opt = vector_index_->getVectorByPk(document_id);
+        if (!query_vec_opt.has_value()) {
+            // Document has no embedding – cannot perform vector search.
+            return similar;
+        }
+
+        // Request max_results + 1 candidates so we can safely exclude the
+        // query document itself from the result set.
+        const size_t k = max_results + 1;
+        auto [st, results] = vector_index_->searchKnn(*query_vec_opt, k);
+
+        if (!st.ok) {
+            // Index search failed – return empty rather than crashing.
+            return similar;
+        }
+
+        for (const auto& r : results) {
+            if (r.pk == document_id) continue; // exclude self
+            similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
+            if (similar.size() >= max_results) break;
+        }
         return similar;
     }
 
     void setCustomQuery(const std::string& query_name, const std::string& aql_query) {
         custom_queries_[query_name] = aql_query;
+    }
+
+    void setVectorIndex(VectorIndexManager* vim) {
+        vector_index_ = vim;
     }
 
     // Phase 6: Get AQL query template for a given query name
@@ -401,6 +468,7 @@ public:
         // Return built-in templates
         if (query_name == "find_provisions")  return graph_aql::RELATED_PROVISIONS;
         if (query_name == "find_case_law")    return graph_aql::RELATED_CASE_LAW;
+        if (query_name == "find_guidance")    return graph_aql::RELATED_GUIDANCE;
         if (query_name == "find_similar")     return graph_aql::SIMILAR_DOCUMENTS;
         if (query_name == "update_context")   return graph_aql::UPDATE_SAMPLE_CONTEXT;
         if (query_name == "fetch_all")        return graph_aql::FETCH_ALL_SAMPLES;
@@ -434,24 +502,51 @@ private:
     std::string db_connection_;
     std::unordered_map<std::string, std::string> custom_queries_;
     std::unique_ptr<EnrichmentLRUCache> cache_; ///< optional LRU cache (Phase 9)
+    VectorIndexManager* vector_index_ = nullptr; ///< non-owning; nullptr = offline/stub
+    std::string graph_version_ = "v0"; ///< version appended to cache keys; updateable via setGraphVersion()
+    std::unordered_map<std::string, std::string> source_doc_map_; ///< sample_id → doc_id registry
+
+    // Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
+    // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
+    // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
+    // point rounding artefacts near the boundaries.
+    static float distanceToSimilarityScore(float distance) {
+        return std::max(0.0f, std::min(1.0f, 1.0f - distance));
+    }
 
     // Build the cache key for a given entity + graph version
     std::string cacheKey(const std::string& entity_key) const {
-        // In production: append the current graph schema version to the key
-        // to enable version-based invalidation. Here we use "v0" as a static
-        // placeholder; a live implementation would query the AQL metadata API.
         std::hash<std::string> hasher;
-        size_t h = hasher(entity_key + ":v0");
+        size_t h = hasher(entity_key + ":" + graph_version_);
         std::ostringstream oss;
         oss << std::hex << h;
         return oss.str();
     }
 
+    // Set the graph schema version used in cache-key generation.
+    void setGraphVersion(const std::string& version) {
+        if (!version.empty()) {
+            graph_version_ = version;
+        }
+    }
+
+    // Register a sample → source-document mapping for offline/in-process use.
+    void registerSourceDocument(const std::string& sample_id,
+                                const std::string& document_id) {
+        source_doc_map_[sample_id] = document_id;
+    }
+
     // Phase 6: Resolve the source document ID for a given sample
     std::string resolveSourceDocumentId(const std::string& sample_id) const {
-        // In production: FOR s IN @@collection FILTER s._key == @id RETURN s.source_doc_id
-        // In test environment: return empty (no document to enrich)
-        (void)sample_id;
+        // Look up the in-process registry populated via registerSourceDocument().
+        // This covers offline/test builds where no AQL query engine is injected.
+        // Production use: wire the AQL engine into KnowledgeGraphEnricher and
+        // execute: FOR s IN @@collection FILTER s._key == @id RETURN s.source_doc_id
+        // (Target: v1.5.0, src/training/FUTURE_ENHANCEMENTS.md §"AQL metadata API").
+        auto it = source_doc_map_.find(sample_id);
+        if (it != source_doc_map_.end()) {
+            return it->second;
+        }
         return "";
     }
 
@@ -462,7 +557,7 @@ private:
         // Phase 6: AQL update (graph_aql::UPDATE_SAMPLE_CONTEXT)
         // Compute a quality score based on how much context was found
         double quality = computeContextQuality(context);
-        (void)quality;
+        static_cast<void>(quality);
         // In production: execute UPDATE_SAMPLE_CONTEXT binding @context, @quality_score
     }
 
@@ -530,6 +625,12 @@ std::vector<std::string> KnowledgeGraphEnricher::findRelatedCaseLaw(
     return impl_->findRelatedCaseLaw(document_id, max_results);
 }
 
+std::vector<std::string> KnowledgeGraphEnricher::findRelatedGuidance(
+    const std::string& document_id,
+    size_t max_results) {
+    return impl_->findRelatedGuidance(document_id, max_results);
+}
+
 std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDocuments(
     const std::string& document_id,
     size_t max_results) {
@@ -539,6 +640,19 @@ std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDo
 void KnowledgeGraphEnricher::setCustomQuery(const std::string& query_name,
                                            const std::string& aql_query) {
     impl_->setCustomQuery(query_name, aql_query);
+}
+
+void KnowledgeGraphEnricher::setGraphVersion(const std::string& version) {
+    impl_->setGraphVersion(version);
+}
+
+void KnowledgeGraphEnricher::registerSourceDocument(const std::string& sample_id,
+                                                    const std::string& document_id) {
+    impl_->registerSourceDocument(sample_id, document_id);
+}
+
+void KnowledgeGraphEnricher::setVectorIndex(VectorIndexManager* vim) {
+    impl_->setVectorIndex(vim);
 }
 
 std::string KnowledgeGraphEnricher::getQueryTemplate(const std::string& query_name) const {
@@ -559,3 +673,4 @@ EnrichmentCacheStats KnowledgeGraphEnricher::getCacheStats() const {
 
 } // namespace training
 } // namespace themis
+

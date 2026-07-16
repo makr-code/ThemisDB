@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "generated_at": "2026-03-20T05:46:05Z",
+    "updated_at": "2026-03-20T05:46:05Z",
+    "module": "updates",
+    "source_paths": [
+      "src/updates/",
+      "include/updates/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-module-documentation-76ec546a (2026-03-20). Issue #3542."
+  },
+  "missing_implementations": [
+    {
+      "id": "UPDATES-MISSING-001",
+      "title": "README.md Relevant Interfaces table references non-existent files",
+      "claim_source": "src/updates/README.md",
+      "claim_section": "Relevant Interfaces (table rows 9-14)",
+      "expected": "Table lists correct, existing source files for core interfaces",
+      "observed": "4 files referenced that do not exist: schema_migrator.cpp, update_manager.cpp, version_tracker.cpp, migration_registry.cpp",
+      "evidence": {
+        "files": ["src/updates/README.md"],
+        "missing_files": [
+          "src/updates/schema_migrator.cpp",
+          "src/updates/update_manager.cpp",
+          "src/updates/version_tracker.cpp",
+          "src/updates/migration_registry.cpp"
+        ],
+        "actual_files": [
+          "src/updates/in_place_schema_migrator.cpp",
+          "src/updates/coordinated_update_manager.cpp",
+          "src/updates/cluster_update_manager.cpp",
+          "src/updates/update_history_logger.cpp",
+          "src/updates/dependency_resolver.cpp"
+        ]
+      },
+      "status": "resolved",
+      "resolved_date": "2026-03-20",
+      "resolution": "Updated README.md Relevant Interfaces table to list 5 correct, existing source files.",
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[updates] README.md Relevant Interfaces table references non-existent files",
+      "suggested_labels": ["type:documentation", "priority:medium", "updates", "status:resolved"]
+    },
+    {
+      "id": "UPDATES-MISSING-002",
+      "title": "ROADMAP.md CI workflow paths are missing subdirectory prefixes",
+      "claim_source": "src/updates/ROADMAP.md",
+      "claim_section": "Completed ✅ (CI references)",
+      "expected": "CI workflow paths point to actual workflow files in the repository",
+      "observed": "5 of 7 CI workflow references are missing subdirectory prefixes (e.g., '02-feature-modules/storage/'). Additionally, 2 workflows (manifest-database-file-deletion-ci.yml, distributed-cluster-updates-ci.yml) were not referenced at all.",
+      "evidence": {
+        "files": ["src/updates/ROADMAP.md"],
+        "wrong_paths": [
+          ".github/workflows/canary-deployments-ci.yml",
+          ".github/workflows/binary-delta-patches-ci.yml",
+          ".github/workflows/parallel-file-downloads-ci.yml",
+          ".github/workflows/dependency-resolution-engine-ci.yml",
+          ".github/workflows/multi-tenant-update-scheduling-ci.yml"
+        ],
+        "correct_paths": [
+          ".github/workflows/04-release/canary-deployments-ci.yml",
+          ".github/workflows/02-feature-modules/storage/binary-delta-patches-ci.yml",
+          ".github/workflows/02-feature-modules/storage/parallel-file-downloads-ci.yml",
+          ".github/workflows/02-feature-modules/dependency-resolution-engine-ci.yml",
+          ".github/workflows/02-feature-modules/multi-tenant-update-scheduling-ci.yml"
+        ],
+        "missing_references": [
+          ".github/workflows/02-feature-modules/storage/manifest-database-file-deletion-ci.yml",
+          ".github/workflows/06-infrastructure/distributed/distributed-cluster-updates-ci.yml"
+        ]
+      },
+      "status": "resolved",
+      "resolved_date": "2026-03-20",
+      "resolution": "Corrected all 5 CI workflow paths to include proper subdirectory prefixes. Added 2 missing CI workflow references for ManifestDatabase and ClusterUpdateManager.",
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[updates] ROADMAP.md CI workflow paths are missing subdirectory prefixes",
+      "suggested_labels": ["type:documentation", "priority:low", "updates", "status:resolved"]
+    },
+    {
+      "id": "UPDATES-MISSING-003",
+      "title": "ROADMAP.md test target count off-by-one (says 9, lists 10)",
+      "claim_source": "src/updates/ROADMAP.md",
+      "claim_section": "Completed ✅ — '9 standalone focused test targets'",
+      "expected": "Count matches the number of targets listed",
+      "observed": "Text says '9 standalone focused test targets' but parenthetical lists 10: UpdatesProduction, BlueGreen, CanaryRollout, BinaryDeltaPatches, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester, ParallelFileDownloads",
+      "evidence": {
+        "files": ["src/updates/ROADMAP.md"],
+        "line": 46,
+        "counted_targets": 10,
+        "stated_count": 9
+      },
+      "status": "resolved",
+      "resolved_date": "2026-03-20",
+      "resolution": "Corrected count from '9' to '10' in ROADMAP.md.",
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[updates] ROADMAP.md test target count off-by-one",
+      "suggested_labels": ["type:documentation", "priority:low", "updates", "status:resolved"]
+    },
+    {
+      "id": "UPDATES-MISSING-004",
+      "title": "Kubernetes operator integration not implemented",
+      "claim_source": "src/updates/ROADMAP.md",
+      "claim_section": "Long-term (6-12 months) / Phase 4",
+      "expected": "Kubernetes operator integration for rolling update coordination (Issue #2483)",
+      "observed": "No Kubernetes operator code found in src/updates/ or include/updates/. ClusterUpdateManager is transport-agnostic (callback-based) but no K8s operator has been implemented.",
+      "evidence": {
+        "files": ["src/updates/cluster_update_manager.h", "src/updates/cluster_update_manager.cpp"],
+        "search": "grep -r 'kubernetes|k8s|operator' src/updates/ include/updates/ — no matches",
+        "roadmap_marker": "[!]"
+      },
+      "status": "open",
+      "resolved_date": null,
+      "resolution": null,
+      "roadmap_status": "planned_long_term",
+      "roadmap_marker": "[!]",
+      "issue_number": 2483,
+      "criticality": "low",
+      "suggested_issue_title": "[updates] Kubernetes operator integration for rolling update coordination",
+      "suggested_labels": ["type:feature", "priority:low", "updates", "status:planned"]
+    },
+    {
+      "id": "UPDATES-MISSING-005",
+      "title": "FUTURE_ENHANCEMENTS.md metadata stale (version v1.5.x, Feb 2026)",
+      "claim_source": "src/updates/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "Footer and status header",
+      "expected": "Footer and status header reflect the current development state (v1.8.0, March 2026)",
+      "observed": "Footer: 'Last Updated: February 2026', 'Module Version: v1.5.x', 'Next Review: v1.6.0 Release'. Status header: 'validated: 2026-03-12'.",
+      "evidence": {
+        "files": ["src/updates/FUTURE_ENHANCEMENTS.md"],
+        "footer_lines": ["*Last Updated: February 2026*", "*Module Version: v1.5.x*", "*Next Review: v1.6.0 Release*"]
+      },
+      "status": "resolved",
+      "resolved_date": "2026-03-20",
+      "resolution": "Updated footer to v1.8.0 / March 2026. Updated validated date to 2026-03-20.",
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[updates] FUTURE_ENHANCEMENTS.md metadata is stale",
+      "suggested_labels": ["type:documentation", "priority:low", "updates", "status:resolved"]
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "resolved": 4,
+    "open": 1,
+    "critical": 0,
+    "medium": 1,
+    "low": 4
+  }
+}

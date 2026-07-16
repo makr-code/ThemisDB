@@ -1,32 +1,27 @@
+/**
+ * @file filesystem_ingester.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            filesystem_ingester.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • 81a0f7896  2026-02-23  Security fix: add isConverterSafe() to guard popen() agai... ║
-    • 08a813e1d  2026-02-22  feat(ingestion): PDF/DOCX binary format ingestion via ext... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: filesystem_ingester.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 256
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4962 docs(doxygen): tranche-3 re... (2026-05-11) | #4489 feat(ingestion): extend bin... (2026-04-09) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "ingestion_manager.h"
+#include "ingestion/file_format.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -43,7 +38,7 @@ namespace ingestion {
 enum class BinaryMimeType {
     UNKNOWN,  ///< Not a known binary type (may be text)
     PDF,      ///< Portable Document Format (magic: %PDF)
-    DOCX      ///< Office Open XML / DOCX (magic: PK\x03\x04 ZIP with OOXML marker)
+    DOCX      ///< Office Open XML / DOCX (magic: PK 0x03 0x04 ZIP with OOXML marker)
 };
 
 /**
@@ -52,7 +47,7 @@ enum class BinaryMimeType {
  * Reads the first 8 bytes of the provided raw buffer and identifies
  * known binary formats:
  * - PDF:  starts with `%PDF`
- * - DOCX: starts with the ZIP magic `PK\x03\x04` and contains the OOXML
+ * - DOCX: starts with the ZIP magic `PK 0x03 0x04` and contains the OOXML
  *         content-type marker in the first 512 bytes
  *
  * @param raw   First bytes of the file (minimum 4 bytes required; fewer
@@ -115,19 +110,6 @@ struct BinaryConverter {
     bool detect_by_magic = true;               ///< Detect type by magic bytes in addition to file extension
 
     BinaryConverter() = default;
-};
-
-/**
- * @brief Supported file formats
- */
-enum class FileFormat {
-    AUTO,       ///< Auto-detect format
-    PDF,        ///< Portable Document Format
-    DOCX,       ///< Microsoft Word
-    TXT,        ///< Plain text
-    HTML,       ///< HTML document
-    XML,        ///< XML document
-    JSON        ///< JSON document
 };
 
 /**

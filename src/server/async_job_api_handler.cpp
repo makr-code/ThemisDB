@@ -1,25 +1,21 @@
+/**
+ * @file async_job_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=11, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     464                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • baa1f73a1  2026-02-24  fix(api): code audit fixes for async job API ║
-    • e182799cd  2026-02-23  feat(api): async job API for long-running AQL queries ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_job_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=17, M=10, L=0
+ * PR History (last 5): #4285 feat(server): Versioned API... (2026-03-17) | #2763 [api] Async job API for lon... (2026-03-12) | #2731 feat(api): Async job API fo... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Ensure correct WinSock include order on Windows
@@ -41,17 +37,56 @@
 
 #include "server/async_job_api_handler.h"
 #include "server/auth_middleware.h"
+#include "cache/adaptive_query_cache.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 
 #include <chrono>
+#include <filesystem>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#ifdef _WIN32
+#include <process.h>
+#define getpid _getpid
+#else
+#include <unistd.h>
+#endif
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxAsyncJobQueryLength = 1'000'000;
+constexpr size_t kMaxAsyncJobIdLength = 256;
+
+bool isValidAsyncQuery(std::string_view query) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(query), kMaxAsyncJobQueryLength) &&
+           validator.validateAQLQuery(std::string(query));
+}
+
+bool isValidAsyncJobId(std::string_view job_id) {
+    themis::utils::InputValidator validator;
+    return !job_id.empty() &&
+           validator.validateStringLength(std::string(job_id), kMaxAsyncJobIdLength) &&
+           validator.validatePathSegment(std::string(job_id));
+}
+
+bool isValidCapturedHeader(std::string_view header_value) {
+    if (header_value.empty()) {
+        return true;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateHeaderValue(std::string(header_value));
+}
+
+} // namespace
 
 // ============================================================================
 // Helpers
@@ -145,6 +180,57 @@ std::vector<std::shared_ptr<AsyncJobRecord>> AsyncJobRegistry::all() const {
     return out;
 }
 
+std::optional<nlohmann::json> AsyncJobRegistry::getJsonSnapshot(const std::string& id) const {
+    std::shared_ptr<AsyncJobRecord> job;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = jobs_.find(id);
+        if (it == jobs_.end()) {
+            return std::nullopt;
+        }
+        job = it->second;
+    }
+    return job->toJson();
+}
+
+std::vector<nlohmann::json> AsyncJobRegistry::allJsonSnapshots() const {
+    auto jobs = all();
+    std::vector<nlohmann::json> out;
+    out.reserve(jobs.size());
+    for (const auto& job : jobs) {
+        out.push_back(job->toJson());
+    }
+    return out;
+}
+
+std::optional<std::pair<AsyncJobStatus, bool>> AsyncJobRegistry::requestCancel(
+    const std::string& id) {
+    std::shared_ptr<AsyncJobRecord> job;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = jobs_.find(id);
+        if (it == jobs_.end()) {
+            return std::nullopt;
+        }
+        job = it->second;
+    }
+
+    std::lock_guard<std::mutex> rlock(job->mu);
+    AsyncJobStatus status = job->status;
+    if (status == AsyncJobStatus::COMPLETED ||
+        status == AsyncJobStatus::FAILED ||
+        status == AsyncJobStatus::CANCELLED) {
+        return std::make_pair(status, true);
+    }
+
+    job->cancel_requested.store(true, std::memory_order_release);
+    if (job->status == AsyncJobStatus::PENDING) {
+        job->status = AsyncJobStatus::CANCELLED;
+        job->updated_at = std::chrono::system_clock::now();
+    }
+    return std::make_pair(job->status, false);
+}
+
 void AsyncJobRegistry::prune() {
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::system_clock::now();
@@ -167,14 +253,42 @@ void AsyncJobRegistry::prune() {
 // ============================================================================
 
 AsyncJobApiHandler::AsyncJobApiHandler(
-    AqlExecutor                         executor,
-    std::shared_ptr<AuthMiddleware>     auth,
-    std::shared_ptr<AsyncJobRegistry>   registry)
+    AqlExecutor                                        executor,
+    std::shared_ptr<AuthMiddleware>                    auth,
+    std::shared_ptr<AsyncJobRegistry>                  registry,
+    std::shared_ptr<AdaptiveQueryCache>                result_cache)
     : executor_(std::move(executor))
     , auth_(std::move(auth))
     , registry_(registry ? std::move(registry)
                           : std::make_shared<AsyncJobRegistry>())
-{}
+{
+    if (result_cache) {
+        result_cache_ = std::move(result_cache);
+    } else {
+        // Create a dedicated AdaptiveQueryCache with TTL = 1 hour for job results.
+        // All three tier TTLs are set to 3600 s (1 h) per the AC requirement.
+        AdaptiveQueryCache::Config cfg;
+        cfg.l1_ttl_seconds = 3600;   // 1 hour, as required by the AC
+        cfg.l2_ttl_seconds = 3600;
+        cfg.l3_ttl_seconds = 3600;
+        // Use a temp-dir path unique to this process so the L3 RocksDB does not
+        // persist across restarts and parallel test instances do not collide.
+        try {
+            // Combine PID with full steady_clock nanosecond count for uniqueness;
+            // no modulo so the full range is used even when multiple instances
+            // start within the same second.
+            const auto ns = static_cast<unsigned long long>(
+                std::chrono::steady_clock::now().time_since_epoch().count());
+            cfg.l3_db_path = std::filesystem::temp_directory_path().string() +
+                             "/themis_async_jobs_cache_" +
+                             std::to_string(static_cast<long long>(::getpid())) +
+                             "_" + std::to_string(ns);
+            result_cache_ = std::make_shared<AdaptiveQueryCache>(cfg);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("AsyncJobApiHandler: failed to create result cache: {}", ex.what());
+        }
+    }
+}
 
 AsyncJobApiHandler::~AsyncJobApiHandler() {
     // Give in-flight jobs a short window to complete so background threads
@@ -187,8 +301,7 @@ AsyncJobApiHandler::~AsyncJobApiHandler() {
     for (auto& f : to_join) {
         if (f.valid()) {
             // Wait up to 2 s; if the job is stuck the thread is detached.
-            auto status = f.wait_for(std::chrono::seconds(2));
-            (void)status;
+            f.wait_for(std::chrono::seconds(2));
         }
     }
 }
@@ -240,11 +353,12 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
 
 void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
     // Capture strong refs so the lambda keeps them alive beyond the handler.
-    auto registry = registry_;
-    auto executor = executor_;
+    auto registry     = registry_;
+    auto executor     = executor_;
+    auto result_cache = result_cache_;
 
     auto fut = std::async(std::launch::async,
-        [job, registry, executor]() mutable {
+        [job, registry, executor, result_cache]() mutable {
             // Transition: PENDING → RUNNING (under per-record lock)
             {
                 std::lock_guard<std::mutex> rlock(job->mu);
@@ -271,7 +385,15 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                         job->status = AsyncJobStatus::COMPLETED;
                     }
                     job->updated_at = std::chrono::system_clock::now();
-                    final_status = asyncJobStatusToString(job->status);
+                    final_status    = asyncJobStatusToString(job->status);
+                }
+                // Snapshot the job state outside the lock so toJson() does not
+                // re-acquire job->mu (which would self-deadlock).
+                nlohmann::json job_snapshot = job->toJson();
+                // Persist completed/cancelled state in AdaptiveQueryCache (TTL=1h).
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (const std::exception& ex) {
@@ -283,12 +405,27 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                     job->updated_at = std::chrono::system_clock::now();
                     final_status    = asyncJobStatusToString(job->status);
                 }
+                // Snapshot outside the lock to avoid re-locking job->mu.
+                nlohmann::json job_snapshot = job->toJson();
+                // Persist failed state in AdaptiveQueryCache (TTL=1h).
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (...) {
-                std::lock_guard<std::mutex> rlock(job->mu);
-                job->error      = "unknown error during async AQL execution";
-                job->status     = AsyncJobStatus::FAILED;
-                job->updated_at = std::chrono::system_clock::now();
+                {
+                    std::lock_guard<std::mutex> rlock(job->mu);
+                    job->error      = "unknown error during async AQL execution";
+                    job->status     = AsyncJobStatus::FAILED;
+                    job->updated_at = std::chrono::system_clock::now();
+                }
+                // Snapshot outside the lock to avoid re-locking job->mu.
+                nlohmann::json job_snapshot = job->toJson();
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
                 THEMIS_DEBUG("AsyncJob {} finished with status failed", job->id);
             }
         });
@@ -314,6 +451,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
 http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleSubmit");
     // Optional auth check
     if (auth_ && auth_->isEnabled()) {
         const auto auth_hdr = req[http::field::authorization];
@@ -350,6 +488,18 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     }
     const std::string auth_header = std::string(req[http::field::authorization]);
 
+    if (!isValidAsyncQuery(aql_query)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Field 'query' failed validation"}},
+            req);
+    }
+
+    if (!isValidCapturedHeader(auth_header)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Authorization header failed validation"}},
+            req);
+    }
+
     // Build job record
     auto job           = std::make_shared<AsyncJobRecord>();
     job->id            = generateJobId();
@@ -375,18 +525,16 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
 http::response<http::string_body> AsyncJobApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
-    auto jobs = registry_->all();
-    json arr = json::array();
-    for (const auto& job : jobs) {
-        arr.push_back(job->toJson());
-    }
-    return makeJsonResponse(http::status::ok, arr, req);
+    auto span = Tracer::startSpan("handleList");
+    auto jobs = registry_->allJsonSnapshots();
+    return makeJsonResponse(http::status::ok, jobs, req);
 }
 
 // GET /v2/jobs/{id}
 http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleGetStatus");
     const std::string target(req.target());
     const std::string job_id = extractJobId(target);
 
@@ -394,20 +542,25 @@ http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
         return makeJsonResponse(http::status::bad_request,
             {{"error", true}, {"message", "Missing job ID in path"}}, req);
     }
+    if (!isValidAsyncJobId(job_id)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Invalid job ID in path"}}, req);
+    }
 
-    auto job = registry_->get(job_id);
-    if (!job) {
+    auto job = registry_->getJsonSnapshot(job_id);
+    if (!job.has_value()) {
         return makeJsonResponse(http::status::not_found,
             {{"error", true}, {"message", "Job not found: " + job_id}}, req);
     }
 
-    return makeJsonResponse(http::status::ok, job->toJson(), req);
+    return makeJsonResponse(http::status::ok, *job, req);
 }
 
 // DELETE /v2/jobs/{id}
 http::response<http::string_body> AsyncJobApiHandler::handleCancel(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleCancel");
     const std::string target(req.target());
     const std::string job_id = extractJobId(target);
 
@@ -415,22 +568,21 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
         return makeJsonResponse(http::status::bad_request,
             {{"error", true}, {"message", "Missing job ID in path"}}, req);
     }
+    if (!isValidAsyncJobId(job_id)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Invalid job ID in path"}}, req);
+    }
 
-    auto job = registry_->get(job_id);
-    if (!job) {
+    auto status_result = registry_->requestCancel(job_id);
+    if (!status_result.has_value()) {
         return makeJsonResponse(http::status::not_found,
             {{"error", true}, {"message", "Job not found: " + job_id}}, req);
     }
 
-    AsyncJobStatus current;
-    {
-        std::lock_guard<std::mutex> rlock(job->mu);
-        current = job->status;
-    }
+    const AsyncJobStatus current = status_result->first;
+    const bool already_terminal = status_result->second;
 
-    if (current == AsyncJobStatus::COMPLETED ||
-        current == AsyncJobStatus::FAILED    ||
-        current == AsyncJobStatus::CANCELLED)
+    if (already_terminal)
     {
         return makeJsonResponse(http::status::conflict,
             {{"error", true},
@@ -439,17 +591,6 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
              {"job_id", job_id},
              {"status", asyncJobStatusToString(current)}},
             req);
-    }
-
-    job->cancel_requested.store(true, std::memory_order_release);
-    // If job is still PENDING (not yet picked up by executor), mark immediately
-    {
-        std::lock_guard<std::mutex> rlock(job->mu);
-        if (job->status == AsyncJobStatus::PENDING) {
-            job->status     = AsyncJobStatus::CANCELLED;
-            job->updated_at = std::chrono::system_clock::now();
-        }
-        current = job->status;
     }
 
     THEMIS_INFO("AsyncJob {} cancel requested", job_id);
@@ -463,3 +604,4 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
 
 } // namespace server
 } // namespace themis
+

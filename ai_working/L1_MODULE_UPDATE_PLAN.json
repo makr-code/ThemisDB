@@ -1,0 +1,119 @@
+{
+  "timestamp": "2026-06-25 14:01:06",
+  "level": "L1",
+  "source": "gap_scan_results_verified_L0.5_full.json",
+  "operation": "Module Documentation Update",
+  "priority_modules": [
+    "llm",
+    "server",
+    "query",
+    "network",
+    "graph",
+    "cache"
+  ],
+  "total_verified_gaps": 22160,
+  "modules_updated": {
+    "llm": {
+      "path": "src/llm/",
+      "verified_gaps": 3821,
+      "severity_breakdown": {
+        "CRITICAL": 1029,
+        "HIGH": 1937,
+        "MEDIUM": 854,
+        "LOW": 1
+      },
+      "affected_files": 146,
+      "docs_to_update": [
+        "src/llm/MODULE_GAPS.md",
+        "src/llm/README.md",
+        "src/llm/ROADMAP.md",
+        "src/llm/SECURITY.md"
+      ]
+    },
+    "server": {
+      "path": "src/server/",
+      "verified_gaps": 2172,
+      "severity_breakdown": {
+        "CRITICAL": 186,
+        "HIGH": 468,
+        "MEDIUM": 1513,
+        "LOW": 5
+      },
+      "affected_files": 111,
+      "docs_to_update": [
+        "src/server/MODULE_GAPS.md",
+        "src/server/README.md",
+        "src/server/ROADMAP.md",
+        "src/server/SECURITY.md"
+      ]
+    },
+    "query": {
+      "path": "src/query/",
+      "verified_gaps": 933,
+      "severity_breakdown": {
+        "CRITICAL": 131,
+        "HIGH": 296,
+        "MEDIUM": 502,
+        "LOW": 4
+      },
+      "affected_files": 48,
+      "docs_to_update": [
+        "src/query/MODULE_GAPS.md",
+        "src/query/README.md",
+        "src/query/ROADMAP.md",
+        "src/query/SECURITY.md"
+      ]
+    },
+    "network": {
+      "path": "src/network/",
+      "verified_gaps": 368,
+      "severity_breakdown": {
+        "CRITICAL": 22,
+        "HIGH": 221,
+        "MEDIUM": 125,
+        "LOW": 0
+      },
+      "affected_files": 21,
+      "docs_to_update": [
+        "src/network/MODULE_GAPS.md",
+        "src/network/README.md",
+        "src/network/ROADMAP.md",
+        "src/network/SECURITY.md"
+      ]
+    },
+    "graph": {
+      "path": "src/graph/",
+      "verified_gaps": 248,
+      "severity_breakdown": {
+        "CRITICAL": 18,
+        "HIGH": 45,
+        "MEDIUM": 184,
+        "LOW": 1
+      },
+      "affected_files": 14,
+      "docs_to_update": [
+        "src/graph/MODULE_GAPS.md",
+        "src/graph/README.md",
+        "src/graph/ROADMAP.md",
+        "src/graph/SECURITY.md"
+      ]
+    },
+    "cache": {
+      "path": "src/cache/",
+      "verified_gaps": 127,
+      "severity_breakdown": {
+        "CRITICAL": 10,
+        "HIGH": 74,
+        "MEDIUM": 42,
+        "LOW": 1
+      },
+      "affected_files": 12,
+      "docs_to_update": [
+        "src/cache/MODULE_GAPS.md",
+        "src/cache/README.md",
+        "src/cache/ROADMAP.md",
+        "src/cache/SECURITY.md"
+      ]
+    }
+  }
+}

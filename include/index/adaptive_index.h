@@ -1,34 +1,31 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_index.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file adaptive_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_ADAPTIVE_INDEX_H
-#define THEMIS_ADAPTIVE_INDEX_H
+/*
+ * ThemisDB | File: adaptive_index.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 309
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3573 feat(index): parallel batch... (2026-03-12) | #762 Perf: Scale to 10B records ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <unordered_set>
 #include <nlohmann/json.hpp>
@@ -268,10 +265,11 @@ public:
 private:
     QueryPatternTracker* tracker_;
     SelectivityAnalyzer* analyzer_;
+    mutable std::mutex analyzerMutex_;
 
     // In-memory registry of indexes that already exist.
     // Key format: "<collection>:<field>"
-    mutable std::mutex existingIndexesMutex_;
+    mutable std::shared_mutex existingIndexesMutex_;
     std::unordered_set<std::string> existingIndexes_;
     
     double calculateScore(const QueryPatternTracker::QueryPattern& pattern,
@@ -320,5 +318,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_ADAPTIVE_INDEX_H

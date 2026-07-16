@@ -1,4 +1,8 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Image Processing - Drohnenbild-Analyse
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 ## 📋 Übersicht
 

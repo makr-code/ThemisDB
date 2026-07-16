@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
 # Voice Module - Header Interfaces
 
 ## Module Purpose
@@ -22,6 +24,29 @@ The Voice module headers define the interface contracts for voice/audio interact
 - Database storage implementations
 
 ## Header Files
+
+### Quick Reference
+
+| Header | Key Types | Description |
+|---|---|---|
+| `audio_preprocessing.h` | `AudioPreprocessingPipeline`, `NoiseSuppressor`, `PreprocessingOptions` | Audio normalisation, VAD, echo cancellation, and RNNoise deep-learning noise suppression |
+| `emotion_analyzer.h` | `EmotionAnalyzer`, `EmotionAnalysis`, `EmotionTimeline` | Acoustic emotion classification (7 categories), sentiment polarity, stress and engagement scoring |
+| `voice_accessibility.h` | `VoiceAccessibility`, `CaptionCue`, `CaptionFormat` | Closed-caption generation and accessible transcript export (VTT, SRT, HTML, JSON) |
+| `voice_assistant.h` | `VoiceAssistant`, `VoiceSession`, `VoiceAssistant::Config` | Core voice assistant interface — STT/LLM/TTS orchestration, session management, call and meeting recording |
+| `voice_audio_storage.h` | `VoiceAudioStorage`, `AudioStorageRecord`, `StorageTier` | Tiered audio recording storage with deduplication, compression, and metadata indexing |
+| `voice_auth.h` | `VoiceBiometricAuthenticator`, `VoiceAuthResult`, `VerificationResult` | Voice-biometric speaker enrollment, 1:1 verification, 1:N identification, and liveness detection |
+| `voice_batch_processor.h` | `VoiceBatchProcessor`, `BatchJob`, `AudioQualityMetrics` | Parallel batch STT transcription with WER and PESQ-like quality metrics |
+| `voice_browser_streaming.h` | `VoiceStreamingSession`, `VoiceStreamingManager` | WebSocket-based real-time bidirectional audio streaming and incremental STT for browser clients |
+| `voice_error_handler.h` | `VoiceErrorHandler`, `VoiceCircuitBreaker`, `VoiceRetryHandler` | Structured voice pipeline error handling with circuit breaker and exponential-backoff retry |
+| `voice_intent_detector.h` | `VoiceIntentDetector`, `IntentResult`, `ConversationContext` | NLU intent classification and named-entity extraction from transcribed text |
+| `voice_macro.h` | `VoiceMacroManager`, `MacroInfo`, `MacroStep` | User-defined voice command macros with trigger-phrase matching and multi-step AQL execution |
+| `voice_meeting_support.h` | `VoiceMeetingSupport`, `MeetingMetadata`, `ActionItem` | Meeting recording, speaker-attributed transcript segmentation, and action-item extraction |
+| `voice_model_cache.h` | `VoiceModelCache`, `CachedModel`, `ModelCacheConfig` | LRU in-memory cache for STT/TTS/LLM model handles with configurable eviction policy |
+| `voice_security.h` | `VoiceSecurity`, `RedactionResult`, `ConsentRecord` | Audio stream encryption, PII redaction, consent tracking, and audit-log access control |
+| `voice_session_manager.h` | `VoiceSessionManager`, `VoiceSessionData`, `SessionState` | Multi-session lifecycle management with configurable timeout, persistence, and cleanup |
+| `voice_telephony.h` | `TelephonyBridge`, `SipCallSession`, `WebRtcCallSession`, `IvrEngine` | SIP/WebRTC telephony bridge for real-time call transcription and IVR flows |
+| `voice_tts_customizer.h` | `VoiceTTSCustomizer`, `VoiceProfile`, `ProsodyConfig` | Custom voice profiles, prosody control (pitch/speed/emphasis), and SSML support |
+| `wake_word_detector.h` | `WakeWordDetector`, `WakeWordDetectionResult`, `WakeWordConfig` | Low-power always-on wake-word spotting with VAD energy gating (built-in: "hey themis") |
 
 ### voice_assistant.h
 **Location:** `/include/voice/voice_assistant.h`
@@ -182,17 +207,17 @@ struct Config {
     std::string stt_model_path;       // Path to Whisper model file
     std::string stt_model_size;       // Model size: "tiny", "base", "small", "medium", "large"
     std::string stt_language;         // Language code or "auto" for detection
-    
+
     // TTS (Text-to-Speech) Configuration
     std::string tts_model_path;       // Path to TTS model file
     std::string tts_voice;            // Voice ID from TTS model
     float tts_speed;                  // Speech rate (0.5 - 2.0, default 1.0)
-    
+
     // LLM Configuration
     std::string llm_model_path;       // Path to LLM model (GGUF format)
     int llm_n_ctx;                    // Context window size (default 4096)
     int llm_n_gpu_layers;             // GPU layers (0 = CPU only)
-    
+
     // Storage Configuration
     std::string storage_path;         // Base path for voice data storage
     bool enable_revision_control;     // Enable revision history (default true)
@@ -273,51 +298,51 @@ class VoiceAssistant {
 public:
     VoiceAssistant(const Config& config);
     ~VoiceAssistant();
-    
+
     // Lifecycle management
     bool initialize();
     void shutdown();
-    
+
     // Voice command processing
     std::vector<uint8_t> processVoiceCommand(
         const std::vector<uint8_t>& audio_data,
         const std::string& session_id
     );
-    
+
     std::string processTextCommand(
         const std::string& text,
         const std::string& session_id
     );
-    
+
     // Phone call recording
     json recordPhoneCall(
         const std::vector<uint8_t>& audio_data,
         const PhoneCallMetadata& metadata
     );
-    
+
     // Meeting protocol generation
     json generateMeetingProtocol(
         const std::vector<uint8_t>& audio_data,
         const MeetingMetadata& metadata
     );
-    
+
     // Audio utilities
     std::vector<uint8_t> convertAudioFormat(
         const std::vector<uint8_t>& audio_data,
         const std::string& target_format
     );
-    
+
     // Storage
     std::string storeRecording(
         const std::vector<uint8_t>& audio_data,
         const std::string& transcript,
         const json& metadata
     );
-    
+
     // Session management
     VoiceSession getSession(const std::string& session_id);
     void updateSession(const std::string& session_id, const json& context);
-    
+
     // Statistics
     json getStatistics() const;
 };
@@ -390,7 +415,7 @@ if (!assistant.initialize()) {
 std::vector<uint8_t> audio_input = load_audio_file("user_query.wav");
 std::string session_id = "user123_session1";
 
-std::vector<uint8_t> audio_response = 
+std::vector<uint8_t> audio_response =
     assistant.processVoiceCommand(audio_input, session_id);
 
 // Save or play response
@@ -424,7 +449,7 @@ if (result["success"].get<bool>()) {
     std::string transcript = result["transcript"];
     std::string summary = result["summary"];
     std::string doc_id = result["document_id"];
-    
+
     // Update CRM
     update_crm(metadata.caller_number, {
         {"last_call_id", doc_id},
@@ -627,7 +652,7 @@ json result = assistant.recordPhoneCall(audio, metadata);
 if (!result["success"].get<bool>()) {
     std::string error = result["error"];
     std::cerr << "Call recording failed: " << error << std::endl;
-    
+
     // Handle specific errors
     if (result.contains("error_code")) {
         std::string code = result["error_code"];
@@ -637,7 +662,7 @@ if (!result["success"].get<bool>()) {
             // Check disk space
         }
     }
-    
+
     return false;
 }
 
@@ -749,11 +774,20 @@ assert(!response.empty());
 - [Voice Module Source](../../src/voice/README.md) - Implementation documentation
 - [Content Module](../content/README.md) - STT/TTS processors
 - [LLM Module](../llm/README.md) - Language model integration
-- [API Documentation](../../docs/api/voice_api.md) - REST API reference
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [Voice Assistant Guide](../../docs/en/features/voice_assistant_guide.md) - Feature guide and deployment reference
+- [Roadmap](../../src/voice/ROADMAP.md) - Completed and planned features
+- [Future Enhancements](../../src/voice/FUTURE_ENHANCEMENTS.md) - Planned features
 
 ---
 
-*Last Updated: January 2026*  
-*Module Version: v1.0.0*  
+*Last Updated: April 2026*
+*Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

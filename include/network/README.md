@@ -1,7 +1,9 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Network Module Headers
 
-<!-- Status: current | validated: 2026-03-09 -->
-<!-- Links: README.md · ../src/network/README.md · ../src/network/ARCHITECTURE.md -->
+<!-- Status: current | validated: 2026-04-06 -->
+<!-- Links: README.md · ../../src/network/README.md · ../../src/network/ARCHITECTURE.md · ../../src/network/ROADMAP.md · ../../src/network/FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
@@ -26,11 +28,26 @@ The Network headers define the public interfaces for ThemisDB's high-performance
 - gRPC native transport (port 8771, guarded by `THEMIS_ENABLE_GRPC`)
 - Geo topology router for geo-distributed cluster routing
 - Service mesh integration (Istio/Envoy sidecar, guarded by `THEMIS_ENABLE_SERVICE_MESH`)
-- Connection-level compression helpers (LZ4, Zstd — `connection_compression.h`)
+- Connection-level compression helpers (LZ4, Zstd — `connection_compression.h`); dictionary-trained Zstd (`ZstdDictionaryCompressor`)
+- Batch write processor (`wire_protocol_batch.h`): `WireProtocolBatcher` + `NagleController`
+- Zero-copy serialization (`wire_protocol_zero_copy.h`): `ZeroCopyFrameBuilder` + `MemoryMappedPayload`
+- UDP ingestion server (`udp_server.h`, port 8768): fire-and-forget metrics/logs/events
+- Raft-coordinated load balancer (`raft_load_balancer.h`, port 8774): multi-strategy routing with leader election
 
 **Out of Scope:**
 - HTTP/REST API server (handled by api module headers)
 - Concrete TLS implementation (delegated to OpenSSL/Boost.Asio)
+
+## Public Entry Points
+
+The public API surface in `include/network/` is organized by responsibility:
+
+- **Core server lifecycle:** `wire_protocol_server.h`, `wire_protocol_connection_pool.h`
+- **Protocol framing/parsing:** `wire_protocol_helpers.h`, `wire_protocol_batch.h`, `wire_protocol_zero_copy.h`
+- **Transport variants:** `wire_protocol_websocket.h`, `udp_fast_path.h`, `udp_server.h`, `quic_transport.h`, `quic_server.h`, `grpc_transport.h`
+- **Resilience and policy:** `socket_timeout_manager.h`, `adaptive_circuit_breaker.h`, `qos_manager.h`
+- **Topology and platform integration:** `geo_topology_router.h`, `service_mesh.h`, `envoy_xds.h`, `kernel_bypass.h`, `io_uring_batcher.h`
+- **Observability and performance tooling:** `wire_protocol_performance.h`, `network_audit_log.h`, `adaptive_io_scaler.h`, `connection_compression.h`, `raft_load_balancer.h`
 
 ## Key Components
 
@@ -57,7 +74,7 @@ public:
         uint16_t port = 8766;
         size_t num_io_threads = 4;
         size_t num_worker_threads = std::thread::hardware_concurrency();
-        
+
         // Security limits
         uint32_t max_connections = 1000;
         uint32_t max_connections_per_ip = 10;
@@ -65,23 +82,23 @@ public:
         uint32_t connection_timeout_sec = 300;
         uint32_t auth_timeout_sec = 10;
         uint32_t request_timeout_sec = 30;
-        
+
         // Rate limiting
         uint32_t max_requests_per_second = 1000;
         uint32_t max_requests_per_minute = 10000;
-        
+
         // TLS configuration
         bool enable_tls = false;
         std::string tls_cert_path;
         std::string tls_key_path;
         std::string tls_ca_cert_path;
         bool tls_require_client_cert = false;  // mTLS
-        
+
         // Authentication
         bool require_auth = true;
         std::string auth_mechanism = "SCRAM-SHA-256";
     };
-    
+
     WireProtocolServer(
         const Config& config,
         std::shared_ptr<RocksDBWrapper> storage,
@@ -93,19 +110,19 @@ public:
         std::shared_ptr<TSStore> ts_store,
         std::shared_ptr<ContinuousAggregateManager> agg_manager
     );
-    
+
     ~WireProtocolServer();
-    
+
     // Lifecycle management
     bool validateTransportSecurity(int argc, const char* const argv[]) const;
     void start();
     void stop();
     void wait();
     bool isRunning() const;
-    
+
     // Monitoring
     size_t getActiveConnections() const;
-    
+
     struct Stats {
         uint64_t total_connections = 0;
         uint64_t active_connections = 0;
@@ -117,7 +134,7 @@ public:
         uint64_t bytes_sent = 0;
     };
     Stats getStats() const;
-    
+
 private:
     class Session;  // Internal session management
     // ... internal implementation details
@@ -185,12 +202,12 @@ class SocketWrapper {
 public:
     SocketWrapper(std::shared_ptr<tcp::socket> plain_socket);
     SocketWrapper(std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket);
-    
+
     bool is_open() const;
     void close(boost::system::error_code& ec);
     tcp::socket& lowest_layer();
     bool is_ssl() const;
-    
+
     tcp::socket* plain_socket();
     ssl::stream<tcp::socket>* ssl_socket();
 };
@@ -204,24 +221,24 @@ public:
         std::chrono::seconds connect_timeout{5};
         std::chrono::seconds acquire_timeout{10};
         std::chrono::seconds keepalive_interval{30};
-        
+
         bool enable_ssl = false;
         bool enable_mtls = false;
         std::string ssl_cert_path;
         std::string ssl_key_path;
         std::string ssl_ca_cert_path;
-        
+
         size_t max_retries = 3;
         bool enable_warmup = true;
     };
-    
+
     explicit WireProtocolConnectionPool(const Config& config = Config{});
     ~WireProtocolConnectionPool();
-    
+
     // Non-copyable, non-movable
     WireProtocolConnectionPool(const WireProtocolConnectionPool&) = delete;
     WireProtocolConnectionPool& operator=(const WireProtocolConnectionPool&) = delete;
-    
+
     class ConnectionHandle {
     public:
         ConnectionHandle(
@@ -230,18 +247,18 @@ public:
             const std::string& target
         );
         ~ConnectionHandle();  // Automatic return to pool
-        
+
         // Move-only
         ConnectionHandle(ConnectionHandle&& other) noexcept;
         ConnectionHandle& operator=(ConnectionHandle&& other) noexcept;
-        
+
         tcp::socket& socket();
         SocketWrapper& socketWrapper();
         bool isValid() const;
     };
-    
+
     ConnectionHandle acquireConnection(const std::string& target);
-    
+
     struct Stats {
         size_t total_connections = 0;
         size_t available_connections = 0;
@@ -252,15 +269,15 @@ public:
         size_t connections_created = 0;
         size_t connections_reused = 0;
         size_t keepalive_checks_sent = 0;
-        
+
         double getReuseRate() const;
     };
     Stats getStats() const;
-    
+
     void warmup(const std::string& target);
     void clear();
     void pruneStaleConnections();
-    
+
 private:
     // ... internal implementation details
 };
@@ -286,7 +303,7 @@ pool.warmup("server1.example.com:8766");
 {
     auto conn = pool.acquireConnection("server1.example.com:8766");
     // Use conn.socket() for I/O operations
-    
+
     // Connection automatically returned to pool on scope exit
 }
 
@@ -337,7 +354,7 @@ struct SocketTimeoutConfig {
     bool enable_tcp_keepalive{true};
     bool enable_tcp_nodelay{true};
     int max_retry_attempts{3};
-    
+
     size_t timeout_threshold{10};
     std::chrono::seconds reset_timeout{60};
 };
@@ -350,7 +367,7 @@ struct SocketTimeoutStats {
     std::atomic<uint64_t> failed_operations{0};
     std::atomic<uint64_t> total_bytes_read{0};
     std::atomic<uint64_t> total_bytes_written{0};
-    
+
     void reset();
     double getTimeoutRate() const;
 };
@@ -365,37 +382,37 @@ class SocketTimeoutManager {
 public:
     explicit SocketTimeoutManager(const SocketTimeoutConfig& config = SocketTimeoutConfig());
     ~SocketTimeoutManager();
-    
+
     // Non-copyable, movable
     SocketTimeoutManager(const SocketTimeoutManager&) = delete;
     SocketTimeoutManager& operator=(const SocketTimeoutManager&) = delete;
     SocketTimeoutManager(SocketTimeoutManager&&) = default;
     SocketTimeoutManager& operator=(SocketTimeoutManager&&) = default;
-    
+
     bool configureSocket(socket_t socket);
-    
+
     socket_t acceptWithTimeout(socket_t server_socket,
                                 std::chrono::milliseconds timeout_ms = std::chrono::milliseconds(0));
-    
+
     ssize_t readWithTimeout(socket_t socket, void* buffer, size_t size,
                             std::chrono::milliseconds timeout_ms = std::chrono::milliseconds(0));
-    
+
     ssize_t writeWithTimeout(socket_t socket, const void* buffer, size_t size,
                              std::chrono::milliseconds timeout_ms = std::chrono::milliseconds(0));
-    
+
     void closeSocket(socket_t socket);
-    
+
     bool shouldAcceptConnection() const;
     void recordTimeout();
     void recordSuccess();
-    
+
     SocketHealthState getHealthState() const;
     const SocketTimeoutStats& getStats() const;
     void resetStats();
     const SocketTimeoutConfig& getConfig() const;
-    
+
     void setAlertCallback(std::function<void(SocketHealthState, const std::string&)> callback);
-    
+
 private:
     // ... internal implementation details
 };
@@ -404,12 +421,12 @@ class SocketTimeoutGuard {
 public:
     SocketTimeoutGuard(SocketTimeoutManager& manager, socket_t socket);
     ~SocketTimeoutGuard();
-    
+
     // Non-copyable, movable
     SocketTimeoutGuard(const SocketTimeoutGuard&) = delete;
     SocketTimeoutGuard& operator=(const SocketTimeoutGuard&) = delete;
     SocketTimeoutGuard(SocketTimeoutGuard&& other) noexcept;
-    
+
     socket_t get() const;
     socket_t release();
     bool valid() const;
@@ -486,7 +503,7 @@ namespace themis::network {
 class ProtobufParser {
 public:
     explicit ProtobufParser(const std::vector<uint8_t>& data);
-    
+
     bool readVarint(uint64_t& value);
     bool readFixed64(uint64_t& value);
     bool readFixed32(uint32_t& value);
@@ -494,7 +511,7 @@ public:
     bool readString(std::string& value);
     bool readTag(uint32_t& field_number, uint32_t& wire_type);
     bool skipField(uint32_t wire_type);
-    
+
     bool atEnd() const;
     size_t position() const;
 };
@@ -502,7 +519,7 @@ public:
 class ProtobufSerializer {
 public:
     ProtobufSerializer() = default;
-    
+
     void writeVarint(uint64_t value);
     void writeFixed64(uint64_t value);
     void writeFixed32(uint32_t value);
@@ -510,7 +527,7 @@ public:
     void writeString(const std::string& value);
     void writeTag(uint32_t field_number, uint32_t wire_type);
     void writeDouble(double value);
-    
+
     const std::vector<uint8_t>& data() const;
     std::vector<uint8_t> take();
 };
@@ -521,8 +538,8 @@ struct TimeSeriesQueryRequest {
     uint64_t end_time_ns = 0;
     uint32_t aggregation = 0;  // 0=AVG, 1=SUM, 2=MIN, 3=MAX, 4=COUNT
     uint64_t bucket_size_ns = 0;
-    
-    static bool parse(const std::vector<uint8_t>& data, 
+
+    static bool parse(const std::vector<uint8_t>& data,
                       TimeSeriesQueryRequest& request);
 };
 
@@ -532,7 +549,7 @@ struct TimeSeriesBucket {
     uint64_t count = 0;
     double min = 0.0;
     double max = 0.0;
-    
+
     std::vector<uint8_t> serialize() const;
 };
 
@@ -540,7 +557,7 @@ struct TimeSeriesStats {
     uint64_t total_data_points = 0;
     uint64_t buckets_returned = 0;
     double data_density = 0.0;
-    
+
     std::vector<uint8_t> serialize() const;
 };
 
@@ -548,7 +565,7 @@ struct TimeSeriesQueryResponse {
     std::vector<TimeSeriesBucket> buckets;
     uint64_t query_time_us = 0;
     TimeSeriesStats stats;
-    
+
     std::vector<uint8_t> serialize() const;
 };
 
@@ -568,7 +585,7 @@ while (!parser.atEnd()) {
     if (!parser.readTag(field_number, wire_type)) {
         break;  // Error
     }
-    
+
     if (field_number == 1) {
         parser.readString(collection);
     } else if (field_number == 2) {
@@ -647,7 +664,7 @@ void collectMetrics() {
     auto server_stats = wire_server.getStats();
     auto pool_stats = connection_pool.getStats();
     auto timeout_stats = timeout_manager.getStats();
-    
+
     // Export to Prometheus
     active_connections.Set(server_stats.active_connections);
     total_requests.Inc(server_stats.total_requests);
@@ -723,6 +740,37 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 
 ---
 
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `adaptive_circuit_breaker.h` | Adaptive circuit breaker with dynamic thresholds |
+| `adaptive_io_scaler.h` | Adaptive I/O thread scaling under load |
+| `connection_compression.h` | LZ4/Zstd connection-level compression; `ZstdDictionaryCompressor` |
+| `envoy_xds.h` | Envoy xDS control-plane integration |
+| `geo_topology_router.h` | Geo-distributed cluster routing |
+| `grpc_transport.h` | gRPC native transport (port 8771, `THEMIS_ENABLE_GRPC`) |
+| `io_uring_batcher.h` | Linux io_uring async I/O batching |
+| `kernel_bypass.h` | Kernel bypass networking (DPDK + io_uring paths; compile-time gated) |
+| `network_audit_log.h` | Audit log for network events |
+| `qos_manager.h` | Per-tenant bandwidth quotas, token bucket, priority queuing |
+| `quic_server.h` | QUIC/HTTP3 server (port 8770, `THEMIS_ENABLE_HTTP3`) |
+| `quic_transport.h` | QUIC transport layer |
+| `raft_load_balancer.h` | Raft-coordinated load balancer (port 8774) |
+| `service_mesh.h` | Istio/Envoy sidecar integration (`THEMIS_ENABLE_SERVICE_MESH`) |
+| `socket_timeout_manager.h` | Cross-platform socket timeout with circuit breaker |
+| `udp_fast_path.h` | UDP fast-path for read-only queries (port 8769) |
+| `udp_server.h` | UDP ingestion server (port 8768): fire-and-forget metrics/logs/events |
+| `wire_protocol_batch.h` | Batch write processor: `WireProtocolBatcher` + `NagleController` |
+| `wire_protocol_connection_pool.h` | Client-side connection pooling |
+| `wire_protocol_helpers.h` | Protobuf wire format parsing without libprotobuf |
+| `wire_protocol_performance.h` | Performance benchmarking helpers for wire protocol |
+| `wire_protocol_server.h` | High-performance binary TCP server (port 8766) |
+| `wire_protocol_websocket.h` | WebSocket upgrade on port 8766 (`THEMIS_ENABLE_WEBSOCKET`) |
+| `wire_protocol_zero_copy.h` | Zero-copy serialization: `ZeroCopyFrameBuilder` + `MemoryMappedPayload` |
+
+---
+
 ## Dependencies
 
 **Required Headers:**
@@ -770,9 +818,20 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 
 1. **Boost.Asio Dependency:** Requires Boost 1.70+ (async I/O library)
 2. **OpenSSL Dependency:** Required for TLS/mTLS (no alternative crypto backend)
-3. **IPv4 Only:** IPv6 support not yet implemented
-4. **Platform-Specific Code:** Some features (TCP keepalive) have platform differences
-5. **No UDP/QUIC:** TCP-only currently
+3. **IPv6 Support:** `Config::enable_ipv6 = true` enables IPv6 binding; `Config::ipv6_dual_stack = true` (default) accepts both IPv4-mapped and native IPv6 clients on a single socket via `IPV6_V6ONLY=0`.
+4. **Platform-Specific Code:** Some features (TCP keepalive, TCP_CORK, TCP_NOPUSH) have platform differences
+5. **RaftLoadBalancer (Known Issue):** Simulates Raft consensus in-process (no real network RPC between nodes); full distributed multi-node Raft is planned for a future milestone. See `ROADMAP.md` for details.
+
+---
+
+## Troubleshooting
+
+- **TLS startup failure:** verify cert/key/CA paths, filesystem permissions, and `enable_tls`/`tls_require_client_cert` settings in `WireProtocolServer::Config`.
+- **Connection acquisition timeouts:** tune `connect_timeout`/`acquire_timeout` in `WireProtocolConnectionPool::Config` and verify pool warmup.
+- **Unexpected connection drops:** inspect keepalive and request timeout settings in `SocketTimeoutConfig`.
+- **High QoS throttling:** validate token bucket rates and tenant classes in `qos_manager.h` configuration.
+
+Operational runbook: [docs/troubleshooting/network_troubleshooting.md](../../docs/troubleshooting/network_troubleshooting.md)
 
 ---
 
@@ -785,6 +844,8 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 - **v1.4.0** - Added rate limiting and security features
 - **v1.5.0** - Added timeseries protocol helpers
 - **v1.6.0** - Added BPMN process orchestration support
+- **v1.8.0** - Added UDP ingestion server (`udp_server.h`), Raft load balancer (`raft_load_balancer.h`), batch write processor (`wire_protocol_batch.h`), zero-copy serialization (`wire_protocol_zero_copy.h`), dictionary compression (`connection_compression.h` extended with `ZstdDictionaryCompressor`)
+- **v1.9.0** - Added IPv6 dual-stack support (`Config::enable_ipv6`, `Config::ipv6_dual_stack`)
 
 ---
 
@@ -794,4 +855,17 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 - [OpenSSL Documentation](https://www.openssl.org/docs/)
 - [Protocol Buffers Wire Format](https://developers.google.com/protocol-buffers/docs/encoding)
 - [TCP Socket Programming Guide](https://beej.us/guide/bgnet/)
-- [Transport Security Best Practices](../../docs/security/network.md)
+- [Network Module Implementation Guide](../../src/network/README.md)
+- [Network Architecture](../../src/network/ARCHITECTURE.md)
+- [Network Security](../../src/network/SECURITY.md)
+- [Network Roadmap](../../src/network/ROADMAP.md)
+- [Network Future Enhancements](../../src/network/FUTURE_ENHANCEMENTS.md)
+- [Network Troubleshooting](../../docs/troubleshooting/network_troubleshooting.md)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

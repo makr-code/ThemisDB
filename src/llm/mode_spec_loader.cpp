@@ -1,39 +1,16 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mode_spec_loader.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     419                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39e499706  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
-    • 847458a5a  2026-02-22  feat: Add YAML-configurable LLM Orchestration Modes (ask,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file mode_spec_loader.cpp
- * @brief YAML loader and validator for ThemisDB LLM Mode Specifications.
- *
- * Parses files conforming to the ThemisModePack / ThemisAIPolicy YAML schema
- * (apiVersion: themis.ai/v1) and emits clear, structured error messages for
- * invalid configurations.
- *
- * Dependencies: yaml-cpp (already in vcpkg.json).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/ai_orchestrator.h"
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -418,3 +395,5 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
 }
 
 } // namespace themis::llm
+
+

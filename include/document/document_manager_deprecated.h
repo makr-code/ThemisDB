@@ -1,43 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            document_manager_deprecated.h                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     54                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file document_manager_deprecated.h
- * @brief Deprecated forwarding header for DocumentManager
- * 
- * @deprecated This header is deprecated. Please use "projects/DocumentManager/document_manager.h" instead.
- * 
- * DocumentManager has been moved from the document module to the projects module.
- * This forwarding header is provided for backward compatibility and will be removed in a future version.
- * 
- * Migration:
- * - Old include: #include "document/document_manager.h"
- * - New include: #include "projects/DocumentManager/document_manager.h"
- * 
- * - Old namespace: themis::document::DocumentManager
- * - New namespace: themis::projects::DocumentManager
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "projects/DocumentManager/document_manager.h"

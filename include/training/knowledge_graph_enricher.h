@@ -1,23 +1,20 @@
+/**
+ * @file knowledge_graph_enricher.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_graph_enricher.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: knowledge_graph_enricher.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +26,10 @@
 #include <unordered_map>
 
 namespace themis {
+
+// Forward declaration – keeps the training header free of heavy index dependencies
+class VectorIndexManager;
+
 namespace training {
 
 /**
@@ -187,6 +188,15 @@ public:
      */
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
                                                 size_t max_results = 5);
+
+    /**
+     * @brief Find internal administrative guidance documents for a document
+     * @param document_id Document ID
+     * @param max_results Maximum number of results
+     * @return Vector of guidance document IDs
+     */
+    std::vector<std::string> findRelatedGuidance(const std::string& document_id,
+                                                 size_t max_results = 5);
     
     /**
      * @brief Find similar documents using semantic search
@@ -199,6 +209,46 @@ public:
         size_t max_results = 5);
     
     /**
+     * @brief Wire a vector index for semantic similarity search.
+     *
+     * When set, `findSimilarDocuments()` uses this index for cosine-similarity
+     * queries instead of returning an empty stub result.  The index must already
+     * be initialised (i.e. `init()` called) and contain document embeddings
+     * stored under the key equal to the document ID.  Ownership is NOT
+     * transferred; the caller must ensure the index outlives the enricher.
+     *
+     * @param vim Pointer to an initialised VectorIndexManager, or nullptr to
+     *            disable vector search and revert to the offline stub.
+     */
+    void setVectorIndex(VectorIndexManager* vim);
+
+    /**
+     * @brief Set the graph schema version used for cache-key generation.
+     *
+     * The version string is appended to every cache key so that schema changes
+     * can be reflected immediately without clearing the entire cache.  Defaults
+     * to `"v0"` (deterministic for offline/test builds).  In production, call
+     * this with the current schema version after connecting to the graph DB.
+     *
+     * @param version Non-empty version string (e.g. `"v3"`, `"2026-05-05"`).
+     *                Ignored if empty.
+     */
+    void setGraphVersion(const std::string& version);
+
+    /**
+     * @brief Register a sample → source-document mapping for offline use.
+     *
+     * When no AQL query engine is wired, `enrichSample()` resolves the source
+     * document ID of a sample by looking up this in-process registry.  Entries
+     * must be registered before calling `enrichSample()`.
+     *
+     * @param sample_id   Training sample key.
+     * @param document_id Corresponding source document ID / URN.
+     */
+    void registerSourceDocument(const std::string& sample_id,
+                                const std::string& document_id);
+
+    /**
      * @brief Set custom graph traversal query
      * @param query_name Query name (e.g., "find_provisions")
      * @param aql_query AQL query template with placeholders
@@ -208,7 +258,8 @@ public:
     /**
      * @brief Get AQL query template by name (Phase 6)
      * @param query_name Built-in name ("find_provisions", "find_case_law",
-     *                   "find_similar", "update_context", "fetch_all") or custom name
+     *                   "find_guidance", "find_similar", "update_context",
+     *                   "fetch_all") or custom name
      * @return AQL query template string, or empty string if not found
      */
     std::string getQueryTemplate(const std::string& query_name) const;

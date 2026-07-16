@@ -1,34 +1,43 @@
+/**
+ * @file themisdb_grpc_service.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themisdb_grpc_service.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     90                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bb592d7  2026-02-24  Implement ThemisDBGrpcService and fix ThemisCoreServiceIm... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themisdb_grpc_service.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 141
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2762 Implement ThemisDBService g... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
+#include <functional>
 #include <memory>
+
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/registry.h>
+#endif
 
 // Forward declarations of the internal components required by the service.
 namespace themis {
 class RocksDBWrapper;
 class TransactionManager;
+} // namespace themis
+
+// Interface forward declarations (always available without proto stubs)
+namespace themis {
+class IQueryEngine;
+class IVectorIndex;
+using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;
 } // namespace themis
 
 namespace themis {
@@ -45,7 +54,7 @@ namespace api {
  *
  * Lifecycle – register with GrpcApiServer before calling start():
  * @code
- *   ThemisDBGrpcService svc(db, txn_mgr);
+ *   ThemisDBGrpcService svc(db, txn_mgr, aql_engine, vector_index);
  *   grpc_api_server.registerService(svc.service());  // nullptr when stubs absent
  *   grpc_api_server.start();
  * @endcode
@@ -56,16 +65,50 @@ namespace api {
  *   - AQL           : ExecuteAQL, StreamAQL (server-side streaming)
  *   - Vector search : VectorSearch, FilteredVectorSearch, HybridSearch, FullTextSearch
  *   - Health        : HealthCheck
+ *
+ * When an AQL engine and/or vector index are provided via the extended
+ * constructor the corresponding RPC stubs delegate to them rather than
+ * returning UNIMPLEMENTED.  See ThemisDBGrpcServiceFactory for a fluent
+ * builder that wires all components together.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Keep gRPC wrapper type available even when generated protobuf stubs are absent.
+ * Activation: Active when generated themisdb gRPC headers are not available on include path.
+ * Production Delta: service() returns nullptr and RPC registration is skipped instead of serving requests.
+ * Removal Plan: Remove fallback behavior once protobuf code generation is mandatory in all builds.
  */
 class ThemisDBGrpcService {
 public:
+    /// Callback type that provides an opaque grpc::Service* to the wrapper
+    /// when the generated proto stubs are absent from the build.
+    using ServiceFn = std::function<void*()>;
+
     /**
+     * @brief Construct with storage only (AQL and vector search return UNIMPLEMENTED).
      * @param db       Storage backend (must outlive this object).
      * @param txn_mgr  Transaction manager (must outlive this object).
      */
     ThemisDBGrpcService(
         std::shared_ptr<RocksDBWrapper>     db,
         std::shared_ptr<TransactionManager> txn_mgr
+    );
+
+    /**
+     * @brief Construct with all components wired in.
+     *
+     * AQL engine enables ExecuteAQL, StreamAQL, HybridSearch, and FullTextSearch.
+     * Vector index enables VectorSearch and FilteredVectorSearch.
+     *
+     * @param db           Storage backend (must outlive this object).
+     * @param txn_mgr      Transaction manager (must outlive this object).
+     * @param aql_engine   Query engine for AQL RPCs (may be nullptr).
+     * @param vector_index Vector similarity index (may be nullptr).
+     */
+    ThemisDBGrpcService(
+        std::shared_ptr<RocksDBWrapper>          db,
+        std::shared_ptr<TransactionManager>      txn_mgr,
+        std::shared_ptr<themis::IQueryEngine>    aql_engine,
+        std::shared_ptr<themis::IVectorIndex>    vector_index
     );
 
     ~ThemisDBGrpcService();
@@ -76,15 +119,49 @@ public:
      * Returns the concrete service implementation when `themisdb.grpc.pb.h`
      * is available (i.e. protoc has been run).  Returns nullptr otherwise so
      * that callers can safely skip registration without crashing.
+     *
+     * If a service callback was registered via setServiceFn(), its return
+     * value is used for non-proto builds.
      */
     void* service();
 
+    /**
+     * @brief Configure a process-wide callback that provides a grpc::Service*.
+     *
+     * Used in non-proto builds to wire a service instance obtained from another
+     * module (e.g. a dynamically loaded plugin or a test double).  The callback
+     * is invoked once during construction in an exception-safe manner; exceptions
+     * cause the service pointer to remain null (fail-closed).
+     *
+     * Pass an empty function to remove a previously registered callback.
+     */
+    static void setServiceFn(ServiceFn fn);
+
+#ifdef THEMIS_HAS_PROMETHEUS
+    /**
+     * @brief Register gRPC request counters in a Prometheus registry.
+     *
+     * Registers `grpc_requests_total{method,status}` for transport-level gRPC
+     * status codes emitted by this service instance.
+     *
+     * @param registry Shared Prometheus registry used by the server process.
+     */
+    void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry);
+#endif
+
 private:
-    std::shared_ptr<RocksDBWrapper>     db_;
-    std::shared_ptr<TransactionManager> txn_mgr_;
+    std::shared_ptr<RocksDBWrapper>             db_;
+    std::shared_ptr<TransactionManager>         txn_mgr_;
+    std::shared_ptr<themis::IQueryEngine>       aql_engine_;
+    std::shared_ptr<themis::IVectorIndex>       vector_index_;
+
+    void* service_ptr_ = nullptr;
 
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    /// Internal helper used by both constructors.
+    void buildImpl();
 };
 
 } // namespace api

@@ -1,45 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rpc_plugin_interface.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file rpc_plugin_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "plugins/plugin_interface.h"
-#include <string>
-#include <memory>
-#include <map>
-#include <vector>
-#include <atomic>
 #include <cstdint>
-
-/**
- * @file rpc_plugin_interface.h
- * @brief RPC Plugin Interface for ThemisDB
- * 
- * This header defines the interface for RPC (Remote Procedure Call) plugins.
- * RPC plugins enable ThemisDB to support various RPC protocols like gRPC,
- * Apache Thrift, JSON-RPC, and custom binary protocols.
- * 
- * See docs/plugins/RPC_PLUGIN_ARCHITECTURE.md for detailed documentation.
- */
+#include <functional>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace plugins {
@@ -154,14 +133,14 @@ public:
      * @brief Get RPC protocol type
      * @return Protocol type
      */
-    virtual RPCProtocol getProtocol() const = 0;
+    [[nodiscard]] virtual RPCProtocol getProtocol() const = 0;
     
     /**
      * @brief Initialize RPC server with configuration
      * @param config Server configuration
      * @return true if initialization was successful
      */
-    virtual bool initialize(const RPCServerConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const RPCServerConfig& config) = 0;
     
     /**
      * @brief Start RPC server (non-blocking)
@@ -171,7 +150,7 @@ public:
      * 
      * @return true if server started successfully
      */
-    virtual bool start() = 0;
+    [[nodiscard]] virtual bool start() = 0;
     
     /**
      * @brief Stop RPC server gracefully
@@ -185,13 +164,13 @@ public:
      * @brief Check if server is running
      * @return true if server is running
      */
-    virtual bool isRunning() const = 0;
+    [[nodiscard]] virtual bool isRunning() const = 0;
     
     /**
      * @brief Get server statistics
      * @return Current server statistics
      */
-    virtual RPCServerStats getStats() const = 0;
+    [[nodiscard]] virtual RPCServerStats getStats() const = 0;
     
     /**
      * @brief Register a service implementation
@@ -208,7 +187,7 @@ public:
      * @brief Get server address (host:port)
      * @return Server address as string
      */
-    virtual std::string getAddress() const = 0;
+    [[nodiscard]] virtual std::string getAddress() const = 0;
     
     /**
      * @brief Reset statistics
@@ -228,25 +207,25 @@ public:
      * @brief Create RPC server instance
      * @return Unique pointer to RPC server
      */
-    virtual std::unique_ptr<IRPCServer> createServer() = 0;
+    [[nodiscard]] virtual std::unique_ptr<IRPCServer> createServer() = 0;
     
     /**
      * @brief Get RPC protocol supported by this plugin
      * @return RPC protocol type
      */
-    virtual RPCProtocol getProtocol() const = 0;
+    [[nodiscard]] virtual RPCProtocol getProtocol() const = 0;
     
     /**
      * @brief Get default port for this RPC protocol
      * @return Default port number
      */
-    virtual uint16_t getDefaultPort() const = 0;
+    [[nodiscard]] virtual uint16_t getDefaultPort() const = 0;
     
     /**
      * @brief Get protocol description
      * @return Human-readable protocol description
      */
-    virtual const char* getProtocolDescription() const = 0;
+    [[nodiscard]] virtual const char* getProtocolDescription() const = 0;
 };
 
 /**
@@ -266,7 +245,7 @@ public:
      * @param response Response buffer (to be filled)
      * @return true if method was handled successfully
      */
-    virtual bool handleMethod(
+    [[nodiscard]] virtual bool handleMethod(
         const std::string& method,
         const std::vector<uint8_t>& params,
         std::vector<uint8_t>& response

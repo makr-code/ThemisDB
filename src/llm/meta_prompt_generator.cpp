@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            meta_prompt_generator.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     370                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file meta_prompt_generator.cpp
- * @brief Implementation of meta-prompt generator
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/meta_prompt_generator.h"
@@ -87,6 +71,10 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
     meta_prompt << "Include explanations of key changes made.\n\n";
     
     result.meta_prompt = meta_prompt.str();
+
+    if (!result.metadata.is_object()) {
+        result.metadata = nlohmann::json::object();
+    }
     
     // Generate specific improvement suggestions
     result.improvement_suggestion = "Consider the following improvements:\n";
@@ -267,8 +255,8 @@ std::vector<std::string> MetaPromptGenerator::extractSuccessPatterns(
 }
 
 std::string MetaPromptGenerator::buildImprovementInstructions(
-    const std::string& feedback,
-    double score
+    const std::string& /*feedback*/,
+    double /*score*/
 ) const {
     std::ostringstream instructions;
     
@@ -315,7 +303,7 @@ std::string MetaPromptGenerator::buildConstraints() const {
 }
 
 std::string MetaPromptGenerator::buildExampleSection(
-    const std::string& original_prompt
+    const std::string& /*original_prompt*/
 ) const {
     std::ostringstream examples;
     

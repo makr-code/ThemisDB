@@ -1,257 +1,70 @@
 # Workflow Optimization Best Practices
 
-This document describes how CI workflows in this repository are structured to
-minimise unnecessary runs while ensuring all relevant code changes are validated
-before merging.
+Dieses Dokument beschreibt das Optimierungsmodell fuer den schlanken
+8-Workflow-Kern.
 
----
+## 1. Trigger minimieren
 
-## 1. PR Event Types
+- `pull_request` immer mit `types: [opened, synchronize, reopened]`.
+- `push` nur auf produktive Lanes (`develop`, `main`, `enterprise`, `hyperscaler`).
+- `paths` einsetzen, wenn ein Workflow nicht global relevant ist.
 
-Every `pull_request:` trigger **must** include an explicit `types:` filter:
+Beispiel:
 
 ```yaml
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-```
-
-This prevents workflows from running on events such as `edited`, `labeled`,
-`ready_for_review`, `assigned`, or `milestoned` that do not change the
-branch's file tree.
-
----
-
-## 2. Using the CI Scope Classifier
-
-The reusable workflow `.github/workflows/ci-scope-classifier.yml` analyses the
-changed files for a push or pull request and exports boolean outputs that
-downstream jobs use to decide whether to run.
-
-### Available outputs
-
-| Output | True when … |
-|--------|-------------|
-| `has_code_changes` | C++, CUDA, or Python source files changed |
-| `has_security_changes` | `src/security/**` or `src/auth/**` changed |
-| `has_acceleration_changes` | Acceleration module or benchmark files changed |
-| `has_gpu_changes` | GPU module or geo-GPU backend files changed |
-| `has_llm_changes` | LLM / RAG / CUDA kernel files changed |
-| `has_doc_only_changes` | **Only** documentation changed (no code) |
-| `has_config_changes` | CMake / config / workflow files changed |
-| `has_grafana_changes` | Grafana dashboard JSON files changed |
-
-### How to call the classifier
-
-```yaml
-jobs:
-  ci-scope-classifier:
-    permissions: {}
-    uses: ./.github/workflows/ci-scope-classifier.yml
-
-  my-job:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      # …
-```
-
----
-
-## 3. Language-specific filter patterns
-
-### C++ / CUDA workflows
-
-```yaml
-jobs:
-  ci-scope-classifier:
-    permissions: {}
-    uses: ./.github/workflows/ci-scope-classifier.yml
-
-  build-cpp:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
-```
-
-When a finer check is needed (e.g. a job that only cares about CUDA files):
-
-```yaml
-  cuda-compile:
-    needs: ci-scope-classifier
-    if: >
-      needs.ci-scope-classifier.outputs.has_llm_changes == 'true' ||
-      needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
-```
-
-### Security workflows
-
-```yaml
-  security-tests:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
-```
-
-### Acceleration / benchmark workflows
-
-```yaml
-  acceleration-benchmarks:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_acceleration_changes == 'true'
-```
-
-### GPU workflows
-
-```yaml
-  gpu-tests:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
-```
-
-### LLM / CUDA kernel workflows
-
-```yaml
-  llm-tests:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_llm_changes == 'true'
-```
-
-### Documentation-only workflows
-
-```yaml
-  docs-lint:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
-```
-
-### Grafana dashboard workflows
-
-```yaml
-  grafana-validate:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_grafana_changes == 'true'
-```
-
-### Config / infrastructure workflows
-
-```yaml
-  config-validate:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_config_changes == 'true'
-```
-
----
-
-## 4. Correct workflow trigger template
-
-A complete, well-optimised workflow skeleton:
-
-```yaml
-name: My Module CI
-
-on:
-  push:
-    branches:
-      - main
-      - develop
     paths:
-      - 'src/my-module/**'
-      - 'include/my-module/**'
-      - 'tests/test_my_module*.cpp'
-      - '.github/workflows/my-module-ci.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]   # ← required
-    paths:
-      - 'src/my-module/**'
-      - 'include/my-module/**'
-      - 'tests/test_my_module*.cpp'
-      - '.github/workflows/my-module-ci.yml'
-  workflow_dispatch:
+      - 'src/**'
+      - 'include/**'
+      - 'CMakeLists.txt'
+```
 
+## 2. Matrix statt Workflow-Sprawl
+
+Edition-spezifische Builds werden ueber eine Matrix in
+`.github/workflows/03-editions_ci.yml` umgesetzt, nicht ueber eigene Dateien
+pro Edition.
+
+## 3. Lane-basierte Release-Gates
+
+- Community-Publish getrennt von Private-Publish.
+- Private Publish nur ueber Tag-Praefixe und Environments freigeben.
+- Branch-Bootstrap als expliziter manueller Schritt.
+
+## 4. Concurrency und Ressourcen
+
+Fuer Push/PR-Workflows gilt:
+
+```yaml
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-jobs:
-  ci-scope-classifier:
-    permissions: {}
-    uses: ./.github/workflows/ci-scope-classifier.yml
-
-  build-and-test:
-    needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      # …
 ```
 
----
+Damit werden veraltete Laeufe auf derselben Ref sauber abgebrochen.
 
-## 5. Scheduled audits for repo-wide checks
+## 5. Lokale Validierung (Pflicht vor Merge)
 
-Repo-wide quality audits (error-handling compliance, PII scans, code maturity,
-research-link validation, …) are **expensive** because they scan the entire
-source tree — not just the files changed in a PR.  They should run on a
-`schedule` (nightly or weekly) rather than on every PR or push, while still
-accepting a `workflow_dispatch` for on-demand runs.  A focused `pull_request`
-trigger with narrow `paths:` can be added to catch regressions caused by
-changes to the audit tool itself.
-
-```yaml
-on:
-  schedule:
-    - cron: '0 2 * * *'   # Nightly at 02:00 UTC
-  workflow_dispatch:
-  # Optional: run on PRs that touch the audit tool itself
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'tools/my_audit_tool.py'
-      - '.github/workflows/my-audit.yml'
+```powershell
+pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint
+pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun
 ```
 
-### Workflows currently using this pattern
+Hinweis: Event `schedule` kann lokal ohne passende Stages als Skip enden.
 
-| Workflow | Schedule |
-|----------|----------|
-| `code-maturity-analysis.yml` | Weekly (Mon 03:00 UTC) |
-| `error-handling-audit.yml` | Nightly (02:00 UTC) + path-filtered PR |
-| `research-validation.yml` | Weekly (Mon 09:00 UTC) + doc-path PR |
+## 6. Haeufige Anti-Patterns
 
----
-
-## 6. Common mistakes to avoid
-
-| Anti-pattern | Correct pattern |
+| Anti-pattern | Zielmuster |
 |---|---|
-| `pull_request:` with no `types:` | `pull_request:\n  types: [opened, synchronize, reopened]` |
-| `pull_request:` with no `paths:` (broad trigger) | Add a `paths:` filter matching the module's sources |
-| Job with no `if:` condition after `ci-scope-classifier` | Add `if: needs.ci-scope-classifier.outputs.<scope> == 'true'` |
-| Running heavy GPU jobs on doc-only PRs | Gate with `has_gpu_changes` or `has_llm_changes` |
-| Repo-wide audit on every PR/push | Convert to `schedule:` (nightly/weekly) + `workflow_dispatch:` |
-| `push:` trigger on `feature/**` / `bugfix/**` / `copilot/**` | Remove; the `pull_request:` trigger already covers those branches |
-| No `concurrency:` group on push/PR workflow | Add `concurrency: group: ${{ github.workflow }}-${{ github.ref }}` |
-| Job gated on `has_doc_only_changes` when trigger paths include scripts | Use `github.event_name ==` check instead; `has_doc_only_changes` is `false` when code files also changed |
-| Missing `workflow_dispatch:` on push/PR workflows | Add `workflow_dispatch:` so maintainers can trigger manually from the Actions UI |
+| Neue Mini-Workflows pro Modul | Bestehende Kern-Workflows erweitern |
+| Ungefilterte `pull_request` Trigger | `types` + gezielte `paths` |
+| Fehlende `permissions` | Least-Privilege pro Job |
+| Release-Logik in CI-Workflows mischen | Trennung: Core/Edition/Release/PR-Gates |
 
-### Intentional exceptions
+## 7. Siehe auch
 
-Some workflows deliberately omit filters that would normally be required:
-
-| Workflow | Missing | Reason |
-|---|---|---|
-| `copilot-readiness-gate.yml` | `paths:` on `pull_request:` | Trigger uses `types: [labeled]`; GitHub ignores `paths:` for label events |
-| `pr-copilot-trigger.yml` | `paths:` on `pull_request:` | Must fire on *all* PRs; label-based filtering is performed inside the job script |
-| `pr-copilot-trigger.yml` | `workflow_dispatch:` | Workflow reads `context.payload.pull_request` directly; adding dispatch requires non-trivial PR-fetch logic — deferred |
-
----
-
-## 7. See also
-
-- `.github/ci-scope-config.yaml` — path-pattern → scope mappings
-- `.github/scripts/classify_ci_scope.py` — classifier implementation
-- `.github/workflows/ci-scope-classifier.yml` — reusable classifier workflow
+- `.github/WORKFLOW_REGISTRY.md`
+- `RELEASE_STRATEGY.md`
+- `scripts/test-github-actions-local.ps1`

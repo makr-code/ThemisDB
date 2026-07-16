@@ -1,26 +1,21 @@
+/**
+ * @file opa_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=11; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            opa_adapter.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     142                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
-    • 0766c4a21  2026-02-24  fix(auth/opa): code audit - remove redundant static, thre... ║
-    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: opa_adapter.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 176
+ * Gap Summary: total=11; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3076 feat(governance): Integrate... (2026-03-12) | #2775 [auth] OPA integration for ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +24,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <functional>
 
 namespace themis {
 namespace governance {
@@ -99,6 +95,14 @@ public:
         std::string policy_path  = "themis/governance/allow";
         /// Total request timeout in milliseconds (default: 50 ms).
         long timeout_ms = 50;
+
+        /// Evaluation mode: REST (default) or WASM bundle.
+        enum class EvalMode { REST, WASM };
+        EvalMode mode = EvalMode::REST;
+
+        /// Path to pre-compiled OPA bundle (.wasm) for WASM evaluation mode.
+        /// Ignored when mode == REST.
+        std::string wasm_bundle_path;
     };
 
     explicit OpaAdapter(const Config& config);
@@ -108,6 +112,32 @@ public:
     OpaAdapter& operator=(const OpaAdapter&) = delete;
     OpaAdapter(OpaAdapter&&)                 = delete;
     OpaAdapter& operator=(OpaAdapter&&)      = delete;
+
+    /**
+     * @brief WASM evaluation callback type.
+     *
+     * When injected via setWasmEvalFn(), this function is called by
+     * evaluateWasm() instead of the built-in stub.  It receives the
+     * same (headers, route) inputs as evaluate() and must return an
+     * optional PolicyDecision (std::nullopt = fall through to REST).
+     *
+     * Injection enables tests and alternative runtime integrations
+     * (e.g. a real wasmer/wasmtime binding) to exercise WASM-mode
+     * policy evaluation without the THEMIS_ENABLE_OPA_WASM build flag.
+     *
+     * Passing nullptr clears the override and restores the built-in
+     * stub behaviour (bundle-exists → permissive allow).
+     */
+    using WasmEvalFn = std::function<std::optional<PolicyDecision>(
+        const std::unordered_map<std::string, std::string>& headers,
+        const std::string& route)>;
+
+    /**
+     * @brief Inject a custom WASM evaluator (replaces the built-in stub).
+     *
+     * @param fn  Evaluator callback; pass nullptr to restore stub behaviour.
+     */
+    void setWasmEvalFn(WasmEvalFn fn);
 
     /**
      * @brief Query OPA for a governance policy decision.
@@ -126,6 +156,7 @@ public:
 
 private:
     Config config_;
+    WasmEvalFn wasm_eval_fn_;
 
     /// Build the full OPA query URL from config.
     std::string buildUrl() const;
@@ -137,6 +168,19 @@ private:
 
     /// Parse OPA response and extract a PolicyDecision.
     static std::optional<PolicyDecision> parseOpaResponse(const std::string& body);
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: WASM-based OPA bundle evaluation path — evaluates pre-compiled
+    //          OPA bundles (.wasm) locally without requiring an OPA sidecar.
+    // Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
+    // Production Delta: Returns a stub PolicyDecision (allow=true, defaults)
+    //   rather than a real WASM evaluation. Actual WASM execution requires the
+    //   THEMIS_ENABLE_OPA_WASM build flag and a linked WASM runtime.
+    // Removal Plan: Replace stub with real opa-go-wasm binding when
+    //   THEMIS_ENABLE_OPA_WASM is enabled in the build.
+    std::optional<PolicyDecision> evaluateWasm(
+        const std::unordered_map<std::string, std::string>& headers,
+        const std::string& route) const;
 };
 
 } // namespace governance

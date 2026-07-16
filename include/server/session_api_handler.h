@@ -1,25 +1,20 @@
+/**
+ * @file session_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            session_api_handler.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     138                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5a1680095  2026-02-24  feat(auth): implement session management and revocation e... ║
-    • 125b23d98  2026-02-24  feat(auth): implement session management and revocation e... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: session_api_handler.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +27,9 @@
 #include <string>
 
 namespace themis {
+namespace utils {
+class AuditLogger;
+}
 namespace server {
 
 /**
@@ -68,7 +66,8 @@ public:
      */
     explicit SessionApiHandler(
         std::shared_ptr<AuthMiddleware> auth,
-        std::shared_ptr<auth::SessionManager> manager
+        std::shared_ptr<auth::SessionManager> manager,
+        std::shared_ptr<utils::AuditLogger> audit_logger = nullptr
     );
 
     /**
@@ -125,6 +124,12 @@ public:
     );
 
 private:
+    void auditAuthorizationDecision(
+        const std::string& scope,
+        const std::string& endpoint,
+        const AuthMiddleware::AuthResult& auth_result
+    );
+
     /// Build a standardised error JSON object with an HTTP status code hint.
     static nlohmann::json makeError(int status_code, const std::string& message);
 
@@ -133,6 +138,7 @@ private:
 
     std::shared_ptr<AuthMiddleware> auth_;
     std::shared_ptr<auth::SessionManager> manager_;
+    std::shared_ptr<utils::AuditLogger> audit_logger_;
 };
 
 } // namespace server

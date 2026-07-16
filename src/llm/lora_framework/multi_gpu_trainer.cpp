@@ -1,23 +1,21 @@
+/**
+ * @file multi_gpu_trainer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=13, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_trainer.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     425                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 435
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=21, M=8, L=0
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11) | #1108 Implement Multi-GPU Hardwar... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/multi_gpu_trainer.h"
@@ -348,9 +346,18 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
             
 #ifdef THEMIS_ENABLE_CUDA
             if (device.type == DeviceType::CUDA && !gpu_update_successful) {
-                // Set the active CUDA device before launching the kernel
-                cudaSetDevice(device.id);
+                // Set the active CUDA device before launching the kernel — REL-19a
+                bool setdevice_ok = true;
+                {
+                    cudaError_t set_err = cudaSetDevice(device.id);
+                    if (set_err != cudaSuccess) {
+                        spdlog::warn("multi_gpu_trainer: cudaSetDevice({}) failed: {}; skipping GPU update for param {}",
+                                     device.id, cudaGetErrorString(set_err), j);
+                        setdevice_ok = false;
+                    }
+                }
                 
+                if (setdevice_ok) {
                 // Use CUDA kernel for efficient GPU-side update
                 void* param_ptr = params[j]->gpu_ptr();
                 void* grad_ptr = grads[j]->gpu_ptr();
@@ -374,14 +381,24 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
                 } else {
                     spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
                 }
+                } // setdevice_ok
             }
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
             if (device.type == DeviceType::HIP && !gpu_update_successful) {
-                // Set the active HIP device before launching the kernel
-                hipSetDevice(device.id);
+                // Set the active HIP device before launching the kernel — REL-19b
+                bool setdevice_ok = true;
+                {
+                    hipError_t set_err = hipSetDevice(device.id);
+                    if (set_err != hipSuccess) {
+                        spdlog::warn("multi_gpu_trainer: hipSetDevice({}) failed: {}; skipping GPU update for param {}",
+                                     device.id, hipGetErrorString(set_err), j);
+                        setdevice_ok = false;
+                    }
+                }
                 
+                if (setdevice_ok) {
                 // Use HIP kernel for efficient GPU-side update
                 void* param_ptr = params[j]->gpu_ptr();
                 void* grad_ptr = grads[j]->gpu_ptr();
@@ -405,6 +422,7 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
                 } else {
                     spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
                 }
+                } // setdevice_ok
             }
 #endif
 

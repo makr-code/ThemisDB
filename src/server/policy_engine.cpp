@@ -1,28 +1,25 @@
+/**
+ * @file policy_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=27, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_engine.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     414                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b74eab70d  2026-02-25  fix(governance): emit governance_opa_fallback_total Prome... ║
-    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 404
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=28, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3154 [governance] Implement comp... (2026-03-12) | #3076 feat(governance): Integrate... (2026-03-12) | #3050 Wire QueryMaskingPolicy int... (2026-03-12) | #2873 feat(governance): OPA polic... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_engine.h"
+#include <stdexcept>
 #include "utils/audit_logger.h"
 #include "observability/metrics_collector.h"
 #include <ctime>
@@ -282,10 +279,12 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    // If no policies defined, default allow
+    // If no policies defined, default deny (fail-closed).
+    // Loading a policy file that does not exist leaves policies_ empty; allowing
+    // all access in that state would silently bypass authorization.
     if (policies_.empty()) {
-        metrics_.policy_allow_total++;
-        return {true, "", "no_policies_default_allow"};
+        metrics_.policy_deny_total++;
+        return {false, "", "no_policies_default_deny"};
     }
 
     // Evaluate in order: first matching policy decides
@@ -413,3 +412,5 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
 }
 
 } // namespace themis
+
+

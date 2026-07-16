@@ -1,56 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            emotion_analyzer.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     572                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9afb79881  2026-03-01  feat(voice): implement emotion/sentiment analysis from vo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file emotion_analyzer.cpp
- * @brief Emotion and sentiment detection from voice tone (acoustic features).
- *
- * Feature pipeline
- * ----------------
- * 1. Convert raw 16-bit LE PCM bytes to normalised float samples [-1, +1].
- * 2. Compute global temporal features: RMS, crest factor, ZCR.
- * 3. Split into 8 equal sub-bands; compute per-band RMS.
- * 4. Derive spectral centroid and spectral flatness from sub-band energies.
- * 5. Compute high-frequency energy ratio (upper 2 bands / all bands).
- * 6. Estimate pitch via Yin-inspired sub-band autocorrelation proxy.
- *
- * Emotion scoring
- * ---------------
- * Each acoustic feature contributes to per-emotion raw scores through a
- * hand-tuned linear mapping (see scoreEmotions()).  Scores are
- * softmax-normalised to probability distributions.
- *
- * Emotion → acoustic correlates used in literature:
- *   HAPPY     – high energy, high ZCR, elevated pitch, high HF ratio
- *   SAD       – low energy, low ZCR, low pitch, low HF ratio
- *   ANGRY     – high energy, high ZCR, spectral tension (flat + high HF)
- *   SURPRISED – high crest factor, rapid energy burst
- *   FEARFUL   – high pitch, irregular ZCR, moderate-high energy
- *   DISGUSTED – mid pitch, low-mid energy, low clarity
- *   NEUTRAL   – balanced / no strong signal
- *
- * @author ThemisDB Team
- * @date March 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/emotion_analyzer.h"
@@ -571,3 +527,4 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
 
 } // namespace voice
 } // namespace themis
+

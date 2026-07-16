@@ -1,0 +1,412 @@
+{
+  "module": "aql",
+  "summary": {
+    "total": 40,
+    "critical": 31,
+    "high": 7,
+    "medium": 2,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\aql\\aql_fewshot_example_library.cpp",
+      "line_num": 118,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_fewshot_example_library.cpp",
+      "line_num": 168,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_ingestion_bridge.cpp",
+      "line_num": 51,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_ingestion_bridge.cpp",
+      "line_num": 56,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_ingestion_bridge.cpp",
+      "line_num": 61,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_ingestion_bridge.cpp",
+      "line_num": 66,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_ingestion_bridge.cpp",
+      "line_num": 105,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_migration_assistant.cpp",
+      "line_num": 116,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_migration_assistant.cpp",
+      "line_num": 133,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {}; // unbalanced",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_query_builder.cpp",
+      "line_num": 501,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_rollback_suggester.cpp",
+      "line_num": 97,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_rollback_suggester.cpp",
+      "line_num": 119,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (p == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\aql_schema_provider.cpp",
+      "line_num": 31,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\classify_bridge.cpp",
+      "line_num": 141,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (raw.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_embedding_bridge.cpp",
+      "line_num": 23,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_embedding_bridge.cpp",
+      "line_num": 30,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_embedding_bridge.cpp",
+      "line_num": 34,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_handler.cpp",
+      "line_num": 274,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_handler.cpp",
+      "line_num": 296,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // No FOR..IN found \u2014 nothing to check.",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_handler.cpp",
+      "line_num": 315,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // All referenced collections are within schema scope.",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\aql\\llm_aql_handler.cpp",
+      "line_num": 1682,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (n == 0) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\aql\\llm_timeout_manager.h",
+      "line_num": 72,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static TimeoutConfig defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\aql\\llm_timeout_manager.h",
+      "line_num": 300,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Config defaults() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_aql_async_backend.cpp",
+      "line_num": 53,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub ILLMPlugin implementation",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_async_backend.cpp",
+      "line_num": 81,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_async_backend.cpp",
+      "line_num": 108,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "nlohmann::json getMemoryStats() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_async_backend.cpp",
+      "line_num": 109,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "nlohmann::json getPerformanceStats() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_async_backend.cpp",
+      "line_num": 112,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string& /*id*/) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_explain.cpp",
+      "line_num": 78,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<std::string>  listIndexes()                      const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_st_predicates.cpp",
+      "line_num": 33,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Update tests to use correct TranslationResult API once spatial predicates",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_st_predicates.cpp",
+      "line_num": 71,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Rewrite tests once spatial predicates are fully implemented and API is stabilized",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_aql_st_predicates.cpp",
+      "line_num": 87,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder test to keep test file valid",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 73,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 94,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 97,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string& /*lora_id*/) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 293,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock response would have markdown, but we can test the method exists",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 1390,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock executor that always returns the fixed string it was constructed with.",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_new_aql_functions.cpp",
+      "line_num": 277,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub returns false",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_new_aql_functions.cpp",
+      "line_num": 287,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub returns empty array",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_new_aql_functions.cpp",
+      "line_num": 496,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub result must carry _stub=true and correct shape",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

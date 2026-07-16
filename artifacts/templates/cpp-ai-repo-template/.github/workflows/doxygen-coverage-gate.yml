@@ -1,0 +1,42 @@
+name: Doxygen Coverage Gate
+
+on:
+  pull_request:
+    branches: [ "YOUR_MAIN_BRANCH" ]
+    paths:
+      - "src/**"
+      - "include/**"
+      - "docs/**"
+      - "Doxyfile*"
+      - "scripts/verify_docs.py"
+      - ".github/workflows/doxygen-coverage-gate.yml"
+  workflow_dispatch:
+
+jobs:
+  doxygen-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install docs tooling
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install coverxygen
+          sudo apt-get update
+          sudo apt-get install -y doxygen
+
+      - name: Build Doxygen XML
+        run: |
+          doxygen Doxyfile_xml
+
+      - name: Compute coverage summary
+        run: |
+          python3 -m coverxygen --xml-dir build/xml --src-dir src --format summary > build/doxygen_coverage_summary.txt
+          cat build/doxygen_coverage_summary.txt
+
+      - name: Enforce minimum documentation coverage
+        run: |
+          python3 scripts/verify_docs.py --summary-file build/doxygen_coverage_summary.txt --threshold 90

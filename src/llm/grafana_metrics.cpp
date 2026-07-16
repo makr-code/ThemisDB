@@ -1,31 +1,18 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grafana_metrics.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   83.0/100                                       ║
-    • Total Lines:     1581                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6e4b52d94  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
-    • b7c3c3b83  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
-    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file grafana_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=4, H=32, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/grafana_metrics.h"
 #include <httplib.h>
 #include <spdlog/spdlog.h>
+#include "utils/thread_join_utils.h"
 #include <map>
 #include <string>
 #include <iostream>
@@ -1434,7 +1421,9 @@ void MetricsServer::stop() {
 
     impl_->svr.stop();
     if (impl_->thread.joinable()) {
-        impl_->thread.join();
+        if (!themis::utils::joinThreadWithin(impl_->thread)) {
+            spdlog::warn("Metrics server thread did not join within timeout, continuing shutdown");
+        }
     }
 
     running_ = false;
@@ -1580,3 +1569,4 @@ void MetricsServer::handleDelete(const std::string& path,
 } // namespace monitoring
 } // namespace llm
 } // namespace themis
+

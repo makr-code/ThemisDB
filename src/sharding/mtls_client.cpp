@@ -1,23 +1,21 @@
+/**
+ * @file mtls_client.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mtls_client.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     399                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mtls_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 404
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=6, M=0, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #1035 [WIP] Implement dynamic con... (2026-03-11) | #115 Add IPv6 support to URN sys... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/mtls_client.h"
@@ -125,6 +123,14 @@ MTLSClient::Response MTLSClient::post(const std::string& endpoint,
     return request("POST", endpoint, path, std::optional<nlohmann::json>(body));
 }
 
+MTLSClient::Response MTLSClient::post(const std::string& endpoint,
+                                      const std::string& path,
+                                      const nlohmann::json& body,
+                                      const std::string& authorization_header) {
+    return request("POST", endpoint, path, std::optional<nlohmann::json>(body),
+                   authorization_header);
+}
+
 MTLSClient::Response MTLSClient::put(const std::string& endpoint,
                                      const std::string& path,
                                      const nlohmann::json& body) {
@@ -138,7 +144,8 @@ MTLSClient::Response MTLSClient::del(const std::string& endpoint, const std::str
 MTLSClient::Response MTLSClient::request(const std::string& method,
                                         const std::string& endpoint,
                                         const std::string& path,
-                                        const std::optional<nlohmann::json>& body) {
+                                        const std::optional<nlohmann::json>& body,
+                                        const std::string& authorization_header) {
     Response response;
     response.success = false;
     
@@ -196,6 +203,11 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
             req.set(http::field::host, host);
             req.set(http::field::user_agent, "ThemisDB-MTLSClient/1.0");
             req.set(http::field::accept, "application/json");
+            
+            // Add Authorization header when provided (e.g. for service-to-service JWT)
+            if (!authorization_header.empty()) {
+                req.set(http::field::authorization, authorization_header);
+            }
             
             // Add body for POST/PUT
             if (body && (method == "POST" || method == "PUT")) {
@@ -296,8 +308,8 @@ void MTLSClient::reset() {
     }
 }
 
-bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
-    (void)ctx; // Future: extract certificate for detailed validation
+bool MTLSClient::verifyPeerCertificate(bool preverified, [[maybe_unused]] void* ctx) {
+    // Future: extract certificate for detailed validation
     // In production, this would:
     // 1. Extract peer certificate from context
     // 2. Parse shard certificate info using PKIShardCertificate
@@ -400,3 +412,4 @@ nlohmann::json MTLSClient::getPoolStatistics() const {
 }
 
 } // namespace themis::sharding
+

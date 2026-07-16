@@ -1,31 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            changefeed.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
-    • 288df1bc2  2026-02-26  fix(cdc): fix GCC compilation error - use RetentionPolicy... ║
-    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
-    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file changefeed.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_CHANGEFEED_H
-#define THEMIS_CHANGEFEED_H
+/*
+ * ThemisDB | File: changefeed.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 470
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #3687 feat(cdc): runtime-configur... (2026-03-12) | #3003 [cdc] Change stream compres... (2026-03-12) | #2800 [cdc] Change event enrichme... (2026-03-12) | #2647 feat(scheduler): implement ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <vector>
@@ -46,6 +39,7 @@
 namespace rocksdb {
     class TransactionDB;
     class ColumnFamilyHandle;
+    class MergeOperator;
 }
 
 namespace themis {
@@ -77,11 +71,11 @@ public:
     };
 
     struct ChangeEvent {
-        uint64_t sequence;                // Monotonic sequence number
-        ChangeEventType type;             // Event type
+        uint64_t sequence = 0;            // Monotonic sequence number (0 = not persisted yet)
+        ChangeEventType type = ChangeEventType::EVENT_PUT; // Event type
         std::string key;                  // Affected key
         std::optional<std::string> value; // Value (nullopt for DELETE)
-        int64_t timestamp_ms;             // Event timestamp
+        int64_t timestamp_ms = 0;         // Event timestamp
         nlohmann::json metadata;          // Additional metadata (tx_id, user, etc.)
 
         // Before/after document snapshots for change event enrichment.
@@ -100,8 +94,9 @@ public:
     };
 
     struct ListOptions {
-        uint64_t from_sequence = 0;       // Start after this sequence
-        size_t limit = 100;               // Max events to return
+        uint64_t from_sequence = 0;       // Start after this sequence (exclusive)
+        uint64_t to_sequence = 0;         // Stop at this sequence (inclusive, 0 = no upper bound)
+        size_t limit = 100;               // Max events to return (std::numeric_limits<size_t>::max() = no limit)
         uint32_t long_poll_ms = 0;        // Long-poll timeout (0 = immediate)
         std::optional<std::string> key_prefix; // Filter by key prefix
         std::optional<ChangeEventType> event_type;   // Filter by single event type (legacy; use event_types for multi-type)
@@ -136,6 +131,24 @@ public:
     };
 
     /**
+     * @brief Create a RocksDB merge operator for atomic sequence increments.
+     *
+     * Callers that open the changefeed RocksDB column family should set this
+     * operator via @c ColumnFamilyOptions::merge_operator before opening the DB:
+     * @code
+     *   rocksdb::Options opts;
+     *   opts.merge_operator = Changefeed::makeSequenceMergeOperator();
+     * @endcode
+     * Without it, @c Merge() calls will be buffered but @c Get() on
+     * @c SEQUENCE_KEY after a restart will fail.  The in-process atomic counter
+     * (`sequence_counter_`) provides correctness within a single process
+     * lifetime regardless.
+     *
+     * @return Shared pointer to a @c SequenceIncrementOperator instance.
+     */
+    static std::shared_ptr<rocksdb::MergeOperator> makeSequenceMergeOperator();
+
+    /**
      * @brief Construct Changefeed
      * @param db RocksDB TransactionDB instance (not owned)
      * @param cf Optional column family handle (nullptr = default CF)
@@ -145,7 +158,10 @@ public:
                         rocksdb::ColumnFamilyHandle* cf = nullptr,
                         RetentionPolicy retention = RetentionPolicy::defaults());
 
-    ~Changefeed();
+    /**
+     * @brief Destructor - stops the retention cleanup worker.
+     */
+    ~Changefeed() noexcept;
 
     /**
      * @brief Record a change event
@@ -155,11 +171,15 @@ public:
     ChangeEvent recordEvent(ChangeEvent event);
 
     /**
-     * @brief List change events with optional filters
-     * @param options List options (pagination, filters, long-poll)
-     * @return Vector of change events
+     * @brief List change events with default options.
+     * @return Vector of change events.
      */
     std::vector<ChangeEvent> listEvents() const;
+    /**
+     * @brief List change events with optional filters.
+     * @param options List options (pagination, filters, long-poll).
+     * @return Vector of change events.
+     */
     std::vector<ChangeEvent> listEvents(const ListOptions& options) const;
 
     /**
@@ -231,6 +251,8 @@ public:
     struct RedactionResult {
         size_t events_scanned = 0;   ///< Total events examined
         size_t events_redacted = 0;  ///< Events whose value field was scrubbed
+        /// Unique event keys that were redacted (for Kafka tombstone propagation).
+        std::vector<std::string> affected_keys;
     };
 
     /**
@@ -289,6 +311,12 @@ public:
      * @brief Stop background retention cleanup thread
      */
     void stopRetentionCleanup();
+
+    /**
+     * @brief Check whether the background retention cleanup thread is running
+     * @return true if the background thread is active
+     */
+    bool isRetentionCleanupRunning() const noexcept;
 
     // -----------------------------------------------------------------------
     // Push-based subscription API
@@ -403,12 +431,33 @@ private:
 
     std::string makeKey(uint64_t sequence) const;
     uint64_t nextSequence();
+
+    // Load the initial sequence counter value from RocksDB at construction.
+    // Handles both the binary little-endian uint64 format (new) and the legacy
+    // decimal-string format (old).  Falls back to scanning events when the DB
+    // key cannot be read (e.g. unresolved Merge operands without a registered
+    // merge operator).
+    uint64_t loadInitialSequence() const;
+
+    // Scan all stored changefeed events and return the maximum sequence number.
+    // Used as a crash-recovery fallback when loadInitialSequence() cannot read
+    // SEQUENCE_KEY directly.
+    uint64_t scanMaxSequence() const;
     
     // Helper to wait for new events (for long-poll)
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
     
-    // Mutex to protect sequence generation (prevents race conditions in read-modify-write)
-    mutable std::mutex sequence_mutex_;
+    // In-process atomic sequence counter.  Updated by fetch_add on every
+    // nextSequence() call; persisted to RocksDB via Merge() for crash recovery.
+    // Eliminates the need for sequence_mutex_ and a Get+Put round-trip per event.
+    std::atomic<uint64_t> sequence_counter_{0};
+
+    // Tracks the highest sequence known to be durably persisted. When RocksDB
+    // Merge() is unavailable because no merge_operator was configured, we fall
+    // back to a monotonic Put() path guarded by this mutex.
+    std::atomic<uint64_t> persisted_sequence_{0};
+    std::atomic<bool> sequence_merge_supported_{true};
+    mutable std::mutex sequence_persist_mutex_;
     
     // Retention cleanup thread
     std::atomic<bool> retention_thread_running_{false};
@@ -426,11 +475,10 @@ private:
     std::unordered_map<uint64_t, SubscriptionEntry> subscriptions_;
     mutable std::mutex subscriptions_mutex_;
     std::atomic<uint64_t> next_subscription_id_{1};
+    std::atomic<size_t> subscription_count_{0};
 
     /// Notify all registered subscribers whose filter matches @p event.
     void notifySubscribers(const ChangeEvent& event);
 };
 
 } // namespace themis
-
-#endif // THEMIS_CHANGEFEED_H

@@ -74,6 +74,7 @@
     },
     {
       "name": "grpc",
+      "default-features": false,
       "version>=": "1.60.0"
     },
     {
@@ -140,6 +141,15 @@
         "parquet",
         "flight"
       ]
+    },
+    {
+      "name": "opencl"
+    },
+    {
+      "name": "vulkan"
+    },
+    {
+      "name": "shaderc"
     }
   ],
   "overrides": [
@@ -166,7 +176,10 @@
     "rpc": {
       "description": "Enable RPC framework with gRPC (v1.3.0+) - Alias for 'grpc' feature for backward compatibility",
       "dependencies": [
-        "grpc",
+        {
+          "name": "grpc",
+          "default-features": false
+        },
         "protobuf"
       ]
     },
@@ -195,7 +208,10 @@
     "grpc": {
       "description": "Enable gRPC protocol support - Alias for 'rpc' feature",
       "dependencies": [
-        "grpc",
+        {
+          "name": "grpc",
+          "default-features": false
+        },
         "protobuf"
       ]
     },

@@ -1,25 +1,21 @@
+/**
+ * @file schema_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            schema_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 86d72db21  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
-    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: schema_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 345
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3018 feat(metadata): Adaptive TT... (2026-03-12) | #2923 feat(metadata): Integrate A... (2026-03-12) | #2532 feat(metadata): Real-time s... (2026-03-11) | #388 Implement SchemaManager for... (2026-03-11) | #1045 Implement Schema Manager wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -196,7 +192,7 @@ public:
     void refreshCache();
 
     /// Set cache TTL (Time-To-Live)
-    /// @param seconds Cache expiration time in seconds (default: 60)
+    /// @param ttl Cache expiration time.
     void setCacheTTL(std::chrono::seconds ttl);
 
     /// Register a Changefeed for real-time schema change notifications.

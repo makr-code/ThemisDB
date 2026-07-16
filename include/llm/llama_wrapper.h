@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_wrapper.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     648                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file llama_wrapper.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -40,6 +28,10 @@
 #include <mutex>
 #include <unordered_map>
 #include <memory>
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 // Forward declarations for ThemisDB storage classes
 namespace themis {
@@ -207,8 +199,10 @@ public:
         
         // KV-Cache Reuse (Prefix Caching)
         LLMPrefixCache::Config prefix_cache_config;
-        // Response cache (optional)
-        bool enable_response_cache = true;
+        // Response cache (optional) — disabled by default to avoid
+        // unconditional RocksDB initialisation during startup.
+        // Enable explicitly when a persistent response cache is desired.
+        bool enable_response_cache = false;
         LLMResponseCache::Config response_cache_config;
         
         // Grammar-Constrained Generation (Phase 3.2)
@@ -252,6 +246,18 @@ public:
         // Requests that exceed this limit are cancelled and the caller receives
         // an error response.
         uint32_t request_timeout_ms = 0;
+
+        // Model integrity verification (anti-poisoning)
+        // When non-empty, loadModel() verifies the model file's SHA-256 digest
+        // against this value before proceeding with the load.  An empty string
+        // disables the check (a warning is emitted in that case).
+        std::string expected_model_sha256;
+        
+        // Require model integrity verification by default (security hardening)
+        // When true, loadModel() will fail if no checksum is provided.
+        // Set to false to allow loading models without integrity verification
+        // (not recommended for production).
+        bool require_model_integrity = true;
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -275,6 +281,16 @@ public:
     // Model Management
     // ═══════════════════════════════════════════════════════════
     
+    /**
+     * @brief Load a model file and initialize lazy runtime state for inference.
+     * @param model_path Path to the model file on disk.
+     * @param config Optional load configuration. Supports SHA-256 integrity
+     *        hints via `expected_checksum`, `model_checksum`, or `checksum`.
+     *        When no expected hash is supplied, loading continues but emits a
+     *        security warning instead of enforcing a hard failure.
+     * @return true when the model loads successfully; false on I/O, integrity,
+     *         or backend initialization failures.
+     */
     bool loadModel(
         const std::string& model_path,
         const json& config = {}
@@ -309,7 +325,7 @@ public:
         const std::string& model_id,
         std::shared_ptr<LLMModelStorage> storage,
         std::shared_ptr<storage::BlobStorageManager> blob_manager,
-        std::shared_ptr<security::FieldEncryption> encryption = nullptr,
+        std::shared_ptr<::themis::security::FieldEncryption> encryption = nullptr,
         const json& config = {}
     );
     
@@ -326,6 +342,34 @@ public:
     static size_t cleanupTempModels(int days_old = 7);
     
     void unloadModel() override;
+    
+    /**
+     * @brief Verify model file integrity using checksum
+     * 
+     * Verifies that a model file matches the expected checksum to detect
+     * corruption or tampering. Supports SHA256 and MD5 (legacy/deprecated).
+     * 
+     * @param file_path Path to the model file to verify
+     * @param expected_checksum Expected checksum value
+     * @param checksum_type Checksum algorithm ("sha256" or "md5")
+     * @return true if checksum matches, false if mismatch or verification fails
+     */
+    static bool verifyModelIntegrity(
+        const std::string& file_path,
+        const std::string& expected_checksum,
+        const std::string& checksum_type = "sha256"
+    );
+    
+    /**
+     * @brief Calculate SHA256 checksum of a model file
+     * 
+     * Computes the SHA256 hash of a model file for integrity verification
+     * and storage in metadata.
+     * 
+     * @param file_path Path to the model file
+     * @return SHA256 hash as hex string, or empty string on error
+     */
+    static std::string calculateModelChecksum(const std::string& file_path);
     
     std::optional<ModelInfo> getModelInfo() const override;
     
@@ -350,6 +394,29 @@ public:
     // ═══════════════════════════════════════════════════════════
     
     InferenceResponse generate(const InferenceRequest& request) override;
+
+    /**
+     * @brief Generate draft token IDs and raw logits for speculative decoding.
+     *
+     * Evaluates the request prompt, then iteratively samples @p k draft tokens
+     * from the current model while capturing the raw pre-sampling logits row for
+     * each step. The returned rows are compatible with
+     * SpeculativeDecoder::verify().
+     *
+     * @param request Inference request; only prompt and sampling parameters are used.
+     * @param k Number of draft tokens to generate.
+     * @param vocab_size_hint Optional expected vocabulary size; if it differs from
+     *        the loaded model vocabulary, the model vocabulary is used.
+     * @return Draft token IDs and aligned raw logits.
+     *
+     * @throws std::runtime_error if no model/context is loaded or llama_decode fails.
+     * @throws std::invalid_argument if @p k is zero.
+     */
+    [[nodiscard]] DraftTokensResult generateDraftTokens(
+        const InferenceRequest& request,
+        size_t k,
+        size_t vocab_size_hint
+    ) override;
     
     InferenceResponse generateRAG(
         const RAGContext& rag_context,
@@ -528,6 +595,8 @@ private:
     // Current active model
     std::string current_model_id_;
     std::string current_model_path_;
+    std::string configured_model_id_;
+    std::string configured_model_path_;
     
     // Statistics
     struct Stats {

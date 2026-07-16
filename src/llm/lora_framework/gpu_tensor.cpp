@@ -1,23 +1,21 @@
+/**
+ * @file gpu_tensor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=11; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_tensor.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     965                                            ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_tensor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1021
+ * Gap Summary: total=11; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=4, Debt=0, C=2, H=5, M=2, L=0
+ * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #573 Implement kernel fusion opt... (2026-03-11) | #572 Complete DirectX 12 Compute... (2026-03-11) | #571 Implement Vulkan compute pi... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_tensor.h"
@@ -38,6 +36,30 @@ namespace lora {
 GPUMemoryManager& GPUTensor::get_memory_manager() {
     static GPUMemoryManager manager;
     return manager;
+}
+
+// ─── dtype-cast callback bridges (STUB #2 / STUB #3) ─────────────────────────
+// These allow injection of real CUDA/HIP gpu-side dtype-cast kernels, replacing
+// the default CPU round-trip fallback (download → convert → upload).
+
+static std::mutex& cudaDtypeCastMutex() { static std::mutex m; return m; }
+static GPUTensor::DtypeCastFn& cudaDtypeCastFnStorage() {
+    static GPUTensor::DtypeCastFn fn;
+    return fn;
+}
+void GPUTensor::setCudaDtypeCastFn(DtypeCastFn fn) {
+    std::lock_guard<std::mutex> lk(cudaDtypeCastMutex());
+    cudaDtypeCastFnStorage() = std::move(fn);
+}
+
+static std::mutex& hipDtypeCastMutex() { static std::mutex m; return m; }
+static GPUTensor::DtypeCastFn& hipDtypeCastFnStorage() {
+    static GPUTensor::DtypeCastFn fn;
+    return fn;
+}
+void GPUTensor::setHipDtypeCastFn(DtypeCastFn fn) {
+    std::lock_guard<std::mutex> lk(hipDtypeCastMutex());
+    hipDtypeCastFnStorage() = std::move(fn);
 }
 
 // ============================================================================
@@ -342,11 +364,35 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
     
     // For GPU tensors, use GPU conversion kernels
     GPUTensor result(shape_, device_, target_dtype);
-    
+
 #ifdef THEMIS_ENABLE_CUDA
     if (device_.type == DeviceType::CUDA) {
-        // TODO: Implement GPU dtype conversion kernels
-        // For now, fallback to CPU conversion
+        // STUB/SIMULATION NOTE:
+        // Purpose: CPU round-trip fallback for dtype conversion on CUDA tensors when
+        //          dedicated CUDA dtype-cast kernels are not yet implemented.
+        // Activation: Active when no CudaDtypeCastFn is injected via
+        //             GPUTensor::setCudaDtypeCastFn().  A real CUDA kernel can be
+        //             injected at startup to replace this path.
+        // Production Delta: download() + upload() incur PCIe round-trip overhead;
+        //                   a native CUDA kernel (e.g. thrust::transform) is 10-50×
+        //                   faster and avoids peak-VRAM doubling.
+        // Removal Plan: Implement a CUDA __global__ cast kernel and register it via
+        //               setCudaDtypeCastFn() at startup (Target: v1.7.0,
+        //               FUTURE_ENHANCEMENTS.md §"CUDA dtype kernels").
+        DtypeCastFn fn;
+        {
+            std::lock_guard<std::mutex> lk(cudaDtypeCastMutex());
+            fn = cudaDtypeCastFnStorage();
+        }
+        if (fn) {
+            try {
+                auto converted_data = fn(download(), dtype_, target_dtype);
+                result.upload(converted_data);
+                return result;
+            } catch (...) {
+                // fall through to CPU round-trip
+            }
+        }
         auto cpu_data = download();
         GPUTensor temp(shape_, Device::cpu(), dtype_);
         temp.upload(cpu_data);
@@ -358,7 +404,28 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
 
 #ifdef THEMIS_ENABLE_HIP
     if (device_.type == DeviceType::HIP) {
-        // TODO: Implement GPU dtype conversion kernels for HIP
+        // STUB/SIMULATION NOTE:
+        // Purpose: CPU round-trip fallback for dtype conversion on HIP/ROCm tensors.
+        // Activation: Active when no HipDtypeCastFn is injected via
+        //             GPUTensor::setHipDtypeCastFn().  A real HIP kernel can be
+        //             injected at startup to replace this path.
+        // Production Delta: Same PCIe round-trip overhead as the CUDA path above.
+        // Removal Plan: Implement a HIP __global__ cast kernel and register it via
+        //               setHipDtypeCastFn() at startup (Target: v1.7.0).
+        DtypeCastFn fn;
+        {
+            std::lock_guard<std::mutex> lk(hipDtypeCastMutex());
+            fn = hipDtypeCastFnStorage();
+        }
+        if (fn) {
+            try {
+                auto converted_data = fn(download(), dtype_, target_dtype);
+                result.upload(converted_data);
+                return result;
+            } catch (...) {
+                // fall through to CPU round-trip
+            }
+        }
         auto cpu_data = download();
         GPUTensor temp(shape_, Device::cpu(), dtype_);
         temp.upload(cpu_data);
@@ -943,8 +1010,6 @@ GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dty
     return GPUTensor(shape, 1.0f, device, dtype);
 }
 
-// TODO: Tensor type forward-declared but not defined - functions disabled for now
-/*
 GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
     GPUTensor result(tensor.shape(), device, dtype);
     result.upload(tensor.data());
@@ -959,10 +1024,10 @@ Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     }
     return result;
 }
-*/
 
 } // namespace gpu_tensor_utils
 
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

@@ -1,23 +1,21 @@
+/**
+ * @file feedback_plugin.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_plugin.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 285
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/feedback_plugin.h"
@@ -138,15 +136,63 @@ bool ContentValidationPlugin::containsSpam(const std::string& text) const {
     );
     auto urls_begin = std::sregex_iterator(text.begin(), text.end(), url_pattern);
     auto urls_end = std::sregex_iterator();
-    int url_count = std::distance(urls_begin, urls_end);
+    const auto url_count = std::distance(urls_begin, urls_end);
     if (url_count > 3) return true; // Too many URLs
     
     return false;
 }
 
 bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
-    // Placeholder - can be implemented with a profanity filter library
-    // or word list if needed
+    // Minimal built-in word list covering the most common offensive terms.
+    // All checks are case-insensitive with word-boundary matching so that
+    // legitimate words containing these substrings are not falsely flagged.
+    //
+    // Configuration note: a richer word list can be loaded from a file at
+    // startup by wiring a path into ContentValidationPlugin::Config.  This
+    // built-in list serves as the unconditional safety net.
+    static const std::vector<std::regex> kProfanityPatterns = []() {
+        // clang-format off
+        static const char* const kWords[] = {
+            "\\bfuck\\b", "\\bfucking\\b", "\\bfucker\\b", "\\bfucked\\b",
+            "\\bshit\\b",  "\\bbullshit\\b",
+            "\\basshole\\b", "\\basshat\\b",
+            "\\bbitch\\b",
+            "\\bcunt\\b",
+            "\\bdick\\b",  "\\bdickhead\\b",
+            "\\bprick\\b",
+            "\\bpussy\\b",
+            "\\bwhore\\b",
+            "\\bslut\\b",
+            "\\bnigger\\b", "\\bnigga\\b",
+            "\\bfaggot\\b", "\\bfag\\b",
+            "\\bretard\\b", "\\bretarded\\b",
+            "\\bkike\\b",
+            "\\bspic\\b",
+            "\\bwetback\\b",
+            "\\bchink\\b",
+            "\\bgook\\b",
+            "\\bcracker\\b",
+            "\\bbastard\\b",
+            "\\bdamn\\b",
+            "\\bcrap\\b",
+            "\\bcock\\b",
+            "\\barse\\b",  "\\bbollocks\\b",
+        };
+        // clang-format on
+        std::vector<std::regex> patterns;
+        patterns.reserve(std::size(kWords));
+        for (const char* w : kWords) {
+            patterns.emplace_back(w, std::regex_constants::icase |
+                                         std::regex_constants::ECMAScript);
+        }
+        return patterns;
+    }();
+
+    for (const auto& re : kProfanityPatterns) {
+        if (std::regex_search(text, re)) {
+            return true;
+        }
+    }
     return false;
 }
 

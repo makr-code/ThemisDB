@@ -1,3 +1,23 @@
+/**
+ * @file blob_backend_gcs.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: blob_backend_gcs.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 254
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "storage/blob_backend_gcs.h"
 #include "utils/logger.h"
 #include "utils/error_registry.h"
@@ -59,6 +79,8 @@ struct GCSBlobBackend::Impl {
 GCSBlobBackend::GCSBlobBackend(const std::string& bucket, const std::string& prefix)
     : impl_(std::make_unique<Impl>(bucket, prefix)) {}
 
+GCSBlobBackend::~GCSBlobBackend() = default;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -87,8 +109,17 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
 // ─────────────────────────────────────────────────────────────────────────────
 // IBlobStorageBackend interface
 // ─────────────────────────────────────────────────────────────────────────────
-Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
-                                    const std::vector<uint8_t>& data) {
+// null_dereference/pointer_arithmetic/delete_no_nullptr scanner alerts
+// (lines 91, 95, 104, 114, 129, 154, 214, 219, 239): all GCS API calls that
+// dereference impl_->client are inside #ifdef THEMIS_ENABLE_GCS blocks that are
+// only reached when impl_->available == true.  impl_->available is set to true
+// only after impl_->client is successfully constructed (see Impl::Impl()).
+// impl_->client is therefore always non-null at these call sites.
+// The "delete_no_nullptr" alert at line 219 misidentifies the GCS API method
+// DeleteObject() as a raw pointer delete — false positives.
+// ─────────────────────────────────────────────────────────────────────────────
+Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
+                                    [[maybe_unused]] const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -122,13 +153,12 @@ Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
     THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id, data.size());
     return Ok(ref);
 #else
-    (void)blob_id; (void)data;
     return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                         "GCS support not compiled in");
 #endif
 }
 
-Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
+Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -184,13 +214,12 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id, data.size());
     return Ok(std::move(data));
 #else
-    (void)ref;
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                                      "GCS support not compiled in");
 #endif
 }
 
-Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
+Result<void> GCSBlobBackend::remove([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -211,13 +240,12 @@ Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob deleted: id={}", ref.id);
     return OkVoid();
 #else
-    (void)ref;
     return Err<void>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                      "GCS support not compiled in");
 #endif
 }
 
-bool GCSBlobBackend::exists(const BlobRef& ref) {
+bool GCSBlobBackend::exists([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -229,7 +257,6 @@ bool GCSBlobBackend::exists(const BlobRef& ref) {
     auto metadata = impl_->client->GetObjectMetadata(impl_->bucket, obj);
     return metadata.ok();
 #else
-    (void)ref;
     return false;
 #endif
 }
@@ -244,3 +271,4 @@ bool GCSBlobBackend::isAvailable() const {
 
 } // namespace storage
 } // namespace themis
+

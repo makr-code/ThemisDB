@@ -1,23 +1,20 @@
+/**
+ * @file type_conversion.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            type_conversion.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: type_conversion.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -56,7 +53,7 @@ namespace conversion {
      * @return Converted value
      * @throws ConversionException if value exceeds int32_t range
      * 
-     * @example
+     * @par Example
      *   size_t size = 1000;
      *   int32_t count = safe_size_to_int32(size);
      */
@@ -281,7 +278,7 @@ namespace conversion {
      * @return Converted value
      * @throws ConversionException if value is negative
      * 
-     * @example
+     * @par Example
      *   int count = get_count();
      *   size_t size = safe_int_to_size(count);
      */
@@ -317,7 +314,7 @@ namespace conversion {
      * @param size Container size
      * @return true if index is valid (non-negative and within bounds)
      * 
-     * @example
+     * @par Example
      *   std::vector<int> vec = {1, 2, 3};
      *   int index = -1;
      *   if (is_valid_index(index, vec.size())) {
@@ -335,7 +332,7 @@ namespace conversion {
      * @return Signed difference (a - b)
      * @throws ConversionException if difference exceeds ptrdiff_t range
      * 
-     * @example
+     * @par Example
      *   size_t pos1 = 100;
      *   size_t pos2 = 50;
      *   ptrdiff_t diff = safe_diff(pos1, pos2);  // 50
@@ -368,3 +365,4 @@ namespace conversion {
 
 } // namespace utils
 } // namespace themis
+

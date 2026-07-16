@@ -1,23 +1,20 @@
+/**
+ * @file user_registration_plugin.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            user_registration_plugin.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     189                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: user_registration_plugin.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -64,13 +61,13 @@ public:
      * @brief Get plugin name
      * @return Plugin name (e.g., "arrow", "webdav")
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Check if plugin is available and configured
      * @return true if plugin can be used
      */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
     
     /**
      * @brief Register user through plugin
@@ -85,7 +82,7 @@ public:
      * @param attributes Optional additional attributes
      * @return Result<UserRegistrationData> Registration data or error
      */
-    virtual Result<UserRegistrationData> registerUser(
+    [[nodiscard]] virtual Result<UserRegistrationData> registerUser(
         const std::string& user_id,
         const std::string& password,
         const std::unordered_map<std::string, std::string>& attributes = {}
@@ -101,7 +98,7 @@ public:
      * @param password Plain text password
      * @return Result<UserRegistrationData> User data if authenticated
      */
-    virtual Result<UserRegistrationData> authenticateUser(
+    [[nodiscard]] virtual Result<UserRegistrationData> authenticateUser(
         const std::string& user_id,
         const std::string& password
     ) = 0;
@@ -114,7 +111,7 @@ public:
      * 
      * @return Result<vector<UserRegistrationData>> List of users or error
      */
-    virtual Result<std::vector<UserRegistrationData>> syncUsers() = 0;
+    [[nodiscard]] virtual Result<std::vector<UserRegistrationData>> syncUsers() = 0;
     
     /**
      * @brief Update user information from external source
@@ -122,7 +119,7 @@ public:
      * @param user_id User identifier
      * @return Result<UserRegistrationData> Updated user data or error
      */
-    virtual Result<UserRegistrationData> updateUser(const std::string& user_id) = 0;
+    [[nodiscard]] virtual Result<UserRegistrationData> updateUser(const std::string& user_id) = 0;
 };
 
 /**

@@ -1,33 +1,33 @@
+/**
+ * @file multi_vector_search.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_vector_search.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     623                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_vector_search.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 614
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=14, L=0
+ * PR History (last 5): #1071 Implement MultiVectorSearch... (2026-03-11) | #1077 Remove duplicate vector sea... (2026-03-11) | #1086 GAP-006: Update vector adva... (2026-03-11) | #1145 Fix Vector/ANN documentatio... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/multi_vector_search.h"
 #include "index/vector_index.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <limits>
 #include <cmath>
+#include <unordered_map>
 #include <unordered_set>
 #include <functional>
 
@@ -38,7 +38,10 @@ namespace {
 
 // Helper function to normalize scores to [0, 1]
 std::vector<float> normalizeScores(const std::vector<float>& scores) {
-    if (scores.empty()) return {};
+    if (scores.empty()) {
+        THEMIS_DEBUG("normalizeScores called with empty scores");
+        return {};
+    }
     
     float min_score = *std::min_element(scores.begin(), scores.end());
     float max_score = *std::max_element(scores.begin(), scores.end());
@@ -176,6 +179,21 @@ MultiVectorSearch::search(
         }
         individual_results.push_back(std::move(results));
     }
+
+    std::vector<std::unordered_map<std::string, std::pair<float, int>>> per_query_scores;
+    per_query_scores.reserve(individual_results.size());
+    for (const auto& results : individual_results) {
+        std::unordered_map<std::string, std::pair<float, int>> score_map;
+        score_map.reserve(results.size());
+        for (size_t rank = 0; rank < results.size(); ++rank) {
+            const auto& result = results[rank];
+            score_map[result.pk] = {
+                1.0f / (1.0f + result.distance),
+                static_cast<int>(rank)
+            };
+        }
+        per_query_scores.push_back(std::move(score_map));
+    }
     
     // 3. Collect all unique document IDs
     std::unordered_set<std::string> all_docs;
@@ -202,22 +220,11 @@ MultiVectorSearch::search(
         ranks.reserve(individual_results.size());
         
         for (size_t i = 0; i < individual_results.size(); ++i) {
-            const auto& results = individual_results[i];
-            
-            // Find document in this result set
-            auto it = std::find_if(results.begin(), results.end(),
-                                   [&doc_id](const VectorIndexManager::Result& r) {
-                                       return r.pk == doc_id;
-                                   });
-            
-            if (it != results.end()) {
-                // Convert distance to score (lower distance = higher score)
-                // For cosine: distance is already in [0, 2], convert to similarity
-                float score = 1.0f / (1.0f + it->distance);
-                scores.push_back(score);
-                
-                int rank = std::distance(results.begin(), it);
-                ranks.push_back(rank);
+            const auto& score_map = per_query_scores[i];
+            auto it = score_map.find(doc_id);
+            if (it != score_map.end()) {
+                scores.push_back(it->second.first);
+                ranks.push_back(it->second.second);
             } else {
                 scores.push_back(0.0f);  // Not found
                 ranks.push_back(std::numeric_limits<int>::max());  // Worst rank
@@ -311,6 +318,7 @@ MultiVectorSearch::searchMultiField(
     
     // Create a MultiQuery with the same query vector for each field
     MultiQuery multi_query;
+    multi_query.vectors.reserve(field_names.size());
     for (size_t i = 0; i < field_names.size(); ++i) {
         multi_query.vectors.push_back(query_vector);
     }
@@ -365,6 +373,15 @@ MultiVectorSearch::hybridSearch(
     
     // 2. Collect all unique document IDs from both sources
     std::unordered_set<std::string> all_docs;
+    std::unordered_map<std::string, std::pair<float, int>> vector_score_by_doc;
+    vector_score_by_doc.reserve(vector_results.size());
+    for (size_t rank = 0; rank < vector_results.size(); ++rank) {
+        const auto& result = vector_results[rank];
+        vector_score_by_doc[result.pk] = {
+            1.0f / (1.0f + result.distance),
+            static_cast<int>(rank)
+        };
+    }
     for (const auto& result : vector_results) {
         all_docs.insert(result.pk);
     }
@@ -386,15 +403,10 @@ MultiVectorSearch::hybridSearch(
         ranks.reserve(2);
         
         // Get vector score
-        auto vec_it = std::find_if(vector_results.begin(), vector_results.end(),
-                                   [&doc_id](const VectorIndexManager::Result& r) {
-                                       return r.pk == doc_id;
-                                   });
-        
-        if (vec_it != vector_results.end()) {
-            float score = 1.0f / (1.0f + vec_it->distance);
-            scores.push_back(score);
-            ranks.push_back(std::distance(vector_results.begin(), vec_it));
+        auto vec_it = vector_score_by_doc.find(doc_id);
+        if (vec_it != vector_score_by_doc.end()) {
+            scores.push_back(vec_it->second.first);
+            ranks.push_back(vec_it->second.second);
         } else {
             scores.push_back(0.0f);
             ranks.push_back(std::numeric_limits<int>::max());
@@ -566,13 +578,16 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                     // Calculate NDCG@10
                     float dcg = 0.0f;
                     const auto& relevant_docs = relevance_judgments[q];
+                    std::unordered_set<std::string> relevant_doc_set(
+                        relevant_docs.begin(),
+                        relevant_docs.end()
+                    );
                     for (size_t i = 0; i < result.value().results.size() && i < 10; ++i) {
                         const auto& res = result.value().results[i];
-                        auto it = std::find(relevant_docs.begin(), relevant_docs.end(), res.id);
-                        if (it != relevant_docs.end()) {
+                        if (relevant_doc_set.count(res.id) > 0) {
                             // Document is relevant
                             float gain = 1.0f; // Binary relevance
-                            dcg += gain / std::log2(i + 2); // i+2 because ranks start at 1
+                            dcg += gain / std::log2f(static_cast<float>(i + 2)); // i+2 because ranks start at 1
                         }
                     }
                     
@@ -580,7 +595,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                     float idcg = 0.0f;
                     size_t num_relevant = std::min(relevant_docs.size(), static_cast<size_t>(10));
                     for (size_t i = 0; i < num_relevant; ++i) {
-                        idcg += 1.0f / std::log2(i + 2);
+                        idcg += 1.0f / std::log2f(static_cast<float>(i + 2));
                     }
                     
                     float ndcg = (idcg > 0) ? (dcg / idcg) : 0.0f;
@@ -588,7 +603,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                 }
             }
             
-            float avg_ndcg = total_ndcg / queries.size();
+            float avg_ndcg = total_ndcg / static_cast<float>(queries.size());
             if (avg_ndcg > best_score) {
                 best_score = avg_ndcg;
                 best_weights = current_weights;
@@ -607,6 +622,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
     };
     
     std::vector<float> current_weights;
+    current_weights.reserve(num_vectors);
     gridSearch(current_weights, 0, 1.0f);
     
     if (best_weights.empty()) {
@@ -623,4 +639,3 @@ void MultiVectorSearch::resetStatistics() {
 
 } // namespace vector
 } // namespace themis
-

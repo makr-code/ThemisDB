@@ -286,4 +286,4 @@ GET /spatial/metrics
 - [Geospatial Feature Tiering](geo_feature_tiering.md)
 - [EWKB Format Support](../utils/geo/ewkb.md)
 - [Spatial API Handler](../server/spatial_api_handler.md)
-- [Future Enhancements for Geospatial Implementation](../geospatial_future_enhancements.md) - Planned improvements and roadmap
+- [Future Enhancements for Geospatial Implementation](../GEOSPATIAL_FUTURE_ENHANCEMENTS.md) - Planned improvements and roadmap

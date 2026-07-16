@@ -1,23 +1,20 @@
+/**
+ * @file shard_rpc_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_server.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     152                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -25,6 +22,8 @@
 #include <string>
 #include <memory>
 #include <cstdint>
+#include <vector>
+#include "sharding/shard_rpc_client.h"
 
 namespace themis::sharding {
 
@@ -51,11 +50,12 @@ public:
     /**
      * @brief Configuration for the RPC server
      */
+    /** @brief Runtime configuration for shard RPC server endpoint and TLS policy. */
     struct Config {
         std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
         
         // mTLS Configuration (optional, required for production)
-        bool enable_mtls = false;       // Enable mutual TLS authentication
+        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
         std::string tls_cert_path;      // Path to server certificate (PEM format)
         std::string tls_key_path;       // Path to server private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)
@@ -103,18 +103,35 @@ public:
          * @return Health information
          */
         virtual HealthInfo onHealthCheck() = 0;
+
+        /**
+         * @brief Collect all active local wait-for edges for distributed deadlock detection.
+         *
+         * The coordinator calls this on every shard during each deadlock-detection
+         * cycle to build a cluster-wide wait-for graph.  Each entry in the returned
+         * vector represents a directed edge: @p waiting_transaction_id is blocked by
+         * @p blocking_transaction_id on this shard.
+         *
+         * Default implementation returns an empty list (no local lock waits known).
+         * Override in shards that maintain a local lock-wait state.
+         */
+        virtual std::vector<ShardRPCClient::WaitForEdge> onCollectWaitForEdges() {
+            return {};
+        }
     };
     
     /**
      * @brief Create a new ShardRPCServer
      * @param listen_address Address to listen on (e.g., "0.0.0.0:50051")
      */
+    /** @brief Construct server using listen address only (default TLS config). */
     explicit ShardRPCServer(const std::string& listen_address);
     
     /**
      * @brief Create a new ShardRPCServer with configuration
      * @param config Server configuration including mTLS settings
      */
+    /** @brief Construct server using explicit runtime configuration. */
     explicit ShardRPCServer(const Config& config);
     
     ~ShardRPCServer();

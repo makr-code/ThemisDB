@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_run_ci_benchmarks.py                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:09                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:43:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • db650a598  2026-03-01  feat(chimera): add run_ci_benchmarks tests and seed basel... ║
+    • 42a3eb2e8f  2026-04-10  refactor(chimera): remove local benchmark tree and use su... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,7 +22,7 @@
 
 #!/usr/bin/env python3
 """
-Unit tests for benchmarks/chimera/run_ci_benchmarks.py
+Unit tests for external/chimera/run_ci_benchmarks.py
 
 Covers:
 - run_benchmarks() returns a valid harness report with all four workload families
@@ -32,7 +31,8 @@ Covers:
 - main() CLI writes a valid JSON file to the requested output path
 - main() handles a custom --warmup / --iterations value
 """
-
+# ThemisDB - Hybrid Database System
+# File: test_run_ci_benchmarks.py  Version: 0.0.15  Status: ✅ Production Ready
 from __future__ import annotations
 
 import json
@@ -46,7 +46,7 @@ import pytest
 # Ensure the chimera package directory is importable
 # ---------------------------------------------------------------------------
 _HERE       = Path(__file__).resolve().parent          # benchmarks/tests/
-_CHIMERA    = _HERE.parent / "chimera"                 # benchmarks/chimera/
+_CHIMERA    = _HERE.parent.parent / "external" / "chimera"  # external/chimera/
 _BENCHMARKS = _HERE.parent                             # benchmarks/
 
 for _p in (_CHIMERA, _BENCHMARKS):

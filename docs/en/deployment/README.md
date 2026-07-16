@@ -1,7 +1,7 @@
 # ThemisDB Deployment Documentation
 
-**Date:** December 22, 2025  
-**Version:** v1.3.0  
+**Date:** April 5, 2026  
+**Version:** v1.8.1-rc1  
 **Category:** 🚀 Deployment  
 **Status:** Production-Ready
 
@@ -115,21 +115,24 @@ cmake -B build \
 
 ```bash
 # Pull latest image
-docker pull ghcr.io/makr-code/themisdb:latest
+docker pull themisdb/themisdb:latest
 
 # Run with data volume
 docker run -d \
   -p 8765:8765 \
   -v /data/themis:/var/lib/themis \
-  ghcr.io/makr-code/themisdb:latest
+  themisdb/themisdb:latest
 ```
+
+> Community releases are published to Docker Hub (`themisdb/themisdb`) via
+> `.github/workflows/04-release_publish-community.yml`.
 
 ### Multi-Arch Build
 
 ```bash
 # Build for multiple architectures
 docker buildx build --platform linux/amd64,linux/arm64 \
-  -t ghcr.io/makr-code/themisdb:latest \
+  -t themisdb/themisdb:latest \
   --push .
 ```
 
@@ -171,4 +174,4 @@ tar -xzf themis-linux-x86_64.tar.gz
 > **Note:** Most detailed deployment documentation is currently available in German. English translations are in progress.  
 > For the most up-to-date information, please refer to the [German deployment documentation](../../de/deployment/).
 
-**Version:** 1.3.0 | **License:** MIT | **Support:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+**Version:** 1.8.1-rc1 | **License:** MIT | **Support:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)

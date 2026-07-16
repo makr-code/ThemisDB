@@ -1,6 +1,6 @@
 # JWT / OpenID Connect Authentifizierung
 
-**Stand:** 9. März 2026
+**Stand:** 6. April 2026
 **Version:** 2.0.0
 **Kategorie:** Auth
 

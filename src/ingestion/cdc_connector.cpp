@@ -1,24 +1,21 @@
+/**
+ * @file cdc_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=5, Sim=2, Debt=0, C=2, H=0, M=13, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cdc_connector.cpp                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-09 16:39:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     680                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 51c189e9d  2026-02-28  feat(ingestion): implement CDC source connector for live ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cdc_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 852
+ * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=5, Sim=2, Debt=0, C=2, H=7, M=15, L=0
+ * PR History (last 5): #3249 [ingestion] Implement CDC s... (2026-03-12) | #3197 feat(ingestion): CDC source... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_CDC_STREAM is defined the full replication-stream-backed
@@ -43,6 +40,10 @@
 
 #ifdef ERROR
 #undef ERROR
+#endif
+
+#ifdef DELETE
+#undef DELETE
 #endif
 
 namespace themis {
@@ -135,7 +136,7 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
 }
 
 /// Split a comma-separated string into trimmed tokens.
-static std::vector<std::string> splitComma(const std::string& s) {
+static std::vector<std::string> splitCommaCdc(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
     std::string token;
@@ -416,10 +417,10 @@ public:
         std::string table_filter_str = opt("table_filter", "");
         table_filter_ = table_filter_str.empty()
                         ? std::vector<std::string>{}
-                        : splitComma(table_filter_str);
+                        : splitCommaCdc(table_filter_str);
 
         std::string ops_str = opt("operations", "INSERT,UPDATE,DELETE");
-        ops_filter_ = splitComma(ops_str);
+        ops_filter_ = splitCommaCdc(ops_str);
         // Normalize to uppercase
         for (auto& op : ops_filter_) {
             std::transform(op.begin(), op.end(), op.begin(),
@@ -429,7 +430,7 @@ public:
         std::string text_cols_str = opt("text_columns", "");
         text_columns_ = text_cols_str.empty()
                         ? std::vector<std::string>{}
-                        : splitComma(text_cols_str);
+                        : splitCommaCdc(text_cols_str);
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
         catch (...) { batch_size_ = 500; }
@@ -561,7 +562,18 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of CdcConnector without a live database by
+    //   using an injected event_fetch_fn_ instead of a real CDC stream.
+    // Activation: Active when event_fetch_fn_ is non-null (set via
+    //   CdcConnector::setEventFetchForTesting()).
+    // Production Delta: Events come from the injected lambda instead of a real
+    //   database change-data-capture connection.  No network I/O or
+    //   authentication occurs.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
+    // Removal Plan: Not removed — remains the test-injection path.  Production
+    //   path (ingestFromLive) must be used when event_fetch_fn_ is null.
+    // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
@@ -839,8 +851,14 @@ void CdcConnector::setRetryConfig(const RetryConfig& config) {
 }
 
 void CdcConnector::setCdcEventFetchForTesting(CdcEventFetchFn fn) {
+    setEventBatchProvider(std::move(fn));
+}
+
+void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
     impl_->setCdcEventFetchForTesting(std::move(fn));
 }
 
 } // namespace ingestion
 } // namespace themis
+
+

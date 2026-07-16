@@ -1,29 +1,26 @@
+/**
+ * @file totp_secret_encryption.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            totp_secret_encryption.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     265                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: totp_secret_encryption.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 256
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4112 feat(auth): Secure memory f... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
+#include "auth/secure_memory.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -60,9 +57,11 @@ namespace auth {
 class TOTPSecretEncryption {
 public:
     struct Config {
-        // Master encryption key (32 bytes for AES-256)
-        // In production, this should come from KMS/HSM
-        std::vector<uint8_t> master_key;
+        // Master encryption key (32 bytes for AES-256).
+        // Stored in locked, cleanse-on-free memory to prevent key material
+        // appearing in core dumps or freed heap pages.
+        // In production, this should come from KMS/HSM.
+        SecureBuffer<uint8_t> master_key;
         
         // Key derivation iterations (PBKDF2)
         // Higher = more secure but slower (100k recommended)
@@ -151,10 +150,10 @@ public:
      * Updates master key and key version. Old secrets can still be decrypted
      * with old key if provided via rotation support.
      * 
-     * @param new_master_key New master key (32 bytes)
+     * @param new_master_key New master key (32 bytes), stored securely
      * @param new_version New key version number
      */
-    void rotateKey(const std::vector<uint8_t>& new_master_key, int new_version);
+    void rotateKey(const SecureBuffer<uint8_t>& new_master_key, int new_version);
     
     /**
      * @brief Check if secret needs re-encryption (old key version)
@@ -178,8 +177,9 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Derive encryption key from master key and salt
-    std::vector<uint8_t> deriveKey(const std::vector<uint8_t>& salt);
+    // Derive encryption key from master key and salt.
+    // Returns a SecureBuffer so the derived key is zeroed when it goes out of scope.
+    SecureBuffer<uint8_t> deriveKey(const std::vector<uint8_t>& salt);
     
     // Generate random bytes
     std::vector<uint8_t> generateRandomBytes(size_t size);
@@ -212,7 +212,8 @@ public:
         bool is_active;                 // Is this the current active secret?
     };
     
-    explicit TOTPSecretRotationManager(const RotationConfig& config = RotationConfig());
+    TOTPSecretRotationManager();
+    explicit TOTPSecretRotationManager(const RotationConfig& config);
     
     /**
      * @brief Rotate a user's TOTP secret

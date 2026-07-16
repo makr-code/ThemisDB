@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_feedback_collector.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     373                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_feedback_collector.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -374,3 +360,63 @@ TEST_F(FeedbackCollectorTest, MetadataStorage) {
     EXPECT_EQ(feedback[0].metadata["session_id"], "session456");
     EXPECT_EQ(feedback[0].metadata["context"], "testing");
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-5: Cross-shard feedback sync tests (FC-CSS-01, FC-CSS-02)
+// ─────────────────────────────────────────────────────────────────────────────
+
+#include "distributed_knowledge/cross_shard_feedback_sync.h"
+
+using namespace themis::distributed_knowledge;
+
+// FC-CSS-01: recordFeedback() with sync + embedding model → publishFeedback() called
+TEST(FeedbackCollectorCrossShardTest, FC_CSS_01_RecordFeedback_WithSync_PublishesSummary) {
+    using namespace themis::prompt_engineering;
+
+    int publish_call_count = 0;
+
+    FeedbackSyncConfig sync_cfg;
+    sync_cfg.max_embedding_dim   = 3; // small dimension for test
+    sync_cfg.validate_embedding_dim = true;
+
+    auto sync = std::make_shared<CrossShardFeedbackSync>(
+        sync_cfg, "shard-local",
+        [&publish_call_count](nlohmann::json /*payload*/) {
+            ++publish_call_count;
+        });
+
+    // Mock embedding model: returns exactly 3 floats
+    struct FixedEmbed : public FeedbackCollector::IEmbeddingModel {
+        std::vector<float> embed(const std::string&) const override {
+            return {0.1f, 0.2f, 0.3f};
+        }
+    };
+
+    FeedbackCollector collector;
+    collector.setCrossShardSync(sync);
+    collector.setEmbeddingModel(std::make_shared<FixedEmbed>());
+
+    collector.recordFeedback("p1", "query text", "response", FeedbackType::USER_NEGATIVE);
+
+    EXPECT_EQ(publish_call_count, 1) << "publishFeedback() must be called exactly once";
+    EXPECT_GE(sync->publishedCount(), 1u);
+}
+
+// FC-CSS-02: recordFeedback() without sync → no crash, local recording intact
+TEST(FeedbackCollectorCrossShardTest, FC_CSS_02_RecordFeedback_NoSync_LocalRecordingComplete) {
+    using namespace themis::prompt_engineering;
+
+    FeedbackCollector collector; // no setCrossShardSync / setEmbeddingModel
+
+    // Must not throw
+    std::string id;
+    EXPECT_NO_THROW(
+        id = collector.recordFeedback("p1", "query", "response",
+                                      FeedbackType::USER_POSITIVE));
+
+    EXPECT_FALSE(id.empty()) << "Feedback ID must still be generated";
+    auto entries = collector.getFeedback("p1");
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_EQ(entries[0].type, FeedbackType::USER_POSITIVE);
+}
+

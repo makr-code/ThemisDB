@@ -1,23 +1,21 @@
+/**
+ * @file operational_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            operational_metrics.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     608                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: operational_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 631
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=4, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -405,6 +403,20 @@ HealthStatus OperationalMetrics::getClusterHealth() const {
     return HealthStatus::HEALTHY;
 }
 
+void OperationalMetrics::recordRpcCall(
+    const std::string& shard_id,
+    [[maybe_unused]] const std::string& method,
+    const std::string& outcome,
+    uint64_t latency_us
+) {
+    // Map outcome string to success flag for the generic recordRequest path.
+    const bool success = (outcome == "success");
+    // RPC calls are always cross-shard writes from the perspective of the
+    // generic request counter (they carry mutation intent).
+    recordRequest(shard_id, latency_us, success, /*is_write=*/true);
+    // label carried by PrometheusMetrics; suppresses unused-var warning
+}
+
 void OperationalMetrics::recordRequest(
     const std::string& shard_id,
     uint64_t latency_us,
@@ -587,6 +599,7 @@ std::string OperationalMetrics::formatPrometheusMetric(
     double value,
     const std::map<std::string, std::string>& labels
 ) {
+    (void)type;
     std::stringstream ss;
     
     ss << name;
@@ -605,6 +618,24 @@ std::string OperationalMetrics::formatPrometheusMetric(
     ss << " " << std::fixed << std::setprecision(2) << value << "\n";
     
     return ss.str();
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    uint64_t value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    int value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
 }
 
 }  // namespace sharding

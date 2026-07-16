@@ -1,30 +1,27 @@
+/**
+ * @file archive_processor.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            archive_processor.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e21224bb7  2026-02-28  feat(content): implement file upload security checks ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: archive_processor.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 270
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "content/content_processor.h"
+#include "content/content_security.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -70,11 +67,11 @@ enum class ArchiveFormat {
  * @brief Archive member information
  */
 struct ArchiveMember {
-    std::string path;              // Path within archive
-    uint64_t uncompressed_size;    // Uncompressed size in bytes
-    uint64_t compressed_size;      // Compressed size in bytes
-    bool is_directory;             // True if this is a directory entry
-    bool is_encrypted;             // True if this member is encrypted
+    std::string path;                       // Path within archive
+    uint64_t uncompressed_size = 0;         ///< Uncompressed size in bytes (CON-019)
+    uint64_t compressed_size = 0;           ///< Compressed size in bytes (CON-019)
+    bool is_directory = false;              ///< True if this is a directory entry (CON-019)
+    bool is_encrypted = false;              ///< True if this member is encrypted (CON-019)
 };
 
 /**
@@ -82,12 +79,12 @@ struct ArchiveMember {
  */
 struct ArchiveMetadata {
     ArchiveFormat format;
-    bool is_encrypted;
-    uint64_t total_uncompressed_size;
-    uint64_t total_compressed_size;
-    size_t member_count;
-    size_t directory_count;
-    size_t file_count;
+    bool is_encrypted = false;              ///< CON-019
+    uint64_t total_uncompressed_size = 0;   ///< CON-019
+    uint64_t total_compressed_size = 0;     ///< CON-019
+    size_t member_count = 0;               ///< CON-019
+    size_t directory_count = 0;            ///< CON-019
+    size_t file_count = 0;                 ///< CON-019
     std::vector<ArchiveMember> members;
     std::string comment;  // Archive comment if any
 };
@@ -96,7 +93,7 @@ struct ArchiveMetadata {
  * @brief Archive extraction result (internal use)
  */
 struct ArchiveExtractionResult {
-    bool success;
+    bool success = false;  ///< CON-019
     std::string error_message;
     std::vector<std::string> extracted_files;  // Paths to extracted files in temp directory
     std::string temp_directory;  // Temporary directory used for extraction
@@ -106,7 +103,7 @@ struct ArchiveExtractionResult {
  * @brief Archive Processor Result (for process() method)
  */
 struct ArchiveProcessorResult {
-    bool success;
+    bool success = false;  ///< CON-019
     std::string error_message;
     json metadata;
 };
@@ -256,8 +253,20 @@ public:
      */
     void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
 
+    /**
+     * @brief Configure the security manager used for zip-bomb checks
+     * 
+     * By default a ContentSecurityManager with zip-bomb checks enabled (ratio 100×,
+     * max 1,000 files) is used automatically. Call this to supply a pre-configured
+     * manager, e.g. to adjust thresholds or share metrics with another component.
+     */
+    void setSecurityConfig(const ContentSecurityConfig& security_config) {
+        security_manager_.setConfig(security_config);
+    }
+
 private:
     ArchiveProcessorConfig config_;
+    ContentSecurityManager security_manager_;
     
     // Format-specific extraction methods
     ArchiveExtractionResult extractZip(const std::string& blob, const std::string& password);

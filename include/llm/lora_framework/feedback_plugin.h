@@ -1,24 +1,21 @@
+/**
+ * @file feedback_plugin.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_plugin.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     197                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_plugin.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 190
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #542 Implement training control ... (2026-03-11) | #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -56,7 +53,7 @@ public:
      * 
      * Example: Check for spam, required fields, valid ratings, etc.
      */
-    virtual bool validate(const Feedback& feedback) const = 0;
+    [[nodiscard]] virtual bool validate(const Feedback& feedback) const = 0;
     
     /**
      * @brief Process feedback after validation, before storage
@@ -75,12 +72,12 @@ public:
      * 
      * Example: Check batch size, quality score, time since last training, etc.
      */
-    virtual bool onTrainingTrigger(const std::vector<Feedback>& batch) const = 0;
+    [[nodiscard]] virtual bool onTrainingTrigger(const std::vector<Feedback>& batch) const = 0;
     
     /**
      * @brief Get plugin name for logging and debugging
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
 };
 
 /**
@@ -88,6 +85,8 @@ public:
  */
 class BaseFeedbackPlugin : public FeedbackPlugin {
 public:
+    ~BaseFeedbackPlugin() override = default;
+
     bool validate(const Feedback& feedback) const override {
         // Basic validation: check required fields
         if (feedback.adapter_id.empty()) return false;
@@ -95,11 +94,11 @@ public:
         if (feedback.rating < 1 || feedback.rating > 5) return false;
         return true;
     }
-    
-    void process(Feedback& feedback) override {
+
+    void process([[maybe_unused]] Feedback& feedback) override {
         // Default: no-op
     }
-    
+
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override {
         // Default: trigger when batch reaches 100 items
         return batch.size() >= 100;
@@ -115,6 +114,7 @@ public:
  */
 class PrivacyFilterPlugin : public BaseFeedbackPlugin {
 public:
+    ~PrivacyFilterPlugin() override = default;
     void process(Feedback& feedback) override;
     std::string getName() const override { return "PrivacyFilterPlugin"; }
 };
@@ -124,6 +124,7 @@ public:
  */
 class ContentValidationPlugin : public BaseFeedbackPlugin {
 public:
+    ~ContentValidationPlugin() override = default;
     bool validate(const Feedback& feedback) const override;
     std::string getName() const override { return "ContentValidationPlugin"; }
     
@@ -148,6 +149,7 @@ public:
         : config_(config) {}
     
     TrainingTriggerPlugin() : TrainingTriggerPlugin(Config{}) {}
+    ~TrainingTriggerPlugin() override = default;
     
     bool onTrainingTrigger(const std::vector<Feedback>& batch) const override;
     std::string getName() const override { return "TrainingTriggerPlugin"; }
@@ -184,6 +186,7 @@ public:
         : config_(config) {}
     
     CacheAwareWeightingPlugin() : CacheAwareWeightingPlugin(Config{}) {}
+    ~CacheAwareWeightingPlugin() override = default;
     
     void process(Feedback& feedback) override;
     std::string getName() const override { return "CacheAwareWeightingPlugin"; }

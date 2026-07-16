@@ -1,25 +1,21 @@
+/**
+ * @file replication_topology_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=3, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_topology_api_handler.cpp               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:00:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     267                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_topology_api_handler.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 305
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=7, M=13, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,11 +36,54 @@
 
 #include <algorithm>
 #include <sstream>
+#include "utils/input_validator.h"
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxReplicationUiPrefixLength = 256;
+
+bool isValidUiApiBasePrefix(const std::string& value) {
+    if (value.empty()) {
+        return true;
+    }
+
+    if (value.front() != '/') {
+        return false;
+    }
+
+    themis::utils::InputValidator validator;
+    if (!validator.validateStringLength(value, kMaxReplicationUiPrefixLength) ||
+        !validator.validateHeaderValue(value) ||
+        value.find("//") != std::string::npos) {
+        return false;
+    }
+
+    size_t start = 1;
+    while (start <= value.size()) {
+        const auto end = value.find('/', start);
+        const auto len = (end == std::string::npos) ? value.size() - start : end - start;
+        if (len > 0) {
+            const auto segment = value.substr(start, len);
+            if (!validator.validatePathSegment(segment)) {
+                return false;
+            }
+        }
+        if (end == std::string::npos) {
+            break;
+        }
+        start = end + 1;
+    }
+
+    return true;
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction
@@ -69,13 +108,15 @@ ReplicationTopologyApiHandler::ReplicationTopologyApiHandler(
 http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyGet");
     if (!coordinator_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);
     }
+    auto& coordinator = *coordinator_;
 
     try {
-        const auto replicas = coordinator_->getReplicaInfo();
+        const auto replicas = coordinator.getReplicaInfo();
         const uint64_t primary_lsn = wal_manager_
             ? wal_manager_->getCurrentLSN().segment : 0;
 
@@ -142,14 +183,16 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
 http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleHealthGet");
     if (!coordinator_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);
     }
+    auto& coordinator = *coordinator_;
 
     try {
-        const auto replicas = coordinator_->getReplicaInfo();
-        const auto stats = coordinator_->getShipperStats();
+        const auto replicas = coordinator.getReplicaInfo();
+        const auto stats = coordinator.getShipperStats();
 
         const auto healthy_replicas = static_cast<uint64_t>(std::count_if(
             replicas.begin(), replicas.end(),
@@ -193,12 +236,17 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
 http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleUiGet");
     std::string api_base;
     const std::string target{req.target()};
     const std::string marker = "/ui/replication/topology";
     const auto pos = target.find(marker);
     if (pos != std::string::npos) {
         api_base = target.substr(0, pos);
+        if (!isValidUiApiBasePrefix(api_base)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Invalid UI API base prefix", req);
+        }
     }
 
     return makeResponse(http::status::ok, buildUiHtml(api_base), "text/html; charset=utf-8", req);

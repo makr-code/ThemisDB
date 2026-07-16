@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Report** – Dieser Report beschreibt den Entwicklungsstand zum Zeitpunkt der Erfassung.
+> Für den aktuellen Implementierungsstand: Quellcode in `tools/Themis.IngestionTool/` prüfen.
+
 # Themis Ingestion Tool - Complete Implementation Summary
 
 ## Project Completion Status

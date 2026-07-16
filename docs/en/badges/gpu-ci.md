@@ -1,6 +1,6 @@
 # GPU CI Badge
 
-[![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml)
+[![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml)
 
 ## What it shows
 
@@ -15,8 +15,8 @@ The result of the most recent run of the **GPU Module CI Gate** workflow. This w
 
 | Source | URL |
 |--------|-----|
-| Workflow file | [`.github/workflows/gpu-ci.yml`](../../../.github/workflows/gpu-ci.yml) |
-| All workflow runs | <https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml> |
+| Workflow file | [`.github/workflows/06-infrastructure_gpu_gpu-ci.yml`](../../../.github/workflows/06-infrastructure_gpu_gpu-ci.yml) |
+| All workflow runs | <https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml> |
 
 ## How contributors can verify
 

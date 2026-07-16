@@ -1,29 +1,29 @@
+/**
+ * @file partition_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            partition_detector.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     320                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: partition_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 310
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=8, L=0
+ * PR History (last 5): #615 Network Partition Handling ... (2026-03-11) | #623 Implement production-ready ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "sharding/partition_detector.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <thread>
 #include <condition_variable>
@@ -31,13 +31,16 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Construct detector with provided monitoring configuration. */
 PartitionDetector::PartitionDetector(const PartitionDetectorConfig& config)
     : config_(config) {}
 
+/** @brief Stop active monitoring worker during destruction. */
 PartitionDetector::~PartitionDetector() {
     stop();
 }
 
+/** @brief Start background health-check monitoring loop. */
 void PartitionDetector::start() {
     if (running_.exchange(true)) {
         return;  // Already running
@@ -46,16 +49,19 @@ void PartitionDetector::start() {
     health_check_thread_ = std::thread(&PartitionDetector::healthCheckLoop, this);
 }
 
+/** @brief Stop monitoring loop and join worker thread. */
 void PartitionDetector::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
     }
     
-    if (health_check_thread_.joinable()) {
-        health_check_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(health_check_thread_)) {
+        THEMIS_WARN("[PartitionDetector] health check thread did not finish within shutdown deadline; detaching.");
     }
 }
 
+/** @brief Add or reset connectivity tracking record for one node. */
 void PartitionDetector::addNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -70,11 +76,13 @@ void PartitionDetector::addNode(const std::string& node_id) {
     nodes_[node_id] = conn;
 }
 
+/** @brief Remove connectivity tracking record for one node. */
 void PartitionDetector::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     nodes_.erase(node_id);
 }
 
+/** @brief Record successful node contact and refresh liveness metrics. */
 void PartitionDetector::recordHeartbeat(const std::string& node_id,
                                        std::chrono::milliseconds rtt) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
@@ -94,6 +102,7 @@ void PartitionDetector::recordHeartbeat(const std::string& node_id,
     conn.packet_loss_rate = conn.packet_loss_rate * 0.9;  // Decay
 }
 
+/** @brief Record failed node contact and update degradation metrics. */
 void PartitionDetector::recordFailure(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -116,10 +125,12 @@ void PartitionDetector::recordFailure(const std::string& node_id) {
     stats_.failed_health_checks++;
 }
 
+/** @brief Return current aggregated network health state. */
 NetworkHealth PartitionDetector::getNetworkHealth() const {
     return current_health_.load();
 }
 
+/** @brief Return snapshot copy of all monitored node connectivity states. */
 std::vector<NodeConnectivity> PartitionDetector::getNodeConnectivity() const {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -130,23 +141,28 @@ std::vector<NodeConnectivity> PartitionDetector::getNodeConnectivity() const {
     return result;
 }
 
+/** @brief Return whether split-brain condition is currently flagged. */
 bool PartitionDetector::isSplitBrainDetected() const {
     return split_brain_detected_.load();
 }
 
+/** @brief Return historical partition event list. */
 std::vector<PartitionEvent> PartitionDetector::getPartitionHistory() const {
     std::lock_guard<std::mutex> lock(events_mutex_);
     return partition_history_;
 }
 
+/** @brief Register callback used to perform active health checks. */
 void PartitionDetector::setHealthCheckCallback(HealthCheckCallback callback) {
     health_check_callback_ = callback;
 }
 
+/** @brief Register callback invoked on partition detect and heal events. */
 void PartitionDetector::setPartitionCallback(PartitionCallback callback) {
     partition_callback_ = callback;
 }
 
+/** @brief Background loop performing health checks and partition evaluation. */
 void PartitionDetector::healthCheckLoop() {
     while (running_) {
         stats_.total_health_checks++;
@@ -187,6 +203,7 @@ void PartitionDetector::healthCheckLoop() {
     }
 }
 
+/** @brief Derive partition event from current reachability distribution. */
 void PartitionDetector::detectPartition() {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -243,6 +260,7 @@ void PartitionDetector::detectPartition() {
     }
 }
 
+/** @brief Mark latest partition event healed when connectivity fully recovers. */
 void PartitionDetector::checkPartitionHealing() {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -276,6 +294,7 @@ void PartitionDetector::checkPartitionHealing() {
     }
 }
 
+/** @brief Recompute aggregated health state from per-node metrics. */
 void PartitionDetector::updateNetworkHealth() {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     

@@ -1,24 +1,20 @@
+/**
+ * @file adaptive_optimizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_optimizer.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e3c5254ad  2026-03-01  fix(query): use historical average rows as fallback estim... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_optimizer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -33,6 +29,7 @@
 #include <unordered_map>
 
 namespace themis {
+namespace query {
 
 /**
  * @brief Adaptive Query Execution Statistics
@@ -125,11 +122,14 @@ public:
             MERGE_JOIN,
             NESTED_LOOP_JOIN,
             INDEX_INTERSECTION,
-            PARALLEL_SCAN
+            PARALLEL_SCAN,
+            BINARY_BATCH_CPU,   ///< MessagePack/custom-binary + CPU thread pool
+            ARROW_GPU_VRAM,     ///< Apache Arrow IPC + GPU/VRAM parallel execution
+            ARROW_CPU_PARALLEL, ///< Apache Arrow IPC + CPU thread pool
         };
         
         Strategy strategy;
-        double estimated_cost;
+        double estimated_cost = 0.0;
         std::string description;
     };
     
@@ -273,16 +273,16 @@ public:
 class NumaAwareOptimizer {
 public:
     struct NumaNode {
-        int node_id;
-        size_t available_cores;
-        size_t memory_gb;
+        int node_id = 0;
+        size_t available_cores = 0;
+        size_t memory_gb = 0;
         std::vector<int> cpu_ids;
     };
     
     struct NumaPlacement {
-        int preferred_numa_node;
+        int preferred_numa_node = 0;
         std::vector<int> cpu_affinity;
-        bool use_local_memory;
+        bool use_local_memory = false;
     };
     
     /**
@@ -308,4 +308,7 @@ public:
     static bool pinThreadToCpu(int cpu_id);
 };
 
+} // namespace query
 } // namespace themis
+
+

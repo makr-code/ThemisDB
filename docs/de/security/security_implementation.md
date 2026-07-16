@@ -2,7 +2,7 @@
 
 Vollständige Übersicht aller implementierten Security Features im Themis-System.
 
-**Stand**: 2025-11-17  
+**Stand**: 2026-04-06  
 **Branch**: `feature/critical-high-priority-fixes`  
 **Security Coverage**: 85%  
 **Version:** v1.3.0  

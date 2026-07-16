@@ -1,5 +1,5 @@
 # Themis - Priorisierte Roadmap für Production Readiness
-**Stand:** 29. Oktober 2025, 22:15  
+**Stand:** 6. April 2026, 22:15  
 **Basis:** IMPLEMENTATION_STATUS.md Audit-Ergebnisse
 
 ---

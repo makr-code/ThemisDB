@@ -1,23 +1,20 @@
+/**
+ * @file license_info.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            license_info.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     208                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: license_info.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -28,13 +25,14 @@
  * embedded into the binary during the build process.
  */
 
-#ifndef THEMIS_LICENSE_INFO_H
-#define THEMIS_LICENSE_INFO_H
+#pragma once
 
 #include <chrono>
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
+#include "themis/export.h"
 
 namespace themis {
 namespace license {
@@ -78,36 +76,36 @@ struct LicenseData {
  * Get the embedded license data from this build
  * Returns empty optional if no license data was embedded
  */
-std::optional<LicenseData> getEmbeddedLicense();
+THEMIS_BASE_API std::optional<LicenseData> getEmbeddedLicense();
 
 /**
  * Check if this build has embedded license data
  */
-bool hasEmbeddedLicense();
+THEMIS_BASE_API bool hasEmbeddedLicense();
 
 /**
  * Get a human-readable summary of the license information
  * suitable for logging at server startup
  */
-std::string formatLicenseInfo(const LicenseData& license);
+THEMIS_BASE_API std::string formatLicenseInfo(const LicenseData& license);
 
 /**
  * Verify license validity (expiry date check)
  * Returns true if license is currently valid
  */
-bool isLicenseValid(const LicenseData& license);
+THEMIS_BASE_API bool isLicenseValid(const LicenseData& license);
 
 /**
  * Get number of days until license expires
  * Returns negative value if already expired
  */
-int getDaysUntilExpiry(const LicenseData& license);
+THEMIS_BASE_API int getDaysUntilExpiry(const LicenseData& license);
 
 /**
  * Verify license signature (if present)
  * Returns true if signature is valid or no signature present
  */
-bool verifyLicenseSignature(const LicenseData& license);
+THEMIS_BASE_API bool verifyLicenseSignature(const LicenseData& license);
 
 // ============================================================================
 // LICENSE CLIENT – Online / Offline Activation (Phase 6 – v1.7.0)
@@ -151,7 +149,7 @@ struct LicenseClientConfig {
  *   3. **Offline mode** – If `allow_offline = true`, permanently falls back to
  *      the embedded license without ever contacting the server.
  */
-class LicenseClient {
+class THEMIS_BASE_API LicenseClient {
 public:
     explicit LicenseClient(const LicenseClientConfig& config);
     ~LicenseClient();
@@ -205,7 +203,63 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
+// ============================================================================
+// LICENSE INFO HELPER VIEW (v1.7.1)
+// ============================================================================
+
+/**
+ * @brief Helper view over LicenseData providing computed runtime properties.
+ *
+ * Wraps a LicenseData reference to expose properties that are computed
+ * from the raw data, such as the remaining grace period after expiry.
+ *
+ * Example:
+ * @code
+ *   auto lic = getEmbeddedLicense();
+ *   if (lic) {
+ *       LicenseInfo info(*lic);
+ *       int days = info.remaining_grace_days();
+ *   }
+ * @endcode
+ */
+class THEMIS_BASE_API LicenseInfo {
+public:
+    /// Default grace period used when none is specified.
+    static constexpr int kDefaultGracePeriodDays = 7;
+
+    /**
+     * @brief Construct a LicenseInfo view over @p data.
+     *
+     * @param data              The license data to inspect.
+     * @param grace_period_days The configured grace period (days).
+     *                          Defaults to kDefaultGracePeriodDays.
+     */
+    explicit LicenseInfo(const LicenseData& data,
+                         int grace_period_days = kDefaultGracePeriodDays);
+
+    /**
+     * @brief Returns the number of days remaining in the grace window.
+     *
+     * Interpretation:
+     *   - If the license has **not yet expired**, returns @c grace_period_days
+     *     (the full grace window is available after expiry).
+     *   - If the license **has expired** and the expiry occurred within the
+     *     grace window, returns the remaining days in that window.
+     *   - If the license has **fully expired** (beyond the grace window),
+     *     returns 0.
+     *   - If @c expiry_date is empty or unparseable, returns 0.
+     *
+     * @return Non-negative integer days remaining in grace period.
+     */
+    int remaining_grace_days() const;
+
+    /// Accessor for the underlying data.
+    const LicenseData& data() const noexcept { return data_; }
+
+private:
+    const LicenseData& data_;
+    int grace_period_days_;
+};
+
 } // namespace license
 } // namespace themis
-
-#endif // THEMIS_LICENSE_INFO_H

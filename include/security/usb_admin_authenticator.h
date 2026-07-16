@@ -1,23 +1,20 @@
+/**
+ * @file usb_admin_authenticator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            usb_admin_authenticator.h                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     157                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: usb_admin_authenticator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,7 +25,10 @@
 #include <chrono>
 #include <vector>
 #include <mutex>
+#include <functional>
 #include <unordered_map>
+
+#include "security/usb_volume_hardening.h"
 
 namespace themis {
 namespace security {
@@ -71,6 +71,24 @@ struct USBAdminConfig {
         "admin:topology",
         "admin:rebalance"
     };
+
+    // ── USB Volume Hardening (defence against FAT manipulation) ───────────────
+
+    /// When true, refreshUSBStatus() rejects the USB unless the filesystem is
+    /// mounted read-only.  A read-only mount prevents any process running on the
+    /// host from writing to the stick while it is in use.
+    bool require_readonly_mount = false;
+
+    /// If non-empty, refreshUSBStatus() rejects the USB unless the SHA-256 hash
+    /// of the license file matches this value (lowercase hex, 64 chars).
+    /// Provision this value from a secure, server-side configuration store.
+    /// Any FAT-level modification of the license file will be detected.
+    std::string expected_volume_hash;
+
+    /// If non-empty, refreshUSBStatus() rejects the USB unless the device serial
+    /// number matches this value.  This prevents a `dd` clone of the stick from
+    /// being accepted on the same or a different host.
+    std::string expected_usb_serial;
 };
 
 /// USB Admin Authenticator
@@ -117,10 +135,40 @@ public:
         uint64_t admin_ops_denied_lockout = 0;
         uint64_t usb_mount_checks = 0;
         uint64_t usb_mount_detected = 0;
+        uint64_t usb_denied_not_readonly = 0;      ///< Rejected: filesystem not mounted read-only
+        uint64_t usb_denied_volume_hash_mismatch = 0; ///< Rejected: FAT-level file tampering detected
+        uint64_t usb_denied_serial_mismatch = 0;   ///< Rejected: cloned USB device detected
         std::chrono::system_clock::time_point last_valid_check;
     };
     
     Metrics getMetrics() const;
+
+    /**
+     * @brief License verifier callback type.
+     *
+     * When injected via setLicenseVerifierFn(), this function completely
+     * replaces the hardware-binding check (matchesHardware) and the
+     * RSA signature verification (validateLicenseSignature) inside
+     * refreshUSBStatus().  It receives the loaded license and the
+     * current system hardware ID and must return true iff the license
+     * is considered valid for this host.
+     *
+     * Injection is the primary mechanism for tests and alternative
+     * production integrations (e.g. HMAC-based license server) to bypass
+     * the embedded placeholder RSA public key.
+     *
+     * Passing nullptr clears the override and restores the built-in RSA
+     * verification path.
+     */
+    using LicenseVerifierFn = std::function<bool(const USBAdminLicense&,
+                                                  const std::string& hw_id)>;
+
+    /**
+     * @brief Inject a custom license verifier (replaces hardware + RSA checks).
+     *
+     * @param fn  Verifier callback; pass nullptr to restore built-in behaviour.
+     */
+    void setLicenseVerifierFn(LicenseVerifierFn fn);
 
     /**
      * @brief Generate a one-time cryptographic challenge for replay-protected auth.

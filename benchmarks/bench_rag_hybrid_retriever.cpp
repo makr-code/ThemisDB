@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_rag_hybrid_retriever.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:51:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 838f20874  2026-02-24  fix(rag): audit corrections - remove unused include, fix ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_rag_hybrid_retriever.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -41,6 +26,10 @@
 
 #include <benchmark/benchmark.h>
 #include "rag/hybrid_retriever.h"
+#include "rag/dpr_vectorizer.h"
+#include "rag/fairness_detector.h"
+#include "rag/vectorizer_interface.h"
+#include <exception>
 #include <random>
 #include <string>
 #include <vector>
@@ -66,6 +55,40 @@ makeCandidates(int n, double base_score, std::mt19937& rng) {
     }
     return list;
 }
+
+class DeterministicBenchmarkVectorizer final : public IVectorizer {
+public:
+    void initialize() override { initialized_ = true; }
+
+    bool isInitialized() const override { return initialized_; }
+
+    std::vector<float> encodeQuery(const std::string& query) override {
+        return encodeText(query);
+    }
+
+    std::vector<float> encodePassage(const std::string& passage) override {
+        return encodeText(passage);
+    }
+
+    size_t getEmbeddingDimension() const override { return kDim; }
+
+private:
+    static constexpr size_t kDim = 64;
+    bool initialized_ = false;
+
+    static std::vector<float> encodeText(const std::string& text) {
+        std::vector<float> embedding(kDim, 0.0f);
+        if (text.empty()) {
+            return embedding;
+        }
+
+        for (size_t i = 0; i < text.size(); ++i) {
+            const size_t idx = i % kDim;
+            embedding[idx] += static_cast<float>(static_cast<unsigned char>(text[i])) / 255.0f;
+        }
+        return embedding;
+    }
+};
 
 // ============================================================================
 // RRF benchmarks: varying candidate pool size
@@ -216,5 +239,203 @@ static void BM_FactoryCreateBalanced(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_FactoryCreateBalanced);
+
+// ============================================================================
+// Wave A2: DPR Vectorizer Benchmarks
+// ============================================================================
+
+static void BM_DPRVectorizer_QueryEncoding(benchmark::State& state) {
+    // Phase 2: Benchmark query encoding latency
+    // Target: ≤ 150 ms per query on GPU
+    
+    themis::rag::DPRVectorizerConfig cfg;
+    cfg.query_model_path = "./models/dpr/query_encoder.onnx";
+    cfg.passage_model_path = "./models/dpr/passage_encoder.onnx";
+    cfg.device = "cpu";  // Use CPU for benchmarking
+    cfg.embedding_dimension = 384;
+    
+    themis::rag::DPRVectorizer vectorizer(cfg);
+    
+    // Skip initialization if models not available
+    try {
+        vectorizer.initialize();
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("DPR models not available: ") + e.what());
+        return;
+    }
+    
+    const std::string query = "What is machine learning?";
+    
+    for (auto _ : state) {
+        auto embedding = vectorizer.encodeQuery(query);
+        benchmark::DoNotOptimize(embedding);
+    }
+    
+    state.SetLabel("Query encoding (384-dim)");
+}
+BENCHMARK(BM_DPRVectorizer_QueryEncoding);
+
+static void BM_DPRVectorizer_PassageBatch(benchmark::State& state) {
+    // Phase 2: Benchmark batch passage encoding throughput
+    // Target: ≥ 100 docs/sec for batch_size=32
+    
+    const int batch_size = static_cast<int>(state.range(0));
+    
+    themis::rag::DPRVectorizerConfig cfg;
+    cfg.query_model_path = "./models/dpr/query_encoder.onnx";
+    cfg.passage_model_path = "./models/dpr/passage_encoder.onnx";
+    cfg.device = "cpu";
+    cfg.batch_size = batch_size;
+    cfg.embedding_dimension = 384;
+    
+    themis::rag::DPRVectorizer vectorizer(cfg);
+    
+    try {
+        vectorizer.initialize();
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("DPR models not available: ") + e.what());
+        return;
+    }
+    
+    // Create batch of passages
+    std::vector<std::string> passages;
+    for (int i = 0; i < batch_size; ++i) {
+        passages.push_back("This is a sample passage number " + std::to_string(i) + 
+                          " for benchmarking the DPR vectorizer batch encoding.");
+    }
+    
+    for (auto _ : state) {
+        auto embeddings = vectorizer.encodePassageBatch(passages);
+        benchmark::DoNotOptimize(embeddings);
+    }
+    
+    state.SetItemsProcessed(state.iterations() * batch_size);
+    state.SetLabel("Batch size: " + std::to_string(batch_size));
+}
+BENCHMARK(BM_DPRVectorizer_PassageBatch)->Arg(8)->Arg(16)->Arg(32)->Arg(64);
+
+static void BM_HybridRetriever_BM25Baseline(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    std::mt19937 rng(42);
+    auto bm25 = makeCandidates(n, 0.9, rng);
+
+    HybridRetrieverConfig cfg;
+    cfg.bm25_weight = 1.0;
+    cfg.vector_weight = 0.0;
+    cfg.use_rrf = true;
+    cfg.top_k = 10;
+    HybridRetriever retriever(cfg);
+
+    for (auto _ : state) {
+        auto result = retriever.fuse(bm25, {});
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("BM25-only baseline");
+}
+BENCHMARK(BM_HybridRetriever_BM25Baseline)->Arg(10)->Arg(50)->Arg(100)->Arg(500);
+
+static void BM_HybridRetriever_VectorizerPath(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    std::mt19937 rng(42);
+    auto bm25 = makeCandidates(n, 0.9, rng);
+
+    auto vectorizer = std::make_shared<DeterministicBenchmarkVectorizer>();
+    vectorizer->initialize();
+
+    HybridRetrieverConfig cfg;
+    cfg.bm25_weight = 0.3;
+    cfg.vector_weight = 0.7;
+    cfg.use_rrf = true;
+    cfg.top_k = 10;
+    HybridRetriever retriever(cfg);
+    retriever.setVectorizer(vectorizer);
+
+    for (auto _ : state) {
+        auto result = retriever.retrieveWithVectorizer("hybrid benchmark query", bm25);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("DPR-like vectorizer path vs BM25 baseline");
+}
+BENCHMARK(BM_HybridRetriever_VectorizerPath)->Arg(10)->Arg(50)->Arg(100)->Arg(500);
+
+// ============================================================================
+// Wave A3: Fairness Detector Benchmarks
+// ============================================================================
+
+static void BM_FairnessDetector_BiasDetection(benchmark::State& state) {
+    // Phase 2: Benchmark bias detection latency
+    // Target: ≤ 5 ms per document
+    
+    themis::rag::FairnessDetectorConfig cfg;
+    cfg.embedding_model_path = "./models/embeddings/glove.6B.300d.txt";
+    cfg.bias_threshold = 0.6;
+    cfg.detect_gender_bias = true;
+    cfg.detect_occupational_bias = true;
+    cfg.detect_ethnicity_bias = true;
+    
+    themis::rag::FairnessDetector detector(cfg);
+    
+    try {
+        detector.initialize();
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("Embedding models not available: ") + e.what());
+        return;
+    }
+    
+    const std::string document = 
+        "The nurse and the doctor discussed the patient's condition. "
+        "She was very professional and he was experienced. "
+        "The team worked together to provide the best care.";
+    
+    for (auto _ : state) {
+        auto bias_score = detector.detectBias(document);
+        benchmark::DoNotOptimize(bias_score);
+    }
+    
+    state.SetLabel("Bias detection per document");
+}
+BENCHMARK(BM_FairnessDetector_BiasDetection);
+
+static void BM_FairnessDetector_BatchDetection(benchmark::State& state) {
+    // Phase 2: Benchmark batch bias detection throughput
+    
+    const int batch_size = static_cast<int>(state.range(0));
+    
+    themis::rag::FairnessDetectorConfig cfg;
+    cfg.embedding_model_path = "./models/embeddings/glove.6B.300d.txt";
+    cfg.bias_threshold = 0.6;
+    
+    themis::rag::FairnessDetector detector(cfg);
+    
+    try {
+        detector.initialize();
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("Embedding models not available: ") + e.what());
+        return;
+    }
+    
+    // Create batch of documents
+    std::vector<std::string> documents;
+    for (int i = 0; i < batch_size; ++i) {
+        documents.push_back(
+            "The nurse and the doctor discussed the patient's condition. "
+            "She was very professional and he was experienced. "
+            "The team worked together to provide the best care. "
+            "Document number " + std::to_string(i));
+    }
+    
+    for (auto _ : state) {
+        auto bias_scores = detector.detectBiasBatch(documents);
+        benchmark::DoNotOptimize(bias_scores);
+    }
+    
+    state.SetItemsProcessed(state.iterations() * batch_size);
+    state.SetLabel("Batch size: " + std::to_string(batch_size));
+}
+BENCHMARK(BM_FairnessDetector_BatchDetection)->Arg(10)->Arg(50)->Arg(100)->Arg(500);
 
 BENCHMARK_MAIN();

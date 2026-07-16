@@ -1,25 +1,21 @@
+/**
+ * @file aql_lora_finetuner.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_lora_finetuner.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d6907d17  2026-02-23  fix: remove duplicate include and replace magic number in... ║
-    • 43fff097c  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_lora_finetuner.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 365
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4625 docs(aql): Close all remain... (2026-04-13) | #2698 feat(aql): Fine-tuned local... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -33,6 +29,7 @@
 #include <memory>
 #include <optional>
 #include <functional>
+#include <unordered_map>
 
 namespace themis {
 namespace aql {
@@ -172,6 +169,17 @@ private:
  *       LoRATrainingService when actual GPU training is desired; in test
  *       environments the service runs in simulation mode.
  *
+ * @note **Compile guards:** The LoRA framework has no dedicated
+ *       `THEMIS_ENABLE_LORA` flag.  CPU-only components
+ *       (`lora_training_service`, `aql_lora_finetuner`, `llama_lora_adapter`,
+ *       etc.) are always compiled as part of `THEMIS_CORE_SOURCES`.
+ *       GPU-accelerated components (`gpu_lora_layers`, `vram_allocator`,
+ *       `multi_gpu_trainer`, `multi_gpu_lora_layer`, etc.) are additionally
+ *       compiled only when `THEMIS_ENABLE_GPU=ON` (default `ON`).
+ *       Use `cmake … -DTHEMIS_ENABLE_GPU=OFF` to build a CPU-only ThemisDB
+ *       image that still includes the full AQL LoRA fine-tuning API but
+ *       delegates to the simulation mode of LoRATrainingService.
+ *
  * Thread safety: all public methods are thread-safe.
  */
 class AQLLoRAFinetuner {
@@ -181,6 +189,31 @@ public:
     // -------------------------------------------------------------------------
 
     struct Config {
+        // ---------------------------------------------------------------
+        // AQL-optimised LoRA default hyperparameters (named constants)
+        // ---------------------------------------------------------------
+
+        /// LoRA rank: 8 is a well-validated starting point for 7B–13B models.
+        static constexpr int kDefaultRank          = 8;
+        /// LoRA alpha: typically set to 2 × rank for stable training.
+        static constexpr float kDefaultAlpha       = 16.0f;
+        /// Dropout: small value reduces over-fitting on the AQL dataset.
+        static constexpr float kDefaultDropout     = 0.05f;
+        /// Learning rate: 3e-4 works well with AdamW on AQL translation tasks.
+        static constexpr float kDefaultLearningRate = 3e-4f;
+        /// Batch size: 4 balances GPU memory and gradient quality.
+        static constexpr int kDefaultBatchSize     = 4;
+        /// Epochs: 3 is sufficient for the built-in AQL sample set.
+        static constexpr int kDefaultEpochs        = 3;
+        /// Max sequence length: 512 covers virtually all AQL query+NL pairs.
+        static constexpr int kDefaultMaxSeqLength  = 512;
+        /// Warmup steps: 10 steps give a smooth LR ramp-up.
+        static constexpr int kDefaultWarmupSteps   = 10;
+
+        // ---------------------------------------------------------------
+        // Fields
+        // ---------------------------------------------------------------
+
         /// Unique identifier for the AQL adapter family (versioned at train time)
         std::string adapter_id = "themisdb-aql-adapter";
 
@@ -208,6 +241,27 @@ public:
         std::function<void(int epoch, double loss)> epoch_callback;
 
         Config();
+
+        /**
+         * @brief Construct a Config from an AQL @c WITH options map.
+         *
+         * Recognised keys (all optional; unrecognised keys are silently ignored):
+         *  - @c rank          (int, 1–256)
+         *  - @c alpha         (float, > 0)
+         *  - @c dropout       (float, [0, 1))
+         *  - @c learning_rate (float, > 0)
+         *  - @c batch_size    (int, > 0)
+         *  - @c epochs        (int, > 0)
+         *  - @c max_seq_length (int, > 0)
+         *
+         * @param options  Key/value map from the AQL WITH clause.
+         * @return Config with overridden values; fields absent from @p options
+         *         keep their default values.
+         * @throws std::invalid_argument if any supplied value is out of range.
+         */
+        static Config fromOptions(
+            const std::unordered_map<std::string, std::string>& options
+        );
     };
 
     // -------------------------------------------------------------------------

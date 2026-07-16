@@ -1,40 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wake_word_detector.h                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-03-09 03:56:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     218                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8ae8a4193  2026-02-22  feat(voice): implement wake-word detection for hands-free... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file wake_word_detector.h
- * @brief Wake-word detection for hands-free activation
- *
- * Provides lightweight, always-on wake-word spotting that triggers the voice
- * pipeline without requiring a button press.  Detection is based on Voice
- * Activity Detection (VAD) energy gating combined with configurable keyword
- * matching.  A future model-based backend can be plugged in by replacing
- * the scoring strategy without changing the public API.
- *
- * Built-in wake words: "hey themis", "themis", "database"
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.16
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

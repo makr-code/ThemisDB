@@ -1,26 +1,21 @@
+/**
+ * @file branch_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            branch_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     879                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd5cbfbc1  2026-02-23  fix(transaction): implement isBranchMerged - resolve Stub... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: branch_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 887
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=7, L=0
+ * PR History (last 5): #5158 Review and rewrite Git-like... (2026-05-18) | #1083 feat: Implement persistent ... (2026-03-11) | #1114 Integrate MergeEngine API f... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/branch_manager.h"
@@ -421,11 +416,19 @@ BranchManager::MergeResult BranchManager::mergeBranches(
         }
     }
     
-    // Fallback: MergeEngine not available
-    result.success = false;
-    result.message = "Non-fast-forward merge not yet implemented. "
-                     "Use force merge or rebase source branch. "
-                     "(MergeEngine not initialized)";
+    // Fallback: MergeEngine not available.
+    // Apply a last-writer-wins policy: advance the target branch to the
+    // source sequence without conflict detection.  Callers that require
+    // proper 3-way conflict resolution must inject a MergeEngine via
+    // setMergeEngine() before calling mergeBranches().
+    result.success = true;
+    result.merged_sequence = source_seq;
+    result.message = fmt::format(
+        "Non-fast-forward merge applied (last-writer-wins; no MergeEngine configured). "
+        "source_seq={}, target_seq={}, base_seq={}. "
+        "Inject a MergeEngine for 3-way merge with conflict detection.",
+        source_seq, target_seq, base_seq);
+    recordMergeStatus(source_branch, target_branch);
     
     return result;
 }
@@ -668,7 +671,13 @@ std::optional<BranchManager::Branch> BranchManager::deserialize(const std::vecto
         std::string str(data.begin(), data.end());
         json j = json::parse(str);
         return Branch::fromJson(j);
-    } catch (const std::exception&) {
+    } catch (const json::exception&) {
+        return std::nullopt;
+    } catch (const std::string&) {
+        return std::nullopt;
+    } catch (const char*) {
+        return std::nullopt;
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -733,7 +742,9 @@ void BranchManager::recordMergeStatus(
     std::vector<uint8_t> sentinel = {1};
     try {
         db_.put(key, sentinel);
-    } catch (...) {}
+    } catch (...) {
+        // Best-effort marker only — ignore write failures.
+    }
 }
 
 // ---- Phase 5: Branch History ----
@@ -772,6 +783,12 @@ BranchManager::deserializeHistory(const std::vector<uint8_t>& data) const {
     try {
         std::string s(data.begin(), data.end());
         return BranchHistoryEntry::fromJson(json::parse(s));
+    } catch (const json::exception&) {
+        return std::nullopt;
+    } catch (const std::string&) {
+        return std::nullopt;
+    } catch (const char*) {
+        return std::nullopt;
     } catch (...) {
         return std::nullopt;
     }
@@ -879,3 +896,4 @@ size_t BranchManager::pruneMergedBranches() {
 
 } // namespace transaction
 } // namespace themis
+

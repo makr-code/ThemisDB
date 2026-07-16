@@ -1,25 +1,21 @@
+/**
+ * @file model_serving.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_serving.h                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5a7ca4018  2026-02-24  audit: remove unused headers, fix spelling, complete ROAD... ║
-    • 90cdb41ff  2026-02-24  feat(analytics): implement model serving and online infer... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_serving.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 326
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4314 fix(analytics): Release reg... (2026-03-18) | #2761 feat(analytics): Model serv... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -41,11 +37,18 @@
  * Thread-safety:
  *   - registerModel / unregisterModel / loadModel are guarded by an
  *     exclusive lock; they are NOT suitable for high-frequency calls.
- *   - predict / predictBatch / predictProba use a shared lock so
- *     multiple goroutines may infer concurrently without blocking each
- *     other.
- *   - listModels / modelInfo / healthMetrics / isRegistered are
- *     read-only and also use the shared lock.
+ *   - predict / predictBatch / predictProba acquire the registry shared
+ *     lock only for a brief pointer capture step, then release it before
+ *     running inference.  Inference therefore does NOT starve concurrent
+ *     registerModel() / unregisterModel() callers.
+ *   - The registry stores std::shared_ptr<Entry> so that an Entry object
+ *     remains alive (reference-counted) after a concurrent unregisterModel()
+ *     erases its map slot, eliminating use-after-free risk.
+ *   - listModels / modelInfo / isRegistered are read-only and hold the
+ *     shared lock for their full (short) duration.
+ *   - healthMetrics and serializeModel capture a shared_ptr under the
+ *     registry lock and then perform work (metrics snapshot / serialisation)
+ *     outside any registry lock.
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
@@ -72,6 +75,7 @@ namespace analytics {
 // ============================================================================
 
 class ModelServingEngine;
+struct ModelServingEntry;
 
 // ============================================================================
 // Configuration
@@ -299,6 +303,21 @@ public:
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+
+    // -------------------------------------------------------------------------
+    // Private helpers
+    // -------------------------------------------------------------------------
+
+    // Captures a reference-counted handle to the named entry under a brief
+    // shared_lock, then releases the lock immediately.  Throws std::out_of_range
+    // if the entry does not exist.  Callers run inference and metric updates
+    // *after* this call so that the registry lock is never held during I/O.
+    [[nodiscard]] std::shared_ptr<ModelServingEntry>
+    lookupEntryOrThrow_(const std::string& name, const std::string& version) const;
+
+    // Same as lookupEntryOrThrow_ but returns nullptr instead of throwing.
+    [[nodiscard]] std::shared_ptr<ModelServingEntry>
+    lookupEntryOrNull_(const std::string& name, const std::string& version) const noexcept;
 };
 
 // ============================================================================

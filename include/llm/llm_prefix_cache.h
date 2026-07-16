@@ -1,24 +1,21 @@
+/**
+ * @file llm_prefix_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_prefix_cache.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     153                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_prefix_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 149
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3759 feat(llm): implement KV-cac... (2026-03-12) | #1126 Add dynamic cache routing, ... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -37,6 +34,7 @@ namespace llm {
  * @brief Prefix cache entry storing common prompt prefixes
  */
 struct PrefixCacheEntry {
+    virtual ~PrefixCacheEntry() = default;
     std::string prefix;
     std::vector<float> embedding;
     std::vector<int> token_ids;
@@ -46,12 +44,17 @@ struct PrefixCacheEntry {
     // KV cache data (if precomputed)
     std::vector<float> precomputed_kv;
     bool has_precomputed_kv = false;
+
+    // The generated response text associated with this cached prompt.
+    // Empty for prewarm-only entries (no response has been generated yet).
+    std::string generated_text;
 };
 
 /**
  * @brief Statistics for prefix cache
  */
 struct PrefixCacheStatistics {
+    virtual ~PrefixCacheStatistics() = default;
     size_t hits = 0;
     size_t misses = 0;
     size_t total_entries = 0;
@@ -97,15 +100,17 @@ public:
     
     /**
      * @brief Add a prefix to the cache
-     * @param prefix The text prefix to cache
+     * @param prefix The prompt text prefix to cache (used as lookup key)
      * @param tokens Tokenized version of the prefix
      * @param embedding Embedding vector for similarity search
-     * @param precomputed_kv Optional precomputed KV cache
+     * @param precomputed_kv Optional precomputed KV cache tensors
+     * @param generated_text Optional generated response text to return on cache hits
      */
     void put(const std::string& prefix,
              const std::vector<int>& tokens,
              const std::vector<float>& embedding,
-             const std::vector<float>& precomputed_kv = {});
+             const std::vector<float>& precomputed_kv = {},
+             const std::string& generated_text = {});
     
     /**
      * @brief Find a similar cached prefix
@@ -152,3 +157,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

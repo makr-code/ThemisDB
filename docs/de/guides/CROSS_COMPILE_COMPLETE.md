@@ -1,6 +1,6 @@
 # Cross-Compilation Complete Guide
 
-**Stand:** 23. Januar 2026  
+**Stand:** 23. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🔨 Build/Cross-Compile  
 **Status:** Production-Ready
@@ -845,6 +845,6 @@ docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7
 
 ---
 
-**Letzte Aktualisierung:** 23. Januar 2026  
+**Letzte Aktualisierung:** 23. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** Cross-Compilation Complete Guide

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_authentication_attack_vectors.cpp             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 19:14:43                                ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     380                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • initial  2026-03-09  feat(security): add authentication attack vector tests ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_authentication_attack_vectors.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -55,6 +41,7 @@
 
 #include <gtest/gtest.h>
 #include "security/rbac.h"
+#include "themis/runtime_license_gate.h"
 
 #include <string>
 #include <vector>
@@ -68,33 +55,33 @@ using namespace themis::security;
  * @brief Build a minimal RBAC instance with a "readonly" role and an
  *        "admin" role for use in multiple tests.
  */
-static RBAC build_test_rbac() {
+static std::unique_ptr<RBAC> build_test_rbac() {
     RBACConfig cfg;
     cfg.config_path       = "";   // no file; use programmatic roles
     cfg.use_builtin_roles = false;
 
-    RBAC rbac(cfg);
+    auto rbac = std::make_unique<RBAC>(cfg);
 
     // readonly: can only read "data"
     Role readonly_role;
     readonly_role.name        = "readonly";
     readonly_role.description = "Read-only access to data collection";
     readonly_role.permissions = {{"data", "read"}};
-    rbac.addRole(readonly_role);
+    rbac->addRole(readonly_role);
 
     // operator: can read+write "data"
     Role operator_role;
     operator_role.name        = "operator";
     operator_role.description = "Operator — read/write data";
     operator_role.permissions = {{"data", "read"}, {"data", "write"}};
-    rbac.addRole(operator_role);
+    rbac->addRole(operator_role);
 
     // admin: all permissions via wildcard
     Role admin_role;
     admin_role.name        = "admin";
     admin_role.description = "Administrator";
     admin_role.permissions = {{"*", "*"}};
-    rbac.addRole(admin_role);
+    rbac->addRole(admin_role);
 
     return rbac;
 }
@@ -104,10 +91,14 @@ static RBAC build_test_rbac() {
 class AuthAttackVectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        rbac_ = std::make_unique<RBAC>(build_test_rbac());
+        std::string license_error;
+        rbac_feature_available_ =
+            themis::license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error);
+        rbac_ = build_test_rbac();
     }
 
     std::unique_ptr<RBAC> rbac_;
+    bool rbac_feature_available_{false};
 };
 
 // ============================================================================
@@ -115,20 +106,37 @@ protected:
 // ============================================================================
 
 TEST_F(AuthAttackVectorTest, Positive_AdminCanDoEverything) {
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "read"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "write"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "keys",   "rotate"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "config", "write"));
-    EXPECT_TRUE(rbac_->checkPermission({"admin"}, "audit",  "read"));
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "read"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "data",   "write"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "keys",   "rotate"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "config", "write"));
+        EXPECT_TRUE(rbac_->checkPermission({"admin"}, "audit",  "read"));
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "data",   "read"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "data",   "write"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "keys",   "rotate"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "config", "write"));
+        EXPECT_FALSE(rbac_->checkPermission({"admin"}, "audit",  "read"));
+    }
 }
 
 TEST_F(AuthAttackVectorTest, Positive_ReadonlyCanReadData) {
-    EXPECT_TRUE(rbac_->checkPermission({"readonly"}, "data", "read"));
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"readonly"}, "data", "read"));
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"readonly"}, "data", "read"));
+    }
 }
 
 TEST_F(AuthAttackVectorTest, Positive_OperatorCanReadAndWriteData) {
-    EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "read"));
-    EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "read"));
+        EXPECT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"operator"}, "data", "read"));
+        EXPECT_FALSE(rbac_->checkPermission({"operator"}, "data", "write"));
+    }
 }
 
 // ============================================================================
@@ -221,7 +229,11 @@ TEST_F(AuthAttackVectorTest, Attack_LateralMovement_ReadonlyCannotReadConfig) {
 
 TEST_F(AuthAttackVectorTest, Attack_DeletedRole_AccessRevoked) {
     // First confirm operator has access.
-    ASSERT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    if (rbac_feature_available_) {
+        ASSERT_TRUE(rbac_->checkPermission({"operator"}, "data", "write"));
+    } else {
+        ASSERT_FALSE(rbac_->checkPermission({"operator"}, "data", "write"));
+    }
 
     // Remove the "operator" role.
     rbac_->removeRole("operator");
@@ -286,8 +298,12 @@ TEST_F(AuthAttackVectorTest, Attack_MultiRole_CombinedRolesNoEscalation) {
  */
 TEST_F(AuthAttackVectorTest, Attack_MultiRole_NonExistentRoleNoEscalation) {
     // "readonly" can read data; adding "ghost_role" must not add write rights.
-    EXPECT_TRUE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "read"))
-        << "Valid role right must still be granted when combined with unknown role";
+    if (rbac_feature_available_) {
+        EXPECT_TRUE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "read"))
+            << "Valid role right must still be granted when combined with unknown role";
+    } else {
+        EXPECT_FALSE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "read"));
+    }
     EXPECT_FALSE(rbac_->checkPermission({"readonly", "ghost_role"}, "data", "write"))
         << "Unknown role must not escalate permissions beyond the valid role";
 }

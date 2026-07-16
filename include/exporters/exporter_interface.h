@@ -1,27 +1,21 @@
+/**
+ * @file exporter_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            exporter_interface.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
-    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
-    • fb579790b  2026-02-28  Audit: fix stale Stubs annotations, ROADMAP, and P2 place... ║
-    • 985852ac2  2026-02-27  feat(exporters): implement incremental/delta export with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: exporter_interface.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 177
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3110 [exporters] Implement ZSTD ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -42,6 +36,10 @@
 namespace themis::governance {
 class PolicyEngine;
 } // namespace themis::governance
+
+namespace themis::utils {
+class AuditLogger;
+} // namespace themis::utils
 
 namespace themis::exporters {
 
@@ -140,6 +138,11 @@ struct ExportOptions {
     /// Raw non-owning pointer; the caller must ensure it outlives all
     /// export calls.  Null = no policy check (backward compatible default).
     themis::governance::PolicyEngine* policy_engine = nullptr;
+
+    /// Optional AuditLogger for recording export authorization decisions.
+    /// When non-null, enforceExportPolicy() logs BULK_EXPORT on approval and
+    /// EXPORT_DENIED on denial.  Null = no audit logging (backward compatible).
+    themis::utils::AuditLogger* audit_logger = nullptr;
 };
 
 /// @brief Enforce export policy before any cursor or output file is opened.
@@ -147,6 +150,10 @@ struct ExportOptions {
 /// Builds a `ModelTrainingExportRequest` from `options` and calls
 /// `PolicyEngine::checkExportPermission()`.  If the engine denies the
 /// request an `ExporterException(ERR_EXPORT_POLICY_DENIED, ...)` is thrown.
+/// On denial, if `options.audit_logger` is non-null, an EXPORT_DENIED event
+/// is written with requester, collection, and denial reason.
+/// On approval, if `options.audit_logger` is non-null, a BULK_EXPORT event
+/// is written.
 ///
 /// This is a no-op when `options.policy_engine == nullptr`.
 ///
@@ -163,19 +170,19 @@ public:
     /// @param entities Vector of entities to export
     /// @param options Export configuration
     /// @return Export statistics
-    virtual ExportStats exportEntities(
+    [[nodiscard]] virtual ExportStats exportEntities(
         const std::vector<BaseEntity>& entities,
         const ExportOptions& options
     ) = 0;
     
     /// Get supported output formats
-    virtual std::vector<std::string> getSupportedFormats() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> getSupportedFormats() const = 0;
     
     /// Get exporter name
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /// Get exporter version
-    virtual std::string getVersion() const = 0;
+    [[nodiscard]] virtual std::string getVersion() const = 0;
 };
 
 } // namespace themis::exporters

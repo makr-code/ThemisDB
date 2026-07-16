@@ -1,0 +1,54 @@
+[docs](../../index.md) > [de](../index.md) > [performance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-05-31
+**Status:** current
+**Primary (Quelle der Wahrheit):**
+- `src/performance/README.md`
+- `src/performance/ARCHITECTURE.md`
+- `src/performance/ROADMAP.md`
+- `src/performance/FUTURE_ENHANCEMENTS.md`
+- `src/performance/MODULE_GAPS.md`
+- `src/performance/SECURITY.md`
+- `src/performance/AUDIT.md`
+- `src/performance/PERFORMANCE_EXPECTATIONS.md`
+- `src/performance/CHANGELOG.md`
+
+**Bezug / Reference:**
+- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
+- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+
+---
+
+# Primary Sources — `performance`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performance`** aus den erkannten Quellverzeichnissen des Moduls.
+
+## Primäre Markdown-Dateien
+
+### `include/performance/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`include/performance/ARCHITECTURE.md`](../../../include/performance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`include/performance/AUDIT.md`](../../../include/performance/AUDIT.md) |
+| `CHANGELOG.md` | [`include/performance/CHANGELOG.md`](../../../include/performance/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/performance/FUTURE_ENHANCEMENTS.md`](../../../include/performance/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/performance/README.md`](../../../include/performance/README.md) |
+| `ROADMAP.md` | [`include/performance/ROADMAP.md`](../../../include/performance/ROADMAP.md) |
+| `SECURITY.md` | [`include/performance/SECURITY.md`](../../../include/performance/SECURITY.md) |
+
+### `src/performance/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/performance/ARCHITECTURE.md`](../../../src/performance/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/performance/AUDIT.md`](../../../src/performance/AUDIT.md) |
+| `CHANGELOG.md` | [`src/performance/CHANGELOG.md`](../../../src/performance/CHANGELOG.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/performance/FUTURE_ENHANCEMENTS.md`](../../../src/performance/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/performance/README.md`](../../../src/performance/README.md) |
+| `ROADMAP.md` | [`src/performance/ROADMAP.md`](../../../src/performance/ROADMAP.md) |
+| `SECURITY.md` | [`src/performance/SECURITY.md`](../../../src/performance/SECURITY.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*

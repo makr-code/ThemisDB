@@ -1,23 +1,20 @@
+/**
+ * @file aql_injection_detector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_injection_detector.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     171                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_injection_detector.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +23,7 @@
 #include <vector>
 #include <memory>
 #include <regex>
+#include <unordered_set>
 #include "query/aql_parser.h"
 #include "utils/expected.h"
 
@@ -109,7 +107,56 @@ public:
      *   );
      */
     InjectionCheckResult validateAQLAST(const std::string& aql);
-    
+
+    /**
+     * @brief Validate an AQL query for use in a read-only context
+     *
+     * Extends the base AST validation with additional read-only constraints.
+     * The query must parse as AQL and must not contain write/DDL operations.
+     *
+     * @param aql The AQL query string to validate.
+     * @return InjectionCheckResult with is_safe == false if any write/DDL
+     *         operation is detected.
+     *
+     * Example:
+     *   auto r = detector.validateForReadOnlyContext(
+     *       "FOR doc IN users FILTER doc.age > 18 RETURN doc");
+     *   // r.is_safe == true – pure read query is allowed
+     *
+     *   auto r2 = detector.validateForReadOnlyContext(
+     *       "INSERT {name:'evil'} INTO users");
+     *   // r2.is_safe == false – write operation rejected
+     */
+    InjectionCheckResult validateForReadOnlyContext(const std::string& aql);
+
+    /**
+     * @brief Validate that an AQL query does not contain unbounded FOR loops
+     *
+     * An unbounded FOR loop iterates over an entire collection without a LIMIT
+     * clause and can cause full-collection scans leading to DoS or data
+     * exfiltration.  This method rejects queries that contain at least one FOR
+     * clause but no top-level LIMIT clause.
+     *
+     * Exceptions (always allowed):
+     *   - Queries without any FOR clause (constant expressions, etc.)
+     *   - Queries that aggregate with COLLECT (result is bounded by distinct
+     *     group count, not collection size)
+     *
+     * @param aql The AQL query string to validate.
+     * @return InjectionCheckResult with is_safe == false when the query has a
+     *         FOR loop but no LIMIT clause.
+     *
+     * Example:
+     *   auto r = detector.validateUnboundedForLoops(
+     *       "FOR doc IN users LIMIT 100 RETURN doc");
+     *   // r.is_safe == true – bounded by LIMIT
+     *
+     *   auto r2 = detector.validateUnboundedForLoops(
+     *       "FOR doc IN users RETURN doc");
+     *   // r2.is_safe == false – unbounded FOR loop rejected
+     */
+    InjectionCheckResult validateUnboundedForLoops(const std::string& aql);
+
 private:
     // ============================================================================
     // Helper Functions
@@ -168,6 +215,17 @@ private:
      * @brief Parse AQL query into AST
      */
     Result<std::shared_ptr<query::Query>> parseAQL(const std::string& aql);
+
+    /**
+     * @brief Recursively scan an expression node for dangerous operations
+     *
+     * Traverses every node in the expression tree and returns true if any
+     * FunctionCallExpr has a name that belongs to the disallowed-operations
+     * list (EXECUTE, EXEC, SYSTEM, SHELL, etc.).  Sub-queries embedded inside
+     * ANY/ALL/SubqueryExpr are delegated back to containsDangerousOperations().
+     */
+    bool scanExpressionForDangerousOps(const std::shared_ptr<query::Expression>& expr);
+
 };
 
 } // namespace security

@@ -56,6 +56,21 @@ cmake -S "$ROOT_DIR" -B "$BUILD_DIR" \
 echo -e "\n[3/3] Building with Ninja..."
 ninja -C "$BUILD_DIR" -j 4
 
+# Step 4: Package (optional, only on release config without debug flag)
+if [ "$DEBUG" != "true" ] && [ "$SKIP_TESTS" = "true" -o -z "${SKIP_PACKAGE:-}" ]; then
+    echo -e "\n[opt] Packaging with CPack..."
+    if [ -f "$BUILD_DIR/CPackConfig.cmake" ]; then
+        (cd "$BUILD_DIR" && \
+            cpack -G TGZ --config CPackConfig.cmake -C Release && \
+            cpack -G DEB --config CPackConfig.cmake -C Release 2>/dev/null || true && \
+            find . -maxdepth 1 \( -name '*.tar.gz' -o -name '*.deb' \) \
+                -exec sh -c 'sha256sum "$1" > "$1.sha256"; echo "Checksum: $1.sha256"' _ {} \;
+        )
+    else
+        echo "CPackConfig.cmake not found in $BUILD_DIR — skipping packaging"
+    fi
+fi
+
 echo -e "\n=== Build Complete ==="
 if [ -f "$BUILD_DIR/themis_server" ]; then
     SIZE=$(du -h "$BUILD_DIR/themis_server" | cut -f1)

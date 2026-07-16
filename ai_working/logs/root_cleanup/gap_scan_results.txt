@@ -1,0 +1,430 @@
+
+================================================================================
+ThemisDB Gap Scanner V3 Pipeline
+================================================================================
+[CONFIG] scan_mode=full, docs_doxygen=False
+[UNIFORM] Start scan at C:\Projects\ThemisDB\src
+[UNIFORM] Resolved repo root: C:\Projects\ThemisDB
+[UNIFORM] Mode: full (docs_doxygen=False)
+[UNIFORM] phase1_braces_check: +105459 findings in 52.45s
+[UNIFORM] phase1_memory_safety: +786 findings in 5.42s
+[UNIFORM] phase1_error_handling: +1124 findings in 5.82s
+[UNIFORM] phase1_thread_safety: +1453 findings in 5.22s
+[UNIFORM] phase1_raii: +283 findings in 3.70s
+
+[...] Scanning for SECURITY GAPS...
+   acceleration                      3 gaps
+   api                               1 gaps
+   aql                              21 gaps
+   auth                             21 gaps
+   base                              4 gaps
+   cache                            58 gaps
+   chimera                           2 gaps
+   config                            6 gaps
+   content                          15 gaps
+   ethics_ai                         1 gaps
+   exporters                         2 gaps
+   geo                               3 gaps
+   graph                             4 gaps
+   importers                        65 gaps
+   index                             1 gaps
+   ingestion                         5 gaps
+   llm                              74 gaps
+   maintenance                       2 gaps
+   network                          16 gaps
+   performance                      10 gaps
+   plugins                           1 gaps
+   prompt_engineering               36 gaps
+   query                            60 gaps
+   rag                              20 gaps
+   replication                       1 gaps
+   scheduler                         8 gaps
+   scraper                           1 gaps
+   search                            2 gaps
+   security                         10 gaps
+   server                          119 gaps
+   sharding                          8 gaps
+   storage                          52 gaps
+   temporal                          9 gaps
+   themis                            1 gaps
+   toolbox                           2 gaps
+   training                          7 gaps
+   updates                           2 gaps
+   user_storage_encrypted            9 gaps
+   utils                             3 gaps
+
+[OK] Security scan complete. Results in C:\Projects\ThemisDB\ai_working/
+[UNIFORM] classic_security: processed in 37.80s
+[UNIFORM] classic_memory: processed in 12.14s
+
+[...] Scanning for RELIABILITY GAPS...
+   acceleration                      3 gaps
+   analytics                        12 gaps
+   api                               4 gaps
+   aql                              25 gaps
+   auth                             47 gaps
+   base                              8 gaps
+   cache                             6 gaps
+   cdc                              10 gaps
+   chimera                           8 gaps
+   config                            4 gaps
+   content                          14 gaps
+   core                              2 gaps
+   distributed_knowledge             2 gaps
+   ethics_ai                         1 gaps
+   exporters                        13 gaps
+   geo                               2 gaps
+   governance                        1 gaps
+   gpu                               7 gaps
+   graph                             2 gaps
+   importers                        14 gaps
+   index                            28 gaps
+   ingestion                        37 gaps
+   llm                              38 gaps
+   metadata                          4 gaps
+   network                          18 gaps
+   observability                     5 gaps
+   performance                      29 gaps
+   plugins                           5 gaps
+   process                           6 gaps
+   prompt_engineering                3 gaps
+   query                            34 gaps
+   rag                              27 gaps
+   replication                      10 gaps
+   scraper                          11 gaps
+   search                            2 gaps
+   security                         44 gaps
+   server                          165 gaps
+   sharding                         24 gaps
+   storage                          29 gaps
+   temporal                          6 gaps
+   tensor                            1 gaps
+   themis                            3 gaps
+   timeseries                        7 gaps
+   training                          5 gaps
+   transaction                       8 gaps
+   updates                           7 gaps
+   user_storage_encrypted           12 gaps
+   utils                             8 gaps
+   voice                             5 gaps
+   whisper                           4 gaps
+
+[OK] Reliability scan complete. Results in C:\Projects\ThemisDB\ai_working/
+[UNIFORM] classic_reliability: processed in 7.37s
+
+[...] Scanning for CONCURRENCY GAPS...
+   acceleration                      1 gaps
+   analytics                         1 gaps
+   auth                              6 gaps
+   cache                            16 gaps
+   cdc                               2 gaps
+   config                            1 gaps
+   content                           2 gaps
+   failover                          2 gaps
+   governance                        1 gaps
+   gpu                               2 gaps
+   graph                             1 gaps
+   index                             3 gaps
+   llm                              29 gaps
+   metadata                          1 gaps
+   network                           9 gaps
+   onnx_clip                         1 gaps
+   performance                       7 gaps
+   plugins                           2 gaps
+   prompt_engineering                4 gaps
+   query                             4 gaps
+   security                          7 gaps
+   server                           11 gaps
+   sharding                         13 gaps
+   storage                          10 gaps
+   timeseries                        1 gaps
+   training                          2 gaps
+   transaction                       8 gaps
+   utils                             4 gaps
+[UNIFORM] classic_concurrency: processed in 10.77s
+
+[...] Scanning for RAII & RESOURCE MANAGEMENT GAPS...
+   acceleration                     75 gaps
+   analytics                        28 gaps
+   api                               2 gaps
+   aql                               4 gaps
+   auth                             27 gaps
+   base                             11 gaps
+   cache                             8 gaps
+   cdc                              15 gaps
+   chimera                          11 gaps
+   config                           26 gaps
+   content                          17 gaps
+   core                             10 gaps
+   ethics_ai                         2 gaps
+   exporters                         7 gaps
+   geo                               2 gaps
+   governance                        8 gaps
+   gpu                              57 gaps
+   graph                             6 gaps
+   importers                        13 gaps
+   index                            49 gaps
+   ingestion                        10 gaps
+   llama_cpp                         3 gaps
+   llm                             254 gaps
+   maintenance                       2 gaps
+   network                          93 gaps
+   observability                    12 gaps
+   onnx_clip                         3 gaps
+   performance                      46 gaps
+   plugins                          24 gaps
+   prompt_engineering                4 gaps
+   query                             8 gaps
+   rag                              10 gaps
+   replication                      16 gaps
+   rpc_grpc                          2 gaps
+   scheduler                         4 gaps
+   scraper                           7 gaps
+   search                            1 gaps
+   security                         62 gaps
+   server                          111 gaps
+   sharding                         74 gaps
+   stable_diffusion                  2 gaps
+   storage                          55 gaps
+   temporal                         11 gaps
+   tensor                            7 gaps
+   themis                           39 gaps
+   timeseries                        3 gaps
+   training                         12 gaps
+   transaction                      54 gaps
+   updates                          18 gaps
+   user_storage_encrypted           39 gaps
+   utils                            60 gaps
+   voice                             1 gaps
+   whisper                           6 gaps
+[UNIFORM] classic_raii: processed in 5.50s
+
+[...] Scanning for CONTAINER MISUSE GAPS...
+   acceleration                     19 gaps
+   ai                                1 gaps
+   analytics                       126 gaps
+   api                              10 gaps
+   aql                              67 gaps
+   auth                             24 gaps
+   base                             12 gaps
+   cache                            10 gaps
+   cdc                              16 gaps
+   chaos                             1 gaps
+   chimera                          11 gaps
+   config                            7 gaps
+   content                          18 gaps
+   core                              3 gaps
+   distributed_knowledge             2 gaps
+   ethics_ai                        19 gaps
+   exporters                        32 gaps
+   failover                          6 gaps
+   geo                              30 gaps
+   governance                       89 gaps
+   gpu                              17 gaps
+   graph                            24 gaps
+   importers                        32 gaps
+   index                            88 gaps
+   ingestion                        59 gaps
+   llama_cpp                         1 gaps
+   llm                             262 gaps
+   maintenance                       3 gaps
+   metadata                         25 gaps
+   network                          36 gaps
+   observability                    25 gaps
+   performance                      18 gaps
+   plugins                          15 gaps
+   process                          23 gaps
+   projects                          1 gaps
+   prompt_engineering               62 gaps
+   query                           109 gaps
+   rag                              71 gaps
+   replication                      39 gaps
+   scheduler                        14 gaps
+   scraper                          20 gaps
+   search                           26 gaps
+   security                         41 gaps
+   server                          204 gaps
+   sharding                        200 gaps
+   stable_diffusion                  2 gaps
+   storage                          81 gaps
+   temporal                         34 gaps
+   tensor                            9 gaps
+   themis                           11 gaps
+   timeseries                        9 gaps
+   toolbox                           1 gaps
+   training                         24 gaps
+   transaction                      72 gaps
+   updates                          52 gaps
+   user_storage_encrypted            9 gaps
+   utils                            49 gaps
+   voice                            21 gaps
+   whisper                           1 gaps
+[UNIFORM] classic_container: processed in 4.31s
+
+[...] Scanning for PLATFORM PORTABILITY GAPS...
+   acceleration                      7 gaps
+   analytics                        37 gaps
+   aql                              33 gaps
+   auth                              9 gaps
+   base                              8 gaps
+   cdc                               9 gaps
+   chimera                           7 gaps
+   config                            8 gaps
+   content                          21 gaps
+   core                              3 gaps
+   ethics_ai                         4 gaps
+   exporters                         2 gaps
+   geo                               7 gaps
+   governance                       14 gaps
+   gpu                              12 gaps
+   graph                             7 gaps
+   importers                         8 gaps
+   index                            14 gaps
+   ingestion                        11 gaps
+   llama_cpp                         1 gaps
+   llm                              42 gaps
+   network                          30 gaps
+   observability                    20 gaps
+   performance                       6 gaps
+   plugins                           1 gaps
+   process                          14 gaps
+   prompt_engineering                6 gaps
+   query                             3 gaps
+   rag                              71 gaps
+   replication                       1 gaps
+   scheduler                         1 gaps
+   scraper                           4 gaps
+   search                            2 gaps
+   security                         17 gaps
+   server                          481 gaps
+   sharding                         10 gaps
+   storage                          68 gaps
+   temporal                          2 gaps
+   tensor                            3 gaps
+   themis                           20 gaps
+   timeseries                        7 gaps
+   toolbox                           2 gaps
+   training                          3 gaps
+   transaction                       1 gaps
+   updates                           4 gaps
+   user_storage_encrypted           13 gaps
+   utils                            58 gaps
+   voice                             7 gaps
+[UNIFORM] classic_platform: processed in 2.55s
+
+[...] Scanning for PERFORMANCE ANTI-PATTERNS...
+   acceleration                     17 gaps
+   analytics                        33 gaps
+   api                               6 gaps
+   aql                               9 gaps
+   auth                             26 gaps
+   base                             12 gaps
+   cache                             8 gaps
+   cdc                               3 gaps
+   chaos                             1 gaps
+   chimera                          10 gaps
+   config                            6 gaps
+   content                          21 gaps
+   core                             28 gaps
+   ethics_ai                        14 gaps
+   exporters                         6 gaps
+   failover                          2 gaps
+   geo                               6 gaps
+   governance                       16 gaps
+   gpu                               8 gaps
+   graph                            29 gaps
+   importers                        35 gaps
+   index                            27 gaps
+   ingestion                        47 gaps
+   llm                              77 gaps
+   metadata                         17 gaps
+   network                          22 gaps
+   observability                    33 gaps
+   performance                       8 gaps
+   plugins                          17 gaps
+   process                          31 gaps
+   prompt_engineering               13 gaps
+   query                            74 gaps
+   rag                              28 gaps
+   replication                      13 gaps
+   rpc_grpc                          3 gaps
+   scheduler                        13 gaps
+   scraper                           2 gaps
+   search                            8 gaps
+   security                         18 gaps
+   server                           72 gaps
+   sharding                         64 gaps
+   storage                          26 gaps
+   temporal                          7 gaps
+   themis                            2 gaps
+   timeseries                        7 gaps
+   training                         29 gaps
+   transaction                      20 gaps
+   updates                           4 gaps
+   user_storage_encrypted            4 gaps
+   utils                            30 gaps
+   voice                             5 gaps
+   whisper                           1 gaps
+[UNIFORM] classic_performance: processed in 2.62s
+[UNIFORM] phase5_type_conversion: +124 findings in 45.98s
+[UNIFORM] phase5_input_validation: +104 findings in 6.20s
+[UNIFORM] phase5_exception_safety: +369 findings in 5.44s
+[UNIFORM] phase5_uninitialized: +217 findings in 6.93s
+[UNIFORM] phase5_virtual_oop: +19 findings in 13.21s
+[UNIFORM] Collected 1498 files for phase7+ scans
+[UNIFORM] phase7_10_audit_logging: +435 findings in 15.79s
+[UNIFORM] phase7_10_deprecated_apis: +3 findings in 13.68s
+[UNIFORM] phase7_10_performance_patterns: +0 findings in 0.02s
+[UNIFORM] phase7_10_gpu_memory: +206 findings in 0.31s
+[UNIFORM] phase7_10_query_correctness: +0 findings in 0.24s
+[UNIFORM] phase7_10_distributed_consistency: +0 findings in 0.04s
+[UNIFORM] phase7_10_llm_ai_safety: +272 findings in 3.10s
+[UNIFORM] phase7_10_observability: +0 findings in 0.05s
+[UNIFORM] phase7_10_determinism: +0 findings in 0.04s
+[UNIFORM] phase7_10_themis_architecture_rules: +9 findings in 8.72s
+[UNIFORM] phase7_10_themis_bridge_interface_rules: +47 findings in 1.88s
+[UNIFORM] phase7_10_themis_design_error_rules: +142 findings in 0.55s
+[UNIFORM] phase7_10_themis_doc_freshness_rules: +278 findings in 5.09s
+[UNIFORM] phase7_10_themis_cpp_doxygen_policy_rules: +8880 findings in 5.94s
+[UNIFORM] phase7_10_themis_module_governance_rules: +13 findings in 0.02s
+[UNIFORM] phase7_10_themis_docs_markdown_rules: +3021 findings in 45.71s
+[UNIFORM] phase11_data_leak: +0 findings in 0.08s
+[UNIFORM] phase11_encryption_leak: +149 findings in 4.75s
+[UNIFORM] phase11_e2e_encryption: +0 findings in 0.00s
+[UNIFORM] phase11_key_failure: +0 findings in 0.00s
+[UNIFORM] phase11_attack_vectors: +0 findings in 0.00s
+[UNIFORM] phase11_military_hardening: +0 findings in 0.00s
+[UNIFORM] phase11_legacy_duplication: +364 findings in 2.19s
+[UNIFORM] Completed scan with 131567 raw findings
+
+[OK] Results exported to ai_working\gap_scan_results.json
+[OK] Markdown report exported to C:\Projects\ThemisDB\ai_working\gap_scan_report_ollama_gemma4.md
+[OK] Completed in 342.56s
+
+[SUMMARY]
+Total gaps: 130425
+
+By Severity:
+  CRITICAL: 1356
+  HIGH: 11465
+  MEDIUM: 111705
+  LOW: 5899
+
+Top Gap Types:
+  scope_mismatch: 100716
+  braces_imbalance_midfile: 4398
+  missing_doxygen_comment: 3157
+  docs_broken_markdown_link: 2767
+  missing_doxygen_return: 2147
+  missing_doxygen_param: 1853
+  missing_doxygen_brief: 1723
+  circular_lock_ordering: 1105
+  copy_overhead: 838
+  db_connection_leak: 654
+
+By Scope (ThemisDB vs Tests/Benchmarks vs Third-Party):
+  themis_core: 11779 (9.03%)
+  themis_tests: 0 (0.0%)
+  themis_benchmarks: 0 (0.0%)
+  third_party: 118646 (90.97%)
+================================================================================

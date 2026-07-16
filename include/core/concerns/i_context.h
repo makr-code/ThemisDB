@@ -1,25 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_context.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e8e481e71  2026-02-27  feat(core): add W3CTraceContextPropagator for W3C TraceCo... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file i_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -66,6 +53,9 @@ using IContextPtr = std::shared_ptr<IContext>;
  *   children inherit all parent attributes and may override them locally.
  * - Contexts are immutable with respect to inherited attributes; a child
  *   can only *add* or *shadow* keys, never modify the parent.
+ * - createChild() preserves the visible attribute set at lookup time, but the
+ *   parent chain remains live so later parent updates are visible unless a key
+ *   is shadowed locally.
  *
  * ### Integration with `ILogger`
  *
@@ -97,7 +87,7 @@ public:
      * @brief Set (or replace) an attribute on this context.
      *
      * The change is local to this context and does not propagate back to
-     * the parent.
+        * the parent. Keys are compared by string value, not by pointer identity.
      *
      * @param key   Attribute name (use a `context_keys::k*` constant where
      *              applicable to prevent typos).
@@ -109,19 +99,20 @@ public:
      * @brief Retrieve an attribute by key.
      *
      * Lookup walks up the parent chain: if the key is not found in this
-     * context, the parent is queried recursively.
+        * context, the parent is queried recursively. A returned std::string is a
+        * copy so callers may keep it independently of the context lifetime.
      *
      * @param key Attribute name.
      * @return The attribute value if found, `std::nullopt` otherwise.
      */
-    virtual std::optional<std::string> get(std::string_view key) const = 0;
+    [[nodiscard]] virtual std::optional<std::string> get(std::string_view key) const = 0;
 
     /**
      * @brief Return true if the attribute exists in this context or any parent.
      * @param key Attribute name.
      * @return true when `get(key).has_value()`.
      */
-    virtual bool has(std::string_view key) const = 0;
+    [[nodiscard]] virtual bool has(std::string_view key) const = 0;
 
     // -----------------------------------------------------------------------
     // Child context creation
@@ -132,11 +123,12 @@ public:
      *
      * The child shares read-access to all parent attributes via the lookup
      * chain but writes to its own attribute store so the parent is never
-     * mutated.
+    * mutated. Child creation must preserve thread safety and must not expose
+    * partially constructed state to other threads.
      *
      * @return A new `IContext` whose parent is *this.
      */
-    virtual IContextPtr createChild() const = 0;
+    [[nodiscard]] virtual IContextPtr createChild() const = 0;
 
     // -----------------------------------------------------------------------
     // Bridge to existing logging API
@@ -146,13 +138,14 @@ public:
      * @brief Extract a `TraceContext` for use with `ILogger::logWithContext()`.
      *
      * Reads `context_keys::kTraceId` and `context_keys::kRequestId` from
-     * this context (including inherited values) and populates a `TraceContext`
-     * that can be passed directly to `ILogger::logWithContext()`.
+    * this context (including inherited values) and populates a `TraceContext`
+    * that can be passed directly to `ILogger::logWithContext()`. Span-id is
+    * also copied when present so nested span logging can retain correlation.
      *
      * @return A `TraceContext` with trace_id and request_id populated
      *         (empty strings if the corresponding attributes are absent).
      */
-    virtual TraceContext toTraceContext() const = 0;
+    [[nodiscard]] virtual TraceContext toTraceContext() const = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -233,8 +226,8 @@ public:
     }
 
     /**
-     * @brief Factory: create a root context pre-populated with the two most
-     *        common correlation attributes.
+    * @brief Factory: create a root context pre-populated with the two most
+    *        common correlation attributes.
      *
      * @param trace_id   OpenTelemetry trace-id to set (ignored if empty).
      * @param request_id Request correlation id to set (ignored if empty).

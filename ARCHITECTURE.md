@@ -15,53 +15,68 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (44 Core Components)
+### `/src/` - Implementation (58 Core Components)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
-| **acceleration/** | GPU & hardware backends (CUDA, HIP, Vulkan, OpenCL) | CudaBackend, HipBackend, VulkanBackend |
-| **analytics/** | Process mining, OLAP, diff engine, NLP analysis | OlapEngine, DiffEngine, ProcessAnalyzer |
+| **acceleration/** | GPU & hardware backends (CUDA, HIP, Vulkan, OpenCL); AI hardware dispatcher with NPU priority chain | CudaBackend, HipBackend, VulkanBackend, AiHardwareDispatcher |
+| **analytics/** | Process mining, OLAP, diff engine, NLP analysis, multi-stream joins | OlapEngine, DiffEngine, ProcessAnalyzer, HashJoin, IntervalJoin |
 | **api/** | GraphQL API, HTTP server setup | GraphQLAPI |
 | **aql/** | AQL-specific handlers and assistant functions | LlmAqlHandler, DocsAssistant |
 | **auth/** | Authentication (JWT, GSSAPI, MFA) | JWTValidator, GSSAPIAuthenticator |
 | **base/** | Core module loader and initialization | ModuleLoader |
-| **cache/** | Semantic caching, query caching, embedding caching | SemanticCache, AdaptiveQueryCache |
+| **cache/** | Semantic caching, query caching, embedding caching, singleflight coalescing | SemanticCache, AdaptiveQueryCache, RequestCoalescer |
 | **cdc/** | Change Data Capture and changefeeds | ChangeFeed, ChangeBuffer |
+| **chaos/** | Fault injection framework for chaos engineering | FaultInjector, ChaosScheduler |
 | **chimera/** | Adapter factory for database compatibility | ThemisDBAdapter, IDatabaseAdapter |
 | **config/** | Backward-compatible config path resolution, LRU caching, JSON Schema validation | ConfigPathResolver, ConfigSchemaValidator, ConfigAuditLog |
 | **content/** | Multimodal ingestion (PDF, images, audio, video, CAD) | ContentManager, AsyncIngestionWorker |
 | **core/** | Security initialization, concerns context (logging, tracing) | ConcernsContext, SecurityInit |
+| **distributed_knowledge/** | Federation flows: adapter capability gossip, federated LoRA gradient aggregation, cross-shard RAG merge, cross-shard RLAIF feedback sync; zero raw-data egress | AdapterCapabilityAnnouncement, LoRAFederationCoordinator, FederatedRAGMerger, CrossShardFeedbackSync |
+| **ethics_ai/** | Ethical discourse engine, 5-dimension decision scoring, RAG context retrieval | EthicsEvaluator, EthicalDiscourseEngine, RAGContextEngine |
 | **exporters/** | Data export in various formats | JsonlLlmExporter |
+| **failover/** | Automatic failover orchestration and disaster recovery plan execution | AutoFailoverManager, DisasterRecoveryOrchestrator |
 | **geo/** | Geospatial query processing and indexing | SpatialBackend, GpuBackend |
 | **governance/** | Policy engine, compliance, versioning | PolicyEngine, ComplianceReporter |
-| **graph/** | Property graphs, graph indexing, path constraints | PropertyGraph, GraphIndex |
+| **graph/** | Query planning, traversal (parallel/distributed/GPU), constraints, semantic reasoning, tensor-fingerprint utilities. ✅ **L0 VERIFIED: 0 gaps (all 9 findings reclassified as defensive patterns; production-ready)**. | GraphQueryOptimizer, PathConstraints, DistributedGraph, KnowledgeGraphReasoner |
 | **gpu/** | GPU-specific memory and acceleration | GpuMemoryManager |
-| **importers/** | Data import (PostgreSQL, etc.) | PostgresImporter |
-| **index/** | Vector indexing (HNSW, quantization), graph indices | VectorIndex, GraphIndex, HnswIndex |
+| **importers/** | Data import (PostgreSQL, MySQL/MariaDB, etc.) | PostgresImporter, MysqlImporter |
+| **index/** | Vector indexing (HNSW, quantization), graph indices, secondary indices with ACID | VectorIndex, GraphIndex, HnswIndex, SecondaryIndex |
 | **ingestion/** | Multi-source data intake (filesystem, HuggingFace, REST API), rate limiting, checkpointing | IngestionManager, FileSystemIngester, HuggingFaceConnector |
+| **llama_cpp/** | llama.cpp plugin — streaming inference, batch inference, LoRA, PluginManager hot-plug | LlamaCppPlugin, ILLMPlugin |
 | **llm/** | LLM integration, inference, LoRA, embeddings, vision | EmbeddedLlm, LoraFramework, FlashAttention |
+| **maintenance/** | Centralized DB maintenance orchestration: cron scheduling, maintenance windows, health aggregation, MVCC cleanup, storage compaction | DatabaseMaintenanceOrchestrator, MaintenanceRegistry, MvccCleanupHandler, StorageCompactionHandler |
 | **metadata/** | Schema management | SchemaManager |
-| **network/** | Wire protocol, socket management | WireProtocolServer |
+| **network/** | Wire protocol, socket management, io_uring batched send | WireProtocolServer, IoUringBatchedSender |
 | **observability/** | Metrics, profiling, alerting | MetricsCollector, QueryProfiler |
-| **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers) | PerformanceOptimizations |
+| **onnx_clip/** | ONNX CLIP plugin for image analysis with multi-backend (CPU/CUDA/DirectML/TensorRT) | ONNXClipPlugin, IImageAnalysisBackend |
+| **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers, lock-free histograms) | PerformanceOptimizations, LockFreeHistogram, LirsCache |
 | **plugins/** | Plugin system, hot-plugging, RPC interfaces | PluginManager, PluginRegistry |
+| **process/** | BPMN 2.0, EPK, VCC-VPB process model management; LLM descriptors; Graph-RAG for Verwaltungsvorgänge | ProcessModelManager, BpmnSerializer, EpkSerializer, ProcessLinker, ProcessGraphRag |
+| **projects/** | Project management layer: lifecycle state machine, snapshot versioning, structural diff/merge, template instantiation, collaboration session management | ProjectLifecycle, ProjectVersioning, ProjectDiff, ProjectMerge, ProjectTemplate, CollaborationManager |
 | **prompt_engineering/** | Prompt template lifecycle, version control, A/B testing, self-optimization, injection detection | PromptManager, PromptOptimizer, SelfImprovementOrchestrator, PromptInjectionDetector |
 | **query/** | AQL parser, optimizer, execution engine | QueryEngine, AqlParser, QueryOptimizer |
 | **rag/** | RAG evaluation (faithfulness, relevance, bias detection) | RagJudge, CoherenceEvaluator |
 | **replication/** | Multi-master replication | ReplicationManager |
+| **rpc_grpc/** | gRPC server plugin with mTLS and fail-closed TLS | GRPCServer, GRPCPlugin |
 | **scheduler/** | Task scheduling, retention management | TaskScheduler, HybridRetentionManager |
 | **search/** | Hybrid search (vector + full-text) | HybridSearch |
 | **security/** | Encryption, key management, PKI, RBAC, audit | RbacManager, FieldEncryption, KeyProvider |
 | **server/** | HTTP/gRPC servers, 40+ API handlers, rate limiting, tenant management | HttpServer, ApiGateway, QueryApiHandler, RateLimiter, TenantManager |
 | **sharding/** | Horizontal scaling, consensus (Raft/Paxos/Gossip) | ShardRouter, RaftConsensus, DistributedCoordinator |
-| **storage/** | RocksDB wrapper, compression, blob storage, transactions | StorageEngine, BlobStorageManager |
-| **temporal/** | Conflict resolution for temporal data | TemporalConflictResolver |
-| **timeseries/** | Time series compression (Gorilla), aggregates, retention | TimeSeriesManager, GorillaEncoder, GorillaDecoder |
+| **stable_diffusion/** | Stable Diffusion image generation plugin with content-policy sanitizer | SDGenerator, SDPromptSanitizer, IImageGenerationBackend |
+| **storage/** | RocksDB wrapper, compression, blob storage, transactions, streaming ingest, columnar cache | StorageEngine, BlobStorageManager, StreamingIngestManager, ColumnarCache |
+| **temporal/** | Conflict resolution for temporal data; LZ4 compression for temporal histories | TemporalConflictResolver, TemporalCompressor |
+| **themis/** | Core framework: build info, edition management, license validation, secure module loading (Linux/Windows), Wire Protocol V2 | EditionManager, ModuleLoader, ModuleSecurityVerifier, WireProtocolServer |
+| **timeseries/** | Time series compression (Gorilla), aggregates, retention, streaming cursor, batch writes | TimeSeriesManager, GorillaEncoder, GorillaDecoder, TsStreamCursor |
+| **toolbox/** | System-wide integration layer bridging ingestion pipeline with content storage; process-global IngestionToolbox registry for all modules | IngestionToolbox, ToolboxBuilder, ContentToolboxBridge, ToolboxRegistry |
 | **training/** | Domain-specific LLM fine-tuning, LoRA adapter management, knowledge graph enrichment | LegalAutoLabeler, IncrementalLoRATrainer, KnowledgeGraphEnricher |
 | **transaction/** | ACID transactions, SAGA pattern, branching | TransactionManager, SagaManager |
 | **updates/** | Hot reload, manifest management, version control | HotReloadEngine, ReleaseManifest |
-| **utils/** | Logging, PII detection, compression, utilities | Logger, PiiDetector, Serialization |
+| **user_storage_encrypted/** | Encrypted per-user storage via GocryptFS with Argon2id KDF and key rotation | GocryptfsBackend, KeyRotationScheduler |
+| **utils/** | Logging, PII detection, compression, UUID v7, streaming ZSTD | Logger, PiiDetector, Serialization, generate_uuid_v7, zstd_compress_stream |
 | **voice/** | Voice assistant integration | VoiceAssistant |
+| **whisper/** | Whisper STT plugin for audio transcription via whisper.cpp | WhisperPlugin, WhisperCppTranscriber |
 
 ### `/include/` - Public Headers
 
@@ -359,6 +374,51 @@ Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
 
 ---
 
+## Security & Hardening Tiering Model (Core Module -> Plugin)
+
+To make security ownership and hardening requirements explicit, ThemisDB uses a
+strict tier model from trusted core modules to untrusted plugin boundaries.
+
+### Tier Definitions
+
+| Tier | Scope | Typical Modules | Trust Level | Blast Radius |
+|---|---|---|---|---|
+| **T0: Trusted Core** | Minimal trusted computing base, bootstrapping, memory/lifecycle primitives | `src/core/`, `src/base/`, `src/themis/`, `src/utils/` | Highest | System-wide compromise risk |
+| **T1: Security & Platform Services** | Identity, cryptography, policy, config validation, audit | `src/security/`, `src/auth/`, `src/governance/`, `src/config/` | Very high | Cross-module security policy bypass |
+| **T2: Data Plane Engines** | Query, transaction, storage, index, sharding/replication logic | `src/query/`, `src/storage/`, `src/index/`, `src/transaction/`, `src/sharding/`, `src/replication/` | High | Data corruption, consistency and integrity impact |
+| **T3: Interface & Protocol Edge** | External protocol handling and request ingress | `src/server/`, `src/network/`, `src/rpc_grpc/`, `src/api/`, `src/cdc/` | Medium | Remote attack surface and tenant boundary violations |
+| **T4: Managed Extension Runtime** | In-tree feature extensions with controlled interfaces | `src/llm/`, `src/llama_cpp/`, `src/whisper/`, `src/stable_diffusion/`, `src/content/`, `src/onnx_clip/` | Medium-low | Feature-domain scoped, can escalate if guardrails fail |
+| **T5: Plugin Boundary (Least Trusted)** | Dynamically loaded or remotely controlled plugin code and adapters | `src/plugins/`, selected adapters in `adapters/` | Lowest | Arbitrary code execution within plugin sandbox scope |
+
+### Dependency and Privilege Rules (Mandatory)
+
+1. **One-way dependency direction:** Higher-numbered tiers may depend on lower-numbered tiers; lower tiers must not depend on higher tiers.
+2. **No direct T5 -> T0/T1 privileged calls:** Plugins interact via brokered interfaces (`PluginManager`, RPC contracts, policy checks).
+3. **Security mediation at boundaries:** Every T3/T4/T5 entry path must pass authentication, authorization, input validation, rate limits, and audit hooks.
+4. **Least privilege by default:** Capabilities must be explicitly granted and denied by default (network, filesystem, model loading, data export).
+5. **Fail-closed behavior:** On policy/config/auth uncertainty, requests must be rejected rather than downgraded.
+
+### Hardening Baseline per Tier
+
+| Tier | Required Security Controls | Hardening Requirements | Release Gate Evidence |
+|---|---|---|---|
+| **T0** | Memory-safety review, strict ownership/lifetime validation, anti-tamper bootstrap checks | Warnings-as-errors, UB/sanitizer clean paths where supported, deterministic startup invariants | Security maintainer sign-off + focused unit/integration tests |
+| **T1** | Cryptographic policy enforcement, key-material isolation, immutable audit trail, RBAC enforcement | Production-mode gating (`THEMIS_PRODUCTION_MODE`), no insecure fallback in production, explicit error taxonomy | Security regression suite + audit evidence in `audit/` |
+| **T2** | Transaction integrity, input/schema validation, secure defaults in persistence/indexing | Safe failure semantics, WAL/recovery correctness, resource limits and quota enforcement | CTest coverage for recovery/conflict/security-relevant paths |
+| **T3** | Protocol authentication, request validation, DoS/rate limiting, tenant isolation | TLS/mTLS profile checks, strict parser limits, bounded request/body/stream settings | API security tests + protocol-specific focused tests |
+| **T4** | Model/plugin operation policy checks, content sanitization, output filtering | Runtime capability gates, bounded resource budgets, deterministic fallback behavior | Feature security tests + policy conformance checks |
+| **T5** | Signature verification, sandboxing, capability-scoped RPC, provenance checks | No implicit trust of plugin manifests, explicit allowlist/denylist, kill-switch support | Plugin verification tests + signed artifact validation |
+
+### Promotion and Change Management
+
+- Any component moving toward a lower-trust tier (for example, from T4 to T5) must include an explicit threat model update and new boundary tests.
+- Any component requiring higher trust (for example, T3 -> T2) requires architecture review plus security maintainer approval.
+- Public interfaces crossing tier boundaries must document auth model, input contract, error behavior, and audit events.
+
+This tiering is normative for architecture changes and complements the controls in [SECURITY.md](SECURITY.md), [AUDIT.md](AUDIT.md), and [GOVERNANCE.md](GOVERNANCE.md).
+
+---
+
 ## Namespace Organization
 
 ### Hierarchy
@@ -418,10 +478,14 @@ themisdb::                        # Secondary root namespace (sharding, replicat
 ├── geo::                         # Geospatial operations
 ├── graph::                       # Graph processing
 ├── ingestion::                   # Multi-source data intake pipeline
+├── toolbox::                     # Global ingestion service (WorkflowEngine, StepRegistry, ITextGenerationBackend)
+│   └── (AQLIngestionBridge lives in aql/ and depends on toolbox/)
+├── maintenance::                 # Centralized DB maintenance orchestration
 ├── metadata::                    # Schema management
 ├── network::                     # Network protocols
 ├── observability::               # Monitoring & metrics
 ├── plugins::                     # Plugin system
+├── process::                     # BPMN/EPK/VCC-VPB process model management & Graph-RAG
 ├── prompt_engineering::          # Prompt template lifecycle & optimization
 ├── rag::                         # RAG evaluation
 ├── replication::                 # Data replication
@@ -436,6 +500,55 @@ themisdb::                        # Secondary root namespace (sharding, replicat
 │   └── memory::                  # Memory utilities
 └── voice::                       # Voice assistant
 ```
+
+---
+
+## Global Ingestion Toolbox
+
+The **`themis::toolbox`** module (introduced in v1.9.0) exposes the ingestion
+infrastructure as a system-wide, injectable service so that modules such as
+`aql/`, `rag/`, and the query engine can access NER, entity assembly, and
+workflow orchestration without creating circular dependencies.
+
+### Components
+
+| Class / File | Purpose |
+|---|---|
+| `include/toolbox/ingestion_toolbox.h` | `IngestionToolbox` — holds `WorkflowEngine`, `StepRegistry`, `ITextGenerationBackend` |
+| `include/aql/aql_ingestion_bridge.h` | `AQLIngestionBridge` — connects the toolbox to AQL DML and NL→AQL translation |
+
+### Design Constraints
+
+1. **No reverse dependency**: `ingestion/` never imports `toolbox/` or `aql/`.
+   The dependency arrow is `aql/ → toolbox/ → ingestion/`.
+2. **Opt-in / additive**: All consumer-side integration is guarded by
+   `if (bridge)` / `withIngestionEnrichment()` checks — no breaking change
+   to existing code paths.
+3. **No singleton**: `IngestionToolbox` is always injected via constructor or
+   setter; `createDefault()` is a factory, not `getInstance()`.
+
+### Usage Pattern
+
+```cpp
+// Bootstrap (server startup)
+auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
+auto bridge  = std::make_shared<themis::aql::AQLIngestionBridge>(toolbox);
+llm_handler.setIngestionBridge(bridge);
+
+// INSERT enrichment
+nlohmann::json doc = {{"text", raw_text}};
+bridge->enrichInsertPayload(doc);   // appends "_entities" array
+
+// NL→AQL context injection
+auto entities = bridge->extractEntitiesForContext(nl_query);
+auto ctx_str  = themis::aql::AQLIngestionBridge::buildEntityContext(entities);
+handler.translateNLToAQL(nl_query, base_schema + ctx_str);
+```
+
+### Roadmap
+
+See [`include/toolbox/ROADMAP.md`](include/toolbox/ROADMAP.md) for planned
+`ToolboxBuilder`, `RAGIngestionBridge`, and observability metrics.
 
 ---
 
@@ -752,6 +865,44 @@ cmake -B build -DTHEMISDB_EDITION=ENTERPRISE
 - **PII Detection**: Automatic detection and masking of sensitive data
 - **Compliance Reports**: GDPR, HIPAA, SOC2 reporting
 - **Data Lineage**: Track data origin and transformations
+
+### 🛡️ AI Safety Layer (Planned: Q2–Q4 2026)
+
+KI-Agenten, die über MCP-Server oder AI Orchestrator auf ThemisDB zugreifen, werden durch
+einen mehrschichtigen **AI Safety Layer** vor unkontrollierten destruktiven Operationen geschützt.
+
+**Hintergrund:** Der Cursor-KI-Vorfall (April 2026) zeigte, dass KI-Agenten ohne geeignete
+Schutzmaßnahmen Produktionsdatenbanken unwiederbringlich löschen können.
+
+| Schicht | Name | Schutz |
+|---|---|---|
+| 1 | Destructive Operation Guard | Operationsklassifikation (READ_ONLY/WRITE_SAFE/DESTRUCTIVE/CRITICAL) |
+| 2 | Human-in-the-Loop Gate | Approval-Workflow vor destruktiven Operationen |
+| 3 | AQL Read-Only Enforcer | Blockiert Mutationen in `read-only`-deklarierten Tools |
+| 4 | IntentClassifier AQL-Awareness | Erkennt AQL-native Angriffsmuster (REMOVE/DROP) |
+| 5 | Pre-Operation Snapshot | Automatische Checkpoints vor genehmigten Writes |
+| 6 | Environment Isolation Guard | Produktions-/Entwicklungsisolation |
+| 7 | AI Session Audit Trail | Forensisch verwertbarer, manipulationssicherer KI-Log |
+
+**Vollständige Dokumentation:** `docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md`
+**Implementierungsplan:** `src/security/ROADMAP.md` — Phase 5 (ASL-1 bis ASL-15)
+**Konfiguration:** `config/security.yaml` → `environment:` + `ai_safety:` Blöcke
+
+---
+
+## Root-Dokument-Abgleich (Architektur / Security / Audit / Performance)
+
+Die folgenden Architekturannahmen sind für Root-Dokumente verbindlich und werden
+in `SECURITY.md`, `AUDIT.md`, `CTEST.md`, `PERFORMANCE_EXPECTATIONS.md`,
+`PERFORMANCE_OPTIMIZATION_PLAN.md` und `PERFORMANCE_BOTTLENECKS.md` gespiegelt:
+
+| Kontrollpunkt | Architekturannahme | Referenzpfade |
+|---|---|---|
+| Produktionsmodus | Sicherheitshärtung basiert auf explizitem Production Mode (`THEMIS_PRODUCTION_MODE=1`) und produktionsspezifischer Umgebung | [SECURITY.md](SECURITY.md), [docs/production/SECURITY_POSTURE.md](docs/production/SECURITY_POSTURE.md) |
+| Transportschutz | TLS 1.3 als Primärpfad, TLS 1.2 Fallback nur aus Kompatibilitätsgründen; mTLS für sensible Cluster-/WAL-Pfade | [SECURITY.md](SECURITY.md), [AUDIT.md](AUDIT.md) |
+| Zugriffskontrolle | RBAC Least-Privilege und rollenbasierte Maintenance-/Admin-Gates sind Teil der Kernarchitektur | [SECURITY.md](SECURITY.md), [audit/AUDIT.md](audit/AUDIT.md) |
+| Nachvollziehbarkeit | Audit-Trail ist manipulationserschwerend ausgelegt (Encrypt-then-Sign, Hash-Chain, SIEM-Anbindung) | [SECURITY.md](SECURITY.md), [audit/AUDIT.md](audit/AUDIT.md), [CTEST.md](CTEST.md) |
+| Performance-Gates | Performanceziele gelten nur mit aktivierten Sicherheitskontrollen und reproduzierbaren Verifikationspfaden | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md), [PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md), [PERFORMANCE_BOTTLENECKS.md](PERFORMANCE_BOTTLENECKS.md) |
 
 ---
 
@@ -1251,7 +1402,7 @@ A: Native multi-model support (relational, graph, vector, document) with integra
 A: Yes, LLM features are optional. Use MINIMAL or COMMUNITY editions for traditional database functionality.
 
 **Q: Is ThemisDB production-ready?**  
-A: ThemisDB is designed as a production-ready multi-model database with comprehensive testing, monitoring, and enterprise features. Currently at v1.5.0-dev. See [CHANGELOG.md](CHANGELOG.md) for version-specific details and [README.md](README.md) for current production status.
+A: ThemisDB is designed as a production-ready multi-model database with comprehensive testing, monitoring, and enterprise features. Currently at v1.8.0. See [CHANGELOG.md](CHANGELOG.md) for version-specific details and [README.md](README.md) for current production status.
 
 ### Architecture
 
@@ -1373,4 +1524,8 @@ build if any discrepancies are found.
 
 ---
 
-*Last Updated: 2026-02-06 | Generated from codebase analysis*
+*Last Updated: 2026-03-24 | Generated from codebase analysis*
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

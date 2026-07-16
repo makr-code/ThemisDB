@@ -9,40 +9,100 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # CRITICAL MSVC SETUP - Must come FIRST before any other compiler setup!
 # ════════════════════════════════════════════════════════════════════════════
 if(MSVC)
+    set(_themis_program_files_x86 "$ENV{ProgramFiles\(x86\)}")
+    if(NOT _themis_program_files_x86)
+        set(_themis_program_files_x86 "$ENV{ProgramFiles}")
+    endif()
+
+    set(_themis_vs_search_roots)
+    foreach(_themis_vs_root IN ITEMS "$ENV{ProgramFiles\(x86\)}" "$ENV{ProgramFiles}" "$ENV{ProgramW6432}")
+        if(_themis_vs_root)
+            list(APPEND _themis_vs_search_roots "${_themis_vs_root}")
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES _themis_vs_search_roots)
+
     # Setup MSVC toolset directory
     if(DEFINED ENV{VCToolsInstallDir})
         set(_VC_TOOLS_DIR "$ENV{VCToolsInstallDir}")
         string(REGEX REPLACE "\\\\$" "" _VC_TOOLS_DIR "${_VC_TOOLS_DIR}")
     else()
-        set(_VC_TOOLS_DIR "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207")
+        set(_VC_TOOLS_DIR "")
+    endif()
+
+    if(NOT _VC_TOOLS_DIR)
+        set(_themis_msvc_tool_roots)
+        foreach(_themis_vs_root IN LISTS _themis_vs_search_roots)
+            file(GLOB _themis_msvc_tool_roots_glob
+                "${_themis_vs_root}/Microsoft Visual Studio/*/*/VC/Tools/MSVC/*")
+            list(APPEND _themis_msvc_tool_roots ${_themis_msvc_tool_roots_glob})
+        endforeach()
+        list(REMOVE_DUPLICATES _themis_msvc_tool_roots)
+        list(SORT _themis_msvc_tool_roots ORDER DESCENDING)
+        list(LENGTH _themis_msvc_tool_roots _themis_msvc_tool_roots_count)
+        if(_themis_msvc_tool_roots_count GREATER 0)
+            list(GET _themis_msvc_tool_roots 0 _VC_TOOLS_DIR)
+        endif()
     endif()
     
-    set(_WIN_SDK_VERSION "10.0.22621.0")
-    set(_WIN_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
+    set(_WIN_SDK_VERSION "$ENV{WindowsSDKVersion}")
+    if(NOT _WIN_SDK_VERSION)
+        set(_WIN_SDK_VERSION "$ENV{WindowsSDKLibVersion}")
+    endif()
+    set(_WIN_SDK_ROOT "$ENV{WindowsSdkDir}")
+    if(_WIN_SDK_ROOT)
+        string(REGEX REPLACE "[\\/]$" "" _WIN_SDK_ROOT "${_WIN_SDK_ROOT}")
+    endif()
+
+    if(NOT _WIN_SDK_ROOT AND _themis_program_files_x86)
+        set(_WIN_SDK_ROOT "${_themis_program_files_x86}/Windows Kits/10")
+    endif()
+
+    if(_WIN_SDK_VERSION)
+        string(REGEX REPLACE "[\\/]$" "" _WIN_SDK_VERSION "${_WIN_SDK_VERSION}")
+    endif()
+
+    if(_WIN_SDK_ROOT AND NOT _WIN_SDK_VERSION)
+        file(GLOB _themis_windows_sdk_versions "${_WIN_SDK_ROOT}/Include/*")
+        set(_themis_windows_sdk_version_names)
+        foreach(_themis_sdk_dir IN LISTS _themis_windows_sdk_versions)
+            get_filename_component(_themis_sdk_ver "${_themis_sdk_dir}" NAME)
+            if(EXISTS "${_themis_sdk_dir}/ucrt" AND EXISTS "${_themis_sdk_dir}/shared" AND EXISTS "${_themis_sdk_dir}/um")
+                list(APPEND _themis_windows_sdk_version_names "${_themis_sdk_ver}")
+            endif()
+        endforeach()
+        list(SORT _themis_windows_sdk_version_names ORDER DESCENDING)
+        list(LENGTH _themis_windows_sdk_version_names _themis_windows_sdk_version_count)
+        if(_themis_windows_sdk_version_count GREATER 0)
+            list(GET _themis_windows_sdk_version_names 0 _WIN_SDK_VERSION)
+        endif()
+    endif()
     
-    # Use include_directories() instead of /I flags - cleaner and no escaping issues
-    # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
-    include_directories(
-        "${_VC_TOOLS_DIR}/include"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
-    )
-    
-    message(STATUS "MSVC Include Paths Added (EARLY):")
-    message(STATUS "  - ${_VC_TOOLS_DIR}/include")
-    message(STATUS "  - ${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/{ucrt,shared,um}")
-    
-    # Add lib paths for linker
-    link_directories(
-        "${_VC_TOOLS_DIR}/lib/x64"
-        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
-        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
-    )
-    
-    message(STATUS "MSVC Library Paths Added:")
-    message(STATUS "  - ${_VC_TOOLS_DIR}/lib/x64")
-    message(STATUS "  - ${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/{ucrt,um}/x64")
+    if(_VC_TOOLS_DIR AND _WIN_SDK_ROOT AND _WIN_SDK_VERSION)
+        # Use include_directories() instead of /I flags - cleaner and no escaping issues
+        # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
+        include_directories(
+            "${_VC_TOOLS_DIR}/include"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+        )
+        
+        message(STATUS "MSVC Include Paths Added (EARLY):")
+        message(STATUS "  - ${_VC_TOOLS_DIR}/include")
+        message(STATUS "  - ${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/{ucrt,shared,um}")
+        
+        # Add lib paths for linker
+        link_directories(
+            "${_VC_TOOLS_DIR}/lib/x64"
+            "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
+            "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
+        )
+        
+        message(STATUS "MSVC Library Paths Added:")
+        message(STATUS "  - ${_VC_TOOLS_DIR}/lib/x64")
+        message(STATUS "  - ${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/{ucrt,um}/x64")
+    endif()
 endif()
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -76,20 +136,52 @@ if(THEMIS_ENABLE_CUDA)
     # Fix for CMake ↔ VS2022 ↔ CUDA 13.1 Registry Lookup Issue
     # Explicitly set CUDA Toolkit paths BEFORE enable_language(CUDA)
     if(MSVC AND NOT CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES)
-        set(_CUDA_TOOLKIT_ROOT "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.1")
-        if(EXISTS "${_CUDA_TOOLKIT_ROOT}/include/cuda.h")
+        set(_CUDA_TOOLKIT_ROOT "")
+
+        if(DEFINED CUDAToolkit_ROOT AND EXISTS "${CUDAToolkit_ROOT}/include/cuda.h")
+            set(_CUDA_TOOLKIT_ROOT "${CUDAToolkit_ROOT}")
+        elseif(DEFINED ENV{CUDA_PATH} AND EXISTS "$ENV{CUDA_PATH}/include/cuda.h")
+            set(_CUDA_TOOLKIT_ROOT "$ENV{CUDA_PATH}")
+        elseif(DEFINED ENV{CUDA_HOME} AND EXISTS "$ENV{CUDA_HOME}/include/cuda.h")
+            set(_CUDA_TOOLKIT_ROOT "$ENV{CUDA_HOME}")
+        else()
+            set(_themis_cuda_toolkits)
+            foreach(_themis_program_files_root IN ITEMS "$ENV{ProgramFiles}" "$ENV{ProgramW6432}")
+                if(_themis_program_files_root)
+                    file(GLOB _themis_cuda_toolkits_glob "${_themis_program_files_root}/NVIDIA GPU Computing Toolkit/CUDA/v*")
+                    list(APPEND _themis_cuda_toolkits ${_themis_cuda_toolkits_glob})
+                endif()
+            endforeach()
+            list(REMOVE_DUPLICATES _themis_cuda_toolkits)
+            list(SORT _themis_cuda_toolkits ORDER DESCENDING)
+            foreach(_cuda_root IN LISTS _themis_cuda_toolkits)
+                if(EXISTS "${_cuda_root}/include/cuda.h")
+                    set(_CUDA_TOOLKIT_ROOT "${_cuda_root}")
+                    break()
+                endif()
+            endforeach()
+        endif()
+
+        if(_CUDA_TOOLKIT_ROOT AND EXISTS "${_CUDA_TOOLKIT_ROOT}/include/cuda.h")
             set(CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES 
                 "${_CUDA_TOOLKIT_ROOT}/include" CACHE PATH "CUDA Toolkit Include Path" FORCE)
             message(STATUS "CUDA Toolkit Include: ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}")
         else()
-            message(WARNING "CUDA Toolkit not found at ${_CUDA_TOOLKIT_ROOT}")
+            message(WARNING "CUDA Toolkit include path could not be resolved automatically")
         endif()
     endif()
-    
-    enable_language(CUDA)
-    set(CMAKE_CUDA_STANDARD 17)
-    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-    message(STATUS "CUDA Language Enabled")
+
+    include(CheckLanguage)
+    check_language(CUDA)
+    if(CMAKE_CUDA_COMPILER)
+        enable_language(CUDA)
+        set(CMAKE_CUDA_STANDARD 17)
+        set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+        message(STATUS "CUDA Language Enabled")
+    else()
+        message(WARNING "THEMIS_ENABLE_CUDA=ON requested, but no CUDA compiler was detected. Disabling CUDA backend.")
+        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "CUDA disabled: compiler not found" FORCE)
+    endif()
 endif()
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -108,12 +200,16 @@ if(MSVC)
     )
     
     # Also use include_directories for good measure
-    include_directories(
-        "${_VC_TOOLS_DIR}/include"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
-    )
+    if(_VC_TOOLS_DIR AND _WIN_SDK_ROOT AND _WIN_SDK_VERSION)
+        include_directories(
+            "${_VC_TOOLS_DIR}/include"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+        )
+    else()
+        message(WARNING "MSVC toolset/SDK headers could not be fully resolved automatically; standard library headers may be unavailable during compilation.")
+    endif()
     
     # Add Windows SDK and MSVC runtime library paths
     set(_WIN_SDK_LIB_PATH "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64")
@@ -156,7 +252,29 @@ else()
         -Wno-deprecated-declarations
         -Wsign-compare   # Enable signed/unsigned comparison warnings
     )
-    
+
+    # ── Release optimisation flags ────────────────────────────────────────────
+    # Active by default.  Opt-out:
+    #   -DTHEMIS_DISABLE_O3=ON          → use compiler default (-O2)
+    #   -DTHEMIS_DISABLE_FAST_MATH=ON   → strict IEEE 754 (no -ffast-math)
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        # -fno-omit-frame-pointer is always added in Release so profilers
+        # (perf, VTune) can produce accurate call graphs.
+        add_compile_options(-fno-omit-frame-pointer)
+
+        if(NOT THEMIS_DISABLE_O3)
+            add_compile_options(-O3)
+            message(STATUS "  Release: -O3 enabled (set THEMIS_DISABLE_O3=ON to use -O2)")
+        endif()
+
+        if(NOT THEMIS_DISABLE_FAST_MATH)
+            add_compile_options(-ffast-math)
+            message(STATUS "  Release: -ffast-math enabled (set THEMIS_DISABLE_FAST_MATH=ON for strict IEEE 754)")
+        endif()
+
+        add_compile_options(-funroll-loops)
+    endif()
+
     # Release-specific options for SIMD optimization
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
         add_compile_options(-mavx2 -mfma)
@@ -224,20 +342,26 @@ endif()
 # This allows the compiler to optimize across translation units
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    # Check if IPO/LTO is supported
-    include(CheckIPOSupported)
-    check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
-    
-    if(ipo_supported)
-        # Enable IPO/LTO for all targets
-        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-
-        # Let CMake handle compiler/linker-specific IPO flags per target.
-        # This avoids global /GL injection that conflicts with targets which
-        # must disable IPO (e.g. WINDOWS_EXPORT_ALL_SYMBOLS def generation).
-        message(STATUS "IPO/LTO enabled via CMAKE_INTERPROCEDURAL_OPTIMIZATION")
+    # On Windows, IPO probing links a test binary and requires initialized MSVC
+    # LIB paths. Skip probing when LIB is unavailable (e.g. plain shells).
+    if(WIN32 AND "$ENV{LIB}" STREQUAL "")
+        message(WARNING "IPO/LTO skipped on Windows: LIB environment is not initialized")
     else()
-        message(WARNING "IPO/LTO not supported: ${ipo_error}")
+        # Check if IPO/LTO is supported
+        include(CheckIPOSupported)
+        check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
+
+        if(ipo_supported)
+            # Enable IPO/LTO for all targets
+            set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+            # Let CMake handle compiler/linker-specific IPO flags per target.
+            # This avoids global /GL injection that conflicts with targets which
+            # must disable IPO (e.g. WINDOWS_EXPORT_ALL_SYMBOLS def generation).
+            message(STATUS "IPO/LTO enabled via CMAKE_INTERPROCEDURAL_OPTIMIZATION")
+        else()
+            message(WARNING "IPO/LTO not supported: ${ipo_error}")
+        endif()
     endif()
 else()
     message(STATUS "IPO/LTO skipped (only enabled in Release mode)")

@@ -1,29 +1,25 @@
+/**
+ * @file gpu_memory.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_memory.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     491                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cb587a07d  2026-02-23  chore(acceleration): update file header to reflect resolv... ║
-    • 0533f75fa  2026-02-23  feat(acceleration): implement Vulkan fallback for non-NVI... ║
-    • d5166d8a2  2026-02-23  feat(acceleration): implement Vulkan and DirectX runtime ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_memory.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 523
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=8, L=0
+ * PR History (last 5): #2665 feat(acceleration): Impleme... (2026-03-12) | #546 Implement GPU Acceleration ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_memory.h"
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 
 // Backend-specific detection
@@ -255,16 +251,28 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
             info.available = true;
             
             // Query device 0 properties
-            cudaDeviceProp prop;
-            cudaGetDeviceProperties(&prop, 0);
+            cudaDeviceProp prop{};
+            cudaError_t prop_err = cudaGetDeviceProperties(&prop, 0);
+            if (prop_err != cudaSuccess) {
+                spdlog::warn("GPUMemoryManager: cudaGetDeviceProperties failed: {}",
+                             cudaGetErrorString(prop_err));
+            } else {
+                info.device_name = prop.name;
+                info.vram_bytes = prop.totalGlobalMem;
+                info.compute_units = prop.multiProcessorCount;
+            }
             
-            info.device_name = prop.name;
-            info.vram_bytes = prop.totalGlobalMem;
-            info.compute_units = prop.multiProcessorCount;
-            
-            int runtime_version;
-            cudaRuntimeGetVersion(&runtime_version);
-            info.version = std::to_string(runtime_version / 1000) + "." + 
+            int runtime_version = 0;
+            // REL-18a: check cudaRuntimeGetVersion return value
+            {
+                cudaError_t ver_err = cudaRuntimeGetVersion(&runtime_version);
+                if (ver_err != cudaSuccess) {
+                    spdlog::warn("GPUMemoryManager: cudaRuntimeGetVersion failed: {}",
+                                 cudaGetErrorString(ver_err));
+                    runtime_version = 0;
+                }
+            }
+            info.version = std::to_string(runtime_version / 1000) + "." +
                           std::to_string((runtime_version % 100) / 10);
         }
         
@@ -283,16 +291,31 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
         if (err == hipSuccess && device_count > 0) {
             info.available = true;
             
-            hipDeviceProp_t prop;
-            hipGetDeviceProperties(&prop, 0);
-            
-            info.device_name = prop.name;
-            info.vram_bytes = prop.totalGlobalMem;
-            info.compute_units = prop.multiProcessorCount;
-            
-            int runtime_version;
-            hipRuntimeGetVersion(&runtime_version);
-            info.version = std::to_string(runtime_version / 1000) + "." + 
+            hipDeviceProp_t prop{};
+            // REL-18b: zero-init prop and check hipGetDeviceProperties return value
+            {
+                hipError_t prop_err = hipGetDeviceProperties(&prop, 0);
+                if (prop_err != hipSuccess) {
+                    spdlog::warn("GPUMemoryManager: hipGetDeviceProperties failed: {}",
+                                 hipGetErrorString(prop_err));
+                } else {
+                    info.device_name = prop.name;
+                    info.vram_bytes = prop.totalGlobalMem;
+                    info.compute_units = prop.multiProcessorCount;
+                }
+            }
+
+            int runtime_version = 0;
+            // REL-18c: check hipRuntimeGetVersion return value
+            {
+                hipError_t ver_err = hipRuntimeGetVersion(&runtime_version);
+                if (ver_err != hipSuccess) {
+                    spdlog::warn("GPUMemoryManager: hipRuntimeGetVersion failed: {}",
+                                 hipGetErrorString(ver_err));
+                    runtime_version = 0;
+                }
+            }
+            info.version = std::to_string(runtime_version / 1000) + "." +
                           std::to_string((runtime_version % 100) / 10);
         }
         
@@ -315,12 +338,22 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
         instCI.pApplicationInfo = &appInfo;
 
         VkInstance instance = VK_NULL_HANDLE;
-        if (vkCreateInstance(&instCI, nullptr, &instance) == VK_SUCCESS) {
+        VkResult create_result = vkCreateInstance(&instCI, nullptr, &instance);
+        if (create_result == VK_SUCCESS) {
             uint32_t deviceCount = 0;
-            if (vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr) == VK_SUCCESS &&
-                deviceCount > 0) {
+            VkResult enumerate_count_result =
+                vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+            if (enumerate_count_result != VK_SUCCESS) {
+                spdlog::warn("GPUMemoryManager: vkEnumeratePhysicalDevices(count) failed: {}",
+                             static_cast<int>(enumerate_count_result));
+            } else if (deviceCount > 0) {
                 std::vector<VkPhysicalDevice> physDevices(deviceCount);
-                if (vkEnumeratePhysicalDevices(instance, &deviceCount, physDevices.data()) == VK_SUCCESS) {
+                VkResult enumerate_fill_result =
+                    vkEnumeratePhysicalDevices(instance, &deviceCount, physDevices.data());
+                if (enumerate_fill_result == VK_SUCCESS || enumerate_fill_result == VK_INCOMPLETE) {
+                    if (deviceCount == 0) {
+                        spdlog::warn("GPUMemoryManager: vkEnumeratePhysicalDevices(fill) returned no devices");
+                    } else {
                     // Use first physical device's properties
                     VkPhysicalDeviceProperties props{};
                     vkGetPhysicalDeviceProperties(physDevices[0], &props);
@@ -340,9 +373,18 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
                             break;
                         }
                     }
+                    }
+                } else {
+                    spdlog::warn("GPUMemoryManager: vkEnumeratePhysicalDevices(fill) failed: {}",
+                                 static_cast<int>(enumerate_fill_result));
                 }
+            } else {
+                spdlog::debug("GPUMemoryManager: Vulkan backend available but no physical device found");
             }
             vkDestroyInstance(instance, nullptr);
+        } else {
+            spdlog::warn("GPUMemoryManager: vkCreateInstance probe failed: {}",
+                         static_cast<int>(create_result));
         }
 
         backends.push_back(info);

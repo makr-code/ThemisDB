@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_distributed_vector_index.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     456                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1ec732da1  2026-02-26  fix(index): Code audit fixes for DistributedVectorIndex –... ║
-    • 6af3fad50  2026-02-26  feat(index): Distributed vector index across shards (Issu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_distributed_vector_index.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit and integration tests for DistributedVectorIndex (Issue #1879)
@@ -46,6 +30,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace themis::index;
 
@@ -99,6 +84,57 @@ static float recall_at_k(const std::vector<size_t>& expected,
     }
     return static_cast<float>(hits) / static_cast<float>(expected.size());
 }
+
+class DeterministicAnnIndex final : public IAnnIndex {
+public:
+    explicit DeterministicAnnIndex(bool fail_after_first_add = false)
+        : fail_after_first_add_(fail_after_first_add) {}
+
+    bool build(const float*, const int64_t*, size_t, size_t) override {
+        return true;
+    }
+
+    bool add(int64_t id, const float* vector, size_t dim) override {
+        if (fail_after_first_add_ && add_calls_ >= 1) {
+            ++add_calls_;
+            return false;
+        }
+        ++add_calls_;
+        data_[id] = std::vector<float>(vector, vector + dim);
+        return true;
+    }
+
+    std::vector<AnnSearchResult> search(const float* query, size_t dim, int k) const override {
+        std::vector<AnnSearchResult> out;
+        out.reserve(data_.size());
+        for (const auto& [id, vec] : data_) {
+            float d = 0.f;
+            const size_t dmax = std::min(dim, vec.size());
+            for (size_t i = 0; i < dmax; ++i) {
+                const float diff = vec[i] - query[i];
+                d += diff * diff;
+            }
+            out.push_back({id, d});
+        }
+        std::sort(out.begin(), out.end(), [](const AnnSearchResult& a, const AnnSearchResult& b) {
+            if (a.distance != b.distance) return a.distance < b.distance;
+            return a.id < b.id;
+        });
+        if (k < static_cast<int>(out.size())) {
+            out.resize(static_cast<size_t>(k));
+        }
+        return out;
+    }
+
+    size_t size() const override {
+        return data_.size();
+    }
+
+private:
+    bool fail_after_first_add_ = false;
+    size_t add_calls_ = 0;
+    std::unordered_map<int64_t, std::vector<float>> data_;
+};
 
 // ---------------------------------------------------------------------------
 // Fixture
@@ -252,6 +288,53 @@ TEST(DistributedVectorIndexLifecycle, ReInsertSameKey) {
     std::vector<float> v2(8, 2.f);
     EXPECT_TRUE(idx.insert("k1", v1));
     EXPECT_TRUE(idx.insert("k1", v2)); // update
+}
+
+TEST(DistributedVectorIndexLifecycle, FailedUpdateRestoresExistingMapping) {
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    std::vector<std::unique_ptr<IAnnIndex>> shards;
+    shards.push_back(std::make_unique<DeterministicAnnIndex>(true));
+    DistributedVectorIndex idx(cfg, std::move(shards));
+
+    const std::vector<float> v1{1.f, 0.f, 0.f, 0.f};
+    const std::vector<float> v2{0.f, 1.f, 0.f, 0.f};
+    ASSERT_TRUE(idx.insert("k1", v1));
+    ASSERT_FALSE(idx.insert("k1", v2));
+    EXPECT_EQ(idx.size(), 1u);
+    EXPECT_TRUE(idx.remove("k1"));
+    EXPECT_EQ(idx.size(), 0u);
+}
+
+TEST(DistributedVectorIndexLifecycle, SearchDeduplicatesGlobalIdCollisions) {
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    std::vector<std::unique_ptr<IAnnIndex>> shards;
+    shards.push_back(std::make_unique<DeterministicAnnIndex>());
+    DistributedVectorIndex idx(cfg, std::move(shards));
+
+    ASSERT_TRUE(idx.insert("user_7", std::vector<float>{0.f, 0.f, 0.f, 0.f}));
+    ASSERT_TRUE(idx.insert("other_7", std::vector<float>{2.f, 0.f, 0.f, 0.f}));
+
+    auto results = idx.search(std::vector<float>{0.f, 0.f, 0.f, 0.f}, 10);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results.front().id, 7);
+}
+
+TEST(DistributedVectorIndexLifecycle, SearchUsesLatestVersionForGlobalIdCollision) {
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    std::vector<std::unique_ptr<IAnnIndex>> shards;
+    shards.push_back(std::make_unique<DeterministicAnnIndex>());
+    DistributedVectorIndex idx(cfg, std::move(shards));
+
+    ASSERT_TRUE(idx.insert("user_7", std::vector<float>{0.f, 0.f, 0.f, 0.f}));
+    ASSERT_TRUE(idx.insert("other_7", std::vector<float>{10.f, 0.f, 0.f, 0.f}));
+
+    auto results = idx.search(std::vector<float>{0.f, 0.f, 0.f, 0.f}, 10);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results.front().id, 7);
+    EXPECT_FLOAT_EQ(results.front().distance, 100.f);
 }
 
 TEST(DistributedVectorIndexLifecycle, InsertNullVectorReturnsFalse) {
@@ -454,4 +537,24 @@ TEST(DistributedVectorIndexEdge, MoveConstruct) {
     (void)idx1.insert("k1", std::vector<float>(8, 1.f));
     DistributedVectorIndex idx2(std::move(idx1));
     EXPECT_EQ(idx2.size(), 1u);
+}
+
+TEST(DistributedVectorIndexEdge, MoveConstructPreservesGlobalIdState) {
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    std::vector<std::unique_ptr<IAnnIndex>> shards;
+    shards.push_back(std::make_unique<DeterministicAnnIndex>());
+    DistributedVectorIndex idx1(cfg, std::move(shards));
+
+    ASSERT_TRUE(idx1.insert("user_42", std::vector<float>{0.f, 0.f, 0.f, 0.f}));
+    DistributedVectorIndex idx2(std::move(idx1));
+    ASSERT_TRUE(idx2.insert("plain", std::vector<float>{1.f, 0.f, 0.f, 0.f}));
+
+    auto results = idx2.search(std::vector<float>{0.f, 0.f, 0.f, 0.f}, 10);
+    std::set<int64_t> ids;
+    for (const auto& r : results) {
+        ids.insert(r.id);
+    }
+    EXPECT_TRUE(ids.count(42));
+    EXPECT_TRUE(ids.count(43));
 }

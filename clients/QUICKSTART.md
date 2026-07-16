@@ -402,6 +402,6 @@ Running on i9-10900K (10 cores, 64GB RAM):
 
 ---
 
-Last Updated: January 2025  
+Last Updated: April 2026
 Wire Protocol Version: 1.0  
 Client Versions: 1.0.0

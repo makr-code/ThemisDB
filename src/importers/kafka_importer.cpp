@@ -1,24 +1,21 @@
+/**
+ * @file kafka_importer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=1, H=8, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_importer.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     754                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 59453d3ae  2026-02-28  feat(importers): Add Kafka consumer importer for real-tim... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 742
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=1, H=12, M=6, L=0
+ * PR History (last 5): #4185 feat(importers/kafka): AC7 ... (2026-03-13) | #3135 feat(importers): Kafka cons... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_KAFKA is defined the full librdkafka-backed implementation
@@ -167,7 +164,6 @@ bool KafkaImporter::validateSource(const std::string& source_path,
     }
 #else
     // Without librdkafka we can only validate the URL format.
-    (void)brokers;
 #endif
 
     return true;
@@ -753,3 +749,6 @@ void KafkaImporterPlugin::shutdown() {
 
 } // namespace importers
 } // namespace themis
+
+
+

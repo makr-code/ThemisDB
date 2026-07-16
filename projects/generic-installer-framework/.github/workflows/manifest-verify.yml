@@ -1,0 +1,41 @@
+name: manifest-verify
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    paths:
+      - 'schemas/**'
+      - 'examples/**'
+      - '.github/workflows/manifest-verify.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli
+
+      - name: Validate sample manifest
+        run: |
+          if [ -f examples/sample-release/manifest.json ]; then
+            ajv validate -s schemas/manifest.schema.json -d examples/sample-release/manifest.json
+          else
+            echo "No sample manifest yet; skipping"
+          fi
+
+      - name: Validate sample product config json mirror
+        run: |
+          if [ -f examples/sample-product-config/product.json ]; then
+            ajv validate -s schemas/product.schema.json -d examples/sample-product-config/product.json
+          else
+            echo "No product.json mirror yet; skipping"
+          fi

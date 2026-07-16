@@ -1,162 +1,61 @@
-# Network Module Roadmap
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
-<!-- Status: current | validated: 2026-03-10 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
+# Network Module Roadmap
+
 ## Current Status
-v1.x – Production-grade networking layer. Binary wire protocol server, connection pooling, TLS/mTLS, circuit breaker, and rate limiting are fully implemented.
+Production-grade transport and protocol layer with TCP wire protocol, WebSocket, UDP paths, QUIC/HTTP3, and gRPC components in active use.
 
-## Completed ✅
-- [x] WireProtocolServer – high-performance binary TCP server (port 8766)
-- [x] Dedicated I/O thread pool + worker thread pool separation
-- [x] Connection pool management (client-side and server-side)
-- [x] TLS 1.3 and mutual TLS (mTLS) support
-- [x] Per-IP rate limiting (requests/sec and requests/min)
-- [x] Connection limits (global and per-IP)
-- [x] Circuit breaker pattern for socket timeouts
-- [x] Protocol buffer wire format helpers (lightweight parser/serializer)
-- [x] Authentication (token-based) with configurable auth timeout — `handleAuthRequest()` validates token, sets `authenticated_` flag; new `Config::auth_token` field; see NETWORK-MISSING-002 in `docs/de/network/missing-implementations.md` (resolved 2026-03-10)
-- [x] Wire Protocol V1 opcode handlers — HELLO, AUTH, GET, PUT, DELETE, QUERY_AQL, VECTOR_SEARCH, GEO_QUERY fully implemented; see NETWORK-MISSING-001 (resolved 2026-03-10)
-- [x] Health checking and keepalive mechanisms
-- [x] Automatic retry logic with configurable back-off
-- [x] Transport security validation (`validateTransportSecurity`)
-- [x] Prometheus metrics for connection and request statistics
-- [x] WebSocket upgrade support on wire protocol port (PR #2209, Q2 2026)
-  - Protocol detection: HTTP "GET " prefix vs binary "TMDB" magic on port 8766
-  - `WireProtocolWebSocketSession` (`include/network/wire_protocol_websocket.h`)
-  - JSON text-frame messages: ping, get, put, delete (query redirects to HTTP API)
-  - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `Config::enable_websocket_upgrade`
-  - `getActiveConnections()` includes both binary and WebSocket sessions
-  - Connection-count accounting preserved across protocol upgrade
-- [x] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
-- [x] Per-tenant network bandwidth quotas (Issue: #2205)
-- [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
+## In Progress
+- [~] Network hardening wave for protocol safety, transport resilience, and predictable latency behavior (Target: Q3 2026)
+  - [ ] Complete remaining failure-injection coverage for multi-transport edge cases (Target: Q3 2026)
+  - [ ] Tighten auth/rate-limit/session guard behavior under sustained adversarial traffic (Target: Q3 2026)
 
-## In Progress 🚧
-- [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
-  - UDP socket on port 8769 (dedicated, separate from TCP wire protocol port 8766)
-  - Read-only opcodes only: GET, QUERY_AQL, VECTOR_SEARCH, PING
-  - Per-source-IP rate limiting (configurable packets/second)
-  - Compact 10-byte binary header with request-ID echo for correlation
-  - `UDPFastPath` class in `include/network/udp_fast_path.h` / `src/network/udp_fast_path.cpp`
-  - Unit tests in `tests/test_udp_fast_path.cpp` (config, packet validation, opcode filter, response builder)
-  - ⚠️ Implementation complete; ROADMAP status reflects pending production validation / integration tests
-- [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
-  - `QuicTransport` class in `include/network/quic_transport.h` / `src/network/quic_transport.cpp`
-  - Port 8770 (dedicated, separate from TCP 8766 and UDP 8769)
-  - TLS 1.3 mandatory; ALPN "tmdb" advertises binary wire protocol over QUIC
-  - 0-RTT connection resumption, connection migration supported (ngtcp2)
-  - Configurable idle timeout, max streams, flow-control windows, connection limits
-  - Per-connection rate tracking; `QuicTransport::Stats` for Prometheus integration
-  - Guarded by `THEMIS_ENABLE_HTTP3`; requires ngtcp2 + OpenSSL
-  - `Http3Session::doRead()` and `Http3Session::onRead()` stubs resolved (server module)
+## Planned Features
 
-## Planned Features 📋
+### Short-term (3-6 months)
+- [ ] Expand transport-level regression coverage for mixed TCP/WS/UDP/QUIC deployments (Target: Q4 2026)
+- [ ] Strengthen distributed routing and failover diagnostics for operator triage (Target: Q4 2026)
+- [ ] Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load (Target: Q4 2026)
 
-### Short-term (Next 3-6 months)
-- [?] Adaptive I/O thread scaling based on connection load
-- [?] Structured network audit log (connection open/close/auth events)
-
-### Long-term (6-12 months)
-- [?] RDMA support for ultra-low-latency inter-node communication
-- [?] IPv6 dual-stack support
+### Mid-term (6-12 months)
+- [ ] Improve protocol-path performance consistency with benchmark-backed promotion gates (Target: Q1 2027)
+- [ ] Expand resilience validation for mesh/topology-aware routing under partial failures (Target: Q1 2027)
+- [ ] Advance transport observability and security telemetry fidelity across all network front doors (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Production Networking Stack (Status: Completed ✅)
-- [x] WireProtocolServer: high-performance binary TCP server on port 8766 (`network/wire_protocol_server.cpp`)
-- [x] Dedicated I/O thread pool and worker thread pool separation
-- [x] Client-side and server-side connection pool management
-- [x] TLS 1.3 and mutual TLS (mTLS) support
-- [x] Per-IP rate limiting (requests/sec and requests/min)
-- [x] Connection limits (global and per-IP)
-- [x] Circuit breaker pattern for socket timeouts
-- [x] Protocol buffer wire format helpers (lightweight parser/serializer)
-- [x] Token-based authentication with configurable auth timeout
-- [x] Health checking, keepalive mechanisms, and automatic retry with back-off
-- [x] Transport security validation (`validateTransportSecurity`)
-- [x] Prometheus metrics for connection and request statistics
+### Phase 1: Protocol and Session Safety
+- [ ] Re-validate auth/session checks and frame/input validation across all major opcode/transport paths (Target: Q3 2026)
+- [ ] Extend deterministic regression packs for malformed frame and rate-limit abuse scenarios (Target: Q3 2026)
 
-### Phase 2: Alternative Transports (Status: In Progress 🚧)
-- [x] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
-  - Protocol detection: HTTP "GET " prefix vs binary "TMDB" magic on port 8766
-  - `WireProtocolWebSocketSession` (include/network/wire_protocol_websocket.h)
-  - JSON text-frame messages: ping, get, put, delete, query
-  - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `enable_websocket_upgrade`
-- [x] UDP-based fast-path for read-only queries (Target: Q3 2026)
-- [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
+### Phase 2: Multi-Transport Resilience
+- [ ] Strengthen failure handling across TCP, WebSocket, UDP, QUIC/HTTP3, and gRPC paths (Target: Q4 2026)
+- [ ] Validate transport fallback/retry behavior under network degradation (Target: Q4 2026)
 
-### Phase 3: Advanced Networking & Service Mesh (Status: Completed ✅)
-- [x] gRPC native transport (separate from server module)
-  - Port 8771; `AsyncGenericService` bidirectional streaming; guarded by `THEMIS_ENABLE_GRPC`
-- [x] Connection multiplexing (multiple logical streams per TCP connection)
-- [x] Per-tenant network bandwidth quotas
-- [x] Connection-level compression (LZ4, Zstd)
-- [x] Network topology-aware routing for geo-distributed clusters
-  - `GeoTopologyRouter` (include/network/geo_topology_router.h); strategies: PREFER_LOCAL, LOWEST_LATENCY, ROUND_ROBIN
-- [x] Service mesh integration (Istio/Envoy sidecar compatibility)
-  - `ServiceMeshIntegration` probe server + `EnvoyXdsClient` xDS v3 REST polling; guarded by `THEMIS_ENABLE_SERVICE_MESH`
+### Phase 3: Routing and Topology Hardening
+- [ ] Expand routing correctness checks under changing health/latency/topology signals (Target: Q4 2026)
+- [ ] Harden load-balancing state transitions and recovery behavior under churn (Target: Q4 2026)
+
+### Phase 4: Performance and Operational Hardening
+- [ ] Re-baseline protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027)
+- [ ] Keep compression/batching/zero-copy overhead bounded under high concurrency (Target: Q1 2027)
+
+### Phase 5: Documentation and Release Readiness
+- [ ] Keep network docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- [x] Wire Protocol V1 opcode handlers implemented: HELLO, AUTH_REQUEST, GET, PUT, DELETE, QUERY_AQL, VECTOR_SEARCH, GEO_QUERY (2026-03-10)
-  - HELLO: server info + capabilities response
-  - AUTH_REQUEST: token validation, `authenticated_.store(true)`, stats.auth_failures accounting
-  - GET/PUT/DELETE: RocksDB dispatch with collection-prefixed keys
-  - QUERY_AQL / GEO_QUERY: structured error with HTTP REST API redirect hint
-  - VECTOR_SEARCH: `VectorIndexManager::searchKnn()` dispatch
-- [x] Authentication wired: `authenticated_` flag correctly set after successful AUTH (2026-03-10)
-- [x] `Config::auth_token` field added for pre-shared token validation (2026-03-10)
-- [x] Focused standalone test targets added for network components in `tests/CMakeLists.txt` (2026-03-10):
-  - `WireProtocolV1HandlersFocusedTests` (`test_wire_protocol_v1_handlers.cpp`) — Config defaults, auth decision logic, response contracts
-  - `QoSManagerFocusedTests`, `NetworkTimeoutFocusedTests`, `WireProtocolConnectionPoolFocusedTests`
-  - `WireProtocolPerformanceFocusedTests`, `UDPFastPathFocusedTests`, `GeoTopologyRouterFocusedTests`
-  - `WireProtocolV2FocusedTests`, `WireProtocolWebSocketFocusedTests` (THEMIS_ENABLE_WEBSOCKET)
-  - `QuicTransportFocusedTests` (THEMIS_ENABLE_HTTP3), `GrpcTransportFocusedTests` (THEMIS_ENABLE_GRPC)
-- [x] Unit tests added for WebSocket upgrade (`test_wire_protocol_websocket.cpp`)
-- [x] Protocol detection logic tested (8 test cases covering all relevant prefixes)
-- [x] Security: connection-count accounting correct across WS upgrade
-- [x] `getActiveConnections()` counts both binary and WebSocket sessions
-- [x] Binary/text frame mode correctly tracked per queued message
-- [x] Welcome frame sent on connect; graceful close handling
-- [x] V2 multiplexed protocol fully implemented (`wire_protocol_v2.cpp`)
-  - Frame types: DATA, HEADERS, RST_STREAM, SETTINGS, PING, GOAWAY, WINDOW_UPDATE, PUSH_PROMISE
-  - Stream state machine: IDLE → OPEN → HALF_CLOSED_{LOCAL,REMOTE} → CLOSED
-  - Flow control: per-stream WINDOW_UPDATE on DATA frame receipt
-  - Server push: `push_promise()` + `send_data()` on even stream IDs
-  - Session cleanup: disconnected sessions erased from server map
-  - Buffer lifetime safety: all async writes use `shared_ptr`-owned buffers
-  - COMPRESSED DATA frames guarded with RST_STREAM (LZ4 tracked in #2416)
-- [x] Unit tests added for V2 protocol (`test_wire_protocol_v2.cpp`, 29 tests)
-- [x] Unit tests added for QUIC transport (`test_quic_transport.cpp`, 17 tests)
-  - Config defaults, port validation, stats initialisation, protocol constants, isRunning state
-- [x] QUIC/HTTP3 stub resolved (`Http3Session::doRead()`, `Http3Session::onRead()`)
-- [x] Unit tests added for gRPC native transport (`test_grpc_transport.cpp`, 16 tests)
-  - Config defaults, TLS flags, port validation (incl. conflict with 50051), stats, address format, isRunning state
-- [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)
-  - Config defaults, PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity
-  - Cross-region fallback, selectEndpointInRegion, getRankedShards ordering, stats accumulation, edge cases
-- [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
-- [?] Performance benchmarks (connections/sec via WS vs. native binary)
-- [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
+- Status: Tracking in progress
+- Nachweise: network focused tests, transport integration tests, protocol security regressions, performance suites
+- Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
-## Known Issues & Limitations
-- Wire Protocol V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE) are now fully implemented
-  (resolved 2026-03-10, see `NETWORK-MISSING-001`/`NETWORK-MISSING-002`).
-  QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API;
-  VECTOR_SEARCH dispatches to `VectorIndexManager::searchKnn`.
-- `grpc_transport.cpp` was missing from `cmake/CMakeLists.txt` (fixed: 2026-03-09).
-- WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
-  dispatched (clients receive a structured error and should use text/JSON frames or
-  the native TCP binary connection).
-- UDP fast-path is implemented (`UDPFastPath`, port 8769); QUIC transport is implemented (`QuicTransport`, port 8770).
-- gRPC native transport is implemented (`GrpcTransport`, port 8771); this module provides
-  the transport layer only — the gRPC service layer lives in the server/api modules.
-- Service mesh integration is in progress (`ServiceMeshIntegration`, port 8082);
-  see `include/network/service_mesh.h` / `src/network/service_mesh.cpp`.
-  Guarded by `THEMIS_ENABLE_SERVICE_MESH`.
+## Known Issues and Limitations
+- Some cross-transport fault combinations still need broader evidence under long-duration stress.
+- Certain route/mesh/topology scenarios require additional benchmark and resilience validation.
+- Operator-facing diagnostics for complex multi-transport incidents continue to be refined.
 
 ## Breaking Changes
-- Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
-- `WireProtocolServer::Config` gained new field `auth_token` (default: empty string);
-  defaults remain backward-compatible.
+- Network public APIs and protocol evolution in active major lines remain additive-first.
+- Any behavior change requiring client migration must be versioned and documented in changelog/migration notes.

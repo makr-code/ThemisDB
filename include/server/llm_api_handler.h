@@ -1,25 +1,20 @@
+/**
+ * @file llm_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_api_handler.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5d9b398ef  2026-02-28  feat(aql): implement streaming AQL explanation HTTP endpoint ║
-    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -46,9 +41,17 @@ class LLMAQLHandler;
 namespace auth {
 class JWTValidator;
 }
+namespace governance {
+class PolicyEngine;
+}
+namespace query {
+class QueryEngine;
+}
 namespace server {
 class LoRAApiHandler;
 }
+class VectorIndexManager;
+class RocksDBWrapper;
 }
 
 namespace themis::server {
@@ -123,6 +126,29 @@ public:
      * @param feedback_store FeedbackStore instance
      */
     void setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store);
+
+    /**
+     * @brief Attach a PolicyEngine for inference permission checks on the
+     *        OpenAI-compatible @c /v1/chat/completions endpoint.
+     *
+     * When set, @c handleOpenAIChatCompletions() calls
+     * @c PolicyEngine::checkInferencePermission() before processing the request
+     * and returns HTTP 401/403 on denial.  Pass @c nullptr to detach (disables
+     * the policy gate; JWT validation still applies).
+     *
+     * @param policy_engine Pointer to a PolicyEngine instance.  The caller is
+     *                      responsible for the lifetime of the engine.
+     */
+    void setPolicyEngine(governance::PolicyEngine* policy_engine);
+
+    /**
+     * @brief Wire a QueryEngine for RAG vector retrieval.
+     *
+     * When set, handleRAG() embeds the user query via the LLM plugin and
+     * executes a filtered vector search on the named collection before
+     * forwarding the retrieved documents to LLMPluginManager::generateRAG().
+     */
+    void setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine);
     
     /**
      * @brief Handle LLM API request
@@ -243,6 +269,11 @@ private:
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
     std::shared_ptr<LoRAApiHandler> lora_handler_;
     std::shared_ptr<llm::FeedbackStore> feedback_store_;
+    /// Optional governance policy engine for /v1/chat/completions permission checks.
+    /// Raw non-owning pointer; nullptr when not configured.
+    governance::PolicyEngine* policy_engine_ = nullptr;
+    /// Optional query engine for RAG vector retrieval.
+    std::shared_ptr<query::QueryEngine> query_engine_;
 };
 
 } // namespace themis::server

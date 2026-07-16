@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            deduplication_checker.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     206                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • d8a1b47fd  2026-02-27  refactor(content): address code review - named TTL consta... ║
-    • b45ae45eb  2026-02-27  fix(content): use BoundedLRUCache for MinHash band-LSH in... ║
-    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file deduplication_checker.cpp
- * @brief Content deduplication via perceptual hashing (pHash for images,
- *        MinHash + band-LSH for text).
- *
- * pHash index: persisted in RocksDB under keys "phash_idx:<hex16>".
- * MinHash band-LSH index: backed by BoundedLRUCache for O(1) lookup and
- *   automatic LRU eviction.  Keys: "b<band>:<hash_hex16>"; values: content_id.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/deduplication_checker.h"

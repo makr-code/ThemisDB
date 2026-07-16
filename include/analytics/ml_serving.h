@@ -1,24 +1,21 @@
+/**
+ * @file ml_serving.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ml_serving.h                                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 197b8b5b1  2026-02-24  feat(analytics): integrate ONNX Runtime and TensorFlow Se... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ml_serving.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 348
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2760 feat(analytics): Integrate ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -147,13 +144,13 @@ public:
     virtual ~IMLServingBackend() = default;
 
     /** Human-readable name of this backend (e.g. "ONNX Runtime 1.17.0"). */
-    virtual std::string backendName() const = 0;
+    [[nodiscard]] virtual std::string backendName() const = 0;
 
     /** Returns true if the backend is usable (libraries found, server reachable, etc.). */
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 
     /** Run synchronous inference. */
-    virtual MLServingResponse infer(const MLServingRequest& req) = 0;
+    [[nodiscard]] virtual MLServingResponse infer(const MLServingRequest& req) = 0;
 };
 
 // ============================================================================
@@ -359,3 +356,4 @@ std::string mlBackendTypeName(MLBackendType type);
 
 } // namespace analytics
 } // namespace themisdb
+

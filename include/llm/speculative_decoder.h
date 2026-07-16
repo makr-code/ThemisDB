@@ -1,56 +1,22 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            speculative_decoder.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     199                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 747406559  2026-02-28  fix(llm): code audit — thread safety, seed truncation, re... ║
-    • 3ec167f3d  2026-02-28  feat(llm): implement speculative decoding for latency red... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include <vector>
-#include <random>
-#include <atomic>
-#include <mutex>
-#include <cstdint>
 
 /**
  * @file speculative_decoder.h
- * @brief Speculative decoding acceptance/rejection loop for latency reduction.
- *
- * Implements the draft-model verification algorithm from:
- *   Leviathan et al., "Fast Inference from Transformers via Speculative Decoding",
- *   ICML 2023 (https://arxiv.org/abs/2211.17192).
- *
- * Algorithm:
- *   1. A small draft model proposes K candidate tokens with probabilities q(t|ctx).
- *   2. The target model evaluates positions 1…K+1 in a single forward pass,
- *      producing probabilities p(t|ctx).
- *   3. For each draft token t̃ᵢ (i = 1..K):
- *      - Draw r ~ Uniform(0,1).
- *      - If r ≤ p(t̃ᵢ)/q(t̃ᵢ): accept t̃ᵢ and advance context.
- *      - Otherwise: resample a correction token from the adjusted distribution
- *        p'(t) = normalize(max(0, p(t) − q(t))) and stop.
- *   4. If all K draft tokens were accepted: sample one additional token from p.
- *
- * Consumer: InferenceEngineEnhanced (draft-model path).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <algorithm>
+#include <cstdint>
+#include <mutex>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -65,6 +31,7 @@ namespace llm {
  */
 class SpeculativeDecoder {
 public:
+    virtual ~SpeculativeDecoder() = default;
     // ── Configuration ────────────────────────────────────────────────
 
     struct Config {
@@ -77,6 +44,20 @@ public:
 
         /// RNG seed for reproducibility in tests.  0 = use random seed.
         uint64_t rng_seed = 0;
+
+        /**
+         * @brief Remote draft shard identifier for cross-shard speculative decoding.
+         *
+         * When non-empty this field holds the shard address used to contact a
+         * lightweight draft model running on a remote ThemisDB shard (e.g.
+         * "shard-a:model:mistral-7b-q4").  The InferenceEngineEnhanced is
+         * expected to use RemoteExecutor to forward draft-token requests to
+         * that shard.  Falls back to the local draft model when the field is
+         * empty or the remote shard is unavailable.
+         *
+         * Format: "<shard_id>:model:<model_id>"   (colon-separated)
+         */
+        std::string remote_draft_shard_id;
     };
 
     // ── Result of one verify() call ──────────────────────────────────
@@ -117,7 +98,11 @@ public:
 
     // ── Lifecycle ────────────────────────────────────────────────────
 
-    explicit SpeculativeDecoder(const Config& config = {});
+    SpeculativeDecoder();
+    explicit SpeculativeDecoder(const Config& config);
+
+    /// Read-only access to the active configuration.
+    const Config& getConfig() const noexcept { return config_; }
 
     // ── Core interface ───────────────────────────────────────────────
 
@@ -198,3 +183,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

@@ -1,89 +1,61 @@
-# LLM Module - Future Header Enhancements
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-03-09 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
-<!-- Links: ../../src/llm/FUTURE_ENHANCEMENTS.md · ../../src/llm/README.md · ../../src/llm/ROADMAP.md -->
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/llm/FUTURE_ENHANCEMENTS.md -->
+
+# LLM Module — Public Header Future Enhancements
+
+**Module Path:** `include/llm/`
+**Canonical implementation enhancements:** [`../../src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Scope
 
-The following interface enhancements were planned in this document. Most have been implemented in v1.15.0–v1.16.0:
+Planned enhancements to the **public header contract** in `include/llm/`. Runtime inference internals, LoRA hot-swap mechanics, paged-allocator implementation, and GPU memory coordinator work remain tracked in:
 
-- `IInferenceEngine::submitStreaming()` — **implemented** in `async_inference_engine.h` / `inference_engine_enhanced.h` (`StreamingCallback` = `std::function<void(std::string_view, bool)>`)
-- OpenAI-compatible chat completions adapter — **implemented** in `include/llm/openai_compat_adapter.h` + `src/llm/openai_compat_adapter.cpp`
-- LoRA adapter hot-swap — **implemented** via `InferenceEngineEnhanced::loadLoRAAdapter()` / `unloadLoRAAdapter()` (`include/llm/inference_engine_enhanced.h`)
-- Shared worker pool — **implemented** in `include/llm/shared_worker_pool.h` + `src/llm/shared_worker_pool.cpp`
-- Adapter load balancer — **implemented** in `include/llm/adapter_load_balancer.h`
+→ [`../../src/llm/FUTURE_ENHANCEMENTS.md`](../../src/llm/FUTURE_ENHANCEMENTS.md)
 
-Remaining planned work: see `src/llm/FUTURE_ENHANCEMENTS.md` (federated inference, Issue #1928).
+---
 
 ## Design Constraints
 
-- [x] Streaming interface uses a callback (`StreamingCallback`); pull-based `IStreamingTokenIterator` remains an alternative design considered but not adopted
-- [x] OpenAI compatibility layer is opt-in via `THEMIS_ENABLE_OPENAI_COMPAT`; default builds do not expose it
-- [x] LoRA hot-swap is atomic: the swap completes between generation steps and no mid-generation adapter change is permitted
-- [x] Adapter registry is thread-safe for concurrent reads; writes are serialized via internal locking
-- [x] Worker pool configuration is injected at engine construction time; reconfiguration requires a new engine instance
-- [x] `AdapterLoadBalancer` selection policy is pluggable
+- `[x]` Inference engine headers must define stable request/response contracts; GGUF and engine internals must remain opaque.
+- `[x]` Paged KV-cache headers must expose allocation and eviction contracts without leaking physical block layout.
+- `[x]` LoRA adapter headers must enforce security validation before any hot-swap operation.
+- `[x]` Ethics and safety headers must enforce fail-closed behaviour for policy-violating inputs.
+- `[x]` `IFederatedInferenceBackend` and `ILLMPlugin` must remain stable extension points for embedders.
 
-## Required Interfaces
+---
 
-| Interface | Consumer | Status |
-|---|---|---|
-| `IInferenceEngine::submitStreaming()` | HTTP SSE writer, OpenAI compat adapter | ✅ Implemented (`async_inference_engine.h`, `inference_engine_enhanced.h`) |
-| `OpenAICompatAdapter` | OpenAI-compatible REST endpoint | ✅ Implemented (`openai_compat_adapter.h`) |
-| `InferenceEngineEnhanced::loadLoRAAdapter()` | Fine-tune deployment, A/B testing | ✅ Implemented (`inference_engine_enhanced.h`) |
-| `AdapterLoadBalancer` | Multi-instance inference dispatcher | ✅ Implemented (`adapter_load_balancer.h`) |
-| `SharedWorkerPool` | Inference thread pool | ✅ Implemented (`shared_worker_pool.h`) |
+## Required Interfaces (Header Contract)
 
-## Implemented Features
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `LlamaCppInferenceEngine` infer API | `llamacpp_inference_engine.h` | Server and RAG pipeline | ✅ Stable |
+| `PagedKVCacheManager` alloc/evict | `paged_kv_cache_manager.h` | Batch scheduler | ✅ Stable |
+| `LoRARouter` route API | `lora_router.h` | Multi-adapter serving layer | ✅ Stable |
+| `OpenAICompatAdapter` request/response | `openai_compat_adapter.h` | API gateway | ✅ Stable |
+| `ConstitutionalReasoningEngine` evaluate | `constitutional_reasoning_engine.h` | Safety middleware | ✅ Stable |
 
-### Streaming Token Output Interface ✅
+---
 
-- [x] `IInferenceEngine::submitStreaming(request, TokenCallback)` defined in both engines
-- [x] `TokenCallback` is `std::function<void(std::string_view token, bool is_final)>`
-- [x] `cancel()` is non-blocking via shared atomic cancel token; generation stops at the next token boundary
-- [x] Returns an `InferenceHandle` from `submitStreaming()` for cancellation
+## Planned Enhancements
 
-### OpenAI-Compatible Adapter API ✅
+### Short-Term (Q3 2026)
 
-- [x] `OpenAICompatAdapter` implemented (`openai_compat_adapter.h` / `.cpp`)
-- [x] Maps `POST /v1/chat/completions` JSON body including `messages`, `temperature`, `max_tokens`, `stream`, `stop`, `tools`
-- [x] `stream=true` routes to `submitStreaming()` and emits SSE chunks
-- [x] Guarded by `THEMIS_ENABLE_OPENAI_COMPAT`
+- Document GPU-fallback paths and capability requirements across VRAM allocator and GPU-safe-fail headers.
+- Align `IFederatedInferenceBackend` contract with cross-shard coordinator expectations from `include/sharding/`.
+- Add explicit stability annotations to experimental `inline_training_engine.h` and `speculative_decoder.h` APIs.
 
-### LoRA Adapter Hot-Swap Interface ✅
+### Medium-Term (Q4 2026)
 
-- [x] `InferenceEngineEnhanced::loadLoRAAdapter(adapter_id, weights_path, metadata)` implemented
-- [x] `unloadLoRAAdapter(adapter_id, wait_for_completion)` implemented
-- [x] `getLoadedLoRAAdapters()` returns metadata for all registered adapters
-- [x] Swap is atomic between generation steps
+- Introduce `llm_policy.h` to provide per-request resource quotas, safety gates, and access-policy contract.
+- Expose benchmark-reference throughput and latency targets for paged-KV-cache, continuous batching, and Gorilla-encoded KV prefix transfer hot paths.
+- Deprecate any legacy fixed-batch inference paths superseded by continuous batching and annotate migration paths.
 
-### Shared Worker Pool ✅
+### Long-Term
 
-- [x] `SharedWorkerPool` implemented in `shared_worker_pool.h` / `.cpp`
-- [x] Work-stealing thread pool shared between `AsyncInferenceEngine` and `InferenceEngineEnhanced`
-
-### Speculative Decoding Hook ✅
-
-- [x] `SpeculativeDecoder` implemented in `speculative_decoder.h` / `.cpp`
-
-## Test Strategy
-
-- Unit-test streaming with a mock adapter: verify token ordering, `is_final=true` termination, and `cancel()` stopping generation (tests/llm/test_streaming_handler.cpp)
-- Test `OpenAICompatAdapter` request/response mapping (tests/llm/test_openai_compat_adapter.cpp)
-- Integration-test LoRA hot-loading: load adapter, begin generation, unload (tests/llm/test_lora_hot_loading.cpp)
-- Compile-flag test: build with and without `THEMIS_ENABLE_OPENAI_COMPAT`
-
-## Performance Targets
-
-- Token streaming first-token latency ≤ 200 ms on a 7B-parameter model on A10G
-- LoRA adapter load (`loadLoRAAdapter()`) ≤ 5 s for rank-64 adapter
-- Adapter selection (`AdapterLoadBalancer`) ≤ 100 µs
-- Worker pool dispatch overhead ≤ 50 µs p99
-
-## Security / Reliability
-
-- LLM input prompts are sanitized for prompt-injection patterns via `llm_security_utils.h` before dispatch
-- Model weights are never exposed through any public interface method
-- `loadLoRAAdapter()` accepts only paths within the configured `adapter_load_dir`
-- Inference output is filtered for PII before tokens are yielded by streaming callbacks; filtering is configurable but enabled by default
-- `AdapterLoadBalancer` enforces a maximum queue depth per adapter; requests exceeding the limit return an error rather than blocking indefinitely
+- Unify all inference result types behind a shared generation-context envelope for consistent consumer integration.
+- Add structured token-budget and quota extension hooks for embedders consuming `token_quota_manager.h`.
+- Provide inference explain output via `inference_engine_enhanced.h` to surface scheduling and KV-eviction decisions to consumers.

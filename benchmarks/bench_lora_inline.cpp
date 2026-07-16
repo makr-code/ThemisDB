@@ -1,27 +1,13 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_lora_inline.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     165                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_lora_inline.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <benchmark/benchmark.h>
+#include "benchmark_artifact_preflight.h"
 #include "llm/multi_lora_manager.h"
 #include <chrono>
 #include <string>
@@ -43,13 +29,15 @@ MultiLoRAManager::Config benchConfig() {
 }
 
 static void BM_LoRA_LoadUnload(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(benchConfig());
     const std::string base_model = "bench-base";
     int counter = 0;
 
     for (auto _ : state) {
         auto id = "bench-lora-" + std::to_string(counter++);
-        mgr.loadLoRA(id, "/loras/" + id + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(id, lora_path, base_model, 1.0f);
         benchmark::DoNotOptimize(mgr.listLoRAs().size());
         mgr.unloadLoRA(id, true);
     }
@@ -59,11 +47,13 @@ static void BM_LoRA_LoadUnload(benchmark::State& state) {
 BENCHMARK(BM_LoRA_LoadUnload);
 
 static void BM_LoRA_Switching(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(benchConfig());
     const std::string base_model = "bench-base";
     std::vector<std::string> ids = {"alpha", "beta", "gamma", "delta"};
     for (const auto& id : ids) {
-        mgr.loadLoRA(id, "/loras/" + id + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(id, lora_path, base_model, 1.0f);
     }
 
     size_t idx = 0;
@@ -81,11 +71,13 @@ static void BM_LoRA_Switching(benchmark::State& state) {
 BENCHMARK(BM_LoRA_Switching);
 
 static void BM_LoRA_ExportImport(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager source(benchConfig());
     MultiLoRAManager sink(benchConfig());
     const std::string base_model = "bench-base";
 
-    source.loadLoRA("export-src", "/loras/export-src.bin", base_model, 1.0f);
+    source.loadLoRA("export-src", lora_path, base_model, 1.0f);
     auto payload = source.exportLoRA("export-src");
 
     for (auto _ : state) {
@@ -119,11 +111,13 @@ static void BM_LoRA_InferenceWithoutAdapter(benchmark::State& state) {
 BENCHMARK(BM_LoRA_InferenceWithoutAdapter);
 
 static void BM_LoRA_InferenceWithAdapter(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(benchConfig());
     const std::string base_model = "bench-base";
 
     // Load adapter first
-    mgr.loadLoRA("bench-adapter", "/loras/bench.bin", base_model, 1.0f);
+    mgr.loadLoRA("bench-adapter", lora_path, base_model, 1.0f);
 
     size_t counter = 0;
     for (auto _ : state) {
@@ -142,12 +136,14 @@ static void BM_LoRA_InferenceWithAdapter(benchmark::State& state) {
 BENCHMARK(BM_LoRA_InferenceWithAdapter);
 
 static void BM_LoRA_ConcurrentAdapterSwitching(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(benchConfig());
     const std::string base_model = "bench-base";
     
     std::vector<std::string> adapters = {"adapter-1", "adapter-2", "adapter-3"};
     for (const auto& id : adapters) {
-        mgr.loadLoRA(id, "/loras/" + id + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(id, lora_path, base_model, 1.0f);
     }
 
     size_t idx = 0;

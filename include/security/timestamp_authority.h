@@ -1,23 +1,20 @@
+/**
+ * @file timestamp_authority.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timestamp_authority.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     291                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: timestamp_authority.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +25,8 @@
 #include <optional>
 #include <cstdint>
 #include <chrono>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace security {
@@ -153,6 +152,14 @@ struct TimestampToken {
  */
 class TimestampAuthority {
 public:
+    using GetTimestampForHashFn =
+        std::function<TimestampToken(const std::vector<uint8_t>& hash,
+                                     const TSAConfig& config)>;
+    using VerifyTimestampForHashFn =
+        std::function<bool(const std::vector<uint8_t>& hash,
+                           const TimestampToken& token,
+                           const TSAConfig& config)>;
+
     explicit TimestampAuthority(TSAConfig config);
     ~TimestampAuthority();
 
@@ -221,7 +228,36 @@ public:
      */
     std::string getLastError() const;
 
+    /// Register a stamping bridge for non-OpenSSL TSA builds.
+    /// Thread-safe; pass an empty function to restore the deterministic fallback.
+    static void setGetTimestampForHashFn(GetTimestampForHashFn fn) {
+        std::lock_guard<std::mutex> lk(getTimestampForHashFnMutex());
+        getTimestampForHashFnStorage() = std::move(fn);
+    }
+    /// Register a verification bridge for non-OpenSSL TSA builds.
+    /// Thread-safe; pass an empty function to restore the built-in fallback.
+    static void setVerifyTimestampForHashFn(VerifyTimestampForHashFn fn) {
+        std::lock_guard<std::mutex> lk(verifyTimestampForHashFnMutex());
+        verifyTimestampForHashFnStorage() = std::move(fn);
+    }
+
 private:
+    static std::mutex& getTimestampForHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static GetTimestampForHashFn& getTimestampForHashFnStorage() {
+        static GetTimestampForHashFn fn;
+        return fn;
+    }
+    static std::mutex& verifyTimestampForHashFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static VerifyTimestampForHashFn& verifyTimestampForHashFnStorage() {
+        static VerifyTimestampForHashFn fn;
+        return fn;
+    }
     class Impl;
     std::unique_ptr<Impl> impl_;
     TSAConfig config_;
@@ -254,6 +290,29 @@ private:
 class eIDASTimestampValidator {
 public:
     eIDASTimestampValidator() = default;
+
+    // -----------------------------------------------------------------------
+    // Injectable validation bridge (STUB #213 / #214)
+    // -----------------------------------------------------------------------
+    using ValidateFn = std::function<bool(const TimestampToken& token,
+                                          const std::vector<std::string>& trust_anchors,
+                                          std::vector<std::string>& validation_errors)>;
+    using QualifiedTSAFn = std::function<bool(const std::string& tsa_cert,
+                                              const std::vector<std::string>& qtsp_list,
+                                              std::vector<std::string>& validation_errors)>;
+
+    /// Register callback used by validateeIDASTimestamp() in non-OpenSSL builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setValidateFn(ValidateFn fn) {
+        std::lock_guard<std::mutex> lk(validateFnMutex());
+        validateFnStorage() = std::move(fn);
+    }
+    /// Register callback used by isQualifiedTSA() in non-OpenSSL builds.
+    /// Pass empty fn to restore default stub behavior.
+    static void setQualifiedTSAFn(QualifiedTSAFn fn) {
+        std::lock_guard<std::mutex> lk(qualifiedTSAFnMutex());
+        qualifiedTSAFnStorage() = std::move(fn);
+    }
     
     /**
      * Validate timestamp for eIDAS compliance
@@ -285,6 +344,24 @@ public:
      * Get validation errors
      */
     std::vector<std::string> getValidationErrors() const;
+
+private:
+    static std::mutex& validateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static ValidateFn& validateFnStorage() {
+        static ValidateFn fn;
+        return fn;
+    }
+    static std::mutex& qualifiedTSAFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static QualifiedTSAFn& qualifiedTSAFnStorage() {
+        static QualifiedTSAFn fn;
+        return fn;
+    }
 
 private:
     std::vector<std::string> validation_errors_;

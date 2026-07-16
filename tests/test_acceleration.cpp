@@ -1,33 +1,16 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_acceleration.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     746                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9724334d6  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
-    • e86b6edc7  2026-02-23  feat(acceleration): add BatchValidator and strict input v... ║
-    • 5beb49623  2026-02-23  fix(acceleration): add input validation, RAII memory mana... ║
-    • 4832a283a  2026-02-23  feat(acceleration): implement CUDA inner product kernel a... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_acceleration.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/cuda_backend.h"
+#include "acceleration/ai_hardware_dispatcher.h"
 #include <vector>
 #include <cmath>
 #include <limits>
@@ -544,6 +527,8 @@ TEST_F(AccelerationTest, CPUGraph_BatchShortestPath_ZeroNumPairsReturnsEmpty) {
     auto result = backend.batchShortestPath(adj, weights, 4, starts, ends, 0);
     EXPECT_TRUE(result.empty());
     EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
 // ============================================================================
 // Deterministic Tie-Breaking Tests (Issue #1388)
 // ============================================================================
@@ -743,4 +728,224 @@ TEST_F(AccelerationTest, PartialFailure_AllInvalidQueriesReturnZeroSuccess) {
     }
 
     backend->shutdown();
+}
+
+// ============================================================================
+// CUDAGraphBackend — structural and validation tests
+//
+// These tests exercise CUDAGraphBackend without requiring GPU hardware.
+// Hardware-dependent paths are skipped gracefully when no CUDA device is
+// present (consistent with the rest of the CUDA test suite).
+// ============================================================================
+
+TEST(CUDAGraphBackendTest, IsAvailable_ReturnsCorrectType) {
+    CUDAGraphBackend backend;
+    EXPECT_EQ(backend.type(), BackendType::CUDA);
+    EXPECT_STREQ(backend.name(), "CUDA");
+    // isAvailable() returns true iff a CUDA device is present — just ensure
+    // it does not crash regardless of hardware.
+    (void)backend.isAvailable();
+}
+
+TEST(CUDAGraphBackendTest, GetCapabilities_SupportsGraphOps) {
+#ifdef THEMIS_ENABLE_CUDA
+    CUDAGraphBackend backend;
+    const auto caps = backend.getCapabilities();
+    EXPECT_TRUE(caps.supportsGraphOps);
+#else
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
+#endif
+}
+
+TEST(CUDAGraphBackendTest, Initialize_FailsWithoutHardware) {
+#ifdef THEMIS_ENABLE_CUDA
+    CUDAGraphBackend backend;
+    if (backend.isAvailable()) {
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_hardware_present";
+    }
+    EXPECT_FALSE(backend.initialize());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+#else
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
+#endif
+}
+
+TEST(CUDAGraphBackendTest, BatchBFS_NullAdjacencyReturnsEmpty) {
+    CUDAGraphBackend backend;
+    const uint32_t starts[] = {0u};
+    // Validation must reject null adjacency even before GPU dispatch
+    auto result = backend.batchBFS(nullptr, 4, starts, 1, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST(CUDAGraphBackendTest, BatchBFS_ZeroNumStartsReturnsEmpty) {
+    CUDAGraphBackend backend;
+    const uint32_t adj[] = {0u};
+    const uint32_t starts[] = {0u};
+    auto result = backend.batchBFS(adj, 4, starts, 0, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST(CUDAGraphBackendTest, BatchBFS_ZeroNumVerticesReturnsEmpty) {
+    CUDAGraphBackend backend;
+    const uint32_t adj[] = {0u};
+    const uint32_t starts[] = {0u};
+    auto result = backend.batchBFS(adj, 0, starts, 1, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST(CUDAGraphBackendTest, BatchShortestPath_NullAdjacencyReturnsEmpty) {
+    CUDAGraphBackend backend;
+    const float weights[] = {1.f};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[]   = {1u};
+    auto result = backend.batchShortestPath(nullptr, weights, 4, starts, ends, 1);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST(CUDAGraphBackendTest, BatchShortestPath_NullWeightsReturnsEmpty) {
+    CUDAGraphBackend backend;
+    const uint32_t adj[] = {0u};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[]   = {1u};
+    auto result = backend.batchShortestPath(adj, nullptr, 4, starts, ends, 1);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST(CUDAGraphBackendTest, BatchShortestPath_ZeroNumPairsReturnsEmpty) {
+    CUDAGraphBackend backend;
+    const uint32_t adj[] = {0u};
+    const float weights[] = {1.f};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[]   = {1u};
+    auto result = backend.batchShortestPath(adj, weights, 4, starts, ends, 0);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_StartVertexAlwaysVisited) {
+    // If a CUDA GPU is available and the backend initialises successfully,
+    // every start vertex must appear in the corresponding BFS result.
+#ifdef THEMIS_ENABLE_CUDA
+    CUDAGraphBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
+    }
+
+    // 4-vertex graph: 0→1, 1→2, 2→3 (linear chain)
+    // Represented as dense 4×4 adjacency matrix (row = src, col = dst)
+    const size_t N = 4;
+    uint32_t adj[N * N] = {};
+    adj[0 * N + 1] = 1;  // 0 → 1
+    adj[1 * N + 2] = 1;  // 1 → 2
+    adj[2 * N + 3] = 1;  // 2 → 3
+
+    const uint32_t starts[] = {0u, 2u};
+    auto results = backend.batchBFS(adj, N, starts, 2, 3);
+
+    ASSERT_EQ(results.size(), 2u);
+
+    // BFS from vertex 0: should visit 0, 1, 2, 3 (within depth 3)
+    EXPECT_FALSE(results[0].empty());
+    EXPECT_NE(std::find(results[0].begin(), results[0].end(), 0u),
+              results[0].end());  // start vertex always present
+
+    // BFS from vertex 2: should visit 2, 3 (within depth 1)
+    EXPECT_FALSE(results[1].empty());
+    EXPECT_NE(std::find(results[1].begin(), results[1].end(), 2u),
+              results[1].end());
+
+    backend.shutdown();
+#else
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
+#endif
+}
+
+TEST(CUDAGraphBackendTest, BatchShortestPath_WithHardware_LinearChain) {
+    // On a linear chain 0→1→2→3 with unit weights, the shortest path from
+    // vertex 0 to vertex 3 must be [0, 1, 2, 3].
+#ifdef THEMIS_ENABLE_CUDA
+    CUDAGraphBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
+    }
+
+    const size_t N = 4;
+    uint32_t adj[N * N] = {};
+    float wgt[N * N]    = {};
+    adj[0 * N + 1] = 1;  wgt[0 * N + 1] = 1.0f;
+    adj[1 * N + 2] = 1;  wgt[1 * N + 2] = 1.0f;
+    adj[2 * N + 3] = 1;  wgt[2 * N + 3] = 1.0f;
+
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[]   = {3u};
+    auto results = backend.batchShortestPath(adj, wgt, N, starts, ends, 1);
+
+    ASSERT_EQ(results.size(), 1u);
+    ASSERT_EQ(results[0].size(), 4u);
+    EXPECT_EQ(results[0][0], 0u);
+    EXPECT_EQ(results[0][1], 1u);
+    EXPECT_EQ(results[0][2], 2u);
+    EXPECT_EQ(results[0][3], 3u);
+
+    backend.shutdown();
+#else
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
+#endif
+}
+
+TEST(CUDAGraphBackendTest, BatchBFS_WithHardware_GraphCaptureReusesSameResults) {
+    // Calling batchBFS twice with the same shape must produce identical results
+    // (graph cache replay must be functionally equivalent to first capture).
+#ifdef THEMIS_ENABLE_CUDA
+    CUDAGraphBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
+    }
+
+    const size_t N = 3;
+    uint32_t adj[N * N] = {};
+    adj[0 * N + 1] = 1;
+    adj[1 * N + 2] = 1;
+
+    const uint32_t starts[] = {0u};
+
+    auto results1 = backend.batchBFS(adj, N, starts, 1, 2);
+    auto results2 = backend.batchBFS(adj, N, starts, 1, 2);
+
+    ASSERT_EQ(results1.size(), results2.size());
+    for (size_t s = 0; s < results1.size(); ++s) {
+        EXPECT_EQ(results1[s], results2[s]);
+    }
+
+    backend.shutdown();
+#else
+    GTEST_SKIP() << "capability:cuda_compiled=false;reason=cuda_not_compiled";
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// AiHardwareDispatcher::logCapabilities — minimum coverage
+// (UNUSED_FUNCTIONS_REPORT KEEP → NUR_TESTS, Target v1.4.0)
+// ---------------------------------------------------------------------------
+
+// LC-01: logCapabilities() does not throw and returns successfully.
+TEST(AiHardwareDispatcherTest, LC01_LogCapabilitiesDoesNotThrow) {
+    EXPECT_NO_THROW({
+        themis::acceleration::AiHardwareDispatcher::instance().logCapabilities();
+    });
+}
+
+// LC-02: logCapabilities() can be called multiple times without crashing.
+TEST(AiHardwareDispatcherTest, LC02_LogCapabilitiesIdempotent) {
+    auto& disp = themis::acceleration::AiHardwareDispatcher::instance();
+    EXPECT_NO_THROW({
+        disp.logCapabilities();
+        disp.logCapabilities();
+    });
 }

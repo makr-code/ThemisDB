@@ -1,3 +1,5 @@
+> **Build + Test:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release && ctest --preset linux-ninja-release`
+
 # Model Loading from ThemisDB - Tests
 
 This directory contains comprehensive tests for the native model loading functionality from ThemisDB blob storage.
@@ -246,10 +248,10 @@ When adding new tests:
 
 ## Related Documentation
 
-- [Implementation Summary](../../../IMPLEMENTATION_COMPLETE_MODEL_LOADING.md)
-- [Usage Examples](../../../docs/examples/load_model_from_themisdb_example.md)
-- [LLM Module Guide](../../../docs/de/llm/LLM_LOADER_GUIDE.md)
-- [Blob Storage Architecture](../../../docs/storage/blob_storage.md)
+- [Implementation Summary](../../docs/en/llm/LLM_IMPLEMENTATION_COMPLETE.md)
+- [Usage Examples](../../docs/examples/load_model_from_themisdb_example.md)
+- [LLM Module Guide](../../docs/de/llm/LLM_LOADER_GUIDE.md)
+- [Blob Storage Architecture](../../docs/storage/CLOUD_BLOB_BACKENDS.md)
 
 ## Contact
 

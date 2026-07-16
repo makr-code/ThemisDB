@@ -1,27 +1,20 @@
+/**
+ * @file updates_config.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            updates_config.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     158                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 02c0a65e1  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
-    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
-    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: updates_config.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -133,7 +126,33 @@ struct UpdatesConfig {
          */
         ::themis::updates::CanaryConfig toCanaryConfig(const std::string& version) const;
     } canary;
-    
+
+    // Anonymous Hardware Telemetry Settings
+    struct TelemetryConfig {
+        bool enabled = false;                  // Master on/off – opt-in only
+
+        // HTTP(S) endpoint that receives the JSON telemetry payload.
+        // Override this in updates.yaml to point at your own collector.
+        std::string endpoint_url = "https://api.themisdb.org/telemetry.php";
+
+        // How often to send a report (seconds).  Minimum enforced: 86400 (24 h).
+        int send_interval_seconds = 86400;
+
+        // Fine-grained field switches – all default to true when telemetry
+        // is enabled, so operators can strip individual fields if desired.
+        bool include_cpu_model = true;
+        bool include_cpu_cores = true;
+        bool include_ram_mb    = true;
+        bool include_os        = true;
+        bool include_arch      = true;
+
+        // HTTP timeout per send attempt (seconds).
+        int http_timeout_seconds = 10;
+
+        // Maximum number of consecutive send retries before skipping an interval.
+        int max_retries = 2;
+    } telemetry;
+
     /**
      * @brief Load configuration from YAML file
      */

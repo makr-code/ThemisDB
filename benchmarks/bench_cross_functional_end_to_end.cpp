@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_cross_functional_end_to_end.cpp              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     540                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_cross_functional_end_to_end.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -35,7 +20,9 @@
  */
 
 #include <benchmark/benchmark.h>
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
 #include "voice/voice_assistant.h"
+#endif
 #include "plugins/plugin_manager.h"
 #include "observability/metrics_collector.h"
 #include <nlohmann/json.hpp>
@@ -43,7 +30,9 @@
 #include <fstream>
 #include <random>
 
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
 using namespace themis::voice;
+#endif
 using namespace themis::plugins;
 using namespace themis::observability;
 using json = nlohmann::json;
@@ -53,6 +42,7 @@ namespace fs = std::filesystem;
 // Setup Utilities
 // ============================================================================
 
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
 VoiceAssistant::Config createVoiceConfig() {
     VoiceAssistant::Config config;
     config.stt_model_path = "/tmp/bench_stt";
@@ -62,6 +52,7 @@ VoiceAssistant::Config createVoiceConfig() {
     config.enable_revision_control = true;
     return config;
 }
+#endif
 
 std::vector<uint8_t> generateMockAudio(size_t size) {
     std::vector<uint8_t> audio(size);
@@ -90,6 +81,7 @@ void createPluginManifest(const std::string& dir, const std::string& name, Plugi
 // Voice + Observability + Storage Benchmarks
 // ============================================================================
 
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
 static void BM_VoiceCommandWithMetrics(benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
@@ -233,6 +225,7 @@ BENCHMARK(BM_AudioConversionWithMetrics)
     ->Arg(10)
     ->Arg(100)
     ->Arg(1024);
+#endif
 
 // ============================================================================
 // Plugin + Query + Metrics Benchmarks
@@ -257,8 +250,14 @@ static void BM_PluginDiscoveryWithMetrics(benchmark::State& state) {
         state.ResumeTiming();
         
         auto start = std::chrono::steady_clock::now();
-        size_t count = manager.scanPluginDirectory(plugin_dir);
+        auto scan_result = manager.scanPluginDirectory(plugin_dir);
         auto end = std::chrono::steady_clock::now();
+
+        if (!scan_result) {
+            state.SkipWithError("scanPluginDirectory failed");
+            break;
+        }
+        size_t count = *scan_result;
         
         auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         metrics.recordQuery("plugin_discovery", duration_ms, count);
@@ -286,7 +285,12 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
     }
     
     PluginManager manager;
-    manager.scanPluginDirectory(plugin_dir);
+    auto scan_result = manager.scanPluginDirectory(plugin_dir);
+    if (!scan_result) {
+        state.SkipWithError("scanPluginDirectory failed");
+        fs::remove_all(plugin_dir);
+        return;
+    }
     
     auto& metrics = MetricsCollector::getInstance();
     
@@ -297,7 +301,7 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
         
         // Query all plugins
         auto start = std::chrono::steady_clock::now();
-        auto all_plugins = manager.getAllPlugins();
+        auto all_plugins = manager.listPlugins();
         auto end = std::chrono::steady_clock::now();
         
         auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -307,7 +311,13 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
         // Query by type
         for (int i = 0; i < 4; i++) {
             start = std::chrono::steady_clock::now();
-            auto typed = manager.getPluginsByType(static_cast<PluginType>(i));
+            std::vector<PluginManifest> typed;
+            typed.reserve(all_plugins.size());
+            for (const auto& plugin : all_plugins) {
+                if (plugin.type == static_cast<PluginType>(i)) {
+                    typed.push_back(plugin);
+                }
+            }
             end = std::chrono::steady_clock::now();
             
             duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -333,7 +343,13 @@ static void BM_PluginInfoCacheWithMetrics(benchmark::State& state) {
     }
     
     PluginManager manager;
-    manager.scanPluginDirectory(plugin_dir);
+    auto scan_result = manager.scanPluginDirectory(plugin_dir);
+    if (!scan_result) {
+        state.SkipWithError("scanPluginDirectory failed");
+        fs::remove_all(plugin_dir);
+        return;
+    }
+    auto manifests = manager.listPlugins();
     
     auto& metrics = MetricsCollector::getInstance();
     
@@ -348,11 +364,13 @@ static void BM_PluginInfoCacheWithMetrics(benchmark::State& state) {
                 std::string name = "cache_plugin" + std::to_string(i);
                 
                 auto start = std::chrono::steady_clock::now();
-                auto info = manager.getPluginInfo(name);
+                auto info = std::find_if(manifests.begin(), manifests.end(), [&name](const PluginManifest& manifest) {
+                    return manifest.name == name;
+                });
                 auto end = std::chrono::steady_clock::now();
                 
                 auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
-                metrics.recordQuery("plugin_info", duration_ms, 1);
+                metrics.recordQuery("plugin_info", duration_ms, info != manifests.end() ? 1 : 0);
                 
                 if (round > 0) {
                     metrics.recordCacheHit("plugin_cache");
@@ -372,6 +390,7 @@ BENCHMARK(BM_PluginInfoCacheWithMetrics);
 // Multi-Component Realistic Workflows
 // ============================================================================
 
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
 static void BM_CompleteVoiceWorkflowWithMetrics(benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
@@ -423,6 +442,7 @@ static void BM_CompleteVoiceWorkflowWithMetrics(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_CompleteVoiceWorkflowWithMetrics);
+#endif
 
 static void BM_CompletePluginWorkflowWithMetrics(benchmark::State& state) {
     std::string plugin_dir = "/tmp/bench_plugin_workflow";
@@ -444,32 +464,48 @@ static void BM_CompletePluginWorkflowWithMetrics(benchmark::State& state) {
         auto start = std::chrono::steady_clock::now();
         
         // Step 1: Discovery
-        size_t count = manager.scanPluginDirectory(plugin_dir);
+        auto scan_result = manager.scanPluginDirectory(plugin_dir);
         auto t1 = std::chrono::steady_clock::now();
+
+        if (!scan_result) {
+            state.SkipWithError("scanPluginDirectory failed");
+            break;
+        }
+        size_t count = *scan_result;
         metrics.recordQuery("discovery", std::chrono::duration<double, std::milli>(t1 - start).count(), count);
         
         // Step 2: Query all
-        auto all = manager.getAllPlugins();
+        auto all = manager.listPlugins();
         auto t2 = std::chrono::steady_clock::now();
         metrics.recordQuery("query_all", std::chrono::duration<double, std::milli>(t2 - t1).count(), all.size());
         
         // Step 3: Query by type
         for (int i = 0; i < 4; i++) {
-            auto typed = manager.getPluginsByType(static_cast<PluginType>(i));
-            metrics.recordIndexScan("type_index", typed.size());
+            size_t typed_count = 0;
+            for (const auto& plugin : all) {
+                if (plugin.type == static_cast<PluginType>(i)) {
+                    ++typed_count;
+                }
+            }
+            metrics.recordIndexScan("type_index", typed_count);
         }
         auto t3 = std::chrono::steady_clock::now();
         metrics.recordQuery("query_by_type", std::chrono::duration<double, std::milli>(t3 - t2).count(), 4);
         
         // Step 4: Get individual info
         for (int i = 0; i < 10; i++) {
-            manager.getPluginInfo("workflow_plugin" + std::to_string(i));
+            std::string name = "workflow_plugin" + std::to_string(i);
+            auto info = std::find_if(all.begin(), all.end(), [&name](const PluginManifest& manifest) {
+                return manifest.name == name;
+            });
+            benchmark::DoNotOptimize(info);
         }
         auto t4 = std::chrono::steady_clock::now();
         metrics.recordQuery("info_queries", std::chrono::duration<double, std::milli>(t4 - t3).count(), 10);
         
         // Step 5: Statistics
-        manager.getStatistics();
+        auto loaded = manager.listLoadedPlugins();
+        benchmark::DoNotOptimize(loaded);
         metrics.getPrometheusMetrics();
         auto end = std::chrono::steady_clock::now();
         
@@ -483,8 +519,10 @@ static void BM_CompletePluginWorkflowWithMetrics(benchmark::State& state) {
 BENCHMARK(BM_CompletePluginWorkflowWithMetrics);
 
 static void BM_ConcurrentMultiComponentWorkload(benchmark::State& state) {
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
     auto voice_config = createVoiceConfig();
     VoiceAssistant assistant(voice_config);
+#endif
     
     std::string plugin_dir = "/tmp/bench_concurrent";
     fs::create_directories(plugin_dir);
@@ -493,7 +531,12 @@ static void BM_ConcurrentMultiComponentWorkload(benchmark::State& state) {
     }
     
     PluginManager plugin_manager;
-    plugin_manager.scanPluginDirectory(plugin_dir);
+    auto scan_result = plugin_manager.scanPluginDirectory(plugin_dir);
+    if (!scan_result) {
+        state.SkipWithError("scanPluginDirectory failed");
+        fs::remove_all(plugin_dir);
+        return;
+    }
     
     auto& metrics = MetricsCollector::getInstance();
     
@@ -505,13 +548,16 @@ static void BM_ConcurrentMultiComponentWorkload(benchmark::State& state) {
         // Simulate concurrent operations across components
         auto start = std::chrono::steady_clock::now();
         
+#if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
         // Voice operations
         assistant.processTextCommand("Concurrent test", "session-1");
         metrics.recordQuery("voice", 1.0, 1);
+#endif
         
         // Plugin operations
-        plugin_manager.getAllPlugins();
-        metrics.recordQuery("plugins", 1.0, 20);
+        auto all_plugins = plugin_manager.listPlugins();
+        metrics.recordQuery("plugins", 1.0, all_plugins.size());
+        benchmark::DoNotOptimize(all_plugins);
         
         // Multiple metric recordings
         for (int i = 0; i < 10; i++) {

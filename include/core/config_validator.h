@@ -1,27 +1,21 @@
+/**
+ * @file config_validator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            config_validator.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     274                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f0410cbb0  2026-02-27  audit(core): wire Jaeger/Zipkin adapters into ConcernsCon... ║
-    • 6dc891cbd  2026-02-24  feat(core): feature flag interface for runtime enable/dis... ║
-    • a3fb23446  2026-02-23  feat(core): add ICircuitBreaker as first-class concern in... ║
-    • 5267c6a29  2026-02-23  feat(core): implement configuration-driven adapter selection ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: config_validator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 276
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4481 feat(core): implement IHeal... (2026-04-09) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #3570 feat(core): dynamic log lev... (2026-03-12) | #2841 [WIP] Add plugin-based adap... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -43,22 +37,44 @@ namespace core {
 class ConfigValidator {
 public:
     /**
-     * @brief Validation result
+     * @brief Validation result returned by configuration checks.
+     *
+     * The result is considered valid only when valid is true and errors is
+     * empty. Warnings do not invalidate the configuration.
      */
     struct ValidationResult {
         bool valid = true;
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
         
+        /**
+         * @brief Record a validation error and mark the result invalid.
+         *
+         * @param error Human-readable error message.
+         */
         void addError(const std::string& error) {
             valid = false;
             errors.push_back(error);
         }
         
+        /**
+         * @brief Record a non-fatal validation warning.
+         *
+         * @param warning Human-readable warning message.
+         */
         void addWarning(const std::string& warning) {
             warnings.push_back(warning);
         }
         
+        /**
+         * @brief Format all validation messages into a single text block.
+         *
+         * Errors are emitted before warnings so callers can present the most
+         * important failures first.
+         *
+         * @return Multi-line summary string suitable for exception messages or
+         *         log output.
+         */
         std::string formatErrors() const {
             std::string result;
             for (const auto& error : errors) {
@@ -73,6 +89,14 @@ public:
     
     /**
      * @brief Validate Vault key provider configuration
+     *
+     * Requires `vault_addr` and `vault_token`. The address must use HTTP or
+     * HTTPS. Missing optional keys are reported as warnings when they imply a
+     * production-hardened default.
+     *
+     * @param config JSON configuration object to validate.
+     * @return ValidationResult with errors for invalid input and warnings for
+     *         risky defaults.
      */
     static ValidationResult validateVaultConfig(const nlohmann::json& config) {
         ValidationResult result;
@@ -106,6 +130,15 @@ public:
     
     /**
      * @brief Validate JWT configuration
+     *
+     * In production mode the validator requires a JWKS URL and issuer, and it
+     * requires an audience when audience validation is enabled. In development
+     * mode the same gaps are downgraded to warnings so the caller can bootstrap
+     * local test environments.
+     *
+     * @param config JWT validator configuration to validate.
+     * @param production_mode Whether production enforcement rules should apply.
+     * @return ValidationResult capturing hard failures and soft warnings.
      */
     static ValidationResult validateJWTConfig(const auth::JWTValidatorConfig& config, bool production_mode) {
         ValidationResult result;
@@ -116,12 +149,16 @@ public:
                 result.addError("JWT jwks_url is required in production mode");
             }
             
-            if (config.expected_issuer.empty()) {
+            if (!config.expected_issuer.has_value()) {
                 result.addError("JWT expected_issuer is required in production mode");
             }
             
-            if (config.expected_audience.empty()) {
-                result.addWarning("JWT expected_audience not set - audience validation disabled");
+            if (!config.expected_audience.has_value()) {
+                if (config.require_audience_validation) {
+                    result.addError("JWT expected_audience is required in production mode");
+                } else {
+                    result.addWarning("JWT expected_audience not set - audience validation disabled");
+                }
             }
         } else {
             // In development, just warnings
@@ -129,7 +166,7 @@ public:
                 result.addWarning("JWT jwks_url not set");
             }
             
-            if (config.expected_issuer.empty()) {
+            if (!config.expected_issuer.has_value()) {
                 result.addWarning("JWT expected_issuer not set - issuer validation disabled");
             }
         }
@@ -148,6 +185,15 @@ public:
     
     /**
      * @brief Validate logging configuration
+     *
+     * Accepts only the canonical log levels used by the runtime logging stack.
+     * An empty pattern is allowed but reported as a warning so callers can fall
+     * back to the default formatter explicitly.
+     *
+     * @param log_level   Requested log level string.
+     * @param log_pattern  Pattern string for the logger backend.
+     * @return ValidationResult with an error for an unknown level and warnings
+     *         for empty or risky settings.
      */
     static ValidationResult validateLogConfig(const std::string& log_level, const std::string& log_pattern) {
         ValidationResult result;
@@ -176,6 +222,15 @@ public:
     
     /**
      * @brief Validate tracing configuration
+     *
+     * Tracing is only valid when the feature is enabled and the endpoint is
+     * provided. Missing service names are treated as warnings because the
+     * backend can often inject a fallback identifier.
+     *
+     * @param enabled      Whether tracing is enabled.
+     * @param endpoint     OpenTelemetry or collector endpoint.
+     * @param service_name  Logical service name used in spans.
+     * @return ValidationResult describing configuration issues.
      */
     static ValidationResult validateTracingConfig(bool enabled, const std::string& endpoint, const std::string& service_name) {
         ValidationResult result;
@@ -206,6 +261,11 @@ public:
      * @param circuit_breaker_adapter  Value of Config::circuitBreakerAdapter
      * @param feature_flags_adapter    Value of Config::featureFlagsAdapter
      * @param audit_adapter            Value of Config::auditAdapter
+     * @param secrets_adapter          Value of Config::secretsAdapter
+     * @param cache_redis_url          Redis endpoint required when cache is set
+     *                                 to redis.
+     * @return ValidationResult with explicit adapter-name errors and missing
+     *         endpoint errors.
      */
     static ValidationResult validateAdapterConfig(
         const std::string& logger_adapter,
@@ -214,17 +274,20 @@ public:
         const std::string& cache_adapter,
         const std::string& circuit_breaker_adapter = "default",
         const std::string& feature_flags_adapter   = "inmemory",
-        const std::string& audit_adapter            = "noop")
+        const std::string& audit_adapter            = "noop",
+        const std::string& secrets_adapter          = "noop",
+        const std::string& cache_redis_url          = "")
     {
         ValidationResult result;
 
         const std::vector<std::string> valid_logger_adapters          = {"spdlog", "noop"};
         const std::vector<std::string> valid_tracer_adapters          = {"otel", "jaeger", "zipkin", "noop", ""};
         const std::vector<std::string> valid_metrics_adapters         = {"prometheus", "noop", ""};
-        const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop"};
+        const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop", "redis"};
         const std::vector<std::string> valid_circuit_breaker_adapters = {"default", "noop"};
         const std::vector<std::string> valid_feature_flags_adapters   = {"inmemory", "noop"};
         const std::vector<std::string> valid_audit_adapters           = {"inmemory", "noop"};
+        const std::vector<std::string> valid_secrets_adapters         = {"noop", "inmemory", "env"};
 
         auto check = [&](const std::string& value,
                          const std::vector<std::string>& valid_values,
@@ -248,12 +311,27 @@ public:
         check(circuit_breaker_adapter, valid_circuit_breaker_adapters, "circuitBreakerAdapter");
         check(feature_flags_adapter,   valid_feature_flags_adapters,   "featureFlagsAdapter");
         check(audit_adapter,           valid_audit_adapters,           "auditAdapter");
+        check(secrets_adapter,         valid_secrets_adapters,         "secretsAdapter");
+
+        // Redis cache adapter requires an explicit endpoint to avoid
+        // silently falling back to in-memory cache behavior.
+        if (cache_adapter == "redis" && cache_redis_url.empty()) {
+            result.addError("cacheAdapter 'redis' requires a non-empty cacheRedisUrl");
+        }
 
         return result;
     }
     
     /**
      * @brief Validate cache configuration
+     *
+     * Zero size disables the cache and very large capacities are reported as
+     * warnings because they can increase memory pressure.
+     *
+     * @param max_size     Maximum number of entries retained by the cache.
+     * @param default_ttl  Default time-to-live in seconds.
+     * @return ValidationResult with warnings for degenerate or risky cache
+     *         settings.
      */
     static ValidationResult validateCacheConfig(size_t max_size, uint64_t default_ttl) {
         ValidationResult result;

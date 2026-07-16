@@ -1,0 +1,25 @@
+{
+  "scan_date": "2026-06-04T08:50:21.792147",
+  "total_gaps": 33247,
+  "total_modules": 67,
+  "by_severity": {
+    "critical": 2926,
+    "high": 8106,
+    "medium": 13127,
+    "low": 9088
+  },
+  "scanner_summary": {
+    "scanner": "ThemisDB Gap Scanner V3",
+    "total_gaps": 33247,
+    "execution_log": [
+      {
+        "scanner": "Uniform Full Scanner",
+        "priority": "SEMANTIC",
+        "gaps_found": 33247,
+        "runtime_ms": 187916.2037372589,
+        "status": "success"
+      }
+    ]
+  },
+  "data_source": "ai_working\\gap_scan_results.json"
+}

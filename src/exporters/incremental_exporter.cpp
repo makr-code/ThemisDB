@@ -1,26 +1,21 @@
+/**
+ * @file incremental_exporter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            incremental_exporter.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     372                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
-    • 5b487cd13  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
-    • 985852ac2  2026-02-27  feat(exporters): implement incremental/delta export with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: incremental_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 360
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4252 feat(exporters): Replace zl... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "exporters/incremental_exporter.h"
@@ -76,9 +71,7 @@ ExportStats IncrementalExporter::exportEntities(
     writer_config.max_file_size = options.max_file_size_bytes;
 
     if (options.compress) {
-        if (options.compression_type == "gzip") {
-            writer_config.compression = CompressionType::GZIP;
-        } else if (options.compression_type == "zstd") {
+        if (options.compression_type == "gzip" || options.compression_type == "zstd") {
             writer_config.compression = CompressionType::ZSTD;
         }
         writer_config.compression_level = options.compression_level;
@@ -173,7 +166,7 @@ ExportStats IncrementalExporter::exportEntities(
             }
         }
 
-        (void)limit_reached;  // exported up to any limits; watermark still valid
+        // exported up to any limits; watermark still valid
 
         writer.close();
 
@@ -193,7 +186,7 @@ ExportStats IncrementalExporter::exportEntities(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 std::error_code ec;
                 std::filesystem::remove(enc_tmp, ec);
                 throw;
@@ -375,3 +368,4 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
 }
 
 } // namespace themis::exporters
+

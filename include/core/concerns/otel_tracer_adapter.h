@@ -1,27 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     227                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
-    • d78d1008b  2026-02-23  feat(core): OpenTelemetry trace and span propagation ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 897f27e99  2026-02-21  feat(core): add OTel tracer adapter tests, fix constructo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file otel_tracer_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -39,8 +24,11 @@ namespace concerns {
  * 
  * Wraps the existing OpenTelemetry-based tracer to implement the ITracer interface.
  * A circuit breaker guards span-export calls so that a failing or unreachable
- * OTLP endpoint does not block the critical path.  Once the circuit trips it
+ * OTLP endpoint does not block the critical path. Once the circuit trips it
  * transitions to HALF_OPEN after `timeout` seconds to probe recovery.
+ *
+ * The adapter intentionally degrades to no-op spans while the circuit is open
+ * so callers can keep tracing calls on hot paths without branching.
  */
 class OpenTelemetryTracerAdapter : public ITracer {
 public:
@@ -115,7 +103,7 @@ public:
 
     std::unique_ptr<ISpan> startSpan(const std::string& name) override {
         if (!circuit_breaker_->allowRequest()) {
-            // Circuit open: return a no-op span to avoid blocking callers
+            // Circuit open: return a no-op span to avoid blocking callers.
             return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
         }
         auto span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
@@ -150,12 +138,12 @@ public:
 
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
         }
         auto span_ptr = std::make_unique<OtelSpanAdapter>(
-            themis::Tracer::startSpanFromHeaders(name, headers));
+            themis::Tracer::startSpanFromHeaders(name, carrier_headers));
         if (span_ptr->isValid()) {
             circuit_breaker_->recordSuccess();
         } else {
@@ -164,13 +152,15 @@ public:
         return span_ptr;
     }
 
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
+        // Prefer a W3C traceparent header when both ids are available, then
+        // add baggage key/value pairs used by the rest of the tracing stack.
         auto trace_id = themis::Tracer::getCurrentTraceId();
         auto span_id  = themis::Tracer::getCurrentSpanId();
         if (!trace_id.empty() && !span_id.empty()) {
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
         }
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {
@@ -191,6 +181,8 @@ public:
     }
 
     void shutdown() override {
+        // Shut down the shared tracer first, then clear the local initialized
+        // flag so health checks fail closed until initialize() succeeds again.
         themis::Tracer::shutdown();
         initialized_ = false;
     }
@@ -200,6 +192,12 @@ public:
     }
 
     // Lifecycle hooks
+    /**
+     * @brief Flush any queued spans through the underlying tracer.
+     *
+     * The adapter's flush is best-effort; it delegates to the shared tracer
+     * implementation and does not throw.
+     */
     void flush() noexcept override;
 
     ProbeResult isHealthy() const override {
@@ -212,7 +210,10 @@ public:
         return ProbeResult::healthy();
     }
 
-    /** Expose circuit-breaker state for monitoring. */
+    /**
+     * @brief Expose circuit-breaker state for monitoring.
+     * @return Current breaker state that guards span creation.
+     */
     sharding::CircuitBreaker::State circuitBreakerState() const {
         return circuit_breaker_->getState();
     }

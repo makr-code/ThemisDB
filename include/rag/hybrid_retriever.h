@@ -1,68 +1,20 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hybrid_retriever.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     260                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 838f20874  2026-02-24  fix(rag): audit corrections - remove unused include, fix ... ║
-    • e340bbb9a  2026-02-24  feat(rag): implement hybrid retrieval (BM25 + vector) wit... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file hybrid_retriever.h
- * @brief Hybrid retrieval (BM25 + vector) with configurable RRF weights
- *
- * Provides HybridRetriever, a RAG-level fusion layer that merges pre-retrieved
- * BM25 (sparse/keyword) and vector (dense/semantic) candidate lists using
- * Reciprocal Rank Fusion (RRF) with per-source configurable weights.
- *
- * This component operates on already-retrieved candidate lists expressed as
- * @ref themis::rag::judge::RetrievedDocument objects and is therefore
- * decoupled from the underlying index backends.  Callers obtain candidates
- * from any source (SecondaryIndexManager, VectorIndexManager, HTTP service,
- * mock data) and hand them to HybridRetriever for fusion.
- *
- * Architecture:
- * @code
- *   BM25 retrieval  ─┐
- *                    ├─► HybridRetriever::fuse() ─► ranked results
- *   Vector retrieval ─┘
- * @endcode
- *
- * RRF formula (per document d):
- * @code
- *   score(d) = bm25_weight  * sum(1 / (rrf_k + rank_bm25(d)))
- *            + vector_weight * sum(1 / (rrf_k + rank_vector(d)))
- * @endcode
- *
- * Linear combination fallback (use_rrf = false):
- * @code
- *   score(d) = bm25_weight  * normalised_bm25_score(d)
- *            + vector_weight * normalised_vector_score(d)
- * @endcode
- *
- * Thread safety: A single HybridRetriever instance is NOT thread-safe.
- * Create one instance per thread or protect concurrent calls with a mutex.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "rag/rag_judge.h"
+#include "rag/vectorizer_interface.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -202,6 +154,40 @@ public:
     ) const;
 
     /**
+     * @brief Inject a dense vectorizer used by @ref retrieveWithVectorizer().
+     *
+     * Passing `nullptr` disables the integration path. The vectorizer must be
+     * initialized before calling @ref retrieveWithVectorizer().
+     *
+     * @param vectorizer Shared vectorizer instance (may be null).
+     */
+    void setVectorizer(std::shared_ptr<IVectorizer> vectorizer);
+
+    /**
+     * @brief Return the currently configured vectorizer (may be null).
+     */
+    [[nodiscard]] std::shared_ptr<IVectorizer> getVectorizer() const;
+
+    /**
+     * @brief Build dense candidates via configured @ref IVectorizer and fuse them with BM25.
+     *
+     * This is an integration helper for DPR-style bi-encoders: query text is
+     * encoded via `encodeQuery()`, each BM25 candidate content is encoded via
+     * `encodePassage()`, cosine similarity is used as dense score, then standard
+     * @ref fuse() is applied.
+     *
+     * @param query Query text to encode.
+     * @param bm25_candidates BM25/sparse candidates (input pool for dense scoring).
+     * @return Fused hybrid result.
+     * @throws std::invalid_argument if query is empty.
+     * @throws std::runtime_error if no vectorizer is configured or not initialized.
+     */
+    [[nodiscard]] HybridFusionResult retrieveWithVectorizer(
+        const std::string& query,
+        const std::vector<judge::RetrievedDocument>& bm25_candidates
+    ) const;
+
+    /**
      * @brief Return current configuration.
      */
     const HybridRetrieverConfig& getConfig() const;
@@ -220,6 +206,7 @@ public:
 
 private:
     HybridRetrieverConfig config_;
+    std::shared_ptr<IVectorizer> vectorizer_;
 
     /// RRF fusion path (use_rrf = true).
     HybridFusionResult fuseRRF(

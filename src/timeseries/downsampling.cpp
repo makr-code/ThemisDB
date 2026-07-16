@@ -1,16 +1,21 @@
+/**
+ * @file downsampling.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            downsampling.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   100.0/100                                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: downsampling.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 249
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3599 feat(timeseries): FlushCont... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/downsampling.h"
@@ -136,7 +141,7 @@ DownsamplingPipeline::DownsamplingPipeline(TSStore* store)
     }
 }
 
-void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
+void DownsamplingPipeline::addPolicy([[maybe_unused]] const DownsamplingPolicy& policy) {
     if (policy.metric.empty()) {
         throw std::invalid_argument("DownsamplingPipeline::addPolicy: metric name cannot be empty");
     }
@@ -154,7 +159,7 @@ void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
 size_t DownsamplingPipeline::refresh(int64_t to_ms) {
     size_t total = 0;
     for (const auto& [metric, policy] : policies_) {
-        (void)policy;  // metric key is sufficient; policy is accessed in refreshMetric
+        // metric key is sufficient; policy is accessed in refreshMetric
         total += refreshMetric(metric, to_ms);
     }
     return total;

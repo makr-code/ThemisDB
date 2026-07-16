@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            strategic_cache_impl.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     264                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file strategic_cache_impl.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -38,10 +26,14 @@ namespace concerns {
 
 /**
  * @brief Strategic in-memory cache with pluggable eviction strategies.
- * 
+ *
  * Implements ICache with support for swappable eviction strategies (LRU, LFU, TTL, TwoTier).
  * Thread-safe implementation with comprehensive metrics tracking.
- * 
+ *
+ * This cache stores values in-process and delegates victim selection to the
+ * active strategy. Metric counters are cumulative and intentionally not reset
+ * by clear().
+ *
  * Example usage:
  *   auto cache = std::make_unique<StrategicCacheImpl>(
  *       1000,  // max size
@@ -52,9 +44,9 @@ class StrategicCacheImpl : public ICache {
 public:
     /**
      * @brief Construct with custom eviction strategy.
-     * @param maxSize Maximum number of entries
-     * @param strategy Eviction strategy (takes ownership)
-     * @param defaultTTL Default TTL in milliseconds (0 = no expiry)
+        * @param maxSize Maximum number of entries.
+        * @param strategy Eviction strategy (takes ownership). When null, LRU is used.
+        * @param defaultTTL Default TTL in milliseconds (0 = no expiry).
      */
     explicit StrategicCacheImpl(
         size_t maxSize = 1000,
@@ -217,7 +209,11 @@ public:
     
     /**
      * @brief Replace eviction strategy at runtime.
-     * @param strategy New strategy (takes ownership)
+     *
+     * Existing cache entries are kept, and strategy metadata is rebuilt from
+     * the current key set. Passing nullptr is invalid.
+     *
+     * @param strategy New strategy (takes ownership), must not be nullptr.
      */
     void setEvictionStrategy(std::unique_ptr<IEvictionStrategy> strategy) {
         std::lock_guard<std::mutex> lock(mutex_);

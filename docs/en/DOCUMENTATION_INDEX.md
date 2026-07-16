@@ -4,7 +4,7 @@
 > The authoritative documentation is in German. This is a community translation.  
 > See [German docs](../de/DOCUMENTATION_INDEX.md) for the most current version.
 
-**Last Updated:** December 20, 2025  
+**Last Updated:** April 2026  
 **Version:** 1.3.0 (LLM Integration Release)  
 **Language:** English
 
@@ -176,7 +176,7 @@ docs/
 ### Status & Planning
 - [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Development Audit
 - [development/implementation_status.md](development/implementation_status.md) - Status
-- [development/roadmap.md](development/roadmap.md) - Roadmap
+- [development/ROADMAP.md](development/ROADMAP.md) - Roadmap
 - [development/priorities.md](development/priorities.md) - Priorities
 
 ### API Implementations
@@ -191,9 +191,9 @@ docs/
 - **Issues:** https://github.com/makr-code/ThemisDB/issues
 
 ### Badges
-- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
-- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml)
-- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml)
+- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
+- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml)
+- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml)
 
 ## 📋 Navigation by Topic
 

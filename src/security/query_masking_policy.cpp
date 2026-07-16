@@ -1,26 +1,21 @@
+/**
+ * @file query_masking_policy.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_masking_policy.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     266                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • b629d06e4  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
-    • 617224a49  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_masking_policy.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 261
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=6, L=0
+ * PR History (last 5): #2633 feat(security): Dynamic dat... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/query_masking_policy.h"
@@ -34,6 +29,10 @@ namespace security {
 // Construction
 // ---------------------------------------------------------------------------
 
+QueryMaskingPolicy::QueryMaskingPolicy(const std::string& config_path)
+    : QueryMaskingPolicy(Config{}, config_path)
+{}
+
 QueryMaskingPolicy::QueryMaskingPolicy(Config config, const std::string& config_path)
     : config_(std::move(config))
 {
@@ -46,6 +45,12 @@ QueryMaskingPolicy::QueryMaskingPolicy(Config config, const std::string& config_
     }
     spdlog::info("QueryMaskingPolicy: Initialised (enabled={}, auto_detect={}, mask_by_field_name={})",
                  config_.enabled, config_.auto_detect_pii, config_.mask_by_field_name);
+}
+
+std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(
+    const std::string& config_path)
+{
+    return std::make_shared<QueryMaskingPolicy>(config_path);
 }
 
 std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(

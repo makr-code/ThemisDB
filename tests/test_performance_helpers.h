@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_performance_helpers.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:05:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_performance_helpers.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test Performance Helpers
@@ -30,6 +16,10 @@
 #include <functional>
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 #include <gtest/gtest.h>
 
 #ifdef _WIN32
@@ -42,6 +32,33 @@
 
 namespace themis {
 namespace test {
+
+// Centralized benchmark policy aligned with PERFORMANCE_EXPECTATIONS.md
+// (independent runs and warmup can be overridden in CI via env vars).
+class BenchmarkPolicy {
+public:
+    static int independentRuns() {
+        return readPositiveIntEnv("THEMIS_BENCH_RUNS", 5);
+    }
+
+    static int warmupIterations() {
+        return readPositiveIntEnv("THEMIS_BENCH_WARMUP_ITERS", 100);
+    }
+
+private:
+    static int readPositiveIntEnv(const char* name, int fallback) {
+        const char* raw = std::getenv(name);
+        if (raw == nullptr || *raw == '\0') {
+            return fallback;
+        }
+        char* end = nullptr;
+        const long parsed = std::strtol(raw, &end, 10);
+        if (end == raw || *end != '\0' || parsed <= 0 || parsed > 1000000L) {
+            return fallback;
+        }
+        return static_cast<int>(parsed);
+    }
+};
 
 // High-resolution timer for measuring latency
 class LatencyMeasurement {
@@ -66,6 +83,35 @@ public:
 private:
     TimePoint start_;
 };
+
+template<typename T>
+T percentileValue(std::vector<T> values, int percentile) {
+    if (values.empty()) {
+        return T{};
+    }
+    std::sort(values.begin(), values.end());
+    const std::size_t idx = static_cast<std::size_t>(
+        std::ceil((static_cast<double>(percentile) / 100.0) * static_cast<double>(values.size()))) - 1U;
+    return values[std::min(idx, values.size() - 1U)];
+}
+
+template<typename Fn>
+std::vector<double> sampleLatencyMs(Fn&& fn,
+                                    int runs = BenchmarkPolicy::independentRuns(),
+                                    int warmup_iters = BenchmarkPolicy::warmupIterations()) {
+    for (int i = 0; i < warmup_iters; ++i) {
+        fn();
+    }
+
+    std::vector<double> samples;
+    samples.reserve(static_cast<std::size_t>(runs));
+    for (int i = 0; i < runs; ++i) {
+        LatencyMeasurement timer;
+        fn();
+        samples.push_back(timer.elapsedMs());
+    }
+    return samples;
+}
 
 // Throughput calculator
 class ThroughputCalculator {

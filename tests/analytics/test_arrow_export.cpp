@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_arrow_export.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     974                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 80742c94d  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
-    • 6fb48cf3e  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_arrow_export.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -28,6 +11,7 @@
 #include "analytics/analytics_export.h"
 #include <fstream>
 #include <filesystem>
+#include <stdexcept>
 
 using namespace themis::analytics;
 
@@ -200,16 +184,21 @@ TEST_F(ArrowExportTest, CreateDefaultExporter) {
 
 TEST_F(ArrowExportTest, ExporterSupportsFormats) {
     auto exporter = ExporterFactory::createDefaultExporter();
-    
+
+    // The default (JSONCSVExporter) always supports JSON and CSV
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::JSON));
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::CSV));
 
-#ifdef THEMIS_HAS_ARROW
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
-#else
+    // The default exporter does not handle Arrow formats regardless of Arrow support
     EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
     EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
+
+#ifdef THEMIS_HAS_ARROW
+    // Format-specific Arrow exporters support their own format
+    auto ipc_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
+    EXPECT_TRUE(ipc_exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    auto parquet_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET);
+    EXPECT_TRUE(parquet_exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
 #endif
 }
 
@@ -461,23 +450,22 @@ TEST_F(ArrowExportTest, ExportPlaceholderArrowFormat) {
     ArrowRecordBatch batch;
     batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
     batch.appendRow({int64_t(1)});
-    
-    auto exporter = ExporterFactory::createDefaultExporter();
-    
+
+#ifdef THEMIS_HAS_ARROW
+    // With Arrow, createExporter(FMT_ARROW_IPC) returns a real ArrowIPCExporter
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
+    ASSERT_NE(exporter, nullptr);
+
     ExportOptions options;
     options.format = ExportFormat::FMT_ARROW_IPC;
-    
     std::string result = exporter->exportToString(batch, options);
-    
+
     EXPECT_FALSE(result.empty());
-    
-#ifdef THEMIS_HAS_ARROW
-    // With Arrow, should get binary data
+    // With Arrow, should get binary data (no ERROR prefix)
     EXPECT_EQ(result.find("ERROR"), std::string::npos);
 #else
-    // Without Arrow, should get error message
-    EXPECT_NE(result.find("ERROR"), std::string::npos);
-    EXPECT_NE(result.find("Arrow"), std::string::npos);
+    // Without Arrow, createExporter for Arrow formats must throw
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC), std::runtime_error);
 #endif
 }
 
@@ -535,26 +523,25 @@ TEST_F(ArrowExportTest, ArrowIPCExport) {
     batch.appendRow({int64_t(1), 10.5, std::string("Alice")});
     batch.appendRow({int64_t(2), 20.5, std::string("Bob")});
     batch.appendRow({int64_t(3), 30.5, nullptr});
-    
-    auto exporter = ExporterFactory::createDefaultExporter();
-    
+
+#ifdef THEMIS_HAS_ARROW
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
+    ASSERT_NE(exporter, nullptr);
+
     ExportOptions options;
     options.format = ExportFormat::FMT_ARROW_IPC;
-    
+
     std::string output_path = test_dir_ + "/test_arrow.ipc";
     auto result = exporter->exportToFile(batch, output_path, options);
-    
-#ifdef THEMIS_HAS_ARROW
+
     // With Arrow support
     EXPECT_EQ(result.status, ExportStatus::SUCCESS);
     EXPECT_EQ(result.rows_exported, 3);
     EXPECT_GT(result.bytes_written, 0);
     EXPECT_TRUE(std::filesystem::exists(output_path));
 #else
-    // Without Arrow support
-    EXPECT_EQ(result.status, ExportStatus::NOT_SUPPORTED);
-    EXPECT_FALSE(result.message.empty());
-    EXPECT_NE(result.message.find("Arrow"), std::string::npos);
+    // Without Arrow support, factory throws
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC), std::runtime_error);
 #endif
 }
 
@@ -573,29 +560,29 @@ TEST_F(ArrowExportTest, ParquetExport) {
             (i % 2 == 0)
         });
     }
-    
-    auto exporter = ExporterFactory::createDefaultExporter();
-    
+
+#ifdef THEMIS_HAS_ARROW
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET);
+    ASSERT_NE(exporter, nullptr);
+
     ExportOptions options;
     options.format = ExportFormat::FMT_ARROW_PARQUET;
     options.compress = true;
     options.compression_codec = "snappy";
-    
+
     std::string output_path = test_dir_ + "/test_data.parquet";
     auto result = exporter->exportToFile(batch, output_path, options);
-    
-#ifdef THEMIS_HAS_ARROW
+
     EXPECT_EQ(result.status, ExportStatus::SUCCESS);
     EXPECT_EQ(result.rows_exported, 100);
     EXPECT_GT(result.bytes_written, 0);
     EXPECT_TRUE(std::filesystem::exists(output_path));
-    
+
     // Verify compression worked (file size should be reasonable)
     size_t file_size = std::filesystem::file_size(output_path);
     EXPECT_LT(file_size, 10000);  // Should be small due to compression
 #else
-    EXPECT_EQ(result.status, ExportStatus::NOT_SUPPORTED);
-    EXPECT_FALSE(result.message.empty());
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET), std::runtime_error);
 #endif
 }
 
@@ -609,22 +596,23 @@ TEST_F(ArrowExportTest, FeatherExport) {
     batch.appendRow({int64_t(1), std::string("Laptop"), 999.99, true});
     batch.appendRow({int64_t(2), std::string("Mouse"), 29.99, true});
     batch.appendRow({int64_t(3), std::string("Keyboard"), 79.99, false});
-    
-    auto exporter = ExporterFactory::createDefaultExporter();
-    
+
+#ifdef THEMIS_HAS_ARROW
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_FEATHER);
+    ASSERT_NE(exporter, nullptr);
+
     ExportOptions options;
     options.format = ExportFormat::FMT_ARROW_FEATHER;
-    
+
     std::string output_path = test_dir_ + "/test_data.feather";
     auto result = exporter->exportToFile(batch, output_path, options);
-    
-#ifdef THEMIS_HAS_ARROW
+
     EXPECT_EQ(result.status, ExportStatus::SUCCESS);
     EXPECT_EQ(result.rows_exported, 3);
     EXPECT_GT(result.bytes_written, 0);
     EXPECT_TRUE(std::filesystem::exists(output_path));
 #else
-    EXPECT_EQ(result.status, ExportStatus::NOT_SUPPORTED);
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_FEATHER), std::runtime_error);
 #endif
 }
 
@@ -635,21 +623,20 @@ TEST_F(ArrowExportTest, ArrowStringExport) {
     
     batch.appendRow({int64_t(1), std::string("Test")});
     batch.appendRow({int64_t(2), std::string("Data")});
-    
-    auto exporter = ExporterFactory::createDefaultExporter();
-    
+
+#ifdef THEMIS_HAS_ARROW
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
+    ASSERT_NE(exporter, nullptr);
+
     ExportOptions options;
     options.format = ExportFormat::FMT_ARROW_IPC;
-    
+
     std::string result = exporter->exportToString(batch, options);
-    
-#ifdef THEMIS_HAS_ARROW
+
     EXPECT_FALSE(result.empty());
     EXPECT_EQ(result.find("ERROR"), std::string::npos);
 #else
-    EXPECT_FALSE(result.empty());
-    EXPECT_NE(result.find("ERROR"), std::string::npos);
-    EXPECT_NE(result.find("Arrow"), std::string::npos);
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC), std::runtime_error);
 #endif
 }
 
@@ -675,36 +662,89 @@ TEST_F(ArrowExportTest, ExportToUnwritablePath) {
 
 TEST_F(ArrowExportTest, FormatSupportCheck) {
     auto exporter = ExporterFactory::createDefaultExporter();
-    
-    // JSON and CSV should always be supported
+
+    // JSON and CSV should always be supported by the default exporter
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::JSON));
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::CSV));
-    
-    // Arrow formats depend on compile flag
-#ifdef THEMIS_HAS_ARROW
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
-#else
+
+    // Default exporter (JSONCSVExporter) does not support Arrow formats
     EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
     EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
     EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
+
+#ifdef THEMIS_HAS_ARROW
+    // Arrow-specific exporters support their respective formats only
+    auto ipc_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
+    EXPECT_TRUE(ipc_exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    auto parquet_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET);
+    EXPECT_TRUE(parquet_exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
+    auto feather_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_FEATHER);
+    EXPECT_TRUE(feather_exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
 #endif
 }
 
 TEST_F(ArrowExportTest, ExporterInfo) {
     auto exporter = ExporterFactory::createDefaultExporter();
     std::string info = exporter->getExporterInfo();
-    
+
     EXPECT_FALSE(info.empty());
-    EXPECT_NE(info.find("AnalyticsExporter"), std::string::npos);
-    
-#ifdef THEMIS_HAS_ARROW
-    EXPECT_NE(info.find("Arrow enabled"), std::string::npos);
-#else
-    EXPECT_NE(info.find("JSON/CSV only"), std::string::npos);
-#endif
+    EXPECT_NE(info.find("JSONCSVExporter"), std::string::npos);
+    EXPECT_NE(info.find("JSON/CSV"), std::string::npos);
 }
+
+#ifdef THEMIS_HAS_ARROW
+// ===== ExporterFactory concrete-type tests =====
+
+TEST_F(ArrowExportTest, CreateExporterParquetReturnsParquetType) {
+    // When THEMIS_HAS_ARROW is defined, createExporter(FMT_ARROW_PARQUET) must
+    // return a real ParquetExporter, not a stub or generic fallback.
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET);
+
+    ASSERT_NE(exporter, nullptr);
+
+    // The exporter must claim support for Parquet and no other formats
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::JSON));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::CSV));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
+
+    // Info string must identify the concrete ParquetExporter class
+    std::string info = exporter->getExporterInfo();
+    EXPECT_NE(info.find("ParquetExporter"), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CreateExporterArrowIPCReturnsIPCType) {
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
+
+    ASSERT_NE(exporter, nullptr);
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::JSON));
+
+    std::string info = exporter->getExporterInfo();
+    EXPECT_NE(info.find("ArrowIPCExporter"), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CreateExporterFeatherReturnsFeatherType) {
+    auto exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_FEATHER);
+
+    ASSERT_NE(exporter, nullptr);
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::JSON));
+
+    std::string info = exporter->getExporterInfo();
+    EXPECT_NE(info.find("FeatherExporter"), std::string::npos);
+}
+
+#else // !THEMIS_HAS_ARROW
+
+TEST_F(ArrowExportTest, CreateExporterArrowFormatsThrowWithoutArrow) {
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC), std::runtime_error);
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET), std::runtime_error);
+    EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_FEATHER), std::runtime_error);
+}
+
+#endif // THEMIS_HAS_ARROW
 
 TEST_F(ArrowExportTest, NullBitmapHandling) {
     ArrowRecordBatch batch;
@@ -734,11 +774,12 @@ TEST_F(ArrowExportTest, NullBitmapHandling) {
     EXPECT_NE(json_result.find("null"), std::string::npos);
     
 #ifdef THEMIS_HAS_ARROW
-    // Test Arrow export with nulls
+    // Test Arrow export with nulls using the dedicated IPC exporter
+    auto arrow_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC);
     ExportOptions arrow_options;
     arrow_options.format = ExportFormat::FMT_ARROW_IPC;
     std::string arrow_path = test_dir_ + "/nulls_test.ipc";
-    auto arrow_result = exporter->exportToFile(batch, arrow_path, arrow_options);
+    auto arrow_result = arrow_exporter->exportToFile(batch, arrow_path, arrow_options);
     EXPECT_EQ(arrow_result.status, ExportStatus::SUCCESS);
     EXPECT_EQ(arrow_result.rows_exported, 4);
 #endif
@@ -790,7 +831,8 @@ TEST_F(ArrowExportTest, LargeDatasetExport) {
     EXPECT_GT(csv_result.duration_ms, 0.0);
     
 #ifdef THEMIS_HAS_ARROW
-    // Test Parquet export with compression
+    // Test Parquet export with compression using the dedicated Parquet exporter
+    auto parquet_exporter = ExporterFactory::createExporter(ExportFormat::FMT_ARROW_PARQUET);
     ExportOptions parquet_options;
     parquet_options.format = ExportFormat::FMT_ARROW_PARQUET;
     parquet_options.compress = true;
@@ -798,7 +840,7 @@ TEST_F(ArrowExportTest, LargeDatasetExport) {
     parquet_options.compression_level = 3;
     
     std::string parquet_path = test_dir_ + "/large_data.parquet";
-    auto parquet_result = exporter->exportToFile(batch, parquet_path, parquet_options);
+    auto parquet_result = parquet_exporter->exportToFile(batch, parquet_path, parquet_options);
     EXPECT_EQ(parquet_result.status, ExportStatus::SUCCESS);
     EXPECT_EQ(parquet_result.rows_exported, num_rows);
     EXPECT_GT(parquet_result.bytes_written, 0);

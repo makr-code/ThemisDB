@@ -192,6 +192,75 @@ int launchFP32MatmulKernel(
     return static_cast<int>(st);
 }
 
+// ---------------------------------------------------------------------------
+// INT8 GEMM — requires Turing (SM 7.5+)
+// Inputs: int8_t A[M×K], int8_t B[K×N], Output: int32_t C[M×N]
+// Uses cublasGemmEx with CUDA_R_8I inputs and CUDA_R_32I output.
+// alpha/beta are applied to the int32 accumulator cast to float.
+// ---------------------------------------------------------------------------
+int launchINT8MatmulKernel(
+    const int8_t*  d_A,
+    const int8_t*  d_B,
+    int32_t*       d_C,
+    int            M,
+    int            K,
+    int            N,
+    float          alpha,
+    float          beta,
+    cudaStream_t   stream
+)
+{
+    // Runtime compute-capability guard: INT8 Tensor Cores require SM 7.5+.
+    int device = 0;
+    cudaError_t ce = cudaGetDevice(&device);
+    if (ce != cudaSuccess) return 1;
+    int major = 0, minor = 0;
+    ce = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device);
+    if (ce != cudaSuccess) return 1;
+    ce = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device);
+    if (ce != cudaSuccess) return 1;
+    const int sm = major * 10 + minor;
+    if (sm < 75) {
+        // INT8 Tensor Core acceleration requires Turing (SM 7.5+).
+        // Fall back silently to CPU — caller should have checked capabilities.
+        return 1;
+    }
+
+    cublasHandle_t handle;
+    cublasStatus_t st = get_cublas_handle(&handle);
+    if (st != CUBLAS_STATUS_SUCCESS) return static_cast<int>(st);
+    if (stream) cublasSetStream(handle, stream);
+
+    // Row-major reinterpretation (same column-major swap as for FP16/FP32):
+    //   C_row[M×N] = A_row[M×K] × B_row[K×N]
+    //   ⟺ C^T_col[N×M] = B^T_col[N×K] × A^T_col[K×M]
+    //
+    // cublasGemmEx signature:
+    //   (handle, transa=N, transb=N, n=N, m=M, k=K,
+    //    alpha, d_B, CUDA_R_8I, lda=N,
+    //           d_A, CUDA_R_8I, ldb=K,
+    //    beta,  d_C, CUDA_R_32I, ldc=N,
+    //    CUDA_R_32I, CUBLAS_GEMM_DEFAULT_TENSOR_OP)
+    //
+    // alpha/beta for INT8 GemmEx are passed as int32 values.
+    const int32_t ialpha = static_cast<int32_t>(alpha);
+    const int32_t ibeta  = static_cast<int32_t>(beta);
+
+    st = cublasGemmEx(
+        handle,
+        CUBLAS_OP_N, CUBLAS_OP_N,
+        N, M, K,
+        &ialpha,
+        d_B, CUDA_R_8I,  N,
+        d_A, CUDA_R_8I,  K,
+        &ibeta,
+        d_C, CUDA_R_32I, N,
+        CUDA_R_32I,
+        CUBLAS_GEMM_DEFAULT_TENSOR_OP
+    );
+    return static_cast<int>(st);
+}
+
 } // extern "C"
 
 #endif // THEMIS_ENABLE_CUDA

@@ -1,20 +1,21 @@
+/**
+ * @file slo_reporter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            slo_reporter.h                                     ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     329                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: slo_reporter.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 347
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5056 docs(observability): update... (2026-05-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -194,7 +195,7 @@ struct SloStatus {
  * reporter.registerSlo(slo);
  *
  * // For every request:
- * reporter.record("query_availability", /*good=*/!request_failed);
+ * reporter.record("query_availability", !request_failed);
  *
  * // Periodic or on-demand:
  * reporter.publishMetrics();
@@ -215,7 +216,8 @@ public:
         size_t max_samples_per_slo{100'000};
     };
 
-    explicit SloReporter(const Config& config = Config{});
+    explicit SloReporter();
+    explicit SloReporter(const Config& config);
     ~SloReporter();
 
     // Non-copyable
@@ -354,3 +356,4 @@ private:
 
 } // namespace observability
 } // namespace themis
+

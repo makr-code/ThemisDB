@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_config_path_resolver.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:51:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     401                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90c733a50  2026-02-28  feat(benchmarks): add ConfigPathResolver cache hit rate a... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_config_path_resolver.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Benchmark: ConfigPathResolver cache hit rate and resolution latency
@@ -284,6 +269,56 @@ BENCHMARK_DEFINE_F(ConfigPathResolverBenchFixture, DeprecationAggregator_Overhea
 }
 
 BENCHMARK_REGISTER_F(ConfigPathResolverBenchFixture, DeprecationAggregator_Overhead)
+    ->Unit(benchmark::kMicrosecond)
+    ->MinTime(0.5);
+
+// ============================================================================
+// 8b. deprecationReport() generation with 60 pre-populated legacy paths
+//     (target: < 1 ms)
+//
+//     AC-7: "Report generation for 60 legacy paths completes in < 1 ms
+//     (in-memory map iteration)."
+//
+//     Seeds the aggregator with up to 60 distinct legacy paths from
+//     PATH_MAPPING, then measures pure report generation time
+//     (map snapshot + sort in getReport()).
+// ============================================================================
+
+BENCHMARK_DEFINE_F(ConfigPathResolverBenchFixture, DeprecationReport_60Paths)(
+        benchmark::State& state) {
+    // CWD is already temp_root_ (set by fixture SetUp).
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
+
+    // Pre-seed the aggregator: create the legacy file for each PATH_MAPPING
+    // entry (without its new counterpart) so tryResolve() takes the fallback
+    // branch and calls aggregator_.incrementUsage().
+    const auto& mappings = ConfigPathResolver::legacyPathMappings();
+    int seeded = 0;
+    for (const auto& [legacy, new_path] : mappings) {
+        (void)new_path;  // new_path not needed; we intentionally omit it on disk
+        if (seeded >= 60) break;
+        fs::path legacy_file(legacy);
+        if (!fs::exists(legacy_file)) {
+            writeFile(legacy_file);
+        }
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::tryResolve(legacy);
+        ++seeded;
+    }
+
+    // Measure pure deprecationReport() generation (map snapshot + sort).
+    std::vector<ConfigPathResolver::DeprecationEntry> last_report;
+    for (auto _ : state) {
+        last_report = ConfigPathResolver::deprecationReport();
+        benchmark::DoNotOptimize(last_report);
+    }
+    state.counters["paths_in_report"] = benchmark::Counter(
+        static_cast<double>(last_report.size()));
+    state.SetLabel("report generation; target < 1 ms for 60 paths");
+}
+
+BENCHMARK_REGISTER_F(ConfigPathResolverBenchFixture, DeprecationReport_60Paths)
     ->Unit(benchmark::kMicrosecond)
     ->MinTime(0.5);
 

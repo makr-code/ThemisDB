@@ -1,24 +1,21 @@
+/**
+ * @file import_wizard_builder.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=170, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            import_wizard_builder.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     470                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d88671344  2026-02-28  feat(importers): implement web-based import wizard at GET... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: import_wizard_builder.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 460
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=218, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/import_wizard_builder.h"
@@ -37,7 +34,9 @@ std::string buildImportWizardHtml() {
     // No external CDN dependencies – all assets are embedded here so the
     // wizard works in air-gapped environments.
     std::string html;
-    html.reserve(24 * 1024);
+        // Large single-pass builder with many concatenations: reserve generously
+        // to reduce repeated reallocations/copies during assembly.
+        html.reserve(96 * 1024);
 
     // ---- <head> ----
     html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
@@ -320,7 +319,7 @@ std::string buildImportWizardHtml() {
 
     // escHtml
     html += "function escHtml(s){\n";
-    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n";
+    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'<').replace(/>/g,'>');\n";
     html += "}\n";
 
     // buildOptions
@@ -469,3 +468,4 @@ std::string buildImportWizardHtml() {
 
 } // namespace server
 } // namespace themis
+

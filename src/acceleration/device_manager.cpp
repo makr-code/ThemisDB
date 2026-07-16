@@ -1,24 +1,21 @@
+/**
+ * @file device_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            device_manager.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     211                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bcf21826f  2026-02-23  feat(acceleration): implement runtime device capability d... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: device_manager.cpp | Version: 0.0.15 | Last Modified: 2026-06-02 11:49:05
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 236
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #4207 feat(acceleration): wire Ru... (2026-03-14) | #3476 docs(acceleration): sync RE... (2026-03-12) | #2966 feat(acceleration): impleme... (2026-03-12) | #2740 Implement geo CUDA kernels ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -27,12 +24,36 @@
  * Wraps themis::gpu::DeviceDiscovery to expose per-device capability info
  * (BackendType mapping, precision flags, VRAM, compute capability) to the
  * acceleration layer with a 60-second probe cache and startup logging.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   BackendRegistry::initializeRuntime()
+ *       └─► DeviceManager::instance().probeDevices()   ← this file
+ *               └─► themis::gpu::DeviceDiscovery::Enumerate()
+ *                       └─► CUDA / ROCm / Vulkan / CPU device enumeration
+ *       └─► BackendRegistry scores capabilities per device
+ *       └─► best backend selected per operation category (vector/graph/geo)
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   DeviceManager::instance()      — singleton access
+ *   DeviceManager::probeDevices()  — enumerate and cache device capabilities
+ *   DeviceManager::refresh()       — force re-probe (invalidates 60 s TTL cache)
+ *   DeviceManager::getBestDevice() — return highest-scoring DeviceCapabilityInfo
+ *   DeviceManager::deviceInfo()    — immutable snapshot captured at last probe
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/device_manager.h      — DeviceManager / DeviceCapabilityInfo declarations
+ *   include/themis/gpu/device_discovery.h      — underlying GPU discovery layer
+ *   src/acceleration/backend_registry.cpp      — consumes DeviceManager during initializeRuntime()
+ *   src/acceleration/ARCHITECTURE.md           — startup flow (Section 4.1)
  */
-
 #include "acceleration/device_manager.h"
-#include "themis/gpu/device_discovery.h"
 
 #include <iostream>
+
+#include "themis/gpu/device_discovery.h"
 
 namespace themis {
 namespace acceleration {
@@ -43,17 +64,29 @@ namespace {
 // File-local helpers
 // ---------------------------------------------------------------------------
 
-BackendType mapBackendType(const std::string& backend_str) noexcept {
-    if (backend_str == "CUDA")         return BackendType::CUDA;
-    if (backend_str == "ROCm")         return BackendType::ROCM;
-    if (backend_str == "Vulkan")       return BackendType::VULKAN;
-    if (backend_str == "Metal")        return BackendType::METAL;
-    if (backend_str == "OpenCL")       return BackendType::OPENCL;
-    if (backend_str == "CPU_FALLBACK") return BackendType::CPU;
+BackendType mapBackendType(const std::string &backend_str) noexcept {
+    if (backend_str == "CUDA") {
+        return BackendType::CUDA;
+    }
+    if (backend_str == "ROCm") {
+        return BackendType::ROCM;
+    }
+    if (backend_str == "Vulkan") {
+        return BackendType::VULKAN;
+    }
+    if (backend_str == "Metal") {
+        return BackendType::METAL;
+    }
+    if (backend_str == "OpenCL") {
+        return BackendType::OPENCL;
+    }
+    if (backend_str == "CPU_FALLBACK") {
+        return BackendType::CPU;
+    }
     return BackendType::CPU;
 }
 
-DeviceCapabilityInfo fromGpuDeviceInfo(const themis::gpu::DeviceInfo& d) noexcept {
+DeviceCapabilityInfo fromGpuDeviceInfo(const themis::gpu::DeviceInfo &d) noexcept {
     DeviceCapabilityInfo info;
     info.index            = d.index;
     info.name             = d.name;
@@ -70,7 +103,7 @@ DeviceCapabilityInfo fromGpuDeviceInfo(const themis::gpu::DeviceInfo& d) noexcep
     // BF16 requires sm_80+ (CUDA Ampere+).
     // For ROCm / CPU, leave the flags false (conservative default).
     if (d.backend == "CUDA" && d.is_healthy) {
-        const int sm = d.compute_major * 10 + d.compute_minor;
+        const int sm       = d.compute_major * 10 + d.compute_minor;
         info.supports_fp16 = (sm >= 70);
         info.supports_bf16 = (sm >= 80);
     }
@@ -86,7 +119,7 @@ std::vector<DeviceCapabilityInfo> enumerateDevices() {
     std::vector<DeviceCapabilityInfo> result;
     result.reserve(gpu_devices.size());
 
-    for (const auto& d : gpu_devices) {
+    for (const auto &d : gpu_devices) {
         result.push_back(fromGpuDeviceInfo(d));
     }
 
@@ -108,7 +141,7 @@ std::vector<DeviceCapabilityInfo> enumerateDevices() {
 // Singleton
 // ============================================================================
 
-DeviceManager& DeviceManager::instance() {
+DeviceManager &DeviceManager::instance() {
     static DeviceManager inst;
     return inst;
 }
@@ -127,16 +160,16 @@ std::vector<DeviceCapabilityInfo> DeviceManager::probeDevices() {
         }
     }
 
-    cached_     = enumerateDevices();
-    cache_time_ = std::chrono::steady_clock::now();
+    cached_      = enumerateDevices();
+    cache_time_  = std::chrono::steady_clock::now();
     cache_valid_ = true;
     return cached_;
 }
 
 std::vector<DeviceCapabilityInfo> DeviceManager::refresh() {
     std::lock_guard<std::mutex> lock(mutex_);
-    cached_     = enumerateDevices();
-    cache_time_ = std::chrono::steady_clock::now();
+    cached_      = enumerateDevices();
+    cache_time_  = std::chrono::steady_clock::now();
     cache_valid_ = true;
     return cached_;
 }
@@ -145,10 +178,14 @@ DeviceCapabilityInfo DeviceManager::getBestDevice() {
     const auto devices = probeDevices();
 
     // Pick the healthy non-CPU device with the highest free VRAM.
-    const DeviceCapabilityInfo* best = nullptr;
-    for (const auto& d : devices) {
-        if (!d.is_healthy)                  continue;
-        if (d.backend_type == BackendType::CPU) continue;
+    const DeviceCapabilityInfo *best = nullptr;
+    for (const auto &d : devices) {
+        if (!d.is_healthy) {
+            continue;
+        }
+        if (d.backend_type == BackendType::CPU) {
+            continue;
+        }
         if (best == nullptr || d.free_vram_bytes > best->free_vram_bytes) {
             best = &d;
         }
@@ -158,8 +195,10 @@ DeviceCapabilityInfo DeviceManager::getBestDevice() {
     }
 
     // Return CPU fallback.
-    for (const auto& d : devices) {
-        if (d.backend_type == BackendType::CPU) return d;
+    for (const auto &d : devices) {
+        if (d.backend_type == BackendType::CPU) {
+            return d;
+        }
     }
 
     // Synthesise a safe default.
@@ -173,7 +212,7 @@ DeviceCapabilityInfo DeviceManager::getBestDevice() {
 
 bool DeviceManager::hasGPU() {
     const auto devices = probeDevices();
-    for (const auto& d : devices) {
+    for (const auto &d : devices) {
         if (d.is_healthy && d.backend_type != BackendType::CPU) {
             return true;
         }
@@ -189,23 +228,19 @@ void DeviceManager::logDeviceInfo() {
     const auto devices = probeDevices();
     const auto best    = getBestDevice();
 
-    std::cout << "[acceleration] Device capability probe — "
-              << devices.size() << " device(s) found:" << std::endl;
+    std::cout << "[acceleration] Device capability probe — " << devices.size() << " device(s) found:" << std::endl;
 
-    for (const auto& d : devices) {
-        std::cout << "  [" << (d.is_healthy ? "OK" : "!!") << "] "
-                  << d.name
+    for (const auto &d : devices) {
+        std::cout << "  [" << (d.is_healthy ? "OK" : "!!") << "] " << d.name
                   << "  backend=" << static_cast<int>(d.backend_type)
                   << "  vram_free=" << (d.free_vram_bytes / (1024ULL * 1024ULL)) << " MB"
                   << "  sm=" << d.compute_major << "." << d.compute_minor
-                  << "  fp16=" << (d.supports_fp16 ? "yes" : "no")
-                  << "  bf16=" << (d.supports_bf16 ? "yes" : "no")
+                  << "  fp16=" << (d.supports_fp16 ? "yes" : "no") << "  bf16=" << (d.supports_bf16 ? "yes" : "no")
                   << std::endl;
     }
 
-    std::cout << "[acceleration] Best device: " << best.name
-              << " (backend=" << static_cast<int>(best.backend_type) << ")"
-              << std::endl;
+    std::cout << "[acceleration] Best device: " << best.name << " (backend=" << static_cast<int>(best.backend_type)
+              << ")" << std::endl;
 }
 
 } // namespace acceleration

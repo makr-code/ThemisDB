@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-06-21T21:03:08.111977",
+  "scan_file": "ai_working/scan_graph_impact_fixed.json",
+  "total_findings": 1677,
+  "ai_vibe_findings": 141,
+  "severity_distribution": {
+    "CRITICAL": 17,
+    "MEDIUM": 1471,
+    "HIGH": 54,
+    "LOW": 135
+  },
+  "impact_distribution": {
+    "null": 1642,
+    "HIGH": 35
+  },
+  "critical_path": {
+    "p0_critical_critical": 0,
+    "p0_critical_high": 12,
+    "p1_high_critical": 0,
+    "p1_high_high": 23
+  },
+  "priority_totals": {
+    "p0": 12,
+    "p1": 23,
+    "p2": 1642
+  }
+}

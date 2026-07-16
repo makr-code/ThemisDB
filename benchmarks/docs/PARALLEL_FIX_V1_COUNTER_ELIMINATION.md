@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Plan** – Beschreibt den Counter-Elimination-Ansatz v1.
+
 # 🎯 CRITICAL FINDING: Shared Counter Bottleneck IDENTIFIED & PARTIALLY FIXED
 
 **Status**: ✅ Major Discovery + Partial Fix Implemented  

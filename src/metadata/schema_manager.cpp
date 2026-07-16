@@ -1,25 +1,21 @@
+/**
+ * @file schema_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=7, M=24, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            schema_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   81.0/100                                       ║
-    • Total Lines:     1247                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 86d72db21  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
-    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: schema_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=9, M=35, L=0
+ * PR History (last 5): #3630 docs(metadata): module audi... (2026-03-12) | #3297 [metadata] Wire ColumnLinea... (2026-03-12) | #3290 feat(metadata): Cross-colle... (2026-03-12) | #3099 feat(metadata): Add Distrib... (2026-03-12) | #3018 feat(metadata): Adaptive TT... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -33,8 +29,11 @@
 #include "index/secondary_index.h"
 #include "index/secondary_index_metadata_cache.h"
 #include <spdlog/spdlog.h>
+#include <array>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
+#include <cstdlib>
 #include <set>
 
 namespace themis {
@@ -109,11 +108,25 @@ json SchemaManager::DatabaseMetadata::toJSON() const {
     j["total_rows"] = total_rows;
     j["capabilities"] = capabilities;
     
-    // Format timestamp
-    auto time_t = std::chrono::system_clock::to_time_t(last_refresh);
-    char buf[100];
-    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", std::localtime(&time_t));
-    j["last_refresh"] = buf;
+    // Format timestamp using thread-safe localtime conversion.
+    const auto ts = std::chrono::system_clock::to_time_t(last_refresh);
+    std::tm tm_buf{};
+    char buf[100] = {};
+#if defined(_WIN32)
+    if (::localtime_s(&tm_buf, &ts) == 0) {
+        std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &tm_buf);
+        j["last_refresh"] = buf;
+    } else {
+        j["last_refresh"] = "1970-01-01 00:00:00";
+    }
+#else
+    if (::localtime_r(&ts, &tm_buf) != nullptr) {
+        std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &tm_buf);
+        j["last_refresh"] = buf;
+    } else {
+        j["last_refresh"] = "1970-01-01 00:00:00";
+    }
+#endif
     
     return j;
 }
@@ -467,8 +480,19 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
             // - "graph:out:pk:edge" (outdex - skip)
             // - "graph:in:pk:edge" (index - skip)
             
-            if (key.find("idx:") == 0 || key.find("graph:") == 0) {
-                // Skip index and graph internal keys
+            static const std::array<std::string_view, 18> kInternalPrefixes = {
+                "idx:", "ridx:", "sidx:", "gidx:", "ttlidx:", "ftidx:", "pidx:", "cidx:",
+                "idxmeta:", "ridxmeta:", "sidxmeta:", "gidxmeta:", "ttlidxmeta:", "ftidxmeta:", "pidxmeta:", "cidxmeta:",
+                "graph:", "config:"
+            };
+
+            const bool is_internal = std::any_of(kInternalPrefixes.begin(), kInternalPrefixes.end(),
+                [&](std::string_view prefix) {
+                    return key.rfind(prefix, 0) == 0;
+                });
+
+            if (is_internal) {
+                // Skip index, graph and config internal keys
                 it->Next();
                 continue;
             }
@@ -496,6 +520,15 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
     std::string_view table_name,
     size_t sample_size
 ) {
+    static const std::set<std::string> kInternalBinaryKeyspaces = {
+        "dek",
+        "kek"
+    };
+    if (kInternalBinaryKeyspaces.contains(std::string(table_name))) {
+        spdlog::debug("SchemaManager: Skipping property sampling for internal keyspace '{}'", table_name);
+        return {};
+    }
+
     std::map<std::string, PropertyInfo> property_map;
     
     try {
@@ -523,8 +556,8 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
             // Parse entity to discover properties
             try {
                 std::string pk = key.substr(prefix.length());
-                std::vector<uint8_t> blob(it->value().data(), 
-                                          it->value().data() + it->value().size());
+                const auto value = it->value();
+                std::vector<uint8_t> blob(value.data(), value.data() + value.size());
                 
                 // Try to deserialize as BaseEntity
                 BaseEntity entity = BaseEntity::deserialize(pk, blob);
@@ -581,18 +614,6 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
         
     } catch (const std::exception& e) {
         spdlog::error("SchemaManager: Exception during property discovery: {}", e.what());
-    }
-    
-    // Get index information and mark indexed properties
-    auto indexes = discoverIndexes(table_name);
-    for (const auto& idx : indexes) {
-        for (const auto& col : idx.columns) {
-            auto it = property_map.find(col);
-            if (it != property_map.end()) {
-                it->second.indexed = true;
-                it->second.index_type = idx.type;
-            }
-        }
     }
     
     // Convert to vector
@@ -688,8 +709,23 @@ std::vector<SchemaManager::IndexInfo> SchemaManager::discoverIndexes(
                 idx.columns.push_back(col);
                 indexes.push_back(idx);
             }
+
+            // Partial indexes
+            for (const auto& col : metadata.partial_indexes) {
+                IndexInfo idx;
+                idx.name = col;
+                idx.type = "partial";
+                idx.columns.push_back(col);
+
+                auto it = metadata.partial_unique.find(col);
+                if (it != metadata.partial_unique.end()) {
+                    idx.unique = it->second;
+                }
+
+                indexes.push_back(idx);
+            }
         }
-        
+
         spdlog::debug("SchemaManager: Discovered {} indexes for table '{}'",
                       indexes.size(), table_name);
         
@@ -734,7 +770,8 @@ size_t SchemaManager::estimateRowCount(std::string_view table_name) {
 
 std::string SchemaManager::determineTableType(std::string_view table_name) {
     std::string name_lower(table_name);
-    std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(), ::tolower);
+    std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     
     // Heuristics based on naming conventions
     if (name_lower == "node" || name_lower == "nodes") {
@@ -788,6 +825,72 @@ void SchemaManager::buildCache() {
         schema.type = determineTableType(table_name);
         schema.properties = discoverProperties(table_name);
         schema.indexes = discoverIndexes(table_name);
+
+        // Optional fallback probing is disabled by default because some builds
+        // may expose unsafe index-manager states for arbitrary discovered keys.
+        // Re-enable only for controlled diagnostics via env toggle.
+        const bool enable_fallback_index_probe = [] {
+            const char* raw = std::getenv("THEMIS_SCHEMA_INDEX_FALLBACK_PROBE");
+            return raw != nullptr && std::string_view(raw) == "1";
+        }();
+        if (schema.indexes.empty() && index_mgr_ && enable_fallback_index_probe) {
+            std::set<std::string> seen;
+            auto add_index = [&](const std::string& col, const std::string& type, bool unique) {
+                const std::string key = type + ":" + col;
+                if (!seen.insert(key).second) {
+                    return;
+                }
+                IndexInfo idx;
+                idx.name = col;
+                idx.type = type;
+                idx.unique = unique;
+                idx.columns.push_back(col);
+                schema.indexes.push_back(std::move(idx));
+            };
+
+            for (const auto& prop : schema.properties) {
+                const std::string& col = prop.name;
+                if (col.empty()) {
+                    continue;
+                }
+
+                if (index_mgr_->hasIndex(table_name, col)) {
+                    add_index(col, "regular", false);
+                }
+                if (index_mgr_->hasRangeIndex(table_name, col)) {
+                    add_index(col, "range", false);
+                }
+                if (index_mgr_->hasSparseIndex(table_name, col)) {
+                    add_index(col, "sparse", false);
+                }
+                if (index_mgr_->hasGeoIndex(table_name, col)) {
+                    add_index(col, "geo", false);
+                }
+                if (index_mgr_->hasTTLIndex(table_name, col)) {
+                    add_index(col, "ttl", false);
+                }
+                if (index_mgr_->hasFulltextIndex(table_name, col)) {
+                    add_index(col, "fulltext", false);
+                }
+                if (index_mgr_->hasPartialIndex(table_name, col)) {
+                    add_index(col, "partial", false);
+                }
+            }
+        }
+
+        for (const auto& idx : schema.indexes) {
+            for (const auto& col : idx.columns) {
+                auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
+                                       [&](const PropertyInfo& prop) {
+                                           return prop.name == col;
+                                       });
+                if (it != schema.properties.end()) {
+                    it->indexed = true;
+                    it->index_type = idx.type;
+                }
+            }
+        }
+
         schema.estimated_row_count = estimateRowCount(table_name);
         
         table_cache_[table_name] = schema;
@@ -1202,8 +1305,8 @@ void SchemaManager::loadCustomSchemas() {
             
             // Parse schema JSON
             try {
-                std::string schema_json(it->value().data(), 
-                                       it->value().data() + it->value().size());
+                const auto value = it->value();
+                std::string schema_json(value.data(), value.data() + value.size());
                 json j = json::parse(schema_json);
                 TableSchema schema = parseTableSchema(j);
                 

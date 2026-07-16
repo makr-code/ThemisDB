@@ -1,23 +1,21 @@
+/**
+ * @file lora_layers.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_layers.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_layers.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 368
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #547 Implement Adam/AdamW Optimi... (2026-03-11) | #528 [LoRA] Implement CPU-based ... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -46,18 +44,18 @@ public:
     virtual ~ITrainableLayer() = default;
     
     // Forward pass
-    virtual Tensor forward(const Tensor& input) = 0;
+    [[nodiscard]] virtual Tensor forward(const Tensor& input) = 0;
     
     // Backward pass (gradient computation)
-    virtual Tensor backward(const Tensor& grad_output) = 0;
+    [[nodiscard]] virtual Tensor backward(const Tensor& grad_output) = 0;
     
     // Parameter access
-    virtual std::vector<Tensor*> parameters() = 0;
+    [[nodiscard]] virtual std::vector<Tensor*> parameters() = 0;
     
     // Layer metadata
-    virtual std::string name() const = 0;
-    virtual size_t parameter_count() const = 0;
-    virtual size_t memory_bytes() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
+    [[nodiscard]] virtual size_t parameter_count() const = 0;
+    [[nodiscard]] virtual size_t memory_bytes() const = 0;
 };
 
 /**
@@ -87,10 +85,10 @@ public:
 
 private:
     std::string name_;
-    size_t in_dim_;
-    size_t out_dim_;
-    size_t rank_;
-    float scaling_;
+    size_t in_dim_ = 0;
+    size_t out_dim_ = 0;
+    size_t rank_ = 0;
+    float scaling_ = 1.0f;
     
     // Trainable parameters (B and A matrices)
     std::unique_ptr<Tensor> B_;  // (in_dim, rank)
@@ -129,12 +127,12 @@ private:
     std::unique_ptr<LoRALayer> v_lora_;
     std::unique_ptr<LoRALayer> o_lora_;
     
-    size_t dim_;
-    size_t rank_;
-    bool apply_to_q_;
-    bool apply_to_k_;
-    bool apply_to_v_;
-    bool apply_to_o_;
+    size_t dim_ = 0;
+    size_t rank_ = 0;
+    bool apply_to_q_ = true;
+    bool apply_to_k_ = true;
+    bool apply_to_v_ = true;
+    bool apply_to_o_ = true;
 };
 
 /**
@@ -247,9 +245,9 @@ public:
     void set_learning_rate(float lr) { learning_rate_ = lr; }
 
 private:
-    float learning_rate_;
-    float momentum_;
-    float weight_decay_;
+    float learning_rate_ = 0.0f;
+    float momentum_ = 0.0f;
+    float weight_decay_ = 0.0f;
     std::vector<Tensor*> parameters_;
     
     // Momentum buffers (for momentum > 0)
@@ -271,6 +269,7 @@ private:
  */
 class AdamOptimizer {
 public:
+    virtual ~AdamOptimizer() = default;
     /**
      * @brief Construct Adam optimizer
      * @param learning_rate Learning rate (α), default 1e-4
@@ -302,12 +301,12 @@ public:
     int step_count() const { return step_count_; }
 
 private:
-    float learning_rate_;
-    float beta1_;
-    float beta2_;
-    float epsilon_;
-    float weight_decay_;
-    int step_count_;
+    float learning_rate_ = 0.0f;
+    float beta1_ = 0.0f;
+    float beta2_ = 0.0f;
+    float epsilon_ = 0.0f;
+    float weight_decay_ = 0.0f;
+    int step_count_ = 0;
     std::vector<Tensor*> parameters_;
     
     // First moment estimates (momentum)
@@ -328,6 +327,7 @@ private:
  */
 class AdamWOptimizer {
 public:
+    virtual ~AdamWOptimizer() = default;
     /**
      * @brief Construct AdamW optimizer
      * @param learning_rate Learning rate (α), default 1e-4
@@ -359,12 +359,12 @@ public:
     int step_count() const { return step_count_; }
 
 private:
-    float learning_rate_;
-    float beta1_;
-    float beta2_;
-    float epsilon_;
-    float weight_decay_;
-    int step_count_;
+    float learning_rate_ = 0.0f;
+    float beta1_ = 0.0f;
+    float beta2_ = 0.0f;
+    float epsilon_ = 0.0f;
+    float weight_decay_ = 0.0f;
+    int step_count_ = 0;
     std::vector<Tensor*> parameters_;
     
     // First moment estimates (momentum)

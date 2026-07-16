@@ -1,6 +1,6 @@
 # Building ThemisDB on ARM and Raspberry Pi
 
-**Stand:** 26. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment
 
@@ -484,7 +484,7 @@ ThemisDB includes automated CI/CD for ARM builds:
 - **Benchmark tracking** (planned) will monitor performance regression
 - See [CI/CD documentation](CI_CD_MULTIARCH.md) for details
 
-Build status: [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
+Build status: [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
 
 ## vcpkg ARM Support
 

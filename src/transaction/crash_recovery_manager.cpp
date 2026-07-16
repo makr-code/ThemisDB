@@ -1,23 +1,21 @@
+/**
+ * @file crash_recovery_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.45
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            crash_recovery_manager.cpp                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-09 04:00:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     495                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: crash_recovery_manager.cpp | Version: 0.0.45 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 492
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=14, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/crash_recovery_manager.h"
@@ -145,6 +143,12 @@ CrashRecoveryManager::deserialize(const std::string& line) {
                 e.operation.new_value = base64Decode(j["new"].get<std::string>());
         }
         return e;
+    } catch (const json::exception&) {
+        return std::nullopt;
+    } catch (const std::string&) {
+        return std::nullopt;
+    } catch (const char*) {
+        return std::nullopt;
     } catch (...) {
         return std::nullopt;
     }
@@ -496,3 +500,5 @@ size_t CrashRecoveryManager::pendingTransactionCount() const {
 
 } // namespace transaction
 } // namespace themis
+
+

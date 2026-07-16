@@ -1,92 +1,108 @@
 # Index Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-06-30 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/range secondary indexes, R-tree spatial indexes, and graph adjacency indexes are all implemented with optional GPU acceleration.
 
-## Completed ✅
-- [x] HNSW vector similarity index (L2, Cosine, Dot Product)
-- [x] GPU-accelerated vector search (Vulkan, CUDA, HIP via GPUVectorIndex)
-- [x] Product Quantization (PQ), Binary Quantization, Residual Quantization
-- [x] B-tree, range, sparse, and composite secondary indexes
-- [x] R-tree spatial index with Z-order curves
-- [x] Graph indexing (adjacency lists, BFS/DFS traversal)
-- [x] Adaptive index recommendations based on query patterns
-- [x] IVF+PQ and FAISS integration
-- [x] Multi-vector search
-- [x] GNN embeddings, temporal graphs, rotary embeddings
-- [x] IndexManager with dependency injection (breaks circular deps)
-- [x] RocksDB persistence for vector indexes with WriteBatch atomicity
-- [x] Audit logging for vector operations
-- [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
-- [x] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
-- [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
+Production index runtime exists across vector/secondary/spatial/graph indexing, acceleration/compression pathways, and index lifecycle/rebuild/tiering operations.
 
-## In Progress 🚧
+**ANN Frontdoor formalized** (issue #5424): `AnnFrontdoor` is the single universal retrieval gate for all
+ANN queries. All six artifact classes — Document, Chunk, Entity, Adapter, Package, ShardSummary — are
+registered as first-class `AnnScopeKind` values with hot/cold routing and observability.
 
-## Planned Features 📋
+## In Progress
 
-### Short-term (Next 3-6 months)
-- [I] Index statistics export to metadata module (Issue: #1866)
-- [P] Online index rebuild with minimal read impact (Issue: #1868)
-- [P] Configurable GPU memory budget per index (Issue: #1869)
+- [~] hardening backend parity and deterministic fallback across mixed GPU/runtime capabilities (Target: Q3 2026)
+- [~] benchmark stabilization for vector search, rebuild, spatial, and quantization hot paths (Target: Q3 2026)
+- [~] diagnostics consistency for lifecycle, rebuild, and distributed index incidents (Target: Q3 2026)
+- [~] GPU vector index CUDA backend: L2, cosine, inner-product kernels (Target: Q4 2026)
+- [~] GPU vector index HIP backend: AMD ROCm support with feature-parity (Target: Q4 2026)
 
-### Long-term (6-12 months)
-- [P] Multi-tenancy index isolation (Issue: #1872)
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under high-volume mixed index operation workloads (Target: Q4 2026)
+- [ ] extend stress coverage for rebuild/tiering/distributed edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for backend and lifecycle degradation incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for core vector and secondary index operations (Target: Q1 2027)
+- [ ] broaden benchmark depth for distributed and advanced retrieval workflows (Target: Q1 2027)
+- [ ] harden long-running reliability under sustained multi-tenant index pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Production-Grade Index Infrastructure (Status: Completed ✅)
-- [x] HNSW vector similarity index (L2, Cosine, Dot Product) in `index/hnsw_index.cpp`
-- [x] GPU-accelerated vector search via GPUVectorIndex (Vulkan, CUDA, HIP)
-- [x] Product Quantization (PQ), Binary Quantization, and Residual Quantization
-- [x] B-tree, range, sparse, and composite secondary indexes (`index/secondary_index_manager.cpp`)
-- [x] R-tree spatial index with Z-order curves (`index/rtree_index.cpp`)
-- [x] Graph indexing: adjacency lists, BFS/DFS traversal (`index/graph_index_manager.cpp`)
-- [x] Adaptive index recommendations based on query patterns
-- [x] IVF+PQ and FAISS integration, multi-vector search
-- [x] GNN embeddings, temporal graphs, rotary embeddings
-- [x] IndexManager with dependency injection to break circular dependencies
-- [x] RocksDB persistence for vector indexes with WriteBatch atomicity
-- [x] Audit logging for vector operations
+### Phase 1: Design / API Contract — ANN Frontdoor (issue #5424)
+- [x] AnnFrontdoor abstraction API defined (`include/index/ann_frontdoor.h`)
+- [x] Decision tree HNSW / ScaNN / DiskANN / Distributed / Flat formalized
+- [x] All six artifact scope kinds defined: Document, Chunk, Entity, Adapter, Package, ShardSummary
+- [x] Metadata fields for ANN route-aware sharding (ShardMetadata, AnnQueryContext, AnnRetrievalPlan)
+- [ ] freeze core/acceleration/lifecycle contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for backend, rebuild, and distribution failure classes (Target: Q3 2026)
 
-### Phase 2: Full-Text & Automated Advisor (Status: Completed ✅)
-- [x] Full-text inverted index integration (Target: Q2 2026)
-- [x] Automated index advisor with workload replay (Target: Q2 2026)
-- [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026)
+### Phase 2: Core Implementation — ANN Frontdoor (issue #5424)
+- [x] AnnFrontdoor::search() / planStrategy() / planRetrieval() implemented
+- [x] Routing logic for all six artifact classes with hot/cold tier awareness
+- [x] Distributed fan-out with cost-aware shard pruning
+- [x] TieredIndexManager integration for hot/cold tier resolution
+- [ ] complete hardening for vector/secondary/spatial/graph index internals (Target: Q4 2026)
+- [ ] align quantization/compression behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Learned Structures & GPU Build (Status: In Progress 🚧)
-- [x] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
-- [x] Learned index structures (ML-based B-tree replacement)
-- [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
-- [x] Parallel batch search across GPUs in MultiGPUVectorIndex
-- [x] GPU utilization tracking in MultiGPUVectorIndex statistics
-- [x] IndexSuggestionEngine::indexExists backed by in-memory index registry
-- [x] Distributed vector index across shards
-- [x] Partial / filtered indexes on secondary index manager
-- [x] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
-- [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)
+### Phase 3: Error Handling and Edge Cases — ANN Frontdoor (issue #5424)
+- [x] Missing backend → FLAT_BRUTE_FORCE fallback with degraded_continue reason code
+- [x] Partial shard failures → partial_results flag + configurable fail-closed behavior
+- [x] nullptr query / dim==0 guard with std::invalid_argument
+- [ ] standardize fail-safe behavior for unsupported/degraded backend scenarios (Target: Q4 2026)
+- [ ] unify diagnostics across rebuild/tiering/distributed failure incidents (Target: Q4 2026)
+
+### Phase 4: Tests — ANN Frontdoor (issue #5424)
+- [x] Unit tests for all routing strategies and scope kinds (tests/index/test_ann_frontdoor.cpp)
+- [x] Tests for Document, Chunk, Entity scope kind routing and candidate return
+- [x] Distributed fan-out, flaky shard, and retry tests
+- [x] Hot/cold tier demotion tests
+- [ ] expand focused regressions for mixed backend/index/lifecycle edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for high-concurrency retrieval and update workloads (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] hot vs cold benchmark for ANN frontdoor routing paths (Target: Q4 2026)
+- [ ] lock benchmark-backed release gates for index hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance — ANN Frontdoor (issue #5424)
+- [x] ANN frontdoor API documented in include/index/ann_frontdoor.h (Doxygen)
+- [x] Artifact class routing table documented in TARGET_ARCHITECTURE.md §2.1
+- [x] HNSW vs DiskANN decision tree documented in TARGET_ARCHITECTURE.md §2.1
+- [x] core index module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
+
+### Phase 7: Migration / Go-Live — ANN Frontdoor (issue #5424)
+- [x] HybridSearch::setAnnFrontdoor() integration point established
+- [x] Tensor mid-layer (AdapterRepository, TensorMidLayer) integrates via setAnnFrontdoor()
+- [ ] Migrate all existing retrieval flows to pass through AnnFrontdoor (Target: Q3 2026)
+- [ ] Rollout guide for existing callers (Target: Q3 2026)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1882)
-- [P] Integration tests (HNSW recall@10, spatial correctness) (Issue: #1883)
-- [P] Performance benchmarks (QPS, recall, memory) (Issue: #1884)
-- [I] Security audit (GPU memory safety, RocksDB key prefix isolation) (Issue: #1885)
-- [I] Documentation complete (Issue: #1886)
-- [I] API stability guaranteed (Issue: #1887)
 
-## Known Issues & Limitations
-- GPU acceleration requires Vulkan/CUDA drivers; falls back to CPU automatically.
-- HNSW incremental re-indexing implemented via `VectorIndexManager::incrementalReindex()`.
-- Full-text search is implemented via `InvertedIndex` (standalone) and `SecondaryIndexManager` (integrated).
-- Multi-tenancy index isolation uses RocksDB key-prefix format `tenant:<id>:<index_name>`;
-  index registry isolation is enforced at the `IndexManager` layer.  Both `IVectorIndex`
-  (`VectorIndexAdapter`) and `ISecondaryIndex` (`SecondaryIndexAdapter`) adapters are fully
-  implemented and returned by `IndexManager::createVectorIndex()` / `createSecondaryIndex()`.
-  Partial (filtered) indexes are created by passing `config = "partial:<predicate>"` to
-  `createSecondaryIndex()`.
+- [x] ANN Frontdoor API stable and documented
+- [x] HNSW / ScaNN / DiskANN switching validated via unit tests
+- [x] All six ANN scope kinds defined and tested
+- [x] Shard-aware routing with cost-aware pruning implemented and tested
+- [x] core index surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for backend/lifecycle edge paths
+- [ ] release benchmark stabilization complete
+- [ ] hot vs cold ANN path benchmarks completed
+
+## Known Issues and Limitations
+
+- runtime behavior depends on backend capability, selected index strategy, and operational configuration.
+- distributed and advanced acceleration edge scenarios need continued hardening.
+- benchmark breadth should continue expanding for specialized index workflows.
+- shard-aware routing metadata (ShardMetadata) uses fixed defaults; real cost/freshness injection is future work.
 
 ## Breaking Changes
-- `IndexManager` factory API (`createDefault()`) is stable from v1.x.
-- GPU index configuration struct may gain new fields in v2.0; additive only.
+
+No breaking index contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

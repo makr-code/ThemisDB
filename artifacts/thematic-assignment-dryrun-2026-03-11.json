@@ -1,0 +1,1104 @@
+{
+  "issues_closed_without_milestone": 286,
+  "module_versions": {
+    "analytics": "v1.7.0",
+    "aql": "v1.7.0",
+    "base": "v1.8.0",
+    "geo": "v2.2.0",
+    "importers": "v1.5.0",
+    "ingestion": "v1.6.0",
+    "llm": "v1.16.0",
+    "metadata": "v1.6.0",
+    "network": "v1.9.0",
+    "plugins": "v0.9.0",
+    "replication": "v1.7.0",
+    "scheduler": "v1.5.0",
+    "search": "v2.3.0",
+    "security": "v1.5.0",
+    "server": "v1.6.0",
+    "storage": "v1.6.0",
+    "themis": "v1.7.0",
+    "training": "v1.7.0",
+    "transaction": "v1.5.0",
+    "utils": "v1.5.0",
+    "voice": "v1.1.0"
+  },
+  "suggestions_total": 134,
+  "apply": false,
+  "applied": 0,
+  "failed": [],
+  "suggestions": [
+    {
+      "issue": 2514,
+      "title": "[Research] Core scientific foundations for LLM Integration in ThemisDB",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 2495,
+      "title": "[voice] [!] Integrate voice with SIP/WebRTC telephony systems",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2492,
+      "title": "[voice] Language detection and auto-locale switching",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2479,
+      "title": "[transaction] Implement partial transaction rollbacks",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2453,
+      "title": "[scheduler] Execute task dependency DAG",
+      "module": "scheduler",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2452,
+      "title": "[scheduler] Parse full cron expressions in v1.5.0",
+      "module": "scheduler",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2444,
+      "title": "[replication] [!] Compress WAL with Zstd for bandwidth reduction",
+      "module": "replication",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 2443,
+      "title": "[replication] [!] Visualize replication topology in web UI",
+      "module": "replication",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 2442,
+      "title": "[replication] Expand CRDT library features",
+      "module": "replication",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 2413,
+      "title": "[metadata] [!] Track column lineage and data provenance",
+      "module": "metadata",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2411,
+      "title": "[llm] Propagate timeouts on request cancellation",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 2409,
+      "title": "[ingestion] [!] Implement cursor-based pagination and offset/limit support",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2408,
+      "title": "[ingestion] [!] Refresh OAuth 2.0 tokens in connectors",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2373,
+      "title": "[base] [!] Plugin health monitoring and auto-restart on failure",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 2366,
+      "title": "[voice] Improve multi-speaker diarization accuracy",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2359,
+      "title": "[voice] Documentation is complete",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2358,
+      "title": "[voice] Audio data security audit",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2356,
+      "title": "[voice] Integrate full audio pipeline for transcription and AQL processing",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2348,
+      "title": "[voice] Integrate voice with SIP and WebRTC telephony systems",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2345,
+      "title": "[utils] [!] Upgrade PII detection model to ML-based NER",
+      "module": "utils",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2331,
+      "title": "[transaction] Implement partial rollback within transactions",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2326,
+      "title": "[transaction] Distributed SAGA orchestration across multiple nodes",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2324,
+      "title": "[transaction] Show locks acquired in transactions",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2320,
+      "title": "[transaction] Show locks and MVCC version chains in transactions",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2308,
+      "title": "[server] [!] API versioning strategy with deprecation headers and sunset dates",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2305,
+      "title": "[server] Edge caching integration with CDN cache-control header management",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2304,
+      "title": "[server] Serverless function hosting",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2303,
+      "title": "[server] gRPC-web proxy for browser clients",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2301,
+      "title": "[server] Per-tenant custom domain routing",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2291,
+      "title": "[security] Implement Intel TDX/SEV encrypted enclave support for confidential computing",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2288,
+      "title": "[security] Row-level security policies for AQL executions",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2287,
+      "title": "[security] Improve anomaly detection for brute-force and credential-stuffing attacks",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2286,
+      "title": "[security] Session token revocation list with real-time invalidation",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2282,
+      "title": "[search] Rewrite LLM-based query rewriting for better recall",
+      "module": "search",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.3.0"
+    },
+    {
+      "issue": 2273,
+      "title": "[scheduler] Execute task dependency DAG",
+      "module": "scheduler",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2269,
+      "title": "[scheduler] Dynamic task scaling based on queue depth",
+      "module": "scheduler",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2268,
+      "title": "[scheduler] Event-triggered task execution",
+      "module": "scheduler",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2259,
+      "title": "[replication] Replicate topology visualizer in web UI",
+      "module": "replication",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 2258,
+      "title": "[replication] Raft leader lease reads for linearizable read-scale-out",
+      "module": "replication",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 2223,
+      "title": "[plugins] Plugin hot-reload without server restart",
+      "module": "plugins",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v0.9.0"
+    },
+    {
+      "issue": 2222,
+      "title": "[plugins] [!] Resolve plugin A's dependency on plugin B",
+      "module": "plugins",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v0.9.0"
+    },
+    {
+      "issue": 2208,
+      "title": "[network] Implement Istio/Envoy sidecar compatibility for service mesh",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2207,
+      "title": "[network] Network topology-aware routing for geo-distributed clusters",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2206,
+      "title": "[network] Implement LZ4 and Zstd connection compression",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2205,
+      "title": "[network] Per-tenant network bandwidth quotas implemented",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2204,
+      "title": "[network] [!] Implement TCP multiplexing for multiple logical streams",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2198,
+      "title": "[ingestion] [!] Implement cursor-based pagination with offset and limit",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2160,
+      "title": "[transaction] Implement OCC as alternative to pessimistic locking",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2146,
+      "title": "[metadata] [!] Track column lineage and data provenance",
+      "module": "metadata",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2131,
+      "title": "[utils] [!] Upgrade PII detection model to ML-based NER",
+      "module": "utils",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2123,
+      "title": "[transaction] Implement OCC as alternative to pessimistic locking",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2122,
+      "title": "[security] [!] Implement JWT/OIDC federated auth with OAuth 2.0 provider",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2117,
+      "title": "[server] [!] Implement chunked response streaming for large result sets",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2113,
+      "title": "[search] Re-rank with LLM feedback loop",
+      "module": "search",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.3.0"
+    },
+    {
+      "issue": 2104,
+      "title": "[metadata] [!] Track column lineage and data provenance",
+      "module": "metadata",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2102,
+      "title": "[llm] Propagate timeouts on request cancellation",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 2100,
+      "title": "[ingestion] [!] Refresh OAuth 2.0 tokens in connectors",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2095,
+      "title": "[network] [!] Implement TCP multiplexing for multiple logical streams",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2093,
+      "title": "[metadata] [!] Track column lineage and data provenance",
+      "module": "metadata",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 2088,
+      "title": "[importers] Dry-run import preview",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2082,
+      "title": "[base] [!] Plugin sandboxing with limited resources",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 2077,
+      "title": "[voice] Voice session playback and search in stored transcripts",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2070,
+      "title": "[voice] WebSocket Audio Streaming Endpoint",
+      "module": "voice",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.1.0"
+    },
+    {
+      "issue": 2069,
+      "title": "[utils] [!] Upgrade PII detection model to ML-based NER",
+      "module": "utils",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2064,
+      "title": "[security] [!] Implement OAuth 2.0 JWT/OIDC federation",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2063,
+      "title": "[search] Re-rank with LLM feedback loop",
+      "module": "search",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.3.0"
+    },
+    {
+      "issue": 2052,
+      "title": "[llm] Propagate timeouts across requests",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 2040,
+      "title": "[utils] [!] Upgrade PII detection model to ML-based NER",
+      "module": "utils",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2033,
+      "title": "[search] Re-rank with LLM feedback",
+      "module": "search",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.3.0"
+    },
+    {
+      "issue": 2031,
+      "title": "[replication] [!] Witness node support for quorum in 2-node clusters",
+      "module": "replication",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 2027,
+      "title": "[plugins] [!] Plugin dependency resolution for plugin A",
+      "module": "plugins",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v0.9.0"
+    },
+    {
+      "issue": 2024,
+      "title": "[network] gRPC native transport separate from server module",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 2022,
+      "title": "[llm] Propagate timeouts on request cancellation",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 2019,
+      "title": "[importers] Dry-run import preview",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 2004,
+      "title": "[security] [!] Implement OAuth 2.0 JWT/OIDC federation for secure authentication",
+      "module": "security",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1994,
+      "title": "[network] QUIC/HTTP3 transport layer integration",
+      "module": "network",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.9.0"
+    },
+    {
+      "issue": 1992,
+      "title": "[llm] Propagate timeouts on request cancellation",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1978,
+      "title": "[transaction] Implement OCC as alternative to pessimistic locking",
+      "module": "transaction",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1971,
+      "title": "[search] Multi-field boosting for title, body and tags",
+      "module": "search",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.3.0"
+    },
+    {
+      "issue": 1970,
+      "title": "[scheduler] Implement web UI for task management",
+      "module": "scheduler",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1961,
+      "title": "[metadata] Distributed metadata catalog across shards",
+      "module": "metadata",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1960,
+      "title": "[llm] Propagate timeouts on request cancellation",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1952,
+      "title": "[base] Negotiate plugin version ranges at runtime",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 1945,
+      "title": "[llm] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1940,
+      "title": "[llm] Improve performance benchmarks for tokens/sec and latency p99",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1936,
+      "title": "[llm] Implement multi-model routing based on prompt content or metadata tags",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1933,
+      "title": "[llm] OpenAI-compatible /v1/chat/completions REST adapter",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1931,
+      "title": "[llm] Propagate timeouts across requests",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1929,
+      "title": "[llm] LoRA adapter hot-loading at inference time",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1928,
+      "title": "[llm] Federated inference across distributed nodes",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1927,
+      "title": "[llm] Implement multi-modal input support",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1926,
+      "title": "[llm] Speculative decoding for latency reduction",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1924,
+      "title": "[llm] Implement deduplication cache for same prompts",
+      "module": "llm",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.16.0"
+    },
+    {
+      "issue": 1916,
+      "title": "[ingestion] Per-document quarantine retry with exponential back-off",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1910,
+      "title": "[ingestion] Integrate filesystem, HuggingFace, and generic API tests",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1909,
+      "title": "[ingestion] Improve unit test coverage threshold",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1908,
+      "title": "[ingestion] Plugin API for third-party source connectors",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1905,
+      "title": "[ingestion] S3/GCS/Azure Blob Object-Storage Source Connector",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1903,
+      "title": "[ingestion] Implement cursor-based pagination with offset and limit",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1896,
+      "title": "[ingestion] Validate schema per source before writing",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1895,
+      "title": "[ingestion] Implement web crawler and sitemap ingestion source",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1894,
+      "title": "[ingestion] JDBC-compatible database source",
+      "module": "ingestion",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1855,
+      "title": "[importers] S3-compatible object storage source connector",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1852,
+      "title": "[importers] Implement MongoDB importer for document collections",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1850,
+      "title": "[importers] Dry-run import preview",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1849,
+      "title": "[importers] Implement conflict resolution strategies",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1843,
+      "title": "[importers] Kafka consumer importer for real-time streaming ingestion",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1839,
+      "title": "[importers] CSV/TSV/Parquet Flat-File Importer",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1837,
+      "title": "[importers] Import progress reporting with streaming callbacks",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1836,
+      "title": "[importers] MongoDB importer f\u00c3\u00bcr Dokumenteins\u00c3\u00a4tze",
+      "module": "importers",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.5.0"
+    },
+    {
+      "issue": 1754,
+      "title": "[geo] Improve unit test coverage threshold",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1752,
+      "title": "[geo] [!] Implement CUDA kernel dispatch for distance and containment on GPU",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1749,
+      "title": "[geo] Implement full GeoJSON RFC 7946 parsing",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1748,
+      "title": "[geo] Tile server integration for map visualization",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1744,
+      "title": "[geo] Spherical geometry support for WGS-84 ellipsoid",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1743,
+      "title": "[geo] ROCm/HIP GPU backend for AMD hardware",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1741,
+      "title": "[geo] Integrate R-tree indexes with CPU backend",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1738,
+      "title": "[geo] Expand ST_Buffer geometry by a fixed distance",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1736,
+      "title": "[geo] Dispatch CUDA kernels on GPU backend",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1735,
+      "title": "[geo] Implement ST_Buffer operation",
+      "module": "geo",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v2.2.0"
+    },
+    {
+      "issue": 1576,
+      "title": "[base] Hot-reload support for plugins",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 1563,
+      "title": "[base] Visualize plugin dependencies",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 1562,
+      "title": "[base] Implement remote plugin loading from authenticated registry",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 1561,
+      "title": "[base] WASM-based plugin isolation for untrusted code",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 1555,
+      "title": "[base] Resolve plugin dependencies in order",
+      "module": "base",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.8.0"
+    },
+    {
+      "issue": 1526,
+      "title": "[aql] Stream natural language responses for long AQL explanations",
+      "module": "aql",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1524,
+      "title": "[aql] API stability guaranteed",
+      "module": "aql",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1520,
+      "title": "[aql] Stream natural language responses for long AQL explanations",
+      "module": "aql",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1488,
+      "title": "[analytics] Sanitize LLM API keys and export data",
+      "module": "analytics",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1486,
+      "title": "[analytics] Improve unit test coverage threshold",
+      "module": "analytics",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1479,
+      "title": "[analytics] Morphological lemmatization for all languages",
+      "module": "analytics",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1467,
+      "title": "[analytics] Stateful pattern matching with checkpointing",
+      "module": "analytics",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.7.0"
+    },
+    {
+      "issue": 1438,
+      "title": "[server] Implement deprecation headers and sunset dates for API versioning",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    },
+    {
+      "issue": 1436,
+      "title": "[server] HTTP/3 QUIC performance tuning and production hardening",
+      "module": "server",
+      "confidence": "medium",
+      "source": "label:module-name",
+      "suggested_milestone": "v1.6.0"
+    }
+  ]
+}

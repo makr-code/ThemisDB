@@ -1,0 +1,74 @@
+{
+  "generated": "2026-03-11",
+  "failed_count": 17,
+  "failed": [
+    {
+      "issue": 2514,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/2514: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 2411,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/2411: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 2102,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/2102: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 2052,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/2052: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 2022,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/2022: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1992,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1992: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1960,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1960: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1945,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1945: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1940,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1940: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1936,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1936: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1933,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1933: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1931,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1931: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1929,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1929: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1928,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1928: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1927,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1927: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1926,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1926: 'v1.16.0' not found\nfailed to update 1 issue"
+    },
+    {
+      "issue": 1924,
+      "stderr": "failed to update https://github.com/makr-code/ThemisDB/issues/1924: 'v1.16.0' not found\nfailed to update 1 issue"
+    }
+  ]
+}

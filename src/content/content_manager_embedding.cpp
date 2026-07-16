@@ -1,40 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_manager_embedding.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     67                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • efa41f432  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright (c) 2024 ThemisDB
-// SPDX-License-Identifier: MIT
-
 /**
  * @file content_manager_embedding.cpp
- * @brief ContentManager embedding pipeline integration (Issue #1697)
- *
- * Implements:
- *  - ContentManager::setEmbeddingPipeline() — attaches an EmbeddingPipeline
- *  - ContentManager::generateEmbedding()    — per-text embedding via pipeline
- *
- * The pipeline is invoked automatically inside importContent() for every text
- * chunk that does not yet carry a pre-computed embedding, when a pipeline with
- * a non-empty model_name is attached.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/content_manager.h"

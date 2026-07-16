@@ -314,7 +314,7 @@ logger.logDataChange(user, op, table, pk, old, new);
 ## 📚 Vollständige Dokumentation
 
 **Detaillierte Analyse:**
-- [Git-ähnliche Features für MVCC (Vollständig)](docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md) - 34KB, 1000+ Zeilen
+- [Git-ähnliche Features für MVCC (Vollständig)](research/GIT_LIKE_FEATURES_FOR_MVCC.md) - 34KB, 1000+ Zeilen
 
 **Enthält:**
 - Technische Details zu allen Features
@@ -335,7 +335,7 @@ logger.logDataChange(user, op, table, pk, old, new);
 4. ✅ Budget freigeben
 
 ### Für Entwickler:
-1. ✅ Vollständige Analyse lesen: `docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md`
+1. ✅ Vollständige Analyse lesen: `research/GIT_LIKE_FEATURES_FOR_MVCC.md`
 2. ✅ Proof-of-Concept für SnapshotManager starten
 3. ✅ Design Review mit Team
 4. ✅ Implementation Sprint 1 starten

@@ -1,5 +1,12 @@
 # High Availability Replication - Implementation Guide
 
+> Alignment note (2026-05-31): This guide is a secondary operational document.
+> Authoritative current workload and target behavior are defined in:
+> - `src/replication/FUTURE_ENHANCEMENTS.md`
+> - `src/replication/MODULE_GAPS.md`
+> - `src/replication/ROADMAP.md`
+> If this guide conflicts with newer planning docs, the planning docs take precedence.
+
 ## Overview
 
 ThemisDB's High Availability (HA) Replication provides enterprise-grade reliability with automatic failure detection, failover, and recovery mechanisms. This ensures continuous database availability even in the face of node failures, network partitions, or datacenter outages.
@@ -77,7 +84,7 @@ ThemisDB's replication system is split across two main module directories:
 **Design Rationale**: The split allows `replication/` to focus on business logic and orchestration while `sharding/` handles the complex distributed systems infrastructure needed for both replication and horizontal scaling.
 
 > **See Also**: 
-> - [REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md) - Detailed status of WAL components
+> - [REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md) - Detailed status of WAL components
 > - [replication_raid_plan.md](./replication_raid_plan.md) - RAID 1/10 implementation roadmap
 
 ### High-Level Components
@@ -756,12 +763,23 @@ themisdb_mraaa_bounded_staleness_reads_total{region="us-east-1"}
 themisdb_mraaa_session_reads_total{region="us-east-1"}
 themisdb_mraaa_eventual_reads_total{region="us-east-1"}
 
+# STRONG writes rejected because the local region is not the designated leader
+themisdb_mraaa_leader_write_rejections_total{region="us-east-1"}
+
 # Current replication lag per region (gauge)
 themisdb_mraaa_region_staleness_ms{region="eu-west-1"}
 ```
 
 ### Constraints & Notes
 
+- **STRONG consistency is region-local only**: Cross-region writes are always
+  eventual unless all writes are routed exclusively through the designated
+  `leader_region_id`.  Mixing STRONG writes across regions **will not** provide
+  linearisability and may result in lost updates or split-brain divergence.
+- **Vector-clock conflict resolution is non-deterministic for concurrent writes**:
+  LAST_WRITE_WINS and MERGE strategies may produce different outcomes when two
+  regions accept writes to the same document at the same time.  For SERIALIZABLE
+  workloads, all writes must go to a single region.
 - **Staleness feeds are caller-managed**: the manager does not measure lag
   itself; the replication layer must call `updateRegionStaleness()` on every
   WAL ACK or heartbeat.
@@ -774,7 +792,89 @@ themisdb_mraaa_region_staleness_ms{region="eu-west-1"}
 - **Session tokens are stateless**: tokens embed the required sequence and
   an expiry timestamp and are validated without server-side storage.
 
-## Performance Tuning
+### Per-Collection Consistency Overrides
+
+Individual collections (tables) can enforce a different consistency level than
+the global default.  Use `collection_consistency_overrides` in the configuration
+to require STRONG consistency for critical data while keeping the default at
+BOUNDED_STALENESS for bulk workloads.
+
+```cpp
+MultiRegionActiveActiveConfig cfg;
+cfg.local_region_id     = "us-east-1";
+cfg.peer_region_ids     = {"eu-west-1"};
+cfg.default_consistency = ConsistencyLevel::BOUNDED_STALENESS;
+cfg.max_staleness_ms    = 5000;
+
+// Critical financial data must always be strongly consistent
+cfg.collection_consistency_overrides["financial_ledger"] = ConsistencyLevel::STRONG;
+// Analytics events can tolerate any lag
+cfg.collection_consistency_overrides["page_views"]       = ConsistencyLevel::EVENTUAL;
+
+MultiRegionActiveActiveManager mgr(cfg);
+
+// The override takes precedence over the caller-supplied level:
+auto r = mgr.read("financial_ledger", "acct-42",
+                  ConsistencyLevel::BOUNDED_STALENESS); // → enforces STRONG
+```
+
+> **Warning**: Configuring `STRONG` on a collection that is also written from
+> non-leader regions will cause all writes to that collection to be rejected
+> unless a `leader_region_id` is set and the write arrives at that leader.
+
+### Leader Region for Critical Cross-Region Writes
+
+To prevent split-brain lost-update scenarios for critical workloads, designate
+one region as the exclusive acceptor of STRONG writes.  Non-leader regions
+reject STRONG writes and must route them to the leader.
+
+```cpp
+MultiRegionActiveActiveConfig cfg;
+cfg.local_region_id  = "eu-west-1";
+cfg.peer_region_ids  = {"us-east-1", "ap-south-1"};
+cfg.leader_region_id = "eu-west-1";   // This region is the STRONG-write leader
+
+MultiRegionActiveActiveManager mgr(cfg);
+
+// Accepted – local region IS the leader
+auto w = mgr.write("orders", "ord-1", "INSERT", payload,
+                   ConsistencyLevel::STRONG);
+assert(w.success && w.is_leader_region);
+
+// Non-leader regions should check w.success == false and retry on the leader.
+```
+
+Non-leader regions should forward STRONG write requests to the leader via their
+application routing layer; ThemisDB does not perform cross-region RPC itself.
+
+> **Trade-off**: Designating a single leader for STRONG writes reduces
+> availability during leader-region outages and increases write latency from
+> remote regions (cross-datacenter round-trip penalty).  For workloads that
+> can tolerate bounded staleness, use BOUNDED_STALENESS or SESSION instead.
+
+### Split-Brain Detection
+
+Enable heuristic split-brain detection to surface potential network partitions:
+
+```cpp
+cfg.split_brain_detection_enabled = true;
+
+MultiRegionActiveActiveManager mgr(cfg);
+
+// Called periodically (e.g. before a critical STRONG write)
+if (mgr.isSplitBrain()) {
+    // All configured peer regions have exceeded the staleness bound.
+    // Consider rejecting writes or alerting operations.
+    LOG_WARN("Possible network partition – refusing critical write");
+}
+```
+
+`isSplitBrain()` returns `true` when every peer region reports unhealthy
+staleness (> `max_staleness_ms * 2`).  It is a heuristic: a false negative
+is possible if staleness feeds are delayed.  Combine with infrastructure-level
+health checks for production use.
+
+
 
 ### High-Throughput Workloads
 
@@ -887,7 +987,7 @@ See [API.md](./API.md) for complete API documentation.
 ## See Also
 
 ### Replication Documentation
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (~85% complete) with component breakdown
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Historical implementation snapshot with component breakdown
 - **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 readiness plan and implementation roadmap
 - **[docs/replication/](./replication/)** - Additional replication documentation and examples
 

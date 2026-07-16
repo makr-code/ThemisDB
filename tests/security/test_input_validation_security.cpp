@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_input_validation_security.cpp                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     331                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_input_validation_security.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -25,8 +11,6 @@
 #include <string>
 #include <vector>
 
-// Disable legacy InputValidator-based security tests
-#if 0
 using namespace themis::utils;
 
 /**
@@ -42,7 +26,6 @@ using namespace themis::utils;
 class InputValidationSecurityTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        GTEST_SKIP() << "InputValidator legacy API missing; test temporarily skipped";
         validator_ = std::make_unique<InputValidator>();
     }
     
@@ -325,10 +308,4 @@ TEST_F(InputValidationSecurityTest, CRLFInjection_HTTPHeaderSplitting) {
         EXPECT_FALSE(is_safe) 
             << "CRLF injection should be rejected: " << injection;
     }
-}
-
-#endif // legacy InputValidator tests
-
-TEST(InputValidationSecuritySkip, DISABLED_InputValidationLegacy) {
-    GTEST_SKIP() << "InputValidator legacy API missing; security validator tests temporarily disabled";
 }

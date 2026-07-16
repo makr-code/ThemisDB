@@ -1,10 +1,18 @@
 /*
+ * ThemisDB | File: bench_ethics_ai_plugin.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+﻿/*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_ethics_ai_plugin.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +22,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,17 +34,19 @@
  * Benchmarks for measuring performance of:
  * - Philosophy profile loading
  * - Argument storage and retrieval
- * - RAG context building
- * - Decision making
- * - Evaluation
+ * - RAG context building and semantic search
+ * - Decision making and multi-round discourse
+ * - Evaluation and metrics overhead
  */
 
 #include <benchmark/benchmark.h>
-#include "../plugins/ethics_ai/philosophy_loader.h"
-#include "../plugins/ethics_ai/argument_store.h"
-#include "../plugins/ethics_ai/rag_context_engine.h"
-#include "../plugins/ethics_ai/discourse_engine.h"
-#include "../plugins/ethics_ai/ethics_evaluator.h"
+#include "ethics_ai/philosophy_loader.h"
+#include "ethics_ai/argument_store.h"
+#include "ethics_ai/rag_context_engine.h"
+#include "ethics_ai/discourse_engine.h"
+#include "ethics_ai/ethics_evaluator.h"
+#include <array>
+#include <filesystem>
 #include <memory>
 #include <random>
 #include <sstream>
@@ -78,6 +87,113 @@ static EthicalDecision createBenchmarkDecision() {
     return decision;
 }
 
+static DebateRound createBenchmarkDebateRound(
+    const std::string& debate_id,
+    int round_number,
+    int argument_count) {
+    DebateRound round;
+    round.debate_id = debate_id;
+    round.round_number = round_number;
+
+    for (int i = 0; i < argument_count; ++i) {
+        auto argument = createBenchmarkArgument(
+            debate_id + "_r" + std::to_string(round_number) + "_arg_" + std::to_string(i),
+            (i % 2 == 0) ? "kant" : "utilitarianism"
+        );
+        argument.argument_type = (round_number <= 1) ? ArgumentType::PRO : ArgumentType::REBUTTAL;
+        if (round_number > 1) {
+            argument.counterarguments.push_back(
+                debate_id + "_r" + std::to_string(round_number - 1) + "_arg_" + std::to_string(i));
+        }
+        round.arguments.push_back(std::move(argument));
+    }
+
+    return round;
+}
+
+static const std::vector<std::string>& benchmarkTwoSchools() {
+    static const std::vector<std::string> schools = {
+        "kant",
+        "utilitarianism"
+    };
+    return schools;
+}
+
+static const std::vector<std::string>& benchmarkFiveSchools() {
+    static const std::vector<std::string> schools = {
+        "kant",
+        "utilitarianism",
+        "rawls",
+        "contractualism",
+        "socratic"
+    };
+    return schools;
+}
+
+static std::string resolveBenchmarkPhilosophyDirectory() {
+    namespace fs = std::filesystem;
+
+    const auto source_root = fs::path(__FILE__).parent_path().parent_path();
+    const std::array<fs::path, 4> candidates = {
+        fs::current_path() / "plugins/ethics_ai/philosophies",
+        fs::current_path() / "../plugins/ethics_ai/philosophies",
+        source_root / "plugins/ethics_ai/philosophies",
+        source_root / "ethics_ai/philosophies"
+    };
+
+    for (const auto& candidate : candidates) {
+        if (fs::exists(candidate)) {
+            return candidate.lexically_normal().string();
+        }
+    }
+
+    return "plugins/ethics_ai/philosophies";
+}
+
+static const std::string& getBenchmarkPhilosophyDirectory() {
+    static const std::string directory = resolveBenchmarkPhilosophyDirectory();
+    return directory;
+}
+
+static bool initializeStore(benchmark::State& state, ArgumentStore& store) {
+    const auto status = store.initialize(nullptr, nullptr);
+    if (!status.isOK()) {
+        state.SkipWithError("Failed to initialize benchmark ArgumentStore");
+        return false;
+    }
+    return true;
+}
+
+static bool loadBenchmarkProfiles(benchmark::State& state, PhilosophyLoader& loader) {
+    const auto result = loader.loadFromDirectory(getBenchmarkPhilosophyDirectory());
+    if (!std::holds_alternative<size_t>(result)) {
+        state.SkipWithError("Failed to load benchmark philosophy profiles");
+        return false;
+    }
+    return true;
+}
+
+static void populateStoreWithArguments(
+    ArgumentStore& store,
+    const std::vector<std::string>& schools,
+    int arguments_per_school) {
+    int index = 0;
+    for (const auto& school : schools) {
+        for (int i = 0; i < arguments_per_school; ++i) {
+            auto argument = createBenchmarkArgument(generateRandomId(index++), school);
+            store.storeArgument(argument, false);
+        }
+    }
+}
+
+static std::vector<float> createQueryEmbedding(size_t dimensions) {
+    std::vector<float> embedding(dimensions);
+    for (size_t i = 0; i < dimensions; ++i) {
+        embedding[i] = static_cast<float>((i % 13) + 1) / 13.0f;
+    }
+    return embedding;
+}
+
 // ============================================================================
 // Philosophy Loader Benchmarks
 // ============================================================================
@@ -90,7 +206,11 @@ static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
         loader.clear();
         state.ResumeTiming();
         
-        auto result = loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+        auto result = loader.loadFromDirectory(getBenchmarkPhilosophyDirectory());
+        if (!std::holds_alternative<size_t>(result)) {
+            state.SkipWithError("Failed to load benchmark philosophy profiles");
+            break;
+        }
         benchmark::DoNotOptimize(result);
     }
     
@@ -99,7 +219,9 @@ static void BM_PhilosophyLoader_LoadSingleProfile(benchmark::State& state) {
 
 static void BM_PhilosophyLoader_GetProfile(benchmark::State& state) {
     PhilosophyLoader loader;
-    loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+    if (!loadBenchmarkProfiles(state, loader)) {
+        return;
+    }
     
     for (auto _ : state) {
         auto result = loader.getProfile("kant");
@@ -111,7 +233,9 @@ static void BM_PhilosophyLoader_GetProfile(benchmark::State& state) {
 
 static void BM_PhilosophyLoader_HasProfile(benchmark::State& state) {
     PhilosophyLoader loader;
-    loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+    if (!loadBenchmarkProfiles(state, loader)) {
+        return;
+    }
     
     for (auto _ : state) {
         bool result = loader.hasProfile("kant");
@@ -123,7 +247,9 @@ static void BM_PhilosophyLoader_HasProfile(benchmark::State& state) {
 
 static void BM_PhilosophyLoader_ListSchools(benchmark::State& state) {
     PhilosophyLoader loader;
-    loader.loadFromDirectory("plugins/ethics_ai/philosophies");
+    if (!loadBenchmarkProfiles(state, loader)) {
+        return;
+    }
     
     for (auto _ : state) {
         auto result = loader.getSchoolIds();
@@ -139,8 +265,9 @@ static void BM_PhilosophyLoader_ListSchools(benchmark::State& state) {
 
 static void BM_ArgumentStore_StoreArgument(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    if (!initializeStore(state, store)) {
+        return;
+    }
     
     int index = 0;
     for (auto _ : state) {
@@ -155,8 +282,9 @@ static void BM_ArgumentStore_StoreArgument(benchmark::State& state) {
 
 static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    if (!initializeStore(state, store)) {
+        return;
+    }
     
     // Pre-populate with arguments
     std::vector<std::string> ids;
@@ -180,8 +308,9 @@ static void BM_ArgumentStore_GetArgument(benchmark::State& state) {
 
 static void BM_ArgumentStore_GetArgumentsByPhilosophy(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    if (!initializeStore(state, store)) {
+        return;
+    }
     
     // Pre-populate with arguments
     for (int i = 0; i < state.range(0); i++) {
@@ -200,8 +329,9 @@ static void BM_ArgumentStore_GetArgumentsByPhilosophy(benchmark::State& state) {
 
 static void BM_ArgumentStore_StoreDecision(benchmark::State& state) {
     ArgumentStore store;
-    std::map<std::string, std::string> config;
-    store.initialize(config);
+    if (!initializeStore(state, store)) {
+        return;
+    }
     
     for (auto _ : state) {
         auto decision = createBenchmarkDecision();
@@ -219,8 +349,9 @@ static void BM_ArgumentStore_StoreDecision(benchmark::State& state) {
 
 static void BM_RAGContextEngine_BuildContext(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    if (!initializeStore(state, *store)) {
+        return;
+    }
     
     // Pre-populate with arguments
     for (int i = 0; i < 50; i++) {
@@ -245,8 +376,9 @@ static void BM_RAGContextEngine_BuildContext(benchmark::State& state) {
 
 static void BM_RAGContextEngine_FindSimilarDilemmas(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    if (!initializeStore(state, *store)) {
+        return;
+    }
     
     RAGContextEngine engine(store);
     
@@ -265,8 +397,9 @@ static void BM_RAGContextEngine_FindSimilarDilemmas(benchmark::State& state) {
 
 static void BM_RAGContextEngine_TraverseArgumentChain(benchmark::State& state) {
     auto store = std::make_shared<ArgumentStore>();
-    std::map<std::string, std::string> config;
-    store->initialize(config);
+    if (!initializeStore(state, *store)) {
+        return;
+    }
     
     RAGContextEngine engine(store);
     
@@ -279,88 +412,265 @@ static void BM_RAGContextEngine_TraverseArgumentChain(benchmark::State& state) {
     store->shutdown();
 }
 
+static void BM_RAGContextEngine_VectorSemanticSearch512(benchmark::State& state) {
+    auto store = std::make_shared<ArgumentStore>();
+    if (!initializeStore(state, *store)) {
+        return;
+    }
+
+    populateStoreWithArguments(*store, benchmarkFiveSchools(), 10);
+    RAGContextEngine engine(store);
+    const auto query_embedding = createQueryEmbedding(512);
+
+    for (auto _ : state) {
+        auto result = engine.vectorSemanticSearch(query_embedding, "kant", 10);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    store->shutdown();
+}
+
+static void BM_RAGContextEngine_BuildContextBatch10(benchmark::State& state) {
+    auto store = std::make_shared<ArgumentStore>();
+    if (!initializeStore(state, *store)) {
+        return;
+    }
+
+    populateStoreWithArguments(*store, benchmarkFiveSchools(), 10);
+    RAGContextEngine engine(store);
+    const std::array<std::string, 10> dilemmas = {
+        "Should an AI assistant prioritize privacy over convenience?",
+        "Can automated triage systems favor maximum survival probability?",
+        "Should surveillance AI be limited by democratic oversight?",
+        "May a recommendation model optimize engagement at the expense of autonomy?",
+        "Should an autonomous vehicle minimize harm or obey passenger intent?",
+        "Can predictive policing be justified under fairness constraints?",
+        "Should an AI tutor adapt content based on inferred vulnerability?",
+        "May a hiring model use socio-economic background as context?",
+        "Should a care robot disclose uncertainty before acting?",
+        "Can an LLM summarize legal risk without a human reviewer?"
+    };
+
+    for (auto _ : state) {
+        for (const auto& dilemma : dilemmas) {
+            auto result = engine.buildContext(dilemma, benchmarkTwoSchools(), "data_ethics");
+            benchmark::DoNotOptimize(result);
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * dilemmas.size());
+    store->shutdown();
+}
+
 // ============================================================================
 // Discourse Engine Benchmarks
 // ============================================================================
 
 static void BM_DiscourseEngine_InitializeDebate(benchmark::State& state) {
-    auto loader = std::make_shared<PhilosophyLoader>();
-    auto store = std::make_shared<ArgumentStore>();
-    auto rag_engine = std::make_shared<RAGContextEngine>(store);
-    
-    std::map<std::string, std::string> config;
-    store->initialize(config);
-    loader->loadFromDirectory("plugins/ethics_ai/philosophies");
-    
-    EthicalDiscourseEngine engine(loader, store, rag_engine);
-    
     for (auto _ : state) {
+        state.PauseTiming();
+        auto loader = std::make_shared<PhilosophyLoader>();
+        auto store = std::make_shared<ArgumentStore>();
+        auto rag_engine = std::make_shared<RAGContextEngine>(store);
+        if (!initializeStore(state, *store) || !loadBenchmarkProfiles(state, *loader)) {
+            if (store) {
+                store->shutdown();
+            }
+            return;
+        }
+        EthicalDiscourseEngine engine(loader, store, rag_engine);
+        state.ResumeTiming();
+
         auto result = engine.initializeDebate(
             "Benchmark ethical dilemma",
-            {"kant", "utilitarianism"},
+            benchmarkTwoSchools(),
             "general"
         );
         benchmark::DoNotOptimize(result);
+
+        state.PauseTiming();
+        store->shutdown();
+        state.ResumeTiming();
     }
     
     state.SetItemsProcessed(state.iterations());
-    store->shutdown();
 }
 
-static void BM_DiscourseEngine_MakeDecision(benchmark::State& state) {
-    auto loader = std::make_shared<PhilosophyLoader>();
-    auto store = std::make_shared<ArgumentStore>();
-    auto rag_engine = std::make_shared<RAGContextEngine>(store);
-    
-    std::map<std::string, std::string> config;
-    store->initialize(config);
-    loader->loadFromDirectory("plugins/ethics_ai/philosophies");
-    
-    EthicalDiscourseEngine engine(loader, store, rag_engine);
-    
+static void BM_DiscourseEngine_MakeDecisionSingleSchool(benchmark::State& state) {
     for (auto _ : state) {
+        state.PauseTiming();
+        auto loader = std::make_shared<PhilosophyLoader>();
+        auto store = std::make_shared<ArgumentStore>();
+        auto rag_engine = std::make_shared<RAGContextEngine>(store);
+        if (!initializeStore(state, *store) || !loadBenchmarkProfiles(state, *loader)) {
+            if (store) {
+                store->shutdown();
+            }
+            return;
+        }
+        EthicalDiscourseEngine engine(loader, store, rag_engine);
+        state.ResumeTiming();
+
         auto result = engine.makeDecision(
             "Should AI prioritize privacy or security?",
-            {"kant", "utilitarianism"},
+            {"kant"},
             "data_ethics",
             false  // don't use RAG for pure decision-making benchmark
         );
         benchmark::DoNotOptimize(result);
+
+        state.PauseTiming();
+        store->shutdown();
+        state.ResumeTiming();
     }
     
     state.SetItemsProcessed(state.iterations());
-    store->shutdown();
+}
+
+static void BM_DiscourseEngine_MakeDecisionFiveSchools(benchmark::State& state) {
+    for (auto _ : state) {
+        state.PauseTiming();
+        auto loader = std::make_shared<PhilosophyLoader>();
+        auto store = std::make_shared<ArgumentStore>();
+        auto rag_engine = std::make_shared<RAGContextEngine>(store);
+        if (!initializeStore(state, *store) || !loadBenchmarkProfiles(state, *loader)) {
+            if (store) {
+                store->shutdown();
+            }
+            return;
+        }
+        EthicalDiscourseEngine engine(loader, store, rag_engine);
+        state.ResumeTiming();
+
+        auto result = engine.makeDecision(
+            "Should AI prioritize privacy or security?",
+            benchmarkFiveSchools(),
+            "data_ethics",
+            false
+        );
+        benchmark::DoNotOptimize(result);
+
+        state.PauseTiming();
+        store->shutdown();
+        state.ResumeTiming();
+    }
+    
+    state.SetItemsProcessed(state.iterations());
 }
 
 static void BM_DiscourseEngine_MakeDecisionWithRAG(benchmark::State& state) {
-    auto loader = std::make_shared<PhilosophyLoader>();
-    auto store = std::make_shared<ArgumentStore>();
-    auto rag_engine = std::make_shared<RAGContextEngine>(store);
-    
-    std::map<std::string, std::string> config;
-    store->initialize(config);
-    loader->loadFromDirectory("plugins/ethics_ai/philosophies");
-    
-    // Pre-populate with context
-    for (int i = 0; i < 20; i++) {
-        auto arg = createBenchmarkArgument(generateRandomId(i), "kant");
-        store->storeArgument(arg, false);
-    }
-    
-    EthicalDiscourseEngine engine(loader, store, rag_engine);
-    
     for (auto _ : state) {
+        state.PauseTiming();
+        auto loader = std::make_shared<PhilosophyLoader>();
+        auto store = std::make_shared<ArgumentStore>();
+        auto rag_engine = std::make_shared<RAGContextEngine>(store);
+        if (!initializeStore(state, *store) || !loadBenchmarkProfiles(state, *loader)) {
+            if (store) {
+                store->shutdown();
+            }
+            return;
+        }
+        populateStoreWithArguments(*store, benchmarkTwoSchools(), 10);
+        EthicalDiscourseEngine engine(loader, store, rag_engine);
+        state.ResumeTiming();
+
         auto result = engine.makeDecision(
             "Should AI prioritize privacy or security?",
-            {"kant", "utilitarianism"},
+            benchmarkTwoSchools(),
             "data_ethics",
             true  // use RAG
         );
         benchmark::DoNotOptimize(result);
+
+        state.PauseTiming();
+        store->shutdown();
+        state.ResumeTiming();
     }
-    
+
     state.SetItemsProcessed(state.iterations());
-    store->shutdown();
+}
+
+static void BM_DiscourseEngine_ContinueDebateRound(benchmark::State& state) {
+    for (auto _ : state) {
+        state.PauseTiming();
+        auto loader = std::make_shared<PhilosophyLoader>();
+        auto store = std::make_shared<ArgumentStore>();
+        auto rag_engine = std::make_shared<RAGContextEngine>(store);
+        if (!initializeStore(state, *store) || !loadBenchmarkProfiles(state, *loader)) {
+            if (store) {
+                store->shutdown();
+            }
+            return;
+        }
+
+        EthicalDiscourseEngine engine(loader, store, rag_engine);
+        const auto init_result = engine.initializeDebate(
+            "Should an autonomous vehicle sacrifice passenger comfort for pedestrian safety?",
+            benchmarkTwoSchools(),
+            "autonomous_systems"
+        );
+        if (!std::holds_alternative<DebateInitialization>(init_result)) {
+            state.SkipWithError("Failed to initialize benchmark debate");
+            store->shutdown();
+            return;
+        }
+
+        const auto& debate = std::get<DebateInitialization>(init_result);
+        const auto round1_result = engine.continueDebate(debate.debate_id, 1);
+        if (!std::holds_alternative<DebateRound>(round1_result)) {
+            state.SkipWithError("Failed to seed benchmark debate");
+            store->shutdown();
+            return;
+        }
+        state.ResumeTiming();
+
+        auto result = engine.continueDebate(debate.debate_id, 2);
+        benchmark::DoNotOptimize(result);
+
+        state.PauseTiming();
+        store->shutdown();
+        state.ResumeTiming();
+    }
+
+    state.SetItemsProcessed(state.iterations());
+}
+
+static void BM_ArgumentStore_StoreDebateRound(benchmark::State& state) {
+    ArgumentStore store;
+    if (!initializeStore(state, store)) {
+        return;
+    }
+
+    int round_id = 0;
+    for (auto _ : state) {
+        auto round = createBenchmarkDebateRound("debate_store_" + std::to_string(round_id++), 2, state.range(0));
+        auto status = store.storeDebateRound(round);
+        benchmark::DoNotOptimize(status);
+    }
+
+    state.SetItemsProcessed(state.iterations() * state.range(0));
+    store.shutdown();
+}
+
+static void BM_ArgumentStore_GetDebateTranscript(benchmark::State& state) {
+    ArgumentStore store;
+    if (!initializeStore(state, store)) {
+        return;
+    }
+
+    const std::string debate_id = "debate_transcript";
+    for (int round_number = 1; round_number <= state.range(0); ++round_number) {
+        store.storeDebateRound(createBenchmarkDebateRound(debate_id, round_number, 2));
+    }
+
+    for (auto _ : state) {
+        auto result = store.getDebateTranscript(debate_id);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations() * state.range(0));
+    store.shutdown();
 }
 
 // ============================================================================
@@ -414,6 +724,31 @@ static void BM_EthicsEvaluator_EvaluateDecisionManyArgs(benchmark::State& state)
     state.SetItemsProcessed(state.iterations());
 }
 
+static void BM_EthicsEvaluator_RecordDecision(benchmark::State& state) {
+    EthicsEvaluator evaluator;
+
+    for (auto _ : state) {
+        evaluator.recordDecision(0.82, true, 37);
+        benchmark::ClobberMemory();
+    }
+
+    state.SetItemsProcessed(state.iterations());
+}
+
+static void BM_EthicsEvaluator_GetMetricsText(benchmark::State& state) {
+    EthicsEvaluator evaluator;
+    for (int i = 0; i < 100; ++i) {
+        evaluator.recordDecision(0.70 + (static_cast<double>(i % 10) / 100.0), (i % 2) == 0, 25 + i);
+    }
+
+    for (auto _ : state) {
+        auto result = evaluator.getMetricsText();
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+}
+
 // ============================================================================
 // Register Benchmarks
 // ============================================================================
@@ -432,17 +767,27 @@ BENCHMARK(BM_ArgumentStore_StoreDecision);
 
 // RAG Context Engine
 BENCHMARK(BM_RAGContextEngine_BuildContext);
+BENCHMARK(BM_RAGContextEngine_BuildContextBatch10);
 BENCHMARK(BM_RAGContextEngine_FindSimilarDilemmas);
 BENCHMARK(BM_RAGContextEngine_TraverseArgumentChain);
+BENCHMARK(BM_RAGContextEngine_VectorSemanticSearch512);
 
 // Discourse Engine
 BENCHMARK(BM_DiscourseEngine_InitializeDebate);
-BENCHMARK(BM_DiscourseEngine_MakeDecision);
+BENCHMARK(BM_DiscourseEngine_MakeDecisionSingleSchool);
+BENCHMARK(BM_DiscourseEngine_MakeDecisionFiveSchools);
 BENCHMARK(BM_DiscourseEngine_MakeDecisionWithRAG);
+BENCHMARK(BM_DiscourseEngine_ContinueDebateRound);
+
+// Debate transcript storage
+BENCHMARK(BM_ArgumentStore_StoreDebateRound)->Arg(2)->Arg(5)->Arg(10);
+BENCHMARK(BM_ArgumentStore_GetDebateTranscript)->Arg(2)->Arg(3)->Arg(5);
 
 // Ethics Evaluator
 BENCHMARK(BM_EthicsEvaluator_EvaluateDecision);
 BENCHMARK(BM_EthicsEvaluator_EvaluateDecisionNoArgs);
 BENCHMARK(BM_EthicsEvaluator_EvaluateDecisionManyArgs)->Arg(10)->Arg(50)->Arg(100);
+BENCHMARK(BM_EthicsEvaluator_RecordDecision);
+BENCHMARK(BM_EthicsEvaluator_GetMetricsText);
 
 BENCHMARK_MAIN();

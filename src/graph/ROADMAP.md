@@ -1,90 +1,119 @@
 # Graph Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-06-25 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md -->
+
+## L0 Verification Status (2026-06-25) — **0 REAL GAPS**
+
+**Status**: All 9 L0 findings verified and reclassified as defensive patterns
+
+| Finding Type | Count | Classification | Severity (L0.5) | Status |
+|---|---|---|---|---|
+| Guarded Precondition Checks | 8 | GUARDED_STUB | INFO | Production-ready |
+| False Positive (non-existent file) | 1 | FALSE_POSITIVE | IGNORE | Scanner artifact |
+| **TOTAL VERIFIED GAPS** | **0** | **—** | **—** | **✅ READY** |
+
+**Pattern Examples**:
+- `explain_plan::toDot()` line 68: Empty plan → empty DOT (correct semantics)
+- `ontology_manager::parseString()` line 73: Parse error → empty string (documented behavior)
+- `rotate_completion::entityEmbedding()` line 95: Untrained model → empty vector (defensive guard)
+
+**L0.5 Analysis**: All findings follow standard defensive programming patterns with semantic correctness. No implementation blockers.
+
+**Reference**: `ai_working/gap_scanner_verified_graph.json` (timestamp: 2026-06-25T14:45:00)
+
+---
 
 ## Current Status
-**Production-Ready** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph query execution across shards is implemented. EXPLAIN endpoint (`POST /api/v1/graph/query/explain`) for dry-run plan inspection is now available (Issue: #1816).
 
-## Completed ✅
-- [x] Graph query optimizer with cost-based algorithm selection
-- [x] Constrained path finding (min/max length, required/forbidden nodes and edges)
-- [x] Traversal algorithm selection: BFS, DFS, Dijkstra, A*, Bidirectional
-- [x] Query plan generation with cost estimates
-- [x] Query plan explanation and alternative strategy reporting
-- [x] Execution statistics tracking for adaptive optimization
-- [x] Query plan caching
-- [x] Path validation and constraint checking
-- [x] Integration with GraphIndexManager for graph operations
-- [x] Integration with AQL for graph query execution
-- [x] Query plan reuse across structurally similar queries
-- [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
-- [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
-- [x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
-- [x] Cost model calibration from real execution feedback (Issue: #2386)
-- [x] Property graph schema-aware optimizer hints (Issue: #1819)
-- [x] Distributed graph query execution across shards (Issue: #1826)
-- [x] Incremental graph query execution on live updates (Issue: #1825)
-- [x] Plan cache eviction with size and TTL controls (Issue: #1827)
-- [x] Graph query result streaming for large path sets (Issue: #1822)
-- [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
-- [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
-- [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
-- [x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)
+Production graph runtime exists across query planning, constraint-aware traversal, rewrite/explain support, parallel and distributed execution, and reasoning-oriented graph capabilities.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [~] hardening GPU/distributed traversal parity and fallback determinism in mixed-capability environments (Target: Q3 2026)
+- [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q3 2026)
+- [~] diagnostics consistency for constraint denial, fallback, and reasoning conflict incidents (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [x] EXPLAIN output in AQL for graph query plans (Issue: #1816)
+## Planned Features
 
-### Long-term (6-12 months)
-- [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior for high fan-out constrained traversals under mixed query shapes (Target: Q4 2026)
+- [ ] extend stress coverage for long-running parallel/distributed graph query workloads (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for explain/rewrite and fallback incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for optimizer and traversal pathways (Target: Q1 2027)
+- [ ] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
+- [ ] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
+- [~] Wave B B2: RotatE link-prediction integration with `KnowledgeGraphReasoner` (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
 
 ## Implementation Phases
 
-### Phase 1: Graph Query Optimizer Core (Status: Completed ✅)
-- [x] Graph query optimizer with cost-based algorithm selection (`graph/query_optimizer.cpp`)
-- [x] Constrained path finding (min/max length, required/forbidden nodes and edges)
-- [x] Traversal algorithm selection: BFS, DFS, Dijkstra, A*, Bidirectional
-- [x] Query plan generation with cost estimates and explanation output
-- [x] Execution statistics tracking for adaptive optimization
-- [x] Query plan caching (`graph/plan_cache.cpp`)
-- [x] Path validation and constraint checking
-- [x] Integration with GraphIndexManager for graph operations
-- [x] Integration with AQL for graph query execution
+### Phase 1: Design / API Contract
+- [ ] freeze planning/traversal/semantic/tensor utility contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for denial, fallback, and reasoning conflict classes (Target: Q3 2026)
 
-### Phase 2: Parallel Traversal & Adaptive Planning (Status: Completed ✅)
-- [x] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
-- [x] Query plan reuse across structurally similar queries (Target: Q2 2026)
-- [x] Adaptive cost model: EMA per algorithm, confidence-weighted blending into cost estimates
-- [x] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
+### Phase 2: Core Implementation
+- [ ] complete hardening for optimizer, traversal, and distributed orchestration internals (Target: Q4 2026)
+- [ ] align semantic/reasoning and tensor utility behavior with bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
-- [x] Subgraph isomorphism queries (pattern matching)
-- [x] Distributed graph query execution across shards
-- [x] Plan cache eviction with size and TTL controls
-- [x] Temporal graph query optimization (time-ranged traversals)
-- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for invalid constraints and degraded acceleration routes (Target: Q4 2026)
+- [ ] unify diagnostics across denial, fallback, and semantic conflict incidents (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for mixed constraint/distribution/acceleration edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for high fan-out and long-path workloads (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for graph hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core graph module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1830)
-- [x] Integration tests (query optimizer, constrained path finding, AQL integration)
-- [x] Performance benchmarks (traversal latency vs graph size) (Issue: #1831)
-- [I] Security audit (query injection via path constraints) (Issue: #1832)
-- [x] Documentation complete
-- [x] API stability guaranteed for graph query optimizer and path finder
 
-## Known Issues & Limitations
-- Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise
-- Advanced cost model calibration from real execution feedback is implemented: `calibrateFromHistory()` re-seeds EMA models from batch history and computes cost accuracy metrics (`mean_estimated_ms`, `mean_absolute_error_ms`, `cost_ratio`) when `ExecutionStats::estimated_cost_ms` is populated (automatic in all execute* methods)
-- Incremental query execution is BFS-only; DFS/Dijkstra/A* incremental modes are planned
-- Incremental query execution is not thread-safe (same as the optimizer itself)
-- Incremental query HTTP API (`POST /graph/query/incremental`, `DELETE /graph/query/incremental/:handle`, `POST /graph/changes`) is exposed via `GraphApiHandler`; edge mutations via `POST /graph/edge` and `DELETE /graph/edge/:id` automatically notify registered queries on success
-- Subgraph isomorphism (pattern matching) is implemented via `executeSubgraphIsomorphism` (VF2-style backtracking)
-- Cross-shard edge following (edges whose endpoints reside on different shards) requires caller-side coordination; the current distributed query model executes intra-shard queries in parallel and returns the globally cheapest result
+- [x] core graph surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for distributed/GPU/semantic edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on graph shape, constraints, and enabled acceleration capabilities.
+- advanced distributed/GPU and semantic reasoning edge scenarios need continued hardening.
+- benchmark breadth should continue expanding for specialized graph workflows.
+
+## Wave B (Q1–Q2 2027) Tracking — B2 Knowledge Graph Completion (RotatE)
+
+### Scope
+- [x] RotatE embedding model (relation-as-rotation) implementation
+- [x] Triple loss with negative sampling
+- [x] Link-prediction head for ranked completion results
+- [x] Integration with `KnowledgeGraphReasoner`
+
+### Validation
+- [x] Unit tests `KGC-01..15`
+- [ ] Benchmark vs TransE baseline (FB15k-237)
+
+### Acceptance Gates
+- [ ] MRR ≥ 0.35, Hits@10 ≥ 0.55 on FB15k-237
+- [ ] Inference latency ≤ 50 ms for top-20 predictions
+- [ ] Zero backward compatibility breaks
+
+### Dependencies
+- [ ] `KnowledgeGraphReasoner` stability and benchmark baseline complete
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+
+### References
+- Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
-- Distributed graph query introduces shard-aware plan nodes (new plan format, backward-compatible with single-node)
-- Subgraph isomorphism query syntax will extend AQL graph traversal syntax (additive)
+
+No breaking graph contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

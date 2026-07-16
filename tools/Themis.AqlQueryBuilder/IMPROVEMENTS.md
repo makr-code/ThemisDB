@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Verbesserungsplan** – Stand zum Zeitpunkt der Erstellung.
+
 # Suggested Improvements for AQL Query Builder
 
 Based on research of industry best practices, WPF MVVM patterns, and OOP principles, here are recommended enhancements for the Themis AQL Query Builder.

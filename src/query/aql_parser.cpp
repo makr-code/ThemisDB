@@ -1,27 +1,21 @@
+/**
+ * @file aql_parser.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_parser.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1248                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b71ca305e  2026-02-23  fix(query): track paren depth in parseTransactionBlock to... ║
-    • 190845ecd  2026-02-23  feat(query): implement multi-statement transaction AQL (B... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1633
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=12, L=0
+ * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #3481 [WIP] Synchronize AQL docum... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/aql_parser.h"
@@ -39,6 +33,18 @@ namespace query {
 // ============================================================================
 // Tokenizer (Lexer)
 // ============================================================================
+
+// Windows headers may define IN as a parameter annotation macro, which
+// collides with the AQL token enum member name.
+#ifdef IN
+#undef IN
+#endif
+#ifdef TRUE
+#undef TRUE
+#endif
+#ifdef FALSE
+#undef FALSE
+#endif
 
 enum class TokenType {
     // Keywords
@@ -75,7 +81,7 @@ enum class TokenType {
     IDENTIFIER, STRING, INTEGER, FLOAT,
     
     // Punctuation
-    DOT, COMMA, COLON, LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET,
+    DOT, COMMA, SEMICOLON, COLON, LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET,
     
     // Special
     END_OF_FILE, INVALID
@@ -321,6 +327,7 @@ private:
             case '%': return Token(TokenType::MODULO, "%", line, col);
             case '.': return Token(TokenType::DOT, ".", line, col);
             case ',': return Token(TokenType::COMMA, ",", line, col);
+            case ';': return Token(TokenType::SEMICOLON, ";", line, col);
             case '(': return Token(TokenType::LPAREN, "(", line, col);
             case ')': return Token(TokenType::RPAREN, ")", line, col);
             case '{': return Token(TokenType::LBRACE, "{", line, col);
@@ -365,11 +372,48 @@ public:
             );
         }
     }
+
+    Result<std::shared_ptr<Expression>> parseStandaloneExpression() {
+        try {
+            for (const auto& token : tokens_) {
+                if (token.type == TokenType::INVALID) {
+                    return Err<std::shared_ptr<Expression>>(
+                        errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                        fmt::format("Invalid token '{}' at line {}, column {}",
+                                    token.value, token.line, token.column)
+                    );
+                }
+            }
+
+            auto expr = parseExpression();
+            if (!match(TokenType::END_OF_FILE)) {
+                const auto& tok = current();
+                return Err<std::shared_ptr<Expression>>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format("Unexpected token '{}' at line {}, column {}",
+                                tok.value, tok.line, tok.column)
+                );
+            }
+
+            return Ok(expr);
+        } catch (const std::runtime_error& e) {
+            const auto& tok = current();
+            return Err<std::shared_ptr<Expression>>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Parse error at line {}, column {}: {}",
+                            tok.line, tok.column, e.what())
+            );
+        }
+    }
     
 private:
     std::vector<Token> tokens_;
     size_t pos_;
     std::shared_ptr<Query::TraversalNode> lastTraversal_;
+    // PA-1 fix: tracks current expression parse depth to prevent unbounded recursion
+    // (stack overflow via crafted queries with thousands of nested NOT / subexpressions).
+    int depth_{0};
+    static constexpr int kMaxExprDepth = 500;
     
     const Token& current() const {
         return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
@@ -524,7 +568,20 @@ private:
 
         if (match(TokenType::INTEGER)) {
             // Parse min..max
-            int minDepth = std::stoi(current().value);
+            // PA-2 fix: enforce an upper bound on graph traversal depth to prevent
+            // BFS/DFS from being triggered with values like INT_MAX.
+            static constexpr int kMaxTraversalDepth = 1000;
+
+            int minDepth;
+            try {
+                minDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal min depth '" + current().value + "' is out of integer range");
+            }
+            if (minDepth < 0) {
+                throw std::runtime_error("Graph traversal min depth must be >= 0");
+            }
             advance();
             // Expect '..' as two DOT tokens
             if (!match(TokenType::DOT) || peek().type != TokenType::DOT) {
@@ -535,7 +592,18 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected max depth integer after '..'");
             }
-            int maxDepth = std::stoi(current().value);
+            int maxDepth;
+            try {
+                maxDepth = std::stoi(current().value);
+            } catch (const std::out_of_range&) {
+                throw std::runtime_error(
+                    "Graph traversal max depth '" + current().value + "' is out of integer range");
+            }
+            if (maxDepth > kMaxTraversalDepth) {
+                throw std::runtime_error(
+                    "Graph traversal max depth " + std::to_string(maxDepth) +
+                    " exceeds limit " + std::to_string(kMaxTraversalDepth));
+            }
             advance();
 
             // Direction
@@ -649,7 +717,11 @@ private:
         if (!match(TokenType::INTEGER)) {
             throw std::runtime_error("Expected integer after LIMIT");
         }
-        int64_t first = std::stoll(current().value);
+        int64_t first;
+        try { first = std::stoll(current().value); }
+        catch (...) {
+            throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
+        }
         advance();
         
         if (match(TokenType::COMMA)) {
@@ -657,7 +729,11 @@ private:
             if (!match(TokenType::INTEGER)) {
                 throw std::runtime_error("Expected integer after comma in LIMIT");
             }
-            int64_t second = std::stoll(current().value);
+            int64_t second;
+            try { second = std::stoll(current().value); }
+            catch (...) {
+                throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
+            }
             advance();
             return std::make_shared<LimitNode>(first, second); // offset, count
         }
@@ -763,6 +839,15 @@ private:
     }
     
     std::shared_ptr<Expression> parseExpression() {
+        // PA-1 fix: guard against unbounded recursion from crafted deeply-nested queries.
+        if (depth_ >= kMaxExprDepth) {
+            throw std::runtime_error(
+                fmt::format("Query expression exceeds maximum nesting depth of {}; "
+                            "simplify the query.", kMaxExprDepth)
+            );
+        }
+        ++depth_;
+        struct DepthGuard { int& d; ~DepthGuard() { --d; } } guard{depth_};
         return parseLogicalOr();
     }
     
@@ -974,12 +1059,20 @@ private:
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::INTEGER)) {
-            int64_t value = std::stoll(current().value);
+            int64_t value;
+            try { value = std::stoll(current().value); }
+            catch (...) {
+                throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
+            }
             advance();
             return std::make_shared<LiteralExpr>(value);
         }
         if (match(TokenType::FLOAT)) {
-            double value = std::stod(current().value);
+            double value;
+            try { value = std::stod(current().value); }
+            catch (...) {
+                throw std::runtime_error("Float literal '" + current().value + "' is out of range");
+            }
             advance();
             return std::make_shared<LiteralExpr>(value);
         }
@@ -1122,6 +1215,47 @@ Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string)
     }
 }
 
+std::shared_ptr<Expression> AQLParser::parseExpression(const std::string& expr_str) {
+    Tokenizer tokenizer(expr_str);
+    auto tokens = tokenizer.tokenize();
+
+    Parser parser(std::move(tokens));
+    auto result = parser.parseStandaloneExpression();
+    if (!result) {
+        throw std::runtime_error(result.error().message());
+    }
+
+    return *result;
+}
+
+std::shared_ptr<Expression> AQLParser::parsePrimaryExpression(const std::string& expr_str) {
+    return parseExpression(expr_str);
+}
+
+BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
+    if (op_str == "==") return BinaryOperator::Eq;
+    if (op_str == "!=") return BinaryOperator::Neq;
+    if (op_str == "<") return BinaryOperator::Lt;
+    if (op_str == "<=") return BinaryOperator::Lte;
+    if (op_str == ">") return BinaryOperator::Gt;
+    if (op_str == ">=") return BinaryOperator::Gte;
+    if (op_str == "AND") return BinaryOperator::And;
+    if (op_str == "OR") return BinaryOperator::Or;
+    if (op_str == "XOR") return BinaryOperator::Xor;
+    if (op_str == "+") return BinaryOperator::Add;
+    if (op_str == "-") return BinaryOperator::Sub;
+    if (op_str == "*") return BinaryOperator::Mul;
+    if (op_str == "/") return BinaryOperator::Div;
+    if (op_str == "%") return BinaryOperator::Mod;
+    if (op_str == "IN") return BinaryOperator::In;
+    throw std::runtime_error("Unknown operator: " + op_str);
+}
+
+std::shared_ptr<Expression> AQLParser::parseMembership(std::shared_ptr<Expression> left) {
+    auto nullExpr = std::make_shared<LiteralExpr>(nullptr);
+    return std::make_shared<BinaryOpExpr>(BinaryOperator::In, std::move(left), std::move(nullExpr));
+}
+
 // JSON Serialization moved to src/query/aql_parser_json.cpp to reduce
 // compile-time pressure on this translation unit.
 
@@ -1147,7 +1281,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
 
         // Walk through the token stream slicing out individual statements.
         // Each statement starts at FOR (or WITH) and ends just before the
-        // next FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
+        // next top-level separator (';') or FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
         size_t start = 1; // skip BEGIN token
         const size_t n = tokens.size();
 
@@ -1157,8 +1291,19 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
         auto isTerminator = [](TokenType t) {
             return t == TokenType::COMMIT || t == TokenType::ROLLBACK || t == TokenType::END_OF_FILE;
         };
+        auto isSeparator = [](TokenType t) {
+            return t == TokenType::SEMICOLON;
+        };
 
-        while (start < n && !isTerminator(tokens[start].type)) {
+        while (start < n) {
+            // Allow PostgreSQL-like optional semicolons between BEGIN/statement/terminator.
+            while (start < n && isSeparator(tokens[start].type)) {
+                ++start;
+            }
+            if (start >= n || isTerminator(tokens[start].type)) {
+                break;
+            }
+
             if (!isStatementStart(tokens[start].type)) {
                 return Err<AqlTransactionBlock>(
                     errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
@@ -1194,7 +1339,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 }
 
                 // Only recognise statement/block boundaries at the top level
-                if (depth == 0 && (isStatementStart(tok.type) || isTerminator(tok.type))) {
+                if (depth == 0 && (isSeparator(tok.type) || isStatementStart(tok.type) || isTerminator(tok.type))) {
                     break;
                 }
                 ++end;
@@ -1216,6 +1361,12 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
             }
             block.statements.push_back(std::move(*stmtResult));
             start = end;
+
+            // Consume one separator here; additional separators are consumed
+            // at the top of the next iteration.
+            if (start < n && isSeparator(tokens[start].type)) {
+                ++start;
+            }
         }
 
         if (start >= n || !isTerminator(tokens[start].type)) {
@@ -1237,6 +1388,23 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
             );
         }
 
+        // Accept optional trailing semicolons after COMMIT/ROLLBACK, but no
+        // additional tokens.
+        ++start;
+        while (start < n && isSeparator(tokens[start].type)) {
+            ++start;
+        }
+        if (start < n && tokens[start].type != TokenType::END_OF_FILE) {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                fmt::format(
+                    "Unexpected token '{}' after transaction terminator at line {}, column {}",
+                    tokens[start].value,
+                    tokens[start].line,
+                    tokens[start].column)
+            );
+        }
+
         return Ok(std::move(block));
 
     } catch (const std::exception& e) {
@@ -1247,5 +1415,278 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
     }
 }
 
+// ============================================================================
+// CQL DDL Parser (Phase 8.1)
+// ============================================================================
+
+/**
+ * @brief Tokenise @p input into whitespace-separated uppercase words plus
+ *        special single-character tokens: '(', ')', ','.
+ *
+ * This is deliberately simpler than the full AQL Tokenizer: DDL statements
+ * have a fixed keyword structure and only require the RETURN body to be
+ * preserved verbatim.  We therefore split until we hit "RETURN", then
+ * capture everything that follows as the AQL body.
+ */
+static std::vector<std::string> tokeniseDdl(const std::string& input) {
+    std::vector<std::string> tokens;
+    size_t i = 0;
+    const size_t n = input.size();
+
+    // Convert the part before RETURN to uppercase tokens; capture RETURN body.
+    while (i < n) {
+        // Skip whitespace
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
+        if (i >= n) break;
+
+        char ch = input[i];
+
+        if (ch == '(' || ch == ')' || ch == ',') {
+            tokens.push_back(std::string(1, ch));
+            ++i;
+            continue;
+        }
+
+        // Collect a word token
+        size_t start = i;
+        while (i < n && !std::isspace(static_cast<unsigned char>(input[i]))
+               && input[i] != '(' && input[i] != ')' && input[i] != ',') {
+            ++i;
+        }
+
+        std::string word = input.substr(start, i - start);
+        // Uppercase for keyword comparison
+        std::string upper = word;
+        std::transform(upper.begin(), upper.end(), upper.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+        tokens.push_back(std::move(upper));
+    }
+    return tokens;
+}
+
+Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
+    // ── helpers ──────────────────────────────────────────────────────────────
+    auto make_err = [](const std::string& msg) -> Result<ContinuousQueryDDL> {
+        return Err<ContinuousQueryDDL>(
+            errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX, msg);
+    };
+
+    // Strip leading/trailing whitespace
+    std::string trimmed = input;
+    {
+        size_t s = trimmed.find_first_not_of(" \t\n\r");
+        if (s == std::string::npos) {
+            return make_err("Empty DDL statement");
+        }
+        size_t e = trimmed.find_last_not_of(" \t\n\r");
+        trimmed = trimmed.substr(s, e - s + 1);
+    }
+
+    // Convert to uppercase for keyword matching
+    std::string upper = trimmed;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+    // ── SHOW CONTINUOUS QUERIES ───────────────────────────────────────────────
+    if (upper == "SHOW CONTINUOUS QUERIES" ||
+        upper.rfind("SHOW CONTINUOUS QUERIES", 0) == 0) {
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type = ContinuousQueryDDLType::SHOW;
+        return Ok(std::move(ddl));
+    }
+
+    auto tokens = tokeniseDdl(trimmed);
+    if (tokens.empty()) {
+        return make_err("Empty DDL statement");
+    }
+
+    // Peek helper — returns empty string when out of range
+    auto tok = [&](size_t idx) -> const std::string& {
+        static const std::string empty;
+        return idx < tokens.size() ? tokens[idx] : empty;
+    };
+
+    const std::string& kw0 = tok(0);
+
+    // ── DROP CONTINUOUS QUERY <name> ─────────────────────────────────────────
+    if (kw0 == "DROP") {
+        if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
+            return make_err("Expected: DROP CONTINUOUS QUERY <name>");
+        }
+        if (tok(3).empty()) {
+            return make_err("DROP CONTINUOUS QUERY requires a query name");
+        }
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type   = ContinuousQueryDDLType::DROP;
+        ddl.query_name = tok(3);
+        return Ok(std::move(ddl));
+    }
+
+    // ── DESCRIBE CONTINUOUS QUERY <name> ─────────────────────────────────────
+    if (kw0 == "DESCRIBE") {
+        if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
+            return make_err("Expected: DESCRIBE CONTINUOUS QUERY <name>");
+        }
+        if (tok(3).empty()) {
+            return make_err("DESCRIBE CONTINUOUS QUERY requires a query name");
+        }
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type   = ContinuousQueryDDLType::DESCRIBE;
+        ddl.query_name = tok(3);
+        return Ok(std::move(ddl));
+    }
+
+    // ── SHOW CONTINUOUS QUERIES (tokenised path) ──────────────────────────────
+    if (kw0 == "SHOW") {
+        if (tok(1) != "CONTINUOUS" || tok(2) != "QUERIES") {
+            return make_err("Expected: SHOW CONTINUOUS QUERIES");
+        }
+        ContinuousQueryDDL ddl;
+        ddl.ddl_type = ContinuousQueryDDLType::SHOW;
+        return Ok(std::move(ddl));
+    }
+
+    // ── CREATE CONTINUOUS QUERY <name> ON <collection>
+    //         WINDOW TIME(<r>,<s>) | COUNT(<rows>,<slide>) | TUMBLING(<i>)
+    //         RETURN <aql_body> ────────────────────────────────────────────────
+    if (kw0 != "CREATE") {
+        return make_err(
+            fmt::format("Unknown CQL DDL keyword '{}'; expected CREATE, DROP, SHOW, or DESCRIBE",
+                        kw0));
+    }
+
+    if (tok(1) != "CONTINUOUS" || tok(2) != "QUERY") {
+        return make_err("Expected: CREATE CONTINUOUS QUERY <name> ...");
+    }
+
+    const std::string& query_name = tok(3);
+    if (query_name.empty() || query_name == "ON") {
+        return make_err("CREATE CONTINUOUS QUERY requires a non-empty query name");
+    }
+
+    if (tok(4) != "ON") {
+        return make_err("Expected ON <collection> after query name");
+    }
+
+    const std::string& collection = tok(5);
+    if (collection.empty() || collection == "WINDOW") {
+        return make_err("CREATE CONTINUOUS QUERY requires a non-empty source collection");
+    }
+
+    if (tok(6) != "WINDOW") {
+        return make_err("Expected WINDOW keyword after collection name");
+    }
+
+    // tok(7) = window function name: TIME | COUNT | TUMBLING
+    const std::string& win_func = tok(7);
+
+    // tok(8) = '('
+    if (tok(8) != "(") {
+        return make_err("Expected '(' after WINDOW function name");
+    }
+
+    ContinuousQueryDDL ddl;
+    ddl.ddl_type   = ContinuousQueryDDLType::CREATE;
+    ddl.query_name = query_name;
+    ddl.spec.source_collection = collection;
+    ddl.spec.window_type       = win_func;
+
+    // Parse WINDOW arguments; find matching ')'
+    // We expect a flat comma-separated list of integer literals.
+    size_t arg_start = 9;  // first token after '('
+    std::vector<int64_t> args;
+    size_t ti = arg_start;
+    while (ti < tokens.size() && tok(ti) != ")") {
+        const std::string& t = tok(ti);
+        if (t == ",") { ++ti; continue; }
+        // Must be an integer literal
+        bool is_num = !t.empty() &&
+                      std::all_of(t.begin(), t.end(),
+                                  [](char c){ return std::isdigit(static_cast<unsigned char>(c)); });
+        if (!is_num) {
+            return make_err(fmt::format("Non-numeric window argument '{}' in WINDOW clause", t));
+        }
+        try {
+            args.push_back(std::stoll(t));
+        } catch (...) {
+            return make_err(fmt::format("Invalid window argument '{}' in WINDOW clause", t));
+        }
+        ++ti;
+    }
+
+    if (tok(ti) != ")") {
+        return make_err("Unterminated WINDOW argument list — missing ')'");
+    }
+    size_t after_paren = ti + 1;  // token index after the closing ')'
+
+    if (win_func == "TIME") {
+        if (args.size() < 2) {
+            return make_err("WINDOW TIME requires two arguments: TIME(<range_ms>, <slide_ms>)");
+        }
+        ddl.spec.range_ms = args[0];
+        ddl.spec.slide_ms = args[1];
+    } else if (win_func == "COUNT") {
+        if (args.size() < 2) {
+            return make_err("WINDOW COUNT requires two arguments: COUNT(<rows>, <slide_rows>)");
+        }
+        ddl.spec.rows       = args[0];
+        ddl.spec.slide_rows = args[1];
+    } else if (win_func == "TUMBLING") {
+        if (args.empty()) {
+            return make_err("WINDOW TUMBLING requires one argument: TUMBLING(<interval_ms>)");
+        }
+        ddl.spec.range_ms = args[0];
+    } else {
+        return make_err(
+            fmt::format("Unknown window type '{}'; expected TIME, COUNT, or TUMBLING", win_func));
+    }
+
+    // Expect RETURN keyword next
+    if (tok(after_paren) != "RETURN") {
+        return make_err(
+            fmt::format("Expected RETURN after WINDOW clause, got '{}'", tok(after_paren)));
+    }
+
+    // The AQL body is everything after the RETURN keyword in the *original* input,
+    // preserving case and whitespace for correct AQL evaluation later.
+    {
+        // Find the position of "RETURN" in the original (case-insensitive search)
+        std::string::size_type return_pos = std::string::npos;
+        // Walk upper string to find standalone RETURN keyword
+        std::string needle = "RETURN";
+        size_t search_from = 0;
+        while (true) {
+            size_t found = upper.find(needle, search_from);
+            if (found == std::string::npos) break;
+            // Check word boundary
+            bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[found - 1]));
+            bool right_ok = (found + needle.size() >= upper.size()) ||
+                            !std::isalnum(static_cast<unsigned char>(upper[found + needle.size()]));
+            if (left_ok && right_ok) {
+                return_pos = found;
+                break;
+            }
+            search_from = found + 1;
+        }
+
+        if (return_pos == std::string::npos) {
+            return make_err("CREATE CONTINUOUS QUERY is missing a RETURN clause");
+        }
+
+        std::string body = trimmed.substr(return_pos + needle.size());
+        // Trim leading whitespace from body
+        size_t bs = body.find_first_not_of(" \t\n\r");
+        ddl.spec.aql_body = (bs == std::string::npos) ? "" : body.substr(bs);
+        if (ddl.spec.aql_body.empty()) {
+            return make_err("RETURN clause must not be empty");
+        }
+    }
+
+    return Ok(std::move(ddl));
+}
+
 }  // namespace query
 }  // namespace themis
+
+

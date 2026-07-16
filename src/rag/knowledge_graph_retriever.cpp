@@ -1,31 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_graph_retriever.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     569                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • 2f39a9ce6  2026-02-24  fix(rag): correct edge_count decrement in KnowledgeGraph:... ║
-    • c5ef77899  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file knowledge_graph_retriever.cpp
- * @brief Implementation of knowledge graph-augmented retrieval with entity linking.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=14, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/knowledge_graph_retriever.h"
@@ -34,6 +15,7 @@
 #include <algorithm>
 #include <cctype>
 #include <chrono>
+#include <iostream>
 #include <cmath>
 #include <mutex>
 #include <queue>
@@ -227,19 +209,33 @@ size_t KnowledgeGraph::edgeCount() const {
 std::unordered_set<std::string> KnowledgeGraph::neighbours(
     const std::string& start_id,
     size_t             max_depth,
-    double             min_edge_weight) const
+    double             min_edge_weight,
+    size_t             max_nodes) const
 {
     std::lock_guard<std::mutex> lk(impl_->mtx);
 
     std::unordered_set<std::string> visited;
     if (!impl_->nodes.count(start_id)) return visited;
 
+    // GAP-010: BFS is capped at max_nodes to prevent unbounded traversal
+    // (DoS) on densely-connected graphs.  The caller can raise the cap
+    // explicitly for trusted internal paths that genuinely need wider
+    // traversal, but the safe default is 4096 nodes.
     // BFS queue: (node_id, depth)
     std::queue<std::pair<std::string, size_t>> q;
     q.push({start_id, 0});
     visited.insert(start_id);
 
     while (!q.empty()) {
+        // GAP-010: Check node count before dequeuing.
+        // visited always contains at least start_id (inserted before the loop),
+        // so visited.size() >= 1 and the subtraction is safe from underflow.
+        if (max_nodes > 0 && visited.size() - 1u >= max_nodes) {
+            spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
+                         "from '{}'; truncating traversal", max_nodes, start_id);
+            break;
+        }
+
         auto [cur_id, depth] = q.front();
         q.pop();
 
@@ -249,6 +245,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         if (adj_it == impl_->adj.end()) continue;
 
         for (const auto& edge : adj_it->second) {
+            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) break;
             if (edge.weight < min_edge_weight) continue;
             if (visited.count(edge.to_id))     continue;
             if (!impl_->nodes.count(edge.to_id)) continue;
@@ -340,11 +337,25 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
 
         const bool is_cap = !clean.empty() && std::isupper(static_cast<unsigned char>(clean[0]));
 
+        // Allow single-word lowercase entity extraction when the caller has
+        // explicitly enabled `extract_single_word_entities`. This helps tests
+        // and real-world documents where entity mentions are not capitalised
+        // (e.g., 'alice'). We still enforce min_entity_length.
+        const bool allow_lower_single = config_.extract_single_word_entities && clean.size() >= config_.min_entity_length;
+
         if (is_cap && clean.size() >= config_.min_entity_length) {
             if (span_start == std::string::npos) span_start = pos;
             if (!span_buf.empty()) span_buf += ' ';
             span_buf += clean;
             span_end = word_end;
+        } else if (!is_cap && allow_lower_single && clean.size() >= config_.min_entity_length) {
+            // Treat lowercase single-word tokens as individual entity candidates
+            // when explicitly enabled, but do NOT join consecutive lowercase
+            // tokens into a multi-word span (avoid spurious long spans).
+            flushSpan();
+            if (entities.size() < config_.max_entities_per_text) {
+                entities.push_back({clean, EntityType::OTHER, 0.7, pos, word_end});
+            }
         } else {
             flushSpan();
         }
@@ -397,8 +408,9 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
 // =============================================================================
 
 struct KnowledgeGraphRetriever::Impl {
-    const KnowledgeGraph* graph;
-    KGRetrieverConfig     config;
+    const KnowledgeGraph*                 graph;
+    KGRetrieverConfig                     config;
+    graph::KnowledgeGraphReasoner*        reasoner = nullptr;  ///< optional; not owned
 };
 
 // =============================================================================
@@ -425,6 +437,10 @@ void KnowledgeGraphRetriever::setConfig(const KGRetrieverConfig& config) {
     impl_->config = config;
 }
 
+void KnowledgeGraphRetriever::setReasoner(graph::KnowledgeGraphReasoner* reasoner) {
+    impl_->reasoner = reasoner;
+}
+
 KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     const std::string&                           query,
     const std::vector<judge::RetrievedDocument>& candidates) const
@@ -440,6 +456,12 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     // ── Step 1: Extract and link entities from the query ─────────────────────
     EntityLinker linker(*impl_->graph, cfg.linker_config);
     result.query_entity_links = linker.link(query);
+
+    THEMIS_DEBUG("Query '{}' links={}", query, result.query_entity_links.size());
+    for (const auto& m : result.query_entity_links) {
+        THEMIS_DEBUG("  - '{}' linked={} node_id='{}' score={}",
+                     m.entity.text, m.is_linked, m.node_id, m.linking_score);
+    }
 
     size_t linked_count = 0;
     for (const auto& m : result.query_entity_links) {
@@ -476,6 +498,48 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
     THEMIS_DEBUG("KG traversal: {} nodes in query neighbourhood", query_neighbourhood.size());
 
+    // ── Step 2b: KnowledgeGraphReasoner multi-hop inference ─────────────────
+    // Run forward-chaining inference for each linked query entity when a
+    // reasoner has been attached and max_inference_hops > 0.
+    if (impl_->reasoner && cfg.max_inference_hops > 0) {
+        const auto r_start = std::chrono::steady_clock::now();
+
+        for (const auto& match : result.query_entity_links) {
+            if (!match.is_linked) continue;
+
+            // Guard against reasoning timeout using wall-clock budget.
+            const auto now = std::chrono::steady_clock::now();
+            const double elapsed_so_far =
+                std::chrono::duration<double, std::milli>(now - r_start).count();
+            if (elapsed_so_far > cfg.reasoning_timeout_ms) {
+                THEMIS_WARN("KnowledgeGraphRetriever: reasoning timeout ({:.1f}ms); "
+                            "falling back to direct KG query", elapsed_so_far);
+                break;
+            }
+
+            auto chain = impl_->reasoner->infer(match.node_id, cfg.max_inference_hops);
+            THEMIS_DEBUG("infer(subject='{}') -> chain_size={}", match.node_id, chain.size());
+            if (!chain.empty()) {
+                result.has_reasoning = true;
+                result.inference_chains.push_back(chain);
+
+                // Expand query neighbourhood with nodes reachable via inference.
+                for (const auto& edge : chain.edges) {
+                    query_neighbourhood.insert(edge.fact.subject);
+                    query_neighbourhood.insert(edge.fact.object);
+                }
+            }
+        }
+
+        result.reasoning_elapsed_ms =
+            std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - r_start).count();
+
+        THEMIS_DEBUG("KGR reasoning: {} chains, {:.2f}ms",
+                     result.inference_chains.size(),
+                     result.reasoning_elapsed_ms);
+    }
+
     // ── Step 3: Score each candidate document ────────────────────────────────
     result.documents.reserve(candidates.size());
 
@@ -486,6 +550,11 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
         // Link entities in this document
         aug_doc.entity_links = linker.link(doc.content);
+        THEMIS_DEBUG("Doc '{}' entity_links.size={} content='{}'", doc.id, aug_doc.entity_links.size(), doc.content);
+        for (const auto& dm : aug_doc.entity_links) {
+            THEMIS_DEBUG("  -> entity='{}' node_id='{}' linked={} score={}",
+                         dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
+        }
 
         // Build set of node IDs from this document's linked entities
         std::unordered_set<std::string> doc_node_ids;
@@ -511,6 +580,40 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         const double w = cfg.kg_score_weight;
         aug_doc.final_score = doc.similarity_score * (1.0 - w) +
                               aug_doc.kg_boost * w;
+
+        // Attach reasoning chain to document metadata when requested.
+        if (cfg.attach_reasoning_chain_to_metadata && result.has_reasoning) {
+            std::string chain_text;
+                THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains", result.inference_chains.size());
+            for (const auto& chain : result.inference_chains) {
+                for (const auto& edge : chain.edges) {
+                        THEMIS_DEBUG("Chain edge: {} -[{}]-> {} (rule={})",
+                                     edge.fact.subject, edge.fact.predicate, edge.fact.object,
+                                     edge.rule_id);
+                    // Only include edges relevant to this document.
+                    bool relevant = false;
+                    for (const auto& dm : aug_doc.entity_links) {
+                            THEMIS_DEBUG("Doc entity link: id='{}' node_id='{}' linked={} score={}",
+                                         dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
+                        if (dm.is_linked &&
+                            (edge.fact.subject == dm.node_id ||
+                             edge.fact.object  == dm.node_id)) {
+                            relevant = true;
+                            break;
+                        }
+                    }
+                    if (!relevant) continue;
+                    if (!chain_text.empty()) chain_text += "; ";
+                    chain_text += edge.fact.subject + " -[" +
+                                  edge.fact.predicate + "]-> " +
+                                  edge.fact.object +
+                                  " (rule=" + edge.rule_id + ")";
+                }
+            }
+            if (!chain_text.empty()) {
+                aug_doc.document.metadata["reasoning_chain"] = chain_text;
+            }
+        }
 
         THEMIS_DEBUG("Doc '{}': orig={:.3f}, kg_boost={:.3f}, final={:.3f}",
                      doc.id, doc.similarity_score, aug_doc.kg_boost,

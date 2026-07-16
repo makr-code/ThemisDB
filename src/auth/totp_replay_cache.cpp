@@ -1,23 +1,21 @@
+/**
+ * @file totp_replay_cache.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            totp_replay_cache.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     273                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: totp_replay_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 269
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4094 fix(auth): constant-time co... (2026-03-12) | #2826 feat(auth): improve unit te... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/totp_replay_cache.h"
@@ -52,7 +50,13 @@ bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::st
     
     auto now = std::chrono::system_clock::now();
     
-    // Check if code already used
+    // Check if code already used.
+    // entries in user_cache are expected to share the same length, and we use
+    // the standard std::string equality operator for comparison here.
+    // This replay-cache lookup is a secondary defence: a valid TOTP code must
+    // already have passed cryptographic HMAC validation before reaching this
+    // path, so we do not rely on constant-time comparison at this stage and
+    // any timing differences are not intended to be a security boundary.
     auto& user_cache = user_caches_[user_id];
     
     for (const auto& used_code : user_cache) {

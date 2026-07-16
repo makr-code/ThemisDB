@@ -1,26 +1,26 @@
+/**
+ * @file vision_encoder.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 80/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=3, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vision_encoder.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   84.0/100                                       ║
-    • Total Lines:     561                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vision_encoder.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 592
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=8, M=9, L=0
+ * PR History (last 5): #690 Production-grade Vision/Mul... (2026-03-11) | #246 Implement vision support (P... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/vision_encoder.h"
+#include <stdexcept>
+#include "themis/module_hash_verifier.h"
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
@@ -116,8 +116,46 @@ VisionEncoder::VisionEncoder(const std::string& clip_model_path,
     
     // Check if model verification is enabled
     if (config_->isModelVerificationEnabled()) {
-        spdlog::info("Model verification enabled - checking model integrity");
-        // TODO: Implement checksum verification
+        const auto& mv = config_->getSecurityConfig().model_verification;
+        if (mv.verify_checksums) {
+            // Convention: expected digest in a sidecar file "<model_path>.sha256".
+            // Each sidecar contains exactly one hex-encoded SHA-256 line.
+            const std::string sidecar_path = clip_model_path + ".sha256";
+            if (std::filesystem::exists(sidecar_path)) {
+                std::ifstream sidecar(sidecar_path);
+                std::string expected_hash;
+                if (sidecar >> expected_hash && !expected_hash.empty()) {
+                    const std::string actual_hash =
+                        themis::modules::ModuleHashVerifier::computeSHA256(clip_model_path);
+                    if (actual_hash.empty()) {
+                        throw std::runtime_error(
+                            "VisionEncoder: failed to compute SHA-256 for model file: " +
+                            clip_model_path);
+                    }
+                    if (actual_hash != expected_hash) {
+                        throw std::runtime_error(
+                            "VisionEncoder: model integrity check failed for '" +
+                            clip_model_path +
+                            "'. Expected SHA-256: " + expected_hash +
+                            ", actual: " + actual_hash);
+                    }
+                    spdlog::info("VisionEncoder: model integrity verified (SHA-256 OK): {}",
+                                 clip_model_path);
+                } else {
+                    spdlog::warn(
+                        "VisionEncoder: sidecar '{}' is empty or unreadable — "
+                        "skipping checksum verification",
+                        sidecar_path);
+                }
+            } else {
+                spdlog::warn(
+                    "VisionEncoder: checksum verification requested but no sidecar '{}' "
+                    "found — skipping checksum verification",
+                    sidecar_path);
+            }
+        } else {
+            spdlog::info("Model verification enabled - checksum verification not requested");
+        }
     }
     
     // Load CLIP model
@@ -562,3 +600,5 @@ void VisionEncoder::freeImage(clip_image_f32* img_f32) {
 
 } // namespace llm
 } // namespace themis
+
+

@@ -1,23 +1,21 @@
+/**
+ * @file distributed_training_coordinator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=24; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=21, Debt=0, C=4, H=7, M=18, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_training_coordinator.cpp               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   55.0/100                                       ║
-    • Total Lines:     1650                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_training_coordinator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1649
+ * Gap Summary: total=24; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=21, Debt=0, C=6, H=11, M=32, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #745 Integrate ShardRouter and S... (2026-03-23) | #757 [WIP] Implement real loss a... (2026-03-11) | #751 Phase 4 Error Handling: Sto... (2026-03-11) | #712 [Error Handling] Phase 4: F... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/distributed_training_coordinator.h"
@@ -694,7 +692,7 @@ DistributedTrainingCoordinator::~DistributedTrainingCoordinator() {
 
 bool DistributedTrainingCoordinator::initialize(
     const std::string& adapter_id, 
-    const TrainingConfig& training_config
+    const TrainingConfig& /*training_config*/
 ) {
     if (is_initialized_) {
         spdlog::warn("Coordinator already initialized");
@@ -1398,9 +1396,17 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     float elapsed_minutes = std::chrono::duration<float, std::ratio<60>>(elapsed).count();
     
     float avg_time_per_step = elapsed_minutes / stats_.total_steps_completed;
-    
-    // Assuming we know total steps from training config
-    // For now, just return 0 as we don't have this info
+
+    // Use total_steps from config when available to compute a real ETA.
+    if (config_.total_steps > 0) {
+        int remaining = config_.total_steps - static_cast<int>(stats_.total_steps_completed);
+        if (remaining <= 0) {
+            return 0.0f;  // Training already at or past the configured step count
+        }
+        return avg_time_per_step * static_cast<float>(remaining);
+    }
+
+    // total_steps not configured — cannot compute remaining time
     return 0.0f;
 }
 
@@ -1579,7 +1585,7 @@ bool DistributedTrainingCoordinator::validateShardParticipation() {
     return true;
 }
 
-void DistributedTrainingCoordinator::updateStatistics(const StepResult& result) {
+void DistributedTrainingCoordinator::updateStatistics(const StepResult& /*result*/) {
     // Statistics are updated in executeStep
 }
 
@@ -1651,3 +1657,4 @@ DistributedTrainingCoordinatorFactory::createWithAutoDiscovery(
 
 } // namespace llm
 } // namespace themis
+

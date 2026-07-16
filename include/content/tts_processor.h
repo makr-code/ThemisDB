@@ -1,40 +1,18 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tts_processor.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     198                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file tts_processor.h
- * @brief Text-to-Speech (TTS) Processor Plugin
- * 
- * Provides speech synthesis capabilities for natural language output.
- * Integrates with voice assistant for spoken responses.
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "content_plugin_interface.h"
+#include <functional>
 #include <mutex>
 #include <atomic>
 #include <memory>
@@ -147,6 +125,62 @@ public:
      */
     std::vector<std::string> getSupportedLanguages() const;
 
+    /**
+     * @brief Callback type for an external audio format encoder.
+     *
+     * Receives the raw 16-bit PCM buffer and the sample rate (Hz) and must
+     * return the encoded audio bytes (e.g. real LAME MP3 or libopus Ogg
+     * frames).  The returned vector must be non-empty to replace the PCM
+     * passthrough fallback.
+     */
+    using AudioEncoderFn = std::function<std::vector<uint8_t>(
+        const std::vector<uint8_t>& pcm, int sample_rate)>;
+
+    /**
+     * @brief Inject a real MP3 encoder backend.
+     *
+     * When set, `convertToFormat()` delegates to @p fn for `format == "mp3"`
+     * instead of returning raw PCM bytes.  Pass `nullptr` to revert to the
+     * PCM passthrough path.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     */
+    void setMp3EncoderFn(AudioEncoderFn fn);
+
+    /**
+     * @brief Inject a real Ogg/Opus encoder backend.
+     *
+     * When set, `convertToFormat()` delegates to @p fn for `format == "ogg"`
+     * instead of returning raw PCM bytes.  Pass `nullptr` to revert to the
+     * PCM passthrough path.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support
+     */
+    void setOggEncoderFn(AudioEncoderFn fn);
+
+    /**
+     * @brief Injection type for a custom PCM synthesis backend.
+     *
+     * Signature: `std::vector<uint8_t> fn(const std::string& text,
+     *                                     const TTSOptions& options)`
+     *
+     * The returned vector must be a non-empty 16-bit PCM buffer to replace
+     * the silence stub.  An empty return reverts to the built-in silence path.
+     */
+    using TTSSynthFn = std::function<
+        std::vector<uint8_t>(const std::string& text, const TTSOptions& options)>;
+
+    /**
+     * @brief Inject a custom PCM synthesis backend (non-TTS builds).
+     *
+     * When @p fn is non-null, `generatePCM()` delegates to it instead of the
+     * built-in silence stub used when `THEMIS_ENABLE_PIPER_TTS` is not defined.
+     * Pass `nullptr` to revert to the silence stub.
+     *
+     * Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
+     */
+    void setSynthFn(TTSSynthFn fn);
+
 private:
     // Configuration
     std::string model_path_;
@@ -172,6 +206,13 @@ private:
     
     bool initialized_ = false;
     
+    // Injected audio format encoder backends (null → PCM passthrough fallback).
+    AudioEncoderFn mp3_encoder_fn_;
+    AudioEncoderFn ogg_encoder_fn_;
+
+    // Injected PCM synthesis backend (null → silence stub fallback).
+    TTSSynthFn synth_fn_;
+
     // Internal methods
     bool loadTTSModel();
     void unloadTTSModel();

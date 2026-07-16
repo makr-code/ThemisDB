@@ -1,7 +1,7 @@
 # Multi-GPU LoRA Support Guide (v1.4.0)
 
 **Version:** 1.4.0  
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-04-06
 
 ## Overview
 

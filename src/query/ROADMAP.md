@@ -1,116 +1,94 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # Query Module Roadmap
 
 ## Current Status
-v1.x – Production-grade AQL query engine with cost-based optimizer, multi-model execution, and comprehensive caching. AQL covers relational, document, graph, vector, spatial, and timeseries models with 100+ built-in functions. SQL dialect compatibility layer, query plan visualization (EXPLAIN / ANALYZE), incremental CTE materialization, adaptive re-optimization, multi-statement transactions, and cross-cluster federation are all implemented.
+Production-ready multi-model query stack with parser, optimizer, execution, federation, caching, and compatibility layers in active use.
 
-## Completed ✅
-- [x] AQL parser with full AST generation (FOR, FILTER, SORT, LIMIT, RETURN, LET, COLLECT, WITH)
-- [x] Expression types: binary/unary ops, literals, field access, function calls, arrays, objects
-- [x] SimilarityCall (vector search), ProximityCall (geospatial), SubqueryExpr, AnyExpr/AllExpr
-- [x] Cost-based query optimizer with adaptive learning
-- [x] Multi-model execution (relational, document, graph, vector, spatial)
-- [x] Hybrid queries (vector + geo, fulltext + geo, graph + spatial)
-- [x] Query result streaming and pagination
-- [x] Query caching (exact, semantic, CTE)
-- [x] Expression evaluator and function registry (25+ categories, 100+ functions)
-- [x] Graph traversal (BFS/DFS, shortest path, recursive)
-- [x] Window functions and statistical aggregation
-- [x] Distributed query federation
-- [x] LLM integration (LLM INFER, LLM RAG, LLM EMBED)
-- [x] Process mining and ethics functions
-- [x] JSON query support (`aql_parser_json.cpp`)
-- [x] Parallel scan for large collection full-table queries (Issue: #2432)
-- [x] SQL dialect compatibility layer – `sql_parser.cpp` (SELECT/INSERT/UPDATE/DELETE passthrough) (Issue: #2236)
-- [x] Query plan visualization API – `query_plan_visualizer.cpp` (EXPLAIN / EXPLAIN ANALYZE) (PR: #2075)
-- [x] Incremental view maintenance for materialized CTEs – `materialized_cte.cpp` (Issue: #1431)
-- [x] Query result type annotations – `result_type_annotation.cpp` (Issue: #1432)
-- [x] Adaptive query re-optimization on runtime statistics – `adaptive_optimizer.cpp`, `runtime_reoptimizer.cpp` (Issue: #2232)
-- [x] Multi-statement transaction AQL (BEGIN/COMMIT in query) – `aql_parser.cpp` (Issue: #2435)
-- [x] `QueryExpressionEvaluator` – delegates to AQL parser + `evaluateCondition()`; `get_expression_type()` returns `"AQL"`
+## In Progress
+- [~] Query hardening wave for safety, resilience, and predictable performance (Target: Q3 2026)
+  - [ ] Complete remaining performance/regression benchmark gates for vectorized and federated paths (Target: Q3 2026)
+  - [ ] Continue reliability hardening for cancellation, limits, and distributed query failure behavior (Target: Q3 2026)
+- [~] **AQL LLM Integration Consolidation** — Phase 1-4 (2026-06-18 → ongoing)
+  - Formalize dependency contract between src/query/ (Query Engine) and src/aql/ (LLM Integration)
+  - Define canonical parser validation pipeline and SLA for LLM-generated AQL
+  - [x] Phase 1: Define integration boundary (12 hrs) ✅ 2026-06-18
+    - Created `src/query/AQL_LLM_INTEGRATION_CONTRACT.md` (canonical specification)
+    - Updated `src/query/ARCHITECTURE.md` with LLM integration section
+    - Updated `src/aql/ARCHITECTURE.md` with dependency documentation
+  - [x] Phase 2: Wire parser validation + metrics (20 hrs) ✅ 2026-06-18
+    - ✅ validateAQLWithParser() implemented in llm_aql_handler.cpp:1553
+    - ✅ translateNLToAQL() calls validation with retry-on-error logic
+    - ✅ Created integration test suite: test_aql_llm_integration.cpp (16 test cases)
+    - ✅ Added Prometheus metrics instrumentation for validation tracking
+    - ✅ Verified Prometheus counters/histograms bound to LLMMetricsCollector
+    - Updated src/aql/ROADMAP.md to cross-reference consolidation work
+  - [ ] Phase 3: Consolidate documentation (12 hrs) 📋 PENDING
+    - Identify and unify duplicate AQL roadmaps across modules
+    - Create cross-module reference guide
+  - [~] Phase 4: Validation SLA performance tests (20 hrs) 🔄 IN PROGRESS
+    - ✅ Created test_aql_validation_performance.cpp (8 performance test cases)
+    - ✅ Tests verify SLA: ≤500ms per parse, ≥100 q/s throughput, <50ms error enrichment
+    - ✅ Registered in tests/query/CMakeLists.txt with performance tier/labels
+    - Pending: Build verification (blocked by pre-existing LLM linker errors)
+  - Full detailed roadmap: [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](./AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
+- [~] **AQL Mutations Language Extension** — Phase 1-5 Implementation (Target: v2.0.0, Q3/Q4 2026)
+  - Implement INSERT, UPDATE, REPLACE, REMOVE, UPSERT statements for data manipulation
+  - Integrate mutations with transaction blocks (BEGIN...COMMIT) for atomic batching
+  - Full detailed roadmap: [AQL_MUTATIONS_ROADMAP.md](./AQL_MUTATIONS_ROADMAP.md)
+  - [ ] Phase 1: Parser & Tokenizer Enhancement (Target: Q3 Week 1-2)
+  - [ ] Phase 2: Safety & Semantic Validation (Target: Q3 Week 2-3)
+  - [ ] Phase 3: Translation & Execution Plan (Target: Q3 Week 3-4)
+  - [ ] Phase 4: Transaction Support & Atomicity (Target: Q3 Week 5-6)
+  - [ ] Phase 5: Testing, Performance & Documentation (Target: Q3 Week 7-8)
 
-## In Progress 🚧
-*(none currently in progress)*
+## Planned Features
 
-## Planned Features 📋
+### Short-term (3-6 months)
+- [ ] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (Target: v2.0.0-beta Q3 2026)
+- [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
+- [ ] Expand federated query failure handling with deterministic partial-result policies (Target: Q4 2026)
+- [ ] Strengthen query resource-limit enforcement diagnostics and operator-facing observability (Target: Q4 2026)
 
-### Short-term (Next 3-6 months)
-- [P] Query result type annotations for client SDK code generation (Issue: #1432)
-- [x] Query cancellation via request ID (Issue: #2431)
-
-### Long-term (6-12 months)
-- [x] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
-- [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
-- [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
+### Mid-term (6-12 months)
+- [ ] Advance approximate query processing from baseline implementations to production-suitable coverage (Target: Q1 2027)
+- [ ] Extend ML-assisted optimization with strict fallback guarantees and reproducibility checks (Target: Q1 2027)
+- [ ] Expand continuous-query backpressure and persistence hardening for long-lived subscriptions (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Core AQL Engine (Status: Completed ✅)
-- [x] AQL parser with full AST generation (`aql_parser.cpp`, `aql_parser_json.cpp`)
-- [x] Expression types: binary/unary ops, literals, field access, function calls, SimilarityCall, ProximityCall, SubqueryExpr
-- [x] Cost-based query optimizer with adaptive learning
-- [x] Multi-model execution (relational, document, graph, vector, spatial)
-- [x] Hybrid queries (vector + geo, fulltext + geo, graph + spatial)
-- [x] Query result streaming and pagination
-- [x] Query caching (exact, semantic, CTE)
-- [x] Expression evaluator and function registry (25+ categories, 100+ functions)
-- [x] Graph traversal (BFS/DFS, shortest path, recursive)
-- [x] Window functions and statistical aggregation
-- [x] Distributed query federation
-- [x] LLM integration (LLM INFER, LLM RAG, LLM EMBED)
-- [x] Process mining and ethics functions
+### Phase 1: Safety and Access Hardening
+- [ ] Keep parser/translation safety checks complete for edge-case query inputs (Target: Q3 2026)
+- [ ] Ensure collection/access validation paths are enforced consistently across all execute entry points (Target: Q3 2026)
 
-### Phase 2: SQL Compatibility & Plan Visualization (Status: Completed ✅)
-- [x] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) → `sql_parser.cpp`
-- [x] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) → `query_plan_visualizer.cpp`
-- [x] Incremental view maintenance for materialized CTEs → `materialized_cte.cpp`
+### Phase 2: Optimizer and Planning Hardening
+- [ ] Improve plan-selection robustness under stale or partial statistics (Target: Q4 2026)
+- [ ] Add deterministic regression packs for rewrite, cost, and adaptive plan switches (Target: Q4 2026)
 
-### Phase 3: Resource Management & UDF (Status: In Progress 🚧)
-- [x] Query result type annotations for client SDK code generation → `result_type_annotation.cpp`
-- [x] Per-query resource limits (max rows, max memory, timeout)
-- [x] Query cancellation via request ID
-- [x] Parallel scan for large collection full-table queries
-- [x] User-defined functions (UDF) registration API
+### Phase 3: Federation and Distributed Query Hardening
+- [ ] Expand cross-cluster/federated timeout and retry envelopes with bounded memory behavior (Target: Q4 2026)
+- [ ] Validate shard routing and partial-failure semantics under fault-injection (Target: Q4 2026)
 
-### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
-- [x] Vectorized execution engine (column-store style batch processing)
-  - Implemented in `include/query/vectorized_execution.h` (`VectorizedExecutionEngine`, `VectorizedQueryPlan`, `VectorizedPredicate`, `VectorizedAggregation`)
-    and `src/query/vectorized_execution.cpp`
-  - Delegates to `analytics/columnar_execution.h` for SIMD batch processing with `SelectionVector` late-materialization
-  - Accepts `std::vector<nlohmann::json>` rows, converts to columnar layout, then materializes results back to JSON
-- [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
-- [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
-  - Implemented in `include/query/cross_cluster_federation.h` (`ClusterEndpoint`, `ClusterCostEstimate`, `CrossClusterFederator`)
-    and `src/query/cross_cluster_federation.cpp`
-  - Connects to independent ThemisDB instances via their HTTP `/query/aql` endpoint
-  - Cost model: `total_cost = (estimated_rows × 0.001) + (network_latency_ms × 1.0)`
-  - Optional cost-based pruning: exclude clusters whose cost exceeds a configurable multiple of the cheapest cluster
-  - Parallel execution via `std::async`; injectable `HttpPostFn` test double for unit tests
-  - Tests: `tests/test_cross_cluster_federation.cpp` (28 unit tests)
-- [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
-- [x] SPARQL compatibility for RDF / knowledge-graph queries
+### Phase 4: Runtime and Performance Hardening
+- [ ] Re-baseline vectorized execution performance and memory envelopes on representative datasets (Target: Q1 2027)
+- [ ] Tighten JIT fallback and equivalence checks for hot-query compilation paths (Target: Q1 2027)
+
+### Phase 5: Documentation and Release Readiness
+- [ ] Keep query docs source-aligned with explicit sourcecode verification evidence per update cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (multi-model queries, optimizer plan correctness)
-- [?] Performance benchmarks (QPS, optimizer overhead, cache hit rate)
-- [?] Security audit (AQL injection prevention, resource exhaustion)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- Status: Tracking in progress
+- Nachweise: query focused tests, federation tests, optimizer tests, performance suites
+- Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
-## Known Issues & Limitations
-- AQLParser instances are NOT thread-safe; create per-thread or protect with a mutex.
-- SQL dialect support covers SELECT/INSERT/UPDATE/DELETE (basic syntax only); the following
-  SQL features are **not** currently supported by the transpiler and will return a parse error:
-  - JOINs (INNER JOIN, LEFT JOIN, etc.)
-  - Subqueries in SELECT / WHERE
-  - GROUP BY / HAVING
-  - Window functions (OVER, PARTITION BY)
-  - DDL statements (CREATE TABLE, ALTER TABLE, DROP TABLE, TRUNCATE)
-  - MERGE / UPSERT
-- Distributed federation cost estimation is approximate.
+## Known Issues and Limitations
+- Some long-horizon performance guarantees for federation/vectorized paths still require broader benchmark evidence.
+- Advanced approximate/ML optimizer paths need additional production hardening and fallback verification.
+- Continuous-query scale and backpressure behavior needs further validation under sustained load.
 
 ## Breaking Changes
-- AQL syntax is stable from v1.x; new keywords are additive.
-- Function registry signatures are frozen for 100+ existing functions; new functions only.
+- Query public APIs and language compatibility paths remain additive-first in active major lines.
+- Any future behavioral change requiring client migration must be versioned and documented in changelog/migration notes.

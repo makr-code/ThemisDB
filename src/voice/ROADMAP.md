@@ -1,92 +1,71 @@
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # Voice Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator with Whisper-based STT, llama.cpp TTS/LLM integration, session management, phone call transcription, meeting protocol generation, real-time browser WebSocket streaming, voice biometric authentication, and telephony bridge (SIP/WebRTC) are all implemented.
 
-## Completed ✅
-- [x] VoiceAssistant – central coordinator for all voice interaction
-- [x] STT processing via Whisper AI (speaker diarization, timestamps)
-- [x] LLM integration via EmbeddedLLM / LlamaWrapper (intent recognition, query generation, response generation)
-- [x] TTS synthesis with audio format output
-- [x] Voice command processing pipeline (audio → STT → LLM → TTS → audio)
-- [x] Session state and conversation history management
-- [x] Context-aware conversational AI
-- [x] Phone call recording and transcription
-- [x] Meeting protocol generation
-- [x] Voice-based database query interface
-- [x] Storage and retrieval of voice session data
-- [x] Key point and summary extraction
-- [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Issue: #2496)
-- [x] Wake-word detection for hands-free activation (Issue: #2365)
-- [x] Voice biometric authentication (speaker verification) (Issue: #2494)
-- [x] Multi-speaker diarization improvements (Issue: #2497)
-- [x] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
-- [x] Integration with telephony systems — SIP call sessions, WebRTC peer connections, IVR engine, TelephonyBridge coordinator (Issue: #2495)
+Production-grade voice runtime with assistant orchestration, preprocessing, session handling, streaming integration, and security controls.
 
-## In Progress 🚧
-- (none)
+## In Progress
 
-## Planned Features 📋
+- [~] Session and streaming hardening for fail-closed behavior under malformed or oversized input (Target: Q3 2026)
+- [~] Wake-word and intent path stability tuning under noisy real-world input profiles (Target: Q3 2026)
+- [~] Benchmark and regression gate consolidation for voice-heavy release profiles (Target: Q3 2026)
 
-### Long-term (6-12 months)
-- [ ] Federated learning for on-device voice model personalisation (Target: Q3 2026)
-- [ ] GPU-accelerated noise suppression and codec processing (Target: Q4 2026)
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)
+- [ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)
+- [ ] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
+- [ ] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)
+- [ ] Improve operator-facing observability for wake-word, STT/TTS, and session-control behavior (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Voice Pipeline & Session Management (Status: Completed ✅)
-- [x] `VoiceAssistant` – central coordinator for all voice interaction
-- [x] STT processing via Whisper AI (speaker diarization, timestamps)
-- [x] LLM integration via `EmbeddedLLM` / `LlamaWrapper` (intent recognition, query generation, response generation)
-- [x] TTS synthesis with audio format output
-- [x] Voice command processing pipeline (audio → STT → LLM → TTS → audio)
-- [x] Session state and conversation history management
-- [x] Context-aware conversational AI
-- [x] Phone call recording and transcription
-- [x] Meeting protocol generation
-- [x] Voice-based database query interface
-- [x] Storage and retrieval of voice session data
-- [x] Key point and summary extraction
+### Phase 1: Design / API Contract
+- [ ] Freeze canonical voice session and command contract across assistant, streaming, and telephony paths (Target: Q3 2026)
+- [ ] Define explicit failure contracts for invalid audio, auth failure, and unavailable backend states (Target: Q3 2026)
 
-### Phase 2: Streaming STT & Wake-Word Detection (Status: Completed ✅)
-- [x] Real-time streaming STT (word-by-word transcription as audio arrives)
-- [x] Wake-word detection for hands-free activation
-- [x] Multi-speaker diarization improvements
+### Phase 2: Core Implementation
+- [ ] Complete hardening for session lifecycle, chunk validation, and bounded streaming behavior (Target: Q4 2026)
+- [ ] Align wake-word, intent, and command pipelines to shared fallback semantics (Target: Q4 2026)
 
-### Phase 3: Voice Macros & Browser Streaming (Status: Completed ✅)
-- [x] Voice command macros (user-defined shortcuts to AQL queries)
-- [x] Language detection and automatic locale switching
-- [x] Noise suppression preprocessing (RNNoise integration)
-- [x] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
-- [x] Voice session playback and search in stored transcripts
+### Phase 3: Error Handling and Edge Cases
+- [ ] Enforce fail-closed behavior for malformed payloads, invalid session transitions, and partial backend failures (Target: Q4 2026)
+- [ ] Standardize fallback behavior when optional runtime features are unavailable (Target: Q4 2026)
 
-### Phase 4: Multi-Language TTS & Biometric Authentication (Status: Completed ✅)
-- [x] Multi-language TTS (German, French, Spanish voices)
-- [x] Emotion / sentiment detection from voice tone
-- [x] Voice biometric authentication (speaker verification)
-- [x] Real-time meeting transcription with action-item extraction (Target: Q1 2026)
-- [x] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
+### Phase 4: Tests
+- [ ] Expand focused regressions for session isolation, streaming teardown, and auth edge cases (Target: Q4 2026)
+- [ ] Extend adversarial input regressions for spoofing, replay, and noisy wake-word scenarios (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026)
+- [ ] Validate sustained multi-session behavior for cache, queue, and session resources (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [ ] Keep voice docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #2355)
-- [P] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
-- [P] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
-- [I] Security audit (audio data storage, transcription PII handling) (Issue: #2358)
-- [I] Documentation complete (Issue: #2359)
-- [I] API stability guaranteed (Issue: #2360)
 
-## Known Issues & Limitations
-- Streaming STT operates in sliding-window mode (3 s window, 1 s step); true sample-by-sample streaming requires Whisper.cpp `THEMIS_ENABLE_WHISPER` build flag.
-- Wake-word detection uses energy-based VAD gating and acoustic feature scoring
-  (density, spectral centroid, crest factor). A neural wake-word model backend
-  (e.g. Porcupine, openWakeWord) can be plugged in via `WakeWordDetector::scorePhrase()`
-  without API changes.
-- Multi-speaker diarization uses k-means++ clustering on sub-band acoustic features (RMS + ZCR). Accuracy degrades with more than 4 simultaneous speakers; a neural embedding backend (e.g., pyannote-style x-vector) can be substituted via `diarizeSegments()` without API changes.
-- TTS voice quality depends on the llama.cpp model in use.
-- Voice biometric authentication uses acoustic sub-band features (no external model required). A neural i-vector/x-vector backend can be plugged in via `VoiceBiometricAuthenticator`'s internal `extractFeatures()` without changing the public API. Liveness detection is heuristic-based (crest factor, spectral flatness, ZCR variability); a neural anti-spoofing model is recommended for production.
+- [ ] API and behavior contracts verified by focused voice regressions
+- [ ] Security and auth checks verified on externally reachable voice entry points
+- [ ] Performance expectations validated through mapped release-profile benchmarks
+- [ ] Failure handling validated for timeout, cancellation, and degraded backend modes
+- [ ] Audit and changelog documentation synchronized with implementation deltas
+
+## Known Issues and Limitations
+
+- Some deployment-dependent runtime combinations still need broader benchmark evidence.
+- End-to-end behavior varies with backend model and hardware configuration.
+- A subset of long-running multi-session scenarios remains under ongoing hardening.
 
 ## Breaking Changes
-- VoiceAssistant session API is stable from v1.x.
-- Audio format configuration (sample rate, encoding) may gain new options in v1.5.0; backward-compatible.
+
+- No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.

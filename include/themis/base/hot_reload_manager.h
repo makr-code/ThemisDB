@@ -1,25 +1,20 @@
+/**
+ * @file hot_reload_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.21
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hot_reload_manager.h                               ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-03-09 03:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     357                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 11a2aa184  2026-02-28  feat(base): integrate ModuleSandbox into HotReloadManager... ║
-    • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hot_reload_manager.h | Version: 0.0.21
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Hot-reload manager for ThemisDB plugins and modules.
@@ -39,6 +34,7 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -120,7 +116,10 @@ struct HotReloadResult {
  *  - **Reload notifications**: registered callbacks are invoked at each phase
  *    (BEFORE_UNLOAD, AFTER_UNLOAD, AFTER_LOAD, ROLLBACK).
  *
- * Thread safety: all public methods are thread-safe.
+ * Thread safety: all public methods are thread-safe. Read-only queries hold
+ * a shared lock (std::shared_lock) to allow concurrent readers; write
+ * operations (reloadModule, rollback, registration) hold an exclusive lock
+ * (std::unique_lock) on the internal std::shared_mutex.
  *
  * Typical usage:
  * @code
@@ -332,7 +331,7 @@ private:
     };
 
     Config config_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
 
     std::unordered_map<std::string, ModuleSlot> slots_;
 

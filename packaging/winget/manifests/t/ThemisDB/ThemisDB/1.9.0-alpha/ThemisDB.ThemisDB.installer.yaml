@@ -1,0 +1,13 @@
+PackageIdentifier: ThemisDB.ThemisDB
+PackageVersion: 1.9.0-alpha
+Installers:
+- Architecture: x64
+  InstallerType: zip
+  InstallerUrl: https://github.com/makr-code/ThemisDB/releases/download/v1.9.0-alpha/ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.zip
+  InstallerSha256: FFFE99AC05B82645386913FF49C0992575560C91907D1CE0353735CD82839B10
+  NestedInstallerType: portable
+  NestedInstallerFiles:
+  - RelativeFilePath: bin\themis_server.exe
+    PortableCommandAlias: themis_server
+ManifestType: installer
+ManifestVersion: 1.6.0

@@ -159,5 +159,5 @@ Erklärende Dokumentation und themenspezifische Guides in `docs/de/`:
 | **Semantic Cache** (Feature) | [`docs/de/features/features_semantic_cache.md`](../../features/features_semantic_cache.md) | Nutzerdokumentation, HTTP-API, Performance-Benchmarks |
 | **Cache-Invalidierung** | [`docs/de/architecture/architecture_cache_invalidation.md`](../../architecture/architecture_cache_invalidation.md) | Invalidierungsstrategien, GDPR-Löschung, verteilte Invalidierung |
 | **Caching-Pattern-Katalog** | [`docs/de/architecture/architecture_caching_patterns.md`](../../architecture/architecture_caching_patterns.md) | Lookup-Muster und zugehörige Caching-Hooks |
-| **Cache-Roadmap** | [`docs/cache_roadmap.md`](../../../cache_roadmap.md) | Umfassende Cache-Roadmap (Legacy) |
-| **Fehlende Implementierungen** | [`docs/de/src/cache/missing-implementations.md`](missing-implementations.md) | Reality-Check-Ergebnisse: nicht implementierte / teilweise umgesetzte Punkte |
+| **Cache-Roadmap** | [`docs/cache_roadmap.md`](../../roadmap/cache_roadmap.md) | Umfassende Cache-Roadmap (Legacy) |
+| **Fehlende Implementierungen** | [`docs/de/src/cache/MISSING_IMPLEMENTATIONS.md`](MISSING_IMPLEMENTATIONS.md) | Reality-Check-Ergebnisse: nicht implementierte / teilweise umgesetzte Punkte |

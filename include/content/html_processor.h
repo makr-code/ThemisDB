@@ -1,41 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            html_processor.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8bd1fe74d  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
-    • 5a022e694  2026-02-26  Implement HTML content extraction with boilerplate removal ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright (c) 2024 ThemisDB
-// SPDX-License-Identifier: MIT
-
 /**
  * @file html_processor.h
- * @brief HTML Content Processor for ThemisDB
- *
- * Extracts plain text from HTML documents with boilerplate removal.
- * Strips navigation, headers, footers, scripts, and styles.
- * Extracts metadata from <title> and <meta> tags.
- *
- * Pure C++ implementation — no external HTML parsing library required.
- *
- * @author ThemisDB Team
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -54,7 +25,7 @@ namespace content {
  * - Boilerplate removal (<nav>, <header>, <footer>, <aside>, <script>, <style>, <form>)
  * - Plain text extraction preserving semantic structure (headings, paragraphs)
  * - Metadata extraction (<title>, <meta name="description"/"keywords"/"author">)
- * - HTML entity decoding (&amp;, &lt;, &gt;, &quot;, &#NNN;, &#xHH;)
+ * - HTML entity decoding (`&amp;`, `<`, `>`, `&quot;`, `&#NNN;`, `&#xHH;`)
  * - Chunking by paragraph / heading boundary
  */
 class HtmlProcessor : public IContentProcessor {
@@ -63,9 +34,9 @@ public:
      * @brief Configuration for HTML processing
      */
     struct Config {
-        /// Remove <nav>, <header>, <footer>, <aside>, <form> boilerplate blocks
+         /// Remove <nav>, <header>, <footer>, <aside>, <form> boilerplate blocks
         bool remove_boilerplate = true;
-        /// Strip <script> and <style> elements and their content
+         /// Strip <script> and <style> elements and their content
         bool remove_scripts_styles = true;
         /// Decode HTML entities in extracted text
         bool decode_entities = true;
@@ -132,7 +103,7 @@ public:
     /**
      * @brief Remove boilerplate HTML blocks
      *
-     * Strips the full content of <nav>, <header>, <footer>, <aside>, and <form>
+      * Strips the full content of <nav>, <header>, <footer>, <aside>, and <form>
      * elements (including nested tags) from @p html.
      *
      * @param html  Raw HTML string
@@ -141,7 +112,7 @@ public:
     static std::string removeBoilerplate(const std::string& html);
 
     /**
-     * @brief Remove <script> and <style> elements and their content
+      * @brief Remove <script> and <style> elements and their content
      *
      * @param html  Raw HTML string
      * @return HTML with script/style elements removed
@@ -155,7 +126,7 @@ public:
      * from adjacent elements are not concatenated.
      *
      * @param html  HTML string (should have scripts/styles already removed)
-     * @param preserve_headings  When true, replaces &lt;h1&gt;–&lt;h6&gt;
+     * @param preserve_headings  When true, replaces <h1>–<h6>
      *                           opening tags with markdown-style markers
      *                           ("# ", "## ", …"###### ") before stripping.
      * @return Plain text
@@ -166,8 +137,8 @@ public:
     /**
      * @brief Decode common HTML entities
      *
-     * Handles named entities (&amp; &lt; &gt; &quot; &apos; &nbsp;),
-     * decimal references (&#NNN;), and hex references (&#xHH;).
+      * Handles named entities (`&amp;` `<` `>` `&quot;` `&apos;` `&nbsp;`),
+      * decimal references (`&#NNN;`), and hex references (`&#xHH;`).
      *
      * @param text  Text that may contain HTML entities
      * @return Decoded text
@@ -175,7 +146,7 @@ public:
     static std::string decodeEntities(const std::string& text);
 
     /**
-     * @brief Extract <title> and <meta> tag values from an HTML document
+      * @brief Extract <title> and <meta> tag values from an HTML document
      *
      * @param html  Raw HTML string
      * @return JSON object with keys: title, description, keywords, author
@@ -213,3 +184,4 @@ std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config con
 
 } // namespace content
 } // namespace themis
+

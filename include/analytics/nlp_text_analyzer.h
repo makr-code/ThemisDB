@@ -1,53 +1,26 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            nlp_text_analyzer.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     441                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 83af59874  2026-02-26  audit: fix detectLanguage ambiguity, ROADMAP [x], correct... ║
-    • 3fd42b08d  2026-02-26  fix(analytics): code audit fixes - Spanish 'es'→'ser', Ge... ║
-    • c9e8e9704  2026-02-26  feat(analytics): implement full morphological lemmatizati... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file nlp_text_analyzer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
-#include <string>
-#include <vector>
+#include <algorithm>
+#include <cstddef>
 #include <map>
-#include <unordered_map>
-#include <set>
-#include <string_view>
 #include <optional>
-#include <cstdint>
-
-/**
- * @file nlp_text_analyzer.h
- * @brief Natural Language Processing (NLP) text analysis for ThemisDB
- * 
- * Provides lightweight, CPU-efficient text analysis capabilities as an alternative
- * to compute-intensive LLM/SLM approaches. Designed for AQL query optimization,
- * execution plan generation, and text-based query analysis.
- * 
- * Referenced in PR #317 for AQL execution plan orchestration.
- * 
- * @note This is NOT a full NLP framework - it provides basic text analysis
- *       functions optimized for database query processing and optimization.
- */
+#include <set>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace themis {
 namespace analytics {

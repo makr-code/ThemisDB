@@ -2,6 +2,8 @@
 
 This directory contains all configuration files for ThemisDB, organized in a hierarchical structure for better maintainability and discoverability.
 
+Canonical runtime configuration files live in subdirectories (for example `core/`, `security/`, `performance/`). Root-level files are legacy compatibility inputs handled by `ConfigPathResolver`.
+
 ## 📁 Directory Structure
 
 ```
@@ -58,6 +60,7 @@ config/
 │
 ├── security/                         # Security & authentication
 │   ├── auth_kerberos.example.yaml  # Kerberos authentication example
+│   ├── rbac_roles.yaml              # Canonical RBAC roles
 │   ├── rbac_roles.json              # Role-based access control roles
 │   ├── user_roles.json              # User-to-role mappings
 │   ├── graph_protection.yaml        # Knowledge graph protection
@@ -104,7 +107,8 @@ config/
 │
 └── deprecated/                      # Deprecated/backup configs
     ├── phase2_optimizations.json   # Legacy Phase 2 optimizations
-    └── phase3_optimizations.json   # Legacy Phase 3 optimizations
+    ├── phase3_optimizations.json   # Legacy Phase 3 optimizations
+    └── policies.json.backup        # Archived policy backup
 ```
 
 ## 🔄 Backward Compatibility
@@ -123,6 +127,13 @@ All legacy config paths are automatically mapped to their new locations by the `
 | `config/pii_patterns.yaml` | `config/security/pii_patterns.yaml` |
 | `config/config.yaml` | `config/core/config.yaml` |
 | `config/scaling_optimizations.yaml` | `config/performance/scaling_optimizations.yaml` |
+
+## ✅ Recommended Editing Policy
+
+- Edit canonical files under their domain subdirectories.
+- Do not introduce new root-level duplicates.
+- Keep root-level legacy files only for compatibility windows.
+- If both legacy and canonical versions exist, canonical content is authoritative.
 
 ## 🚀 Usage
 
@@ -244,5 +255,5 @@ auto config = loadConfig(
 
 ---
 
-**Last Updated**: 2026-02-12  
+**Last Updated**: 2026-04-20  
 **Version**: 2.0.0 (Post-Reorganization)

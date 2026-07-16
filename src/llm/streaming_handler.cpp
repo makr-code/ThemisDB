@@ -1,33 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            streaming_handler.cpp                              ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:59:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     153                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a19560004  2026-02-22  fix(llm): audit fixes for streaming_handler — RFC 8259 co... ║
-    • b4b1483a9  2026-02-22  feat(llm): streaming token output via SSE/chunked responses ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file streaming_handler.cpp
- * @brief SSE / chunked-response streaming handler implementation
- *
- * Implements stateless helpers that format individual LLM tokens as
- * Server-Sent Events (SSE) or HTTP chunked-transfer frames.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/streaming_handler.h"
@@ -152,3 +131,4 @@ std::function<void(const std::string&)> StreamingHandler::makeStreamCallback(
 
 } // namespace llm
 } // namespace themis
+

@@ -1,4 +1,9 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB RAG (Retrieval-Augmented Generation) Module Headers
+
+<!-- Status: current | validated: 2026-05-13 -->
+<!-- Links: include/rag/README.md · src/rag/README.md · src/rag/ARCHITECTURE.md · src/rag/ROADMAP.md · src/rag/FUTURE_ENHANCEMENTS.md · docs/troubleshooting/rag_troubleshooting.md -->
 
 ## Module Purpose
 
@@ -199,7 +204,7 @@ if (result.passed_quality_threshold) {
     std::cout << "Answer quality: " << result.overall_score << "\n";
     std::cout << "Faithfulness: " << result.faithfulness_score << "\n";
     std::cout << "Relevance: " << result.relevance_score << "\n";
-    
+
     // Show verified claims
     for (const auto& claim : result.verified_claims) {
         std::cout << "✓ " << claim << "\n";
@@ -279,7 +284,7 @@ Detects when retrieved documents are insufficient to answer a query reliably.
    - Similarity score analysis
    - Document count check
    - Query coverage assessment
-   
+
 2. **During Generation**: Real-time monitoring
    - Token probability tracking
    - Perplexity anomaly detection
@@ -322,7 +327,7 @@ if (pre_check.gap_detected) {
     std::cout << "Gap detected: " << pre_check.explanation << "\n";
     std::cout << "Gap type: " << static_cast<int>(pre_check.gap_type) << "\n";
     std::cout << "Avg similarity: " << pre_check.avg_similarity_score << "\n";
-    
+
     // Apply fallback strategy
     switch (pre_check.recommendation) {
         case FallbackStrategy::EXPAND_SEARCH:
@@ -745,18 +750,18 @@ public:
         // Initialize components
         gap_detector_ = knowledge_gap::KnowledgeGapDetectorFactory::createBalanced();
         judge_ = judge::RAGJudgeFactory::createBalanced();
-        
+
         // Setup evaluation cache
         judge::CacheConfig cache_cfg;
         cache_cfg.max_entries = 1000;
         cache_cfg.ttl = std::chrono::seconds(3600);
         eval_cache_ = std::make_unique<judge::EvaluationCache>(cache_cfg);
-        
+
         // Initialize LLM integration
         auto inference_engine = std::make_shared<llm::InferenceEngineEnhanced>();
         LLMIntegration::setInferenceEngine(inference_engine);
     }
-    
+
     struct RAGResponse {
         std::string answer;
         double confidence;
@@ -764,24 +769,24 @@ public:
         judge::EvaluationResult quality_metrics;
         bool sufficient_quality;
     };
-    
+
     RAGResponse query(const std::string& user_query, size_t top_k = 10) {
         RAGResponse response;
-        
+
         // Step 1: Retrieval
         auto retrieved_docs = retrieveDocuments(user_query, top_k);
-        
+
         // Step 2: Pre-generation gap detection
         auto gap_check = gap_detector_->detectPreGeneration(user_query, retrieved_docs);
-        
+
         if (gap_check.gap_detected) {
             // Apply fallback strategy
             if (gap_check.recommendation == knowledge_gap::FallbackStrategy::EXPAND_SEARCH) {
                 retrieved_docs = retrieveDocuments(user_query, top_k * 2);
                 gap_check = gap_detector_->detectPreGeneration(user_query, retrieved_docs);
             }
-            
-            if (gap_check.gap_detected && 
+
+            if (gap_check.gap_detected &&
                 gap_check.recommendation == knowledge_gap::FallbackStrategy::INSUFFICIENT_DATA_RESPONSE) {
                 response.answer = "I don't have enough reliable information to answer this question.";
                 response.confidence = 0.0;
@@ -789,21 +794,21 @@ public:
                 return response;
             }
         }
-        
+
         // Step 3: Prompt construction and generation
         std::string prompt = buildPrompt(user_query, retrieved_docs);
-        
+
         LLMGenerationOptions gen_opts;
         gen_opts.temperature = 0.7;
         gen_opts.max_tokens = 512;
-        
+
         response.answer = LLMIntegration::generate(prompt, gen_opts);
-        
+
         // Step 4: Post-generation gap check
         auto post_gap_check = gap_detector_->detectPostGeneration(
             user_query, retrieved_docs, response.answer
         );
-        
+
         // Step 5: Quality evaluation (check cache first)
         auto cached_eval = eval_cache_->get(user_query, response.answer);
         if (cached_eval) {
@@ -813,39 +818,39 @@ public:
             eval_input.query = user_query;
             eval_input.documents = convertDocs(retrieved_docs);
             eval_input.generated_answer = response.answer;
-            
+
             response.quality_metrics = judge_->evaluate(eval_input);
             eval_cache_->put(user_query, response.answer, response.quality_metrics);
         }
-        
+
         // Step 6: Decision logic
-        response.confidence = response.quality_metrics.overall_score * 
+        response.confidence = response.quality_metrics.overall_score *
                              (1.0 - gap_check.confidence_score);
-        
-        response.sufficient_quality = 
+
+        response.sufficient_quality =
             response.quality_metrics.passed_quality_threshold &&
             !post_gap_check.gap_detected;
-        
+
         // Step 7: Extract citations
         response.citations = extractCitations(response.answer, retrieved_docs);
-        
+
         return response;
     }
-    
+
 private:
     std::unique_ptr<knowledge_gap::KnowledgeGapDetector> gap_detector_;
     std::unique_ptr<judge::RAGJudge> judge_;
     std::unique_ptr<judge::EvaluationCache> eval_cache_;
-    
+
     std::vector<knowledge_gap::RetrievedDocument> retrieveDocuments(
-        const std::string& query, 
+        const std::string& query,
         size_t top_k
     ) {
         // Use vector index to retrieve documents
         // Implementation depends on your vector index
         return {};  // Placeholder
     }
-    
+
     std::string buildPrompt(
         const std::string& query,
         const std::vector<knowledge_gap::RetrievedDocument>& docs
@@ -860,7 +865,7 @@ private:
         prompt << "Answer (cite sources using [1], [2], etc.):";
         return prompt.str();
     }
-    
+
     std::vector<judge::RetrievedDocument> convertDocs(
         const std::vector<knowledge_gap::RetrievedDocument>& docs
     ) {
@@ -870,7 +875,7 @@ private:
         }
         return result;
     }
-    
+
     std::vector<std::string> extractCitations(
         const std::string& answer,
         const std::vector<knowledge_gap::RetrievedDocument>& docs
@@ -884,9 +889,9 @@ private:
 // Usage
 int main() {
     RAGPipeline rag;
-    
+
     auto response = rag.query("What causes climate change?");
-    
+
     if (response.sufficient_quality) {
         std::cout << "Answer: " << response.answer << "\n\n";
         std::cout << "Confidence: " << response.confidence << "\n";
@@ -894,7 +899,7 @@ int main() {
         std::cout << "  Faithfulness: " << response.quality_metrics.faithfulness_score << "\n";
         std::cout << "  Relevance: " << response.quality_metrics.relevance_score << "\n";
         std::cout << "  Completeness: " << response.quality_metrics.completeness_score << "\n";
-        
+
         std::cout << "\nCitations:\n";
         for (const auto& citation : response.citations) {
             std::cout << "  - " << citation << "\n";
@@ -903,7 +908,7 @@ int main() {
         std::cout << "Response quality insufficient.\n";
         std::cout << "Explanation: " << response.quality_metrics.explanation << "\n";
     }
-    
+
     return 0;
 }
 ```
@@ -1106,6 +1111,42 @@ auto result = judge->evaluate(query, docs, answer);
 return result.passed_quality_threshold;
 ```
 
+## Public API Entry Points (Quick Navigation)
+
+Use these headers as the primary integration surface for host applications:
+
+- [`rag/rag_judge.h`](rag_judge.h) — judge creation/evaluation API (`RAGJudgeFactory`, `RAGJudgeConfig`, evaluation reports)
+- [`rag/hybrid_retriever.h`](hybrid_retriever.h) — vector + BM25 retrieval fusion (`HybridRetriever`, retrieval configuration)
+- [`rag/streaming_retriever.h`](streaming_retriever.h) — incremental retrieval with token-budget and MMR controls
+- [`rag/rag_ingestion_bridge.h`](rag_ingestion_bridge.h) — ingestion-to-retrieval bridge and context enrichment
+- [`rag/agentic_rag.h`](agentic_rag.h) — iterative retrieval loops with `AgenticRAGConfig` and optional relay guard output
+- [`rag/quality_control_pipeline.h`](quality_control_pipeline.h) — composable quality-control stages for retrieval/generation
+- [`rag/prompt_injection_detector.h`](prompt_injection_detector.h) — suspicious-pattern detection and sanitisation
+- [`rag/delegate_evaluator.h`](delegate_evaluator.h) — RS@k round-trip corruption benchmark helpers
+
+## Configuration Options (High-Impact)
+
+| Config Type | Header | Effect |
+|---|---|---|
+| `RAGJudgeConfig` | `rag_judge.h` | Quality dimensions, thresholds, evaluation mode, cache/verification behavior |
+| `StreamingRetrieverConfig` | `streaming_retriever.h` | Context/token budget, retrieval depth, relevance order, MMR deduplication |
+| `AgenticRAGConfig` | `agentic_rag.h` | Iterative loop bounds (`max_iterations`) and relay guard benchmark activation |
+| `PromptInjectionConfig` | `prompt_injection_detector.h` | Pattern matching behavior, severity handling, sanitisation thresholds |
+| `RAGContextAssemblerConfig` | `rag_context_assembler.h` | Context assembly/truncation strategy and response-token reservation |
+
+## Runtime Behavior, Errors, and Limits
+
+- Token and context budgets are hard guards; over-budget context is truncated or skipped by retriever/assembler logic.
+- Retrieval quality can degrade when external dependencies are unavailable (LLM or ONNX backends); APIs are designed to expose fallback/error states.
+- Prompt-injection detection is heuristic and may require threshold tuning per domain to balance recall vs. false positives.
+- Agentic workflows are bounded by iteration limits to prevent runaway loops; optional relay benchmarking captures corruption metrics without aborting core execution.
+- Continuous-learning features depend on sufficient feedback volume and may be intentionally no-op below configured thresholds.
+
+## Troubleshooting
+
+- [RAG Troubleshooting Guide](../../docs/troubleshooting/rag_troubleshooting.md) — operational symptoms, root causes, and concrete config fixes
+- [RAG Documentation Index (DE)](../../docs/de/llm/RAG_INDEX.md) — consolidated RAG docs map
+
 ## Dependencies
 
 - **LLM Module**: Inference engine for evaluation
@@ -1120,10 +1161,12 @@ return result.passed_quality_threshold;
 
 ## Further Reading
 
-- Implementation source code: `../../src/rag/`
-- Detailed design documents: `../../docs/src/rag/`
-- API examples: `../../examples/rag/`
-- German documentation: `../../docs/de/llm/RAG_*.md`
+- [Implementation Overview (`src/rag/README.md`)](../../src/rag/README.md)
+- [Architecture (`src/rag/ARCHITECTURE.md`)](../../src/rag/ARCHITECTURE.md)
+- [Roadmap (`src/rag/ROADMAP.md`)](../../src/rag/ROADMAP.md)
+- [Future Enhancements (`src/rag/FUTURE_ENHANCEMENTS.md`)](../../src/rag/FUTURE_ENHANCEMENTS.md)
+- [Troubleshooting (`docs/troubleshooting/rag_troubleshooting.md`)](../../docs/troubleshooting/rag_troubleshooting.md)
+- [German RAG Index (`docs/de/llm/RAG_INDEX.md`)](../../docs/de/llm/RAG_INDEX.md)
 
 ## Contributing
 
@@ -1141,6 +1184,56 @@ MIT License - see `../../LICENSE`
 
 ---
 
-*Generated: 2024*  
-*Module Version: 1.15.0*  
+*Generated: 2024*
+*Module Version: 1.15.0*
 *23 header files, 19 source files*
+
+## Additional Header Files
+
+The following headers are present in `include/rag/` and supplement the components documented above.
+
+| Header | Description |
+|---|---|
+| `ab_testing_framework.h` | A/B testing framework for comparing RAG pipeline variants under live traffic <!-- TODO: verify --> |
+| `adaptive_retrieval.h` | Adaptive retrieval strategy that adjusts query expansion and filtering based on gap detection <!-- TODO: verify --> |
+| `adversarial_tester.h` | Generates adversarial test cases to probe RAG pipeline robustness and failure modes <!-- TODO: verify --> |
+| `agentic_rag.h` | Agentic RAG orchestrator: iterative tool-calling retrieval loop for multi-step reasoning <!-- TODO: verify --> |
+| `bayesian_optimizer.h` | Bayesian hyper-parameter optimisation for RAG pipeline configuration <!-- TODO: verify --> |
+| `citation_highlighter.h` | Highlights source passages in retrieved documents that support a generated claim <!-- TODO: verify --> |
+| `claim_extractor.h` | Extracts atomic verifiable claims from a generated answer |
+| `coherence_evaluator.h` | Evaluates logical structure and readability of generated answers |
+| `completeness_evaluator.h` | Evaluates coverage of all aspects of the user query in the generated answer |
+| `continuous_learning_client.h` | Client for submitting feedback signals to the continuous learning orchestrator <!-- TODO: verify --> |
+| `continuous_learning_orchestrator.h` | Orchestrates online learning from feedback: model updates, retrieval tuning <!-- TODO: verify --> |
+| `distributed_rag_evaluator.h` | Distributed evaluation of RAG pipelines across multiple nodes <!-- TODO: verify --> |
+| `document_splitter.h` | Splits long documents into overlapping or non-overlapping chunks for indexing <!-- TODO: verify --> |
+| `document_summarizer.h` | Summarises retrieved documents to fit within context window budget <!-- TODO: verify --> |
+| `evaluation_report_exporter.h` | Exports evaluation results to CSV, JSON, or HTML reports <!-- TODO: verify --> |
+| `explainability_reason_builder.h` | Builds human-readable explanations for judge scores and retrieval decisions <!-- TODO: verify --> |
+| `faithfulness_evaluator.h` | Fact-checks the generated answer against retrieved source documents |
+| `hallucination_dashboard.h` | Aggregates hallucination metrics and exposes a Prometheus/JSON dashboard endpoint <!-- TODO: verify --> |
+| `http_metrics_client.h` | HTTP client for pushing RAG evaluation metrics to an external metrics server <!-- TODO: verify --> |
+| `hybrid_retriever.h` | Hybrid dense + sparse retriever combining vector search with BM25 <!-- TODO: verify --> |
+| `judge_config.h` | Configuration structures shared across all judge implementations <!-- TODO: verify --> |
+| `knowledge_graph_retriever.h` | Retrieves context by traversing a knowledge graph starting from query entities <!-- TODO: verify --> |
+| `learning_metrics.h` | Metrics for continuous learning: drift detection, accuracy deltas, feedback rates <!-- TODO: verify --> |
+| `llm_judge_client.h` | HTTP/gRPC client for delegating judge evaluation to a remote LLM judge service <!-- TODO: verify --> |
+| `llm_judge_integration.h` | Integration layer connecting `RAGJudge` to `LLMIntegration` inference backend <!-- TODO: verify --> |
+| `multi_hop_reasoner.h` | Multi-hop reasoning engine: decomposes complex queries into retrievable sub-questions <!-- TODO: verify --> |
+| `multi_step_rag.h` | Multi-step RAG pipeline with iterative retrieval and refinement <!-- TODO: verify --> |
+| `multimodal_rag.h` | RAG pipeline extended to image, audio, and video modalities <!-- TODO: verify --> |
+| `nli_faithfulness_verifier.h` | NLI-based faithfulness verification as an alternative to LLM-as-Judge <!-- TODO: verify --> |
+| `onnx_model_loader.h` | Loads ONNX models for lightweight local inference in evaluator components <!-- TODO: verify --> |
+| `prompt_injection_detector.h` | Detects prompt injection attacks in user queries and retrieved documents |
+| `quality_control_factory.h` | Factory for composing quality control pipelines from individual evaluator components <!-- TODO: verify --> |
+| `quality_control_pipeline.h` | Configurable pipeline that chains multiple quality checks (faithfulness, relevance, …) <!-- TODO: verify --> |
+| `rag_context_assembler.h` | Assembles retrieved passages into a structured context block for LLM prompts <!-- TODO: verify --> |
+| `rag_ingestion_bridge.h` | Bridge for feeding newly ingested documents into the live retrieval index <!-- TODO: verify --> |
+| `relevance_evaluator.h` | Evaluates how well the generated answer addresses the user query |
+| `replug_retriever.h` | REPLUG-style retriever that integrates retrieval probability into LLM generation <!-- TODO: verify --> |
+| `reranker.h` | Cross-encoder reranker for re-scoring and re-ordering retrieved documents <!-- TODO: verify --> |
+| `response_parser.h` | Parses structured LLM responses (JSON, scored lists, CoT blocks) for downstream use |
+| `rlaif_trainer.h` | RLAIF (Reinforcement Learning from AI Feedback) trainer for refining retrieval and generation <!-- TODO: verify --> |
+| `streaming_retriever.h` | Streams retrieved document chunks progressively as they become available <!-- TODO: verify --> |
+
+## Installation

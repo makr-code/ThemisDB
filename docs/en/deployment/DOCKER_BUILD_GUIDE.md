@@ -179,13 +179,13 @@ docker stop themis-test && docker rm themis-test
 
 ## 📚 Weitere Dokumentation
 
-- [SETUP_COMPLETE.md](../SETUP_COMPLETE.md) - Vollständiges Setup
+- [SETUP_COMPLETE.md](../../ARCHIVED/implementation-summaries/SETUP_COMPLETE.md) - Vollständiges Setup
 - [docker/compose/README.md](docker/compose/README.md) - Docker Compose Setup
 - [docker/compose/QUICK_START.md](docker/compose/QUICK_START.md) - Schnellanleitung
 
 ---
 
-**Stand:** 3. Januar 2026  
+**Stand:** 3. April 2026  
 **Dockerfile:** `Dockerfile.themis-server` (konsolidiert)  
 **Editionen:** Alle über Build-Args  
 **Metriken:** In allen Editionen aktiviert ✅

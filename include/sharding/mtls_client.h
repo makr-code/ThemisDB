@@ -1,23 +1,20 @@
+/**
+ * @file mtls_client.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mtls_client.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     228                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mtls_client.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -140,6 +137,19 @@ public:
     Response post(const std::string& endpoint, 
                   const std::string& path,
                   const nlohmann::json& body);
+
+    /**
+     * Perform HTTP POST request with mTLS and custom Authorization header
+     * @param endpoint Server endpoint
+     * @param path Request path
+     * @param body Request body (JSON)
+     * @param authorization_header Value for the Authorization header (e.g. "Bearer <token>")
+     * @return Response with JSON body, or error
+     */
+    Response post(const std::string& endpoint,
+                  const std::string& path,
+                  const nlohmann::json& body,
+                  const std::string& authorization_header);
     
     /**
      * Perform HTTP PUT request with mTLS
@@ -215,7 +225,8 @@ private:
     Response request(const std::string& method,
                     const std::string& endpoint,
                     const std::string& path,
-                    const std::optional<nlohmann::json>& body = std::nullopt);
+                    const std::optional<nlohmann::json>& body = std::nullopt,
+                    const std::string& authorization_header = {});
     
     /**
      * Initialize SSL context with certificates
@@ -229,3 +240,4 @@ private:
 };
 
 } // namespace themis::sharding
+

@@ -1,23 +1,20 @@
+/**
+ * @file document_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            document_functions.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     646                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: document_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -37,6 +34,7 @@ namespace functions {
  */
 class DocumentFunction : public IFunction {
 public:
+    ~DocumentFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DOCUMENT",
@@ -65,6 +63,7 @@ public:
  */
 class MergeFunction : public IFunction {
 public:
+    ~MergeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MERGE",
@@ -104,6 +103,7 @@ public:
  */
 class MergeRecursiveFunction : public IFunction {
 public:
+    ~MergeRecursiveFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MERGE_RECURSIVE",
@@ -152,6 +152,7 @@ private:
  */
 class UnsetFunction : public IFunction {
 public:
+    ~UnsetFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNSET",
@@ -184,6 +185,7 @@ public:
  */
 class KeepFunction : public IFunction {
 public:
+    ~KeepFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "KEEP",
@@ -220,6 +222,7 @@ public:
  */
 class HasFunction : public IFunction {
 public:
+    ~HasFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "HAS",
@@ -246,6 +249,7 @@ public:
  */
 class AttributesFunction : public IFunction {
 public:
+    ~AttributesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ATTRIBUTES",
@@ -273,6 +277,7 @@ public:
  */
 class ValuesFunction : public IFunction {
 public:
+    ~ValuesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "VALUES",
@@ -300,6 +305,7 @@ public:
  */
 class ZipFunction : public IFunction {
 public:
+    ~ZipFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ZIP",
@@ -336,6 +342,7 @@ public:
  */
 class UnzipFunction : public IFunction {
 public:
+    ~UnzipFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNZIP",
@@ -371,6 +378,7 @@ public:
  */
 class TypenameFunction : public IFunction {
 public:
+    ~TypenameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TYPENAME",
@@ -406,6 +414,7 @@ public:
  */
 class IsNullFunction : public IFunction {
 public:
+    ~IsNullFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_NULL",
@@ -426,6 +435,7 @@ public:
 
 class IsBoolFunction : public IFunction {
 public:
+    ~IsBoolFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_BOOL",
@@ -446,6 +456,7 @@ public:
 
 class IsNumberFunction : public IFunction {
 public:
+    ~IsNumberFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_NUMBER",
@@ -466,6 +477,7 @@ public:
 
 class IsStringFunction : public IFunction {
 public:
+    ~IsStringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_STRING",
@@ -486,6 +498,7 @@ public:
 
 class IsArrayFunction : public IFunction {
 public:
+    ~IsArrayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_ARRAY",
@@ -506,6 +519,7 @@ public:
 
 class IsObjectFunction : public IFunction {
 public:
+    ~IsObjectFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_OBJECT",
@@ -529,6 +543,7 @@ public:
  */
 class ToNumberFunction : public IFunction {
 public:
+    ~ToNumberFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_NUMBER",
@@ -549,6 +564,7 @@ public:
 
 class ToStringFunction : public IFunction {
 public:
+    ~ToStringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_STRING",
@@ -569,6 +585,7 @@ public:
 
 class ToBoolFunction : public IFunction {
 public:
+    ~ToBoolFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_BOOL",
@@ -589,6 +606,7 @@ public:
 
 class ToArrayFunction : public IFunction {
 public:
+    ~ToArrayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_ARRAY",

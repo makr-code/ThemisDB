@@ -1,35 +1,34 @@
+/**
+ * @file canary_rollout.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            canary_rollout.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:56:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
-    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: canary_rollout.h | Version: 0.0.18
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "updates/hot_reload_engine.h"
+#include <algorithm>
 #include <chrono>
+#include <cstdint>
+#include <deque>
 #include <functional>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -306,6 +305,334 @@ private:
 
     StageCompleteCallback stage_complete_cb_;
     RollbackCallback rollback_cb_;
+};
+
+// ============================================================================
+// CanaryDeployment – higher-level builder-pattern API (Issue #4046)
+// ============================================================================
+
+/**
+ * @brief Percentile latency statistics computed from observed samples.
+ */
+struct LatencyStats {
+    std::chrono::microseconds p50{0};
+    std::chrono::microseconds p95{0};
+    std::chrono::microseconds p99{0};
+    size_t sample_count = 0;
+};
+
+/**
+ * @brief A snapshot of all metrics tracked by CanaryDeployment.
+ */
+struct CanaryMetricsSnapshot {
+    LatencyStats latency;
+
+    /// Latest observed memory usage in bytes (0 if not reported).
+    double memory_bytes = 0.0;
+
+    /// Latest observed CPU utilisation fraction 0.0–1.0 (0 if not reported).
+    double cpu_fraction = 0.0;
+
+    /// Latest observed disk I/O throughput in bytes/s (0 if not reported).
+    double disk_io_bytes_per_sec = 0.0;
+
+    /// Registered custom metrics (name → latest value).
+    std::unordered_map<std::string, double> custom_metrics;
+
+    size_t error_count  = 0;
+    size_t success_count = 0;
+    double error_rate   = 0.0;
+
+    /// True when the tracked p99 latency exceeds the configured threshold.
+    bool latency_threshold_exceeded = false;
+};
+
+/**
+ * @brief Configuration for A/B testing within a canary deployment.
+ *
+ * When A/B testing is enabled every incoming request (identified by a
+ * string key) is deterministically assigned to either the *canary*
+ * (new-version) bucket or the *control* (current-version) bucket.
+ *
+ * The split is stateless: hashing request_id + experiment_id gives a
+ * consistent, per-request bucket without shared counters.
+ */
+struct ABTestConfig {
+    /// Fraction of traffic routed to the canary (0.0–1.0).  Default 10 %.
+    double canary_fraction = 0.10;
+
+    /// Stable experiment identifier written into metrics/logs.
+    std::string experiment_id;
+};
+
+/**
+ * @brief A single stage specification for CanaryDeployment.
+ *
+ * Uses integer percentages (1, 5, 25, 100) and `std::chrono::seconds` /
+ * `std::chrono::hours` durations, consistent with the API documented in
+ * Issue #4046.
+ */
+struct CanaryDeploymentStage {
+    /// Percentage of nodes that should receive the update (1–100).
+    int percentage = 0;
+
+    /// Observation window before the stage is eligible to advance.
+    std::chrono::seconds duration{0};
+
+    /// 0-based stage index (filled in automatically by CanaryDeployment).
+    size_t stage_number = 0;
+};
+
+/**
+ * @brief Higher-level canary deployment controller (Issue #4046).
+ *
+ * Wraps CanaryRollout with:
+ *  - Builder-pattern configuration API (setVersion, setStages, …)
+ *  - Latency percentile tracking (p50 / p95 / p99)
+ *  - Scalar metric collection (memory, CPU, disk I/O)
+ *  - Custom metric registration
+ *  - A/B testing and traffic splitting
+ *  - Automatic rollback on latency-threshold breach
+ *
+ * Usage:
+ * @code
+ *   CanaryDeployment canary;
+ *   canary.setVersion("1.5.0");
+ *   canary.setStages({
+ *       {.percentage = 1,   .duration = std::chrono::hours(1)},
+ *       {.percentage = 5,   .duration = std::chrono::hours(2)},
+ *       {.percentage = 25,  .duration = std::chrono::hours(6)},
+ *       {.percentage = 100, .duration = std::chrono::hours(0)},
+ *   });
+ *   canary.setErrorRateThreshold(0.05);
+ *   canary.setLatencyThreshold(std::chrono::milliseconds(500));
+ *   canary.setEngine(hot_reload_engine);
+ *   canary.setNodeId(hostname);
+ *
+ *   auto result = canary.deploy();
+ *
+ *   canary.onStageComplete([](const CanaryDeploymentStage& stage) {
+ *       LOG_INFO("Stage {} complete: {}% of nodes updated",
+ *                stage.stage_number, stage.percentage);
+ *   });
+ *
+ *   canary.onRollback([](const std::string& reason) {
+ *       LOG_ERROR("Canary deployment rolled back: {}", reason);
+ *   });
+ * @endcode
+ */
+class CanaryDeployment {
+public:
+    using StageCompleteCallback =
+        std::function<void(const CanaryDeploymentStage& /*stage*/)>;
+    using RollbackCallback =
+        std::function<void(const std::string& /*reason*/)>;
+
+    CanaryDeployment();
+    ~CanaryDeployment() = default;
+
+    CanaryDeployment(const CanaryDeployment&) = delete;
+    CanaryDeployment& operator=(const CanaryDeployment&) = delete;
+    CanaryDeployment(CanaryDeployment&& other) noexcept;
+    CanaryDeployment& operator=(CanaryDeployment&& other) noexcept;
+
+    // -----------------------------------------------------------------------
+    // Builder API
+    // -----------------------------------------------------------------------
+
+    /** @brief Set the version string to deploy (e.g., "1.5.0"). */
+    void setVersion(const std::string& version);
+
+    /**
+     * @brief Set the rollout stages.
+     *
+     * stage_number is filled in automatically (0-based).
+     * The last stage must have percentage == 100 to guarantee full coverage.
+     */
+    void setStages(std::vector<CanaryDeploymentStage> stages);
+
+    /** @brief Set the error-rate threshold that triggers auto-rollback (0–1). */
+    void setErrorRateThreshold(double threshold);
+
+    /**
+     * @brief Set the p99 latency threshold that triggers auto-rollback.
+     *
+     * Checked each time reportLatency() is called.
+     */
+    void setLatencyThreshold(std::chrono::milliseconds p99_limit);
+
+    /** @brief Provide the HotReloadEngine used to apply / rollback the update. */
+    void setEngine(std::shared_ptr<HotReloadEngine> engine);
+
+    /**
+     * @brief Set the stable node identifier used for canary-group membership.
+     *
+     * If not set, deploy() will throw std::invalid_argument.
+     */
+    void setNodeId(const std::string& node_id);
+
+    // -----------------------------------------------------------------------
+    // Deployment
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Start the canary deployment.
+     *
+     * Validates configuration, creates an internal CanaryRollout, and calls
+     * applyIfIncluded() for this node.
+     *
+     * @return ReloadResult from HotReloadEngine::applyHotReload, or a skipped
+     *         result when this node is not in the first canary stage.
+     *
+     * @throws std::invalid_argument if version, node_id, engine, or stages
+     *         are missing / invalid.
+     */
+    ReloadResult deploy();
+
+    // -----------------------------------------------------------------------
+    // Callbacks
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Register a callback invoked when a stage completes.
+     *
+     * The callback receives a copy of the CanaryDeploymentStage that just
+     * finished (including the stage_number and percentage).
+     */
+    void onStageComplete(StageCompleteCallback cb);
+
+    /**
+     * @brief Register a callback invoked when the rollout is rolled back.
+     * @param cb Receives the human-readable reason string.
+     */
+    void onRollback(RollbackCallback cb);
+
+    // -----------------------------------------------------------------------
+    // Health / metric reporting
+    // -----------------------------------------------------------------------
+
+    /** @brief Record one successful operation. */
+    void reportSuccess();
+
+    /** @brief Record one failed operation (may trigger auto-rollback). */
+    void reportError();
+
+    /**
+     * @brief Feed a latency sample.
+     *
+     * Samples are stored in a bounded reservoir (max 1000 entries).
+     * Percentiles are recomputed lazily when getMetricsSnapshot() is called.
+     * If the p99 of the current reservoir exceeds the configured latency
+     * threshold, rollback is triggered automatically.
+     */
+    void reportLatency(std::chrono::microseconds latency);
+
+    /** @brief Update the latest memory-usage reading. */
+    void reportMemoryUsage(double bytes);
+
+    /** @brief Update the latest CPU-utilisation reading (0.0–1.0). */
+    void reportCpuUsage(double fraction);
+
+    /** @brief Update the latest disk I/O throughput reading (bytes/s). */
+    void reportDiskIO(double bytes_per_sec);
+
+    /**
+     * @brief Record (or update) a named custom metric.
+     *
+     * Custom metrics appear in the CanaryMetricsSnapshot and are useful for
+     * domain-specific signals like query-error rates or transaction failures.
+     */
+    void recordCustomMetric(const std::string& name, double value);
+
+    // -----------------------------------------------------------------------
+    // A/B testing and traffic splitting
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Enable A/B testing.
+     *
+     * Once enabled, isCanaryRequest() / isControlRequest() can be used to
+     * deterministically route individual requests.
+     */
+    void enableABTesting(const ABTestConfig& config);
+
+    /**
+     * @brief Return true if the given request key should be routed to the
+     *        canary (new-version) path.
+     *
+     * Uses a deterministic hash of (request_id + experiment_id) so that the
+     * same request always lands in the same bucket.
+     *
+     * Returns false when A/B testing is not enabled.
+     */
+    bool isCanaryRequest(const std::string& request_id) const;
+
+    /**
+     * @brief Return true if the given request key should be routed to the
+     *        control (old-version) path.
+     */
+    bool isControlRequest(const std::string& request_id) const;
+
+    /**
+     * @brief Return true if this node is in the canary group for the current
+     *        rollout stage (delegates to CanaryRollout::isNodeInCurrentStage).
+     *
+     * Returns false before deploy() is called.
+     */
+    bool isNodeInCanaryGroup() const;
+
+    // -----------------------------------------------------------------------
+    // Status and metrics
+    // -----------------------------------------------------------------------
+
+    /** @brief Get a snapshot of metrics collected since the last stage advance. */
+    CanaryMetricsSnapshot getMetricsSnapshot() const;
+
+    /** @brief Get a snapshot of the rollout state (delegates to CanaryRollout). */
+    CanaryStatus status() const;
+
+    /** @brief Manually advance to the next stage (delegates to CanaryRollout). */
+    bool advanceStage();
+
+    /** @brief Manually roll back the deployment. */
+    bool rollback(const std::string& reason = "");
+
+private:
+    // Compute percentile from sorted latency reservoir (caller must hold mutex).
+    LatencyStats computeLatencyStats() const;
+
+    // Check latency threshold and trigger rollback if exceeded (must NOT hold mutex).
+    void checkLatencyThreshold();
+
+    mutable std::mutex mutex_;
+
+    // Configuration
+    std::string version_;
+    std::string node_id_;
+    std::vector<CanaryDeploymentStage> stages_;
+    double error_rate_threshold_ = 0.05;
+    std::chrono::microseconds latency_threshold_us_{0};  // 0 = disabled
+    std::shared_ptr<HotReloadEngine> engine_;
+
+    // Internal rollout controller (created by deploy())
+    std::unique_ptr<CanaryRollout> rollout_;
+
+    // Callbacks
+    StageCompleteCallback stage_complete_cb_;
+    RollbackCallback rollback_cb_;
+
+    // Metrics
+    std::deque<int64_t> latency_samples_us_;    ///< Bounded circular reservoir (≤ 1000, O(1) push/pop)
+    double memory_bytes_{0.0};
+    double cpu_fraction_{0.0};
+    double disk_io_bytes_per_sec_{0.0};
+    std::unordered_map<std::string, double> custom_metrics_;
+
+    // A/B testing
+    bool ab_testing_enabled_{false};
+    ABTestConfig ab_config_;
+
+    static constexpr size_t kMaxLatencySamples = 1000;
 };
 
 } // namespace updates

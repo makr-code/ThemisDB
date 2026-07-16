@@ -1,50 +1,69 @@
-# Migration Guide: Transitioning to Git Flow Branching Strategy
+# Migration Guide: Transitioning to Canonical Edition Branching
 
 ## Overview
 
-This guide helps ThemisDB contributors and maintainers transition from the current branching model to the new Git Flow strategy where:
-- **`main`** = Production-ready release branch (protected)
-- **`develop`** = Active development integration branch (protected)
+This guide helps ThemisDB contributors and maintainers transition from the historical branch model to the canonical edition-based branch strategy where:
+
+- **`develop`** = Active integration branch (protected)
+- **`community`** = Community release branch (protected)
+- **`minimal`** = Minimal release branch (protected)
+- **`enterprise`** = Enterprise release branch (protected)
+- **`hyperscaler`** = Hyperscaler release branch (protected)
+- **`military`** = Military release branch (protected)
+
+Legacy names:
+
+- **`main`** = historical Community release branch; replaced by `community`
+- **`millitary`** = historical misspelling; replaced by `military`
 
 ## Timeline
 
-- **Effective Date**: 2025-12-30
-- **Grace Period**: 2 weeks for open PRs
-- **Full Enforcement**: 2025-01-15
+- **Effective Date**: 2026-06-15
+- **Grace Period**: 2 weeks for open PRs and documentation/workflow cleanup
+- **Full Enforcement**: after repository settings, protections, and references are aligned
 
 ## For Repository Maintainers
 
 ### Phase 1: Preparation (Before Enforcement)
 
-#### 1. Create `develop` Branch
+#### 1. Create or confirm canonical release branches
 
 ```bash
 # Clone repository
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
-# Create develop branch from current main
+# Confirm develop exists and is current
+git checkout develop
+git pull origin develop
+
+# Create community from historical main if needed
 git checkout main
 git pull origin main
-git checkout -b develop
-git push origin develop
+git checkout -b community
+git push origin community
 
-# Set develop as default branch on GitHub (optional during transition)
-# GitHub Settings → Branches → Default branch → develop
+# Create military from historical millitary if needed
+# Only if the canonical military branch does not already exist
+git checkout millitary
+git pull origin millitary
+git checkout -b military
+git push origin military
 ```
 
 #### 2. Configure Branch Protection
 
-Follow the [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) guide:
+Follow the canonical model from `BRANCHING_STRATEGY.md`:
 
-1. Protect `main` branch (strict rules)
-2. Protect `develop` branch (moderate rules)
-3. Set up CODEOWNERS
-4. Configure required status checks
+1. Protect `community` branch (strict release rules)
+2. Protect `develop` branch (integration rules)
+3. Protect `minimal`, `enterprise`, `hyperscaler`, and `military` release branches
+4. Set up CODEOWNERS
+5. Configure required status checks
 
 #### 3. Update CI/CD Workflows
 
-Update GitHub Actions workflows to trigger on correct branches:
+Update GitHub Actions workflows to trigger on canonical branches.
 
 **Before:**
 ```yaml
@@ -59,17 +78,17 @@ on:
 ```yaml
 on:
   push:
-    branches: [develop, main]
+    branches: [develop, community]
   pull_request:
     branches: [develop]
 ```
 
-**For Release Workflows:**
+**For Community Release Workflows:**
 ```yaml
 on:
   push:
     tags: ['v*']
-    branches: [main]  # Only main for releases
+    branches: [community]
 ```
 
 #### 4. Communicate Changes
@@ -83,20 +102,22 @@ on:
 **Announcement Template:**
 
 ```markdown
-## 📢 Important: New Branching Strategy
+## 📢 Important: Canonical Edition Branching Strategy
 
-Starting 2025-12-30, ThemisDB is adopting a Git Flow branching strategy:
+Starting 2026-06-15, ThemisDB is adopting a canonical edition-based branch strategy.
 
 ### Key Changes
-- ✅ `develop` is now the default branch for PRs
-- ✅ `main` is reserved for production releases
+- ✅ `develop` remains the default branch for PRs
+- ✅ `community` replaces `main` as the Community release branch
+- ✅ `military` replaces historical `millitary`
 - ✅ All feature branches should target `develop`
-- ✅ Hotfixes target `main` and merge back to `develop`
+- ✅ Edition release work targets the matching edition branch
 
 ### What You Need to Do
-1. Read [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)
-2. Rebase open PRs to target `develop`
-3. Create new branches from `develop`
+1. Read [BRANCHING_STRATEGY.md](../BRANCHING_STRATEGY.md)
+2. Rebase open feature PRs to target `develop`
+3. Retarget Community release PRs from `main` to `community`
+4. Stop using `millitary` for new work
 
 ### Migration Guide
 See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for detailed instructions.
@@ -108,25 +129,31 @@ Questions? Reply to this discussion or open an issue with label `question`.
 
 #### 1. Handle Existing PRs
 
-For each open PR targeting `main`:
+For each open PR targeting a legacy branch:
 
-1. Contact PR author:
-   ```markdown
-   Hi @author,
-   
-   We're transitioning to a new branching strategy. Could you please rebase your PR to target `develop` instead of `main`?
-   
-   Instructions: [MIGRATION_GUIDE.md - For Contributors](#for-contributors-with-open-prs)
-   
-   Let me know if you need help!
-   ```
+- `main` → decide whether it should target `develop` or `community`
+- `millitary` → retarget to `military`
 
-2. Provide assistance if needed
-3. Close stale PRs (> 6 months with no activity)
+Example message:
+
+```markdown
+Hi @author,
+
+We're transitioning to the canonical edition-based branching strategy.
+Could you please update your PR target away from the legacy branch?
+
+- Feature / bugfix work should target `develop`
+- Community release work should target `community`
+- Military release work should target `military`
+
+Instructions: [MIGRATION_GUIDE.md](#for-contributors-with-open-prs)
+
+Let me know if you need help!
+```
 
 #### 2. Verify CI/CD Workflows
 
-Test all workflows with both branches:
+Test workflows on canonical branches:
 
 ```bash
 # Test develop branch workflow
@@ -134,8 +161,10 @@ git checkout develop
 git commit --allow-empty -m "test: Trigger CI"
 git push origin develop
 
-# Verify workflows run correctly
-# Check GitHub Actions tab
+# Optionally test community workflow
+git checkout community
+git commit --allow-empty -m "test: Trigger community CI"
+git push origin community
 ```
 
 #### 3. Monitor and Adjust
@@ -143,50 +172,49 @@ git push origin develop
 - Watch for confusion or issues
 - Provide quick support in Discussions
 - Document common problems and solutions
-- Update FAQ section in branching strategy
+- Update FAQ sections in branching documents
 
-### Phase 3: Full Enforcement (After Grace Period)
+### Phase 3: Full Enforcement
 
-#### 1. Enable Strict Branch Protection
+#### 1. Enable strict branch protection on canonical release lanes
 
-Update `main` branch protection:
+Update `community`, `minimal`, `enterprise`, `hyperscaler`, and `military` branch protections:
 - ✅ Include administrators
 - ✅ Require conversation resolution
-- ✅ All status checks required
+- ✅ All required status checks
 - ✅ No force pushes
 - ✅ No deletions
 
 #### 2. Set `develop` as Default Branch
 
 1. Go to GitHub Settings → Branches
-2. Change default branch from `main` to `develop`
+2. Change default branch from legacy `main` to `develop` if not already set
 3. This ensures new clones and PRs default to `develop`
 
-#### 3. Update All Documentation
+#### 3. Freeze legacy branches
 
-Verify these files reference the new strategy:
-- [ ] README.md
-- [ ] CONTRIBUTING.md
-- [ ] GitHub issue templates
-- [ ] PR templates
-- [ ] Wiki pages (if any)
+After migration:
+- mark `main` as legacy-only
+- mark `millitary` as legacy-only
+- disable new PRs against them where possible
+- retain only as temporary migration references until fully retired
 
 ## For Contributors with Open PRs
 
-If you have an open PR targeting `main`, you need to update it to target `develop`.
+If you have an open PR targeting a legacy branch, update it as follows:
 
-### Option 1: Change PR Target (No Rebase Needed)
+- Feature/bugfix work: retarget to `develop`
+- Community release work: retarget to `community`
+- Military release work: retarget to `military`
 
-**For simple cases where your branch is clean:**
+### Option 1: Change PR Target
 
 1. Go to your PR on GitHub
 2. Click **Edit** next to the base branch
-3. Change from `main` to `develop`
+3. Change from the legacy target to the canonical target
 4. Click **Update pull request**
 
-### Option 2: Rebase onto develop (Recommended)
-
-**For branches that need to incorporate latest changes:**
+### Option 2: Rebase onto develop (Recommended for feature work)
 
 ```bash
 # 1. Update your local repository
@@ -205,33 +233,6 @@ git rebase --continue
 
 # 5. Force push (safe for your feature branch)
 git push origin feature/your-feature --force-with-lease
-
-# 6. Update PR target on GitHub (if not already done)
-# Edit PR → Change base branch to 'develop'
-```
-
-### Option 3: Start Fresh (If Rebase is Too Complex)
-
-**For very old branches with many conflicts:**
-
-```bash
-# 1. Create new branch from develop
-git fetch origin
-git checkout -b feature/your-feature-v2 origin/develop
-
-# 2. Cherry-pick your commits
-# Find commit SHAs from your old branch
-git log feature/your-feature
-
-# Cherry-pick each commit
-git cherry-pick <commit-sha-1>
-git cherry-pick <commit-sha-2>
-# ... etc
-
-# 3. Push new branch
-git push origin feature/your-feature-v2
-
-# 4. Close old PR and create new one targeting develop
 ```
 
 ## For New Contributors
@@ -243,7 +244,7 @@ git push origin feature/your-feature-v2
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
-# 2. Checkout develop (will be default)
+# 2. Checkout develop
 git checkout develop
 
 # 3. Create feature branch
@@ -255,108 +256,56 @@ git commit -m "feat: Add new feature"
 
 # 5. Push and create PR to develop
 git push origin feature/my-new-feature
-# On GitHub: Create PR with base = develop
 ```
-
-## For Active Developers
-
-### Update Local Development Workflow
-
-```bash
-# Add this to your ~/.gitconfig or repository .git/config
-[alias]
-    # Shortcut to update develop
-    sync-develop = !git checkout develop && git pull origin develop
-    
-    # Shortcut to create feature branch
-    new-feature = "!f() { git checkout develop && git pull && git checkout -b feature/$1; }; f"
-    
-    # Shortcut to create bugfix branch
-    new-bugfix = "!f() { git checkout develop && git pull && git checkout -b bugfix/$1; }; f"
-
-# Usage:
-git new-feature my-feature-name
-git new-bugfix critical-bug
-```
-
-### Update IDE/Editor Configuration
-
-**VS Code `.vscode/settings.json`:**
-```json
-{
-  "git.defaultBranchName": "develop",
-  "git.branchPrefix": "feature/",
-  "git.branchProtection": ["main", "develop"]
-}
-```
-
-**JetBrains IDEs (IntelliJ, CLion, etc.):**
-1. Settings → Version Control → Git
-2. Protected branches: Add `main` and `develop`
-3. Default branch: `develop`
 
 ## Common Scenarios
 
 ### Scenario 1: Starting New Feature
 
 ```bash
-# OLD way (don't do this anymore)
-git checkout main
-git checkout -b feature/new-feature
-
-# NEW way (correct)
+# Correct
 git checkout develop
 git pull origin develop
 git checkout -b feature/new-feature
 ```
 
-### Scenario 2: Fixing Production Bug
+### Scenario 2: Fixing Community Production Bug
 
 ```bash
-# Create hotfix from main
-git checkout main
-git pull origin main
-git checkout -b hotfix/1.3.4-critical-bug
+# Create hotfix from community
+git checkout community
+git pull origin community
+git checkout -b hotfix/community/1.3.4-critical-bug
 
 # Make fix
 git commit -m "fix: Critical production bug"
 
-# Create PR to main (with label 'hotfix')
-git push origin hotfix/1.3.4-critical-bug
+# Create PR to community
+git push origin hotfix/community/1.3.4-critical-bug
 
-# After merging to main, also merge to develop:
-git checkout develop
-git pull origin develop
-git cherry-pick <hotfix-commit-sha>
-git push origin develop
+# After merging to community, also merge or cherry-pick to develop
 ```
 
-### Scenario 3: Preparing Release
+### Scenario 3: Preparing Community Release
 
 ```bash
 # Create release branch from develop
 git checkout develop
 git pull origin develop
-git checkout -b release/1.4.0
+git checkout -b release/community/v1.4.0
 
-# Update version
+# Update version and notes
 echo "1.4.0" > VERSION
-./scripts/prepare-release.sh 1.4.0
 
 # Commit and test
-git commit -am "chore: Prepare release v1.4.0"
-git push origin release/1.4.0
+git commit -am "chore: Prepare community release v1.4.0"
+git push origin release/community/v1.4.0
 
-# After testing, merge to main
-git checkout main
-git merge --no-ff release/1.4.0
+# After testing, merge to community
+git checkout community
+git merge --no-ff release/community/v1.4.0
 git tag -a v1.4.0 -m "Release v1.4.0"
-git push origin main --tags
-
-# Merge back to develop
-git checkout develop
-git merge --no-ff release/1.4.0
-git push origin develop
+git push origin community --tags
 ```
 
 ## Troubleshooting
@@ -364,119 +313,40 @@ git push origin develop
 ### Problem: PR Automatically Targets main
 
 **Solution:**
-GitHub defaults to the repository's default branch. Change PR target:
+GitHub may still default to a legacy branch until settings are updated.
+Change PR target manually:
 1. Click "Edit" next to base branch in PR
-2. Select `develop`
-3. Conflicts may need resolution after changing base
+2. Select `develop` for feature work or `community` for Community release work
+3. Resolve conflicts if needed after changing base
 
-### Problem: Can't Push to develop
-
-**Solution:**
-Direct pushes to `develop` are restricted. Always use PRs:
-```bash
-# Create feature branch instead
-git checkout -b feature/my-change develop
-git push origin feature/my-change
-# Then create PR on GitHub
-```
-
-### Problem: Merge Conflicts After Rebasing
+### Problem: Need to use military but old docs mention millitary
 
 **Solution:**
-```bash
-# Start rebase
-git rebase origin/develop
-
-# For each conflict:
-# 1. Edit files to resolve conflicts
-# 2. Stage resolved files
-git add <file>
-
-# 3. Continue rebase
-git rebase --continue
-
-# If too complex, abort and ask for help
-git rebase --abort
-```
-
-### Problem: Accidentally Committed to develop Locally
-
-**Solution:**
-```bash
-# Don't push! Fix locally first
-git checkout develop
-
-# Move commit to feature branch
-git branch feature/accidental-commit
-git reset --hard origin/develop
-
-# Switch to feature branch
-git checkout feature/accidental-commit
-# Now create PR normally
-```
+Use `military` for all new work.
+Treat `millitary` as historical-only during migration cleanup.
 
 ## FAQ
 
 ### Q: Why are we changing the branching strategy?
 
-**A:** The new Git Flow strategy provides:
-- ✅ Clearer separation between stable (main) and development (develop) code
-- ✅ Better protection for production releases
-- ✅ Safer continuous integration workflow
-- ✅ Industry-standard best practices
-- ✅ Easier rollback and hotfix management
+**A:** The new canonical edition strategy provides:
+- ✅ Clearer mapping between product editions and release lanes
+- ✅ Less ambiguity than using `main` for Community edition
+- ✅ Safer release promotion and hotfix handling
+- ✅ Better automation and AI-agent alignment
+- ✅ Cleaner long-term governance for multiple editions
 
 ### Q: What happens to existing main commits?
 
-**A:** Nothing changes with existing commits. The `main` branch history remains intact. We're just changing how new code flows in.
+**A:** Nothing changes in history. `main` remains a historical branch reference during migration, but new Community release work should move to `community`.
 
-### Q: Can I still commit to main?
+### Q: Can I still target main?
 
-**A:** No, except through:
-- Release branches (`release/*`)
-- Hotfix branches (`hotfix/*`)
-- Both require PR approval
-
-### Q: What if I need urgent fix?
-
-**A:** For production issues:
-1. Create hotfix branch from `main`
-2. Make fix
-3. Create PR to `main` with `hotfix` label
-4. Fast-track review (notify maintainers)
-5. After merge, cherry-pick to `develop`
-
-### Q: Do I need to recreate my fork?
-
-**A:** No! Just update your fork:
-```bash
-# Add upstream if not already added
-git remote add upstream https://github.com/makr-code/ThemisDB.git
-
-# Fetch develop branch
-git fetch upstream develop
-
-# Create local develop branch
-git checkout -b develop upstream/develop
-
-# Push to your fork
-git push origin develop
-```
-
-### Q: What about documentation-only changes?
-
-**A:** Same workflow - target `develop`. Documentation is part of the codebase and should go through the same quality checks.
-
-## Rollback Plan
-
-If the migration causes significant issues, maintainers can temporarily:
-
-1. Disable branch protection on `main`
-2. Announce temporary reversion
-3. Fix underlying issues
-4. Re-attempt migration
-
-However, **we don't expect to need this** with proper communication and support.
+**A:** No for new work. Use:
+- `develop` for normal implementation
+- `community` for Community release work
+- `military` for Military release work
+- matching edition lanes for edition-specific release work
 
 ## Support
 
@@ -488,40 +358,39 @@ However, **we don't expect to need this** with proper communication and support.
 
 ### Resources
 
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Complete strategy documentation
-- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - English version
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - Setup guide
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Updated contribution guidelines
+- [../BRANCHING_STRATEGY.md](../BRANCHING_STRATEGY.md) - Canonical root strategy
+- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - Historical detailed English guide (needs ongoing alignment)
+- [../RELEASE_STRATEGY.md](../RELEASE_STRATEGY.md) - Release flow
+- [../CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
 
 ## Checklist for Maintainers
 
-- [ ] Create `develop` branch
-- [ ] Configure branch protection for `main`
+- [ ] Confirm canonical release branches exist
+- [ ] Configure branch protection for `community`
 - [ ] Configure branch protection for `develop`
+- [ ] Configure branch protection for `minimal`, `enterprise`, `hyperscaler`, `military`
 - [ ] Set up CODEOWNERS file
 - [ ] Update CI/CD workflows
 - [ ] Post migration announcement
 - [ ] Update documentation
 - [ ] Contact open PR authors
-- [ ] Test workflows on both branches
-- [ ] Monitor for issues (2 weeks)
+- [ ] Test workflows on canonical branches
 - [ ] Set `develop` as default branch
-- [ ] Enable strict enforcement
-- [ ] Archive this migration guide
+- [ ] Freeze legacy `main` / `millitary` usage
 
 ## Checklist for Contributors
 
 - [ ] Read branching strategy documentation
 - [ ] Update local development workflow
-- [ ] Rebase open PRs to target `develop`
-- [ ] Update IDE/editor configuration
-- [ ] Test creating PR to `develop`
+- [ ] Rebase open feature PRs to target `develop`
+- [ ] Retarget Community release PRs to `community` if applicable
+- [ ] Stop using `millitary` for new work
 - [ ] Ask questions if anything is unclear
 
 ---
 
-**Last Updated**: 2025-12-30  
-**Version**: 1.0  
+**Last Updated**: 2026-06-15  
+**Version**: 2.0  
 **Maintainer**: ThemisDB Core Team
 
 **Questions?** Open an issue with label `branching-migration` or ask in Discussions.

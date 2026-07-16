@@ -1,23 +1,20 @@
+/**
+ * @file date_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            date_functions.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2067                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: date_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -54,6 +51,7 @@ inline time_t portable_timegm(struct tm* tm) {
  */
 class DateNowFunction : public IFunction {
 public:
+    ~DateNowFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_NOW",
@@ -89,6 +87,7 @@ public:
  */
 class NowFunction : public IFunction {
 public:
+    ~NowFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "NOW",
@@ -121,6 +120,7 @@ public:
  */
 class CurrentTimestampFunction : public IFunction {
 public:
+    ~CurrentTimestampFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CURRENT_TIMESTAMP",
@@ -152,6 +152,7 @@ public:
  */
 class CurrentDateFunction : public IFunction {
 public:
+    ~CurrentDateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CURRENT_DATE",
@@ -189,6 +190,7 @@ public:
  */
 class CurrentTimeFunction : public IFunction {
 public:
+    ~CurrentTimeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CURRENT_TIME",
@@ -226,6 +228,7 @@ public:
  */
 class TodayFunction : public IFunction {
 public:
+    ~TodayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TODAY",
@@ -260,6 +263,7 @@ public:
  */
 class YesterdayFunction : public IFunction {
 public:
+    ~YesterdayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "YESTERDAY",
@@ -294,6 +298,7 @@ public:
  */
 class TomorrowFunction : public IFunction {
 public:
+    ~TomorrowFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TOMORROW",
@@ -328,6 +333,7 @@ public:
  */
 class GetDateFunction : public IFunction {
 public:
+    ~GetDateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "GETDATE",
@@ -357,6 +363,7 @@ public:
  */
 class SysdateFunction : public IFunction {
 public:
+    ~SysdateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SYSDATE",
@@ -386,6 +393,7 @@ public:
  */
 class UnixTimestampFunction : public IFunction {
 public:
+    ~UnixTimestampFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNIX_TIMESTAMP",
@@ -415,6 +423,7 @@ public:
  */
 class FromUnixTimeFunction : public IFunction {
 public:
+    ~FromUnixTimeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FROM_UNIXTIME",
@@ -441,6 +450,7 @@ public:
  */
 class EpochMsFunction : public IFunction {
 public:
+    ~EpochMsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "EPOCH_MS",
@@ -466,6 +476,7 @@ public:
  */
 class EpochSecondsFunction : public IFunction {
 public:
+    ~EpochSecondsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "EPOCH_SECONDS",
@@ -491,6 +502,7 @@ public:
  */
 class MakeDateFunction : public IFunction {
 public:
+    ~MakeDateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MAKE_DATE",
@@ -533,6 +545,7 @@ public:
  */
 class MakeDateTimeFunction : public IFunction {
 public:
+    ~MakeDateTimeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MAKE_DATETIME",
@@ -581,6 +594,7 @@ public:
  */
 class MakeTimeFunction : public IFunction {
 public:
+    ~MakeTimeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MAKE_TIME",
@@ -617,6 +631,7 @@ public:
  */
 class DateCompareFunction : public IFunction {
 public:
+    ~DateCompareFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_COMPARE",
@@ -651,6 +666,7 @@ public:
  */
 class DateBetweenFunction : public IFunction {
 public:
+    ~DateBetweenFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_BETWEEN",
@@ -685,6 +701,7 @@ public:
  */
 class DateTimestampFunction : public IFunction {
 public:
+    ~DateTimestampFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_TIMESTAMP",
@@ -730,6 +747,7 @@ private:
  */
 class DateIso8601Function : public IFunction {
 public:
+    ~DateIso8601Function() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_ISO8601",
@@ -764,6 +782,7 @@ private:
  */
 class DateYearFunction : public IFunction {
 public:
+    ~DateYearFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_YEAR",
@@ -786,6 +805,7 @@ public:
 
 class DateMonthFunction : public IFunction {
 public:
+    ~DateMonthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_MONTH",
@@ -808,6 +828,7 @@ public:
 
 class DateDayFunction : public IFunction {
 public:
+    ~DateDayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_DAY",
@@ -830,6 +851,7 @@ public:
 
 class DateHourFunction : public IFunction {
 public:
+    ~DateHourFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_HOUR",
@@ -852,6 +874,7 @@ public:
 
 class DateMinuteFunction : public IFunction {
 public:
+    ~DateMinuteFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_MINUTE",
@@ -874,6 +897,7 @@ public:
 
 class DateSecondFunction : public IFunction {
 public:
+    ~DateSecondFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_SECOND",
@@ -896,6 +920,7 @@ public:
 
 class DateMillisecondFunction : public IFunction {
 public:
+    ~DateMillisecondFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_MILLISECOND",
@@ -919,6 +944,7 @@ public:
  */
 class DateDayOfWeekFunction : public IFunction {
 public:
+    ~DateDayOfWeekFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_DAYOFWEEK",
@@ -944,6 +970,7 @@ public:
  */
 class DateDayOfYearFunction : public IFunction {
 public:
+    ~DateDayOfYearFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_DAYOFYEAR",
@@ -969,6 +996,7 @@ public:
  */
 class DateAddFunction : public IFunction {
 public:
+    ~DateAddFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_ADD",
@@ -1023,6 +1051,7 @@ public:
  */
 class DateSubtractFunction : public IFunction {
 public:
+    ~DateSubtractFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_SUBTRACT",
@@ -1057,6 +1086,7 @@ public:
  */
 class DateDiffFunction : public IFunction {
 public:
+    ~DateDiffFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_DIFF",
@@ -1104,6 +1134,7 @@ public:
  */
 class DateTruncFunction : public IFunction {
 public:
+    ~DateTruncFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_TRUNC",
@@ -1163,6 +1194,7 @@ public:
  */
 class DateFormatFunction : public IFunction {
 public:
+    ~DateFormatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_FORMAT",
@@ -1204,6 +1236,7 @@ public:
  */
 class IntervalFunction : public IFunction {
 public:
+    ~IntervalFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "INTERVAL",
@@ -1267,6 +1300,7 @@ public:
  */
 class YearsFunction : public IFunction {
 public:
+    ~YearsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "YEARS",
@@ -1298,6 +1332,7 @@ public:
  */
 class MonthsFunction : public IFunction {
 public:
+    ~MonthsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MONTHS",
@@ -1329,6 +1364,7 @@ public:
  */
 class WeeksFunction : public IFunction {
 public:
+    ~WeeksFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "WEEKS",
@@ -1359,6 +1395,7 @@ public:
  */
 class DaysFunction : public IFunction {
 public:
+    ~DaysFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DAYS",
@@ -1389,6 +1426,7 @@ public:
  */
 class HoursFunction : public IFunction {
 public:
+    ~HoursFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "HOURS",
@@ -1419,6 +1457,7 @@ public:
  */
 class MinutesFunction : public IFunction {
 public:
+    ~MinutesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MINUTES",
@@ -1449,6 +1488,7 @@ public:
  */
 class SecondsFunction : public IFunction {
 public:
+    ~SecondsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SECONDS",
@@ -1482,6 +1522,7 @@ public:
  */
 class WorkdaysFunction : public IFunction {
 public:
+    ~WorkdaysFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "WORKDAYS",
@@ -1552,6 +1593,7 @@ public:
  */
 class WorkdaysAddFunction : public IFunction {
 public:
+    ~WorkdaysAddFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "WORKDAYS_ADD",
@@ -1618,6 +1660,7 @@ public:
  */
 class IsWeekendFunction : public IFunction {
 public:
+    ~IsWeekendFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_WEEKEND",
@@ -1645,6 +1688,7 @@ public:
  */
 class IsWorkdayFunction : public IFunction {
 public:
+    ~IsWorkdayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_WORKDAY",
@@ -1696,6 +1740,7 @@ public:
  */
 class DateQuarterFunction : public IFunction {
 public:
+    ~DateQuarterFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_QUARTER",
@@ -1723,6 +1768,7 @@ public:
  */
 class DateWeekFunction : public IFunction {
 public:
+    ~DateWeekFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_WEEK",
@@ -1772,6 +1818,7 @@ public:
  */
 class DateLeapYearFunction : public IFunction {
 public:
+    ~DateLeapYearFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_LEAPYEAR",
@@ -1802,6 +1849,7 @@ public:
  */
 class DateDaysInMonthFunction : public IFunction {
 public:
+    ~DateDaysInMonthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_DAYS_IN_MONTH",
@@ -1847,6 +1895,7 @@ public:
  */
 class DateStartOfWeekFunction : public IFunction {
 public:
+    ~DateStartOfWeekFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_START_OF_WEEK",
@@ -1893,6 +1942,7 @@ public:
  */
 class DateEndOfMonthFunction : public IFunction {
 public:
+    ~DateEndOfMonthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_END_OF_MONTH",
@@ -1939,6 +1989,7 @@ public:
  */
 class AgeFunction : public IFunction {
 public:
+    ~AgeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "AGE",
@@ -2068,3 +2119,4 @@ inline void registerDateFunctions(FunctionRegistry& reg) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "product": "sample.product",
+  "channel": "stable",
+  "release": {
+    "version": "1.0.0",
+    "published_at": "2026-05-12T10:00:00Z",
+    "notes_url": "https://github.com/example/sample/releases/tag/v1.0.0",
+    "min_installer_version": "0.1.0",
+    "allow_downgrade": false
+  },
+  "artifacts": [
+    {
+      "id": "sample-win-x64",
+      "os": "windows",
+      "arch": "x64",
+      "format": "zip",
+      "url": "https://github.com/example/sample/releases/download/v1.0.0/sample-win-x64.zip",
+      "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "size_bytes": 12345678
+    }
+  ],
+  "security": {
+    "signature_algorithm": "ed25519",
+    "manifest_digest": "sha256"
+  }
+}

@@ -1,28 +1,26 @@
+/**
+ * @file aql_query_validator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.39
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_query_validator.h                              ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-03-09 03:52:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     113                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_query_validator.h | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 154
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
+#include "aql/aql_schema_provider.h"
 #include <string>
 #include <vector>
 
@@ -74,9 +72,10 @@ struct ValidationResult {
  * @brief Rule-based structural validator and linter for AQL queries.
  *
  * Performs purely syntactic/structural checks — no LLM required.
- * The validator operates in two modes:
+ * The validator operates in three modes:
  *  1. String mode  — validates a complete AQL query string
  *  2. Builder mode — validates an `AQLQueryBuilder` in progress
+ *  3. Schema-aware mode — validates a query string against known collections
  *
  * Rules checked:
  * - Presence of FOR and RETURN clauses (ERRORS when missing)
@@ -85,6 +84,8 @@ struct ValidationResult {
  * - COLLECT and SORT ordering that could reduce performance (INFO)
  * - Missing RETURN (ERROR)
  * - Empty collection/variable names (ERROR, only in builder mode)
+ * - Schema-aware: unknown collection names (WARNING, only in schema-aware mode)
+ * - Schema-aware: unknown field names in FILTER/SORT/RETURN (WARNING, only in schema-aware mode)
  */
 class AQLQueryValidator {
 public:
@@ -99,6 +100,24 @@ public:
     ValidationResult validate(const std::string& query) const;
 
     /**
+     * @brief Validate a fully formed AQL query string against a schema.
+     *
+     * Runs all standard structural checks, then additionally:
+     *  - Warns when a collection used in a FOR clause is not present in
+     *    @p schema (@c WARNING severity).
+     *  - Warns when a field access (@c variable.field) refers to a field
+     *    that is not listed in the schema for that collection (@c WARNING).
+     *
+     * @param query   AQL query to validate.
+     * @param schema  Collection metadata snapshot to validate against.
+     * @return ValidationResult with all issues found.
+     */
+    ValidationResult validate(
+        const std::string& query,
+        const std::vector<CollectionMetadata>& schema
+    ) const;
+
+    /**
      * @brief Validate an AQLQueryBuilder (may be partial).
      *
      * Only issues that can be detected from the builder's current state are
@@ -108,6 +127,38 @@ public:
      * @return ValidationResult with all issues found
      */
     ValidationResult validate(const AQLQueryBuilder& builder) const;
+
+    /**
+     * @brief Validate an AQLQueryBuilder against an explicit schema snapshot.
+     *
+     * Runs all structural checks (same as @c validate(builder)), then applies
+     * schema-aware checks against the provided @p schema instead of any schema
+     * that may be attached to the builder via @c AQLQueryBuilder::setSchema():
+     *  - Warns when a collection used in a FOR clause is absent from @p schema.
+     *  - Warns when a field access (@c variable.field) refers to a field not
+     *    listed in the schema for that collection.
+     *
+     * @param builder Builder to validate (may be partial or complete).
+     * @param schema  External collection metadata snapshot to validate against.
+     * @return ValidationResult with all issues found.
+     */
+    ValidationResult validate(
+        const AQLQueryBuilder& builder,
+        const std::vector<CollectionMetadata>& schema
+    ) const;
+
+private:
+    void checkUnknownCollections(
+        const std::string& query,
+        const std::vector<CollectionMetadata>& schema,
+        ValidationResult& result
+    ) const;
+
+    void checkUnknownFields(
+        const std::string& query,
+        const std::vector<CollectionMetadata>& schema,
+        ValidationResult& result
+    ) const;
 };
 
 } // namespace aql

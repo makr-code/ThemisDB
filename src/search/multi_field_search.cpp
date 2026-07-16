@@ -1,24 +1,21 @@
+/**
+ * @file multi_field_search.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_field_search.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     189                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bf06f5417  2026-02-28  feat(search): implement MultiFieldBoostedSearch for title... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_field_search.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 176
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): #3372 feat(search): Cross-lingual... (2026-03-12) | #3371 feat(search): SPLADE/BERT-b... (2026-03-12) | #3141 [search] Multi-field boosti... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "search/multi_field_search.h"
@@ -33,6 +30,9 @@ namespace themis {
 // ============================================================================
 // Construction
 // ============================================================================
+
+MultiFieldBoostedSearch::MultiFieldBoostedSearch(SecondaryIndexManager* index)
+    : MultiFieldBoostedSearch(index, Config{}) {}
 
 MultiFieldBoostedSearch::MultiFieldBoostedSearch(SecondaryIndexManager* index,
                                                  const Config& config)
@@ -57,7 +57,6 @@ void MultiFieldBoostedSearch::normalizeScores(
     double min_score = std::numeric_limits<double>::max();
     double max_score = std::numeric_limits<double>::lowest();
     for (const auto& [doc_id, s] : scored) {
-        (void)doc_id;
         min_score = std::min(min_score, s);
         max_score = std::max(max_score, s);
     }
@@ -65,14 +64,12 @@ void MultiFieldBoostedSearch::normalizeScores(
     const double range = max_score - min_score;
     if (range > 0.0) {
         for (auto& [doc_id, s] : scored) {
-            (void)doc_id;
             s = (s - min_score) / range;
         }
     } else {
         // All scores are equal: map to 1.0 if positive, 0.0 otherwise
         const double normalized = (max_score > 0.0) ? 1.0 : 0.0;
         for (auto& [doc_id, s] : scored) {
-            (void)doc_id;
             s = normalized;
         }
     }

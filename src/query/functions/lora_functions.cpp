@@ -1,30 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_functions.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     936                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file lora_functions.cpp
- * @brief Implementation of LoRA AQL functions
- * 
- * Provides native LoRA operations within AQL queries.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "query/functions/lora_functions.h"
@@ -32,11 +14,15 @@
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include <set>
+#include <sstream>
+#include <unordered_set>
+#include <cmath>
 #include "llm/llm_plugin_manager.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -87,10 +73,10 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.rank = config["rank"].get<int>();
     }
     if (config.contains("alpha")) {
-        params.alpha = config["alpha"].get<double>();
+        params.alpha = config["alpha"].get<float>();
     }
     if (config.contains("learning_rate")) {
-        params.learning_rate = config["learning_rate"].get<double>();
+        params.learning_rate = config["learning_rate"].get<float>();
     }
     if (config.contains("num_epochs")) {
         params.num_epochs = config["num_epochs"].get<int>();
@@ -99,7 +85,7 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.batch_size = config["batch_size"].get<int>();
     }
     if (config.contains("dropout")) {
-        params.dropout = config["dropout"].get<double>();
+        params.dropout = config["dropout"].get<float>();
     }
     
     return params;
@@ -161,6 +147,7 @@ nlohmann::json LoraTrainFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -207,7 +194,7 @@ nlohmann::json LoraTrainFunction::execute(
     } catch (const std::exception& e) {
         json error;
         error["error"] = std::string("LORA_TRAIN failed: ") + e.what();
-        error["adapter_id"] = args.size() > 0 ? args[0] : nullptr;
+        error["adapter_id"] = args.size() > 0 ? args[0] : json(nullptr);
         return error;
     }
 }
@@ -247,6 +234,7 @@ nlohmann::json LoraQueryFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string model_id = args[0].get<std::string>();
@@ -256,8 +244,8 @@ nlohmann::json LoraQueryFunction::execute(
         
         // Parse generation options
         int max_tokens = options.value("max_tokens", 500);
-        double temperature = options.value("temperature", 0.7);
-        double top_p = options.value("top_p", 0.9);
+        float temperature = options.value("temperature", 0.7f);
+        float top_p = options.value("top_p", 0.9f);
         
         // Get orchestrator and ensure adapter is loaded
         auto orchestrator = getLoRAOrchestrator();
@@ -321,6 +309,7 @@ nlohmann::json LoraSimilarFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -354,14 +343,55 @@ nlohmann::json LoraSimilarFunction::execute(
             
             json result;
             result["adapter_id"] = adapter.adapter_id;
-            // TODO: Replace with actual vector similarity calculation using embeddings
-            // For now, use a computed similarity based on matching attributes
-            double similarity = 0.8;  // Base similarity
-            // if (adapter.task == adapter_info->task) {
-            //     similarity += 0.1;  // Bonus for same task
-            // }
+
+            // Compute structural similarity from matching adapter attributes.
+            // Dimensions: same base_model (mandatory — 0.5), same rank (0.25),
+            // similar alpha (0.15), same description words overlap (0.10).
+            double similarity = 0.5;  // Already guaranteed same base_model from search criteria
+
+            // Rank proximity: equal rank = +0.25, difference reduces score linearly.
+            const int src_rank = adapter_info->hyperparameters.rank;
+            const int cand_rank = adapter.hyperparameters.rank;
+            if (src_rank > 0 && cand_rank > 0) {
+                double rank_diff_ratio = std::abs(src_rank - cand_rank) /
+                                         static_cast<double>(std::max(src_rank, cand_rank));
+                similarity += 0.25 * (1.0 - rank_diff_ratio);
+            }
+
+            // Alpha proximity: +0.15
+            const float src_alpha  = adapter_info->hyperparameters.alpha;
+            const float cand_alpha = adapter.hyperparameters.alpha;
+            if (src_alpha > 0 && cand_alpha > 0) {
+                double alpha_diff_ratio = std::abs(src_alpha - cand_alpha) /
+                                          static_cast<double>(std::max(src_alpha, cand_alpha));
+                similarity += 0.15 * (1.0 - alpha_diff_ratio);
+            }
+
+            // Description word overlap (Jaccard): +0.10
+            if (!adapter_info->description.empty() && !adapter.description.empty()) {
+                auto words = [](const std::string& s) {
+                    std::unordered_set<std::string> ws;
+                    std::istringstream iss(s);
+                    std::string w;
+                    while (iss >> w) ws.insert(w);
+                    return ws;
+                };
+                auto ws1 = words(adapter_info->description);
+                auto ws2 = words(adapter.description);
+                size_t inter = 0;
+                for (const auto& w : ws1) {
+                    if (ws2.count(w)) ++inter;
+                }
+                size_t uni = ws1.size() + ws2.size() - inter;
+                double jaccard = uni > 0 ? static_cast<double>(inter) / uni : 0.0;
+                similarity += 0.10 * jaccard;
+            }
+
+            similarity = std::min(similarity, 1.0);
+
+            if (similarity < threshold) continue;
+
             result["score"] = similarity;
-            // result["task"] = adapter.task;
             result["base_model"] = adapter.base_model;
             
             results.push_back(result);
@@ -373,7 +403,7 @@ nlohmann::json LoraSimilarFunction::execute(
         
         return results;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         json error = json::array();
         return error;
     }
@@ -414,11 +444,13 @@ nlohmann::json LoraPathFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string start_model = args[0].get<std::string>();
         std::string end_model = args[1].get<std::string>();
         int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
+        (void)max_depth;
         
         // Build adaptation path
         // This is a placeholder - would integrate with actual graph traversal
@@ -450,7 +482,7 @@ nlohmann::json LoraPathFunction::execute(
         
         return path;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         json error = json::array();
         return error;
     }
@@ -489,6 +521,7 @@ nlohmann::json LoraStatsFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -579,6 +612,7 @@ nlohmann::json LoraRecommendFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string query = args[0].get<std::string>();
@@ -605,11 +639,15 @@ nlohmann::json LoraRecommendFunction::execute(
         double best_score = 0.0;
         
         for (const auto& adapter : adapters) {
-            // TODO: Retrieve actual metrics from the metrics system
-            // Currently using placeholder values until metrics integration is complete
-            // Real implementation should call: orchestrator->getAdapterMetrics(adapter_id)
-            double accuracy = 0.92;  // PLACEHOLDER: Replace with actual validation_accuracy
-            int latency = 45;         // PLACEHOLDER: Replace with actual avg_latency_ms
+            // Retrieve actual validation_accuracy from adapter metadata.
+            // Latency is estimated from adapter size (rank × alpha heuristic):
+            //   larger adapters have slightly higher inference overhead.
+            double accuracy = static_cast<double>(adapter.metadata.validation_accuracy);
+            if (accuracy <= 0.0) accuracy = 0.5;  // Unknown accuracy — use conservative default.
+
+            // Estimate latency: base 20 ms + 0.5 ms per rank unit.
+            int estimated_latency = 20 + static_cast<int>(adapter.hyperparameters.rank) / 2;
+            int latency = estimated_latency;
             
             if (accuracy >= min_accuracy && latency <= max_latency_ms) {
                 // Score combines accuracy and latency: higher accuracy and lower latency = better score
@@ -681,6 +719,7 @@ nlohmann::json LoraLineageFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -698,7 +737,7 @@ nlohmann::json LoraLineageFunction::execute(
         for (size_t i = 0; i < versions.size() && i < static_cast<size_t>(depth); ++i) {
             json version;
             version["version"] = versions[i];
-            version["parent"] = (i > 0) ? versions[i - 1] : nullptr;
+            version["parent"] = (i > 0) ? json(versions[i - 1]) : json(nullptr);
             
             // Add timestamp (placeholder)
             auto now = std::chrono::system_clock::now();
@@ -710,7 +749,7 @@ nlohmann::json LoraLineageFunction::execute(
         
         return lineage;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         json error = json::array();
         return error;
     }
@@ -756,7 +795,7 @@ nlohmann::json LoraProvenanceFunction::execute(
             return nullptr;
         }
         return prov_opt->toJSON();
-    } catch (const std::exception&) {
+    } catch (...) {
         return nullptr;
     }
 }
@@ -809,7 +848,7 @@ nlohmann::json LoraAuditLogFunction::execute(
             ++count;
         }
         return result;
-    } catch (const std::exception&) {
+    } catch (...) {
         return json::array();
     }
 }
@@ -856,7 +895,7 @@ nlohmann::json LoraSnapshotsFunction::execute(
             result.push_back(s.toJSON());
         }
         return result;
-    } catch (const std::exception&) {
+    } catch (...) {
         return json::array();
     }
 }
@@ -937,3 +976,5 @@ void registerLoRAFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
+

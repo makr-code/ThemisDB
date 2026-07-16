@@ -1,69 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            arrow_flight.h                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     370                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1c13e549b  2026-02-26  feat: implement Arrow Flight RPC support for remote analy... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file arrow_flight.h
- * @brief Arrow Flight RPC support for remote analytics.
- *
- * Provides a client/server abstraction for transporting Apache Arrow
- * RecordBatches between ThemisDB nodes and external analytics tools.
- *
- * Two transport modes are available:
- *
- *  1. **In-process** (always available, no external dependencies):
- *     Client and server share a process-local registry keyed by endpoint
- *     name.  Useful for unit tests, single-node deployments, and as a
- *     fallback when the Arrow Flight library is absent.
- *
- *  2. **Native Arrow Flight** (requires compile-time flag
- *     `THEMIS_HAS_ARROW_FLIGHT` and the `arrow_flight` vcpkg component):
- *     Uses the real gRPC-based Arrow Flight protocol, enabling zero-copy
- *     data exchange with Pandas, DuckDB, Spark, and other Flight-capable
- *     clients.
- *
- * Typical server-side usage:
- * @code
- *   #include "analytics/arrow_flight.h"
- *
- *   auto server = themisdb::analytics::ArrowFlightServer::create();
- *   server->registerDataset("sales", []() { return buildSalesBatch(); });
- *   server->start({"0.0.0.0", 8815});
- *   // ... run queries ...
- *   server->stop();
- * @endcode
- *
- * Typical client-side usage:
- * @code
- *   auto client = themisdb::analytics::ArrowFlightClient::connect({"localhost", 8815});
- *   auto info = client->listFlights();
- *   auto batch = client->doGet(info[0].descriptor);
- *   client->doPut(batch, {"my_dataset"});
- * @endcode
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "analytics/arrow_export.h"
@@ -254,7 +197,7 @@ public:
     /**
      * @brief Returns true if the server is currently running.
      */
-    virtual bool isRunning() const = 0;
+    [[nodiscard]] virtual bool isRunning() const = 0;
 
     /**
      * @brief Register a dataset producer under the given path.
@@ -292,12 +235,12 @@ public:
     /**
      * @brief List currently registered datasets.
      */
-    virtual std::vector<FlightInfo> listRegisteredDatasets() const = 0;
+    [[nodiscard]] virtual std::vector<FlightInfo> listRegisteredDatasets() const = 0;
 
     /**
      * @brief Returns the server endpoint URL (e.g. "grpc://0.0.0.0:8815").
      */
-    virtual std::string endpointUrl() const = 0;
+    [[nodiscard]] virtual std::string endpointUrl() const = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -330,7 +273,7 @@ public:
      * @param call_opts Per-call options (timeout, metadata).
      * @return Vector of FlightInfo descriptors.
      */
-    virtual std::vector<FlightInfo> listFlights(
+    [[nodiscard]] virtual std::vector<FlightInfo> listFlights(
         const FlightCallOptions& call_opts = {}) = 0;
 
     /**
@@ -340,7 +283,7 @@ public:
      * @return The RecordBatch produced by the server.
      * @throws std::runtime_error if the dataset is not found or the call fails.
      */
-    virtual themis::analytics::ArrowRecordBatch doGet(
+    [[nodiscard]] virtual themis::analytics::ArrowRecordBatch doGet(
         const FlightDescriptor& descriptor,
         const FlightCallOptions& call_opts = {}) = 0;
 
@@ -351,7 +294,7 @@ public:
      * @param call_opts  Per-call options.
      * @return Result of the put operation.
      */
-    virtual FlightPutResult doPut(
+    [[nodiscard]] virtual FlightPutResult doPut(
         const themis::analytics::ArrowRecordBatch& batch,
         const FlightDescriptor& descriptor,
         const FlightCallOptions& call_opts = {}) = 0;
@@ -364,7 +307,7 @@ public:
     /**
      * @brief Returns true if the client is connected.
      */
-    virtual bool isConnected() const = 0;
+    [[nodiscard]] virtual bool isConnected() const = 0;
 };
 
 } // namespace analytics

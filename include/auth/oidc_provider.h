@@ -1,25 +1,21 @@
+/**
+ * @file oidc_provider.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oidc_provider.h                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b15aac1a6  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
-    • 97765fc24  2026-02-23  feat(auth): implement OIDCProvider for JWT/OIDC federated... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oidc_provider.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 236
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4142 feat(auth): implement RFC 8... (2026-03-13) | #2641 feat(auth): JWT/OIDC federa... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -48,6 +44,7 @@ struct OIDCDiscoveryDocument {
     std::string issuer;                              ///< Issuer identifier (must match token iss)
     std::string jwks_uri;                            ///< JWKS endpoint for public key retrieval
     std::string token_endpoint;                      ///< Token endpoint (authorization_code / device)
+    std::string revocation_endpoint;                 ///< OAuth2 token revocation endpoint (RFC 7009)
     std::string authorization_endpoint;              ///< Authorization endpoint (code flow)
     std::string device_authorization_endpoint;       ///< Device authorization endpoint (RFC 8628)
     std::string userinfo_endpoint;                   ///< UserInfo endpoint (optional)
@@ -185,6 +182,22 @@ public:
      * @throws AuthException(AUTH_INTERNAL_ERROR) if discovery fails
      */
     OAuthDeviceFlow createDeviceFlow();
+
+    // -----------------------------------------------------------------------
+    // Configuration accessors
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Return the OAuth 2.0 client identifier for this provider.
+     */
+    const std::string& clientId() const { return config_.client_id; }
+
+    /**
+     * @brief Return the OAuth 2.0 client secret for this provider.
+     *
+     * Empty for public clients.
+     */
+    const std::string& clientSecret() const { return config_.client_secret; }
 
     // -----------------------------------------------------------------------
     // Testing helpers

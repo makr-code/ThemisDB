@@ -1,23 +1,20 @@
+/**
+ * @file capability_auto_generator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            capability_auto_generator.h                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: capability_auto_generator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -33,6 +30,7 @@
 #include <nlohmann/json.hpp>
 #include "sharding/shard_topology.h"
 #include "sharding/shard_capabilities.h"
+#include "storage/rocksdb_wrapper.h"
 
 namespace themis::util {
 
@@ -132,11 +130,13 @@ public:
      * @param config Configuration
      * @param topology Shard topology manager
      * @param self_awareness Optional self-awareness system (for audit trigger)
+     * @param state_db Optional RocksDB instance for persisting schedule/count state
      */
     explicit CapabilityAutoGenerator(
         const Config& config,
         std::shared_ptr<sharding::ShardTopology> topology,
-        std::shared_ptr<SelfAwareness> self_awareness = nullptr
+        std::shared_ptr<SelfAwareness> self_awareness = nullptr,
+        std::shared_ptr<RocksDBWrapper> state_db = nullptr
     );
     
     /**
@@ -225,16 +225,37 @@ public:
         return config_;
     }
 
+    /**
+     * Persist the last-run timestamp and document count for a shard.
+     *
+     * Updates both the in-memory maps (used by the schedule gate and
+     * shouldUpdate) and the durable RocksDB state key
+     * "utils_capgen_state:<shard_id>".  No-op on the RocksDB side when
+     * state_db_ is null.  This method is public so that callers can
+     * pre-seed or reset persisted state (e.g. during migration, testing,
+     * or manual override).
+     *
+     * @param shard_id   Shard identifier
+     * @param timestamp  Unix epoch seconds to record as last run time
+     * @param doc_count  Document count to record as last known count
+     */
+    void persistState(const std::string& shard_id, int64_t timestamp, uint64_t doc_count);
+
 private:
     Config config_;
     std::shared_ptr<sharding::ShardTopology> topology_;
     std::shared_ptr<SelfAwareness> self_awareness_;  // For triggering self-awareness on audit signing
+    std::shared_ptr<RocksDBWrapper> state_db_;       // Optional RocksDB for persisting state
     
     // Background thread
     std::unique_ptr<std::thread> worker_thread_;
     std::atomic<bool> running_{false};
     std::atomic<bool> stop_requested_{false};
     mutable std::mutex mutex_;
+    
+    // Persisted state (loaded from state_db_ on construction, protected by mutex_)
+    std::map<std::string, int64_t>  last_run_timestamps_;    // shard_id -> unix epoch seconds
+    std::map<std::string, uint64_t> last_document_counts_;   // shard_id -> document count
     
     // Statistics
     std::atomic<uint64_t> total_generations_{0};
@@ -305,6 +326,12 @@ private:
      * Determine shard type from metadata
      */
     std::string determineShardType(const sharding::ShardInfo& shard) const;
+    
+    /**
+     * Load persisted schedule/count state from state_db_ into in-memory maps.
+     * Called once in the constructor when state_db_ is non-null.
+     */
+    void loadPersistedState();
 };
 
 } // namespace themis::util

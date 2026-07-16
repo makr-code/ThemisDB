@@ -1,24 +1,20 @@
+/**
+ * @file hardware_migration_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.14
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hardware_migration_manager.h                       ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 03:55:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6d2b1af70  2026-03-01  feat(sharding): hardware migration support - NodeIdentity... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hardware_migration_manager.h | Version: 0.0.14
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -49,6 +45,7 @@
 #include <vector>
 #include <memory>
 #include <chrono>
+#include <condition_variable>
 #include <optional>
 #include <mutex>
 
@@ -231,11 +228,96 @@ public:
      */
     std::map<std::string, size_t> captureRingSnapshot() const;
 
+    // ── Drain-period enforcement ─────────────────────────────────────────────
+
+    /**
+     * @brief RAII guard that tracks one in-flight request for a shard.
+     *
+     * Create one guard per request that is active during a migration drain.
+     * The guard increments the in-flight counter on construction and decrements
+     * it on destruction.
+     *
+     * Usage:
+     * @code
+     *   auto guard = mgr.makeRequestGuard("shard-1");
+     *   // … serve the request …
+     * @endcode
+     */
+    class DrainGuard {
+    public:
+        DrainGuard() = default;
+        ~DrainGuard();
+        DrainGuard(const DrainGuard&)            = delete;
+        DrainGuard& operator=(const DrainGuard&) = delete;
+        DrainGuard(DrainGuard&&) noexcept;
+        DrainGuard& operator=(DrainGuard&&) noexcept;
+
+    private:
+        friend class HardwareMigrationManager;
+        DrainGuard(HardwareMigrationManager* mgr, std::string shard_id);
+
+        HardwareMigrationManager* mgr_{nullptr};
+        std::string shard_id_;
+        bool active_{false};
+    };
+
+    /**
+     * @brief Increment the in-flight request counter for @p shard_id.
+     *
+     * Call once per new in-flight request arriving on the old endpoint during
+     * the drain window.  Must be paired with `releaseInFlightRequest()`.
+     * Prefer `makeRequestGuard()` to avoid mismatched calls.
+     */
+    void addInFlightRequest(const std::string& shard_id);
+
+    /**
+     * @brief Decrement the in-flight request counter for @p shard_id.
+     *
+     * Notifies `waitForDrain()` callers when the counter reaches zero.
+     */
+    void releaseInFlightRequest(const std::string& shard_id);
+
+    /**
+     * @brief Return the current in-flight request count for @p shard_id.
+     */
+    size_t inFlightCount(const std::string& shard_id) const;
+
+    /**
+     * @brief Create a RAII DrainGuard that counts one in-flight request.
+     *
+     * @param shard_id  Shard whose counter to increment/decrement.
+     */
+    DrainGuard makeRequestGuard(const std::string& shard_id);
+
+    /**
+     * @brief Block until all in-flight requests for @p shard_id complete,
+     *        or until `timeout` elapses (whichever comes first).
+     *
+     * This is called by `replaceEndpoint()` when `config_.drain_period > 0`
+     * and is also available for callers that want to wait before removing an
+     * old-endpoint registration from DNS / load balancer.
+     *
+     * @param shard_id  Shard to wait for.
+     * @param timeout   Maximum time to wait.  Pass `std::chrono::seconds{0}` to
+     *                  skip waiting (proceed immediately regardless of in-flight
+     *                  count).
+     * @return `true` if all requests drained within the timeout,
+     *         `false` if the timeout expired while requests were still active.
+     */
+    bool waitForDrain(const std::string& shard_id,
+                      std::chrono::seconds timeout) const;
+
 private:
     HardwareMigrationConfig         config_;
     std::shared_ptr<ShardTopology>  topology_;
     std::shared_ptr<ConsistentHashRing> ring_;
     mutable std::mutex              mutex_;
+
+    // ── Drain-tracking state ─────────────────────────────────────────────────
+    mutable std::mutex              drain_mutex_;
+    mutable std::condition_variable drain_cv_;
+    /// shard_id → number of in-flight requests on the old endpoint
+    std::map<std::string, size_t>   in_flight_counts_;
 
     /**
      * Internal helper — captures ring snapshot while mutex_ is already held.

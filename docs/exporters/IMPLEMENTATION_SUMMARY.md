@@ -146,12 +146,18 @@ Complete implementation of production-readiness roadmap for the exporters module
 - `JSONLLLMExporter` integration: `format_template_type` config field activates a named template and overrides `style`; weight injection into the rendered JSON object is handled by `formatWithTemplate()`
 - `setConfig()` recreates the active template pointer without reconstructing the exporter
 - All templates: missing required fields cause `render()` to return an empty string; the entity is counted as `skipped` in `ExportStats`
-- `validateFields()` populates an optional `missing_fields` vector for pre-export dry-run checks
+- `validateFields()` populates an optional `missing_fields` vector for per-entity checks
+- `validateTemplate(type, mapping, sample)` free function performs a collection-level preflight dry-run: iterates a `vector<BaseEntity>` sample, deduplicates missing field names across all entities, and returns a sorted `TemplateValidationResult`
+- `JSONLLLMExporter::validateTemplate(sample)` convenience wrapper using the exporter's active `format_template_type` and `template_field_mapping`
+- CLI: `--validate-template <alpaca|sharegpt|chatml|openai>` flag in `tools/export_cli.cpp` — exits 0 (all fields present) or 1 (missing fields printed to stderr); supports `--template-instruction/input/output/system/user/assistant` field-name overrides
 
 **Implemented in:**
-- `include/exporters/format_template.h`
-- `src/exporters/format_template.cpp`
-- `tests/exporters/test_format_template.cpp` (35 test cases covering all 4 templates, factory, validation, integration with `JSONLLLMExporter`)
+- `include/exporters/format_template.h` (`TemplateValidationResult` struct + `validateTemplate()` declaration)
+- `src/exporters/format_template.cpp` (`validateTemplate()` implementation)
+- `include/exporters/jsonl_llm_exporter.h` (`JSONLLLMExporter::validateTemplate()` declaration)
+- `src/exporters/jsonl_llm_exporter.cpp` (`JSONLLLMExporter::validateTemplate()` implementation)
+- `tools/export_cli.cpp` (`--validate-template` CLI flag)
+- `tests/exporters/test_format_template.cpp` (53 test cases: 35 pre-existing + 18 new covering all 4 templates, custom mapping, deduplication, and exporter delegation)
 
 ## Implementation Statistics
 

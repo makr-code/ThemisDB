@@ -1,7 +1,7 @@
 # Releases & Updates Dokumentation
 
-**Stand:** 27. Februar 2026  
-**Aktuelle Version:** 1.5.0  
+**Stand:** 26. April 2026
+**Aktueller Versionsstand im Repo:** 1.9.0-alpha
 **Kategorie:** Releases & Updates
 
 ---
@@ -11,15 +11,56 @@
 ThemisDB Release-Dokumentation enthält:
 - Release Notes für alle Versionen
 - Update-System und Manifest-Management
-- Release-Verteilungsstrategie
+- die kompakte manuelle Release-Strategie
+
+Grundsatz:
+- ein Git-Tag pro freigegebenem Quellstand
+- mehrere Artefakte pro Release sind erlaubt
+- ZIP und MSI erhalten keinen eigenen separaten Tag
+- ein GitHub-Milestone definiert den jeweiligen Release-Scope
+- die zugehörigen GitHub-Issues müssen diesem Milestone zugeordnet sein
 
 ## 🎉 Aktuelle Releases
+
+### v2.0.x Serie (Q4 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v2.0.0** | in Umsetzung | CDC Interface-Ausbau, Query v2.0.0 Port, Storage SIMD/Parquet Port | [Release Notes](./RELEASE_NOTES_v2.0.0.md) |
+
+### v1.10.x Serie (Q3 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.10.0** | in Umsetzung | MQTT Client TLS im Server-Modul | [Release Notes](./RELEASE_NOTES_v1.10.0.md) |
+
+### v1.9.x Serie (Q3 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.9.1** | in Umsetzung | Auth-Testtarget-Registrierung / Build-Integration | [Release Notes](./RELEASE_NOTES_v1.9.1.md) |
+| **v1.9.0-alpha** | 26.04.2026 | Packaging- und Logging-Hardening fuer Windows Release-Artefakte | [Release Notes](./RELEASE_NOTES_v1.9.0-alpha.md) · [GitHub Release](https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha) |
+| **v1.9.0** | Vorabstand: 1.9.0-alpha | Chimera Adapter-Interface-Update, Governance Compliance-Regeln | [Release Notes](./RELEASE_NOTES_v1.9.0.md) |
+
+### v1.8.x Serie (Q2 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.8.2** | 19.04.2026 (Aggregation) | Retrospektive Aggregation der Features zwischen v1.8.0 und v1.8.2 inkl. QA-/Blocker-Status | [Release Notes](./RELEASE_NOTES_v1.8.2.md) |
+| **v1.8.1-rc1** | 04.04.2026 | Geo/Search/Storage/Sharding-Hardening-Release (RC) | [Release Notes](./RELEASE_NOTES_v1.8.1-rc1.md) |
+| **v1.8.0** | TBD | SSI, Versioned API Routing, SAGA Orchestration, Markov Prefetching, ArrowUserRegistration, JWT Scope, CRL/OCSP, HardwareAccelerator, ExporterFactory, Geo Clustering, Wire Protocol V2 | [Release Notes](./RELEASE_NOTES_v1.8.0.md) |
+
+### v1.7.x Serie (Q2 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.7.0** | TBD | Config Hierarchie, Multi-GPU Scaffolding, Git-Like Features, HybridSearch Hardening, FAISS ADC, Docs Audit | [Release Notes](./RELEASE_NOTES_v1.7.0.md) |
 
 ### v1.5.x Serie (Februar 2026)
 
 | Version | Datum | Fokus | Dokumentation |
 |---------|-------|-------|---------------|
-| **v1.5.0** | 03.02.2026 | GPU Kernel Sandbox, QueryMaskingPolicy, Geo CPU/GPU Benchmarks, Full GeoJSON RFC 7946, FAISS Quantizer, RFC 3161 TSA | [Release Notes](./RELEASE_NOTES_v1.5.0.md) |
+| **v1.5.0** | 03.02.2026 | GPU Kernel Sandbox, QueryMaskingPolicy, Geo CPU/GPU Benchmarks, Full GeoJSON RFC 7946, FAISS Quantizer, RFC 3161 TSA | [Release Target](./RELEASE_TARGET_v1.5.0.md) · [Release Notes](./RELEASE_NOTES_v1.5.0.md) |
 
 ### v1.3.x Serie (Dezember 2025)
 
@@ -88,11 +129,14 @@ ThemisDB Release-Dokumentation enthält:
 
 ## 🔄 Release-Prozess
 
-1. **Feature-Entwicklung**: Features werden in chronologischer Reihenfolge entwickelt
-2. **Changelog-Update**: Features werden in CHANGELOG.md dokumentiert
-3. **Release Notes**: Detaillierte Release Notes werden erstellt
-4. **Versionierung**: Semantic Versioning (MAJOR.MINOR.PATCH)
-5. **Veröffentlichung**: GitHub Releases und Paket-Distribution
+1. Release-Kandidat auf dem passenden Release-Zweig vorbereiten.
+2. Passenden GitHub-Milestone anlegen oder prüfen und Release-Issues zuordnen.
+3. Version in `VERSION` und Release Notes prüfen.
+4. Artefakte manuell bauen.
+5. Einen Release-Tag für den freigegebenen Quellstand erzeugen.
+6. Alle zugehörigen Artefakte unter demselben Release veröffentlichen.
+
+Siehe dazu auch [../../RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
 
 ## 🔗 Verwandte Dokumentation
 

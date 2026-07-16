@@ -1,23 +1,21 @@
+/**
+ * @file quantized_model.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quantized_model.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     447                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quantized_model.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 438
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=16, M=4, L=0
+ * PR History (last 5): #724 Fix GGUF quantized model lo... (2026-03-11) | #574 QLoRA GPU Kernel Optimizati... (2026-03-11) | #549 Implement QLoRA (Quantized ... (2026-03-11) | #577 Add GGUF Format Support for... (2026-03-11) | #780 Implement direct GGUF quant... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/quantized_model.h"
@@ -197,13 +195,14 @@ Tensor QLoRALayer::backward(const Tensor& grad_output) {
     Tensor input_T = cached_input_.transpose();
     Tensor grad_A = B_T.matmul(input_T.matmul(scaled_grad));
     
-    // Gradient w.r.t. B: (scaled_grad @ A.T) @ input.T
+    // Gradient w.r.t. B: input.T @ scaled_grad @ A.T
+    // Shapes: (in_dim,batch) @ (batch,out_dim) @ (out_dim,rank) -> (in_dim,rank)
     Tensor A_T = A_->transpose();
-    Tensor grad_B = (scaled_grad.matmul(A_T)).matmul(input_T);
+    Tensor grad_B = input_T.matmul(scaled_grad).matmul(A_T);
     
     // Store gradients
-    A_->grad.reset(new Tensor(std::move(grad_A)));
-    B_->grad.reset(new Tensor(std::move(grad_B)));
+    A_->grad = std::make_unique<Tensor>(std::move(grad_A));
+    B_->grad = std::make_unique<Tensor>(std::move(grad_B));
     
     // Gradient w.r.t. input
     Tensor BA_T = cached_BA_.transpose();
@@ -282,7 +281,7 @@ size_t estimate_memory_usage(size_t num_parameters,
     return data_bytes + block_bytes;
 }
 
-float calculate_memory_reduction(size_t original_bytes, QuantizationType quant_type) {
+float calculate_memory_reduction(size_t /*original_bytes*/, QuantizationType quant_type) {
     // Rough estimates based on typical block sizes
     float reduction = 0.0f;
     

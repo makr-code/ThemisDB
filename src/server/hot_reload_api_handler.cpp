@@ -1,28 +1,28 @@
+/**
+ * @file hot_reload_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hot_reload_api_handler.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     272                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hot_reload_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 309
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/hot_reload_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 #include <nlohmann/json.hpp>
+#include "utils/tracing.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
@@ -31,6 +31,23 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxHotReloadIdentifierLength = 128;
+
+bool isValidHotReloadIdentifier(const std::string& value) {
+    if (value.empty()) {
+        return false;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxHotReloadIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 HotReloadApiHandler::HotReloadApiHandler(
     std::shared_ptr<updates::ManifestDatabase> manifest_db,
@@ -43,21 +60,42 @@ HotReloadApiHandler::HotReloadApiHandler(
 http::response<http::string_body> HotReloadApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleRequest");
     std::string target = std::string(req.target());
     auto method = req.method();
     
     // Route to appropriate handler
     if (target.find("/api/updates/manifests/") == 0 && method == http::verb::get) {
         std::string version = extractPathParam(target, "/api/updates/manifests/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleGetManifest(req, version);
     } else if (target.find("/api/updates/download/") == 0 && method == http::verb::post) {
         std::string version = extractPathParam(target, "/api/updates/download/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleDownload(req, version);
     } else if (target.find("/api/updates/apply/") == 0 && method == http::verb::post) {
         std::string version = extractPathParam(target, "/api/updates/apply/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleApply(req, version);
     } else if (target.find("/api/updates/rollback/") == 0 && method == http::verb::post) {
         std::string rollback_id = extractPathParam(target, "/api/updates/rollback/");
+        if (!isValidHotReloadIdentifier(rollback_id)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid rollback id",
+                                       req);
+        }
         return handleRollback(req, rollback_id);
     } else if (target == "/api/updates/rollback" && method == http::verb::get) {
         return handleListRollbacks(req);
@@ -74,6 +112,7 @@ http::response<http::string_body> HotReloadApiHandler::handleGetManifest(
     const http::request<http::string_body>& req,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleGetManifest");
     try {
         auto manifest = manifest_db_->getManifest(version);
         if (!manifest) {
@@ -100,6 +139,7 @@ http::response<http::string_body> HotReloadApiHandler::handleDownload(
     const http::request<http::string_body>& req,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleDownload");
     try {
         LOG_INFO("Download request for version: {}", version);
         
@@ -132,6 +172,7 @@ http::response<http::string_body> HotReloadApiHandler::handleApply(
     const http::request<http::string_body>& req,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleApply");
     try {
         LOG_INFO("Apply hot-reload request for version: {}", version);
         
@@ -178,6 +219,7 @@ http::response<http::string_body> HotReloadApiHandler::handleRollback(
     const http::request<http::string_body>& req,
     const std::string& rollback_id
 ) {
+    auto span = Tracer::startSpan("handleRollback");
     try {
         LOG_INFO("Rollback request for ID: {}", rollback_id);
         
@@ -206,6 +248,7 @@ http::response<http::string_body> HotReloadApiHandler::handleRollback(
 http::response<http::string_body> HotReloadApiHandler::handleListRollbacks(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListRollbacks");
     try {
         auto rollback_points = reload_engine_->listRollbackPoints();
         
@@ -237,6 +280,7 @@ http::response<http::string_body> HotReloadApiHandler::createJsonResponse(
     const json& body,
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("createJsonResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::content_type, "application/json");
     res.set(http::field::server, "ThemisDB");
@@ -273,3 +317,4 @@ std::string HotReloadApiHandler::extractPathParam(const std::string& path, const
 
 } // namespace server
 } // namespace themis
+

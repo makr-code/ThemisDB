@@ -1,23 +1,21 @@
+/**
+ * @file vision_encoder.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vision_encoder.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     268                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vision_encoder.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 260
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #690 Production-grade Vision/Mul... (2026-03-11) | #246 Implement vision support (P... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -214,8 +212,8 @@ private:
     clip_ctx* clip_ctx_;           ///< CLIP context (opaque pointer)
     std::string model_path_;       ///< Path to CLIP model file
     std::string model_id_;         ///< Model identifier for tracking
-    int verbosity_;                ///< Logging verbosity
-    bool initialized_;             ///< Initialization status
+    int verbosity_ = 0;                ///< Logging verbosity
+    bool initialized_ = false;             ///< Initialization status
     
     // Configuration and monitoring
     std::shared_ptr<VisionConfig> config_;                    ///< Vision configuration
@@ -255,6 +253,7 @@ struct VisionRequest {
  * Response from vision-enabled LLM
  */
 struct VisionResponse {
+    virtual ~VisionResponse() = default;
     bool success = false;              ///< Success flag
     std::string text;                  ///< Generated text
     std::string error_message;         ///< Error message if failed
@@ -269,3 +268,4 @@ struct VisionResponse {
 
 } // namespace llm
 } // namespace themis
+

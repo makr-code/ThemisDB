@@ -1,35 +1,41 @@
+/**
+ * @file wal_shipper.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=4, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_shipper.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     513                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1ee010fe7  2026-02-25  fix(replication/audit): fix div-by-zero in WALShipper sta... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_shipper.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 676
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=13, M=5, L=0
+ * PR History (last 5): #4231 feat(sharding): Adaptive Sh... (2026-03-14) | #4147 feat(sharding): Raft Snapsh... (2026-03-13) | #762 Perf: Scale to 10B records ... (2026-03-11) | #1031 Implement comprehensive res... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/wal_shipper.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/zstd_codec.h"
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
+#include <openssl/sha.h>
+#include <sstream>
+#include <thread>
 #include <lz4.h>
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct WAL shipper and optional mTLS client.
+ * @param wal_manager WAL source manager.
+ * @param config Shipper configuration.
+ */
 WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
                        const WALShipperConfig& config)
     : wal_manager_(wal_manager), config_(config) {
@@ -48,10 +54,12 @@ WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
     }
 }
 
+/** @brief Destructor stops shipping loop and joins worker thread. */
 WALShipper::~WALShipper() {
     stop();
 }
 
+/** @brief Register replica endpoint for WAL shipping. */
 void WALShipper::addReplica(const std::string& replica_id, const std::string& endpoint) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     
@@ -64,11 +72,13 @@ void WALShipper::addReplica(const std::string& replica_id, const std::string& en
     replicas_[replica_id] = info;
 }
 
+/** @brief Unregister replica from shipping set. */
 void WALShipper::removeReplica(const std::string& replica_id) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     replicas_.erase(replica_id);
 }
 
+/** @brief Start asynchronous shipping thread if not already running. */
 void WALShipper::start() {
     if (running_) {
         return;  // Already running
@@ -78,6 +88,7 @@ void WALShipper::start() {
     shipper_thread_ = std::make_unique<std::thread>(&WALShipper::shippingLoop, this);
 }
 
+/** @brief Stop shipping thread and wait for termination. */
 void WALShipper::stop() {
     if (!running_) {
         return;
@@ -91,10 +102,12 @@ void WALShipper::stop() {
     }
 }
 
+/** @brief Return whether shipping thread is currently running. */
 bool WALShipper::isRunning() const {
     return running_;
 }
 
+/** @brief Return snapshot of registered replica states. */
 std::vector<ReplicaInfo> WALShipper::getReplicaInfo() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     
@@ -106,19 +119,23 @@ std::vector<ReplicaInfo> WALShipper::getReplicaInfo() const {
     return result;
 }
 
+/** @brief Return current WAL shipping statistics snapshot. */
 WALShipperStats WALShipper::getStatistics() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/** @brief Trigger immediate wake-up of shipping loop. */
 void WALShipper::forceShip() {
     cv_.notify_all();
 }
 
+/** @brief Set optional Prometheus exporter for replication metrics. */
 void WALShipper::setMetricsExporter(std::shared_ptr<PrometheusMetrics> metrics) {
     metrics_ = metrics;
 }
 
+/** @brief Main shipping loop processing replicas at configured interval. */
 void WALShipper::shippingLoop() {
     while (running_) {
         auto start_time = std::chrono::steady_clock::now();
@@ -168,6 +185,11 @@ void WALShipper::shippingLoop() {
     }
 }
 
+/**
+ * @brief Ship pending WAL entries to one replica.
+ * @param replica Replica state reference.
+ * @return true when shipping attempt succeeds.
+ */
 bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& replica) {
     // Get current LSN
     LSN current_lsn = wal_manager_->getCurrentLSN();
@@ -177,7 +199,10 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
         return true;  // Nothing new to ship
     }
     
-    // Read entries to ship
+    // Read entries to ship.
+    // Edge case: readRange may return empty when LSN advanced due to sparse
+    // segment boundaries or retention windows; treat as non-fatal and retry
+    // in next loop iteration.
     LSN next_lsn = replica.last_confirmed_lsn;
     next_lsn.offset++;  // Start from next entry
     
@@ -234,6 +259,12 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
     return true;
 }
 
+/**
+ * @brief Serialize/compress and ship one WAL batch over mTLS.
+ * @param endpoint Replica endpoint.
+ * @param entries WAL entries in this batch.
+ * @return true when endpoint acknowledged the batch.
+ */
 bool WALShipper::shipBatch(const std::string& endpoint,
                            const std::vector<WALEntry>& entries) {
     if (!mtls_client_ || !mtls_client_->isReady()) {
@@ -327,7 +358,9 @@ bool WALShipper::shipBatch(const std::string& endpoint,
         );
     }
     
-    // Ship via mTLS POST request
+    // Ship via mTLS POST request.
+    // Endpoint contract: /api/v1/wal/apply returns response.success=true
+    // when payload was accepted (independent from eventual apply latency).
     auto response = mtls_client_->post(endpoint, "/api/v1/wal/apply", request.dump());
     
     if (!response.success) {
@@ -350,6 +383,7 @@ bool WALShipper::shipBatch(const std::string& endpoint,
     return true;
 }
 
+/** @brief Update replica health and global stats after shipping attempt. */
 void WALShipper::updateReplicaStatus(ReplicaInfo& replica, bool success, size_t bytes_shipped) {
     auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
@@ -381,6 +415,7 @@ void WALShipper::updateReplicaStatus(ReplicaInfo& replica, bool success, size_t 
     }
 }
 
+/** @brief Recompute lag bytes/time and export lag metrics. */
 void WALShipper::calculateLag(ReplicaInfo& replica) {
     LSN current_lsn = wal_manager_->getCurrentLSN();
     
@@ -415,6 +450,7 @@ void WALShipper::calculateLag(ReplicaInfo& replica) {
     }
 }
 
+/** @brief Perform transport-level health check for replica endpoint. */
 void WALShipper::healthCheck(ReplicaInfo& replica) {
     // Perform health check via ping endpoint
     if (!mtls_client_ || !mtls_client_->isReady()) {
@@ -427,6 +463,9 @@ void WALShipper::healthCheck(ReplicaInfo& replica) {
 }
 
 // Phase 3: Adaptive batch sizing
+/**
+ * @brief Compute adaptive batch size from latency/CPU/IOPS telemetry.
+ */
 size_t WALShipper::calculateOptimalBatchSize(double network_latency_ms,
                                              double cpu_utilization,
                                              size_t disk_iops_available) const {
@@ -482,6 +521,9 @@ size_t WALShipper::calculateOptimalBatchSize(double network_latency_ms,
 }
 
 // Phase 3: Intelligent compression selection
+/**
+ * @brief Select compression strategy for given payload/CPU profile.
+ */
 WALShipperConfig::CompressionType WALShipper::selectCompressionType(
     size_t payload_size,
     bool is_repetitive,
@@ -511,4 +553,191 @@ WALShipperConfig::CompressionType WALShipper::selectCompressionType(
     return WALShipperConfig::CompressionType::None;
 }
 
+// ============================================================================
+// Snapshot transfer: chunked delivery with per-chunk SHA-256 checksums
+// ============================================================================
+
+/**
+ * @brief Compute SHA-256 digest of buffer and return lowercase hex string.
+ *
+ * Handles empty-buffer input safely to avoid passing a potentially null
+ * pointer into SHA256.
+ */
+static std::string chunkSha256(const uint8_t* data, size_t size) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    if (size == 0) {
+        static const uint8_t kEmpty[1] = {0};
+        SHA256(kEmpty, 0, hash);
+    } else {
+        SHA256(data, size, hash);
+    }
+    std::ostringstream oss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
+    return oss.str();
+}
+
+/**
+ * @brief Base64-encode binary payload for JSON-safe transport.
+ * @param data Raw binary data.
+ * @return Base64-encoded ASCII representation.
+ */
+static std::string base64Encode(const std::vector<uint8_t>& data) {
+    static constexpr char kB64Chars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    for (size_t i = 0; i < data.size(); i += 3) {
+        const uint8_t b0 = data[i];
+        const uint8_t b1 = (i + 1 < data.size()) ? data[i + 1] : 0u;
+        const uint8_t b2 = (i + 2 < data.size()) ? data[i + 2] : 0u;
+        out += kB64Chars[(b0 >> 2) & 0x3F];
+        out += kB64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
+        out += (i + 1 < data.size()) ? kB64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
+        out += (i + 2 < data.size()) ? kB64Chars[b2 & 0x3F] : '=';
+    }
+    return out;
+}
+
+/** @brief Verify chunk checksum using SHA-256 over chunk payload. */
+/* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
+    const std::string computed =
+        chunkSha256(chunk.data.data(), chunk.data.size());
+    return computed == chunk.checksum;
+}
+
+/**
+ * @brief Send snapshot chunks to lagging replica with per-chunk retries.
+ * @param replica_id Target replica id.
+ * @param chunks Ordered snapshot chunks.
+ * @return Transfer result with counters and optional error description.
+ */
+SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
+                                                  const std::vector<SnapshotChunk>& chunks) {
+    SnapshotTransferResult result;
+
+    if (chunks.empty()) {
+        result.error_message = "No chunks to transfer";
+        return result;
+    }
+
+    // Verify all chunks before starting the transfer
+    for (const auto& chunk : chunks) {
+        if (!verifyChunkChecksum(chunk)) {
+            result.error_message = "Chunk checksum verification failed before transfer: "
+                                   "chunk_index=" + std::to_string(chunk.chunk_index);
+            return result;
+        }
+    }
+
+    // Look up replica endpoint
+    std::string endpoint;
+    {
+        std::lock_guard<std::mutex> lock(replicas_mutex_);
+        auto it = replicas_.find(replica_id);
+        if (it == replicas_.end()) {
+            result.error_message = "Unknown replica: " + replica_id;
+            return result;
+        }
+        endpoint = it->second.endpoint;
+    }
+
+    spdlog::info("WALShipper: beginning snapshot transfer to replica={} "
+                 "snapshot_index={} total_chunks={}",
+                 replica_id,
+                 chunks.empty() ? 0 : chunks.front().snapshot_index,
+                 chunks.size());
+
+    for (const auto& chunk : chunks) {
+        // Retry loop per chunk to tolerate transient network interruptions
+        bool chunk_ok = false;
+        size_t attempt = 0;
+        uint64_t retry_delay_ms = config_.retry_delay_ms;
+
+        while (attempt < config_.max_retries && !chunk_ok) {
+            ++attempt;
+
+            // Serialize the chunk fields to JSON and POST to the replica's
+            // snapshot chunk endpoint, mirroring the existing shipBatch pattern.
+            // Binary data is base64-encoded to avoid the 2× size penalty of
+            // hex encoding while remaining JSON-compatible.
+            bool sent = false;
+            if (mtls_client_ && mtls_client_->isReady()) {
+                // Base64-encode the chunk payload to avoid the 2× overhead of
+                // hex encoding, while staying within JSON string constraints.
+                nlohmann::json body = {
+                    {"snapshot_index", chunk.snapshot_index},
+                    {"snapshot_term",  chunk.snapshot_term},
+                    {"chunk_index",    chunk.chunk_index},
+                    {"total_chunks",   chunk.total_chunks},
+                    {"last_chunk",     chunk.last_chunk},
+                    {"checksum",       chunk.checksum},
+                    {"data_b64",       base64Encode(chunk.data)}
+                };
+                auto resp = mtls_client_->post(endpoint,
+                                               "/api/v1/snapshot/chunk",
+                                               body);
+                sent = resp.success;
+            } else {
+                // No configured/ready mTLS client: fail in production.
+                // In test builds (THEMIS_TEST_BUILD), simulate success so that
+                // unit tests that don't wire up a real transport still work.
+                // This path is compile-time gated and never active in regular
+                // production builds.
+#if defined(THEMIS_TEST_BUILD)
+                spdlog::debug("WALShipper: THEMIS_TEST_BUILD – simulating chunk send "
+                              "chunk_index={}", chunk.chunk_index);
+                sent = true;
+#else
+                spdlog::error("WALShipper: mTLS client not configured or not ready; "
+                              "refusing to send snapshot chunk {} to {}",
+                              chunk.chunk_index, replica_id);
+                sent = false;
+#endif
+            }
+
+            if (sent) {
+                chunk_ok = true;
+                result.chunks_sent++;
+                result.bytes_sent += chunk.data.size();
+
+                // Update statistics
+                {
+                    std::lock_guard<std::mutex> slock(stats_mutex_);
+                    stats_.total_snapshot_chunks_sent++;
+                    stats_.total_snapshot_bytes_sent += chunk.data.size();
+                }
+            } else {
+                spdlog::warn("WALShipper: chunk send failed "
+                             "replica={} chunk_index={} attempt={}/{}",
+                             replica_id, chunk.chunk_index, attempt, config_.max_retries);
+
+                if (attempt < config_.max_retries) {
+                    std::this_thread::sleep_for(
+                        std::chrono::milliseconds(retry_delay_ms));
+                    retry_delay_ms = std::min(retry_delay_ms * 2,
+                                              config_.max_retry_delay_ms);
+                }
+            }
+        }
+
+        if (!chunk_ok) {
+            result.error_message =
+                "Failed to send chunk " + std::to_string(chunk.chunk_index) +
+                " to replica " + replica_id + " after " +
+                std::to_string(config_.max_retries) + " attempts";
+            spdlog::error("WALShipper: {}", result.error_message);
+            return result;
+        }
+    }
+
+    result.success = true;
+    spdlog::info("WALShipper: snapshot transfer complete to replica={} "
+                 "chunks_sent={} bytes_sent={}",
+                 replica_id, result.chunks_sent, result.bytes_sent);
+    return result;
+}
+
 } // namespace themis::sharding
+

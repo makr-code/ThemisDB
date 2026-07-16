@@ -1,25 +1,20 @@
+/**
+ * @file wire_protocol_v2.hpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_v2.hpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     344                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
-    • c3655c7e6  2026-02-25  feat(network): implement LZ4 and Zstd connection-level co... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_v2.hpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=4, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol V2 – Multiplexed Binary Protocol
@@ -156,11 +151,13 @@ enum class V2StreamState {
 };
 
 struct V2Stream {
-    uint32_t      stream_id    = 0;
-    V2StreamState state        = V2StreamState::IDLE;
-    int32_t       send_window  = static_cast<int32_t>(V2_DEFAULT_WINDOW);
-    int32_t       recv_window  = static_cast<int32_t>(V2_DEFAULT_WINDOW);
-    uint8_t       priority     = 16; ///< 0 (highest) – 255 (lowest)
+    uint32_t      stream_id            = 0;
+    V2StreamState state                = V2StreamState::IDLE;
+    int32_t       send_window          = static_cast<int32_t>(V2_DEFAULT_WINDOW);
+    int32_t       recv_window          = static_cast<int32_t>(V2_DEFAULT_WINDOW);
+    uint8_t       priority             = 16; ///< 0 (highest) – 255 (lowest)
+    uint32_t      stream_dependency    = 0;  ///< ID of the parent stream (0 = root)
+    bool          exclusive_dependency = false; ///< Exclusive dependency flag (RFC 7540 §5.3)
 
     bool is_open() const noexcept {
         return state == V2StreamState::OPEN ||
@@ -258,6 +255,22 @@ public:
 
     /// @brief Update the connection-level send-window (WINDOW_UPDATE).
     virtual void update_connection_window(uint32_t increment) = 0;
+
+    /// @brief Send a PRIORITY frame to inform the remote side of stream ordering.
+    ///
+    /// The PRIORITY frame payload follows RFC 7540 §6.3:
+    ///   - E (1 bit)             – exclusive dependency flag
+    ///   - Stream Dependency (31 bits) – ID of the parent stream (0 = root)
+    ///   - Weight (8 bits)       – priority weight 0–255 (maps to HTTP/2 weight 1–256)
+    ///
+    /// @param stream_id   Stream to reprioritise.
+    /// @param dependency  Parent stream ID this stream depends on (0 = root).
+    /// @param weight      Priority weight 0–255.
+    /// @param exclusive   When true the stream exclusively depends on @p dependency.
+    virtual void set_stream_priority(uint32_t stream_id,
+                                     uint32_t dependency,
+                                     uint8_t  weight,
+                                     bool     exclusive = false) = 0;
 
     // ── Statistics ────────────────────────────────────────────────────────
     virtual uint64_t frames_received()  const = 0;

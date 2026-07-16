@@ -1,6 +1,6 @@
 # QLoRA/PEFT Integration für ThemisDB - Research Report & PR-Plan
 
-**Datum:** 15. Januar 2026  
+**Datum:** 15. April 2026  
 **Version:** 1.0  
 **Status:** Final Research & Recommendations  
 **Autor:** GitHub Copilot + ThemisDB Team
@@ -72,7 +72,7 @@ Qualität: 99.3% von Full Fine-Tuning Performance
 
 ### 1.3 llama.cpp Kompatibilität
 
-**Status (Stand Januar 2026):**
+**Status (Stand April 2026):**
 
 **llama.cpp Release 2024-12:**
 - ✅ **LoRA Loading**: Vollständig unterstützt (GGUF format)
@@ -430,5 +430,5 @@ Break-Even: 4 Monate ✅
 
 **Ende des Reports**  
 **Version:** 1.0  
-**Datum:** 15. Januar 2026  
+**Datum:** 15. April 2026  
 **Status:** ✅ Final & Ready for Review

@@ -1,24 +1,20 @@
+/**
+ * @file shard_rpc_client.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=9; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=3, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_client.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     212                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cd1278c92  2026-02-27  Implement circuit breaker integration and retry policy in... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_client.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
+ * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=3, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,11 +22,24 @@
 #include <string>
 #include <memory>
 #include <stdexcept>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
 #endif
+
+namespace themis::sharding {
+
+// Forward declarations
+class PrometheusMetrics;
+class MTLSConnectionPoolManager;
+
+} // namespace themis::sharding
+
+namespace themisdb::sharding {
+class OperationalMetrics;
+}
 
 namespace themis::sharding {
 
@@ -44,6 +53,26 @@ namespace themis::sharding {
 class NonRetryableRpcError : public std::runtime_error {
 public:
     using std::runtime_error::runtime_error;
+};
+
+/**
+ * @brief Retry policy for cross-shard RPC calls.
+ *
+ * Classifies gRPC status codes into retryable and non-retryable categories
+ * and integrates with the CircuitBreaker to prevent retry storms.
+ *
+ * Retryable status codes:
+ *   UNAVAILABLE, DEADLINE_EXCEEDED, RESOURCE_EXHAUSTED, ABORTED, INTERNAL
+ *
+ * Non-retryable status codes (raise NonRetryableRpcError immediately):
+ *   INVALID_ARGUMENT, NOT_FOUND, ALREADY_EXISTS, PERMISSION_DENIED,
+ *   UNAUTHENTICATED, FAILED_PRECONDITION, OUT_OF_RANGE, UNIMPLEMENTED
+ */
+struct ShardRpcRetryPolicy {
+    int max_attempts         = 3;     ///< Maximum total attempts (1 + retries).
+    int initial_backoff_ms   = 100;   ///< Initial delay before first retry.
+    int max_backoff_ms       = 5000;  ///< Upper cap for exponential back-off.
+    bool use_circuit_breaker = true;  ///< Gate retries through the circuit breaker.
 };
 
 /**
@@ -61,26 +90,38 @@ public:
  */
 class ShardRPCClient {
 public:
+    /** @brief Runtime configuration for shard RPC transport, retries and TLS. */
     struct Config {
         std::string endpoint;           // Shard endpoint (e.g., "shard1:50051" for gRPC)
+        std::string shard_id;           // Local shard identifier used for metric labels
         int timeout_ms = 5000;          // RPC timeout in milliseconds
         int max_retries = 3;            // Maximum retry attempts
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
         
         // mTLS Configuration (optional, required for production)
-        bool enable_mtls = false;       // Enable mutual TLS authentication
+        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
         std::string tls_cert_path;      // Path to client certificate (PEM format)
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
         bool tls_verify_server = true;  // Verify server certificate against CA
 
+        // Connection pool (optional, shared across ShardRPCClient instances)
+        MTLSConnectionPoolManager* connection_pool = nullptr; // Non-owning; nullptr disables pooling
+        int max_pool_connections = 50;  // Per-endpoint pool size; propagated via GossipConfigManager
+
         // Circuit Breaker Configuration
         bool enable_circuit_breaker = true;          // Enable circuit breaker protection
         int circuit_breaker_failure_threshold = 5;   // Failures before opening circuit
-        int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe
+        int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe (default 5 s)
+
+        // Metrics (optional, non-owning pointers; nullptr disables the respective metric sink)
+        themisdb::sharding::OperationalMetrics* operational_metrics = nullptr;
+        PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
+    /** @brief Construct RPC client using provided transport/runtime configuration. */
     explicit ShardRPCClient(const Config& config);
+    /** @brief Destroy client and release internal connection/circuit-breaker state. */
     ~ShardRPCClient();
     
     // Disable copy, allow move
@@ -119,6 +160,17 @@ public:
     bool abort(const std::string& txn_id);
     
     /**
+     * @brief Send COMPENSATE request (SAGA compensation)
+     * @param txn_id Transaction ID
+     * @param operation Compensation operation JSON payload
+     * @return true if compensation executed successfully
+     */
+    bool compensate(
+        const std::string& txn_id,
+        const nlohmann::json& operation
+    );
+    
+    /**
      * @brief Execute snapshot read at specific timestamp
      * @param snapshot_ts Snapshot timestamp for consistent read
      * @param query Query to execute
@@ -130,10 +182,77 @@ public:
     );
     
     /**
+     * @brief Replicate (write) a single entity to this shard.
+     *
+     * Uses the gRPC ReplicateData RPC in multi-node deployments and a
+     * lightweight in-process acknowledgement for loopback/test endpoints.
+     *
+     * @param collection  Collection / namespace name
+     * @param uuid        Entity UUID
+     * @param data        Entity payload (JSON object)
+     * @param timestamp_ns Write timestamp (nanoseconds since epoch); 0 = now
+     * @return true if the entity was accepted by the remote shard
+     */
+    bool writeEntity(
+        const std::string& collection,
+        const std::string& uuid,
+        const nlohmann::json& data,
+        uint64_t timestamp_ns = 0
+    );
+    
+    /**
      * @brief Check if shard is available
      */
     bool ping();
-    
+
+    /**
+     * @brief A single directed wait-for edge returned by collectWaitForEdges().
+     *
+     * waiting_transaction_id is blocked by blocking_transaction_id on this shard.
+     */
+    struct WaitForEdge {
+        std::string waiting_transaction_id;
+        std::string blocking_transaction_id;
+    };
+
+    /**
+     * @brief Pull all active local wait-for edges from the remote shard.
+     *
+     * Used by the coordinator's deadlock-detection thread to build a
+     * cluster-wide wait-for graph that supplements edges explicitly reported
+     * via CrossShardTransactionCoordinator::reportDistributedWait().
+     *
+     * @return List of wait-for edges currently active on the remote shard.
+     *         Returns an empty list on RPC failure (fail-open: callers should
+     *         not abort transactions solely on the basis of a missing response).
+     */
+    std::vector<WaitForEdge> collectWaitForEdges();
+
+    /**
+     * @brief Inject a custom response handler for the in-process simulation path.
+     *
+     * When set, @p handler is called by sendRequestInProcess() instead of the
+     * built-in hardcoded responses.  This enables test and integration code to:
+     *   - simulate NACK/abort responses ("vote": "abort")
+     *   - inject network-timeout exceptions
+     *   - exercise partial-failure and circuit-breaker code paths
+     *
+     * The handler receives the RPC method name (e.g. "prepare", "commit") and
+     * the full @p params JSON and must return a well-formed response JSON.
+     * Pass @c nullptr to restore the built-in hardcoded fallback behaviour.
+     *
+     * Thread safety: the handler is stored under the impl mutex; it is safe to
+     * call this method from any thread before or during RPC use.
+     *
+     * @param handler  Callable matching @c nlohmann::json(std::string, nlohmann::json),
+     *                 or @c nullptr to clear.
+     */
+    using InProcessResponseHandler =
+        std::function<nlohmann::json(std::string /*method*/,
+                                     nlohmann::json /*params*/)>;
+
+    void setInProcessResponseHandler(InProcessResponseHandler handler);
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
@@ -197,9 +316,21 @@ private:
     );
     
     /**
+     * @brief Handle gRPC write-entity request (ReplicateData RPC)
+     */
+    nlohmann::json handleWriteEntityGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
      * @brief Handle gRPC healthcheck request
      */
     nlohmann::json handleHealthCheckGrpc(
+        grpc::ClientContext& context
+    );
+
+    nlohmann::json handleCollectWaitForEdgesGrpc(
         grpc::ClientContext& context
     );
     

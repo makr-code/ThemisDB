@@ -1,6 +1,6 @@
 # Parameter-Efficient Fine-Tuning (PEFT) Framework Integration für ThemisDB
 
-**Stand:** 19. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.1.0  
 **Kategorie:** LLM Training
 

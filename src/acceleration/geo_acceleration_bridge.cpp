@@ -1,31 +1,36 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_acceleration_bridge.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     374                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c1a4fe568  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
-    • e38662530  2026-02-24  feat(acceleration): implement GeoAccelerationBridge::popu... ║
-    • 1315cab74  2026-02-24  Implement GeoAccelerationBridge::populateGeoDispatch() to... ║
-    • 6dd23063f  2026-02-23  feat(acceleration): integrate GPU backend with geo module... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file geo_acceleration_bridge.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
+/*
+ * ThemisDB | File: geo_acceleration_bridge.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 371
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=2, L=0
+ * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #3609 feat(acceleration): wire mi... (2026-03-12) | #3555 docs(acceleration): ROADMAP... (2026-03-12) | #2852 feat(geo): CUDA kernel disp... (2026-03-12) | #2740 Implement geo CUDA kernels ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+// Acceleration module — Geo Acceleration Bridge
+// ================================================
 // Bridges the acceleration IGeoBackend interface to the geo module's
 // ISpatialComputeBackend (GpuBatchBackend).
+//
+// Dispatch chain position
+// -----------------------
+//   BackendRegistry::getSelectedGeoBackend()
+//       └─► GeoAccelerationBridge (self-registered at static-init time)
+//               ├─► GeoKernelFallbackDispatcher::dispatch()  — via populateGeoDispatch()
+//               │       ├─ GPU: launchGeoDistanceKernel() (cuda/geo_kernels.cu) [CUDA only]
+//               │       └─ CPU: Haversine implementation (batchDistances fallback)
+//               └─► GpuBatchBackend::batchIntersects()  — point-in-polygon via ray-casting
 //
 // The bridge is registered in BackendRegistry so that callers using the
 // acceleration framework's capability-driven backend selection automatically
@@ -53,12 +58,22 @@
 //    available as soon as the geo module (themis_geo) is loaded.  This avoids
 //    a circular dependency between themis_base (BackendRegistry) and
 //    themis_geo (GpuBatchBackend).
+//
+// Related files
+// -------------
+//   include/acceleration/geo_acceleration_bridge.h   — GeoAccelerationBridge declaration
+//   src/acceleration/cuda/geo_kernels.cu              — GPU Haversine + point-in-polygon kernels
+//   include/acceleration/kernel_invocation.h          — GeoKernelDispatch interface (frozen v1.x)
+//   include/acceleration/kernel_fallback_dispatcher.h — GeoKernelFallbackDispatcher
+//   src/acceleration/backend_registry.cpp             — registry that selects this bridge
+//   src/acceleration/ARCHITECTURE.md                  — Integration Points (Section 5)
 
 #include "acceleration/geo_acceleration_bridge.h"
 #include "acceleration/cpu_backend.h"
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
+#include "utils/geometric_distances.h"
 
 #include <cmath>
 #include <stdexcept>
@@ -231,15 +246,7 @@ void GeoAccelerationBridge::shutdown() {}
 // static
 double GeoAccelerationBridge::haversineKm(double lat1, double lon1,
                                            double lat2, double lon2) noexcept {
-    const double dlat = (lat2 - lat1) * kDegToRad;
-    const double dlon = (lon2 - lon1) * kDegToRad;
-    const double rlat1 = lat1 * kDegToRad;
-    const double rlat2 = lat2 * kDegToRad;
-
-    const double a = std::sin(dlat / 2.0) * std::sin(dlat / 2.0) +
-                     std::cos(rlat1) * std::cos(rlat2) *
-                     std::sin(dlon / 2.0) * std::sin(dlon / 2.0);
-    return kEarthRadiusKm * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+    return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
 std::vector<float> GeoAccelerationBridge::batchDistances(

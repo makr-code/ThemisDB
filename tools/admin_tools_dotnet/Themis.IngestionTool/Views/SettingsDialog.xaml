@@ -1,0 +1,246 @@
+<Window x:Class="Themis.IngestionTool.Views.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Einstellungen" Height="750" Width="750"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F5F5"
+        ResizeMode="CanResize"
+        MinHeight="600" MinWidth="650">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Einstellungen" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,0,0,20" />
+
+        <!-- TabControl -->
+        <TabControl Grid.Row="1" Background="White" BorderBrush="#E0E0E0" BorderThickness="1">
+            
+            <!-- Tab: Verbindung -->
+            <TabItem Header="🔌 Verbindung">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Themis Server Verbindung" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Host:" VerticalAlignment="Center" FontWeight="SemiBold" />
+                            <TextBox Text="{Binding ThemisHost, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Column="1" Padding="8" Margin="10,0,0,0" />
+                        </Grid>
+
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Port:" VerticalAlignment="Center" FontWeight="SemiBold" />
+                            <TextBox Text="{Binding ThemisPort, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Column="1" Padding="8" Margin="10,0,0,0" />
+                        </Grid>
+
+                        <TextBlock Text="ℹ️ Standard: localhost:8765" FontSize="11" Foreground="#666" Margin="0,10,0,0" />
+                        
+                        <Separator Margin="0,20" />
+                        
+                        <TextBlock Text="Server automatisch suchen" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <Button Content="🔍 Netzwerk scannen" Click="OnScanServers" 
+                               Padding="12,8" Background="#007ACC" Foreground="White" 
+                               FontWeight="Bold" Cursor="Hand" HorizontalAlignment="Left" 
+                               IsEnabled="{Binding IsScanning, Converter={StaticResource InverseBoolConverter}}" 
+                               Margin="0,0,0,10" />
+                        
+                        <TextBlock Text="{Binding ScanStatus}" FontSize="11" Foreground="#666" Margin="0,0,0,10" />
+                        
+                        <TextBlock Text="Gefundene Server:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <ListBox ItemsSource="{Binding AvailableServers}" 
+                                SelectedItem="{Binding SelectedServer}" 
+                                Height="120" Padding="5" Background="#FAFAFA" 
+                                BorderBrush="#DDD" BorderThickness="1" Margin="0,0,0,10" />
+                        
+                        <Button Content="✓ Ausgewählten Server übernehmen" Click="OnApplyServer" 
+                               Padding="12,8" Background="#28A745" Foreground="White" 
+                               FontWeight="Bold" Cursor="Hand" HorizontalAlignment="Left" 
+                               IsEnabled="{Binding SelectedServer, Converter={StaticResource NullToBoolConverter}}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: Datenbank -->
+            <TabItem Header="💾 Datenbank">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Datenbank Konfiguration" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <TextBlock Text="Datenbankpfad:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding DatabasePath, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Margin="0,0,0,20" />
+
+                        <TextBlock Text="Max. Dateigröße (MB):" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding MaxFileSize, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Width="150" HorizontalAlignment="Left" />
+
+                        <TextBlock Text="ℹ️ Dateien größer als dieser Wert werden übersprungen" 
+                                  FontSize="11" Foreground="#666" Margin="0,10,0,0" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: Metadaten -->
+            <TabItem Header="📊 Metadaten">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Metadaten-Extraktion" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <CheckBox Content="Vector-Metadaten aktivieren" 
+                                 IsChecked="{Binding EnableVectorMetadata}" Margin="0,0,0,15" FontSize="13" />
+                        <TextBlock Text="Extrahiert Embeddings und Vektordaten aus Dokumenten" 
+                                  FontSize="11" Foreground="#666" Margin="25,0,0,20" TextWrapping="Wrap" />
+
+                        <CheckBox Content="Graph-Metadaten aktivieren" 
+                                 IsChecked="{Binding EnableGraphMetadata}" Margin="0,0,0,15" FontSize="13" />
+                        <TextBlock Text="Erkennt Beziehungen und erstellt Graph-Strukturen" 
+                                  FontSize="11" Foreground="#666" Margin="25,0,0,20" TextWrapping="Wrap" />
+
+                        <CheckBox Content="Relationale Metadaten aktivieren" 
+                                 IsChecked="{Binding EnableRelationalMetadata}" FontSize="13" />
+                        <TextBlock Text="Extrahiert strukturierte Daten und Tabellen" 
+                                  FontSize="11" Foreground="#666" Margin="25,0,0,0" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: LLM -->
+            <TabItem Header="🤖 LLM">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="LLM Status-Überwachung" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <CheckBox Content="LLM-Status-Überwachung aktivieren" 
+                                 IsChecked="{Binding EnableLlmStatusMonitoring}" Margin="0,0,0,15" FontSize="13" />
+                        
+                        <CheckBox Content="LLM-Status in Statusleiste anzeigen" 
+                                 IsChecked="{Binding ShowLlmStatusInStatusBar}" Margin="0,0,0,20" FontSize="13" />
+                        
+                        <TextBlock Text="Status-Check Intervall (Sekunden):" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding LlmStatusCheckIntervalSeconds, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Width="150" HorizontalAlignment="Left" Margin="0,0,0,10" />
+                        
+                        <Separator Margin="0,20" />
+                        
+                        <TextBlock Text="LLM Endpoint Konfiguration" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <TextBlock Text="Endpoint URL:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding LlamaEndpoint, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Margin="0,0,0,15" />
+
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="Modell:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                                <TextBox Text="{Binding LlamaModel, UpdateSourceTrigger=PropertyChanged}" Padding="8" />
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="Max Tokens:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                                <TextBox Text="{Binding LlamaMaxTokens, UpdateSourceTrigger=PropertyChanged}" Padding="8" />
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Temperatur:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding LlamaTemperature, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Width="150" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: Pipeline -->
+            <TabItem Header="⚙️ Pipeline">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Pipeline Einstellungen" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <TextBlock Text="Max. parallele Dateien:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding MaxParallelFiles, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Width="150" HorizontalAlignment="Left" Margin="0,0,0,20" />
+
+                        <CheckBox Content="Batching aktivieren" 
+                                 IsChecked="{Binding EnableBatching}" Margin="0,0,0,15" FontSize="13" />
+                        
+                        <TextBlock Text="Batch-Größe:" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBox Text="{Binding BatchSize, UpdateSourceTrigger=PropertyChanged}" 
+                                Padding="8" Width="150" HorizontalAlignment="Left" Margin="0,0,0,20" />
+
+                        <CheckBox Content="Caching aktivieren" 
+                                 IsChecked="{Binding EnableCaching}" FontSize="13" />
+                        <TextBlock Text="Verwendet Cache für bereits verarbeitete Dateien" 
+                                  FontSize="11" Foreground="#666" Margin="25,5,0,0" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: ThemisDB API -->
+            <TabItem Header="🔧 ThemisDB API">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="ThemisDB API Features" FontSize="16" FontWeight="SemiBold" Foreground="#333" Margin="0,0,0,15" />
+                        
+                        <CheckBox Content="Transaktionen verwenden" 
+                                 IsChecked="{Binding UseTransactions}" Margin="0,0,0,15" FontSize="13" />
+                        <TextBlock Text="Sichert Daten-Konsistenz bei Fehlern" 
+                                  FontSize="11" Foreground="#666" Margin="25,0,0,20" TextWrapping="Wrap" />
+
+                        <CheckBox Content="Batch-Operationen verwenden" 
+                                 IsChecked="{Binding UseBatchOperations}" Margin="0,0,0,15" FontSize="13" />
+                        <TextBlock Text="Fasst mehrere Operationen zusammen für bessere Performance" 
+                                  FontSize="11" Foreground="#666" Margin="25,0,0,20" TextWrapping="Wrap" />
+
+                        <CheckBox Content="Vektoren speichern" 
+                                 IsChecked="{Binding StoreVectors}" Margin="0,0,0,15" FontSize="13" />
+                        <TextBlock Text="Speichert Embedding-Vektoren in ThemisDB" 
+                                  FontSize="11" Foreground="#666" Margin="25,0,0,20" TextWrapping="Wrap" />
+
+                        <CheckBox Content="Zeitreihen tracken" 
+                                 IsChecked="{Binding TrackTimeSeries}" FontSize="13" />
+                        <TextBlock Text="Protokolliert zeitliche Entwicklungen der Daten" 
+                                  FontSize="11" Foreground="#666" Margin="25,5,0,0" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- Buttons Best Practice: OK, Abbrechen, Zurücksetzen -->
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="🔄 Zurücksetzen" Padding="15,10" Background="#FFC107" Foreground="#333" 
+                       FontWeight="Bold" Cursor="Hand" Click="OnReset" ToolTip="Auf Standardwerte zurücksetzen" />
+            </StackPanel>
+            
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="✓ OK" Padding="25,10" Background="#007ACC" Foreground="White" 
+                       FontWeight="Bold" Cursor="Hand" Margin="0,0,10,0" Click="OnOk" 
+                       ToolTip="Einstellungen speichern und schließen" IsDefault="True" />
+                <Button Content="✕ Abbrechen" Padding="20,10" Background="#6C757D" Foreground="White" 
+                       FontWeight="Bold" Cursor="Hand" Click="OnCancel" 
+                       ToolTip="Änderungen verwerfen" IsCancel="True" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

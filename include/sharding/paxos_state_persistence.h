@@ -1,57 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_state_persistence.h                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(sharding): Paxos acceptor state        ║
-                           persistence across process restarts         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file paxos_state_persistence.h
- * @brief Durable persistence of Paxos acceptor state across process restarts.
- *
- * A Paxos acceptor must remember the highest promise number it has issued
- * and the value it has accepted — even after a crash.  This module provides
- * PaxosStatePersistence, a thin durability layer on top of the existing
- * PaxosWAL and PaxosSnapshotManager that ensures:
- *
- *   - **Crash safety**: every promise / accept is fsynced before the response
- *     is sent so that the invariants of Paxos Phase-1 and Phase-2 hold after
- *     a restart.
- *   - **Fast recovery**: on startup the acceptor reloads its last durable state
- *     (latest snapshot + WAL tail) in O(log N) time without re-executing all
- *     committed entries.
- *   - **Compaction**: periodic snapshots bound WAL growth (ROADMAP: Raft
- *     snapshot compaction).
- *
- * ## Relationship to existing files
- * | File               | Role                                        |
- * |--------------------|---------------------------------------------|
- * | paxos_consensus.h  | Multi-Paxos protocol logic                  |
- * | paxos_wal.h        | Append-only WAL for log entries             |
- * | paxos_snapshot.h   | Point-in-time state snapshots               |
- * | **this file**      | Ties WAL + snapshots into a persistence API |
- *
- * @note Thread Safety: all public methods are thread-safe.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "sharding/paxos_snapshot.h"
@@ -96,7 +51,7 @@ struct DurableNodeState {
     std::string node_id;             ///< This node's identifier
     uint64_t    current_round  = 0;  ///< Global proposal round counter
     uint64_t    last_committed = 0;  ///< Highest committed slot seen
-    LSN         last_lsn       = 0;  ///< WAL LSN of the last persisted entry
+    LSN         last_lsn       {};  ///< WAL LSN of the last persisted entry
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -136,9 +91,12 @@ public:
         size_t  max_wal_entries    = 10000; ///< Trigger snapshot after N WAL entries
     };
 
-    PaxosStatePersistence(PaxosWAL*              wal,
-                          PaxosSnapshotManager*  snapshot_mgr,
-                          Config                 config = {});
+    PaxosStatePersistence(PaxosWAL*             wal,
+                          PaxosSnapshotManager* snapshot_mgr);
+
+    PaxosStatePersistence(PaxosWAL*             wal,
+                          PaxosSnapshotManager* snapshot_mgr,
+                          const Config&         config);
     ~PaxosStatePersistence() = default;
 
     // Non-copyable
@@ -222,7 +180,7 @@ private:
     PaxosSnapshotManager* snapshot_mgr_;
     Config                config_;
 
-    mutable std::mutex    mutex_;
+    mutable std::timed_mutex mutex_;
     std::atomic<bool>     is_open_{false};
     DurableNodeState      node_state_;
     uint64_t              commits_since_compact_ = 0;

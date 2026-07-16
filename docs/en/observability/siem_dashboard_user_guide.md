@@ -1,7 +1,7 @@
 # SIEM Dashboard User Guide
 
 **Version:** 1.0  
-**Last Updated:** 2026-01-27  
+**Last Updated:** 2026-04-06  
 **Target Audience:** SOC Analysts, Security Engineers, IT Operations
 
 ---

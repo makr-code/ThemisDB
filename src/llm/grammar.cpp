@@ -1,23 +1,21 @@
+/**
+ * @file grammar.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grammar.cpp                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     200                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grammar.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 190
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #4187 feat(llm): OpenAI-compatibl... (2026-03-13) | #2962 feat(llm): Implement JSON s... (2026-03-12) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #649 LLM Core - Complete Impleme... (2026-03-11) | #1149 Implement grammar-constrain... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/grammar.h"
@@ -77,17 +75,17 @@ Grammar::Grammar(const std::string& ebnf_text,
         error_ = "Start symbol cannot be empty";
         return;
     }
+
+    if (model == nullptr) {
+        error_ = "Grammar compilation failed: model pointer is null; cannot bind vocabulary";
+        spdlog::error("Grammar compilation failed: null model passed to model-aware constructor");
+        return;
+    }
     
     if (!themis_llama_grammar_available()) {
         // Hard error: the API is required for model-aware compilation.
         error_ = "Grammar support is unavailable (llama.cpp grammar API not present)";
         spdlog::error("Grammar compilation failed (model-aware constructor): {}", error_);
-        return;
-    }
-    
-    if (model == nullptr) {
-        error_ = "Grammar compilation failed: model pointer is null; cannot bind vocabulary";
-        spdlog::error("Grammar compilation failed: null model passed to model-aware constructor");
         return;
     }
     

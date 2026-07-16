@@ -136,5 +136,5 @@ After completing this training, participants will be able to:
 ---
 
 **Document Owner:** ThemisDB Security & Training Team  
-**Last Updated:** February 3, 2026  
+**Last Updated:** April 2026  
 **Version:** 1.0 - FIND-024 remediation

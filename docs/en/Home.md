@@ -2,8 +2,8 @@
 
 **A high-performance multi-model database with ACID guarantees**
 
-[![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
+[![Version](https://img.shields.io/badge/version-1.8.0--rc1-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.8.0-rc1)
+[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
 
 ---

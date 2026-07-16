@@ -1,27 +1,20 @@
+/**
+ * @file multi_master_replication.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_master_replication.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     537                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
-    • ec097b836  2026-02-25  fix(crdt): code audit - fix header metadata (Stubs:1→0), ... ║
-    • cbf19161d  2026-02-25  feat(replication): expand CRDT library with TWO_P_SET and... ║
-    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_master_replication.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -44,6 +37,7 @@
 
 #pragma once
 
+#include <sstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -52,6 +46,7 @@
 #include <chrono>
 #include <functional>
 #include <atomic>
+#include <deque>
 #include <mutex>
 #include <shared_mutex>
 #include <condition_variable>
@@ -146,10 +141,22 @@ public:
         uint64_t physical;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
         std::string node_id;
-        
-        bool operator<(const Timestamp& other) const;
-        bool operator==(const Timestamp& other) const;
-        std::string toString() const;
+
+        bool operator<(const Timestamp& other) const {
+            if (physical != other.physical) return physical < other.physical;
+            if (logical  != other.logical)  return logical  < other.logical;
+            return node_id < other.node_id;
+        }
+        bool operator==(const Timestamp& other) const {
+            return physical == other.physical &&
+                   logical  == other.logical  &&
+                   node_id  == other.node_id;
+        }
+        std::string toString() const {
+            std::ostringstream oss;
+            oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
+            return oss.str();
+        }
     };
     
     explicit HybridLogicalClock(const std::string& node_id);
@@ -231,13 +238,13 @@ public:
     virtual ~ConflictResolver() = default;
     
     // Resolve a conflict, returns the winning write
-    virtual MMWriteEntry resolve(
+    [[nodiscard]] virtual MMWriteEntry resolve(
         const std::string& document_id,
         const std::vector<MMWriteEntry>& conflicting_writes
     ) = 0;
     
     // Get strategy name
-    virtual std::string strategyName() const = 0;
+    [[nodiscard]] virtual std::string strategyName() const = 0;
 };
 
 /**
@@ -495,6 +502,12 @@ private:
     std::map<std::string, WriteCallback> write_callbacks_;
     mutable std::mutex writes_mutex_;
     std::condition_variable writes_cv_;
+
+    // Committed write log: entries appended after successful replication so
+    // that getMissingWrites() can return the delta to lagging peers.
+    // Capped at max_pending_writes * 2 to bound memory usage.
+    std::deque<MMWriteEntry> committed_writes_log_;
+    mutable std::mutex committed_log_mutex_;
     
     // Conflict management
     std::map<std::string, std::shared_ptr<ConflictResolver>> resolvers_;

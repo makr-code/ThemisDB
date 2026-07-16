@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Plan** – Dieser Plan beschreibt den Entwicklungsstand zum Zeitpunkt der Erstellung.
+> Für aktuellen Teststatus: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release -R <pattern>` verwenden.
+
 # ThemisDB LLM/NLP Integration Test Plan
 
 **Version:** 1.0  

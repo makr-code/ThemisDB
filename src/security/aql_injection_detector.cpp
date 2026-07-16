@@ -1,33 +1,42 @@
+/**
+ * @file aql_injection_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_injection_detector.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     364                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_injection_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 640
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=8, L=0
+ * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #897 Implement AST-based AQL inj... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/aql_injection_detector.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cctype>
+#include <unordered_set>
+#include <regex>
 #include <fmt/format.h>
 
 namespace themis {
 namespace security {
+
+namespace {
+bool isBlankInput(const std::string& value) {
+    return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    });
+}
+}  // namespace
 
 // ============================================================================
 // Public Methods
@@ -39,6 +48,12 @@ AQLInjectionDetector::validateParameterizedQuery(
     const std::vector<std::string>& parameters
 ) {
     InjectionCheckResult result;
+
+    if (aql_template.empty() || isBlankInput(aql_template)) {
+        result.is_safe = false;
+        result.error_message = "AQL template must not be empty";
+        return result;
+    }
     
     // Step 1: Validate AQL template syntax is valid
     if (!isValidAQLTemplate(aql_template)) {
@@ -75,23 +90,44 @@ AQLInjectionDetector::validateParameterizedQuery(
 AQLInjectionDetector::InjectionCheckResult 
 AQLInjectionDetector::validateAQLAST(const std::string& aql) {
     InjectionCheckResult result;
+
+    if (aql.empty() || isBlankInput(aql)) {
+        result.is_safe = false;
+        result.error_message = "AQL query must not be empty";
+        return result;
+    }
     
     // Step 1: Parse AQL into AST
     auto parse_result = parseAQL(aql);
     if (!parse_result) {
         result.is_safe = false;
-        result.error_message = fmt::format("Parse error: {}", parse_result.error().message());
+        result.detected_patterns = extractPatterns(aql);
+        if (!result.detected_patterns.empty()) {
+            std::ostringstream token_stream;
+            for (size_t i = 0; i < result.detected_patterns.size(); ++i) {
+                if (i > 0) {
+                    token_stream << ", ";
+                }
+                token_stream << result.detected_patterns[i];
+            }
+            result.error_message = fmt::format(
+                "Parse error with suspicious tokens [{}]: {}",
+                token_stream.str(),
+                parse_result.error().message()
+            );
+        } else {
+            result.error_message = fmt::format("Parse error: {}", parse_result.error().message());
+        }
         return result;
     }
     
     const auto& ast = *parse_result.value();
     
-    // Step 2: Check for suspicious patterns in the original query string
-    // This catches injection attempts before they can be parsed
-    if (containsSuspiciousPatterns(aql)) {
+    // Step 2: AST-level operation validation — catches attacks that evade
+    // regex via non-standard whitespace, Unicode escapes, or concatenation.
+    if (containsDangerousOperations(ast)) {
         result.is_safe = false;
-        result.error_message = "Query contains suspicious patterns";
-        result.detected_patterns = extractPatterns(aql);
+        result.error_message = "Query AST contains dangerous operation nodes";
         return result;
     }
     
@@ -109,6 +145,88 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         }
     }
     
+    return result;
+}
+
+AQLInjectionDetector::InjectionCheckResult
+AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
+    // Run full AST validation. Non-AQL syntax (including SQL DDL and DML payloads)
+    // is rejected in the parse phase, while valid AQL is checked for dangerous
+    // operation nodes and suspicious literals.
+    return validateAQLAST(aql);
+}
+
+AQLInjectionDetector::InjectionCheckResult
+AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
+    InjectionCheckResult result;
+
+    if (aql.empty() || isBlankInput(aql)) {
+        result.is_safe = false;
+        result.error_message = "AQL query must not be empty";
+        return result;
+    }
+
+    // Step 1: Parse query into AST.
+    auto parse_result = parseAQL(aql);
+    if (!parse_result) {
+        // Fallback: Some valid AQL aggregate forms (e.g. "COLLECT ... WITH
+        // COUNT INTO") are not fully represented in the current parser.
+        // For unbounded-loop validation we can conservatively rely on keyword
+        // structure: FOR + LIMIT is bounded; FOR + COLLECT is treated as
+        // aggregation-bounded; FOR without LIMIT/COLLECT is rejected.
+        static const std::regex k_for_re(R"(\bFOR\b)", std::regex::icase);
+        static const std::regex k_limit_re(R"(\bLIMIT\b)", std::regex::icase);
+        static const std::regex k_collect_re(R"(\bCOLLECT\b)", std::regex::icase);
+
+        const bool has_for_clause = std::regex_search(aql, k_for_re);
+        if (!has_for_clause) {
+            return result;
+        }
+
+        const bool has_limit_clause = std::regex_search(aql, k_limit_re);
+        if (has_limit_clause) {
+            return result;
+        }
+
+        const bool has_collect_clause = std::regex_search(aql, k_collect_re);
+        if (has_collect_clause) {
+            return result;
+        }
+
+        result.is_safe = false;
+        result.error_message =
+            "Query contains an unbounded FOR loop without a LIMIT clause; "
+            "add LIMIT to prevent full-collection scans";
+        return result;
+    }
+
+    const auto& ast = *parse_result.value();
+
+    // Step 2: Check whether the query has at least one FOR clause.
+    // An empty collection name in for_node means no FOR clause was parsed.
+    const bool has_for_clause =
+        !ast.for_node.collection.empty() || !ast.for_nodes.empty();
+
+    if (!has_for_clause) {
+        // No FOR clause – nothing to bound.  Considered safe.
+        return result;
+    }
+
+    // Step 3: Queries with a COLLECT clause produce at most one row per
+    // distinct group, so they are not considered unbounded even without LIMIT.
+    if (ast.collect) {
+        return result;
+    }
+
+    // Step 4: Reject queries with FOR but without a LIMIT clause.
+    if (!ast.limit) {
+        result.is_safe = false;
+        result.error_message =
+            "Query contains an unbounded FOR loop without a LIMIT clause; "
+            "add LIMIT to prevent full-collection scans";
+        return result;
+    }
+
     return result;
 }
 
@@ -138,10 +256,36 @@ AQLInjectionDetector::validateParameter(const std::string& param) {
     
     // Validate parameter doesn't contain comment markers
     if (param.find("--") != std::string::npos ||
+        param.find("#") != std::string::npos ||
         param.find("/*") != std::string::npos ||
         param.find("*/") != std::string::npos) {
         result.is_safe = false;
         result.error_message = "Parameter contains comment markers";
+        return result;
+    }
+
+    // Reject classic boolean-blind bypass payloads like "OR 1==1" / "OR true"
+    static const std::regex kBooleanBypass(
+        R"(\bOR\b\s*(?:1\s*={1,2}\s*1|TRUE\b))",
+        std::regex::icase);
+    if (std::regex_search(param, kBooleanBypass)) {
+        result.is_safe = false;
+        result.error_message = "Parameter contains boolean bypass pattern";
+        return result;
+    }
+
+    // Reject UNION-style payloads (including AQL-style "UNION FOR ...")
+    static const std::regex kUnionPattern(R"(\bUNION\b)", std::regex::icase);
+    if (std::regex_search(param, kUnionPattern)) {
+        result.is_safe = false;
+        result.error_message = "Parameter contains UNION pattern";
+        return result;
+    }
+
+    // Reject stacked-query attempts early in parameter values.
+    if (param.find(';') != std::string::npos) {
+        result.is_safe = false;
+        result.error_message = "Parameter contains stacked-query separator";
         return result;
     }
     
@@ -179,6 +323,9 @@ bool AQLInjectionDetector::containsSuspiciousPatterns(const std::string& str) {
         // Command execution (SQL injection patterns)
         std::regex(R"(\b(EXEC|EXECUTE|SYSTEM|SHELL)\b)", std::regex::icase),
         
+        // Stored procedure / OS-command execution (MSSQL / SQL Server patterns)
+        std::regex(R"(\b(XP_CMDSHELL|SP_EXECUTESQL)\b)", std::regex::icase),
+        
         // File operations (SQL injection patterns)
         std::regex(R"(\b(LOAD_FILE|INTO\s+OUTFILE|INTO\s+DUMPFILE)\b)", std::regex::icase),
         
@@ -204,10 +351,17 @@ bool AQLInjectionDetector::containsSuspiciousPatterns(const std::string& str) {
 std::vector<std::string> AQLInjectionDetector::extractPatterns(const std::string& str) {
     std::vector<std::string> patterns;
     
+    // Pattern list mirrors the full suspicious-keyword set from containsSuspiciousPatterns()
+    // so that detected_patterns is non-empty whenever that function returns true.
     static const std::vector<std::regex> pattern_list = {
-        std::regex(R"(\b(DROP|DELETE|UPDATE|INSERT)\b)", std::regex::icase),
+        // DML/DDL and AQL write operations (matches the first pattern in containsSuspiciousPatterns)
+        std::regex(R"(\b(DROP|DELETE|UPDATE|INSERT|REPLACE|UPSERT|REMOVE)\b)", std::regex::icase),
         std::regex(R"(-{2}|/\*|\*/)"),
-        std::regex(R"(\bUNION\s+SELECT\b)", std::regex::icase),
+        std::regex(R"(\bUNION\s+(SELECT|ALL)\b)", std::regex::icase),
+        std::regex(R"(\b(EXEC|EXECUTE|SYSTEM|SHELL)\b)", std::regex::icase),
+        std::regex(R"(\b(XP_CMDSHELL|SP_EXECUTESQL)\b)", std::regex::icase),
+        std::regex(R"(\b(WAITFOR|BENCHMARK|SLEEP)\b)", std::regex::icase),
+        std::regex(R"(\b(LOAD_FILE|INTO\s+OUTFILE|INTO\s+DUMPFILE)\b)", std::regex::icase),
     };
     
     for (const auto& pattern : pattern_list) {
@@ -226,9 +380,14 @@ bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
     static const std::vector<std::string> keywords = {
         "DROP", "DELETE", "UPDATE", "INSERT", "REPLACE",
         "EXEC", "EXECUTE", "SYSTEM", "SHELL", "WAITFOR",
-        "BENCHMARK", "LOAD_FILE", "INTO OUTFILE", "UNION SELECT"
+        "BENCHMARK", "LOAD_FILE", "INTO OUTFILE", "UNION SELECT", "UNION"
     };
     
+    // Reject SQL-style single-line comment markers inside string literals.
+    if (str.find("--") != std::string::npos) {
+        return true;
+    }
+
     std::string upper_str = str;
     std::transform(upper_str.begin(), upper_str.end(), 
                   upper_str.begin(), ::toupper);
@@ -243,19 +402,149 @@ bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
 }
 
 bool AQLInjectionDetector::containsDangerousOperations(const query::Query& ast) {
-    // TODO (v1.4.0): Implement AST-level operation validation
-    // 
-    // Note: Standard AQL (ArangoDB-style) uses FOR...RETURN for read-only queries.
-    // Write operations (UPDATE, DELETE, INSERT, etc.) use separate AQL syntax
-    // and are not valid within FOR...RETURN query context.
-    // 
-    // Dangerous operations are currently detected via:
-    // 1. containsSuspiciousPatterns() - regex-based pattern detection
-    // 2. containsSQLKeywords() - keyword detection in string literals
-    // 
-    // This function returns false as pattern-based detection is more reliable
-    // for the standard AQL dialect. When dialect support expands, implement
-    // recursive AST traversal here to check for dangerous operation nodes.
+    // Dangerous AQL/SQL function names that must never appear in a query AST.
+    // Checked case-insensitively in scanExpressionForDangerousOps().
+    // This list intentionally mirrors the regex patterns in
+    // containsSuspiciousPatterns() to provide AST-level defense-in-depth
+    // against evasions that use non-standard whitespace, Unicode escapes, or
+    // comment-based obfuscation that can confuse regex matchers.
+    
+    // Check all filter conditions
+    for (const auto& filter : ast.filters) {
+        if (filter && filter->condition) {
+            if (scanExpressionForDangerousOps(filter->condition)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check return expression
+    if (ast.return_node && ast.return_node->expression) {
+        if (scanExpressionForDangerousOps(ast.return_node->expression)) {
+            return true;
+        }
+    }
+    
+    // Check sort expressions
+    if (ast.sort) {
+        for (const auto& spec : ast.sort->specifications) {
+            if (scanExpressionForDangerousOps(spec.expression)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check LET expressions
+    for (const auto& let_node : ast.let_nodes) {
+        if (let_node.expression) {
+            if (scanExpressionForDangerousOps(let_node.expression)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check CTE sub-queries (WITH clause)
+    if (ast.with_clause) {
+        for (const auto& cte : ast.with_clause->ctes) {
+            if (cte.subquery && containsDangerousOperations(*cte.subquery)) {
+                return true;
+            }
+        }
+    }
+    
+    // Check COLLECT group/aggregate expressions
+    if (ast.collect) {
+        for (const auto& [var, expr] : ast.collect->groups) {
+            if (scanExpressionForDangerousOps(expr)) {
+                return true;
+            }
+        }
+        for (const auto& agg : ast.collect->aggregations) {
+            if (scanExpressionForDangerousOps(agg.argument)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool AQLInjectionDetector::scanExpressionForDangerousOps(
+    const std::shared_ptr<query::Expression>& expr
+) {
+    if (!expr) return false;
+    
+    // Disallowed function names — checked case-insensitively.
+    static const std::unordered_set<std::string> kDangerousFunctions = {
+        "EXECUTE", "EXEC", "SYSTEM", "SHELL",
+        "XP_CMDSHELL", "SP_EXECUTESQL",
+        "WAITFOR", "BENCHMARK", "SLEEP",
+        "LOAD_FILE",
+    };
+    
+    auto node_type = expr->getType();
+    
+    if (node_type == query::ASTNodeType::FunctionCall) {
+        auto func_expr = std::static_pointer_cast<query::FunctionCallExpr>(expr);
+        std::string upper_name = func_expr->name;
+        std::transform(
+            upper_name.begin(),
+            upper_name.end(),
+            upper_name.begin(),
+            [](unsigned char c) { return static_cast<char>(std::toupper(c)); }
+        );
+        if (kDangerousFunctions.count(upper_name) > 0) {
+            return true;
+        }
+        for (const auto& arg : func_expr->arguments) {
+            if (scanExpressionForDangerousOps(arg)) {
+                return true;
+            }
+        }
+    } else if (node_type == query::ASTNodeType::BinaryOp) {
+        auto binary_expr = std::static_pointer_cast<query::BinaryOpExpr>(expr);
+        return scanExpressionForDangerousOps(binary_expr->left) ||
+               scanExpressionForDangerousOps(binary_expr->right);
+    } else if (node_type == query::ASTNodeType::UnaryOp) {
+        auto unary_expr = std::static_pointer_cast<query::UnaryOpExpr>(expr);
+        return scanExpressionForDangerousOps(unary_expr->operand);
+    } else if (node_type == query::ASTNodeType::ArrayLiteral) {
+        auto array_expr = std::static_pointer_cast<query::ArrayLiteralExpr>(expr);
+        for (const auto& elem : array_expr->elements) {
+            if (scanExpressionForDangerousOps(elem)) return true;
+        }
+    } else if (node_type == query::ASTNodeType::ObjectConstruct) {
+        auto obj_expr = std::static_pointer_cast<query::ObjectConstructExpr>(expr);
+        for (const auto& [key, value] : obj_expr->fields) {
+            if (scanExpressionForDangerousOps(value)) return true;
+        }
+    } else if (node_type == query::ASTNodeType::FieldAccess) {
+        auto field_expr = std::static_pointer_cast<query::FieldAccessExpr>(expr);
+        return scanExpressionForDangerousOps(field_expr->object);
+    } else if (node_type == query::ASTNodeType::SubqueryExpr) {
+        auto subq_expr = std::static_pointer_cast<query::SubqueryExpr>(expr);
+        if (subq_expr->subquery) {
+            return containsDangerousOperations(*subq_expr->subquery);
+        }
+    } else if (node_type == query::ASTNodeType::AnyExpr) {
+        auto any_expr = std::static_pointer_cast<query::AnyExpr>(expr);
+        return scanExpressionForDangerousOps(any_expr->arrayExpr) ||
+               scanExpressionForDangerousOps(any_expr->condition);
+    } else if (node_type == query::ASTNodeType::AllExpr) {
+        auto all_expr = std::static_pointer_cast<query::AllExpr>(expr);
+        return scanExpressionForDangerousOps(all_expr->arrayExpr) ||
+               scanExpressionForDangerousOps(all_expr->condition);
+    } else if (node_type == query::ASTNodeType::SimilarityCall) {
+        auto sim_expr = std::static_pointer_cast<query::SimilarityCallExpr>(expr);
+        for (const auto& arg : sim_expr->arguments) {
+            if (scanExpressionForDangerousOps(arg)) return true;
+        }
+    } else if (node_type == query::ASTNodeType::ProximityCall) {
+        auto prox_expr = std::static_pointer_cast<query::ProximityCallExpr>(expr);
+        for (const auto& arg : prox_expr->arguments) {
+            if (scanExpressionForDangerousOps(arg)) return true;
+        }
+    }
     
     return false;
 }
@@ -365,3 +654,4 @@ Result<std::shared_ptr<query::Query>> AQLInjectionDetector::parseAQL(const std::
 
 } // namespace security
 } // namespace themis
+

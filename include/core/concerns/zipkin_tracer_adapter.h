@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zipkin_tracer_adapter.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     389                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 52726f0a2  2026-02-26  feat(core): add Jaeger and Zipkin tracing backend adapters ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file zipkin_tracer_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -62,7 +50,8 @@ namespace concerns {
  *     can continue the trace.
  *
  * A circuit breaker guards every span-export call so that a failing or
- * unreachable Zipkin instance does not block the critical path.
+ * unreachable Zipkin instance does not block the critical path. When the
+ * breaker is open, span creation degrades to no-op spans.
  */
 class ZipkinTracerAdapter : public ITracer {
 public:
@@ -168,33 +157,33 @@ public:
     /**
      * @brief Extract trace context from inbound headers and start a child span.
      *
-     * Checks for headers in the following priority order:
-     *  1. W3C `traceparent` header (highest priority, handled by base Tracer).
-     *  2. B3 single header (`b3`).
-     *  3. B3 multi-headers (`X-B3-TraceId` / `X-B3-SpanId` / …).
-     *
-     * When B3 headers are detected the decoded IDs are attached as span
-     * attributes for Zipkin UI correlation.  W3C Baggage is also extracted.
+    * Checks for headers in the following priority order:
+    *  1. W3C `traceparent` header (highest priority, handled by base Tracer).
+    *  2. B3 single header (`b3`).
+    *  3. B3 multi-headers (`X-B3-TraceId` / `X-B3-SpanId` / …).
+    *
+    * When B3 headers are detected the decoded IDs are attached as span
+    * attributes for Zipkin UI correlation. W3C Baggage is also extracted.
      */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<ZipkinSpanAdapter>(themis::Tracer::Span{});
         }
 
         // W3C traceparent takes precedence.
-        std::string traceparent = headerValueCI(headers, "traceparent");
+        std::string traceparent = headerValueCI(carrier_headers, "traceparent");
         if (!traceparent.empty()) {
             auto span_ptr = std::make_unique<ZipkinSpanAdapter>(
-                themis::Tracer::startSpanFromHeaders(name, headers));
+                themis::Tracer::startSpanFromHeaders(name, carrier_headers));
             span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                                 : circuit_breaker_->recordFailure();
             return span_ptr;
         }
 
         // Try B3 single header first.
-        std::string b3_single = headerValueCI(headers, "b3");
+        std::string b3_single = headerValueCI(carrier_headers, "b3");
         B3Ids ids;
         bool has_b3 = false;
 
@@ -204,10 +193,10 @@ public:
 
         // Fall back to B3 multi-headers.
         if (!has_b3) {
-            ids.trace_id  = headerValueCI(headers, "X-B3-TraceId");
-            ids.span_id   = headerValueCI(headers, "X-B3-SpanId");
-            ids.parent_id = headerValueCI(headers, "X-B3-ParentSpanId");
-            ids.sampled   = headerValueCI(headers, "X-B3-Sampled");
+            ids.trace_id  = headerValueCI(carrier_headers, "X-B3-TraceId");
+            ids.span_id   = headerValueCI(carrier_headers, "X-B3-SpanId");
+            ids.parent_id = headerValueCI(carrier_headers, "X-B3-ParentSpanId");
+            ids.sampled   = headerValueCI(carrier_headers, "X-B3-Sampled");
             has_b3 = !ids.trace_id.empty() && !ids.span_id.empty();
         }
 
@@ -226,7 +215,7 @@ public:
         }
 
         // Extract W3C Baggage.
-        themis::Baggage::extract(headers);
+        themis::Baggage::extract(carrier_headers);
 
         span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                             : circuit_breaker_->recordFailure();
@@ -236,29 +225,29 @@ public:
     /**
      * @brief Inject trace context into outgoing headers.
      *
-     * Writes the W3C `traceparent` header, the B3 single header (`b3`), and
-     * B3 multi-headers (`X-B3-TraceId`, `X-B3-SpanId`, `X-B3-Sampled`) so
-     * downstream services using any of the three conventions can continue the
-     * trace.  Also injects W3C Baggage when any items are present.
+    * Writes the W3C `traceparent` header, the B3 single header (`b3`), and
+    * B3 multi-headers (`X-B3-TraceId`, `X-B3-SpanId`, `X-B3-Sampled`) so
+    * downstream services using any of the three conventions can continue the
+    * trace. Also injects W3C Baggage when any items are present.
      */
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();
         std::string span_id  = themis::Tracer::getCurrentSpanId();
 
         if (!trace_id.empty() && !span_id.empty()) {
             // W3C traceparent
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
 
             // B3 single header: {traceId}-{spanId}-{sampling}
-            headers["b3"] = trace_id + "-" + span_id + "-1";
+            carrier_headers["b3"] = trace_id + "-" + span_id + "-1";
 
             // B3 multi-headers
-            headers["X-B3-TraceId"] = trace_id;
-            headers["X-B3-SpanId"]  = span_id;
-            headers["X-B3-Sampled"] = "1";
+            carrier_headers["X-B3-TraceId"] = trace_id;
+            carrier_headers["X-B3-SpanId"]  = span_id;
+            carrier_headers["X-B3-Sampled"] = "1";
         }
 
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     // -------------------------------------------------------------------------

@@ -1,33 +1,55 @@
+/**
+ * @file retention_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            retention_api_handler.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     236                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: retention_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 303
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/retention_api_handler.h"
+#include "utils/input_validator.h"
 
 #include <algorithm>
 #include <spdlog/spdlog.h>
+#include "utils/tracing.h"
 
 using nlohmann::json;
 
 namespace themis { namespace server {
+
+namespace {
+
+constexpr size_t kMaxRetentionFieldLength = 256;
+
+bool isValidRetentionTextField(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), kMaxRetentionFieldLength) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+bool isValidPolicyName(std::string_view value) {
+    if (value.empty() || !isValidRetentionTextField(value)) {
+        return false;
+    }
+
+    return value.find("..") == std::string_view::npos &&
+           value.find('/') == std::string_view::npos &&
+           value.find('\\') == std::string_view::npos;
+}
+
+} // namespace
 
 RetentionApiHandler::RetentionApiHandler(std::shared_ptr<vcc::RetentionManager> retention_manager)
     : retention_manager_(std::move(retention_manager))
@@ -40,13 +62,24 @@ RetentionApiHandler::RetentionApiHandler(std::shared_ptr<vcc::RetentionManager> 
 }
 
 json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
-    auto all_policies = retention_manager_->getPolicies();
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+
+    if ((!filter.name_filter.empty() && !isValidRetentionTextField(filter.name_filter)) ||
+        (!filter.classification_filter.empty() && !isValidRetentionTextField(filter.classification_filter))) {
+        return json{{"status", "error"}, {"error", "Invalid filter parameter"}};
+    }
+
+    auto all_policies = retention_manager.getPolicies();
 
     // Apply filters
     std::vector<vcc::RetentionManager::RetentionPolicy> filtered;
     filtered.reserve(all_policies.size());
     
     for (const auto& policy : all_policies) {
+    auto span = Tracer::startSpan("listPolicies");
         bool matches = true;
         
         // Name filter (substring match)
@@ -92,15 +125,24 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
 
 json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     try {
+    auto span = Tracer::startSpan("createOrUpdatePolicy");
+        if (!retention_manager_) {
+            return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+        }
+        auto& retention_manager = *retention_manager_;
         auto policy = jsonToPolicy(policy_json);
+
+        if (!isValidPolicyName(policy.name) || !isValidRetentionTextField(policy.classification_level)) {
+            return json{{"status", "error"}, {"error", "Invalid policy fields"}};
+        }
         
         // Check if policy already exists
-        bool exists = (retention_manager_->getPolicy(policy.name) != nullptr);
+        bool exists = (retention_manager.getPolicy(policy.name) != nullptr);
         
-        if (!retention_manager_->registerPolicy(policy)) {
+        if (!retention_manager.registerPolicy(policy)) {
             return json{
                 {"status", "error"},
-                {"error", retention_manager_->getLastError()}
+                {"error", retention_manager.getLastError()}
             };
         }
         
@@ -121,7 +163,17 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
 }
 
 json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
-    if (!retention_manager_->removePolicy(policy_name)) {
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+
+    if (!isValidPolicyName(policy_name)) {
+        return json{{"status", "error"}, {"error", "Invalid policy name"}};
+    }
+
+    if (!retention_manager.removePolicy(policy_name)) {
+    auto span = Tracer::startSpan("deletePolicy");
         return json{
             {"status", "error"},
             {"error", "Policy not found or could not be deleted"}
@@ -137,10 +189,15 @@ json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
 }
 
 json RetentionApiHandler::getHistory(size_t limit) {
-    auto actions = retention_manager_->getHistory(limit);
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+    auto actions = retention_manager.getHistory(limit);
     
     json items = json::array();
     for (const auto& action : actions) {
+    auto span = Tracer::startSpan("getHistory");
         items.push_back(actionToJson(action));
     }
     
@@ -152,7 +209,17 @@ json RetentionApiHandler::getHistory(size_t limit) {
 }
 
 json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
-    auto stats = retention_manager_->getPolicyStats(policy_name);
+    auto span = Tracer::startSpan("getPolicyStats");
+    if (!retention_manager_) {
+        return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
+    }
+    auto& retention_manager = *retention_manager_;
+
+    if (!isValidPolicyName(policy_name)) {
+        return json{{"status", "error"}, {"error", "Invalid policy name"}};
+    }
+
+    auto stats = retention_manager.getPolicyStats(policy_name);
     
     return json{
         {"policy_name", policy_name},
@@ -168,6 +235,7 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
 // Helper methods
 
 json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPolicy& policy) {
+    auto span = Tracer::startSpan("policyToJson");
     return json{
         {"name", policy.name},
         {"retention_period_days", policy.retention_period.count() / 86400},
@@ -186,11 +254,17 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
     
     // Parse retention_period (days -> seconds)
     int retention_days = j.at("retention_period_days").get<int>();
+    if (retention_days <= 0) {
+        throw std::invalid_argument("retention_period_days must be positive");
+    }
     policy.retention_period = std::chrono::seconds(retention_days * 86400);
     
     // Parse archive_after (optional, default to retention_period / 2)
     if (j.contains("archive_after_days")) {
         int archive_days = j["archive_after_days"].get<int>();
+        if (archive_days < 0 || archive_days > retention_days) {
+            throw std::invalid_argument("archive_after_days must be between 0 and retention_period_days");
+        }
         policy.archive_after = std::chrono::seconds(archive_days * 86400);
     } else {
         policy.archive_after = policy.retention_period / 2;
@@ -209,6 +283,7 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
 }
 
 json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAction& action) {
+    auto span = Tracer::startSpan("actionToJson");
     // Convert timestamp to ISO 8601 string
     auto timestamp_t = std::chrono::system_clock::to_time_t(action.timestamp);
     std::tm tm;

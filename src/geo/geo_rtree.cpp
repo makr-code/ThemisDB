@@ -1,24 +1,21 @@
+/**
+ * @file geo_rtree.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_rtree.cpp                                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:58:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     251                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90f7ef343  2026-02-22  feat(geo): Add in-memory R-tree spatial index (GeoRTree) ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: geo_rtree.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 238
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=11, L=0
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #3622 feat(geo): Build system aud... (2026-03-12) | #2857 feat(geo): Integrate R-tree... (2026-03-12) | #2854 feat(geo): Spatial JOIN for... (2026-03-12) | #2520 [geo] Full GeoJSON RFC 7946... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "geo/geo_rtree.h"
@@ -28,7 +25,7 @@
 #include <stdexcept>
 
 // ── Boost.Geometry R-tree backend ─────────────────────────────────────────
-#ifdef THEMIS_GEO_BOOST_BACKEND
+#if defined(THEMIS_GEO_BOOST_BACKEND) && !defined(__linux__)
 #  if __has_include(<boost/geometry/index/rtree.hpp>)
 #    include <boost/geometry/geometries/box.hpp>
 #    include <boost/geometry/geometries/point_xy.hpp>
@@ -53,7 +50,7 @@ namespace geo {
 namespace bg  = boost::geometry;
 namespace bgi = boost::geometry::index;
 
-using BgPoint = bg::model::d2::point_xy<double>;
+using BgPoint = bg::model::point<double, 2, bg::cs::cartesian>;
 using BgBox   = bg::model::box<BgPoint>;
 
 // Each node stores (bounding-box, key-string)

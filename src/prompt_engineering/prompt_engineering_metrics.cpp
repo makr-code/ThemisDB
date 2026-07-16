@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_engineering_metrics.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     680                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_engineering_metrics.cpp
- * @brief Implementation of Prometheus metrics for prompt engineering
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "prompt_engineering/prompt_engineering_metrics.h"
@@ -45,6 +29,7 @@ PromptEngineeringMetrics::PromptEngineeringMetrics()
 // Optimization metrics
 void PromptEngineeringMetrics::recordOptimizationAttempt(const std::string& prompt_id) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     optimization_attempts_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -53,6 +38,8 @@ void PromptEngineeringMetrics::recordOptimizationSuccess(
     double improvement
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)improvement;
     optimization_successes_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -61,6 +48,8 @@ void PromptEngineeringMetrics::recordOptimizationFailure(
     const std::string& reason
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)reason;
     optimization_failures_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -69,6 +58,7 @@ void PromptEngineeringMetrics::recordOptimizationDuration(
     double duration_ms
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     optimization_total_duration_ms_.fetch_add(duration_ms, std::memory_order_relaxed);
 }
 
@@ -77,6 +67,7 @@ void PromptEngineeringMetrics::recordOptimizationIterations(
     int iterations
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     optimization_total_iterations_.fetch_add(iterations, std::memory_order_relaxed);
 }
 
@@ -86,6 +77,8 @@ void PromptEngineeringMetrics::recordABTestStart(
     const std::string& prompt_id
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)prompt_id;
     ab_test_starts_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -95,6 +88,9 @@ void PromptEngineeringMetrics::recordABTestObservation(
     bool success
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)version;
+    (void)success;
     ab_test_observations_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -104,6 +100,9 @@ void PromptEngineeringMetrics::recordABTestCompletion(
     double confidence
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)winner;
+    (void)confidence;
     ab_test_completions_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -112,6 +111,8 @@ void PromptEngineeringMetrics::recordABTestDuration(
     double duration_seconds
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)duration_seconds;
     // Could track per-test durations if needed
 }
 
@@ -127,6 +128,7 @@ void PromptEngineeringMetrics::recordPromptExecution(
     double latency_ms
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     prompt_executions_.fetch_add(1, std::memory_order_relaxed);
     if (success) {
         prompt_successes_.fetch_add(1, std::memory_order_relaxed);
@@ -187,6 +189,7 @@ void PromptEngineeringMetrics::recordFeedback(
 ) {
     if (!config_.enabled) return;
     feedback_total_.fetch_add(1, std::memory_order_relaxed);
+    (void)prompt_id;
     
     if (type == "USER_POSITIVE" || type == "POSITIVE") {
         feedback_positive_.fetch_add(1, std::memory_order_relaxed);
@@ -200,6 +203,8 @@ void PromptEngineeringMetrics::recordFeedbackSeverity(
     double severity
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)severity;
     // Could track severity distribution
 }
 
@@ -207,6 +212,7 @@ void PromptEngineeringMetrics::recordHallucinationDetection(
     const std::string& prompt_id
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     int64_t count = hallucination_detections_.fetch_add(1, std::memory_order_relaxed) + 1;
 
     if (alert_callback_ && count > alert_config_.max_hallucinations) {
@@ -224,6 +230,8 @@ void PromptEngineeringMetrics::recordFailedQuery(
     const std::string& failure_type
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)failure_type;
     failed_queries_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -232,6 +240,8 @@ void PromptEngineeringMetrics::recordTotalFeedbackCount(
     int64_t count
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)count;
     // Per-prompt feedback count
 }
 
@@ -240,6 +250,8 @@ void PromptEngineeringMetrics::recordPositiveRatio(
     double ratio
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)ratio;
     // Per-prompt positive ratio
 }
 
@@ -249,16 +261,20 @@ void PromptEngineeringMetrics::recordVersionCommit(
     const std::string& branch
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)branch;
     version_commits_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordVersionRollback(const std::string& prompt_id) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     version_rollbacks_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordBranchCreation(const std::string& prompt_id) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     branch_creations_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -268,6 +284,8 @@ void PromptEngineeringMetrics::recordMergeOperation(
     bool success
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)strategy;
     merge_operations_.fetch_add(1, std::memory_order_relaxed);
     if (success) {
         merge_successes_.fetch_add(1, std::memory_order_relaxed);
@@ -333,7 +351,7 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
     double avg_duration = 0.0;
     auto attempts = optimization_attempts_.load(std::memory_order_relaxed);
     if (attempts > 0) {
-        avg_duration = optimization_total_duration_ms_.load(std::memory_order_relaxed) / attempts;
+        avg_duration = optimization_total_duration_ms_.load(std::memory_order_relaxed) / static_cast<double>(attempts);
     }
     oss << formatMetric(
         prefix + "_optimization_duration_ms_avg",
@@ -396,7 +414,7 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
     double success_rate = 0.0;
     auto executions = prompt_executions_.load(std::memory_order_relaxed);
     if (executions > 0) {
-        success_rate = static_cast<double>(prompt_successes_.load(std::memory_order_relaxed)) / executions;
+        success_rate = static_cast<double>(prompt_successes_.load(std::memory_order_relaxed)) / static_cast<double>(executions);
     }
     oss << formatMetric(
         prefix + "_prompt_success_rate",
@@ -407,7 +425,7 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
 
     double avg_latency = 0.0;
     if (executions > 0) {
-        avg_latency = prompt_total_latency_ms_.load(std::memory_order_relaxed) / executions;
+        avg_latency = prompt_total_latency_ms_.load(std::memory_order_relaxed) / static_cast<double>(executions);
     }
     oss << formatMetric(
         prefix + "_prompt_latency_ms_avg",
@@ -503,6 +521,49 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
         background_worker_cycles_.load(std::memory_order_relaxed)
     );
 
+    // Reflection Tuning metrics
+    oss << formatMetric(
+        prefix + "_reflection_cycle_starts_total",
+        "Total number of reflection tuning cycles started",
+        "counter",
+        reflection_cycle_starts_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_cycle_completions_total",
+        "Total number of reflection tuning cycles completed",
+        "counter",
+        reflection_cycle_completions_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_iterations_total",
+        "Total number of generate-critique-revise iterations across all cycles",
+        "counter",
+        reflection_iterations_total_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_improvements_total",
+        "Total number of reflection cycles that improved response quality",
+        "counter",
+        reflection_improvements_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_guard_fires_total",
+        "Total number of times ReflectionHallucinationGuard halted a cycle",
+        "counter",
+        reflection_guard_fires_.load(std::memory_order_relaxed)
+    );
+
+    oss << formatMetric(
+        prefix + "_reflection_quality_delta_sum",
+        "Sum of all quality deltas produced by reflection cycles",
+        "gauge",
+        reflection_quality_delta_sum_.load(std::memory_order_relaxed)
+    );
+
     return oss.str();
 }
 
@@ -540,6 +601,13 @@ void PromptEngineeringMetrics::reset() {
     background_worker_cycles_.store(0);
     background_worker_total_duration_ms_.store(0.0);
 
+    reflection_cycle_starts_.store(0);
+    reflection_cycle_completions_.store(0);
+    reflection_iterations_total_.store(0);
+    reflection_improvements_.store(0);
+    reflection_guard_fires_.store(0);
+    reflection_quality_delta_sum_.store(0.0);
+
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     prompt_success_rates_.clear();
     prompt_avg_latencies_.clear();
@@ -570,6 +638,26 @@ std::string PromptEngineeringMetrics::formatMetric(
     oss << " " << std::fixed << std::setprecision(2) << value << "\n";
     
     return oss.str();
+}
+
+std::string PromptEngineeringMetrics::formatMetric(
+    const std::string& name,
+    const std::string& help,
+    const std::string& type,
+    int64_t value,
+    const std::map<std::string, std::string>& labels
+) const {
+    return formatMetric(name, help, type, static_cast<double>(value), labels);
+}
+
+std::string PromptEngineeringMetrics::formatMetric(
+    const std::string& name,
+    const std::string& help,
+    const std::string& type,
+    int value,
+    const std::map<std::string, std::string>& labels
+) const {
+    return formatMetric(name, help, type, static_cast<double>(value), labels);
 }
 
 std::string PromptEngineeringMetrics::formatLabels(
@@ -622,6 +710,12 @@ nlohmann::json PromptEngineeringMetrics::snapshotToJson() const {
     j["integration_after_calls"]         = integration_after_calls_.load(std::memory_order_relaxed);
     j["background_worker_cycles"]        = background_worker_cycles_.load(std::memory_order_relaxed);
     j["background_worker_total_duration_ms"] = background_worker_total_duration_ms_.load(std::memory_order_relaxed);
+    j["reflection_cycle_starts"]         = reflection_cycle_starts_.load(std::memory_order_relaxed);
+    j["reflection_cycle_completions"]    = reflection_cycle_completions_.load(std::memory_order_relaxed);
+    j["reflection_iterations_total"]     = reflection_iterations_total_.load(std::memory_order_relaxed);
+    j["reflection_improvements"]         = reflection_improvements_.load(std::memory_order_relaxed);
+    j["reflection_guard_fires"]          = reflection_guard_fires_.load(std::memory_order_relaxed);
+    j["reflection_quality_delta_sum"]    = reflection_quality_delta_sum_.load(std::memory_order_relaxed);
     return j;
 }
 
@@ -663,6 +757,12 @@ void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
     load_i64("integration_after_calls",         integration_after_calls_);
     load_i64("background_worker_cycles",        background_worker_cycles_);
     load_dbl("background_worker_total_duration_ms", background_worker_total_duration_ms_);
+    load_i64("reflection_cycle_starts",         reflection_cycle_starts_);
+    load_i64("reflection_cycle_completions",    reflection_cycle_completions_);
+    load_i64("reflection_iterations_total",     reflection_iterations_total_);
+    load_i64("reflection_improvements",         reflection_improvements_);
+    load_i64("reflection_guard_fires",          reflection_guard_fires_);
+    load_dbl("reflection_quality_delta_sum",    reflection_quality_delta_sum_);
 }
 
 // ============================================================================
@@ -679,5 +779,50 @@ void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
     alert_callback_ = std::move(cb);
 }
 
+// ============================================================================
+// Reflection Tuning metrics
+// ============================================================================
+
+void PromptEngineeringMetrics::recordReflectionCycleStart(
+    const std::string& /*prompt_id*/) {
+    if (!config_.enabled) return;
+    reflection_cycle_starts_.fetch_add(1, std::memory_order_relaxed);
+}
+
+void PromptEngineeringMetrics::recordReflectionCycleComplete(
+    const std::string& /*prompt_id*/,
+    size_t iterations,
+    bool   improved) {
+    if (!config_.enabled) return;
+    reflection_cycle_completions_.fetch_add(1, std::memory_order_relaxed);
+    reflection_iterations_total_.fetch_add(static_cast<int64_t>(iterations),
+                                           std::memory_order_relaxed);
+    if (improved) {
+        reflection_improvements_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+void PromptEngineeringMetrics::recordReflectionGuardFired(
+    const std::string& /*prompt_id*/) {
+    if (!config_.enabled) return;
+    reflection_guard_fires_.fetch_add(1, std::memory_order_relaxed);
+}
+
+void PromptEngineeringMetrics::recordReflectionQualityDelta(
+    const std::string& /*prompt_id*/,
+    double delta) {
+    if (!config_.enabled) return;
+    // Atomic double accumulation via CAS loop (same pattern as existing code).
+    double current = reflection_quality_delta_sum_.load(std::memory_order_relaxed);
+    double desired;
+    do {
+        desired = current + delta;
+    } while (!reflection_quality_delta_sum_.compare_exchange_weak(
+                 current, desired,
+                 std::memory_order_relaxed,
+                 std::memory_order_relaxed));
+}
+
 } // namespace prompt_engineering
 } // namespace themis
+

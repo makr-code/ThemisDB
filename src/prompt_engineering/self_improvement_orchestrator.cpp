@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            self_improvement_orchestrator.cpp                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     662                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file self_improvement_orchestrator.cpp
- * @brief Implementation of self-improvement orchestration
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=7, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "prompt_engineering/self_improvement_orchestrator.h"
@@ -171,12 +155,21 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     result.prompt_id = prompt_id;
     result.status = OptimizationStatus::NOT_STARTED;
     result.started_at = std::chrono::system_clock::now();
+
+    auto finalizeResult = [&](OptimizationStatus fallback_status) {
+        if (result.status == OptimizationStatus::NOT_STARTED) {
+            result.status = fallback_status;
+        }
+        result.completed_at = std::chrono::system_clock::now();
+        optimization_history_[prompt_id].push_back(result);
+        last_optimization_[prompt_id] = result.completed_at;
+        return result;
+    };
     
     if (!optimizer_ || !manager_ || !tracker_) {
         THEMIS_ERROR("Required components not available");
         result.status = OptimizationStatus::FAILED;
-        result.completed_at = std::chrono::system_clock::now();
-        return result;
+        return finalizeResult(OptimizationStatus::FAILED);
     }
     
     // Get current prompt template
@@ -184,8 +177,7 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     if (!template_opt.has_value()) {
         THEMIS_ERROR("Prompt template not found: {}", prompt_id);
         result.status = OptimizationStatus::FAILED;
-        result.completed_at = std::chrono::system_clock::now();
-        return result;
+        return finalizeResult(OptimizationStatus::FAILED);
     }
     
     result.original_version = template_opt->content;
@@ -301,13 +293,9 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
         result.metadata["error"] = e.what();
     }
     
-    result.completed_at = std::chrono::system_clock::now();
-    
-    // Save to history
-    optimization_history_[prompt_id].push_back(result);
-    last_optimization_[prompt_id] = result.completed_at;
-    
-    return result;
+    return finalizeResult(result.status == OptimizationStatus::NOT_STARTED
+                              ? OptimizationStatus::COMPLETED
+                              : result.status);
 }
 
 std::string SelfImprovementOrchestrator::startABTest(
@@ -341,7 +329,7 @@ void SelfImprovementOrchestrator::recordABTestObservation(
     const std::string& test_id,
     const std::string& version_used,
     bool success,
-    double latency_ms
+    double /*latency_ms*/
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -663,3 +651,4 @@ std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
 
 } // namespace prompt_engineering
 } // namespace themis
+

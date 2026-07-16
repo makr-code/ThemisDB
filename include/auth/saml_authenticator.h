@@ -1,27 +1,21 @@
+/**
+ * @file saml_authenticator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.20
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            saml_authenticator.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-09 03:52:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     305                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 52bf149ea  2026-02-24  fix(auth): correct processResponse doc comment - step lis... ║
-    • 63f2b0f83  2026-02-24  feat(auth): implement SAML 2.0 SP-initiated and IdP-initi... ║
-    • 8bd556e18  2026-02-24  feat(auth): complete audit logging coverage for SAML, OAu... ║
-    • d7c4a035d  2026-02-22  Fix SAML encrypted assertion stub: enforce EncryptedAsser... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: saml_authenticator.h | Version: 0.0.20 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 326
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4144 feat(auth): SAML Assertion ... (2026-03-13) | #2769 feat(auth): implement SAML ... (2026-03-12) | #2566 [auth] SAML 2.0: enforce En... (2026-03-12) | #2392 feat(auth): SAML 2.0 SP aut... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -34,6 +28,9 @@
 #include <chrono>
 #include <mutex>
 #include <functional>
+
+// Forward-declare pugi::xml_node to avoid a full pugixml include in the public header.
+namespace pugi { class xml_node; }
 
 namespace themis {
 namespace utils { class AuditLogger; }
@@ -60,11 +57,11 @@ namespace auth {
  *    namespace prefixes or whitespace normalization may fail verification when
  *    interoperating with strict IdPs. Production deployments requiring strict
  *    C14N compliance should integrate a C14N library (e.g., libxml2 c14n support).
- *  - Encrypted assertions (EncryptedAssertion element) are not yet supported.
- *    When an EncryptedAssertion is present in the SAMLResponse, processResponse()
- *    throws AUTH_NOT_IMPLEMENTED. Implementing decryption requires SP private-key
- *    configuration and an XML encryption library.  Setting require_encrypted_assertion
- *    to true will also throw AUTH_NOT_IMPLEMENTED, preventing accidental silent bypass.
+ *  - Encrypted assertions (EncryptedAssertion element) are supported when
+ *    SAMLConfig::sp_private_key_loader is provided.  AES-128-CBC and AES-256-CBC
+ *    data encryption with RSA-OAEP or RSA-PKCS1-v1.5 key transport are supported.
+ *    When sp_private_key_loader is not configured and an EncryptedAssertion is
+ *    received, SAML_DECRYPTION_FAILED is thrown with a clear diagnostic message.
  *  - The in-process replay cache does not survive process restarts; high-availability
  *    deployments should use a shared TTL store (e.g., Redis).
  *
@@ -92,8 +89,25 @@ struct SAMLConfig {
     std::chrono::seconds clock_skew{60};          ///< Allowed clock skew for NotBefore/NotOnOrAfter
     bool require_signed_response{true};            ///< Whether SAMLResponse element must be signed
     bool require_signed_assertion{true};           ///< Whether Assertion element must be signed
-    bool require_encrypted_assertion{false};       ///< When true, throws AUTH_NOT_IMPLEMENTED (XML assertion decryption is not yet supported; this flag is reserved for future SP private-key decryption support)
+    bool require_encrypted_assertion{false};       ///< When true, plain (unencrypted) Assertions are rejected with SAML_INVALID_RESPONSE. Use together with sp_private_key_loader to enforce encrypted-only assertion delivery.
     size_t max_replay_cache_size{100000};          ///< Maximum number of assertion IDs to keep in the in-memory replay cache
+
+    // SP private key loader for assertion decryption (EncryptedAssertion support).
+    // Called lazily when a SAMLResponse with an EncryptedAssertion element is received.
+    // The callback MUST return an *unencrypted* (passphrase-free) PEM-encoded PKCS#8 or
+    // PKCS#1 RSA private key string.  Passphrase-protected PEM keys are not supported
+    // by the decryption path; decrypt the key before returning it from the loader.
+    // Return an empty string to signal that the key is unavailable.
+    //
+    // Security note: NEVER store the private key as a hardcoded string. Load it
+    // from a hardware security module (HSM), key management service (KMS), or
+    // a secrets manager (e.g. HashiCorp Vault, AWS Secrets Manager).
+    // Example (environment variable – minimum acceptable for non-production):
+    //   cfg.sp_private_key_loader = []() {
+    //       const char* p = std::getenv("SP_PRIVATE_KEY_PEM");
+    //       return p ? std::string(p) : std::string{};
+    //   };
+    std::function<std::string()> sp_private_key_loader;
 
     // Attribute mapping (IdP attribute name → local claim name)
     std::string attr_email{"email"};               ///< Attribute name carrying the user's email
@@ -103,6 +117,15 @@ struct SAMLConfig {
     // Optional: NameID policy to request in AuthnRequest
     std::string requested_authn_context{
         "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"};
+
+    // Algorithm security policy.
+    // SHA-1 based digest and signature algorithms (e.g. http://www.w3.org/2000/09/xmldsig#sha1,
+    // http://www.w3.org/2000/09/xmldsig#rsa-sha1) are cryptographically broken and
+    // MUST NOT be accepted in new deployments (CWE-327, NIST SP 800-131A rev. 2).
+    // Set to true ONLY for temporary backward compatibility with legacy IdPs that
+    // cannot yet be migrated to SHA-256.  Log a security warning each time SHA-1
+    // is encountered regardless of this setting.
+    bool allow_sha1_deprecated{false};
 };
 
 // ============================================================================
@@ -274,9 +297,9 @@ private:
     static std::vector<uint8_t> base64Decode(const std::string& input);
 
     /// Verify an enveloped XML signature using the IdP public key
-    /// @param signed_xml  Raw XML of the signed element
+    /// @param reference_xml  Raw XML of the signed element
     /// @param signature_value_b64  Base64-encoded signature bytes
-    /// @param signed_info_xml  Canonicalized SignedInfo XML for digest verification
+    /// @param signed_info_c14n  Canonicalized SignedInfo XML for digest verification
     /// @param digest_value_b64 Base64-encoded digest value from Reference
     /// @param digest_algorithm_uri URI identifying digest algorithm
     /// @param sig_algorithm_uri    URI identifying signature algorithm
@@ -299,6 +322,15 @@ private:
     /// Internal implementation of processResponse (called by the public method)
     SAMLClaims processResponseImpl(const std::string& saml_response_b64,
                                    const std::string& in_response_to) const;
+
+    /// Decrypt an EncryptedAssertion element using the SP private key loaded via
+    /// SAMLConfig::sp_private_key_loader.  Supports AES-128-CBC and AES-256-CBC
+    /// data encryption with RSA-OAEP (default) or RSA-PKCS1-v1.5 key transport.
+    ///
+    /// @param encrypted_assertion_node  The <EncryptedAssertion>lt;EncryptedAssertion<EncryptedAssertion>gt; pugixml node
+    /// @return Decrypted assertion XML as a UTF-8 string
+    /// @throws AuthException (SAML_DECRYPTION_FAILED) on any failure
+    std::string decryptAssertion(const pugi::xml_node& encrypted_assertion_node) const;
 };
 
 } // namespace auth

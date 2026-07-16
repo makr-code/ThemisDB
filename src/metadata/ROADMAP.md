@@ -1,96 +1,71 @@
 # Metadata Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.5.x – Full-featured, production-ready metadata layer. All Phase 1–3 items are complete.
-Schema introspection, statistics with equi-height histograms, changefeed notifications, adaptive
-TTL, audit log, consistency checker, ER diagram export, external catalog integration (Apache Atlas,
-DataHub), column lineage, distributed catalog, and the Schema API REST endpoint are all shipped.
 
-## Completed ✅
-- [x] SchemaManager – automatic table discovery via RocksDB key scanning
-- [x] Property type detection from stored entities
-- [x] Index metadata collection from IndexManager
-- [x] Relationship discovery (graph edges and foreign keys)
-- [x] Thread-safe metadata cache with configurable TTL (default 60 s)
-- [x] SystemCatalog – table, column, index, and statistics metadata persistence (implemented within `schema_manager.cpp`)
-- [x] INFORMATION_SCHEMA views (tables, columns, indexes, statistics)
-- [x] StatisticsCollector – cardinality, selectivity, equi-height histograms, and data distribution
-- [x] Schema version tracking, change history, diff, and migration script generation (Issue: #1946)
-- [x] Real-time schema change notifications via changefeeds (Issue: #1947)
-- [x] Adaptive TTL based on table mutation rate (Issue: #1948)
-- [x] Column-level statistics histograms for improved query planning (Issue: #1949)
-- [x] Cross-collection relationship graph – ER diagram export (Mermaid, DOT, JSON) (Issue: #1993)
-- [x] Metadata API endpoint (`GET /api/v1/schema`, lineage, audit) via SchemaApiHandler
-- [x] Schema validation against user-defined constraints (SchemaConstraints)
-- [x] Index usage tracking and auto-recommendations (IndexRecommender)
-- [x] Schema audit log (SchemaAuditLog – durable, per-table audit trail in RocksDB)
-- [x] Schema consistency checker (SchemaConsistencyChecker – background health scan)
-- [x] Distributed metadata catalog across shards (DistributedMetadataCatalog) (Issue: #1961)
-- [x] Integration with external data catalogs – Apache Atlas and DataHub (Issue: #2414)
-- [x] Column lineage and data provenance tracking (ColumnLineageTracker)
-- [x] Lazy loading and incremental updates
-- [x] AQL integration for metadata queries
+Production metadata runtime exists across schema discovery, consistency tooling, lineage/export behavior, distributed metadata surfaces, and information-schema/statistics support.
 
-## Planned Features 📋
+## In Progress
 
-### Long-term (> 12 months)
-- [ ] Auto-generated OpenAPI schema from stored documents (Target: v2.0 / Q3 2027)
-- [x] Schema migration validation via `validateMigration` API
-- [ ] Explicit compat-mode policy enforcement (forward/backward) (Target: v1.9 / Q1 2027)
+- [~] hardening metadata edge-case handling across schema, consistency, and export surfaces (Target: Q3 2026)
+- [~] benchmark stabilization for metadata cache and metadata access hot paths (Target: Q3 2026)
+- [~] diagnostics consistency for schema, export, and distributed-catalog incident classes (Target: Q3 2026)
+
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under high metadata churn and concurrent access scenarios (Target: Q4 2026)
+- [ ] expand stress coverage for consistency/lineage/export edge cases (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for metadata incident triage (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for metadata access and cache operations (Target: Q1 2027)
+- [ ] broaden benchmark depth beyond cache-centric metadata hot paths (Target: Q1 2027)
+- [ ] harden long-running reliability under sustained schema mutation pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Schema Introspection & Catalog (Status: Completed ✅)
-- [x] SchemaManager: automatic table discovery via RocksDB key scanning (`metadata/schema_manager.cpp`)
-- [x] Property type detection from stored entities
-- [x] Index metadata collection from IndexManager
-- [x] Relationship discovery (graph edges and foreign keys)
-- [x] Thread-safe metadata cache with configurable TTL (default 60 s)
-- [x] SystemCatalog: table, column, index, and statistics metadata persistence (implemented within `metadata/schema_manager.cpp`; no separate `system_catalog.cpp`)
-- [x] INFORMATION_SCHEMA views: tables, columns, indexes, statistics
-- [x] StatisticsCollector: cardinality, selectivity, and data distribution
-- [x] Schema version tracking and change history
-- [x] Lazy loading, incremental updates, and AQL integration
+### Phase 1: Design / API Contract
+- [ ] freeze schema/consistency/export contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for schema/export/distributed metadata failure classes (Target: Q3 2026)
 
-### Phase 2: Live Schema Changes & Adaptive Caching (Status: Completed ✅)
-- [x] Schema diff and migration script generation (`schema_version_manager.cpp`)
-- [x] Real-time schema change notifications via changefeeds (`schema_manager.cpp::setChangefeed`)
-- [x] Adaptive TTL based on table mutation rate (`schema_manager.cpp::enableAdaptiveTTL`)
+### Phase 2: Core Implementation
+- [ ] complete hardening for metadata orchestration internals (Target: Q4 2026)
+- [ ] align consistency/lineage/export behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Distributed Catalog & Lineage (Status: Completed ✅)
-- [x] Column-level statistics histograms for improved query planning (`statistics_collector.cpp`)
-- [x] Distributed metadata catalog across shards (`distributed_catalog.cpp`)
-- [x] Cross-collection relationship graph – ER diagram export (`er_diagram_exporter.cpp`)
-- [x] Column lineage and data provenance tracking (`column_lineage.cpp`)
-- [x] Integration with external data catalogs – Apache Atlas and DataHub (`catalog_exporter.cpp`)
-- [x] Schema audit log – durable per-table audit trail (`schema_audit_log.cpp`)
-- [x] Schema consistency checker – background health scan (`schema_consistency_checker.cpp`)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for malformed schema and export failure scenarios (Target: Q4 2026)
+- [ ] unify diagnostics across schema/consistency/export incidents (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for metadata consistency and export edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for metadata cache and schema mutation operations (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for metadata hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core metadata module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (test_schema_manager, test_statistics_collector, test_information_schema,
-  test_schema_version_manager, test_schema_constraints, test_schema_changefeed,
-  test_schema_audit_log, test_schema_consistency_checker, test_column_lineage,
-  test_catalog_exporter, test_er_diagram_exporter, test_distributed_catalog,
-  test_index_recommender, test_statistics_auto_refresh, …)
-- [x] Integration tests (test_information_schema, test_schema_changefeed, test_schema_api_lineage)
-- [?] Performance benchmarks (cache hit rate, scan latency) – planned for v1.6.0
-- [?] Security audit (metadata access control, information disclosure) – planned for v1.6.0
-- [x] Documentation complete (README.md in src/metadata/ and include/metadata/, ARCHITECTURE.md,
-  FUTURE_ENHANCEMENTS.md)
-- [x] API stability guaranteed (SchemaManager public API stable from v1.x; no breaking changes planned)
 
-## Known Issues & Limitations
-- Full table scan required on first load; large databases may experience slow initial discovery
-  (< 30 s target for up to 10 M keys).
-- Statistics are approximate (sample-based); equi-height histogram accuracy is within ±20% of
-  true cardinality for uniform and skewed distributions.
-- Schema version history is persisted to RocksDB; bounded to last 1,000 versions in-memory to
-  prevent unbounded growth.
-- `validateMigration` checks basic structural consistency; a full compat-mode policy engine
-  (explicit forward/backward enforcement) is planned for v1.9 / Q1 2027.
+- [x] core metadata surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for schema/consistency/export edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on schema scale, cache state, and configured integration/export paths.
+- selected schema/consistency/export edge scenarios need continued hardening.
+- benchmark breadth should continue expanding beyond metadata-cache dominant paths.
 
 ## Breaking Changes
-- INFORMATION_SCHEMA view column names follow SQL standard; no planned breaking changes.
-- `SchemaManager` public API is stable from v1.x.
+
+No breaking metadata contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

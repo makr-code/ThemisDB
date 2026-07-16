@@ -1,78 +1,71 @@
 # API Module Roadmap
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (graphql-transport-ws protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement.
 
-## Completed ✅
-- [x] HTTP server integration (Crow/Beast)
-- [x] RESTful document CRUD endpoints
-- [x] AQL query execution endpoint
-- [x] Graph operation endpoints
-- [x] Authentication and authorization middleware
-- [x] TLS/SSL support
-- [x] Request/response handling pipeline
-- [x] API middleware infrastructure
-- [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
-- [x] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
-- [x] GraphQL schema for multi-model queries (Issue: #1493)
-- [x] WebSocket support for real-time change subscriptions (Issue: #1494)
-- [x] Rate limiting middleware (Issue: #1495)
-- [x] Request tracing and correlation IDs — `TracingMiddleware` with `X-Correlation-ID` propagation (Issue: #1496)
-- [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
-- [x] API gateway integration (Kong, Nginx) (Issue: #1500)
-- [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
-- [x] Multi-tenant namespace routing (Issue: #1503)
-- [x] Async job API for long-running queries (Issue: #1504)
-- [x] GraphQL over WebSocket subscription transport (`graphql-transport-ws` protocol) — `api/graphql_ws_handler.cpp`
-- [x] `QueryLimits::max_subscriptions` per-connection cap to prevent fan-out DoS
+Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing middleware, and OTLP export integration.
 
-## In Progress 🚧
-- [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
+## In Progress
 
-## Planned Features 📋
+- [~] protocol hardening and consistency pass for advanced API transport behaviors (Target: Q3 2026)
+- [~] benchmark and release-gate consolidation for API transport paths (Target: Q3 2026)
+- [~] observability and transport reliability alignment under sustained concurrency (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
+## Planned Features
 
-### Long-term (6-12 months)
-- [I] API key management endpoint (Issue: #1502)
+### Short-term (3-6 months)
+- [ ] complete remaining API surface specification and contract consistency tasks (Target: Q4 2026)
+- [ ] strengthen degraded-mode handling for optional transport features (Target: Q4 2026)
+- [ ] extend integration diagnostics for protocol-level failure classes (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
+- [ ] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
+- [ ] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Core HTTP API (Status: Completed)
-- [x] Integrated Crow/Beast HTTP server with request routing
-- [x] Implemented RESTful CRUD endpoints for documents, graphs, and collections
-- [x] Implemented AQL query execution endpoint (handled in `src/server/http_server.cpp`)
-- [x] Implemented authentication and authorization middleware (`api/auth_middleware.cpp`)
-- [x] Added TLS/SSL support with certificate configuration
-- [x] Built request/response handling pipeline with error serialization
+### Phase 1: Design / API Contract
+- [ ] lock transport-surface contracts for active major line (Target: Q3 2026)
+- [ ] define explicit failure contracts across GraphQL/gRPC/WebSocket adaptation paths (Target: Q3 2026)
 
-### Phase 2: GraphQL, WebSocket, and API Hardening (Status: Completed)
-- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql.cpp` + `server/graphql_api_handler.cpp`) (Issue: #1515)
-- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
-- [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
-- [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
-- [x] Add request correlation IDs propagated through all log lines — `TracingMiddleware` in `tracing_middleware.cpp` (Issue: #1519)
-- [x] Implement GraphQL over WebSocket subscription handler (`api/graphql_ws_handler.cpp`) with `graphql-transport-ws` protocol and `QueryLimits::max_subscriptions` enforcement
+### Phase 2: Core Implementation
+- [ ] close remaining hardening deltas in protocol-adapter and middleware surfaces (Target: Q4 2026)
+- [ ] align gRPC and WebSocket edge behavior with shared API policy contracts (Target: Q4 2026)
 
-### Phase 3: gRPC, Versioning, and SDK Generation (Status: In Progress 🚧)
-- [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
-- [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
-- [x] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
-- [x] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for malformed payload and unsupported capability states (Target: Q4 2026)
+- [ ] unify error taxonomy across transport adapters and middleware paths (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for high-concurrency and transport-edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic integration matrix coverage for protocol combinations (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for API parsing/execution/serialization hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 envelopes under representative concurrency profiles (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core API docs aligned to source-verifiable behavior
+- [x] roadmap/future vs changelog role separation synchronized
 
 ## Production Readiness Checklist
-- [P] Unit tests coverage > 80% (Issue: #1509)
-- [P] Integration tests (Issue: #1510)
-- [P] Performance benchmarks (Issue: #1511)
-- [x] Security audit (Issue: #1512)
-- [I] Documentation complete (Issue: #1513)
-- [I] API stability guaranteed (Issue: #1514)
 
-## Known Issues & Limitations
-- OpenAPI specification may be incomplete for newer endpoints
+- [x] core transport adapter surfaces documented and source-verified
+- [x] security and failure handling documented at module level
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining API hardening items closed
+- [ ] all targeted release-gate benchmarks stabilized
+
+## Known Issues and Limitations
+
+- some transport surfaces remain configuration/capability dependent by deployment profile.
+- benchmark and specification hardening remains an active follow-up area.
+- continued edge-case hardening is required for high-concurrency protocol scenarios.
 
 ## Breaking Changes
-- GraphQL schema will be introduced as a new endpoint (non-breaking to REST)
-- gRPC surface planned for a future major version
+
+No breaking API module contract planned. Any transport contract break requires migration notes and changelog entry before merge.

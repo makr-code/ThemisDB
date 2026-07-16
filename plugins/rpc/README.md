@@ -8,7 +8,9 @@ Remote Procedure Call (RPC) backend plugins for ThemisDB, enabling high-performa
 
 ### gRPC ✅
 **Path:** `grpc/`  
-**Entry-point:** `plugins/rpc/grpc/grpc_plugin.cpp`
+**Public API:** `include/plugins/rpc/grpc_plugin.h`  
+**Implementation:** `src/rpc_grpc/`  
+**Legacy compatibility path:** `plugins/rpc/grpc/`
 
 HTTP/2-based, Protocol Buffers serialisation, mutual TLS (mTLS) support.
 
@@ -23,8 +25,14 @@ PluginManager  (include/plugins/plugin_manager.h)
     ↓
 IRPCPlugin  (include/plugins/rpc_plugin_interface.h)
     ↓
-gRPC Backend  (plugins/rpc/grpc/)
+gRPC Backend  (src/rpc_grpc/)
 ```
+
+## Integration Notes
+
+- The canonical implementation now lives in `src/rpc_grpc/`.
+- Public includes should use `include/plugins/rpc/grpc_plugin.h`.
+- `plugins/rpc/grpc/` is retained as a compatibility CMake entry point for older workflows.
 
 ## Development Status
 
@@ -45,5 +53,5 @@ gRPC Backend  (plugins/rpc/grpc/)
 ---
 
 > Each plugin has its own documentation:
-> - [`roadmap.md`](roadmap.md) – planned work
-> - [`future_enhancements.md`](future_enhancements.md) – ideas backlog
+> - [`ROADMAP.md`](ROADMAP.md) – planned work
+> - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) – ideas backlog

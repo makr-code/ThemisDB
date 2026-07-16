@@ -451,7 +451,7 @@ This plugin is part of ThemisDB and follows the same license.
 
 For issues and questions:
 
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
+- GitHub Issues: https://github.com/makr-code/wordpressPlugins/issues
 - Documentation: https://themisdb.com/docs/plugins/huggingface
 
 ## Changelog

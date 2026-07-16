@@ -301,5 +301,5 @@ git fetch --unshallow
 
 ---
 
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2026-04-06  
 **Maintainer:** ThemisDB Development Team

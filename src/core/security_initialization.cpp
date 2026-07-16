@@ -1,23 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            security_initialization.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     302                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file security_initialization.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "core/security_initialization.h"
@@ -27,15 +16,29 @@
 #include "security/vault_key_provider.h"
 #include "security/hsm_provider.h"
 #include "security/hsm_key_provider_adapter.h"
+#include <algorithm>
+#include <cctype>
+#include <filesystem>
 #include <fstream>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 
+/**
+ * @brief Construct a security-layer builder with empty/default state.
+ */
 SecurityLayerBuilder::SecurityLayerBuilder() = default;
 
+/**
+ * @brief Configure key-provider type and raw JSON config payload.
+ * @param type Key provider selection.
+ * @param config_json Provider configuration JSON.
+ * @return Reference to this builder for fluent chaining.
+ * @throws std::runtime_error If JSON parsing fails or provider-specific validation fails.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     KeyProviderType type,
     const std::string& config_json)
@@ -66,6 +69,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     return *this;
 }
 
+/**
+ * @brief Configure field-encryption rules.
+ * @param config Encryption policy object.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     const EncryptionConfig& config)
 {
@@ -73,6 +81,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     return *this;
 }
 
+/**
+ * @brief Configure RBAC policy file path.
+ * @param policy_file Filesystem path to RBAC policy config.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     const std::string& policy_file)
 {
@@ -80,6 +93,12 @@ SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     return *this;
 }
 
+/**
+ * @brief Configure JWT validator via certificate path and issuer allow-list.
+ * @param cert_file Certificate/JWKS file path.
+ * @param allowed_issuers Allowed issuer list. Empty disables issuer validation.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const std::string& cert_file,
     const std::vector<std::string>& allowed_issuers)
@@ -87,11 +106,20 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     // For now, store the cert file path
     // In a real implementation, we'd load the certificate
     jwt_config_.jwks_url = cert_file;  // Using jwks_url to store cert path
-    jwt_config_.expected_issuer = allowed_issuers.empty() ? "" : allowed_issuers[0];
+    if (!allowed_issuers.empty()) {
+        jwt_config_.expected_issuer = allowed_issuers[0];
+    } else {
+        jwt_config_.require_issuer_validation = false;
+    }
     jwt_configured_ = true;
     return *this;
 }
 
+/**
+ * @brief Configure JWT validator via full configuration struct.
+ * @param config JWT validator configuration.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const auth::JWTValidatorConfig& config)
 {
@@ -100,6 +128,14 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     return *this;
 }
 
+/**
+ * @brief Build fully initialized security components.
+ * @return SecurityLayer with encryption, RBAC, and JWT components.
+ * @throws std::runtime_error On invalid configuration, failed policy loading,
+ *         failed provider initialization, or production-mode policy violations.
+ * @note Production mode is fail-closed: mock/local key providers and missing JWT
+ *       configuration are rejected.
+ */
 SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     SecurityLayer layer;
     
@@ -188,11 +224,21 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     return layer;
 }
 
+/**
+ * @brief Create a builder with development-friendly defaults.
+ * @return Builder preconfigured with LOCAL key provider.
+ */
 SecurityLayerBuilder SecurityLayerBuilder::standard() {
     return SecurityLayerBuilder()
         .withKeyProvider(KeyProviderType::LOCAL, "{}");
 }
 
+/**
+ * @brief Load full text content from a file path.
+ * @param path File path to read.
+ * @return File content as a string.
+ * @throws std::runtime_error If the file cannot be opened.
+ */
 std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -204,6 +250,14 @@ std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     return buffer.str();
 }
 
+/**
+ * @brief Instantiate concrete key provider based on type and JSON config.
+ * @param type Selected key-provider backend.
+ * @param config_json JSON payload for backend-specific options.
+ * @return Key provider instance suitable for field encryption.
+ * @throws std::runtime_error If config parsing/validation fails, backend is not
+ *         enabled, or provider initialization fails.
+ */
 IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
     KeyProviderType type,
     const std::string& config_json)
@@ -277,12 +331,32 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             if (library_path.empty()) {
                 throw std::runtime_error("HSM key provider requires library_path in config");
             }
+
+            std::error_code library_ec;
+            const std::filesystem::path library_fs_path(library_path);
+            if (!std::filesystem::exists(library_fs_path, library_ec) ||
+                !std::filesystem::is_regular_file(library_fs_path, library_ec)) {
+                throw std::runtime_error("HSM key provider library_path does not point to an existing file: " +
+                                         library_path);
+            }
             
             try {
                 security::HSMConfig hsm_config;
                 hsm_config.library_path = library_path;
                 if (!slot_id.empty()) {
-                    hsm_config.slot_id = static_cast<uint32_t>(std::stoul(slot_id));
+                    const bool valid_slot_id = std::all_of(
+                        slot_id.begin(), slot_id.end(),
+                        [](unsigned char ch) { return std::isdigit(ch) != 0; });
+                    if (!valid_slot_id) {
+                        throw std::runtime_error("HSM key provider slot_id must be an unsigned integer");
+                    }
+
+                    const unsigned long long parsed_slot_id = std::stoull(slot_id);
+                    if (parsed_slot_id > std::numeric_limits<uint32_t>::max()) {
+                        throw std::runtime_error("HSM key provider slot_id exceeds uint32 range");
+                    }
+
+                    hsm_config.slot_id = static_cast<uint32_t>(parsed_slot_id);
                 }
                 hsm_config.pin = pin;
 

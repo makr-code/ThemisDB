@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_graph_traversal.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     869                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b602e0c28  2026-02-28  fix(graph): remove duplicate db_->open() in bench_graph_t... ║
-    • 771ab826b  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_graph_traversal.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Benchmark: Graph Traversal Performance
@@ -236,6 +218,103 @@ BENCHMARK_REGISTER_F(GraphTraversalBenchmarkFixture, DFSTraversal)
     ->Args({10000, 4})
     ->Args({100, 20})
     ->Args({1000, 20})
+    ->Unit(benchmark::kMillisecond);
+
+// ============================================================================
+// Benchmark: Sparse Graph Edge Addition (Run-Plan 19)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(GraphTraversalBenchmarkFixture, SparseEdgeAddition)(benchmark::State& state) {
+    if (node_ids_.size() < 2) {
+        state.SkipWithError("Need at least 2 nodes");
+        return;
+    }
+
+    std::mt19937 rng(1337);
+    std::uniform_int_distribution<int> node_dist(0, static_cast<int>(node_ids_.size() - 1));
+    uint64_t edge_counter = 0;
+    uint64_t added_edges = 0;
+
+    for (auto _ : state) {
+        int src = node_dist(rng);
+        int dst = node_dist(rng);
+        if (src == dst) {
+            dst = (dst + 1) % static_cast<int>(node_ids_.size());
+        }
+
+        const std::string edge_id =
+            "bench_sparse_edge_" + std::to_string(src) + "_" + std::to_string(dst) + "_" + std::to_string(edge_counter++);
+        BaseEntity edge(edge_id);
+        edge.setField("id", edge_id);
+        edge.setField("_from", node_ids_[src]);
+        edge.setField("_to", node_ids_[dst]);
+        edge.setField("_graph", "test_graph");
+        edge.setField("_weight", 1.0);
+
+        auto st = graph_mgr_->addEdge(edge);
+        if (!st.ok) {
+            state.SkipWithError(st.message.c_str());
+            break;
+        }
+
+        ++added_edges;
+        benchmark::DoNotOptimize(added_edges);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["avg_degree_seed"] = state.range(1);
+    state.counters["edges_added"] = static_cast<double>(added_edges);
+    state.counters["edges_per_sec"] = benchmark::Counter(
+        static_cast<double>(added_edges), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(GraphTraversalBenchmarkFixture, SparseEdgeAddition)
+    ->Args({1000, 4})
+    ->Args({10000, 4})
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+// ============================================================================
+// Benchmark: Dense Graph Neighbor Query (Run-Plan 20)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(GraphTraversalBenchmarkFixture, DenseNeighborQuery)(benchmark::State& state) {
+    if (node_ids_.empty()) {
+        state.SkipWithError("No nodes in graph");
+        return;
+    }
+
+    std::mt19937 rng(7331);
+    std::uniform_int_distribution<int> pick(0, static_cast<int>(node_ids_.size() - 1));
+    uint64_t total_neighbors = 0;
+
+    for (auto _ : state) {
+        const std::string& node = node_ids_[pick(rng)];
+        auto [status, neighbors] = graph_mgr_->outNeighbors(node);
+        if (!status.ok) {
+            state.SkipWithError(status.message.c_str());
+            break;
+        }
+
+        total_neighbors += static_cast<uint64_t>(neighbors.size());
+        benchmark::DoNotOptimize(neighbors);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["avg_degree_seed"] = state.range(1);
+    state.counters["neighbors_total"] = static_cast<double>(total_neighbors);
+    state.counters["queries_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations()), benchmark::Counter::kIsRate);
+    state.counters["neighbors_per_query"] =
+        state.iterations() > 0 ? static_cast<double>(total_neighbors) / static_cast<double>(state.iterations()) : 0.0;
+}
+
+BENCHMARK_REGISTER_F(GraphTraversalBenchmarkFixture, DenseNeighborQuery)
+    ->Args({1000, 20})
+    ->Args({10000, 20})
+    ->UseRealTime()
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================

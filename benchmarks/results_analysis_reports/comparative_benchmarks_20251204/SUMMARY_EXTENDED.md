@@ -1,3 +1,5 @@
+> ⚠️ **Historische Zusammenfassung** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # 🚀 ThemisDB Polyglot Benchmark - Extended Infrastructure
 
 **Status:** Infrastructure Ready (7 von 12 Datenbanken online)  

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_handling_audit.py                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:08:14                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:58:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,12 +14,13 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 67305c306  2026-02-23  feat: add repository-wide error-handling audit tool and C... ║
+    • dc186e7716  2026-03-11  fix: move from __future__ import annotations to top of to... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
+
+from __future__ import annotations
 
 #!/usr/bin/env python3
 """
@@ -49,8 +50,6 @@ Exit codes
     1  One or more violations found
     2  Internal error / bad arguments
 """
-
-from __future__ import annotations
 
 import argparse
 import json

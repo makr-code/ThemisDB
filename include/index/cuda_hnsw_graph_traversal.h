@@ -1,56 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cuda_hnsw_graph_traversal.h                        ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(index): CUDA HNSW graph traversal     ║
-                           wiring                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file cuda_hnsw_graph_traversal.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-/**
- * @file cuda_hnsw_graph_traversal.h
- * @brief CUDA-accelerated HNSW graph traversal wiring.
- *
- * Exposes a host-side C++ API that dispatches HNSW layer traversal to
- * a CUDA device kernel.  When CUDA is unavailable (THEMIS_NO_CUDA defined
- * or no compatible GPU is detected at runtime) the implementation falls
- * back automatically to the CPU HnswLayerOptimizer path.
- *
- * ## Design
- * - CudaHnswTraversalEngine wraps the CUDA graph-traversal kernel and
- *   manages device memory (adjacency list, vector store, query buffer).
- * - Neighbour lists are stored in CSR (Compressed Sparse Row) format on
- *   the device to maximise coalesced memory access.
- * - Distances are computed with fused CUDA kernels (L2 / Cosine / Dot).
- * - Results are returned as sorted (id, score) pairs on the host.
- *
- * ## Performance Targets
- * - Batch ANN query throughput: ≥200 000 queries/s on RTX-class GPU.
- * - Host-device latency overhead: ≤0.5 ms per batch of 512 queries.
- * - Memory: ≤1.6× raw vector data for adjacency lists (M=16, ef=200).
- *
- * @note Thread Safety: A single CudaHnswTraversalEngine instance must not
- *   be used from multiple host threads simultaneously.  Create one engine
- *   per thread (or protect with a mutex) when concurrent searches are needed.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
- */
 
 #include <cstddef>
 #include <cstdint>
@@ -180,6 +139,37 @@ public:
                 size_t       num_queries,
                 uint32_t     k,
                 uint32_t     ef = 0) const;
+
+    // ── Visited bitset pool tuning ────────────────────────────────────────────
+
+    /**
+     * @brief Set the maximum query-batch size used to size the persistent
+     *        visited bitset pool.
+     *
+     * The pool is allocated once in buildIndex() as
+     *   `n × ceil(numNodes / 8)` bytes.
+     * Calling setMaxBatchSize() after buildIndex() takes effect on the next
+     * buildIndex() call (the pool is not reallocated lazily).
+     *
+     * Default: 512 queries.
+     *
+     * @param n  Maximum number of queries per single kernel launch.
+     *           Must be ≥ 1; values of 0 are silently clamped to 1.
+     */
+    void setMaxBatchSize(size_t n);
+
+    /**
+     * @brief Return the current max-batch-size setting.
+     */
+    size_t maxBatchSize() const noexcept;
+
+    /**
+     * @brief Return true when the persistent visited bitset pool has been
+     *        successfully allocated (i.e. buildIndex() allocated it without
+     *        error).  When false, batchSearch() falls back to per-invocation
+     *        allocation.
+     */
+    bool hasVisitedPool() const noexcept;
 
     // ── Diagnostics ───────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 # vLLM-ähnlicher LLM Loader für ThemisDB - Implementierungsleitfaden
 
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** LLM Infrastructure  
 **Sprache:** Deutsch
@@ -894,7 +894,7 @@ void registerLLMEndpoints(crow::SimpleApp& app, llm::LLMModelLoader& loader) {
 
 ```dockerfile
 # Dockerfile.llm
-FROM themisdb/themis:latest
+FROM themisdb/themisdb:latest
 
 # Install llama.cpp dependencies
 RUN apt-get update && apt-get install -y \

@@ -1,23 +1,21 @@
+/**
+ * @file rate_limiter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rate_limiter.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rate_limiter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 393
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rate_limiter.h"
@@ -50,7 +48,7 @@ void TokenBucket::refill() {
 }
 
 bool TokenBucket::tryConsume(size_t tokens) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     refill();
     
     if (tokens_ >= static_cast<double>(tokens)) {
@@ -61,12 +59,12 @@ bool TokenBucket::tryConsume(size_t tokens) {
 }
 
 double TokenBucket::getTokens() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return tokens_;
 }
 
 uint64_t TokenBucket::getRetryAfterMs() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     if (tokens_ >= 1.0) {
         return 0;
@@ -79,7 +77,7 @@ uint64_t TokenBucket::getRetryAfterMs() const {
 }
 
 void TokenBucket::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     tokens_ = static_cast<double>(capacity_);
     last_refill_ = std::chrono::steady_clock::now();
 }
@@ -102,7 +100,7 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
 }
 
 void RateLimiter::setAnomalyCallback(AnomalyCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     anomaly_callback_ = std::move(callback);
 }
 
@@ -112,7 +110,7 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
     // Use a separate mutex so this is safe to call while mutex_ is held.
     AnomalyCallback cb;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::shared_lock<std::shared_mutex> lock(callback_mutex_);
         cb = anomaly_callback_;
     }
     if (cb) {
@@ -123,7 +121,7 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
 
 void RateLimiter::blacklistIP(const std::string& ip) {
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         blacklisted_ips_.insert(ip);
     }
     THEMIS_WARN("IP added to blacklist: {}", ip);
@@ -131,18 +129,18 @@ void RateLimiter::blacklistIP(const std::string& ip) {
 }
 
 void RateLimiter::unblacklistIP(const std::string& ip) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     blacklisted_ips_.erase(ip);
     THEMIS_INFO("IP removed from blacklist: {}", ip);
 }
 
 bool RateLimiter::isBlacklisted(const std::string& ip) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return blacklisted_ips_.count(ip) > 0;
 }
 
 bool RateLimiter::isAdaptivelyThrottled(const std::string& ip) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = adaptive_state_.find(ip);
     if (it == adaptive_state_.end()) return false;
     if (!it->second.under_penalty) return false;
@@ -208,7 +206,7 @@ std::shared_ptr<TokenBucket> RateLimiter::getOrCreateBucket(
 }
 
 bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     stats_.total_requests++;
     
@@ -298,7 +296,7 @@ bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id
 }
 
 uint32_t RateLimiter::getRetryAfter(const std::string& ip, const std::string& user_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     uint64_t max_retry_ms = 0;
     
@@ -323,7 +321,7 @@ uint32_t RateLimiter::getRetryAfter(const std::string& ip, const std::string& us
 }
 
 void RateLimiter::updateConfig(const RateLimitConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     config_ = config;
     
     THEMIS_INFO("Rate Limiter config updated: {} req/min, bucket capacity: {}", 
@@ -331,7 +329,7 @@ void RateLimiter::updateConfig(const RateLimitConfig& config) {
 }
 
 RateLimiter::Statistics RateLimiter::getStatistics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     Statistics stats = stats_;
     stats.active_ip_buckets = ip_buckets_.size();
@@ -349,7 +347,7 @@ RateLimiter::Statistics RateLimiter::getStatistics() const {
 }
 
 void RateLimiter::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     ip_buckets_.clear();
     ip_last_access_.clear();

@@ -1,24 +1,21 @@
+/**
+ * @file distributed_saga.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=2, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=4, M=21, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_saga.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     632                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ffeccdf86  2026-03-01  feat(transaction): implement DistributedSagaCoordinator f... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_saga.cpp | Version: 0.0.15 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1047
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=10, M=54, L=0
+ * PR History (last 5): #3412 feat(transaction): Distribu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/distributed_saga.h"
@@ -126,7 +123,29 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     report.saga_id = saga.saga_id;
     report.state   = SagaExecutionState::RUNNING;
 
+    bool duplicate_saga = false;
+    {
+        std::lock_guard<std::mutex> lk(reports_mutex_);
+        duplicate_saga = reports_.find(saga.saga_id) != reports_.end();
+    }
+    if (duplicate_saga) {
+        report.state = SagaExecutionState::FAILED;
+        report.failure_reason =
+            "Duplicate saga_id execution rejected: " + saga.saga_id;
+        THEMIS_ERROR("DSAGA[{}]: duplicate saga_id rejected", saga.saga_id);
+        journalWrite(saga.saga_id, "REJECTED_DUPLICATE", report.failure_reason);
+        {
+            std::lock_guard<std::mutex> mk(metrics_mutex_);
+            ++metrics_.sagas_failed;
+        }
+        return report;
+    }
+
     auto wall_start = std::chrono::system_clock::now();
+    const auto deadline = (config_.saga_timeout.count() > 0)
+                              ? std::optional<std::chrono::steady_clock::time_point>(
+                                  std::chrono::steady_clock::now() + config_.saga_timeout)
+                              : std::nullopt;
 
     // -- Validate -------------------------------------------------------
     auto vst = validate(saga);
@@ -206,7 +225,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     for (auto& wave : waves) {
         if (failed) break;
 
-        auto wst = executeWave(wave, step_map, record_index, failure_reason);
+        auto wst = executeWave(wave, step_map, record_index, failure_reason, deadline);
         if (!wst.ok) {
             failed = true;
             break;
@@ -337,15 +356,41 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
     const std::vector<std::string>&                    wave,
     const std::map<std::string, DistributedSagaStep>&  step_map,
     RecordIndex&                                       index,
-    std::string&                                       failure_reason
+    std::string&                                       failure_reason,
+    std::optional<std::chrono::steady_clock::time_point> deadline
 ) {
+    auto dependenciesSatisfied = [&](const DistributedSagaStep& step,
+                                     std::string& missing_dep) -> bool {
+        for (const auto& dep : step.depends_on) {
+            const auto dep_it = index.find(dep);
+            if (dep_it == index.end()) {
+                missing_dep = dep;
+                return false;
+            }
+            if (dep_it->second->phase != StepRecord::Phase::DONE) {
+                missing_dep = dep;
+                return false;
+            }
+        }
+        return true;
+    };
+
     if (!config_.enable_parallel || wave.size() == 1) {
         // Sequential execution
         for (const auto& name : wave) {
             auto it = index.find(name);
             if (it == index.end()) continue;
 
-            auto st = executeStep(step_map.at(name), *it->second);
+            const auto& step = step_map.at(name);
+            std::string missing_dep;
+            if (!dependenciesSatisfied(step, missing_dep)) {
+                failure_reason = "Step '" + name +
+                                 "' violated causal dependency: '" +
+                                 missing_dep + "' not completed";
+                return DistributedSagaStatus::Error(failure_reason);
+            }
+
+            auto st = executeStep(step, *it->second, deadline);
             if (!st.ok) {
                 failure_reason = "Step '" + name + "' failed: " + st.message;
                 return st;
@@ -364,11 +409,20 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
         wave_records.push_back(rec);
 
         const DistributedSagaStep& step = step_map.at(name);
+
+        std::string missing_dep;
+        if (!dependenciesSatisfied(step, missing_dep)) {
+            failure_reason = "Step '" + name +
+                             "' violated causal dependency: '" +
+                             missing_dep + "' not completed";
+            return DistributedSagaStatus::Error(failure_reason);
+        }
+
         futures.push_back(
             std::async(std::launch::async,
-                [this, &step, rec]() -> DistributedSagaStatus {
+                [this, &step, rec, deadline]() -> DistributedSagaStatus {
                     if (!rec) return DistributedSagaStatus::Error("record not found");
-                    return executeStep(step, *rec);
+                    return executeStep(step, *rec, deadline);
                 }
             )
         );
@@ -377,10 +431,22 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
     // Collect results
     DistributedSagaStatus wave_status;
     for (size_t i = 0; i < futures.size(); ++i) {
-        auto st = futures[i].get();
-        if (!st.ok && wave_status.ok) {
-            wave_status    = st;
-            failure_reason = "Step '" + wave[i] + "' failed: " + st.message;
+        try {
+            auto st = futures[i].get();
+            if (!st.ok && wave_status.ok) {
+                wave_status    = st;
+                failure_reason = "Step '" + wave[i] + "' failed: " + st.message;
+            }
+        } catch (const std::exception& e) {
+            if (wave_status.ok) {
+                wave_status    = DistributedSagaStatus::Error(e.what());
+                failure_reason = "Step '" + wave[i] + "' threw: " + e.what();
+            }
+        } catch (...) {
+            if (wave_status.ok) {
+                wave_status    = DistributedSagaStatus::Error("unknown exception in step");
+                failure_reason = "Step '" + wave[i] + "' threw unknown exception";
+            }
         }
     }
     return wave_status;
@@ -392,7 +458,8 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 
 DistributedSagaStatus DistributedSagaCoordinator::executeStep(
     const DistributedSagaStep& step,
-    StepRecord&                record
+    StepRecord&                record,
+    std::optional<std::chrono::steady_clock::time_point> deadline
 ) {
     static constexpr std::chrono::milliseconds MAX_BACKOFF{30000};
 
@@ -416,13 +483,29 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
             THEMIS_DEBUG("DSAGA: retrying step '{}' (attempt {})", step.name, attempt + 1);
         }
 
+        auto effective_timeout = timeout;
+        if (deadline.has_value()) {
+            const auto now = std::chrono::steady_clock::now();
+            if (now >= *deadline) {
+                last_status = DistributedSagaStatus::Error("saga timeout budget exhausted before step execution");
+                {
+                    std::lock_guard<std::mutex> lk(metrics_mutex_);
+                    ++metrics_.total_timeout_aborts;
+                }
+                break;
+            }
+
+            const auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(*deadline - now);
+            effective_timeout = std::min(timeout, remaining);
+        }
+
         // Run forward action inside an async task so we can enforce a timeout
         auto fut = std::async(std::launch::async, step.forward);
-        auto wait_result = fut.wait_for(timeout);
+        auto wait_result = fut.wait_for(effective_timeout);
 
         if (wait_result == std::future_status::timeout) {
             last_status = DistributedSagaStatus::Error("timeout after " +
-                std::to_string(timeout.count()) + "ms");
+                std::to_string(effective_timeout.count()) + "ms");
             THEMIS_WARN("DSAGA: step '{}' timed out (attempt {})", step.name, attempt + 1);
             // Count timeouts in metrics
             {
@@ -438,6 +521,12 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
         } catch (const std::exception& e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("exception: ") + e.what());
+        } catch (const std::string& e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("exception: ") + e);
+        } catch (const char* e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("exception: ") + (e ? e : "<null>"));
         } catch (...) {
             last_status = DistributedSagaStatus::Error("unknown exception");
         }
@@ -452,6 +541,33 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
             record.phase       = StepRecord::Phase::DONE;
             record.finished_at = std::chrono::system_clock::now();
             THEMIS_DEBUG("DSAGA: step '{}' succeeded (attempt {})", step.name, attempt + 1);
+            
+            // QW-39: Verify distributed consensus for write durability
+            // After local step succeeds, check that write was replicated to quorum
+            if (config_.enable_consensus_verification) {
+                std::string consensus_failure_detail;
+                bool consensus_ok = verifyStepConsensus(
+                    step.name,
+                    step.node_id,
+                    record,
+                    &consensus_failure_detail);
+                record.consensus_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+                
+                if (!consensus_ok) {
+                    // Consensus verification failed: treat as step failure for retry
+                    last_status = DistributedSagaStatus::Error(consensus_failure_detail.empty()
+                        ? ("consensus verification failed for step '" + step.name + "'")
+                        : consensus_failure_detail);
+                    THEMIS_WARN("DSAGA: step '{}' failed consensus verification (attempt {})",
+                                step.name, attempt + 1);
+                    // Continue to retry loop (attempt will increment)
+                    continue;
+                }
+                THEMIS_DEBUG("DSAGA: step '{}' consensus verified with {} acks",
+                             step.name, record.ack_count);
+            }
+            
             return DistributedSagaStatus::OK();
         }
 
@@ -556,6 +672,12 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
         } catch (const std::exception& e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("compensation exception: ") + e.what());
+        } catch (const std::string& e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("compensation exception: ") + e);
+        } catch (const char* e) {
+            last_status = DistributedSagaStatus::Error(
+                std::string("compensation exception: ") + (e ? e : "<null>"));
         } catch (...) {
             last_status = DistributedSagaStatus::Error("unknown compensation exception");
         }
@@ -567,6 +689,83 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
     }
 
     return last_status;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// verifyStepConsensus() — QW-39: Distributed consensus verification
+// ─────────────────────────────────────────────────────────────────────────────
+
+bool DistributedSagaCoordinator::verifyStepConsensus(
+    const std::string& step_name,
+    const std::string& node_id,
+    StepRecord& record,
+    std::string* failure_detail)
+{
+    if (!config_.enable_consensus_verification) {
+        record.consensus_reached = false;
+        record.quorum_size = 0;
+        record.ack_count = 0;
+        return true;
+    }
+
+    {
+        std::lock_guard<std::mutex> lk(metrics_mutex_);
+        ++metrics_.consensus_checks_total;
+    }
+
+    THEMIS_DEBUG("DSAGA: verifying consensus for step '{}' on node '{}'",
+                 step_name, node_id);
+
+    if (config_.consensus_verifier) {
+        ConsensusVerificationResult result;
+        try {
+            result = config_.consensus_verifier(step_name, node_id);
+        } catch (const std::exception& e) {
+            result.verified = false;
+            result.detail = std::string("consensus verifier exception: ") + e.what();
+        } catch (...) {
+            result.verified = false;
+            result.detail = "consensus verifier unknown exception";
+        }
+
+        record.quorum_size = std::max(0, result.quorum_size);
+        record.ack_count = std::max(0, result.ack_count);
+        if (record.quorum_size > 0 && record.ack_count > record.quorum_size) {
+            record.ack_count = record.quorum_size;
+        }
+
+        const bool quorum_reached =
+            (record.quorum_size > 0 && record.ack_count >= record.quorum_size);
+        record.consensus_reached = result.verified && quorum_reached;
+
+        if (!record.consensus_reached) {
+            {
+                std::lock_guard<std::mutex> lk(metrics_mutex_);
+                ++metrics_.consensus_checks_failed;
+            }
+            if (failure_detail) {
+                if (!result.detail.empty()) {
+                    *failure_detail = result.detail;
+                } else {
+                    *failure_detail = "consensus verification failed for step '" +
+                                      step_name + "' (acks=" + std::to_string(record.ack_count) +
+                                      ", quorum=" + std::to_string(record.quorum_size) + ")";
+                }
+            }
+        }
+
+        return record.consensus_reached;
+    }
+
+    // Backward-compatible single-node fallback: if no external verifier is
+    // configured, treat local durability as quorum (1/1).
+    record.quorum_size = 1;
+    record.ack_count = 1;
+    record.consensus_reached = true;
+    if (failure_detail) {
+        failure_detail->clear();
+    }
+    return true;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -625,9 +824,340 @@ void DistributedSagaCoordinator::journalWrite(
             f << ",\"detail\":\"" << escaped << "\"";
         }
         f << "}\n";
-    } catch (...) {
-        // Journal write failures are non-fatal
+    } catch (const std::exception& e) {
+        // Journal write failures are non-fatal.
+        THEMIS_WARN("DSAGA[{}]: journal write failed: {}", saga_id, e.what());
     }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// remoteStepToLocal()
+// ─────────────────────────────────────────────────────────────────────────────
+
+DistributedSagaStep DistributedSagaCoordinator::remoteStepToLocal(
+    const RemoteStep& remote
+) const {
+    DistributedSagaStep local;
+    local.name              = remote.name;
+    local.node_id           = remote.service_endpoint;
+    local.depends_on        = remote.depends_on;
+    local.forward_timeout   = remote.forward_timeout;
+    local.compensate_timeout = remote.compensate_timeout;
+    local.max_retries       = remote.max_retries;
+    local.retry_backoff     = remote.retry_backoff;
+
+    // Capture by value so the lambdas remain valid after this stack frame
+    auto executor      = config_.remote_executor;
+    auto endpoint      = remote.service_endpoint;
+    auto operation     = remote.operation;
+    auto params        = remote.params;
+    auto comp_op       = remote.compensate_operation;
+    auto comp_params   = remote.compensate_params;
+
+    if (executor) {
+        local.forward = [executor, endpoint, operation, params]() {
+            return executor(endpoint, operation, params);
+        };
+        if (!comp_op.empty()) {
+            local.compensate = [executor, endpoint, comp_op, comp_params]() {
+                return executor(endpoint, comp_op, comp_params);
+            };
+        }
+    } else {
+        // Defensive fallback: executeDistributed() rejects missing executor.
+        local.forward = []() {
+            return DistributedSagaStatus::Error("remote_executor_not_configured");
+        };
+        if (!comp_op.empty()) {
+            local.compensate = []() {
+                return DistributedSagaStatus::Error("remote_executor_not_configured");
+            };
+        }
+    }
+
+    return local;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// executeDistributed()
+// ─────────────────────────────────────────────────────────────────────────────
+
+DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
+    const DistributedSAGADefinition& remote_saga
+) {
+    auto rejectDistributed = [&](const std::string& reason,
+                                 const std::string& event) -> DistributedSagaReport {
+        DistributedSagaReport report;
+        report.saga_id = remote_saga.saga_id;
+        report.state = SagaExecutionState::FAILED;
+        report.failure_reason = reason;
+
+        if (!remote_saga.saga_id.empty()) {
+            journalWrite(remote_saga.saga_id,
+                         event,
+                         report.failure_reason);
+        }
+
+        {
+            std::lock_guard<std::mutex> lk(metrics_mutex_);
+            ++metrics_.sagas_failed;
+        }
+
+        if (!report.saga_id.empty()) {
+            std::lock_guard<std::mutex> lk(reports_mutex_);
+            reports_[report.saga_id] = report;
+        }
+
+        THEMIS_ERROR("DSAGA[{}]: executeDistributed rejected: {}",
+                     remote_saga.saga_id,
+                     report.failure_reason);
+        return report;
+    };
+
+    if (!config_.remote_executor) {
+        return rejectDistributed("remote_executor_not_configured",
+                                 "REJECTED_NO_REMOTE_EXECUTOR");
+    }
+
+    if (remote_saga.saga_id.empty()) {
+        return rejectDistributed("invalid_remote_saga: empty saga_id",
+                                 "REJECTED_INVALID_REMOTE_SAGA");
+    }
+
+    if (remote_saga.steps.empty()) {
+        return rejectDistributed("invalid_remote_saga: no remote steps defined",
+                                 "REJECTED_INVALID_REMOTE_SAGA");
+    }
+
+    for (size_t i = 0; i < remote_saga.steps.size(); ++i) {
+        const auto& step = remote_saga.steps[i];
+        if (step.name.empty()) {
+            return rejectDistributed(
+                "invalid_remote_step: empty name at index " + std::to_string(i),
+                "REJECTED_INVALID_REMOTE_STEP");
+        }
+        if (step.service_endpoint.empty()) {
+            return rejectDistributed(
+                "invalid_remote_step: empty service_endpoint for step '" + step.name + "'",
+                "REJECTED_INVALID_REMOTE_STEP");
+        }
+        if (step.operation.empty()) {
+            return rejectDistributed(
+                "invalid_remote_step: empty operation for step '" + step.name + "'",
+                "REJECTED_INVALID_REMOTE_STEP");
+        }
+    }
+
+    // Convert to the canonical DistributedSagaDefinition
+    DistributedSagaDefinition local_def;
+    local_def.saga_id = remote_saga.saga_id;
+    local_def.context = remote_saga.context;
+
+    for (const auto& remote_step : remote_saga.steps) {
+        local_def.steps.push_back(remoteStepToLocal(remote_step));
+    }
+
+    return execute(local_def);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getDistributedStatus()
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::optional<DistributedSagaReport> DistributedSagaCoordinator::getDistributedStatus(
+    const std::string& saga_id
+) const {
+    return getReport(saga_id);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// recoverInProgressSAGAs()
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
+    std::vector<std::string> recovered;
+
+    if (config_.journal_path.empty()) return recovered;
+
+    std::ifstream f(config_.journal_path);
+    if (!f.is_open()) return recovered;
+
+    // Track terminal states seen per saga_id
+    std::map<std::string, std::string> latest_event; // saga_id → most recent event
+
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        try {
+            auto entry = nlohmann::json::parse(line);
+            std::string sid   = entry.value("saga_id", std::string{});
+            std::string event = entry.value("event",   std::string{});
+            if (!sid.empty() && !event.empty()) {
+                latest_event[sid] = event;
+            }
+        } catch (const nlohmann::json::exception&) {
+            // Malformed lines are skipped.
+        }
+    }
+
+    // SAGAs whose last event is STARTED or COMPENSATING are orphaned
+    for (const auto& [sid, event] : latest_event) {
+        if (event == "STARTED" || event == "COMPENSATING") {
+            // Record a synthetic recovery report so callers can inspect it
+            DistributedSagaReport report;
+            report.saga_id        = sid;
+            report.state          = SagaExecutionState::FAILED;
+            report.failure_reason = "recovered from incomplete state (" + event + ") after coordinator restart";
+
+            {
+                std::lock_guard<std::mutex> lk(reports_mutex_);
+                // Only insert if not already present (a concurrent execute() may have
+                // completed it between our journal read and now)
+                reports_.emplace(sid, report);
+            }
+
+            journalWrite(sid, "RECOVERED", event);
+            THEMIS_WARN("DSAGA[{}]: recovered orphaned SAGA (last state: {})", sid, event);
+            recovered.push_back(sid);
+        }
+    }
+
+    return recovered;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// visualize()
+// ─────────────────────────────────────────────────────────────────────────────
+
+SagaVisualization DistributedSagaCoordinator::visualize(
+    const DistributedSagaDefinition& saga
+) const {
+    // Retrieve any existing execution report for annotation
+    std::optional<DistributedSagaReport> report_opt = getReport(saga.saga_id);
+
+    // Build phase lookup
+    std::unordered_map<std::string, std::string> phase_label;
+    if (report_opt) {
+        for (const auto& rec : report_opt->step_records) {
+            switch (rec.phase) {
+                case StepRecord::Phase::PENDING:     phase_label[rec.name] = "PENDING";     break;
+                case StepRecord::Phase::EXECUTING:   phase_label[rec.name] = "EXECUTING";   break;
+                case StepRecord::Phase::DONE:        phase_label[rec.name] = "DONE";        break;
+                case StepRecord::Phase::COMPENSATING:phase_label[rec.name] = "COMPENSATING";break;
+                case StepRecord::Phase::COMPENSATED: phase_label[rec.name] = "COMPENSATED"; break;
+                case StepRecord::Phase::FAILED:      phase_label[rec.name] = "FAILED";      break;
+            }
+        }
+    }
+
+    // ── DOT graph ──────────────────────────────────────────────────────────
+    std::ostringstream dot;
+    dot << "digraph \"" << saga.saga_id << "\" {\n";
+    dot << "  rankdir=LR;\n";
+    dot << "  node [shape=box, style=filled, fillcolor=lightgrey];\n";
+
+    for (const auto& step : saga.steps) {
+        std::string fill = "lightgrey";
+        auto it = phase_label.find(step.name);
+        if (it != phase_label.end()) {
+            const std::string& ph = it->second;
+            if (ph == "DONE")        fill = "lightgreen";
+            else if (ph == "FAILED") fill = "salmon";
+            else if (ph == "COMPENSATED") fill = "lightyellow";
+            else if (ph == "EXECUTING" || ph == "COMPENSATING") fill = "lightblue";
+        }
+        dot << "  \"" << step.name << "\" [fillcolor=" << fill;
+        if (it != phase_label.end()) {
+            dot << ", label=\"" << step.name << "\\n(" << it->second << ")\"";
+        }
+        dot << "];\n";
+    }
+
+    for (const auto& step : saga.steps) {
+        for (const auto& dep : step.depends_on) {
+            dot << "  \"" << dep << "\" -> \"" << step.name << "\";\n";
+        }
+    }
+    dot << "}\n";
+
+    // ── Text summary ───────────────────────────────────────────────────────
+    std::ostringstream txt;
+    txt << "SAGA: " << saga.saga_id << "\n";
+    txt << "Steps: " << saga.steps.size() << "\n";
+    if (report_opt) {
+        txt << "State: ";
+        switch (report_opt->state) {
+            case SagaExecutionState::PENDING:     txt << "PENDING";     break;
+            case SagaExecutionState::RUNNING:     txt << "RUNNING";     break;
+            case SagaExecutionState::COMPLETED:   txt << "COMPLETED";   break;
+            case SagaExecutionState::COMPENSATING:txt << "COMPENSATING";break;
+            case SagaExecutionState::COMPENSATED: txt << "COMPENSATED"; break;
+            case SagaExecutionState::FAILED:      txt << "FAILED";      break;
+        }
+        txt << "\n";
+        txt << "Duration: " << report_opt->total_duration_ms << " ms\n";
+        txt << "\nStep Details:\n";
+        for (const auto& rec : report_opt->step_records) {
+            txt << "  [";
+            switch (rec.phase) {
+                case StepRecord::Phase::DONE:        txt << "✓"; break;
+                case StepRecord::Phase::FAILED:      txt << "✗"; break;
+                case StepRecord::Phase::COMPENSATED: txt << "↩"; break;
+                default:                             txt << "·"; break;
+            }
+            txt << "] " << rec.name;
+            if (rec.attempts > 0) txt << " (attempts: " << rec.attempts << ")";
+            if (!rec.error_message.empty()) txt << " — " << rec.error_message;
+            txt << "\n";
+        }
+    } else {
+        txt << "(Not yet executed)\n";
+        txt << "\nStep Dependency Order:\n";
+        for (const auto& step : saga.steps) {
+            txt << "  " << step.name;
+            if (!step.depends_on.empty()) {
+                txt << " (after: ";
+                bool first = true;
+                for (const auto& d : step.depends_on) {
+                    if (!first) txt << ", ";
+                    txt << d;
+                    first = false;
+                }
+                txt << ")";
+            }
+            txt << "\n";
+        }
+    }
+
+    return SagaVisualization{dot.str(), txt.str()};
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// forceCompensate() / forceComplete()
+// ─────────────────────────────────────────────────────────────────────────────
+
+bool DistributedSagaCoordinator::forceCompensate(const std::string& saga_id) {
+    std::lock_guard<std::mutex> lk(reports_mutex_);
+    auto it = reports_.find(saga_id);
+    if (it == reports_.end()) return false;
+    it->second.state          = SagaExecutionState::COMPENSATED;
+    it->second.failure_reason = "forced compensation via manual intervention";
+    journalWrite(saga_id, "FORCE_COMPENSATED");
+    THEMIS_WARN("DSAGA[{}]: force-compensated via manual intervention", saga_id);
+    return true;
+}
+
+bool DistributedSagaCoordinator::forceComplete(const std::string& saga_id) {
+    std::lock_guard<std::mutex> lk(reports_mutex_);
+    auto it = reports_.find(saga_id);
+    if (it == reports_.end()) return false;
+    it->second.state          = SagaExecutionState::COMPLETED;
+    it->second.failure_reason.clear();
+    journalWrite(saga_id, "FORCE_COMPLETED");
+    THEMIS_WARN("DSAGA[{}]: force-completed via manual intervention", saga_id);
+    return true;
+}
+
 } // namespace themis
+
+

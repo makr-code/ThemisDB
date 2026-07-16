@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gpu_lora_integration.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:01:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     371                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gpu_lora_integration.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=11; TODO=1, Stub=2, Unimpl=0, Mock=6, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -49,6 +35,8 @@
 // Forward declarations for C API
 extern "C" {
     bool themis_llama_lora_available();
+    void themis_lora_inject_api_functions(void*, void*, void*, void*, void*);
+    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
 }
 #endif
 
@@ -98,7 +86,7 @@ TEST_F(GPULoRAIntegrationTest, BackendInitialization) {
         llm::LazyModelLoader loader(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -131,7 +119,7 @@ TEST_F(GPULoRAIntegrationTest, GPULayerConfiguration) {
         llm::LazyModelLoader loader(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -152,7 +140,7 @@ TEST_F(GPULoRAIntegrationTest, VRAMLimitConfiguration) {
         llm::LazyModelLoader loader(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -182,7 +170,7 @@ TEST_F(GPULoRAIntegrationTest, LoRAAPIAvailability) {
         }
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -209,7 +197,7 @@ TEST_F(GPULoRAIntegrationTest, MultiLoRAManagerGPUConfig) {
         llm::MultiLoRAManager manager(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -235,7 +223,7 @@ TEST_F(GPULoRAIntegrationTest, LoRAInitializationMethod) {
     void* fake_model = reinterpret_cast<void*>(0x1234);
     EXPECT_FALSE(manager.initializeLoRAWithModel("nonexistent_lora", fake_model));
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -259,7 +247,7 @@ TEST_F(GPULoRAIntegrationTest, LlamaWrapperGPUConfig) {
         llm::LlamaWrapper wrapper(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -285,7 +273,7 @@ TEST_F(GPULoRAIntegrationTest, LlamaWrapperLoRAConfig) {
         llm::LlamaWrapper wrapper(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -341,7 +329,7 @@ TEST_F(GPULoRAIntegrationTest, CompleteGPULoRAConfiguration) {
         EXPECT_EQ(caps.supports_lora, themis_llama_lora_available());
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -366,9 +354,82 @@ TEST_F(GPULoRAIntegrationTest, ConfigurationLogging) {
         llm::LlamaWrapper wrapper(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
 // Note: This test file is auto-discovered by CMake via GLOB_RECURSE in tests/CMakeLists.txt
 // and linked with GTest::gtest_main, so no explicit main() function is needed here.
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LoRA API injection tests (LORA-INJ-01..03)
+// Tests for themis_lora_inject_api_functions()
+// ─────────────────────────────────────────────────────────────────────────────
+// These tests exercise the override path introduced for stub #75.  They require
+// the LoRA adapter TU to be compiled (THEMIS_ENABLE_LLM) but do NOT need a
+// real llama.cpp LoRA build — mock functions are injected instead.
+
+#ifdef THEMIS_ENABLE_LLM
+namespace {
+    static bool g_mock_lora_init_called = false;
+    static int  g_mock_set_count = 0;
+
+    static void* mock_lora_init_fn(struct llama_model* /*model*/, const char* /*path*/) {
+        g_mock_lora_init_called = true;
+        return reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEAD));
+    }
+    static int mock_lora_set_fn(struct llama_context* /*ctx*/, void* /*adapter*/, float /*scale*/) {
+        ++g_mock_set_count;
+        return 0;
+    }
+    static int  mock_lora_remove_fn(struct llama_context* /*ctx*/, void* /*adapter*/) { return 0; }
+    static int  mock_lora_clear_fn(struct llama_context* /*ctx*/) { return 0; }
+    static void mock_lora_free_fn(void* /*adapter*/) {}
+} // namespace
+
+// LORA-INJ-01: After injecting mock functions, themis_llama_lora_available() == true
+TEST(LoraApiInjectionTest, InjectedApiReportsAvailable) {
+    themis_lora_inject_api_functions(
+        reinterpret_cast<void*>(mock_lora_init_fn),
+        reinterpret_cast<void*>(mock_lora_set_fn),
+        reinterpret_cast<void*>(mock_lora_remove_fn),
+        reinterpret_cast<void*>(mock_lora_clear_fn),
+        reinterpret_cast<void*>(mock_lora_free_fn));
+    EXPECT_TRUE(themis_llama_lora_available());
+    // Clean up — clear the override so other tests use the real dlsym path.
+    themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+}
+
+// LORA-INJ-02: Injected init mock is actually called and returns the mock handle
+TEST(LoraApiInjectionTest, InjectedInitIsInvoked) {
+    g_mock_lora_init_called = false;
+    themis_lora_inject_api_functions(
+        reinterpret_cast<void*>(mock_lora_init_fn),
+        reinterpret_cast<void*>(mock_lora_set_fn),
+        reinterpret_cast<void*>(mock_lora_remove_fn),
+        reinterpret_cast<void*>(mock_lora_clear_fn),
+        reinterpret_cast<void*>(mock_lora_free_fn));
+    // Provide a non-null sentinel as fake model pointer — mock ignores it.
+    struct llama_model* fake_model = reinterpret_cast<struct llama_model*>(static_cast<uintptr_t>(1));
+    void* handle = llama_lora_adapter_init(fake_model, "/fake/path.bin");
+    EXPECT_TRUE(g_mock_lora_init_called);
+    EXPECT_EQ(handle, reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEAD)));
+    themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+}
+
+// LORA-INJ-03: Clearing injection reverts availability; no crash on subsequent availability check
+TEST(LoraApiInjectionTest, ClearInjectionRevertsOverride) {
+    // Inject first so we have a known state.
+    themis_lora_inject_api_functions(
+        reinterpret_cast<void*>(mock_lora_init_fn),
+        reinterpret_cast<void*>(mock_lora_set_fn),
+        reinterpret_cast<void*>(mock_lora_remove_fn),
+        reinterpret_cast<void*>(mock_lora_clear_fn),
+        reinterpret_cast<void*>(mock_lora_free_fn));
+    ASSERT_TRUE(themis_llama_lora_available());
+    // Clear override — availability now reflects actual dlsym detection.
+    themis_lora_inject_api_functions(nullptr, nullptr, nullptr, nullptr, nullptr);
+    // Calling available() after clearing must not crash.
+    EXPECT_NO_THROW(themis_llama_lora_available());
+}
+#endif  // THEMIS_ENABLE_LLM

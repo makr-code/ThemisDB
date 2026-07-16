@@ -1,25 +1,20 @@
+/**
+ * @file confidential_computing.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            confidential_computing.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 73974b78a  2026-02-23  fix(security): code-audit fixes — double-free, unused inc... ║
-    • 7b25b447d  2026-02-23  feat(security): implement confidential computing support ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: confidential_computing.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -144,7 +139,7 @@ public:
      *
      * @return Detection result (type == NONE on ordinary hardware)
      */
-    virtual TeeDetectionResult detect() const = 0;
+    [[nodiscard]] virtual TeeDetectionResult detect() const = 0;
 
     /**
      * @brief Generate a TEE attestation report.
@@ -155,7 +150,7 @@ public:
      * @return             Attestation report; raw_report is empty and
      *                     is_genuine == false in software-fallback mode.
      */
-    virtual TeeAttestationReport getAttestationReport(
+    [[nodiscard]] virtual TeeAttestationReport getAttestationReport(
         const std::vector<uint8_t>& report_data) const = 0;
 
     /**
@@ -166,7 +161,7 @@ public:
      *                   (or compatible) TEE measurement.
      * @throws std::runtime_error on encryption failure.
      */
-    virtual SealedBlob seal(const std::vector<uint8_t>& plaintext) const = 0;
+    [[nodiscard]] virtual SealedBlob seal(const std::vector<uint8_t>& plaintext) const = 0;
 
     /**
      * @brief Unseal a previously sealed blob.
@@ -175,12 +170,12 @@ public:
      * @return      Recovered plaintext.
      * @throws std::runtime_error if authentication or measurement check fails.
      */
-    virtual std::vector<uint8_t> unseal(const SealedBlob& blob) const = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> unseal(const SealedBlob& blob) const = 0;
 
     /**
      * @brief Human-readable name of the active TEE (or "Software fallback").
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
 protected:
     ConfidentialComputing() = default;

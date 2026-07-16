@@ -1,25 +1,20 @@
+/**
+ * @file hybrid_search.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hybrid_search.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     222                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cae1e318a  2026-02-25  audit(search): close remaining gaps from LLM re-ranking i... ║
-    • 96ef109a0  2026-02-25  feat(search): integrate LlmReranker into HybridSearch pip... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hybrid_search.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -36,6 +31,9 @@ namespace themis {
 
 class SecondaryIndexManager;
 class VectorIndexManager;
+namespace index {
+class AnnFrontdoor;
+}
 
 /**
  * @brief Hybrid Search combining BM25 (full-text) and Vector (semantic) search
@@ -187,6 +185,18 @@ public:
     void setConfig(const Config& config) { config_ = config; }
 
     /**
+     * @brief Inject an ANN frontdoor used by the vector search path.
+     *
+     * When configured, HybridSearch routes dense candidate generation through
+     * AnnFrontdoor instead of calling VectorIndexManager directly. Passing
+     * nullptr disables the frontdoor path and restores the legacy vector-index
+     * fallback.
+     *
+     * @param frontdoor Shared ANN frontdoor instance (may be null).
+     */
+    void setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor);
+
+    /**
      * @brief Attach an LLM re-ranker to the search pipeline.
      *
      * When set, `search()` applies the re-ranker as a final step after RRF
@@ -217,6 +227,7 @@ private:
     SecondaryIndexManager* fulltext_index_;
     VectorIndexManager* vector_index_;
     Config config_;
+    std::shared_ptr<index::AnnFrontdoor> ann_frontdoor_;
     std::optional<LlmReranker> reranker_; ///< Optional LLM re-ranker (Phase 3)
 };
 

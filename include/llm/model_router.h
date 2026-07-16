@@ -1,58 +1,22 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_router.h                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     185                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a3ad5ddca  2026-02-28  feat(llm): implement multi-model routing based on prompt ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include <string>
-#include <vector>
-#include <optional>
-#include <regex>
-#include <mutex>
-#include <nlohmann/json.hpp>
 
 /**
  * @file model_router.h
- * @brief Content-based and metadata-tag-based multi-model routing for the LLM module.
- *
- * `ModelRouter` evaluates an ordered list of `RoutingRule` entries against a
- * prompt string and a JSON metadata object.  The first matching rule's
- * `target_model_id` is returned.  Rules are sorted by priority (descending)
- * and then insertion order for stability.
- *
- * Integration point:
- *   `InferenceEngineEnhanced::selectModel()` calls `ModelRouter::route()` before
- *   falling back to load-balancing strategies.
- *
- * Routing criteria (both are optional per rule; at least one must be non-empty):
- * - **prompt_patterns**  – ECMAScript-syntax regex strings matched against the
- *   prompt text (case-insensitive by default).
- * - **metadata_tags**    – String values matched against the `tags` array inside
- *   `InferenceRequest::metadata` (exact, case-sensitive).
- *
- * Match semantics are controlled by `MatchMode`:
- * - `ANY`  – rule matches when *at least one* pattern/tag matches.
- * - `ALL`  – rule matches only when *every* pattern and every required tag matches.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_plugin_interface.h"
+
+#include <regex>
+#include <shared_mutex>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -61,6 +25,7 @@ namespace llm {
  * @brief Single routing rule that maps a set of match criteria to a model.
  */
 struct RoutingRule {
+    virtual ~RoutingRule() = default;
     /// Unique identifier for the rule (used by removeRule()).
     std::string id;
 

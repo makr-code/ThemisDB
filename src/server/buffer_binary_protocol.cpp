@@ -1,23 +1,21 @@
+/**
+ * @file buffer_binary_protocol.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            buffer_binary_protocol.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     452                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: buffer_binary_protocol.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 442
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=9, M=0, L=0
+ * PR History (last 5): #97 Complete auto-batching infr... (2026-03-11) | #108 Add Temporal Snapshot Confl... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/buffer_binary_protocol.h"
@@ -255,7 +253,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorAddBuffered(
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorUpdateBuffered(
-    const std::vector<uint8_t>& payload
+    const std::vector<uint8_t>& /*payload*/
 ) {
     // Similar to handleVectorAddBuffered, but calls vector_buffer_->update()
     return createResponse(STATUS_SUCCESS);
@@ -316,14 +314,14 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphNodeBuffered(
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphEdgeBuffered(
-    const std::vector<uint8_t>& payload
+    const std::vector<uint8_t>& /*payload*/
 ) {
     // Similar to handleGraphNodeBuffered, but calls graph_buffer_->addEdge()
     return createResponse(STATUS_SUCCESS);
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
-    const std::vector<uint8_t>& payload
+    const std::vector<uint8_t>& /*payload*/
 ) {
     try {
         // Get statistics from all buffers
@@ -430,7 +428,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::createResponse(
     response.push_back(status);
     
     // Payload length (4 bytes, big-endian)
-    uint32_t payload_len = payload.size();
+    uint32_t payload_len = static_cast<uint32_t>(payload.size());
     response.push_back((payload_len >> 24) & 0xFF);
     response.push_back((payload_len >> 16) & 0xFF);
     response.push_back((payload_len >> 8) & 0xFF);

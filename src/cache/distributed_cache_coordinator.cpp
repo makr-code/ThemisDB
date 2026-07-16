@@ -1,99 +1,160 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_cache_coordinator.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     662                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • e0b252ddc  2026-02-25  feat(cache): implement Redis-compatible distributed cache... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
 /**
  * @file distributed_cache_coordinator.cpp
- * @brief Redis-compatible distributed cache coordination protocol (Phase 4).
- *
- * Implements RedisCacheCoordinator using the Redis RESP (REdis Serialization
- * Protocol) wire format over POSIX TCP sockets.  No external Redis client
- * library is required.
- *
- * Design:
- *   - Publisher connection: a single persistent TCP socket protected by a
- *     mutex; used for PUBLISH commands.
- *   - Subscriber connection: a dedicated background thread opens its own TCP
- *     socket, issues SUBSCRIBE, and forwards messages to registered callbacks.
- *   - Graceful degradation: every I/O failure is caught; the local cache
- *     operation always completes regardless of coordinator state.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=7, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "cache/distributed_cache_coordinator.h"
-#include "utils/logger.h"
 
+#include <algorithm>
 #include <nlohmann/json.hpp>
 
+#include "observability/metrics_collector.h"
+#include "utils/logger.h"
+
 #if !defined(_WIN32)
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
 #include <sys/time.h>
+#include <unistd.h>
+
+// POSIX socket support is available on this platform.
+#define THEMIS_POSIX_SOCKETS 1
 #endif
 
-#include <cstring>
+#include <chrono>
 #include <climits>
+#include <cstring>
 #include <iomanip>
+#include <openssl/crypto.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
 #include <sstream>
 #include <stdexcept>
-#include <chrono>
 #include <thread>
-
-#include <openssl/hmac.h>
-#include <openssl/evp.h>
-#include <openssl/crypto.h>
 
 namespace themis {
 namespace cache {
 
-#if defined(_WIN32)
+// ---------------------------------------------------------------------------
+// STUB #61 — RedisPublishBridgeFn static bridge (non-POSIX injection)
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex s_redis_bridge_fn_mutex;
+RedisCacheCoordinator::RedisPublishBridgeFn s_redis_bridge_fn;
+} // namespace
 
-RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig& config)
-    : config_(config) {
-    THEMIS_WARN("RedisCacheCoordinator: Windows stub active - network pub/sub disabled");
+void RedisCacheCoordinator::setRedisPublishBridgeFn(RedisPublishBridgeFn fn) {
+    std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
+    s_redis_bridge_fn = std::move(fn);
+}
+
+#if !defined(THEMIS_POSIX_SOCKETS)
+
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-op implementations of RedisCacheCoordinator
+//   on platforms that do not have POSIX socket support (e.g., some embedded or
+//   Windows SDK builds without POSIX compatibility shims).  The coordinator
+//   object is constructible; all publish/subscribe operations are accepted
+//   silently but no data is transmitted to Redis.  publish_errors_ is
+//   incremented on every call so metrics dashboards can detect the no-op mode.
+// Activation: THEMIS_POSIX_SOCKETS is not defined.  On Linux and macOS this
+//   symbol is always defined; this block is compiled only on Windows/other
+//   platforms where <sys/socket.h> is not available.
+// Production Delta: Cache invalidation pub/sub is completely disabled; all
+//   distributed cache nodes operate as independent local caches.  A write to
+//   one node is never propagated to other nodes via Redis pub/sub; stale reads
+//   will occur in a multi-node deployment.  publish_errors_ monotonically
+//   increases so any cache-miss alerting threshold will trip.
+// Removal Plan: Ensure THEMIS_POSIX_SOCKETS is set (or use the platform Winsock
+//   shim) on all supported build targets.  The full POSIX implementation of
+//   RedisCacheCoordinator (in redis_cache_coordinator.cpp) is then compiled
+//   instead.  This #if block becomes dead code on POSIX-capable builds.
+// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md §"Redis Pub/Sub Activation"
+
+RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig &config) : config_(config) {
+    THEMIS_DEBUG("RedisCacheCoordinator: POSIX socket support unavailable – "
+                 "network pub/sub disabled (no-op stub)");
 }
 
 RedisCacheCoordinator::~RedisCacheCoordinator() = default;
 
-void RedisCacheCoordinator::publishEntry(const std::string&,
-                                          const nlohmann::json&,
-                                          int,
-                                          const std::string&) {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
-    ++publish_errors_;
+void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
+                                         const std::string &tenant_id) {
+    RedisPublishBridgeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
+        fn = s_redis_bridge_fn;
+    }
+    if (fn) {
+        const std::string channel = config_.channel_prefix + ":entries";
+        nlohmann::json payload = {
+            {"type", "ENTRY_PUT"}, {"key", key},
+            {"tenant_id", tenant_id}, {"ttl_seconds", ttl_seconds},
+            {"result", result}
+        };
+        bool ok = false;
+        try {
+            ok = fn(channel, payload.dump());
+        } catch (const std::string&) {
+            ok = false;
+        } catch (const char*) {
+            ok = false;
+        } catch (...) {
+            ok = false;
+        }
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        if (ok) {
+            ++messages_published_;
+        } else {
+            ++publish_errors_;
+        }
+    } else {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        ++publish_errors_;
+    }
 }
 
-void RedisCacheCoordinator::publishInvalidation(const std::string&,
-                                                 const std::string&) {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
-    ++publish_errors_;
+void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
+    RedisPublishBridgeFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
+        fn = s_redis_bridge_fn;
+    }
+    if (fn) {
+        const std::string channel = config_.channel_prefix + ":invalidations";
+        nlohmann::json payload = {
+            {"type", "INVALIDATE"}, {"key", pattern}, {"tenant_id", tenant_id}
+        };
+        bool ok = false;
+        try {
+            ok = fn(channel, payload.dump());
+        } catch (const std::string&) {
+            ok = false;
+        } catch (const char*) {
+            ok = false;
+        } catch (...) {
+            ok = false;
+        }
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        if (ok) {
+            ++messages_published_;
+        } else {
+            ++publish_errors_;
+        }
+    } else {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        ++publish_errors_;
+    }
 }
 
 void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
@@ -112,15 +173,10 @@ bool RedisCacheCoordinator::isConnected() const {
 
 nlohmann::json RedisCacheCoordinator::getStats() const {
     std::lock_guard<std::mutex> lk(stats_mutex_);
-    return {
-        {"name", "RedisCacheCoordinator"},
-        {"connected", false},
-        {"channel_prefix", config_.channel_prefix},
-        {"messages_published", messages_published_},
-        {"messages_received", messages_received_},
-        {"publish_errors", publish_errors_},
-        {"reconnect_count", reconnect_count_}
-    };
+    return {{"name", "RedisCacheCoordinator"},          {"connected", false},
+            {"channel_prefix", config_.channel_prefix}, {"messages_published", messages_published_},
+            {"messages_received", messages_received_},  {"publish_errors", publish_errors_},
+            {"reconnect_count", reconnect_count_}};
 }
 
 std::string RedisCacheCoordinator::entryChannel() const {
@@ -135,19 +191,19 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     return kInvalidSocket;
 }
 
-void RedisCacheCoordinator::closeSocket(SocketFd& fd) {
+void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
     fd = kInvalidSocket;
 }
 
-bool RedisCacheCoordinator::sendAll(SocketFd, const std::string&) {
+bool RedisCacheCoordinator::sendAll(SocketFd, const std::string &) {
     return false;
 }
 
-bool RedisCacheCoordinator::readLine(SocketFd, std::string&) {
+bool RedisCacheCoordinator::readLine(SocketFd, std::string &) {
     return false;
 }
 
-std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string>&) {
+std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &) {
     return {};
 }
 
@@ -159,7 +215,7 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
     return false;
 }
 
-bool RedisCacheCoordinator::redisPublish(const std::string&, const std::string&) {
+bool RedisCacheCoordinator::redisPublish(const std::string &, const std::string &) {
     return false;
 }
 
@@ -167,28 +223,42 @@ void RedisCacheCoordinator::subscriberLoop() {}
 
 void RedisCacheCoordinator::subscriberSession(SocketFd) {}
 
-bool RedisCacheCoordinator::readPubSubMessage(SocketFd,
-                                               std::string&,
-                                               std::string&) {
+bool RedisCacheCoordinator::readPubSubMessage(SocketFd, std::string &, std::string &) {
     return false;
 }
 
-void RedisCacheCoordinator::dispatchMessage(const std::string&, const std::string&) {}
+void RedisCacheCoordinator::dispatchMessage(const std::string &, const std::string &) {}
 
-std::string RedisCacheCoordinator::computeHmac(const std::string&) const { return {}; }
-bool RedisCacheCoordinator::verifyHmac(const nlohmann::json&) const { return true; }
+std::string RedisCacheCoordinator::computeHmac(const std::string &) const {
+    return {};
+}
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &) const {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Non-POSIX build stub — POSIX sockets unavailable, so no pub/sub traffic
+    //          can arrive; this function should never be called in a real non-POSIX run.
+    // Activation: !THEMIS_POSIX_SOCKETS preprocessor guard.
+    // Production Delta: The POSIX path performs real HMAC-SHA256 verification.
+    // Removal Plan: Non-POSIX builds are development/test only; production uses POSIX.
+    // Fail-closed (D-1 fix): return false so that any unexpected call rejects the message
+    // rather than silently accepting it, preventing an HMAC bypass on non-POSIX builds.
+    return false;
+}
 
-#else
+#else // THEMIS_POSIX_SOCKETS
+
+namespace {
+/// Maximum back-off cap for the subscriber reconnect loop.
+/// The initial back-off is taken from config_.reconnect_interval_ms.
+constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
+} // anonymous namespace
 
 // ---------------------------------------------------------------------------
 // Constructor / Destructor
 // ---------------------------------------------------------------------------
 
-RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig& config)
-    : config_(config)
-{
-    THEMIS_INFO("RedisCacheCoordinator: initialising ({}:{}, prefix={})",
-                config_.host, config_.port, config_.channel_prefix);
+RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig &config) : config_(config) {
+    THEMIS_INFO("RedisCacheCoordinator: initialising ({}:{}, prefix={})", config_.host, config_.port,
+                config_.channel_prefix);
 
     // Start the subscriber background thread immediately; actual TCP
     // connection is established inside subscriberLoop().
@@ -216,16 +286,14 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
 // ICacheCoordinator – publisher side
 // ---------------------------------------------------------------------------
 
-void RedisCacheCoordinator::publishEntry(const std::string& key,
-                                          const nlohmann::json& result,
-                                          int ttl_seconds,
-                                          const std::string& tenant_id) {
+void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
+                                         const std::string &tenant_id) {
     nlohmann::json msg;
-    msg["type"]       = "ENTRY_PUT";
-    msg["key"]        = key;
-    msg["tenant_id"]  = tenant_id;
+    msg["type"]        = "ENTRY_PUT";
+    msg["key"]         = key;
+    msg["tenant_id"]   = tenant_id;
     msg["ttl_seconds"] = ttl_seconds;
-    msg["result"]     = result;
+    msg["result"]      = result;
 
     std::string payload = msg.dump();
 
@@ -236,12 +304,11 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
     std::string sig = computeHmac(payload);
     if (!sig.empty()) {
         msg["sig"] = sig;
-        payload = msg.dump();
+        payload    = msg.dump();
     }
 
     if (payload.size() > config_.max_message_bytes) {
-        THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping",
-                    payload.size());
+        THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping", payload.size());
         return;
     }
 
@@ -254,8 +321,7 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
     }
 }
 
-void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
-                                                 const std::string& tenant_id) {
+void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
     nlohmann::json msg;
     msg["type"]      = "INVALIDATE";
     msg["key"]       = pattern;
@@ -270,7 +336,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
     std::string sig = computeHmac(payload);
     if (!sig.empty()) {
         msg["sig"] = sig;
-        payload = msg.dump();
+        payload    = msg.dump();
     }
 
     if (!redisPublish(invalidationChannel(), payload)) {
@@ -313,17 +379,15 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
         err    = publish_errors_;
         reconn = reconnect_count_;
     }
-    return {
-        {"name",               name()},
-        {"connected",          isConnected()},
-        {"messages_published", pub},
-        {"messages_received",  recv},
-        {"publish_errors",     err},
-        {"reconnect_count",    reconn},
-        {"host",               config_.host},
-        {"port",               static_cast<int>(config_.port)},
-        {"channel_prefix",     config_.channel_prefix}
-    };
+    return {{"name", name()},
+            {"connected", isConnected()},
+            {"messages_published", pub},
+            {"messages_received", recv},
+            {"publish_errors", err},
+            {"reconnect_count", reconn},
+            {"host", config_.host},
+            {"port", static_cast<int>(config_.port)},
+            {"channel_prefix", config_.channel_prefix}};
 }
 
 std::string RedisCacheCoordinator::entryChannel() const {
@@ -343,16 +407,17 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     hints.ai_family   = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
-    struct addrinfo* res = nullptr;
+    struct addrinfo *res       = nullptr;
     const std::string port_str = std::to_string(config_.port);
     if (::getaddrinfo(config_.host.c_str(), port_str.c_str(), &hints, &res) != 0) {
         return kInvalidSocket;
     }
 
     SocketFd fd = kInvalidSocket;
-    for (struct addrinfo* p = res; p != nullptr; p = p->ai_next) {
+    for (struct addrinfo *p = res; p != nullptr; p = p->ai_next) {
         fd = ::socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-        if (fd == kInvalidSocket) continue;
+        if (fd == kInvalidSocket)
+            continue;
 
         // Apply connect timeout via SO_RCVTIMEO / SO_SNDTIMEO
         struct timeval tv{};
@@ -362,7 +427,7 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
         ::setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
 
         if (::connect(fd, p->ai_addr, p->ai_addrlen) == 0) {
-            break;  // connected
+            break; // connected
         }
         ::close(fd);
         fd = kInvalidSocket;
@@ -372,7 +437,7 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
 }
 
 /*static*/
-void RedisCacheCoordinator::closeSocket(SocketFd& fd) {
+void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
     if (fd != kInvalidSocket) {
         ::close(fd);
         fd = kInvalidSocket;
@@ -380,34 +445,38 @@ void RedisCacheCoordinator::closeSocket(SocketFd& fd) {
 }
 
 /*static*/
-bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string& buf) {
+bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
     while (sent < buf.size()) {
         ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);
-        if (n <= 0) return false;
+        if (n <= 0)
+            return false;
         sent += static_cast<size_t>(n);
     }
     return true;
 }
 
 /*static*/
-bool RedisCacheCoordinator::readLine(SocketFd fd, std::string& line_out) {
+bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     line_out.clear();
     char ch;
     while (true) {
         ssize_t n = ::recv(fd, &ch, 1, 0);
-        if (n <= 0) return false;
-        if (ch == '\n') break;
-        if (ch != '\r') line_out += ch;
+        if (n <= 0)
+            return false;
+        if (ch == '\n')
+            break;
+        if (ch != '\r')
+            line_out += ch;
     }
     return true;
 }
 
 /*static*/
-std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string>& args) {
+std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &args) {
     std::ostringstream ss;
     ss << '*' << args.size() << "\r\n";
-    for (const auto& arg : args) {
+    for (const auto &arg : args) {
         ss << '$' << arg.size() << "\r\n" << arg << "\r\n";
     }
     return ss.str();
@@ -417,9 +486,11 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
     // AUTH (optional)
     if (!config_.password.empty()) {
         const std::string cmd = buildRespCommand({"AUTH", config_.password});
-        if (!sendAll(fd, cmd)) return false;
+        if (!sendAll(fd, cmd))
+            return false;
         std::string reply;
-        if (!readLine(fd, reply)) return false;
+        if (!readLine(fd, reply))
+            return false;
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: AUTH failed: {}", reply);
             return false;
@@ -429,12 +500,13 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
     // SELECT db_index
     if (config_.db_index != 0) {
         const std::string cmd = buildRespCommand({"SELECT", std::to_string(config_.db_index)});
-        if (!sendAll(fd, cmd)) return false;
+        if (!sendAll(fd, cmd))
+            return false;
         std::string reply;
-        if (!readLine(fd, reply)) return false;
+        if (!readLine(fd, reply))
+            return false;
         if (reply.empty() || reply[0] == '-') {
-            THEMIS_WARN("RedisCacheCoordinator: SELECT {} failed: {}",
-                        config_.db_index, reply);
+            THEMIS_WARN("RedisCacheCoordinator: SELECT {} failed: {}", config_.db_index, reply);
             return false;
         }
     }
@@ -456,8 +528,7 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
 
     pub_fd_ = tcpConnect();
     if (pub_fd_ == kInvalidSocket) {
-        THEMIS_WARN("RedisCacheCoordinator: publisher TCP connect to {}:{} failed",
-                    config_.host, config_.port);
+        THEMIS_WARN("RedisCacheCoordinator: publisher TCP connect to {}:{} failed", config_.host, config_.port);
         return false;
     }
 
@@ -467,13 +538,11 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
     }
 
     pub_ok_ = true;
-    THEMIS_INFO("RedisCacheCoordinator: publisher connected to {}:{}",
-                config_.host, config_.port);
+    THEMIS_INFO("RedisCacheCoordinator: publisher connected to {}:{}", config_.host, config_.port);
     return true;
 }
 
-bool RedisCacheCoordinator::redisPublish(const std::string& channel,
-                                          const std::string& payload) {
+bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::string &payload) {
     std::lock_guard<std::mutex> lk(pub_mutex_);
 
     if (!ensurePublisherConnected()) {
@@ -505,33 +574,67 @@ bool RedisCacheCoordinator::redisPublish(const std::string& channel,
 // ---------------------------------------------------------------------------
 
 void RedisCacheCoordinator::subscriberLoop() {
+    // Exponential back-off: starts at config_.reconnect_interval_ms, doubles
+    // each failure, capped at kReconnectBackoffMaxMs.
+    const int backoff_base_ms = std::max(1, config_.reconnect_interval_ms);
+    int backoff_ms            = backoff_base_ms;
+
+    // Helper lambda: increment reconnect stats and emit metric.
+    auto notifyReconnect = [this](const char *reason, int delay_ms) {
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex_);
+            ++reconnect_count_;
+        }
+        try {
+            auto &mc = observability::MetricsCollector::getInstance();
+            mc.addCounter("cache.redis.reconnect", 1);
+        } catch (const std::exception &ex) {
+            THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
+        } catch (const std::string &ex) {
+            THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex);
+        } catch (const char *ex) {
+            THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", (ex ? ex : "<null>"));
+        }
+        THEMIS_WARN("RedisCacheCoordinator: {} – retrying in {} ms (back-off)",
+                    reason, delay_ms);
+    };
+
     while (!stop_.load()) {
         SocketFd fd = tcpConnect();
         if (fd == kInvalidSocket) {
-            THEMIS_WARN("RedisCacheCoordinator: subscriber TCP connect to {}:{} failed; "
-                        "retrying in {} ms",
-                        config_.host, config_.port, config_.reconnect_interval_ms);
-            {
-                std::lock_guard<std::mutex> lk(stats_mutex_);
-                ++reconnect_count_;
+            if (!stop_.load()) {
+                notifyReconnect("subscriber TCP connect failed", backoff_ms);
             }
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(config_.reconnect_interval_ms));
+            for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
             continue;
         }
 
         if (!redisHandshake(fd)) {
             closeSocket(fd);
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(config_.reconnect_interval_ms));
+            if (!stop_.load()) {
+                notifyReconnect("subscriber Redis handshake failed", backoff_ms);
+            }
+            for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
             continue;
         }
 
         // Subscribe to both channels
-        const std::string cmd = buildRespCommand(
-            {"SUBSCRIBE", entryChannel(), invalidationChannel()});
+        const std::string cmd = buildRespCommand({"SUBSCRIBE", entryChannel(), invalidationChannel()});
         if (!sendAll(fd, cmd)) {
             closeSocket(fd);
+            if (!stop_.load()) {
+                notifyReconnect("subscriber SUBSCRIBE send failed", backoff_ms);
+            }
+            for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
             continue;
         }
 
@@ -542,6 +645,9 @@ void RedisCacheCoordinator::subscriberLoop() {
                 break;
             }
         }
+
+        // Successful connection – reset back-off
+        backoff_ms = backoff_base_ms;
 
         sub_connected_.store(true);
         THEMIS_INFO("RedisCacheCoordinator: subscriber connected, listening on "
@@ -554,15 +660,11 @@ void RedisCacheCoordinator::subscriberLoop() {
         closeSocket(fd);
 
         if (!stop_.load()) {
-            THEMIS_WARN("RedisCacheCoordinator: subscriber connection lost; "
-                        "reconnecting in {} ms",
-                        config_.reconnect_interval_ms);
-            {
-                std::lock_guard<std::mutex> lk(stats_mutex_);
-                ++reconnect_count_;
+            notifyReconnect("subscriber connection lost", backoff_ms);
+            for (int elapsed = 0; elapsed < backoff_ms && !stop_.load(); elapsed += 50) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(config_.reconnect_interval_ms));
+            backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
         }
     }
 }
@@ -571,7 +673,7 @@ void RedisCacheCoordinator::subscriberSession(SocketFd fd) {
     while (!stop_.load()) {
         std::string channel, payload;
         if (!readPubSubMessage(fd, channel, payload)) {
-            break;  // connection dropped
+            break; // connection dropped
         }
         if (!channel.empty() && !payload.empty()) {
             dispatchMessage(channel, payload);
@@ -580,9 +682,7 @@ void RedisCacheCoordinator::subscriberSession(SocketFd fd) {
 }
 
 /*static*/
-bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd,
-                                               std::string& channel_out,
-                                               std::string& payload_out) {
+bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_out, std::string &payload_out) {
     channel_out.clear();
     payload_out.clear();
 
@@ -592,56 +692,85 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd,
     //   $<n>\r\n <channel>\r\n
     //   $<n>\r\n <payload>\r\n   (or :<count> for subscribe reply)
 
-    auto readBulkString = [&](std::string& out) -> bool {
+    auto readBulkString = [&](std::string &out) -> bool {
         std::string line;
-        if (!readLine(fd, line)) return false;
-        if (line.empty()) return false;
+        if (!readLine(fd, line))
+            return false;
+        if (line.empty())
+            return false;
         if (line[0] == ':') {
             // Integer reply (subscribe confirmation) – treat as empty string
             out.clear();
             return true;
         }
-        if (line[0] != '$') return false;
-        int len = std::stoi(line.substr(1));
-        if (len < 0) { out.clear(); return true; }  // null bulk string
+        if (line[0] != '$')
+            return false;
+        // D-2: use stoll with bounds check to avoid UB on out-of-range values
+        long long len = 0;
+        try {
+            len = std::stoll(line.substr(1));
+        } catch (const std::exception &e) {
+            THEMIS_WARN("RESP: invalid bulk-string length '{}': {}", line.substr(1), e.what());
+            return false;
+        }
+        if (len < 0) {
+            out.clear();
+            return true;
+        } // null bulk string
+        if (len > 512'000'000LL) {
+            THEMIS_WARN("RESP: bulk-string length {} exceeds 512 MB limit", len);
+            return false;
+        }
         out.resize(static_cast<size_t>(len));
         size_t received = 0;
         while (received < static_cast<size_t>(len)) {
-            ssize_t n = ::recv(fd, &out[received],
-                               static_cast<size_t>(len) - received, 0);
-            if (n <= 0) return false;
+            ssize_t n = ::recv(fd, &out[received], static_cast<size_t>(len) - received, 0);
+            if (n <= 0)
+                return false;
             received += static_cast<size_t>(n);
         }
         // Consume trailing \r\n
         char crlf[2];
-        if (::recv(fd, crlf, 2, MSG_WAITALL) != 2) return false;
+        if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)
+            return false;
         return true;
     };
 
     // Read the array header *N
     std::string hdr;
-    if (!readLine(fd, hdr)) return false;
-    if (hdr.empty() || hdr[0] != '*') return false;
-    int count = std::stoi(hdr.substr(1));
-    if (count < 3) return false;
+    if (!readLine(fd, hdr))
+        return false;
+    if (hdr.empty() || hdr[0] != '*')
+        return false;
+    long long count = 0;
+    try {
+        count = std::stoll(hdr.substr(1));
+    } catch (const std::exception &e) {
+        THEMIS_WARN("RESP: invalid array count '{}': {}", hdr.substr(1), e.what());
+        return false;
+    }
+    if (count < 3)
+        return false;
 
     std::string type_field;
-    if (!readBulkString(type_field)) return false;
-    if (!readBulkString(channel_out)) return false;
-    if (!readBulkString(payload_out)) return false;
+    if (!readBulkString(type_field))
+        return false;
+    if (!readBulkString(channel_out))
+        return false;
+    if (!readBulkString(payload_out))
+        return false;
 
     // If this is a subscribe/unsubscribe confirmation, clear payload
-    if (type_field == "subscribe" || type_field == "unsubscribe" ||
-        type_field == "psubscribe" || type_field == "punsubscribe") {
+    if (type_field == "subscribe" || type_field == "unsubscribe" || type_field == "psubscribe"
+        || type_field == "punsubscribe") {
         payload_out.clear();
     }
 
     return true;
 }
 
-void RedisCacheCoordinator::dispatchMessage(const std::string& channel,
-                                             const std::string& payload) {
-    EntryCallback        entry_cb;
+void RedisCacheCoordinator::dispatchMessage(const std::string &channel, const std::string &payload) {
+    EntryCallback entry_cb;
     InvalidationCallback inv_cb;
     {
         std::lock_guard<std::mutex> lk(callbacks_mutex_);
@@ -652,7 +781,7 @@ void RedisCacheCoordinator::dispatchMessage(const std::string& channel,
     nlohmann::json msg;
     try {
         msg = nlohmann::json::parse(payload);
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         THEMIS_WARN("RedisCacheCoordinator: invalid JSON payload: {}", e.what());
         return;
     }
@@ -671,62 +800,57 @@ void RedisCacheCoordinator::dispatchMessage(const std::string& channel,
 
     try {
         if (type == "ENTRY_PUT" && channel == entryChannel()) {
-            if (!entry_cb) return;
+            if (!entry_cb)
+                return;
             ReplicationMessage rmsg;
-            rmsg.type       = ReplicationMessage::Type::ENTRY_PUT;
-            rmsg.key        = msg.value("key", "");
-            rmsg.tenant_id  = msg.value("tenant_id", "");
+            rmsg.type        = ReplicationMessage::Type::ENTRY_PUT;
+            rmsg.key         = msg.value("key", "");
+            rmsg.tenant_id   = msg.value("tenant_id", "");
             rmsg.ttl_seconds = msg.value("ttl_seconds", 0);
-            rmsg.result     = msg.contains("result") ? msg["result"] : nlohmann::json{};
+            rmsg.result      = msg.contains("result") ? msg["result"] : nlohmann::json{};
             entry_cb(rmsg);
         } else if (type == "INVALIDATE" && channel == invalidationChannel()) {
-            if (!inv_cb) return;
+            if (!inv_cb)
+                return;
             ReplicationMessage rmsg;
             rmsg.type      = ReplicationMessage::Type::INVALIDATE;
             rmsg.key       = msg.value("key", "");
             rmsg.tenant_id = msg.value("tenant_id", "");
             inv_cb(rmsg);
         }
-    } catch (const std::exception& e) {
-        THEMIS_WARN("RedisCacheCoordinator: exception in subscriber callback: {}",
-                    e.what());
+    } catch (const std::exception &e) {
+        THEMIS_WARN("RedisCacheCoordinator: exception in subscriber callback: {}", e.what());
     }
 }
 
-std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const {
+std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const {
     if (config_.hmac_secret.empty()) {
         return {};
     }
 
     // Guard against pathological sizes that would truncate in the cast to int.
-    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) ||
-        payload.size() > static_cast<size_t>(INT_MAX)) {
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
         return {};
     }
 
     unsigned char md[EVP_MAX_MD_SIZE];
-    unsigned int  md_len = 0;
+    unsigned int md_len = 0;
 
-    if (!HMAC(EVP_sha256(),
-              config_.hmac_secret.data(),
-              static_cast<int>(config_.hmac_secret.size()),
-              reinterpret_cast<const unsigned char*>(payload.data()),
-              static_cast<int>(payload.size()),
-              md, &md_len)) {
+    if (!HMAC(EVP_sha256(), config_.hmac_secret.data(), static_cast<int>(config_.hmac_secret.size()),
+              reinterpret_cast<const unsigned char *>(payload.data()), static_cast<int>(payload.size()), md, &md_len)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
         return {};
     }
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < md_len; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(md[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(md[i]);
     }
     return oss.str();
 }
 
-bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
     // Signing disabled – accept all messages.
     if (config_.hmac_secret.empty()) {
         return true;
@@ -756,19 +880,19 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),
-                          expected_sig.size()) != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(), expected_sig.size()) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }
         return true;
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC verification error: {}", ex.what());
         return false;
     }
 }
 
-#endif
+#endif // THEMIS_POSIX_SOCKETS
 
 } // namespace cache
 } // namespace themis
+

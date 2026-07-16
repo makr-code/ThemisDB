@@ -1,23 +1,20 @@
+/**
+ * @file lirs_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lirs_cache.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     374                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lirs_cache.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +23,7 @@
 #include <list>
 #include <optional>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 
 namespace themis {
@@ -77,20 +75,29 @@ public:
      * @return true if found (hit), false if not found (miss)
      */
     bool get(const Key& key, Value& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
+        // Use a single unique_lock for the whole get() operation.
+        //
+        // A two-phase shared→unique approach (shared for lookup, then upgrade to
+        // unique for access()) creates a TOCTOU race: the key can be evicted in the
+        // window between releasing the shared lock and acquiring the unique lock, so
+        // access() would silently be skipped and the caller would hold a stale value
+        // with no access-pattern update.
+        //
+        // With a single exclusive lock the trade-off is slightly reduced read
+        // concurrency; for workloads where reads dominate over writes the bottleneck
+        // is typically memory bandwidth rather than lock contention at cache sizes
+        // below ~10 M entries.  Large-scale deployments should use sharded instances.
+        std::unique_lock<std::shared_mutex> lock(mutex_);
+
         auto it = map_.find(key);
         if (it == map_.end()) {
             misses_++;
             return false;
         }
-        
+
         hits_++;
         value = it->second.value;
-        
-        // Update access pattern
         access(key);
-        
         return true;
     }
 
@@ -100,7 +107,7 @@ public:
      * @param value Value
      */
     void put(const Key& key, const Value& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         
         auto it = map_.find(key);
         if (it != map_.end()) {
@@ -141,7 +148,7 @@ public:
      * Check if key exists in cache
      */
     bool contains(const Key& key) const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.find(key) != map_.end();
     }
 
@@ -149,7 +156,7 @@ public:
      * Get current cache size
      */
     size_t size() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.size();
     }
 
@@ -187,7 +194,7 @@ public:
      * Clear cache and reset statistics
      */
     void clear() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         map_.clear();
         stack_.clear();
         hir_list_.clear();
@@ -200,7 +207,7 @@ public:
      * Get LIR count
      */
     size_t get_lir_count() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return lir_count_;
     }
 
@@ -208,7 +215,7 @@ public:
      * Get HIR count
      */
     size_t get_hir_count() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         return map_.size() - lir_count_;
     }
 
@@ -368,7 +375,7 @@ private:
     std::list<Key> stack_;                // LIRS stack (top = most recent)
     std::list<Key> hir_list_;             // HIR list (top = most recent)
     
-    mutable std::mutex mutex_;     // Thread safety
+    mutable std::shared_mutex mutex_; // Thread safety: shared for reads, exclusive for writes
     std::atomic<size_t> hits_;     // Hit counter
     std::atomic<size_t> misses_;   // Miss counter
 };

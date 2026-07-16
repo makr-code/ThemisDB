@@ -1,23 +1,20 @@
+/**
+ * @file shard_topology.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_topology.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     254                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_topology.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -64,16 +61,12 @@ struct ShardInfo {
     std::string raft_leader_id;              // Current leader shard ID (empty if unknown)
     bool raft_has_quorum;                    // Does this shard have Raft quorum?
     
-    /**
-     * Check if this shard has a specific capability
-     */
+    /** @brief Check whether shard advertises specific capability token. */
     bool hasCapability(const std::string& cap) const {
         return std::find(capabilities.begin(), capabilities.end(), cap) != capabilities.end();
     }
     
-    /**
-     * Check if this shard is the Raft leader
-     */
+    /** @brief Check whether shard currently reports Raft leader role. */
     bool isRaftLeader() const {
         return raft_role == "LEADER";
     }
@@ -106,7 +99,7 @@ public:
      */
     explicit ShardTopology(const Config& config);
 
-    // Convenience default constructor for benchmarks/tests
+    /** @brief Convenience default constructor for tests/benchmarks. */
     ShardTopology();
     
     /**
@@ -159,28 +152,19 @@ public:
      */
     void save();
     
-    /**
-     * Get number of shards
-     * @return Total shard count
-     */
+    /** @brief Return total shard count. */
     size_t getShardCount() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return shards_.size();
     }
     
-    /**
-     * Check if a shard exists
-     * @param shard_id Shard identifier
-     * @return true if shard exists
-     */
+    /** @brief Return whether shard id is present in topology map. */
     bool hasShard(const std::string& shard_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
         return shards_.find(shard_id) != shards_.end();
     }
     
-    /**
-     * Clear all shards (for testing)
-     */
+    /** @brief Remove all shard entries (test helper). */
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         shards_.clear();
@@ -241,16 +225,10 @@ private:
     std::map<std::string, ShardInfo> shards_;
     mutable std::mutex mutex_;
     
-    /**
-     * Load topology from metadata store (etcd)
-     * Internal method called by refresh()
-     */
+    /** @brief Load topology snapshot from configured metadata store backend. */
     void loadFromMetadataStore();
     
-    /**
-     * Save topology to metadata store (etcd)
-     * Internal method called by save()
-     */
+    /** @brief Persist current topology snapshot to metadata store backend. */
     void saveToMetadataStore();
 };
 

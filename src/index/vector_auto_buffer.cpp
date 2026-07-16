@@ -1,47 +1,55 @@
+/**
+ * @file vector_auto_buffer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=2, H=1, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_auto_buffer.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     445                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_auto_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 610
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=5, H=3, M=11, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4678 feat: replace production st... (2026-04-15) | #769 Refactor RPC Service Archit... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/vector_auto_buffer.h"
+#include "index/product_quantizer.h"
+#include "utils/thread_join_utils.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <limits>
+#include <stdexcept>
 
 namespace themis {
 
 // ===== BufferedOp Helper =====
 
-size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity) {
-    // Estimate size of vector data in entity
-    // Assumes typical embedding field is a float array
+size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity,
+                                                         size_t fallback_dim) {
+    // Estimate size of vector data in entity.
+    // Attempts to read the actual embedding dimension from the entity; falls back
+    // to `fallback_dim` (configurable via VectorAutoBufferConfig::fallback_dim,
+    // default 768) so callers with non-standard model dimensions get accurate
+    // memory accounting.
     try {
         auto embedding = entity.extractVector("embedding");
         if (embedding.has_value()) {
             return embedding->size() * sizeof(float);
         }
     } catch (...) {
-        // Fallback estimate
-        return 768 * sizeof(float);  // Typical embedding size
+        // extractVector() threw (field absent or wrong type); use the caller-
+        // supplied fallback dimension rather than a hardcoded constant.
     }
-    return 0;
+    return fallback_dim * sizeof(float);
 }
 
 // ===== VectorAutoBuffer Implementation =====
@@ -87,8 +95,9 @@ void VectorAutoBuffer::stop() {
     flush_cv_.notify_all();
     
     // Wait for flush thread to finish
-    if (flush_thread_.joinable()) {
-        flush_thread_.join();
+    if (flush_thread_.joinable() &&
+        !utils::joinThreadWithin(flush_thread_)) {
+        THEMIS_WARN("VectorAutoBuffer: flush thread exceeded shutdown timeout");
     }
     
     // Final flush of remaining vectors
@@ -96,7 +105,7 @@ void VectorAutoBuffer::stop() {
     THEMIS_INFO("VectorAutoBuffer stopped, final flush: {} vectors", flushed);
 }
 
-std::string VectorAutoBuffer::makeBufferKey(const BaseEntity& entity) const {
+std::string VectorAutoBuffer::makeBufferKey(const BaseEntity& /*entity*/) const {
     // Use entity type/namespace as buffer key
     // For now, use a simple "vectors" namespace
     // In production, this could be extracted from entity metadata
@@ -114,7 +123,7 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
     std::string buffer_key = makeBufferKey(entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -122,15 +131,18 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("VectorAutoBuffer::addBatch: timeout re-acquiring buffers_mutex_");
+                return VectorIndexManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
         auto& buffer = buffers_[buffer_key];
-        BufferedOp op(OpType::ADD, entity);
+        BufferedOp op(OpType::ADD, entity, config_.fallback_dim);
         size_t op_size = op.memory_bytes;
         buffer.add(std::move(op));
         
@@ -169,10 +181,10 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
     std::string buffer_key = makeBufferKey(entity);
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
-        BufferedOp op(OpType::UPDATE, entity);
+        BufferedOp op(OpType::UPDATE, entity, config_.fallback_dim);
         size_t op_size = op.memory_bytes;
         buffer.add(std::move(op));
         
@@ -181,7 +193,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
         stats_.current_buffer_memory += op_size;
         
         if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
-            size_t flushed = flushBuffer(buffer_key, buffer);
+            flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
     }
@@ -204,7 +216,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
     std::string buffer_key = "vectors";  // Same as makeBufferKey
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
         
         auto& buffer = buffers_[buffer_key];
         BufferedOp op(OpType::REMOVE, pk);
@@ -216,7 +228,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
         stats_.current_buffer_memory += op_size;
         
         if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
-            size_t flushed = flushBuffer(buffer_key, buffer);
+            flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
     }
@@ -233,7 +245,7 @@ size_t VectorAutoBuffer::flush() {
 }
 
 size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     auto it = buffers_.find(namespace_key);
     if (it == buffers_.end() || it->second.operations.empty()) {
@@ -246,9 +258,12 @@ size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
 size_t VectorAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("VectorAutoBuffer.flush");
     
-    std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);
     if (!lock_held) {
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            THEMIS_WARN("VectorAutoBuffer::flushInternal: timeout acquiring buffers_mutex_");
+            return 0;
+        }
     }
     
     if (buffers_.empty()) {
@@ -289,6 +304,26 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     std::vector<BaseEntity> adds;
     std::vector<BaseEntity> updates;
     std::vector<std::string> removes;
+
+    size_t add_count = 0;
+    size_t update_count = 0;
+    size_t remove_count = 0;
+    for (const auto& op : buffer.operations) {
+        switch (op.type) {
+            case OpType::ADD:
+                ++add_count;
+                break;
+            case OpType::UPDATE:
+                ++update_count;
+                break;
+            case OpType::REMOVE:
+                ++remove_count;
+                break;
+        }
+    }
+    adds.reserve(add_count);
+    updates.reserve(update_count);
+    removes.reserve(remove_count);
     
     for (const auto& op : buffer.operations) {
         switch (op.type) {
@@ -307,10 +342,11 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     size_t total_ops = adds.size() + updates.size() + removes.size();
     
     // Execute batched operations
-    VectorIndexManager::Status status;
+    VectorIndexManager::Status status = VectorIndexManager::Status::Error("No batched vector operation executed");
     
     if (!adds.empty()) {
-        status = vectorIndex_->addBatch(adds, config_.vector_field);
+        const auto compressed_adds = applyCompression(adds);
+        status = vectorIndex_->addBatch(compressed_adds, config_.vector_field);
         if (!status.ok) {
             THEMIS_ERROR("Failed to flush ADD batch for {}: {}", buffer_key, status.message);
             return 0;
@@ -318,7 +354,8 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     }
     
     if (!updates.empty()) {
-        status = vectorIndex_->updateBatch(updates, config_.vector_field);
+        const auto compressed_updates = applyCompression(updates);
+        status = vectorIndex_->updateBatch(compressed_updates, config_.vector_field);
         if (!status.ok) {
             THEMIS_ERROR("Failed to flush UPDATE batch for {}: {}", buffer_key, status.message);
             return 0;
@@ -411,7 +448,7 @@ void VectorAutoBuffer::flushThread() {
 }
 
 VectorAutoBufferStats VectorAutoBuffer::getStats() const {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
 
     VectorAutoBufferStats stats;
     stats.vectors_buffered.store(stats_.vectors_buffered.load());
@@ -430,7 +467,7 @@ VectorAutoBufferStats VectorAutoBuffer::getStats() const {
 }
 
 void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;
     
     THEMIS_INFO("VectorAutoBuffer config updated: max_vectors={}, flush_interval={}ms",
@@ -439,10 +476,178 @@ void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
 }
 
 std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<BaseEntity>& entities) {
-    // Compression implementation placeholder
-    // For now, return entities as-is
-    // Future: Implement quantization, PQ, etc.
-    return entities;
+    if (entities.empty()) {
+        THEMIS_DEBUG("VectorAutoBuffer::applyCompression: called with empty entities");
+        return {};
+    }
+
+    const auto compression = config_.compression;
+    if (compression == VectorAutoBufferConfig::Compression::None) {
+        return entities;
+    }
+
+    // Helper: scalar-quantize a float32 vector to Int8 or Int16 and store it
+    // back as a float32 vector encoded inside a raw byte field so that the index
+    // can reconstruct the approximated embeddings without changing BaseEntity's
+    // public float-vector API.
+    //
+    // Encoding:
+    //   Int8  – each float is linearly mapped to [-127, 127]:
+    //             q = round(value / abs_max * 127),  stored as int8 packed in float
+    //   Int16 – each float is linearly mapped to [-32767, 32767]:
+    //             q = round(value / abs_max * 32767), stored as int16 packed in float
+    //
+    // The scale factor (abs_max) is appended as the very last float element so
+    // that the decoder can reconstruct the original values as:
+    //             value_approx = q * (abs_max / max_quant_value)
+
+    if (compression == VectorAutoBufferConfig::Compression::ProductQuantization) {
+        // Product Quantization: train a per-batch codebook and replace each
+        // entity's embedding with the PQ-reconstructed (lossy) approximation.
+        //
+        // Pipeline:
+        //   1. Collect all valid embeddings from the batch as training data.
+        //   2. Validate that dim is divisible by pq_num_subvectors and that
+        //      the batch is large enough to train (≥ pq_num_centroids vectors).
+        //   3. Train a ProductQuantizer on the batch.
+        //   4. For each entity: encode → decode → store reconstructed vector.
+        //
+        // Fallback: If preconditions are not met (empty batch, wrong dim, too
+        // few training samples), the function logs a warning and returns the
+        // original entities without modification, matching the behaviour of
+        // the scalar-quantization path on zero-vectors.
+
+        const std::string vec_field       = config_.vector_field;
+        const int         num_subvectors  = std::max(1, config_.pq_num_subvectors);
+        const int         num_centroids   = std::max(2, config_.pq_num_centroids);
+
+        // Step 1: gather training vectors and determine dimensionality.
+        std::vector<std::vector<float>> training_vecs;
+        training_vecs.reserve(entities.size());
+        for (const auto& entity : entities) {
+            auto vec_opt = entity.extractVector(vec_field);
+            if (vec_opt.has_value() && !vec_opt->empty()) {
+                training_vecs.push_back(*vec_opt);
+            }
+        }
+
+        if (training_vecs.empty()) {
+            THEMIS_DEBUG("VectorAutoBuffer: PQ skipped — no valid training vectors in batch, returning entities unchanged");
+            return entities;
+        }
+
+        const int dim = static_cast<int>(training_vecs[0].size());
+
+        // Step 2: precondition checks.
+        if (dim % num_subvectors != 0) {
+            THEMIS_WARN("VectorAutoBuffer: PQ skipped — dim={} not divisible by "
+                        "pq_num_subvectors={}; returning entities unchanged",
+                        dim, num_subvectors);
+            return entities;
+        }
+        if (static_cast<int>(training_vecs.size()) < num_centroids) {
+            THEMIS_WARN("VectorAutoBuffer: PQ skipped — batch size={} < "
+                        "pq_num_centroids={}; returning entities unchanged",
+                        training_vecs.size(), num_centroids);
+            return entities;
+        }
+
+        // Step 3: train.
+        ProductQuantizer::Config pq_cfg;
+        pq_cfg.num_subquantizers     = num_subvectors;
+        pq_cfg.num_centroids         = num_centroids;
+        pq_cfg.max_iterations        = 25;
+        pq_cfg.convergence_threshold = 0.001f;
+
+        ProductQuantizer pq(dim, pq_cfg);
+        auto train_status = pq.train(training_vecs);
+        if (!train_status.ok) {
+            THEMIS_WARN("VectorAutoBuffer: PQ training failed — {}; "
+                        "returning entities unchanged", train_status.message);
+            return entities;
+        }
+
+        // Step 4: encode → decode each entity.
+        std::vector<BaseEntity> result;
+        result.reserve(entities.size());
+
+        for (const auto& entity : entities) {
+            auto vec_opt = entity.extractVector(vec_field);
+            if (!vec_opt.has_value() || vec_opt->empty()) {
+                result.push_back(entity);
+                continue;
+            }
+            const auto codes        = pq.encode(*vec_opt);
+            const auto reconstructed = pq.decode(codes);
+
+            BaseEntity compressed = entity;
+            compressed.setField(vec_field, Value{reconstructed});
+            result.push_back(std::move(compressed));
+        }
+
+        THEMIS_DEBUG("VectorAutoBuffer: PQ compression applied — "
+                     "entities={} dim={} subvectors={} centroids={}",
+                     entities.size(), dim, num_subvectors, num_centroids);
+        return result;
+    }
+
+    const bool use_int8 = (compression == VectorAutoBufferConfig::Compression::Quantization_Int8);
+    const float max_quant_value = use_int8 ? 127.0f : 32767.0f;
+    const std::string vec_field  = config_.vector_field;
+
+    std::vector<BaseEntity> result;
+    result.reserve(entities.size());
+
+    for (const auto& entity : entities) {
+        auto vec_opt = entity.extractVector(vec_field);
+        if (!vec_opt.has_value() || vec_opt->empty()) {
+            // No embedding field — pass through unchanged
+            result.push_back(entity);
+            continue;
+        }
+
+        const std::vector<float>& src = *vec_opt;
+        const size_t dim = src.size();
+
+        // Find per-vector absolute maximum for scale computation
+        float abs_max = 0.0f;
+        for (float v : src) {
+            abs_max = std::max(abs_max, std::fabs(v));
+        }
+
+        if (abs_max < std::numeric_limits<float>::epsilon()) {
+            // Zero vector – pass through unchanged
+            result.push_back(entity);
+            continue;
+        }
+
+        // Quantize: map float → integer → reconstruct approximated float
+        // We store the reconstructed floats so that the downstream index code
+        // that calls extractVector() receives the quantised values transparently.
+        // The scale is embedded as the (dim+1)-th element.
+        std::vector<float> quantised;
+        quantised.reserve(dim + 1);
+        const float scale = abs_max / max_quant_value;
+        for (size_t i = 0; i < dim; ++i) {
+            float q = std::round(src[i] / scale);
+            // Clamp to [-max_quant_value, max_quant_value]
+            q = std::max(-max_quant_value, std::min(max_quant_value, q));
+            // Reconstruct approximate float (this IS the lossy compression)
+            quantised.push_back(q * scale);
+        }
+        quantised.push_back(abs_max); // scale metadata for downstream decoders
+
+        // Build a copy of the entity with the quantised vector
+        BaseEntity compressed = entity;
+        compressed.setField(vec_field, Value{quantised});
+
+        THEMIS_DEBUG("VectorAutoBuffer: quantised {} dim={} abs_max={:.6f} type={}",
+                     vec_field, dim, abs_max, use_int8 ? "Int8" : "Int16");
+
+        result.push_back(std::move(compressed));
+    }
+
+    return result;
 }
 
 } // namespace themis

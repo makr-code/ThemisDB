@@ -1,23 +1,21 @@
+/**
+ * @file prompt_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     198                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 193
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #454 refactor: Extract PromptApi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/prompt_api_handler.h"
@@ -44,6 +42,7 @@ PromptApiHandler::PromptApiHandler(
 http::response<http::string_body> PromptApiHandler::handlePost(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handlePost");
     // Implementation moved from http_server.cpp handlePromptTemplatePost()
     // Note: Authorization checks (requireAccess) from original implementation are not included
     // as they rely on HttpServer methods. Authorization should be handled at middleware/routing layer.
@@ -51,7 +50,7 @@ http::response<http::string_body> PromptApiHandler::handlePost(
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
+        auto& prompt_manager = *prompt_manager_;
         if (req.body().empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
         }
@@ -66,7 +65,7 @@ http::response<http::string_body> PromptApiHandler::handlePost(
         if (body.contains("metadata")) t.metadata = body["metadata"];
         if (body.contains("active")) t.active = body.value("active", true);
 
-        auto created = prompt_manager_->createTemplate(std::move(t));
+        auto created = prompt_manager.createTemplate(std::move(t));
         return makeResponse(http::status::created, created.toJson().dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -76,13 +75,14 @@ http::response<http::string_body> PromptApiHandler::handlePost(
 http::response<http::string_body> PromptApiHandler::handleList(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleList");
     // Implementation moved from http_server.cpp handlePromptTemplateList()
     try {
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
-        auto list = prompt_manager_->listTemplates();
+        auto& prompt_manager = *prompt_manager_;
+        auto list = prompt_manager.listTemplates();
         nlohmann::json out = nlohmann::json::array();
         for (const auto& t : list) {
             out.push_back(t.toJson());
@@ -96,19 +96,20 @@ http::response<http::string_body> PromptApiHandler::handleList(
 http::response<http::string_body> PromptApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGet");
     // Implementation moved from http_server.cpp handlePromptTemplateGet()
     try {
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
+        auto& prompt_manager = *prompt_manager_;
         std::string path = std::string(req.target());
         auto id = extractPathParam(path, "/prompt_template/");
         if (id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing template id", req);
         }
 
-        auto opt = prompt_manager_->getTemplate(id);
+        auto opt = prompt_manager.getTemplate(id);
         if (!opt.has_value()) {
             return makeErrorResponse(http::status::not_found, "Template not found", req);
         }
@@ -122,12 +123,13 @@ http::response<http::string_body> PromptApiHandler::handleGet(
 http::response<http::string_body> PromptApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handlePut");
     // Implementation moved from http_server.cpp handlePromptTemplatePut()
     try {
         if (!prompt_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PromptManager not available", req);
         }
-
+        auto& prompt_manager = *prompt_manager_;
         std::string path = std::string(req.target());
         auto id = extractPathParam(path, "/prompt_template/");
         if (id.empty()) {
@@ -145,12 +147,12 @@ http::response<http::string_body> PromptApiHandler::handlePut(
         if (body.contains("metadata")) metadata = body["metadata"];
         if (body.contains("active")) active = body.value("active", true);
 
-        bool ok = prompt_manager_->updateTemplate(id, metadata, active);
+        bool ok = prompt_manager.updateTemplate(id, metadata, active);
         if (!ok) {
             return makeErrorResponse(http::status::not_found, "Template not found", req);
         }
 
-        auto updated_opt = prompt_manager_->getTemplate(id);
+        auto updated_opt = prompt_manager.getTemplate(id);
         nlohmann::json out = updated_opt ? updated_opt->toJson() : nlohmann::json::object();
         return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
@@ -199,3 +201,4 @@ http::response<http::string_body> PromptApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

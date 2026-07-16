@@ -1,8 +1,10 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Analytics Module - Header Files
 
-**Version:** 1.7.0
+**Version:** 1.9.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-05-10
 **Module Path:** `include/analytics/`
 
 ---
@@ -27,6 +29,19 @@ The Analytics module provides comprehensive data analysis capabilities for Themi
 ## About This Directory
 
 This directory (`include/analytics/`) contains **header files only**. For implementation details, see [`src/analytics/README.md`](../../src/analytics/README.md).
+
+## Public API Entry Points
+
+The most important public headers for analytics integrations are:
+
+| Header | Purpose |
+| --- | --- |
+| `olap.h` | OLAP query model and `OLAPEngine` execution API |
+| `cep_engine.h` | CEP runtime (`CEPEngine`) and EPL rule processing |
+| `forecasting.h` | Time-series model training/evaluation/prediction APIs |
+| `process_mining.h` | Event-log extraction, discovery, and conformance checking |
+| `analytics_export.h` + `arrow_export.h` | Export APIs (JSON/CSV always, Arrow formats optional) |
+| `streaming_window.h` + `streaming_join.h` | Streaming windows and stream-stream joins |
 
 ## Header Files
 
@@ -245,14 +260,14 @@ Pattern ideal = {
 
 // Find similar processes
 auto results = matcher.findSimilar(
-    ideal, 
+    ideal,
     0.7,  // 70% similarity threshold
-    SimilarityMethod::HYBRID, 
+    SimilarityMethod::HYBRID,
     10  // Top 10 results
 );
 
 for (const auto& result : results) {
-    std::cout << "Process: " << result.process_id 
+    std::cout << "Process: " << result.process_id
               << " Similarity: " << result.score << std::endl;
 }
 ```
@@ -459,7 +474,7 @@ std::cout << "Deleted: " << diff.stats.deleted_count << std::endl;
 
 // Iterate changes
 for (const auto& change : diff.modified) {
-    std::cout << "Modified: " << change.key 
+    std::cout << "Modified: " << change.key
               << " from " << change.old_value.value()
               << " to " << change.new_value.value() << std::endl;
 }
@@ -621,7 +636,7 @@ auto reg = automl.trainRegressor(data, {
 **Example AQL:**
 ```sql
 FOR doc IN sales
-  COLLECT region = doc.region 
+  COLLECT region = doc.region
   AGGREGATE total = SUM(doc.amount), avg_price = AVG(doc.price)
   RETURN { region, total, avg_price }
 ```
@@ -692,7 +707,7 @@ auto result = engine.execute(query);  // Automatically uses vectorized execution
 ### Data Export
 1. **Use streaming**: For large datasets, use streaming export
 2. **Compression**: Enable compression for network transfers
-3. **Format selection**: 
+3. **Format selection**:
    - JSON: Human-readable, debugging
    - CSV: Simple integration
    - Parquet: Efficient storage and columnar analytics
@@ -701,7 +716,7 @@ auto result = engine.execute(query);  // Automatically uses vectorized execution
 
 ### Process Mining
 1. **Event log quality**: Ensure complete event logs
-2. **Algorithm selection**: 
+2. **Algorithm selection**:
    - Alpha Miner: Clean, simple processes
    - Heuristic Miner: Noisy, real-world logs
    - Inductive Miner: Need guaranteed soundness
@@ -756,7 +771,7 @@ auto result = engine.execute(query);  // Automatically uses vectorized execution
 | Community detection | 10K vertices, 50K edges | 320ms |
 | Shortest path | 10K vertices, 50K edges | 15ms |
 
-**Hardware:** AMD EPYC 7763, 128GB RAM, NVMe SSD  
+**Hardware:** AMD EPYC 7763, 128GB RAM, NVMe SSD
 **Configuration:** Default settings, no special tuning
 
 ## Thread Safety
@@ -824,7 +839,7 @@ export THEMIS_ANALYTICS_BATCH_SIZE=1024
 export THEMIS_ANALYTICS_CACHE_SIZE=1GB
 ```
 
-### Compile-Time Options
+## Compile-Time Options
 ```cmake
 # Enable Arrow support
 set(THEMIS_ENABLE_ARROW ON)
@@ -846,6 +861,12 @@ set(THEMIS_ENABLE_GPU ON)
 - Apache Arrow C++ (for Arrow export formats)
 - OpenSSL (for LLM API calls)
 - CUDA (for GPU acceleration)
+
+## Troubleshooting
+
+- Arrow export formats (IPC/Parquet/Feather) require Arrow support at build time; otherwise exporters return `NOT_SUPPORTED`.
+- LLM-backed analysis requires provider credentials (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, etc.).
+- For module-level troubleshooting playbooks, see [`../../docs/troubleshooting/analytics_troubleshooting.md`](../../docs/troubleshooting/analytics_troubleshooting.md).
 
 ## Testing
 
@@ -871,7 +892,8 @@ Specific test suites:
 ## See Also
 
 - **Implementation**: [`src/analytics/README.md`](../../src/analytics/README.md)
-- **Future Plans**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **Roadmap**: [`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md)
+- **Future Plans**: [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
 - **Query Integration**: [`../query/README.md`](../query/README.md)
 - **Index Integration**: [`../index/README.md`](../index/README.md)
 - **Observability**: [`../observability/README.md`](../observability/README.md)
@@ -897,8 +919,16 @@ Part of ThemisDB. See LICENSE file in the root directory.
 - **Implementation Documentation**: [`../../src/analytics/README.md`](../../src/analytics/README.md)
 - **Architecture**: [`../../src/analytics/ARCHITECTURE.md`](../../src/analytics/ARCHITECTURE.md)
 - **Roadmap**: [`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md)
-- **Future Enhancements (API)**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **Future Enhancements**: [`../../src/analytics/FUTURE_ENHANCEMENTS.md`](../../src/analytics/FUTURE_ENHANCEMENTS.md)
 - **Secondary Docs (de)**: [`../../docs/de/analytics/README.md`](../../docs/de/analytics/README.md)
 - **OLAP Guide**: [`../../docs/de/analytics/olap_guide.md`](../../docs/de/analytics/olap_guide.md)
 - **Forecasting Guide**: [`../../docs/de/analytics/forecasting_guide.md`](../../docs/de/analytics/forecasting_guide.md)
 - **CEP Guide**: [`../../docs/de/analytics/cep_guide.md`](../../docs/de/analytics/cep_guide.md)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

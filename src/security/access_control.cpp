@@ -1,25 +1,21 @@
+/**
+ * @file access_control.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            access_control.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     897                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f0228555e  2026-02-22  fix(security): code-audit: add user_agent to Authorizatio... ║
-    • 3371af473  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: access_control.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1026
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=3, M=3, L=0
+ * PR History (last 5): #4426 fix(security): replace Resu... (2026-03-26) | #2774 feat(auth): ABAC engine â€”... (2026-03-12) | #802 Add security and access con... (2026-03-11) | #815 Add plugin-based security a... (2026-03-11) | #897 Implement AST-based AQL inj... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/access_control.h"
@@ -30,10 +26,13 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
+#include <algorithm>
+#include <cctype>
 #include <random>
 #include <sstream>
 #include <iomanip>
 #include <regex>
+#include <cstdlib>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 
@@ -90,6 +89,22 @@ AccessControl::AccessControl(const Config& config)
     );
     
     THEMIS_INFO("User registration will be handled via plugins (Apache Arrow, WebDAV)");
+
+    // Phase 2.2: apply THEMIS_MFA_REQUIRED_ROLES env override if set.
+    // Format: comma-separated role names, e.g. "admin,operator,superuser".
+    if (const char* env_roles = std::getenv("THEMIS_MFA_REQUIRED_ROLES")) {
+        std::vector<std::string> roles;
+        std::istringstream ss(env_roles);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            if (!token.empty()) roles.push_back(token);
+        }
+        if (!roles.empty()) {
+            config_.session_config.mfa_required_roles = std::move(roles);
+            THEMIS_INFO("AccessControl: THEMIS_MFA_REQUIRED_ROLES override applied ({} roles)",
+                        config_.session_config.mfa_required_roles.size());
+        }
+    }
 }
 
 AccessControl::~AccessControl() {
@@ -135,8 +150,8 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
         auto result = auth_middleware_->validateToken(credentials.oauth_token.value());
         if (result.authorized) {
             stats_.successful_authentications++;
-            auto roles = getUserRoles(result.user_id);
-            auto session_token = createSession(result.user_id, roles, false);
+            auto roles = getUserRolesLocked(result.user_id);
+            auto session_token = createSessionLocked(result.user_id, roles, false);
             
             logSecurityEvent(
                 utils::SecurityEventType::LOGIN_SUCCESS,
@@ -177,21 +192,53 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
         return AuthenticationResult::Failed("Invalid credentials");
     }
     
-    // Check if MFA is required
-    if (config_.session_config.require_mfa) {
-        if (!credentials.mfa_token.has_value()) {
-            return AuthenticationResult::RequiresMFA(credentials.user_id);
+    // Check if MFA is required — Phase 2.2: also check per-role requirements.
+    // The global require_mfa flag OR the role being in mfa_required_roles both
+    // trigger mandatory MFA.  At this point we have the user's roles from the
+    // auth_result.
+    {
+        auto& user_data_local = auth_result.value();
+        const auto& required_roles = config_.session_config.mfa_required_roles;
+
+        bool role_requires_mfa = false;
+        if (!required_roles.empty()) {
+            for (const auto& role : user_data_local.roles) {
+                for (const auto& req_role : required_roles) {
+                    if (role == req_role) {
+                        role_requires_mfa = true;
+                        break;
+                    }
+                }
+                if (role_requires_mfa) break;
+            }
         }
-        
-        if (!verifyMFA(credentials.user_id, credentials.mfa_token.value())) {
-            stats_.failed_authentications++;
-            logSecurityEvent(
-                utils::SecurityEventType::MFA_TOTP_FAILED,
-                credentials.user_id,
-                "authentication",
-                {{"reason", "Invalid MFA token"}}
-            );
-            return AuthenticationResult::Failed("Invalid MFA token");
+
+        bool mfa_needed = config_.session_config.require_mfa || role_requires_mfa;
+
+        if (mfa_needed) {
+            if (!credentials.mfa_token.has_value()) {
+                if (role_requires_mfa) {
+                    logSecurityEvent(
+                        utils::SecurityEventType::LOGIN_FAILED,
+                        credentials.user_id,
+                        "authentication",
+                        {{"reason", "MFA required for privileged role"},
+                         {"event", "MFA_SKIPPED_ADMIN"}}
+                    );
+                }
+                return AuthenticationResult::RequiresMFA(credentials.user_id);
+            }
+
+            if (!verifyMFA(credentials.user_id, credentials.mfa_token.value())) {
+                stats_.failed_authentications++;
+                logSecurityEvent(
+                    utils::SecurityEventType::MFA_TOTP_FAILED,
+                    credentials.user_id,
+                    "authentication",
+                    {{"reason", "Invalid MFA token"}}
+                );
+                return AuthenticationResult::Failed("Invalid MFA token");
+            }
         }
     }
     
@@ -199,7 +246,7 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
     stats_.successful_authentications++;
     auto user_data = auth_result.value();
     auto roles = user_data.roles;
-    auto session_token = createSession(credentials.user_id, roles, credentials.mfa_token.has_value());
+    auto session_token = createSessionLocked(credentials.user_id, roles, credentials.mfa_token.has_value());
     
     logSecurityEvent(
         utils::SecurityEventType::LOGIN_SUCCESS,
@@ -262,7 +309,7 @@ Result<void> AccessControl::registerUser(
 Result<void> AccessControl::changePassword(
     const std::string& user_id,
     const std::string& old_password,
-    const std::string& new_password
+    const std::string& /*new_password*/
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -302,7 +349,7 @@ Result<void> AccessControl::changePassword(
     THEMIS_WARN("Password change for embedded plugin - consider using external identity provider"); // NOPII: static advisory string, no PII value
     
     // Invalidate all existing sessions
-    invalidateUserSessions(user_id);
+    invalidateUserSessionsLocked(user_id);
     
     logSecurityEvent(
         utils::SecurityEventType::CONFIG_CHANGED,
@@ -325,7 +372,26 @@ Result<void> AccessControl::changePassword(
 
 Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    // [A-3] Guard: prevent silent overwrite of an active MFA enrollment.
+    // An attacker who can call enrollMFA() with an arbitrary user_id must not be
+    // able to replace a live TOTP secret without first disabling the existing
+    // enrollment. Production callers are expected to enforce RBAC / session checks
+    // before reaching this point; this check is a defence-in-depth backstop.
+    auto existing_it = mfa_enrollments_.find(user_id);
+    if (existing_it != mfa_enrollments_.end() && existing_it->second.enabled) {
+        logSecurityEvent(
+            utils::SecurityEventType::MFA_ENROLLED,
+            user_id,
+            "mfa",
+            {{"action", "MFA enrollment rejected — existing enrollment active"}}
+        );
+        return themis::Err<nlohmann::json>(
+            themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
+            "MFA is already enrolled for this user. Disable existing MFA before re-enrolling."
+        );
+    }
+
     auto enrollment = mfa_authenticator_->generateEnrollment(user_id);
     auto uri = mfa_authenticator_->generateProvisioningURI(enrollment);
     
@@ -335,7 +401,11 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
         {"qr_code_uri", uri},
         {"recovery_codes", enrollment.recovery_codes}
     };
-    
+
+    // Persist enrollment so verifyMFA() can look up the secret.
+    enrollment.enabled = true;
+    mfa_enrollments_[user_id] = std::move(enrollment);
+
     logSecurityEvent(
         utils::SecurityEventType::MFA_ENROLLED,
         user_id,
@@ -348,26 +418,49 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
 }
 
 bool AccessControl::verifyMFA(const std::string& user_id, const std::string& token) {
-    // This is a simplified implementation
-    // In production, retrieve stored MFA secret from database
-    (void)user_id;
-    (void)token;
-    
-    // For now, always return true if token is provided
-    // Real implementation would call mfa_authenticator_->validateTOTP()
-    return !token.empty();
+    if (token.empty()) {
+        return false;
+    }
+
+    auto it = mfa_enrollments_.find(user_id);
+    if (it == mfa_enrollments_.end() || !it->second.enabled) {
+        THEMIS_WARN("verifyMFA: no active MFA enrollment found for user '{}'", user_id);
+        return false;
+    }
+
+    const auto& enrollment = it->second;
+
+    // Primary path: TOTP code validation.
+    if (mfa_authenticator_->validateTOTP(enrollment.secret_base32, token,
+                                          std::nullopt, user_id)) {
+        return true;
+    }
+
+    // Fallback path: single-use recovery code.
+    auto& mutable_enrollment = it->second;
+    if (mfa_authenticator_->validateRecoveryCode(mutable_enrollment, token)) {
+        THEMIS_INFO("verifyMFA: recovery code used for user '{}'", user_id);
+        return true;
+    }
+
+    return false;
 }
 
 Result<void> AccessControl::disableMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    const auto erased = mfa_enrollments_.erase(user_id);
+    if (erased == 0) {
+        THEMIS_WARN("disableMFA: no active MFA enrollment found for user '{}'", user_id);
+    }
+
     logSecurityEvent(
         utils::SecurityEventType::MFA_DISABLED,
         user_id,
         "mfa",
         {{"action", "MFA disabled"}}
     );
-    
+
     THEMIS_INFO("MFA disabled for user: {}", user_id);
     return themis::OkVoid();
 }
@@ -527,9 +620,13 @@ Result<void> AccessControl::revokeRole(const std::string& user_id, const std::st
     return themis::OkVoid();
 }
 
+std::vector<std::string> AccessControl::getUserRolesLocked(const std::string& user_id) const {
+    return user_role_store_->getUserRoles(user_id);
+}
+
 std::vector<std::string> AccessControl::getUserRoles(const std::string& user_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return user_role_store_->getUserRoles(user_id);
+    return getUserRolesLocked(user_id);
 }
 
 // ============================================================================
@@ -553,17 +650,14 @@ bool AccessControl::removeABACPolicy(const std::string& policy_id) {
 // Session Management
 // ============================================================================
 
-std::string AccessControl::createSession(
+std::string AccessControl::createSessionLocked(
     const std::string& user_id,
     const std::vector<std::string>& roles,
     bool mfa_verified
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
     // Generate session token
     auto session_token = generateSessionToken();
-    
-    // Create session
+
     Session session;
     session.session_id = session_token;
     session.user_id = user_id;
@@ -571,20 +665,29 @@ std::string AccessControl::createSession(
     session.created_at = std::chrono::system_clock::now();
     session.last_access = session.created_at;
     session.mfa_verified = mfa_verified;
-    
+
     sessions_[session_token] = session;
     user_sessions_[user_id].push_back(session_token);
-    
+
     // Check max concurrent sessions
     auto& user_sess = user_sessions_[user_id];
     if (user_sess.size() > static_cast<size_t>(config_.session_config.max_concurrent_sessions)) {
-        // Remove oldest session
-        invalidateSession(user_sess.front());
+        // Remove oldest session without re-acquiring the mutex.
+        invalidateSessionLocked(user_sess.front());
         user_sess.erase(user_sess.begin());
     }
-    
+
     THEMIS_DEBUG("Session created for user: {}", user_id);
     return session_token;
+}
+
+std::string AccessControl::createSession(
+    const std::string& user_id,
+    const std::vector<std::string>& roles,
+    bool mfa_verified
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return createSessionLocked(user_id, roles, mfa_verified);
 }
 
 std::optional<AccessControl::Session> AccessControl::validateSession(const std::string& session_token) {
@@ -609,59 +712,64 @@ std::optional<AccessControl::Session> AccessControl::validateSession(const std::
     return session;
 }
 
-void AccessControl::invalidateSession(const std::string& session_token) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
+void AccessControl::invalidateSessionLocked(const std::string& session_token) {
     auto it = sessions_.find(session_token);
     if (it != sessions_.end()) {
         auto user_id = it->second.user_id;
         sessions_.erase(it);
-        
-        // Remove from user sessions
+
         auto& user_sess = user_sessions_[user_id];
         user_sess.erase(
             std::remove(user_sess.begin(), user_sess.end(), session_token),
             user_sess.end()
         );
-        
+
         logSecurityEvent(
             utils::SecurityEventType::LOGOUT,
             user_id,
             "session",
             {{"action", "Session invalidated"}}
         );
-        
+
         THEMIS_DEBUG("Session invalidated: {}", session_token);
     }
 }
 
-void AccessControl::invalidateUserSessions(const std::string& user_id) {
+void AccessControl::invalidateSession(const std::string& session_token) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+    invalidateSessionLocked(session_token);
+}
+
+void AccessControl::invalidateUserSessionsLocked(const std::string& user_id) {
     auto it = user_sessions_.find(user_id);
     if (it != user_sessions_.end()) {
         for (const auto& session_token : it->second) {
             sessions_.erase(session_token);
         }
         user_sessions_.erase(it);
-        
+
         logSecurityEvent(
             utils::SecurityEventType::LOGOUT,
             user_id,
             "session",
             {{"action", "All sessions invalidated"}}
         );
-        
+
         THEMIS_INFO("All sessions invalidated for user: {}", user_id);
     }
+}
+
+void AccessControl::invalidateUserSessions(const std::string& user_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    invalidateUserSessionsLocked(user_id);
 }
 
 // ============================================================================
 // Threat Detection
 // ============================================================================
 
-bool AccessControl::isRateLimited(const std::string& user_id, const std::string& resource) {
-    (void)resource; // unused for now
+bool AccessControl::isRateLimited(const std::string& user_id, [[maybe_unused]] const std::string& resource) {
+    // unused for now
     return !checkRateLimit(user_id);
 }
 
@@ -670,12 +778,22 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
         return false;
     }
 
-    // Fast heuristic detection
-    static const std::vector<std::string> patterns = {
-        "' OR '1'='1", "'; DROP TABLE", "UNION SELECT", "-- ", "/*", "*/"
+    // SECURITY NOTE: This is a heuristic/defense-in-depth layer, NOT a substitute
+    // for parameterized queries. Always use parameterized queries as the primary
+    // defense against SQL injection.
+
+    // Case-fold for detection — prevents trivial bypass via lowercase/mixed-case input
+    std::string lower_query = query;
+    std::transform(lower_query.begin(), lower_query.end(), lower_query.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
+    static const std::array<std::string_view, 17> kSqlPatterns = {
+        "union", "select", "insert", "update", "delete", "drop", "exec",
+        "execute", "xp_", "--", "/*", "*/", ";", "or 1=1", "' or '",
+        "1=1", "1 = 1"
     };
-    for (const auto& pattern : patterns) {
-        if (query.find(pattern) != std::string::npos) {
+    for (const auto& pat : kSqlPatterns) {
+        if (lower_query.find(pat) != std::string::npos) {
             return true;
         }
     }
@@ -718,9 +836,9 @@ bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::s
     return false;
 }
 
-void AccessControl::recordFailedLogin(const std::string& user_id, const std::string& ip_address) {
-    (void)ip_address;
-    
+void AccessControl::recordFailedLogin(const std::string& user_id, [[maybe_unused]] const std::string& ip_address) {
+    // SECURITY NOTE: Lockout state is in-memory only. On process restart, counters reset.
+    // Persistent lockout requires an external store (Redis, DB). Log lockout events for SIEM.
     auto& entry = rate_limits_[user_id];
     entry.failed_login_count++;
     
@@ -735,7 +853,8 @@ void AccessControl::recordFailedLogin(const std::string& user_id, const std::str
             {{"failed_attempts", entry.failed_login_count}}
         );
         
-        THEMIS_WARN("User locked out due to failed login attempts: {}", user_id);
+        THEMIS_WARN("[SECURITY] Account lockout activated for user '{}' after {} failed attempts. "
+                    "Note: lockout state is not persistent across restarts.", user_id, entry.failed_login_count);
     }
 }
 
@@ -774,13 +893,33 @@ nlohmann::json AccessControl::getAuditLogs(
     std::optional<std::chrono::system_clock::time_point> since,
     std::optional<std::chrono::system_clock::time_point> until
 ) const {
-    (void)user_id;
-    (void)since;
-    (void)until;
-    
-    // This would query the audit logger
-    // For now, return empty array
-    return nlohmann::json::array();
+    auto result = nlohmann::json::array();
+
+    if (!audit_logger_) {
+        return result;
+    }
+
+    const auto entries = audit_logger_->enumerateEntries();
+    for (const auto& entry : entries) {
+        // Apply time-range filters
+        if (since.has_value() && entry.timestamp < *since) {
+            continue;
+        }
+        if (until.has_value() && entry.timestamp > *until) {
+            continue;
+        }
+        // Filter by user_id when provided (empty means "all users")
+        if (!user_id.empty()) {
+            const auto& rec = entry.record;
+            if (!rec.contains("user_id") ||
+                rec["user_id"].get<std::string>() != user_id) {
+                continue;
+            }
+        }
+        result.push_back(entry.record);
+    }
+
+    return result;
 }
 
 // ============================================================================
@@ -812,7 +951,6 @@ nlohmann::json AccessControl::getStatistics() const {
         {"rate_limited_requests", stats_.rate_limited_requests.load()},
         {"sql_injection_attempts", stats_.sql_injection_attempts.load()},
         {"suspicious_queries", stats_.suspicious_queries.load()},
-        {"active_sessions", sessions_.size()},
         {"active_sessions", sessions_.size()}
     };
 }
@@ -843,6 +981,7 @@ void AccessControl::cleanupExpiredSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> expired_sessions;
+    expired_sessions.reserve(sessions_.size());
     
     for (const auto& [token, session] : sessions_) {
         if (isSessionExpired(session)) {
@@ -851,7 +990,7 @@ void AccessControl::cleanupExpiredSessions() {
     }
     
     for (const auto& token : expired_sessions) {
-        invalidateSession(token);
+        invalidateSessionLocked(token);
     }
 }
 
@@ -896,3 +1035,4 @@ bool AccessControl::checkRateLimit(const std::string& user_id) {
 
 } // namespace security
 } // namespace themis
+

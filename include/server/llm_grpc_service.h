@@ -1,28 +1,26 @@
+/**
+ * @file llm_grpc_service.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_grpc_service.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     149                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_grpc_service.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "llm/llm_plugin_manager.h"
+#include "auth/jwt_validator.h"
 #include "proto/llm_service.grpc.pb.h"
 #include <grpcpp/grpcpp.h>
 #include <memory>
@@ -134,11 +132,24 @@ public:
 
 private:
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
+    std::shared_ptr<auth::JWTValidator> jwt_validator_;
 
     // Helper methods
     bool validateBearerToken(grpc::ServerContext* context);
     std::string extractBearerToken(grpc::ServerContext* context);
-    
+
+public:
+    /**
+     * @brief Inject a JWT validator for Bearer token authentication.
+     *
+     * When set, validateBearerToken() calls parseAndValidate() and rejects
+     * tokens that are expired, have an invalid signature, or fail issuer /
+     * audience checks.  If not set the method falls back to a structural
+     * check only (well-formed JWT + non-expired exp claim).
+     */
+    void setJwtValidator(std::shared_ptr<auth::JWTValidator> validator);
+
+private:
     // Conversion helpers between protobuf and internal types
     void convertToInternalRequest(
         const llm::InferenceRequest& pb_req,

@@ -1,26 +1,25 @@
+/**
+ * @file thread_pool_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            thread_pool_manager.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     325                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: thread_pool_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 328
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=1, L=0
+ * PR History (last 5): #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #1031 Implement comprehensive res... (2026-03-11) | #1036 Centralize thread managemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/thread_pool_manager.h"
+#include <stdexcept>
 #include <algorithm>
 
 namespace themis::utils {
@@ -61,23 +60,34 @@ void ThreadPool::workerLoop() {
                 continue;
             }
             
-            // Get next task (FIFO for now)
-            // TODO: Implement priority queue for proper priority-based scheduling
-            task = task_queue_.front();
+            // Dequeue highest-priority task from the priority queue.
+            task = task_queue_.top();
             task_queue_.pop();
         }
         
         if (task) {
             active_threads_++;
+            auto exec_start = std::chrono::steady_clock::now();
             try {
                 task->execute();
                 total_executed_++;
             } catch (const std::exception& e) {
                 spdlog::error("Task {} failed with exception: {}", task->getName(), e.what());
                 total_failed_++;
-            } catch (...) {
-                spdlog::error("Task {} failed with unknown exception", task->getName());
+            } catch (const std::string& e) {
+                spdlog::error("Task {} failed with exception: {}", task->getName(), e);
                 total_failed_++;
+            } catch (const char* e) {
+                spdlog::error("Task {} failed with exception: {}", task->getName(), (e ? e : "<null>"));
+                total_failed_++;
+            }
+            double latency_ms = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - exec_start
+            ).count();
+            {
+                std::unique_lock<std::shared_mutex> lk(mutex_);
+                latency_sum_ms_ += latency_ms;
+                ++latency_count_;
             }
             active_threads_--;
         }
@@ -138,8 +148,9 @@ ThreadPool::Statistics ThreadPool::getStatistics() const {
     stats.total_executed = total_executed_.load();
     stats.total_failed = total_failed_.load();
     
-    // TODO: Implement proper task latency tracking by storing execution times
-    stats.average_task_latency_ms = 0.0;
+    // Average latency from the running sum maintained in workerLoop.
+    stats.average_task_latency_ms =
+        (latency_count_ > 0) ? (latency_sum_ms_ / static_cast<double>(latency_count_)) : 0.0;
     
     return stats;
 }

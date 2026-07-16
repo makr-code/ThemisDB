@@ -1,24 +1,21 @@
+/**
+ * @file learned_quantizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            learned_quantizer.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     202                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: learned_quantizer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 190
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #936 Implement Binary, Learned, ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -41,7 +38,7 @@ namespace themis {
  * 
  * @deprecated NOT USED IN PRODUCTION CODE. Research implementation for vector compression studies.
  * 
- * @sources
+ * Sources:
  * - Algorithm: Learned Quantization / Adaptive Quantization
  * - Paper: Chen, X., et al. (2021).
  *          "Learned Quantization for High-Dimensional Vector Search"
@@ -61,7 +58,8 @@ namespace themis {
  * 
  * Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914)
  */
-class LearnedQuantizer {
+class [[deprecated("LearnedQuantizer is a research-only implementation not used in production. "
+                   "See @deprecated tag in class Doxygen comment for details.")]] LearnedQuantizer {
 public:
     struct Config {
         int bits_per_dimension;       // Number of bits per dimension (2-8)
@@ -84,8 +82,8 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
-        static Status OK() { return {}; }
-        static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        [[nodiscard]] static Status OK() { return {}; }
+        [[nodiscard]] static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
     /**
@@ -101,21 +99,21 @@ public:
      * @param training_vectors Training data (num_vectors x dimension)
      * @return Status indicating success or failure
      */
-    Status train(const std::vector<std::vector<float>>& training_vectors);
+    [[nodiscard]] Status train(const std::vector<std::vector<float>>& training_vectors);
 
     /**
      * @brief Encode a vector using learned thresholds
      * @param vector Input vector (dimension floats)
      * @return Quantized codes (dimension * bits_per_dimension / 8 bytes)
      */
-    std::vector<uint8_t> encode(const std::vector<float>& vector) const;
+    [[nodiscard]] std::vector<uint8_t> encode(const std::vector<float>& vector) const;
 
     /**
      * @brief Decode quantized codes back to approximate vector
      * @param codes Quantized codes
      * @return Reconstructed vector (dimension floats)
      */
-    std::vector<float> decode(const std::vector<uint8_t>& codes) const;
+    [[nodiscard]] std::vector<float> decode(const std::vector<uint8_t>& codes) const;
 
     /**
      * @brief Compute asymmetric distance between query and quantized codes
@@ -123,33 +121,33 @@ public:
      * @param codes Quantized codes
      * @return Approximate L2 distance
      */
-    float asymmetricDistance(const std::vector<float>& query,
+    [[nodiscard]] float asymmetricDistance(const std::vector<float>& query,
                             const std::vector<uint8_t>& codes) const;
 
     /**
      * @brief Check if quantizer is trained
      */
-    bool isTrained() const { return trained_; }
+    [[nodiscard]] bool isTrained() const { return trained_; }
 
     /**
      * @brief Get compression ratio
      */
-    float getCompressionRatio() const;
+    [[nodiscard]] float getCompressionRatio() const;
 
     /**
      * @brief Get encoded size in bytes
      */
-    size_t getEncodedSize() const;
+    [[nodiscard]] size_t getEncodedSize() const;
 
     /**
      * @brief Get memory usage in bytes
      */
-    size_t getMemoryUsage() const;
+    [[nodiscard]] size_t getMemoryUsage() const;
 
     // Getters
-    int getDimension() const { return dimension_; }
-    int getBitsPerDimension() const { return config_.bits_per_dimension; }
-    int getNumBins() const { return num_bins_; }
+    [[nodiscard]] int getDimension() const { return dimension_; }
+    [[nodiscard]] int getBitsPerDimension() const { return config_.bits_per_dimension; }
+    [[nodiscard]] int getNumBins() const { return num_bins_; }
 
 private:
     int dimension_;

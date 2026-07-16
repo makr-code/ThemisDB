@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ab_testing_framework.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file ab_testing_framework.cpp
- * @brief Implementation of A/B testing framework
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/ab_testing_framework.h"
@@ -69,7 +53,7 @@ bool ABTestingFramework::startTest(const ABTestConfig &config) {
 }
 
 void ABTestingFramework::recordObservation(const std::string &test_id, bool is_treatment, bool success,
-                                           double metric_value) {
+                                           [[maybe_unused]] double metric_value) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     auto it = impl_->tests.find(test_id);
@@ -208,6 +192,7 @@ double ABTestingFramework::calculateTStatistic(const GroupMetrics &control, cons
 }
 
 double ABTestingFramework::calculatePValue(double t_statistic, size_t df) {
+    static_cast<void>(df);
     // Simplified p-value calculation using normal approximation
     // For large df (>30), t-distribution ≈ normal distribution
 

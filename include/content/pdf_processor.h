@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pdf_processor.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a86557e  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
-    • be51d5459  2026-02-22  Add PDF text extraction with layout preservation using po... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file pdf_processor.h
- * @brief PDF Content Processor for ThemisDB
- * 
- * Extracts text, metadata, and structure from PDF documents.
- * Uses poppler-cpp or PoDoFo for PDF parsing.
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -55,11 +30,11 @@ class ContentMetrics;  // forward declaration
  * @brief PDF Page Information
  */
 struct PDFPageInfo {
-    int page_number;
+    int page_number = 0;   ///< 1-based page index (CON-020)
     std::string text;
-    int width;           // Points (1/72 inch)
-    int height;          // Points
-    int rotation;        // 0, 90, 180, 270
+    int width = 0;         ///< Width in points (1/72 inch) (CON-020)
+    int height = 0;        ///< Height in points (CON-020)
+    int rotation = 0;      ///< Rotation: 0, 90, 180, or 270 degrees (CON-020)
     std::vector<std::pair<float, float>> text_positions;  // x,y positions of text blocks
 };
 
@@ -75,9 +50,9 @@ struct PDFMetadata {
     std::string producer;
     std::string creation_date;      // ISO 8601
     std::string modification_date;  // ISO 8601
-    int page_count;
-    bool is_encrypted;
-    bool is_linearized;
+    int page_count = 0;            ///< Total number of pages (CON-020)
+    bool is_encrypted = false;     ///< True if document is password-protected (CON-020)
+    bool is_linearized = false;    ///< True if PDF is web-optimised/linearized (CON-020)
     std::string pdf_version;
 };
 
@@ -196,12 +171,15 @@ private:
 };
 
 /**
- * @brief Factory function for PDF Processor
- * 
- * @param config Optional configuration
- * @return Unique pointer to PDFProcessor
+ * @brief Factory function for PDF Processor.
+ * @return Unique pointer to PDFProcessor.
  */
 std::unique_ptr<IContentProcessor> createPDFProcessor();
+/**
+ * @brief Factory function for PDF Processor.
+ * @param config Optional configuration.
+ * @return Unique pointer to PDFProcessor.
+ */
 std::unique_ptr<IContentProcessor> createPDFProcessor(
     PDFProcessor::Config config
 );

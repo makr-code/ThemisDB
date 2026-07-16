@@ -1,23 +1,20 @@
+/**
+ * @file auto_labeler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auto_labeler.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     172                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auto_labeler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +29,11 @@ namespace themis {
 // Forward declare to avoid circular dependency
 namespace analytics {
     struct LegalModality;
+}
+
+// Forward declare the canonical query engine type without pulling in the full query stack.
+namespace query {
+    class QueryEngine;
 }
 
 namespace training {
@@ -86,6 +88,27 @@ using LabelingCallback = std::function<void(size_t processed,
                                             const std::string& status)>;
 
 /**
+ * @brief Target domain for auto-labeling and sample extraction.
+ *
+ * Controls domain-specific keyword dictionaries and NLP heuristics used by
+ * `LegalAutoLabeler` when the external NlpTextAnalyzer is unavailable or
+ * returns no modalities.
+ *
+ * - LEGAL    : German legal text (modal verbs: muss/soll/kann/darf/…)
+ * - MEDICAL  : Medical / clinical text (obligatory / recommended / optional care)
+ * - FINANCIAL: Financial regulatory text (obligation / prohibition / disclosure)
+ */
+enum class DomainType {
+    LEGAL,               ///< German legal / regulatory domain (default)
+    MEDICAL,             ///< Medical / clinical / pharmaceutical domain
+    FINANCIAL,           ///< Financial regulation / compliance domain
+    DATABASE_OPTIMIZER,  ///< Query-plan optimization (IMPL-A1)
+    INDEX_ADVISOR,       ///< Index recommendation (IMPL-A1)
+    SCHEMA_ADVISOR,      ///< Schema evolution advisory (IMPL-A1)
+    SECURITY_MONITOR,    ///< Anomaly / threat detection (IMPL-A1)
+};
+
+/**
  * @brief Configuration for auto-labeling
  */
 struct AutoLabelConfig {
@@ -96,7 +119,8 @@ struct AutoLabelConfig {
     float min_confidence = 0.5f;            ///< Minimum confidence to include sample
     bool flag_low_confidence = true;        ///< Flag low-confidence for review
     size_t batch_size = 100;                ///< Documents per batch
-    
+    DomainType domain_type = DomainType::LEGAL; ///< Target domain for sample extraction
+
     AutoLabelConfig() = default;
 };
 
@@ -128,12 +152,17 @@ struct AutoLabelConfig {
 class LegalAutoLabeler {
 public:
     /**
-     * @brief Construct auto-labeler
+     * @brief Construct auto-labeler without a database connection
      * @param config Labeling configuration
-     * @param db_connection Database connection string
+     * @param db_connection Database connection string (informational)
+     * @param engine Optional AQL query engine; when non-null, labelAll() and
+     *               labelQuery() fetch document IDs from the database via AQL.
+     *               Pass nullptr (the default) to operate in test/offline mode,
+     *               where no documents are fetched from the database.
      */
     explicit LegalAutoLabeler(const AutoLabelConfig& config,
-                              const std::string& db_connection);
+                              const std::string& db_connection,
+                              query::QueryEngine* engine = nullptr);
     
     ~LegalAutoLabeler();
     
@@ -180,6 +209,24 @@ public:
     void updateSampleConfidence(const std::string& sample_id,
                                float new_confidence,
                                const std::string& reviewed_by);
+
+    /**
+     * @brief Register a document text for offline/test-mode labeling.
+     *
+     * When no QueryEngine is wired in, `labelDocument()` and
+     * `fetchDocumentText()` look up documents registered here instead of
+     * falling back to a fixed hardcoded placeholder paragraph.  This allows
+     * unit and integration tests to exercise the full NLP pipeline with
+     * controlled, per-document texts without requiring a live database.
+     *
+     * Documents registered via this method take precedence over the
+     * built-in hardcoded fallback text.  They do not affect the AQL-backed
+     * code path: when a QueryEngine is present, the DB always wins.
+     *
+     * @param document_id  Primary key used to identify the document.
+     * @param text         Document body text.
+     */
+    void registerDocument(const std::string& document_id, const std::string& text);
 
 private:
     class Impl;

@@ -65,7 +65,7 @@ if(THEMIS_TARGET_PLATFORM STREQUAL "windows")
     message(STATUS "  Building for Windows platform")
     
     if(THEMIS_ENABLE_HUGE_PAGES)
-        message(WARNING "  Huge pages are Linux-specific and not supported on Windows")
+        message(STATUS "  Huge pages: auto-disabled (Linux-specific, not supported on Windows)")
         set(THEMIS_ENABLE_HUGE_PAGES OFF CACHE BOOL "Huge pages not supported on Windows" FORCE)
     endif()
 endif()

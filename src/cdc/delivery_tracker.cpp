@@ -1,25 +1,21 @@
+/**
+ * @file delivery_tracker.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            delivery_tracker.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3ba0b14cb  2026-02-24  Audit fixes: remove unused include, ack_timeout precision... ║
-    • 970f1684c  2026-02-24  Add at-least-once delivery tracker for CDC module (issue ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: delivery_tracker.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 291
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #3616 fix(cdc): build system audi... (2026-03-12) | #3552 docs(cdc): full module docu... (2026-03-12) | #2797 CDC: At-least-once delivery... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "cdc/delivery_tracker.h"
@@ -150,7 +146,8 @@ size_t DeliveryTracker::acknowledgeUpTo(const std::string& consumer_id,
 }
 
 std::vector<Changefeed::ChangeEvent>
-DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
+DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
+                                       std::optional<std::chrono::milliseconds> timeout_override) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto cit = consumers_.find(consumer_id);
@@ -160,6 +157,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
 
     ConsumerState& state = cit->second;
     auto now = std::chrono::steady_clock::now();
+    const auto effective_timeout = timeout_override.value_or(config_.ack_timeout);
 
     std::vector<Changefeed::ChangeEvent> to_redeliver;
     std::vector<uint64_t> to_expire;
@@ -168,7 +166,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             now - pending.delivered_at);
 
-        if (elapsed >= config_.ack_timeout) {
+        if (elapsed >= effective_timeout) {
             if (config_.max_redelivery_attempts > 0 &&
                 pending.attempt >= config_.max_redelivery_attempts) {
                 // Max attempts reached — expire the event

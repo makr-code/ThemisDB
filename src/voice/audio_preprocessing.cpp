@@ -1,31 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audio_preprocessing.cpp                            ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-03-09 04:00:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     468                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • be2946f18  2026-02-28  feat(voice): implement RNNoise deep-learning noise suppre... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file audio_preprocessing.cpp
- * @brief Audio preprocessing pipeline implementation (Phase 1 production readiness)
- *        RNNoise deep-learning noise suppression (Phase 3)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.42
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/audio_preprocessing.h"
@@ -34,6 +15,7 @@
 #include <numbers>
 #include <numeric>
 #include <algorithm>
+#include <mutex>
 #include <stdexcept>
 
 #ifdef THEMIS_ENABLE_RNNOISE
@@ -41,6 +23,16 @@
 #endif
 
 namespace themis { namespace voice {
+
+namespace {
+std::mutex                      s_noise_suppressor_bridge_mutex;
+NoiseSuppressor::ProcessFramesFn s_process_frames_fn;
+}
+
+void NoiseSuppressor::setProcessFramesFn(ProcessFramesFn fn) {
+    std::lock_guard<std::mutex> lk(s_noise_suppressor_bridge_mutex);
+    s_process_frames_fn = std::move(fn);
+}
 
 // ============================================================================
 // NoiseSuppressor – RNNoise integration (Phase 3)
@@ -59,6 +51,14 @@ struct NoiseSuppressor::Impl {
     ~Impl() { if (state) rnnoise_destroy(state); }
 };
 #else
+// STUB/SIMULATION NOTE:
+// Purpose: Empty Impl when RNNoise is not compiled in. NoiseSuppressor still
+//          constructs successfully; suppress() is a no-op (audio passes through).
+// Activation: Compiled when THEMIS_ENABLE_RNNOISE is NOT defined (default builds).
+//             Build with -DTHEMIS_ENABLE_RNNOISE=ON and link rnnoise (vcpkg) for real.
+// Production Delta: No noise reduction is applied to audio frames.
+// Removal Plan: Not removed — kept as compile-time fallback alongside the real path.
+// Roadmap ref: src/voice/ROADMAP.md § "Phase 2: RNNoise integration"
 struct NoiseSuppressor::Impl {};  // placeholder when RNNoise is not available
 #endif
 
@@ -133,6 +133,20 @@ float NoiseSuppressor::processRNNoiseFrames(
     }
     return (num_frames > 0) ? (vad_sum / static_cast<float>(num_frames)) : 0.0f;
 #else
+    ProcessFramesFn fn;
+    {
+        std::lock_guard<std::mutex> lk(s_noise_suppressor_bridge_mutex);
+        fn = s_process_frames_fn;
+    }
+    if (fn) {
+        try {
+            return fn(samples_48k, vad_threshold);
+        } catch (const std::string&) {
+        } catch (const char*) {
+        } catch (...) {
+        }
+    }
+
     // Fallback: spectral-gate noise suppression (no external library).
     // Estimate noise floor from leading samples and attenuate below threshold.
     if (samples_48k.size() < 2) return 0.0f;
@@ -467,3 +481,4 @@ void AudioPreprocessingPipeline::resetStatistics() {
 }
 
 }} // namespace themis::voice
+

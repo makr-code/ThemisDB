@@ -1,6 +1,6 @@
 # Security CI Badge
 
-[![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml)
+[![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml?query=branch%3Adevelop)
 
 ## What it shows
 
@@ -15,8 +15,8 @@ The result of the most recent run of the **Security Hardening CI** workflow. Thi
 
 | Source | URL |
 |--------|-----|
-| Workflow file | [`.github/workflows/security-hardening-ci.yml`](../../../.github/workflows/security-hardening-ci.yml) |
-| All workflow runs | <https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml> |
+| Workflow file | [`.github/workflows/05-quality_security_security-hardening-ci.yml`](../../../.github/workflows/05-quality_security_security-hardening-ci.yml) |
+| All workflow runs | <https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml> |
 
 ## How contributors can verify
 

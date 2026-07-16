@@ -1,32 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_gap_detector.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file knowledge_gap_detector.h
- * @brief Knowledge Gap Detection for RAG Systems
- * 
- * Detects when retrieved documents are insufficient to answer a query reliably.
- * Implements multi-level detection strategies based on similarity scores,
- * LLM confidence metrics, and explicit gap detection signals.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -158,7 +138,89 @@ struct KnowledgeGapConfig {
         FallbackStrategy::REFORMULATE_QUERY,
         FallbackStrategy::INSUFFICIENT_DATA_RESPONSE
     };
+
+    // Tenant isolation
+    std::string tenant_id; ///< Tenant identifier threaded through retrieval calls; empty = global/anonymous
 };
+
+/**
+ * @brief Callback type for dynamic document retrieval in the FLARE loop.
+ *
+ * The callable receives a reformulated query string and the maximum number
+ * of documents to return (k).  It must return a (possibly empty) vector of
+ * RetrievedDocument values.  An empty return value is interpreted as "no
+ * additional documents found" and stops the FLARE iteration early.
+ *
+ * Example wiring with VectorIndexManager:
+ * @code
+ *   detector->setRetrievalCallback(
+ *       [&vec_mgr, &db](const std::string& q, size_t k)
+ *           -> std::vector<RetrievedDocument>
+ *       {
+ *           auto embedding = embed(q);
+ *           if (embedding.empty()) return {};
+ *           auto [st, results] = vec_mgr.searchKnn(embedding, k);
+ *           if (!st.ok) return {};
+ *           return rag::convertToRetrievedDocuments(results, db);
+ *       });
+ * @endcode
+ */
+/**
+ * @brief Retrieval callback invoked by FLARE active retrieval.
+ *
+ * F5-2: The callback receives the query, max result count, and a
+ * tenant identifier.  The tenant_id MUST be forwarded to the underlying
+ * vector store so that dynamic re-retrieval always queries the same
+ * tenant's document corpus as the original request — without this, a
+ * reformulated FLARE query can silently cross tenant boundaries.
+ */
+using RetrievalCallback =
+    std::function<std::vector<RetrievedDocument>(
+        const std::string& query,
+        size_t k,
+        const std::string& tenant_id)>;
+
+/**
+ * @brief Callback type for LLM-based self-consistency sample generation.
+ *
+ * When injected via KnowledgeGapDetector::setLlmSampleFn(), the
+ * `generateMultipleSamples()` internal method delegates to this function
+ * instead of the built-in heuristic sentence-cycling path.
+ *
+ * The callable receives:
+ *   - @p query      The original user query.
+ *   - @p num_samples  The requested number of answer candidates.
+ *
+ * It must return a vector of strings (answer candidates) of any non-zero
+ * size.  An empty return value causes `generateMultipleSamples()` to fall
+ * back to the heuristic path.
+ *
+ * Example wiring with an ILLMPlugin:
+ * @code
+ *   detector->setLlmSampleFn(
+ *       [&llm](const std::string& q, size_t n) {
+ *           std::vector<std::string> samples;
+ *           samples.reserve(n);
+ *           for (size_t i = 0; i < n; ++i)
+ *               samples.push_back(llm.generate(q, 0.8f)); // temperature
+ *           return samples;
+ *       });
+ * @endcode
+ */
+using LlmSampleFn =
+    std::function<std::vector<std::string>(const std::string& query,
+                                           size_t             num_samples)>;
+
+/**
+ * @brief Callback type for runtime claim verification (C1 groundedness).
+ *
+ * When injected via KnowledgeGapDetector::setClaimVerificationFn(), the
+ * post-generation claim check delegates claim verification to this function.
+ * If unset, the detector falls back to the built-in term-overlap heuristic.
+ */
+using ClaimVerificationFn =
+    std::function<bool(const std::string& claim,
+                       const std::vector<RetrievedDocument>& docs)>;
 
 /**
  * @brief Main Knowledge Gap Detector class
@@ -171,10 +233,14 @@ struct KnowledgeGapConfig {
 class KnowledgeGapDetector {
 public:
     /**
-     * @brief Construct detector with configuration
-     * @param config Detection configuration parameters
+     * @brief Construct detector with default configuration
      */
     KnowledgeGapDetector();
+    
+    /**
+     * @brief Construct detector with custom configuration
+     * @param config Detection configuration parameters
+     */
     explicit KnowledgeGapDetector(const KnowledgeGapConfig& config);
     
     /**
@@ -224,7 +290,6 @@ public:
      * @param query User query string
      * @param documents Retrieved documents
      * @param generated_answer The generated answer
-     * @param context Optional generation context
      * @return Combined detection result
      */
     DetectionResult detectGap(
@@ -232,6 +297,14 @@ public:
         const std::vector<RetrievedDocument>& documents,
         const std::string& generated_answer
     );
+    /**
+     * @brief Comprehensive detection (all levels)
+     * @param query User query string
+     * @param documents Retrieved documents
+     * @param generated_answer The generated answer
+     * @param context Optional generation context
+     * @return Combined detection result
+     */
     DetectionResult detectGap(
         const std::string& query,
         const std::vector<RetrievedDocument>& documents,
@@ -243,6 +316,7 @@ public:
      * @brief FLARE-style forward-looking active retrieval
      * @param query User query string
      * @param initial_documents Initial retrieved documents
+     * @param tenant_id Optional tenant scope for FLARE re-retrieval.
      * @return Detection result after iterative retrieval
      * 
      * Generates answer sentence-by-sentence, monitoring confidence
@@ -250,7 +324,8 @@ public:
      */
     DetectionResult detectWithActiveRetrieval(
         const std::string& query,
-        std::vector<RetrievedDocument>& initial_documents
+        std::vector<RetrievedDocument>& initial_documents,
+        const std::string& tenant_id = {}  ///< F5-2: tenant scope for FLARE re-retrieval
     );
     
     /**
@@ -272,7 +347,45 @@ public:
     void setGapDetectionCallback(
         std::function<void(const DetectionResult&)> callback
     );
-    
+
+    /**
+     * @brief Set the retrieval callback used by the FLARE active-retrieval loop.
+     *
+     * When set, @c detectWithActiveRetrieval() calls this function each time
+     * the current document set does not provide sufficient coverage and a
+     * reformulated sub-query is available.  The callback must be thread-safe
+     * with respect to the surrounding context but does not need to be
+     * re-entrant.
+     *
+     * Passing a default-constructed (empty) function disables dynamic
+     * retrieval; the FLARE loop will then exit after the initial document set
+     * check without attempting further searches.
+     *
+     * @param fn RetrievalCallback — receives (query, k) and returns documents.
+     */
+    void setRetrievalCallback(RetrievalCallback fn);
+
+    /**
+     * @brief Inject an LLM-based sample generator for the self-consistency check.
+     *
+     * When set, `checkSelfConsistency()` calls this function to obtain answer
+     * candidates instead of cycling document sentences.  Pass an empty
+     * (default-constructed) function to revert to the heuristic path.
+     *
+     * @param fn  LlmSampleFn — receives (query, num_samples) and returns candidates.
+     */
+    void setLlmSampleFn(LlmSampleFn fn);
+
+    /**
+     * @brief Inject a runtime claim verifier for C1 groundedness checks.
+     *
+     * When set, claim verification in detectPostGeneration() delegates to this
+     * function. Pass an empty function to restore the built-in heuristic path.
+     *
+     * @param fn ClaimVerificationFn — receives (claim, docs) and returns verified/not verified.
+     */
+    void setClaimVerificationFn(ClaimVerificationFn fn);
+
     /**
      * @brief Detect ethical perspective gap
      * @param query User query string
@@ -327,7 +440,8 @@ private:
                                     const std::vector<RetrievedDocument>& docs);
     std::string reformulateQuery(const std::string& original_query,
                                 const std::string& missing_info);
-    std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query);
+    std::vector<RetrievedDocument> performDynamicRetrieval(const std::string& query,
+                                                           const std::string& tenant_id = {});
     // Ethical gap detection helpers
     bool isEthicalQuery(const std::string& query);
     int countEthicalPerspectives(const std::vector<RetrievedDocument>& docs);

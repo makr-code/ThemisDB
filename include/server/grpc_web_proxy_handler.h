@@ -1,33 +1,31 @@
+/**
+ * @file grpc_web_proxy_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_web_proxy_handler.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_web_proxy_handler.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <boost/beast/http.hpp>
+#include <functional>
 #include <string>
 #include <vector>
 #include <cstdint>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace server {
@@ -102,6 +100,21 @@ public:
         uint32_t deadline_ms = 30000;
     };
 
+    using BackendInvokeFn = std::function<bool(const std::string& method,
+                                               const std::string& request_proto,
+                                               std::string& response_proto,
+                                               int& grpc_status,
+                                               std::string& grpc_message)>;
+
+    static void setBackendInvokeFn(BackendInvokeFn fn);
+
+    /**
+     * @brief Construct a proxy with default configuration.
+     *
+     * The gRPC channel to the backend is created lazily on the first request
+     * so that the handler can be constructed before the gRPC server starts.
+     */
+    GrpcWebProxyHandler();
     /**
      * @brief Construct a proxy with the given configuration.
      *
@@ -110,7 +123,7 @@ public:
      *
      * @param config Proxy configuration.
      */
-    explicit GrpcWebProxyHandler(Config config = Config{});
+    explicit GrpcWebProxyHandler(Config config);
 
     ~GrpcWebProxyHandler() = default;
 
@@ -224,7 +237,9 @@ private:
     static void appendFrameHeader(std::string& out,
                                    uint8_t flags,
                                    uint32_t length);
+
 };
 
 } // namespace server
 } // namespace themis
+

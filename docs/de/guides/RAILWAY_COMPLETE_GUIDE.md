@@ -26,7 +26,7 @@ Complete implementation guide for Railway monitoring system with ThemisDB.
 
 Vollständiges Echtzeit-Überwachungssystem für Zugverkehr der Deutschen Bahn mit ThemisDB als Backend. Das System umfasst IoT-Zeitreihenanalyse, Energie-Management, Asset-Tracking und KI-gestützte Analysen.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 

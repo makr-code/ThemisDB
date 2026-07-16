@@ -1,23 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_downloader.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     478                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file model_downloader.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // ModelDownloader implementation with progress tracking and checksum verification
@@ -32,6 +21,7 @@
 #include <curl/curl.h>
 #include <openssl/sha.h>
 #include <yaml-cpp/yaml.h>
+#include <stdexcept>
 
 namespace fs = std::filesystem;
 
@@ -61,7 +51,7 @@ size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 // CURL progress callback
-int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
+int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t /*ultotal*/, curl_off_t /*ulnow*/) {
     auto* callback = static_cast<DownloadProgressCallback*>(clientp);
     if (callback && *callback) {
         std::string status = "downloading";
@@ -193,11 +183,11 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     bool export_success = exportOllamaModel(config.ollama_url, config.model_name, output_path);
     
     if (!export_success) {
-        // Ollama export not yet fully implemented - provide helpful error message
         result.success = false;
-        result.error_message = "Ollama model pull succeeded, but export to GGUF is not yet implemented. " 
-                              "Please use direct HuggingFace download or manually copy from Ollama storage (~/.ollama/models/)";
-        THEMIS_WARN("Note: For production use, consider downloading GGUF models directly from HuggingFace");
+        result.error_message = "Ollama model pull succeeded but export to GGUF failed. "
+                               "Ensure the Ollama service is running and ~/.ollama/models/blobs/ "
+                               "is accessible, or use a direct HuggingFace GGUF download instead.";
+        THEMIS_WARN("exportOllamaModel failed; consider direct download from HuggingFace");
         THEMIS_WARN("Example: https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf");
         return result;
     }
@@ -220,19 +210,105 @@ bool ModelDownloader::exportOllamaModel(
     const std::string& model_name,
     const std::string& output_path
 ) {
-    // Note: This is a simplified implementation
-    // Ollama models are stored in ~/.ollama/models/blobs/sha256-*
-    // In production, this would need to:
-    // 1. Query Ollama API for model manifest
-    // 2. Locate the model file in Ollama's storage
-    // 3. Copy or symlink to output_path
-    
-    THEMIS_WARN("exportOllamaModel is not fully implemented");
-    THEMIS_WARN("Please manually copy model from Ollama storage to: {}", output_path);
-    THEMIS_WARN("Or use direct HuggingFace download instead");
-    
-    // Return false to indicate this needs manual intervention
-    return false;
+    // Query Ollama's /api/show endpoint to get the model manifest, which
+    // contains the SHA-256 digest of the underlying GGUF blob.
+    // The blob file lives at ~/.ollama/models/blobs/sha256-<digest>.
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        THEMIS_WARN("exportOllamaModel: failed to init CURL");
+        return false;
+    }
+
+    const std::string show_url = ollama_url + "/api/show";
+    const std::string req_body = json{{"name", model_name}}.dump();
+    std::string resp_buf;
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    curl_easy_setopt(curl, CURLOPT_URL, show_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, req_body.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 30L);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
+        +[](void* ptr, size_t size, size_t nmemb, void* ud) -> size_t {
+            auto* buf = static_cast<std::string*>(ud);
+            buf->append(static_cast<char*>(ptr), size * nmemb);
+            return size * nmemb;
+        });
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resp_buf);
+
+    const CURLcode res = curl_easy_perform(curl);
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    if (res != CURLE_OK) {
+        THEMIS_WARN("exportOllamaModel: /api/show request failed: {}",
+                    curl_easy_strerror(res));
+        return false;
+    }
+
+    // Parse response: look for the blob SHA256 digest.
+    // Ollama returns {"details": {...}, "modelinfo": {"general.file_type": ...}}
+    // and a "digest" top-level field like "sha256:<hex>".
+    try {
+        auto j = json::parse(resp_buf);
+        std::string digest;
+        if (j.contains("digest") && j["digest"].is_string()) {
+            digest = j["digest"].get<std::string>();
+        } else if (j.contains("details") && j["details"].contains("digest")) {
+            digest = j["details"]["digest"].get<std::string>();
+        }
+
+        if (digest.empty()) {
+            THEMIS_WARN("exportOllamaModel: no digest in /api/show response");
+            return false;
+        }
+
+        // Convert "sha256:<hex>" → file name "sha256-<hex>"
+        std::string filename = digest;
+        const auto colon_pos = filename.find(':');
+        if (colon_pos != std::string::npos) {
+            filename[colon_pos] = '-';
+        }
+
+        // Resolve blob path: ~/.ollama/models/blobs/<filename>
+        const char* home = std::getenv("HOME");
+        if (!home) {
+            THEMIS_WARN("exportOllamaModel: $HOME not set");
+            return false;
+        }
+        fs::path blob_path = fs::path(home) / ".ollama" / "models" / "blobs" / filename;
+
+        if (!fs::exists(blob_path)) {
+            THEMIS_WARN("exportOllamaModel: blob not found at {}", blob_path.string());
+            return false;
+        }
+
+        // Create parent directory for output
+        fs::path out(output_path);
+        if (out.has_parent_path()) {
+            fs::create_directories(out.parent_path());
+        }
+
+        // Prefer a hard-link (same filesystem, zero copy); fall back to copy.
+        std::error_code ec;
+        fs::create_hard_link(blob_path, out, ec);
+        if (ec) {
+            fs::copy_file(blob_path, out,
+                          fs::copy_options::overwrite_existing, ec);
+            if (ec) {
+                THEMIS_WARN("exportOllamaModel: copy failed: {}", ec.message());
+                return false;
+            }
+        }
+
+        THEMIS_INFO("exportOllamaModel: exported {} → {}", blob_path.string(), output_path);
+        return true;
+
+    } catch (const json::exception& ex) {
+        THEMIS_WARN("exportOllamaModel: JSON parse error: {}", ex.what());
+        return false;
+    }
 }
 
 ModelDownloadResult ModelDownloader::downloadFromURL(
@@ -344,7 +420,7 @@ bool ModelDownloader::isModelAvailable(const std::string& model_path) {
     try {
         auto file_size = fs::file_size(model_path);
         return file_size > 1024 * 1024;  // At least 1 MB
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -443,28 +519,70 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 ) {
     try {
         YAML::Node config = YAML::LoadFile(config_path);
+        ModelDownloadConfig dl_config;
+        dl_config.model_name = model_name;
+        dl_config.ollama_url = config["ollama_url"]
+            ? config["ollama_url"].as<std::string>()
+            : "http://localhost:11434";
+        dl_config.download_dir = config["download_dir"]
+            ? config["download_dir"].as<std::string>()
+            : "";
         
         if (!config["models"]) {
             THEMIS_ERROR("No 'models' section in config: {}", config_path);
             return std::nullopt;
         }
+
+        auto apply_model_node = [&](const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
+            if (!model || !model.IsMap()) {
+                return std::nullopt;
+            }
+
+            ModelDownloadConfig resolved = dl_config;
+
+            if (model["ollama_url"]) {
+                resolved.ollama_url = model["ollama_url"].as<std::string>();
+            }
+            if (model["download_dir"]) {
+                resolved.download_dir = model["download_dir"].as<std::string>();
+            }
+            if (model["use_cache"]) {
+                resolved.use_cache = model["use_cache"].as<bool>();
+            }
+            if (model["timeout_seconds"]) {
+                resolved.timeout_seconds = model["timeout_seconds"].as<int>();
+            }
+
+            if (model["sources"] && model["sources"].IsMap() && model["sources"]["ollama"]) {
+                resolved.model_name = model["sources"]["ollama"].as<std::string>();
+            }
+
+            return resolved;
+        };
         
-        // Search for model by name
-        for (const auto& model : config["models"]) {
-            if (model["name"].as<std::string>() == model_name) {
-                ModelDownloadConfig dl_config;
-                dl_config.model_name = model_name;
-                
-                // Get Ollama source if available
-                if (model["sources"] && model["sources"]["ollama"]) {
-                    std::string ollama_model = model["sources"]["ollama"].as<std::string>();
-                    dl_config.model_name = ollama_model;
+        // Supported layouts:
+        // 1. Sequence: models: [ { name: ..., ... } ]
+        // 2. Legacy map: models: { model_name: { ... } }
+        YAML::Node models = config["models"];
+        if (models.IsSequence()) {
+            for (const auto& model : models) {
+                if (model.IsMap() && model["name"] && model["name"].as<std::string>() == model_name) {
+                    return apply_model_node(model);
                 }
-                
-                // Default Ollama URL
-                dl_config.ollama_url = "http://localhost:11434";
-                
-                return dl_config;
+            }
+        } else if (models.IsMap()) {
+            if (models[model_name]) {
+                auto resolved = apply_model_node(models[model_name]);
+                if (resolved) {
+                    return resolved;
+                }
+            }
+
+            for (const auto& entry : models) {
+                if (entry.second.IsMap() && entry.second["name"] &&
+                    entry.second["name"].as<std::string>() == model_name) {
+                    return apply_model_node(entry.second);
+                }
             }
         }
         
@@ -479,3 +597,5 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
 
 } // namespace llm
 } // namespace themis
+
+

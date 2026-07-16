@@ -1,0 +1,186 @@
+{
+  "version": "1.0",
+  "test_id": "BAUGENEHMIGUNG",
+  "beschreibung": "Erwartete Kontrollergebnisse für Baugenehmigungsverfahren § 63 BauO NRW",
+  "aktenzeichen": "BAUAMT-KN-2026-0042",
+
+  "assertions": [
+    {
+      "id": "AC-BGV-01",
+      "kategorie": "OZG_DIENST",
+      "beschreibung": "OZG-Dienst für Baugenehmigung muss nach Registrierung abrufbar sein",
+      "typ": "ozg_service_found",
+      "service_id": "DE-NW-BAUGENEHMIGUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BGV-02",
+      "kategorie": "EID_AUTH",
+      "beschreibung": "Antragsteller-eID-Authentifizierung liefert verifizierten Vollnamen",
+      "typ": "eid_fullname",
+      "erwartet_vorname": "Hans",
+      "erwartet_nachname": "Mustermann",
+      "erwartet_assurance": "HIGH"
+    },
+    {
+      "id": "AC-BGV-03",
+      "kategorie": "XOEV_IMPORT",
+      "beschreibung": "XÖV-XBau-Antrag wird korrekt importiert",
+      "typ": "xoev_import_success",
+      "standard": "XBAU",
+      "erwartet_record_id": "BAUAMT-KN-2026-0042",
+      "erwartet_success": true
+    },
+    {
+      "id": "AC-BGV-04",
+      "kategorie": "LLM",
+      "beschreibung": "Formale Prüfung: LLM-Konformitätsscore >= 0.5",
+      "typ": "llm_score_min",
+      "min_score": 0.5
+    },
+    {
+      "id": "AC-BGV-05",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Bauamt erzeugt mindestens 3 XDOMEA-Vorgänge für Fachbehörden",
+      "typ": "xdomea_vorgaenge_min",
+      "behoerde_id": "bauamt-koeln",
+      "typ_filter": "VORGANG",
+      "erwartet_min": 3
+    },
+    {
+      "id": "AC-BGV-06",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Denkmalschutzbehörde empfängt mindestens 1 Vorgang",
+      "typ": "xdomea_objekte_min",
+      "behoerde_id": "denkmalschutz-nrw",
+      "typ_filter": "VORGANG",
+      "erwartet_min": 1
+    },
+    {
+      "id": "AC-BGV-07",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Umweltamt empfängt mindestens 1 Vorgang",
+      "typ": "xdomea_objekte_min",
+      "behoerde_id": "umweltamt-koeln",
+      "typ_filter": "VORGANG",
+      "erwartet_min": 1
+    },
+    {
+      "id": "AC-BGV-08",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Feuerwehr empfängt mindestens 1 Vorgang",
+      "typ": "xdomea_objekte_min",
+      "behoerde_id": "feuerwehr-koeln",
+      "typ_filter": "VORGANG",
+      "erwartet_min": 1
+    },
+    {
+      "id": "AC-BGV-09",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Alle 3 Fachbehörden liefern je mindestens 1 Stellungnahme-Dokument",
+      "typ": "xdomea_stellungnahmen_alle",
+      "behoerden": ["denkmalschutz-nrw", "umweltamt-koeln", "feuerwehr-koeln"],
+      "erwartet_min_je": 1
+    },
+    {
+      "id": "AC-BGV-10",
+      "kategorie": "LLM",
+      "beschreibung": "Entscheidungsanalyse: LLM-Score >= 0.5",
+      "typ": "llm_score_min",
+      "min_score": 0.5
+    },
+    {
+      "id": "AC-BGV-11",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Finaler Bescheid im DMS des Bauamts (Typ DOKUMENT)",
+      "typ": "xdomea_bescheid_vorhanden",
+      "behoerde_id": "bauamt-koeln",
+      "metadata_key": "typ",
+      "metadata_wert": "BESCHEID",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BGV-12",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Bescheid enthält korrektes Aktenzeichen",
+      "typ": "xdomea_aktenzeichen",
+      "erwartet_az": "BAUAMT-KN-2026-0042"
+    },
+    {
+      "id": "AC-BGV-13",
+      "kategorie": "VERFAHREN",
+      "beschreibung": "Gesamtprozess endet mit Status GENEHMIGT",
+      "typ": "verfahrensstatus",
+      "erwartet_status": "GENEHMIGT"
+    },
+    {
+      "id": "AC-BGV-14",
+      "kategorie": "XDOMEA_EXPORT",
+      "beschreibung": "XDOMEA-Export des Bescheids ist wohlgeformt (nicht leer, enthält XML-Deklaration)",
+      "typ": "xdomea_export_wohlgeformt",
+      "erwartet_xml_prefix": "<?xml",
+      "erwartet_nichtleer": true
+    },
+    {
+      "id": "AC-BGV-15",
+      "kategorie": "ZUSTELLUNG",
+      "beschreibung": "Antragsteller erhält Bescheid in seiner Akte",
+      "typ": "xdomea_zustellung",
+      "empfaenger": "Hans Mustermann",
+      "metadata_key": "typ",
+      "metadata_wert": "ZUSTELLUNG",
+      "erwartet": true
+    },
+    {
+      "id": "AC-BGV-16",
+      "kategorie": "XDOMEA",
+      "beschreibung": "Alle Behörden-XDOMEA-Stores haben Mindestanzahl Dokumente",
+      "typ": "xdomea_stores_min",
+      "stores": [
+        { "behoerde_id": "bauamt-koeln",       "min_gesamt": 2 },
+        { "behoerde_id": "denkmalschutz-nrw",  "min_gesamt": 1 },
+        { "behoerde_id": "umweltamt-koeln",     "min_gesamt": 1 },
+        { "behoerde_id": "feuerwehr-koeln",     "min_gesamt": 1 }
+      ]
+    },
+    {
+      "id": "AC-BGV-17",
+      "kategorie": "LLM",
+      "beschreibung": "LLM-Konformitätsprüfung Gesamtverfahren score >= 0.5",
+      "typ": "llm_score_min",
+      "min_score": 0.5
+    },
+    {
+      "id": "AC-BGV-18",
+      "kategorie": "PROZESS",
+      "beschreibung": "Prozessschritte sind in korrekter Reihenfolge protokolliert",
+      "typ": "prozess_reihenfolge",
+      "erwartete_reihenfolge": [
+        "ANTRAGSTELLUNG",
+        "FORMALPRUEFUNG",
+        "STELLUNGNAHMEN",
+        "FACHLICHE_PRUEFUNG",
+        "ENTSCHEIDUNG",
+        "BESCHEID"
+      ]
+    },
+    {
+      "id": "AC-BGV-19",
+      "kategorie": "THREAD_SAFETY",
+      "beschreibung": "Parallele Stellungnahmen-Verarbeitung ist thread-sicher",
+      "typ": "thread_safe_parallel_writes",
+      "behoerden": ["denkmalschutz-nrw", "umweltamt-koeln", "feuerwehr-koeln"],
+      "schreibvorgaenge_je": 3,
+      "erwartet_min_je": 3
+    },
+    {
+      "id": "AC-BGV-20",
+      "kategorie": "XOEV_EXPORT",
+      "beschreibung": "XÖV-XBau-Export der Antragsunterlagen ist wohlgeformt",
+      "typ": "xoev_export_wohlgeformt",
+      "standard": "XBAU",
+      "erwartet_enthaelt": "Hans Mustermann",
+      "erwartet_xml_prefix": "<?xml"
+    }
+  ]
+}

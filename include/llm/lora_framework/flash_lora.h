@@ -1,24 +1,21 @@
+/**
+ * @file flash_lora.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            flash_lora.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     234                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: flash_lora.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 247
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #608 Implement FlashAttention-st... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -137,7 +134,6 @@ public:
      * @param B LoRA down-projection [rank, in_dim] (transposed internally)
      * @param A LoRA up-projection [out_dim, rank] (transposed internally)
      * @param scaling Scaling factor (typically lora_alpha / rank)
-     * @param config Tiling configuration (auto-tuned by default)
      * @return output tensor [batch, seq_len, out_dim] or [batch, out_dim]
      * 
      * Numerical accuracy: <1e-4 max error vs standard implementation
@@ -148,6 +144,16 @@ public:
         const GPUTensor& A,
         float scaling
     );
+    /**
+     * @brief FlashLoRA forward pass with explicit tiling configuration.
+     * 
+     * @param input Input tensor [batch, seq_len, in_dim] or [batch, in_dim]
+     * @param B LoRA down-projection [rank, in_dim] (transposed internally)
+     * @param A LoRA up-projection [out_dim, rank] (transposed internally)
+     * @param scaling Scaling factor (typically lora_alpha / rank)
+     * @param config Tiling configuration (auto-tuned by default)
+     * @return output tensor [batch, seq_len, out_dim] or [batch, out_dim]
+     */
     static GPUTensor forward(
         const GPUTensor& input,
         const GPUTensor& B,
@@ -170,7 +176,6 @@ public:
      * @param B LoRA down-projection [rank, in_dim]
      * @param A LoRA up-projection [out_dim, rank]
      * @param scaling Scaling factor
-     * @param config Tiling configuration
      * @return tuple of (grad_input, grad_B, grad_A)
      */
     static std::tuple<GPUTensor, GPUTensor, GPUTensor> backward(
@@ -180,6 +185,24 @@ public:
         const GPUTensor& A,
         float scaling
     );
+    
+    /**
+     * @brief FlashLoRA backward pass with custom configuration
+     * 
+     * Computes gradients for input, B, and A using custom tiling
+     * 
+     * Memory optimization same as forward pass:
+     * - No intermediate gradients stored in HBM
+     * - All computation in shared memory tiles
+     * 
+     * @param grad_output Gradient from next layer [batch, seq_len, out_dim]
+     * @param input Cached input from forward pass [batch, seq_len, in_dim]
+     * @param B LoRA down-projection [rank, in_dim]
+     * @param A LoRA up-projection [out_dim, rank]
+     * @param scaling Scaling factor
+     * @param config Tiling configuration
+     * @return tuple of (grad_input, grad_B, grad_A)
+     */
     static std::tuple<GPUTensor, GPUTensor, GPUTensor> backward(
         const GPUTensor& grad_output,
         const GPUTensor& input,

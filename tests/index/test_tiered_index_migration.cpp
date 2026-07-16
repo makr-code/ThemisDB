@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_tiered_index_migration.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     398                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3a3113eda  2026-02-27  feat(index): Cold/warm tier index migration (Issue #2407) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_tiered_index_migration.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for Cold/Warm Tier Index Migration (Issue #2407)
@@ -44,6 +29,7 @@
 #include <gtest/gtest.h>
 #include <atomic>
 #include <chrono>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -140,13 +126,20 @@ TEST(TieredIndexManager, ResetAccessCount) {
 TEST(TieredIndexManager, DemoteHotToWarm) {
     auto mgr = makeManager();
     mgr.registerIndex("idx_hw", "/data/idx_hw");
+    mgr.recordAccess("idx_hw");
 
     auto res = mgr.demoteToWarm("idx_hw");
     EXPECT_TRUE(res.ok) << res.message;
+    EXPECT_EQ(res.code, MigrationDiagnosticCode::NONE);
     EXPECT_EQ(res.from_tier, Tier::HOT);
     EXPECT_EQ(res.to_tier,   Tier::WARM);
+    EXPECT_EQ(res.source_path, "/data/idx_hw");
+    EXPECT_EQ(res.target_path, mgr.warmPath("idx_hw"));
 
-    EXPECT_EQ(mgr.getMetadata("idx_hw")->tier, Tier::WARM);
+    auto meta = mgr.getMetadata("idx_hw");
+    ASSERT_TRUE(meta.has_value());
+    EXPECT_EQ(meta->tier, Tier::WARM);
+    EXPECT_EQ(meta->access_count, 0u);
 }
 
 TEST(TieredIndexManager, DemoteWarmToCold) {
@@ -186,11 +179,22 @@ TEST(TieredIndexManager, PromoteColdToWarm) {
 TEST(TieredIndexManager, PromoteWarmToHot) {
     auto mgr = makeManager();
     mgr.registerIndex("idx_wh", Tier::WARM, "/warm/idx_wh");
+    mgr.recordAccess("idx_wh");
+    mgr.recordAccess("idx_wh");
+    const auto before = mgr.getMetadata("idx_wh")->last_access;
 
     auto res = mgr.promoteToHot("idx_wh");
     EXPECT_TRUE(res.ok) << res.message;
+    EXPECT_EQ(res.code, MigrationDiagnosticCode::NONE);
     EXPECT_EQ(res.to_tier, Tier::HOT);
-    EXPECT_EQ(mgr.getMetadata("idx_wh")->tier, Tier::HOT);
+    EXPECT_EQ(res.source_path, "/warm/idx_wh");
+    EXPECT_EQ(res.target_path, "/warm/idx_wh");
+
+    auto meta = mgr.getMetadata("idx_wh");
+    ASSERT_TRUE(meta.has_value());
+    EXPECT_EQ(meta->tier, Tier::HOT);
+    EXPECT_EQ(meta->access_count, 0u);
+    EXPECT_GE(meta->last_access, before);
 }
 
 // ---------------------------------------------------------------------------
@@ -215,7 +219,10 @@ TEST(TieredIndexManager, MigrateUnknownFails) {
     auto mgr = makeManager();
     auto res = mgr.migrateTo("ghost", Tier::WARM);
     EXPECT_FALSE(res.ok);
+    EXPECT_EQ(res.code, MigrationDiagnosticCode::INDEX_NOT_FOUND);
     EXPECT_FALSE(res.message.empty());
+    EXPECT_EQ(res.from_tier, Tier::WARM);
+    EXPECT_EQ(res.to_tier, Tier::WARM);
 }
 
 // ---------------------------------------------------------------------------
@@ -261,9 +268,30 @@ TEST(TieredIndexManager, ExportFailurePropagated) {
 
     auto res = mgr.demoteToWarm("idx_fail");
     EXPECT_FALSE(res.ok);
+    EXPECT_EQ(res.code, MigrationDiagnosticCode::EXPORT_FAILED);
     EXPECT_FALSE(res.message.empty());
+    EXPECT_EQ(res.source_path, "/data/idx_fail");
+    EXPECT_EQ(res.target_path, mgr.warmPath("idx_fail"));
     // Tier must NOT have changed on failure.
     EXPECT_EQ(mgr.getMetadata("idx_fail")->tier, Tier::HOT);
+}
+
+TEST(TieredIndexManager, ExportExceptionPropagatedAsDiagnostic) {
+    auto mgr = makeManager();
+    mgr.registerIndex("idx_ex", "/data/idx_ex");
+    mgr.setExportFn([](const std::string&, const std::string&) -> bool {
+        throw std::runtime_error("simulated export exception");
+    });
+
+    EXPECT_NO_THROW({
+        auto res = mgr.demoteToWarm("idx_ex");
+        EXPECT_FALSE(res.ok);
+        EXPECT_EQ(res.code, MigrationDiagnosticCode::EXPORT_FAILED);
+        EXPECT_NE(res.message.find("simulated export exception"), std::string::npos);
+        EXPECT_EQ(res.source_path, "/data/idx_ex");
+        EXPECT_EQ(res.target_path, mgr.warmPath("idx_ex"));
+        EXPECT_EQ(mgr.getMetadata("idx_ex")->tier, Tier::HOT);
+    });
 }
 
 TEST(TieredIndexManager, ImportFailurePropagated) {
@@ -273,8 +301,29 @@ TEST(TieredIndexManager, ImportFailurePropagated) {
 
     auto res = mgr.promoteToHot("idx_ifail");
     EXPECT_FALSE(res.ok);
+    EXPECT_EQ(res.code, MigrationDiagnosticCode::IMPORT_FAILED);
+    EXPECT_EQ(res.source_path, "/warm/idx_ifail");
+    EXPECT_EQ(res.target_path, "/warm/idx_ifail");
     // Tier must NOT have changed on failure.
     EXPECT_EQ(mgr.getMetadata("idx_ifail")->tier, Tier::WARM);
+}
+
+TEST(TieredIndexManager, ImportExceptionPropagatedAsDiagnostic) {
+    auto mgr = makeManager();
+    mgr.registerIndex("idx_iex", Tier::WARM, "/warm/idx_iex");
+    mgr.setImportFn([](const std::string&, const std::string&) -> bool {
+        throw std::runtime_error("simulated import exception");
+    });
+
+    EXPECT_NO_THROW({
+        auto res = mgr.promoteToHot("idx_iex");
+        EXPECT_FALSE(res.ok);
+        EXPECT_EQ(res.code, MigrationDiagnosticCode::IMPORT_FAILED);
+        EXPECT_NE(res.message.find("simulated import exception"), std::string::npos);
+        EXPECT_EQ(res.source_path, "/warm/idx_iex");
+        EXPECT_EQ(res.target_path, "/warm/idx_iex");
+        EXPECT_EQ(mgr.getMetadata("idx_iex")->tier, Tier::WARM);
+    });
 }
 
 // ---------------------------------------------------------------------------

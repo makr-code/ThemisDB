@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-04-03T20:32:33.1104015+02:00",
+  "threshold_percent": 80.0,
+  "covered_processors": [
+    "pdf",
+    "office",
+    "html",
+    "markdown",
+    "image",
+    "audio",
+    "video",
+    "stt",
+    "ocr",
+    "cad",
+    "geo",
+    "archive"
+  ],
+  "missing_processors": [
+    "tts"
+  ],
+  "covered_count": 12,
+  "total_processors": 13,
+  "coverage_percent": 92.308,
+  "evidence": {
+    "pdf": [
+      "C:\\VCC\\themis\\tests\\test_pdf_processor.cpp"
+    ],
+    "office": [
+      "C:\\VCC\\themis\\tests\\test_office_processor.cpp"
+    ],
+    "html": [
+      "C:\\VCC\\themis\\tests\\test_content_html_processor.cpp"
+    ],
+    "markdown": [
+      "C:\\VCC\\themis\\tests\\test_content_markdown_processor.cpp"
+    ],
+    "image": [
+      "C:\\VCC\\themis\\tests\\test_image_analysis_interface.cpp",
+      "C:\\VCC\\themis\\tests\\test_image_analysis_quality.cpp"
+    ],
+    "audio": [
+      "C:\\VCC\\themis\\tests\\test_content_audio_processor.cpp"
+    ],
+    "video": [
+      "C:\\VCC\\themis\\tests\\test_video_processor_extended.cpp"
+    ],
+    "stt": [
+      "C:\\VCC\\themis\\tests\\test_stt_wav_pcm.cpp",
+      "C:\\VCC\\themis\\tests\\test_stt_diarization.cpp"
+    ],
+    "tts": [],
+    "ocr": [
+      "C:\\VCC\\themis\\tests\\test_ocr_processor.cpp"
+    ],
+    "cad": [
+      "C:\\VCC\\themis\\tests\\performance\\test_cicada.cpp"
+    ],
+    "geo": [
+      "C:\\VCC\\themis\\tests\\test_geo_processor_gdal.cpp"
+    ],
+    "archive": [
+      "C:\\VCC\\themis\\tests\\test_archive_processor.cpp"
+    ]
+  }
+}

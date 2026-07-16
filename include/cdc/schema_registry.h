@@ -1,25 +1,21 @@
+/**
+ * @file schema_registry.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            schema_registry.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     855                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8098a60c  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
-    • 87c62f731  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: schema_registry.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 903
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2897 feat(cdc): Schema-aware CDC... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -188,7 +184,7 @@ public:
      * @return Schema ID (>= 0).
      * @throws std::runtime_error on unrecoverable registration failures.
      */
-    virtual int32_t registerSchema(const std::string& subject,
+    [[nodiscard]] virtual int32_t registerSchema(const std::string& subject,
                                    const std::string& schema_json,
                                    SchemaFormat format) = 0;
 
@@ -196,13 +192,13 @@ public:
      * @brief Look up a schema by its ID.
      * @return SchemaInfo or nullopt when not found.
      */
-    virtual std::optional<SchemaInfo> getById(int32_t id) const = 0;
+    [[nodiscard]] virtual std::optional<SchemaInfo> getById(int32_t id) const = 0;
 
     /**
      * @brief Look up the latest schema version for a subject.
      * @return SchemaInfo or nullopt when not found.
      */
-    virtual std::optional<SchemaInfo> getLatest(
+    [[nodiscard]] virtual std::optional<SchemaInfo> getLatest(
         const std::string& subject) const = 0;
 };
 
@@ -478,8 +474,18 @@ struct EncodedEvent {
  *
  * Payload encoding depends on the format registered for the subject:
  *  - JSON     – UTF-8 JSON bytes produced by eventToPayload().
- *  - AVRO     – UTF-8 JSON bytes (stub; full Avro binary requires avro-cpp).
- *  - PROTOBUF – UTF-8 JSON bytes (stub; full proto binary requires protobuf).
+ *  - AVRO     – UTF-8 JSON bytes (fallback); inject a real Avro binary encoder
+ *               via setAvroEncoderFn() to produce native Avro datum bytes.
+ *  - PROTOBUF – UTF-8 JSON bytes (fallback); inject a real Protobuf binary
+ *               encoder via setProtobufEncoderFn() to produce proto3 wire bytes.
+ *
+ * Binary encoder injection:
+ * @code
+ * encoder.setAvroEncoderFn([](const nlohmann::json& payload) {
+ *     // avro-cpp encoding here
+ *     return avro::encodeToBytes(payload);
+ * });
+ * @endcode
  *
  * Schema auto-registration: when @c config.auto_register_schemas is true
  * (the default) the encoder calls @c ensureCollectionSchema() on first use
@@ -611,6 +617,44 @@ message CdcEvent {
     CdcSchemaEncoder(const CdcSchemaEncoder&) = delete;
     CdcSchemaEncoder& operator=(const CdcSchemaEncoder&) = delete;
 
+    // ── Binary encoder injection ───────────────────────────────────────────
+
+    /**
+     * @brief Callable type for a binary payload encoder.
+     *
+     * Called with the logical JSON payload; must return the native binary
+     * encoding (e.g. Avro OCF-less datum or Protobuf wire bytes).
+     * Returning an empty vector causes the encoder to fall back to UTF-8 JSON.
+     */
+    using BinaryEncoderFn =
+        std::function<std::vector<uint8_t>(const nlohmann::json& payload)>;
+
+    /**
+     * @brief Inject a native Avro binary encoder.
+     *
+     * When set, `encode()` calls this function for events whose schema format
+     * is `SchemaFormat::AVRO`.  If the function returns an empty vector the
+     * UTF-8 JSON fallback is used instead.
+     *
+     * @param fn  Avro encoder callable (or nullptr to remove).
+     */
+    void setAvroEncoderFn(BinaryEncoderFn fn) {
+        avro_encoder_fn_ = std::move(fn);
+    }
+
+    /**
+     * @brief Inject a native Protobuf binary encoder.
+     *
+     * When set, `encode()` calls this function for events whose schema format
+     * is `SchemaFormat::PROTOBUF`.  If the function returns an empty vector the
+     * UTF-8 JSON fallback is used instead.
+     *
+     * @param fn  Protobuf encoder callable (or nullptr to remove).
+     */
+    void setProtobufEncoderFn(BinaryEncoderFn fn) {
+        protobuf_encoder_fn_ = std::move(fn);
+    }
+
     // ── Encoding ───────────────────────────────────────────────────────────
 
     /**
@@ -630,13 +674,24 @@ message CdcEvent {
         const int32_t schema_id  = ensureCollectionSchema(coll);
 
         const nlohmann::json payload = eventToPayload(event, coll);
-        const std::string json_str   = payload.dump();
-        const std::vector<uint8_t> payload_bytes(json_str.begin(), json_str.end());
+        const SchemaFormat   fmt     = client_->config().default_format;
+
+        std::vector<uint8_t> payload_bytes;
+        if (fmt == SchemaFormat::AVRO && avro_encoder_fn_) {
+            payload_bytes = avro_encoder_fn_(payload);
+        } else if (fmt == SchemaFormat::PROTOBUF && protobuf_encoder_fn_) {
+            payload_bytes = protobuf_encoder_fn_(payload);
+        }
+        if (payload_bytes.empty()) {
+            // JSON fallback for JSON format or when binary encoder not injected / returned empty.
+            const std::string json_str = payload.dump();
+            payload_bytes.assign(json_str.begin(), json_str.end());
+        }
 
         EncodedEvent result;
         result.data      = buildWireFormat(schema_id, payload_bytes);
         result.schema_id = schema_id;
-        result.format    = client_->config().default_format;
+        result.format    = fmt;
         result.subject   = subject;
         return result;
     }
@@ -743,6 +798,9 @@ message CdcEvent {
 
 private:
     SchemaRegistryClient* client_;
+
+    BinaryEncoderFn avro_encoder_fn_;
+    BinaryEncoderFn protobuf_encoder_fn_;
 
     mutable std::mutex local_cache_mutex_;
     mutable std::unordered_map<std::string, int32_t> local_schema_id_cache_;

@@ -1,52 +1,142 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adapter_registry.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     491                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 011803ade  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file adapter_registry.cpp
- * @brief In-memory implementation of AdapterRegistry
- *
- * All adapter records are stored in a thread-safe, in-memory map indexed by
- * adapter_id.  Signatures are delegated to the provided SecuritySignatureManager.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 92/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/adapter_registry.h"
 #include "storage/security_signature.h"
 #include <spdlog/spdlog.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
 #include <algorithm>
+#include <cctype>
 #include <mutex>
+#include <shared_mutex>
 #include <unordered_map>
 #include <chrono>
 
 namespace themis {
 namespace llm {
 
+namespace {
+
+const char* statusToString(AdapterMetadata::Status status) {
+    switch (status) {
+        case AdapterMetadata::Status::TRAINING:
+            return "TRAINING";
+        case AdapterMetadata::Status::TRAINED:
+            return "TRAINED";
+        case AdapterMetadata::Status::DEPLOYED:
+            return "DEPLOYED";
+        case AdapterMetadata::Status::DEPRECATED:
+            return "DEPRECATED";
+        case AdapterMetadata::Status::FAILED:
+            return "FAILED";
+    }
+    return "TRAINED";
+}
+
+AdapterMetadata::Status statusFromString(const std::string& status) {
+    if (status == "TRAINING") return AdapterMetadata::Status::TRAINING;
+    if (status == "TRAINED") return AdapterMetadata::Status::TRAINED;
+    if (status == "DEPLOYED") return AdapterMetadata::Status::DEPLOYED;
+    if (status == "DEPRECATED") return AdapterMetadata::Status::DEPRECATED;
+    if (status == "FAILED") return AdapterMetadata::Status::FAILED;
+    return AdapterMetadata::Status::TRAINED;
+}
+
+} // namespace
+
+// ============================================================================
+// AdapterSignature / AdapterMetadata JSON conversion
+// ============================================================================
+
+nlohmann::json AdapterSignature::toJson() const {
+    return {
+        {"content_hash", content_hash},
+        {"signature", signature},
+        {"signer_identity", signer_identity},
+        {"signing_timestamp", signing_timestamp},
+        {"parent_adapter_signature", parent_adapter_signature},
+    };
+}
+
+AdapterSignature AdapterSignature::fromJson(const nlohmann::json& j) {
+    AdapterSignature s;
+    s.content_hash = j.value("content_hash", "");
+    s.signature = j.value("signature", "");
+    s.signer_identity = j.value("signer_identity", "");
+    s.signing_timestamp = j.value("signing_timestamp", "");
+    s.parent_adapter_signature = j.value("parent_adapter_signature", "");
+    return s;
+}
+
+nlohmann::json AdapterMetadata::toJson() const {
+    nlohmann::json j;
+    j["adapter_id"] = adapter_id;
+    j["task_type"] = task_type;
+    j["domain"] = domain;
+    j["language"] = language;
+    j["role"] = (role == AdapterRole::DRAFT ? "DRAFT" : "GENERAL");
+    j["base_model_name"] = base_model_name;
+    j["base_model_version"] = base_model_version;
+    j["architecture"] = architecture;
+    j["hidden_size"] = hidden_size;
+    j["ffn_dimension"] = ffn_dimension;
+    j["tokenizer_name"] = tokenizer_name;
+    j["storage_path"] = storage_path;
+    j["file_size_bytes"] = file_size_bytes;
+    j["format"] = format;
+    j["quantization"] = quantization;
+    j["status"] = statusToString(status);
+    j["created_at"] = created_at;
+    j["updated_at"] = updated_at;
+    j["signature"] = signature.toJson();
+    return j;
+}
+
+AdapterMetadata AdapterMetadata::fromJson(const nlohmann::json& j) {
+    AdapterMetadata m;
+    m.adapter_id = j.value("adapter_id", "");
+    m.task_type = j.value("task_type", "");
+    m.domain = j.value("domain", "");
+    m.language = j.value("language", "en");
+
+    const std::string role_str = j.value("role", "GENERAL");
+    m.role = (role_str == "DRAFT") ? AdapterRole::DRAFT : AdapterRole::GENERAL;
+
+    m.base_model_name = j.value("base_model_name", "");
+    m.base_model_version = j.value("base_model_version", "");
+    m.architecture = j.value("architecture", "");
+    m.hidden_size = j.value("hidden_size", 0);
+    m.ffn_dimension = j.value("ffn_dimension", 0);
+    m.tokenizer_name = j.value("tokenizer_name", "");
+    m.storage_path = j.value("storage_path", "");
+    m.file_size_bytes = j.value("file_size_bytes", static_cast<size_t>(0));
+    m.format = j.value("format", "GGUF-ST");
+    m.quantization = j.value("quantization", "Q4_K_M");
+    m.status = statusFromString(j.value("status", "TRAINED"));
+    m.created_at = j.value("created_at", "");
+    m.updated_at = j.value("updated_at", "");
+
+    if (j.contains("signature") && j["signature"].is_object()) {
+        m.signature = AdapterSignature::fromJson(j["signature"]);
+    }
+    return m;
+}
+
 // ============================================================================
 // Pimpl
 // ============================================================================
 
 struct AdapterRegistry::Impl {
-    mutable std::mutex mu;
+    mutable std::shared_mutex rw_mu;
     // Primary store: adapter_id → metadata
     std::unordered_map<std::string, AdapterMetadata> adapters;
     // Signature store: adapter_id → AdapterSignature
@@ -99,7 +189,7 @@ bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
         spdlog::error("AdapterRegistry::registerAdapter: adapter_id must not be empty");
         return false;
     }
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     if (impl_->adapters.count(metadata.adapter_id)) {
         spdlog::warn("AdapterRegistry::registerAdapter: adapter '{}' already registered",
                      metadata.adapter_id);
@@ -111,7 +201,7 @@ bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
 }
 
 std::optional<AdapterMetadata> AdapterRegistry::getAdapter(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->adapters.find(adapter_id);
     if (it == impl_->adapters.end()) {
         return std::nullopt;
@@ -124,7 +214,7 @@ bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
         spdlog::error("AdapterRegistry::updateAdapter: adapter_id must not be empty");
         return false;
     }
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->adapters.find(metadata.adapter_id);
     if (it == impl_->adapters.end()) {
         spdlog::warn("AdapterRegistry::updateAdapter: adapter '{}' not found",
@@ -137,7 +227,7 @@ bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
 }
 
 bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto erased = impl_->adapters.erase(adapter_id);
     if (erased == 0) {
         spdlog::warn("AdapterRegistry::deleteAdapter: adapter '{}' not found", adapter_id);
@@ -149,7 +239,7 @@ bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
 }
 
 std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
     result.reserve(impl_->adapters.size());
     for (const auto& [id, meta] : impl_->adapters) {
@@ -161,7 +251,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
     const std::string& base_model
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.base_model_name == base_model) {
@@ -174,7 +264,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     const std::string& domain
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.domain == domain) {
@@ -182,6 +272,81 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
         }
     }
     return result;
+}
+
+std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole role) {
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+    std::vector<AdapterMetadata> result;
+    for (const auto& [id, meta] : impl_->adapters) {
+        if (meta.role == role) {
+            result.push_back(meta);
+        }
+    }
+    return result;
+}
+
+std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
+    const std::string& model_family
+) {
+    if (model_family.empty()) {
+        return std::nullopt;
+    }
+
+    // Build lowercase copy of family for case-insensitive matching.
+    std::string family_lower = model_family;
+    std::transform(family_lower.begin(), family_lower.end(),
+                   family_lower.begin(), [](unsigned char c) {
+                       return static_cast<char>(std::tolower(c));
+                   });
+
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
+
+    std::optional<AdapterMetadata> best;
+    for (const auto& [id, meta] : impl_->adapters) {
+        if (meta.role != AdapterRole::DRAFT) {
+            continue;
+        }
+
+        // Case-insensitive substring match on architecture field.
+        std::string arch_lower = meta.architecture;
+        std::transform(arch_lower.begin(), arch_lower.end(),
+                       arch_lower.begin(), [](unsigned char c) {
+                           return static_cast<char>(std::tolower(c));
+                       });
+        if (arch_lower.find(family_lower) == std::string::npos) {
+            continue;
+        }
+
+        if (!best.has_value()) {
+            best = meta;
+            continue;
+        }
+
+        // Prefer DEPLOYED status over other states.
+        const bool meta_deployed = (meta.status == AdapterMetadata::Status::DEPLOYED);
+        const bool best_deployed = (best->status == AdapterMetadata::Status::DEPLOYED);
+        if (meta_deployed && !best_deployed) {
+            best = meta;
+            continue;
+        }
+        if (!meta_deployed && best_deployed) {
+            continue;
+        }
+
+        // Among equal-status candidates prefer the highest version.
+        if (best->version < meta.version) {
+            best = meta;
+        }
+    }
+
+    if (best.has_value()) {
+        spdlog::debug("AdapterRegistry::findDraftAdapterForFamily: found '{}' for family '{}'",
+                      best->adapter_id, model_family);
+    } else {
+        spdlog::debug("AdapterRegistry::findDraftAdapterForFamily: no DRAFT adapter for family '{}'",
+                      model_family);
+    }
+    return best;
 }
 
 // ============================================================================
@@ -226,13 +391,8 @@ AdapterRegistry::ValidationResult AdapterRegistry::validateCompatibility(
 // ============================================================================
 
 bool AdapterRegistry::signAdapter(const std::string& adapter_id,
-                                   [[maybe_unused]] const std::string& private_key) {
-    // NOTE: Real Ed25519 signing via `private_key` is not yet implemented.
-    // The `content_hash` field is populated, and the `signature` field is a
-    // placeholder token that makes `verifySignature()` deterministic for
-    // testing purposes.  A production implementation must replace this with
-    // an actual Ed25519 signature over `content_hash` using `private_key`.
-    std::lock_guard<std::mutex> lock(impl_->mu);
+                                   const std::string& private_key) {
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     if (!impl_->adapters.count(adapter_id)) {
         spdlog::warn("AdapterRegistry::signAdapter: adapter '{}' not found", adapter_id);
         return false;
@@ -241,13 +401,70 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     AdapterSignature sig;
     sig.signer_identity = "adapter_registry";
     sig.content_hash    = storage::SecuritySignatureManager::computeFileHash(adapter_id);
-    // ISO 8601 timestamp via system_clock
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     char buf[32];
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t));
     sig.signing_timestamp = buf;
-    sig.signature         = "sig:" + sig.content_hash;  // Placeholder; real Ed25519 via private_key
+
+    // Perform real Ed25519 signature over content_hash when a PEM private key
+    // is provided.  Fall back to a deterministic placeholder when no key is
+    // supplied (useful in test/CI environments).
+    if (!private_key.empty()) {
+        BIO* bio = BIO_new_mem_buf(private_key.data(),
+                                   static_cast<int>(private_key.size()));
+        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
+        BIO_free(bio);
+
+        if (!pkey) {
+            spdlog::warn("AdapterRegistry::signAdapter: failed to parse private key for '{}'",
+                         adapter_id);
+            return false;
+        }
+
+        EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+        std::string signature_bytes;
+        bool sign_ok = false;
+
+        if (ctx && EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+            std::size_t sig_len = 0;
+            if (EVP_DigestSign(ctx,
+                               nullptr, &sig_len,
+                               reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                               sig.content_hash.size()) == 1) {
+                signature_bytes.resize(sig_len);
+                if (EVP_DigestSign(ctx,
+                                   reinterpret_cast<unsigned char*>(signature_bytes.data()),
+                                   &sig_len,
+                                   reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                                   sig.content_hash.size()) == 1) {
+                    signature_bytes.resize(sig_len);
+                    sign_ok = true;
+                }
+            }
+        }
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+
+        if (!sign_ok) {
+            spdlog::warn("AdapterRegistry::signAdapter: Ed25519 sign failed for '{}'",
+                         adapter_id);
+            return false;
+        }
+
+        // Hex-encode the raw signature bytes for storage
+        static constexpr char hex[] = "0123456789abcdef";
+        std::string hex_sig;
+        hex_sig.reserve(signature_bytes.size() * 2);
+        for (unsigned char c : signature_bytes) {
+            hex_sig += hex[(c >> 4) & 0xf];
+            hex_sig += hex[c & 0xf];
+        }
+        sig.signature = "ed25519:" + hex_sig;
+    } else {
+        // No private key: deterministic placeholder for testing
+        sig.signature = "sig:" + sig.content_hash;
+    }
 
     impl_->signatures[adapter_id] = sig;
 
@@ -266,7 +483,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
 }
 
 bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->signatures.find(adapter_id);
     if (it == impl_->signatures.end()) {
         spdlog::debug("AdapterRegistry::verifySignature: no signature for '{}'", adapter_id);
@@ -282,7 +499,7 @@ bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
 }
 
 std::optional<AdapterSignature> AdapterRegistry::getSignature(const std::string& adapter_id) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->signatures.find(adapter_id);
     if (it == impl_->signatures.end()) {
         return std::nullopt;
@@ -312,7 +529,7 @@ std::optional<AdapterMetadata> AdapterRegistry::getVersion(
     // Use a delimiter-aware prefix check to avoid matching "model_v2" when
     // searching for base id "model" (without a following ':' delimiter).
     std::string prefix = adapter_base_id + ":";
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     for (const auto& [id, meta] : impl_->adapters) {
         if ((meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) &&
             meta.version == version) {
@@ -327,7 +544,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
 ) {
     // Same delimiter-aware prefix check used in getVersion().
     std::string prefix = adapter_base_id + ":";
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> versions;
     for (const auto& [id, meta] : impl_->adapters) {
         if (meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) {
@@ -349,7 +566,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
 std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
     const SearchCriteria& criteria
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result;
 
     for (const auto& [id, meta] : impl_->adapters) {
@@ -368,7 +585,7 @@ std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
 // ============================================================================
 
 AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     RegistryStats stats;
     stats.total_adapters = impl_->adapters.size();
     stats.signed_adapters = impl_->signatures.size();
@@ -396,7 +613,7 @@ bool AdapterRegistry::attachProvenance(const std::string& adapter_id,
                                         const lora::LoRAProvenanceRecord& record) {
     // Verify the adapter exists before accepting provenance
     {
-        std::lock_guard<std::mutex> lock(impl_->mu);
+        std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
         if (!impl_->adapters.count(adapter_id)) {
             spdlog::warn("AdapterRegistry::attachProvenance: adapter '{}' not found",
                          adapter_id);
@@ -445,13 +662,13 @@ bool AdapterRegistry::hotLoad(
         return false;
     }
 
-    // Register (or update) adapter metadata under the registry lock.
+    // Register (or update) adapter metadata under an exclusive write lock.
     {
         AdapterMetadata meta = metadata;
         meta.adapter_id   = adapter_id;
         meta.storage_path = weights_path;
 
-        std::lock_guard<std::mutex> lock(impl_->mu);
+        std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
         bool existed = impl_->adapters.count(adapter_id) > 0;
         impl_->adapters[adapter_id] = meta;
         spdlog::debug("AdapterRegistry::hotLoad: {} adapter '{}'",
@@ -462,7 +679,7 @@ bool AdapterRegistry::hotLoad(
     // callback itself calls back into the registry.
     std::vector<HotLoadCallback> callbacks;
     {
-        std::lock_guard<std::mutex> lock(impl_->mu);
+        std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
         callbacks = impl_->hot_load_callbacks;
     }
 
@@ -482,7 +699,7 @@ void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
         spdlog::warn("AdapterRegistry::addHotLoadObserver: null callback ignored");
         return;
     }
-    std::lock_guard<std::mutex> lock(impl_->mu);
+    std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     impl_->hot_load_callbacks.push_back(std::move(callback));
     spdlog::debug("AdapterRegistry: hot-load observer registered (total: {})",
                   impl_->hot_load_callbacks.size());
@@ -490,3 +707,4 @@ void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
 
 } // namespace llm
 } // namespace themis
+

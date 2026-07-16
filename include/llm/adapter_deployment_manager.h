@@ -1,24 +1,21 @@
+/**
+ * @file adapter_deployment_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adapter_deployment_manager.h                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adapter_deployment_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 308
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -49,12 +46,13 @@ enum class DeploymentStrategy {
 
 // Adapter placement decision
 struct AdapterPlacement {
+    virtual ~AdapterPlacement() = default;
     std::string adapter_id;
     std::string shard_id;
     DeploymentStrategy strategy;
-    float affinity_score;           // 0.0-1.0, higher = better fit
-    size_t estimated_requests_per_sec;
-    size_t adapter_size_bytes;
+    float affinity_score = 0.0f;    // 0.0-1.0, higher = better fit
+    size_t estimated_requests_per_sec = 0;
+    size_t adapter_size_bytes = 0;
     std::string reason;             // Human-readable explanation
 };
 
@@ -76,13 +74,14 @@ struct DeploymentConfig {
 
 // Deployment result
 struct DeploymentResult {
-    bool success;
+    virtual ~DeploymentResult() = default;
+    bool success = false;
     std::string adapter_id;
     std::vector<std::string> deployed_shards;
     std::vector<std::string> failed_shards;
     std::map<std::string, std::string> shard_errors;
-    int64_t deployment_time_ms;
-    size_t total_data_transferred_bytes;
+    int64_t deployment_time_ms = 0;
+    size_t total_data_transferred_bytes = 0;
     std::string error_message;
     
     std::string toJSON() const;
@@ -90,13 +89,14 @@ struct DeploymentResult {
 
 // Shard affinity metrics
 struct ShardAffinityMetrics {
+    virtual ~ShardAffinityMetrics() = default;
     std::string shard_id;
-    float data_coverage_ratio;      // % of training data on this shard
-    float query_frequency;          // Expected query rate
-    float network_latency_ms;       // Latency to shard
-    float available_memory_gb;      // Free memory
-    float cpu_utilization;          // Current CPU usage (0.0-1.0)
-    size_t active_adapters_count;   // Already deployed adapters
+    float data_coverage_ratio = 0.0f;      // % of training data on this shard
+    float query_frequency = 0.0f;          // Expected query rate
+    float network_latency_ms = 0.0f;       // Latency to shard
+    float available_memory_gb = 0.0f;      // Free memory
+    float cpu_utilization = 0.0f;          // Current CPU usage (0.0-1.0)
+    size_t active_adapters_count = 0;   // Already deployed adapters
     
     float computeAffinityScore() const {
         // Weighted score combining multiple factors
@@ -109,11 +109,12 @@ struct ShardAffinityMetrics {
 
 // Deployment plan
 struct DeploymentPlan {
+    virtual ~DeploymentPlan() = default;
     std::string adapter_id;
     DeploymentStrategy strategy;
     std::vector<AdapterPlacement> placements;
-    int estimated_total_time_seconds;
-    size_t total_bandwidth_required_mbps;
+    int estimated_total_time_seconds = 0;
+    size_t total_bandwidth_required_mbps = 0;
     std::vector<std::string> prerequisites;  // e.g., "Adapter must be validated"
     std::string created_at;
     
@@ -234,9 +235,9 @@ public:
         std::string shard_id;
         std::string status;  // "DEPLOYED", "DEPLOYING", "FAILED", "UNDEPLOYED"
         std::string version;
-        int64_t deployed_at_timestamp;
-        size_t requests_served;
-        float avg_latency_ms;
+        int64_t deployed_at_timestamp = 0;
+        size_t requests_served = 0;
+        float avg_latency_ms = 0.0f;
         
         std::string toJSON() const;
     };
@@ -248,10 +249,10 @@ public:
     // Health checks
     struct HealthCheckResult {
         std::string shard_id;
-        bool is_healthy;
+        bool is_healthy = false;
         std::string adapter_id;
         std::string issue_description;
-        int64_t last_check_timestamp;
+        int64_t last_check_timestamp = 0;
     };
     
     std::vector<HealthCheckResult> performHealthCheck(const std::string& adapter_id);

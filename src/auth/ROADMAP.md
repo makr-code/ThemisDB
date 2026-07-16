@@ -1,90 +1,87 @@
 # Auth Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSSAPI, TOTP-based MFA, and WebAuthn/FIDO2 hardware token support. RBAC and principal-to-role mapping are implemented.
 
-## Completed ✅
-- [x] JWT validation with OpenID Connect (Keycloak integration)
-- [x] RS256 signature verification with JWKS caching
-- [x] Clock skew tolerance for distributed environments
-- [x] Kerberos/GSSAPI authentication for Active Directory SSO
-- [x] TOTP-based Multi-Factor Authentication with recovery codes
-- [x] Principal-to-role mapping and RBAC enforcement
-- [x] Rate limiting for brute force and replay attack prevention
-- [x] Configurable JWKS cache TTL and audience/issuer validation
-- [x] Fallback from Kerberos to basic authentication
-- [x] OIDC Provider Discovery and federated identity integration (`auth/oidc_provider.cpp`)
-- [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
-- [x] Audit logging for all authentication events (`auth/auth_audit_logger.cpp`)
-- [x] WebAuthn/FIDO2 hardware token support (`auth/webauthn_authenticator.cpp`)
-- [x] Configurable password policy enforcement (`auth/password_policy.cpp`)
-- [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
-- [x] SAML 2.0 identity provider integration (Target: Q2 2026)
-- [x] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
-- [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
-- [x] API key authentication (static key + secret) (Issue: #1544)
-- [x] Session management and revocation endpoint (Issue: #1983)
-- [x] WebAuthn/FIDO2 hardware token support (Issue: #1533)
-- [x] Audit logging for all authentication events (Issue: #1534)
-- [x] Configurable password policy enforcement (Issue: #2013)
-- [x] SAML 2.0 SP-initiated and IdP-initiated SSO
-- [x] LDAP/Active Directory direct bind authentication (Issue: #1537)
-- [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
-- [x] Federated identity across multiple realms (Issue: #1540)
-- [x] Zero-trust access model with continuous verification (Issue: #1541)
+Production authentication runtime exists across JWT/OIDC, Kerberos, MFA, OAuth, SAML, LDAP, API-key, mTLS, WebAuthn, session/revocation, and zero-trust verification paths.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [~] hardening of distributed revocation, federation, and policy-edge behavior (Target: Q3 2026)
+- [~] benchmark and release-gate consolidation for token/session hot paths (Target: Q3 2026)
+- [~] consistency hardening for async/provider-integration reliability (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
+## v1.2.0 Async Operations & Connection Pooling (Completed)
 
-### Long-term (6-12 months)
-- [P] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
+- [x] async/non-blocking LDAP authentication calls (authenticateAsync with AuthWorkerThreadPool)
+- [x] async/non-blocking HTTP authentication calls (new AsyncHTTPAuth class)
+- [x] LDAP connection pooling with health checks and reuse (LDAPConnectionPool)
+- [x] HTTP retry logic with exponential backoff for transient failures
+- [x] Thread-safe worker pool for concurrent auth operations
+
+## v1.3.0 Token Blacklist Persistence & Distributed Support (In Progress)
+
+- [x] Token blacklist persistence to RocksDB (RocksDBTokenBlacklist)
+- [~] Distributed token blacklist with cluster synchronization (DistributedTokenBlacklist)
+- [~] Atomic blacklist validation during cluster sync
+- [~] Leader election for distributed deployments
+- [~] Comprehensive test coverage for distributed scenarios
+
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] tighten fail-closed behavior for optional provider-degraded scenarios (Target: Q4 2026)
+- [ ] expand deterministic integration regressions across auth protocol matrixes (Target: Q4 2026)
+- [ ] improve operator diagnostics for policy/revocation/federation decision classes (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] reduce remaining proxy-like benchmark targets through dedicated auth microbenchmarks (Target: Q1 2027)
+- [ ] re-baseline auth p95/p99 envelopes on representative production profiles (Target: Q1 2027)
+- [ ] harden multi-realm and distributed trust-state synchronization paths (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Enterprise Authentication Core (Status: Completed ✅)
-- [x] JWT validation with OpenID Connect and Keycloak integration (`auth/jwt_validator.cpp`)
-- [x] RS256 signature verification with JWKS caching and configurable TTL
-- [x] Clock skew tolerance for distributed environments
-- [x] Kerberos/GSSAPI authentication for Active Directory SSO (`auth/gssapi_authenticator.cpp`)
-- [x] TOTP-based Multi-Factor Authentication with recovery codes (`auth/mfa_authenticator.cpp`)
-- [x] Principal-to-role mapping and RBAC enforcement
-- [x] Rate limiting for brute force and replay attack prevention
-- [x] Fallback from Kerberos to basic authentication
+### Phase 1: Design / API Contract
+- [ ] freeze authentication and principal-contract semantics for active major line (Target: Q3 2026)
+- [ ] define explicit failure contracts per provider integration and policy gate (Target: Q3 2026)
 
-### Phase 2: Extended Identity Protocols (Status: Completed ✅)
-- [x] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026)
-- [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
-- [x] OIDC Provider Discovery and federated identity (`auth/oidc_provider.cpp`)
-- [x] Attribute-based access control (ABAC) engine (Target: Q3 2026)
-- [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
+### Phase 2: Core Implementation
+- [ ] complete remaining hardening in revocation/federation/provider execution paths (Target: Q4 2026)
+- [ ] align session/trust behavior to shared bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Zero-Trust & Modern AuthN (Status: Completed ✅)
-- [x] OAuth 2.0 PKCE flow for public clients
-- [x] API key authentication (static key + secret)
-- [x] WebAuthn/FIDO2 hardware token support
-- [x] Session management and revocation endpoint
-- [x] Configurable password policy enforcement
-- [x] Audit logging for all authentication events
-- [x] Certificate-based mutual TLS (mTLS) authentication (`auth/mtls_authenticator.cpp`)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for malformed auth artifacts and degraded backends (Target: Q4 2026)
+- [ ] unify error taxonomy and diagnostics across protocol adapters (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for concurrency, replay, and distributed-edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for provider/federation matrix permutations (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for token/session/revocation hotspots (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core auth module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Issue: #1550)
-- [x] Integration tests (JWT, Kerberos, MFA flows)
-- [x] Focused standalone test targets registered in `tests/CMakeLists.txt` (30 test executables: JWT, API-key, MFA, TOTP, OAuth, SAML, mTLS, WebAuthn, session, zero-trust, anomaly detection)
-- [x] Performance benchmarks (token validation latency) (Issue: #1551)
-- [x] Security audit (JWT validation, Kerberos keytab handling)
-- [x] Documentation complete (configuration, flows, examples)
-- [x] API stability guaranteed for JWT, Kerberos, and MFA
 
-## Known Issues & Limitations
-- Fine-grained ABAC with OPA/Rego policy expressions is not yet implemented; the current `PolicyEngine` evaluates structured JSON-based policies but does not integrate an OPA runtime (Issue: #1538, Target: Q3 2026).
-- LDAP direct bind requires OpenLDAP (libldap) on Linux or WinLDAP on Windows; build with -DTHEMIS_ENABLE_LDAP=ON (default).
+- [x] core auth surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for distributed/provider edge cases
+- [ ] release-gate benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- behavior remains partially capability-dependent on configured identity providers and backends.
+- continued hardening is needed for multi-realm/distributed revocation edge profiles.
+- benchmark coverage still requires tightening for certain policy and integration paths.
 
 ## Breaking Changes
-- ABAC engine (`PolicyEngine`) API is additive to existing RBAC and backward-compatible.
-- mTLS (`MtlsAuthenticator`) requires TLS layer configuration changes; see auth/mtls_authenticator.h for details.
+
+No breaking auth-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

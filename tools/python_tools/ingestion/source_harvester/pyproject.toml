@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "themisdb-source-harvester"
+version = "0.1.0"
+description = "API-first source harvester for code/doc corpora"
+requires-python = ">=3.10"
+dependencies = [
+  "httpx>=0.27.0",
+  "beautifulsoup4>=4.12.0",
+  "pyyaml>=6.0.0",
+  "trafilatura>=1.9.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["source_harvester*"]

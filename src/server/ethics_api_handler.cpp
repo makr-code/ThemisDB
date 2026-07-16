@@ -1,27 +1,26 @@
+/**
+ * @file ethics_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ethics_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     532                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ethics_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 597
+ * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=12, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #946 [FEATURE] Ethics AI Plugin ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/ethics_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
@@ -30,6 +29,7 @@
 #include "utils/tracing.h"
 #include <sstream>
 #include <regex>
+#include <functional>
 
 namespace themis {
 namespace server {
@@ -43,6 +43,53 @@ EthicsApiHandler::EthicsApiHandler(
     , query_engine_(std::move(query_engine))
     , auth_(std::move(auth))
 {
+}
+
+http::response<http::string_body> EthicsApiHandler::handle(
+    const http::request<http::string_body>& req,
+    const std::string& target
+) {
+    std::string path = target;
+    const auto qpos = path.find('?');
+    if (qpos != std::string::npos) {
+        path = path.substr(0, qpos);
+    }
+
+    // Normalize optional /api prefix so routing only needs /ethics/... paths.
+    if (path.rfind("/api/ethics/", 0) == 0) {
+        path = path.substr(4);  // "/api/ethics/..." -> "/ethics/..."
+    }
+
+    const auto method = req.method();
+    if (method == http::verb::post && path == "/ethics/debate/init") {
+        return handleDebateInit(req);
+    }
+    if (method == http::verb::post && path == "/ethics/decision/make") {
+        return handleMakeDecision(req);
+    }
+    if (method == http::verb::post && path == "/ethics/evaluation") {
+        return handleEvaluation(req);
+    }
+    if (method == http::verb::get && path == "/ethics/arguments") {
+        return handleGetArguments(req);
+    }
+    if (method == http::verb::post && path == "/ethics/arguments/search") {
+        return handleSearchArguments(req);
+    }
+    if (method == http::verb::get && path == "/ethics/philosophies") {
+        return handleListPhilosophies(req);
+    }
+    if (method == http::verb::get && path.rfind("/ethics/philosophies/", 0) == 0) {
+        return handleGetPhilosophy(req, path.substr(std::string("/ethics/philosophies/").size()));
+    }
+    if (method == http::verb::post && path == "/ethics/rag/context") {
+        return handleBuildContext(req);
+    }
+    if (method == http::verb::get && path == "/ethics/metrics") {
+        return handleGetMetrics(req);
+    }
+
+    return makeErrorResponse(http::status::not_found, "Ethics endpoint not found", req);
 }
 
 http::response<http::string_body> EthicsApiHandler::handleDebateInit(
@@ -374,15 +421,43 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
         
         auto result = executeAQL(aql);
         
-        // If Prometheus format requested, convert
+        // If Prometheus format requested, convert JSON metrics to text format
         if (format == "prometheus") {
-            // For now, return as JSON
-            // TODO: Convert to Prometheus format
-            // # HELP ethics_decisions_total Total number of decisions made
-            // # TYPE ethics_decisions_total counter
-            // ethics_decisions_total 1234
+            // result is a JSON object; each key becomes a Prometheus metric.
+            // Nested objects are flattened with underscore separators.
+            // Non-numeric leaves are skipped.
+            std::string prom;
+            std::function<void(const nlohmann::json&, const std::string&)> flatten =
+                [&](const nlohmann::json& node, const std::string& prefix) {
+                    if (node.is_object()) {
+                        for (auto it = node.begin(); it != node.end(); ++it) {
+                            std::string key = prefix.empty()
+                                ? it.key()
+                                : prefix + "_" + it.key();
+                            flatten(it.value(), key);
+                        }
+                    } else if (node.is_number()) {
+                        prom += "# TYPE " + prefix + " gauge\n";
+                        prom += prefix + " " + node.dump() + "\n";
+                    }
+                    // arrays and strings are skipped
+                };
+
+            // result may be wrapped in an array (AQL RETURN produces an array)
+            if (result.is_array() && !result.empty()) {
+                flatten(result[0], "ethics");
+            } else {
+                flatten(result, "ethics");
+            }
+
+            http::response<http::string_body> prom_res{http::status::ok, 11};
+            prom_res.set(http::field::content_type, "text/plain; version=0.0.4");
+            prom_res.body() = prom;
+            prom_res.prepare_payload();
+            span.setStatus(true);
+            return prom_res;
         }
-        
+
         span.setStatus(true);
         return makeResponse(http::status::ok, result.dump(), req);
         
@@ -437,6 +512,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
     if (!query_engine_) {
         throw std::runtime_error("QueryEngine not available");
     }
+    auto& query_engine = *query_engine_;
 
     // Substitute bind parameters (@name → value literal) for simple string/number vars.
     // Each placeholder is replaced exactly once, left-to-right, to prevent re-substitution.
@@ -472,7 +548,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
     }
 
     // Translate the AST to a QueryEngine query
-    auto translation = query::AQLTranslator::translate(*parse_result);
+    auto translation = AQLTranslator::translate(*parse_result);
     if (!translation.success) {
         throw std::runtime_error("AQL translation error: " + translation.error_message);
     }
@@ -481,14 +557,14 @@ nlohmann::json EthicsApiHandler::executeAQL(
     nlohmann::json rows = nlohmann::json::array();
 
     if (translation.disjunctive.has_value()) {
-        auto result = query_engine_->executeOrEntities(translation.disjunctive.value());
+        auto result = query_engine.executeOrEntities(translation.disjunctive.value());
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));
             }
         }
     } else {
-        auto result = query_engine_->executeAndEntities(translation.query);
+        auto result = query_engine.executeAndEntities(translation.conjunctive_query);
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));

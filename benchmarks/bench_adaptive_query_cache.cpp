@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_adaptive_query_cache.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:51:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     602                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 62ed4b187  2026-02-25  feat(cache): add AdaptiveQueryCache performance benchmark... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_adaptive_query_cache.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -56,6 +41,9 @@
 #include <vector>
 #include <random>
 #include <sstream>
+#include <iomanip>
+#include <fstream>
+#include <filesystem>
 
 using namespace themis;
 using json = nlohmann::json;
@@ -593,6 +581,121 @@ static void BM_Cache_GetStats(benchmark::State& state) {
 BENCHMARK(BM_Cache_GetStats)
     ->Arg(1000)
     ->Arg(50000);
+
+// ═══════════════════════════════════════════════════════════
+// warmupFromLog – parallel bulk load throughput
+// ═══════════════════════════════════════════════════════════
+
+namespace {
+
+/// Base64 alphabet (RFC 4648) – mirrors warmup.cpp helper.
+static const std::string kB64BenchChars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+static std::string b64EncodeBench(const std::string& data) {
+    std::string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    uint32_t buf = 0;
+    int bits = 0;
+    for (unsigned char c : data) {
+        buf = (buf << 8) | c;
+        bits += 8;
+        while (bits >= 6) {
+            bits -= 6;
+            out.push_back(kB64BenchChars[(buf >> bits) & 0x3F]);
+        }
+    }
+    if (bits > 0) {
+        buf <<= (6 - bits);
+        out.push_back(kB64BenchChars[buf & 0x3F]);
+    }
+    while (out.size() % 4 != 0) out.push_back('=');
+    return out;
+}
+
+/// Build a 64-char lowercase hex key from an integer seed.
+static std::string makeHexKey64(int n) {
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0');
+    for (int i = 0; i < 8; ++i) ss << std::setw(8) << n;
+    return ss.str();
+}
+
+/**
+ * Write `entry_count` NDJSON warmup lines to `path`.
+ * Each line: {"key":"<sha256_hex>","value_b64":"<b64>","ttl_remaining_s":300}
+ */
+static void writeWarmupLog(const std::string& path, size_t entry_count) {
+    std::ofstream f(path, std::ios::trunc);
+    for (size_t i = 0; i < entry_count; ++i) {
+        json val = {{"idx", static_cast<int>(i)},
+                    {"data", std::string(32, static_cast<char>('a' + (i % 26)))}};
+        json rec;
+        rec["key"]            = makeHexKey64(static_cast<int>(i));
+        rec["value_b64"]      = b64EncodeBench(val.dump());
+        rec["ttl_remaining_s"] = 300;
+        f << rec.dump() << '\n';
+    }
+}
+
+} // namespace (warmup bench helpers)
+
+/**
+ * @brief Benchmark warmupFromLog() throughput with varying worker counts.
+ *
+ * Performance target (Issue #244): ≥ 500 K entries/s on a 4-core machine
+ * with a 5 M entry log.
+ *
+ * State args:
+ *  range(0) – number of warmup log entries
+ *  range(1) – number of parallel workers (max_parallel_workers)
+ */
+static void BM_WarmupFromLog(benchmark::State& state) {
+    const size_t   entry_count = static_cast<size_t>(state.range(0));
+    const uint32_t num_workers = static_cast<uint32_t>(state.range(1));
+
+    // Write the log once; reuse across iterations.
+    const std::string log_path =
+        "/tmp/bench_warmup_" + std::to_string(entry_count) + "_w" +
+        std::to_string(num_workers) + ".ndjson";
+
+    if (!std::filesystem::exists(log_path)) {
+        writeWarmupLog(log_path, entry_count);
+    }
+
+    AdaptiveQueryCache::Config cfg = makeL1L2Config(entry_count * 2, entry_count * 4);
+    cfg.max_parallel_workers = num_workers;
+
+    for (auto _ : state) {
+        AdaptiveQueryCache cache(cfg);
+        auto result = cache.warmupFromLog(log_path);
+        benchmark::DoNotOptimize(result.entries_loaded);
+        benchmark::ClobberMemory();
+    }
+    // Report total entries processed across all iterations.
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) *
+                            static_cast<int64_t>(entry_count));
+
+    std::error_code ec;
+    std::filesystem::remove(log_path, ec);
+
+    state.SetLabel("workers=" + std::to_string(num_workers) +
+                   " entries=" + std::to_string(entry_count));
+}
+
+// Baseline: 10 K entries, 1 worker (single-threaded reference)
+BENCHMARK(BM_WarmupFromLog)
+    ->Args({10000, 1})
+    ->Args({10000, 2})
+    ->Args({10000, 4})
+    ->Unit(benchmark::kMillisecond);
+
+// Scale: 100 K entries with various worker counts
+BENCHMARK(BM_WarmupFromLog)
+    ->Args({100000, 1})
+    ->Args({100000, 2})
+    ->Args({100000, 4})
+    ->Unit(benchmark::kMillisecond);
 
 } // namespace
 

@@ -1,79 +1,112 @@
-# Importers Module
+# ThemisDB Importers Module
 
-Data import functionality for ThemisDB.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-Provides data import functionality for ThemisDB, supporting PostgreSQL, MySQL/MariaDB,
-MongoDB, and SQLite with schema mapping, batch import, and incremental import support.
-
-## Subsystem Scope
-
-**In scope:** Database dump import with schema mapping, batch import operations,
-incremental import via change tracking, streaming row callbacks, dry-run mode.
-
-**Out of scope:** Data transformation beyond schema mapping (handled by content module),
-export functionality (handled by exporters module), CDC-based ongoing sync (handled by
-cdc module).
+The importers module provides source-to-ThemisDB ingestion capabilities for relational, document, stream, and file/object sources, including schema handling, conflict resolution, validation, auditability, and optional MDM/post-processing paths.
 
 ## Relevant Interfaces
 
-- `postgres_importer.cpp` — PostgreSQL pg_dump source connector with schema mapping,
-  COPY-protocol support, checkpoint/resume, conflict resolution, and quarantine
-- `mysql_importer.cpp` — MySQL / MariaDB mysqldump source connector
-- `mongo_importer.cpp` — MongoDB mongoexport JSON/NDJSON source connector
-- `sqlite_importer.cpp` — SQLite `.dump` source connector (type-affinity mapping,
-  single-quoted + hex literal parsing, BEGIN TRANSACTION / COMMIT / PRAGMA handling)
-- `kafka_importer.cpp` — Apache Kafka consumer for real-time streaming ingestion;
-  supports JSON, Avro (Confluent wire format), and plaintext message formats;
-  requires `THEMIS_ENABLE_KAFKA` at build time for the librdkafka-backed path
-- `conflict_resolver.cpp` — pluggable conflict resolution strategies (skip, overwrite, merge)
-- `import_pipeline.cpp` — import orchestration and batching
-- `schema_mapper.cpp` — source-to-ThemisDB schema translation
+| Interface / File | Role |
+|---|---|
+| postgres_importer.cpp | PostgreSQL import execution and schema extraction |
+| mysql_importer.cpp | MySQL/MariaDB import paths |
+| sqlite_importer.cpp | SQLite import paths |
+| oracle_importer.cpp | Oracle import paths |
+| mongo_importer.cpp | MongoDB document import paths |
+| kafka_importer.cpp | streaming import entry points |
+| flatfile_importer.cpp | CSV/TSV/Parquet/flat-file ingestion |
+| s3_importer.cpp | object-storage backed import surfaces |
+| schema_validator.cpp | schema validation logic |
+| schema_inference.cpp | schema inference and relationship hints |
+| conflict_resolver.cpp | duplicate/conflict strategy behavior |
+| data_quality.cpp | data quality scoring and checks |
+| audit_trail.cpp | import audit evidence tracking |
+| mdm_engine.cpp | MDM orchestration for imported entities |
+| entity_linker.cpp | entity matching/linking behavior |
+| canonical_resolver.cpp | canonical/golden-record resolution |
+| huggingface_ingest_plugin.cpp | HuggingFace legal-data ingestion pipeline (raw→canonical→projections→AdaLoRA export) |
+| postgres_cdc.cpp | CDC-oriented import interfaces |
+| adaptive_import.cpp | adaptive batch/import planning |
+| polyglot_mapper.cpp | polyglot mapping recommendations |
+| temporal_support.cpp | temporal import support |
+| blockchain_integrity.cpp | integrity verification paths |
+| federated_learning.cpp | federated ingest-related helper flows |
+| graphql_federation.cpp | GraphQL federation-related import metadata paths |
+| wikipedia_plugin.cpp + wikipedia_pipeline.cpp | Wikipedia full-import / delta-ingest orchestration and plugin lifecycle |
+| wikipedia_dump_reader.cpp + wikipedia_xml_parser.cpp | streaming-friendly Wikimedia dump page parsing |
+| wikipedia_transform.cpp + wikipedia_project_*.cpp | canonical Wikipedia core mapping and graph/vector/process/timeseries projections |
+| wikipedia_checkpoint.cpp + wikipedia_validator.cpp | checkpoint/resume, validation, manifest, and portable export for `wikipedia.db` |
 
-## Current Delivery Status
+## Scope
 
-**Maturity:** 🟢 Production — PostgreSQL, MySQL/MariaDB, MongoDB, and SQLite importers
-operational. Kafka consumer importer available (requires `THEMIS_ENABLE_KAFKA`).
-CSV/TSV/Parquet and cloud-storage importers planned.
+In scope:
+- importer execution across supported source classes
+- schema, conflict, quality, and audit behavior in import runtime
+- optional MDM/advanced helper flows that post-process imported data
+- Wikipedia dump ingestion with canonical page/revision/link/category/redirect state, dirty-page delta refresh, and portable manifest export
 
-## Components
+Out of scope:
+- non-import storage/query ownership outside importer interfaces
+- external scheduler/orchestrator ownership outside module contracts
+- UI ownership beyond importer-exposed integration surfaces
 
-- PostgreSQL importer
-- MySQL / MariaDB importer
-- MongoDB importer
-- SQLite importer
-- Kafka consumer importer (real-time streaming)
-- Conflict resolver
-- Custom import format handlers
-- Import pipeline
+## Runtime Behavior and Limits
 
-## Features
+- behavior depends on enabled connectors and build/runtime feature flags.
+- conflict strategy and validation options strongly influence import outcomes.
+- optional CDC/streaming/object-source paths degrade deterministically when unavailable.
+- Wikipedia MVP exports a portable `wikipedia.db` JSON artifact plus `manifest.json` and `wikipedia.db.verify.json` sidecars for verification.
 
-- Import data from PostgreSQL, MySQL/MariaDB, MongoDB, and SQLite
-- Real-time streaming ingestion from Apache Kafka topics (JSON, Avro, plaintext)
-- Schema mapping and type-affinity transformation
-- Batch import operations with configurable chunk size
-- Incremental import support (watermark-based change tracking, checkpoint/resume)
-- Dry-run mode (validate without writing data)
-- Streaming row callback for real-time progress
-- Include/exclude table filtering
-- Permission-check callback (ACL enforcement)
-- Metrics and distributed-tracing observability hooks
+## Installation
 
-## Documentation
+- Build ThemisDB with the standard importer/plugin targets enabled.
+- The Wikipedia importer is compiled into the existing importer/plugin runtime; no extra vendor embedding backend is required for the MVP.
 
-For importer documentation, see:
-- [PostgreSQL Importer](../../docs/importers/POSTGRES_IMPORTER.md)
-- [Importers Runbook](../../docs/importers_runbook.md)
-- [Importers Roadmap](../../docs/importers_roadmap.md)
+## Usage
 
-## Scientific References
+- Full import: initialize `WikipediaIngestionPlugin`, then call `runFullImport(...)` with a Wikimedia XML dump path.
+- Incremental update: call `runIncrementalUpdate(...)` on a later dump; dirty pages trigger selective graph/vector/process/timeseries refresh.
+- Verify/export: call `validateDatabase()` and `exportPortable(\"./wikipedia.db\", \"./manifest.json\")`.
 
-1. Vassiliadis, P., Simitsis, A., & Skiadopoulos, S. (2002). **Conceptual Modeling for ETL Processes**. *Proceedings of the 5th ACM International Workshop on Data Warehousing and OLAP (DOLAP)*, 14–21. https://doi.org/10.1145/583890.583893
+## HuggingFace Legal Ingestion (MVP)
 
-2. Kimball, R., & Caserta, J. (2004). **The Data Warehouse ETL Toolkit: Practical Techniques for Extracting, Cleaning, Conforming, and Delivering Data**. Wiley. ISBN: 978-0-764-57923-5
+- `init()`/`shutdown()` lifecycle for plugin boot and teardown
+- `runFullImport(...)` for snapshot ingest with canonical tables (`hf_dataset_catalog`, `legal_document`, `legal_annotation`, `training_example`, `compliance_audit`)
+- `runIncrementalUpdate(...)` for delta refresh with dirty-record tracking, idempotent upsert, checkpoint/resume
+- `validateQuality()` for quality/compliance gates (license, minimal content quality)
+- `exportAdaLoraJsonl(...)` for deterministic AdaLoRA JSONL output (`instruction/input/target/system` or `prompt/response`)
 
-3. Stonebraker, M., Bruckner, D., Ilyas, I. F., Beschastnikh, I., Cherniack, M., & Xu, N. (2013). **Data Curation at Scale: The Data Tamer System**. *Proceedings of the 6th Biennial Conference on Innovative Data Systems Research (CIDR)*. https://www.cidrdb.org/cidr2013/Papers/CIDR13_Paper28.pdf
+## Sourcecode Verification (Module: importers/readme)
 
-4. Doan, A., Halevy, A., & Ives, Z. (2012). **Principles of Data Integration**. Morgan Kaufmann. ISBN: 978-0-124-16248-4
+- Verified files:
+  - src/importers/postgres_importer.cpp
+  - src/importers/mysql_importer.cpp
+  - src/importers/sqlite_importer.cpp
+  - src/importers/oracle_importer.cpp
+  - src/importers/mongo_importer.cpp
+  - src/importers/kafka_importer.cpp
+  - src/importers/flatfile_importer.cpp
+  - src/importers/s3_importer.cpp
+  - src/importers/schema_validator.cpp
+  - src/importers/schema_inference.cpp
+  - src/importers/conflict_resolver.cpp
+  - src/importers/data_quality.cpp
+  - src/importers/audit_trail.cpp
+  - src/importers/mdm_engine.cpp
+  - src/importers/entity_linker.cpp
+  - src/importers/canonical_resolver.cpp
+  - src/importers/postgres_cdc.cpp
+  - src/importers/adaptive_import.cpp
+  - src/importers/polyglot_mapper.cpp
+  - src/importers/temporal_support.cpp
+  - src/importers/blockchain_integrity.cpp
+  - src/importers/federated_learning.cpp
+  - src/importers/graphql_federation.cpp
+- Verified behavior surfaces:
+  - source import execution, schema/validation/conflict handling, audit/MDM and advanced helper integration
+- Note:
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - historical entries remain in CHANGELOG.md

@@ -1,23 +1,21 @@
+/**
+ * @file vulkan_backend_full.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_backend_full.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     493                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_backend_full.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 597
+ * Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4206 feat(acceleration): Vulkan ... (2026-03-14) | #3632 fix(build): register 40+ mi... (2026-03-12) | #3609 feat(acceleration): wire mi... (2026-03-12) | #3555 docs(acceleration): ROADMAP... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Full Vulkan Backend Implementation for ThemisDB
@@ -27,10 +25,14 @@
 #include "acceleration/graphics_backends.h"
 #include <iostream>
 #include <fstream>
+#include <functional>
+#include <mutex>
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#ifndef _WIN32
 #include <dlfcn.h>  // For dynamic library loading (Unix)
+#endif
 
 #ifdef _WIN32
 #include <windows.h>
@@ -39,8 +41,43 @@
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>
 
+#include <mutex>
+
 namespace themis {
 namespace acceleration {
+
+// ── STUB #169 bridge — access storage from graphics_backends.cpp (extern) ───
+// The mutex and fn are defined in graphics_backends.cpp (always-compiled TU)
+// so that setCompileGLSLFn() is callable even when Vulkan is not enabled.
+// Here we declare them with extern to access them from compileGLSLtoSPIRV().
+namespace glsl_bridge {
+    extern std::mutex                       s_vk_compile_glsl_mutex;
+    extern VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
+}
+
+// ============================================================================
+// GLSL → SPIR-V compiler injection
+// ============================================================================
+
+namespace {
+
+std::mutex     g_glsl_compiler_mutex;
+GlslCompilerFn g_glsl_compiler_fn;
+
+} // anonymous namespace
+
+/**
+ * @brief Inject a runtime GLSL-to-SPIR-V compiler (e.g. shaderc).
+ *
+ * When @p fn is non-null, `compileGLSLtoSPIRV()` delegates to it instead of
+ * returning an empty buffer.  Pass `nullptr` to revert to the stub path.
+ *
+ * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+ */
+void setVulkanGlslCompilerFn(GlslCompilerFn fn) {
+    std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);
+    g_glsl_compiler_fn = std::move(fn);
+}
 
 // ============================================================================
 // Vulkan Helper Structures
@@ -128,17 +165,59 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return shaderModule;
 }
 
-static std::vector<uint32_t> compileGLSLtoSPIRV(const std::string& glslSource, 
-                                                 const std::string& shaderType) {
-    // In production, use glslangValidator or shaderc library to compile GLSL to SPIR-V
-    // For this implementation, we assume pre-compiled SPIR-V binaries
-    // or use runtime compilation with shaderc
-    
-    // Placeholder: would call shaderc_compile_into_spv() here
-    std::cerr << "GLSL to SPIR-V compilation requires shaderc library" << std::endl;
-    std::cerr << "Please pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
-    
-    return {}; // Empty - requires actual compilation
+[[maybe_unused]] static std::vector<uint32_t> compileGLSLtoSPIRV(
+    const std::string& glslSource,
+    const std::string& shaderType) {
+    // Check for an injected GLSL→SPIR-V compiler first.
+    {
+        std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);
+        if (g_glsl_compiler_fn) {
+            auto spirv = g_glsl_compiler_fn(glslSource, shaderType);
+            if (!spirv.empty()) {
+                return spirv;
+            }
+        }
+    }
+    // STUB/SIMULATION NOTE:
+    // Purpose: Stub for runtime GLSL→SPIR-V compilation while the shaderc
+    //          library is not linked into ThemisDB.
+    // Activation: No GlslCompilerFn injected via setVulkanGlslCompilerFn() and
+    //             shaderc is not a ThemisDB build dependency.
+    // Production Delta: Returns an empty SPIR-V buffer.  Any compute shader
+    //                   that goes through this path fails to create a
+    //                   VkShaderModule; Vulkan-accelerated vector operations
+    //                   are silently disabled at pipeline creation time.
+    //                   Callers must supply pre-compiled .spv files via
+    //                   loadSPIRV() or inject a real compiler via
+    //                   setVulkanGlslCompilerFn().
+    // Removal Plan: Link libshaderc_combined and inject it via
+    //               setVulkanGlslCompilerFn(); or ship pre-compiled SPIR-V assets
+    //               and use loadSPIRV().  See
+    //               src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+    (void)glslSource;
+    (void)shaderType;
+    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB)" << std::endl;
+    // Check injected fn first (STUB #169 bridge).
+    // Storage lives in graphics_backends.cpp; accessed here via glsl_bridge extern.
+    VulkanVectorBackend::CompileGLSLFn fn_copy;
+    {
+        std::lock_guard<std::mutex> lk(glsl_bridge::s_vk_compile_glsl_mutex);
+        fn_copy = glsl_bridge::s_vk_compile_glsl_fn;
+    }
+    if (fn_copy) {
+        auto spv = fn_copy(glslSource, shaderType);
+        if (!spv.empty()) {
+            return spv;
+        }
+    }
+
+    // Built-in stub path: shaderc is not a ThemisDB build dependency.
+    // Inject a real compiler via VulkanVectorBackend::setCompileGLSLFn() or
+    // supply pre-compiled .spv files via loadSPIRV().
+    // See src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB #169)" << std::endl;
+    std::cerr << "Pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
+    return {};
 }
 
 static std::vector<uint32_t> loadSPIRV(const std::string& filename) {
@@ -370,12 +449,45 @@ public:
             return false;
         }
         
-        // Create compute pipeline for L2 distance
+        // Create compute pipeline for L2 distance.
+        // The l2_distance.comp shader exposes LOCAL_SIZE_X (constant_id=0) and
+        // LOCAL_SIZE_Y (constant_id=1) as SPIR-V specialization constants so we
+        // can inject the device-optimal workgroup dimensions at pipeline-creation
+        // time without recompiling the shader.
+        //
+        // Heuristic:
+        //   • maxComputeWorkGroupInvocations >= 512 → 32×16 (typical desktop GPU)
+        //   • otherwise                             → 16×16 (mobile / integrated)
+        //
+        // Both choices keep the total invocation count (≤1024) within spec limits.
+        const uint32_t maxInvocations =
+            ctx.deviceProps.limits.maxComputeWorkGroupInvocations;
+        const uint32_t localSizeX = (maxInvocations >= 512u) ? 32u : 16u;
+        const uint32_t localSizeY = (maxInvocations >= 512u) ? 16u : 16u;
+
+        // MapEntries map constant_id → offset in the data block.
+        VkSpecializationMapEntry specMapEntries[2] = {};
+        specMapEntries[0].constantID = 0;
+        specMapEntries[0].offset     = 0;
+        specMapEntries[0].size       = sizeof(uint32_t);
+        specMapEntries[1].constantID = 1;
+        specMapEntries[1].offset     = sizeof(uint32_t);
+        specMapEntries[1].size       = sizeof(uint32_t);
+
+        uint32_t specData[2] = { localSizeX, localSizeY };
+
+        VkSpecializationInfo l2SpecInfo{};
+        l2SpecInfo.mapEntryCount = 2;
+        l2SpecInfo.pMapEntries   = specMapEntries;
+        l2SpecInfo.dataSize      = sizeof(specData);
+        l2SpecInfo.pData         = specData;
+
         VkPipelineShaderStageCreateInfo l2ShaderStage{};
-        l2ShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-        l2ShaderStage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-        l2ShaderStage.module = ctx.l2ShaderModule;
-        l2ShaderStage.pName = "main";
+        l2ShaderStage.sType               = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+        l2ShaderStage.stage               = VK_SHADER_STAGE_COMPUTE_BIT;
+        l2ShaderStage.module              = ctx.l2ShaderModule;
+        l2ShaderStage.pName               = "main";
+        l2ShaderStage.pSpecializationInfo = &l2SpecInfo;
         
         VkComputePipelineCreateInfo l2PipelineInfo{};
         l2PipelineInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;

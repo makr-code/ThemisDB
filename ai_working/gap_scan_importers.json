@@ -1,0 +1,72 @@
+{
+  "module": "importers",
+  "summary": {
+    "total": 6,
+    "critical": 5,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\importers\\conflict_resolver.cpp",
+      "line_num": 37,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (key_columns.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\importers\\deterministic_matcher.cpp",
+      "line_num": 105,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // confidence_score = 0.0 \u2192 no match",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\importers\\deterministic_matcher.cpp",
+      "line_num": 143,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\importers\\deterministic_matcher.cpp",
+      "line_num": 156,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\importers\\kafka_importer.cpp",
+      "line_num": 379,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock-based consume loop",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\importers\\importer_plugin_api.h",
+      "line_num": 294,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<std::string> getSupportedTypes() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    }
+  ]
+}

@@ -1,26 +1,26 @@
+/**
+ * @file mtls_connection_pool.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=9, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mtls_connection_pool.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     424                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mtls_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 448
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=23, M=1, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #1035 [WIP] Implement dynamic con... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/mtls_connection_pool.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <iostream>
 #include <algorithm>
 #include <openssl/ssl.h>
@@ -61,8 +61,9 @@ EndpointConnectionPool::~EndpointConnectionPool() {
     
     // Stop cleanup thread
     running_ = false;
-    if (cleanup_thread_.joinable()) {
-        cleanup_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(cleanup_thread_)) {
+        THEMIS_WARN("[EndpointConnectionPool] cleanup thread did not finish within shutdown deadline; detaching.");
     }
 }
 
@@ -217,17 +218,33 @@ void EndpointConnectionPool::closeAll() {
 }
 
 std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNewConnection() {
-    // Note: This is a stub implementation
-    // In production, this would:
-    // 1. Parse endpoint to get host and port
-    // 2. Create TCP socket
-    // 3. Initialize SSL context
-    // 4. Perform SSL handshake
-    // 5. Return SSL* pointer
-    
-    // For now, we return nullopt since we don't have the SSL context here
-    // The actual connection creation will happen in MTLSClient
-    
+    // When a connection factory has been injected, delegate to it.
+    if (connection_factory_) {
+        auto conn = connection_factory_(endpoint_);
+        if (conn) {
+            total_created_++;
+        } else {
+            connections_failed_++;
+        }
+        return conn;
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Deferred placeholder for the actual mTLS connection creation path.
+    //   SSL context setup, TCP connect, and TLS handshake are managed by
+    //   MTLSClient (the pool's owner); this pool-level factory method is reserved
+    //   for a future refactor that moves connection creation into the pool itself.
+    // Activation: connection_factory_ is null (no factory injected via setConnectionFactory()).
+    // Production Delta: createNewConnection() always returns nullopt; callers
+    //   that call it directly get no connection and must fall back to
+    //   MTLSClient::connect().  The pool's acquireConnection() path is unaffected
+    //   because it only calls createNewConnection() as a last-resort extension
+    //   point (currently never reached in production code paths).
+    // Removal Plan: Refactor mTLS connection lifecycle so that pool owns creation.
+    //   Inject a factory via setConnectionFactory() that implements TCP+SSL setup.
+    //   Remove this note once the refactor is complete (v2.0.0 target).
+    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership"
+
     total_created_++;
     return std::nullopt;
 }
@@ -407,6 +424,24 @@ MTLSConnectionPoolManager::GlobalStatistics MTLSConnectionPoolManager::getStatis
     }
     
     return stats;
+}
+
+void MTLSConnectionPoolManager::onCertificateRotated() {
+    // Drain idle connections so all new requests re-establish TLS with the
+    // refreshed certificate.  In-flight active connections are left untouched
+    // (they will be closed naturally when their users release them, after which
+    // the pool will create fresh connections with the new cert).
+    std::shared_lock<std::shared_mutex> lock(pools_mutex_);
+
+    std::cout << "MTLSConnectionPoolManager: certificate rotated – draining idle "
+              << "connections across " << pools_.size() << " endpoint pools" << std::endl;
+
+    for (auto& [endpoint, pool] : pools_) {
+        // closeAll() drains idle connections while active ones remain open.
+        // The next getConnection() call will create a new TLS connection which
+        // will pick up the rotated certificate from disk.
+        pool->closeAll();
+    }
 }
 
 void MTLSConnectionPoolManager::shutdown() {

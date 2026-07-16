@@ -1,27 +1,21 @@
+/**
+ * @file hsm_provider.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 80/100
+ * @note Gap Summary: total=58; TODO=1, Stub=47, Unimpl=0, Mock=1, Sim=7, Debt=2, C=0, H=1, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hsm_provider.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  ⚫ DRAFT                                        ║
-    • Quality Score:   0.0/100                                        ║
-    • Total Lines:     366                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 42                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a05c4ac44  2026-03-01  feat(security): enforce hard rejection of stub HSM in pro... ║
-    • ffcf5ac92  2026-03-01  fix: replace HSM stub with PKCS#11 production implementation ║
-    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hsm_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 83/100 | Lines: 525
+ * Gap Summary: total=58; TODO=1, Stub=47, Unimpl=0, Mock=1, Sim=7, Debt=2, C=0, H=10, M=7, L=0
+ * PR History (last 5): #3462 [HSM] Production failsafe: ... (2026-03-12) | #3454 fix: Wire PKCS#11 HSM produ... (2026-03-12) | #2585 feat(security): HSM PKCS#11... (2026-03-12) | #2564 feat(security): HSM direct ... (2026-03-12) | #401 Replace Security Stubs with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Clean minimal stub implementation of HSMProvider.
@@ -32,17 +26,43 @@
 // Real PKCS#11 Implementierung in hsm_provider_pkcs11.cpp
 #else
 
+// STUB/SIMULATION NOTE:
+// Purpose: Software-only AES-256-GCM fallback for HSMProvider when no real HSM hardware
+//          is present. Provides deterministic key-wrap/unwrap for developer and CI use.
+//          Production mode is explicitly blocked unless THEMIS_ALLOW_HSM_STUB=1 env var
+//          is set, or the --allow-stub-hsm server flag is passed.
+// Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined (default in dev builds).
+//             Build with -DTHEMIS_ENABLE_HSM_REAL=ON to replace this with the real PKCS#11
+//             implementation in hsm_provider_pkcs11.cpp.
+// Production Delta: Uses a randomly-generated in-memory KEK (not persisted across restarts,
+//                   not protected by HSM hardware). All crypto is software-only OpenSSL.
+//                   Not suitable for production key management.
+// Removal Plan: Replaced at build time by hsm_provider_pkcs11.cpp when
+//               -DTHEMIS_ENABLE_HSM_REAL=ON is set. No v1.x production deployment ships
+//               without a real HSM backend.
+// Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
+
 #include "security/hsm_provider.h"
+#include <stdexcept>
 #include "core/production_mode.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <openssl/err.h>
 #include <openssl/rand.h>
+#include <memory>
 #include <sstream>
 #include <chrono>
 #include <atomic>
 
 namespace themis { namespace security {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_CIPHER_CTX_Deleter {
+    void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+};
+
+using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 
 class HSMProvider::Impl {
 public:
@@ -68,27 +88,45 @@ static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
 }
 
+// Get OpenSSL error string for diagnostics
+static std::string ossl_error() {
+    unsigned long code = ERR_peek_last_error();
+    if (!code) return "Unknown OpenSSL error";
+    char buf[256] = {0};
+    ERR_error_string_n(code, buf, sizeof(buf));
+    ERR_clear_error();
+    return std::string(buf);
+}
+
 // AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (key.size() != 32) return {};
+    if (key.size() != 32) {
+        throw std::runtime_error("AES-256-GCM encryption: invalid key size (expected 32 bytes, got " + 
+                                std::to_string(key.size()) + ")");
+    }
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), 12) != 1) return {};
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return {};
+    if (RAND_bytes(iv.data(), 12) != 1) {
+        throw std::runtime_error("AES-256-GCM encryption: RAND_bytes failed: " + ossl_error());
+    }
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx) {
+        throw std::runtime_error("AES-256-GCM encryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
+    }
     std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
-        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
-        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+        EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
-    EVP_CIPHER_CTX_free(ctx);
-    if (!ok) return {};
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    if (!ok) {
+        throw std::runtime_error("AES-256-GCM encryption failed: " + ossl_error());
+    }
     ciphertext.resize(ct_len);
     std::vector<uint8_t> result;
     result.insert(result.end(), iv.begin(), iv.end());
@@ -99,26 +137,36 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
 
 // AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    if (key.size() != 32) {
+        throw std::runtime_error("AES-256-GCM decryption: invalid key size (expected 32 bytes, got " +
+                                std::to_string(key.size()) + ")");
+    }
+    if (encrypted.size() < 12 + 16) {
+        throw std::runtime_error("AES-256-GCM decryption: encrypted data too short (expected at least " +
+                                std::to_string(12 + 16) + " bytes, got " + 
+                                std::to_string(encrypted.size()) + ")");
+    }
     const uint8_t* iv  = encrypted.data();
     size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return {};
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    if (!ctx) {
+        throw std::runtime_error("AES-256-GCM decryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
+    }
     std::vector<uint8_t> plaintext(ct_len);
     int len = 0, pt_len = 0;
     bool ok =
-        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
-        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+        EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
-    pt_len += len;
-    EVP_CIPHER_CTX_free(ctx);
-    if (!ok) return {};
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
+    if (!ok) {
+        throw std::runtime_error("AES-256-GCM decryption failed (possible tag mismatch): " + ossl_error());
+    }
     plaintext.resize(pt_len);
     return plaintext;
 }
@@ -230,6 +278,37 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         if (impl_) impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
         return r;
     }
+
+    // initialize() already enforces the stub production-mode restrictions before
+    // `initialized_` becomes true, so an injected bridge cannot bypass them.
+    SignHashFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::signHashFnMutex());
+        fn = HSMProvider::signHashFnStorage();
+    }
+    if (fn) {
+        try {
+            auto result = fn(hash, key_label.empty() ? config_.key_label : key_label);
+            if (result.success) {
+                impl_->sign_count.fetch_add(1, std::memory_order_relaxed);
+            } else {
+                impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            }
+            auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::high_resolution_clock::now() - startTime).count();
+            impl_->total_sign_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
+            return result;
+        } catch (const std::exception& e) {
+            r.error_message = std::string("signHash callback failed: ") + e.what();
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        } catch (...) {
+            r.error_message = "signHash callback failed: unknown exception";
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        }
+    }
+
     THEMIS_WARN("HSMProvider STUB signing - NOT cryptographically secure!");
     r.success = true;
     r.signature_b64 = pseudo_b64(hash);
@@ -247,8 +326,22 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
 
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
-    auto expected = pseudo_b64(data);
-    bool ok = (expected == signature_b64);
+    VerifyFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::verifyFnMutex());
+        fn = HSMProvider::verifyFnStorage();
+    }
+    bool ok = false;
+    if (fn) {
+        try {
+            ok = fn(data, signature_b64, key_label.empty() ? config_.key_label : key_label);
+        } catch (...) {
+            ok = false;
+        }
+    } else {
+        auto expected = pseudo_b64(data);
+        ok = (expected == signature_b64);
+    }
     THEMIS_DEBUG("HSMProvider stub verify key='{}' ok={}", key_label.empty()?config_.key_label:key_label, ok);
     if (impl_) {
         if (ok) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
@@ -272,38 +365,158 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
-    (void)key_label;
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    if (data.empty()) { last_error_ = "Cannot encrypt empty data"; return {}; }
+    EncryptDataFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::encryptDataFnMutex());
+        fn = HSMProvider::encryptDataFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(data, key_label.empty() ? config_.key_label : key_label);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("encryptData callback failed: ") + e.what();
+            return {};
+        } catch (...) {
+            last_error_ = "encryptData callback failed: unknown exception";
+            return {};
+        }
+    }
     THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
-    auto result = stub_aes_encrypt(impl_->stub_kek, data);
-    if (result.empty()) { last_error_ = "Stub AES encrypt failed"; }
-    return result;
+    try {
+        return stub_aes_encrypt(impl_->stub_kek, data);
+    } catch (const std::exception& e) {
+        last_error_ = std::string("Stub AES encrypt failed: ") + e.what();
+        return {};
+    }
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
-    (void)key_label;
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    if (encrypted.empty()) { last_error_ = "Cannot decrypt empty data"; return {}; }
+    DecryptDataFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::decryptDataFnMutex());
+        fn = HSMProvider::decryptDataFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(encrypted, key_label.empty() ? config_.key_label : key_label);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("decryptData callback failed: ") + e.what();
+            return {};
+        } catch (...) {
+            last_error_ = "decryptData callback failed: unknown exception";
+            return {};
+        }
+    }
     THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
-    auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
-    if (result.empty()) { last_error_ = "Stub AES decrypt failed (bad ciphertext or key mismatch)"; }
-    return result;
+    try {
+        return stub_aes_decrypt(impl_->stub_kek, encrypted);
+    } catch (const std::exception& e) {
+        last_error_ = std::string("Stub AES decrypt failed: ") + e.what();
+        return {};
+    }
 }
 
-bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
-    (void)key_size; (void)extractable; // Stub: unused
+// STUB/SIMULATION NOTE (generateKeyPair / importCertificate / getCertificate):
+// Purpose: Satisfy the HSMProvider public interface in the software-only stub
+//          build so callers do not need conditional compilation.
+// Activation: Inside `#ifndef THEMIS_ENABLE_HSM_REAL` (same activation as the
+//             overall HSM stub class documented at the top of this file).
+// Production Delta: generateKeyPair always returns false and does NOT generate
+//             any key material — the real PKCS#11 path creates an asymmetric
+//             key pair on the HSM token.  importCertificate returns false without
+//             storing anything.  getCertificate returns a hardcoded dummy PEM
+//             string instead of a real device certificate.
+// Removal Plan: Replaced by hsm_provider_pkcs11.cpp when -DTHEMIS_ENABLE_HSM_REAL
+//             is set.  See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management".
+bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, [[maybe_unused]] bool extractable) {
+    GenerateKeyPairFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::generateKeyPairFnMutex());
+        fn = HSMProvider::generateKeyPairFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(label, key_size, extractable);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("generateKeyPair callback failed: ") + e.what();
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        } catch (...) {
+            last_error_ = "generateKeyPair callback failed: unknown exception";
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        }
+    }
+    // Stub: unused
     THEMIS_WARN("HSMProvider stub generateKeyPair ignored (label='{}')", label);
     return false;
 }
 
-bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem) {
-    (void)cert_pem; // Stub: unused
+bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused]] const std::string& cert_pem) {
+    ImportCertificateFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::importCertificateFnMutex());
+        fn = HSMProvider::importCertificateFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(key_label, cert_pem);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("importCertificate callback failed: ") + e.what();
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        } catch (...) {
+            last_error_ = "importCertificate callback failed: unknown exception";
+            THEMIS_ERROR("{}", last_error_);
+            return false;
+        }
+    }
+    // Stub: unused
     THEMIS_WARN("HSMProvider stub importCertificate ignored (key='{}')", key_label);
     return false;
 }
 
-std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label) {
-    (void)key_label; // Stub: unused
+std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const std::string& key_label) {
+    GetCertificateFn fn;
+    {
+        std::lock_guard<std::mutex> lk(HSMProvider::getCertificateFnMutex());
+        fn = HSMProvider::getCertificateFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(key_label);
+        } catch (const std::exception& e) {
+            last_error_ = std::string("getCertificate callback failed: ") + e.what();
+            THEMIS_ERROR("{}", last_error_);
+            return std::nullopt;
+        } catch (...) {
+            last_error_ = "getCertificate callback failed: unknown exception";
+            THEMIS_ERROR("{}", last_error_);
+            return std::nullopt;
+        }
+    }
+    // Fail-closed by default: returning a dummy PEM to an unsuspecting caller is dangerous.
+    // A caller that trusts the returned certificate for authentication or TLS would use
+    // a meaningless stub cert, opening the door to certificate-validation bypass.
+    // Require explicit opt-in to the insecure stub path.
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+    if (!allow_stub || std::string(allow_stub) != "1") {
+        THEMIS_ERROR(
+            "HSMProvider stub getCertificate('{}') refused: returning a dummy PEM "
+            "is insecure. Set THEMIS_ALLOW_HSM_STUB=1 for explicit development override, "
+            "or build with -DTHEMIS_ENABLE_HSM_REAL=ON.",
+            key_label);
+        return std::nullopt;
+    }
+    THEMIS_WARN(
+        "HSMProvider stub getCertificate('{}') returning hardcoded dummy PEM "
+        "(THEMIS_ALLOW_HSM_STUB=1). Not suitable for production.",
+        key_label);
     return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
 }
 
@@ -365,3 +578,5 @@ bool HSMPKIClient::isReady() const { return hsm_->isReady(); }
 } } // namespace themis::security
 
 #endif // !THEMIS_ENABLE_HSM_REAL
+
+

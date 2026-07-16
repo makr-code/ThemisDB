@@ -1,30 +1,26 @@
+/**
+ * @file operational_metrics.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            operational_metrics.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: operational_metrics.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_OPERATIONAL_METRICS_H
-#define THEMISDB_SHARDING_OPERATIONAL_METRICS_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -254,6 +250,24 @@ public:
     HealthStatus getClusterHealth() const;
     
     /**
+     * @brief Record a cross-shard RPC call.
+     *
+     * Called by ShardRPCClient for every call attempt so that latency and
+     * outcome distributions are visible in dashboards.
+     *
+     * @param shard_id  Target shard identifier (metric label).
+     * @param method    RPC method name: "prepare", "commit", "abort", etc.
+     * @param outcome   "success", "retryable_error", or "non_retryable_error".
+     * @param latency_us Round-trip latency of this single attempt in microseconds.
+     */
+    void recordRpcCall(
+        const std::string& shard_id,
+        const std::string& method,
+        const std::string& outcome,
+        uint64_t latency_us
+    );
+
+    /**
      * @brief Record a request
      * @param shard_id Shard identifier
      * @param latency_us Latency in microseconds
@@ -373,9 +387,22 @@ private:
         double value,
         const std::map<std::string, std::string>& labels = {}
     );
+
+    static std::string formatPrometheusMetric(
+        const std::string& name,
+        MetricType type,
+        uint64_t value,
+        const std::map<std::string, std::string>& labels = {}
+    );
+
+    static std::string formatPrometheusMetric(
+        const std::string& name,
+        MetricType type,
+        int value,
+        const std::map<std::string, std::string>& labels = {}
+    );
 };
 
 }  // namespace sharding
 }  // namespace themisdb
 
-#endif  // THEMISDB_SHARDING_OPERATIONAL_METRICS_H

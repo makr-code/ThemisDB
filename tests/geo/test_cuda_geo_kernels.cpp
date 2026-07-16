@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cuda_geo_kernels.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     204                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 05db8ea3b  2026-02-27  feat(geo): add populateCudaGeoDispatch() to CUDA geo kern... ║
-    • 9d19a8878  2026-02-25  feat(geo): implement ROCm/HIP GPU backend for AMD hardwar... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cuda_geo_kernels.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // test_cuda_geo_kernels.cpp — Tests for CUDA geo kernel dispatch
@@ -174,7 +158,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_ContainmentReturnsNotDispatchedWithout
     // cuda*Malloc path.  On a machine WITH a GPU this test must be skipped.
     CUDAGeoBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "Skipping no-device test: CUDA device is present";
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();
@@ -190,7 +174,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_ContainmentReturnsNotDispatchedWithout
 TEST(CudaGeoKernelDispatch, WithCudaTable_DistanceReturnsNotDispatchedWithoutDevice) {
     CUDAGeoBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "Skipping no-device test: CUDA device is present";
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();

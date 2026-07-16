@@ -1,40 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ethics_aware_confidence_detector.h                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     344                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file ethics_aware_confidence_detector.h
- * @brief Ethics-aware confidence detection for LLM outputs
- * 
- * Multi-level confidence scoring that respects human autonomy based on:
- * - Technical confidence (token entropy, perplexity)
- * - Autonomy respect scoring (detects patronizing language)
- * - Transparency scoring (acknowledges limitations)
- * - Combined ethics-aware confidence metric
- * 
- * Scientific foundation:
- * - Manakul et al. (2023): SelfCheckGPT - Hallucination detection
- * - Kuhn et al. (2023): Semantic entropy for uncertainty estimation
- * - UN Human Rights (1948): Respect for human autonomy
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -113,10 +85,11 @@ struct ConfidenceResult {
  * @brief Token-level confidence information
  */
 struct TokenConfidence {
+    virtual ~TokenConfidence() = default;
     std::string token;
-    float probability;
-    float entropy;
-    int position;
+    float probability = 0.0f;
+    float entropy = 0.0f;
+    int position = 0;
 };
 
 /**

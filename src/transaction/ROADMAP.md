@@ -1,111 +1,61 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # Transaction Module Roadmap
 
 ## Current Status
-v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern (with fully-implemented compensating actions for relational, secondary-index, graph, and vector operations), deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, CDC changefeed integration, transaction explain (locks + write-set), and multi-region Global Transaction Manager (TrueTime 2PC) are all implemented across Phases 1–4.
+Production-grade transaction stack with ACID lifecycle management, MVCC integration, savepoints, distributed coordination paths, and audit/batching utilities in active use.
 
-## Completed ✅
-- [x] TransactionManager – ACID guarantees via RocksDB WriteBatch
-- [x] Isolation levels: ReadCommitted (default), Snapshot, and Serializable (SSI via predicate locking)
-- [x] MVCC via RocksDB native transactions
-- [x] Atomic multi-layer updates (relational, graph, vector, secondary indexes)
-- [x] SAGA pattern with compensating actions for distributed transactions
-- [x] Deadlock detection via background lock wait-graph analysis
-- [x] Configurable deadlock timeout
-- [x] Transaction statistics (begun, committed, aborted, active count, duration)
-- [x] Lock-free stats with sequence lock pattern
-- [x] Session-based long-lived transaction lifecycle
-- [x] BranchManager – Git-like branching and merging
-- [x] MergeEngine – conflict-aware branch merge
-- [x] SnapshotManager – named snapshots/tags for PITR
-- [x] Changefeed integration for CDC
-- [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
-- [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
-- [x] Optimistic concurrency control (OCC) – `getEntityVersion`, `optimisticPut`, `optimisticErase` with per-entity version numbers
-- [x] Bulk transaction API – `bulkPutEntities`, `bulkEraseEntities` for batch insert/update/delete without per-row overhead
-- [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
-- [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
-- [x] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
-- [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
-- [x] Transaction timeout with automatic rollback
-- [x] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
-- [x] Branch merge conflict resolution UI (Issue: #2478)
-- [x] Transaction explain – `explain()` / `explainTransaction()` (show locks held, write set / MVCC version chain) (Issue: #2477)
-- [x] SAGA compensation for secondary index operations (fixed: `SagaOperation::indexPutWithCompensation` now calls `idx.erase()`)
-- [x] SAGA compensation for graph edge additions (fixed: `SagaOperation::graphAddWithCompensation` now calls `graph.deleteEdge()`)
-- [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
-- [x] Global transaction manager for multi-region ACID guarantees with TrueTime 2PC (Issue: #2327)
+## In Progress
+- [~] Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)
+  - [ ] Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions (Target: Q3 2026)
+  - [ ] Tighten timeout and rollback determinism under sustained contention and mixed workloads (Target: Q3 2026)
 
-## In Progress 🚧
-> All Phase 3 and Phase 4 items are now complete.
+## Planned Features
 
+### Short-term (3-6 months)
+- [ ] Harden coordinator crash-recovery and in-doubt transaction reconciliation policies (Target: Q4 2026)
+- [ ] Expand transaction diagnostics and explainability for lock/queue/latency bottlenecks (Target: Q4 2026)
+- [ ] Strengthen SAGA orchestration safeguards for partial remote failures and retries (Target: Q4 2026)
 
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
-- [x] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
-  — implemented in `Transaction::explain()` / `TransactionManager::explainTransaction()`;
-  tests in `tests/test_transaction_manager.cpp` and `tests/test_transaction_manager_comprehensive.cpp`
-
-### Long-term (6-12 months)
-- [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
-  — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`,
-  tests in `tests/test_distributed_saga.cpp`
-- [x] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
-  — implemented in `include/transaction/global_transaction_manager.h`,
-  `src/transaction/global_transaction_manager.cpp`, tests in `tests/test_global_transaction_manager.cpp`
+### Mid-term (6-12 months)
+- [ ] Advance distributed transaction throughput hardening without weakening safety invariants (Target: Q1 2027)
+- [ ] Extend OCC and serializable conflict telemetry to improve operator tuning loops (Target: Q1 2027)
+- [ ] Expand audit/export integration hardening for large retention windows (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: ACID Engine & SAGA Pattern (Status: Completed ✅)
-- [x] `TransactionManager` – ACID guarantees via RocksDB `WriteBatch`
-- [x] Isolation levels: ReadCommitted (default) and Snapshot
-- [x] MVCC via RocksDB native transactions
-- [x] Atomic multi-layer updates (relational, graph, vector, secondary indexes)
-- [x] SAGA pattern with compensating actions for distributed transactions
-- [x] Deadlock detection via background lock wait-graph analysis
-- [x] Configurable deadlock timeout
-- [x] Transaction statistics with lock-free sequence lock pattern
-- [x] Session-based long-lived transaction lifecycle
-- [x] `BranchManager` – Git-like branching and merging
-- [x] `MergeEngine` – conflict-aware branch merge
-- [x] `SnapshotManager` – named snapshots/tags for PITR
-- [x] Changefeed integration for CDC
+### Phase 1: Lifecycle and Isolation Safety
+- [ ] Re-validate transaction lifecycle invariants across begin/prepare/commit/abort paths (Target: Q3 2026)
+- [ ] Harden isolation-level edge-case behavior under mixed read/write contention (Target: Q3 2026)
 
-### Phase 2: Serializable Isolation & Two-Phase Commit (Status: Completed ✅)
-- [x] Serializable isolation level (full SSI via predicate locking)
-- [x] Two-phase commit (2PC) coordinator for cross-shard transactions
-- [x] Transaction savepoints (partial rollback within a transaction)
+### Phase 2: Distributed Coordination Hardening
+- [ ] Strengthen distributed coordinator timeout, retry, and participant liveness semantics (Target: Q4 2026)
+- [ ] Add deterministic regression packs for in-doubt and recovery flows (Target: Q4 2026)
 
-### Phase 3: OCC Mode & Bulk API (Status: Completed ✅)
-- [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
-- [x] Transaction timeout with automatic rollback
-- [x] Bulk transaction API (batch insert/update without per-row overhead)
-- [x] Transaction explain (show locks acquired, MVCC version chain)
-- [x] Per-tenant transaction isolation namespace
+### Phase 3: SAGA and Compensation Reliability
+- [ ] Expand compensation idempotency and ordering verification under fault injection (Target: Q4 2026)
+- [ ] Validate remote-step orchestration behavior under partial network degradation (Target: Q4 2026)
 
-### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Completed ✅)
-- [x] Distributed SAGA orchestration across multiple nodes
-- [x] Global transaction manager for multi-region ACID guarantees
-- [x] Calvin protocol for deterministic distributed transactions
-- [x] Time-travel queries against snapshot history
-- [x] Branch merge conflict resolution UI
+### Phase 4: Performance and Operational Hardening
+- [ ] Re-baseline transaction throughput and tail-latency envelopes across representative profiles (Target: Q1 2027)
+- [ ] Ensure audit and batching overhead remains bounded under peak ingest and concurrency (Target: Q1 2027)
+
+### Phase 5: Documentation and Release Readiness
+- [ ] Keep transaction docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_postgres_transactions.cpp`
-- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp`; bulk API atomicity in `test_transaction_bulk.cpp`; DistributedSAGA in `test_distributed_saga.cpp` (631 lines, DAG execution, retry, compensation ordering, metrics); concurrent SAGA in `test_saga_concurrent_execution.cpp`
-- [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
-- [?] Security audit (transaction isolation boundary, SAGA compensating action safety)
-- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
-- [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension
+- Status: Tracking in progress
+- Nachweise: transaction focused tests, distributed transaction tests, SAGA tests, performance suites
+- Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
-## Known Issues & Limitations
-- Individual `Transaction` objects are NOT thread-safe; use from a single thread.
-- Serializable isolation is implemented via predicate locking (SSI); SERIALIZABLE transactions acquire predicate locks on read ranges and detect write conflicts at write time.
-- 2PC coordinator for cross-shard transactions is implemented in `themis::sharding::TwoPhaseCommitCoordinator` (v1.5.0).
+## Known Issues and Limitations
+- Some distributed failure envelopes still need broader regression evidence for long-running degraded conditions.
+- Coordinator and remote orchestration paths require additional benchmark-backed operational limits.
+- Advanced throughput optimizations remain gated behind safety-first verification criteria.
 
 ## Breaking Changes
-- `TransactionManager` public API is stable from v1.x.
-- SAGA compensating action interface may gain new lifecycle hooks in v1.5.0.
-- Branch/merge API is new; no stability guarantees until v1.7.0.
+- Transaction public APIs in active major lines remain additive-first.
+- Any future behavioral changes requiring migration must be versioned and documented in changelog/migration notes.

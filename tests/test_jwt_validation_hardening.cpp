@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_jwt_validation_hardening.cpp                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     469                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_jwt_validation_hardening.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -469,4 +455,128 @@ TEST_F(KidRevocationTest, ChecksConfigDenylist) {
     EXPECT_THROW({
         validator_with_denylist->parseAndValidate(token);
     }, std::runtime_error);
+}
+
+// ============================================================================
+// Enhanced Validation Tests - Mandatory Issuer and Audience
+// ============================================================================
+
+TEST_F(JWTValidationTest, RejectsMissingIssuerWhenRequired) {
+    // Create config with mandatory issuer validation
+    JWTValidatorConfig config;
+    config.jwks_url = "https://test.example.com/jwks";
+    config.expected_issuer = "https://test.example.com";
+    config.expected_audience = "test-audience";
+    config.require_issuer_validation = true;  // Mandatory issuer validation
+    
+    auto validator_strict = std::make_unique<JWTValidator>(config);
+    auto jwks = create_jwks(rsa_fixture_->rsa, kid_);
+    validator_strict->setJWKSForTesting(jwks);
+    
+    auto now = std::chrono::system_clock::now();
+    auto exp = now + std::chrono::hours(1);
+    
+    nlohmann::json header = {
+        {"alg", "RS256"},
+        {"typ", "JWT"},
+        {"kid", kid_}
+    };
+    
+    // Missing "iss" claim
+    nlohmann::json payload = {
+        {"sub", "user123"},
+        {"aud", "test-audience"},
+        {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
+    };
+    
+    std::string token = createToken(header, payload);
+    
+    EXPECT_THROW({
+        try {
+            validator_strict->parseAndValidate(token);
+        } catch (const std::runtime_error& e) {
+            EXPECT_NE(std::string(e.what()).find("Missing required iss claim"), std::string::npos);
+            throw;
+        }
+    }, std::runtime_error);
+}
+
+TEST_F(JWTValidationTest, RejectsMissingAudienceWhenRequired) {
+    // Create config with mandatory audience validation
+    JWTValidatorConfig config;
+    config.jwks_url = "https://test.example.com/jwks";
+    config.expected_issuer = "https://test.example.com";
+    config.expected_audience = "test-audience";
+    config.require_audience_validation = true;  // Mandatory audience validation
+    
+    auto validator_strict = std::make_unique<JWTValidator>(config);
+    auto jwks = create_jwks(rsa_fixture_->rsa, kid_);
+    validator_strict->setJWKSForTesting(jwks);
+    
+    auto now = std::chrono::system_clock::now();
+    auto exp = now + std::chrono::hours(1);
+    
+    nlohmann::json header = {
+        {"alg", "RS256"},
+        {"typ", "JWT"},
+        {"kid", kid_}
+    };
+    
+    // Missing "aud" claim
+    nlohmann::json payload = {
+        {"sub", "user123"},
+        {"iss", "https://test.example.com"},
+        {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
+    };
+    
+    std::string token = createToken(header, payload);
+    
+    EXPECT_THROW({
+        try {
+            validator_strict->parseAndValidate(token);
+        } catch (const std::runtime_error& e) {
+            EXPECT_NE(std::string(e.what()).find("Audience mismatch"), std::string::npos);
+            throw;
+        }
+    }, std::runtime_error);
+}
+
+TEST_F(JWTValidationTest, AcceptsValidTokenWithMandatoryValidation) {
+    // Create config with mandatory issuer and audience validation
+    JWTValidatorConfig config;
+    config.jwks_url = "https://test.example.com/jwks";
+    config.expected_issuer = "https://test.example.com";
+    config.expected_audience = "test-audience";
+    config.require_issuer_validation = true;
+    config.require_audience_validation = true;
+    
+    auto validator_strict = std::make_unique<JWTValidator>(config);
+    auto jwks = create_jwks(rsa_fixture_->rsa, kid_);
+    validator_strict->setJWKSForTesting(jwks);
+    
+    auto now = std::chrono::system_clock::now();
+    auto exp = now + std::chrono::hours(1);
+    
+    nlohmann::json header = {
+        {"alg", "RS256"},
+        {"typ", "JWT"},
+        {"kid", kid_}
+    };
+    
+    // Valid token with both iss and aud claims
+    nlohmann::json payload = {
+        {"sub", "user123"},
+        {"iss", "https://test.example.com"},
+        {"aud", "test-audience"},
+        {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
+    };
+    
+    std::string token = createToken(header, payload);
+    
+    EXPECT_NO_THROW({
+        JWTClaims claims = validator_strict->parseAndValidate(token);
+        EXPECT_EQ(claims.sub, "user123");
+        EXPECT_EQ(claims.issuer, "https://test.example.com");
+        EXPECT_EQ(claims.audience[0], "test-audience");
+    });
 }

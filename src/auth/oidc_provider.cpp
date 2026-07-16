@@ -1,25 +1,21 @@
+/**
+ * @file oidc_provider.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oidc_provider.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     312                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b15aac1a6  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
-    • 97765fc24  2026-02-23  feat(auth): implement OIDCProvider for JWT/OIDC federated... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oidc_provider.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 362
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=0, L=0
+ * PR History (last 5): #4113 feat(auth): Async / Non-Blo... (2026-03-12) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #2641 feat(auth): JWT/OIDC federa... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/oidc_provider.h"
@@ -35,7 +31,7 @@ namespace auth {
 
 namespace {
 
-size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+size_t oidcWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -217,7 +213,7 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
     std::string response_body;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oidcWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,
                      static_cast<long>(config_.http_timeout_seconds));
@@ -227,14 +223,68 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
 
-    const CURLcode res = curl_easy_perform(curl);
+    // Use curl_multi_perform() so this can be driven without blocking the
+    // event loop if this function is later migrated to a shared multi-handle.
+    CURLM* multi = curl_multi_init();
+    if (!multi) {
+        curl_easy_cleanup(curl);
+        throw std::runtime_error("Failed to initialize libcurl multi handle");
+    }
+
+    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+    if (add_rc != CURLM_OK) {
+        curl_multi_cleanup(multi);
+        curl_easy_cleanup(curl);
+        throw std::runtime_error(
+            std::string("curl_multi_add_handle failed: ") + curl_multi_strerror(add_rc));
+    }
+
+    int still_running = 0;
+    do {
+        CURLMcode mc = curl_multi_perform(multi, &still_running);
+        if (mc != CURLM_OK) {
+            curl_multi_remove_handle(multi, curl);
+            curl_multi_cleanup(multi);
+            curl_easy_cleanup(curl);
+            throw std::runtime_error(
+                std::string("libcurl multi error: ") + curl_multi_strerror(mc));
+        }
+        if (still_running) {
+            mc = curl_multi_wait(multi, nullptr, 0, 1000 /* ms */, nullptr);
+            if (mc != CURLM_OK) {
+                curl_multi_remove_handle(multi, curl);
+                curl_multi_cleanup(multi);
+                curl_easy_cleanup(curl);
+                throw std::runtime_error(
+                    std::string("libcurl multi wait error: ") + curl_multi_strerror(mc));
+            }
+        }
+    } while (still_running);
+
+    // Inspect the per-transfer result via curl_multi_info_read() to get the
+    // actionable CURLcode for this easy handle (e.g., DNS/SSL/connect failures
+    // would otherwise be masked as HTTP 0).
+    CURLcode easy_rc = CURLE_OK;
+    {
+        CURLMsg* msg = nullptr;
+        int msgs_left = 0;
+        while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+            if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
+                easy_rc = msg->data.result;
+            }
+        }
+    }
+
     long http_code = 0;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+    curl_multi_remove_handle(multi, curl);
+    curl_multi_cleanup(multi);
     curl_easy_cleanup(curl);
 
-    if (res != CURLE_OK) {
+    if (easy_rc != CURLE_OK) {
         throw std::runtime_error(
-            std::string("libcurl error: ") + curl_easy_strerror(res));
+            std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
     }
     if (http_code != 200) {
         throw std::runtime_error(
@@ -267,6 +317,9 @@ OIDCDiscoveryDocument OIDCProvider::parseDiscovery(const std::string& json_body)
     {
         doc.device_authorization_endpoint =
             j["device_authorization_endpoint"].get<std::string>();
+    }
+    if (j.contains("revocation_endpoint") && j["revocation_endpoint"].is_string()) {
+        doc.revocation_endpoint = j["revocation_endpoint"].get<std::string>();
     }
     if (j.contains("userinfo_endpoint") && j["userinfo_endpoint"].is_string()) {
         doc.userinfo_endpoint = j["userinfo_endpoint"].get<std::string>();
@@ -302,7 +355,11 @@ JWTValidatorConfig OIDCProvider::buildValidatorConfig() const {
     JWTValidatorConfig cfg;
     cfg.jwks_url          = discovery_doc_->jwks_uri;
     cfg.expected_issuer   = discovery_doc_->issuer;
-    cfg.expected_audience = config_.expected_audience;
+    if (!config_.expected_audience.empty()) {
+        cfg.expected_audience = config_.expected_audience;
+    } else {
+        cfg.require_audience_validation = false;
+    }
     cfg.cache_ttl         = config_.jwks_cache_ttl;
     cfg.clock_skew        = config_.clock_skew;
     cfg.jwks_timeout_seconds = config_.http_timeout_seconds;

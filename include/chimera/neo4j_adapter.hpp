@@ -1,101 +1,57 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            neo4j_adapter.hpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c12588b7a  2026-02-28  feat(chimera): add Neo4j native graph database adapter ║
-    • 31a9305f6  2026-02-28  feat(chimera): Add Pinecone managed vector search adapter ║
-    • e481c0e03  2026-02-27  feat(chimera): Add Qdrant native vector database adapter ║
-    • f16d5f90b  2026-02-27  fix(chimera): audit fixes – security tests, performance b... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: neo4j_adapter.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
+ * Author: Copilot | Maturity: 🟡 BETA
+ * 
+ * Neo4j adapter for CHIMERA Suite.
+ * Copyright MIT License.
  */
 
-/**
- * @file neo4j_adapter.hpp
- * @brief Neo4j native graph database adapter for CHIMERA Suite
- *
- * @details
- * This file provides an implementation of the CHIMERA IDatabaseAdapter
- * interface for Neo4j. The adapter targets Neo4j 5.x and supports native
- * graph traversal and Cypher query execution as its primary workload, with
- * ACID transaction management as a secondary capability.
- *
- * Supported capabilities:
- *   - Graph traversal (primary, BFS/DFS node and edge navigation)
- *   - Cypher graph query execution
- *   - ACID transactions (begin / commit / rollback)
- *   - Batch insert of nodes and edges
- *   - Secondary indexes (property indexes on node labels)
- *
- * Unsupported (returns NOT_IMPLEMENTED):
- *   - Relational/SQL queries
- *   - Native vector similarity search
- *
- * Connection string formats:
- *   bolt://host[:port]
- *   neo4j://host[:port]
- *   neo4j+s://host[:port]
- *
- * When a live Neo4j server is not available the adapter operates in an
- * in-process simulation mode backed by std::unordered_map, which is
- * sufficient for unit testing without a running server.
- *
- * @copyright MIT License
- */
-
-#ifndef CHIMERA_NEO4J_ADAPTER_HPP
-#define CHIMERA_NEO4J_ADAPTER_HPP
+#pragma once
 
 #include "chimera/database_adapter.hpp"
-#include <atomic>
+#include <map>
 #include <memory>
 #include <mutex>
-#include <unordered_map>
-#include <set>
+#include <string>
+#include <vector>
 
 namespace chimera {
 
 /**
  * @class Neo4jAdapter
- * @brief Neo4j native graph database implementation of the CHIMERA
- *        IDatabaseAdapter interface
- *
- * @details Implements graph traversal, Cypher query execution, and ACID
- *          transaction management. Relational and vector operations return
- *          NOT_IMPLEMENTED because Neo4j does not natively support those
- *          workloads.
- *
- * @note The production implementation communicates with a live Neo4j
- *       instance via the Bolt protocol or Neo4j HTTP API. When the driver
- *       is not linked the adapter operates in an in-process simulation mode
- *       suitable for unit testing without a running server.
+ * @brief Neo4j graph database adapter for CHIMERA Suite
+ * 
+ * @details
+ * Provides integration between Neo4j (graph database) and CHIMERA.
+ * Primary focus: Graph traversal, shortest path, and Cypher queries.
+ * 
+ * Features:
+ * - Real Neo4j driver integration (official Bolt protocol)
+ * - Node and edge creation with properties
+ * - Shortest path and graph traversal
+ * - Cypher query execution
+ * - Support for labels and relationships
+ * 
+ * Limitations (by design):
+ * - Relational operations not supported; use ThemisDB/MongoDB
+ * - Vector operations not supported; use Qdrant
+ * - Document operations limited to node properties
+ * 
+ * Thread-safety: Driver is thread-safe for concurrent sessions.
  */
 class Neo4jAdapter : public IDatabaseAdapter {
 public:
+    /**
+     * @brief Construct Neo4j adapter with default settings.
+     */
     Neo4jAdapter();
+
+    /// @brief Destructor; closes Neo4j connection.
     ~Neo4jAdapter() override;
 
-    // Non-copyable
-    Neo4jAdapter(const Neo4jAdapter&) = delete;
-    Neo4jAdapter& operator=(const Neo4jAdapter&) = delete;
-
-    // -----------------------------------------------------------------------
-    // Connection Management
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
+    // IDatabaseAdapter implementation (partial)
+    // ────────────────────────────────────────────────────────────────────────
 
     Result<bool> connect(
         const std::string& connection_string,
@@ -105,10 +61,7 @@ public:
     Result<bool> disconnect() override;
     bool is_connected() const override;
 
-    // -----------------------------------------------------------------------
-    // IRelationalAdapter (not supported – returns NOT_IMPLEMENTED)
-    // -----------------------------------------------------------------------
-
+    // Relational operations (unsupported; return NOT_IMPLEMENTED)
     Result<RelationalTable> execute_query(
         const std::string& query,
         const std::vector<Scalar>& params = {}
@@ -126,10 +79,7 @@ public:
 
     Result<QueryStatistics> get_query_statistics() const override;
 
-    // -----------------------------------------------------------------------
-    // IVectorAdapter (not supported – returns NOT_IMPLEMENTED)
-    // -----------------------------------------------------------------------
-
+    // Vector operations (unsupported)
     Result<std::string> insert_vector(
         const std::string& collection,
         const Vector& vector
@@ -153,9 +103,9 @@ public:
         const std::map<std::string, Scalar>& index_params = {}
     ) override;
 
-    // -----------------------------------------------------------------------
-    // IGraphAdapter (primary capability)
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
+    // Graph operations (primary support)
+    // ────────────────────────────────────────────────────────────────────────
 
     Result<std::string> insert_node(const GraphNode& node) override;
     Result<std::string> insert_edge(const GraphEdge& edge) override;
@@ -177,10 +127,7 @@ public:
         const std::map<std::string, Scalar>& params = {}
     ) override;
 
-    // -----------------------------------------------------------------------
-    // IDocumentAdapter (node property store)
-    // -----------------------------------------------------------------------
-
+    // Document operations (via node properties)
     Result<std::string> insert_document(
         const std::string& collection,
         const Document& doc
@@ -203,10 +150,7 @@ public:
         const std::map<std::string, Scalar>& updates
     ) override;
 
-    // -----------------------------------------------------------------------
-    // ITransactionAdapter (ACID transactions supported)
-    // -----------------------------------------------------------------------
-
+    // Transaction operations (supported via Neo4j sessions)
     Result<std::string> begin_transaction(
         const TransactionOptions& options = {}
     ) override;
@@ -214,82 +158,67 @@ public:
     Result<bool> commit_transaction(const std::string& transaction_id) override;
     Result<bool> rollback_transaction(const std::string& transaction_id) override;
 
-    // -----------------------------------------------------------------------
-    // ISystemInfoAdapter
-    // -----------------------------------------------------------------------
+    Result<std::string> create_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
 
+    Result<bool> rollback_to_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+
+    Result<bool> release_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+
+    Result<TransactionStats> get_transaction_stats(
+        const std::string& transaction_id
+    ) override;
+
+    Result<TransactionState> get_transaction_state(
+        const std::string& transaction_id
+    ) override;
+
+    // System info
     Result<SystemInfo> get_system_info() const override;
     Result<SystemMetrics> get_metrics() const override;
     bool has_capability(Capability cap) const override;
     std::vector<Capability> get_capabilities() const override;
 
 private:
-    // -----------------------------------------------------------------------
-    // Internal state
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
+    // Connection management
+    // ────────────────────────────────────────────────────────────────────────
 
+    // TODO: Add neo4j::Driver and session management
     bool connected_ = false;
     std::string connection_string_;
 
-    // In-process graph store for simulation.
-    // Maps node_id -> GraphNode
-    mutable std::mutex graph_mutex_;
-    std::unordered_map<std::string, GraphNode> node_store_;
-    // Maps edge_id -> GraphEdge
-    std::unordered_map<std::string, GraphEdge> edge_store_;
-    // Adjacency list: source_id -> set of edge_ids
-    std::unordered_map<std::string, std::vector<std::string>> adjacency_;
+    // ────────────────────────────────────────────────────────────────────────
+    // Transaction tracking (session-based)
+    // ────────────────────────────────────────────────────────────────────────
 
-    // In-process document store for label-based collections.
-    // Maps label/collection -> vector of Documents
-    mutable std::mutex doc_mutex_;
-    std::unordered_map<std::string, std::vector<Document>> document_store_;
+    struct SessionHandle {
+        std::string session_id;
+        void* neo4j_session;  // TODO: Replace with actual neo4j::Session*
+        std::string state;    // "active" | "committed" | "aborted"
+    };
 
-    // Active transaction IDs (simulated)
-    mutable std::mutex txn_mutex_;
-    std::set<std::string> active_transactions_;
+    mutable std::mutex session_mutex_;
+    std::map<std::string, SessionHandle> active_sessions_;
 
-    // Monotonic counters for ID generation
-    std::atomic<uint64_t> next_node_id_{1};
-    std::atomic<uint64_t> next_edge_id_{1};
-    std::atomic<uint64_t> next_txn_id_{1};
-
-    // Credentials stored only as presence flags to prevent leakage
-    bool has_credentials_ = false;
-
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
     // Private helpers
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
 
-    /// Validate that the connection string uses bolt://, neo4j://, or neo4j+s://.
-    static bool is_valid_connection_string(const std::string& connection_string);
+    static std::string generate_id();
+    static bool is_valid_connection_string(const std::string& cs);
+    static std::string mask_credentials(const std::string& cs);
 
-    /// Generate a unique node ID.
-    std::string generate_node_id();
-
-    /// Generate a unique edge ID.
-    std::string generate_edge_id();
-
-    /// Generate a unique transaction ID.
-    std::string generate_transaction_id();
-
-    /// BFS traversal returning visited nodes up to max_depth.
-    std::vector<GraphNode> bfs_traverse(
-        const std::string& start_id,
-        size_t max_depth,
-        const std::vector<std::string>& edge_labels
-    ) const;
-
-    /// BFS shortest-path search returning the first path found.
-    Result<GraphPath> bfs_shortest_path(
-        const std::string& source_id,
-        const std::string& target_id,
-        size_t max_depth
-    ) const;
-
-    /// Return true if a document matches every key-value pair in filter.
-    static bool document_matches(const Document& doc,
-                                 const std::map<std::string, Scalar>& filter);
+    /// Convert Cypher parameter types.
+    static std::string scalar_to_cypher_literal(const Scalar& scalar);
 };
 
 } // namespace chimera

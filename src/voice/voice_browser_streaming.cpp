@@ -1,23 +1,21 @@
+/**
+ * @file voice_browser_streaming.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=11; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_browser_streaming.cpp                        ║
-  Version:         1.1.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.1.0  2026-03-09  feat(voice): WebSocket browser audio        ║
-                           streaming (Issue #2350)                     ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_browser_streaming.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 352
+ * Gap Summary: total=11; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=0, M=0, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "voice/voice_browser_streaming.h"
@@ -50,6 +48,9 @@ struct VoiceStreamingSession::Impl {
     std::string partial_text;
     uint32_t    partial_seq = 0;
 
+    // Injected STT backend (null = built-in placeholder)
+    TranscribeFn transcribe_fn;
+
     // Callbacks
     PartialTranscriptCb on_partial;
     FinalTranscriptCb   on_final;
@@ -65,7 +66,7 @@ struct VoiceStreamingSession::Impl {
 
 namespace {
 
-int64_t nowMs() {
+int64_t streamingNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
@@ -86,19 +87,28 @@ std::string generateStreamId() {
  * The placeholder returns a synthetic partial transcript to make the
  * pipeline end-to-end testable without a GPU.
  */
-PartialTranscript runPartialStt(const std::string& session_id,
+PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
                                  StreamID           stream_id,
                                  const std::vector<uint8_t>& audio,
                                  bool   is_final,
                                  uint32_t seq)
 {
-    (void)session_id;
-    // Placeholder: emit placeholder text proportional to audio length
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a recognisable placeholder transcript while no real STT
+    //          backend is wired into the browser streaming pipeline.
+    // Activation: Always — no IWhisperTranscriber or equivalent is injected here.
+    // Production Delta: All browser-stream transcripts contain synthetic text like
+    //                   `[partial#N:MBB]` instead of actual speech content.
+    //                   Applications that consume these transcripts receive
+    //                   meaningless captions regardless of audio input.
+    // Removal Plan: Inject an IWhisperTranscriber; call transcribeStream() per
+    //               audio chunk; populate pt.text from the real transcript token.
+    //               See src/voice/FUTURE_ENHANCEMENTS.md §Browser STT Backend.
     PartialTranscript pt;
     pt.stream_id  = stream_id;
     pt.is_final   = is_final;
     pt.confidence = is_final ? 0.92f : 0.75f;
-    pt.timestamp_ms = nowMs();
+    pt.timestamp_ms = streamingNowMs();
     // Placeholder text — real STT backend fills this
     std::ostringstream oss;
     oss << "[partial#" << seq << ":" << audio.size() << "B]";
@@ -106,16 +116,15 @@ PartialTranscript runPartialStt(const std::string& session_id,
     return pt;
 }
 
-FinalTranscript makeFinalTranscript(const std::string& session_id,
+FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_id,
                                      StreamID           stream_id,
                                      const std::vector<uint8_t>& audio,
                                      int64_t            started_at_ms)
 {
-    (void)session_id;
     FinalTranscript ft;
     ft.stream_id   = stream_id;
     ft.confidence  = 0.92f;
-    ft.duration_ms = nowMs() - started_at_ms;
+    ft.duration_ms = streamingNowMs() - started_at_ms;
 
     std::ostringstream oss;
     oss << "[transcript:" << audio.size() << "B]";
@@ -145,7 +154,12 @@ VoiceStreamingSession::VoiceStreamingSession(Config config)
 
 VoiceStreamingSession::~VoiceStreamingSession() {
     if (impl_ && impl_->active) {
-        try { end(); } catch (...) {}
+        try {
+            end();
+        } catch (const std::string&) {
+        } catch (const char*) {
+        } catch (...) {
+        }
     }
 }
 
@@ -160,7 +174,7 @@ VoiceStreamingSession::create(Config config) {
 StreamID VoiceStreamingSession::start() {
     if (impl_->active) return impl_->stream_id;
     impl_->stream_id    = generateStreamId();
-    impl_->started_at_ms= nowMs();
+    impl_->started_at_ms= streamingNowMs();
     impl_->active       = true;
     impl_->audio_buffer.clear();
     impl_->partial_seq  = 0;
@@ -202,7 +216,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     }
 
     // Enforce session duration
-    int64_t elapsed_s = (nowMs() - impl_->started_at_ms) / 1000;
+    int64_t elapsed_s = (streamingNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
         THEMIS_WARN("VoiceStreamingSession: max duration exceeded, closing stream_id={}",
                     impl_->stream_id);
@@ -217,13 +231,22 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
 
     if (!impl_->config.partial_results) return empty;
 
-    // Run incremental STT
+    // Run incremental STT — use injected backend when available.
     ++impl_->partial_seq;
-    auto pt = runPartialStt(impl_->config.session_id,
-                             impl_->stream_id,
-                             impl_->audio_buffer,
-                             /*is_final=*/false,
-                             impl_->partial_seq);
+    PartialTranscript pt;
+    if (impl_->transcribe_fn) {
+        pt = impl_->transcribe_fn(impl_->audio_buffer,
+                                   /*is_final=*/false,
+                                   impl_->partial_seq);
+        pt.stream_id = impl_->stream_id;
+        if (pt.timestamp_ms == 0) pt.timestamp_ms = streamingNowMs();
+    } else {
+        pt = runPartialStt(impl_->config.session_id,
+                           impl_->stream_id,
+                           impl_->audio_buffer,
+                           /*is_final=*/false,
+                           impl_->partial_seq);
+    }
     if (impl_->on_partial) impl_->on_partial(pt);
     return pt;
 }
@@ -260,6 +283,9 @@ void VoiceStreamingSession::onTtsChunk(TtsChunkCb cb) {
 void VoiceStreamingSession::onError(ErrorCb cb) {
     impl_->on_error = std::move(cb);
 }
+void VoiceStreamingSession::setTranscribeBackend(TranscribeFn fn) {
+    impl_->transcribe_fn = std::move(fn);
+}
 
 // ── Session info ──────────────────────────────────────────────────────────────
 
@@ -274,6 +300,13 @@ int64_t VoiceStreamingSession::startedAtMs() const noexcept {
 }
 size_t VoiceStreamingSession::bytesReceived() const noexcept {
     return impl_ ? impl_->bytes_received : 0;
+}
+
+bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
+    if (!impl_) return false;
+    const auto& allowlist = impl_->config.origin_allowlist;
+    if (allowlist.empty()) return true; // no restriction
+    return std::find(allowlist.begin(), allowlist.end(), origin) != allowlist.end();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -328,3 +361,4 @@ size_t VoiceStreamingManager::activeSessionCount() const noexcept {
 
 } // namespace voice
 } // namespace themis
+

@@ -1,23 +1,21 @@
+/**
+ * @file voice_telephony.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=1, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_telephony.cpp                                ║
-  Version:         1.1.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.1.0  2026-03-09  feat(voice): telephony bridge SIP/WebRTC    ║
-                           (Issue #2495)                               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_telephony.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 853
+ * Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=2, M=18, L=0
+ * PR History (last 5): #3663 feat(voice): register focus... (2026-03-12) | #3605 feat(voice): telephony brid... (2026-03-12) | #3431 [WIP] Integrate voice with ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "voice/voice_telephony.h"
@@ -39,7 +37,7 @@ namespace voice {
 
 namespace {
 
-int64_t nowMs() {
+int64_t telephonyNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
@@ -120,7 +118,7 @@ CallTranscript runCallStt(const CallID&                call_id,
     ct.call_id     = call_id;
     ct.is_final    = is_final;
     ct.confidence  = is_final ? 0.91f : 0.74f;
-    ct.timestamp_ms = nowMs();
+    ct.timestamp_ms = telephonyNowMs();
 
     std::ostringstream oss;
     oss << "[" << (is_final ? "final" : "partial")
@@ -192,6 +190,9 @@ struct SipCallSession::Impl {
     std::vector<int16_t> pcm_buffer;
     uint32_t             partial_seq = 0;
 
+    // Injected TTS backend (optional; stub fallback when null)
+    std::shared_ptr<ITtsBackend> tts_backend;
+
     // Callbacks
     TranscriptCb  on_transcript;
     DtmfCb        on_dtmf;
@@ -225,7 +226,12 @@ SipCallSession::SipCallSession(Config config)
 SipCallSession::~SipCallSession() {
     if (impl_ && (impl_->state == CallState::ACTIVE ||
                   impl_->state == CallState::CONNECTING)) {
-        try { end(); } catch (...) {}
+        try {
+            end();
+        } catch (const std::string&) {
+        } catch (const char*) {
+        } catch (...) {
+        }
     }
 }
 
@@ -238,7 +244,7 @@ CallID SipCallSession::start() {
     impl_->call_id      = impl_->config.call_id.empty()
                               ? generateCallId()
                               : impl_->config.call_id;
-    impl_->started_at_ms = nowMs();
+    impl_->started_at_ms = telephonyNowMs();
     impl_->setState(CallState::ACTIVE);
     THEMIS_INFO("SipCallSession: started call_id={} from={} to={}",
                 impl_->call_id,
@@ -288,7 +294,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
 
     // Enforce max session duration
-    int64_t elapsed_s = (nowMs() - impl_->started_at_ms) / 1000;
+    int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
         THEMIS_WARN("SipCallSession: max duration exceeded, ending call_id={}",
                     impl_->call_id);
@@ -347,10 +353,38 @@ void SipCallSession::injectDtmf(const DtmfEvent& event) {
 
 std::vector<std::vector<uint8_t>>
 SipCallSession::synthesizeTts(const std::string& text) {
-    // Placeholder: return text as a single RTP-like packet per 20 ms frame
-    // In production: feed text through TTS → G.711 encoder → RTP packetiser
     std::vector<std::vector<uint8_t>> packets;
     if (text.empty()) return packets;
+
+    if (impl_->tts_backend) {
+        // Delegate to the injected backend; wrap each returned audio payload
+        // with a minimal 12-byte RTP header (version=2, no padding/ext/csrc).
+        auto frames = impl_->tts_backend->synthesize(text, impl_->config.codec);
+        packets.reserve(frames.size());
+        for (auto& frame : frames) {
+            std::vector<uint8_t> pkt;
+            pkt.reserve(12 + frame.size());
+            pkt.resize(12, 0);
+            pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
+            pkt[1] = static_cast<uint8_t>(
+                impl_->config.codec == AudioCodec::PCMU ? 0 :
+                impl_->config.codec == AudioCodec::PCMA ? 8 : 0);
+            pkt.insert(pkt.end(), frame.begin(), frame.end());
+            packets.push_back(std::move(pkt));
+        }
+        return packets;
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow SIP call sessions to compile and run without a real TTS →
+    //          G.711 encoder → RTP packetiser pipeline.
+    // Activation: Active when no ITtsBackend has been injected via setTtsBackend().
+    // Production Delta: Raw UTF-8 text bytes are wrapped in a minimal RTP header
+    //                   instead of encoded PCM audio.  The remote SIP endpoint will
+    //                   receive undecodable data and produce garbled or silent audio.
+    // Removal Plan: Wire a real ITtsBackend implementation (G.711 µ-law PCM encoder)
+    //               via setTtsBackend() at startup.  See STUB_INVENTORY entry #173 and
+    //               src/voice/FUTURE_ENHANCEMENTS.md §SIP TTS G.711 Encoder.
 
     // Minimal RTP header (12 bytes) + text payload
     std::vector<uint8_t> pkt;
@@ -362,6 +396,10 @@ SipCallSession::synthesizeTts(const std::string& text) {
     for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
     packets.push_back(std::move(pkt));
     return packets;
+}
+
+void SipCallSession::setTtsBackend(std::shared_ptr<ITtsBackend> backend) {
+    impl_->tts_backend = std::move(backend);
 }
 
 void SipCallSession::onTranscript(TranscriptCb cb) { impl_->on_transcript = std::move(cb); }
@@ -391,6 +429,9 @@ struct WebRtcCallSession::Impl {
 
     std::vector<int16_t> pcm_buffer;
     uint32_t             partial_seq = 0;
+
+    // Injected TTS backend (optional; stub fallback when null)
+    std::shared_ptr<ITtsBackend> tts_backend;
 
     // Callbacks
     TranscriptCb    on_transcript;
@@ -424,7 +465,12 @@ WebRtcCallSession::WebRtcCallSession(Config config)
 WebRtcCallSession::~WebRtcCallSession() {
     if (impl_ && (impl_->state == CallState::ACTIVE ||
                   impl_->state == CallState::CONNECTING)) {
-        try { end(); } catch (...) {}
+        try {
+            end();
+        } catch (const std::string&) {
+        } catch (const char*) {
+        } catch (...) {
+        }
     }
 }
 
@@ -453,16 +499,15 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
     return impl_->negotiated_sdp;
 }
 
-void WebRtcCallSession::addIceCandidate(const std::string& candidate_json) {
+void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& candidate_json) {
     // In production: forward to the WebRTC ICE stack
-    (void)candidate_json;
     THEMIS_INFO("WebRtcCallSession: addIceCandidate call_id={}", impl_->call_id);
 }
 
 CallID WebRtcCallSession::start() {
     if (impl_->state == CallState::ACTIVE) return impl_->call_id;
     if (impl_->call_id.empty()) impl_->call_id = generateCallId();
-    impl_->started_at_ms = nowMs();
+    impl_->started_at_ms = telephonyNowMs();
     impl_->setState(CallState::ACTIVE);
     THEMIS_INFO("WebRtcCallSession: started call_id={} user={}",
                 impl_->call_id, impl_->config.user_id);
@@ -499,7 +544,7 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
 
     // Enforce max duration
-    int64_t elapsed_s = (nowMs() - impl_->started_at_ms) / 1000;
+    int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
         THEMIS_WARN("WebRtcCallSession: max duration exceeded, ending call_id={}",
                     impl_->call_id);
@@ -526,9 +571,36 @@ void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
 
 std::vector<std::vector<uint8_t>>
 WebRtcCallSession::synthesizeTts(const std::string& text) {
-    // Placeholder: return text content as Opus-style RTP packet
     std::vector<std::vector<uint8_t>> packets;
     if (text.empty()) return packets;
+
+    if (impl_->tts_backend) {
+        // Delegate to the injected backend; wrap each returned audio payload
+        // with a minimal 12-byte Opus RTP header (PT=111).
+        auto frames = impl_->tts_backend->synthesize(text, AudioCodec::OPUS);
+        packets.reserve(frames.size());
+        for (auto& frame : frames) {
+            std::vector<uint8_t> pkt;
+            pkt.reserve(12 + frame.size());
+            pkt.resize(12, 0);
+            pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
+            pkt[1] = 111;  // dynamic Opus payload type
+            pkt.insert(pkt.end(), frame.begin(), frame.end());
+            packets.push_back(std::move(pkt));
+        }
+        return packets;
+    }
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow WebRTC sessions to compile without a real TTS → Opus encoder
+    //          → RTP packetiser pipeline.
+    // Activation: Active when no ITtsBackend has been injected via setTtsBackend().
+    // Production Delta: UTF-8 text bytes are stuffed into a fake Opus RTP packet
+    //                   (PT=111).  The remote WebRTC endpoint will receive an
+    //                   invalid Opus frame and produce silent or garbled audio.
+    // Removal Plan: Wire a real ITtsBackend implementation (Opus encoder) via
+    //               setTtsBackend() at startup.  See STUB_INVENTORY entry #174 and
+    //               src/voice/FUTURE_ENHANCEMENTS.md §WebRTC TTS Opus Encoder.
 
     std::vector<uint8_t> pkt;
     pkt.resize(12, 0);
@@ -537,6 +609,10 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
     for (char c : text) pkt.push_back(static_cast<uint8_t>(c));
     packets.push_back(std::move(pkt));
     return packets;
+}
+
+void WebRtcCallSession::setTtsBackend(std::shared_ptr<ITtsBackend> backend) {
+    impl_->tts_backend = std::move(backend);
 }
 
 void WebRtcCallSession::onTranscript(TranscriptCb cb)        { impl_->on_transcript = std::move(cb); }
@@ -786,3 +862,4 @@ CallState TelephonyBridge::callState(const CallID& call_id) const {
 
 } // namespace voice
 } // namespace themis
+

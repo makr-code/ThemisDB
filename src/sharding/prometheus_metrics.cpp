@@ -1,23 +1,21 @@
+/**
+ * @file prometheus_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=3, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prometheus_metrics.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     805                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prometheus_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 808
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=3, M=9, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #708 Implement Gossip-Enhanced C... (2026-03-11) | #1063 Add GAP-005 ZSTD Compressio... (2026-03-11) | #25 Implement URN-based horizon... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/prometheus_metrics.h"
@@ -31,6 +29,19 @@ namespace sharding {
 
 PrometheusMetrics::PrometheusMetrics(const Config& config)
     : config_(config) {
+}
+
+void PrometheusMetrics::recordRpcCall(
+    const std::string& shard_id,
+    const std::string& method,
+    const std::string& outcome,
+    double latency_ms
+) {
+    incrementCounter("themis_cross_shard_rpc_calls_total",
+                     {{"shard_id", shard_id}, {"method", method}, {"outcome", outcome}});
+    observeHistogram("themis_cross_shard_rpc_latency_seconds",
+                     latency_ms / 1000.0,
+                     {{"shard_id", shard_id}, {"method", method}});
 }
 
 void PrometheusMetrics::recordShardHealth(const std::string& shard_id, const std::string& status) {
@@ -756,6 +767,7 @@ void PrometheusMetrics::recordHlcAdvance(const std::string& type) {
 void PrometheusMetrics::incrementCounter(const std::string& name, 
                                           const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
     counters_[key]++;
 }
 
@@ -763,6 +775,7 @@ void PrometheusMetrics::addToCounter(const std::string& name,
                                       int64_t amount,
                                       const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
     counters_[key] += amount;
 }
 

@@ -1,27 +1,25 @@
+/**
+ * @file manifest_database.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=4, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            manifest_database.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   78.0/100                                       ║
-    • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 02c0a65e1  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: manifest_database.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 542
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=6, M=11, L=0
+ * PR History (last 5): #4261 feat(updates): ManifestData... (2026-03-15) | #2604 feat(updates): Schema migra... (2026-03-12) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #84 Replace stub implementation... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/manifest_database.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <filesystem>
@@ -413,7 +411,7 @@ std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::
         
         auto j = json::parse(value);
         return j.value("verified", false);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -457,27 +455,91 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
         }
         
         return value;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
 
 bool ManifestDatabase::deleteManifest(const std::string& version) {
     try {
-        // Delete manifest
-        rocksdb::Status status = storage_->getRawDB()->Delete(
-            rocksdb::WriteOptions(),
-            cf_manifests_ ? cf_manifests_ : storage_->getRawDB()->DefaultColumnFamily(),
-            version
-        );
-        
-        if (!status.ok()) {
-            LOG_ERROR("Failed to delete manifest {}: {}", version, status.ToString());
+        // Retrieve manifest before deletion to obtain the list of associated files.
+        // Also acts as an existence check: if the manifest is absent, abort early.
+        auto manifest_opt = getManifest(version);
+        if (!manifest_opt) {
+            LOG_ERROR("Cannot delete manifest {}: not found", version);
             return false;
         }
-        
-        // TODO: Delete associated files from registry
-        
+
+        auto* manifests_cf = cf_manifests_ ? cf_manifests_
+                                           : storage_->getRawDB()->DefaultColumnFamily();
+        auto* files_cf = cf_files_ ? cf_files_
+                                   : storage_->getRawDB()->DefaultColumnFamily();
+        auto* cache_cf = cf_cache_ ? cf_cache_
+                                   : storage_->getRawDB()->DefaultColumnFamily();
+
+        // Write tombstone key before the deletion window to guard against races.
+        // This signals that deletion of version is in progress; on restart any
+        // pending tombstones can be detected and the cleanup retried.
+        const std::string tombstone_key = "__tombstone__:" + version;
+        storage_->getRawDB()->Put(
+            rocksdb::WriteOptions(),
+            manifests_cf,
+            tombstone_key,
+            "deleting"
+        );
+
+        // Delete manifest record from RocksDB (committed before touching files)
+        rocksdb::Status status = storage_->getRawDB()->Delete(
+            rocksdb::WriteOptions(),
+            manifests_cf,
+            version
+        );
+
+        if (!status.ok()) {
+            LOG_ERROR("Failed to delete manifest {}: {}", version, status.ToString());
+            // Remove tombstone so the version is not stuck in a deleting state
+            storage_->getRawDB()->Delete(rocksdb::WriteOptions(), manifests_cf, tombstone_key);
+            return false;
+        }
+
+        // Delete associated files only after the RocksDB manifest entry is committed
+        for (const auto& file : manifest_opt->files) {
+            // Remove file_registry entry from RocksDB
+            const std::string file_key = file.path + ":" + version;
+            rocksdb::Status file_status = storage_->getRawDB()->Delete(
+                rocksdb::WriteOptions(),
+                files_cf,
+                file_key
+            );
+            if (!file_status.ok() && !file_status.IsNotFound()) {
+                LOG_WARN("Failed to delete file registry entry for {}: {}",
+                         file.path, file_status.ToString());
+            }
+
+            // Look up the cached local path and remove the file from the filesystem
+            auto cached_path = getCachedDownload(version, file.path);
+            if (cached_path) {
+                std::error_code ec;
+                if (std::filesystem::remove(*cached_path, ec)) {
+                    LOG_DEBUG("Deleted cached file: {}", *cached_path);
+                } else if (ec) {
+                    LOG_WARN("Failed to delete cached file {}: {}",
+                             *cached_path, ec.message());
+                }
+
+                // Remove download cache entry from RocksDB
+                const std::string cache_key = version + ":" + file.path;
+                storage_->getRawDB()->Delete(
+                    rocksdb::WriteOptions(),
+                    cache_cf,
+                    cache_key
+                );
+            }
+        }
+
+        // Deletion window complete; remove tombstone
+        storage_->getRawDB()->Delete(rocksdb::WriteOptions(), manifests_cf, tombstone_key);
+
         LOG_INFO("Deleted manifest for version {}", version);
         return true;
     } catch (const std::exception& e) {
@@ -488,3 +550,5 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
 
 } // namespace updates
 } // namespace themis
+
+

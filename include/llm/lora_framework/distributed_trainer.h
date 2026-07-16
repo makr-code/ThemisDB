@@ -1,24 +1,21 @@
+/**
+ * @file distributed_trainer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_trainer.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_trainer.h | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 354
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #550 Implement Production Traini... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +23,8 @@
 #include "lora_layers.h"
 #include <vector>
 #include <memory>
+#include <functional>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -48,6 +47,7 @@ enum class DistributedBackend {
  * @brief Configuration for distributed training
  */
 struct DistributedConfig {
+    virtual ~DistributedConfig() = default;
     DistributedBackend backend = DistributedBackend::NONE;
     int world_size = 1;                 // Total number of processes
     int rank = 0;                       // Current process rank
@@ -85,6 +85,7 @@ struct DistributedConfig {
  * @brief Statistics for distributed training
  */
 struct DistributedStats {
+    virtual ~DistributedStats() = default;
     int world_size = 1;
     int rank = 0;
     float communication_time_ms = 0.0f;
@@ -121,12 +122,58 @@ struct DistributedStats {
  */
 class DistributedTrainer {
 public:
+    /**
+     * @brief Function type for barrier synchronization.
+     *
+     * Callers inject a real NCCL/MPI/Gloo barrier via setBarrierFn().
+     * The injected function must block until all world_size ranks have
+     * called barrier().
+     */
+    using BarrierFn = std::function<void()>;
+
+    /**
+     * @brief Function type for parameter broadcast.
+     *
+     * Callers MUST inject a real MPI_Bcast / Gloo broadcast via setBroadcastFn()
+     * before calling broadcast_parameters() when world_size > 1. This enforces
+     * fail-closed: training will not proceed silently without real collective
+     * operations.
+     *
+     * The function receives the rank-0 data vector in-place; non-root ranks
+     * are expected to overwrite their copy with rank-0's values.
+     * 
+     * @throws std::runtime_error if called in distributed mode without callback.
+     */
+    using BroadcastFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Function type for CPU gradient all-reduce.
+     *
+     * Callers MUST inject a real MPI_Allreduce / Gloo allreduce via
+     * setAllReduceCpuFn() before calling synchronize_gradients() when
+     * world_size > 1. This enforces fail-closed: training will not proceed
+     * silently without real collective operations.
+     *
+     * The injected function receives the local gradient vector and must
+     * perform an in-place SUM-then-divide-by-world_size across all ranks.
+     *
+     * @param data Gradient vector to reduce in-place.
+     * @throws std::runtime_error if called in distributed mode without callback.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
     /**
      * @brief Initialize distributed training
-     * @return true if successful
+        *
+        * Fail-closed validation:
+        * - world_size must be >= 1
+        * - rank must satisfy 0 <= rank < world_size
+        * - for world_size > 1, collective callbacks must be injected via
+        *   setAllReduceCpuFn(), setBroadcastFn(), and setBarrierFn().
+        *
+        * @return true if successful
      */
     bool initialize();
     
@@ -150,21 +197,68 @@ public:
     /**
      * @brief Synchronize gradients across all processes (AllReduce)
      * @param gradients Gradients to synchronize
-     * @return true if successful
+        * @return true if successful
+        * @return false when multi-rank synchronization is requested without an
+        *         injected AllReduce callback
      */
     bool synchronize_gradients(std::vector<Tensor*>& gradients);
     
     /**
      * @brief Broadcast model parameters from master to all processes
      * @param parameters Model parameters to broadcast
-     * @return true if successful
+        * @return true if successful
+        * @return false when multi-rank broadcast is requested without an
+        *         injected broadcast callback
      */
     bool broadcast_parameters(std::vector<Tensor*>& parameters);
     
     /**
-     * @brief Barrier synchronization (wait for all processes)
+     * @brief Barrier synchronization (wait for all processes).
+     * 
+     * @throws std::runtime_error if called in distributed mode (world_size > 1)
+     *         without a barrier function injected via setBarrierFn().
+     *         This enforces fail-closed: no silent synchronization skips.
      */
     void barrier();
+
+    /**
+     * @brief Function type for CPU AllReduce across training ranks.
+     *
+     * The callable receives the gradient vector in-place and must perform the
+     * collective reduction (sum + divide by world_size) across all ranks.
+     * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
+     * memory ring-reduce.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
+     *
+     * When set, barrier() delegates to this function instead of the
+     * no-op fallback.  Call before the first training step.
+     * @param fn Callable that performs the actual collective barrier.
+     */
+    void setBarrierFn(BarrierFn fn);
+
+    /**
+     * @brief Inject a real broadcast implementation (MPI/Gloo).
+     *
+     * When set, broadcast_cpu() delegates to this function so that
+     * non-master ranks receive the master's parameter values.
+     * @param fn Callable that broadcasts data in-place from rank 0.
+     */
+    void setBroadcastFn(BroadcastFn fn);
+
+    /**
+     * @brief Inject a real CPU all-reduce implementation (MPI/Gloo).
+     *
+     * When set, allreduce_cpu() delegates to this function so that gradients
+     * are summed across all ranks and divided by world_size before the
+     * optimizer step.  Must be called before the first training step when
+     * world_size > 1.
+     * @param fn Callable that performs the collective sum-reduce in-place.
+     */
+    void setAllReduceCpuFn(AllReduceCpuFn fn);
     
     /**
      * @brief Get distributed configuration
@@ -214,7 +308,7 @@ public:
 
 private:
     DistributedConfig config_;
-    bool initialized_;
+    bool initialized_ = false;
     
     // Statistics
     DistributedStats stats_;
@@ -222,6 +316,10 @@ private:
     // Helper methods
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
+
+    std::optional<BarrierFn>        barrier_fn_;
+    std::optional<BroadcastFn>      broadcast_fn_;
+    std::optional<AllReduceCpuFn>   allreduce_cpu_fn_;
 };
 
 /**
@@ -276,3 +374,4 @@ bool is_mpi_available();
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

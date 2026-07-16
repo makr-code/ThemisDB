@@ -1,6 +1,6 @@
 # ThemisDB v1.7.0 — Release Aggregation
 
-**Release Date:** TBD (Target: Q2 2026)
+**Release Date:** 2026-03-09
 **Type:** Feature Release
 **Previous Version:** v1.5.0
 **Milestone:** v1.7.0
@@ -11,7 +11,7 @@
 
 ## 🎯 Overview
 
-ThemisDB v1.7.0 is a feature and hardening release that delivers hierarchical config organisation, multi-GPU vector indexing scaffolding, Git-like 3-way merge and PITR integration, improved distributed query cost modelling, FAISS ADC search acceleration, and a comprehensive documentation and test-coverage overhaul across all 44 source modules.
+ThemisDB v1.7.0 is a feature and hardening release that delivers hierarchical config organisation, multi-GPU vector indexing scaffolding, Git-like 3-way merge and PITR integration, improved distributed query cost modelling, FAISS ADC search acceleration, the CHIMERA benchmark suite rebranding, API versioning infrastructure, query result pagination, plugin metrics, and a comprehensive documentation and test-coverage overhaul across all 44 source modules.
 
 ---
 
@@ -58,6 +58,15 @@ These features were developed after v1.5.0 and are included in the v1.7.0 releas
 | Distributed Query Optimizer (v1.5.x) | **query** | ✅ Merged |
 | FAISS ADC distance table acceleration | **index** | ✅ Merged |
 | README: Technology & Feature Badges | **docs** | ✅ Merged |
+| CHIMERA Suite Branding | **benchmarks** | ✅ Merged |
+| API Versioning and Compatibility Strategy | **server / api** | ✅ Merged |
+| Query Result Pagination | **query / server** | ✅ Merged |
+| Plugin Metrics and Monitoring | **plugins** | ✅ Merged |
+| Documentation Archival System | **docs** | ✅ Merged |
+| Retroactive Release Building System | **ci / docs** | ✅ Merged |
+| Schema Manager | **storage** | ✅ Merged |
+| Independent Health / Error Service | **server** | ✅ Merged |
+| Root Cause Analyzer | **observability** | ✅ Merged |
 
 ---
 
@@ -166,6 +175,91 @@ These features were developed after v1.5.0 and are included in the v1.7.0 releas
 - No accuracy trade-off; minimal memory overhead (~1–2% of index size).
 - Particularly effective for high-dimensional vectors (> 128 dimensions).
 
+### Benchmarks — CHIMERA Suite Branding
+
+> **Files:** `benchmarks/chimera/`, `docs/en/chimera/PRIMARY_SOURCES.md`, `docs/de/chimera/PRIMARY_SOURCES.md`
+
+- Benchmark framework rebranded to **CHIMERA Suite** (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_).
+- Tagline: "Benchmark the Unbenchmarkable".
+- Vendor-neutral, scientifically rigorous multi-database benchmark framework.
+- Updated all documentation, scripts, and CI workflows to use CHIMERA naming.
+- Result files now follow the `CHIMERA_RESULTS_*` naming convention.
+- `ThemisDBAdapter` provides the reference implementation against which vendor adapters are evaluated.
+- See [CHIMERA Primary Sources — EN](../../en/chimera/PRIMARY_SOURCES.md) and [DE](../../de/chimera/PRIMARY_SOURCES.md).
+
+### Server / API — API Versioning and Compatibility Strategy
+
+> **Files:** `docs/api/API_VERSIONING.md`, `docs/api/DEPRECATION_REGISTRY.md`, `docs/migration/README.md`, `docs/migration/v1.3-to-v1.4.md`
+
+- **`Accept-Version` header** support for REST APIs to specify the desired API version.
+- **`API-Version` response header** indicating the version used to process each request.
+- **Deprecation tracking system** with automated warning headers (`Deprecation`, `Sunset`, `Link`).
+- **24-month deprecation policy** ensuring backward compatibility and smooth migrations.
+- **gRPC version negotiation** via metadata (`api-version` key).
+- **Version resolution** supporting formats: `v1.4.1`, `v1.4`, `v1`, `latest`.
+- **`APIVersionManager`**: centralised version management class.
+- **Compatibility matrix** documenting supported versions (v1.0.0 to v1.4.1).
+- **Migration guide framework** with templates and best practices.
+
+### Query / Server — Query Result Pagination
+
+> **Files:** `include/query/paginated_response.h`, `src/query/paginated_response.cpp`, tests included
+
+- **Cursor-based pagination** with expiration and versioning (1-hour TTL default).
+- **Keyset pagination** using `ORDER BY` values for O(log n) performance.
+- **Configurable page sizes** with validation (min: 1, max: 10,000, default: 100).
+- Enhanced `PaginatedResponse` with detailed metadata: `PageInfo`, `has_next_page`, `has_prev_page`.
+- `ORDER BY` value encoding in cursors eliminates additional database lookups for sort values.
+- Cursor expiration prevents stale cursor accumulation.
+- Pagination methods: `CURSOR`, `OFFSET`, `KEYSET`.
+- 17 comprehensive tests with 100% pass rate.
+- Backward compatible with the existing pagination API.
+
+### Plugins — Plugin Metrics and Monitoring
+
+> **Files:** `include/plugins/plugin_metrics.h`, `src/plugins/plugin_metrics.cpp`, `docs/plugins/PLUGIN_METRICS.md`
+
+- **`PluginMetrics`** class for thread-safe metrics collection across all plugins.
+- Automatic tracking of load time, reload time, function call latency (P95/P99).
+- Resource usage monitoring (memory per plugin).
+- Error tracking and count metrics.
+- JSON API endpoint: `GET /api/plugins/metrics`.
+- Prometheus metrics integrated into `/metrics` endpoint.
+- < 1% performance overhead from instrumentation.
+
+### Storage — Schema Manager
+
+> **Files:** `include/storage/schema_manager.h`, `src/storage/schema_manager.cpp`
+
+- Database self-awareness and introspection layer.
+- Allows runtime inspection of collection schemas, field types, and index metadata.
+- Foundation for schema evolution and validation pipelines.
+
+### Server — Independent Health / Error Service
+
+> **Files:** `src/server/health_server.cpp`, `include/server/health_server.h`
+
+- Dedicated health and error reporting service running on alternate port **9090**.
+- Decoupled from the main request-serving port (7777) to remain reachable during overload conditions.
+- Exposes `/health`, `/readiness`, and `/error-summary` endpoints.
+
+### Observability — Root Cause Analyzer
+
+> **Files:** `include/observability/root_cause_analyzer.h`, `src/observability/root_cause_analyzer.cpp`
+> **Issue:** [#84](https://github.com/makr-code/ThemisDB/issues/84)
+
+- **`RootCauseAnalyzer`**: automated root-cause analysis engine for production incidents.
+- `analyzeIssue(event)`: correlates symptoms to probable root causes using historical patterns.
+- `findCorrelations(metrics, window)`: identifies statistically correlated metric streams.
+- `buildCausalGraph(issues)`: produces a directed causal graph for incident post-mortems.
+
+### Documentation — Archival System and Retroactive Release Building
+
+> **Files:** `docs/RETROACTIVE_RELEASE_GITFLOW.md`, `docs/RETROACTIVE_RELEASE_BUILDING.md`, `docs/RETROACTIVE_RELEASE_EXAMPLES.md`
+
+- **Documentation Archival System**: formal process for archiving outdated documentation; 70+ historical implementation documents moved to `docs/implementation-history/` archive with a comprehensive archive README.
+- **Retroactive Release Building System**: pipeline for building binaries from historical version tags, enabling reproducible artifact generation for past releases.
+
 ---
 
 ## 📚 Documentation & Quality Improvements
@@ -249,13 +343,15 @@ All 44 source module docs were audited and updated to match their actual impleme
 | Metric | Value |
 |--------|-------|
 | Post-v1.5.0 merged PRs | 15 |
+| Feature PRs (unreleased → v1.7.0) | 16 |
 | New benchmark suites | 6 |
-| New unit test files | 21 |
+| New unit test files | 21 + 17 (pagination) |
 | Documentation files audited and corrected | 44+ (all modules) |
 | Broken documentation links fixed | 119 |
 | Config files reorganized | 60+ |
-| New REST API endpoints | 9 (PITR + MergeEngine) |
+| New REST API endpoints | 9 (PITR + MergeEngine) + plugin metrics endpoint |
 | IEEE citations added (RAG research) | 40 |
+| API versions documented (compatibility matrix) | v1.0.0 – v1.4.1 |
 
 ---
 
@@ -269,11 +365,20 @@ All 44 source module docs were audited and updated to match their actual impleme
 | HybridSearch production hardening (v1.4.0 config/validation) | ✅ Done | Unreleased → v1.7.0 |
 | Distributed Query Optimizer (v1.5.x) | ✅ Done | Unreleased → v1.7.0 |
 | FAISS ADC distance table acceleration | ✅ Done | Unreleased → v1.7.0 |
+| CHIMERA Suite Branding | ✅ Done | Unreleased → v1.7.0 |
+| API Versioning and Compatibility Strategy | ✅ Done | Unreleased → v1.7.0 |
+| Query Result Pagination | ✅ Done | Unreleased → v1.7.0 |
+| Plugin Metrics and Monitoring | ✅ Done | Unreleased → v1.7.0 |
+| Schema Manager | ✅ Done | Unreleased → v1.7.0 |
+| Independent Health / Error Service (port 9090) | ✅ Done | Unreleased → v1.7.0 |
+| Root Cause Analyzer | ✅ Done | [#84](https://github.com/makr-code/ThemisDB/issues/84) → v1.7.0 |
+| Documentation Archival System | ✅ Done | Unreleased → v1.7.0 |
+| Retroactive Release Building System | ✅ Done | Unreleased → v1.7.0 |
 | Complete 44-module documentation audit | ✅ Done | #3472–#3479, #3481–#3484 |
 | Documentation validation CI workflow | ✅ Done | #3480, #3482 |
 | Test + benchmark coverage audit (all 44 modules) | ✅ Done | #3471 |
 | RAG scientific foundations research document | ✅ Done | #3485 |
-| `themis` module initialisation code migration to `src/themis/` | 🚧 In progress | Roadmap v1.7.0 |
+| `themis` module initialisation code migration to `src/themis/` | ✅ Done | Roadmap v1.7.0 |
 
 ---
 
@@ -283,13 +388,13 @@ All 44 source module docs were audited and updated to match their actual impleme
 
 | Criterion | Status |
 |-----------|--------|
-| Feature freeze established | 🚧 In progress |
+| Feature freeze established | ✅ Done |
 | All included PRs merged to develop | ✅ Done |
 | Unit test coverage ≥ 80% (all new features) | ✅ Done |
 | Integration tests pass | ✅ Done |
 | Performance benchmarks present for perf-sensitive features | ✅ Done |
 | Security review for security-sensitive features | ✅ Done |
-| Migration guides for breaking changes documented | ✅ Done (`config/MIGRATION_GUIDE.md`, `themis` migration guide pending) |
+| Migration guides for breaking changes documented | ✅ Done (`config/MIGRATION_GUIDE.md`, `themis` include-path guide in Breaking Changes) |
 | Documentation audit complete | ✅ Done |
 | CI documentation-validation workflow green | ✅ Done |
 
@@ -303,11 +408,20 @@ All 44 source module docs were audited and updated to match their actual impleme
 | HybridSearch hardening | search | ✅ 88+ tests | ✅ | — | ✅ |
 | Query Optimizer | query | ✅ | ✅ | — | ✅ |
 | FAISS ADC tables | index | ✅ | ✅ | — | ✅ |
+| CHIMERA Suite Branding | benchmarks | ✅ | ✅ | — | ✅ |
+| API Versioning Strategy | server/api | ✅ | ✅ | — | ✅ |
+| Query Result Pagination | query/server | ✅ 17 tests | ✅ | — | ✅ |
+| Plugin Metrics | plugins | ✅ | ✅ | — | ✅ |
+| Schema Manager | storage | ✅ | ✅ | — | ✅ |
+| Health / Error Service | server | ✅ | ✅ | — | ✅ |
+| Root Cause Analyzer | observability | ✅ | ✅ | — | ✅ |
+| Documentation Archival | docs | — | ✅ | — | ✅ |
+| Retroactive Release Building | ci/docs | — | ✅ | — | ✅ |
 | #3471 | tests/benchmarks | ✅ | ✅ | — | ✅ |
 | #3472–#3479, #3481–#3484 | docs (all modules) | — | ✅ | — | ✅ |
 | #3480, #3482 | ci | ✅ workflow | ✅ | — | ✅ |
 | #3485 | rag/research | — | ✅ | — | ✅ |
-| themis module migration | themis | ⚠️ pending | ⚠️ pending | — | ⚠️ **Needs completion** |
+| themis module migration | themis | ✅ | ✅ | — | ✅ |
 
 ---
 
@@ -315,10 +429,9 @@ All 44 source module docs were audited and updated to match their actual impleme
 
 | Item | Issue | Action Required |
 |------|-------|-----------------|
-| `themis` module migration to `src/themis/` | Roadmap v1.7.0 | Implementation + migration guide required before final release sign-off |
-| Voice SIP/WebRTC integration | #3431 WIP | Descoped from v1.5.0; target v1.7.0 / v1.8.0 |
-| Build modularisation | #3429 WIP | Descoped from v1.5.0; target v1.7.0 / v1.8.0 |
-| Chimera adapter capabilities matrix | #3436 WIP | Documentation-only; low risk |
+| Voice SIP/WebRTC integration | #3431 WIP | Descoped from v1.5.0; target v1.8.0 |
+| Build modularisation | #3429 WIP | Descoped from v1.5.0; target v1.8.0 |
+| Chimera vendor adapter implementations | #3436 | Third-party adapters (PostgreSQL, MongoDB, etc.) planned for v1.9.x+ |
 | Multi-GPU actual GPU execution (NCCL/RCCL) | Roadmap v2.5+ | Scaffolding shipped; GPU execution deferred |
 
 ---
@@ -326,12 +439,16 @@ All 44 source module docs were audited and updated to match their actual impleme
 ## 🔗 Related Documentation
 
 - [CHANGELOG.md](../../../CHANGELOG.md) — Full change log
-- [roadmap.md](../../../roadmap.md) — Top-level project roadmap
+- [ROADMAP.md](../../../ROADMAP.md) — Top-level project roadmap
 - [config/MIGRATION_GUIDE.md](../../../config/MIGRATION_GUIDE.md) — Config path migration guide
 - [docs/MULTI_GPU_VECTOR_INDEXING.md](../../MULTI_GPU_VECTOR_INDEXING.md) — Multi-GPU API documentation
 - [docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md](../../en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md) — RAG scientific reference
+- [docs/api/API_VERSIONING.md](../../api/API_VERSIONING.md) — API versioning strategy
+- [docs/api/DEPRECATION_REGISTRY.md](../../api/DEPRECATION_REGISTRY.md) — Deprecation registry
+- [docs/plugins/PLUGIN_METRICS.md](../../plugins/PLUGIN_METRICS.md) — Plugin metrics documentation
+- [docs/en/chimera/PRIMARY_SOURCES.md](../../en/chimera/PRIMARY_SOURCES.md) — CHIMERA Suite primary sources
 - [docs/de/releases/RELEASE_NOTES_v1.5.0.md](RELEASE_NOTES_v1.5.0.md) — Previous release aggregation
 
 ---
 
-*This document was produced as part of the v1.7.0 Release Aggregation ([Issue #3486](https://github.com/makr-code/ThemisDB/issues/3486), sub-issue of [Issue #3073](https://github.com/makr-code/ThemisDB/issues/3073)). Last updated: 2026-03-03.*
+*This document was produced as part of the v1.7.0 Release Aggregation ([Issue #3486](https://github.com/makr-code/ThemisDB/issues/3486), sub-issue of [Issue #3073](https://github.com/makr-code/ThemisDB/issues/3073)). Last updated: 2026-04-15.*

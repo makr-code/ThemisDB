@@ -1,23 +1,21 @@
+/**
+ * @file health_error_service.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            health_error_service.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     388                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: health_error_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 383
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=8, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/health_error_service.h"
@@ -120,20 +118,25 @@ void HealthErrorService::stop() {
 
 void HealthErrorService::run() {
     try {
+        if (!acceptor_) {
+            running_.store(false);
+            return;
+        }
+        auto& acceptor = *acceptor_;
         while (running_.load()) {
             // Use synchronous accept with timeout
             beast::error_code ec;
             tcp::socket socket(*ioc_);
             
             // Set non-blocking mode for accept with timeout
-            acceptor_->non_blocking(true, ec);
+            acceptor.non_blocking(true, ec);
             if (ec) {
                 THEMIS_ERROR("Failed to set non-blocking mode: {}", ec.message());
                 break;
             }
             
             // Try to accept connection (non-blocking)
-            acceptor_->accept(socket, ec);
+            acceptor.accept(socket, ec);
             
             if (!ec && running_.load()) {
                 // Connection accepted successfully

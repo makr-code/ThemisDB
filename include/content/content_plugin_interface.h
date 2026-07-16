@@ -1,36 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_plugin_interface.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     492                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b410ac7d0  2026-02-26  feat(content): Extract video metadata and thumbnails - AP... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file content_plugin_interface.h
- * @brief Content Processor Plugin Interface
- * 
- * Defines the interface that all Content Processor plugins must implement.
- * Plugins are loaded as DLLs/shared libraries at runtime.
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -93,7 +69,7 @@ struct GeoExtractionData {
     std::vector<std::pair<double, double>> coordinates;  // lat, lon pairs
     std::string crs;                                      // e.g., "EPSG:4326"
     json properties;
-    std::array<double, 4> bounds;                         // minX, minY, maxX, maxY
+    std::array<double, 4> bounds = {};                    ///< minX, minY, maxX, maxY (zero-initialised; CON-023)
     std::string geometry_type;                            // Point, LineString, Polygon, etc.
 };
 
@@ -125,8 +101,8 @@ struct CADExtractionData {
     std::vector<std::string> part_ids;
     json assembly_tree;
     json bill_of_materials;
-    std::array<double, 3> bounding_box_min;
-    std::array<double, 3> bounding_box_max;
+    std::array<double, 3> bounding_box_min = {};  ///< AABB minimum corner (CON-024)
+    std::array<double, 3> bounding_box_max = {};  ///< AABB maximum corner (CON-024)
     double volume = 0.0;
     double surface_area = 0.0;
     int part_count = 0;
@@ -280,7 +256,7 @@ public:
     /**
      * @brief Get plugin information
      */
-    virtual PluginInfo getInfo() const = 0;
+    [[nodiscard]] virtual PluginInfo getInfo() const = 0;
     
     /**
      * @brief Initialize plugin with configuration
@@ -290,7 +266,7 @@ public:
      * @param config Configuration from YAML
      * @return true if initialization successful
      */
-    virtual bool initialize(const PluginConfig& config) = 0;
+    [[nodiscard]] virtual bool initialize(const PluginConfig& config) = 0;
     
     /**
      * @brief Shutdown plugin
@@ -305,7 +281,7 @@ public:
      * @param mime_type MIME type string (e.g., "application/pdf")
      * @return true if plugin can handle this type
      */
-    virtual bool canProcess(const std::string& mime_type) const = 0;
+    [[nodiscard]] virtual bool canProcess(const std::string& mime_type) const = 0;
     
     /**
      * @brief Extract content from binary blob
@@ -318,7 +294,7 @@ public:
      * @param options Extraction options
      * @return Extraction result with text, metadata, etc.
      */
-    virtual ContentExtractionResult extract(
+    [[nodiscard]] virtual ContentExtractionResult extract(
         const std::vector<uint8_t>& blob,
         const std::string& mime_type,
         const ExtractionOptions& options = {}
@@ -335,7 +311,7 @@ public:
      * @param overlap Token overlap between chunks
      * @return Vector of content chunks
      */
-    virtual std::vector<ContentChunk> chunk(
+    [[nodiscard]] virtual std::vector<ContentChunk> chunk(
         const ContentExtractionResult& result,
         int max_tokens,
         int overlap
@@ -350,7 +326,7 @@ public:
      * @param text Text to embed
      * @return Embedding vector
      */
-    virtual std::vector<float> generateEmbedding([[maybe_unused]] const std::string& text) {
+    [[nodiscard]] virtual std::vector<float> generateEmbedding([[maybe_unused]] const std::string& text) {
         return {};
     }
     
@@ -361,14 +337,14 @@ public:
      * 
      * @return true if healthy
      */
-    virtual bool healthCheck() const = 0;
+    [[nodiscard]] virtual bool healthCheck() const = 0;
     
     /**
      * @brief Get plugin statistics
      * 
      * Returns statistics about plugin usage (documents processed, errors, etc.)
      */
-    virtual json getStatistics() const {
+    [[nodiscard]] virtual json getStatistics() const {
         return json::object();
     }
 };

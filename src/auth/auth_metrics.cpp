@@ -1,25 +1,21 @@
+/**
+ * @file auth_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_metrics.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ad8c8cf55  2026-02-23  feat(auth): implement API key authentication (static key ... ║
-    • fbc40c29a  2026-02-22  Fill acceptance-criteria gaps: AuthMethod enum + OAuth de... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 370
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #4133 feat(auth): Credential Stuf... (2026-03-12) | #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4105 fix(auth): address LDAP con... (2026-03-12) | #2826 feat(auth): improve unit te... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/auth_metrics.h"
@@ -88,6 +84,14 @@ AuthMetrics::AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                                  .Name(config.namespace_prefix + "_revoked_token_checks_total")
                                  .Help("Total revoked token checks")
                                  .Register(*registry))
+    , totp_drift_total_(prometheus::BuildCounter()
+                       .Name(config.namespace_prefix + "_totp_drift_total")
+                       .Help("Total TOTP validations that succeeded with a non-zero time step offset (clock drift indicator)")
+                       .Register(*registry))
+    , credential_stuffing_attempts_total_(prometheus::BuildCounter()
+                                         .Name(config.namespace_prefix + "_credential_stuffing_attempts_total")
+                                         .Help("Total credential stuffing detection events with escalation outcome")
+                                         .Register(*registry))
     , jwks_cache_size_(prometheus::BuildGauge()
                       .Name(config.namespace_prefix + "_jwks_cache_size")
                       .Help("Current JWKS cache size (number of keys)")
@@ -96,6 +100,18 @@ AuthMetrics::AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                               .Name(config.namespace_prefix + "_locked_accounts_current")
                               .Help("Current number of locked accounts")
                               .Register(*registry))
+    , ldap_pool_size_(prometheus::BuildGauge()
+                      .Name(config.namespace_prefix + "_ldap_pool_size")
+                      .Help("Total LDAP connection pool size (idle + active)")
+                      .Register(*registry))
+    , ldap_idle_connections_(prometheus::BuildGauge()
+                             .Name(config.namespace_prefix + "_ldap_idle_connections")
+                             .Help("Number of idle LDAP connections in the pool")
+                             .Register(*registry))
+    , ldap_active_connections_(prometheus::BuildGauge()
+                               .Name(config.namespace_prefix + "_ldap_active_connections")
+                               .Help("Number of active (checked-out) LDAP connections")
+                               .Register(*registry))
     , auth_duration_ms_(prometheus::BuildHistogram()
                        .Name(config.namespace_prefix + "_duration_milliseconds")
                        .Help("Authentication duration in milliseconds")
@@ -197,7 +213,7 @@ void AuthMetrics::recordRateLimitExceeded(const std::string& type) {
 #endif
 }
 
-void AuthMetrics::setRateLimitTokens(const std::string& identifier, double tokens) {
+void AuthMetrics::setRateLimitTokens(const std::string& /*identifier*/, double /*tokens*/) {
     // This would create too many time series, so we skip it in the implementation
     // Instead, we rely on aggregate metrics
 }
@@ -256,6 +272,36 @@ void AuthMetrics::recordRevokedTokenCheck(bool was_revoked) {
 #endif
 }
 
+void AuthMetrics::recordTOTPDrift(int step_offset) {
+    totp_drift_count_.fetch_add(1, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::map<std::string, std::string> labels;
+    labels["step_offset"] = std::to_string(step_offset);
+    totp_drift_total_.Add(labels).Increment();
+#endif
+}
+
+uint64_t AuthMetrics::getTOTPDriftCount() const {
+    return totp_drift_count_.load(std::memory_order_relaxed);
+}
+
+void AuthMetrics::recordCredentialStuffingAttempt(const std::string& user_id,
+                                                   const std::string& ip,
+                                                   const std::string& outcome) {
+    credential_stuffing_total_.fetch_add(1, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::map<std::string, std::string> labels;
+    labels["user_id"] = user_id;
+    labels["ip"]      = ip;
+    labels["outcome"] = outcome;
+    credential_stuffing_attempts_total_.Add(labels).Increment();
+#endif
+}
+
+uint64_t AuthMetrics::getCredentialStuffingTotal() const {
+    return credential_stuffing_total_.load(std::memory_order_relaxed);
+}
+
 uint64_t AuthMetrics::getTotalAttempts() const {
     return total_attempts_.load(std::memory_order_relaxed);
 }
@@ -275,6 +321,42 @@ double AuthMetrics::getSuccessRate() const {
     }
     uint64_t successes = getSuccessfulAuths();
     return static_cast<double>(successes) / static_cast<double>(total);
+}
+
+void AuthMetrics::setLDAPPoolSize(int count) {
+    ldap_pool_size_count_.store(count, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    static auto& gauge = ldap_pool_size_.Add({});
+    gauge.Set(static_cast<double>(count));
+#endif
+}
+
+void AuthMetrics::setLDAPIdleConnections(int count) {
+    ldap_idle_connections_count_.store(count, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    static auto& gauge = ldap_idle_connections_.Add({});
+    gauge.Set(static_cast<double>(count));
+#endif
+}
+
+void AuthMetrics::setLDAPActiveConnections(int count) {
+    ldap_active_connections_count_.store(count, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    static auto& gauge = ldap_active_connections_.Add({});
+    gauge.Set(static_cast<double>(count));
+#endif
+}
+
+int AuthMetrics::getLDAPPoolSize() const {
+    return ldap_pool_size_count_.load(std::memory_order_relaxed);
+}
+
+int AuthMetrics::getLDAPIdleConnections() const {
+    return ldap_idle_connections_count_.load(std::memory_order_relaxed);
+}
+
+int AuthMetrics::getLDAPActiveConnections() const {
+    return ldap_active_connections_count_.load(std::memory_order_relaxed);
 }
 
 std::string AuthMetrics::authMethodToString(AuthMethod method) {

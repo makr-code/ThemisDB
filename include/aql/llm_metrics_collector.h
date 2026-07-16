@@ -1,24 +1,21 @@
+/**
+ * @file llm_metrics_collector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_metrics_collector.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     152                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_metrics_collector.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 139
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1262 Add production hardening fo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -84,6 +81,42 @@ public:
         size_t input_tokens,
         bool success,
         const std::string& error_code = ""
+    );
+    
+    /**
+     * @brief Record AQL parser validation metrics
+     * 
+     * Tracks AQL validation operations for consolidation Phase 2.
+     * Metric: aql_validation_total{status="success|parse_error|timeout|exception"}
+     */
+    void recordAQLValidation(
+        bool success,
+        std::chrono::milliseconds duration,
+        const std::string& error_reason = ""  // e.g., "parse_error", "timeout", "exception"
+    );
+    
+    /**
+     * @brief Record AQL generation attempt metrics
+     * 
+     * Tracks NL-to-AQL generation attempts for consolidation Phase 2.
+     * Metric: aql_generation_attempts_total{status="success|parse_error|retry|rejected"}
+     */
+    void recordAQLGenerationAttempt(
+        bool success,
+        int attempt_number,
+        std::chrono::milliseconds duration,
+        const std::string& outcome = ""  // e.g., "success", "parse_error", "max_retries_exceeded"
+    );
+    
+    /**
+     * @brief Record AQL validation retry
+     * 
+     * Tracks retry attempts after validation failure.
+     * Metric: aql_validation_retries_total{outcome="success|failed"}
+     */
+    void recordValidationRetry(
+        bool retry_succeeded,
+        int attempt_number
     );
     
     /**

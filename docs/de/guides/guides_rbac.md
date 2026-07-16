@@ -26,7 +26,7 @@ Comprehensive role-based access control system with hierarchies and fine-grained
 
 Umfassende rollenbasierte Zugriffskontrolle mit Hierarchien, Vererbung und feingranularen Berechtigungen.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

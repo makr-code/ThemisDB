@@ -1,24 +1,21 @@
+/**
+ * @file format_template.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            format_template.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: format_template.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 197
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3781 feat(exporters): register f... (2026-03-12) | #3220 feat(exporters): Alpaca, Sh... (2026-03-12) | #3168 [exporters] Implement Alpac... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -164,6 +161,48 @@ public:
 /// Create an IFormatTemplate for the given type.
 /// Returns nullptr for FormatTemplateType::NONE.
 std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type);
+
+// ---------------------------------------------------------------------------
+// Dry-run / preflight validation
+// ---------------------------------------------------------------------------
+
+/// Result of a collection-level template dry-run validation.
+struct TemplateValidationResult {
+    /// True when every entity in the sample satisfies the template's required
+    /// fields (or when no template is active, i.e. type == NONE).
+    bool valid = true;
+
+    /// Sorted, deduplicated list of field names that were absent in at least
+    /// one entity of the sample.  Empty when \p valid is true.
+    std::vector<std::string> missing_fields;
+
+    /// Number of entities that were examined.
+    size_t entities_checked = 0;
+
+    /// Number of entities that failed validation (i.e. had at least one
+    /// missing required field).
+    size_t entities_failed = 0;
+};
+
+/// Validate that all entities in \p sample provide the required fields for
+/// the selected template type.
+///
+/// \param type     The format template to check against.  When NONE the
+///                 result is always valid (no template fields are required).
+/// \param mapping  Field-name overrides forwarded to the template.
+/// \param sample   Representative collection of entities to inspect.  At
+///                 least one entity is recommended for meaningful results;
+///                 an empty sample yields a valid result with
+///                 entities_checked == 0.
+///
+/// \returns A TemplateValidationResult summarising the outcome.  The
+///          \p missing_fields list is deterministic (sorted) so callers can
+///          rely on its order for automated comparisons.
+TemplateValidationResult validateTemplate(
+    FormatTemplateType type,
+    const FormatTemplateFieldMapping& mapping,
+    const std::vector<BaseEntity>& sample
+);
 
 } // namespace exporters
 } // namespace themis

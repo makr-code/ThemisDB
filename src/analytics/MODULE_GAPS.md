@@ -1,0 +1,95 @@
+# analytics — MODULE_GAPS.md (Phase 5 Verified)
+
+This file documents all documentation and code quality gaps in the **analytics** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+
+## Summary
+
+- **Total Gaps**: 3696
+- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
+- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+
+### By Severity
+
+- **CRITICAL**: 35
+- **HIGH**: 412
+- **MEDIUM**: 3247
+- **LOW**: 2
+
+### By Type
+
+- allocation_loop: 1
+- arithmetic_overflow: 1
+- blocking_no_timeout: 1
+- braces_imbalance: 9
+- braces_imbalance_midfile: 201
+- circular_lock_ordering: 14
+- copy_overhead: 34
+- data_race: 1
+- db_connection_leak: 20
+- duplicate_qualified_signature: 2
+- exception_in_destructor: 1
+- generic_catch: 11
+- hardcoded_path: 19
+- iterator_invalidation: 7
+- legacy_or_compat_path: 4
+- lock_contention: 9
+- manual_cleanup: 1
+- memory_order: 1
+- missing_dtor: 3
+- missing_noexcept_on_move: 11
+- missing_override_keyword: 3
+- missing_volatile: 64
+- model_integrity_gap: 1
+- module_doc_linkset_drift: 2
+- multiplication_overflow: 2
+- no_retry_logic: 1
+- no_timeout: 1
+- no_transit_encryption: 4
+- o_n_squared: 38
+- plaintext_transmission: 5
+- pointer_arithmetic_unbounded: 14
+- prompt_injection: 1
+- range_temporary: 6
+- repeated_search: 2
+- scope_mismatch: 3028
+- sensitive_data_logging: 5
+- silent_error_swallow: 11
+- size_assumption: 12
+- stale_doc_section_reference: 4
+- string_concat_loop: 18
+- todo_as_productionlogic: 58
+- uncaught_exception: 12
+- unchecked_result: 14
+- uninitialized_access: 27
+- uninitialized_array: 6
+- uninitialized_variable: 5
+- unvalidated_llm_output: 1
+
+## Top 20 Gaps
+
+- [braces_imbalance] anomaly_detection.cpp:1 (CRITICAL)
+- [braces_imbalance] automl.cpp:1 (CRITICAL)
+- [braces_imbalance] cep_engine.cpp:1 (CRITICAL)
+- [braces_imbalance] distributed_analytics.cpp:1 (CRITICAL)
+- [prompt_injection] llm_process_analyzer.cpp:181 (CRITICAL)
+- [missing_dtor] anomaly_detection.cpp:233 (CRITICAL)
+- [missing_dtor] anomaly_detection.cpp:241 (CRITICAL)
+- [multiplication_overflow] distributed_analytics.cpp:273 (CRITICAL)
+- [iterator_invalidation] jit_aggregation.cpp:309 (CRITICAL)
+- [iterator_invalidation] automl.cpp:325 (CRITICAL)
+- [model_integrity_gap] model_serving.cpp:422 (CRITICAL)
+- [db_connection_leak] streaming_window.cpp:441 (CRITICAL)
+- [no_transit_encryption] ml_serving.cpp:481 (CRITICAL)
+- [no_transit_encryption] ml_serving.cpp:482 (CRITICAL)
+- [no_transit_encryption] ml_serving.cpp:483 (CRITICAL)
+- [missing_dtor] forecasting.cpp:484 (CRITICAL)
+- [no_transit_encryption] ml_serving.cpp:484 (CRITICAL)
+- [db_connection_leak] streaming_window.cpp:523 (CRITICAL)
+- [iterator_invalidation] olap.cpp:543 (CRITICAL)
+- [db_connection_leak] streaming_window.cpp:687 (CRITICAL)
+
+... and 3676 more gaps.
+
+---
+
+**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).

@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_access_control_manager.cpp                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     811                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 136ad815d  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
-    • 09619660f  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
-    • fe5f8a9c8  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_access_control_manager.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -30,6 +12,7 @@
 #include <fstream>
 #include <filesystem>
 #include <memory>
+#include <stdexcept>
 
 using namespace themis;
 using namespace themis::security;
@@ -225,8 +208,8 @@ TEST_F(AccessControlManagerTest, CustomAuthorizerHook) {
     
     // Add custom authorizer that allows all access for specific user
     config.custom_authorizer = [](const SecurityContext& ctx, 
-                                   const std::string& resource,
-                                   const std::string& action) -> AccessDecision {
+                                   [[maybe_unused]] const std::string& resource,
+                                   [[maybe_unused]] const std::string& action) -> AccessDecision {
         if (ctx.user_id == "special@test.com") {
             return AccessDecision::Allow("Custom authorizer bypass");
         }
@@ -330,6 +313,52 @@ TEST_F(AccessControlManagerTest, MetricsTracking) {
     const auto& metrics = acm.getMetrics();
     EXPECT_EQ(metrics.authorization_success.load(), 1);
     EXPECT_EQ(metrics.access_denied.load(), 2);
+}
+
+TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailClosedMode) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.fail_closed = true;
+    config.custom_authorizer = []([[maybe_unused]] const SecurityContext& ctx,
+                                  [[maybe_unused]] const std::string& resource,
+                                  [[maybe_unused]] const std::string& action) -> AccessDecision {
+        throw std::runtime_error("boom");
+    };
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    SecurityContext context;
+    context.user_id = "admin@test.com";
+    context.roles = {"admin"};
+
+    auto decision = acm.authorize(context, "data", "write");
+    EXPECT_FALSE(decision.granted);
+    EXPECT_NE(decision.reason.find("Authorization error: boom"), std::string::npos);
+}
+
+TEST_F(AccessControlManagerTest, AuthorizationExceptionHonorsFailOpenMode) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.fail_closed = false;
+    config.custom_authorizer = []([[maybe_unused]] const SecurityContext& ctx,
+                                  [[maybe_unused]] const std::string& resource,
+                                  [[maybe_unused]] const std::string& action) -> AccessDecision {
+        throw std::runtime_error("boom");
+    };
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    SecurityContext context;
+    context.user_id = "admin@test.com";
+    context.roles = {"admin"};
+
+    auto decision = acm.authorize(context, "data", "write");
+    EXPECT_TRUE(decision.granted);
+    EXPECT_EQ(decision.reason, "Authorization bypassed due to error (fail-open mode)");
 }
 
 // ============================================================================

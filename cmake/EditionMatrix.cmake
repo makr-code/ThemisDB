@@ -5,6 +5,13 @@ message(STATUS "==========================================")
 message(STATUS "Edition-Feature Matrix Validation")
 message(STATUS "==========================================")
 
+# Centralized GPU VRAM limit compile definition (applied once per edition)
+# This is defined once here AFTER all edition files are loaded to avoid redefinition
+if(NOT THEMIS_GPU_LIMIT_COMPILE_DEF_DEFINED)
+    add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB})
+    set(THEMIS_GPU_LIMIT_COMPILE_DEF_DEFINED ON)
+endif()
+
 if(NOT THEMIS_EDITION_SELECTED)
     message(FATAL_ERROR "EditionMatrix.cmake requires EditionDefaults.cmake to be included first")
 endif()
@@ -84,6 +91,31 @@ set(EDITION_FEATURE_HYPERSCALER_SSE "ALLOWED")
 set(EDITION_FEATURE_HYPERSCALER_DISKANN "ALLOWED")
 set(EDITION_FEATURE_HYPERSCALER_DISTRIBUTED_TRAINING "ALLOWED")
 
+# MILITARY Edition - Hardened, air-gapped capable, government/classified deployments
+set(EDITION_FEATURE_MILITARY_LLM "FORBIDDEN")
+set(EDITION_FEATURE_MILITARY_GPU "ALLOWED")
+set(EDITION_FEATURE_MILITARY_CUDA "ALLOWED")
+set(EDITION_FEATURE_MILITARY_GRPC "REQUIRED")
+set(EDITION_FEATURE_MILITARY_TRACING "ALLOWED")
+set(EDITION_FEATURE_MILITARY_HTTP2 "ALLOWED")
+set(EDITION_FEATURE_MILITARY_HTTP3 "FORBIDDEN")
+set(EDITION_FEATURE_MILITARY_WEBSOCKET "ALLOWED")
+set(EDITION_FEATURE_MILITARY_MQTT "ALLOWED")
+set(EDITION_FEATURE_MILITARY_POSTGRES_WIRE "ALLOWED")
+set(EDITION_FEATURE_MILITARY_MCP "FORBIDDEN")
+set(EDITION_FEATURE_MILITARY_SSE "ALLOWED")
+set(EDITION_FEATURE_MILITARY_DISKANN "ALLOWED")
+set(EDITION_FEATURE_MILITARY_DISTRIBUTED_TRAINING "FORBIDDEN")
+
+# ============================================================================
+# CI MODE
+# ============================================================================
+# When THEMIS_CI_MODE=ON, REQUIRED features are treated as default-ON but are
+# NOT force-overridden. This allows CI builds to disable heavyweight external
+# dependencies (gRPC, GPU, LLM) that are unavailable in standard CI runners
+# while still validating the edition configuration.
+option(THEMIS_CI_MODE "Relaxed feature enforcement for CI builds" OFF)
+
 # ============================================================================
 # VALIDATION LOGIC
 # ============================================================================
@@ -92,16 +124,26 @@ set(EDITION_FEATURE_HYPERSCALER_DISTRIBUTED_TRAINING "ALLOWED")
 function(validate_feature FEATURE_NAME FEATURE_VAR)
     # Get the matrix value for this edition + feature
     set(matrix_key "EDITION_FEATURE_${THEMIS_EDITION}_${FEATURE_NAME}")
-    
+
     if(DEFINED ${matrix_key})
         set(policy ${${matrix_key}})
-        
+
         if(policy STREQUAL "REQUIRED")
-            if(NOT ${FEATURE_VAR})
-                message(WARNING "${FEATURE_VAR} is REQUIRED for ${THEMIS_EDITION} edition, forcing ON")
-                set(${FEATURE_VAR} ON CACHE BOOL "Required by ${THEMIS_EDITION} edition" FORCE)
+            if(THEMIS_CI_MODE)
+                # In CI mode: warn but do NOT force the feature ON so that
+                # builds without the dependency (e.g. gRPC) can still succeed.
+                if(NOT ${FEATURE_VAR})
+                    message(STATUS "  ${FEATURE_VAR}: REQUIRED by ${THEMIS_EDITION} edition (CI mode: not forced ON)")
+                else()
+                    message(STATUS "  ${FEATURE_VAR}: REQUIRED (ON)")
+                endif()
+            else()
+                if(NOT ${FEATURE_VAR})
+                    message(WARNING "${FEATURE_VAR} is REQUIRED for ${THEMIS_EDITION} edition, forcing ON")
+                    set(${FEATURE_VAR} ON CACHE BOOL "Required by ${THEMIS_EDITION} edition" FORCE)
+                endif()
+                message(STATUS "  ${FEATURE_VAR}: REQUIRED (ON)")
             endif()
-            message(STATUS "  ${FEATURE_VAR}: REQUIRED (ON)")
             
         elseif(policy STREQUAL "FORBIDDEN")
             if(${FEATURE_VAR})

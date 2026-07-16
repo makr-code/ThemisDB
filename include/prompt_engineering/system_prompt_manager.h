@@ -1,38 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            system_prompt_manager.h                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 17:30:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     200                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file system_prompt_manager.h
- * @brief System prompt management with per-role overrides.
- *
- * Manages a set of system prompts keyed by a strongly-typed `Role`
- * enumeration.  Each role can carry its own system prompt string, allowing
- * callers to customise LLM behaviour per context (e.g. a stricter prompt for
- * admin users, a friendlier one for end-users).
- *
- * Features:
- *  - CRUD operations for role-based and custom-named system prompts.
- *  - Context-variable injection using `{placeholder}` syntax (mirrors
- *    `PromptManager::injectContext()`).
- *  - `getPromptContent()` falls back to `default_content` when the requested
- *    role has no registered prompt.
- *  - Thread-safe via a `std::mutex`; suitable for concurrent server use.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

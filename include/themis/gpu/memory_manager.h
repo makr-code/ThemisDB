@@ -1,23 +1,20 @@
+/**
+ * @file memory_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            memory_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: memory_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,12 +26,13 @@
 #include <unordered_map>
 #include <vector>
 #include "themis/edition.h"
+#include "themis/gpu/ivram_policy.h"
 
 namespace themis {
 namespace gpu {
 
 /**
- * @brief Edition-aware GPU VRAM memory manager.
+ * @brief Edition-aware GPU VRAM memory manager — canonical `IVRAMPolicy` implementation.
  *
  * Enforces per-edition VRAM limits at runtime.  All limits are set at
  * compile-time via CMakeLists.txt (-DTHEMIS_EDITION).  The manager tracks
@@ -46,8 +44,16 @@ namespace gpu {
  * both the global edition limit and the per-tenant quota.
  *
  * Thread safety: all public methods are protected by an internal mutex.
+ *
+ * ### Unified hierarchy role
+ *
+ * This class is the **canonical** `IVRAMPolicy` implementation for the
+ * ThemisDB GPU memory hierarchy.  Subsystem managers (e.g.,
+ * `themis::llm::GPUMemoryManager`, `themis::llm::lora::GPUMemoryManager`)
+ * delegate their allocation accounting to the singleton instance so that
+ * global VRAM budgets and per-tenant quotas are enforced at a single point.
  */
-class GPUMemoryManager {
+class GPUMemoryManager : public IVRAMPolicy {
 public:
     // -----------------------------------------------------------------------
     // Allocation record — one entry per successful TryAllocateGPU() call
@@ -217,6 +223,50 @@ public:
 
     /** @brief Total bytes currently held by outstanding hints. */
     uint64_t GetHintReservedBytes() const;
+
+    // -----------------------------------------------------------------------
+    // IVRAMPolicy implementation
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Check if @p size_bytes can be allocated (IVRAMPolicy contract).
+     *
+     * Equivalent to a non-committing TryAllocateGPU() probe: checks the
+     * global edition VRAM limit and the per-tenant quota (when tenant_id is
+     * non-empty) without modifying any state.
+     */
+    [[nodiscard]] bool canAllocate(uint64_t size_bytes,
+                                   const std::string& tenant_id = "") const override;
+
+    /**
+     * @brief Record a successful allocation (IVRAMPolicy contract).
+     *
+     * Updates the global and per-tenant accounting as if TryAllocateGPU()
+     * had been called.  Use this when physical memory is allocated outside
+     * the manager but its VRAM footprint must be tracked here.
+     */
+    void onAllocate(uint64_t size_bytes,
+                    const std::string& tag,
+                    const std::string& tenant_id = "") override;
+
+    /**
+     * @brief Record a deallocation (IVRAMPolicy contract).
+     *
+     * Decrements global and per-tenant accounting.
+     */
+    void onDeallocate(uint64_t size_bytes,
+                      const std::string& tenant_id = "") override;
+
+    /**
+     * @brief Return currently tracked VRAM usage (IVRAMPolicy contract).
+     */
+    [[nodiscard]] uint64_t usedBytes() const override;
+
+    /**
+     * @brief Return true when the current edition allows GPU acceleration
+     *        (IVRAMPolicy contract).
+     */
+    [[nodiscard]] bool isGPUEnabled() const noexcept override;
 
     // -----------------------------------------------------------------------
     // Queries

@@ -1,29 +1,23 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            branch_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     461                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd5cbfbc1  2026-02-23  fix(transaction): implement isBranchMerged - resolve Stub... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file branch_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_BRANCH_MANAGER_H
-#define THEMIS_BRANCH_MANAGER_H
+/*
+ * ThemisDB | File: branch_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
@@ -155,7 +149,6 @@ public:
      * @param parent_branch Parent branch name (or empty for root)
      * @param description Human-readable description
      * @param created_by Optional user/service identifier
-     * @param options Additional creation options
      * @return Branch metadata if successful, nullopt on error
      * 
      * Error conditions:
@@ -171,6 +164,15 @@ public:
         const std::string& created_by = "system"
     );
     
+    /**
+     * @brief Create a new branch with custom options
+     * @param branch_name Unique branch name (alphanumeric, hyphens, underscores)
+     * @param parent_branch Parent branch name (or empty for root)
+     * @param description Human-readable description
+     * @param created_by Optional user/service identifier
+     * @param options Additional creation options
+     * @return Branch metadata if successful, nullopt on error
+     */
     std::optional<Branch> createBranch(
         const std::string& branch_name,
         const std::string& parent_branch,
@@ -231,7 +233,6 @@ public:
      * @brief Merge source branch into target branch
      * @param source_branch Branch to merge from
      * @param target_branch Branch to merge into
-     * @param options Merge options
      * @return Merge result with success status and conflicts
      */
     MergeResult mergeBranches(
@@ -239,6 +240,13 @@ public:
         const std::string& target_branch
     );
     
+    /**
+     * @brief Merge source branch into target branch with custom options
+     * @param source_branch Branch to merge from
+     * @param target_branch Branch to merge into
+     * @param options Merge options
+     * @return Merge result with success status and conflicts
+     */
     MergeResult mergeBranches(
         const std::string& source_branch,
         const std::string& target_branch,
@@ -458,5 +466,3 @@ private:
 
 } // namespace transaction
 } // namespace themis
-
-#endif // THEMIS_BRANCH_MANAGER_H

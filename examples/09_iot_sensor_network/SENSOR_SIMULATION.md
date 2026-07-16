@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Sensor-Simulation - IoT Sensornetzwerk
 
 ## 📋 Übersicht

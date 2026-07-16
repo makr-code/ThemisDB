@@ -1,43 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_metrics.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     357                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-    • ad8c8cf55  2026-02-23  feat(auth): implement API key authentication (static key ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • fbc40c29a  2026-02-22  Fill acceptance-criteria gaps: AuthMethod enum + OAuth de... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file auth_metrics.h
- * @brief Prometheus metrics for authentication module
- * 
- * Provides comprehensive metrics collection for monitoring:
- * - Authentication attempts (success/failure by method)
- * - Latency distribution (p50/p95/p99)
- * - JWKS cache performance
- * - Rate limiting events
- * - Account lockout events
- * - Error rates by error code
- * 
- * @note Requires Prometheus C++ client library
- * @note Install with: vcpkg install prometheus-cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -48,6 +17,7 @@
 #include <atomic>
 #include <map>
 #include <mutex>
+#include <vector>
 
 // ============================================================================
 // Compilation Guard for Prometheus
@@ -238,6 +208,68 @@ public:
      * @param was_revoked Whether token was found to be revoked
      */
     void recordRevokedTokenCheck(bool was_revoked);
+
+    // ========================================================================
+    // Credential Stuffing Metrics
+    // ========================================================================
+
+    /**
+     * @brief Record a credential-stuffing detection event.
+     *
+     * Increments the `credential_stuffing_attempts_total` counter with labels
+     * `{user_id, ip, outcome}` where outcome is one of:
+     *   "allowed", "captcha_required", "otp_required", "account_locked_24h"
+     *
+     * @param user_id  Targeted user account (may be empty for IP-only events)
+     * @param ip       Source IP address of the stuffing attempt
+     * @param outcome  Escalation outcome string
+     */
+    void recordCredentialStuffingAttempt(const std::string& user_id,
+                                         const std::string& ip,
+                                         const std::string& outcome);
+
+    // ========================================================================
+    // TOTP Drift Metrics
+    // ========================================================================
+
+    /**
+     * @brief Record a TOTP validation that succeeded with a non-zero time step offset.
+     *
+     * Increments the `totp_drift_total` counter labelled with the signed step
+     * offset value.  Sustained non-zero offsets indicate a device clock that is
+     * drifting and should be investigated.
+     *
+     * @param step_offset The signed time step offset at which the code matched
+     *                    (e.g., -1 means the previous 30-second window).
+     */
+    void recordTOTPDrift(int step_offset);
+
+    /**
+     * @brief Get the total number of TOTP drift events recorded (always available).
+     */
+    uint64_t getTOTPDriftCount() const;
+
+    // ========================================================================
+    // LDAP Connection Pool Metrics
+    // ========================================================================
+
+    /**
+     * @brief Set the total LDAP connection pool size (idle + active).
+     * @param count Current pool size
+     */
+    void setLDAPPoolSize(int count);
+
+    /**
+     * @brief Set the number of idle LDAP connections in the pool.
+     * @param count Number of idle connections
+     */
+    void setLDAPIdleConnections(int count);
+
+    /**
+     * @brief Set the number of active (checked-out) LDAP connections.
+     * @param count Number of active connections
+     */
+    void setLDAPActiveConnections(int count);
     
     // ========================================================================
     // Statistics Access
@@ -263,6 +295,26 @@ public:
      */
     double getSuccessRate() const;
 
+    /**
+     * @brief Get total credential-stuffing detection events recorded.
+     */
+    uint64_t getCredentialStuffingTotal() const;
+
+    /**
+     * @brief Get current LDAP connection pool size.
+     */
+    int getLDAPPoolSize() const;
+
+    /**
+     * @brief Get number of idle LDAP connections.
+     */
+    int getLDAPIdleConnections() const;
+
+    /**
+     * @brief Get number of active LDAP connections.
+     */
+    int getLDAPActiveConnections() const;
+
 private:
     Config config_;
     
@@ -281,10 +333,15 @@ private:
     prometheus::Family<prometheus::Counter>& account_unlocks_total_;
     prometheus::Family<prometheus::Counter>& errors_total_;
     prometheus::Family<prometheus::Counter>& revoked_token_checks_total_;
+    prometheus::Family<prometheus::Counter>& totp_drift_total_;
+    prometheus::Family<prometheus::Counter>& credential_stuffing_attempts_total_;
     
     // Gauge families
     prometheus::Family<prometheus::Gauge>& jwks_cache_size_;
     prometheus::Family<prometheus::Gauge>& locked_accounts_current_;
+    prometheus::Family<prometheus::Gauge>& ldap_pool_size_;
+    prometheus::Family<prometheus::Gauge>& ldap_idle_connections_;
+    prometheus::Family<prometheus::Gauge>& ldap_active_connections_;
     
     // Histogram families
     prometheus::Family<prometheus::Histogram>& auth_duration_ms_;
@@ -296,6 +353,13 @@ private:
     std::atomic<uint64_t> total_attempts_{0};
     std::atomic<uint64_t> successful_auths_{0};
     std::atomic<uint64_t> failed_auths_{0};
+    std::atomic<uint64_t> totp_drift_count_{0};
+    std::atomic<uint64_t> credential_stuffing_total_{0};
+
+    // LDAP connection pool gauges (always available)
+    std::atomic<int> ldap_pool_size_count_{0};
+    std::atomic<int> ldap_idle_connections_count_{0};
+    std::atomic<int> ldap_active_connections_count_{0};
     
     // Helper methods
     static std::string authMethodToString(AuthMethod method);
@@ -356,3 +420,4 @@ private:
 
 } // namespace auth
 } // namespace themis
+

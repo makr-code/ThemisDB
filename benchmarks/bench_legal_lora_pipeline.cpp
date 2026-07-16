@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_legal_lora_pipeline.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     320                                            ║
-    • Open Issues:     TODOs: 7, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fa57b59d1  2026-02-28  audit(ingestion): fix SSRF security gap, add missing docs... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_legal_lora_pipeline.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
+ * Gap Summary: total=11; TODO=8, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,6 +24,21 @@
 #include "training/auto_labeler.h"
 #include "training/knowledge_graph_enricher.h"
 #include "training/incremental_lora_trainer.h"
+
+#if !defined(THEMIS_ENABLE_LEGAL_TRAINING)
+
+static void BM_LegalLoRAPipeline_Disabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("Legal LoRA pipeline benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: legal LoRA pipeline requires model artifacts not available in CI | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_LegalLoRAPipeline_Disabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis;
 
@@ -319,3 +318,5 @@ static void BM_TargetTrainingTime(benchmark::State& state) {
 // =============================================================================
 
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_LEGAL_TRAINING

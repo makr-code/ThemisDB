@@ -294,6 +294,6 @@ ingestion:
 ## Related Documentation
 
 - [Ingestion Module ROADMAP](../../src/ingestion/ROADMAP.md)
-- [Ingestion Roadmap](../ingestion_roadmap.md)
+- [Ingestion Roadmap](../de/roadmap/ingestion_roadmap.md)
 - [Exporters Troubleshooting](./exporters_troubleshooting.md)
 - [Content Troubleshooting](./content_troubleshooting.md)

@@ -1,24 +1,21 @@
+/**
+ * @file api_version.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            api_version.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 343985cbc  2026-02-21  Fix resolveVersion: v1 → latest, v1.4 → latest patch (doc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: api_version.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 328
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * PR History (last 5): #4146 feat(server): API Versionin... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/api_version.h"
@@ -243,6 +240,100 @@ void APIVersionManager::registerDeprecation(
 
 std::vector<APIVersion> APIVersionManager::getSupportedVersions() const {
     return supported_versions_;
+}
+
+// APIVersionRange implementation
+
+std::optional<APIVersionRange> APIVersionRange::parse(const std::string& range_str) {
+    if (range_str.empty()) {
+        return std::nullopt;
+    }
+
+    auto dash_pos = range_str.find('-');
+    if (dash_pos == std::string::npos) {
+        return std::nullopt;
+    }
+
+    // Trim leading/trailing whitespace from each token so that header values
+    // like "1.0 - 2.0" (with spaces around the dash) parse correctly.
+    auto trim = [](const std::string& s) {
+        const char* ws = " \t\r\n";
+        auto start = s.find_first_not_of(ws);
+        if (start == std::string::npos) return std::string{};
+        auto end = s.find_last_not_of(ws);
+        return s.substr(start, end - start + 1);
+    };
+
+    std::string min_str = trim(range_str.substr(0, dash_pos));
+    std::string max_str = trim(range_str.substr(dash_pos + 1));
+
+    auto min_v = APIVersion::parse(min_str);
+    auto max_v = APIVersion::parse(max_str);
+
+    if (!min_v || !max_v) {
+        return std::nullopt;
+    }
+
+    if (*min_v > *max_v) {
+        return std::nullopt;
+    }
+
+    return APIVersionRange{*min_v, *max_v};
+}
+
+bool APIVersionRange::contains(const APIVersion& version) const {
+    return version >= min_version && version <= max_version;
+}
+
+// resolveVersionRange: pick best (highest) supported version within range
+
+APIVersion APIVersionManager::resolveVersionRange(const APIVersionRange& range) const {
+    APIVersion best = current_version_;
+    bool found = false;
+
+    for (const auto& v : supported_versions_) {
+        if (range.contains(v)) {
+            if (!found || v > best) {
+                best = v;
+                found = true;
+            }
+        }
+    }
+
+    if (!found) {
+        spdlog::warn("No supported version found in range {}-{}, using current version",
+                     range.min_version.toString(), range.max_version.toString());
+        return current_version_;
+    }
+
+    return best;
+}
+
+// Breaking change registry
+
+void APIVersionManager::registerBreakingChange(const BreakingChangeInfo& info) {
+    breaking_changes_.push_back(info);
+    spdlog::info("Registered breaking change at {}: {} (endpoint='{}')",
+                 info.introduced_in.toString(), info.description,
+                 info.endpoint.empty() ? "<all>" : info.endpoint);
+}
+
+std::optional<BreakingChangeInfo> APIVersionManager::isBreakingChange(
+    const APIVersion& from,
+    const APIVersion& to,
+    const std::string& endpoint
+) const {
+    for (const auto& bc : breaking_changes_) {
+        // Breaking change applies if its version is strictly after `from` and at
+        // most `to` (i.e. the client would cross it when upgrading from→to).
+        if (bc.introduced_in > from && bc.introduced_in <= to) {
+            // Scope: global (empty endpoint) or matching endpoint
+            if (bc.endpoint.empty() || bc.endpoint == endpoint) {
+                return bc;
+            }
+        }
+    }
+    return std::nullopt;
 }
 
 } // namespace themis::server

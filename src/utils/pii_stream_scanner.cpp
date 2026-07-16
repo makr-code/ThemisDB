@@ -1,23 +1,21 @@
+/**
+ * @file pii_stream_scanner.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_stream_scanner.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • initial  2026-03-09  Initial production implementation          ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_stream_scanner.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 193
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=2, L=0
+ * PR History (last 5): #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #3662 fix(utils): remove duplicat... (2026-03-12) | #3632 fix(build): register 40+ mi... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/pii_detection_engine.h"
@@ -45,6 +43,14 @@ PIIStreamScanner::PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
     , global_offset_(0)
 {
     if (!engine_) throw std::invalid_argument("PIIStreamScanner: engine must not be null");
+    // Auto-derive lookahead_bytes from the engine's maxPatternLength() when the
+    // caller uses the default config (lookahead_bytes == kDefaultLookaheadBytes).
+    // This makes the cross-chunk sliding-window overlap exactly equal to the
+    // longest possible regex pattern, satisfying the chunk-boundary-aware
+    // matching requirement.
+    if (cfg_.lookahead_bytes == kDefaultLookaheadBytes) {
+        cfg_.lookahead_bytes = engine_->maxPatternLength();
+    }
 }
 
 std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, bool is_last) {
@@ -195,3 +201,4 @@ void PIIStreamPseudonymizer::reset() {
 
 } // namespace utils
 } // namespace themis
+

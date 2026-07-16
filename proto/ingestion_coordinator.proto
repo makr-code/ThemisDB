@@ -1,0 +1,259 @@
+syntax = "proto3";
+
+// Distributed Ingestion Coordinator – proto definitions.
+//
+// Defines the gRPC interface between the IngestionCoordinator (leader) and
+// the worker nodes that execute sub-partitions of a distributed ingestion job.
+//
+// Design notes:
+//   • The coordinator partitions SourceConfig objects via consistent hashing
+//     and sends each worker its assigned sources in an IngestRequest.
+//   • Workers run IngestionManager::ingestAll() locally and stream
+//     ProgressEvent messages back to the coordinator.
+//   • The final IngestResponse aggregates per-source statistics and is sent
+//     after all sources for that worker have been processed.
+//
+// Compiled with:
+//   protoc --cpp_out=<out> --grpc_out=<out> \
+//          --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` \
+//          -I proto proto/ingestion_coordinator.proto
+//
+// Target version: v1.8.0
+// Issue: Distributed Ingestion Coordinator
+
+package themis.ingestion;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+// ============================================================================
+// IngestionWorkerService
+// ============================================================================
+
+// gRPC service exposed by each worker node.
+// The coordinator calls IngestSources() for each assigned partition and
+// consumes the streaming ProgressEvent messages until the final IngestResponse
+// is delivered.
+service IngestionWorkerService {
+
+    // Submit a set of sources to this worker for ingestion.
+    // The server streams zero or more ProgressEvent messages during processing.
+    // The final aggregated result is retrieved by calling GetIngestResult()
+    // once the stream has ended.
+    rpc IngestSources(IngestRequest) returns (stream ProgressEvent);
+
+    // Retrieve the final aggregated IngestResponse for a previously submitted
+    // job.  Useful for polling models where the client reconnects after a
+    // transient disconnection.
+    rpc GetIngestResult(GetIngestResultRequest) returns (IngestResponse);
+
+    // Heartbeat / liveness check.  The coordinator pings workers periodically
+    // to detect failures before committing a run.
+    rpc Ping(PingRequest) returns (PingResponse);
+}
+
+// ============================================================================
+// Source configuration messages
+// ============================================================================
+
+// Mirrors SourceType enum in ingestion_manager.h.
+enum SourceTypeProto {
+    SOURCE_TYPE_UNKNOWN         = 0;
+    SOURCE_TYPE_FILESYSTEM      = 1;
+    SOURCE_TYPE_API             = 2;
+    SOURCE_TYPE_HUGGINGFACE     = 3;
+    SOURCE_TYPE_KAFKA           = 4;
+    SOURCE_TYPE_DATABASE        = 5;
+    SOURCE_TYPE_OBJECT_STORAGE  = 6;
+    SOURCE_TYPE_CDC             = 7;
+    SOURCE_TYPE_WEB_CRAWLER     = 8;
+    SOURCE_TYPE_PLUGIN          = 9;
+}
+
+// Serializable form of SourceConfig for RPC transmission.
+message SourceConfigProto {
+    // Unique identifier for this source (used as the consistent-hash key).
+    string source_id = 1;
+
+    // Source type enumeration.
+    SourceTypeProto type = 2;
+
+    // Location: path, URL, Kafka topic, S3 bucket, etc.
+    string location = 3;
+
+    // Optional display name.
+    string name = 4;
+
+    // Optional description.
+    string description = 5;
+
+    // Whether this source is active.
+    bool enabled = 6;
+
+    // Connector-specific key-value options (e.g. api_key, region, prefix).
+    map<string, string> options = 7;
+
+    // Desired ingestion priority (higher = processed first within the worker).
+    int32 priority = 8;
+
+    // Maximum documents to ingest per run (0 = unlimited).
+    uint64 max_documents = 9;
+}
+
+// ============================================================================
+// IngestRequest — coordinator → worker
+// ============================================================================
+
+// Sent by the IngestionCoordinator to assign a partition of sources to a
+// worker node for local processing.
+message IngestRequest {
+    // Opaque job identifier assigned by the coordinator.  Workers echo this
+    // back in every ProgressEvent and in the final IngestResponse.
+    string job_id = 1;
+
+    // Leader lease epoch at the time of dispatch.  Workers reject requests
+    // whose epoch is lower than their last seen epoch to guard against
+    // split-brain scenarios.
+    uint64 leader_epoch = 2;
+
+    // Sources assigned to this worker by the consistent-hash ring.
+    repeated SourceConfigProto sources = 3;
+
+    // Collection into which ingested documents should be written.
+    string target_collection = 4;
+
+    // Per-source processing deadline (seconds; 0 = coordinator default).
+    uint32 worker_timeout_seconds = 5;
+
+    // Whether this is a dry-run (validate but do not persist documents).
+    bool dry_run = 6;
+
+    // Coordinator node ID (used in leader-election log messages).
+    string coordinator_node_id = 7;
+}
+
+// ============================================================================
+// ProgressEvent — worker → coordinator (streamed)
+// ============================================================================
+
+// Emitted periodically by the worker as it processes each source.
+// The coordinator forwards these events to any registered ProgressCallback.
+message ProgressEvent {
+    // Mirrors the job_id from the originating IngestRequest.
+    string job_id = 1;
+
+    // Source currently being processed.
+    string source_id = 2;
+
+    // Number of documents successfully processed so far for this source.
+    uint64 documents_processed = 3;
+
+    // Total documents expected (0 if not yet known).
+    uint64 documents_total = 4;
+
+    // Human-readable status message (e.g. "Fetching page 3 of 12").
+    string status_message = 5;
+
+    // Wall-clock seconds elapsed since the worker started this source.
+    double elapsed_seconds = 6;
+
+    // True when this is the final progress event for source_id (the source
+    // has been fully processed or has failed).
+    bool is_final = 7;
+
+    // Non-empty when the source encountered an error during this interval.
+    string error_message = 8;
+}
+
+// ============================================================================
+// IngestResponse — final result returned by the worker
+// ============================================================================
+
+// Returned once after all sources in the IngestRequest have been processed.
+// The coordinator aggregates one IngestResponse per worker into the final
+// IngestionReport.
+message IngestResponse {
+    // Mirrors the job_id from the originating IngestRequest.
+    string job_id = 1;
+
+    // Per-source statistics.
+    repeated SourceStats source_stats = 2;
+
+    // Aggregate document count across all assigned sources.
+    uint64 total_documents = 3;
+
+    // Aggregate failure count across all assigned sources.
+    uint64 total_failures = 4;
+
+    // Total wall-clock seconds the worker spent on this job.
+    double total_time_seconds = 5;
+
+    // True if the worker ran in dry-run mode.
+    bool dry_run = 6;
+
+    // True when the worker completed without any fatal errors.
+    bool success = 7;
+
+    // Node identifier of the worker that produced this response.
+    string worker_node_id = 8;
+}
+
+// Per-source statistics embedded in IngestResponse.
+message SourceStats {
+    // Source identifier.
+    string source_id = 1;
+
+    // Documents successfully processed.
+    uint64 documents_processed = 2;
+
+    // Documents that failed processing (included in total_failures).
+    uint64 documents_failed = 3;
+
+    // Wall-clock seconds spent on this source.
+    double time_seconds = 4;
+
+    // Errors encountered (up to 50 retained per source).
+    repeated IngestionError errors = 5;
+}
+
+// Lightweight error record attached to a SourceStats entry.
+message IngestionError {
+    // Error code mirroring IngestionErrorCode enum.
+    int32 code = 1;
+
+    // Human-readable error message.
+    string message = 2;
+
+    // True if the coordinator may retry the source on another worker.
+    bool retryable = 3;
+}
+
+// ============================================================================
+// GetIngestResultRequest
+// ============================================================================
+
+// Fetch the final result for a previously submitted job.
+message GetIngestResultRequest {
+    // Job ID returned by the coordinator when it submitted the IngestRequest.
+    string job_id = 1;
+}
+
+// ============================================================================
+// Ping / heartbeat
+// ============================================================================
+
+message PingRequest {
+    // Coordinator node ID.
+    string coordinator_node_id = 1;
+}
+
+message PingResponse {
+    // Worker node ID.
+    string worker_node_id = 1;
+
+    // True when the worker is idle and ready to accept new sources.
+    bool available = 2;
+
+    // ISO-8601 timestamp of the worker's local clock (for skew detection).
+    string timestamp = 3;
+}

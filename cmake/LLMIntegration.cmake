@@ -9,6 +9,7 @@ if(THEMIS_ENABLE_LLM)
         # Documentation assistant
         ../src/llm/docs_assistant.cpp
         ../src/aql/docs_assistant_functions.cpp
+        ../src/aql/classify_bridge.cpp
         
         # Model conversion and management
         ../src/llm/lora_framework/gguf_converter.cpp
@@ -21,6 +22,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/server/lora_api_handler.cpp
         ../src/query/functions/lora_functions.cpp
         ../src/llm/lora_security_validator.cpp
+        ../src/llm/lora_certificate_store.cpp
         
         # LoRA Router - Automatic routing automation
         ../src/llm/lora_router.cpp
@@ -28,6 +30,9 @@ if(THEMIS_ENABLE_LLM)
         # Adapter Registry - Adapter lifecycle management
         ../src/llm/adapter_registry.cpp
         
+        # Inline Training Engine - on-the-fly LoRA fine-tuning without JSONL export
+        ../src/llm/inline_training_engine.cpp
+
         # Distributed Training Coordinator (cross-shard, federated, fault-tolerant)
         ../src/llm/distributed_training_coordinator.cpp
         

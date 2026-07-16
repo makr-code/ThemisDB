@@ -1,23 +1,21 @@
+/**
+ * @file lora_feedback_storage.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=9; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_feedback_storage.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     190                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_feedback_storage.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 241
+ * Gap Summary: total=9; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -30,6 +28,7 @@
 #include <vector>
 #include <optional>
 #include <mutex>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -50,6 +49,13 @@ using GraphIndexManager = ::themis::GraphIndexManager;
 
 class FeedbackStorageService {
 public:
+    using CreateGraphLinkFn = std::function<bool(const std::string& feedback_pk,
+                                                 const std::string& adapter_pk,
+                                                 const std::string& edge_type)>;
+    using RemoveGraphLinkFn = std::function<bool(const std::string& feedback_pk,
+                                                 const std::string& adapter_pk,
+                                                 const std::string& edge_type)>;
+
     /**
      * @brief Configuration for feedback storage
      */
@@ -58,6 +64,8 @@ public:
         std::shared_ptr<GraphIndexManager> graph_index;  // Graph index for relationships
         std::string collection_name = "help_feedback";   // Collection name
         bool enable_graph_links = true;                  // Enable graph relationships
+        CreateGraphLinkFn create_graph_link_fn;          // Optional graph-link bridge
+        RemoveGraphLinkFn remove_graph_link_fn;          // Optional graph-unlink bridge
     };
     
     explicit FeedbackStorageService(const Config& config);
@@ -170,7 +178,54 @@ public:
      * @param adapter_id LoRA adapter ID
      * @return Effective batch size considering weights
      */
-    float calculateEffectiveBatchSize(const std::string& adapter_id) const;
+        // ---------------------------------------------------------------------------
+    // Callback bridges for graph edge persistence (stub #304)
+    // ---------------------------------------------------------------------------
+    /**
+     * @brief Function type for injecting a real graph edge creation backend.
+     *
+     * @param from_key  Source vertex key (feedback record key)
+     * @param to_key    Target vertex key (adapter record key)
+     * @param edge_type Edge label (e.g. "belongs_to_adapter")
+     * @return true if the edge was persisted successfully
+     */
+    using CreateGraphLinkFn = std::function<bool(
+        const std::string& from_key,
+        const std::string& to_key,
+        const std::string& edge_type)>;
+
+    /**
+     * @brief Function type for injecting a real graph edge deletion backend.
+     *
+     * @param from_key  Source vertex key
+     * @param to_key    Target vertex key
+     * @param edge_type Edge label
+     * @return true if the edge was removed successfully
+     */
+    using RemoveGraphLinkFn = std::function<bool(
+        const std::string& from_key,
+        const std::string& to_key,
+        const std::string& edge_type)>;
+
+    /**
+     * @brief Inject a real graph-edge creation backend.
+     *
+     * When set, createGraphLink() delegates to this function instead of the
+     * log-only placeholder.  Calling with nullptr reverts to placeholder behavior.
+     * Thread-safe: uses an internal mutex.
+     */
+    void setCreateGraphLinkFn(CreateGraphLinkFn fn);
+
+    /**
+     * @brief Inject a real graph-edge deletion backend.
+     *
+     * When set, removeGraphLink() delegates to this function instead of the
+     * log-only placeholder.  Calling with nullptr reverts to placeholder behavior.
+     * Thread-safe: uses an internal mutex.
+     */
+    void setRemoveGraphLinkFn(RemoveGraphLinkFn fn);
+
+float calculateEffectiveBatchSize(const std::string& adapter_id) const;
 
 private:
     Config config_;
@@ -186,6 +241,10 @@ private:
     // Validation and processing
     bool runValidation(const Feedback& feedback) const;
     void runProcessing(Feedback& feedback);
+
+    // Bridge callbacks for graph edge persistence (stub #304)
+    CreateGraphLinkFn create_graph_link_fn_;
+    RemoveGraphLinkFn remove_graph_link_fn_;
 };
 
 } // namespace lora

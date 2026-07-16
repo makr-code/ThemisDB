@@ -1,0 +1,12 @@
+{
+  "macros": {
+    "info": "THEMIS_LOG_INFO",
+    "warn": "THEMIS_LOG_WARN",
+    "error": "THEMIS_LOG_ERROR",
+    "debug": "THEMIS_LOG_DEBUG"
+  },
+  "default_level": "info",
+  "replace_printf": true,
+  "replace_cout": true,
+  "replace_cerr": true
+}

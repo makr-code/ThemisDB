@@ -1,26 +1,25 @@
+/**
+ * @file lora_orchestrator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=3, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_orchestrator.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     572                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_orchestrator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=5, M=5, L=0
+ * PR History (last 5): #1134 Implement cross-shard LoRA ... (2026-03-11) | #352 Fix LoRA Adapter Framework ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_orchestrator.h"
+#include "llm/decision_record_yaml_processor.h"
 
 #include <algorithm>
 #include <atomic>
@@ -85,6 +84,9 @@ public:
 
     // Provenance manager for cryptographic audit and MVCC snapshots
     LoRAProvenanceManager provenance_mgr;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor;
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
@@ -400,6 +402,18 @@ std::string LoRAOrchestrator::loadAdapter(const std::string& adapter_id, bool as
     job.updated_at = job.started_at;
     impl_->jobs[job.job_id] = job;
 
+    // Emit LOOP_TRIGGER decision record (non-blocking)
+    if (impl_->dr_processor) {
+        themis::llm::DecisionRecord rec;
+        rec.decision_type = "LOOP_TRIGGER";
+        rec.component     = "LoRAOrchestrator";
+        rec.outcome       = async ? "RUNNING" : "SUCCESS";
+        rec.parameters["adapter_id"] = adapter_id;
+        rec.parameters["job_id"]     = job.job_id;
+        rec.parameters["async"]      = async ? "true" : "false";
+        impl_->dr_processor->submit(std::move(rec));
+    }
+
     return job.job_id;
 }
 
@@ -472,7 +486,7 @@ json LoRAOrchestrator::getStats() const {
 
 json LoRAOrchestrator::getHealth() const {
     json health;
-    health["status"] = impl_->is_initialized.load() ? "ok" : "uninitialized";
+    health["status"] = impl_->is_initialized.load(std::memory_order_acquire) ? "ok" : "uninitialized";
     health["adapters"] = impl_->adapters.size();
     return health;
 }
@@ -491,7 +505,7 @@ json LoRAOrchestrator::getMemoryUsage() const {
 
 bool LoRAOrchestrator::healthCheck() const {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
-    return impl_->is_initialized.load();
+    return impl_->is_initialized.load(std::memory_order_acquire);
 }
 
 void LoRAOrchestrator::clearCache() {
@@ -570,6 +584,14 @@ bool LoRAOrchestrator::verifyAuditChain(const std::string& adapter_id) const {
     return impl_->provenance_mgr.verifyAuditChain(adapter_id);
 }
 
+void LoRAOrchestrator::setDecisionRecordProcessor(
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
+{
+    std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
+    impl_->dr_processor = std::move(processor);
+}
+
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

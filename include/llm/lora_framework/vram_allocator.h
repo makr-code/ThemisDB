@@ -1,23 +1,21 @@
+/**
+ * @file vram_allocator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vram_allocator.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     186                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vram_allocator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 180
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #546 Implement GPU Acceleration ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -37,6 +35,7 @@ namespace lora {
  * @brief GPU VRAM memory block descriptor
  */
 struct VRAMBlock {
+    virtual ~VRAMBlock() = default;
     void* ptr = nullptr;           // GPU memory pointer
     size_t size = 0;               // Size in bytes
     bool is_free = true;           // Allocation status
@@ -143,8 +142,8 @@ private:
     size_t allocated_bytes_ = 0;
     size_t peak_usage_bytes_ = 0;
     
-    // Thread safety (recursive mutex for re-entrant operations)
-    mutable std::recursive_mutex mutex_;
+    // Thread safety
+    mutable std::mutex mutex_;
     
     // Backend-specific data
     void* backend_context_ = nullptr;  // CUDA context, Vulkan device, etc.
@@ -154,6 +153,9 @@ private:
     void shutdown_backend();
     void* allocate_from_backend(size_t size_bytes, size_t alignment);
     void deallocate_to_backend(void* ptr);
+    // Perform the actual backend deallocation WITHOUT holding mutex_.
+    // Callers must supply the known block size (for secure clearing).
+    void release_backend_ptr_(void* ptr, size_t block_size) noexcept;
     VRAMBlock* find_free_block(size_t size_bytes, size_t alignment);
     void coalesce_free_blocks();  // Assumes lock is already held
 };

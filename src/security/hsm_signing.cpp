@@ -1,40 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hsm_signing.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     123                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dc6fef6f3  2026-03-01  feat(security/updates): implement HSM-backed SigningServi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file hsm_signing.cpp
- * @brief HSM-backed SigningService implementation for update bundle signing.
- *
- * Adapts HSMProvider (PKCS#11 / stub) to the SigningService interface so that
- * ManifestSigner and other callers can sign and verify update bundles using
- * hardware-backed keys without ever exposing raw private key material.
- *
- * The signature is transported as the raw bytes of the base64-encoded string
- * returned by HSMProvider, which keeps the wire format stable regardless of
- * whether a real HSM or the in-process stub is in use.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "security/signing.h"

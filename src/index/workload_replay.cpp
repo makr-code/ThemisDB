@@ -1,33 +1,28 @@
+/**
+ * @file workload_replay.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            workload_replay.cpp                                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:58:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     180                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
-    • 487a35be5  2026-02-22  chore(index): remove unused include and mark workload-rep... ║
-    • c31e4cee3  2026-02-22  feat(index): add workload capture and replay for index ad... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: workload_replay.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 165
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): #2517 [index] Automated index adv... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "index/workload_replay.h"
-#include <spdlog/spdlog.h>
+#include "utils/logger.h"
 #include <utility>
 
 namespace themis {
@@ -137,7 +132,9 @@ json WorkloadCapture::toJSON() const {
 WorkloadCapture WorkloadCapture::fromJSON(const json& j) {
     WorkloadCapture capture;
     capture.total_queries_ = j.at("total_queries").get<uint64_t>();
-    for (const auto& ej : j.at("events")) {
+    const auto& eventsArr = j.at("events");
+    capture.events_.reserve(eventsArr.size());
+    for (const auto& ej : eventsArr) {
         capture.events_.push_back(WorkloadEvent::fromJSON(ej));
     }
     return capture;
@@ -155,7 +152,7 @@ void WorkloadReplayer::feed(const WorkloadCapture& capture, IndexRecommender& re
     for (const auto& e : capture.events()) {
         rec.recordAccess(e.table_name, e.column_name, e.access_type, e.selectivity);
     }
-    spdlog::debug("WorkloadReplayer: fed {} events and {} queries into IndexRecommender",
+    THEMIS_DEBUG("WorkloadReplayer: fed {} events and {} queries into IndexRecommender",
                   capture.eventCount(), total_queries);
 }
 

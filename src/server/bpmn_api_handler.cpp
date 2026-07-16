@@ -1,37 +1,51 @@
+/**
+ * @file bpmn_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bpmn_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     480                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bpmn_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 512
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=9, L=0
+ * PR History (last 5): #1137 Implement BPMN wire protoco... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/bpmn_api_handler.h"
 #include "index/process_graph.h"
 #include "server/auth_middleware.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 
 #include <sstream>
 #include <algorithm>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxBpmnIdentifierLength = 256;
+
+bool isValidBpmnIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxBpmnIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 BpmnApiHandler::BpmnApiHandler(
     std::shared_ptr<ProcessGraphManager> process_graph,
@@ -53,14 +67,14 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -79,8 +93,8 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
 std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
-    const std::string& action,
-    const std::string& resource
+    const std::string& /*action*/,
+    const std::string& /*resource*/
 ) {
     // If auth is disabled, allow all
     if (!auth_ || !auth_->isEnabled()) {
@@ -88,31 +102,32 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     }
 
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         // No Authorization header -> 401 Unauthorized
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         // Malformed or missing Bearer token -> 401 Unauthorized
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
     }
 
-    // Validate token
-    auto ar = auth_->validateToken(*token);
+    // GAP-001: Enforce scope-based authorization (CWE-862).
+    // Previously, requireAccess() discarded the scope/action/resource parameters
+    // and only verified token validity (authentication).  That left the BPMN API
+    // open to any authenticated user regardless of their role.  Now we use
+    // auth_->authorize() which checks that the token contains the required scope.
+    auto ar = auth_->authorize(*token, scope);
     if (!ar.authorized) {
-        // Invalid token -> 401 Unauthorized
-        return makeErrorResponse(http::status::unauthorized, "Invalid or expired token", req);
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + scope, req);
     }
 
-    // TODO: Implement scope-based authorization when AuthMiddleware supports it
-    // For now, just ensure user is authenticated
-    
     return std::nullopt; // Access granted
 }
 
@@ -165,6 +180,7 @@ http::response<http::string_body> BpmnApiHandler::makeResponse(
 http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleStartProcess");
     // Check authorization
     auto auth_err = requireAccess(req, "bpmn", "start", "process");
     if (auth_err) {
@@ -174,6 +190,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Parse request body
@@ -186,9 +203,15 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         if (process_key.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing process_definition_key", req);
         }
+        if (!isValidBpmnIdentifier(process_key)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid process_definition_key", req);
+        }
+        if (!business_key.empty() && !isValidBpmnIdentifier(business_key)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid business_key", req);
+        }
         
         // Start process instance
-        auto [status, instance_id] = process_graph_->startProcess(process_key, variables);
+        auto [status, instance_id] = process_graph.startProcess(process_key, variables);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error, 
@@ -196,7 +219,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         }
         
         // Get instance state to return active tasks
-        auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+        auto [get_status, instance] = process_graph.getProcessInstance(instance_id);
         
         // Build response
         json response;
@@ -262,6 +285,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
 http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleTaskComplete");
     // Check authorization
     auto auth_err = requireAccess(req, "bpmn", "complete", "task");
     if (auth_err) {
@@ -271,6 +295,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Extract task ID from path: /api/v1/bpmn/task/:taskId/complete
@@ -304,9 +329,13 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
             return makeErrorResponse(http::status::bad_request, 
                                    "Invalid task_id format. Expected 'instance_id:node_id'", req);
         }
+        if (!isValidBpmnIdentifier(instance_id) || !isValidBpmnIdentifier(node_id)) {
+            return makeErrorResponse(http::status::bad_request,
+                                   "Invalid task_id format. Expected safe 'instance_id:node_id'", req);
+        }
         
         // Complete the task
-        auto status = process_graph_->completeTask(instance_id, node_id, variables);
+        auto status = process_graph.completeTask(instance_id, node_id, variables);
         
         // Build response
         json response;
@@ -319,7 +348,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
             response["error"] = "";
             
             // Try to find next active task
-            auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
+            auto [get_status, instance] = process_graph.getProcessInstance(instance_id);
             if (get_status.ok && !instance.tokens.empty()) {
                 // Find first active token
                 for (const auto& token : instance.tokens) {
@@ -352,6 +381,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
 http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleQueryInstance");
     // Check authorization
     auto auth_err = requireAccess(req, "bpmn", "read", "instance");
     if (auth_err) {
@@ -361,6 +391,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
     if (!process_graph_) {
         return makeErrorResponse(http::status::service_unavailable, "Process engine not available", req);
     }
+    auto& process_graph = *process_graph_;
     
     try {
         // Extract instance ID from path: /api/v1/bpmn/instance/:instanceId
@@ -369,6 +400,9 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
         
         if (instance_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing instance ID", req);
+        }
+        if (!isValidBpmnIdentifier(instance_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid instance ID", req);
         }
         
         // Parse query parameters
@@ -387,7 +421,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
         }
         
         // Get process instance
-        auto [status, instance] = process_graph_->getProcessInstance(instance_id);
+        auto [status, instance] = process_graph.getProcessInstance(instance_id);
         
         if (!status.ok) {
             return makeErrorResponse(http::status::not_found, 
@@ -443,16 +477,22 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
             response["variables"] = json::object();
         }
         
-        // History (simplified - just list visited nodes)
+        // History — use per-node visit timestamps when available.
         if (include_history) {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
                     json event;
                     event["event_type"] = "node_visited";
-                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
-                    // only token creation time. Future enhancement: add visit timestamp tracking.
-                    event["timestamp_ns"] = token.created_at_ms * 1000000;
+                    // Use the precise per-node visit timestamp if stored; fall back to
+                    // the token creation time for nodes that predate timestamp tracking.
+                    const auto tsIt = token.visit_timestamps.find(node);
+                    int64_t ts_ms = token.created_at_ms;
+                    if (tsIt != token.visit_timestamps.end()) {
+                        ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    tsIt->second.time_since_epoch()).count();
+                    }
+                    event["timestamp_ns"] = ts_ms * 1'000'000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
                     history.push_back(event);

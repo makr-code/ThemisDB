@@ -1,27 +1,25 @@
+/**
+ * @file admin_api.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=4, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            admin_api.cpp                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     208                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5961062fe  2026-03-01  Integrate MIGManager into GPUModule facade and GPUAdminAPI ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: admin_api.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 210
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=5, M=6, L=0
+ * PR History (last 5): #3334 [gpu] Integrate MIGManager ... (2026-03-12) | #2913 docs(cache): complete docum... (2026-03-12) | #2912 feat(cache): Add AdaptiveQu... (2026-03-12) | #2911 feat(cache): implement Redi... (2026-03-12) | #2910 feat(cache): Redis-compatib... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "themis/gpu/admin_api.h"
+
 #include <sstream>
 
 namespace themis {
@@ -31,24 +29,35 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUAdminAPI::GPUAdminAPI(const GPUConfig& config, GPULoadBalancer* balancer)
-    : config_(config), balancer_(balancer) {}
+GPUAdminAPI::GPUAdminAPI(const GPUConfig &config, GPULoadBalancer *balancer) : config_(config), balancer_(balancer) {}
 
 // ============================================================================
 // JSON escaping helper
 // ============================================================================
 
-std::string GPUAdminAPI::jsonEscape(const std::string& s) {
+std::string GPUAdminAPI::jsonEscape(const std::string &s) {
     std::string out;
     out.reserve(s.size());
     for (char c : s) {
         switch (c) {
-            case '"':  out += "\\\""; break;
-            case '\\': out += "\\\\"; break;
-            case '\n': out += "\\n";  break;
-            case '\r': out += "\\r";  break;
-            case '\t': out += "\\t";  break;
-            default:   out += c;      break;
+            case '"':
+                out += "\\\"";
+                break;
+            case '\\':
+                out += "\\\\";
+                break;
+            case '\n':
+                out += "\\n";
+                break;
+            case '\r':
+                out += "\\r";
+                break;
+            case '\t':
+                out += "\\t";
+                break;
+            default:
+                out += c;
+                break;
         }
     }
     return out;
@@ -59,24 +68,24 @@ std::string GPUAdminAPI::jsonEscape(const std::string& s) {
 // ============================================================================
 
 std::string GPUAdminAPI::getStatsJson() const {
-    auto& mgr = GPUMemoryManager::GetInstance();
-    auto  s   = mgr.GetStats();
+    auto &mgr = GPUMemoryManager::GetInstance();
+    auto s    = mgr.GetStats();
 
     const uint64_t limit = mgr.GetMaxGPUVRAMBytes();
-    const float    pct   = mgr.GetGPUMemoryUsagePercent();
-    const bool     accel = mgr.IsGPUAccelerationEnabled();
-    const auto     info  = mgr.GetEditionInfo();
+    const float pct      = mgr.GetGPUMemoryUsagePercent();
+    const bool accel     = mgr.IsGPUAccelerationEnabled();
+    const auto info      = mgr.GetEditionInfo();
 
     std::ostringstream j;
     j << "{"
       << "\"edition_vram_limit_bytes\":" << limit << ","
-      << "\"allocated_bytes\":"          << s.allocated_bytes    << ","
-      << "\"peak_bytes\":"               << s.peak_bytes         << ","
-      << "\"allocation_count\":"         << s.allocation_count   << ","
-      << "\"deallocation_count\":"       << s.deallocation_count << ","
-      << "\"usage_percent\":"            << pct                  << ","
+      << "\"allocated_bytes\":" << s.allocated_bytes << ","
+      << "\"peak_bytes\":" << s.peak_bytes << ","
+      << "\"allocation_count\":" << s.allocation_count << ","
+      << "\"deallocation_count\":" << s.deallocation_count << ","
+      << "\"usage_percent\":" << pct << ","
       << "\"gpu_acceleration_enabled\":" << (accel ? "true" : "false") << ","
-      << "\"edition_info\":\""           << jsonEscape(info) << "\""
+      << "\"edition_info\":\"" << jsonEscape(info) << "\""
       << "}";
     return j.str();
 }
@@ -86,23 +95,24 @@ std::string GPUAdminAPI::getStatsJson() const {
 // ============================================================================
 
 std::string GPUAdminAPI::getTenantsJson() const {
-    auto& mgr     = GPUMemoryManager::GetInstance();
-    auto  tenants = mgr.GetAllTenantStats();
+    auto &mgr    = GPUMemoryManager::GetInstance();
+    auto tenants = mgr.GetAllTenantStats();
 
     std::ostringstream j;
     j << "[";
     bool first = true;
-    for (const auto& t : tenants) {
-        if (!first) j << ",";
-        first = false;
+    for (const auto &t : tenants) {
+        if (!first) {
+            j << ",";
+        }
+        first                   = false;
         const uint64_t headroom = mgr.GetTenantHeadroom(t.tenant_id);
         j << "{"
-          << "\"tenant_id\":\""       << jsonEscape(t.tenant_id)     << "\","
-          << "\"quota_bytes\":"        << t.quota_bytes               << ","
-          << "\"allocated_bytes\":"    << t.allocated_bytes           << ","
-          << "\"peak_bytes\":"         << t.peak_bytes                << ","
-          << "\"headroom_bytes\":"     << headroom
-          << "}";
+          << "\"tenant_id\":\"" << jsonEscape(t.tenant_id) << "\","
+          << "\"quota_bytes\":" << t.quota_bytes << ","
+          << "\"allocated_bytes\":" << t.allocated_bytes << ","
+          << "\"peak_bytes\":" << t.peak_bytes << ","
+          << "\"headroom_bytes\":" << headroom << "}";
     }
     j << "]";
     return j.str();
@@ -122,17 +132,19 @@ std::string GPUAdminAPI::getDevicesJson() const {
     std::ostringstream j;
     j << "[";
     bool first = true;
-    for (const auto& d : loads) {
-        if (!first) j << ",";
+    for (const auto &d : loads) {
+        if (!first) {
+            j << ",";
+        }
         first = false;
         j << "{"
-          << "\"index\":"               << d.index                               << ","
-          << "\"name\":\""              << jsonEscape(d.name)                    << "\","
-          << "\"backend\":\""           << jsonEscape(d.backend)                 << "\","
-          << "\"free_vram_bytes\":"     << d.free_vram_bytes                     << ","
-          << "\"tracked_alloc_bytes\":" << d.tracked_alloc_bytes                 << ","
-          << "\"is_healthy\":"          << (d.is_healthy ? "true" : "false")     << ","
-          << "\"failure_reason\":\""    << jsonEscape(d.failure_reason)          << "\""
+          << "\"index\":" << d.index << ","
+          << "\"name\":\"" << jsonEscape(d.name) << "\","
+          << "\"backend\":\"" << jsonEscape(d.backend) << "\","
+          << "\"free_vram_bytes\":" << d.free_vram_bytes << ","
+          << "\"tracked_alloc_bytes\":" << d.tracked_alloc_bytes << ","
+          << "\"is_healthy\":" << (d.is_healthy ? "true" : "false") << ","
+          << "\"failure_reason\":\"" << jsonEscape(d.failure_reason) << "\""
           << "}";
     }
     j << "]";
@@ -144,8 +156,8 @@ std::string GPUAdminAPI::getDevicesJson() const {
 // ============================================================================
 
 std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
-    auto& mgr     = GPUMemoryManager::GetInstance();
-    auto  stats   = mgr.GetStats();
+    auto &mgr  = GPUMemoryManager::GetInstance();
+    auto stats = mgr.GetStats();
 
     // Use the effective max VRAM: config_.max_vram_bytes if set, else edition limit.
     GPUConfig effective = config_;
@@ -153,16 +165,14 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
         effective.max_vram_bytes = mgr.GetMaxGPUVRAMBytes();
     }
 
-    auto [accepted, reason] =
-        effective.simulateAllocation(bytes, stats.allocated_bytes);
+    auto [accepted, reason] = effective.simulateAllocation(bytes, stats.allocated_bytes);
 
     std::ostringstream j;
     j << "{"
-      << "\"accepted\":"   << (accepted ? "true" : "false") << ","
-      << "\"reason\":\""   << jsonEscape(reason)            << "\","
-      << "\"bytes\":"      << bytes                         << ","
-      << "\"current_allocated_bytes\":" << stats.allocated_bytes
-      << "}";
+      << "\"accepted\":" << (accepted ? "true" : "false") << ","
+      << "\"reason\":\"" << jsonEscape(reason) << "\","
+      << "\"bytes\":" << bytes << ","
+      << "\"current_allocated_bytes\":" << stats.allocated_bytes << "}";
     return j.str();
 }
 
@@ -188,17 +198,19 @@ std::string GPUAdminAPI::getMIGInstancesJson() const {
     std::ostringstream j;
     j << "[";
     bool first = true;
-    for (const auto& inst : instances) {
-        if (!first) j << ",";
+    for (const auto &inst : instances) {
+        if (!first) {
+            j << ",";
+        }
         first = false;
         j << "{"
-          << "\"instance_id\":\""  << jsonEscape(inst.instance_id)  << "\","
-          << "\"device_index\":"   << inst.device_index              << ","
-          << "\"gi_id\":"          << inst.gi_id                     << ","
-          << "\"profile\":\""      << jsonEscape(inst.profile)       << "\","
-          << "\"memory_bytes\":"   << inst.memory_bytes              << ","
-          << "\"is_active\":"      << (inst.is_active ? "true" : "false") << ","
-          << "\"tenant_id\":\""    << jsonEscape(inst.tenant_id)     << "\""
+          << "\"instance_id\":\"" << jsonEscape(inst.instance_id) << "\","
+          << "\"device_index\":" << inst.device_index << ","
+          << "\"gi_id\":" << inst.gi_id << ","
+          << "\"profile\":\"" << jsonEscape(inst.profile) << "\","
+          << "\"memory_bytes\":" << inst.memory_bytes << ","
+          << "\"is_active\":" << (inst.is_active ? "true" : "false") << ","
+          << "\"tenant_id\":\"" << jsonEscape(inst.tenant_id) << "\""
           << "}";
     }
     j << "]";

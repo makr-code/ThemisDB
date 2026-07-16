@@ -1,30 +1,30 @@
+/**
+ * @file audit_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audit_api_handler.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     279                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audit_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 274
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=10, L=0
+ * PR History (last 5): #769 Refactor RPC Service Archit... (2026-03-11) | #1208 Establish compiler warning ... (2026-03-11) | #1209 Remove unused variable warn... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/audit_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -191,7 +191,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             
             entries.push_back(entry);
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed lines
             continue;
         }
@@ -217,6 +217,7 @@ nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     result["entries"] = nlohmann::json::array();
     
     if (start_idx < total_count) {
+    auto span = Tracer::startSpan("queryAuditLogs");
         for (int i = start_idx; i < end_idx; i++) {
             result["entries"].push_back(all_entries[i].toJson());
         }
@@ -240,6 +241,7 @@ std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) 
     
     // Rows
     for (const auto& entry : entries) {
+    auto span = Tracer::startSpan("exportAuditLogsCsv");
         // Helper to escape CSV fields
         auto escape = [](const std::string& s) {
             if (s.find(',') != std::string::npos || s.find('"') != std::string::npos || s.find('\n') != std::string::npos) {
@@ -280,3 +282,5 @@ std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) 
 
 } // namespace server
 } // namespace themis
+
+

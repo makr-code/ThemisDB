@@ -1,27 +1,19 @@
+/**
+ * @file websocket_session.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.48
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            websocket_session.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     313                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
-    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
-    • 22ffc8614  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
-    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: websocket_session.h | Version: 0.0.48
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=0
+ * W1-S03: active_ → std::atomic<bool> (data race fix)
  */
 
 #pragma once
@@ -36,6 +28,7 @@
 #include <string>
 #include <queue>
 #include <set>
+#include <atomic>
 #include <mutex>
 #include <functional>
 #include "cdc/changefeed.h"
@@ -117,9 +110,11 @@ public:
     void close();
     
     /**
-     * @brief Check if the session is active
+     * @brief Check if the session is active.
+     *
+     * Thread-safe: uses acquire load on the atomic flag.
      */
-    bool isActive() const { return active_; }
+    bool isActive() const { return active_.load(std::memory_order_acquire); }
     
     /**
      * @brief Get session ID
@@ -187,6 +182,10 @@ private:
     void doRead();
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
+    void sendOnExecutor(std::string message);
+    void sendBinaryOnExecutor(std::vector<uint8_t> data);
+    void startWriteLocked();
+    void closeInternalErrorOnExecutor();
     void processMessage(const std::string& message);
     void processBinaryMessage(const std::vector<uint8_t>& data);
     void doClose();
@@ -200,7 +199,9 @@ private:
     std::string session_id_;
     std::string request_path_;   ///< Target path from the HTTP upgrade request
     std::string auth_token_;     ///< JWT extracted from the HTTP upgrade Authorization header
-    bool active_;
+    /// Active flag: accessed from I/O handlers and from external threads
+    /// (e.g. WebSocketManager::closeAll / pollCDCEvents).  Must be atomic.
+    std::atomic<bool> active_;
     bool is_tls_;
     
     // Back-pressure: the maximum queue depth is declared public as kMaxQueueDepth above.

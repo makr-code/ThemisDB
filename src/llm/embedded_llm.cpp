@@ -1,23 +1,21 @@
+/**
+ * @file embedded_llm.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedded_llm.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedded_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 369
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=13, M=6, L=0
+ * PR History (last 5): #379 Migrate critical error logg... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/embedded_llm.h"
@@ -42,7 +40,8 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     LlamaWrapper::Config wrapper_config;
     wrapper_config.n_gpu_layers = config.n_gpu_layers;
     wrapper_config.n_ctx = config.n_ctx;
-    
+    wrapper_config.n_batch = config.n_batch > 0 ? config.n_batch : config.n_ctx;
+
     wrapper_ = std::make_unique<LlamaWrapper>(wrapper_config);
     
     // Initialize ethical guidelines if enabled
@@ -74,6 +73,16 @@ EmbeddedLLM::~EmbeddedLLM() {
     }
 }
 
+void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    generate_full_fn_ = std::move(fn);
+}
+
+void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    embed_fn_ = std::move(fn);
+}
+
 // ═══════════════════════════════════════════════════════════
 // Simple text generation
 // ═══════════════════════════════════════════════════════════
@@ -83,7 +92,7 @@ std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     std::string final_prompt = applyEthicalGuidelines(prompt);
     
     InferenceRequest request = createRequest(final_prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     
     // Apply ethical guidelines to response (add disclaimer if needed)
     if (hasEthicalGuidelines()) {
@@ -104,7 +113,7 @@ std::string EmbeddedLLM::generateWithParams(
     std::string final_prompt = applyEthicalGuidelines(prompt);
     
     InferenceRequest request = createRequest(final_prompt, max_tokens, temperature, top_p);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     
     // Apply ethical guidelines to response
     if (hasEthicalGuidelines()) {
@@ -147,7 +156,30 @@ std::string EmbeddedLLM::chatSimple(
 // ═══════════════════════════════════════════════════════════
 
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
-    return wrapper_->embed(text);
+    EmbedFn embed_fn;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        embed_fn = embed_fn_;
+    }
+    if (embed_fn) {
+        auto result = embed_fn(text);
+        if (!result.empty()) {
+            return result;
+        }
+    }
+    {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        auto it = embedding_cache_.find(text);
+        if (it != embedding_cache_.end()) {
+            return it->second;
+        }
+    }
+    auto embedding = wrapper_->embed(text);
+    {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        embedding_cache_.emplace(text, embedding);
+    }
+    return embedding;
 }
 
 std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::string>& texts) {
@@ -155,7 +187,7 @@ std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::s
     embeddings.reserve(texts.size());
     
     for (const auto& text : texts) {
-        embeddings.push_back(wrapper_->embed(text));
+        embeddings.push_back(embed(text));  // reuse cached embed()
     }
     
     return embeddings;
@@ -172,8 +204,7 @@ std::string EmbeddedLLM::generateStreaming(
 ) {
     InferenceRequest request = createRequest(prompt, max_tokens);
     request.stream_callback = callback;
-    
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return response.text;
 }
 
@@ -198,17 +229,23 @@ std::string EmbeddedLLM::generateStreamingSSE(
 
 json EmbeddedLLM::generateAsMCP(const std::string& prompt, int max_tokens) {
     InferenceRequest request = createRequest(prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return LlamaWrapper::formatAsMCPResponse(response);
 }
 
 json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_tokens) {
     InferenceRequest request = createRequest(prompt, max_tokens);
-    auto response = wrapper_->generate(request);
+    auto response = generateFull(request);
     return LlamaWrapper::formatAsJsonMarkdown(response);
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_) {
+            return generate_full_fn_(request);
+        }
+    }
     return wrapper_->generate(request);
 }
 
@@ -217,6 +254,12 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
 // ═══════════════════════════════════════════════════════════
 
 bool EmbeddedLLM::isReady() const {
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        if (generate_full_fn_ || embed_fn_) {
+            return true;
+        }
+    }
     return wrapper_ && wrapper_->isModelLoaded();
 }
 
@@ -242,11 +285,13 @@ json EmbeddedLLM::getStats() const {
 }
 
 void EmbeddedLLM::clearCache() {
-    // Note: Cache clearing implementation depends on caching strategy
-    // Currently no caching is implemented at this layer
-    // Future: Could implement response cache with LRU eviction
-    // or call into model_loader_->clearCache() if caching is at that level
-    spdlog::info("Cache clearing requested (no-op: caching not yet implemented)");
+    std::size_t count;
+    {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        count = embedding_cache_.size();
+        embedding_cache_.clear();
+    }
+    spdlog::info("EmbeddedLLM: embedding cache cleared ({} entries removed)", count);
 }
 
 // ═══════════════════════════════════════════════════════════

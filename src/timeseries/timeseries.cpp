@@ -1,23 +1,21 @@
+/**
+ * @file timeseries.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timeseries.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     256                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: timeseries.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 278
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=3, L=0
+ * PR History (last 5): #4450 docs(perf): corrected root-... (2026-04-07)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/timeseries.h"
@@ -66,6 +64,14 @@ TimeSeriesStore::TimeSeriesStore(rocksdb::TransactionDB* db, rocksdb::ColumnFami
     : db_(db), cf_(cf) {
 }
 
+rocksdb::ColumnFamilyHandle* TimeSeriesStore::resolveColumnFamily() const {
+    if (cf_ != nullptr) {
+        return cf_;
+    }
+
+    return db_ != nullptr ? db_->DefaultColumnFamily() : nullptr;
+}
+
 std::string TimeSeriesStore::makeKey(std::string_view metric, 
                                      std::string_view entity,
                                      int64_t timestamp_ms) const {
@@ -91,13 +97,19 @@ bool TimeSeriesStore::put(std::string_view metric,
         THEMIS_ERROR("TimeSeriesStore::put - DB not initialized");
         return false;
     }
+
+    auto* column_family = resolveColumnFamily();
+    if (!column_family) {
+        THEMIS_ERROR("TimeSeriesStore::put - Column family not available");
+        return false;
+    }
     
     std::string key = makeKey(metric, entity, point.timestamp_ms);
     nlohmann::json value_json = point.toJson();
     std::string value_str = value_json.dump();
     
     rocksdb::WriteOptions write_opts;
-    rocksdb::Status s = db_->Put(write_opts, cf_, key, value_str);
+    rocksdb::Status s = db_->Put(write_opts, column_family, key, value_str);
     
     if (!s.ok()) {
         THEMIS_ERROR("TimeSeriesStore::put - RocksDB Put failed: {}", s.ToString());
@@ -114,13 +126,19 @@ std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query(
     
     std::vector<DataPoint> results;
     if (!db_) return results;
+
+    auto* column_family = resolveColumnFamily();
+    if (!column_family) {
+        THEMIS_ERROR("TimeSeriesStore::query - Column family not available");
+        return results;
+    }
     
     std::string prefix = makePrefix(metric, entity);
     std::string from_key = makeKey(metric, entity, query.from_ms);
     std::string to_key = makeKey(metric, entity, query.to_ms);
     
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, cf_));
+    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));
     
     if (query.descending) {
         // Start from to_key and iterate backwards
@@ -205,6 +223,12 @@ size_t TimeSeriesStore::deleteOldPoints(std::string_view metric,
                                        std::string_view entity,
                                        int64_t before_ms) {
     if (!db_) return 0;
+
+    auto* column_family = resolveColumnFamily();
+    if (!column_family) {
+        THEMIS_ERROR("TimeSeriesStore::deleteOldPoints - Column family not available");
+        return 0;
+    }
     
     std::string prefix = makePrefix(metric, entity);
     std::string end_key = makeKey(metric, entity, before_ms);
@@ -213,13 +237,13 @@ size_t TimeSeriesStore::deleteOldPoints(std::string_view metric,
     rocksdb::WriteOptions write_opts;
     rocksdb::ReadOptions read_opts;
     
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, cf_));
+    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));
     it->Seek(prefix);
     
     while (it->Valid() && it->key().starts_with(prefix)) {
         if (it->key().ToString() >= end_key) break;
         
-        rocksdb::Status s = db_->Delete(write_opts, cf_, it->key());
+        rocksdb::Status s = db_->Delete(write_opts, column_family, it->key());
         if (s.ok()) {
             deleted++;
         }
@@ -235,12 +259,18 @@ std::optional<TimeSeriesStore::DataPoint> TimeSeriesStore::getLatest(
     std::string_view entity) const {
     
     if (!db_) return std::nullopt;
+
+    auto* column_family = resolveColumnFamily();
+    if (!column_family) {
+        THEMIS_ERROR("TimeSeriesStore::getLatest - Column family not available");
+        return std::nullopt;
+    }
     
     std::string prefix = makePrefix(metric, entity);
     std::string end_key = prefix + "\xFF"; // Seek to end of prefix range
     
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, cf_));
+    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts, column_family));
     
     it->SeekForPrev(end_key);
     

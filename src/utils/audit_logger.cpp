@@ -1,28 +1,25 @@
+/**
+ * @file audit_logger.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=0, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audit_logger.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1433                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f7107b065  2026-03-01  Protect audit log against loss: fsync, rotation, secondar... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audit_logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1726
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=31, L=1
+ * PR History (last 5): #4571 perf(index): reduce seconda... (2026-04-11) | #4231 feat(sharding): Adaptive Sh... (2026-03-14) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #3604 feat(utils): complete Phase... (2026-03-12) | #1010 Add comprehensive-code-audi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/audit_logger.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <filesystem>
@@ -48,9 +45,13 @@
 namespace themis {
 namespace utils {
 
-// Version constant for CEF format (should match ThemisDB version)
-// TODO: In production, this should be derived from a central version header
-static const char* THEMISDB_VERSION = "1.5.0";
+// Version constant for CEF format.  Injected by CMake as THEMIS_VERSION_STRING
+// (-DTHEMIS_VERSION_STRING=...) so it always matches the build; falls back to
+// a generic sentinel string when building outside CMake (e.g., IDE or CI stub).
+#ifndef THEMIS_VERSION_STRING
+#define THEMIS_VERSION_STRING "0.0.0-dev"
+#endif
+static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 
 // Local base64 (kept minimal to avoid new deps here)
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
@@ -282,7 +283,13 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
 
         auto hash = sha256(to_hash);
-        auto sig = pki_ ? pki_->signHash(hash) : SignatureResult{};
+        SignatureResult sig;
+        if (pki_) {
+            try { sig = pki_->signHash(hash); }
+            catch (const std::exception &) { sig.ok = false; }
+            catch (const std::string &) { sig.ok = false; }
+            catch (const char *) { sig.ok = false; }
+        }
 
         auto jblob = themis::EncryptedBlob{blob}.toJson();
         // Persist encrypted payload and signature metadata
@@ -305,7 +312,13 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         // No encryption: sign plaintext bytes (if PKI available)
         std::vector<uint8_t> bytes(plain.begin(), plain.end());
         auto hash = sha256(bytes);
-        auto sig = pki_ ? pki_->signHash(hash) : SignatureResult{};
+        SignatureResult sig;
+        if (pki_) {
+            try { sig = pki_->signHash(hash); }
+            catch (const std::exception &) { sig.ok = false; }
+            catch (const std::string &) { sig.ok = false; }
+            catch (const char *) { sig.ok = false; }
+        }
         record["payload"] = {
             {"type", "plaintext"},
             {"data_b64", base64_encode_local(bytes)}
@@ -373,6 +386,7 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::DATA_WRITE: return "DATA_WRITE";
         case SecurityEventType::DATA_DELETE: return "DATA_DELETE";
         case SecurityEventType::BULK_EXPORT: return "BULK_EXPORT";
+        case SecurityEventType::EXPORT_DENIED: return "EXPORT_DENIED";
         case SecurityEventType::BULK_IMPORT: return "BULK_IMPORT";
         case SecurityEventType::BULK_IMPORT_COMPLETED: return "BULK_IMPORT_COMPLETED";
         // Graph & Vector Operations (Phase 1)
@@ -424,6 +438,12 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::TASK_TIMEOUT: return "TASK_TIMEOUT";
         case SecurityEventType::TASK_RESOURCE_LIMIT_EXCEEDED: return "TASK_RESOURCE_LIMIT_EXCEEDED";
         case SecurityEventType::TASK_ANOMALY_DETECTED: return "TASK_ANOMALY_DETECTED";
+        // Sharding Events
+        case SecurityEventType::SHARD_SPLIT: return "SHARD_SPLIT";
+        case SecurityEventType::SHARD_MERGE: return "SHARD_MERGE";
+        case SecurityEventType::SHARD_LIVE_MIGRATION_STARTED: return "SHARD_LIVE_MIGRATION_STARTED";
+        case SecurityEventType::SHARD_LIVE_MIGRATION_COMPLETED: return "SHARD_LIVE_MIGRATION_COMPLETED";
+        case SecurityEventType::SHARD_LIVE_MIGRATION_FAILED: return "SHARD_LIVE_MIGRATION_FAILED";
         // Generic
         case SecurityEventType::CUSTOM_EVENT: return "CUSTOM_EVENT";
         default: return "UNKNOWN";
@@ -459,6 +479,7 @@ void AuditLogger::logSecurityEvent(
             securityEventTypeToString(event_type), user_id, resource);
     } else if (event_type == SecurityEventType::RATE_LIMIT_EXCEEDED ||
                event_type == SecurityEventType::PERMISSION_DENIED ||
+               event_type == SecurityEventType::EXPORT_DENIED ||
                event_type == SecurityEventType::SUSPICIOUS_ACTIVITY) {
         event["severity"] = "MEDIUM";
     } else {
@@ -846,7 +867,16 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
                     kept_entries.push_back(line);
                 }
                 
-            } catch (const std::exception& e) {
+            } catch (const nlohmann::json::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::string &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const char *) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -936,7 +966,16 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
                     kept_entries.push_back(line);
                 }
                 
-            } catch (const std::exception& e) {
+            } catch (const nlohmann::json::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::exception &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const std::string &) {
+                // Keep unparseable entries to avoid data loss
+                kept_entries.push_back(line);
+            } catch (const char *) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -1047,7 +1086,7 @@ void AuditLogger::logTaskSchedulerEvent(
 double AuditLogger::calculateAnomalyScore(
     const std::string& task_id,
     double execution_time_ms,
-    const nlohmann::json& resource_usage
+    const nlohmann::json& /*resource_usage*/
 ) {
     std::lock_guard<std::mutex> lock(baselines_mu_);
     
@@ -1336,7 +1375,13 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
 
             if (query.max_results > 0 && results.size() >= query.max_results) break;
 
-        } catch (const std::exception&) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip malformed lines
+        } catch (const std::exception &) {
+            // Skip malformed lines
+        } catch (const std::string &) {
+            // Skip malformed lines
+        } catch (const char *) {
             // Skip malformed lines
         }
     }
@@ -1424,7 +1469,13 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
             std::string user = payload.value("user_id", payload.value("user", std::string{"system"}));
             user_counts[user] = user_counts.value(user, 0) + 1;
 
-        } catch (const std::exception&) {
+        } catch (const nlohmann::json::exception &) {
+            // Skip malformed lines
+        } catch (const std::exception &) {
+            // Skip malformed lines
+        } catch (const std::string &) {
+            // Skip malformed lines
+        } catch (const char *) {
             // Skip malformed lines
         }
     }
@@ -1459,12 +1510,29 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
     if (fs::exists(cfg_.chain_head_path)) {
         try {
             std::ifstream ifs(cfg_.chain_head_path);
-            nlohmann::json j;
-            ifs >> j;
-            last_hash_ = j.value("last_hash", std::string(64, '0'));
-            seq_       = j.value("seq", uint64_t{0});
-            return;
-        } catch (...) {
+            std::string content((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+            if (!content.empty() && content.front() == '{') {
+                auto j = nlohmann::json::parse(content);
+                last_hash_ = j.value("last_hash", std::string(64, '0'));
+                seq_       = j.value("seq", uint64_t{0});
+                return;
+            }
+
+            std::istringstream iss(content);
+            std::string hash_line;
+            uint64_t seq = 0;
+            if (std::getline(iss, hash_line) && (iss >> seq)) {
+                last_hash_ = hash_line.empty() ? std::string(64, '0') : hash_line;
+                seq_ = seq;
+                return;
+            }
+        } catch (const nlohmann::json::exception &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const std::exception &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const std::string &) {
+            // Fall through to re-initialise on corrupted file.
+        } catch (const char *) {
             // Fall through to re-initialise on corrupted file.
         }
     }
@@ -1477,19 +1545,18 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
         last_hash_ = std::string(64, '0');
     }
     seq_ = 0;
-    saveChainHead();
 }
 
 void HashChainAuditWriter::saveChainHead() {
-    namespace fs = std::filesystem;
     try {
-        auto path = fs::path(cfg_.chain_head_path);
-        fs::create_directories(path.parent_path());
+        if (!chain_head_stream_.is_open()) {
+            throw std::runtime_error("chain head stream is not open");
+        }
 
-        nlohmann::json j = {{"last_hash", last_hash_}, {"seq", seq_}};
-        std::ofstream ofs(cfg_.chain_head_path, std::ios::trunc);
-        ofs << j.dump();
-        ofs.close();
+        chain_head_stream_.seekp(0);
+        chain_head_stream_.clear();
+        chain_head_stream_ << last_hash_ << '\n' << seq_ << '\n';
+        chain_head_stream_.flush();
 
 #ifndef _WIN32
         if (cfg_.fsync_on_write) {
@@ -1510,12 +1577,30 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
                                            const std::string& chain_seed)
     : cfg_(std::move(cfg))
 {
-    loadOrInitChainHead(chain_seed);
-    // Ensure log directory exists.
     namespace fs = std::filesystem;
     try {
         fs::create_directories(fs::path(cfg_.log_path).parent_path());
-    } catch (...) {}
+        fs::create_directories(fs::path(cfg_.chain_head_path).parent_path());
+    } catch (const std::filesystem::filesystem_error &) {
+    } catch (const std::exception &) {
+    } catch (const std::string &) {
+    } catch (const char *) {
+    }
+
+    loadOrInitChainHead(chain_seed);
+
+    chain_head_stream_.open(cfg_.chain_head_path,
+                            std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+    if (!chain_head_stream_.is_open()) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to open chain head file {}", cfg_.chain_head_path);
+    } else {
+        saveChainHead();
+    }
+
+    log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
+    if (!log_stream_.is_open()) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to open log file {}", cfg_.log_path);
+    }
 }
 
 HashChainAuditWriter::~HashChainAuditWriter() = default;
@@ -1536,8 +1621,16 @@ void HashChainAuditWriter::write(nlohmann::json record) {
 
     // Append record to log file.
     try {
-        std::ofstream ofs(cfg_.log_path, std::ios::app | std::ios::binary);
-        ofs << record_json << '\n';
+        if (!log_stream_.is_open()) {
+            log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
+        }
+        if (!log_stream_.is_open()) {
+            throw std::runtime_error("log stream is not open");
+        }
+        log_stream_ << record_json << '\n';
+        if (cfg_.fsync_on_write) {
+            log_stream_.flush();
+        }
     } catch (const std::exception& e) {
         THEMIS_ERROR("HashChainAuditWriter: failed to append log to {}: {}",
                      cfg_.log_path, e.what());
@@ -1641,3 +1734,4 @@ AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
 
 } // namespace utils
 } // namespace themis
+

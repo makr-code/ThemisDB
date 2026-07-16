@@ -1,26 +1,21 @@
+/**
+ * @file kafka_cdc_producer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_cdc_producer.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     349                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a3f88599c  2026-02-27  Add Debezium-compatible change event envelope format with... ║
-    • a992f7ece  2026-02-25  Code audit: fix 6 gaps in KafkaCDCProducer implementation ║
-    • f5b8ef62f  2026-02-25  Implement Kafka-compatible CDC producer interface (KafkaC... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_cdc_producer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 353
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=0, L=0
+ * PR History (last 5): #4607 feat(cdc): register CDCKafk... (2026-04-13) | #3106 [cdc] Add event throughput ... (2026-03-12) | #3086 feat(governance): implement... (2026-03-12) | #3056 [cdc] Add Debezium-compatib... (2026-03-12) | #3045 [cdc] Implement ICDCTranspo... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -31,6 +26,24 @@
  * When THEMIS_ENABLE_KAFKA is defined, this file provides the full librdkafka-
  * backed implementation.  When the macro is absent the translation unit is
  * intentionally empty; the no-op stub is defined inline in the header.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Allow ThemisDB to be built without librdkafka.  All
+ *   KafkaCdcProducer methods are defined inline as no-ops in
+ *   include/cdc/kafka_cdc_producer.h when `THEMIS_ENABLE_KAFKA` is not set.
+ *   This lets CDC change-event publishing be compiled out cleanly without
+ *   affecting the rest of the CDC pipeline.
+ * Activation: `THEMIS_ENABLE_KAFKA` not defined at compile time (default for
+ *   CPU-only / bare-metal builds without a Kafka broker).
+ * Production Delta: Header fallback path handles the non-Kafka behavior:
+ *   start()/publish() return false by default, and can be explicitly bridged
+ *   via injected callbacks in tests/dev builds (see STUB #98 bridge APIs).
+ *   Downstream consumers will not receive real-time change feeds unless a
+ *   real Kafka backend is enabled.
+ * Removal Plan: Install librdkafka (e.g., `apt install librdkafka-dev`) and
+ *   set `-DTHEMIS_ENABLE_KAFKA=1` in CMake.  The full implementation in this
+ *   .cpp file will then be compiled and the inline header stubs skipped.
+ * Roadmap ref: src/cdc/FUTURE_ENHANCEMENTS.md §"Kafka CDC Producer Activation"
  *
  * Copyright (c) 2025 ThemisDB Project
  * SPDX-License-Identifier: Apache-2.0
@@ -348,3 +361,4 @@ KafkaProducerStats KafkaCDCProducer::getStats() const {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_KAFKA
+

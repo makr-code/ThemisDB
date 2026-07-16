@@ -1,61 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_redacting_sink.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     161                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file pii_redacting_sink.h
- * @brief spdlog sink wrapper that automatically redacts PII from every log message.
- *
- * This header provides a delegating spdlog sink that intercepts each log message
- * before it reaches any underlying (real) sink and passes the formatted payload
- * through PIIRedactionPolicy::get().redactForLog().
- *
- * Design notes:
- * - The wrapper is zero-copy when no PII is detected (string comparison short-circuits
- *   the log_msg rebuild for the common PII-free case).
- * - A thread-local re-entrancy guard prevents infinite recursion in the unlikely
- *   event that PIIRedactionPolicy itself emits a log message during initialisation.
- * - The class is header-only to avoid adding a new translation unit and to stay
- *   consistent with how spdlog ships its sink adapters.
- * - Only the string-value `setAttribute` and `recordError` overloads need
- *   redaction; numeric/boolean overloads cannot contain PII.
- *
- * Coverage notes:
- * - Logger::init() installs this sink AND registers the resulting logger as the
- *   spdlog global default (spdlog::set_default_logger), so bare spdlog::info()
- *   calls made after Logger::init() are also covered.
- * - Bare spdlog::info() / spdlog::warn() calls that fire *before* Logger::init()
- *   is called (e.g., in static constructors) will use spdlog's built-in default
- *   logger which has no PII-redacting sink.  This is an inherent limitation of
- *   the global-logger pattern; mitigate by calling Logger::init() or Logger::get()
- *   as early as possible in the process lifecycle.
- *
- * Usage (see Logger::init() in logger.cpp):
- * @code
- * auto real_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
- * auto pii_sink  = std::make_shared<PIIRedactingSink>(real_sink);
- * logger_ = std::make_shared<spdlog::logger>("themis", pii_sink);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "security/pii_redaction_policy.h"

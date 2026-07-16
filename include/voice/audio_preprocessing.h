@@ -1,24 +1,20 @@
+/**
+ * @file audio_preprocessing.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.42
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audio_preprocessing.h                              ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-03-09 03:56:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • be2946f18  2026-02-28  feat(voice): implement RNNoise deep-learning noise suppre... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audio_preprocessing.h | Version: 0.0.42
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Audio preprocessing pipeline for Phase 1 production readiness
@@ -99,6 +95,8 @@ struct LanguageDetectionResult {
 // ---------------------------------------------------------------------------
 class NoiseSuppressor {
 public:
+    using ProcessFramesFn = std::function<float(std::vector<float>&, float)>;
+
     NoiseSuppressor();
     ~NoiseSuppressor();
 
@@ -121,6 +119,8 @@ public:
 
     // Returns true when the real RNNoise library is linked in.
     static bool isRNNoiseEnabled();
+
+    static void setProcessFramesFn(ProcessFramesFn fn);
 
     // Diagnostic counters
     uint64_t framesProcessed() const { return frames_processed_; }

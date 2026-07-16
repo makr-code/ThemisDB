@@ -1,23 +1,21 @@
+/**
+ * @file policy.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy.cpp                                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     160                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 159
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -33,8 +31,8 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUPolicy::GPUPolicy(const std::vector<std::string>& pre_granted_callers) {
-    for (const auto& id : pre_granted_callers) {
+GPUPolicy::GPUPolicy(const std::vector<std::string> &pre_granted_callers) {
+    for (const auto &id : pre_granted_callers) {
         grant(id, Capability::GPU_ANY);
     }
 }
@@ -43,7 +41,7 @@ GPUPolicy::GPUPolicy(const std::vector<std::string>& pre_granted_callers) {
 // Grant / revoke
 // ============================================================================
 
-void GPUPolicy::grant(const std::string& caller_id, Capability cap) {
+void GPUPolicy::grant(const std::string &caller_id, Capability cap) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (cap == Capability::GPU_ANY) {
         // Grant every concrete capability.
@@ -56,10 +54,12 @@ void GPUPolicy::grant(const std::string& caller_id, Capability cap) {
     }
 }
 
-void GPUPolicy::revoke(const std::string& caller_id, Capability cap) {
+void GPUPolicy::revoke(const std::string &caller_id, Capability cap) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = grants_.find(caller_id);
-    if (it == grants_.end()) return;
+    if (it == grants_.end()) {
+        return;
+    }
 
     if (cap == Capability::GPU_ANY) {
         grants_.erase(it);
@@ -73,7 +73,7 @@ void GPUPolicy::revoke(const std::string& caller_id, Capability cap) {
     }
 }
 
-void GPUPolicy::revokeAll(const std::string& caller_id) {
+void GPUPolicy::revokeAll(const std::string &caller_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     grants_.erase(caller_id);
 }
@@ -82,16 +82,19 @@ void GPUPolicy::revokeAll(const std::string& caller_id) {
 // Check
 // ============================================================================
 
-bool GPUPolicy::hasCapability(const std::string& id, Capability cap) const {
+bool GPUPolicy::hasCapability(const std::string &id, Capability cap) const {
     auto it = grants_.find(id);
-    if (it == grants_.end()) return false;
+    if (it == grants_.end()) {
+        return false;
+    }
     // GPU_ANY wildcard covers every capability.
-    if (it->second.count(cap_to_int(Capability::GPU_ANY))) return true;
+    if (it->second.count(cap_to_int(Capability::GPU_ANY))) {
+        return true;
+    }
     return it->second.count(cap_to_int(cap)) > 0;
 }
 
-GPUPolicy::PolicyDecision GPUPolicy::check(const std::string& caller_id,
-                                  Capability cap) const {
+GPUPolicy::PolicyDecision GPUPolicy::check(const std::string &caller_id, Capability cap) const {
     PolicyDecision d;
     d.caller_id  = caller_id;
     d.capability = cap;
@@ -102,15 +105,13 @@ GPUPolicy::PolicyDecision GPUPolicy::check(const std::string& caller_id,
         d.reason  = "granted";
     } else {
         d.allowed = false;
-        d.reason  = std::string("caller '") + caller_id +
-                    "' does not hold capability " +
-                    capabilityName(cap) +
-                    " (default-deny)";
+        d.reason  = std::string("caller '") + caller_id + "' does not hold capability " + capabilityName(cap)
+                    + " (default-deny)";
     }
     return d;
 }
 
-bool GPUPolicy::isAllowed(const std::string& caller_id, Capability cap) const {
+bool GPUPolicy::isAllowed(const std::string &caller_id, Capability cap) const {
     return check(caller_id, cap).allowed;
 }
 
@@ -122,18 +123,19 @@ std::vector<std::string> GPUPolicy::grantedCallers() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result;
     result.reserve(grants_.size());
-    for (const auto& kv : grants_) {
+    for (const auto &kv : grants_) {
         result.push_back(kv.first);
     }
     return result;
 }
 
-std::vector<GPUPolicy::Capability> GPUPolicy::capabilitiesOf(
-    const std::string& caller_id) const {
+std::vector<GPUPolicy::Capability> GPUPolicy::capabilitiesOf(const std::string &caller_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<Capability> result;
     auto it = grants_.find(caller_id);
-    if (it == grants_.end()) return result;
+    if (it == grants_.end()) {
+        return result;
+    }
     for (int v : it->second) {
         result.push_back(static_cast<Capability>(v));
     }
@@ -149,13 +151,18 @@ size_t GPUPolicy::grantedCount() const {
 // capabilityName
 // ============================================================================
 
-const char* capabilityName(GPUPolicy::Capability cap) {
+const char *capabilityName(GPUPolicy::Capability cap) {
     switch (cap) {
-        case GPUPolicy::Capability::GPU_ALLOCATE: return "GPU_ALLOCATE";
-        case GPUPolicy::Capability::GPU_FREE:     return "GPU_FREE";
-        case GPUPolicy::Capability::GPU_ADMIN:    return "GPU_ADMIN";
-        case GPUPolicy::Capability::GPU_ANY:      return "GPU_ANY";
-        default:                                  return "UNKNOWN";
+        case GPUPolicy::Capability::GPU_ALLOCATE:
+            return "GPU_ALLOCATE";
+        case GPUPolicy::Capability::GPU_FREE:
+            return "GPU_FREE";
+        case GPUPolicy::Capability::GPU_ADMIN:
+            return "GPU_ADMIN";
+        case GPUPolicy::Capability::GPU_ANY:
+            return "GPU_ANY";
+        default:
+            return "UNKNOWN";
     }
 }
 

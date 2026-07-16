@@ -1,24 +1,21 @@
+/**
+ * @file task_result_store.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_result_store.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f79e072b9  2026-02-23  feat(scheduler): implement scheduled task output persiste... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: task_result_store.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 156
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=4, L=0
+ * PR History (last 5): #2651 feat(scheduler): Scheduled ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "scheduler/task_result_store.h"
@@ -75,7 +72,7 @@ std::string TaskResultStore::makeTaskPrefix(const std::string& task_id) {
 }
 
 void TaskResultStore::store(const TaskExecutionResult& result) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     const std::string key = makeKey(result.task_id, result.timestamp_ms);
     const std::string value = result.toJson().dump();
@@ -114,7 +111,7 @@ void TaskResultStore::store(const TaskExecutionResult& result) {
 
 std::vector<TaskExecutionResult> TaskResultStore::getResults(
         const std::string& task_id, size_t limit) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
     std::vector<std::pair<std::string, std::string>> entries;
@@ -142,7 +139,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
 
 std::optional<TaskExecutionResult> TaskResultStore::getLatestResult(
         const std::string& task_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
     // Collect all keys for the task to find the last (newest) one.

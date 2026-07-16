@@ -1,6 +1,6 @@
 # Research-Report: PostGIS vs. OpenSearch vs. H3/S2 – Leitentscheidungen für ThemisDB (MVP)
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Reports
 

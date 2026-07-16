@@ -1,38 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_prompt_builder.h                               ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 17:30:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     185                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file rag_prompt_builder.h
- * @brief RAG (Retrieval-Augmented Generation) prompt construction helpers.
- *
- * Assembles LLM prompts that incorporate retrieved document chunks as
- * grounding context.  Key capabilities:
- *
- *  - Rank-aware chunk selection — greedily fills the context budget in
- *    descending relevance-score order.
- *  - Flexible template injection — replaces a configurable placeholder
- *    token in a base template string with the assembled context block.
- *  - Source citation — optionally prefixes every chunk with its source ID.
- *  - Full prompt assembly — combines system instruction, context, and query.
- *
- * No LLM inference or network I/O is performed; this is a pure
- * string-assembly utility.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -58,6 +32,8 @@ struct RetrievedChunk {
  */
 struct RAGPromptConfig {
     /// Maximum total character length for the assembled context section.
+    /// For token-precise control prefer RAGContextAssembler, which derives
+    /// this value automatically from the model's context window.
     size_t max_context_length = 4000;
 
     /// Header prepended to the context section.
@@ -79,6 +55,11 @@ struct RAGPromptConfig {
     /// Placeholder token inside base templates that will be replaced with
     /// the assembled context block.
     std::string template_placeholder = "{context}";
+
+    /// Minimum tokens reserved for the model's answer when this config is
+    /// used in conjunction with RAGContextAssembler.  The assembler converts
+    /// the token budget to characters for max_context_length.
+    size_t reserved_response_tokens = 512;
 };
 
 /**

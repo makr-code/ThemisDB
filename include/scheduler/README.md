@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Scheduler Module Headers
 
 ## Module Purpose
@@ -23,6 +25,20 @@ The Scheduler headers define the public interfaces for ThemisDB's task schedulin
 - Storage operations (handled by storage module)
 - Authentication and authorization (handled by auth module)
 - Network protocols (handled by server module)
+
+## Header Entry Points
+
+| Header | Public responsibility |
+|---|---|
+| `task_scheduler.h` | Core scheduler lifecycle, task registration, DAG execution, metrics/export, retry/SLA controls |
+| `hybrid_retention_manager.h` | Retention orchestration for Stage1/2/3 execution and status reporting |
+| `distributed_task_coordinator.h` | Cluster leader election and scheduler role activation/deactivation |
+| `external_scheduler_adapter.h` | Conversion and synchronization to/from Kubernetes CronJob and Airflow DAG specs |
+| `event_trigger.h` | CDC/event trigger registration, callback handling, circuit breaker |
+| `task_audit_manager.h` | Audit-event recording, filtered querying, and export |
+| `task_audit_event.h` | Audit/security event structures and anomaly payload fields |
+| `task_result_store.h` | Persistent per-task output storage and latest/history retrieval |
+| `task_anomaly_detector.h` | Statistical anomaly detection for task execution patterns |
 
 ## Key Components
 
@@ -229,7 +245,7 @@ Stage 1: Gorilla Compression (0-7 days)
 Stage 2: Adaptive Retention (7-365 days)
   - Variance-based downsampling
   - High CV (>20%): 1-minute resolution
-  - Medium CV (5-20%): 15-minute resolution  
+  - Medium CV (5-20%): 15-minute resolution
   - Low CV (<5%): 1-hour resolution
   - Preserves anomalies via 3-sigma detection
   - Every 12 hours
@@ -249,7 +265,7 @@ struct HybridRetentionConfig {
         std::chrono::hours check_interval{24};
         std::string metric_pattern = "*";
     } stage1;
-    
+
     struct Stage2Config {
         bool enabled = true;
         std::chrono::hours min_age{24 * 7};
@@ -263,14 +279,14 @@ struct HybridRetentionConfig {
         bool detect_anomalies = true;
         double anomaly_sigma_threshold = 3.0;
     } stage2;
-    
+
     struct Stage3Config {
         bool enabled = true;
         std::chrono::hours min_age{24 * 365};
         std::chrono::hours check_interval{24};
         std::string target_resolution = "1d";
     } stage3;
-    
+
     bool auto_cleanup = true;
     bool verify_aggregates = true;
     std::string source_table = "timeseries";
@@ -289,22 +305,22 @@ public:
         TaskScheduler* scheduler,
         const HybridRetentionConfig& config = {}
     );
-    
+
     // Lifecycle
     void start();
     void stop();
     bool isRunning() const;
-    
+
     // Configuration
     void updateConfig(const HybridRetentionConfig& config);
     HybridRetentionConfig getConfig() const;
-    
+
     // Manual execution
     void executeStage1();  // Run Gorilla compression now
     void executeStage2();  // Run adaptive retention now
     void executeStage3();  // Run time-based retention now
     void executeAll();     // Run all stages now
-    
+
     // Statistics
     HybridRetentionStats getStats() const;
     void resetStats();
@@ -321,7 +337,7 @@ struct HybridRetentionStats {
         double avg_compression_ratio = 0.0;
         std::chrono::system_clock::time_point last_run;
     } stage1;
-    
+
     struct {
         size_t aggregations_total = 0;
         size_t aggregations_failed = 0;
@@ -329,14 +345,14 @@ struct HybridRetentionStats {
         double avg_storage_reduction = 0.0;
         std::chrono::system_clock::time_point last_run;
     } stage2;
-    
+
     struct {
         size_t aggregations_total = 0;
         size_t aggregations_failed = 0;
         double avg_storage_reduction = 0.0;
         std::chrono::system_clock::time_point last_run;
     } stage3;
-    
+
     size_t total_storage_bytes_saved = 0;
     double overall_storage_reduction_percent = 0.0;
 };
@@ -440,11 +456,12 @@ for (const auto& evt : history) {
 }
 ```
 
-// Schedule data compression
+### Schedule Data Compression
+```cpp
 ScheduledTask compression_task;
 compression_task.name = "Compress Old Data";
 compression_task.type = ScheduledTask::TaskType::AQL_QUERY;
-compression_task.aql_query = 
+compression_task.aql_query =
     "FOR d IN timeseries "
     "FILTER d.timestamp < DATE_SUB(NOW(), 1, 'day') "
     "UPDATE d WITH { compressed: true } IN timeseries";
@@ -489,10 +506,10 @@ retention.start();
 
 // Monitor savings
 auto stats = retention.getStats();
-std::cout << "Storage saved: " 
-          << stats.total_storage_bytes_saved / (1024*1024*1024) 
-          << " GB (" 
-          << stats.overall_storage_reduction_percent 
+std::cout << "Storage saved: "
+          << stats.total_storage_bytes_saved / (1024*1024*1024)
+          << " GB ("
+          << stats.overall_storage_reduction_percent
           << "%)" << std::endl;
 ```
 
@@ -511,6 +528,23 @@ std::cout << "Storage saved: "
 - **Stage 3 execution**: 5-20 minutes (daily aggregates)
 - **Storage reduction**: 99.9% typical (timeseries with low CV)
 - **CPU overhead**: <5% on average (spikes during execution)
+
+## Configuration Options and Limits
+
+Important `TaskScheduler::Config` controls:
+
+- `max_concurrent_tasks`: static concurrency cap when dynamic scaling is disabled.
+- `enable_dynamic_scaling`, `min_concurrent_tasks`, `max_concurrent_tasks_ceil`, `scale_up_queue_depth`, `scale_down_idle_ticks`: queue-depth based adaptive concurrency.
+- `persist_tasks`, `persistence_path`: task durability and restart recovery.
+- `enable_audit_logging`, `enable_anomaly_detection`, `enable_gdpr_mode`: observability/privacy controls for execution logs.
+- `enable_result_store`, `result_store_max_results_per_task`: output persistence and retention bounds.
+- `sandbox_execution`: wraps custom task functions in `ModuleSandbox` for stronger runtime isolation.
+
+Operational boundaries:
+
+- Legacy retries are bounded by `ScheduledTask::max_retries`; advanced behavior uses `ScheduledTask::retry_policy`.
+- SLA monitoring is opt-in via `ScheduledTask::sla_deadline`.
+- `executeDAG(...)` validates task IDs and cycle-freedom before execution.
 
 ## Error Handling
 
@@ -549,8 +583,8 @@ std::cout << "Failed: " << stats.failed_executions << std::endl;
 auto task = scheduler.getTask("my_task_id");
 if (task) {
     std::cout << "Executions: " << task->total_executions << std::endl;
-    std::cout << "Success rate: " 
-              << (100.0 * task->successful_executions / task->total_executions) 
+    std::cout << "Success rate: "
+              << (100.0 * task->successful_executions / task->total_executions)
               << "%" << std::endl;
     std::cout << "Avg duration: " << task->avg_execution_time_ms << "ms" << std::endl;
     std::cout << "Last error: " << task->last_error << std::endl;
@@ -584,6 +618,11 @@ if (task) {
 - [Timeseries Module Headers](../timeseries/README.md) - Gorilla compression
 - [Server Module Headers](../server/README.md) - API handlers
 - [Security Module Headers](../security/README.md) - AQL injection detection
+- [Scheduler Implementation Docs](../../src/scheduler/README.md) - Runtime architecture and component mapping
+- [Scheduler Architecture](../../src/scheduler/ARCHITECTURE.md) - Internal design details
+- [Scheduler Roadmap](../../src/scheduler/ROADMAP.md) - Phase plan and delivery status
+- [Scheduler Future Enhancements](../../src/scheduler/FUTURE_ENHANCEMENTS.md) - Planned work
+- [Scheduler Docs (DE)](../../docs/de/scheduler/README.md) - Secondary German overview
 
 ## Version History
 
@@ -619,10 +658,51 @@ if (task) {
 
 ## Future Enhancements
 
-See [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) for planned features including:
+See [../../src/scheduler/FUTURE_ENHANCEMENTS.md](../../src/scheduler/FUTURE_ENHANCEMENTS.md) for planned features including:
 - Task versioning and rollback
 - Dynamic resource allocation (cgroups / per-task CPU + memory limits)
 - Task checkpointing and resume for long-running tasks
 - Multi-tenancy support with per-tenant resource quotas
 - Task templates and parameterization
 - Task result streaming for long-running AQL tasks
+
+## Additional Header Files
+
+The following headers are present in `include/scheduler/` and supplement the components documented above.
+
+### distributed_task_coordinator.h
+**Location:** `distributed_task_coordinator.h`
+
+Coordinates task execution across a cluster: leader election for scheduler role, task ownership assignment, and cross-node heartbeat. Used internally by `TaskScheduler` to enforce a single active scheduler leader per cluster.
+
+### event_trigger.h
+**Location:** `event_trigger.h`
+
+Defines `EventTrigger` and `EventTriggerManager` for firing tasks from CDC events with callback success/failure counters and circuit-breaker safeguards.
+
+### external_scheduler_adapter.h
+**Location:** `external_scheduler_adapter.h`
+
+Adapter interface for integrating ThemisDB's scheduler with external systems (Kubernetes CronJob and Apache Airflow), including manifest conversion and import.
+
+### task_anomaly_detector.h
+**Location:** `task_anomaly_detector.h`
+
+Detects anomalous task execution patterns (duration spikes, failure surges, and resource anomalies) and emits anomaly scores for monitoring pipelines.
+
+### task_audit_event.h
+**Location:** `task_audit_event.h`
+
+`TaskAuditEvent` structure: immutable record of a single task lifecycle transition (registered, started, succeeded, failed, cancelled). Used by `TaskAuditManager`.
+
+### task_audit_manager.h
+**Location:** `task_audit_manager.h`
+
+`TaskAuditManager`: persists and queries `TaskAuditEvent` records; supports GDPR redaction and retention policies.
+
+### task_result_store.h
+**Location:** `task_result_store.h`
+
+`TaskResultStore` / `TaskExecutionResult`: persists per-task execution outputs (JSON result, duration, exit status) for later retrieval via `getTaskResults()`.
+
+## Installation

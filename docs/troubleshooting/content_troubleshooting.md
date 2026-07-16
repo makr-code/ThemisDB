@@ -282,7 +282,7 @@ content:
 ## Related Documentation
 
 - [Content Module ROADMAP](../../src/content/ROADMAP.md)
-- [Content Roadmap](../content_roadmap.md)
+- [Content Roadmap](../de/roadmap/content_roadmap.md)
 - [Ingestion Troubleshooting](./ingestion_troubleshooting.md)
 - [Security Troubleshooting](./security_troubleshooting.md)
-- [Video Processor ffmpeg](../VIDEO_PROCESSOR_FFMPEG.md)
+- [Video Processor ffmpeg](../ARCHIVED/implementation-summaries/VIDEO_PROCESSOR_FFMPEG.md)

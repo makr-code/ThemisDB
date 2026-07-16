@@ -1,36 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            video_processor.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     123                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 374b05b6a  2026-02-28  Implement video frame extraction and scene detection (key... ║
-    • 42d597244  2026-02-26  fix(content): wire up extract_keyframes option and update... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file video_processor.h
- * @brief Video Content Processor Plugin (FFmpeg-based)
- * 
- * Extracts metadata, keyframes, and generates thumbnails from video files.
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -68,6 +44,13 @@ public:
     
     // IContentProcessorPlugin interface
     PluginInfo getInfo() const override;
+    /**
+     * @brief Initialize the processor from plugin configuration.
+     * @param config Thumbnail, keyframe, subtitle, and scene-detection settings.
+     * @return `true` when configuration is accepted and the processor is ready; `false`
+     *         when required thumbnail dimensions are non-positive or would overflow the
+     *         internal RGB thumbnail buffer sizing.
+     */
     bool initialize(const PluginConfig& config) override;
     void shutdown() override;
     bool canProcess(const std::string& mime_type) const override;

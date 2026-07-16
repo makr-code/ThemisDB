@@ -314,3 +314,21 @@ loss_protection:
   # primary storage failure.  Leave empty to disable mirroring.
   # Example: "/mnt/audit-mirror/audit.jsonl"
   secondary_log_path: ""
+
+# ============================================================================
+# GraphQL AuditLogger Persistence Settings
+# ============================================================================
+# Controls whether the in-memory graphql::AuditLogger (include/api/audit_logger.h)
+# also persists entries to a file so they survive process restarts.
+
+persistence:
+  # Persistence backend for the graphql::AuditLogger in-memory buffer.
+  #   none — in-memory only (default); entries are lost on process restart.
+  #   file — append newline-delimited JSON entries to file_path (JSONL format).
+  backend: none
+
+  # File path used when backend=file.
+  # Entries are appended as newline-delimited JSON, one entry per line.
+  # Note: this is the plain-JSON persistence path for graphql::AuditLogger;
+  # the crypto-protected AuditLogger path is set under audit_logging.log_path.
+  file_path: "data/logs/graphql_audit.jsonl"

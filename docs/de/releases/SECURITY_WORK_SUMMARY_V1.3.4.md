@@ -28,7 +28,7 @@ In den letzten Releases (v1.3.0 bis v1.3.4) wurden umfangreiche Sicherheitsverbe
 ## 🔒 1. RocksDB Wrapper - Security Audit & Fixes
 
 **Audit-Datum:** 2. Januar 2026  
-**Dokument:** [ROCKSDB_WRAPPER_AUDIT_REPORT.md](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+**Dokument:** [ROCKSDB_WRAPPER_AUDIT_REPORT.md](../../Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
 
 ### Identifizierte Probleme
 
@@ -146,17 +146,17 @@ RUN apt-get update && apt-get upgrade -y && \
 
 #### Trivy Integration
 ```bash
-trivy image themisdb/themis-server:latest
+trivy image themisdb/themisdb:latest
 ```
 
 #### Docker Scout
 ```bash
-docker scout cves themisdb/themis-server:latest
+docker scout cves themisdb/themisdb:latest
 ```
 
 ### Best Practices Implementiert
 
-✅ Non-Root User (themis:999)  
+✅ Non-Root User (themisdb:999)  
 ✅ Read-Only Filesystem-fähig  
 ✅ Resource Limits konfigurierbar  
 ✅ Minimale Paketinstallation  

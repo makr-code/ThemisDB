@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            jaeger_tracer_adapter.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 52726f0a2  2026-02-26  feat(core): add Jaeger and Zipkin tracing backend adapters ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file jaeger_tracer_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -52,16 +40,17 @@ namespace concerns {
  * endpoint when Jaeger's all-in-one binary is started with --collector.otlp.enabled).
  *
  * Header propagation:
- *   - startSpanFromHeaders() recognises the Jaeger `uber-trace-id` header
- *     (format: {traceId}:{spanId}:{parentSpanId}:{flags}) as well as the
- *     standard W3C `traceparent` header, with the latter taking precedence when
- *     both are present.
+ *   - startSpanFromHeaders() recognises the standard W3C `traceparent` header
+ *     first. If that header is absent, it falls back to the Jaeger
+ *     `uber-trace-id` header (format: {traceId}:{spanId}:{parentSpanId}:{flags})
+ *     and records the decoded values as span attributes for correlation.
  *   - injectContext() writes both the Jaeger `uber-trace-id` header and the
  *     W3C `traceparent` header so downstream services using either convention
  *     can continue the trace.
  *
  * A circuit breaker guards every span-export call so that a failing or
- * unreachable Jaeger instance does not block the critical path.
+ * unreachable Jaeger instance does not block the critical path. When the
+ * breaker is open, span creation degrades to no-op spans.
  */
 class JaegerTracerAdapter : public ITracer {
 public:
@@ -165,34 +154,34 @@ public:
     }
 
     /**
-     * @brief Extract trace context from inbound headers and start a child span.
+    * @brief Extract trace context from inbound headers and start a child span.
      *
-     * Checks for headers in the following priority order:
-     *  1. W3C `traceparent` header (takes precedence when present).
-     *  2. Jaeger `uber-trace-id` header — attributes of the decoded IDs are
-     *     recorded on the new span so the trace can be correlated in the
-     *     Jaeger UI even without full OTLP context propagation.
-     *  3. Falls back to a new root span when neither header is present.
+    * Checks for headers in the following priority order:
+    *  1. W3C `traceparent` header (takes precedence when present).
+    *  2. Jaeger `uber-trace-id` header — the decoded IDs are recorded on the
+    *     new span so the trace can be correlated in the Jaeger UI even when
+    *     the full W3C context is absent.
+    *  3. Falls back to a new root span when neither header is present.
      */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<JaegerSpanAdapter>(themis::Tracer::Span{});
         }
 
         // W3C traceparent takes precedence – delegate to the base tracer.
-        std::string traceparent = headerValueCI(headers, "traceparent");
+        std::string traceparent = headerValueCI(carrier_headers, "traceparent");
         if (!traceparent.empty()) {
             auto span_ptr = std::make_unique<JaegerSpanAdapter>(
-                themis::Tracer::startSpanFromHeaders(name, headers));
+                themis::Tracer::startSpanFromHeaders(name, carrier_headers));
             span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                                 : circuit_breaker_->recordFailure();
             return span_ptr;
         }
 
         // Fall back to Jaeger uber-trace-id.
-        std::string uber_trace_id = headerValueCI(headers, "uber-trace-id");
+        std::string uber_trace_id = headerValueCI(carrier_headers, "uber-trace-id");
         auto span_ptr = std::make_unique<JaegerSpanAdapter>(
             themis::Tracer::startSpan(name));
 
@@ -211,7 +200,7 @@ public:
         }
 
         // Also extract W3C Baggage.
-        themis::Baggage::extract(headers);
+        themis::Baggage::extract(carrier_headers);
 
         span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                             : circuit_breaker_->recordFailure();
@@ -221,24 +210,24 @@ public:
     /**
      * @brief Inject trace context into outgoing headers.
      *
-     * Writes both the W3C `traceparent` header and the Jaeger `uber-trace-id`
-     * header so downstream services using either convention can continue the
-     * trace.  Also injects W3C Baggage when any items are present.
+    * Writes both the W3C `traceparent` header and the Jaeger `uber-trace-id`
+    * header so downstream services using either convention can continue the
+    * trace. Also injects W3C Baggage when any items are present.
      */
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();
         std::string span_id  = themis::Tracer::getCurrentSpanId();
 
         if (!trace_id.empty() && !span_id.empty()) {
             // W3C traceparent
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
 
             // Jaeger uber-trace-id: {traceId}:{spanId}:{parentSpanId}:{flags}
             // Use "0" as the parent-span-id for the root of the outbound leg.
-            headers["uber-trace-id"] = trace_id + ":" + span_id + ":0:1";
+            carrier_headers["uber-trace-id"] = trace_id + ":" + span_id + ":0:1";
         }
 
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     // -------------------------------------------------------------------------

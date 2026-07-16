@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Replication Module Headers
 
 Public interfaces and declarations for the ThemisDB replication module.
@@ -8,8 +10,9 @@ Public interfaces and declarations for the ThemisDB replication module.
 2. [Header Files](#header-files)
 3. [Data Structures](#data-structures)
 4. [API Reference](#api-reference)
-5. [Integration Guide](#integration-guide)
-6. [Thread Safety](#thread-safety)
+5. [Usage](#usage)
+6. [Integration Guide](#integration-guide)
+7. [Thread Safety](#thread-safety)
 
 ## Overview
 
@@ -85,7 +88,7 @@ struct WALEntry {
     std::string document_id;
     std::string data;               // JSON payload
     std::string checksum;           // SHA-256 integrity check
-    
+
     std::vector<uint8_t> serialize() const;
     static std::optional<WALEntry> deserialize(const std::vector<uint8_t>& data);
 };
@@ -102,7 +105,7 @@ struct ReplicaInfo {
     int32_t priority;               // For leader election preference
     HealthStatus health_status;
     uint32_t consecutive_failures;
-    
+
     bool isHealthy() const;
     bool isHealthyWithTimeout(uint32_t timeout_ms) const;
     int64_t replicationLagMs() const;
@@ -112,28 +115,28 @@ struct ReplicationConfig {
     bool enabled = false;
     ReplicationMode mode = ReplicationMode::ASYNC;
     ConflictResolution conflict_strategy = ConflictResolution::LAST_WRITE_WINS;
-    
+
     // Timing
     uint32_t heartbeat_interval_ms = 1000;
     uint32_t election_timeout_min_ms = 3000;
     uint32_t election_timeout_max_ms = 5000;
     uint32_t replication_timeout_ms = 10000;
-    
+
     // Batching
     uint32_t batch_size = 100;
     uint32_t batch_timeout_ms = 50;
-    
+
     // WAL settings
     std::string wal_directory = "/var/lib/themisdb/wal";
     uint64_t wal_segment_size_bytes = 64 * 1024 * 1024;
     uint32_t wal_retention_segments = 100;
     bool wal_sync_on_commit = true;
-    
+
     // Quorum settings
     uint32_t min_sync_replicas = 1;
     bool allow_stale_reads = false;
     uint32_t max_replication_lag_ms = 10000;
-    
+
     // HA settings
     bool enable_auto_failover = true;
     uint32_t failure_detection_timeout_ms = 5000;
@@ -141,13 +144,13 @@ struct ReplicationConfig {
     uint32_t max_consecutive_failures = 3;
     uint32_t degraded_lag_threshold_ms = 5000;
     ReadPreference default_read_preference = ReadPreference::PRIMARY_PREFERRED;
-    
+
     // TLS/Security
     std::string cert_path;
     std::string key_path;
     std::string ca_path;
     bool require_mtls = true;
-    
+
     // Initial cluster members
     std::vector<std::string> seed_nodes;
 };
@@ -164,7 +167,7 @@ struct ReplicationStats {
     std::atomic<uint64_t> manual_failovers{0};
     std::atomic<uint64_t> replica_failures_detected{0};
     std::atomic<uint64_t> network_partitions_detected{0};
-    
+
     std::string toPrometheusFormat() const;
 };
 ```
@@ -200,7 +203,7 @@ if (repl_mgr.replicate(entry)) {
 
 // Check replication status
 for (const auto& replica : repl_mgr.getReplicas()) {
-    std::cout << replica.node_id << " lag: " 
+    std::cout << replica.node_id << " lag: "
               << replica.replicationLagMs() << "ms" << std::endl;
 }
 ```
@@ -254,7 +257,7 @@ struct MMWriteEntry {
     HybridLogicalClock::Timestamp hlc;  // Hybrid logical timestamp
     std::string checksum;           // Content checksum
     std::vector<std::string> dependencies;  // Causal dependencies
-    
+
     std::vector<uint8_t> serialize() const;
     static std::optional<MMWriteEntry> deserialize(const std::vector<uint8_t>& data);
 };
@@ -289,26 +292,26 @@ struct MMReplicationConfig {
     std::vector<std::string> seed_peers;
     std::string datacenter;
     std::string region;
-    
+
     // Replication settings
     uint32_t replication_factor = 3;
     uint32_t write_quorum = 2;
     uint32_t read_quorum = 1;
-    
+
     // Timing
     uint32_t heartbeat_interval_ms = 1000;
     uint32_t sync_interval_ms = 100;
     uint32_t timeout_ms = 5000;
-    
+
     // Conflict resolution
     std::string default_resolution_strategy = "LAST_WRITE_WINS";
     std::map<std::string, std::string> collection_strategies;
-    
+
     // Performance
     uint32_t max_batch_size = 1000;
     uint32_t max_pending_writes = 10000;
     bool async_apply = true;
-    
+
     // Network
     bool use_mtls = true;
     std::string cert_path;
@@ -323,21 +326,21 @@ class VectorClock {
 public:
     VectorClock() = default;
     explicit VectorClock(const std::string& node_id);
-    
+
     // Increment this node's clock
     void increment(const std::string& node_id);
-    
+
     // Merge with another vector clock
     void merge(const VectorClock& other);
-    
+
     // Get timestamp for a node
     uint64_t get(const std::string& node_id) const;
-    
+
     // Compare clocks
     int compare(const VectorClock& other) const;
     bool happensBefore(const VectorClock& other) const;
     bool isConcurrent(const VectorClock& other) const;
-    
+
     // Serialization
     std::string toJson() const;
     static VectorClock fromJson(const std::string& json);
@@ -352,20 +355,20 @@ public:
         uint64_t physical;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
         std::string node_id;
-        
+
         bool operator<(const Timestamp& other) const;
         bool operator==(const Timestamp& other) const;
         std::string toString() const;
     };
-    
+
     explicit HybridLogicalClock(const std::string& node_id);
-    
+
     // Generate timestamp for local event
     Timestamp now();
-    
+
     // Update clock based on received timestamp
     Timestamp receive(const Timestamp& received);
-    
+
     // Get current timestamp without incrementing
     Timestamp current() const;
 };
@@ -629,7 +632,7 @@ void setConflictResolver(
     std::shared_ptr<ConflictResolver> resolver
 );
 std::vector<ConflictRecord> getUnresolvedConflicts() const;
-bool resolveConflict(const std::string& conflict_id, 
+bool resolveConflict(const std::string& conflict_id,
                     const std::string& winning_write_id);
 ```
 
@@ -655,6 +658,40 @@ struct Stats {
 
 Stats getStats() const;
 std::string exportPrometheusMetrics() const;
+```
+
+## Usage
+
+Use `replication_manager.h` as the primary entry point for leader-follower, quorum, compression, bidirectional, and geo-replication flows; add specialized headers only when those features are needed:
+
+- `logical_replication.h` for schema-aware logical slot streaming
+- `multi_master_replication.h` for write-anywhere topologies with conflict handling
+- `raft_v2.h` for joint-consensus membership change orchestration
+- `replication_slot.h` for slot lifecycle management APIs
+
+Minimal bootstrap:
+
+```cpp
+#include "replication/replication_manager.h"
+#include "replication/logical_replication.h"
+
+using namespace themisdb::replication;
+
+ReplicationConfig config;
+config.enabled = true;
+config.mode = ReplicationMode::SEMI_SYNC;
+config.min_sync_replicas = 2;
+config.seed_nodes = {"node-a:7000", "node-b:7000", "node-c:7000"};
+
+ReplicationManager manager(config);
+if (manager.initialize()) {
+    WALEntry entry{};
+    entry.operation = "INSERT";
+    entry.collection = "orders";
+    entry.document_id = "order-42";
+    entry.data = R"({"status":"created"})";
+    manager.replicate(entry);
+}
 ```
 
 ## Integration Guide
@@ -709,24 +746,24 @@ mm.writeSync("users", "user123", "INSERT", R"({"name": "Alice"})");
 class MyReplicationListener : public IReplicationListener {
 public:
     void onRoleChange(ReplicationRole old_role, ReplicationRole new_role) override {
-        std::cout << "Role changed from " << (int)old_role 
+        std::cout << "Role changed from " << (int)old_role
                   << " to " << (int)new_role << std::endl;
     }
-    
+
     void onLeaderElected(const std::string& leader_id) override {
         std::cout << "New leader: " << leader_id << std::endl;
     }
-    
+
     void onReplicationLagWarning(int64_t lag_ms) override {
         std::cerr << "WARNING: Replication lag " << lag_ms << "ms" << std::endl;
     }
-    
-    void onFailoverStarted(const std::string& failed_leader_id, 
+
+    void onFailoverStarted(const std::string& failed_leader_id,
                           const std::string& new_leader_id) override {
-        std::cout << "Failover: " << failed_leader_id 
+        std::cout << "Failover: " << failed_leader_id
                   << " -> " << new_leader_id << std::endl;
     }
-    
+
     // ... implement other methods
 };
 
@@ -790,10 +827,71 @@ repl_mgr.addListener(listener);
 ## See Also
 
 - [Replication Module Implementation](../../src/replication/README.md)
-- [Future Enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Replication Architecture](../../src/replication/ARCHITECTURE.md)
+- [Replication Roadmap](../../src/replication/ROADMAP.md)
+- [Replication Future Enhancements](../../src/replication/FUTURE_ENHANCEMENTS.md)
+- [Replication HA Guide](../../docs/replication-ha-guide.md)
+- [Replication Troubleshooting](../../docs/troubleshooting/replication_troubleshooting.md)
 - [Storage Module Headers](../storage/README.md)
 - [Transaction Module Headers](../transaction/README.md)
 
-*Last Updated: February 2026*  
-*API Version: v1.5.0*  
+*Last Updated: April 2026*
+*API Version: v1.5.0*
 *Next Review: v1.6.0 Release*
+
+## Additional Header Files
+
+The following headers are present in `include/replication/` and supplement the components documented above.
+
+### conflict_resolution.h
+Declares merge-oriented resolvers (for example `ThreeWayMergeResolver` and `FieldLevelMergeResolver`) used for deterministic conflict handling across concurrent updates.
+
+### crdt_types.h
+Declares CRDT primitives (counter, set, register, map, and sequence variants) for conflict-free convergence in multi-master topologies.
+
+### event_stream.h
+Declares replication event publishing/subscription contracts with RAII subscription lifetime handling.
+
+### kafka_change_stream.h
+Declares Kafka change-stream integration points used for CDC fan-out to external stream processors.
+
+### logical_replication.h
+Declares logical (row-level) replication interfaces including per-slot filtering, DDL propagation, and optional transform hooks.
+
+### multi_tier_replication.h
+Declares tier-based replication management for critical/standard/archival data classes with optional auto-tiering.
+
+### observability.h
+Declares observability structures for topology snapshots, lag analysis, bottleneck diagnostics, and health scoring.
+
+### policy.h
+Declares policy APIs for per-collection replication-mode assignment and topology validation checks.
+
+### raft_v2.h
+Declares Raft v2 state/configuration and membership-change orchestration APIs for joint consensus transitions.
+
+### replication_slot.h
+Declares replication-slot state and management interfaces for pause/resume and progress persistence.
+
+### schema_cdc.h
+Declares schema-aware CDC bridge interfaces for integrating replication events with schema registry encoders.
+
+## Troubleshooting
+
+1. **Build errors after including replication headers**
+   - Ensure include path exposes `include/` so imports remain `#include "replication/<header>.h"`.
+   - Include only required headers in leaf components to reduce compile-time coupling.
+
+2. **Replication configuration validation fails**
+   - Check quorum-sensitive fields (`min_sync_replicas`, `mode`, timeout values) for contradictory settings.
+   - Validate TLS files (`cert_path`, `key_path`, `ca_path`) before calling `initialize()`.
+
+3. **Logical replication slot behavior is unexpected**
+   - Verify slot filters (include/exclude collections, row predicate) and whether DDL/DML flags are enabled.
+   - Confirm `wal_directory` points to writable storage when persistent slot metadata is required.
+
+4. **Conflict handling produces unresolved records**
+   - Re-check default and per-collection conflict strategy assignments.
+   - Use deterministic strategies for hot collections and reserve custom resolvers for explicitly handled domains.
+
+## Installation

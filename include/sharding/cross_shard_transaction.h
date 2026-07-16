@@ -1,36 +1,35 @@
+/**
+ * @file cross_shard_transaction.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cross_shard_transaction.h                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     487                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cross_shard_transaction.h | Version: 0.0.47 | Last Modified: 2026-06-02 09:57:38
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 741
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4212 fix(chimera/percolator): re... (2026-03-15) | #1031 Implement comprehensive res... (2026-03-11) | #1033 Replace TrueTime stub with ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
-#define THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
+#pragma once
 
 #include "sharding/consensus_module.h"
+#include "sharding/cross_shard_fk_validator.h"
+#include "sharding/cross_shard_ssi_manager.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -64,70 +63,77 @@ using TransactionSnapshotManager = ::sharding::TransactionSnapshotManager;
  * @brief Transaction protocol type
  */
 enum class TransactionProtocol {
-    TWO_PHASE_COMMIT,      // 2PC - blocking but strongly consistent
-    THREE_PHASE_COMMIT,    // 3PC - non-blocking variant
-    SAGA,                  // SAGA - compensating transactions for long-running txns
-    PERCOLATOR,            // Percolator - optimistic concurrency for distributed writes
-    CALVIN                 // Calvin - deterministic distributed transactions via pre-ordering
+    TWO_PHASE_COMMIT,   ///< 2PC: blocking but strongly consistent.
+    THREE_PHASE_COMMIT, ///< 3PC: non-blocking variant with pre-commit stage.
+    SAGA,               ///< SAGA with compensating actions.
+    PERCOLATOR,         ///< Percolator optimistic protocol for distributed writes.
+    CALVIN              ///< Calvin deterministic protocol via pre-ordering.
 };
 
 /**
  * @brief Transaction isolation level
  */
 enum class IsolationLevel {
-    READ_UNCOMMITTED,      // Dirty reads allowed
-    READ_COMMITTED,        // Read only committed data
-    REPEATABLE_READ,       // Consistent reads within transaction
-    SNAPSHOT_ISOLATION,    // MVCC snapshot isolation
-    SERIALIZABLE          // Fully serializable
+    READ_UNCOMMITTED,   ///< Dirty reads allowed.
+    READ_COMMITTED,     ///< Reads only committed data.
+    REPEATABLE_READ,    ///< Repeatable reads within a transaction.
+    SNAPSHOT_ISOLATION, ///< MVCC snapshot isolation.
+    SERIALIZABLE        ///< Fully serializable execution.
 };
 
 /**
  * @brief Transaction state
  */
 enum class TransactionState {
-    ACTIVE,                // Transaction is active
-    PREPARING,             // Preparing to commit (2PC phase 1)
-    PREPARED,              // All participants ready to commit
-    COMMITTING,            // Committing changes
-    COMMITTED,             // Transaction committed successfully
-    ABORTING,              // Aborting transaction
-    ABORTED,               // Transaction aborted
-    UNKNOWN                // State unknown (coordinator failure)
+    ACTIVE,      ///< Transaction is active.
+    PREPARING,   ///< Phase 1 prepare in progress.
+    PREPARED,    ///< All participants prepared.
+    COMMITTING,  ///< Commit decision being applied.
+    COMMITTED,   ///< Commit completed successfully.
+    ABORTING,    ///< Abort decision being applied.
+    ABORTED,     ///< Abort completed.
+    UNKNOWN      ///< State unknown, usually after coordinator failure.
+};
+
+enum class DeadlockVictimPolicy {
+    YOUNGEST,  ///< Abort most recently started transaction in cycle.
+    OLDEST,    ///< Abort longest-running transaction in cycle.
+    RANDOM     ///< Abort random transaction in cycle.
 };
 
 /**
  * @brief Shard participant in a transaction
  */
 struct ShardParticipant {
-    std::string shard_id;                    // Shard identifier
-    std::string endpoint;                    // Shard endpoint
-    std::vector<std::string> operations;     // Operations on this shard
-    bool prepared = false;                   // Prepared for commit
-    bool committed = false;                  // Committed
-    bool aborted = false;                    // Aborted
-    std::string error_message;               // Error message if failed
+    std::string shard_id;                 ///< Shard identifier.
+    std::string endpoint;                 ///< Participant RPC endpoint.
+    std::vector<std::string> operations;  ///< Serialized operations for shard.
+    bool prepared = false;                ///< True when prepare acknowledged.
+    bool precommitted = false;            ///< True when 3PC pre-commit acknowledged.
+    bool committed = false;               ///< True when commit acknowledged.
+    bool aborted = false;                 ///< True when abort acknowledged.
+    std::string error_message;            ///< Participant-specific failure detail.
 };
 
 /**
  * @brief Cross-shard transaction metadata
  */
 struct CrossShardTransaction {
-    std::string transaction_id;              // Global transaction ID
-    TransactionProtocol protocol;            // Transaction protocol
-    IsolationLevel isolation_level;          // Isolation level
-    TransactionState state;                  // Current state
+    std::string transaction_id;              ///< Global transaction ID.
+    TransactionProtocol protocol;            ///< Selected transaction protocol.
+    IsolationLevel isolation_level;          ///< Requested isolation level.
+    TransactionState state;                  ///< Current transaction state.
     std::chrono::system_clock::time_point start_time;
     std::chrono::system_clock::time_point end_time;
-    std::map<std::string, ShardParticipant> participants;  // Shard ID -> participant
-    nlohmann::json metadata;                 // Additional metadata
+    std::map<std::string, ShardParticipant> participants;  ///< Participants keyed by shard ID.
+    nlohmann::json metadata;                 ///< Additional protocol metadata.
     
     // MVCC timestamps for snapshot isolation
-    int64_t snapshot_timestamp = 0;          // Read timestamp (start of transaction)
-    int64_t commit_timestamp = 0;            // Commit timestamp (end of transaction)
+    int64_t snapshot_timestamp = 0;          ///< Snapshot/read timestamp at begin.
+    int64_t commit_timestamp = 0;            ///< Commit timestamp assigned on decision.
     
     // Compensation data (for SAGA)
-    std::map<std::string, nlohmann::json> compensations;
+    std::map<std::string, nlohmann::json> compensations; ///< Compensation payloads for SAGA.
     
     nlohmann::json toJson() const {
         nlohmann::json j = {
@@ -164,41 +170,88 @@ struct CrossShardTransaction {
  * @brief Configuration for cross-shard transactions
  */
 struct CrossShardTransactionConfig {
-    TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT;
-    IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;
+    struct PolledWaitForEdge {
+        std::string waiting_transaction_id;
+        std::string blocking_transaction_id;
+    };
+
+    TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT; ///< Default protocol.
+    IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;        ///< Default isolation.
     
     // 2PC/3PC settings
-    std::chrono::milliseconds prepare_timeout{5000};
-    std::chrono::milliseconds commit_timeout{5000};
-    std::chrono::milliseconds abort_timeout{5000};
+    std::chrono::milliseconds prepare_timeout{5000}; ///< Prepare-phase timeout.
+    std::chrono::milliseconds commit_timeout{5000};  ///< Commit-phase timeout.
+    std::chrono::milliseconds abort_timeout{5000};   ///< Abort-phase timeout.
     
     // SAGA settings
-    bool saga_enable_compensation = true;
-    std::chrono::milliseconds saga_step_timeout{10000};
+    bool saga_enable_compensation = true;             ///< Enable SAGA compensation flow.
+    std::chrono::milliseconds saga_step_timeout{10000}; ///< Timeout per SAGA step.
     
     // Percolator settings
-    std::chrono::milliseconds percolator_lock_timeout{1000};
-    uint32_t percolator_max_retries = 3;
+    std::chrono::milliseconds percolator_lock_timeout{1000}; ///< Percolator lock timeout.
+    uint32_t percolator_max_retries = 3;                     ///< Percolator retry count.
+    
+    // Generic lock timeout (used by multiple protocols)
+    std::chrono::milliseconds lock_timeout{5000}; ///< Generic coordinator mutex timeout.
     
     // Calvin settings
-    std::chrono::milliseconds calvin_epoch_duration{10};   // Epoch batch window (default 10ms)
-    bool calvin_enable_deterministic_lock_order = true;    // Sort locks by key for deadlock-free acquisition
+    std::chrono::milliseconds calvin_epoch_duration{10}; ///< Calvin epoch batch window.
+    bool calvin_enable_deterministic_lock_order = true; ///< Sort locks by key for deadlock-free acquisition.
     
     // Deadlock detection
-    bool enable_deadlock_detection = true;
-    std::chrono::milliseconds deadlock_detection_interval{1000};
+    bool enable_deadlock_detection = true;                           ///< Enable deadlock detector thread.
+    std::chrono::milliseconds deadlock_detection_interval{1000};     ///< Deadlock scan interval.
+    DeadlockVictimPolicy deadlock_victim_policy = DeadlockVictimPolicy::YOUNGEST; ///< Victim choice policy.
     
     // Transaction timeout
-    std::chrono::milliseconds transaction_timeout{30000};
+    std::chrono::milliseconds transaction_timeout{30000}; ///< Global transaction timeout.
     
     // Transaction log path (defaults to /var/lib/themisdb/transaction_log.jsonl)
-    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl";
+    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl"; ///< Absolute transaction log path.
     
     // Persistence settings (Phase 2.3.3 - Transaction Durability)
-    bool enable_persistence = false;                // Enable WAL-based persistence
-    std::string data_dir;                           // Base directory for WAL and snapshots
-    uint64_t snapshot_interval = 1000;              // Create snapshot every N operations
-    size_t max_snapshots = 10;                      // Maximum snapshots to retain
+    bool enable_persistence = false; ///< Enable WAL/snapshot persistence backend.
+    std::string data_dir;            ///< Base directory for WAL and snapshots.
+    uint64_t snapshot_interval = 1000; ///< Snapshot cadence in operation count.
+    size_t max_snapshots = 10;       ///< Maximum retained snapshots.
+
+    // Coordinator identity — set to DistributedCoordinator::getLocalShardId()
+    // before constructing CrossShardTransactionCoordinator so that audit records
+    // and snapshots carry the real node ID instead of a placeholder.
+    std::string coordinator_id; ///< Actual coordinator node identifier.
+
+    // Cluster-wide deadlock detection — shard endpoints to poll.
+    // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
+    // When non-empty, deadlockDetectionThread polls every endpoint once per
+    // deadlock_detection_interval to collect their local wait-for edges and
+    // merge them into the cluster-wide graph alongside any edges explicitly
+    // reported via reportDistributedWait().
+    std::map<std::string, std::string> shard_endpoints; ///< Shard ID to endpoint map for wait-edge polling.
+
+    // Optional override used to collect per-shard wait-for edges during
+    // deadlock detection. Primarily intended for deterministic tests and
+    // custom deployments that do not use ShardRPCClient polling.
+    std::function<std::vector<PolledWaitForEdge>(
+        const std::string& shard_id,
+        const std::string& endpoint
+    )> polled_wait_for_edge_collector;
+
+    // ── Distributed Serializable Snapshot Isolation (SSI) ────────────────────
+
+    /// Configuration for cross-shard SSI predicate-lock tracking and
+    /// conflict detection.  Applies only to transactions with isolation level
+    /// SERIALIZABLE.  Inactive (no-op) for all other isolation levels.
+    CrossShardSSIManager::Config ssi_config;
+};
+
+struct BackendRecoveryStats {
+    uint64_t pending_transactions = 0;
+    uint64_t snapshot_transactions_restored = 0;
+    uint64_t wal_entries_replayed = 0;
+    uint64_t stale_transactions_detected = 0;
+    uint64_t resume_candidates = 0;
+    uint64_t failed_operations = 0;
+    uint64_t in_doubt_transactions = 0;
 };
 
 /**
@@ -212,14 +265,22 @@ struct CrossShardTransactionConfig {
  * - Distributed deadlock detection
  * - Snapshot isolation across shards
  */
-class CrossShardTransactionCoordinator {
+class CrossShardTransactionCoordinator
+    : public themis::transaction::IRecoverableTwoPhaseCoordinator {
 public:
+    /**
+     * @brief Construct cross-shard coordinator with optional TrueTime source.
+     * @param config Coordinator behavior and timeout settings.
+     * @param consensus Consensus module for replicated coordinator decisions.
+     * @param truetime Optional TrueTime provider; created lazily when null.
+     */
     explicit CrossShardTransactionCoordinator(
         const CrossShardTransactionConfig& config,
         std::shared_ptr<ConsensusModule> consensus,
         std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr
     );
     
+    /** @brief Stop background worker threads and release resources. */
     ~CrossShardTransactionCoordinator();
     
     /**
@@ -285,6 +346,37 @@ public:
      * @return true if aborted successfully
      */
     bool abort(const std::string& transaction_id);
+
+    /**
+     * @brief Re-drive in-doubt transactions using the configured recovery backend.
+     *
+      * Uses WAL+snapshot recovery when the backend is available.
+     *
+     * This method is intended for startup recovery before new transactions are
+     * accepted. If called during live traffic, the returned value is best-effort.
+     *
+     * @return Number of in-doubt transactions resolved by this invocation.
+     */
+    [[nodiscard]] size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return Stable coordinator type name.
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL/snapshot" when persistence is enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
     
     /**
      * @brief Execute a SAGA transaction
@@ -323,6 +415,102 @@ public:
      * @return true if deadlocked
      */
     bool isDeadlocked(const std::string& transaction_id) const;
+
+    /**
+     * @brief Report a distributed wait edge observed on a shard.
+     *
+     * Records that @p waiting_transaction_id is waiting for
+     * @p blocking_transaction_id on @p shard_id so the coordinator can build
+     * a cross-shard wait-for graph for deadlock detection.
+     */
+    void reportDistributedWait(
+        const std::string& waiting_transaction_id,
+        const std::string& blocking_transaction_id,
+        const std::string& shard_id
+    );
+
+    /**
+     * @brief Clear all distributed wait edges for a transaction.
+     */
+    void clearDistributedWaits(const std::string& transaction_id);
+
+    // ── Distributed SSI API ──────────────────────────────────────────────────
+
+    /**
+     * @brief Register predicate (range) locks observed on @p shard_id for a
+     *        SERIALIZABLE transaction during its read phase.
+     *
+     * Must be called by the shard participant (or its proxy) before the
+     * transaction enters the prepare phase so that the coordinator has the
+     * full cross-shard read-set available for conflict detection.
+     *
+     * No-op when SSI is disabled or when @p transaction_id does not denote
+     * an active SERIALIZABLE transaction.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Global transaction identifier.
+     * @param shard_id        Shard that performed the range scan.
+     * @param predicates      Key ranges observed on @p shard_id.
+     */
+    void registerShardReadSet(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::vector<CrossShardPredicateLock>& predicates);
+
+    /**
+     * @brief Register the keys written on @p shard_id by a SERIALIZABLE
+     *        transaction.
+     *
+     * Must be called by the shard participant (or its proxy) before the
+     * transaction enters the prepare phase.
+     *
+     * No-op when SSI is disabled.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Global transaction identifier.
+     * @param shard_id        Shard that performed the writes.
+     * @param keys            Keys written on @p shard_id.
+     */
+    void registerShardWriteSet(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::vector<std::string>& keys);
+
+    /**
+     * @brief Perform cross-shard SSI conflict detection for @p transaction_id.
+     *
+     * Called internally by prepare() for SERIALIZABLE transactions.  May also
+     * be called explicitly by callers that manage prepare/commit life-cycles
+     * outside the coordinator (e.g. testing harnesses).
+     *
+     * Returns an empty vector when no conflict is found.  A non-empty result
+     * means the transaction must be aborted.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Transaction to validate.
+     * @return                All detected serialization conflicts.
+     */
+    [[nodiscard]] std::vector<CrossShardSSIConflict>
+    validateCrossShardSSI(const std::string& transaction_id) const;
+
+    /**
+     * @brief Update the SSI configuration applied to all future transactions.
+     *
+     * Thread-safe.  New values take effect immediately for subsequent
+     * registerShardReadSet() / validateCrossShardSSI() calls.
+     *
+     * @param config  New SSI tuning parameters.
+     */
+    void setSSIConfig(const CrossShardSSIManager::Config& config);
+
+    /**
+     * @brief Return the currently active SSI configuration.
+     * Thread-safe.
+     */
+    [[nodiscard]] CrossShardSSIManager::Config getSSIConfig() const;
     
     /**
      * @brief Get active transactions
@@ -340,7 +528,76 @@ public:
     void onTransactionStateChange(
         std::function<void(const std::string&, TransactionState, TransactionState)> callback
     );
-    
+
+    /**
+     * @brief Inject a PreCommit RPC callback for the 3PC protocol.
+     *
+     * In the 3PC protocol, Phase 2 must instruct every participant to durably
+     * persist its prepared state (PreCommit) before the coordinator proceeds to
+      * Phase 3 (Commit). Without this RPC, 3PC execution fails closed.
+     *
+     * When @p fn is non-null, execute3PC() calls it for each participant in
+     * Phase 2 and aborts the transaction if any participant rejects.  This
+     * activates the full 3PC non-blocking guarantee.
+     *
+      * Pass @c nullptr to remove the callback. Any later attempt to execute
+      * 3PC without a callback fails closed and aborts the transaction.
+     *
+     * **Exception safety**: The callback must not throw.  If it does, the
+     * exception is caught by execute3PC(), treated as a NACK (i.e. the
+     * participant's PreCommit is counted as failed), and the transaction is
+     * aborted.
+     *
+     * @param fn  Callable @c bool(shard_id, txn_id) that sends the PreCommit
+     *            RPC to the given shard; returns true on acknowledgement,
+     *            false on NACK; must not throw.
+     */
+    using PreCommitRpcFn =
+        std::function<bool(const std::string& /*shard_id*/,
+                           const std::string& /*txn_id*/)>;
+
+    using DeferredPreCommitFn =
+        std::function<void(const std::string& /*txn_id*/,
+                           const std::vector<std::string>& /*failed_shards*/)>;
+
+    void setPreCommitCallback(PreCommitRpcFn fn);
+
+    /**
+     * @brief Set callback for deferred PreCommit retry (3PC non-blocking mode).
+     * 
+     * When set, failed PreCommit operations will not immediately abort the
+     * transaction. Instead, they will be retried asynchronously via this
+     * callback. This enables non-blocking 3PC behavior for Converged Storage-Inference.
+     * 
+     * @param fn  Callable that will be invoked with the transaction ID and list of
+     *            shards that failed PreCommit, for async retry.
+     */
+    void setDeferredPreCommitCallback(DeferredPreCommitFn fn);
+
+    /**
+     * @brief Inject a cross-shard foreign-key validator (issue #5392).
+     *
+     * When a non-null validator is set, prepare() invokes
+     * CrossShardForeignKeyValidator::validate() **before** dispatching the
+     * prepare RPCs to participants.  Any non-deferrable FK violation causes
+     * prepare() to return false (transaction aborted).
+     *
+     * Passing @c nullptr removes a previously installed validator.  The
+     * coordinator takes shared ownership of the validator so it can be shared
+     * across coordinator instances in tests.
+     *
+     * ### Thread safety
+     * The method is protected by the callbacks_mutex_ and is safe to call
+     * concurrently with ongoing transactions; the validator pointer is
+     * snapshotted at the start of each prepare() call.
+     *
+     * @param validator  Fully configured CrossShardForeignKeyValidator, or
+     *                   nullptr to disable cross-shard FK checking.
+     */
+    void setForeignKeyValidator(
+        std::shared_ptr<CrossShardForeignKeyValidator> validator
+    );
+
 private:
     /**
      * @brief Execute 2PC protocol
@@ -389,6 +646,11 @@ private:
      * @brief Deadlock detection thread
      */
     void deadlockDetectionThread();
+
+    /**
+     * @brief Background worker that retries deferred 3PC pre-commit RPCs.
+     */
+    void preCommitRetryThread();
     
     /**
      * @brief Build wait-for graph for deadlock detection
@@ -404,6 +666,14 @@ private:
         std::set<std::string>& visited,
         std::set<std::string>& rec_stack
     ) const;
+
+    /**
+     * @brief Remove all outgoing and incoming distributed wait edges
+     * for a finished transaction.
+     *
+     * Caller must hold transactions_mutex_.
+     */
+    void clearDistributedWaitEdgesLocked(const std::string& transaction_id);
     
     /**
      * @brief Execute compensations for SAGA transaction
@@ -428,61 +698,233 @@ private:
         const std::string& transaction_id,
         TransactionState state
     );
-    
+
     /**
-     * @brief Load pending transactions from durable storage
+     * @brief Acquire/release the exclusive terminal-decision guard for a transaction.
+     *
+     * Prevents concurrent commit()/abort() callers from driving conflicting final
+     * decisions for the same transaction at the same time.
      */
-    std::vector<CrossShardTransaction> loadPendingTransactions();
-    
-    /**
-     * @brief Recover coordinator state after failure
-     */
-    bool recoverFromFailure();
+    bool tryStartTerminalDecision(const std::string& transaction_id);
+    void finishTerminalDecision(const std::string& transaction_id);
     
     /**
      * @brief Recover from WAL and snapshot (Phase 2.3.3)
      */
-    bool recoverFromWAL();
+    bool recoverFromWAL(BackendRecoveryStats* stats = nullptr);
+
+    struct RecoveryRunResult {
+        bool ok = false;
+        bool backend_available = false;
+        const char* backend = "WAL/snapshot";
+        uint64_t elapsed_ms = 0;
+        BackendRecoveryStats details;
+    };
+
+    /**
+     * @brief Run WAL/snapshot recovery and emit consistent telemetry.
+     * @param context Caller context used in diagnostics (e.g. "initialize").
+     * @return Structured recovery result for caller-side handling.
+     */
+    RecoveryRunResult runRecoveryBackend(const char* context);
     
     /**
      * @brief Create periodic snapshot of active transactions (Phase 2.3.3)
      */
     void createPeriodicSnapshot();
     
-    CrossShardTransactionConfig config_;
-    std::shared_ptr<ConsensusModule> consensus_;
-    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    CrossShardTransactionConfig config_; ///< Runtime coordinator configuration.
+    std::shared_ptr<ConsensusModule> consensus_; ///< Consensus dependency for replicated decisions.
+    std::shared_ptr<themis::sharding::TrueTime> truetime_; ///< Time source for MVCC/external consistency.
+
+    /// Distributed SSI manager for cross-shard predicate-lock tracking and
+    /// conflict detection.  Active only for SERIALIZABLE transactions.
+    CrossShardSSIManager ssi_manager_;
     
     // Transaction log file
-    std::string transaction_log_path_;
+    std::string transaction_log_path_; ///< Absolute transaction log file path.
     
     // Phase 2.3.3: WAL and Snapshot infrastructure
-    std::unique_ptr<TransactionWAL> transaction_wal_;
-    std::unique_ptr<TransactionSnapshotManager> snapshot_manager_;
-    std::atomic<uint64_t> operations_since_snapshot_{0};
-    LSN last_applied_lsn_{0, 0};
+    std::unique_ptr<TransactionWAL> transaction_wal_; ///< WAL backend for durability/recovery.
+    std::unique_ptr<TransactionSnapshotManager> snapshot_manager_; ///< Snapshot backend for recovery acceleration.
+    std::atomic<uint64_t> operations_since_snapshot_{0}; ///< Operation count since last snapshot.
+    LSN last_applied_lsn_{0, 0}; ///< Last WAL LSN applied during recovery.
     
     // State
-    mutable std::mutex transactions_mutex_;
-    std::map<std::string, CrossShardTransaction> transactions_;
+    mutable std::timed_mutex transactions_mutex_; ///< Protects transaction map and wait-edge graph.
+    std::map<std::string, CrossShardTransaction> transactions_; ///< Active transaction registry.
+    std::map<std::string, std::set<std::string>> distributed_wait_for_edges_; ///< Cross-shard wait-for edges.
+    mutable std::mutex decision_mutex_; ///< Protects terminal decision guard set.
+    std::set<std::string> terminal_decisions_in_progress_; ///< Transactions currently in commit/abort finalization.
     
     // Callbacks
     mutable std::mutex callbacks_mutex_;
     std::function<void(const std::string&, TransactionState, TransactionState)> 
-        on_state_change_callback_;
+        on_state_change_callback_; ///< Optional state transition callback.
+
+    /// Injected 3PC PreCommit RPC callback (CST-6).
+    /// Protected by callbacks_mutex_.
+    PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
+
+    DeferredPreCommitFn deferred_precommit_callback_;///< Optional callback for deferred PreCommit retry.
+
+    /// Injected cross-shard FK validator (issue #5392).
+    /// Protected by callbacks_mutex_.
+    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator_; ///< Optional FK constraint validator.
+    
+    // Deferred PreCommit tracking
+    std::map<std::string, std::vector<std::string>> deferred_precommits_; ///< txn_id -> failed shards
+    std::mutex deferred_mutex_;
     
     // Background thread
-    std::atomic<bool> running_;
-    std::thread deadlock_detection_thread_;
+    std::atomic<bool> running_;         ///< Lifecycle flag for background workers.
+    std::thread deadlock_detection_thread_; ///< Distributed deadlock detector thread.
+    std::thread precommit_retry_thread_;   ///< Thread for retrying deferred PreCommits.
     
     // Statistics
-    std::atomic<uint64_t> total_transactions_;
-    std::atomic<uint64_t> committed_transactions_;
-    std::atomic<uint64_t> aborted_transactions_;
-    std::atomic<uint64_t> deadlocked_transactions_;
+    std::atomic<uint64_t> total_transactions_;     ///< Total started transactions.
+    std::atomic<uint64_t> committed_transactions_; ///< Successfully committed transactions.
+    std::atomic<uint64_t> aborted_transactions_;   ///< Aborted transactions.
+    std::atomic<uint64_t> deadlocked_transactions_; ///< Deadlock victim count.
+};
+
+// ============================================================================
+// PercolatorCoordinator
+// ============================================================================
+
+/**
+ * @brief Standalone Percolator-style MVCC transaction coordinator.
+ *
+ * Implements the Google Percolator two-phase optimistic protocol for
+ * cross-shard transactions that favour snapshot-isolated, read-heavy
+ * workloads.  Key properties:
+ *
+ *  1. Primary-lock model: one row/shard acts as the transaction's "primary";
+ *     secondary rows reference the primary lock.
+ *  2. TrueTime commit-wait: commit timestamp is drawn from
+ *     TrueTime::now_with_uncertainty().latest; the coordinator then waits
+ *     until TT.now().earliest > commit_ts + max_uncertainty before sending
+ *     the final COMMIT to participants.
+ *  3. Coordinator-state durability: every phase transition is logged to the
+ *     supplied TransactionWAL so that a replacement coordinator can resume
+ *     in-flight transactions after a crash.
+ *  4. Stale-lock cleanup: cleanStaleLocks() may be called by OrphanDetector
+ *     to abort Percolator transactions that left locks behind after a
+ *     coordinator failure.
+ *
+ * The class uses callbacks for the low-level shard operations so it can be
+ * used both standalone (e.g. in tests) and wired into
+ * CrossShardTransactionCoordinator::executePercolator().
+ *
+ * Usage example:
+ * @code
+ *   PercolatorCoordinator::Config cfg;
+ *   cfg.lock_timeout   = std::chrono::milliseconds(500);
+ *   cfg.max_retries    = 3;
+ *
+ *   PercolatorCoordinator perc(cfg, truetime_ptr, std::move(wal_ptr));
+ *   bool ok = perc.execute(txn, prepare_fn, commit_fn, abort_fn);
+ * @endcode
+ */
+class PercolatorCoordinator {
+public:
+    /**
+     * @brief Runtime configuration.
+     */
+    struct Config {
+        /// Per-lock acquisition timeout (milliseconds).
+        std::chrono::milliseconds lock_timeout{1000};
+
+        /// Maximum number of lock-acquisition retries per shard.
+        uint32_t max_retries = 3;
+
+        /// How long a lock can be held before it is considered stale.
+        std::chrono::seconds stale_lock_threshold{30};
+    };
+
+    /// Callback type: send a PREPARE (lock) to one shard.
+    using SendPrepareFn = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+    /// Callback type: send a COMMIT to one shard.
+    using SendCommitFn  = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+    /// Callback type: send an ABORT to one shard.
+    using SendAbortFn   = std::function<bool(const std::string& shard_id,
+                                             const std::string& txn_id)>;
+
+    /**
+     * @brief Construct a PercolatorCoordinator.
+     *
+     * @param config     Runtime parameters.
+     * @param truetime   TrueTime clock used for commit-timestamp generation
+     *                   and commit-wait (may be nullptr; falls back to wall clock).
+     * @param wal        Optional non-owning pointer to a WAL for coordinator-state
+     *                   durability.  The WAL must outlive this object.
+     */
+    explicit PercolatorCoordinator(
+        const Config& config,
+        std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr,
+        TransactionWAL* wal = nullptr
+    );
+
+    ~PercolatorCoordinator() = default;
+
+    // Non-copyable, movable.
+    PercolatorCoordinator(const PercolatorCoordinator&) = delete;
+    PercolatorCoordinator& operator=(const PercolatorCoordinator&) = delete;
+
+    /**
+     * @brief Execute the Percolator protocol for @p txn.
+     *
+     * Drives the full Percolator commit sequence:
+     *  Phase 1 – PreWrite: lock secondaries first, then lock primary.
+     *  Phase 2 – Assign TrueTime commit timestamp, perform commit-wait.
+     *  Phase 3 – Commit primary, then commit secondaries (lock release).
+     *
+     * The shard-level operations are performed via the supplied callbacks
+     * so this class is independent of the RPC transport layer and can be
+     * used without a live CrossShardTransactionCoordinator.
+     *
+     * @param txn         Transaction to commit (state is mutated in-place).
+     * @param prepare_fn  Callback: lock (prepare) one shard.
+     * @param commit_fn   Callback: commit one shard.
+     * @param abort_fn    Callback: abort / unlock one shard.
+     * @return            true if the transaction committed successfully.
+     */
+    bool execute(
+        CrossShardTransaction& txn,
+        SendPrepareFn prepare_fn,
+        SendCommitFn  commit_fn,
+        SendAbortFn   abort_fn
+    );
+
+    /**
+     * @brief Reclaim stale Percolator locks left by a failed coordinator.
+     *
+     * Iterates over @p stale_txn_ids and issues abort RPCs for every shard
+     * whose Percolator lock has exceeded the stale-lock threshold.  Intended
+     * to be called from OrphanDetector on its cleanup interval.
+     *
+     * @param stale_txn_ids  Transaction IDs whose locks should be cleaned up.
+     * @param coordinator    Host coordinator used for getTransaction() / abort().
+     * @return               Number of locks successfully released.
+     */
+    size_t cleanStaleLocks(
+        const std::vector<std::string>& stale_txn_ids,
+        CrossShardTransactionCoordinator& coordinator
+    );
+
+private:
+    Config config_;
+    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    TransactionWAL* wal_;  ///< Non-owning pointer; lifetime managed by caller.
+
+    /// Compute a commit timestamp using TrueTime if available, else wall clock.
+    int64_t computeCommitTimestamp() const;
+
+    /// Perform the TrueTime commit-wait: spin until now().earliest > deadline.
+    void commitWait(int64_t commit_ts_ns) const;
 };
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H

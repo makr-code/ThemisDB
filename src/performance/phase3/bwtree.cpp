@@ -1,23 +1,21 @@
+/**
+ * @file bwtree.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=8, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bwtree.cpp                                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     307                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bwtree.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 380
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=13, M=6, L=0
+ * PR History (last 5): #961 Fix double-free and use-aft... (2026-03-11) | #2783 fix: resolve 67 error-handl... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase3/bwtree.h"
@@ -57,14 +55,15 @@ BwTree::BwTree() {
     
     // Create initial root page
     root_pid_ = next_pid_.fetch_add(1, std::memory_order_relaxed);
-    auto root = new LeafPage();
+    auto root = std::make_unique<LeafPage>();
+    BwTreePage* root_ptr = root.get();
     
     // Install root in mapping table
     BwTreePage* expected = nullptr;
-    if (!mapping_table_->compare_and_swap(root_pid_, expected, root)) {
-        delete root;
+    if (!mapping_table_->compare_and_swap(root_pid_, expected, root_ptr)) {
         throw std::runtime_error("Failed to install root page");
     }
+    root.release();
 }
 
 BwTree::~BwTree() {
@@ -100,16 +99,15 @@ bool BwTree::insert(int64_t key, const std::string& value) {
         }
         
         // Create delta insert record
-        auto delta = new DeltaInsert(key, value);
+        auto delta = std::make_unique<DeltaInsert>(key, value);
         delta->next_delta.store(page, std::memory_order_relaxed);
+        BwTreePage* delta_ptr = delta.get();
         
         // Try to install delta
-        if (mapping_table_->compare_and_swap(root_pid_, page, delta)) {
+        if (mapping_table_->compare_and_swap(root_pid_, page, delta_ptr)) {
+            delta.release();
             return true;
         }
-        
-        // CAS failed, retry
-        delete delta;
     }
 }
 
@@ -131,17 +129,15 @@ bool BwTree::remove(int64_t key) {
         // the key is absent (it simply skips the erase).  A pre-CAS search
         // would introduce a TOCTOU race — another thread could remove the same
         // key between the check and the CAS, making the check unreliable.
-        auto delta = new DeltaDelete(key);
+        auto delta = std::make_unique<DeltaDelete>(key);
         delta->next_delta.store(page, std::memory_order_relaxed);
+        BwTreePage* delta_ptr = delta.get();
 
         // Try to install delta via CAS.
-        if (mapping_table_->compare_and_swap(root_pid_, page, delta)) {
+        if (mapping_table_->compare_and_swap(root_pid_, page, delta_ptr)) {
+            delta.release();
             return true;
         }
-
-        // CAS failed: `delta` was never published to the mapping table so no
-        // other thread holds a reference to it — safe to delete immediately.
-        delete delta;
     }
 }
 

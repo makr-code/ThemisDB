@@ -1,27 +1,21 @@
+/**
+ * @file index_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            index_manager.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     218                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb886db93  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
-    • 0ed251f65  2026-02-28  feat(index): implement VectorIndexAdapter to resolve IVec... ║
-    • 92ff27163  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: index_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 229
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4587 feat(index): add IndexManag... (2026-04-13) | #3122 feat(index): implement Vect... (2026-03-12) | #2963 [index] Implement multi-ten... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #710 Phase 3: Migrate IndexManag... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /// @file index_manager.h
@@ -42,11 +36,14 @@
 #include "themis/base/interfaces/index_interface.h"
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/storage_interface.h"
+#include "index/secondary_index.h"
 #include "utils/expected.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
+#include <vector>
 
 namespace themis {
 
@@ -129,6 +126,29 @@ public:
     Result<IndexType> getIndexType(std::string_view name) const override;
 
     // -------------------------------------------------------------------------
+    // Index statistics export (Issue #1866)
+    //
+    // Collect per-index statistics from the underlying SecondaryIndexManager so
+    // that the metadata module's StatisticsCollector can import them via
+    // StatisticsCollector::importIndexStats().  The returned structs are in the
+    // SecondaryIndexManager::IndexStats format; callers that need the
+    // metadata::IndexStats representation should convert trivially by copying
+    // the same-named fields and setting last_updated = system_clock::now().
+    // -------------------------------------------------------------------------
+
+    /// @brief Collect all secondary-index statistics for a given table.
+    ///
+    /// Returns one entry per (table, column) secondary index registered in the
+    /// SecondaryIndexManager that was built around the same RocksDB instance.
+    /// If no SecondaryIndexManager has been wired (i.e. setRocksDB was never
+    /// called) an empty vector is returned rather than throwing.
+    ///
+    /// @param table_name  Table/collection whose index statistics to export.
+    /// @return            Vector of per-index statistics (may be empty).
+    std::vector<SecondaryIndexManager::IndexStats>
+        exportIndexStats(std::string_view table_name) const;
+
+    // -------------------------------------------------------------------------
     // Multi-tenancy index isolation (RocksDB key-prefix based)
     //
     // Each tenant's indexes are stored under the prefix "tenant:<id>:<name>" so
@@ -202,7 +222,7 @@ private:
     std::shared_ptr<GraphIndexManager> graph_manager_;
     
     // Index registry
-    mutable std::mutex registry_mutex_;
+    mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, ISecondaryIndex*> secondary_indices_;
     std::unordered_map<std::string, IVectorIndex*> vector_indices_;
     std::unordered_map<std::string, IGraphIndex*> graph_indices_;
@@ -217,3 +237,4 @@ private:
 };
 
 } // namespace themis
+

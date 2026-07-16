@@ -1,25 +1,20 @@
+/**
+ * @file module_hash_verifier.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_hash_verifier.h                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     167                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 84e913c55  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
-    • fbab04c60  2026-02-23  Add SHA-256 module hash verifier (issue #2471) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_hash_verifier.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SHA-256 hash verification for loaded ThemisDB modules.
@@ -34,6 +29,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include "themis/export.h"
 
 namespace themis {
 namespace modules {
@@ -69,7 +65,7 @@ struct ModuleHashVerificationResult {
  * Thread-safety: the static helpers are thread-safe.  The manifest methods
  * are NOT thread-safe; callers must synchronise external access if needed.
  */
-class ModuleHashVerifier {
+class THEMIS_BASE_API ModuleHashVerifier {
 public:
     // ---- static helpers (no manifest required) -------------------------
 

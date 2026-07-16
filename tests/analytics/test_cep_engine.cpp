@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cep_engine.cpp                                ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 04:00:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1351                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8a2b22d30  2026-02-26  fix(nlp,cep): dead-code removal in lemmatizeWord, add mis... ║
-    • 46115ba8b  2026-02-26  audit: fix file header line counts, update ROADMAP and RE... ║
-    • c4315d917  2026-02-26  audit(cep): fix stale doc comments, file metadata, and RO... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cep_engine.cpp | Version: 0.0.32
+ * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -1192,7 +1174,7 @@ TEST(CEPEngineBackpressureTest, BackpressureMetricInPrometheus) {
     engine.shutdown();
 }
 
-TEST(CEPEngineBackpressureTest, BackpressureDisabledAllowsUnboundedQueue) {
+TEST(CEPEngineBackpressureTest, BackpressureDisabledStillUsesBoundedQueue) {
     auto& engine = CEPEngine::getInstance();
     if (engine.isInitialized()) engine.shutdown();
 
@@ -1204,13 +1186,21 @@ TEST(CEPEngineBackpressureTest, BackpressureDisabledAllowsUnboundedQueue) {
     cfg.max_queue_depth       = 2;      // Would drop at 2 if enabled
     engine.initialize(cfg);
 
-    // All events should be accepted when backpressure is disabled
+    size_t accepted = 0;
+    size_t rejected = 0;
     for (int i = 0; i < 8; ++i) {
-        EXPECT_TRUE(engine.submitEvent(makeEvent("unbounded-" + std::to_string(i))));
+        if (engine.submitEvent(makeEvent("bounded-" + std::to_string(i)))) {
+            ++accepted;
+        } else {
+            ++rejected;
+        }
     }
 
     auto stats = engine.getStats();
-    EXPECT_EQ(stats.events_dropped, 0u);
+    EXPECT_GT(accepted, 0u);
+    EXPECT_GT(rejected, 0u);
+    EXPECT_EQ(stats.events_dropped, rejected);
+    EXPECT_EQ(stats.backpressure_events, 0u);
 
     engine.shutdown();
 }
@@ -1348,4 +1338,74 @@ TEST(CEPStatefulCheckpointTest, CheckpointWithNoPartialMatchesIsClean) {
 
     engine.shutdown();
     std::filesystem::remove_all(cp_path);
+}
+
+// Regression test: CEPEngine::shutdown() must complete within 100 ms even when
+// metrics_interval is set to a very long value.  This verifies that metricsLoop()
+// uses condition_variable::wait_for (wakes on running_=false) instead of
+// std::this_thread::sleep_for (which would block for the full interval).
+TEST(CEPEngineShutdownTest, ShutdownReturnsWithin100msRegardlessOfMetricsInterval) {
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 1;
+    cfg.metrics_enabled       = true;
+    cfg.metrics_interval      = std::chrono::milliseconds(60000); // 60 s - would stall old impl
+    cfg.checkpointing_enabled = false;
+    engine.initialize(cfg);
+
+    auto t0 = std::chrono::steady_clock::now();
+    engine.shutdown();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0);
+
+    EXPECT_LE(elapsed.count(), 100)
+        << "CEPEngine::shutdown() took " << elapsed.count()
+        << " ms – metricsLoop() must wake immediately on stop signal";
+}
+
+// Verifies that CEPEngine::shutdown() completes within 100 ms even when
+// multiple worker threads are active and events are being submitted
+// concurrently.  This is the Phase 4 stop-latency acceptance test
+// (FUTURE_ENHANCEMENTS.md §2 / Production Readiness Checklist).
+//
+// Gated on THEMIS_RUN_PERF_TESTS=1 because it relies on wall-clock timing.
+TEST(CEPEngineShutdownTest, StopLatencyWithActiveWorkers) {
+#ifndef THEMIS_RUN_PERF_TESTS
+    GTEST_SKIP() << "timing test – set THEMIS_RUN_PERF_TESTS=1 to run";
+#endif
+
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 4;
+    cfg.metrics_enabled       = true;
+    cfg.metrics_interval      = std::chrono::milliseconds(30000); // 30 s long interval
+    cfg.checkpointing_enabled = false;
+    engine.initialize(cfg);
+
+    // Flood the engine with events from a background thread while we time
+    // the shutdown – workers must drain and exit promptly.
+    std::atomic<bool> keep_submitting{true};
+    std::thread producer([&]() {
+        while (keep_submitting.load(std::memory_order_relaxed)) {
+            engine.submitEvent(makeEvent("LOAD"));
+        }
+    });
+
+    // Let the producer run briefly so the worker queues are active.
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    keep_submitting.store(false, std::memory_order_relaxed);
+    producer.join();
+
+    auto t0 = std::chrono::steady_clock::now();
+    engine.shutdown();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0);
+
+    EXPECT_LE(elapsed.count(), 100)
+        << "CEPEngine::shutdown() with 4 worker threads took " << elapsed.count()
+        << " ms – workers must honour stop signal within 100 ms";
 }

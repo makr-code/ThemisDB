@@ -1,23 +1,20 @@
+/**
+ * @file two_phase_commit_coordinator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.34
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            two_phase_commit_coordinator.h                     ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: two_phase_commit_coordinator.h | Version: 0.0.34
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -40,12 +37,20 @@
 // meaning both in-process (unit-test) and real gRPC-backed participants can
 // be used interchangeably.
 
-#ifndef THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H
-#define THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H
+#pragma once
+
+// Prevent Windows macro pollution for enum members named ERROR.
+#ifdef ERROR
+#undef ERROR
+#endif
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
+#ifdef ERROR
+#undef ERROR
+#endif
 #include <string>
 #include <map>
 #include <vector>
@@ -75,6 +80,7 @@ struct CoordinatorTxnOutcome {
     std::string          transaction_id;
     std::string          reason;        ///< Populated on ABORTED / ERROR
 
+    /** @brief Return true when outcome is final COMMITTED. */
     [[nodiscard]] bool committed() const {
         return result == CoordinatorTxnResult::COMMITTED;
     }
@@ -84,6 +90,7 @@ struct CoordinatorTxnOutcome {
 // Coordinator-side transaction state (persisted in WAL)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Coordinator-local lifecycle states persisted in WAL and memory. */
 enum class CoordinatorTxnState {
     ACTIVE,              ///< Coordinator has started, Phase 1 not yet sent
     PREPARING,           ///< Phase 1 in progress (PREPARE sent, collecting votes)
@@ -129,7 +136,7 @@ struct CoordinatorTxnRecord {
  *   assert(outcome.committed());
  * @endcode
  */
-class TwoPhaseCommitCoordinator {
+class TwoPhaseCommitCoordinator : public themis::transaction::IRecoverableTwoPhaseCoordinator {
 public:
     /**
      * @brief Configuration for the coordinator.
@@ -149,11 +156,20 @@ public:
      * @brief Construct a coordinator.
      *
      * @param coordinator_id  Unique identifier for this coordinator instance
+     */
+    explicit TwoPhaseCommitCoordinator(
+        const std::string& coordinator_id
+    );
+
+    /**
+     * @brief Construct a coordinator.
+     *
+     * @param coordinator_id  Unique identifier for this coordinator instance
      * @param config          Configuration (WAL, timeouts, …)
      */
     explicit TwoPhaseCommitCoordinator(
         const std::string& coordinator_id,
-        const Config&      config = {}
+        const Config&      config
     );
 
     ~TwoPhaseCommitCoordinator() = default;
@@ -237,7 +253,26 @@ public:
      *
      * @return Number of in-doubt transactions resolved
      */
-    size_t recoverInDoubtTransactions();
+    [[nodiscard]] size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return Stable coordinator type name.
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL" when enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
 
     // ── Introspection ─────────────────────────────────────────────────────────
 
@@ -254,24 +289,24 @@ public:
     nlohmann::json getStatistics() const;
 
 private:
-    const std::string coordinator_id_;
-    Config            config_;
+    const std::string coordinator_id_; ///< Eindeutige Coordinator-Identitaet fuer WAL/Metriken.
+    Config            config_;         ///< Laufzeitkonfiguration (Timeouts, WAL-Optionen).
 
-    mutable std::mutex mutex_;
-    std::map<std::string, ShardRPCServer::RequestHandler*> participants_;
-    std::map<std::string, CoordinatorTxnRecord>            transactions_;
+    mutable std::timed_mutex mutex_; ///< Schuetzt Teilnehmer- und Transaktionsregister.
+    std::map<std::string, ShardRPCServer::RequestHandler*> participants_; ///< Registrierte Teilnehmer nach Shard-ID.
+    std::map<std::string, CoordinatorTxnRecord>            transactions_; ///< Laufende und abgeschlossene Coordinator-Records.
 
     // Adapters created by registerParticipantByEndpoint() – owned by the coordinator
-    std::map<std::string, std::unique_ptr<ShardRPCServer::RequestHandler>> owned_adapters_;
+    std::map<std::string, std::unique_ptr<ShardRPCServer::RequestHandler>> owned_adapters_; ///< Eigentum an endpoint-basierten RPC-Adaptern.
 
     // WAL for coordinator durability
-    std::unique_ptr<WALManager> wal_;
+    std::unique_ptr<WALManager> wal_; ///< Optionales Coordinator-WAL fuer Crash-Recovery.
 
     // Statistics
-    std::atomic<uint64_t> total_transactions_{0};
-    std::atomic<uint64_t> total_commits_{0};
-    std::atomic<uint64_t> total_aborts_{0};
-    std::atomic<uint64_t> total_errors_{0};
+    std::atomic<uint64_t> total_transactions_{0}; ///< Anzahl gestarteter Transaktionen.
+    std::atomic<uint64_t> total_commits_{0};      ///< Anzahl finaler COMMIT-Ergebnisse.
+    std::atomic<uint64_t> total_aborts_{0};       ///< Anzahl finaler ABORT-Ergebnisse.
+    std::atomic<uint64_t> total_errors_{0};       ///< Anzahl interner Fehlerfaelle.
 
     // Startup time
     const std::chrono::steady_clock::time_point start_time_{
@@ -280,21 +315,28 @@ private:
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /// Run Phase 1: send PREPARE to all participants; return true if all agreed
-    bool runPhase1(CoordinatorTxnRecord& rec);
+    /// Run Phase 1: send PREPARE to all participants; return true if all agreed.
+    /// @param lock  A held unique_lock on mutex_. It is briefly released around
+    ///              each blocking RPC call and re-acquired before returning
+    ///              (2PC-1 fix: avoid holding mutex_ during network I/O).
+    bool runPhase1(CoordinatorTxnRecord& rec, std::unique_lock<std::timed_mutex>& lock);
 
-    /// Run Phase 2: broadcast COMMIT or ABORT to all participants
-    void runPhase2(CoordinatorTxnRecord& rec, bool commit);
+    /// Run Phase 2: broadcast COMMIT or ABORT to all participants.
+    /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
+    void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
 
-    /// Build the serialised payload for a single shard
+    /// Build the serialised payload for a single shard.
+    /// @param ops JSON-Operationen fuer einen Teilnehmer.
+    /// @return Transportpayload fuer onPrepare().
     static std::string buildPayload(const nlohmann::json& ops);
 
-    /// Persist a coordinator WAL entry
+    /// Persist a coordinator WAL entry.
+    /// @param type WAL-Eintragstyp.
+    /// @param txn_id Betroffene Transaktions-ID.
+    /// @param data Zusaetzliche WAL-Nutzdaten.
     void logToWAL(WALEntryType type,
                   const std::string& txn_id,
                   const nlohmann::json& data);
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H

@@ -1,25 +1,20 @@
+/**
+ * @file lock_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.45
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lock_manager.h                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-09 03:55:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     258                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5e89a0730  2026-02-22  audit(transaction): fix ROADMAP inconsistencies, docstrin... ║
-    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lock_manager.h | Version: 0.0.45
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -155,12 +150,36 @@ public:
     /// @param start_key  Lower bound of the predicate range (inclusive).
     /// @param end_key    Upper bound of the predicate range (inclusive; may
     ///                   equal @p start_key for a single-key predicate).
-    /// @return Always returns true; the predicate lock is always recorded.
-    ///         Conflict detection is performed lazily at write time via
-    ///         checkPredicateConflict(), not at acquire time.
+    /// @return true when the lock was recorded; false when the global limit
+    ///         set by setMaxPredicateLocks() has been reached (the lock is
+    ///         silently dropped in that case – the false-positive abort rate
+    ///         may increase but correctness is preserved).
     bool acquirePredicateLock(TransactionId txn_id,
                               const std::string& start_key,
                               const std::string& end_key);
+
+    /// Set the maximum total number of predicate locks that may be held
+    /// simultaneously across all active transactions.
+    ///
+    /// Once the limit is reached, acquirePredicateLock() returns false and
+    /// does not record the lock.  Pass 0 to disable the limit (default).
+    ///
+    /// Thread-safe.
+    void setMaxPredicateLocks(size_t max_locks);
+
+    /// Return the current maximum predicate-lock limit (0 = unlimited).
+    size_t getMaxPredicateLocks() const;
+
+    /// Enable or disable predicate-lock tracking globally.
+    ///
+    /// When disabled, acquirePredicateLock() is a no-op (returns false) and
+    /// checkPredicateConflict() always returns 0.
+    ///
+    /// Thread-safe.
+    void setPredicateLockingEnabled(bool enabled);
+
+    /// Return whether predicate-lock tracking is currently enabled.
+    bool isPredicateLockingEnabled() const;
 
     /// Release all predicate locks held by @p txn_id.
     ///
@@ -177,6 +196,14 @@ public:
 
     /// Return the number of predicate locks currently held by @p txn_id.
     size_t getPredicateLockCount(TransactionId txn_id) const;
+
+    /// Return all predicate-lock ranges held by @p txn_id as (start_key, end_key) pairs.
+    ///
+    /// The returned vector is a snapshot copy; the caller may iterate it without
+    /// holding any lock.  An empty vector is returned when txn_id has no
+    /// predicate locks or when predicate locking is disabled.
+    std::vector<std::pair<std::string, std::string>> getPredicateLockRanges(
+        TransactionId txn_id) const;
 
 private:
     /// One active lock holder for a key.
@@ -254,6 +281,12 @@ private:
 
     /// All active predicate locks, protected by mutex_.
     std::vector<PredicateLock> predicate_locks_;
+
+    /// Maximum total predicate locks allowed (0 = unlimited), protected by mutex_.
+    std::atomic<size_t> max_predicate_locks_{0};
+
+    /// Whether predicate-lock tracking is enabled (default: true).
+    std::atomic<bool> predicate_locking_enabled_{true};
 };
 
 } // namespace themis

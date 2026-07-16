@@ -31,10 +31,11 @@ adapters:
   themis_help_lora:
     enabled: true
     
-    # Base model
+    # Base model: TinyLlama 1.1B (matches default inference model in config.yaml)
+    # Download: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
     base_model:
-      name: llama-2-7b
-      path: models/llama-2-7b-chat.gguf
+      name: tinyllama-1.1b
+      path: models/tinyllama-1.1b-q4_0.gguf
       type: llama
       
     # LoRA hyperparameters
@@ -177,9 +178,12 @@ adapters:
       # Preprocessing
       preprocessing:
         # Tokenization
+        # TinyLlama uses the same SentencePiece tokenizer as Llama-2.
+        # Extract from the GGUF or download from:
+        #   https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0
         tokenizer:
           type: sentencepiece
-          model_path: models/tokenizer.model
+          model_path: models/tinyllama-tokenizer.model
           
         # Data augmentation
         augmentation:

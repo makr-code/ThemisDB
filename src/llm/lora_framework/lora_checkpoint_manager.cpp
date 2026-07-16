@@ -1,22 +1,21 @@
+/**
+ * @file lora_checkpoint_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_checkpoint_manager.cpp                        ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(llm): LoRA checkpoint manager          ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_checkpoint_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 417
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=8, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_checkpoint_manager.h"
@@ -135,6 +134,9 @@ std::vector<uint8_t> readFile(const fs::path& p) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction / Destruction
 // ─────────────────────────────────────────────────────────────────────────────
+
+LoRACheckpointManager::LoRACheckpointManager()
+    : LoRACheckpointManager(Config{}) {}
 
 LoRACheckpointManager::LoRACheckpointManager(Config config)
     : config_(std::move(config)) {}
@@ -423,3 +425,5 @@ void LoRACheckpointManager::prune(const std::string& adapter_id) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+
+

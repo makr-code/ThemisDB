@@ -1,106 +1,71 @@
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # Replication Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping with Zstd compression, CDC, and automatic failover are all implemented.
 
-## Completed ✅
-- [x] ReplicationManager – Raft-like leader election and follower management
-- [x] Replication modes: SYNC, SEMI_SYNC, ASYNC
-- [x] WAL shipping to followers with guaranteed durability
-- [x] Automatic leader failover with health monitoring and heartbeat
-- [x] Configurable `min_sync_replicas` for quorum writes
-- [x] Multi-master replication with write-anywhere semantics
-- [x] Conflict detection using vector clocks and Hybrid Logical Clocks (HLC)
-- [x] Conflict resolution strategies: Last-Write-Wins (LWW), CRDT, custom resolvers
-- [x] Change Data Capture (CDC) for event-driven ETL pipelines
-- [x] Replication lag monitoring with threshold alerting
-- [x] Read replica routing (primary, secondary, nearest)
-- [x] Cross-datacenter and cross-region replication
-- [x] Point-in-time recovery (PITR) via WAL replay
-- [x] Cascading replication for hierarchical topologies
-- [x] Selective replication (filter by collection, tenant, or pattern)
-- [x] Prometheus metrics export
-- [x] Raft leader lease reads for linearizable read-scale-out (Issue: #2258)
-- [x] Replication topology visualizer (web UI) (Issue: #2443)
-- [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
-- [x] Automated lag-based read traffic shifting (Issue: #2251)
-- [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
-- [x] Kubernetes operator for automated topology management (Issue: #2257)
+Production-capable replication runtime exists for orchestration, promotion/failover, conflict resolution, logical replication/CDC streaming, and replication observability.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [~] hardening failover/promotion behavior under lag and contention (Target: Q3 2026)
+- [~] improving conflict-resolution diagnostics consistency across strategy paths (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for replication hot paths (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [x] Replication slot management API (pause/resume individual slots) (Issue: #2249)
+## Planned Features
 
-### Long-term (6-12 months)
-- [ ] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
-- [x] Multi-region active-active with bounded staleness guarantees (Issue: #2254)
-- [P] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
-- [I] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under sustained replication backpressure (Target: Q4 2026)
+- [ ] expand stress coverage for slot/stream/CDC edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for failover and lag incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for promotion, conflict, and CDC paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for advanced multi-tier and multi-writer scenarios (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained cross-node replication traffic (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Leader-Follower & Multi-Master Replication (Status: Completed ✅)
-- [x] `ReplicationManager` – Raft-like leader election and follower management
-- [x] SYNC, SEMI_SYNC, and ASYNC replication modes
-- [x] WAL shipping to followers with guaranteed durability
-- [x] Automatic leader failover with health monitoring and heartbeat
-- [x] Configurable `min_sync_replicas` for quorum writes
-- [x] Multi-master replication with write-anywhere semantics
-- [x] Conflict detection using vector clocks and Hybrid Logical Clocks (HLC)
-- [x] Conflict resolution strategies: Last-Write-Wins (LWW), CRDT, custom resolvers
-- [x] Change Data Capture (CDC) for event-driven ETL pipelines
-- [x] Replication lag monitoring with threshold alerting
-- [x] Read replica routing (primary, secondary, nearest)
-- [x] Cross-datacenter and cross-region replication
-- [x] Point-in-time recovery (PITR) via WAL replay
-- [x] Cascading replication for hierarchical topologies
-- [x] Selective replication (filter by collection, tenant, or pattern)
-- [x] Prometheus metrics export
+### Phase 1: Design / API Contract
+- [ ] freeze replication/slot/conflict contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for replication failure classes (Target: Q3 2026)
 
-### Phase 2: Raft Lease Reads & WAL Compression (Status: Completed ✅)
-- [x] Raft leader lease reads for linearizable read-scale-out
-- [x] Replication topology visualizer (web UI)
-- [x] Compressed WAL shipping (Zstd) for bandwidth reduction
+### Phase 2: Core Implementation
+- [ ] complete hardening for replication manager and failover internals (Target: Q4 2026)
+- [ ] align logical replication/CDC behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Witness Nodes & Slot Management (Status: Completed ✅)
-- [x] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154, #2001)
-- [x] Replication slot management API (pause/resume individual slots)
-- [x] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
-- [x] Automated lag-based read traffic shifting
-- [x] Cross-cluster logical replication (publish/subscribe model)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for promotion failures, lag spikes, and slot faults (Target: Q4 2026)
+- [ ] unify diagnostics across orchestration/conflict/stream incident classes (Target: Q4 2026)
 
-## New Modules (v1.7.0)
-- [x] `include/replication/observability.h` + `src/replication/observability.cpp` — ReplicationObserver with lag snapshots, topology, bottleneck detection, and health scores
-- [x] `include/replication/conflict_resolution.h` + `src/replication/conflict_resolution.cpp` — ThreeWayMergeResolver (git-style) and FieldLevelMergeResolver (UNION/INTERSECT/LEFT_BIAS/RIGHT_BIAS)
-- [x] `include/replication/event_stream.h` + `src/replication/event_stream.cpp` — ReplicationEventStream with RAII subscription handles
-- [x] `include/replication/policy.h` + `src/replication/policy.cpp` — ReplicationPolicy with per-collection policy assignment and topology validation
-- [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
+### Phase 4: Tests
+- [ ] expand focused regressions for failover and conflict-heavy edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for replication backpressure and lag workloads (Target: Q4 2026)
 
-### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: In Progress 🚧)
-- [ ] Full Raft v2 implementation (joint consensus for membership changes)
-- [x] Multi-region active-active with bounded staleness guarantees (MultiRegionActiveActiveManager implemented)
-- [P] Schema-aware CDC with Avro/Protobuf schema registry integration
-- [ ] Conflict-free Replicated Data Types (CRDT) library expansion
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for replication hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core replication module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (209 test cases: 177 original + 30 new v1.7.0 feature tests + 2 commit-index tests)
-- [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
-- [?] Performance benchmarks (replication lag p99, WAL throughput)
-- [?] Security audit (WAL encryption in transit, CDC stream authentication)
-- [x] Documentation complete (replication-ha-guide.md, REPLICATION_IMPLEMENTATION_STATUS.md)
-- [x] API stability guaranteed (ReplicationConfig stable; new classes are additive)
 
-## Known Issues & Limitations
-- Raft implementation is Raft-like (not a full specification-compliant implementation); joint consensus for membership changes is planned.
-- Cascading replication increases end-to-end lag proportionally to chain depth.
-- CDC stream authentication is the responsibility of downstream consumers.
+- [x] core replication surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for failover/conflict/CDC edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on topology, lag, and replication mode configuration.
+- selected failover and high-contention edge scenarios need continued hardening.
+- benchmark depth should continue expanding for advanced distributed replication workflows.
 
 ## Breaking Changes
-- `ReplicationConfig` struct is stable from v1.x; new optional fields only.
-- CDC event format may gain new metadata fields in v1.5.0; consumers should use open-ended deserialization.
+
+No breaking replication contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

@@ -163,7 +163,7 @@ Public Repository (GitHub):
 **Option A: Zip/Tar Distribution** ⭐ EMPFOHLEN
 ```bash
 # Packaging-Script erstellt
-scripts/package-enterprise.sh v1.3.0
+.github/workflows/04-release_publish-enterprise.yml v1.3.0
 
 # Erzeugt:
 themisdb-enterprise-v1.3.0.tar.gz
@@ -247,7 +247,7 @@ themisdb-enterprise-binaries-v1.3.0.zip
    - Implementierungs-Roadmap
    - FAQ zu Best Practices
 
-2. **`scripts/package-enterprise.sh`** (9 KB)
+2. **`.github/workflows/04-release_publish-enterprise.yml`** (9 KB)
    - Automatisiertes Packaging-Script
    - Erstellt versionierte tar.gz Archive
    - Generiert Integration-Dokumentation
@@ -286,7 +286,7 @@ themisdb-enterprise-binaries-v1.3.0.zip
 
 1. **Einfachste Lösung:** Zip-Archive per Email
    ```bash
-   ./scripts/package-enterprise.sh v1.3.0
+   ./.github/workflows/04-release_publish-enterprise.yml v1.3.0
    # Email an Kunden: themisdb-enterprise-v1.3.0.tar.gz
    ```
 

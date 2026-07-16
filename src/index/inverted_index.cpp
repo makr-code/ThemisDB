@@ -1,31 +1,28 @@
+/**
+ * @file inverted_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.26
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=20, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            inverted_index.cpp                                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-03-09 03:58:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     592                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4fc3321fa  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║
-    • d80551ba8  2026-02-21  feat(index): implement standalone InvertedIndex class for... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: inverted_index.cpp | Version: 0.0.26 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=29, L=1
+ * PR History (last 5): #3640 docs(search): complete modu... (2026-03-12) | #2076 feat(index+query): inverted... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024-2026 ThemisDB Contributors
 
 #include "index/inverted_index.h"
+#include <stdexcept>
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
@@ -101,8 +98,13 @@ std::string InvertedIndex::makeRevKey(std::string_view table,
 // ============================================================================
 
 InvertedIndex::Status InvertedIndex::create(std::string_view table,
+                                            std::string_view column) {
+    return create(table, column, Config{});
+}
+
+InvertedIndex::Status InvertedIndex::create(std::string_view table,
                                             std::string_view column,
-                                            const Config& config) {
+                                            Config config) {
     if (table.empty() || column.empty())
         return Status::Error("InvertedIndex::create: table/column must not be empty");
     if (table.find(':') != std::string_view::npos ||
@@ -591,3 +593,5 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
 }
 
 } // namespace themis
+
+

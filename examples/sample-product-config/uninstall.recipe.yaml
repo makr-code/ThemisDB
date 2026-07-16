@@ -1,0 +1,27 @@
+schema_version: 1
+recipe_id: uninstall-default
+actions:
+  - id: stop_running_processes
+    type: stop_processes
+    product_id: sample.product
+
+  - id: remove_install_path
+    type: remove_path
+    target: "${install_path}"
+
+  - id: remove_shortcuts
+    when_os: windows
+    type: remove_shortcuts
+
+  - id: unregister_bundle
+    when_os: macos
+    type: unregister_bundle
+
+  - id: remove_state
+    type: remove_path
+    target: "${state_file}"
+
+cleanup:
+  preserve_user_data: true
+  preserved_paths:
+    - "${user_data_path}"

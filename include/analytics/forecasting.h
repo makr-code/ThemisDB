@@ -1,25 +1,21 @@
+/**
+ * @file forecasting.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            forecasting.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     363                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b605c564a  2026-02-24  fix(analytics): audit fixes – ARIMA serialization, precis... ║
-    • 682442535  2026-02-23  feat(analytics): implement predictive analytics and time-... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: forecasting.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 411
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2937 fix(analytics): complete is... (2026-03-12) | #2724 feat(analytics): Predictive... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -151,7 +147,9 @@ enum class ForecastMethod {
     EXP_SMOOTHING,       ///< Simple exponential smoothing
     HOLT_WINTERS,        ///< Triple exponential smoothing
     ARIMA,               ///< AR(p) + I(d) + MA(q) model
-    ENSEMBLE             ///< Weighted combination of the above
+    ENSEMBLE,            ///< Weighted combination of the above
+    SARIMA,              ///< Seasonal ARIMA (p,d,q)(P,D,Q)_m
+    PROPHET              ///< Prophet-style trend + Fourier seasonality + changepoints
 };
 
 // ============================================================================
@@ -173,6 +171,22 @@ struct ForecastConfig {
     int    ar_order         = 2;     ///< autoregressive order p
     int    diff_order       = 1;     ///< differencing order d (0 or 1)
     int    ma_order         = 1;     ///< moving-average order q
+
+    // ---- SARIMA – seasonal ARIMA (p,d,q)(P,D,Q)_m ----
+    int    sarima_P         = 1;     ///< seasonal AR order
+    int    sarima_D         = 1;     ///< seasonal differencing order (0 or 1)
+    int    sarima_Q         = 1;     ///< seasonal MA order
+    int    sarima_m         = 0;     ///< seasonal period (0 = autodetect / disabled)
+
+    // ---- Prophet-style trend + seasonality ----
+    /// Scale for the piecewise linear changepoint prior (larger → more flexible).
+    double prophet_changepoint_prior_scale = 0.05;
+    /// Number of Fourier terms for weekly seasonality.
+    int    prophet_fourier_order_weekly    = 3;
+    /// Number of Fourier terms for yearly seasonality.
+    int    prophet_fourier_order_yearly    = 10;
+    /// Proportion of history to use for potential changepoints.
+    double prophet_changepoint_range       = 0.8;
 
     // ---- Confidence intervals ----
     bool   include_confidence = true;
@@ -268,11 +282,17 @@ public:
      * Fit the model to the given time series.
      *
      * @param ts     Training data (must have at least 2 points).
+     * @throws std::invalid_argument if ts has fewer than 2 points.
+     */
+    void fit(const TimeSeries& ts);
+    /**
+     * Fit the model to the given time series.
+     *
+     * @param ts     Training data (must have at least 2 points).
      * @param config Optional overrides; if not supplied the model's own
      *               config (set at construction) is used.
      * @throws std::invalid_argument if ts has fewer than 2 points.
      */
-    void fit(const TimeSeries& ts);
     void fit(const TimeSeries& ts, const ForecastConfig& config);
 
     bool isFitted() const noexcept;
@@ -290,6 +310,42 @@ public:
      * @throws std::runtime_error if the model has not been fitted.
      */
     std::vector<ForecastPoint> predict(int steps) const;
+
+    /**
+     * Batch-predict @p steps steps ahead for each series in @p batch.
+     *
+     * The model is fitted to each series in @p batch independently and
+     * predictions are returned in the same order.  The model's own fitted
+     * state is unchanged after this call.
+     *
+     * Each element of the returned outer vector corresponds to one input
+     * series; the inner vector has exactly @p steps ForecastPoint entries.
+     *
+     * This avoids the per-call model-state copy overhead of calling
+     * predict() on N independently constructed models.
+     *
+     * @param batch  One or more time series to forecast.
+     * @param steps  Number of future points per series (must be ≥ 1).
+     * @returns      Vector of size batch.size(), each element of size steps.
+     * @throws std::invalid_argument if @p steps < 1 or any series has < 2 points.
+     */
+    std::vector<std::vector<ForecastPoint>> predictBatch(
+        const std::vector<TimeSeries>& batch, int steps) const;
+
+    /**
+     * Incrementally absorb one new observation into the fitted model state.
+     *
+     * Updates only the ETS level/trend/seasonal components (O(1)); does not
+     * re-run full fit().  For ARIMA the last AR window is shifted and the new
+     * point appended; for LINEAR_REGRESSION the new point is appended to
+     * update the OLS parameters.
+     *
+     * Calling update() on a model that has not been fitted is a no-op.
+     *
+     * @param new_value  The new observation value (timestamp is implicitly
+     *                   one median-interval step after the last training point).
+     */
+    void update(double new_value);
 
     // ---- Evaluation ----
 
@@ -352,6 +408,8 @@ inline const char* forecastMethodName(ForecastMethod m) noexcept {
         case ForecastMethod::HOLT_WINTERS:      return "HOLT_WINTERS";
         case ForecastMethod::ARIMA:             return "ARIMA";
         case ForecastMethod::ENSEMBLE:          return "ENSEMBLE";
+        case ForecastMethod::SARIMA:            return "SARIMA";
+        case ForecastMethod::PROPHET:           return "PROPHET";
         default:                                return "UNKNOWN";
     }
 }

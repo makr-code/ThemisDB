@@ -183,6 +183,6 @@ Dieses Dokument beschreibt die Entwicklungs-Roadmap für das Themis GIS Viewer P
 
 ---
 
-**Stand**: Dezember 2024  
+**Stand**:  6. April 2026
 **Version**: 0.1 (Konzeptphase)  
 **Verantwortlich**: ThemisDB Team

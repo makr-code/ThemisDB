@@ -1,23 +1,21 @@
+/**
+ * @file security_signature_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            security_signature_manager.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: security_signature_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 245
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=12, L=0
+ * PR History (last 5): #4260 feat(storage): SecuritySign... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/security_signature_manager.h"
@@ -43,6 +41,13 @@ std::string SecuritySignatureManager::makeKey(const std::string& resource_id) co
     return std::string(KEY_PREFIX) + resource_id;
 }
 
+std::pair<std::string, std::string> SecuritySignatureManager::makePrefixRange() {
+    std::string start = std::string(KEY_PREFIX);
+    std::string end   = start;
+    end.back()++; // e.g. "security_sig:" -> "security_sig;" (';' == ':' + 1)
+    return {start, end};
+}
+
 bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
     try {
         std::string key = makeKey(sig.resource_id);
@@ -54,7 +59,7 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
         }
 
         return db_->put(key, value);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -77,7 +82,7 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
         }
         
         return SecuritySignature::deserialize(value);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -89,7 +94,7 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
             return mem_store_.erase(key) > 0;
         }
         return db_->del(key);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -107,8 +112,18 @@ std::vector<SecuritySignature> SecuritySignatureManager::listAllSignatures() {
         return signatures;
     }
     
-    // TODO: Implement proper RocksDB iteration when RocksDBWrapper supports it
-    
+    // Compute the end key for the prefix range: increment the last byte of KEY_PREFIX
+    // e.g. "security_sig:" -> "security_sig;" (';' == ':' + 1)
+    auto [start_key, end_key] = makePrefixRange();
+
+    db_->iterateRange(start_key, end_key, [&](std::string_view /*key*/, std::string_view value) -> bool {
+        auto sig = SecuritySignature::deserialize(std::string(value));
+        if (sig.has_value()) {
+            signatures.push_back(*sig);
+        }
+        return true; // continue iteration
+    });
+
     return signatures;
 }
 
@@ -130,6 +145,8 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
                digest);
         
         // Convert to hex string
+        // hardcoded_output scanner alert: snprintf writes to a local stack buffer
+        // (hex_output), not to stdout/stderr; this is standard hex-encode idiom.
         char hex_output[SHA256_DIGEST_LENGTH * 2 + 1];
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             snprintf(&hex_output[i * 2], 3, "%02x", static_cast<unsigned int>(digest[i]));
@@ -137,7 +154,7 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
         hex_output[SHA256_DIGEST_LENGTH * 2] = '\0';
         
         return std::string(hex_output);
-    } catch (const std::exception&) {
+    } catch (...) {
         return "";
     }
 }
@@ -160,7 +177,7 @@ std::string SecuritySignatureManager::normalizeResourceId(const std::string& pat
         }
         
         return normalized;
-    } catch (const std::exception&) {
+    } catch (...) {
         return path; // Return original if normalization fails
     }
 }
@@ -187,10 +204,56 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
         
         // Compare hashes
         return (current_hash == sig->hash);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
 
+SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() {
+    VerifyAllResult result;
+
+    if (use_fallback_memory_store_) {
+        for (const auto& [key, value] : mem_store_) {
+            auto sig = SecuritySignature::deserialize(value);
+            if (!sig.has_value()) {
+                result.total++;
+                result.failed++;
+                continue;
+            }
+            result.total++;
+            if (verifyFile(sig->resource_id, sig->resource_id)) {
+                result.verified++;
+            } else {
+                result.failed++;
+                result.failed_resource_ids.push_back(sig->resource_id);
+            }
+        }
+        return result;
+    }
+
+    // Use iterateRange to scan all signature keys from RocksDB
+    auto [start_key, end_key] = makePrefixRange();
+
+    db_->iterateRange(start_key, end_key, [&](std::string_view /*key*/, std::string_view value) -> bool {
+        auto sig = SecuritySignature::deserialize(std::string(value));
+        if (!sig.has_value()) {
+            result.total++;
+            result.failed++;
+            return true; // continue
+        }
+        result.total++;
+        if (verifyFile(sig->resource_id, sig->resource_id)) {
+            result.verified++;
+        } else {
+            result.failed++;
+            result.failed_resource_ids.push_back(sig->resource_id);
+        }
+        return true; // continue
+    });
+
+    return result;
+}
+
 } // namespace storage
 } // namespace themis
+

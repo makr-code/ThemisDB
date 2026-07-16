@@ -1,27 +1,21 @@
+/**
+ * @file ewkb.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=39, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ewkb.cpp                                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     961                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fd8d65d52  2026-02-26  feat(geo): fix GeometryCollection Z-detection in GeoJSON ... ║
-    • 74e4a4f6f  2026-02-23  Füge neue Funktionen zur Verarbeitung von WKT-Geometrien ... ║
-    • 01e160a70  2026-02-22  feat(geo): Add WGS84 validation, CHANGELOG, ROADMAP updat... ║
-    • c88fedecb  2026-02-22  feat(geo): Full GeoJSON RFC 7946 parsing for all geometry... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ewkb.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 945
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=61, L=0
+ * PR History (last 5): #2520 [geo] Full GeoJSON RFC 7946... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/geo/ewkb.h"
@@ -520,7 +514,6 @@ static void validateWGS84(double lon, double lat) {
             "GeoJSON: latitude " + std::to_string(lat) + " is out of WGS84 range [-90, 90]");
     }
 #else
-    (void)lon; (void)lat;
 #endif
 }
 
@@ -960,3 +953,5 @@ bool EWKBParser::validate(const std::vector<uint8_t>& ewkb) {
 
 }  // namespace geo
 }  // namespace themis
+
+

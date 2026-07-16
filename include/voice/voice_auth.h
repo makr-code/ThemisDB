@@ -1,62 +1,18 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_auth.h                                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     338                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d428e5be3  2026-02-23  feat(voice): implement speaker verification for voice bio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_auth.h
- * @brief Voice biometric authentication — speaker verification and identification.
- *
- * Provides enrollment, 1:1 speaker verification, 1:N identification, liveness
- * detection, and a combined authenticate() helper.  The implementation is
- * intentionally model-free: voice profiles are built from spectral sub-band
- * feature vectors that can be computed without external model files, while the
- * public API is designed so that a future neural i-vector/x-vector backend can
- * be plugged in without breaking callers.
- *
- * Typical usage:
- * @code
- *   themis::voice::VoiceBiometricAuthenticator auth;
- *
- *   // Enroll
- *   std::vector<std::vector<uint8_t>> samples = { s1, s2, s3 };
- *   themis::voice::VoiceProfileID pid;
- *   auth.enroll_voice("alice", samples, pid);
- *
- *   // Verify
- *   auto r = auth.verify_speaker(pid, probe_audio);
- *   if (r.verified) { ... }
- *
- *   // Full auth
- *   auto a = auth.authenticate("alice", probe_audio);
- *   if (a.authenticated) { ... }
- * @endcode
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -298,6 +254,19 @@ public:
     /** @brief Return JSON statistics (profiles enrolled, verifications, etc.). */
     json get_statistics() const;
 
+    /**
+     * @brief Register an optional callback for every authenticate() outcome.
+     *
+     * The callback is invoked for both successful and failed authentication
+     * attempts and receives the claimed @p user_id plus the resulting decision.
+     * The callback is executed after internal counters are updated and outside
+     * the internal mutex.
+     *
+     * @param callback Callback(claimed_user_id, result). Pass nullptr to clear.
+     */
+    void setAuthAuditCallback(
+        std::function<void(const std::string&, const VoiceAuthResult&)> callback);
+
 private:
     // Stored voice profile
     struct VoiceProfile {
@@ -319,6 +288,9 @@ private:
     uint64_t total_verifications_  = 0;
     uint64_t total_identifications_= 0;
     uint64_t successful_authentications_ = 0;
+    uint64_t total_auth_audit_events_ = 0;
+
+    std::function<void(const std::string&, const VoiceAuthResult&)> auth_audit_callback_;
 
     // Feature extraction pipeline
     std::vector<float> extractFeatures(const std::vector<uint8_t>& audio) const;
@@ -333,6 +305,9 @@ private:
     // Utilities
     int64_t     nowMs() const;
     std::string generateProfileId(const std::string& user_id) const;
+    void        emitAuthAuditEvent(
+        const std::string& claimed_user_id,
+        const VoiceAuthResult& result);
 };
 
 } // namespace voice

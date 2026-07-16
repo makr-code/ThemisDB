@@ -1,107 +1,92 @@
 # LLM Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.16.0 – Full-featured production LLM module. All short-term and long-term planned features have been implemented. Key additions since v1.15.0:
-- Function/tool calling (JSON schema binding) (Issue: #1922)
-- Model hot-swap without engine restart (Issue: #1923)
-- Request deduplication cache (Issue: #1924)
-- Per-model resource quotas (Issue: #1925)
-- Multi-modal input/vision support, experimental (Issue: #1927)
-- LoRA adapter hot-loading at inference time (Issue: #1929)
-- Model quantization pipeline: GGUF, AWQ, GPTQ (Issue: #2412)
 
-## Completed ✅
-- [x] AsyncInferenceEngine – lightweight async wrapper for single-model inference
-- [x] InferenceEngineEnhanced – enterprise multi-model engine with KV-cache, batching, and load balancing
-- [x] InferenceHandle extracted to `include/llm/inference_handle.h` (v1.15.0 refactor)
-- [x] Priority queue and worker thread pool for request scheduling
-- [x] Dynamic batching for improved throughput
-- [x] Context caching (KV-cache reuse)
-- [x] Multi-model load balancing
-- [x] Backpressure handling
-- [x] LLM interaction storage and prompt/response tracking
-- [x] Chain-of-thought storage
-- [x] Conversation history management
-- [x] Grammar-constrained generation with runtime API detection
-- [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
-- [x] Shared worker pool (work-stealing) between AsyncInferenceEngine and InferenceEngineEnhanced (Issue: #1945)
-- [x] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
-- [x] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
-- [x] Speculative decoding for latency reduction (Issue: #1934)
-- [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
-- [x] Model hot-swap without engine restart (Issue: #1923)
-- [x] Request deduplication cache (same prompt → cached response) (Issue: #1924)
-- [x] Per-model resource quotas (memory, concurrency) (Issue: #1925)
-- [x] Multi-modal input support (image + text, experimental) (Issue: #1927)
-- [x] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+The module provides production-grade LLM runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)
+- [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026)
+- [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026)
 
-### Remaining
-- [I] Federated inference across distributed nodes (Issue: #1928)
+## Planned Features
 
-### Completed (formerly planned)
-- [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
-- [x] Model hot-swap without engine restart (Issue: #1923)
-- [x] Request deduplication cache (same prompt → cached response) (Issue: #1924)
-- [x] Per-model resource quotas (memory, concurrency) (Issue: #1925)
-- [x] Multi-modal input support (image + text, experimental) (Issue: #1927)
-- [x] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [ ] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026)
+- [ ] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
+- [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
+- [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ## Implementation Phases
 
-### Phase 1: Dual-Engine Architecture (Status: Completed ✅)
-- [x] AsyncInferenceEngine – lightweight async wrapper for single-model inference
-- [x] InferenceEngineEnhanced – enterprise multi-model engine with KV-cache and load balancing
-- [x] InferenceHandle extracted to `include/llm/inference_handle.h` (circular-dependency fix)
-- [x] Priority queue and worker thread pool for request scheduling
-- [x] Dynamic batching for improved throughput
-- [x] Context caching (KV-cache reuse across requests)
-- [x] Multi-model load balancing with backpressure handling
-- [x] Grammar-constrained generation with runtime API detection
+### Phase 1: Design / API Contract
+- [ ] Define and freeze non-breaking API contracts for inference, streaming, and routing extension points (Target: Q3 2026)
+- [ ] Document ownership/lifecycle boundaries for plugin, model, and adapter resources (Target: Q3 2026)
 
-### Phase 2: Streaming & Shared Worker Pool (Status: Completed ✅)
-- [x] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
-- [x] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
-- [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
-- [x] Unified metrics dashboard for both engines (Target: Q3 2026)
+### Phase 2: Core Implementation
+- [ ] Implement pending distributed inference and speculative decode integration items (Target: Q4 2026)
+- [ ] Complete runtime wiring for queue/load telemetry propagation in all configured execution paths (Target: Q4 2026)
 
-### Phase 3: Ecosystem & Performance (Status: Completed ✅)
-- [x] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
-- [x] Speculative decoding for latency reduction (Issue: #1934)
-- [x] LoRA adapter hot-loading at inference time (`llm/inference_engine_enhanced.cpp`: `loadLoRAAdapter` / `unloadLoRAAdapter`) (Issue: #1935)
-- [x] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
-  - Implemented `ModelRouter` in `include/llm/model_router.h` + `src/llm/model_router.cpp`
-  - Supports ECMAScript-regex prompt matching and metadata-tag matching with ANY/ALL modes
-  - Rules are priority-sorted; integrated into `InferenceEngineEnhanced::selectModel()`
-  - Public API: `addRoutingRule`, `removeRoutingRule`, `getRoutingRules`, `clearRoutingRules`
-  - 22 unit and integration tests in `tests/test_model_router.cpp`
-- [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (`src/llm/model_quantization_pipeline.cpp`, `tests/test_model_quantization_pipeline.cpp`)
+### Phase 3: Error Handling and Edge Cases
+- [ ] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
+- [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
+- [ ] Add deterministic regression suites for routing and policy enforcement under load (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
+- [ ] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [ ] Synchronize operator docs/runbooks with implemented runtime behavior and metrics (Target: Q4 2026)
+- [ ] Publish acceptance checklist evidence for release sign-off (Target: Q4 2026)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Issue: #1938)
-- [x] Integration tests (single-model and multi-model scenarios) (Issue: #1939)
-- [x] Performance benchmarks (tokens/sec, latency p99) (Issue: #1940)
-- [x] Security audit (prompt injection mitigation, API key handling) (Issue: #1941)
-- [x] Documentation complete (Issue: #1942)
-- [x] API stability guaranteed (Issue: #1943)
-- [x] Build system audit: 16 previously-unregistered source files added to cmake/CMakeLists.txt and cmake/ModularBuild.cmake; all 151 src/llm/ files now registered (March 2026)
-- [x] Test registration: all 28 tests/llm/ focused test targets added to tests/CMakeLists.txt via add_llm_focused_test macro (March 2026)
 
-## Known Issues & Limitations
-- Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
-- Grammar-constrained generation depends on runtime API availability.
-- Speculative decoding uses synthetic logit arrays (placeholder) until per-token logits are exposed through the plugin interface.
+- [ ] API contracts for inference and streaming verified against tests and docs
+- [ ] Security and policy checks verified on all externally reachable LLM entry points
+- [ ] Performance expectations validated by reproducible release-profile benchmarks
+- [ ] Failure handling validated for cancellation, timeout, and backend degradation cases
+- [ ] Audit and changelog documentation synchronized with implementation delta
+
+## Known Issues and Limitations
+
+- Some advanced distributed/remote execution optimizations depend on deployment wiring and are not universal defaults.
+- Runtime behavior can vary with enabled backend/plugin combinations and available hardware acceleration.
+- Not all benchmark targets currently represent transport- or topology-specific production mixes.
+
+## Wave B (Q1–Q2 2027) Tracking — B3 Multi-Task LoRA Fine-Tuning
+
+### Scope
+- [x] Shared LoRA base with task-specific projections
+- [x] Domain-gating mechanism
+- [x] Joint loss with configurable task weighting
+- [x] 3-task benchmark evaluation and robustness checks
+
+### Validation
+- [x] Unit tests `MTL-01..10`
+- [x] Ablation study: shared vs separate adapters
+
+### Acceptance Gates
+- [ ] Average task performance ≥ +8% vs single-task baseline
+- [ ] Training-time increase ≤ 15%
+- [ ] Robustness across task configurations
+
+### Dependencies
+- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [ ] Stable adapter lifecycle and benchmark baselines in LLM module
+
+### References
+- Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`
+- Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
+- Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
 ## Breaking Changes
-- `InferenceHandle` header path changed in v1.15.0 (from `async_inference_engine.h` include to `inference_handle.h`).
-- No further breaking changes planned for v1.x series.
+
+- No breaking changes planned at roadmap level; any required API break must be explicitly documented in CHANGELOG and migration notes before merge.

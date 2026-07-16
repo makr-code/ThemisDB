@@ -1,101 +1,71 @@
 # Utils Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII detection, text processing, compression, tracing, key derivation, encryption key management, serialization, and geospatial helpers are all production-ready. Phase 2 and Phase 3 features (streaming PII, sampled logger, HKDF TTL cache, SAGA compaction, tamper-evident hash-chain audit writer, Bloom filter, consistent hashing, rate limiter, timestamp utils) are now complete.
 
-## Completed ✅
-- [x] Logger – structured logging with ILogger interface
-- [x] AuditLogger – tamper-evident audit trail generation
-- [x] SAGALogger – SAGA transaction event logging
-- [x] Cursor / pagination helpers
-- [x] HKDF key derivation helper
-- [x] LEKManager – Local Encryption Key management
-- [x] Normalizer – text normalization
-- [x] PII detector and pseudonymization
-- [x] PKI client for certificate management
-- [x] RetentionManager – data lifecycle helper
-- [x] Serialization utilities
-- [x] Stemmer – text stemming for search
-- [x] Stop-word filtering
-- [x] Tracing – distributed trace span management
-- [x] ZSTDCodec – Zstd compression/decompression
-- [x] Geospatial utilities
-- [x] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026) (Issue: #2491)
-- [x] LEK rotation automation without manual intervention (Target: Q3 2026) (Issue: #2346)
-- [x] Streaming PII pipeline – `PIIStreamScanner` / `PIIStreamPseudonymizer` (chunked scan, lookahead buffer, deterministic HMAC pseudonyms)
-- [x] SampledLogger – per-call-site token-bucket sampling decorator; suppression counter
-- [x] HKDFCache TTL eviction – bounded LRU (1 000 entries), per-entry TTL (300 s), `OPENSSL_cleanse`, sharded mutex, `purge_by_ikm_hash()`
-- [x] SAGALogCompactor / SAGALogReplayer – WAL compaction (atomic rename) and incomplete-transaction replay
-- [x] BloomFilter – probabilistic membership with double-hashing, `std::shared_mutex`
-- [x] ConsistentHashRing – FNV-1a 64-bit, virtual nodes, `getNodes(key, n)` for replication
-- [x] RateLimiter – token-bucket; `try_acquire` / `acquire` / `set_rate`; `std::condition_variable`
-- [x] TimestampUtils – ISO 8601 / RFC 3339 parse + format (ms, timezone offsets), `formatDuration`, Unix-ms helpers
-- [x] HashChainAuditWriter – standalone tamper-evident audit writer (SHA-256 chain, persisted head, HKDF-seedable genesis)
-- [x] AuditLogVerifier – standalone chain replay verifier; detects first tampered or missing link
+Production-usable shared utility behavior exists for observability, privacy processing, key helpers, compression, concurrency, tracing, and general reusable support code used across ThemisDB.
 
-## In Progress 🚧
-- [?] Structured log query API (search logs like data) (Target: Q2 2026)
+## In Progress
 
-## Planned Features 📋
+- [~] hardening privacy and audit helper behavior for edge-case and overload scenarios (Target: Q3 2026)
+- [~] tightening diagnostics consistency across shared helper failures and degradation paths (Target: Q3 2026)
+- [~] aligning benchmark-backed release expectations to the broad utils hot-path surface (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [?] LZ4 codec as faster alternative to Zstd for hot-path data
+## Planned Features
 
-### Long-term (6-12 months)
-- [?] Multi-language stemmer support (German, French, Spanish)
-- [?] Geospatial index helper (H3 / S2 cell encoding)
-- [?] Log aggregation sink (ship to Elasticsearch / Loki)
-- [?] Differential privacy utilities for analytics exports
-- [?] Cryptographic utility consolidation (move scattered crypto helpers here)
+### Short-term (3-6 months)
+- [ ] expand targeted regressions for privacy, audit, and runtime helper edge cases (Target: Q4 2026)
+- [ ] improve operator-visible diagnostics for shared helper overload and fallback conditions (Target: Q4 2026)
+- [ ] tighten lifecycle and documentation around crypto and key-management helper contracts (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] broaden benchmark depth for additional utility hot paths where justified by release risk (Target: Q1 2027)
+- [ ] extend shared-helper resilience validation under sustained concurrent load (Target: Q1 2027)
+- [ ] refine compatibility guarantees for widely consumed utility APIs (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Core Utility Library (Status: Completed ✅)
-- [x] AuditLogger – tamper-evident audit trail with structured event records
-- [x] HKDF helper – HMAC-based key derivation (RFC 5869)
-- [x] LEKManager – Local Encryption Key lifecycle management
-- [x] Logger / ILogger – structured logging with pluggable sinks
-- [x] Normalizer – Unicode-aware text normalization
-- [x] PII detector and pseudonymization (regex-based entity recognition)
-- [x] PKI client – certificate request, retrieval, and renewal
-- [x] RetentionManager – data lifecycle expiry helper
-- [x] SAGALogger – SAGA transaction event log writer
-- [x] Serialization utilities (MessagePack / JSON round-trip)
-- [x] Stemmer – Porter stemmer for search index construction
-- [x] Tracing – OpenTelemetry-compatible distributed span management
-- [x] ZSTDCodec – Zstd compression / decompression wrapper
-- [x] Cursor / pagination helpers for consistent result-set traversal
-- [x] Geospatial utilities (bounding-box and distance helpers)
+### Phase 1: Design / API Contract
+- [ ] freeze widely consumed helper contracts for current major line consumers (Target: Q3 2026)
+- [ ] define explicit error taxonomy for audit, privacy, and runtime utility failure classes (Target: Q3 2026)
 
-### Phase 2: Streaming PII & High-Throughput Logging (Status: Completed ✅)
-- [x] Streaming PII pipeline for large documents (`PIIStreamScanner` – chunked scan, lookahead buffer, cross-boundary span merging)
-- [x] Sampled logger for high-throughput paths (`SampledLogger` – per-call-site token buckets, per-level coin-flip, atomic suppression counter)
-- [x] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026)
-- [x] LEK rotation automation without manual intervention (Target: Q3 2026)
+### Phase 2: Core Implementation
+- [ ] complete remaining hardening for shared utility hotspots with broad module fan-out (Target: Q4 2026)
+- [ ] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
 
-### Phase 3: Tamper-Evidence & Compaction (Status: Completed ✅)
-- [x] Tamper-evident audit hash chain – `HashChainAuditWriter` (SHA-256 chain, persisted head) + `AuditLogVerifier::verify_chain()` (standalone chain replay verifier)
-- [x] HKDF cache with TTL-based eviction – bounded LRU, `purge_by_ikm_hash()`, `OPENSSL_cleanse`, sharded mutex
-- [x] SAGA log compaction – `SAGALogCompactor::compact()` archives completed sagas atomically; `SAGALogReplayer::replay_incomplete()` for disaster recovery
-- [?] Geospatial utility hardening: H3 / S2 cell encoding, polygon containment
-- [?] Cryptographic utility consolidation (centralise scattered crypto helpers in utils)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior across privacy, crypto, compression, and observability helpers (Target: Q4 2026)
+- [ ] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
+- [ ] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for mapped utility hotspots (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core utils module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (audit log integrity, PII redaction correctness, ZSTD round-trip)
-- [?] Performance benchmarks (compression throughput, stemmer latency)
-- [?] Security audit (PII detector false-negative rate, LEK key material handling)
-- [?] Documentation complete
-- [?] API stability guaranteed
 
-## Known Issues & Limitations
-- PII detection uses a plugin-based engine architecture combining regex patterns (structured PII) and rule-based NER (person names, organizations, locations); ML-model-based NER with external frameworks remains an optional future enhancement.
-- Geospatial utilities are basic helpers; complex spatial operations are in the index module.
-- Stop-word lists are English-only by default; multi-language support is planned.
+- [x] core shared helper surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for high-fan-out helpers
+- [ ] broader release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- the utils module covers a broad surface and requires continued curation of benchmark depth.
+- some helpers depend on host libraries or external services and therefore need explicit degradation coverage.
+- shared helper misuse can amplify impact across consumers if failure contracts drift.
 
 ## Breaking Changes
-- ILogger interface is stable from v1.x; new optional log levels are additive.
-- ZSTD codec API is stable; compression level defaults may be tuned in v1.5.0.
-- Tracing span API follows OpenTelemetry conventions; stable from v1.x.
+
+No breaking shared-helper contract change planned. Any consumer-visible API change requires migration notes and changelog entry before merge.

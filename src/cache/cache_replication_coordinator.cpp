@@ -1,31 +1,30 @@
+/**
+ * @file cache_replication_coordinator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_replication_coordinator.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0d58fbec9  2026-02-24  feat(cache): Add cache replication for high-availability ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cache_replication_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 371
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=3, L=0
+ * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19) | #3473 docs(cache): sync src/cache... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "cache/cache_replication_coordinator.h"
+#include <stdexcept>
 #include "utils/logger.h"
+#include <unordered_map>
 
 namespace themis {
 namespace cache {
@@ -157,6 +156,226 @@ nlohmann::json InProcessCacheCoordinator::getStats() const {
         {"messages_received",  received},
         {"peer_count",         peer_count}
     };
+}
+
+// ============================================================================
+// CacheReplicationCoordinator
+// ============================================================================
+
+CacheReplicationCoordinator::CacheReplicationCoordinator(
+    IClusterView*                                    cluster_view,
+    std::shared_ptr<InProcessCacheCoordinator::Bus>  bus,
+    PeerFactory                                      peer_factory)
+    : cluster_view_(cluster_view)
+    , peer_factory_(std::move(peer_factory))
+    , local_(std::move(bus))
+{
+    refreshPeers();
+    fanout_thread_ = std::thread(&CacheReplicationCoordinator::fanoutWorker, this);
+    THEMIS_DEBUG("CacheReplicationCoordinator created ({} remote peers)",
+                 remote_peers_.size());
+}
+
+CacheReplicationCoordinator::~CacheReplicationCoordinator() {
+    {
+        std::lock_guard<std::mutex> lk(queue_mutex_);
+        stopping_ = true;
+    }
+    queue_cv_.notify_all();
+    if (fanout_thread_.joinable()) {
+        fanout_thread_.join();
+    }
+}
+
+void CacheReplicationCoordinator::refreshPeers() {
+    if (!cluster_view_ || !peer_factory_) {
+        return;
+    }
+
+    const auto addresses = cluster_view_->getPeerAddresses();
+
+    std::lock_guard<std::mutex> lk(peers_mutex_);
+
+    // Build a lookup map from address → existing peer to avoid
+    // tearing down and rebuilding connections that haven't changed.
+    std::unordered_map<std::string, std::shared_ptr<IRemoteCachePeer>> existing;
+    existing.reserve(remote_peers_.size());
+    for (auto& p : remote_peers_) {
+        existing[p->address()] = p;
+    }
+
+    std::vector<std::shared_ptr<IRemoteCachePeer>> new_peers;
+    new_peers.reserve(addresses.size());
+    for (const auto& addr : addresses) {
+        auto it = existing.find(addr);
+        if (it != existing.end()) {
+            // Reuse the existing connection for this address.
+            new_peers.emplace_back(it->second);
+        } else {
+            // New address: create a fresh peer via the factory.
+            auto peer = peer_factory_(addr);
+            if (peer) {
+                new_peers.emplace_back(std::move(peer));
+            }
+        }
+    }
+
+    remote_peers_ = std::move(new_peers);
+
+    THEMIS_DEBUG("CacheReplicationCoordinator: refreshed {} remote peers",
+                 remote_peers_.size());
+}
+
+void CacheReplicationCoordinator::publishEntry(const std::string& key,
+                                                const nlohmann::json& result,
+                                                int ttl_seconds,
+                                                const std::string& tenant_id) {
+    // Forward to local in-process bus only; do not block on remote acknowledgment.
+    local_.publishEntry(key, result, ttl_seconds, tenant_id);
+}
+
+void CacheReplicationCoordinator::publishInvalidation(const std::string& pattern,
+                                                       const std::string& tenant_id) {
+    // Deliver to local bus synchronously.
+    local_.publishInvalidation(pattern, tenant_id);
+
+    // Enqueue async fanout to remote peers.
+    FanoutItem item;
+    item.kind      = FanoutItem::Kind::INVALIDATE_KEY;
+    item.key       = pattern;
+    item.tenant_id = tenant_id;
+    item.attempts  = 0;
+    enqueueFanout(std::move(item));
+}
+
+void CacheReplicationCoordinator::subscribeEntries(EntryCallback callback) {
+    local_.subscribeEntries(std::move(callback));
+}
+
+void CacheReplicationCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+    local_.subscribeInvalidations(std::move(callback));
+}
+
+bool CacheReplicationCoordinator::isConnected() const {
+    return local_.isConnected();
+}
+
+nlohmann::json CacheReplicationCoordinator::getStats() const {
+    uint64_t enqueued, dropped, delivered, retried, failed;
+    {
+        std::lock_guard<std::mutex> lk(metrics_mutex_);
+        enqueued  = fanout_enqueued_;
+        dropped   = fanout_dropped_;
+        delivered = fanout_delivered_;
+        retried   = fanout_retried_;
+        failed    = fanout_failed_;
+    }
+    std::size_t peer_count = 0;
+    {
+        std::lock_guard<std::mutex> lk(peers_mutex_);
+        peer_count = remote_peers_.size();
+    }
+    auto stats = local_.getStats();
+    stats["name"]               = name();
+    stats["remote_peer_count"]  = peer_count;
+    stats["fanout_enqueued"]    = enqueued;
+    stats["fanout_dropped"]     = dropped;
+    stats["fanout_delivered"]   = delivered;
+    stats["fanout_retried"]     = retried;
+    stats["fanout_failed"]      = failed;
+    return stats;
+}
+
+// ── Private helpers ───────────────────────────────────────────────────────────
+
+void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
+    std::lock_guard<std::mutex> lk(queue_mutex_);
+    if (fanout_queue_.size() >= kRetryQueueCapacity) {
+        THEMIS_WARN("[CacheReplicationCoordinator] fanout queue full ({} entries); "
+                    "dropping invalidation for key='{}'",
+                    kRetryQueueCapacity, item.key);
+        std::lock_guard<std::mutex> ml(metrics_mutex_);
+        ++fanout_dropped_;
+        return;
+    }
+    {
+        std::lock_guard<std::mutex> ml(metrics_mutex_);
+        ++fanout_enqueued_;
+    }
+    fanout_queue_.push(std::move(item));
+    queue_cv_.notify_one();
+}
+
+void CacheReplicationCoordinator::fanoutWorker() {
+    while (true) {
+        FanoutItem item;
+        {
+            std::unique_lock<std::mutex> lk(queue_mutex_);
+            queue_cv_.wait(lk, [this] {
+                return !fanout_queue_.empty() || stopping_;
+            });
+            if (stopping_ && fanout_queue_.empty()) {
+                break;
+            }
+            item = std::move(fanout_queue_.front());
+            fanout_queue_.pop();
+        }
+
+        // Snapshot the peer list to avoid holding the lock during network I/O.
+        // shared_ptr copies keep the objects alive even if refreshPeers() runs
+        // concurrently and replaces remote_peers_.
+        // On retries, item.target_peers contains only the peers that previously
+        // failed so we do not re-deliver to peers that already succeeded.
+        std::vector<std::shared_ptr<IRemoteCachePeer>> peers_to_contact;
+        if (!item.target_peers.empty()) {
+            peers_to_contact = item.target_peers;
+        } else {
+            std::lock_guard<std::mutex> pl(peers_mutex_);
+            peers_to_contact = remote_peers_;
+        }
+
+        std::vector<std::shared_ptr<IRemoteCachePeer>> failed_peers;
+        for (const auto& peer : peers_to_contact) {
+            try {
+                if (item.kind == FanoutItem::Kind::INVALIDATE_KEY) {
+                    peer->invalidate(item.key, item.tenant_id);
+                } else {
+                    peer->invalidateTenant(item.tenant_id);
+                }
+                {
+                    std::lock_guard<std::mutex> ml(metrics_mutex_);
+                    ++fanout_delivered_;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
+                            peer->address(), e.what());
+                failed_peers.push_back(peer);
+            } catch (const std::string& e) {
+                THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
+                            peer->address(), e);
+                failed_peers.push_back(peer);
+            } catch (const char* e) {
+                THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
+                            peer->address(), (e ? e : "<null>"));
+                failed_peers.push_back(peer);
+            }
+        }
+
+        if (!failed_peers.empty()) {
+            if (item.attempts + 1 < kMaxRetryAttempts) {
+                {
+                    std::lock_guard<std::mutex> ml(metrics_mutex_);
+                    ++fanout_retried_;
+                }
+                enqueueFanout(item.asRetry(std::move(failed_peers)));
+            } else {
+                THEMIS_WARN("[CacheReplicationCoordinator] dropping invalidation for "
+                            "key='{}' after {} attempts", item.key, kMaxRetryAttempts);
+                std::lock_guard<std::mutex> ml(metrics_mutex_);
+                ++fanout_failed_;
+            }
+        }
+    }
 }
 
 } // namespace cache

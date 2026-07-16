@@ -1,24 +1,20 @@
+/**
+ * @file result_stream.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            result_stream.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     248                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d8f3c7c0d  2026-02-28  feat(query): implement ResultStream updateCursor for curs... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: result_stream.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,20 +91,20 @@ public:
     /**
      * @brief Check if more results are available
      */
-    virtual bool hasNext() const = 0;
+    [[nodiscard]] virtual bool hasNext() const = 0;
     
     /**
      * @brief Get next result
      * @return Result<T> containing next item or error
      */
-    virtual Result<T> next() = 0;
+    [[nodiscard]] virtual Result<T> next() = 0;
     
     /**
      * @brief Get next batch of results
      * @param batch_size Size of batch to retrieve
      * @return Result<ResultBatch<T>> containing batch or error
      */
-    virtual Result<ResultBatch<T>> nextBatch(size_t batch_size) = 0;
+    [[nodiscard]] virtual Result<ResultBatch<T>> nextBatch(size_t batch_size) = 0;
     
     /**
      * @brief Reset iterator to beginning
@@ -118,12 +114,12 @@ public:
     /**
      * @brief Get current position/offset
      */
-    virtual size_t position() const = 0;
+    [[nodiscard]] virtual size_t position() const = 0;
     
     /**
      * @brief Skip ahead by count items
      */
-    virtual Result<void> skip(size_t count) = 0;
+    [[nodiscard]] virtual Result<void> skip(size_t count) = 0;
 };
 
 /**
@@ -138,6 +134,7 @@ public:
 template<typename T>
 class ResultStream : public ResultIterator<T> {
 public:
+    ~ResultStream() override = default;
     /**
      * @brief Construct a ResultStream from a data source function
      * 

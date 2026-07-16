@@ -26,7 +26,7 @@ Tracking and documentation of known issues and workarounds.
 
 Documentation of known issues in ThemisDB with tracking status and workarounds.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🛠️ Developer/Technical
 

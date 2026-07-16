@@ -1,6 +1,6 @@
 # Adaptive Learning Core – Mechanismus für Selbstoptimierung & Kernanalyse
 
-**Stand:** 10. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.0  
 **Status:** 🔬 Research-basierte Empfehlungen  
 **Kategorie:** Self-Tuning Database Systems & Autonomous Optimization

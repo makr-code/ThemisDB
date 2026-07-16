@@ -1,0 +1,207 @@
+school_id: schopenhauer
+name: Schopenhauersche Lebensphilosophie
+description: "Pessimistische Lebensphilosophie, die die Welt als blinden Willen und Leiden versteht. \nEthik des Mitleids\
+  \ als Überwindung des Egoismus. Einfluss von Kant und indischer Philosophie.\n"
+main_theses:
+- thesis_id: world_as_will
+  name: Welt als Wille und Vorstellung
+  description: "Die Welt ist einerseits unsere Vorstellung (erscheinende Welt, Phänomen), \nandererseits ist ihr Wesen der\
+    \ blinde, zielloser Wille (Ding an sich).\n"
+  key_concepts:
+  - Phänomen (Vorstellung) vs. Ding an sich (Wille)
+  - Blinder, irrationaler Wille als Weltwesen
+  - Wille manifestiert sich in allen Erscheinungen
+  - Satz vom Grund gilt nur für Vorstellung, nicht für Wille
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: life_is_suffering
+  name: Leben ist Leiden
+  description: "Der Wille führt zu endlosem Streben und Begehren, das nie dauerhaft befriedigt werden kann. \nLeben ist wesentlich\
+    \ Leiden - zwischen Entbehrung, momentaner Befriedigung und Langeweile.\n"
+  key_concepts:
+  - Endloses Begehren ohne Erfüllung
+  - Leiden als Wesen des Lebens
+  - Pendeln zwischen Schmerz und Langeweile
+  - Pessimistische Anthropologie
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: principium_individuationis
+  name: Principium Individuationis
+  description: "Die Individuation (Trennung in einzelne Wesen) ist Illusion der Vorstellung. \nIn Wahrheit sind alle Wesen\
+    \ Manifestationen desselben einen Willens.\n"
+  key_concepts:
+  - Individuation als Schein (Maya)
+  - Einheit allen Seins im Willen
+  - Raum und Zeit als Prinzip der Individuation
+  - Durchschauung der Individuation führt zu Mitleid
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: compassion_ethics
+  name: Mitleidsethik
+  description: "Echte Moral entspringt dem Mitleid (Mitleid), der Erkenntnis, dass das Leiden anderer \nmein eigenes Leiden\
+    \ ist, weil wir alle derselbe Wille sind.\n"
+  key_concepts:
+  - Mitleid als Grundlage der Moral
+  - Erkenntnis der metaphysischen Identität
+  - Leiden anderer als eigenes Leiden
+  - Gegen Egoismus und Bosheit
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: aesthetic_contemplation
+  name: Ästhetische Kontemplation
+  description: "In der Kunst können wir vorübergehend dem Willen entkommen, indem wir zu willenlosem \nSubjekt des Erkennens\
+    \ werden und die Ideen anschauen.\n"
+  key_concepts:
+  - Willenloses Subjekt des Erkennens
+  - Anschauung der platonischen Ideen
+  - Vorübergehende Erlösung vom Leiden
+  - Musik als höchste Kunst
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+  denial_of_will:
+    title: Verneinung des Willens zum Leben
+    description: "Der Weg zur echten Erlösung ist die Askese - die Verneinung des eigenen Willens \nzum Leben. Dies führt\
+      \ ins Nirwana.\n"
+  four_root_principle:
+    title: Vierfache Wurzel des Satzes vom zureichenden Grund
+    description: "Vier Formen des Grundes: Werden, Erkennen, Sein, Handeln. Sie gelten nur für \ndie Vorstellung, nicht für\
+      \ das Ding an sich.\n"
+  genius:
+    title: Genie
+    description: "Das Genie ist fähig, die Ideen zu erkennen und in Kunstwerken darzustellen. \nEs übersteigt die gewöhnliche\
+      \ Erkenntnis.\n"
+  sexual_love:
+    title: Metaphysik der Geschlechtsliebe
+    description: "Die romantische Liebe ist List des Willens der Gattung, um Fortpflanzung \nzu sichern. Individuen sind Spielbälle\
+      \ des Gattungswillens.\n"
+strengths:
+- Tiefgründige Analyse des menschlichen Leidens
+- Metaphysisch fundierte Ethik des Mitleids
+- Philosophie der Kunst und ästhetischen Erfahrung
+- Integration östlicher (buddhistischer) Weisheit
+- Ehrlichkeit über die dunklen Seiten der Existenz
+weaknesses:
+- Extremer Pessimismus unterschätzt positive Aspekte des Lebens
+- Metaphysik des Willens schwer zu verifizieren
+- Askese als Ideal ist für die meisten unpraktikabel
+- Deterministisch - wenig Raum für Freiheit
+- Misogynie in seinen Schriften
+example_application: "Tier ethik: Alle fühlenden Wesen - Menschen und Tiere - sind Manifestationen desselben \nWillens und\
+  \ leiden auf gleiche Weise. Das Leiden eines Tieres ist metaphysisch identisch \nmit menschlichem Leiden. Daher verlangt\
+  \ das Mitleid, Tiere ebenso zu behandeln wie Menschen. \nTierausbeutung ist moralisch verwerflich, weil sie auf der Illusion\
+  \ der radikalen Trennung \nzwischen Mensch und Tier beruht.\n"
+decision_framework: "Erkenne, dass alles Leiden geteilt wird - die Trennung zwischen Wesen ist Illusion. \nHandle aus Mitleid,\
+  \ minimiere Leiden für alle fühlenden Wesen. Strebe nach Überwindung \ndes Egoismus durch Einsicht in die metaphysische\
+  \ Einheit. In extremis: Verneine den \nWillen zum Leben.\n"
+core_principles:
+- Welt als Wille (blind, irrational) und Vorstellung
+- Leben ist wesentlich Leiden
+- Principium individuationis als Illusion
+- Mitleid als Grundlage der Moral
+- Ästhetische Kontemplation als Befreiung
+- Verneinung des Willens als Erlösung
+- Metaphysische Identität aller Wesen
+key_works:
+- title: Die Welt als Wille und Vorstellung
+  year: 1818
+  description: Hauptwerk zur Willensmetaphysik
+- title: Über die Grundlage der Moral
+  year: 1840
+  description: Mitleidsethik
+- title: Parerga und Paralipomena
+  year: 1851
+  description: Aphorismen zur Lebensweisheit
+- title: Über die vierfache Wurzel des Satzes vom zureichenden Grunde
+  year: 1813
+  description: Erkenntnistheorie
+relevant_dimensions:
+- ethical
+- metaphysical
+- existential
+- aesthetic
+- moral
+name_de: Schopenhauers Pessimismus und Mitleidsethik
+taxonomy_class: non_mainstream
+tags:
+- schopenhauer
+- lebensphilosophie
+- pessimismus
+- mitleidsethik
+- wille
+- leiden
+- buddhismus_einfluss
+applicable_domains:
+- bioethics
+- end_of_life
+- mental_health
+- environmental_ethics
+convergence_compatible:
+- buddhistische_ethik
+activation_conditions:
+- condition: dilemma.tags enthält suffering ODER compassion ODER end_of_life
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen
+domain_overrides:
+  end_of_life:
+    weight_boost: 0.2
+    note: Pessimismus und Leidvermeidung als Argument zur Sterbebegleitung
+cross_school_tensions:
+- own_thesis: compassion_ethics
+  opposing_school: kant
+  opposing_thesis: pflicht_neigung
+  tension_type: compassion_as_ethics_vs_duty_only
+  rebuttal_cite_weight: 0.85
+- own_thesis: world_as_will
+  opposing_school: utilitarianism
+  opposing_thesis: consequentialism
+  tension_type: pessimistic_will_vs_optimizing_consequentialism
+  rebuttal_cite_weight: 0.75

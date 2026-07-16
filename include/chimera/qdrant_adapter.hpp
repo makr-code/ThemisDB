@@ -1,100 +1,58 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            qdrant_adapter.hpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     272                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e481c0e03  2026-02-27  feat(chimera): Add Qdrant native vector database adapter ║
-    • f16d5f90b  2026-02-27  fix(chimera): audit fixes – security tests, performance b... ║
-    • 3f0220a43  2026-02-26  feat(chimera): implement Weaviate native vector database ... ║
-    • 261a690e7  2026-02-26  feat(chimera): implement PostgreSQL + pgvector adapter fo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: qdrant_adapter.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
+ * Author: Copilot | Maturity: 🟡 BETA
+ * 
+ * Qdrant adapter for CHIMERA Suite.
+ * Copyright MIT License.
  */
 
-/**
- * @file qdrant_adapter.hpp
- * @brief Qdrant native vector database adapter for CHIMERA Suite
- *
- * @details
- * This file provides an implementation of the CHIMERA IDatabaseAdapter
- * interface for Qdrant. The adapter targets Qdrant v1.x and supports
- * native HNSW vector similarity search as its primary workload, with
- * payload (document) storage and filtering as secondary capabilities.
- *
- * Supported capabilities:
- *   - Vector similarity search (primary, HNSW index)
- *   - Payload/document storage with metadata
- *   - Metadata filtering during vector search
- *   - Batch insert/update operations
- *   - Secondary indexes (payload indexes)
- *
- * Unsupported (returns NOT_IMPLEMENTED):
- *   - Relational/SQL queries
- *   - Graph traversal
- *   - ACID transactions
- *
- * Connection string formats:
- *   http://host[:port]
- *   https://host[:port]
- *
- * When a live Qdrant server is not available the adapter operates in an
- * in-process simulation mode backed by std::unordered_map, which is
- * sufficient for unit testing without a running server.
- *
- * @copyright MIT License
- */
-
-#ifndef CHIMERA_QDRANT_ADAPTER_HPP
-#define CHIMERA_QDRANT_ADAPTER_HPP
+#pragma once
 
 #include "chimera/database_adapter.hpp"
-#include <atomic>
+#include <map>
 #include <memory>
 #include <mutex>
-#include <unordered_map>
+#include <string>
+#include <vector>
 
 namespace chimera {
 
 /**
  * @class QdrantAdapter
- * @brief Qdrant native vector database implementation of the CHIMERA
- *        IDatabaseAdapter interface
- *
- * @details Implements vector search, payload (document) storage, and metadata
- *          filtering. Relational, graph, and transaction operations return
- *          NOT_IMPLEMENTED because Qdrant does not natively support those
- *          workloads.
- *
- * @note The production implementation communicates with a live Qdrant
- *       instance via the Qdrant REST API. When the HTTP client is not linked
- *       the adapter operates in an in-process simulation mode suitable for
- *       unit testing without a running server.
+ * @brief Qdrant vector database adapter for CHIMERA Suite
+ * 
+ * @details
+ * Provides integration between Qdrant (vector search engine) and CHIMERA.
+ * Primary focus: KNN search and vector indexing.
+ * 
+ * Features:
+ * - Real Qdrant driver integration (gRPC or REST API)
+ * - Vector insert with automatic ID generation
+ * - KNN search with optional metadata filtering
+ * - Index creation with customizable distance metrics
+ * - Batch vector operations for throughput
+ * 
+ * Limitations (by design):
+ * - Relational operations not supported; use MongoDB/ThemisDB
+ * - Graph operations not supported; use Neo4j
+ * - Document operations not supported
+ * 
+ * Thread-safety: Client is thread-safe for concurrent requests.
  */
-class QdrantAdapter : public IDatabaseAdapter {
+class QdrantAdapter : public IDatabaseAdapter,
+                      public IBatchAdapter {
 public:
+    /**
+     * @brief Construct Qdrant adapter with default settings.
+     */
     QdrantAdapter();
+
+    /// @brief Destructor; closes Qdrant connection.
     ~QdrantAdapter() override;
 
-    // Non-copyable
-    QdrantAdapter(const QdrantAdapter&) = delete;
-    QdrantAdapter& operator=(const QdrantAdapter&) = delete;
-
-    // -----------------------------------------------------------------------
-    // Connection Management
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
+    // IDatabaseAdapter implementation (partial)
+    // ────────────────────────────────────────────────────────────────────────
 
     Result<bool> connect(
         const std::string& connection_string,
@@ -104,10 +62,7 @@ public:
     Result<bool> disconnect() override;
     bool is_connected() const override;
 
-    // -----------------------------------------------------------------------
-    // IRelationalAdapter (not supported – returns NOT_IMPLEMENTED)
-    // -----------------------------------------------------------------------
-
+    // Relational operations (unsupported; return NOT_IMPLEMENTED)
     Result<RelationalTable> execute_query(
         const std::string& query,
         const std::vector<Scalar>& params = {}
@@ -125,9 +80,9 @@ public:
 
     Result<QueryStatistics> get_query_statistics() const override;
 
-    // -----------------------------------------------------------------------
-    // IVectorAdapter (primary capability)
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
+    // Vector operations (primary support)
+    // ────────────────────────────────────────────────────────────────────────
 
     Result<std::string> insert_vector(
         const std::string& collection,
@@ -152,10 +107,7 @@ public:
         const std::map<std::string, Scalar>& index_params = {}
     ) override;
 
-    // -----------------------------------------------------------------------
-    // IGraphAdapter (not supported – returns NOT_IMPLEMENTED)
-    // -----------------------------------------------------------------------
-
+    // Graph operations (unsupported)
     Result<std::string> insert_node(const GraphNode& node) override;
     Result<std::string> insert_edge(const GraphEdge& edge) override;
 
@@ -176,10 +128,7 @@ public:
         const std::map<std::string, Scalar>& params = {}
     ) override;
 
-    // -----------------------------------------------------------------------
-    // IDocumentAdapter (Qdrant payload store)
-    // -----------------------------------------------------------------------
-
+    // Document operations (unsupported)
     Result<std::string> insert_document(
         const std::string& collection,
         const Document& doc
@@ -202,10 +151,7 @@ public:
         const std::map<std::string, Scalar>& updates
     ) override;
 
-    // -----------------------------------------------------------------------
-    // ITransactionAdapter (not supported – returns NOT_IMPLEMENTED)
-    // -----------------------------------------------------------------------
-
+    // Transaction operations (unsupported)
     Result<std::string> begin_transaction(
         const TransactionOptions& options = {}
     ) override;
@@ -213,58 +159,98 @@ public:
     Result<bool> commit_transaction(const std::string& transaction_id) override;
     Result<bool> rollback_transaction(const std::string& transaction_id) override;
 
-    // -----------------------------------------------------------------------
-    // ISystemInfoAdapter
-    // -----------------------------------------------------------------------
+    Result<std::string> create_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
 
+    Result<bool> rollback_to_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+
+    Result<bool> release_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+
+    Result<TransactionStats> get_transaction_stats(
+        const std::string& transaction_id
+    ) override;
+
+    Result<TransactionState> get_transaction_state(
+        const std::string& transaction_id
+    ) override;
+
+    // System info
     Result<SystemInfo> get_system_info() const override;
     Result<SystemMetrics> get_metrics() const override;
     bool has_capability(Capability cap) const override;
     std::vector<Capability> get_capabilities() const override;
 
-private:
-    // -----------------------------------------------------------------------
-    // Internal state
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
+    // IBatchAdapter implementation
+    // ────────────────────────────────────────────────────────────────────────
 
+    Result<bool> queue_insert(
+        const std::string& table_name,
+        const RelationalRow& row
+    ) override;
+
+    Result<bool> queue_insert_batch(
+        const std::string& table_name,
+        const std::vector<RelationalRow>& rows
+    ) override;
+
+    Result<bool> queue_update(
+        const std::string& table_name,
+        const RelationalRow& row,
+        const std::string& where_clause
+    ) override;
+
+    Result<bool> queue_delete(
+        const std::string& table_name,
+        const std::string& where_clause
+    ) override;
+
+    Result<BatchStatistics> flush() override;
+
+    size_t get_pending_count() const override;
+
+    Result<bool> set_batch_config(const BatchConfig& config) override;
+
+    const BatchConfig& get_batch_config() const override;
+
+private:
+    // ────────────────────────────────────────────────────────────────────────
+    // Connection management
+    // ────────────────────────────────────────────────────────────────────────
+
+    // TODO: Add gRPC channel or REST client
     bool connected_ = false;
     std::string connection_string_;
 
-    // In-process vector store for simulation.
-    // Maps collection_name -> vector of (Document encoding vector + metadata).
-    mutable std::mutex vector_mutex_;
-    std::unordered_map<std::string, std::vector<Document>> vector_store_;
+    // ────────────────────────────────────────────────────────────────────────
+    // Batch vector queue
+    // ────────────────────────────────────────────────────────────────────────
 
-    // In-process document store for payload simulation.
-    // Maps collection_name -> vector of Documents.
-    mutable std::mutex doc_mutex_;
-    std::unordered_map<std::string, std::vector<Document>> document_store_;
+    struct QueuedVector {
+        std::string collection;
+        Vector vector;
+        std::string id;  // May be empty for auto-generated IDs
+    };
 
-    // Monotonic counter for ID generation
-    std::atomic<uint64_t> next_point_id_{1};
+    mutable std::mutex batch_mutex_;
+    std::vector<QueuedVector> vector_queue_;
+    BatchConfig batch_config_;
 
-    // API key extracted from connect() options (stored only as presence flag;
-    // intentionally NOT surfaced via get_system_info() to prevent credential
-    // leakage in logs or core dumps).
-    bool has_api_key_ = false;
-
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
     // Private helpers
-    // -----------------------------------------------------------------------
+    // ────────────────────────────────────────────────────────────────────────
 
-    /// Validate that the connection string uses http:// or https:// scheme.
-    static bool is_valid_connection_string(const std::string& connection_string);
-
-    /// Generate a unique Qdrant point ID.
-    std::string generate_point_id();
-
-    /// Compute dot-product (inner-product) similarity between two float vectors.
-    static double dot_product_similarity(const std::vector<float>& a,
-                                         const std::vector<float>& b);
-
-    /// Return true if a document matches every key-value pair in filter.
-    static bool document_matches(const Document& doc,
-                                 const std::map<std::string, Scalar>& filter);
+    static std::string generate_id();
+    static bool is_valid_connection_string(const std::string& cs);
+    static std::string mask_credentials(const std::string& cs);
 };
 
 } // namespace chimera

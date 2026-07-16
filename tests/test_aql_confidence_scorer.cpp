@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_aql_confidence_scorer.cpp                     ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-03-09 04:02:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     234                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_aql_confidence_scorer.cpp | Version: 0.0.39
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -234,4 +220,180 @@ TEST_F(AQLConfidenceScorerTest, ScoringIsCaseInsensitive) {
     EXPECT_FLOAT_EQ(r1.overall_confidence, r2.overall_confidence);
     EXPECT_FLOAT_EQ(r1.structural_score,   r2.structural_score);
     EXPECT_EQ(r1.has_required_keywords,    r2.has_required_keywords);
+}
+
+// ============================================================================
+// Config injection (runtime-configurable weights)
+// ============================================================================
+
+TEST(AQLConfidenceScorerConfigTest, DefaultConfigMatchesHardCodedBehaviour) {
+    AQLConfidenceScorer default_scorer;
+    AQLConfidenceScorer config_scorer{AQLConfidenceScorer::Config{}};
+
+    const std::string aql = "FOR u IN users FILTER u.age > 18 RETURN u";
+    auto r1 = default_scorer.score(aql);
+    auto r2 = config_scorer.score(aql);
+
+    EXPECT_FLOAT_EQ(r1.overall_confidence, r2.overall_confidence);
+    EXPECT_FLOAT_EQ(r1.structural_score,   r2.structural_score);
+    EXPECT_FLOAT_EQ(r1.completeness_score, r2.completeness_score);
+    EXPECT_FLOAT_EQ(r1.schema_match_score, r2.schema_match_score);
+}
+
+TEST(AQLConfidenceScorerConfigTest, CustomWeightsAreApplied) {
+    AQLConfidenceScorer::Config cfg;
+    cfg.structural_weight   = 1.0f;
+    cfg.completeness_weight = 0.0f;
+    cfg.schema_match_weight = 0.0f;
+
+    AQLConfidenceScorer scorer{cfg};
+    const std::string aql = "FOR u IN users RETURN u";
+    auto result = scorer.score(aql);
+
+    // With structural_weight=1, the overall score must equal structural_score
+    EXPECT_FLOAT_EQ(result.overall_confidence, result.structural_score);
+}
+
+TEST(AQLConfidenceScorerConfigTest, CustomNoSchemaNeutralIsUsed) {
+    AQLConfidenceScorer::Config cfg;
+    cfg.no_schema_neutral = 0.8f;
+    AQLConfidenceScorer scorer{cfg};
+
+    auto result = scorer.score("FOR u IN users RETURN u", "", "");
+    EXPECT_FLOAT_EQ(result.schema_match_score, 0.8f);
+}
+
+TEST(AQLConfidenceScorerConfigTest, CustomZeroMatchFloorIsUsed) {
+    AQLConfidenceScorer::Config cfg;
+    cfg.zero_match_floor = 0.05f;
+    AQLConfidenceScorer scorer{cfg};
+
+    const std::string schema = "- known_col: {field}";
+    auto result = scorer.score("FOR x IN unknown RETURN x", "", schema);
+    EXPECT_FLOAT_EQ(result.schema_match_score, 0.05f);
+}
+
+TEST(AQLConfidenceScorerConfigTest, CustomKeywordBonusesAreUsed) {
+    AQLConfidenceScorer::Config cfg;
+    cfg.keyword_bonuses = {{"filter", 0.50f}};
+    AQLConfidenceScorer scorer{cfg};
+
+    auto without_filter = scorer.score("FOR u IN users RETURN u");
+    auto with_filter    = scorer.score("FOR u IN users FILTER u.x == 1 RETURN u");
+
+    EXPECT_GT(with_filter.completeness_score, without_filter.completeness_score);
+}
+
+TEST(AQLConfidenceScorerConfigTest, ConfigAccessorReturnsCurrentConfig) {
+    AQLConfidenceScorer::Config cfg;
+    cfg.structural_weight = 0.7f;
+    AQLConfidenceScorer scorer{cfg};
+
+    EXPECT_FLOAT_EQ(scorer.config().structural_weight, 0.7f);
+}
+
+// ============================================================================
+// Whole-word keyword matching (substring false-positive fix)
+// ============================================================================
+
+TEST(AQLConfidenceScorerKeywordTest, UpsertDoesNotTriggerInsertBonus) {
+    // "upsert" contains "insert" as a substring; it must NOT trigger the
+    // "insert" bonus.  Only "upsert" should be credited.
+    AQLConfidenceScorer::Config cfg;
+    cfg.keyword_bonuses = {{"insert", 0.10f}, {"upsert", 0.10f}};
+    AQLConfidenceScorer scorer{cfg};
+
+    // Query contains "upsert" but NOT standalone "insert"
+    const std::string upsert_query = "UPSERT {_key: '1'} INSERT {_key: '1', x: 1} UPDATE {x: 2} IN col";
+    // The above actually contains both standalone INSERT and UPSERT; use a
+    // simpler synthetic string that only has "upsert".
+    const std::string only_upsert  = "for x in col upsert x return x";
+    auto result = scorer.score(only_upsert);
+
+    // "insert" is NOT present as a whole word → its bonus must not be added
+    // Base (0.40) + upsert bonus (0.10) = 0.50
+    EXPECT_FLOAT_EQ(result.completeness_score, std::min(0.40f + 0.10f, 1.0f));
+}
+
+TEST(AQLConfidenceScorerKeywordTest, StandaloneInsertIsMatched) {
+    AQLConfidenceScorer::Config cfg;
+    cfg.keyword_bonuses = {{"insert", 0.10f}};
+    AQLConfidenceScorer scorer{cfg};
+
+    const std::string query = "insert {_key: '1', name: 'Alice'} into users";
+    auto result = scorer.score(query);
+    // Base (0.40) + insert (0.10)
+    EXPECT_FLOAT_EQ(result.completeness_score, std::min(0.40f + 0.10f, 1.0f));
+}
+
+// ============================================================================
+// Acceptance-criteria tests (as per issue)
+// ============================================================================
+
+TEST(AQLConfidenceScorerAcceptanceTest, EmptyQueryReturnsExactlyZero) {
+    AQLConfidenceScorer scorer;
+    auto result = scorer.score("");
+    EXPECT_FLOAT_EQ(result.overall_confidence, 0.0f);
+}
+
+TEST(AQLConfidenceScorerAcceptanceTest, CompleteQueryReturnsAbove0Point7) {
+    AQLConfidenceScorer scorer;
+    // Canonical complete query from issue acceptance criteria
+    auto result = scorer.score("FOR x IN c FILTER x.a == 1 RETURN x");
+    EXPECT_GT(result.overall_confidence, 0.7f);
+}
+
+// ============================================================================
+// calibrate() method
+// ============================================================================
+
+TEST(AQLConfidenceScorerCalibrateTest, CalibrateDoesNotCrashOnEmptyInput) {
+    AQLConfidenceScorer scorer;
+    EXPECT_NO_THROW(scorer.calibrate({}));
+}
+
+TEST(AQLConfidenceScorerCalibrateTest, CalibrateIgnoresEmptyQueryPairs) {
+    AQLConfidenceScorer scorer;
+    std::vector<std::pair<std::string, float>> pairs = {{"", 0.9f}, {"", 0.5f}};
+    auto before = scorer.config().structural_weight;
+    scorer.calibrate(pairs);
+    EXPECT_FLOAT_EQ(scorer.config().structural_weight, before);
+}
+
+TEST(AQLConfidenceScorerCalibrateTest, CalibrateWeightsSumToOne) {
+    AQLConfidenceScorer scorer;
+
+    std::vector<std::pair<std::string, float>> pairs = {
+        {"FOR x IN c FILTER x.a == 1 RETURN x",          0.95f},
+        {"FOR u IN users RETURN u",                       0.80f},
+        {"FOR u IN users SORT u.name LIMIT 10 RETURN u",  0.85f},
+        {"RETURN 42",                                     0.10f},
+        {"FOR x IN c RETURN x",                          0.75f},
+    };
+
+    scorer.calibrate(pairs);
+
+    float sum = scorer.config().structural_weight
+              + scorer.config().completeness_weight
+              + scorer.config().schema_match_weight;
+    EXPECT_NEAR(sum, 1.0f, 1e-5f);
+}
+
+TEST(AQLConfidenceScorerCalibrateTest, CalibrateWeightsAreInZeroOneRange) {
+    AQLConfidenceScorer scorer;
+
+    std::vector<std::pair<std::string, float>> pairs = {
+        {"FOR x IN c FILTER x.a == 1 RETURN x",          0.95f},
+        {"FOR u IN users RETURN u",                       0.80f},
+        {"FOR u IN users SORT u.name LIMIT 10 RETURN u",  0.85f},
+    };
+
+    scorer.calibrate(pairs);
+
+    EXPECT_GE(scorer.config().structural_weight,   0.0f);
+    EXPECT_LE(scorer.config().structural_weight,   1.0f);
+    EXPECT_GE(scorer.config().completeness_weight, 0.0f);
+    EXPECT_LE(scorer.config().completeness_weight, 1.0f);
+    EXPECT_GE(scorer.config().schema_match_weight, 0.0f);
+    EXPECT_LE(scorer.config().schema_match_weight, 1.0f);
 }

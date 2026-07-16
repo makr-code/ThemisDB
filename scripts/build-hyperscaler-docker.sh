@@ -14,7 +14,7 @@ echo ""
 # Build Docker image
 echo "Building Docker image themisdb-hyperscaler:latest..."
 docker build \
-  -f docker/Dockerfile.hyperscaler \
+  -f docker/hyperscaler/Dockerfile \
   -t themisdb-hyperscaler:latest \
   --build-arg THEMIS_VERSION=1.3.4-hyperscaler \
   --build-arg ENABLE_LLM=ON \
@@ -38,7 +38,7 @@ echo "=================================="
 echo ""
 echo "To start the 10-shard cluster:"
 echo "  cd docker"
-echo "  docker-compose -f docker-compose.hyperscaler-sharding.yml up -d"
+echo "  docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml up -d"
 echo ""
 echo "Access points:"
 echo "  - Load Balancer:    http://localhost"
@@ -51,8 +51,8 @@ echo "  - Prometheus:       http://localhost:9090"
 echo "  - Grafana:          http://localhost:3000 (admin/admin)"
 echo ""
 echo "To view logs:"
-echo "  docker-compose -f docker-compose.hyperscaler-sharding.yml logs -f [service]"
+echo "  docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml logs -f [service]"
 echo ""
 echo "To stop the cluster:"
-echo "  docker-compose -f docker-compose.hyperscaler-sharding.yml down"
+echo "  docker-compose -f docker/hyperscaler/docker-compose.hyperscaler-sharding.yml down"
 echo ""

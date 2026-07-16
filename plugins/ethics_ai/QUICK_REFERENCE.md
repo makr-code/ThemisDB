@@ -40,9 +40,9 @@ A complete native C++ Ethics AI Plugin for ThemisDB with no Python dependencies.
 
 ### Build
 ```bash
-cmake -B build -DTHEMIS_BUILD_ETHICS_AI_PLUGIN=ON \
+cmake -B build -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON -DTHEMIS_PLUGIN_ETHICS_AI=ON \
   -DTHEMIS_BUILD_EXAMPLES=ON -DTHEMIS_BUILD_TESTS=ON
-cmake --build build --target ethics_ai_plugin
+cmake --build build
 ```
 
 ### Test
@@ -112,7 +112,6 @@ auto eval = ethics_plugin->evaluateDecision(
 
 ## ✅ Status
 
-**Complete:** Core implementation, philosophy profiles, tests, examples, documentation  
 **Ready For:** Storage integration, AQL implementation, production deployment
 
 ## 📂 File Structure
@@ -121,13 +120,15 @@ auto eval = ethics_plugin->evaluateDecision(
 plugins/ethics_ai/
 ├── philosophies/          # 10 YAML profiles
 ├── examples/              # Demonstration program
-├── *.{h,cpp}             # Implementation files
-├── CMakeLists.txt        # Build configuration
+├── CMakeLists.txt        # Compatibility shim / legacy entry point
 └── *.md                  # Documentation
 
+src/ethics_ai/
+├── *.cpp                 # Canonical implementation files
+└── *.h                   # Internal headers
+
 include/plugins/ethics_ai/
-├── ethics_ai_types.h
-└── ethics_ai_plugin_interface.h
+├── *.h                   # Public API headers / compatibility includes
 
 tests/
 ├── test_ethics_ai_types.cpp

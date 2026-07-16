@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Report** – Dieser Report beschreibt den Entwicklungsstand zum Zeitpunkt der Erfassung.
+> Für den aktuellen Implementierungsstand: Quellcode in `tools/Themis.IngestionTool/` prüfen.
+
 # Implementierung: llama.cpp LLM Status in der Statusleiste
 
 ## ✅ Zusammenfassung der Implementierung

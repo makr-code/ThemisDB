@@ -397,7 +397,7 @@ ls -lh build/data/docs.db
 
 ### Implementierung
 
-**Datei**: `scripts/build-release-packages.sh`
+**Datei**: `.github/workflows/04-release_build-binary-linux.yml`
 
 ```bash
 # Nach dem Build, vor dem Packaging einfügen:
@@ -448,7 +448,7 @@ ENV THEMIS_ENABLE_DOCS_ASSISTANT=true
 ```
 
 ### Dateien zu ändern
-- `scripts/build-release-packages.sh`
+- `.github/workflows/04-release_build-binary-linux.yml`
 - `Dockerfile.themis-server`
 - `docker/compose/docker-compose.yml` (Volume mapping für docs.db)
 

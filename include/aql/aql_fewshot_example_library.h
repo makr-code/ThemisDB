@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_fewshot_example_library.h                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     227                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5fcab4ddf  2026-02-26  feat(aql): implement few-shot example library for improve... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file aql_fewshot_example_library.h
- * @brief Curated few-shot example library for improved NL-to-AQL accuracy.
- *
- * Provides a static registry of natural-language / AQL example pairs that
- * are injected into LLM prompts to improve translation accuracy.  Examples
- * are organized by domain (document, graph, vector, geospatial, timeseries)
- * and can be retrieved by domain or ranked by relevance to an input query.
- *
- * Integrates with LLMAQLHandler::translateNLToAQL() and the generic
- * FewShotOptimizer from llm/fewshot_optimizer.h.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -40,9 +15,38 @@
 #include <vector>
 #include <unordered_map>
 #include <optional>
+#include <functional>
 
 namespace themis {
 namespace aql {
+
+// ============================================================================
+// Embedding provider interface
+// ============================================================================
+
+/**
+ * @brief Minimal interface for embedding a text string into a float vector.
+ *
+ * Implement this interface to enable semantic (cosine-similarity) few-shot
+ * selection in @c AQLFewShotExampleLibrary.  Pass the implementation to
+ * @c AQLFewShotExampleLibrary::setEmbeddingProvider() to activate semantic
+ * ranking.
+ *
+ * The default (Jaccard word-overlap) ranking is used when no provider is set.
+ */
+class IEmbeddingProvider {
+public:
+    virtual ~IEmbeddingProvider() = default;
+
+    /**
+     * @brief Compute a fixed-dimensional dense embedding for @p text.
+     *
+     * @param text  Input text to embed (may be empty).
+     * @return Normalised float vector. Length must be consistent across calls.
+     *         An empty vector signals that embedding is unavailable.
+     */
+    virtual std::vector<float> embed(const std::string& text) = 0;
+};
 
 // ============================================================================
 // Domain enum
@@ -212,15 +216,73 @@ public:
      */
     std::size_t size() const;
 
+    // =========================================================================
+    // Semantic ranking support
+    // =========================================================================
+
+    /**
+     * @brief Attach an embedding provider for semantic (cosine-similarity) ranking.
+     *
+     * When a non-null provider is attached, @c findRelevant() uses cosine
+     * similarity between the input query embedding and cached example embeddings
+     * instead of Jaccard word-overlap.  Pass @c nullptr to revert to Jaccard.
+     *
+     * The caller retains ownership of @p provider; it must remain valid for the
+     * lifetime of this library object.
+     *
+     * @note Call @c rebuildEmbeddingIndex() after changing the provider if you
+     *       want the pre-computed cache to be refreshed immediately; otherwise
+     *       embeddings are computed lazily on the first call to @c findRelevant().
+     *
+     * @param provider  Embedding provider, or nullptr to disable semantic ranking.
+     */
+    void setEmbeddingProvider(IEmbeddingProvider* provider);
+
+    /**
+     * @brief Pre-compute and cache embeddings for all currently registered examples.
+     *
+     * Calling this method is optional but useful to amortise the embedding cost
+     * before the first query arrives.  It is a no-op when no provider is set.
+     *
+     * @note Thread-safety: this method is NOT thread-safe with respect to
+     *       concurrent calls to @c findRelevant() or @c registerExample().
+     *       Complete all registrations before calling @c rebuildEmbeddingIndex().
+     */
+    void rebuildEmbeddingIndex();
+
 private:
     std::vector<AQLFewShotExample>          examples_;
     std::unordered_map<std::string, std::size_t> index_by_id_;
 
+    /// Optional semantic embedding provider (null → Jaccard ranking)
+    IEmbeddingProvider* embedding_provider_ = nullptr;
+
+    /// Pre-computed embeddings: index matches examples_ ordering.
+    /// Empty entries indicate that the embedding has not been computed yet.
+    mutable std::vector<std::vector<float>> embedding_cache_;
+
     void registerBuiltins_();
 
+    /// Lexical (Jaccard word-overlap) relevance – always available.
     static double computeRelevance_(
         const std::string& query,
         const AQLFewShotExample& example
+    );
+
+    /// Semantic (cosine-similarity) relevance – requires embedding_provider_.
+    /// Returns -1.0 if the provider is unavailable or embedding fails.
+    double computeRelevanceSemantic_(
+        const std::vector<float>& query_embedding,
+        std::size_t example_index
+    ) const;
+
+    /// Ensure embedding_cache_[idx] is populated; returns true on success.
+    bool ensureEmbedding_(std::size_t idx) const;
+
+    /// Compute cosine similarity between two equal-length vectors.
+    static double cosineSimilarity_(
+        const std::vector<float>& a,
+        const std::vector<float>& b
     );
 };
 

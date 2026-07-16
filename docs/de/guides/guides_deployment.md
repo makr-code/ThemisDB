@@ -26,7 +26,7 @@ Complete guide to deploying ThemisDB across platforms and environments.
 
 Deployment guide for installing and running ThemisDB in production environments.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 
@@ -79,7 +79,7 @@ Deployment guide for installing and running ThemisDB in production environments.
 ```bash
 # Download latest release
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Guides
 

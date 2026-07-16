@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_huggingface_exporter.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     550                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 929de3a2b  2026-02-23  fix(exporters): 5 audit fixes for HuggingFace exporter ║
-    • d57fa8dc7  2026-02-22  feat(exporters): Hugging Face Datasets-compatible export ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_huggingface_exporter.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -59,6 +43,10 @@ protected:
             entity.setField("instruction", "Instruction " + std::to_string(i));
             entity.setField("input",       "Input " + std::to_string(i));
             entity.setField("output",      "Output " + std::to_string(i));
+            // Keep aliases for JSONLLLMExporter default mapping (question/context/answer).
+            entity.setField("question",    "Instruction " + std::to_string(i));
+            entity.setField("context",     "Input " + std::to_string(i));
+            entity.setField("answer",      "Output " + std::to_string(i));
             entity.setField("score",       static_cast<double>(i) * 0.2);
             test_entities_.push_back(entity);
         }
@@ -92,6 +80,7 @@ protected:
 TEST_F(HuggingFaceExporterTest, CreatesDatasetDirectory) {
     HuggingFaceExporterConfig config;
     config.dataset_name = "test_dataset";
+    config.jsonl_config.quality.min_text_length = 0;
     HuggingFaceExporter exporter(config);
 
     ExportOptions options;
@@ -195,6 +184,7 @@ TEST_F(HuggingFaceExporterTest, DefaultSplitIsTrainWhenEmpty) {
 
 TEST_F(HuggingFaceExporterTest, DataFileContainsValidJsonl) {
     HuggingFaceExporterConfig config;
+    config.jsonl_config.quality.min_text_length = 0;
     HuggingFaceExporter exporter(config);
 
     ExportOptions options;
@@ -208,7 +198,10 @@ TEST_F(HuggingFaceExporterTest, DataFileContainsValidJsonl) {
     EXPECT_GT(lines.size(), 0);
 
     for (const auto& line : lines) {
-        EXPECT_NO_THROW(json::parse(line));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        });
     }
 }
 
@@ -225,7 +218,7 @@ TEST_F(HuggingFaceExporterTest, InfersFeatureTypesFromEntities) {
     ExportOptions options;
     options.output_path = test_dir_ + "/infer_features";
 
-    exporter.exportEntities(test_entities_, options);
+    static_cast<void>(exporter.exportEntities(test_entities_, options));
 
     auto j = json::parse(readFile(options.output_path + "/dataset_info.json"));
     EXPECT_TRUE(j.contains("features"));

@@ -1,23 +1,20 @@
+/**
+ * @file rcu.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rcu.h                                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rcu.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB RCU (Read-Copy-Update) Infrastructure
@@ -198,15 +195,29 @@ void rcu_defer_delete(T* ptr) {
     #endif
 }
 
+// Global active-reader count.
+// Each ReadLock increments this on construction and decrements on destruction.
+// GracePeriodManager::readers_active() polls this to detect quiescent states.
+// Using relaxed ordering is safe because we are checking for zero (a
+// stable state once all readers have decremented).
+//
+// The `inline` specifier (C++17) guarantees a single definition across all
+// translation units that include this header.  If building with C++14, move
+// this declaration to a .cpp file and declare `extern std::atomic<int64_t>
+// g_rcu_reader_count;` here instead.
+inline std::atomic<int64_t> g_rcu_reader_count{0};
+
 // Thread-local read counter definition
 inline thread_local std::atomic<uint64_t> ReadLock::read_count_{0};
 
 // ReadLock implementation
 inline ReadLock::ReadLock() {
     read_count_.fetch_add(1, std::memory_order_acquire);
+    g_rcu_reader_count.fetch_add(1, std::memory_order_relaxed);
 }
 
 inline ReadLock::~ReadLock() {
+    g_rcu_reader_count.fetch_sub(1, std::memory_order_release);
     read_count_.fetch_sub(1, std::memory_order_release);
 }
 
@@ -268,9 +279,10 @@ inline void GracePeriodManager::synchronize_rcu() {
 }
 
 inline bool GracePeriodManager::readers_active() {
-    // Simple implementation: just wait a bit
-    // Real RCU would check per-CPU read counters
-    return false;
+    // A grace period has elapsed when no reader holds a ReadLock.
+    // g_rcu_reader_count is the authoritative global active-reader count;
+    // it is incremented on ReadLock construction and decremented on destruction.
+    return g_rcu_reader_count.load(std::memory_order_acquire) > 0;
 }
 
 inline void GracePeriodManager::grace_period_thread() {

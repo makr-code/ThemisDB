@@ -1,25 +1,21 @@
+/**
+ * @file tracing.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tracing.cpp                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     764                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 95fb262d5  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
-    • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tracing.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 756
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=7, L=0
+ * PR History (last 5): #3100 feat(observability): adapti... (2026-03-12) | #2843 feat(core): implement OpenT... (2026-03-12) | #1209 Remove unused variable warn... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/tracing.h"
@@ -47,7 +43,7 @@
 
 #include <boost/asio.hpp>
 
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
 #include <opentelemetry/exporters/otlp/otlp_http_exporter_factory.h>
 #include <opentelemetry/exporters/otlp/otlp_http_exporter_options.h>
 #include <opentelemetry/sdk/trace/simple_processor_factory.h>
@@ -68,7 +64,11 @@ namespace themis {
 // SamplingStrategy
 // ─────────────────────────────────────────────────────────────────────────────
 
-SamplingStrategy SamplingStrategy::adaptive(const AdaptiveConfig& config) {
+SamplingStrategy SamplingStrategy::adaptive() {
+    return adaptive(AdaptiveConfig{});
+}
+
+SamplingStrategy SamplingStrategy::adaptive(AdaptiveConfig config) {
     SamplingStrategy s(Type::ADAPTIVE, config.min_rate);
     s.adaptive_config_ = config;
     s.adaptive_state_  = std::make_shared<AdaptiveState>();
@@ -214,7 +214,7 @@ void Baggage::extract(const std::map<std::string, std::string>& headers) {
 // Tracer – static members
 // ─────────────────────────────────────────────────────────────────────────────
 
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
 otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::tracer_;
 #endif
 bool Tracer::initialized_ = false;
@@ -225,7 +225,7 @@ std::mutex Tracer::sampling_mu_;
 
 bool Tracer::initialize([[maybe_unused]] const std::string& serviceName, 
                         [[maybe_unused]] const std::string& endpoint) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (initialized_) {
         THEMIS_WARN("Tracer already initialized");
         return false;
@@ -309,7 +309,7 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
 }
 
 void Tracer::shutdown() {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (!initialized_) {
         return;
     }
@@ -329,7 +329,7 @@ void Tracer::shutdown() {
 }
 
 bool Tracer::flush([[maybe_unused]] std::chrono::microseconds timeout) noexcept {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto provider = otel::trace::Provider::GetTracerProvider();
     if (!provider) {
         return false;
@@ -344,7 +344,7 @@ bool Tracer::flush([[maybe_unused]] std::chrono::microseconds timeout) noexcept 
 #endif
 }
 
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
 otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::getTracer() {
     if (!initialized_ || tracer_ == nullptr) {
         THEMIS_WARN("Tracer not initialized, call Tracer::initialize() first");
@@ -365,7 +365,7 @@ SamplingStrategy Tracer::getSamplingStrategy() {
 }
 
 std::string Tracer::getCurrentTraceId() {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto ctx = otel::context::RuntimeContext::GetCurrent();
     auto val = ctx.GetValue(otel::trace::kSpanKey);
     if (otel::nostd::holds_alternative<
@@ -384,7 +384,7 @@ std::string Tracer::getCurrentTraceId() {
 }
 
 std::string Tracer::getCurrentSpanId() {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto ctx = otel::context::RuntimeContext::GetCurrent();
     auto val = ctx.GetValue(otel::trace::kSpanKey);
     if (otel::nostd::holds_alternative<
@@ -403,7 +403,7 @@ std::string Tracer::getCurrentSpanId() {
 }
 
 Tracer::Span Tracer::startSpan([[maybe_unused]] const std::string& name) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     {
         std::lock_guard<std::mutex> lk(sampling_mu_);
         if (!sampling_strategy_.shouldSample()) {
@@ -427,7 +427,7 @@ Tracer::Span Tracer::startSpan([[maybe_unused]] const std::string& name) {
 
 Tracer::Span Tracer::startChildSpan([[maybe_unused]] const std::string& name, 
                                     [[maybe_unused]] const Span& parent) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto tracer = getTracer();
     if (!tracer || !parent.valid_) {
         return Span();
@@ -473,7 +473,7 @@ std::string headerValue(const std::map<std::string, std::string>& headers,
     return {};
 }
 
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
 bool parseTraceparent(const std::string& value,
                       otel::trace::TraceId& trace_id_out,
                       otel::trace::SpanId& parent_id_out,
@@ -518,8 +518,10 @@ bool parseTraceparent(const std::string& value,
     uint8_t flg{};
     if (!hexByte(value[53], value[54], flg)) return false;
 
-    trace_id_out  = otel::trace::TraceId(tid);
-    parent_id_out = otel::trace::SpanId(pid);
+    trace_id_out = otel::trace::TraceId(
+        otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(), tid.size()));
+    parent_id_out = otel::trace::SpanId(
+        otel::nostd::span<const uint8_t, otel::trace::SpanId::kSize>(pid.data(), pid.size()));
     flags_out     = otel::trace::TraceFlags(flg);
     return true;
 }
@@ -537,7 +539,7 @@ Tracer::Span Tracer::startSpanFromHeaders(
     // Extract baggage from incoming headers
     Baggage::extract(headers);
 
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     auto tracer = getTracer();
     if (tracer && !traceparent.empty()) {
         otel::trace::TraceId  trace_id;
@@ -583,7 +585,7 @@ int64_t Tracer::getActiveSpans() {
 }
 
 // Span implementation
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
 Tracer::Span::Span(otel::nostd::shared_ptr<otel::trace::Span> span)
     : span_(span), valid_(span != nullptr), ended_(false), start_time_(std::chrono::steady_clock::now()) {
     if (span_) {
@@ -604,7 +606,7 @@ Tracer::Span::~Span() {
 
 Tracer::Span::Span(Span&& other) noexcept
     : valid_(other.valid_), ended_(other.ended_) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     span_ = std::move(other.span_);
     context_ = std::move(other.context_);
     start_time_ = other.start_time_;
@@ -620,7 +622,7 @@ Tracer::Span& Tracer::Span::operator=(Span&& other) noexcept {
         
         valid_ = other.valid_;
         ended_ = other.ended_;
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
         span_ = std::move(other.span_);
         context_ = std::move(other.context_);
         start_time_ = other.start_time_;
@@ -632,7 +634,7 @@ Tracer::Span& Tracer::Span::operator=(Span&& other) noexcept {
 
 void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
                                  [[maybe_unused]] const std::string& value) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         std::string safe_value = themis::security::PIIRedactionPolicy::get()
                                      .redactAttributeValue(key, value);
@@ -643,7 +645,7 @@ void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key,
 
 void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
                                  [[maybe_unused]] int64_t value) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         span_->SetAttribute(key, value);
     }
@@ -652,7 +654,7 @@ void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key,
 
 void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
                                  [[maybe_unused]] double value) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         span_->SetAttribute(key, value);
     }
@@ -661,7 +663,7 @@ void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key,
 
 void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
                                  [[maybe_unused]] bool value) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         span_->SetAttribute(key, value);
     }
@@ -669,7 +671,7 @@ void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key,
 }
 
 void Tracer::Span::recordError([[maybe_unused]] const std::string& errorMessage) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         std::string safe_msg = themis::security::PIIRedactionPolicy::get()
                                    .redactForLog(errorMessage);
@@ -681,7 +683,7 @@ void Tracer::Span::recordError([[maybe_unused]] const std::string& errorMessage)
 
 void Tracer::Span::setStatus([[maybe_unused]] bool ok, 
                              [[maybe_unused]] const std::string& description) {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         auto status_code = ok ? otel::trace::StatusCode::kOk : otel::trace::StatusCode::kError;
         span_->SetStatus(status_code, description);
@@ -690,7 +692,7 @@ void Tracer::Span::setStatus([[maybe_unused]] bool ok,
 }
 
 void Tracer::Span::end() {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_ && !ended_) {
         span_->End();
         ended_ = true;
@@ -700,7 +702,7 @@ void Tracer::Span::end() {
 }
 
 double Tracer::Span::durationMs() const {
-#ifdef THEMIS_ENABLE_TRACING
+#if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (!valid_) return 0.0;
     auto now = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - start_time_);

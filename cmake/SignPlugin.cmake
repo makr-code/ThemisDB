@@ -37,11 +37,20 @@ endif()
 # Find signing tools
 if(WIN32)
     # Windows: Find signtool.exe (part of Windows SDK)
+    set(_themis_signtool_hints)
+    if(DEFINED ENV{WindowsSdkDir})
+        list(APPEND _themis_signtool_hints
+            "$ENV{WindowsSdkDir}/bin/x64"
+            "$ENV{WindowsSdkDir}/bin/x86")
+        if(DEFINED ENV{WindowsSDKVersion})
+            list(APPEND _themis_signtool_hints
+                "$ENV{WindowsSdkDir}/bin/$ENV{WindowsSDKVersion}/x64"
+                "$ENV{WindowsSdkDir}/bin/$ENV{WindowsSDKVersion}/x86")
+        endif()
+    endif()
     find_program(SIGNTOOL signtool
         HINTS
-            "C:/Program Files (x86)/Windows Kits/10/bin/x64"
-            "C:/Program Files (x86)/Windows Kits/10/bin/x86"
-            "$ENV{ProgramFiles\(x86\)}/Windows Kits/10/bin/x64"
+            ${_themis_signtool_hints}
     )
     if(SIGNTOOL)
         message(STATUS "Found signtool: ${SIGNTOOL}")

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_transaction_retry.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:07:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c44891bf3  2026-02-26  Fix TransactionRetryManager: add thread include, fix Retr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_transaction_retry.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -110,6 +95,23 @@ TEST(TransactionRetryManager, ThrowsAfterMaxAttempts) {
 
     EXPECT_EQ(calls.load(), 3);
     EXPECT_EQ(mgr.getStatistics().failed_operations.load(), 1u);
+}
+
+TEST(TransactionRetryManager, RetryAttemptsNotOvercountedWhenExhausted) {
+    // max_attempts = 2 → one initial try + one retry
+    TransactionRetryManager mgr(fastConfig(2));
+
+    std::atomic<int> calls{0};
+    EXPECT_THROW({
+        mgr.executeWithRetry([&]() -> int {
+            ++calls;
+            throw std::runtime_error("timeout occurred");
+        }, "timeout_op");
+    }, std::runtime_error);
+
+    EXPECT_EQ(calls.load(), 2);
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats.total_retry_attempts.load(), 1u);
 }
 
 // ── Error classification ──────────────────────────────────────────────────────

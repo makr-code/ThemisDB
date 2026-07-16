@@ -1,24 +1,21 @@
+/**
+ * @file object_storage_connector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            object_storage_connector.h                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     188                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7a7b91374  2026-02-27  Add S3/GCS/Azure Blob object storage source connector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: object_storage_connector.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 184
+ * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3247 feat(ingestion): S3/GCS/Azu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -153,7 +150,10 @@ public:
     void setRetryConfig(const RetryConfig& config);
 
     /**
-     * @brief Function type for injecting a mock object-list in unit tests.
+     * @brief Function type for providing object-key batches.
+     *
+     * Usable both for tests and for custom production integrations that want to
+     * bridge an external object-storage listing backend into the connector.
      *
      * Each call should return the next batch of object keys.  Return an empty
      * vector to signal end-of-listing.
@@ -161,7 +161,10 @@ public:
     using ObjectListFn = std::function<std::vector<std::string>()>;
 
     /**
-     * @brief Function type for injecting mock object bodies in unit tests.
+     * @brief Function type for providing object bodies.
+     *
+     * Usable both for tests and for custom production integrations that want to
+     * bridge an external object fetch backend into the connector.
      *
      * Given an object key the function returns the raw object body as a
      * string.  Return an empty string to simulate a fetch failure.
@@ -169,14 +172,17 @@ public:
     using ObjectFetchFn = std::function<std::string(const std::string& key)>;
 
     /**
-     * @brief Inject mock object-listing and object-fetch functions (unit tests).
+     * @brief Inject object-listing and object-fetch providers.
      *
-     * When both are set, every cloud API call is replaced by these functions
-     * and no real credentials or network access is required.
+     * When both are set, every cloud API call is replaced by these functions.
+     * This is suitable both for tests and for custom production bridges to
+     * non-native or out-of-process object-storage backends.
      *
      * Pass empty `ObjectListFn{}` / `ObjectFetchFn{}` to restore the real
      * provider path.
      */
+    void setObjectListProvider(ObjectListFn list_fn);
+    void setObjectFetchProvider(ObjectFetchFn fetch_fn);
     void setObjectListForTesting(ObjectListFn list_fn);
     void setObjectFetchForTesting(ObjectFetchFn fetch_fn);
 

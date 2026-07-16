@@ -1,18 +1,21 @@
+/**
+ * @file observability.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            observability.cpp                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 18:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     190                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: observability.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 250
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=12, L=0
+ * PR History (last 5): #3641 feat(modules): security/rep... (2026-03-12) | #3638 feat(replication): Phase 4 ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -79,7 +82,8 @@ ReplicationObserver::getTopology() const
 {
     std::vector<TopologyNode> nodes;
     const auto replicas = manager_->getReplicas();
-
+    nodes.reserve(replicas.size());  // Pre-allocate to avoid reallocations
+    
     // Build a map: node_id → role for downstream lookup
     std::map<std::string, ReplicationRole> role_map;
     for (const auto& r : replicas) {
@@ -136,6 +140,7 @@ ReplicationObserver::detectBottlenecks() const
 {
     std::vector<Bottleneck> bottlenecks;
     const auto replicas = manager_->getReplicas();
+    bottlenecks.reserve(replicas.size());  // Pre-allocate to avoid reallocations
 
     for (const auto& replica : replicas) {
         const int64_t lag = replica.replicationLagMs();
@@ -255,3 +260,4 @@ ReplicationObserver::calculateHealthScore() const
 
 } // namespace replication
 } // namespace themisdb
+

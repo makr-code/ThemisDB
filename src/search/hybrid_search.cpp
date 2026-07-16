@@ -1,27 +1,25 @@
+/**
+ * @file hybrid_search.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hybrid_search.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     394                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 96ef109a0  2026-02-25  feat(search): integrate LlmReranker into HybridSearch pip... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hybrid_search.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 382
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=8, L=0
+ * PR History (last 5): #3761 feat(search): DistributedHy... (2026-03-12) | #1077 Remove duplicate vector sea... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "search/hybrid_search.h"
+#include "index/ann_frontdoor.h"
 #include "index/secondary_index.h"
 #include "index/vector_index.h"
 #include "utils/logger.h"
@@ -114,6 +112,10 @@ void HybridSearch::setReranker(LlmReranker::LlmBackend backend,
                  config.batch_size, config.llm_weight);
 }
 
+void HybridSearch::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {
+    ann_frontdoor_ = std::move(frontdoor);
+}
+
 std::vector<HybridSearch::Result> HybridSearch::search(
     const std::string& text_query,
     const float* vector_query,
@@ -156,30 +158,81 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     }
     
     // Vector ANN search
-    if (vector_query && vector_dim > 0 && vector_index_) {
+    if (vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
         try {
             std::vector<float> query_vec(vector_query, vector_query + vector_dim);
-            auto [status, vec_results] = vector_index_->searchKnn(
-                query_vec,
-                config_.k_vector
-            );
-            
-            if (status.ok) {
-                vector_results.reserve(vec_results.size());
-                for (size_t i = 0; i < vec_results.size(); ++i) {
-                    const auto& vec_result = vec_results[i];
+            if (ann_frontdoor_) {
+                index::AnnQueryContext context;
+                auto frontdoor_result = ann_frontdoor_->search(
+                    query_vec.data(),
+                    vector_dim,
+                    static_cast<int>(config_.k_vector),
+                    context
+                );
+
+                vector_results.reserve(frontdoor_result.candidates.size());
+                for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
+                    const auto& candidate = frontdoor_result.candidates[i];
                     Result r;
-                    r.document_id = vec_result.pk;
-                    // Convert distance to similarity based on configured metric
-                    r.vector_score = distanceToSimilarity(vec_result.distance, 
+                    r.document_id = std::to_string(candidate.id);
+                    r.vector_score = distanceToSimilarity(candidate.distance,
                                                           config_.vector_metric);
                     r.vector_rank = static_cast<int>(i + 1);
                     vector_results.push_back(r);
                 }
+
+                if (vector_results.empty() &&
+                    vector_index_ != nullptr &&
+                    (frontdoor_result.strategy_used == index::AnnStrategy::FLAT_BRUTE_FORCE ||
+                     frontdoor_result.strategy_used == index::AnnStrategy::HNSW)) {
+                    auto [status, vec_results] = vector_index_->searchKnn(
+                        query_vec,
+                        config_.k_vector
+                    );
+
+                    if (status.ok) {
+                        vector_results.reserve(vec_results.size());
+                        for (size_t i = 0; i < vec_results.size(); ++i) {
+                            const auto& vec_result = vec_results[i];
+                            Result r;
+                            r.document_id = vec_result.pk;
+                            r.vector_score = distanceToSimilarity(vec_result.distance,
+                                                                  config_.vector_metric);
+                            r.vector_rank = static_cast<int>(i + 1);
+                            vector_results.push_back(r);
+                        }
+                    } else {
+                        THEMIS_WARN("HybridSearch: legacy vector fallback after AnnFrontdoor returned no candidates failed: {}",
+                                    status.message);
+                    }
+                }
+
                 vector_ok = true;
-                THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+                THEMIS_DEBUG("Vector search returned {} results via AnnFrontdoor",
+                             vector_results.size());
             } else {
-                THEMIS_WARN("Vector search failed: {}", status.message);
+                auto [status, vec_results] = vector_index_->searchKnn(
+                    query_vec,
+                    config_.k_vector
+                );
+
+                if (status.ok) {
+                    vector_results.reserve(vec_results.size());
+                    for (size_t i = 0; i < vec_results.size(); ++i) {
+                        const auto& vec_result = vec_results[i];
+                        Result r;
+                        r.document_id = vec_result.pk;
+                        // Convert distance to similarity based on configured metric
+                        r.vector_score = distanceToSimilarity(vec_result.distance,
+                                                              config_.vector_metric);
+                        r.vector_rank = static_cast<int>(i + 1);
+                        vector_results.push_back(r);
+                    }
+                    vector_ok = true;
+                    THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+                } else {
+                    THEMIS_WARN("Vector search failed: {}", status.message);
+                }
             }
         } catch (const std::exception& e) {
             THEMIS_ERROR("Vector search exception: {}", e.what());
@@ -189,7 +242,8 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     // Detect partial-result condition: both sources were available and attempted,
     // but exactly one of them failed while the other returned candidates.
     bool bm25_attempted  = !text_query.empty() && fulltext_index_ != nullptr;
-    bool vector_attempted = vector_query != nullptr && vector_dim > 0 && vector_index_ != nullptr;
+    bool vector_attempted = vector_query != nullptr && vector_dim > 0 &&
+                            (ann_frontdoor_ != nullptr || vector_index_ != nullptr);
     bool bm25_failed_but_vector_succeeded =
         bm25_attempted && !bm25_ok && vector_ok && !vector_results.empty();
     bool vector_failed_but_bm25_succeeded =
@@ -393,3 +447,4 @@ void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
 }
 
 } // namespace themis
+

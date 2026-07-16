@@ -1,23 +1,20 @@
+/**
+ * @file openssl_deleter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            openssl_deleter.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     173                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: openssl_deleter.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -40,6 +37,7 @@
 #include <optional>
 #include <openssl/evp.h>
 #include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
@@ -80,6 +78,27 @@ struct X509CRLDeleter {
     }
 };
 
+/// Deleter for X509_REQ (PKCS#10 Certificate Signing Request)
+struct X509REQDeleter {
+    void operator()(X509_REQ* req) const noexcept {
+        if (req) X509_REQ_free(req);
+    }
+};
+
+/// Deleter for X509_STORE
+struct X509StoreDeleter {
+    void operator()(X509_STORE* store) const noexcept {
+        if (store) X509_STORE_free(store);
+    }
+};
+
+/// Deleter for X509_STORE_CTX
+struct X509StoreCtxDeleter {
+    void operator()(X509_STORE_CTX* ctx) const noexcept {
+        if (ctx) X509_STORE_CTX_free(ctx);
+    }
+};
+
 /// Deleter for BIO
 struct BIODeleter {
     void operator()(BIO* bio) const noexcept {
@@ -116,6 +135,15 @@ using X509Ptr = std::unique_ptr<X509, X509Deleter>;
 
 /// RAII wrapper for X509_CRL
 using X509CRLPtr = std::unique_ptr<X509_CRL, X509CRLDeleter>;
+
+/// RAII wrapper for X509_REQ (PKCS#10 Certificate Signing Request)
+using X509REQPtr = std::unique_ptr<X509_REQ, X509REQDeleter>;
+
+/// RAII wrapper for X509_STORE
+using X509StorePtr = std::unique_ptr<X509_STORE, X509StoreDeleter>;
+
+/// RAII wrapper for X509_STORE_CTX
+using X509StoreCtxPtr = std::unique_ptr<X509_STORE_CTX, X509StoreCtxDeleter>;
 
 /// RAII wrapper for BIO
 using BIOPtr = std::unique_ptr<BIO, BIODeleter>;

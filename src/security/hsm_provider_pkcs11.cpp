@@ -1,27 +1,21 @@
+/**
+ * @file hsm_provider_pkcs11.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=23; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=10, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  ⚫ DRAFT                                        ║
-    • Quality Score:   0.0/100                                        ║
-    • Total Lines:     1055                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 23                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e45182eb8  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
-    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
-    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
-    • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hsm_provider_pkcs11.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1122
+ * Gap Summary: total=23; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=19, M=9, L=0
+ * PR History (last 5): #3461 [HSM] Implement PKCS#11 tok... (2026-03-12) | #3458 [HSM] PKCS#11 C++ wrapper i... (2026-03-12) | #3454 fix: Wire PKCS#11 HSM produ... (2026-03-12) | #2585 feat(security): HSM PKCS#11... (2026-03-12) | #2564 feat(security): HSM direct ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_HSM_REAL
@@ -43,6 +37,7 @@
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/bn.h>
+#include <openssl/crypto.h>
 
 #if defined(_WIN32)
     #include <windows.h>
@@ -52,9 +47,49 @@
 
 namespace themis { namespace security {
 
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_CIPHER_CTX_Deleter {
+    void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
+};
+
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+struct X509_Deleter {
+    void operator()(X509* p) const { if (p) X509_free(p); }
+};
+
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free_all(p); }
+};
+
+struct BIGNUM_Deleter {
+    void operator()(BIGNUM* p) const { if (p) BN_free(p); }
+};
+
+using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
+
 // Real PKCS#11 implementation with graceful developer fallback.
 // If any critical step fails (lib load, slot, login, key discovery),
 // operations transparently revert to deterministic stub behaviour.
+
+// STUB/SIMULATION NOTE (fallback path only):
+// Purpose: When PKCS#11 hardware/library is unavailable (slot discovery fails, PIN error,
+//          device absent), HSMProvider::Impl::stub_kek is used as a software AES-256-GCM
+//          fallback so that developer and CI environments remain functional.
+// Activation: Automatically activated at runtime when real_ready == false (PKCS#11 init
+//             fails). Controlled by THEMIS_ALLOW_HSM_STUB env var in production mode.
+// Production Delta: Fallback KEK is randomly generated in-memory, not HSM-protected.
+//                   Key material is not backed by hardware; wrap/unwrap is software-only.
+// Roadmap ref: src/security/ROADMAP.md § "Phase 2: ABAC & HSM Direct Integration"
+// Removal Plan: No removal needed – fallback is a runtime safety net. Real HSM usage is
+//               enforced in production mode (THEMIS_PRODUCTION_MODE=1) unless explicitly
+//               overridden. Fallback triggers a loud WARN log in every call.
 
 class PKCS11Loader {
 public:
@@ -118,21 +153,20 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
     if (key.size() != 32) return {};
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), 12) != 1) return {};
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
     std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
-        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
-        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+        EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx.get(), ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
     ct_len = len;
-    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx.get(), ciphertext.data() + len, &len) == 1;
     ct_len += len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
-    EVP_CIPHER_CTX_free(ctx);
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
     if (!ok) return {};
     ciphertext.resize(ct_len);
     std::vector<uint8_t> result;
@@ -149,20 +183,18 @@ static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& 
     size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
     std::vector<uint8_t> plaintext(ct_len);
     int len = 0, pt_len = 0;
     bool ok =
-        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
-        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
-        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
-        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+        EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx.get(), nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, ct, (int)ct_len) == 1;
     pt_len = len;
-    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
-    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
-    pt_len += len;
-    EVP_CIPHER_CTX_free(ctx);
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len) > 0;
     if (!ok) return {};
     plaintext.resize(pt_len);
     return plaintext;
@@ -465,12 +497,24 @@ static uint64_t nowMs(){ return std::chrono::duration_cast<std::chrono::millisec
 
 // Compute SHA-256 digest using OpenSSL EVP
 static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
-    std::vector<uint8_t> out(EVP_MAX_MD_SIZE); unsigned int len = 0;
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx, data.data(), data.size());
-    EVP_DigestFinal_ex(ctx, out.data(), &len);
-    EVP_MD_CTX_free(ctx);
+    std::vector<uint8_t> out(EVP_MAX_MD_SIZE);
+    unsigned int len = 0;
+    
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    if (!ctx.get()) {
+        THEMIS_ERROR("sha256: failed to create EVP_MD_CTX");
+        return {};
+    }
+    
+    if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
+        THEMIS_ERROR("sha256: EVP_DigestInit_ex failed");
+        return {};
+    }
+    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    if (EVP_DigestFinal_ex(ctx.get(), out.data(), &len) != 1) {
+        THEMIS_ERROR("sha256: EVP_DigestFinal_ex failed");
+        return {};
+    }
     out.resize(len);
     return out;
 }
@@ -526,28 +570,41 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
     if(api->C_FindObjectsInit(s.handle, certTemplate, 2)==CKR_OK){
         CK_OBJECT_HANDLE h; uint32_t found=0; if(api->C_FindObjects(s.handle,&h,1,&found)==CKR_OK && found==1) s.certObj=h; api->C_FindObjectsFinal(s.handle);
     }
-    if(s.certObj && api->C_GetAttributeValue && impl_->cert_serial_cache_.empty()){
+    // Check cache status under lock to prevent data races [SECURITY-FIX-BLOCK2]
+    {
+        std::lock_guard<std::mutex> lk(impl_->mtx);
+        if(!s.certObj || !api->C_GetAttributeValue || !impl_->cert_serial_cache_.empty()){
+            return;
+        }
+    }
+    
+    if(s.certObj && api->C_GetAttributeValue){
         CK_ATTRIBUTE valAttr; valAttr.type=CKA_VALUE; valAttr.pValue=nullptr; valAttr.ulValueLen=0;
         if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK && valAttr.ulValueLen>0){
-            std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
-            if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
-                const unsigned char* p = der.data(); 
-                X509* x = d2i_X509(nullptr, &p, der.size());
-                if(x){
-                    ASN1_INTEGER* si = X509_get_serialNumber(x);
-                    if(si){
-                        BIGNUM* bn = ASN1_INTEGER_to_BN(si, nullptr);
-                        if(bn){
-                            char* hex = BN_bn2hex(bn);
-                            if(hex){
-                                impl_->cert_serial_cache_ = hex;
-                                OPENSSL_free(hex);
+            try {
+                std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
+                if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
+                    const unsigned char* p = der.data(); 
+                    X509_ptr x(d2i_X509(nullptr, &p, der.size()));
+                    if(x.get()){
+                        ASN1_INTEGER* si = X509_get_serialNumber(x.get());
+                        if(si){
+                            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(si, nullptr));
+                            if(bn.get()){
+                                char* hex = BN_bn2hex(bn.get());
+                                if(hex){
+                                    std::lock_guard<std::mutex> lk(impl_->mtx);
+                                    if(impl_->cert_serial_cache_.empty()){
+                                        impl_->cert_serial_cache_ = hex;
+                                    }
+                                    OPENSSL_free(hex);
+                                }
                             }
-                            BN_free(bn);
                         }
                     }
-                    X509_free(x);
                 }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("discoverCertificateSession: error: {}", e.what());
             }
         }
     }
@@ -571,9 +628,8 @@ HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     return nullptr;
 }
 
-void HSMProvider::releaseSession(SessionEntry* s){ 
+void HSMProvider::releaseSession([[maybe_unused]] SessionEntry* s){ 
     // No-op for lock-free implementation (no busy flag to clear)
-    (void)s;
 }
 
 HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std::string& key_label){
@@ -592,6 +648,23 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         return r; 
     }
     if(!impl_->real_ready){
+        auto bridge = SignHashFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(signHashFnMutex());
+            bridge = signHashFnStorage();
+        }
+        if (bridge) {
+            auto bridged = bridge(hash, key_label.empty() ? config_.key_label : key_label);
+            if (bridged.success) {
+                impl_->sign_count.fetch_add(1, std::memory_order_relaxed);
+            } else {
+                impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            }
+            auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::high_resolution_clock::now() - startTime).count();
+            impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
+            return bridged;
+        }
         // Fallback stub behaviour: return Base64-encoded hash
         r.success = true; 
         r.signature_b64 = toBase64(hash);
@@ -645,8 +718,12 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
     r.signature_b64 = toBase64(std::vector<uint8_t>(sig.begin(), sig.end()));
     r.algorithm = config_.signature_algorithm; 
-    r.key_id = key_label.empty()?config_.key_label:key_label; 
-    r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_; 
+    r.key_id = key_label.empty()?config_.key_label:key_label;
+    // Safely access cert_serial_cache_ under lock [SECURITY-FIX-BLOCK2]
+    {
+        std::lock_guard<std::mutex> lk(impl_->mtx);
+        r.cert_serial = impl_->cert_serial_cache_.empty()?"REAL-CERT":impl_->cert_serial_cache_;
+    }
     r.timestamp_ms = nowMs();
     releaseSession(sess);
     return r;
@@ -660,6 +737,20 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         return false;
     }
     if(!impl_->real_ready){
+        auto bridge = VerifyFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(verifyFnMutex());
+            bridge = verifyFnStorage();
+        }
+        if (bridge) {
+            bool result = bridge(data, signature_b64, key_label.empty() ? config_.key_label : key_label);
+            if(result) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+            else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+            auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::high_resolution_clock::now() - startTime).count();
+            impl_->total_verify_time_us.fetch_add(elapsed, std::memory_order_relaxed);
+            return result;
+        }
         // Fallback: verify by comparing Base64-encoded hash
         auto expected = toBase64(sha256(data));
         bool result = (expected == signature_b64);
@@ -710,10 +801,18 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        auto bridge = EncryptDataFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(encryptDataFnMutex());
+            bridge = encryptDataFnStorage();
+        }
+        if (bridge) {
+            return bridge(data, key_label.empty() ? config_.key_label : key_label);
+        }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_encrypt(impl_->stub_kek, data);
         if (result.empty()) last_error_ = "Stub AES encrypt failed";
@@ -749,14 +848,21 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         return {};
     }
     ciphertext.resize(outLen);
-    (void)key_label;
     return ciphertext;
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        auto bridge = DecryptDataFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(decryptDataFnMutex());
+            bridge = decryptDataFnStorage();
+        }
+        if (bridge) {
+            return bridge(encrypted, key_label.empty() ? config_.key_label : key_label);
+        }
         // Fallback: AES-256-GCM with stub KEK
         auto result = pkcs11_stub_aes_decrypt(impl_->stub_kek, encrypted);
         if (result.empty()) last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
@@ -791,13 +897,20 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         return {};
     }
     plaintext.resize(outLen);
-    (void)key_label;
     return plaintext;
 }
 
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
+        auto bridge = GenerateKeyPairFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(generateKeyPairFnMutex());
+            bridge = generateKeyPairFnStorage();
+        }
+        if (bridge) {
+            return bridge(label, key_size, extractable);
+        }
         THEMIS_WARN("generateKeyPair Fallback stub (label='{}')", label); 
         return false; 
     }
@@ -874,6 +987,14 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
+        auto bridge = ImportCertificateFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(importCertificateFnMutex());
+            bridge = importCertificateFnStorage();
+        }
+        if (bridge) {
+            return bridge(key_label, cert_pem);
+        }
         THEMIS_WARN("importCertificate Fallback stub (key='{}')", key_label); 
         return false; 
     }
@@ -896,37 +1017,43 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         return false;
     }
     
-    X509* x509 = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
-    BIO_free(bio);
+    BIO_ptr bio_ptr(bio);
+    X509_ptr x509(PEM_read_bio_X509(bio_ptr.get(), nullptr, nullptr, nullptr));
     
-    if(!x509){
+    if(!x509.get()){
         THEMIS_ERROR("importCertificate: Failed to parse PEM certificate");
         releaseSession(sess);
         return false;
     }
     
     // Convert to DER
-    unsigned char* der = nullptr;
-    int der_len = i2d_X509(x509, &der);
+    struct OpenSslUnsignedCharDeleter {
+        void operator()(unsigned char* p) const {
+            if (p) {
+                OPENSSL_free(p);
+            }
+        }
+    };
+    unsigned char* der_raw = nullptr;
+    int der_len = i2d_X509(x509.get(), &der_raw);
+    std::unique_ptr<unsigned char, OpenSslUnsignedCharDeleter> der(der_raw);
     if(der_len <= 0 || !der){
         THEMIS_ERROR("importCertificate: Failed to convert certificate to DER");
-        X509_free(x509);
         releaseSession(sess);
         return false;
     }
     
     // Extract serial number for metadata
-    ASN1_INTEGER* serial_int = X509_get_serialNumber(x509);
+    ASN1_INTEGER* serial_int = X509_get_serialNumber(x509.get());
     std::string serial_hex;
     if(serial_int){
-        BIGNUM* bn = ASN1_INTEGER_to_BN(serial_int, nullptr);
-        if(bn){
-            char* hex = BN_bn2hex(bn);
+        BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial_int, nullptr));
+        if(bn.get()){
+            char* hex = BN_bn2hex(bn.get());
             if(hex){
                 serial_hex = hex;
                 OPENSSL_free(hex);
             }
-            BN_free(bn);
         }
     }
     
@@ -940,7 +1067,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
         {CKA_LABEL, (void*)key_label.c_str(), key_label.size()},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
-        {CKA_VALUE, der, (CK_ULONG)der_len}
+        {CKA_VALUE, der.get(), (CK_ULONG)der_len}
     };
     
     CK_OBJECT_HANDLE cert_obj = 0;
@@ -950,30 +1077,41 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
         sizeof(cert_template) / sizeof(CK_ATTRIBUTE),
         &cert_obj
     );
-    
-    // Cleanup
-    OPENSSL_free(der);
-    X509_free(x509);
+     
+    // der is automatically freed by unique_ptr on scope exit
     releaseSession(sess);
-    
+     
     if(rv != CKR_OK){
         last_error_ = mapError(rv);
         THEMIS_ERROR("importCertificate failed: {}", last_error_);
         return false;
     }
-    
-    // Update cert serial cache if this is the first certificate
-    if(impl_->cert_serial_cache_.empty() && !serial_hex.empty()){
-        impl_->cert_serial_cache_ = serial_hex;
+     
+    // Update cert serial cache if this is the first certificate [SECURITY-FIX-BLOCK2]
+    {
+        std::lock_guard<std::mutex> lk(impl_->mtx);
+        if(impl_->cert_serial_cache_.empty() && !serial_hex.empty()){
+            impl_->cert_serial_cache_ = serial_hex;
+        }
     }
-    
+     
     THEMIS_INFO("Imported certificate for key '{}' (serial: {})", key_label, serial_hex);
     return true;
 }
 
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!impl_->real_ready) return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
+    if(!impl_->real_ready) {
+        auto bridge = GetCertificateFn{};
+        {
+            std::lock_guard<std::mutex> bridge_lock(getCertificateFnMutex());
+            bridge = getCertificateFnStorage();
+        }
+        if (bridge) {
+            return bridge(key_label);
+        }
+        return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
+    }
     auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;
     CK_ATTRIBUTE valAttr; valAttr.type = CKA_VALUE; valAttr.pValue = nullptr; valAttr.ulValueLen = 0;
     // Zertifikat aus erster Session mit certObj

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Base Module — Public Headers
 
 This directory contains the public C++ header files for the `base` module: plugin-loading
@@ -270,10 +272,14 @@ TEST(MockStorage, ImplementsInterface) {
 
 - [src/base README](../../../src/base/README.md) — module overview and usage guide
 - [src/base ARCHITECTURE](../../../src/base/ARCHITECTURE.md) — detailed architecture guide
+- [src/base AUDIT](../../../src/base/AUDIT.md) — current audit findings and open risks
+- [src/base CHANGELOG](../../../src/base/CHANGELOG.md) — release history and behavior changes
+- [src/base PERFORMANCE_EXPECTATIONS](../../../src/base/PERFORMANCE_EXPECTATIONS.md) — module performance targets
+- [src/base SECURITY](../../../src/base/SECURITY.md) — threat model and controls
 - [src/base ROADMAP](../../../src/base/ROADMAP.md) — feature roadmap and status
 - [src/base FUTURE_ENHANCEMENTS](../../../src/base/FUTURE_ENHANCEMENTS.md) — planned features and design constraints
-- [Architecture Decision Records](../../../docs/architecture/)
-- [Modularization Plan](../../../docs/architecture/MODULARIZATION_PLAN.md)
+- [Architecture docs (DE)](../../../docs/de/architecture/)
+- [Modularization Plan (DE)](../../../docs/de/architecture/MODULARIZATION_PLAN.md)
 - [Testing Strategy](../../../tests/README.md)
 
 ## Questions?

@@ -1,0 +1,236 @@
+{
+  "version": "1.9.0",
+  "profile": "v1.9.0",
+  "branch": "main",
+  "commit": "pending-first-run",
+  "timestamp": "2026-04-15T00:00:00Z",
+  "description": "v1.9.0 SLO baseline for the Sharding module. Covers SH-1..SH-12 via primary_case and fallback_case benchmarks defined in benchmark_target_mapping.json (Wave2). Populated on first CI/local run of bench_sharding_performance + bench_shard_routing.",
+  "slo_module": "sharding",
+  "wave": "Wave2",
+  "run_command": "bench_sharding_performance --benchmark_out=bench_sharding_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
+  "run_command_fallback": "bench_shard_routing --benchmark_out=bench_shard_routing_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
+  "slo_coverage": {
+    "SH-1": {
+      "label": "Cross-Shard RPC P99 (LAN)",
+      "primary_case": "ScatterGatherFixture_ScatterGatherLatency",
+      "fallback_case": "ShardRoutingFixture_SingleShardLookup",
+      "slo_target": "< 5 ms",
+      "status": "mapped",
+      "measured_real_time_us": null,
+      "slo_met": null
+    },
+    "SH-2": {
+      "label": "Connection-Pool Hit-Rate",
+      "primary_case": "ShardRoutingFixture_ConsistentHashPerformance",
+      "fallback_case": "ShardRoutingFixture_BatchRouting",
+      "slo_target": "> 95 % @ 10k RPS",
+      "status": "proxy",
+      "gap_ref": "SH-2-GAP",
+      "gap_effort_days": 3,
+      "measured_items_per_sec": null,
+      "slo_met": null
+    },
+    "SH-3": {
+      "label": "Percolator Commit P99 (10 Shards)",
+      "primary_case": "CrossShardJoinFixture_BroadcastHashJoin",
+      "fallback_case": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+      "slo_target": "< 20 ms",
+      "status": "proxy",
+      "gap_ref": "SH-3-GAP",
+      "gap_effort_days": 3,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "SH-4": {
+      "label": "Shard-Split Migration Downtime",
+      "primary_case": "RebalancingFixture_BatchSerializationThroughput",
+      "fallback_case": "RebalancingFixture_BatchDeserializationThroughput",
+      "slo_target": "0 ms Read-Unavailability",
+      "status": "proxy",
+      "gap_ref": "SH-4-GAP",
+      "gap_effort_days": 5,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "SH-5": {
+      "label": "Write-Latenz während Migration",
+      "primary_case": "RebalancingFixture_BatchSerializationThroughput",
+      "fallback_case": "ShardRoutingFixture_BatchRouting",
+      "slo_target": "< 20 % over Baseline P99",
+      "status": "proxy",
+      "gap_ref": "SH-5-GAP",
+      "gap_effort_days": 4,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "SH-6": {
+      "label": "Rebalancer Decision Cycle",
+      "primary_case": "RebalancingFixture_BatchDeserializationThroughput",
+      "fallback_case": "GossipOverheadFixture_VersionVectorMerge",
+      "slo_target": "< 10 s",
+      "status": "proxy",
+      "gap_ref": "SH-6-GAP",
+      "gap_effort_days": 3,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "SH-7": {
+      "label": "Anti-Entropy Scan Throughput",
+      "primary_case": "GossipOverheadFixture_MessageSerialization",
+      "fallback_case": "RebalancingFixture_BatchSerializationThroughput",
+      "slo_target": "> 1 GB/s (NVMe, 8 Worker)",
+      "status": "proxy",
+      "gap_ref": "SH-7-GAP",
+      "gap_effort_days": 5,
+      "measured_items_per_sec": null,
+      "slo_met": null
+    },
+    "SH-8": {
+      "label": "GPU Reed-Solomon",
+      "primary_case": "ScatterGatherFixture_ScatterGatherLatency",
+      "fallback_case": "CrossShardJoinFixture_BroadcastHashJoin",
+      "slo_target": "> 4 GB/s (NVIDIA A10)",
+      "status": "not_measurable",
+      "hardware_gate": "NVIDIA_A10_OR_EQUIVALENT",
+      "gap_ref": "SH-8-GAP",
+      "gap_effort_days": 8,
+      "measured_bytes_per_sec": null,
+      "slo_met": null
+    },
+    "SH-9": {
+      "label": "Snapshot (1 GB Raft-State)",
+      "primary_case": "CrossShardJoinFixture_BroadcastHashJoin",
+      "fallback_case": "RebalancingFixture_BatchSerializationThroughput",
+      "slo_target": "< 10 s",
+      "status": "proxy",
+      "gap_ref": "SH-9-GAP",
+      "gap_effort_days": 4,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "SH-10": {
+      "label": "Snapshot Kompressionsrate",
+      "primary_case": "RebalancingFixture_BatchDeserializationThroughput",
+      "fallback_case": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+      "slo_target": "< 35 % unkomprimiert (ZSTD L3)",
+      "status": "proxy",
+      "gap_ref": "SH-10-GAP",
+      "gap_effort_days": 2,
+      "measured_compression_ratio": null,
+      "slo_met": null
+    },
+    "SH-11": {
+      "label": "Replica Catch-up",
+      "primary_case": "GossipOverheadFixture_MessageSerialization",
+      "fallback_case": "ShardRoutingFixture_ConsistentHashPerformance",
+      "slo_target": "> 200 MB/s (10 GbE LAN)",
+      "status": "proxy",
+      "gap_ref": "SH-11-GAP",
+      "gap_effort_days": 5,
+      "measured_bytes_per_sec": null,
+      "slo_met": null
+    },
+    "SH-12": {
+      "label": "Topology Change Propagation",
+      "primary_case": "GossipOverheadFixture_FanoutSelection",
+      "fallback_case": "GossipOverheadFixture_MessageSerialization",
+      "slo_target": "< 500 ms (100 Nodes, Gossip)",
+      "status": "proxy",
+      "gap_ref": "SH-12-GAP",
+      "gap_effort_days": 4,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    }
+  },
+  "missing_cases": [
+    {
+      "gap_id": "SH-2-GAP",
+      "title": "Connection-Pool Hit-Rate Direktbenchmark",
+      "description": "Benchmark für instrumentierten Connection-Pool mit Hit/Miss-Zähler unter 10k RPS. Erfordert Pool-Fixture mit konfigurierbarer Pool-Größe und Überlastszenarien.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "SH-2"
+    },
+    {
+      "gap_id": "SH-3-GAP",
+      "title": "Percolator 2PC Commit Benchmark (10 Shards)",
+      "description": "Direktes Benchmark für Percolator-Protokoll: Prewrite + Commit über 10 virtuelle Shards. Erfordert DistributedTransactionCoordinator-Fixture.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "SH-3"
+    },
+    {
+      "gap_id": "SH-4-GAP",
+      "title": "Zero-Downtime Shard-Split Benchmark",
+      "description": "Benchmark misst Read-Unavailability während eines live Shard-Splits. Erfordert einen DataMigrator-Harness mit parallelem Read-Workload.",
+      "effort_days": 5,
+      "target_milestone": "v2.0.0",
+      "blocking_slo": "SH-4"
+    },
+    {
+      "gap_id": "SH-5-GAP",
+      "title": "Write-Overhead-während-Migration Benchmark",
+      "description": "Vergleichs-Benchmark: Write-Latenz ohne Migration vs. mit laufender Migration. Erfordert DataMigrator + parallelen Writer.",
+      "effort_days": 4,
+      "target_milestone": "v2.0.0",
+      "blocking_slo": "SH-5"
+    },
+    {
+      "gap_id": "SH-6-GAP",
+      "title": "Rebalancer Decision-Cycle Benchmark",
+      "description": "Benchmark für ShardRebalancer.computeDecision() mit realistischer Shard-Statistik-Fixture (100 Shards, 3 DCs).",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "SH-6"
+    },
+    {
+      "gap_id": "SH-7-GAP",
+      "title": "Anti-Entropy NVMe Scan Benchmark",
+      "description": "Benchmark für Anti-Entropy-Scanner über NVMe-Storage mit 8 parallelen Workern. Erfordert Storage-Backend-Integration und tempfs-/NVMe-Fixture.",
+      "effort_days": 5,
+      "target_milestone": "v2.0.0",
+      "blocking_slo": "SH-7"
+    },
+    {
+      "gap_id": "SH-8-GAP",
+      "title": "GPU Reed-Solomon Erasure Coding (NVIDIA A10)",
+      "description": "Benchmark für GPU-beschleunigte Reed-Solomon-Kodierung (k=8, m=4). Erfordert NVIDIA A10-Runner und CUDA-enabled Build.",
+      "effort_days": 8,
+      "target_milestone": "v2.0.0",
+      "blocking_slo": "SH-8",
+      "hardware_requirement": "NVIDIA A10 (sm_86) or equivalent"
+    },
+    {
+      "gap_id": "SH-9-GAP",
+      "title": "1 GB Raft-Snapshot Benchmark",
+      "description": "Benchmark für vollständigen Raft-Snapshot: Serialisierung + Komprimierung + Speicherung von 1 GB State. Erfordert persistent-storage Mock.",
+      "effort_days": 4,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "SH-9"
+    },
+    {
+      "gap_id": "SH-10-GAP",
+      "title": "ZSTD L3 Snapshot Kompressionsrate Benchmark",
+      "description": "Benchmark misst erreichbare Kompressionsrate auf realistischen Raft-State-Daten (JSON/Protobuf) mit ZSTD Level 3.",
+      "effort_days": 2,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "SH-10"
+    },
+    {
+      "gap_id": "SH-11-GAP",
+      "title": "Replica Catch-up Throughput Benchmark",
+      "description": "Benchmark misst WAL-Transfer-Rate zu einem nachholenden Follower über simuliertes 10-GbE-Interface (loopback/AF_PACKET).",
+      "effort_days": 5,
+      "target_milestone": "v2.0.0",
+      "blocking_slo": "SH-11"
+    },
+    {
+      "gap_id": "SH-12-GAP",
+      "title": "100-Node Gossip Topology-Change Propagation Benchmark",
+      "description": "Benchmark misst Ausbreitungszeit einer Membership-Änderung in einem 100-Node-Gossip-Cluster (simuliert via Mock-Peers).",
+      "effort_days": 4,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "SH-12"
+    }
+  ]
+}

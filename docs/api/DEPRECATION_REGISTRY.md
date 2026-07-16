@@ -2,7 +2,7 @@
 
 This document tracks all deprecated APIs, endpoints, and features in ThemisDB, following our [24-month deprecation policy](./API_VERSIONING.md#24-month-deprecation-window).
 
-**Last Updated**: 2026-01-24
+**Last Updated**: 2026-04-06
 
 ## Active Deprecations
 

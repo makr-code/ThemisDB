@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_model_loading_from_themisdb.cpp              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:01:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     447                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_model_loading_from_themisdb.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,6 +26,7 @@
 #include "storage/blob_storage_manager.h"
 #include "storage/blob_backend_filesystem.h"
 #include "storage/rocksdb_wrapper.h"
+#include "llm/llama_wrapper.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include <filesystem>
@@ -111,12 +98,11 @@ public:
         fs::create_directories(db_path);
         fs::create_directories(blob_path);
         
-        db = std::make_shared<RocksDBWrapper>();
-        RocksDBConfig db_config;
+        RocksDBWrapper::Config db_config;
         db_config.db_path = db_path.string();
         db_config.create_if_missing = true;
-        db_config.use_default_cf = true;
-        db->open(db_config);
+        db = std::make_shared<RocksDBWrapper>(db_config);
+        db->open();
         
         BlobStorageConfig blob_config;
         blob_config.enable_filesystem = true;

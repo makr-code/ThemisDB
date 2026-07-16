@@ -1,25 +1,21 @@
+/**
+ * @file adaptive_optimizer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_optimizer.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     524                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e3c5254ad  2026-03-01  fix(query): use historical average rows as fallback estim... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_optimizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 518
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=4, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/adaptive_optimizer.h"
@@ -40,6 +36,7 @@
 #endif
 
 namespace themis {
+namespace query {
 
 // ============================================================================
 // AdaptiveQueryStats Implementation
@@ -271,6 +268,7 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
 double DistributedQueryCostModel::estimateDistributedQueryCost(
     const std::vector<ShardInfo>& involved_shards,
     size_t estimated_result_rows) const {
+    (void)estimated_result_rows;
     
     double total_cost = 0.0;
     
@@ -297,6 +295,8 @@ DistributedQueryCostModel::estimateCrossShardJoinCost(
     const ShardInfo& right_shard,
     size_t left_rows,
     size_t right_rows) const {
+    (void)left_shard;
+    (void)right_shard;
     
     CrossShardJoinCost result;
     result.total_cost = CROSS_SHARD_JOIN_OVERHEAD;
@@ -311,8 +311,8 @@ DistributedQueryCostModel::estimateCrossShardJoinCost(
         size_t rows_to_broadcast = std::min(left_rows, right_rows);
         result.network_cost = rows_to_broadcast * NETWORK_TRANSFER_COST_PER_ROW;
         result.compute_cost = left_rows * right_rows * 0.001; // Hash join cost
-    } else if (std::abs(static_cast<int>(left_rows - right_rows)) < 
-               static_cast<int>(left_rows * SIMILAR_SIZE_THRESHOLD)) {
+    } else if (static_cast<double>(left_rows >= right_rows ? left_rows - right_rows : right_rows - left_rows) <
+               static_cast<double>(left_rows) * SIMILAR_SIZE_THRESHOLD) {
         // Similar sizes - repartition both
         result.recommended_strategy = "repartition";
         result.network_cost = (left_rows + right_rows) * NETWORK_TRANSFER_COST_PER_ROW * 0.5;
@@ -334,6 +334,7 @@ bool DistributedQueryCostModel::shouldPrunePartition(
     const ShardInfo& shard,
     size_t total_shards,
     double selectivity) const {
+    (void)total_shards;
     
     // Prune if shard has very few relevant rows
     if (selectivity < 0.01) {
@@ -453,6 +454,8 @@ bool MultiIndexOptimizer::shouldUseIndexIntersection(
 NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
     size_t data_size_bytes,
     size_t parallelism) const {
+    (void)data_size_bytes;
+    (void)parallelism;
     
     NumaPlacement placement;
     placement.preferred_numa_node = 0;  // Default to node 0
@@ -523,4 +526,7 @@ bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
 #endif
 }
 
+} // namespace query
 } // namespace themis
+
+

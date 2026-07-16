@@ -1,33 +1,30 @@
+/**
+ * @file transaction_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_api_handler.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     525                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • e50df6262  2026-02-23  feat(transaction): implement transaction explain (locks a... ║
-    • 3f6dea8b0  2026-02-23  feat(transaction): expose OCC endpoints via HTTP API and ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 623
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=10, L=0
+ * PR History (last 5): #458 REFACTOR: Extract transacti... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/transaction_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "transaction/transaction_manager.h"
 #include "server/auth_middleware.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
@@ -40,6 +37,23 @@ using json = nlohmann::json;
 
 static constexpr const char* INVALID_ISOLATION_MSG =
     "Invalid isolation level. Use 'read_committed', 'snapshot', or 'serializable'";
+
+static constexpr size_t MAX_TRANSACTION_BODY_SIZE = 1'000'000;
+
+static bool validateBodySize(std::string_view body) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(body), MAX_TRANSACTION_BODY_SIZE);
+}
+
+static bool validateTxnField(std::string_view value, size_t max_len) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), max_len);
+}
+
+static bool validateTxnTableName(std::string_view table) {
+    themis::utils::InputValidator validator;
+    return validateTxnField(table, 128) && validator.validatePathSegment(std::string(table));
+}
 
 /// Parse the "isolation" field from a JSON body.
 /// Returns ReadCommitted when the field is absent.
@@ -84,7 +98,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
     //
     // Expected request body:
     // {
-    //   "isolation": "read_committed" | "snapshot",  // optional, default read_committed
+    //   "isolation": "read_committed" | "snapshot" | "serializable",  // optional, default read_committed
     //   "operations": [
     //     { "type": "put",    "table": "...", "key": "...", "data": { ... } },
     //     { "type": "delete", "table": "...", "key": "..." },
@@ -99,10 +113,17 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
     //   "applied": 2,
     //   "errors": []
     // }
+    auto span = Tracer::startSpan("POST /transaction");
     try {
         if (req.body().empty()) {
+            span.setStatus(false, "Request body is required");
             return makeErrorResponse(http::status::bad_request,
                 "Request body is required", req);
+        }
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
         }
         json body = json::parse(req.body());
 
@@ -111,6 +132,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
         std::string iso_error;
         IsolationLevel isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
         if (!iso_valid) {
+            span.setStatus(false, iso_error);
             return makeErrorResponse(http::status::bad_request, iso_error, req);
         }
 
@@ -156,6 +178,19 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
             const std::string op_type = op["type"].get<std::string>();
             const std::string table   = op["table"].get<std::string>();
             const std::string key     = op["key"].get<std::string>();
+
+            if (!validateTxnField(op_type, 64)) {
+                errors_array.push_back({{"index", i}, {"error", "Field 'type' exceeds maximum allowed length"}});
+                continue;
+            }
+            if (!validateTxnTableName(table)) {
+                errors_array.push_back({{"index", i}, {"error", "Field 'table' contains invalid characters or length"}});
+                continue;
+            }
+            if (!validateTxnField(key, 512)) {
+                errors_array.push_back({{"index", i}, {"error", "Field 'key' exceeds maximum allowed length"}});
+                continue;
+            }
 
             TransactionManager::Status status;
             if (op_type == "put") {
@@ -242,22 +277,31 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
 http::response<http::string_body> TransactionApiHandler::handleBegin(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("POST /transaction/begin");
     // Implementation moved from http_server.cpp handleTransactionBegin()
     try {
         // Parse optional isolation level from request body
         IsolationLevel isolation = IsolationLevel::ReadCommitted;
 
         if (!req.body().empty()) {
+            if (!validateBodySize(req.body())) {
+                span.setStatus(false, "Request body exceeds maximum allowed size");
+                return makeErrorResponse(http::status::bad_request,
+                    "Request body exceeds maximum allowed size", req);
+            }
             json body = json::parse(req.body());
             bool iso_valid = true;
             std::string iso_error;
             isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
             if (!iso_valid) {
+                span.setStatus(false, iso_error);
                 return makeErrorResponse(http::status::bad_request, iso_error, req);
             }
         }
 
         auto txn_id = tx_manager_->beginTransaction(isolation);
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
+        span.setAttribute("transaction.isolation", isolationLevelToString(isolation));
 
         json response = {
             {"transaction_id", txn_id},
@@ -265,10 +309,15 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
             {"status", "active"}
         };
 
+        span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "Invalid JSON");
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
     }
 }
@@ -276,19 +325,28 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
 http::response<http::string_body> TransactionApiHandler::handleCommit(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("POST /transaction/commit");
     // Implementation moved from http_server.cpp handleTransactionCommit()
     try {
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
+            span.setStatus(false, "Missing transaction_id");
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
         }
         
         TransactionManager::TransactionId txn_id = body["transaction_id"];
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         
         auto status = tx_manager_->commitTransaction(txn_id);
         
         if (status.ok) {
+            span.setStatus(true);
             json response = {
                 {"transaction_id", txn_id},
                 {"status", "committed"},
@@ -296,6 +354,7 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
             };
             return makeResponse(http::status::ok, response.dump(2), req);
         } else {
+            span.setStatus(false, status.message);
             json response = {
                 {"transaction_id", txn_id},
                 {"status", "failed"},
@@ -304,8 +363,12 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
             return makeResponse(http::status::internal_server_error, response.dump(2), req);
         }
     } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "Invalid JSON");
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
     }
 }
@@ -313,18 +376,27 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
 http::response<http::string_body> TransactionApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("POST /transaction/rollback");
     // Implementation moved from http_server.cpp handleTransactionRollback()
     try {
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
+            span.setStatus(false, "Missing transaction_id");
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
         }
         
         TransactionManager::TransactionId txn_id = body["transaction_id"];
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         
         tx_manager_->rollbackTransaction(txn_id);
         
+        span.setStatus(true);
         json response = {
             {"transaction_id", txn_id},
             {"status", "rolled_back"},
@@ -333,8 +405,12 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
         
         return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "Invalid JSON");
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
     }
 }
@@ -342,6 +418,7 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
 http::response<http::string_body> TransactionApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /transaction/stats");
     // Implementation moved from http_server.cpp handleTransactionStats()
     try {
         auto stats = tx_manager_->getStats();
@@ -367,6 +444,7 @@ http::response<http::string_body> TransactionApiHandler::handleStats(
 http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /transaction/version");
     // GET /transaction/version
     //
     // Request body:
@@ -382,27 +460,50 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     // Returns version 0 when the entity does not exist.
     try {
         if (req.body().empty()) {
+            span.setStatus(false, "Request body is required");
             return makeErrorResponse(http::status::bad_request,
                 "Request body is required", req);
+        }
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
         }
         json body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
+            span.setStatus(false, "Missing transaction_id");
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
         }
         if (!body.contains("table") || !body["table"].is_string()) {
+            span.setStatus(false, "Missing table");
             return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
         }
         if (!body.contains("key") || !body["key"].is_string()) {
+            span.setStatus(false, "Missing key");
             return makeErrorResponse(http::status::bad_request, "Missing 'key'", req);
         }
 
         TransactionManager::TransactionId txn_id = body["transaction_id"];
         const std::string table = body["table"].get<std::string>();
         const std::string key   = body["key"].get<std::string>();
+        if (!validateTxnTableName(table)) {
+            span.setStatus(false, "Invalid table");
+            return makeErrorResponse(http::status::bad_request,
+                "Field 'table' contains invalid characters or length", req);
+        }
+        if (!validateTxnField(key, 512)) {
+            span.setStatus(false, "Invalid key length");
+            return makeErrorResponse(http::status::bad_request,
+                "Field 'key' exceeds maximum allowed length", req);
+        }
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
+        span.setAttribute("transaction.table", table);
+        span.setAttribute("transaction.key", key);
 
         auto txn = tx_manager_->getTransaction(txn_id);
         if (!txn) {
+            span.setStatus(false, "Transaction not found");
             return makeErrorResponse(http::status::not_found,
                 "Transaction " + std::to_string(txn_id) + " not found or already completed", req);
         }
@@ -433,6 +534,7 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
 http::response<http::string_body> TransactionApiHandler::handleExplain(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /transaction/:id/explain");
     // GET /transaction/{id}/explain
     // Extract the transaction ID from the URL path: /transaction/<id>/explain
     try {
@@ -445,6 +547,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         const std::string prefix = "/transaction/";
         const std::string suffix = "/explain";
         if (target.size() < prefix.size() + suffix.size()) {
+            span.setStatus(false, "Invalid path");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);
         }
@@ -452,6 +555,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         const auto id_start = prefix.size();
         const auto id_end = target.find(suffix, id_start);
         if (id_end == std::string::npos) {
+            span.setStatus(false, "Invalid path");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);
         }
@@ -461,12 +565,15 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         try {
             txn_id = std::stoull(id_str);
         } catch (...) {
+            span.setStatus(false, "Invalid transaction ID");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid transaction ID: '" + id_str + "'", req);
         }
 
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         auto result = tx_manager_->explainTransaction(txn_id);
         if (!result) {
+            span.setStatus(false, "Transaction not found");
             return makeErrorResponse(http::status::not_found,
                 "Transaction " + id_str + " not found", req);
         }
@@ -524,3 +631,5 @@ http::response<http::string_body> TransactionApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+
+

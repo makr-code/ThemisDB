@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_client.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     260                                            ║
+    • Total Lines:     263                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,7 +28,9 @@ namespace llm_translator {
 
 // Callback for CURL to write response data
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    auto* out = static_cast<std::string*>(userp);
+    const auto* data = static_cast<const char*>(contents);
+    out->append(data, size * nmemb);
     return size * nmemb;
 }
 
@@ -254,7 +253,11 @@ bool VLLMClient::healthCheck() {
         
         return (res == CURLE_OK && http_code == 200);
         
-    } catch (...) {
+    } catch (const std::exception&) {
+        return false;
+    } catch (const std::string&) {
+        return false;
+    } catch (const char*) {
         return false;
     }
 }

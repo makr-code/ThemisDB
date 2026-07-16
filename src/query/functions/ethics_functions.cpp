@@ -1,27 +1,26 @@
+/**
+ * @file ethics_functions.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=3, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ethics_functions.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   60.0/100                                       ║
-    • Total Lines:     328                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ethics_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 329
+ * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=3, Mock=1, Sim=0, Debt=0, C=3, H=16, M=5, L=0
+ * PR History (last 5): #3574 fix: clear all remaining st... (2026-03-12) | #946 [FEATURE] Ethics AI Plugin ... (2026-03-11) | #1141 Complete AQL function regis... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/functions/ethics_functions.h"
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace query {
@@ -155,19 +154,19 @@ json EthicsGetArgumentsFunction::execute(
     //     LIMIT @limit
     //     RETURN arg
     // Requires the ethics_ai plugin to populate the collection.
-    const std::string& philosophy = args[0];
-    const json& types = args.size() > 1 ? args[1] : json::array();
-    int limit = args.size() > 2 ? args[2].get<int>() : 20;
+    [[maybe_unused]] const std::string& philosophy = args[0];
+    [[maybe_unused]] const json& types = args.size() > 1 ? args[1] : json::array();
+    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 20;
     
-    // Return empty array as placeholder until collection is populated
-    // Real implementation would execute AQL query:
-    // FOR arg IN ethics_arguments
-    //   FILTER arg.philosophy_school == @school
-    //   FILTER @types == [] OR arg.argument_type IN @types
-    //   LIMIT @limit
-    //   RETURN arg
-    
-    return json::array();
+    // F-028: throw so the AQL runtime surfaces a real error instead of
+    // returning a silent empty array that callers cannot distinguish from
+    // a legitimate empty result set.
+    // Implement by executing the AQL query shown in the NOTE above once the
+    // ethics_ai plugin populates the ethics_arguments collection.
+    throw std::runtime_error(
+        "ETHICS_GET_ARGUMENTS: not implemented — "
+        "the ethics_arguments collection has not been populated by the "
+        "ethics_ai plugin.");
 }
 
 json EthicsFindSimilarDilemmasFunction::execute(
@@ -182,20 +181,16 @@ json EthicsFindSimilarDilemmasFunction::execute(
     //     LIMIT @limit
     //     RETURN {dilemma: doc, similarity: similarity}
     // Requires the ethics_ai plugin + vector index on the ethics_dilemmas collection.
-    const std::string& query_text = args[0];
-    double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
-    int limit = args.size() > 2 ? args[2].get<int>() : 10;
+    [[maybe_unused]] const std::string& query_text = args[0];
+    [[maybe_unused]] double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
+    [[maybe_unused]] int limit = args.size() > 2 ? args[2].get<int>() : 10;
     
-    // Return empty array as placeholder
-    // Real implementation would execute vector similarity search:
-    // FOR doc IN ethics_dilemmas
-    //   LET similarity = VECTOR_COSINE_SIMILARITY(doc.embedding, EMBED(@query_text))
-    //   FILTER similarity >= @threshold
-    //   SORT similarity DESC
-    //   LIMIT @limit
-    //   RETURN {dilemma: doc, similarity: similarity}
-    
-    return json::array();
+    // F-028: throw instead of silent empty array.
+    // Implement via vector similarity search on ethics_dilemmas collection
+    // (see NOTE above) once the ethics_ai plugin is active.
+    throw std::runtime_error(
+        "ETHICS_FIND_SIMILAR_DILEMMAS: not implemented — "
+        "requires the ethics_ai plugin and a vector index on ethics_dilemmas.");
 }
 
 json EthicsTraverseChainFunction::execute(
@@ -207,16 +202,15 @@ json EthicsTraverseChainFunction::execute(
     //     GRAPH 'ethics_arguments_graph'
     //     RETURN {vertex: v, edge: e, path: p, depth: LENGTH(p.edges)}
     // Requires the ethics_ai plugin to create the ethics_arguments_graph.
-    const std::string& start_id = args[0];
-    int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
+    [[maybe_unused]] const std::string& start_id = args[0];
+    [[maybe_unused]] int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
     
-    // Return empty array as placeholder
-    // Real implementation would execute graph traversal:
-    // FOR v, e, p IN 1..@max_depth OUTBOUND @start_id
-    //   GRAPH 'ethics_arguments_graph'
-    //   RETURN {vertex: v, edge: e, path: p, depth: LENGTH(p.edges)}
-    
-    return json::array();
+    // F-028: throw instead of silent empty array.
+    // Implement via graph traversal on ethics_arguments_graph
+    // (see NOTE above) once the ethics_ai plugin is active.
+    throw std::runtime_error(
+        "ETHICS_TRAVERSE_CHAIN: not implemented — "
+        "requires the ethics_ai plugin and the ethics_arguments_graph to be created.");
 }
 
 // ============================================================================
@@ -273,9 +267,9 @@ json EthicsBuildContextFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // NOTE: Full implementation integrates with RAGContextEngine from the ethics_ai plugin.
-    const std::string& dilemma = args[0];
-    const json& philosophies = args[1];
-    const std::string& category = args.size() > 2 ? args[2].get<std::string>() : "general";
+    [[maybe_unused]] const std::string& dilemma = args[0];
+    [[maybe_unused]] const json& philosophies = args[1];
+    [[maybe_unused]] const std::string& category = args.size() > 2 ? args[2].get<std::string>() : "general";
     
     json context;
     context["similar_dilemmas"] = json::array();
@@ -343,3 +337,4 @@ ethics_evaluation_score_avg 0.0
 } // namespace functions
 } // namespace query
 } // namespace themis
+

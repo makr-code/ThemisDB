@@ -1,77 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_task_coordinator.h                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:55:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     324                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6bdc7ab4a  2026-03-01  feat(scheduler): implement distributed cron leader electi... ║
-    • 49cd5bf58  2026-02-22  Implement distributed task coordination across nodes (Pha... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file distributed_task_coordinator.h
- * @brief Distributed task coordination across cluster nodes.
- *
- * Wraps a single-node TaskScheduler with leadership awareness so that
- * scheduled tasks are executed on exactly one node at a time within a
- * ThemisDB cluster.
- *
- * ### How it works
- * 1. Every node creates a DistributedTaskCoordinator and registers the
- *    same set of tasks on it.
- * 2. Internally, the coordinator uses the DistributedCoordinator
- *    (gossip-based leader election in the sharding module) to learn
- *    which node is the cluster leader.
- * 3. Only the **leader** node activates the underlying TaskScheduler and
- *    executes tasks.  Non-leader nodes keep the task registry in memory
- *    but do not execute anything.
- * 4. When a new leader is elected (e.g. after a failure), it re-registers
- *    all locally stored tasks and starts the TaskScheduler, achieving
- *    automatic failover with no duplicate executions.
- *
- * ### Integration example
- * @code
- *   // Existing single-node scheduler
- *   TaskScheduler::Config sched_cfg;
- *   TaskScheduler scheduler(query_engine, sched_cfg);
- *
- *   // Sharding infrastructure (already present in a cluster deployment)
- *   auto topology  = std::make_shared<ShardTopology>();
- *   auto gossip    = std::make_shared<GossipConfigManager>(gossip_cfg, topology);
- *   DistributedCoordinator dc("node-1", topology, gossip);
- *
- *   // Wire them together
- *   DistributedTaskCoordinator dtc(&scheduler, &dc);
- *   dtc.start();
- *
- *   // Register tasks – identical on every node.
- *   // The task only *runs* on the current leader.
- *   ScheduledTask t;
- *   t.name = "nightly-cleanup";
- *   t.interval = std::chrono::hours(24);
- *   dtc.registerTask(t);
- *
- *   // ... application runs ...
- *   dtc.stop();
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H
-#define THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include "sharding/distributed_coordinator.h"
@@ -127,14 +65,29 @@ public:
      *                    coordinator is started.
      * @param coordinator Gossip-based distributed coordinator used for leader
      *                    election.  Must not be null.
-     * @param config      Optional runtime configuration.
      *
      * @throws std::invalid_argument if either scheduler or coordinator is null.
      */
     explicit DistributedTaskCoordinator(
+      TaskScheduler* scheduler,
+      sharding::DistributedCoordinator* coordinator);
+
+    /**
+     * @brief Construct a DistributedTaskCoordinator.
+     *
+     * @param scheduler   Local single-node task scheduler.  Must not be null.
+     *                    The scheduler must NOT already be running when the
+     *                    coordinator is started.
+     * @param coordinator Gossip-based distributed coordinator used for leader
+     *                    election.  Must not be null.
+     * @param config      Optional runtime configuration.
+     *
+     * @throws std::invalid_argument if either scheduler or coordinator is null.
+     */
+    DistributedTaskCoordinator(
         TaskScheduler* scheduler,
         sharding::DistributedCoordinator* coordinator,
-        const Config& config = {});
+      const Config& config);
 
     ~DistributedTaskCoordinator();
 
@@ -321,5 +274,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H

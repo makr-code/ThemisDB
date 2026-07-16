@@ -1,20 +1,21 @@
+/**
+ * @file lora_checkpoint_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_checkpoint_manager.cpp                        ║
-  Version:         0.9.0                                              ║
-  Last Modified:   2026-03-09 21:30:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 Beta                                                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_checkpoint_manager.cpp | Version: 0.0.13 | Last Modified: 2026-06-01 07:10:35
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 362
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=1, L=0
+ * PR History (last 5): #3648 audit(training): complete m... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -29,6 +30,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <system_error>
+#include <cctype>
 
 // Simple manifest serialisation without JSON dependency
 // Format: one checkpoint block per entry, separated by "---\n"
@@ -50,7 +52,12 @@ std::string serializeEntry(const themis::training::CheckpointManifestEntry& e) {
     return oss.str();
 }
 
-// Deserialize manifest blocks from the manifest file content
+// Deserialize manifest blocks from the manifest file content.
+// Each completed entry is validated before it is accepted:
+//   - checkpoint_path must be non-empty and must not contain path-traversal sequences
+//   - sha256 must be exactly 64 lowercase hex characters (when present)
+// Malformed entries are silently dropped so a single corrupt block cannot
+// prevent the entire manifest from loading.
 std::vector<themis::training::CheckpointManifestEntry>
 parseManifest(const std::string& content) {
     std::vector<themis::training::CheckpointManifestEntry> result;
@@ -59,8 +66,32 @@ parseManifest(const std::string& content) {
     std::string line;
     bool in_block = false;
 
+    // Returns true when 's' is exactly 64 lowercase hex characters.
+    auto isValidSha256 = [](const std::string& s) -> bool {
+        if (s.size() != 64) return false;
+        for (char c : s) {
+            if (!std::isxdigit(static_cast<unsigned char>(c)) ||
+                (std::isupper(static_cast<unsigned char>(c)))) return false;
+        }
+        return true;
+    };
+
+    // Returns true when 'p' is non-empty and contains no path-traversal.
+    auto isSafePath = [](const std::string& p) -> bool {
+        if (p.empty()) return false;
+        // Reject entries with ".." components
+        if (p.find("..") != std::string::npos) return false;
+        return true;
+    };
+
     auto commitEntry = [&]() {
-        if (in_block && !entry.checkpoint_path.empty()) {
+        if (in_block && isSafePath(entry.checkpoint_path)) {
+            // Reject the entry when a sha256 is present but malformed.
+            if (!entry.sha256.empty() && !isValidSha256(entry.sha256)) {
+                entry = {};
+                in_block = false;
+                return;
+            }
             result.push_back(entry);
         }
         entry = {};

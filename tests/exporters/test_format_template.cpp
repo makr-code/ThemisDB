@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_format_template.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     545                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_format_template.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -545,4 +528,224 @@ TEST_F(FormatTemplateExporterTest, MissingRequiredFieldsSkipsEntity) {
     auto stats = exporter.exportEntities(entities, opts);
     // Entity is skipped because template render returns empty
     EXPECT_EQ(stats.exported_entities, 0u);
+}
+
+// ============================================================================
+// validate_template dry-run API (free function)
+// ============================================================================
+
+class ValidateTemplateTest : public ::testing::Test {
+protected:
+    FormatTemplateFieldMapping defaultMapping() const { return {}; }
+
+    BaseEntity makeAlpacaEntity(const std::string& pk,
+                                 bool with_instruction = true,
+                                 bool with_output = true) const {
+        BaseEntity e;
+        e.setPrimaryKey(pk);
+        if (with_instruction) e.setField("question", "Q");
+        if (with_output)      e.setField("answer",   "A");
+        return e;
+    }
+
+    BaseEntity makeChatEntity(const std::string& pk,
+                               bool with_user = true,
+                               bool with_assistant = true) const {
+        BaseEntity e;
+        e.setPrimaryKey(pk);
+        if (with_user)      e.setField("user_message",       "Hello");
+        if (with_assistant) e.setField("assistant_response", "Hi");
+        return e;
+    }
+};
+
+// NONE type always passes regardless of sample content.
+TEST_F(ValidateTemplateTest, NoneTypeAlwaysValid) {
+    std::vector<BaseEntity> sample = {makeAlpacaEntity("e1", false, false)};
+    auto result = validateTemplate(FormatTemplateType::NONE, defaultMapping(), sample);
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.missing_fields.empty());
+    EXPECT_EQ(result.entities_checked, 0u);
+    EXPECT_EQ(result.entities_failed, 0u);
+}
+
+// Empty sample: valid, no entities inspected.
+TEST_F(ValidateTemplateTest, EmptySampleIsValid) {
+    auto result = validateTemplate(FormatTemplateType::ALPACA, defaultMapping(), {});
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.missing_fields.empty());
+    EXPECT_EQ(result.entities_checked, 0u);
+    EXPECT_EQ(result.entities_failed, 0u);
+}
+
+// Alpaca — all entities fully populated.
+TEST_F(ValidateTemplateTest, AlpacaAllEntitiesValid) {
+    std::vector<BaseEntity> sample = {
+        makeAlpacaEntity("e1"),
+        makeAlpacaEntity("e2"),
+        makeAlpacaEntity("e3"),
+    };
+    auto result = validateTemplate(FormatTemplateType::ALPACA, defaultMapping(), sample);
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.missing_fields.empty());
+    EXPECT_EQ(result.entities_checked, 3u);
+    EXPECT_EQ(result.entities_failed, 0u);
+}
+
+// Alpaca — one entity missing the instruction field.
+TEST_F(ValidateTemplateTest, AlpacaMissingInstructionField) {
+    std::vector<BaseEntity> sample = {
+        makeAlpacaEntity("e1"),
+        makeAlpacaEntity("e2", /*with_instruction=*/false, /*with_output=*/true),
+    };
+    auto result = validateTemplate(FormatTemplateType::ALPACA, defaultMapping(), sample);
+    EXPECT_FALSE(result.valid);
+    EXPECT_EQ(result.entities_checked, 2u);
+    EXPECT_EQ(result.entities_failed, 1u);
+    ASSERT_FALSE(result.missing_fields.empty());
+    EXPECT_EQ(result.missing_fields[0], "question");
+}
+
+// Alpaca — both required fields missing in all entities.
+TEST_F(ValidateTemplateTest, AlpacaBothRequiredFieldsMissing) {
+    std::vector<BaseEntity> sample = {
+        makeAlpacaEntity("e1", false, false),
+        makeAlpacaEntity("e2", false, false),
+    };
+    auto result = validateTemplate(FormatTemplateType::ALPACA, defaultMapping(), sample);
+    EXPECT_FALSE(result.valid);
+    EXPECT_EQ(result.entities_checked, 2u);
+    EXPECT_EQ(result.entities_failed, 2u);
+    // Both "question" and "answer" must appear; list is sorted.
+    ASSERT_EQ(result.missing_fields.size(), 2u);
+    EXPECT_EQ(result.missing_fields[0], "answer");
+    EXPECT_EQ(result.missing_fields[1], "question");
+}
+
+// Missing fields are deduplicated across entities.
+TEST_F(ValidateTemplateTest, MissingFieldsAreDeduplicated) {
+    std::vector<BaseEntity> sample = {
+        makeAlpacaEntity("e1", false, true),
+        makeAlpacaEntity("e2", false, true),
+        makeAlpacaEntity("e3", false, true),
+    };
+    auto result = validateTemplate(FormatTemplateType::ALPACA, defaultMapping(), sample);
+    EXPECT_FALSE(result.valid);
+    EXPECT_EQ(result.entities_failed, 3u);
+    // "question" appears only once even though 3 entities are missing it.
+    ASSERT_EQ(result.missing_fields.size(), 1u);
+    EXPECT_EQ(result.missing_fields[0], "question");
+}
+
+// ShareGPT — missing user and assistant fields.
+TEST_F(ValidateTemplateTest, ShareGPTMissingUserField) {
+    std::vector<BaseEntity> sample = {
+        makeChatEntity("e1", /*with_user=*/false, /*with_assistant=*/true),
+    };
+    auto result = validateTemplate(FormatTemplateType::SHAREGPT, defaultMapping(), sample);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.missing_fields.empty());
+    EXPECT_EQ(result.missing_fields[0], "user_message");
+}
+
+// ChatML — all valid.
+TEST_F(ValidateTemplateTest, ChatMLAllEntitiesValid) {
+    std::vector<BaseEntity> sample = {
+        makeChatEntity("e1"),
+        makeChatEntity("e2"),
+    };
+    auto result = validateTemplate(FormatTemplateType::CHATML, defaultMapping(), sample);
+    EXPECT_TRUE(result.valid);
+    EXPECT_EQ(result.entities_checked, 2u);
+    EXPECT_EQ(result.entities_failed, 0u);
+}
+
+// OpenAI fine-tuning — missing assistant field.
+TEST_F(ValidateTemplateTest, OpenAIFineTuningMissingAssistantField) {
+    std::vector<BaseEntity> sample = {
+        makeChatEntity("e1", true, false),
+    };
+    auto result = validateTemplate(FormatTemplateType::OPENAI_FINETUNING, defaultMapping(), sample);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.missing_fields.empty());
+    EXPECT_EQ(result.missing_fields[0], "assistant_response");
+}
+
+// Custom field-name mapping is respected.
+TEST_F(ValidateTemplateTest, CustomFieldMappingRespected) {
+    FormatTemplateFieldMapping custom;
+    custom.instruction_field = "my_instruction";
+    custom.output_field      = "my_output";
+
+    // Entity with default field names — should fail with custom mapping.
+    BaseEntity e;
+    e.setPrimaryKey("e1");
+    e.setField("question", "Q");  // wrong field name
+    e.setField("answer",   "A");  // wrong field name
+
+    auto result = validateTemplate(FormatTemplateType::ALPACA, custom, {e});
+    EXPECT_FALSE(result.valid);
+    EXPECT_EQ(result.entities_failed, 1u);
+    // Both custom names must be in missing_fields.
+    auto& mf = result.missing_fields;
+    EXPECT_NE(std::find(mf.begin(), mf.end(), "my_instruction"), mf.end());
+    EXPECT_NE(std::find(mf.begin(), mf.end(), "my_output"),      mf.end());
+}
+
+// ============================================================================
+// validate_template via JSONLLLMExporter::validateTemplate()
+// ============================================================================
+
+TEST(ValidateTemplateExporterTest, ExporterDelegatesNoneType) {
+    JSONLLLMConfig cfg;
+    cfg.format_template_type = FormatTemplateType::NONE;
+    JSONLLLMExporter exporter(cfg);
+
+    BaseEntity e;
+    e.setPrimaryKey("e1");
+    // No fields at all — should still pass because type is NONE.
+    auto result = exporter.validateTemplate({e});
+    EXPECT_TRUE(result.valid);
+}
+
+TEST(ValidateTemplateExporterTest, ExporterReturnsCorrectMissingFields) {
+    JSONLLLMConfig cfg;
+    cfg.format_template_type = FormatTemplateType::ALPACA;
+    // Keep default field mapping.
+    JSONLLLMExporter exporter(cfg);
+
+    BaseEntity ok_entity;
+    ok_entity.setPrimaryKey("ok");
+    ok_entity.setField("question", "Q");
+    ok_entity.setField("answer",   "A");
+
+    BaseEntity bad_entity;
+    bad_entity.setPrimaryKey("bad");
+    bad_entity.setField("question", "Q");
+    // Missing "answer"
+
+    auto result = exporter.validateTemplate({ok_entity, bad_entity});
+    EXPECT_FALSE(result.valid);
+    EXPECT_EQ(result.entities_checked, 2u);
+    EXPECT_EQ(result.entities_failed,  1u);
+    ASSERT_EQ(result.missing_fields.size(), 1u);
+    EXPECT_EQ(result.missing_fields[0], "answer");
+}
+
+TEST(ValidateTemplateExporterTest, ExporterUsesConfigFieldMapping) {
+    JSONLLLMConfig cfg;
+    cfg.format_template_type = FormatTemplateType::ALPACA;
+    cfg.template_field_mapping.instruction_field = "prompt";
+    cfg.template_field_mapping.output_field      = "completion";
+    JSONLLLMExporter exporter(cfg);
+
+    BaseEntity e;
+    e.setPrimaryKey("e1");
+    e.setField("prompt",     "P");
+    e.setField("completion", "C");
+
+    auto result = exporter.validateTemplate({e});
+    EXPECT_TRUE(result.valid);
+    EXPECT_EQ(result.entities_checked, 1u);
+    EXPECT_EQ(result.entities_failed,  0u);
 }

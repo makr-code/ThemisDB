@@ -1,43 +1,22 @@
 cmake_minimum_required(VERSION 3.20)
 
-# Image Analysis Plugins for ThemisDB
-project(themis_image_analysis_plugins VERSION 1.0.0)
+# Compatibility shim: compiled image-analysis plugins now build from src/* and
+# are gated through cmake/features/PluginFeatures.cmake. Keep this entry point
+# for legacy workflows that still reference plugins/image_analysis.
 
-# Options
-option(THEMIS_BUILD_IMAGE_PLUGINS "Build image analysis plugins" ON)
-option(THEMIS_BUILD_ONNX_CLIP_PLUGIN "Build ONNX CLIP plugin" ON)
-option(THEMIS_BUILD_LLAMACPP_VISION_PLUGIN "Build llama.cpp vision plugin" OFF)
-option(THEMIS_BUILD_OPENCV_DNN_PLUGIN "Build OpenCV DNN plugin" OFF)
-option(THEMIS_BUILD_STABLE_DIFFUSION_PLUGIN "Build Stable Diffusion ONNX plugin" OFF)
-
-if(THEMIS_BUILD_IMAGE_PLUGINS)
-    message(STATUS "Building ThemisDB Image Analysis Plugins")
-    
-    # Find common dependencies
-    find_package(nlohmann_json REQUIRED)
-    
-    # ONNX CLIP Plugin
-    if(THEMIS_BUILD_ONNX_CLIP_PLUGIN)
-        message(STATUS "  - ONNX CLIP Plugin")
-        add_subdirectory(onnx_clip)
-    endif()
-    
-    # llama.cpp Vision Plugin
-    if(THEMIS_BUILD_LLAMACPP_VISION_PLUGIN)
-        message(STATUS "  - llama.cpp Vision Plugin")
-        add_subdirectory(llamacpp_vision)
-    endif()
-    
-    # OpenCV DNN Plugin
-    if(THEMIS_BUILD_OPENCV_DNN_PLUGIN)
-        message(STATUS "  - OpenCV DNN Plugin")
-        add_subdirectory(opencv_dnn)
-    endif()
-    
-    # Stable Diffusion ONNX Plugin
-    if(THEMIS_BUILD_STABLE_DIFFUSION_PLUGIN)
-        message(STATUS "  - Stable Diffusion ONNX Plugin")
-        add_subdirectory(stable_diffusion_onnx)
-    endif()
-    
+if(NOT THEMIS_ROOT_DIR)
+    get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
 endif()
+
+message(STATUS "plugins/image_analysis: processing legacy compatibility entry point")
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onnx_clip/CMakeLists.txt")
+    add_subdirectory(onnx_clip)
+endif()
+
+foreach(_legacy_subdir IN ITEMS llamacpp_vision opencv_dnn stable_diffusion_onnx)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_legacy_subdir}/CMakeLists.txt")
+        message(STATUS "plugins/image_analysis: retaining legacy-only subdirectory ${_legacy_subdir}")
+        add_subdirectory(${_legacy_subdir})
+    endif()
+endforeach()

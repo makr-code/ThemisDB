@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Phase 1 Deploy: Final Implementation & Deployment Guide
 
 ## Executive Summary

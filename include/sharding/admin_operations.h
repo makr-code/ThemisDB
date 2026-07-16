@@ -1,30 +1,26 @@
+/**
+ * @file admin_operations.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            admin_operations.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     164                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: admin_operations.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_ADMIN_OPERATIONS_H
-#define THEMISDB_SHARDING_ADMIN_OPERATIONS_H
+#pragma once
 
 #include "sharding/admin_api.h"
 #include "sharding/operational_metrics.h"
@@ -32,6 +28,10 @@
 #include "sharding/health_check.h"
 #include <memory>
 #include <string>
+#include <map>
+#include <mutex>
+#include <optional>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -139,6 +139,18 @@ private:
     std::unique_ptr<themisdb::sharding::OperationalMetrics> metrics_;
     std::unique_ptr<ShardTopology> topology_;
     std::unique_ptr<HealthCheckSystem> health_check_;
+
+    /// In-memory registry of rebalance operations.
+    /// Estimated total duration used for time-based progress approximation.
+    static constexpr int64_t kRebalanceEstimatedDurationSeconds = 300;
+    struct RebalanceOp {
+        std::string operation_id;
+        std::chrono::system_clock::time_point started_at;
+        std::optional<std::chrono::system_clock::time_point> completed_at;
+        std::string error_message; ///< Non-empty only on failure
+    };
+    mutable std::mutex rebalance_ops_mutex_;
+    std::map<std::string, RebalanceOp> rebalance_ops_;
     
     /**
      * @brief Handle topology requests
@@ -163,5 +175,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themis
-
-#endif  // THEMISDB_SHARDING_ADMIN_OPERATIONS_H

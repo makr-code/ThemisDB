@@ -1,27 +1,26 @@
+/**
+ * @file graphql_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graphql_api_handler.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:00:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     205                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graphql_api_handler.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 247
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=6, L=0
+ * PR History (last 5): #2515 feat(server): GraphQL endpo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/graphql_api_handler.h"
+#include "api/graphql_aql_resolver.h"
+#include "utils/tracing.h"
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -99,15 +98,16 @@ json GraphQLApiHandler::serializeValue(
 http::response<http::string_body> GraphQLApiHandler::handlePost(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("POST /graphql");
     try {
-        // Parse the request body as a JSON object.
+        // ── Parse request body ─────────────────────────────────────────────
         json body_json = json::object();
         if (!req.body().empty()) {
             body_json = json::parse(req.body());
         }
 
-        // The "query" field is mandatory.
         if (!body_json.contains("query") || !body_json["query"].is_string()) {
+            span.setStatus(false, "Missing query field");
             return makeErrorResponse(
                 http::status::bad_request,
                 "GraphQL request must contain a 'query' field",
@@ -115,14 +115,46 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         }
         const std::string gql_query = body_json["query"].get<std::string>();
 
-        // Optional: operationName
         std::string op_name;
         if (body_json.contains("operationName") &&
             body_json["operationName"].is_string()) {
             op_name = body_json["operationName"].get<std::string>();
         }
 
-        // Build the execution context and populate variables.
+        // ── Parse GraphQL document ─────────────────────────────────────────
+        auto parse_result = graphql::Parser::parse(gql_query);
+        if (!parse_result.success) {
+            json errors_array = json::array();
+            for (const auto& pe : parse_result.errors)
+                errors_array.push_back({{"message", pe.toString()}});
+            json err_body = {{"errors", errors_array}, {"data", nullptr}};
+            span.setStatus(false, "Parse error");
+            return makeResponse(http::status::bad_request, err_body.dump(), req);
+        }
+
+        // ── Complexity check (cost model enforcement) ──────────────────────
+        //
+        // The GraphQL complexity score is computed before execution.  A high
+        // score tightens the AQL resource limits injected into each resolver;
+        // a score above kGraphQLMaxComplexity is rejected immediately (HTTP 400).
+        const uint32_t complexity =
+            graphql::GraphQLComplexityEstimator::estimate(
+                std::make_shared<graphql::Document>(parse_result.document));
+        span.setAttribute("graphql.complexity", static_cast<int64_t>(complexity));
+
+        if (complexity > graphql::kGraphQLMaxComplexity) {
+            const std::string msg = graphql::makeComplexityErrorMessage(
+                complexity, graphql::kGraphQLMaxComplexity);
+            span.setStatus(false, msg);
+            json err_body = {
+                {"errors", json::array({{{"message", msg},
+                                         {"extensions", {{"code", "COMPLEXITY_EXCEEDED"}}}}})},
+                {"data", nullptr}
+            };
+            return makeResponse(http::status::bad_request, err_body.dump(), req);
+        }
+
+        // ── Build execution context with variables ─────────────────────────
         graphql::ExecutionContext ctx;
         if (body_json.contains("variables") &&
             body_json["variables"].is_object()) {
@@ -140,21 +172,25 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
             }
         }
 
-        // Parse the GraphQL query.
-        auto parse_result = graphql::Parser::parse(gql_query);
-        if (!parse_result.success) {
-            json errors_array = json::array();
-            for (const auto& pe : parse_result.errors)
-                errors_array.push_back({{"message", pe.toString()}});
-            json err_body = {{"errors", errors_array}, {"data", nullptr}};
-            return makeResponse(http::status::bad_request, err_body.dump(), req);
-        }
+        // ── Inject AQL + versioning resolvers ─────────────────────────────
+        //
+        // GraphQLAqlResolverFactory wires:
+        //   aql(query)          → executeAqlWithLimits (read queries)
+        //   aqlMutation(query)  → executeAqlWithLimits (DML statements)
+        //   apiVersion          → static version string
+        //   schemaVersion       → static schema version string
+        //
+        // The limits passed to executeAqlWithLimits are derived from the
+        // complexity score above so that expensive GraphQL documents
+        // automatically receive tighter AQL budgets.
+        graphql::GraphQLAqlResolverFactory::injectResolvers(
+            ctx, parse_result.document, engine_);
 
-        // Execute the operation.
+        // ── Execute ────────────────────────────────────────────────────────
         graphql::Executor executor;
         auto exec_result = executor.execute(parse_result.document, ctx, op_name);
 
-        // Build the response envelope.
+        // ── Serialize response ─────────────────────────────────────────────
         json result_json = json::object();
         result_json["data"] = exec_result.data
             ? serializeValue(exec_result.data)
@@ -171,9 +207,23 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
             result_json["errors"] = errors_array;
         }
 
+        span.setAttribute("graphql.errors",
+                          static_cast<int64_t>(exec_result.errors.size()));
+        span.setStatus(!exec_result.hasErrors());
         return makeResponse(http::status::ok, result_json.dump(), req);
 
+    } catch (const std::runtime_error& e) {
+        // Catches complexity errors thrown by GraphQLComplexityEstimator
+        // and AQL execution errors surfaced through resolvers.
+        json err_body = {
+            {"errors", json::array({{{"message", std::string(e.what())},
+                                     {"extensions", {{"code", "EXECUTION_ERROR"}}}}})},
+            {"data", nullptr}
+        };
+        span.setStatus(false, e.what());
+        return makeResponse(http::status::bad_request, err_body.dump(), req);
     } catch (const json::exception& e) {
+        span.setStatus(false, e.what());
         return makeErrorResponse(
             http::status::bad_request,
             std::string("Invalid JSON in GraphQL request: ") + e.what(),
@@ -190,8 +240,11 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
 http::response<http::string_body> GraphQLApiHandler::handleSchemaGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("GET /graphql/schema");
     auto schema  = graphql::ThemisSchemaBuilder::build();
     std::string sdl = schema.toSDL();
+    span.setAttribute("graphql.schema.size_bytes", static_cast<int64_t>(sdl.size()));
+    span.setStatus(true);
 
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "THEMIS/0.1.0");

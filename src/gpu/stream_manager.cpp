@@ -1,27 +1,21 @@
+/**
+ * @file stream_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            stream_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     337                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6206d7fc1  2026-02-27  fix(gpu): remove duplicate cuda_runtime.h include and cle... ║
-    • 739078d2b  2026-02-27  fix(gpu): fix compilation errors in GPUStreamManager and ... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • d09f11d78  2026-02-25  fix(gpu): code-audit fixes for cluster topology and strea... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: stream_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 361
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): #3425 [gpu] Mark multi-node GPU c... (2026-03-12) | #3077 fix(gpu): Resolve compilati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -29,23 +23,25 @@
  */
 
 #include "themis/gpu/stream_manager.h"
-#include "themis/gpu/rocm_backend.h"
-#include <stdexcept>
+
 #include <mutex>
+#include <stdexcept>
 #include <unordered_map>
 
+#include "themis/gpu/rocm_backend.h"
+
 #ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
+#include <cuda_runtime.h>
 #endif
 
 #ifdef THEMIS_ENABLE_CUDA
 namespace {
 // Maps stream name → cudaStream_t, kept as uintptr_t for portability.
-static std::unordered_map<std::string, uintptr_t>& cudaStreamRegistry() {
+static std::unordered_map<std::string, uintptr_t> &cudaStreamRegistry() {
     static std::unordered_map<std::string, uintptr_t> registry;
     return registry;
 }
-static std::mutex& cudaStreamMutex() {
+static std::mutex &cudaStreamMutex() {
     static std::mutex mtx;
     return mtx;
 }
@@ -55,17 +51,29 @@ static std::mutex& cudaStreamMutex() {
 namespace themis {
 namespace gpu {
 
+// ---------------------------------------------------------------------------
+// STUB #77 — CudaStreamBackendFn static bridge (non-CUDA injection)
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex s_cuda_backend_fn_mutex;
+GPUStreamManager::CudaStreamBackendFn s_cuda_backend_fn;
+} // namespace
+
+void GPUStreamManager::setCudaStreamBackendFn(CudaStreamBackendFn fn) {
+    std::lock_guard<std::mutex> lk(s_cuda_backend_fn_mutex);
+    s_cuda_backend_fn = std::move(fn);
+}
+
 // ============================================================================
 // Construction / destruction
 // ============================================================================
 
 GPUStreamManager::~GPUStreamManager() {
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& kv : streams_) {
+    for (auto &kv : streams_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (kv.second.cuda_stream != 0) {
-            cudaStreamDestroy(
-                reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
+            cudaStreamDestroy(reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
         }
 #endif
         if (kv.second.uses_rocm_stream) {
@@ -79,13 +87,15 @@ GPUStreamManager::~GPUStreamManager() {
 // Stream lifecycle
 // ============================================================================
 
-bool GPUStreamManager::createStream(const StreamConfig&    cfg,
-                                     GPULauncher::BackendFn backend)
-{
-    if (cfg.name.empty()) return false;
+bool GPUStreamManager::createStream(const StreamConfig &cfg, GPULauncher::BackendFn backend) {
+    if (cfg.name.empty()) {
+        return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
-    if (streams_.count(cfg.name)) return false;   // already exists
+    if (streams_.count(cfg.name)) {
+        return false; // already exists
+    }
 
     Stream s;
     s.config     = cfg;
@@ -99,8 +109,7 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
         // THEMIS_ENABLE_HIP is not defined) and use it as the execution backend.
         ROCmBackend::GetInstance().createStream(cfg.name);
         s.uses_rocm_stream = true;
-        s.launcher = std::make_unique<GPULauncher>(
-            ROCmBackend::GetInstance().createBackendFn());
+        s.launcher         = std::make_unique<GPULauncher>(ROCmBackend::GetInstance().createBackendFn());
     }
 
     streams_.emplace(cfg.name, std::move(s));
@@ -109,7 +118,7 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     // Create a real CUDA stream for long-running workloads.  Errors are
     // non-fatal: the logical stream still functions via the ROCm/CPU path.
     {
-        auto& entry = streams_.at(cfg.name);
+        auto &entry     = streams_.at(cfg.name);
         cudaStream_t cs = nullptr;
         if (cudaStreamCreate(&cs) == cudaSuccess) {
             entry.cuda_stream = reinterpret_cast<uintptr_t>(cs);
@@ -124,14 +133,16 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
 // createCudaStream — CUDA stream creation (resolves Stubs: 1)
 // ----------------------------------------------------------------------------
 
-bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
-                                         int device_index)
-{
-    if (cfg.name.empty()) return false;
+bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_index) {
+    if (cfg.name.empty()) {
+        return false;
+    }
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (streams_.count(cfg.name)) return false;
+        if (streams_.count(cfg.name)) {
+            return false;
+        }
     }
 
     GPULauncher::BackendFn backend_fn;
@@ -148,20 +159,47 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
         // Register the native handle so destroyStream() can clean it up.
         {
             std::lock_guard<std::mutex> clk(cudaStreamMutex());
-            cudaStreamRegistry()[cfg.name] =
-                reinterpret_cast<uintptr_t>(cuda_stream);
+            cudaStreamRegistry()[cfg.name] = reinterpret_cast<uintptr_t>(cuda_stream);
         }
 
         // Build a BackendFn that synchronises the CUDA stream after each work
         // item so the caller receives a well-defined completion signal.
-        backend_fn = [cuda_stream](const GPULauncher::WorkItem&) -> bool {
+        backend_fn = [cuda_stream](const GPULauncher::WorkItem &) -> bool {
             return cudaStreamSynchronize(cuda_stream) == cudaSuccess;
         };
     }
 #else
-    // CUDA not available — delegate to ROCm / CPU fallback.
-    (void)device_index;
-    backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow `createCudaStream()` to succeed on non-CUDA builds.  When
+    //   `THEMIS_ENABLE_CUDA` is not defined, no `cudaStream_t` is created; the
+    //   stream manager delegates to `ROCmBackend::GetInstance().createBackendFn()`
+    //   which in turn falls back to CPU async execution when HIP is also absent
+    //   (`THEMIS_ENABLE_HIP` not set).
+    // Activation: `THEMIS_ENABLE_CUDA` not defined at compile time.
+    // Production Delta: Named CUDA streams are unavailable.  Work items submitted
+    //   to a "CUDA stream" actually run on the ROCm backend or on the CPU via
+    //   `std::async`.  `GPUStreamManager::streamCount()` still reports the stream
+    //   as present; callers cannot distinguish CPU from GPU execution via this API.
+    // Removal Plan: Install CUDA Toolkit and set `-DTHEMIS_ENABLE_CUDA=1` in CMake.
+    // Roadmap ref: src/gpu/FUTURE_ENHANCEMENTS.md §"CUDA Stream Manager Activation"
+
+    // CUDA not available — try injected CudaStreamBackendFn, fall back to ROCm/CPU.
+    {
+        CudaStreamBackendFn fn;
+        {
+            std::lock_guard<std::mutex> lk(s_cuda_backend_fn_mutex);
+            fn = s_cuda_backend_fn;
+        }
+        if (fn) {
+            try {
+                backend_fn = fn(device_index);
+            } catch (...) {
+                backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+            }
+        } else {
+            backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+        }
+    }
 #endif
 
     std::lock_guard<std::mutex> lock(mutex_);
@@ -172,7 +210,7 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
         // the lock, to avoid leaking the native handle.
         {
             std::lock_guard<std::mutex> clk(cudaStreamMutex());
-            auto& reg = cudaStreamRegistry();
+            auto &reg = cudaStreamRegistry();
             auto it   = reg.find(cfg.name);
             if (it != reg.end()) {
                 cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second));
@@ -191,13 +229,15 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
     return true;
 }
 
-bool GPUStreamManager::destroyStream(const std::string& name) {
-    uintptr_t cuda_handle      = 0;
-    bool      uses_rocm_stream = false;
+bool GPUStreamManager::destroyStream(const std::string &name) {
+    uintptr_t cuda_handle = 0;
+    bool uses_rocm_stream = false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = streams_.find(name);
-        if (it == streams_.end()) return false;
+        if (it == streams_.end()) {
+            return false;
+        }
         cuda_handle      = it->second.cuda_stream;
         uses_rocm_stream = it->second.uses_rocm_stream;
         streams_.erase(it);
@@ -211,7 +251,7 @@ bool GPUStreamManager::destroyStream(const std::string& name) {
     // Destroy CUDA stream registered in the global registry (createCudaStream path).
     {
         std::lock_guard<std::mutex> clk(cudaStreamMutex());
-        auto& reg = cudaStreamRegistry();
+        auto &reg = cudaStreamRegistry();
         auto it   = reg.find(name);
         if (it != reg.end()) {
             cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second));
@@ -227,7 +267,7 @@ bool GPUStreamManager::destroyStream(const std::string& name) {
     return true;
 }
 
-bool GPUStreamManager::hasStream(const std::string& name) const {
+bool GPUStreamManager::hasStream(const std::string &name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return streams_.count(name) > 0;
 }
@@ -236,7 +276,7 @@ std::vector<std::string> GPUStreamManager::streamNames() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names;
     names.reserve(streams_.size());
-    for (const auto& kv : streams_) {
+    for (const auto &kv : streams_) {
         names.push_back(kv.first);
     }
     return names;
@@ -251,10 +291,8 @@ size_t GPUStreamManager::streamCount() const {
 // Work submission
 // ============================================================================
 
-std::future<GPULauncher::WorkResult>
-GPUStreamManager::submit(const std::string&    stream_name,
-                          GPULauncher::WorkItem item)
-{
+std::future<GPULauncher::WorkResult> GPUStreamManager::submit(const std::string &stream_name,
+                                                              GPULauncher::WorkItem item) {
     // Hold the mutex for the duration of launcher->submit() — that call uses
     // std::async internally and returns a future immediately (non-blocking),
     // so holding the lock here is safe and prevents a concurrent destroyStream()
@@ -275,43 +313,41 @@ GPUStreamManager::submit(const std::string&    stream_name,
             return p.get_future();
         }
         it->second.stats.submitted++;
-        budget     = it->second.config.cpu_budget_ms;
-        inner_fut  = it->second.launcher->submit(item);
+        budget    = it->second.config.cpu_budget_ms;
+        inner_fut = it->second.launcher->submit(item);
     }
 
     // Post-process the result asynchronously (no mutex held here).
     return std::async(std::launch::async,
-        [this, stream_name, budget, f = std::move(inner_fut)]() mutable
-            -> GPULauncher::WorkResult {
-            auto res = f.get();
-            const uint64_t elapsed = static_cast<uint64_t>(res.elapsed.count());
+                      [this, stream_name, budget, f = std::move(inner_fut)]() mutable -> GPULauncher::WorkResult {
+                          auto res               = f.get();
+                          const uint64_t elapsed = static_cast<uint64_t>(res.elapsed.count());
 
-            std::lock_guard<std::mutex> lock(mutex_);
-            auto it = streams_.find(stream_name);
-            if (it != streams_.end()) {
-                auto& st = it->second.stats;
-                // submitted was already incremented above; only update
-                // outcome counters here.
-                if (res.success) {
-                    ++st.succeeded;
-                } else {
-                    ++st.failed;
-                }
-                st.total_elapsed_ms += elapsed;
-                if (budget > 0 && elapsed > static_cast<uint64_t>(budget)) {
-                    ++st.budget_exceeded;
-                }
-            }
-            return res;
-        });
+                          std::lock_guard<std::mutex> lock(mutex_);
+                          auto it = streams_.find(stream_name);
+                          if (it != streams_.end()) {
+                              auto &st = it->second.stats;
+                              // submitted was already incremented above; only update
+                              // outcome counters here.
+                              if (res.success) {
+                                  ++st.succeeded;
+                              } else {
+                                  ++st.failed;
+                              }
+                              st.total_elapsed_ms += elapsed;
+                              if (budget > 0 && elapsed > static_cast<uint64_t>(budget)) {
+                                  ++st.budget_exceeded;
+                              }
+                          }
+                          return res;
+                      });
 }
 
 // ============================================================================
 // Statistics
 // ============================================================================
 
-GPUStreamManager::StreamStats
-GPUStreamManager::getStreamStats(const std::string& name) const {
+GPUStreamManager::StreamStats GPUStreamManager::getStreamStats(const std::string &name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
     if (it == streams_.end()) {
@@ -322,12 +358,11 @@ GPUStreamManager::getStreamStats(const std::string& name) const {
     return it->second.stats;
 }
 
-std::vector<GPUStreamManager::StreamStats>
-GPUStreamManager::getAllStreamStats() const {
+std::vector<GPUStreamManager::StreamStats> GPUStreamManager::getAllStreamStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<StreamStats> result;
     result.reserve(streams_.size());
-    for (const auto& kv : streams_) {
+    for (const auto &kv : streams_) {
         result.push_back(kv.second.stats);
     }
     return result;
@@ -335,3 +370,4 @@ GPUStreamManager::getAllStreamStats() const {
 
 } // namespace gpu
 } // namespace themis
+

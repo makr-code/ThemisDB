@@ -1,7 +1,7 @@
 # ThemisDB Documentation
 
 **Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+**Last Updated:** April 2026
 
 Welcome to the ThemisDB documentation! This guide will help you find the information you need.
 
@@ -123,8 +123,10 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | Document | Description |
 |----------|-------------|
 | [Changelog](../CHANGELOG.md) | Version history and changes |
-| [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
-| [v1.3.0 Release](../RELEASE_NOTES_v1.3.0.md) | Latest release notes |
+| [Roadmap](../de/roadmap/roadmap_overview.md) | Future plans and features |
+| [v1.8.0 Release](../de/releases/RELEASE_NOTES_v1.8.0.md) | Latest release notes |
+| [v1.7.0 Release](../de/releases/RELEASE_NOTES_v1.7.0.md) | Previous release |
+| [v1.3.0 Release](../de/releases/RELEASE_NOTES_v1.3.0.md) | Previous release |
 | [v1.2.0 Release](releases/v1.2.0.md) | Previous release |
 | [v1.1.0 Release](releases/v1.1.0.md) | Previous release |
 | [Migration Guides](guides/MIGRATION.md) | Upgrade between versions |
@@ -220,5 +222,5 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ---
 
 **Documentation Version:** 1.2.0  
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Next Review:** March 15, 2026

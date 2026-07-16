@@ -1,25 +1,21 @@
+/**
+ * @file kafka_connector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_connector.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     165                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f8dd9e8a0  2026-02-26  fix(ingestion): audit fixes – double error_count, enable.... ║
-    • 213187424  2026-02-26  feat(ingestion): Kafka consumer source connector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_connector.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 172
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3245 feat(ingestion): Implement ... (2026-03-12) | #3035 feat(ingestion): Kafka cons... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -140,7 +136,27 @@ public:
     void setRetryConfig(const RetryConfig& config);
 
     /**
-     * @brief Function type for injecting mock Kafka messages in unit tests.
+     * @brief Inject a checkpoint store so that ThemisDB checkpoints and
+     *        Kafka consumer-group offsets are committed in the correct order.
+     *
+     * When set, `ingest()` writes the ThemisDB checkpoint via the store
+     * **before** calling `rd_kafka_consumer_close()` (which commits Kafka
+     * offsets).  This guarantees at-least-once delivery semantics:
+     *
+     * 1. ThemisDB checkpoint written → database knows documents were processed.
+     * 2. Kafka offsets committed      → broker will not re-deliver messages.
+     *
+     * If the process crashes between steps 1 and 2, Kafka re-delivers the
+     * messages and ThemisDB deduplicates them via the checkpoint.  The
+     * `IngestionManager` automatically injects the shared store whenever
+     * incremental mode is active.
+     *
+     * @param store  Shared checkpoint store; pass nullptr to disable.
+     */
+    void setCheckpointStore(std::shared_ptr<CheckpointStore> store);
+
+    /**
+     * @brief Function type for providing Kafka message batches.
      *
      * Each call to the function should return a batch of raw message payloads
      * (as strings).  Return an empty vector to signal "no more messages".
@@ -149,12 +165,13 @@ public:
     using KafkaMessageFn = std::function<std::vector<std::string>()>;
 
     /**
-     * @brief Inject a mock message-fetch function (unit testing only).
+     * @brief Inject a Kafka message-batch provider.
      *
      * When set, every Kafka poll that would normally be performed via
      * librdkafka is replaced by a call to @p fn.  Pass an empty
      * `KafkaMessageFn{}` to restore the real librdkafka consumer.
      */
+    void setMessageBatchProvider(KafkaMessageFn fn);
     void setMessageFetchForTesting(KafkaMessageFn fn);
 
 private:

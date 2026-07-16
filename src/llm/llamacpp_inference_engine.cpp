@@ -1,23 +1,21 @@
+/**
+ * @file llamacpp_inference_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llamacpp_inference_engine.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     452                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llamacpp_inference_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 517
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=0, Debt=0, C=0, H=5, M=3, L=0
+ * PR History (last 5): #751 Phase 4 Error Handling: Sto... (2026-03-11) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #543 Implement LLM Model and LoR... (2026-03-11) | #592 Implement LoRa adapter appl... (2026-03-11) | #595 Integrate PagedBlockManager... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llamacpp_inference_engine.h"
@@ -26,7 +24,10 @@
 #include <cctype>
 #include <cmath>
 #include <regex>
+#include <sstream>
 #include <unordered_set>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -50,7 +51,7 @@ ValidationResult LLMOutputValidator::validate(const std::string& text) {
     result.metrics.word_count = countWords(text);
     result.metrics.sentence_count = countSentences(text);
     result.metrics.avg_word_length = calculateAvgWordLength(text);
-    result.metrics.newline_count = std::count(text.begin(), text.end(), '\n');
+    result.metrics.newline_count = static_cast<int>(std::count(text.begin(), text.end(), '\n'));
     
     // Validation 1: Empty check
     if (text.empty()) {
@@ -221,22 +222,24 @@ bool LLMOutputValidator::detectTruncation(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 double LLMOutputValidator::estimateCoherence(const std::string& text) {
-    // Simple heuristic-based coherence estimation
-    // In production, consider using a trained model
-    
+    // Six surface-level heuristics for lightweight coherence estimation.
+    // No external model is required.  The score is in [0, 1] where 1.0
+    // means "likely coherent" and values approaching 0.0 indicate
+    // strong evidence of incoherence (repetition, nonsense, extreme statistics).
+
     double score = 1.0;
-    
+
     if (text.empty()) return 0.0;
-    
+
     int word_count = countWords(text);
     if (word_count == 0) return 0.0;
-    
+
     // Heuristic 1: Average word length (too short or too long is suspicious)
     double avg_word_len = calculateAvgWordLength(text);
     if (avg_word_len < 2.0 || avg_word_len > 15.0) {
         score *= 0.7;
     }
-    
+
     // Heuristic 2: Sentence structure (ratio of words to sentences)
     int sentence_count = countSentences(text);
     if (sentence_count > 0) {
@@ -248,17 +251,17 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         // No sentences at all - very suspicious
         score *= 0.5;
     }
-    
+
     // Heuristic 3: Character diversity (low diversity suggests repetition)
     // Note: This counts bytes, not UTF-8 characters, but is still useful for detecting
     // repetition patterns in both ASCII and UTF-8 text
     std::unordered_set<char> unique_chars(text.begin(), text.end());
-    double char_diversity = static_cast<double>(unique_chars.size()) / 
+    double char_diversity = static_cast<double>(unique_chars.size()) /
                            std::max(static_cast<size_t>(1), text.length());
     if (char_diversity < 0.05) {
         score *= 0.6;
     }
-    
+
     // Heuristic 4: Word diversity (rough estimate)
     // Count approximate unique words (case-insensitive)
     // Limit to first 1000 words for performance on large texts
@@ -267,16 +270,16 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     std::string word;
     int words_checked = 0;
     const int MAX_WORDS_TO_CHECK = 1000;
-    
+
     while (iss >> word && words_checked < MAX_WORDS_TO_CHECK) {
         // Simple lowercase conversion (in-place for efficiency)
         for (char& c : word) {
-            c = std::tolower(static_cast<unsigned char>(c));
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
         words.insert(std::move(word));
         words_checked++;
     }
-    
+
     if (word_count > 0) {
         // Calculate diversity based on checked words
         int effective_word_count = std::min(word_count, MAX_WORDS_TO_CHECK);
@@ -285,7 +288,76 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
             score *= 0.7;  // Low word diversity
         }
     }
-    
+
+    // Heuristic 5: Consecutive sentence repetition.
+    // Texts where two or more consecutive sentences are identical (after
+    // normalisation) are a strong hallucination signal.
+    {
+        // Split text into sentences on '.', '!', '?'
+        std::vector<std::string> sentences;
+        std::string current;
+        for (char c : text) {
+            if (c == '.' || c == '!' || c == '?') {
+                // Trim whitespace
+                size_t a = current.find_first_not_of(" \t\r\n");
+                if (a != std::string::npos) {
+                    size_t b = current.find_last_not_of(" \t\r\n");
+                    sentences.push_back(current.substr(a, b - a + 1));
+                }
+                current.clear();
+            } else {
+                current += c;
+            }
+        }
+        int consec_dup = 0;
+        for (size_t i = 1; i < sentences.size(); ++i) {
+            if (sentences[i] == sentences[i - 1]) {
+                ++consec_dup;
+            }
+        }
+        if (!sentences.empty()) {
+            double dup_ratio = static_cast<double>(consec_dup) / sentences.size();
+            if (dup_ratio > 0.25) {
+                score *= 0.5;  // >25% consecutive duplicate sentences
+            } else if (dup_ratio > 0.10) {
+                score *= 0.75;
+            }
+        }
+    }
+
+    // Heuristic 6: Bigram repetition ratio.
+    // A high fraction of repeated bigrams indicates the model has entered a
+    // repetitive loop, a common failure mode.
+    {
+        std::vector<std::string> tokens;
+        {
+            std::istringstream ts(text);
+            std::string tok;
+            while (ts >> tok) {
+                for (char& c : tok) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                tokens.push_back(std::move(tok));
+            }
+        }
+        if (tokens.size() >= 4) {
+            std::unordered_map<std::string, int> bigram_count;
+            int repeated = 0;
+            for (size_t i = 0; i + 1 < tokens.size(); ++i) {
+                // Increment count and check: if the bigram has already been seen
+                // (new count > 1) this occurrence is a repetition.
+                if (++bigram_count[tokens[i] + " " + tokens[i + 1]] > 1) {
+                    ++repeated;
+                }
+            }
+            double bigram_repeat_ratio = static_cast<double>(repeated) /
+                                         static_cast<double>(tokens.size() - 1);
+            if (bigram_repeat_ratio > 0.40) {
+                score *= 0.5;  // >40% of bigrams are repeated
+            } else if (bigram_repeat_ratio > 0.20) {
+                score *= 0.75;
+            }
+        }
+    }
+
     return std::max(0.0, std::min(1.0, score));
 }
 
@@ -453,3 +525,4 @@ double LLMOutputValidator::calculateAvgWordLength(const std::string& text) {
 
 } // namespace llm
 } // namespace themis
+

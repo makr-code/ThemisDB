@@ -1,31 +1,49 @@
+/**
+ * @file model_serving.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_serving.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     395                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5a7ca4018  2026-02-24  audit: remove unused headers, fix spelling, complete ROAD... ║
-    • 90cdb41ff  2026-02-24  feat(analytics): implement model serving and online infer... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_serving.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 409
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=14, M=4, L=0
+ * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4314 fix(analytics): Release reg... (2026-03-18) | #3478 docs(analytics): sync READM... (2026-03-12) | #2761 feat(analytics): Model serv... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * Model Serving and Online Inference Pipeline – Implementation
  *
- * Internal layout:
+ * @module Serving
+ *
+ * Data flow:
+ *   ModelServingEngine::registerModel(name, version, model, info)
+ *     → stored in entry map keyed by "name:version" (exclusive lock)
+ *   ModelServingEngine::predict(name, version, point)
+ *     → shared lock lookup → AutoMLModel::predict(point)
+ *     → InferenceResult{class_label, probabilities} + latency update
+ *   ModelServingEngine::predictBatch(name, version, points)
+ *     → per-point predict() loop; no batch-optimized path currently
+ *
+ * Error paths:
+ *   - `std::invalid_argument`: unknown model name/version in predict* or
+ *     unregister calls.
+ *   - `std::runtime_error`: inference failure inside AutoMLModel::predict()
+ *     propagates to caller; health metrics record the failure.
+ *   - `std::invalid_argument`: duplicate registration (same name+version)
+ *     when called via loadModel() with existing key.
+ *
+ * Cross-links:
+ *   include/analytics/model_serving.h — ModelServingEngine public API
+ *   src/analytics/ml_serving.cpp — external ONNX/TF Serving backend
+ *   tests/analytics/test_model_serving.cpp — registry, inference, health metrics
  *   - Each registered model is stored in an Entry that bundles the
  *     AutoMLModel, its ModelInfo, and a mutable ModelHealthMetrics.
  *   - Entries are keyed by "name:version" in a std::unordered_map.
@@ -52,6 +70,17 @@
 namespace themisdb {
 namespace analytics {
 
+struct ModelServingEntry {
+    AutoMLModel model;
+    ModelInfo info;
+    ModelHealthMetrics health;
+
+    // Latency window - protected by its own mutex so concurrent inference
+    // threads can update metrics without needing the global exclusive lock.
+    mutable std::mutex health_mu;
+    std::deque<double> latency_buf;
+};
+
 namespace {
 
 // ----------------------------------------------------------------------------
@@ -60,10 +89,8 @@ namespace {
 
 inline int64_t nowMs() noexcept {
     return static_cast<int64_t>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count()
-    );
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+            .count());
 }
 
 // ----------------------------------------------------------------------------
@@ -76,30 +103,18 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
 }
 
 // ----------------------------------------------------------------------------
-// Per-model runtime entry
-// ----------------------------------------------------------------------------
-
-struct Entry {
-    AutoMLModel          model;
-    ModelInfo            info;
-    ModelHealthMetrics   health;
-
-    // Latency window – protected by its own mutex so concurrent inference
-    // threads can update metrics without needing the global exclusive lock.
-    mutable std::mutex   health_mu;
-    std::deque<double>   latency_buf;
-};
-
-// ----------------------------------------------------------------------------
 // Latency helpers (caller must hold entry.health_mu)
 // ----------------------------------------------------------------------------
 
-void recordLatency(Entry& e, double ms, size_t window) {
-    if (window == 0) return;
+void recordLatency(ModelServingEntry &e, double ms, size_t window) {
+    if (window == 0) {
+        return;
+    }
 
     e.latency_buf.push_back(ms);
-    if (e.latency_buf.size() > window)
+    if (e.latency_buf.size() > window) {
         e.latency_buf.pop_front();
+    }
 
     // Running mean
     size_t n     = e.latency_buf.size();
@@ -110,7 +125,7 @@ void recordLatency(Entry& e, double ms, size_t window) {
     // p99 from sorted copy of the window
     std::vector<double> sorted(e.latency_buf.begin(), e.latency_buf.end());
     std::sort(sorted.begin(), sorted.end());
-    size_t idx = static_cast<size_t>(0.99 * static_cast<double>(n - 1));
+    size_t idx              = static_cast<size_t>(0.99 * static_cast<double>(n - 1));
     e.health.p99_latency_ms = sorted[idx];
 }
 
@@ -121,9 +136,9 @@ void recordLatency(Entry& e, double ms, size_t window) {
 // ============================================================================
 
 struct ModelServingEngine::Impl {
-    ModelServingConfig                                        config;
-    mutable std::shared_mutex                                 mu;
-    std::unordered_map<std::string, std::unique_ptr<Entry>>   registry;
+    ModelServingConfig config;
+    mutable std::shared_mutex mu;
+    std::unordered_map<std::string, std::shared_ptr<ModelServingEntry>> registry;
 
     explicit Impl(ModelServingConfig cfg) : config(std::move(cfg)) {}
 };
@@ -132,32 +147,63 @@ struct ModelServingEngine::Impl {
 // ModelServingEngine – construction / destruction
 // ============================================================================
 
-ModelServingEngine::ModelServingEngine(ModelServingConfig config)
-    : impl_(std::make_unique<Impl>(std::move(config))) {}
+ModelServingEngine::ModelServingEngine(ModelServingConfig config) : impl_(std::make_unique<Impl>(std::move(config))) {}
 
 ModelServingEngine::~ModelServingEngine() = default;
+
+// ============================================================================
+// lookupEntryOrThrow_ / lookupEntryOrNull_  (private helpers)
+//
+// Both helpers capture a reference-counted handle to the Entry under a brief
+// shared_lock and release the lock immediately.  This lets callers run
+// inference and metrics updates outside the registry lock, so that concurrent
+// register/unregister calls are never starved by long-running inference.
+// ============================================================================
+
+std::shared_ptr<ModelServingEntry> ModelServingEngine::lookupEntryOrThrow_(const std::string &name,
+                                                                           const std::string &version) const {
+    std::shared_lock lock(impl_->mu);
+    const std::string key = makeModelKey(name, version);
+    auto it               = impl_->registry.find(key);
+    if (it == impl_->registry.end()) {
+        throw std::out_of_range("ModelServingEngine: model not found: " + key);
+    }
+    return it->second;
+}
+
+std::shared_ptr<ModelServingEntry> ModelServingEngine::lookupEntryOrNull_(const std::string &name,
+                                                                          const std::string &version) const noexcept {
+    std::shared_lock lock(impl_->mu);
+    auto it = impl_->registry.find(makeModelKey(name, version));
+    if (it == impl_->registry.end()) {
+        return nullptr;
+    }
+    return it->second;
+}
 
 // ============================================================================
 // registerModel
 // ============================================================================
 
-void ModelServingEngine::registerModel(const std::string& name,
-                                        const std::string& version,
-                                        AutoMLModel        model) {
-    if (name.empty())    throw std::invalid_argument("model name must not be empty");
-    if (version.empty()) throw std::invalid_argument("model version must not be empty");
+void ModelServingEngine::registerModel(const std::string &name, const std::string &version, AutoMLModel model) {
+    if (name.empty()) {
+        throw std::invalid_argument("model name must not be empty");
+    }
+    if (version.empty()) {
+        throw std::invalid_argument("model version must not be empty");
+    }
 
     std::unique_lock lock(impl_->mu);
 
-    if (impl_->registry.size() >= impl_->config.max_models)
+    if (impl_->registry.size() >= impl_->config.max_models) {
         throw std::runtime_error(
-            "ModelServingEngine: registry is full (max_models=" +
-            std::to_string(impl_->config.max_models) + ")");
+            "ModelServingEngine: registry is full (max_models=" + std::to_string(impl_->config.max_models) + ")");
+    }
 
     std::string key = makeModelKey(name, version);
-    if (impl_->registry.count(key))
-        throw std::runtime_error(
-            "ModelServingEngine: model already registered: " + key);
+    if (impl_->registry.count(key)) {
+        throw std::runtime_error("ModelServingEngine: model already registered: " + key);
+    }
 
     ModelInfo info;
     info.name             = name;
@@ -172,7 +218,7 @@ void ModelServingEngine::registerModel(const std::string& name,
     health.name    = name;
     health.version = version;
 
-    auto e = std::make_unique<Entry>();
+    auto e    = std::make_shared<ModelServingEntry>();
     e->model  = std::move(model);
     e->info   = std::move(info);
     e->health = std::move(health);
@@ -184,8 +230,7 @@ void ModelServingEngine::registerModel(const std::string& name,
 // unregisterModel
 // ============================================================================
 
-bool ModelServingEngine::unregisterModel(const std::string& name,
-                                          const std::string& version) {
+bool ModelServingEngine::unregisterModel(const std::string &name, const std::string &version) {
     std::unique_lock lock(impl_->mu);
     return impl_->registry.erase(makeModelKey(name, version)) > 0;
 }
@@ -194,29 +239,26 @@ bool ModelServingEngine::unregisterModel(const std::string& name,
 // predict (single record)
 // ============================================================================
 
-std::string ModelServingEngine::predict(const std::string& name,
-                                         const std::string& version,
-                                         const DataPoint&   point) const {
-    std::shared_lock lock(impl_->mu);
+std::string ModelServingEngine::predict(const std::string &name, const std::string &version,
+                                        const DataPoint &point) const {
+    auto ep = lookupEntryOrThrow_(name, version);
 
-    auto it = impl_->registry.find(makeModelKey(name, version));
-    if (it == impl_->registry.end())
-        throw std::out_of_range("ModelServingEngine: model not found: " +
-                                makeModelKey(name, version));
+    // Run inference outside the registry lock so that concurrent
+    // registerModel() / unregisterModel() callers are not starved.
+    ModelServingEntry &e = *ep;
+    auto t0              = std::chrono::steady_clock::now();
+    auto result          = e.model.predictOne(point);
+    double ms            = elapsedMs(t0);
 
-    Entry& e = *it->second;
-    auto   t0 = std::chrono::steady_clock::now();
-    auto   result = e.model.predictOne(point);
-    double ms = elapsedMs(t0);
-
-    // Update health metrics under the per-entry mutex so concurrent
-    // inference threads do not race on the counters / latency buffer.
+    // Update health metrics under the per-entry mutex only — no nested
+    // lock-order dependency on impl_->mu.
     {
         std::lock_guard<std::mutex> hlock(e.health_mu);
         ++e.health.total_predictions;
         e.health.last_used_ms = nowMs();
-        if (impl_->config.track_latency)
+        if (impl_->config.track_latency) {
             recordLatency(e, ms, impl_->config.latency_window);
+        }
     }
 
     return result;
@@ -226,36 +268,29 @@ std::string ModelServingEngine::predict(const std::string& name,
 // predictBatch
 // ============================================================================
 
-std::vector<std::string> ModelServingEngine::predictBatch(
-    const std::string&            name,
-    const std::string&            version,
-    const std::vector<DataPoint>& data) const {
+std::vector<std::string> ModelServingEngine::predictBatch(const std::string &name, const std::string &version,
+                                                          const std::vector<DataPoint> &data) const {
+    if (data.size() > impl_->config.max_batch_size) {
+        throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
+                                    + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
+    }
 
-    if (data.size() > impl_->config.max_batch_size)
-        throw std::invalid_argument(
-            "ModelServingEngine: batch size " + std::to_string(data.size()) +
-            " exceeds max_batch_size=" +
-            std::to_string(impl_->config.max_batch_size));
+    auto ep = lookupEntryOrThrow_(name, version);
 
-    std::shared_lock lock(impl_->mu);
-
-    auto it = impl_->registry.find(makeModelKey(name, version));
-    if (it == impl_->registry.end())
-        throw std::out_of_range("ModelServingEngine: model not found: " +
-                                makeModelKey(name, version));
-
-    Entry& e  = *it->second;
-    auto   t0 = std::chrono::steady_clock::now();
-    auto   results = e.model.predict(data);
-    double ms = elapsedMs(t0);
+    // Run batch inference outside the registry lock.
+    ModelServingEntry &e = *ep;
+    auto t0              = std::chrono::steady_clock::now();
+    auto results         = e.model.predict(data);
+    double ms            = elapsedMs(t0);
 
     {
         std::lock_guard<std::mutex> hlock(e.health_mu);
         ++e.health.total_batch_calls;
         e.health.total_batch_records += data.size();
         e.health.last_used_ms = nowMs();
-        if (impl_->config.track_latency)
+        if (impl_->config.track_latency) {
             recordLatency(e, ms, impl_->config.latency_window);
+        }
     }
 
     return results;
@@ -265,26 +300,19 @@ std::vector<std::string> ModelServingEngine::predictBatch(
 // predictProba
 // ============================================================================
 
-std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(
-    const std::string&            name,
-    const std::string&            version,
-    const std::vector<DataPoint>& data) const {
+std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(const std::string &name,
+                                                                            const std::string &version,
+                                                                            const std::vector<DataPoint> &data) const {
+    if (data.size() > impl_->config.max_batch_size) {
+        throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
+                                    + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
+    }
 
-    if (data.size() > impl_->config.max_batch_size)
-        throw std::invalid_argument(
-            "ModelServingEngine: batch size " + std::to_string(data.size()) +
-            " exceeds max_batch_size=" +
-            std::to_string(impl_->config.max_batch_size));
+    auto ep = lookupEntryOrThrow_(name, version);
 
-    std::shared_lock lock(impl_->mu);
-
-    auto it = impl_->registry.find(makeModelKey(name, version));
-    if (it == impl_->registry.end())
-        throw std::out_of_range("ModelServingEngine: model not found: " +
-                                makeModelKey(name, version));
-
-    Entry& e  = *it->second;
-    auto   t0 = std::chrono::steady_clock::now();
+    // Run inference outside the registry lock.
+    ModelServingEntry &e = *ep;
+    auto t0              = std::chrono::steady_clock::now();
 
     std::vector<std::map<std::string, double>> out;
 
@@ -294,7 +322,7 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(
         // Regression: return a single-entry map {"value" → prediction} per point
         auto preds = e.model.predict(data);
         out.reserve(preds.size());
-        for (const auto& p : preds) {
+        for (const auto &p : preds) {
             double val = 0.0;
             try { val = std::stod(p); } catch (...) {}
             out.push_back({{"value", val}});
@@ -307,8 +335,9 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(
         ++e.health.total_batch_calls;
         e.health.total_batch_records += data.size();
         e.health.last_used_ms = nowMs();
-        if (impl_->config.track_latency)
+        if (impl_->config.track_latency) {
             recordLatency(e, ms, impl_->config.latency_window);
+        }
     }
 
     return out;
@@ -322,8 +351,9 @@ std::vector<ModelInfo> ModelServingEngine::listModels() const {
     std::shared_lock lock(impl_->mu);
     std::vector<ModelInfo> out;
     out.reserve(impl_->registry.size());
-    for (const auto& [k, e] : impl_->registry)
+    for (const auto &[k, e] : impl_->registry) {
         out.push_back(e->info);
+    }
     return out;
 }
 
@@ -331,13 +361,12 @@ std::vector<ModelInfo> ModelServingEngine::listModels() const {
 // modelInfo
 // ============================================================================
 
-std::optional<ModelInfo> ModelServingEngine::modelInfo(
-    const std::string& name,
-    const std::string& version) const {
-
+std::optional<ModelInfo> ModelServingEngine::modelInfo(const std::string &name, const std::string &version) const {
     std::shared_lock lock(impl_->mu);
     auto it = impl_->registry.find(makeModelKey(name, version));
-    if (it == impl_->registry.end()) return std::nullopt;
+    if (it == impl_->registry.end()) {
+        return std::nullopt;
+    }
     return it->second->info;
 }
 
@@ -345,24 +374,23 @@ std::optional<ModelInfo> ModelServingEngine::modelInfo(
 // healthMetrics
 // ============================================================================
 
-std::optional<ModelHealthMetrics> ModelServingEngine::healthMetrics(
-    const std::string& name,
-    const std::string& version) const {
+std::optional<ModelHealthMetrics> ModelServingEngine::healthMetrics(const std::string &name,
+                                                                    const std::string &version) const {
+    auto ep = lookupEntryOrNull_(name, version);
+    if (!ep) {
+        return std::nullopt;
+    }
 
-    std::shared_lock lock(impl_->mu);
-    auto it = impl_->registry.find(makeModelKey(name, version));
-    if (it == impl_->registry.end()) return std::nullopt;
-    // Take a consistent snapshot of health metrics under the per-entry lock.
-    std::lock_guard<std::mutex> hlock(it->second->health_mu);
-    return it->second->health;
+    // Take a consistent snapshot of health metrics under the per-entry lock only.
+    std::lock_guard<std::mutex> hlock(ep->health_mu);
+    return ep->health;
 }
 
 // ============================================================================
 // isRegistered
 // ============================================================================
 
-bool ModelServingEngine::isRegistered(const std::string& name,
-                                       const std::string& version) const {
+bool ModelServingEngine::isRegistered(const std::string &name, const std::string &version) const {
     std::shared_lock lock(impl_->mu);
     return impl_->registry.count(makeModelKey(name, version)) > 0;
 }
@@ -371,26 +399,32 @@ bool ModelServingEngine::isRegistered(const std::string& name,
 // serializeModel
 // ============================================================================
 
-std::string ModelServingEngine::serializeModel(const std::string& name,
-                                                const std::string& version) const {
-    std::shared_lock lock(impl_->mu);
-    auto it = impl_->registry.find(makeModelKey(name, version));
-    if (it == impl_->registry.end())
-        throw std::out_of_range("ModelServingEngine: model not found: " +
-                                makeModelKey(name, version));
-    return it->second->model.serialize();
+std::string ModelServingEngine::serializeModel(const std::string &name, const std::string &version) const {
+    // Capture a reference-counted handle so that serialization (potentially
+    // non-trivial) runs outside the registry lock.
+    auto ep = lookupEntryOrThrow_(name, version);
+    return ep->model.serialize();
 }
 
 // ============================================================================
 // loadModel
 // ============================================================================
+// SECURITY WARNING: Model integrity
+// This method deserializes a model from untrusted input without verification.
+// If serialized_data comes from an untrusted source or network, an attacker
+// could provide a poisoned model that produces adversarial outputs.
+// Recommendations:
+// 1. Verify data integrity (e.g., HMAC/signature validation)
+// 2. Only load models from authenticated/encrypted sources
+// 3. Consider cryptographic signing of model artifacts
+// 4. Implement a model auditing/rollback mechanism
 
-void ModelServingEngine::loadModel(const std::string& name,
-                                    const std::string& version,
-                                    const std::string& serialized_data) {
+void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
+                                   const std::string &serialized_data) {
     auto model = AutoMLModel::deserialize(serialized_data);
     registerModel(name, version, std::move(model));
 }
 
 } // namespace analytics
 } // namespace themisdb
+

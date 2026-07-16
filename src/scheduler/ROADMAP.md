@@ -1,118 +1,71 @@
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # Scheduler Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-v1.5.0 – All four implementation phases complete and production-ready:
 
-- **Scheduling engine** – full cron expression parsing (5/6-field, wildcards, ranges, lists, steps, name aliases, @-specials, timezone-aware), fixed-interval, CDC event-triggered, manual, and webhook trigger types; hybrid trigger logic (OR / AND)
-- **Distributed coordination** – leader election via `DistributedTaskCoordinator`; one-runner-per-cluster guarantee
-- **DAG & workflow engine** – topological task dependency execution with parallel fan-out, cascading-failure propagation, and conditional branching (`branch_condition`)
-- **Retry policies** – FIXED_DELAY, EXPONENTIAL_BACKOFF, LINEAR_BACKOFF, JITTER_BACKOFF, FIBONACCI_BACKOFF with per-task `RetryPolicy` and conditional `should_retry` predicate
-- **Persistence & results** – task definitions persisted to disk; scheduled output stored in ThemisDB via `TaskResultStore`
-- **Observability** – searchable audit log (`TaskAuditManager`), Prometheus metrics export (`exportMetrics()`), OpenTelemetry tracing, anomaly detection (`TaskAnomalyDetector`)
-- **Alerting** – SLA breach and task-failure alerts via Alertmanager (`setAlertmanager`, `sla_deadline`)
-- **Dynamic scaling** – concurrency limit auto-adjusted from queue depth (`enable_dynamic_scaling`, `getQueueDepth`, `getDynamicConcurrencyLimit`)
-- **External integrations** – Kubernetes CronJob and Apache Airflow adapters (`ExternalSchedulerAdapter`)
+Production-capable scheduler runtime exists for task lifecycle operations, execution/listing/stats behavior, distributed and external coordination, and audit/result/anomaly/trigger observability surfaces.
 
-## Completed ✅
-- [x] TaskScheduler – periodic task execution with thread pool
-- [x] AQL query execution via QueryEngine integration
-- [x] Custom function registration and execution
-- [x] Task persistence and recovery from disk
-- [x] Task statistics, monitoring, and audit logging
-- [x] Security validation (AQL injection detection, resource limits)
-- [x] Rate limiting and resource management
-- [x] OpenTelemetry tracing integration
-- [x] HybridRetentionManager – 3-stage time-series lifecycle
-  - Stage 1: Gorilla compression (0–7 days, 10–20× reduction)
-  - Stage 2: Adaptive variance-based downsampling (7–365 days)
-  - Stage 3: Daily aggregates (>1 year)
-- [x] < 1% CPU overhead; 50–200 ms task startup latency
-- [x] Full cron expression parsing (v1.5.0): wildcards, ranges, lists (with embedded ranges/steps), start/step syntax, month and weekday name aliases (JAN–DEC, MON–SUN), 6-field year constraint, timezone-aware scheduling, @-specials
-- [x] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
-- [x] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
-- [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
-- [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
-- [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
-- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
+## In Progress
 
-## In Progress 🚧
-*(none currently in progress)*
+- [~] hardening concurrency-heavy registration/execution edge behavior (Target: Q3 2026)
+- [~] improving coordination/adapter diagnostics consistency across incident classes (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for scheduler hot paths (Target: Q3 2026)
 
-## Planned Features 📋
+## Planned Features
 
-### Short-term (Next 3-6 months)
-- [x] Task execution history with searchable audit log (Issue: #2448)
-  - Files: `scheduler/task_audit_manager.h`, `scheduler/task_scheduler.h`
-  - Implementation: `TaskAuditManager::queryAuditEvents()` + `TaskScheduler::getExecutionHistory()`
-  - Runtime behaviour: returns up to `limit` audit events from the in-memory cache (up to 10 000 events) and on-disk JSONL log, ordered by `timestamp DESC`; filters by `task_id`, `event_type`, `success`, `anomalous_only`, `start_time`, `end_time`
-  - Error cases: returns empty vector when audit logging is disabled; query errors are logged and re-raise only on I/O failures
-  - Tests: `tests/test_task_scheduler.cpp` (audit history section)
-  - Perf: query over 10 000 cached events < 10 ms
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under sustained queue and burst workloads (Target: Q4 2026)
+- [ ] expand stress coverage for trigger/anomaly and coordination edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for task scheduling incident triage (Target: Q4 2026)
 
-- [x] Alert on task failure or SLA breach (Issue: #2265)
-  - Files: `scheduler/task_scheduler.h`, `scheduler/task_scheduler.cpp`
-  - Implementation: `setAlertmanager()`, `fireTaskFailureAlert()`, `fireTaskSlaBreachAlert()`, `resolveTaskFailureAlert()`; `ScheduledTask::sla_deadline`
-  - Runtime behaviour: fires `TaskFailure` alert when all retry attempts are exhausted; fires `TaskSlaBreached` alert when execution time exceeds `sla_deadline`; automatically resolves failure alert on next successful run of the same task
-  - Error cases: alertmanager not set → silent no-op; alert send failure → logged at WARN level, task execution continues
-  - Tests: `tests/test_task_scheduler.cpp` (SLA section)
-  - Security: alert_mutex_ released before I/O to avoid lock-under-I/O deadlocks
-
-### Long-term (6-12 months)
-- [x] Dynamic task scaling based on queue depth (Issue: #2269)
-  - Files: `scheduler/task_scheduler.h`, `scheduler/task_scheduler.cpp`
-  - Implementation: `Config::{enable_dynamic_scaling, min_concurrent_tasks, max_concurrent_tasks_ceil, scale_up_queue_depth, scale_down_idle_ticks}`, `getQueueDepth()`, `getDynamicConcurrencyLimit()`, `adjustConcurrencyLimit()`, pending-queue tracking in `schedulerLoop()`
-  - Runtime behaviour: when `pending_count >= scale_up_queue_depth` the effective limit is increased by 1 per tick (up to `max_concurrent_tasks_ceil`); after `scale_down_idle_ticks` consecutive ticks with no pending tasks the limit is decreased by 1 (floor: `min_concurrent_tasks`); when disabled, `max_concurrent_tasks` is used as a fixed static limit
-  - Error cases: `min_concurrent_tasks > max_concurrent_tasks_ceil` is accepted and handled safely (floor wins); disabled by default (backward-compatible)
-  - Tests: `tests/test_task_scheduler_dynamic_scaling.cpp`
-  - Metrics: `themis_scheduler_concurrency_limit` and `themis_scheduler_queue_depth` gauges emitted by `exportMetrics()`
-  - Perf: scaling decision adds at most one atomic load + store per scheduler tick (< 1 µs)
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for register/execute/list/stats paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for distributed and external scheduler integrations (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained scheduler traffic pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Task Scheduler & Retention Manager (Status: Completed ✅)
-- [x] `TaskScheduler` – periodic task execution with thread pool
-- [x] AQL query execution via `QueryEngine` integration
-- [x] Custom function registration and execution
-- [x] Task persistence and recovery from disk
-- [x] Task statistics, monitoring, and audit logging
-- [x] Security validation (AQL injection detection, resource limits)
-- [x] Rate limiting and resource management
-- [x] OpenTelemetry tracing integration
-- [x] `HybridRetentionManager` – 3-stage time-series lifecycle (Gorilla compression, variance-based downsampling, daily aggregates)
-- [x] < 1% CPU overhead; 50–200 ms task startup latency
+### Phase 1: Design / API Contract
+- [ ] freeze scheduler lifecycle/execution/coordination contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for scheduler failure classes (Target: Q3 2026)
 
-### Phase 2: Full Cron & Distributed Coordination (Status: Completed ✅)
-- [x] Full cron expression parsing (v1.5.0)
-- [x] Distributed task coordination across nodes
-- [x] Task dependency DAG execution
+### Phase 2: Core Implementation
+- [ ] complete hardening for task scheduler and retention internals (Target: Q4 2026)
+- [ ] align distributed/external integration behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Web UI & Retry Policies (Status: Completed ✅)
-- [x] Web UI for task management (create, monitor, pause, delete)
-- [x] Task retry policies (max attempts, exponential back-off)
-- [x] Scheduled task output persistence (store results in ThemisDB)
-- [x] Task execution history with searchable audit log
-- [x] Alert on task failure or SLA breach
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for registration, execution, and coordination faults (Target: Q4 2026)
+- [ ] unify diagnostics across scheduler lifecycle/coordination/observability incidents (Target: Q4 2026)
 
-### Phase 4: Distributed Cron & Workflow Engine (Status: Completed ✅)
-- [x] Distributed cron leader election (one runner per cluster)
-- [x] Workflow engine (multi-step DAG with conditional branching)
-- [x] Event-triggered tasks (changefeed → task execution)
-- [x] Dynamic task scaling based on queue depth
-- [x] Integration with external schedulers (Kubernetes CronJob, Airflow)
+### Phase 4: Tests
+- [ ] expand focused regressions for concurrent register/execute and trigger edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for scheduler burst and retention workloads (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for scheduler hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core scheduler module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — `tests/test_task_scheduler.cpp`, `tests/test_task_scheduler_dynamic_scaling.cpp`, `tests/test_task_scheduler_triggers.cpp`, `tests/test_task_scheduler_siem_integration.cpp`, `tests/test_task_scheduler_api_handler.cpp`
-- [x] Integration tests (task persistence, retention lifecycle) — `tests/test_scheduler_integration.cpp`
-- [x] Performance benchmarks (scheduler overhead, retention throughput) — `benchmarks/bench_task_scheduler.cpp`
-- [x] Security audit (AQL injection prevention, resource limit enforcement) — AQL injection detection via `security/aql_injection_detector.h`; resource limit enforcement via `timeout` and `max_retries` per task
-- [x] Documentation complete — `include/scheduler/README.md`, `src/scheduler/ARCHITECTURE.md`, `src/scheduler/README.md`, `src/scheduler/FUTURE_ENHANCEMENTS.md`
-- [x] API stability guaranteed — `TaskScheduler` public API stable from v1.x; backward-compatible constructor overloads
 
-## Known Issues & Limitations
-- Distributed coordination is implemented via `DistributedTaskCoordinator`; requires `DistributedCoordinator` (sharding module) for leader election.
+- [x] core scheduler surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for concurrency/coordination edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on workload shape and scheduler configuration.
+- selected concurrency and integration edge scenarios need continued hardening.
+- benchmark depth should continue expanding for advanced scheduler workflows.
 
 ## Breaking Changes
-- `TaskScheduler` public API is stable from v1.x.
-- `HybridRetentionManager` stage thresholds are configurable; defaults may change in v1.5.0.
+
+No breaking scheduler contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

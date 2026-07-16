@@ -1,20 +1,20 @@
+/**
+ * @file provenance_tracker.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            provenance_tracker.h                               ║
-  Version:         0.9.0                                              ║
-  Last Modified:   2026-03-09 21:30:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 Beta                                                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: provenance_tracker.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -30,6 +30,12 @@
 #include <ctime>
 
 namespace themis {
+
+// Forward declaration – keeps the training header free of heavy query dependencies.
+namespace query {
+class QueryEngine;
+}
+
 namespace training {
 
 /**
@@ -83,6 +89,10 @@ struct ProvenanceTrackerConfig {
     size_t      batch_write_size      = 200;               ///< AQL bulk-insert batch size
     bool        reject_without_urn    = true;              ///< Reject samples without source URN
     bool        emit_audit_events     = true;              ///< Write to utils/audit_logger
+    /// Maximum total wall-clock time allowed for a single write() call (milliseconds).
+    /// 0 means no limit (unbounded).  When the deadline is exceeded the call
+    /// returns early with whatever records were written so far.
+    uint32_t    write_timeout_ms      = 0;
 
     ProvenanceTrackerConfig() = default;
 };
@@ -113,11 +123,17 @@ class ProvenanceTracker {
 public:
     /**
      * @brief Construct the tracker.
-     * @param config      Tracker configuration.
+     * @param config        Tracker configuration.
      * @param db_connection Database connection string (ArangoDB endpoint).
+     * @param engine        Optional AQL query engine.  When non-null, write()
+     *                      persists vertices and edges via AQL INSERT statements
+     *                      and queryLineage() traverses the live graph via AQL.
+     *                      Pass nullptr (the default) to operate in offline /
+     *                      test mode, where the in-process store is used.
      */
     explicit ProvenanceTracker(const ProvenanceTrackerConfig& config,
-                               const std::string& db_connection);
+                               const std::string& db_connection,
+                               query::QueryEngine* engine = nullptr);
 
     ~ProvenanceTracker();
 
@@ -172,6 +188,24 @@ public:
      * @return Provenance record, or empty record if not found.
      */
     ProvenanceRecord getRecord(const std::string& sample_id) const;
+
+    /**
+     * @brief Inject or replace the AQL query engine after construction.
+     *
+     * Allows server bootstrap code to wire a live `QueryEngine` into an
+     * already-constructed `ProvenanceTracker` without recreating it.
+     * When @p engine is non-null, subsequent `write()` calls persist
+     * vertices and edges via AQL INSERT, and `queryLineage()` traverses
+     * the live graph via AQL.  Pass `nullptr` to revert to offline/test
+     * mode (in-process store only).
+     *
+     * Thread safety: not thread-safe with respect to concurrent `write()`
+     * or `queryLineage()` calls; call this method before first use or
+     * while no other threads are accessing the tracker.
+     *
+     * @param engine Non-owning pointer to the AQL query engine; may be null.
+     */
+    void setQueryEngine(query::QueryEngine* engine);
 
 private:
     class Impl;

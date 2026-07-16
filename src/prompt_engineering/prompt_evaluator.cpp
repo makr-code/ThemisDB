@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_evaluator.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     514                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_evaluator.cpp
- * @brief Implementation of prompt evaluator
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=2, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "prompt_engineering/prompt_evaluator.h"
@@ -52,14 +36,15 @@ EvaluationMetrics PromptEvaluator::evaluateSingle(
     const std::string& expected
 ) const {
     EvaluationMetrics metrics;
+    const auto embedding_provider = getEmbeddingProviderSnapshot();
 
-    // Use embedding-based cosine similarity when a provider is available;
-    // fall back to Jaccard token overlap otherwise.
-    if (embedding_provider_) {
-        double emb_sim = computeEmbeddingSimilarity(output, expected);
+    // Snapshot the provider pointer once so provider swaps do not race with
+    // evaluation or per-call metrics collection.
+    if (embedding_provider) {
+        double emb_sim = computeEmbeddingSimilarity(output, expected, embedding_provider);
         metrics.semantic_similarity = (emb_sim >= 0.0) ? emb_sim
                                                        : computeSemanticSimilarity(output, expected);
-        metrics.details["embedding_provider"] = embedding_provider_->name();
+        metrics.details["embedding_provider"] = embedding_provider->name();
     } else {
         metrics.semantic_similarity = computeSemanticSimilarity(output, expected);
     }
@@ -380,9 +365,17 @@ bool PromptEvaluator::isStatisticallySignificant(
 }
 
 double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) const {
-    return config_.similarity_weight * metrics.semantic_similarity +
-           config_.exact_match_weight * metrics.exact_match +
-           config_.relevance_weight * metrics.relevance;
+    const double partial_fallback = metrics.partial_match;
+    const double semantic_component = std::max(metrics.semantic_similarity,
+                                              partial_fallback);
+    const double exact_component = std::max(metrics.exact_match,
+                                           partial_fallback);
+    const double relevance_component = std::max(metrics.relevance,
+                                               partial_fallback);
+
+    return config_.similarity_weight * semantic_component +
+           config_.exact_match_weight * exact_component +
+           config_.relevance_weight * relevance_component;
 }
 
 std::string PromptEvaluator::normalizeString(const std::string& s) {
@@ -395,7 +388,7 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
                 result += ' ';
             }
         } else {
-            result += std::tolower(c);
+              result += static_cast<char>(std::tolower(c));
         }
     }
     
@@ -487,28 +480,41 @@ double PromptEvaluator::computeCosineSimilarity(
     return std::max(0.0, std::min(1.0, cosine));
 }
 
+std::shared_ptr<IEmbeddingProvider> PromptEvaluator::getEmbeddingProviderSnapshot() const {
+    std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
+    return embedding_provider_;
+}
+
 double PromptEvaluator::computeEmbeddingSimilarity(
     const std::string& s1,
     const std::string& s2
 ) const {
-    if (!embedding_provider_) {
+    return computeEmbeddingSimilarity(s1, s2, getEmbeddingProviderSnapshot());
+}
+
+double PromptEvaluator::computeEmbeddingSimilarity(
+    const std::string& s1,
+    const std::string& s2,
+    const std::shared_ptr<IEmbeddingProvider>& provider
+) const {
+    if (!provider) {
         return -1.0;  // Signal: no provider, caller should use Jaccard fallback
     }
 
     try {
-        auto v1 = embedding_provider_->embed(s1);
-        auto v2 = embedding_provider_->embed(s2);
+        auto v1 = provider->embed(s1);
+        auto v2 = provider->embed(s2);
 
         if (v1.empty() || v2.empty()) {
             THEMIS_WARN("Embedding provider '{}' returned empty vector – falling back",
-                        embedding_provider_->name());
+                        provider->name());
             return -1.0;
         }
 
         return computeCosineSimilarity(v1, v2);
     } catch (const std::exception& ex) {
         THEMIS_ERROR("Embedding provider '{}' threw: {} – falling back to Jaccard",
-                     embedding_provider_->name(), ex.what());
+                     provider->name(), ex.what());
         return -1.0;
     }
 }

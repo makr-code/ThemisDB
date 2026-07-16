@@ -1,6 +1,6 @@
 # WAL-Konfiguration für Multi-SSD-Setups
 
-**Stand:** 5. Januar 2026  
+**Stand:** 5. April 2026  
 **Version:** v1.3.5  
 **Kategorie:** ⚡ Performance / Storage
 
@@ -640,5 +640,5 @@ du -sh /mnt/nvme*/themisdb/
 ---
 
 **Version:** v1.3.5  
-**Letzte Aktualisierung:** 5. Januar 2026  
+**Letzte Aktualisierung:** 5. April 2026  
 **Maintainer:** ThemisDB Team

@@ -1,0 +1,2054 @@
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages are already installed:
+  * abseil:x64-windows@20250814.1
+  * boost-algorithm:x64-windows@1.90.0#1
+  * boost-align:x64-windows@1.90.0#1
+  * boost-array:x64-windows@1.90.0#1
+  * boost-assert:x64-windows@1.90.0#1
+  * boost-atomic:x64-windows@1.90.0#1
+  * boost-bind:x64-windows@1.90.0#1
+  * boost-charconv:x64-windows@1.90.0#1
+  * boost-chrono:x64-windows@1.90.0#1
+  * boost-cmake:x64-windows@1.90.0#1
+  * boost-concept-check:x64-windows@1.90.0#1
+  * boost-config:x64-windows@1.90.0#1
+  * boost-container:x64-windows@1.90.0#1
+  * boost-container-hash:x64-windows@1.90.0#1
+  * boost-conversion:x64-windows@1.90.0#1
+  * boost-core:x64-windows@1.90.0#1
+  * boost-date-time:x64-windows@1.90.0#1
+  * boost-describe:x64-windows@1.90.0#1
+  * boost-detail:x64-windows@1.90.0#1
+  * boost-exception:x64-windows@1.90.0#1
+  * boost-function:x64-windows@1.90.0#1
+  * boost-function-types:x64-windows@1.90.0#1
+  * boost-functional:x64-windows@1.90.0#1
+  * boost-fusion:x64-windows@1.90.0#1
+  * boost-headers:x64-windows@1.90.0#1
+  * boost-integer:x64-windows@1.90.0#1
+  * boost-intrusive:x64-windows@1.90.0#1
+  * boost-io:x64-windows@1.90.0#1
+  * boost-iterator:x64-windows@1.90.0#1
+  * boost-lexical-cast:x64-windows@1.90.0#1
+  * boost-locale:x64-windows@1.90.0#1
+  * boost-move:x64-windows@1.90.0#1
+  * boost-mp11:x64-windows@1.90.0#1
+  * boost-mpl:x64-windows@1.90.0#1
+  * boost-numeric-conversion:x64-windows@1.90.0#1
+  * boost-optional:x64-windows@1.90.0#1
+  * boost-predef:x64-windows@1.90.0#1
+  * boost-preprocessor:x64-windows@1.90.0#1
+  * boost-range:x64-windows@1.90.0#1
+  * boost-ratio:x64-windows@1.90.0#1
+  * boost-regex:x64-windows@1.90.0#1
+  * boost-scope-exit:x64-windows@1.90.0#1
+  * boost-smart-ptr:x64-windows@1.90.0#1
+  * boost-static-assert:x64-windows@1.90.0#1
+  * boost-system:x64-windows@1.90.0#1
+  * boost-thread:x64-windows@1.90.0#1
+  * boost-throw-exception:x64-windows@1.90.0#1
+  * boost-tokenizer:x64-windows@1.90.0#1
+  * boost-tuple:x64-windows@1.90.0#1
+  * boost-type-traits:x64-windows@1.90.0#1
+  * boost-typeof:x64-windows@1.90.0#1
+  * boost-uninstall:x64-windows@1.90.0#1
+  * boost-unordered:x64-windows@1.90.0#1
+  * boost-utility:x64-windows@1.90.0#1
+  * boost-uuid:x64-windows@1.90.0#1
+  * boost-variant2:x64-windows@1.90.0#1
+  * boost-winapi:x64-windows@1.90.0#1
+    c-ares:x64-windows@1.34.6#1
+    grpc[core,codegen]:x64-windows@1.76.0
+  * libevent[core,thread]:x64-windows@2.1.12+20230128#1
+    openssl:x64-windows@3.6.1#2
+  * protobuf:x64-windows@6.33.4#1
+  * rapidjson:x64-windows@2025-02-26
+  * re2:x64-windows@2025-11-05
+  * utf8-range:x64-windows@6.33.4
+  * utf8proc:x64-windows@2.11.3
+  * vcpkg-boost:x64-windows@2025-03-29
+  * vcpkg-cmake:x64-windows@2024-04-23
+  * vcpkg-cmake-config:x64-windows@2024-05-23
+  * vcpkg-cmake-get-vars:x64-windows@2025-05-29
+  * xsimd:x64-windows@14.0.0
+    zlib:x64-windows@1.3.1
+    zstd:x64-windows@1.5.7
+The following packages will be built and installed:
+    arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1
+    benchmark:x64-windows@1.9.5
+  * blas:x64-windows@2023-04-14#5
+    boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1
+    boost-beast:x64-windows@1.90.0#1
+  * boost-context:x64-windows@1.90.0#1
+  * boost-dynamic-bitset:x64-windows@1.90.0#1
+  * boost-endian:x64-windows@1.90.0#1
+  * boost-filesystem:x64-windows@1.90.0#1
+  * boost-logic:x64-windows@1.90.0#1
+  * boost-math:x64-windows@1.90.0#1
+  * boost-multiprecision:x64-windows@1.90.0#1
+  * boost-pool:x64-windows@1.90.0#1
+  * boost-random:x64-windows@1.90.0#1
+  * boost-scope:x64-windows@1.90.0#1
+  * boost-static-string:x64-windows@1.90.0#1
+  * boost-type-index:x64-windows@1.90.0#1
+    boost-url:x64-windows@1.90.0#1
+    boost-variant:x64-windows@1.90.0#1
+  * brotli:x64-windows@1.2.0
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+  * civetweb:x64-windows@1.16#2
+    cpp-httplib:x64-windows@0.36.0 -- C:\Projects\ThemisDB\ports\cpp-httplib
+  * cpuinfo:x64-windows@2025-09-06
+    crc32c:x64-windows@1.1.2#2
+    curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1
+  * cxxopts:x64-windows@3.3.1#1
+  * date:x64-windows@3.0.4
+  * dlpack:x64-windows@1.3
+  * eigen3:x64-windows@5.0.1
+    faiss:x64-windows@1.13.2 -- C:\Projects\ThemisDB\ports\faiss
+  * flatbuffers:x64-windows@25.12.19
+  * fmt:x64-windows@12.1.0
+  * gflags:x64-windows@2.3.0
+  * glslang:x64-windows@16.1.0
+    gtest:x64-windows@1.17.0#2
+    hnswlib:x64-windows@0.8.0
+  * hwloc:x64-windows@2.11.2
+  * lapack:x64-windows@2023-06-10#3
+  * lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2
+    libzip[bzip2,core,default-aes]:x64-windows@1.11.4
+    lz4:x64-windows@1.10.0
+    mimalloc:x64-windows@3.2.8
+  * ms-gsl:x64-windows@4.2.1
+    msgpack:x64-windows@7.0.0
+    nlohmann-json:x64-windows@3.12.0#2
+  * onnx:x64-windows@1.19.0
+    onnxruntime:x64-windows@1.23.2
+  * openblas:x64-windows@0.3.29
+    opencl:x64-windows@2024.10.24#1
+    opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0
+  * optional-lite:x64-windows@3.6.0
+    prometheus-cpp[compression,core,pull]:x64-windows@1.3.0
+    pugixml:x64-windows@1.15#1
+    rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1
+  * safeint:x64-windows@3.0.28
+    shaderc:x64-windows@2026.1
+    simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0
+  * snappy[core,rtti]:x64-windows@1.2.2#1
+    spdlog[core,fmt,tz-offset]:x64-windows@1.17.0
+  * spirv-headers:x64-windows@1.4.335.0
+  * spirv-tools:x64-windows@1.4.335.0
+    tbb[core,hwloc]:x64-windows@2022.3.0
+  * thrift:x64-windows@0.22.0#1
+    tl-expected:x64-windows@1.3.1
+  * vcpkg-gfortran:x64-windows@3#3
+    vulkan:x64-windows@2023-12-17
+  * vulkan-headers:x64-windows@1.4.335.0#1
+  * vulkan-loader:x64-windows@1.4.335.0
+  * wil:x64-windows@1.0.260126.7
+    yaml-cpp:x64-windows@0.9.0
+Additional packages (*) will be modified to complete this operation.
+Restored 0 package(s) from C:\Users\mkrueger\AppData\Local\vcpkg\archives in 29.3 ms. Use --debug to see more details.
+Installing 1/71 thrift:x64-windows@0.22.0#1...
+thrift:x64-windows@0.22.0#1 package ABI: 6d90b792434d48ec13840fc1d75c4c614d8e319bd9bd85f70d3873eed54afcc6
+Building thrift:x64-windows@0.22.0#1...
+-- Note: thrift only supports static library linkage. Building static library.
+-- Using cached thrift-0.22.0.tar.gz
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/thrift-0.22.0.tar.gz
+-- Applying patch pc-suffix.patch
+-- Applying patch fix_missing_quotes_in_config_and_bin_path.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/thrift/src/thrift-0-d1623b4796.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/lib/pkgconfig/thrift-nb.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/lib/pkgconfig/thrift-z.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/lib/pkgconfig/thrift.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/debug/lib/pkgconfig/thrift-nb.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/debug/lib/pkgconfig/thrift-z.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/debug/lib/pkgconfig/thrift.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/thrift_x64-windows/share/thrift/copyright
+-- Performing post-build validation
+Starting submission of thrift:x64-windows@0.22.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle thrift:x64-windows: 1.3 min
+Installing 2/71 snappy[core,rtti]:x64-windows@1.2.2#1...
+snappy[core,rtti]:x64-windows@1.2.2#1 package ABI: 5855a7d1c6f2ae519217630ae600fdce2ca1d77418492c796ee008ccc39cbc51
+Building snappy[core,rtti]:x64-windows@1.2.2#1...
+-- Using cached google-snappy-1.2.2.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/snappy/src/1.2.2-62cd140f38.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-snappy-1.2.2.tar.gz
+-- Applying patch no-werror.patch
+-- Applying patch pkgconfig.diff
+-- Applying patch rtti.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/snappy/src/1.2.2-62cd140f38.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/snappy_x64-windows/lib/pkgconfig/snappy.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/snappy_x64-windows/debug/lib/pkgconfig/snappy.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/snappy_x64-windows/share/snappy/copyright
+-- Performing post-build validation
+Starting submission of snappy[core,rtti]:x64-windows@1.2.2#1 to 1 binary cache(s) in the background
+Elapsed time to handle snappy:x64-windows: 14 s
+Completed submission of thrift:x64-windows@0.22.0#1 to 1 binary cache(s) in 3.2 s
+Installing 3/71 mimalloc:x64-windows@3.2.8...
+mimalloc:x64-windows@3.2.8 package ABI: baa07a70a3f5ca890b32ec4c3c53c323cdfdbad7228fba928b8f428572011dce
+Building mimalloc:x64-windows@3.2.8...
+-- Using cached microsoft-mimalloc-v3.2.8.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/mimalloc/src/v3.2.8-9eae4fa562.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/microsoft-mimalloc-v3.2.8.tar.gz
+-- Applying patch pkgconfig-cxx.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/mimalloc/src/v3.2.8-9eae4fa562.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+CMake Warning at scripts/cmake/vcpkg_copy_pdbs.cmake:44 (message):
+  Could not find a matching pdb file for:
+
+      C:/Projects/ThemisDB/vcpkg/packages/mimalloc_x64-windows/bin/mimalloc-redirect.dll
+      C:/Projects/ThemisDB/vcpkg/packages/mimalloc_x64-windows/debug/bin/mimalloc-redirect.dll
+
+Call Stack (most recent call first):
+  buildtrees/versioning_/versions/mimalloc/282e10ba6ced68703c0dbd4f86068112f36e5fb9/portfile.cmake:37 (vcpkg_copy_pdbs)
+  scripts/ports.cmake:206 (include)
+
+
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/mimalloc_x64-windows/lib/pkgconfig/mimalloc.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/mimalloc_x64-windows/debug/lib/pkgconfig/mimalloc.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/mimalloc_x64-windows/share/mimalloc/copyright
+-- Performing post-build validation
+Starting submission of mimalloc:x64-windows@3.2.8 to 1 binary cache(s) in the background
+Elapsed time to handle mimalloc:x64-windows: 9.7 s
+Completed submission of snappy[core,rtti]:x64-windows@1.2.2#1 to 1 binary cache(s) in 195 ms
+Installing 4/71 lz4:x64-windows@1.10.0...
+lz4:x64-windows@1.10.0 package ABI: b1352cfe227c66f40211225b8b20673d506c6e852f9eebdf7d0406389635ffc9
+Building lz4:x64-windows@1.10.0...
+-- Using cached lz4-lz4-v1.10.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/lz4/src/v1.10.0-61bd08d80e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/lz4-lz4-v1.10.0.tar.gz
+-- Applying patch target-lz4-lz4.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/lz4/src/v1.10.0-61bd08d80e.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/lz4_x64-windows/lib/pkgconfig/liblz4.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/lz4_x64-windows/debug/lib/pkgconfig/liblz4.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/lz4_x64-windows/share/lz4/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/lz4_x64-windows/share/lz4/copyright
+-- Performing post-build validation
+Starting submission of lz4:x64-windows@1.10.0 to 1 binary cache(s) in the background
+Elapsed time to handle lz4:x64-windows: 7.4 s
+Completed submission of mimalloc:x64-windows@3.2.8 to 1 binary cache(s) in 228 ms
+Installing 5/71 gflags:x64-windows@2.3.0...
+gflags:x64-windows@2.3.0 package ABI: 9efc0f34fba0ca4324d10102f5b372e27cec515791008b84ab0f9f21956861ce
+Building gflags:x64-windows@2.3.0...
+-- Using cached gflags-gflags-v2.3.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/gflags/src/v2.3.0-d51fb528ab.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/gflags-gflags-v2.3.0.tar.gz
+-- Applying patch 0001-patch-dir.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/gflags/src/v2.3.0-d51fb528ab.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gflags_x64-windows/share/gflags/vcpkg-cmake-wrapper.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gflags_x64-windows/share/gflags/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gflags_x64-windows/share/gflags/copyright
+-- Performing post-build validation
+Starting submission of gflags:x64-windows@2.3.0 to 1 binary cache(s) in the background
+Elapsed time to handle gflags:x64-windows: 8.2 s
+Completed submission of lz4:x64-windows@1.10.0 to 1 binary cache(s) in 143 ms
+Installing 6/71 bzip2[core,tool]:x64-windows@1.0.8#6...
+bzip2[core,tool]:x64-windows@1.0.8#6 package ABI: 53d212895ca156483c8c68fc266ef220aeb717733d01880e241d03f0f62bb27a
+Building bzip2[core,tool]:x64-windows@1.0.8#6...
+-- Using cached bzip2-1.0.8.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/bzip2/src/bzip2-1-336d4794a3.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/bzip2-1.0.8.tar.gz
+-- Applying patch fix-import-export-macros.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/bzip2/src/bzip2-1-336d4794a3.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/bzip2_x64-windows/lib/pkgconfig/bzip2.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/bzip2_x64-windows/debug/lib/pkgconfig/bzip2.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/bzip2_x64-windows/share/bzip2/copyright
+-- Performing post-build validation
+Starting submission of bzip2[core,tool]:x64-windows@1.0.8#6 to 1 binary cache(s) in the background
+Elapsed time to handle bzip2:x64-windows: 5.4 s
+Completed submission of gflags:x64-windows@2.3.0 to 1 binary cache(s) in 359 ms
+Installing 7/71 brotli:x64-windows@1.2.0...
+brotli:x64-windows@1.2.0 package ABI: b483e513929909e31efa4a725d0baf842f6e9aa41df5af0109473d304df352fb
+Building brotli:x64-windows@1.2.0...
+-- Using cached google-brotli-v1.2.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/brotli/src/v1.2.0-7af7ca71ad.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-brotli-v1.2.0.tar.gz
+-- Applying patch install.patch
+-- Applying patch pkgconfig.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/brotli/src/v1.2.0-7af7ca71ad.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/lib/pkgconfig/libbrotlicommon.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/lib/pkgconfig/libbrotlidec.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/lib/pkgconfig/libbrotlienc.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/debug/lib/pkgconfig/libbrotlicommon.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/debug/lib/pkgconfig/libbrotlidec.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/debug/lib/pkgconfig/libbrotlienc.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/share/brotli/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/brotli_x64-windows/share/brotli/copyright
+-- Performing post-build validation
+Starting submission of brotli:x64-windows@1.2.0 to 1 binary cache(s) in the background
+Elapsed time to handle brotli:x64-windows: 13 s
+Completed submission of bzip2[core,tool]:x64-windows@1.0.8#6 to 1 binary cache(s) in 121 ms
+Installing 8/71 boost-dynamic-bitset:x64-windows@1.90.0#1...
+boost-dynamic-bitset:x64-windows@1.90.0#1 package ABI: 6126e1d211c02af793310da6183330c93be8e0a21052d82eddbf82a2669f526a
+Building boost-dynamic-bitset:x64-windows@1.90.0#1...
+-- Using cached boostorg-dynamic_bitset-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-dynamic-bitset/src/ost-1.90.0-6ac32da3f3.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-dynamic_bitset-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-dynamic-bitset/src/ost-1.90.0-6ac32da3f3.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-dynamic-bitset_x64-windows/share/boost-dynamic-bitset/copyright
+-- Performing post-build validation
+Starting submission of boost-dynamic-bitset:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-dynamic-bitset:x64-windows: 2.6 s
+Completed submission of brotli:x64-windows@1.2.0 to 1 binary cache(s) in 236 ms
+Installing 9/71 boost-random:x64-windows@1.90.0#1...
+boost-random:x64-windows@1.90.0#1 package ABI: ebd49c62fd69f9a6b84a29984639cff146f4fb77ffdfe558fde6ad2d9fb259c5
+Building boost-random:x64-windows@1.90.0#1...
+-- Using cached boostorg-random-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-random/src/ost-1.90.0-db7f8c6578.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-random-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-random/src/ost-1.90.0-db7f8c6578.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-random_x64-windows/share/boost-random/copyright
+-- Performing post-build validation
+Starting submission of boost-random:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-random:x64-windows: 7.8 s
+Completed submission of boost-dynamic-bitset:x64-windows@1.90.0#1 to 1 binary cache(s) in 70.3 ms
+Installing 10/71 boost-math:x64-windows@1.90.0#1...
+boost-math:x64-windows@1.90.0#1 package ABI: 375ffe63466ec2e0290de6e3e09f17e3be49b9d005813bc85b8cab0fde48e3f2
+Building boost-math:x64-windows@1.90.0#1...
+-- Using cached boostorg-math-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-math/src/ost-1.90.0-1dbdd65e9e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-math-boost-1.90.0.tar.gz
+-- Applying patch build-old-libs.patch
+-- Applying patch opt-random.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-math/src/ost-1.90.0-1dbdd65e9e.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-math_x64-windows/share/boost-math/copyright
+-- Performing post-build validation
+Starting submission of boost-math:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-math:x64-windows: 33 s
+Completed submission of boost-random:x64-windows@1.90.0#1 to 1 binary cache(s) in 198 ms
+Installing 11/71 boost-multiprecision:x64-windows@1.90.0#1...
+boost-multiprecision:x64-windows@1.90.0#1 package ABI: d5d13a76afe63fc3d1a0fddbac0e0e29d2a8603f00c8184732840b3623916453
+Building boost-multiprecision:x64-windows@1.90.0#1...
+-- Using cached boostorg-multiprecision-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-multiprecision/src/ost-1.90.0-7519abcdc8.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-multiprecision-boost-1.90.0.tar.gz
+-- Applying patch optional-random.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-multiprecision/src/ost-1.90.0-7519abcdc8.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-multiprecision_x64-windows/share/boost-multiprecision/copyright
+-- Performing post-build validation
+Starting submission of boost-multiprecision:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-multiprecision:x64-windows: 8.5 s
+Completed submission of boost-math:x64-windows@1.90.0#1 to 1 binary cache(s) in 198 ms
+Installing 12/71 boost-scope:x64-windows@1.90.0#1...
+boost-scope:x64-windows@1.90.0#1 package ABI: db48c227bc2327aaffdb48961ab18475faa57c37c909eea8d0006cd688423d80
+Building boost-scope:x64-windows@1.90.0#1...
+-- Using cached boostorg-scope-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-scope/src/ost-1.90.0-1fecf12bbb.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-scope-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-scope/src/ost-1.90.0-1fecf12bbb.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-scope_x64-windows/share/boost-scope/copyright
+-- Performing post-build validation
+Starting submission of boost-scope:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-scope:x64-windows: 3.2 s
+Completed submission of boost-multiprecision:x64-windows@1.90.0#1 to 1 binary cache(s) in 93.7 ms
+Installing 13/71 boost-filesystem:x64-windows@1.90.0#1...
+boost-filesystem:x64-windows@1.90.0#1 package ABI: 09185a37a10c6717677e8dea966f5d78e0f65126c64c7f8a1c354e7c7ffdf461
+Building boost-filesystem:x64-windows@1.90.0#1...
+-- Using cached boostorg-filesystem-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-filesystem/src/ost-1.90.0-abc69df93d.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-filesystem-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-filesystem/src/ost-1.90.0-abc69df93d.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-filesystem_x64-windows/share/boost-filesystem/copyright
+-- Performing post-build validation
+Starting submission of boost-filesystem:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-filesystem:x64-windows: 13 s
+Completed submission of boost-scope:x64-windows@1.90.0#1 to 1 binary cache(s) in 77 ms
+Installing 14/71 arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1...
+arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1 package ABI: 8bd26dfe4174823bc20c20c345e1e535bcc96fb5df6adf562a9ec0abfa481aa6
+Building arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1...
+-- Using cached apache-arrow-23.0.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/arrow/src/e-arrow-23-fd16484a3e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/apache-arrow-23.0.1.tar.gz
+-- Applying patch 0001-msvc-static-name.patch
+-- Applying patch 0003-android-musl.patch
+-- Applying patch 0004-android-datetime.patch
+-- Applying patch 0005-cmake-msvcruntime.patch
+-- Applying patch 0007-use-vcpkg-mimalloc.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/arrow/src/e-arrow-23-fd16484a3e.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/lib/pkgconfig/arrow-csv.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/lib/pkgconfig/arrow-filesystem.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/lib/pkgconfig/arrow-flight.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/lib/pkgconfig/arrow-json.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/lib/pkgconfig/arrow.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/lib/pkgconfig/parquet.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/debug/lib/pkgconfig/arrow-csv.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/debug/lib/pkgconfig/arrow-filesystem.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/debug/lib/pkgconfig/arrow-flight.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/debug/lib/pkgconfig/arrow-json.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/debug/lib/pkgconfig/arrow.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/debug/lib/pkgconfig/parquet.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/share/arrow/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/arrow_x64-windows/share/arrow/copyright
+-- Performing post-build validation
+Starting submission of arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1 to 1 binary cache(s) in the background
+Elapsed time to handle arrow:x64-windows: 8.2 min
+Completed submission of boost-filesystem:x64-windows@1.90.0#1 to 1 binary cache(s) in 410 ms
+Installing 15/71 benchmark:x64-windows@1.9.5...
+benchmark:x64-windows@1.9.5 package ABI: f022e42391a3947f99db19961ac649dc6db88141d44599b7435bb5177b0dcd79
+Building benchmark:x64-windows@1.9.5...
+-- Using cached google-benchmark-v1.9.5.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/benchmark/src/v1.9.5-9eabe990b8.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-benchmark-v1.9.5.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/benchmark/src/v1.9.5-9eabe990b8.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/benchmark_x64-windows/lib/pkgconfig/benchmark.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/benchmark_x64-windows/lib/pkgconfig/benchmark_main.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/benchmark_x64-windows/debug/lib/pkgconfig/benchmark.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/benchmark_x64-windows/debug/lib/pkgconfig/benchmark_main.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/benchmark_x64-windows/share/benchmark/copyright
+-- Performing post-build validation
+Starting submission of benchmark:x64-windows@1.9.5 to 1 binary cache(s) in the background
+Elapsed time to handle benchmark:x64-windows: 22 s
+Installing 16/71 boost-pool:x64-windows@1.90.0#1...
+boost-pool:x64-windows@1.90.0#1 package ABI: 63ec08b635e30213c945f12ff9044ddd3fa987bd330d5cf7a43609a79910ee07
+Building boost-pool:x64-windows@1.90.0#1...
+-- Using cached boostorg-pool-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-pool/src/ost-1.90.0-aa847279a9.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-pool-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-pool/src/ost-1.90.0-aa847279a9.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-pool_x64-windows/share/boost-pool/copyright
+-- Performing post-build validation
+Starting submission of boost-pool:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-pool:x64-windows: 3.4 s
+Installing 17/71 boost-context:x64-windows@1.90.0#1...
+boost-context:x64-windows@1.90.0#1 package ABI: cdb81997828d32bd46cbf9d77dde8fe4bc228d914cefae98956e2da29f4cc750
+Building boost-context:x64-windows@1.90.0#1...
+-- Using cached boostorg-context-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-context/src/ost-1.90.0-839325c354.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-context-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-context/src/ost-1.90.0-839325c354.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-context_x64-windows/share/boost-context/copyright
+-- Performing post-build validation
+Starting submission of boost-context:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-context:x64-windows: 7.9 s
+Installing 18/71 boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1...
+boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1 package ABI: 4fd150ff981b23015237042e34f3e16e0283943a93964773f7bbed6b3d52ac95
+Building boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1...
+-- Using cached boostorg-asio-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-asio/src/ost-1.90.0-e2c2359ce3.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-asio-boost-1.90.0.tar.gz
+-- Applying patch 0001-add-options.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-asio/src/ost-1.90.0-e2c2359ce3.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-asio_x64-windows/share/boost-asio/copyright
+-- Performing post-build validation
+Starting submission of boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-asio:x64-windows: 13 s
+Completed submission of arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1 to 1 binary cache(s) in 36 s
+Completed submission of benchmark:x64-windows@1.9.5 to 1 binary cache(s) in 782 ms
+Completed submission of boost-pool:x64-windows@1.90.0#1 to 1 binary cache(s) in 85.4 ms
+Completed submission of boost-context:x64-windows@1.90.0#1 to 1 binary cache(s) in 145 ms
+Installing 19/71 boost-type-index:x64-windows@1.90.0#1...
+boost-type-index:x64-windows@1.90.0#1 package ABI: 5a6c6c37736bfc04503ecc2fce6951994cf3f7688b8f6003f2354fb300289fe4
+Building boost-type-index:x64-windows@1.90.0#1...
+-- Using cached boostorg-type_index-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-type-index/src/ost-1.90.0-3a11281bf8.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-type_index-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-type-index/src/ost-1.90.0-3a11281bf8.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-type-index_x64-windows/share/boost-type-index/copyright
+-- Performing post-build validation
+Starting submission of boost-type-index:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-type-index:x64-windows: 2.8 s
+Completed submission of boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1 to 1 binary cache(s) in 183 ms
+Installing 20/71 boost-static-string:x64-windows@1.90.0#1...
+boost-static-string:x64-windows@1.90.0#1 package ABI: 0024c6b8f102b7d273a0911086777653fa097049efead67cd568d7a4e7283cf4
+Building boost-static-string:x64-windows@1.90.0#1...
+-- Using cached boostorg-static_string-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-static-string/src/ost-1.90.0-ab4d190c4f.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-static_string-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-static-string/src/ost-1.90.0-ab4d190c4f.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-static-string_x64-windows/share/boost-static-string/copyright
+-- Performing post-build validation
+Starting submission of boost-static-string:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-static-string:x64-windows: 2.7 s
+Completed submission of boost-type-index:x64-windows@1.90.0#1 to 1 binary cache(s) in 68.2 ms
+Installing 21/71 boost-logic:x64-windows@1.90.0#1...
+boost-logic:x64-windows@1.90.0#1 package ABI: 10c68eb322da38fad69b40d7cc837dddd8af1800570ef14916e13f6f229251a2
+Building boost-logic:x64-windows@1.90.0#1...
+-- Using cached boostorg-logic-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-logic/src/ost-1.90.0-0b1e434cf7.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-logic-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-logic/src/ost-1.90.0-0b1e434cf7.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-logic_x64-windows/share/boost-logic/copyright
+-- Performing post-build validation
+Starting submission of boost-logic:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-logic:x64-windows: 3 s
+Completed submission of boost-static-string:x64-windows@1.90.0#1 to 1 binary cache(s) in 73.6 ms
+Installing 22/71 boost-endian:x64-windows@1.90.0#1...
+boost-endian:x64-windows@1.90.0#1 package ABI: 54b368221c3c3a20348f3dc2d08ba33f00343ff3141c3ba79fc51222c9e1a64d
+Building boost-endian:x64-windows@1.90.0#1...
+-- Using cached boostorg-endian-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-endian/src/ost-1.90.0-ca22f680df.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-endian-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-endian/src/ost-1.90.0-ca22f680df.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-endian_x64-windows/share/boost-endian/copyright
+-- Performing post-build validation
+Starting submission of boost-endian:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-endian:x64-windows: 3.1 s
+Completed submission of boost-logic:x64-windows@1.90.0#1 to 1 binary cache(s) in 60 ms
+Installing 23/71 boost-beast:x64-windows@1.90.0#1...
+boost-beast:x64-windows@1.90.0#1 package ABI: 0ab8d52fe54be34c528efb4e4064af14f0501b521522a6598c57d7c67164570c
+Building boost-beast:x64-windows@1.90.0#1...
+-- Using cached boostorg-beast-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-beast/src/ost-1.90.0-8e91329952.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-beast-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-beast/src/ost-1.90.0-8e91329952.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-beast_x64-windows/share/boost-beast/copyright
+-- Performing post-build validation
+Starting submission of boost-beast:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-beast:x64-windows: 8.8 s
+Completed submission of boost-endian:x64-windows@1.90.0#1 to 1 binary cache(s) in 75.7 ms
+Installing 24/71 boost-url:x64-windows@1.90.0#1...
+boost-url:x64-windows@1.90.0#1 package ABI: 443e14af6e4ec27a232c960f108f006d8416ed5b1aaae9f60ca5e69c567d958a
+Building boost-url:x64-windows@1.90.0#1...
+-- Using cached boostorg-url-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-url/src/ost-1.90.0-7b1d58c50e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-url-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-url/src/ost-1.90.0-7b1d58c50e.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-url_x64-windows/share/boost-url/copyright
+-- Performing post-build validation
+Starting submission of boost-url:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-url:x64-windows: 25 s
+Completed submission of boost-beast:x64-windows@1.90.0#1 to 1 binary cache(s) in 124 ms
+Installing 25/71 boost-variant:x64-windows@1.90.0#1...
+boost-variant:x64-windows@1.90.0#1 package ABI: bcf3bc1da0ed8ca8cc9fab8e4902542de13d38d3f6e989585185b6f0e12fe143
+Building boost-variant:x64-windows@1.90.0#1...
+-- Using cached boostorg-variant-boost-1.90.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-variant/src/ost-1.90.0-af54e8c1f6.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/boostorg-variant-boost-1.90.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/boost-variant/src/ost-1.90.0-af54e8c1f6.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/boost-variant_x64-windows/share/boost-variant/copyright
+-- Performing post-build validation
+Starting submission of boost-variant:x64-windows@1.90.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle boost-variant:x64-windows: 3.8 s
+Completed submission of boost-url:x64-windows@1.90.0#1 to 1 binary cache(s) in 1 s
+Installing 26/71 cpp-httplib:x64-windows@0.36.0...
+cpp-httplib:x64-windows@0.36.0 package ABI: a5e7659ee7e54b4c9b87d764c5a9c2b0735176d808b5a2e398e8af515de1f816
+Building cpp-httplib:x64-windows@0.36.0...
+C:\Projects\ThemisDB\ports\cpp-httplib: info: installing overlay port from here
+-- Using cached yhirose-cpp-httplib-v0.36.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/cpp-httplib/src/v0.36.0-efaa68b073.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/yhirose-cpp-httplib-v0.36.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/cpp-httplib/src/v0.36.0-efaa68b073.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/cpp-httplib_x64-windows/share/cpp-httplib/copyright
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/cpp-httplib_x64-windows/share/cpp-httplib/usage
+-- Performing post-build validation
+Starting submission of cpp-httplib:x64-windows@0.36.0 to 1 binary cache(s) in the background
+Elapsed time to handle cpp-httplib:x64-windows: 4.6 s
+Completed submission of boost-variant:x64-windows@1.90.0#1 to 1 binary cache(s) in 77.4 ms
+Installing 27/71 crc32c:x64-windows@1.1.2#2...
+crc32c:x64-windows@1.1.2#2 package ABI: dcefce85c3df806ed1145c636d377adc1a94fa821a46b4b2e191a980c83370bd
+Building crc32c:x64-windows@1.1.2#2...
+-- Note: crc32c only supports static library linkage. Building static library.
+-- Using cached google-crc32c-1.1.2.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/crc32c/src/1.1.2-4f3704abd0.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-crc32c-1.1.2.tar.gz
+-- Applying patch fix_clang-cl.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/crc32c/src/1.1.2-4f3704abd0.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/crc32c_x64-windows/share/crc32c/copyright
+-- Performing post-build validation
+Starting submission of crc32c:x64-windows@1.1.2#2 to 1 binary cache(s) in the background
+Elapsed time to handle crc32c:x64-windows: 8 s
+Completed submission of cpp-httplib:x64-windows@0.36.0 to 1 binary cache(s) in 138 ms
+Installing 28/71 curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1...
+curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1 package ABI: cbe57cbcf4faf3035f89f99c399c37cb16f4fec0adcbed6ed1e244449daf3797
+Building curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1...
+-- Using cached curl-curl-curl-8_18_0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/curl/src/url-8_18_0-c0c48377da.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/curl-curl-curl-8_18_0.tar.gz
+-- Applying patch dependencies.patch
+-- Applying patch winsock.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/curl/src/url-8_18_0-c0c48377da.clean
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/curl_x64-windows/lib/pkgconfig/libcurl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/curl_x64-windows/debug/lib/pkgconfig/libcurl.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/curl_x64-windows/share/curl/vcpkg-cmake-wrapper.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/curl_x64-windows/share/curl/usage
+-- Performing post-build validation
+Starting submission of curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle curl:x64-windows: 37 s
+Completed submission of crc32c:x64-windows@1.1.2#2 to 1 binary cache(s) in 87.1 ms
+Installing 29/71 openblas:x64-windows@0.3.29...
+openblas:x64-windows@0.3.29 package ABI: d33df74f5ce4b777b8763f239a59f2b303e37c9f68fc97e80da5ccf5fa7e706d
+Building openblas:x64-windows@0.3.29...
+-- Using cached OpenMathLib-OpenBLAS-v0.3.29.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/openblas/src/v0.3.29-abfa9cf6a4.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/OpenMathLib-OpenBLAS-v0.3.29.tar.gz
+-- Applying patch disable-testing.diff
+-- Applying patch getarch.diff
+-- Applying patch system-check-msvc.diff
+-- Applying patch win32-uwp.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/openblas/src/v0.3.29-abfa9cf6a4.clean
+-- OpenBLAS native build
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openblas_x64-windows/lib/pkgconfig/openblas.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openblas_x64-windows/debug/lib/pkgconfig/openblas.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/openblas_x64-windows/share/openblas/copyright
+-- Performing post-build validation
+Starting submission of openblas:x64-windows@0.3.29 to 1 binary cache(s) in the background
+Elapsed time to handle openblas:x64-windows: 4.3 min
+Completed submission of curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1 to 1 binary cache(s) in 449 ms
+Installing 30/71 blas:x64-windows@2023-04-14#5...
+blas:x64-windows@2023-04-14#5 package ABI: 0b113c075eaa317f44609f180641368f14b6d1c66eb7ebfa6980f5b16d4f171d
+Building blas:x64-windows@2023-04-14#5...
+-- Skipping post-build validation due to VCPKG_POLICY_EMPTY_PACKAGE
+Starting submission of blas:x64-windows@2023-04-14#5 to 1 binary cache(s) in the background
+Elapsed time to handle blas:x64-windows: 205 ms
+Installing 31/71 vcpkg-gfortran:x64-windows@3#3...
+vcpkg-gfortran:x64-windows@3#3 package ABI: 0df8a721480f49e28dde5553825f34ba68a0a4fc525a4d22d53112052990e151
+Building vcpkg-gfortran:x64-windows@3#3...
+-- The Fortran compiler identification is unknown
+-- No Fortran compiler found on the PATH. Using MinGW gfortran!
+-- Using cached msys2-mingw-w64-x86_64-gcc-fortran-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gcc-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gcc-libgfortran-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gcc-libs-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gmp-6.3.0-2-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-isl-0.27-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-libwinpthread-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-mpc-1.3.1-2-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-mpfr-4.2.2-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-zlib-1.3.1-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-zstd-1.5.7-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-binutils-2.45.1-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-crt-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-headers-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-windows-default-manifest-6.4-4-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-winpthreads-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gettext-runtime-0.26-2-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-libiconv-1.18-1-any.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/9cd76c9c31f4f931
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-gfortran_x64-windows/share/vcpkg-gfortran/copyright
+-- Performing post-build validation
+Starting submission of vcpkg-gfortran:x64-windows@3#3 to 1 binary cache(s) in the background
+Elapsed time to handle vcpkg-gfortran:x64-windows: 1.5 s
+Completed submission of openblas:x64-windows@0.3.29 to 1 binary cache(s) in 1.4 s
+Completed submission of blas:x64-windows@2023-04-14#5 to 1 binary cache(s) in 55.1 ms
+Installing 32/71 lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2...
+lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2 package ABI: 19f225cd953d899fcbaf59b8f809b684007bc1c2be7217f9cde12789dab3e219
+Building lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2...
+-- Using cached Reference-LAPACK-lapack-v3.12.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/lapack-reference/src/v3.12.1-204dab315c.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/Reference-LAPACK-lapack-v3.12.1.tar.gz
+-- Applying patch cmake-config.patch
+-- Applying patch fix_prefix.patch
+-- Applying patch implicit-link.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/lapack-reference/src/v3.12.1-204dab315c.clean
+-- The Fortran compiler identification is unknown
+-- No Fortran compiler found on the PATH. Using MinGW gfortran!
+-- Using cached msys2-mingw-w64-x86_64-gcc-fortran-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gcc-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gcc-libgfortran-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gcc-libs-15.2.0-8-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gmp-6.3.0-2-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-isl-0.27-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-libwinpthread-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-mpc-1.3.1-2-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-mpfr-4.2.2-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-zlib-1.3.1-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-zstd-1.5.7-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-binutils-2.45.1-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-crt-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-headers-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-windows-default-manifest-6.4-4-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-winpthreads-13.0.0.r391.g848cce552-1-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-gettext-runtime-0.26-2-any.pkg.tar.zst
+-- Using cached msys2-mingw-w64-x86_64-libiconv-1.18-1-any.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/9cd76c9c31f4f931
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/lapack-reference_x64-windows/lib/pkgconfig/lapack.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/lapack-reference_x64-windows/debug/lib/pkgconfig/lapack.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/lapack-reference_x64-windows/share/lapack-reference/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/lapack-reference_x64-windows/share/lapack-reference/copyright
+-- Performing post-build validation
+Starting submission of lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2 to 1 binary cache(s) in the background
+Elapsed time to handle lapack-reference:x64-windows: 11 min
+Completed submission of vcpkg-gfortran:x64-windows@3#3 to 1 binary cache(s) in 429 ms
+Installing 33/71 lapack:x64-windows@2023-06-10#3...
+lapack:x64-windows@2023-06-10#3 package ABI: 34520b3e16c122e81c29da9b9f42097bb2c26a53db0c8cd6041e9389e9d6b932
+Building lapack:x64-windows@2023-06-10#3...
+-- Skipping post-build validation due to VCPKG_POLICY_EMPTY_PACKAGE
+Starting submission of lapack:x64-windows@2023-06-10#3 to 1 binary cache(s) in the background
+Elapsed time to handle lapack:x64-windows: 197 ms
+Installing 34/71 faiss:x64-windows@1.13.2...
+faiss:x64-windows@1.13.2 package ABI: d491d4e783ec511613cbd0c273807007037fcaae5fd133a045b3cabe2ebfe111
+Building faiss:x64-windows@1.13.2...
+C:\Projects\ThemisDB\ports\faiss: info: installing overlay port from here
+-- Using cached facebookresearch-faiss-v1.13.2.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/faiss/src/v1.13.2-f7f676de11.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/facebookresearch-faiss-v1.13.2.tar.gz
+-- Applying patch msvc-template.diff
+-- Applying patch undef-small.diff
+-- Applying patch fix-lapack-detect.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/faiss/src/v1.13.2-f7f676de11.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/faiss_x64-windows/share/faiss/copyright
+-- Performing post-build validation
+Starting submission of faiss:x64-windows@1.13.2 to 1 binary cache(s) in the background
+Elapsed time to handle faiss:x64-windows: 1.4 min
+Completed submission of lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2 to 1 binary cache(s) in 1.7 s
+Completed submission of lapack:x64-windows@2023-06-10#3 to 1 binary cache(s) in 64.3 ms
+Installing 35/71 gtest:x64-windows@1.17.0#2...
+gtest:x64-windows@1.17.0#2 package ABI: 3f35c78aed2cbd8885604b9e7179319805610431c31dc41959001540fce66c11
+Building gtest:x64-windows@1.17.0#2...
+-- Using cached google-googletest-v1.17.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/gtest/src/v1.17.0-0c449efaff.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-googletest-v1.17.0.tar.gz
+-- Applying patch 001-fix-UWP-death-test.patch
+-- Applying patch clang-tidy-no-lint.patch
+-- Applying patch fix-main-lib-path.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/gtest/src/v1.17.0-0c449efaff.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest_main.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-all.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-assertion-result.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-death-test.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-filepath.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-internal-inl.h
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-matchers.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-port.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-printers.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-test-part.cc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/src/gtest-typed-test.cc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/lib/pkgconfig/gmock.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/lib/pkgconfig/gmock_main.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/lib/pkgconfig/gtest.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/lib/pkgconfig/gtest_main.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/debug/lib/pkgconfig/gmock.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/debug/lib/pkgconfig/gmock_main.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/debug/lib/pkgconfig/gtest.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/debug/lib/pkgconfig/gtest_main.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/share/gtest/copyright
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/gtest_x64-windows/share/gtest/usage
+-- Performing post-build validation
+Starting submission of gtest:x64-windows@1.17.0#2 to 1 binary cache(s) in the background
+Elapsed time to handle gtest:x64-windows: 20 s
+Completed submission of faiss:x64-windows@1.13.2 to 1 binary cache(s) in 3.5 s
+Installing 36/71 hnswlib:x64-windows@0.8.0...
+hnswlib:x64-windows@0.8.0 package ABI: d09b9ee508d48c8796dc5a548c0d92c3c71f53e3fdf1a70bf4652e21c10b753f
+Building hnswlib:x64-windows@0.8.0...
+-- Using cached nmslib-hnswlib-v0.8.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/hnswlib/src/v0.8.0-46bb00d658.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/nmslib-hnswlib-v0.8.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/hnswlib/src/v0.8.0-46bb00d658.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/hnswlib_x64-windows/share/hnswlib/copyright
+-- Performing post-build validation
+Starting submission of hnswlib:x64-windows@0.8.0 to 1 binary cache(s) in the background
+Elapsed time to handle hnswlib:x64-windows: 2.6 s
+Completed submission of gtest:x64-windows@1.17.0#2 to 1 binary cache(s) in 1.1 s
+Installing 37/71 libzip[bzip2,core,default-aes]:x64-windows@1.11.4...
+libzip[bzip2,core,default-aes]:x64-windows@1.11.4 package ABI: 0159e36a6a59e240ab4dd8f86b9957c21dc0add28c374637433b15a9e1363484
+Building libzip[bzip2,core,default-aes]:x64-windows@1.11.4...
+-- Using cached nih-at-libzip-v1.11.4.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/libzip/src/v1.11.4-05742a9dee.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/nih-at-libzip-v1.11.4.tar.gz
+-- Applying patch config-vars.diff
+-- Applying patch dependencies.diff
+-- Applying patch use-requires.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/libzip/src/v1.11.4-05742a9dee.clean
+-- Selecting the system AES backend.
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/libzip_x64-windows/lib/pkgconfig/libzip.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/libzip_x64-windows/debug/lib/pkgconfig/libzip.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/libzip_x64-windows/share/libzip/copyright
+-- Performing post-build validation
+Starting submission of libzip[bzip2,core,default-aes]:x64-windows@1.11.4 to 1 binary cache(s) in the background
+Elapsed time to handle libzip:x64-windows: 57 s
+Completed submission of hnswlib:x64-windows@0.8.0 to 1 binary cache(s) in 68.9 ms
+Installing 38/71 msgpack:x64-windows@7.0.0...
+msgpack:x64-windows@7.0.0 package ABI: a555f963f8ef6f764f51f3c0415121dcabfd154494286f7995184f795cbe89e9
+Building msgpack:x64-windows@7.0.0...
+-- Using cached msgpack-msgpack-c-cpp-7.0.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/msgpack/src/cpp-7.0.0-1db566b272.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/msgpack-msgpack-c-cpp-7.0.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/msgpack/src/cpp-7.0.0-1db566b272.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/msgpack_x64-windows/share/msgpack/copyright
+-- Performing post-build validation
+Starting submission of msgpack:x64-windows@7.0.0 to 1 binary cache(s) in the background
+Elapsed time to handle msgpack:x64-windows: 14 s
+Completed submission of libzip[bzip2,core,default-aes]:x64-windows@1.11.4 to 1 binary cache(s) in 208 ms
+Installing 39/71 nlohmann-json:x64-windows@3.12.0#2...
+nlohmann-json:x64-windows@3.12.0#2 package ABI: e6595b5b652d6e4ecf0981abb6995751cd5dd5d9af1134da33183d6a5ca9647d
+Building nlohmann-json:x64-windows@3.12.0#2...
+-- Using cached nlohmann-json-v3.12.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/nlohmann-json/src/v3.12.0-89fed620e6.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/nlohmann-json-v3.12.0.tar.gz
+-- Applying patch fix-4736_char8_t.patch
+-- Applying patch fix-4742_std_optional.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/nlohmann-json/src/v3.12.0-89fed620e6.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/nlohmann-json_x64-windows/share/pkgconfig/nlohmann_json.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/nlohmann-json_x64-windows/debug/share/pkgconfig/nlohmann_json.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/nlohmann-json_x64-windows/share/nlohmann-json/copyright
+-- Performing post-build validation
+Starting submission of nlohmann-json:x64-windows@3.12.0#2 to 1 binary cache(s) in the background
+Elapsed time to handle nlohmann-json:x64-windows: 8.3 s
+Completed submission of msgpack:x64-windows@7.0.0 to 1 binary cache(s) in 246 ms
+Installing 40/71 wil:x64-windows@1.0.260126.7...
+wil:x64-windows@1.0.260126.7 package ABI: a403cdca2bd83da64ee578b6df3b6dfc906aefbe4138d87cd08525b2436643e7
+Building wil:x64-windows@1.0.260126.7...
+-- Using cached Microsoft-wil-v1.0.260126.7.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/wil/src/0.260126.7-f396d2605e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/Microsoft-wil-v1.0.260126.7.tar.gz
+-- Applying patch cpp14.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/wil/src/0.260126.7-f396d2605e.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Up-to-date: C:/Projects/ThemisDB/vcpkg/packages/wil_x64-windows/share/wil/natvis
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/wil_x64-windows/share/wil/natvis/wil.natstepfilter
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/wil_x64-windows/share/wil/natvis/wil.natvis
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/wil_x64-windows/share/wil/copyright
+-- Performing post-build validation
+Starting submission of wil:x64-windows@1.0.260126.7 to 1 binary cache(s) in the background
+Elapsed time to handle wil:x64-windows: 7.4 s
+Completed submission of nlohmann-json:x64-windows@3.12.0#2 to 1 binary cache(s) in 98.6 ms
+Installing 41/71 safeint:x64-windows@3.0.28...
+safeint:x64-windows@3.0.28 package ABI: e0c4487bf3bf4849e81591422dc2045c4c6dd1708c803a490dceb8e840aec392
+Building safeint:x64-windows@3.0.28...
+-- Using cached dcleblanc-SafeInt-3.0.28.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/safeint/src/3.0.28-7553cf1616.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/dcleblanc-SafeInt-3.0.28.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/safeint/src/3.0.28-7553cf1616.clean
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/safeint_x64-windows/include/SafeInt.hpp
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/safeint_x64-windows/share/safeint/copyright
+-- Performing post-build validation
+Starting submission of safeint:x64-windows@3.0.28 to 1 binary cache(s) in the background
+Elapsed time to handle safeint:x64-windows: 1.1 s
+Completed submission of wil:x64-windows@1.0.260126.7 to 1 binary cache(s) in 111 ms
+Installing 42/71 optional-lite:x64-windows@3.6.0...
+optional-lite:x64-windows@3.6.0 package ABI: 2220ef84a13d59ed9df9c0a028d1a75b387cbea1b7c07b3c9ac01b02fab39295
+Building optional-lite:x64-windows@3.6.0...
+-- Using cached martinmoene-optional-lite-v3.6.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/optional-lite/src/v3.6.0-80d978c1dd.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/martinmoene-optional-lite-v3.6.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/optional-lite/src/v3.6.0-80d978c1dd.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/optional-lite_x64-windows/share/optional-lite/copyright
+-- Performing post-build validation
+Starting submission of optional-lite:x64-windows@3.6.0 to 1 binary cache(s) in the background
+Elapsed time to handle optional-lite:x64-windows: 2.8 s
+Completed submission of safeint:x64-windows@3.0.28 to 1 binary cache(s) in 66.1 ms
+Installing 43/71 onnx:x64-windows@1.19.0...
+onnx:x64-windows@1.19.0 package ABI: 0cc883186a584f31198d9f7477cef934f2af3a6da40d7a6ddea9d6830197e9cb
+Building onnx:x64-windows@1.19.0...
+-- Note: onnx only supports static library linkage. Building static library.
+-- Using cached onnx-onnx-v1.19.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/onnx/src/v1.19.0-c251c1eccc.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/onnx-onnx-v1.19.0.tar.gz
+-- Applying patch fix-cmakelists.patch
+-- Applying patch fix-pr-7390.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/onnx/src/v1.19.0-c251c1eccc.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/onnx_x64-windows/share/onnx/copyright
+-- Performing post-build validation
+Starting submission of onnx:x64-windows@1.19.0 to 1 binary cache(s) in the background
+Elapsed time to handle onnx:x64-windows: 2.4 min
+Completed submission of optional-lite:x64-windows@3.6.0 to 1 binary cache(s) in 59.6 ms
+Installing 44/71 ms-gsl:x64-windows@4.2.1...
+ms-gsl:x64-windows@4.2.1 package ABI: 603d2a5debe62e04d022dc226ab5215cbe7d16c2bc8ed7cbe116794933a608fc
+Building ms-gsl:x64-windows@4.2.1...
+-- Using cached Microsoft-GSL-v4.2.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/ms-gsl/src/v4.2.1-b79d0fdc72.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/Microsoft-GSL-v4.2.1.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/ms-gsl/src/v4.2.1-b79d0fdc72.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/ms-gsl_x64-windows/share/ms-gsl/copyright
+-- Performing post-build validation
+Starting submission of ms-gsl:x64-windows@4.2.1 to 1 binary cache(s) in the background
+Elapsed time to handle ms-gsl:x64-windows: 2.9 s
+Installing 45/71 flatbuffers:x64-windows@25.12.19...
+flatbuffers:x64-windows@25.12.19 package ABI: 924468f7cdfef6ed7113bb469c767e7a42255e1573aee3377487da088581892e
+Building flatbuffers:x64-windows@25.12.19...
+-- Note: flatbuffers only supports static library linkage. Building static library.
+-- Using cached google-flatbuffers-v25.12.19.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/flatbuffers/src/v25.12.19-11c3cd22c1.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-flatbuffers-v25.12.19.tar.gz
+-- Applying patch fix-uwp-build.patch
+-- Applying patch fix-runtime-flags-msvc.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/flatbuffers/src/v25.12.19-11c3cd22c1.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/flatbuffers_x64-windows/lib/pkgconfig/flatbuffers.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/flatbuffers_x64-windows/debug/lib/pkgconfig/flatbuffers.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/flatbuffers_x64-windows/share/flatbuffers/copyright
+-- Performing post-build validation
+Starting submission of flatbuffers:x64-windows@25.12.19 to 1 binary cache(s) in the background
+Elapsed time to handle flatbuffers:x64-windows: 51 s
+Completed submission of onnx:x64-windows@1.19.0 to 1 binary cache(s) in 48 s
+Completed submission of ms-gsl:x64-windows@4.2.1 to 1 binary cache(s) in 139 ms
+Installing 46/71 eigen3:x64-windows@5.0.1...
+eigen3:x64-windows@5.0.1 package ABI: b88ada499fed3fda471891e99db91da10995afacb21856a099db88b6ef2c7ea9
+Building eigen3:x64-windows@5.0.1...
+CMake Warning at scripts/cmake/vcpkg_buildpath_length_warning.cmake:4 (message):
+  eigen3's buildsystem uses very long paths and may fail on your system.
+
+  We recommend moving vcpkg to a short path such as 'C:\src\vcpkg' or using
+  the subst command.
+Call Stack (most recent call first):
+  buildtrees/versioning_/versions/eigen3/d76be65aad61fe24ae3d70c10fca0bd2c592308e/portfile.cmake:1 (vcpkg_buildpath_length_warning)
+  scripts/ports.cmake:206 (include)
+
+
+-- Using cached libeigen-eigen-5.0.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/eigen3/src/5.0.1-d487a628b0.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/libeigen-eigen-5.0.1.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/eigen3/src/5.0.1-d487a628b0.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/eigen3_x64-windows/lib/pkgconfig/eigen3.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/eigen3_x64-windows/debug/lib/pkgconfig/eigen3.pc
+-- Performing post-build validation
+Starting submission of eigen3:x64-windows@5.0.1 to 1 binary cache(s) in the background
+Elapsed time to handle eigen3:x64-windows: 28 s
+Completed submission of flatbuffers:x64-windows@25.12.19 to 1 binary cache(s) in 2.4 s
+Installing 47/71 dlpack:x64-windows@1.3...
+dlpack:x64-windows@1.3 package ABI: 2db360ac6085da7fee2b260afb0435640b1dc58d742039db0f1075727c8a26d1
+Building dlpack:x64-windows@1.3...
+-- Using cached dmlc-dlpack-v1.3.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/dlpack/src/v1.3-b92066b1fc.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/dmlc-dlpack-v1.3.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/dlpack/src/v1.3-b92066b1fc.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/dlpack_x64-windows/share/dlpack/copyright
+-- Performing post-build validation
+Starting submission of dlpack:x64-windows@1.3 to 1 binary cache(s) in the background
+Elapsed time to handle dlpack:x64-windows: 4.9 s
+Completed submission of eigen3:x64-windows@5.0.1 to 1 binary cache(s) in 232 ms
+Installing 48/71 date:x64-windows@3.0.4...
+date:x64-windows@3.0.4 package ABI: c962bd069e329027daa7036ec05931fb2b0ac349849b2667bb6cb1112706c581
+Building date:x64-windows@3.0.4...
+CMake Warning at buildtrees/versioning_/versions/date/b5a0767b047cd12d9949cb1facb0f72c5d0ddf9f/portfile.cmake:2 (message):
+  You will need to also install
+  https://raw.githubusercontent.com/unicode-org/cldr/master/common/supplemental/windowsZones.xml
+  into your install location.
+
+  See https://howardhinnant.github.io/date/tz.html
+Call Stack (most recent call first):
+  scripts/ports.cmake:206 (include)
+
+
+-- Using cached HowardHinnant-date-v3.0.4.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/date/src/v3.0.4-29cb71cad1.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/HowardHinnant-date-v3.0.4.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/date/src/v3.0.4-29cb71cad1.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/date_x64-windows/share/date/copyright
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/date_x64-windows/share/date/usage
+-- Performing post-build validation
+Starting submission of date:x64-windows@3.0.4 to 1 binary cache(s) in the background
+Elapsed time to handle date:x64-windows: 11 s
+Completed submission of dlpack:x64-windows@1.3 to 1 binary cache(s) in 62.3 ms
+Installing 49/71 cxxopts:x64-windows@3.3.1#1...
+cxxopts:x64-windows@3.3.1#1 package ABI: 252199e28ed7f2aa3156cc79df9f72a38a784948c944bcb7bee2cdd06b08d594
+Building cxxopts:x64-windows@3.3.1#1...
+-- Using cached jarro2783-cxxopts-v3.3.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/cxxopts/src/v3.3.1-4f9ad96ab2.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/jarro2783-cxxopts-v3.3.1.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/cxxopts/src/v3.3.1-4f9ad96ab2.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/cxxopts_x64-windows/share/pkgconfig/cxxopts.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/cxxopts_x64-windows/share/cxxopts/copyright
+-- Performing post-build validation
+Starting submission of cxxopts:x64-windows@3.3.1#1 to 1 binary cache(s) in the background
+Elapsed time to handle cxxopts:x64-windows: 2.3 s
+Completed submission of date:x64-windows@3.0.4 to 1 binary cache(s) in 405 ms
+Installing 50/71 cpuinfo:x64-windows@2025-09-06...
+cpuinfo:x64-windows@2025-09-06 package ABI: 35f75b5a8d01fe2d4cf5e76f34305d11eb775668f8d105027abace12324b95f8
+Building cpuinfo:x64-windows@2025-09-06...
+-- Note: cpuinfo only supports static library linkage. Building static library.
+-- Using cached pytorch-cpuinfo-877328f188a3c7d1fa855871a278eb48d530c4c0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/cpuinfo/src/48d530c4c0-352a6a7b64.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/pytorch-cpuinfo-877328f188a3c7d1fa855871a278eb48d530c4c0.tar.gz
+-- Applying patch add-clog-cmake.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/cpuinfo/src/48d530c4c0-352a6a7b64.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/cpuinfo_x64-windows/lib/pkgconfig/libcpuinfo.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/cpuinfo_x64-windows/debug/lib/pkgconfig/libcpuinfo.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/cpuinfo_x64-windows/share/cpuinfo/copyright
+-- Performing post-build validation
+Starting submission of cpuinfo:x64-windows@2025-09-06 to 1 binary cache(s) in the background
+Elapsed time to handle cpuinfo:x64-windows: 8.7 s
+Completed submission of cxxopts:x64-windows@3.3.1#1 to 1 binary cache(s) in 60.1 ms
+Installing 51/71 onnxruntime:x64-windows@1.23.2...
+onnxruntime:x64-windows@1.23.2 package ABI: 38f019421584a2d4cc9de8535a5afb4f6b543eee3b93d31f7d72ffe5c815476e
+Building onnxruntime:x64-windows@1.23.2...
+CMake Warning at buildtrees/versioning_/versions/onnxruntime/7391737791bbf21b648ab4e95521f31fdf502d59/portfile.cmake:2 (message):
+  The port requires 'onnx' port build with CMake option
+  ONNX_DISABLE_STATIC_REGISTRATION=ON
+Call Stack (most recent call first):
+  scripts/ports.cmake:206 (include)
+
+
+-- Using cached microsoft-onnxruntime-v1.23.2.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/onnxruntime/src/v1.23.2-58f875a967.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/microsoft-onnxruntime-v1.23.2.tar.gz
+-- Applying patch fix-cmake.patch
+-- Applying patch fix-cmake-cuda.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/onnxruntime/src/v1.23.2-58f875a967.clean
+-- Using protoc: C:/Projects/ThemisDB/vcpkg_installed/x64-windows/tools/protobuf/protoc.exe
+-- Using flatc: C:/Projects/ThemisDB/vcpkg_installed/x64-windows/tools/flatbuffers/flatc.exe
+-- Using python3: C:/Projects/ThemisDB/vcpkg/downloads/tools/python/python-3.14.2-x64-1/python.exe
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/onnxruntime_x64-windows/lib/pkgconfig/libonnxruntime.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/onnxruntime_x64-windows/debug/lib/pkgconfig/libonnxruntime.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/onnxruntime_x64-windows/share/onnxruntime/copyright
+-- Performing post-build validation
+Starting submission of onnxruntime:x64-windows@1.23.2 to 1 binary cache(s) in the background
+Elapsed time to handle onnxruntime:x64-windows: 14 min
+Completed submission of cpuinfo:x64-windows@2025-09-06 to 1 binary cache(s) in 111 ms
+Installing 52/71 opencl:x64-windows@2024.10.24#1...
+opencl:x64-windows@2024.10.24#1 package ABI: f452af8aae7a08dcfe278a637bb2eb086c31dafa10ef075e6b733d4720e65cc7
+Building opencl:x64-windows@2024.10.24#1...
+-- Using cached KhronosGroup-OpenCL-SDK-v2024.10.24.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/2024.10.24-6e62bcacc0.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-OpenCL-SDK-v2024.10.24.tar.gz
+-- Applying patch 001-remove-extra-install-rules.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/2024.10.24-6e62bcacc0.clean
+-- Using cached KhronosGroup-OpenCL-Headers-v2024.10.24.tar.gz
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-OpenCL-Headers-v2024.10.24.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/2024.10.24-af6175c939.clean
+-- Using cached KhronosGroup-OpenCL-CLHPP-v2024.10.24.tar.gz
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-OpenCL-CLHPP-v2024.10.24.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/2024.10.24-77ada63588.clean
+-- Using cached KhronosGroup-OpenCL-ICD-Loader-v2024.10.24.tar.gz
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-OpenCL-ICD-Loader-v2024.10.24.tar.gz
+-- Applying patch icd-loader-pkgconfig.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/2024.10.24-5ed7606c61.clean
+-- Using cached gpakosz-whereami-f5e3eac441acbb4ec1fe3e2c32646248ae463398.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/48ae463398-1023f998ec.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/gpakosz-whereami-f5e3eac441acbb4ec1fe3e2c32646248ae463398.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opencl/src/48ae463398-1023f998ec.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/opencl_x64-windows/lib/pkgconfig/OpenCL.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/opencl_x64-windows/share/pkgconfig/OpenCL-CLHPP.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/opencl_x64-windows/share/pkgconfig/OpenCL-Headers.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/opencl_x64-windows/debug/lib/pkgconfig/OpenCL.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/opencl_x64-windows/debug/share/pkgconfig/OpenCL-CLHPP.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/opencl_x64-windows/debug/share/pkgconfig/OpenCL-Headers.pc
+-- Performing post-build validation
+Starting submission of opencl:x64-windows@2024.10.24#1 to 1 binary cache(s) in the background
+Elapsed time to handle opencl:x64-windows: 19 s
+Installing 53/71 opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0...
+opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0 package ABI: 397aa7ed156c8d4ecf7366440fa597e79db2adb720f69c692c10d86a3aa2440c
+Building opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0...
+-- Note: opentelemetry-cpp only supports static library linkage. Building static library.
+-- Using cached open-telemetry-opentelemetry-cpp-v1.25.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/opentelemetry-cpp/src/v1.25.0-b287a0bd33.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/open-telemetry-opentelemetry-cpp-v1.25.0.tar.gz
+-- Applying patch fix-target_link.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opentelemetry-cpp/src/v1.25.0-b287a0bd33.clean
+-- Using cached opentelemetry-proto-1.8.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/opentelemetry-cpp/src/ry-proto-1-a3a365d6b2.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/opentelemetry-proto-1.8.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/opentelemetry-cpp/src/ry-proto-1-a3a365d6b2.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/opentelemetry-cpp_x64-windows/share/opentelemetry-cpp/copyright
+-- Performing post-build validation
+Starting submission of opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0 to 1 binary cache(s) in the background
+Elapsed time to handle opentelemetry-cpp:x64-windows: 1.8 min
+Completed submission of onnxruntime:x64-windows@1.23.2 to 1 binary cache(s) in 1.2 min
+Completed submission of opencl:x64-windows@2024.10.24#1 to 1 binary cache(s) in 352 ms
+Installing 54/71 civetweb:x64-windows@1.16#2...
+civetweb:x64-windows@1.16#2 package ABI: 51ad5399eb94743ff6cfcde79a68a6e4031826f4d7aa1f2e4afbf223d39892bb
+Building civetweb:x64-windows@1.16#2...
+-- Using cached civetweb-civetweb-v1.16.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/civetweb/src/v1.16-fdc4998d67.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/civetweb-civetweb-v1.16.tar.gz
+-- Applying patch disable_warnings.patch
+-- Applying patch fix-fseeko.patch
+-- Applying patch pkgconfig.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/civetweb/src/v1.16-fdc4998d67.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/civetweb_x64-windows/lib/pkgconfig/civetweb-cpp.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/civetweb_x64-windows/lib/pkgconfig/civetweb.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/civetweb_x64-windows/debug/lib/pkgconfig/civetweb-cpp.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/civetweb_x64-windows/debug/lib/pkgconfig/civetweb.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/civetweb_x64-windows/share/civetweb/copyright
+-- Performing post-build validation
+Starting submission of civetweb:x64-windows@1.16#2 to 1 binary cache(s) in the background
+Elapsed time to handle civetweb:x64-windows: 29 s
+Completed submission of opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0 to 1 binary cache(s) in 18 s
+Installing 55/71 prometheus-cpp[compression,core,pull]:x64-windows@1.3.0...
+prometheus-cpp[compression,core,pull]:x64-windows@1.3.0 package ABI: b9c1e3552da4767435309a9828d6d81dd48e80ff42a1534bcc5b9290bbfae75b
+Building prometheus-cpp[compression,core,pull]:x64-windows@1.3.0...
+-- Note: prometheus-cpp only supports static library linkage. Building static library.
+-- Using cached jupp0r-prometheus-cpp-v1.3.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/prometheus-cpp/src/v1.3.0-483668fd49.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/jupp0r-prometheus-cpp-v1.3.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/prometheus-cpp/src/v1.3.0-483668fd49.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Performing post-build validation
+Starting submission of prometheus-cpp[compression,core,pull]:x64-windows@1.3.0 to 1 binary cache(s) in the background
+Elapsed time to handle prometheus-cpp:x64-windows: 11 s
+Completed submission of civetweb:x64-windows@1.16#2 to 1 binary cache(s) in 201 ms
+Installing 56/71 pugixml:x64-windows@1.15#1...
+pugixml:x64-windows@1.15#1 package ABI: 70a61b7ae2136ac8229635631d2077158cb31053d748003a347e801123138ee4
+Building pugixml:x64-windows@1.15#1...
+-- Using cached zeux-pugixml-v1.15.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/pugixml/src/v1.15-8a9beec4a5.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/zeux-pugixml-v1.15.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/pugixml/src/v1.15-8a9beec4a5.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/pugixml_x64-windows/lib/pkgconfig/pugixml.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/pugixml_x64-windows/debug/lib/pkgconfig/pugixml.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/pugixml_x64-windows/share/pugixml/copyright
+-- Performing post-build validation
+Starting submission of pugixml:x64-windows@1.15#1 to 1 binary cache(s) in the background
+Elapsed time to handle pugixml:x64-windows: 8 s
+Completed submission of prometheus-cpp[compression,core,pull]:x64-windows@1.3.0 to 1 binary cache(s) in 1.4 s
+Installing 57/71 rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1...
+rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1 package ABI: 3d79894d17260f299d115c68a32a499068fda2409971a049a66bbf93e9884545
+Building rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1...
+-- Using cached facebook-rocksdb-v10.10.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/rocksdb/src/v10.10.1-3acaf3ef99.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/facebook-rocksdb-v10.10.1.tar.gz
+-- Applying patch 0001-fix-dependencies.patch
+-- Applying patch 0002-fix-android.patch
+-- Applying patch 0003-include_cstdint.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/rocksdb/src/v10.10.1-3acaf3ef99.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/rocksdb_x64-windows/lib/pkgconfig/rocksdb.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/rocksdb_x64-windows/debug/lib/pkgconfig/rocksdb.pc
+-- Performing post-build validation
+Starting submission of rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1 to 1 binary cache(s) in the background
+Elapsed time to handle rocksdb:x64-windows: 11 min
+Completed submission of pugixml:x64-windows@1.15#1 to 1 binary cache(s) in 254 ms
+Installing 58/71 spirv-headers:x64-windows@1.4.335.0...
+spirv-headers:x64-windows@1.4.335.0 package ABI: 5a2fcd43d6f431df03d26d37f2953faf5b1e9c1109792c94e0cab5734b68770f
+Building spirv-headers:x64-windows@1.4.335.0...
+-- Using cached KhronosGroup-SPIRV-Headers-vulkan-sdk-1.4.335.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/spirv-headers/src/-1.4.335.0-07c800d0a5.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-SPIRV-Headers-vulkan-sdk-1.4.335.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/spirv-headers/src/-1.4.335.0-07c800d0a5.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spirv-headers_x64-windows/share/pkgconfig/SPIRV-Headers.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spirv-headers_x64-windows/debug/share/pkgconfig/SPIRV-Headers.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/spirv-headers_x64-windows/share/spirv-headers/copyright
+-- Performing post-build validation
+Starting submission of spirv-headers:x64-windows@1.4.335.0 to 1 binary cache(s) in the background
+Elapsed time to handle spirv-headers:x64-windows: 7 s
+Installing 59/71 spirv-tools:x64-windows@1.4.335.0...
+spirv-tools:x64-windows@1.4.335.0 package ABI: fde277401d968167740976a8435e8f42dc35cc79d2d82f97744910a701f1da2d
+Building spirv-tools:x64-windows@1.4.335.0...
+-- Using cached KhronosGroup-SPIRV-Tools-vulkan-sdk-1.4.335.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/spirv-tools/src/-1.4.335.0-e044dcd778.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-SPIRV-Tools-vulkan-sdk-1.4.335.0.tar.gz
+-- Applying patch cmake-config-dir.diff
+-- Applying patch spirv-tools-shared.diff
+-- Applying patch fix-tool-deps.diff
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/spirv-tools/src/-1.4.335.0-e044dcd778.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spirv-tools_x64-windows/lib/pkgconfig/SPIRV-Tools-shared.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spirv-tools_x64-windows/lib/pkgconfig/SPIRV-Tools.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spirv-tools_x64-windows/debug/lib/pkgconfig/SPIRV-Tools-shared.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spirv-tools_x64-windows/debug/lib/pkgconfig/SPIRV-Tools.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/spirv-tools_x64-windows/share/spirv-tools/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/spirv-tools_x64-windows/share/spirv-tools/copyright
+-- Performing post-build validation
+Starting submission of spirv-tools:x64-windows@1.4.335.0 to 1 binary cache(s) in the background
+Elapsed time to handle spirv-tools:x64-windows: 3.8 min
+Completed submission of rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1 to 1 binary cache(s) in 3.6 min
+Completed submission of spirv-headers:x64-windows@1.4.335.0 to 1 binary cache(s) in 190 ms
+Installing 60/71 glslang:x64-windows@16.1.0...
+glslang:x64-windows@16.1.0 package ABI: de0f9763cc59df8a7a6bdfde190df5246b5ef9276af4a66ded9e443bcbecdbc6
+Building glslang:x64-windows@16.1.0...
+-- Note: glslang only supports static library linkage. Building static library.
+-- Using cached KhronosGroup-glslang-16.1.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/glslang/src/16.1.0-537b1e376b.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-glslang-16.1.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/glslang/src/16.1.0-537b1e376b.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/glslang_x64-windows/share/glslang/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/glslang_x64-windows/share/glslang/copyright
+-- Performing post-build validation
+Starting submission of glslang:x64-windows@16.1.0 to 1 binary cache(s) in the background
+Elapsed time to handle glslang:x64-windows: 48 s
+Installing 61/71 shaderc:x64-windows@2026.1...
+shaderc:x64-windows@2026.1 package ABI: 367f1c033e025e96e7306d57848671e53c30023e0f4e28d95c6a6f13bf125d8d
+Building shaderc:x64-windows@2026.1...
+-- Note: shaderc only supports static library linkage. Building static library.
+-- Using cached google-shaderc-v2026.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/shaderc/src/v2026.1-8673abcedb.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-shaderc-v2026.1.tar.gz
+-- Applying patch disable-update-version.patch
+-- Applying patch fix-build-type.patch
+-- Applying patch cmake-config-export.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/shaderc/src/v2026.1-8673abcedb.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/shaderc_x64-windows/lib/pkgconfig/shaderc.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/shaderc_x64-windows/debug/lib/pkgconfig/shaderc.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/shaderc_x64-windows/share/shaderc/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/shaderc_x64-windows/share/shaderc/copyright
+-- Performing post-build validation
+Starting submission of shaderc:x64-windows@2026.1 to 1 binary cache(s) in the background
+Elapsed time to handle shaderc:x64-windows: 45 s
+Completed submission of spirv-tools:x64-windows@1.4.335.0 to 1 binary cache(s) in 1.4 min
+Installing 62/71 simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0...
+simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0 package ABI: 2b46ffd5e8dd01eac1a10df04463d3b52a8ab3eb3a2780a2fb75cc64cead5f3b
+Building simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0...
+-- Using cached simdjson-simdjson-v4.3.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/simdjson/src/v4.3.0-f82480edcf.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/simdjson-simdjson-v4.3.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/simdjson/src/v4.3.0-f82480edcf.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/simdjson_x64-windows/lib/pkgconfig/simdjson.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/simdjson_x64-windows/debug/lib/pkgconfig/simdjson.pc
+-- Performing post-build validation
+Starting submission of simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0 to 1 binary cache(s) in the background
+Elapsed time to handle simdjson:x64-windows: 19 s
+Completed submission of glslang:x64-windows@16.1.0 to 1 binary cache(s) in 10 s
+Completed submission of shaderc:x64-windows@2026.1 to 1 binary cache(s) in 678 ms
+Installing 63/71 fmt:x64-windows@12.1.0...
+fmt:x64-windows@12.1.0 package ABI: c4bfc20660a511003cb7a18048c6e185eeb29e484e6fac7054716ebf4925f499
+Building fmt:x64-windows@12.1.0...
+-- Using cached fmtlib-fmt-12.1.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/fmt/src/12.1.0-54f1f91231.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/fmtlib-fmt-12.1.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/fmt/src/12.1.0-54f1f91231.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/fmt_x64-windows/lib/pkgconfig/fmt.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/fmt_x64-windows/debug/lib/pkgconfig/fmt.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/fmt_x64-windows/share/fmt/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/fmt_x64-windows/share/fmt/copyright
+-- Performing post-build validation
+Starting submission of fmt:x64-windows@12.1.0 to 1 binary cache(s) in the background
+Elapsed time to handle fmt:x64-windows: 7.1 s
+Completed submission of simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0 to 1 binary cache(s) in 695 ms
+Installing 64/71 spdlog[core,fmt,tz-offset]:x64-windows@1.17.0...
+spdlog[core,fmt,tz-offset]:x64-windows@1.17.0 package ABI: fa72ba8cc84132fab20f36922a50e7115b3a8e66571f357284096fc34244e2f5
+Building spdlog[core,fmt,tz-offset]:x64-windows@1.17.0...
+-- Using cached gabime-spdlog-v1.17.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/spdlog/src/v1.17.0-2617b3696e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/gabime-spdlog-v1.17.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/spdlog/src/v1.17.0-2617b3696e.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spdlog_x64-windows/lib/pkgconfig/spdlog.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/spdlog_x64-windows/debug/lib/pkgconfig/spdlog.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/spdlog_x64-windows/share/spdlog/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/spdlog_x64-windows/share/spdlog/copyright
+-- Performing post-build validation
+Starting submission of spdlog[core,fmt,tz-offset]:x64-windows@1.17.0 to 1 binary cache(s) in the background
+Elapsed time to handle spdlog:x64-windows: 13 s
+Completed submission of fmt:x64-windows@12.1.0 to 1 binary cache(s) in 260 ms
+Installing 65/71 hwloc:x64-windows@2.11.2...
+hwloc:x64-windows@2.11.2 package ABI: eb600f0a104626b2cd6f8e2fbefeae1c8a987986a5b051da37dd2878b8c5b0cb
+Building hwloc:x64-windows@2.11.2...
+-- Using cached open-mpi-hwloc-hwloc-2.11.2.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/hwloc/src/loc-2.11.2-a8fd08dd1a.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/open-mpi-hwloc-hwloc-2.11.2.tar.gz
+-- Applying patch fix_shared_win_build.patch
+-- Applying patch stdout_fileno.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/hwloc/src/loc-2.11.2-a8fd08dd1a.clean
+-- Getting CMake variables for x64-windows
+-- Using cached msys2-autoconf-wrapper-20250528-1-any.pkg.tar.zst
+-- Using cached msys2-automake-wrapper-20250528-1-any.pkg.tar.zst
+-- Using cached msys2-binutils-2.45.1-1-x86_64.pkg.tar.zst
+-- Using cached msys2-libtool-2.5.4-4-x86_64.pkg.tar.zst
+-- Using cached msys2-make-4.4.1-2-x86_64.pkg.tar.zst
+-- Using cached msys2-pkgconf-2.5.1-1-x86_64.pkg.tar.zst
+-- Using cached msys2-which-2.23-4-x86_64.pkg.tar.zst
+-- Using cached msys2-bash-5.3.009-1-x86_64.pkg.tar.zst
+-- Using cached msys2-coreutils-8.32-5-x86_64.pkg.tar.zst
+-- Using cached msys2-file-5.46-2-x86_64.pkg.tar.zst
+-- Using cached msys2-gawk-5.3.2-1-x86_64.pkg.tar.zst
+-- Using cached msys2-grep-1~3.0-7-x86_64.pkg.tar.zst
+-- Using cached msys2-gzip-1.14-1-x86_64.pkg.tar.zst
+-- Using cached msys2-diffutils-3.12-1-x86_64.pkg.tar.zst
+-- Using cached msys2-sed-4.9-1-x86_64.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using cached msys2-autoconf2.72-2.72-3-any.pkg.tar.zst
+-- Using cached msys2-automake1.16-1.16.5-1-any.pkg.tar.zst
+-- Using cached msys2-automake1.17-1.17-1-any.pkg.tar.zst
+-- Using cached msys2-automake1.18-1.18.1-1-any.pkg.tar.zst
+-- Using cached msys2-libiconv-1.18-1-x86_64.pkg.tar.zst
+-- Using cached msys2-libintl-0.22.5-1-x86_64.pkg.tar.zst
+-- Using cached msys2-zlib-1.3.1-1-x86_64.pkg.tar.zst
+-- Using cached msys2-findutils-4.10.0-2-x86_64.pkg.tar.zst
+-- Using cached msys2-tar-1.35-3-x86_64.pkg.tar.zst
+-- Using cached msys2-gmp-6.3.0-2-x86_64.pkg.tar.zst
+-- Using cached msys2-gcc-libs-15.2.0-1-x86_64.pkg.tar.zst
+-- Using cached msys2-libbz2-1.0.8-4-x86_64.pkg.tar.zst
+-- Using cached msys2-liblzma-5.8.2-1-x86_64.pkg.tar.zst
+-- Using cached msys2-libzstd-1.5.7-1-x86_64.pkg.tar.zst
+-- Using cached msys2-libreadline-8.3.003-1-x86_64.pkg.tar.zst
+-- Using cached msys2-mpfr-4.2.2-1-x86_64.pkg.tar.zst
+-- Using cached msys2-libpcre-8.45-5-x86_64.pkg.tar.zst
+-- Using cached msys2-m4-1.4.19-2-x86_64.pkg.tar.zst
+-- Using cached msys2-perl-5.40.3-1-x86_64.pkg.tar.zst
+-- Using cached msys2-ncurses-6.5.20240831-2-x86_64.pkg.tar.zst
+-- Using cached msys2-libxcrypt-4.5.2-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/fe50d45a6f168d59
+-- Generating configure for x64-windows
+-- Finished generating configure for x64-windows
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Configuring x64-windows-dbg
+-- Configuring x64-windows-rel
+-- Building x64-windows-dbg
+-- Installing x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/hwloc_x64-windows/lib/pkgconfig/hwloc.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/hwloc_x64-windows/debug/lib/pkgconfig/hwloc.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/hwloc_x64-windows/share/hwloc/copyright
+-- Performing post-build validation
+Starting submission of hwloc:x64-windows@2.11.2 to 1 binary cache(s) in the background
+Elapsed time to handle hwloc:x64-windows: 8.9 min
+Completed submission of spdlog[core,fmt,tz-offset]:x64-windows@1.17.0 to 1 binary cache(s) in 813 ms
+Installing 66/71 tbb[core,hwloc]:x64-windows@2022.3.0...
+tbb[core,hwloc]:x64-windows@2022.3.0 package ABI: d6b2181c01ff1caa617c6187c2b0aa011b3d439de6c18a0572f01d0ea1070a68
+Building tbb[core,hwloc]:x64-windows@2022.3.0...
+-- Using cached oneapi-src-oneTBB-v2022.3.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/tbb/src/v2022.3.0-5254eca8db.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/oneapi-src-oneTBB-v2022.3.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/tbb/src/v2022.3.0-5254eca8db.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/tbb_x64-windows/lib/pkgconfig/tbb.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/tbb_x64-windows/debug/lib/pkgconfig/tbb.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/tbb_x64-windows/share/tbb/copyright
+-- Performing post-build validation
+Starting submission of tbb[core,hwloc]:x64-windows@2022.3.0 to 1 binary cache(s) in the background
+Elapsed time to handle tbb:x64-windows: 23 s
+Completed submission of hwloc:x64-windows@2.11.2 to 1 binary cache(s) in 127 ms
+Installing 67/71 tl-expected:x64-windows@1.3.1...
+tl-expected:x64-windows@1.3.1 package ABI: 4f160c750c0b30d113ea09fc6e25a726e4297d4701e5dc21aa4739323a9803cd
+Building tl-expected:x64-windows@1.3.1...
+-- Using cached TartanLlama-expected-v1.3.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/tl-expected/src/v1.3.1-e05cd218d6.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/TartanLlama-expected-v1.3.1.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/tl-expected/src/v1.3.1-e05cd218d6.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/tl-expected_x64-windows/share/tl-expected/copyright
+-- Performing post-build validation
+Starting submission of tl-expected:x64-windows@1.3.1 to 1 binary cache(s) in the background
+Elapsed time to handle tl-expected:x64-windows: 3.3 s
+Completed submission of tbb[core,hwloc]:x64-windows@2022.3.0 to 1 binary cache(s) in 700 ms
+Installing 68/71 vulkan-headers:x64-windows@1.4.335.0#1...
+vulkan-headers:x64-windows@1.4.335.0#1 package ABI: 0f22d1e3f355bd592b76cfaab5a998086806c135023f39b5b5b7b1b466d3cf1d
+Building vulkan-headers:x64-windows@1.4.335.0#1...
+-- Using cached KhronosGroup-Vulkan-Headers-vulkan-sdk-1.4.335.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/vulkan-headers/src/-1.4.335.0-5b27c67b07.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-Vulkan-Headers-vulkan-sdk-1.4.335.0.tar.gz
+-- Applying patch fix-vulkan-video-module-name.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/vulkan-headers/src/-1.4.335.0-5b27c67b07.clean
+-- Configuring x64-windows
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vulkan-headers_x64-windows/share/vulkan-headers/copyright
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vulkan-headers_x64-windows/share/vulkan-headers/usage
+-- Performing post-build validation
+Starting submission of vulkan-headers:x64-windows@1.4.335.0#1 to 1 binary cache(s) in the background
+Elapsed time to handle vulkan-headers:x64-windows: 4.5 s
+Completed submission of tl-expected:x64-windows@1.3.1 to 1 binary cache(s) in 58.3 ms
+Installing 69/71 vulkan-loader:x64-windows@1.4.335.0...
+vulkan-loader:x64-windows@1.4.335.0 package ABI: 0f93c61cecfae6a308dd3709a02e639ad875e68cbd1fb4d20b71268e57917cf3
+Building vulkan-loader:x64-windows@1.4.335.0...
+-- Using cached KhronosGroup-Vulkan-Loader-vulkan-sdk-1.4.335.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/vulkan-loader/src/-1.4.335.0-00818a78b7.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/KhronosGroup-Vulkan-Loader-vulkan-sdk-1.4.335.0.tar.gz
+-- Applying patch link-directfb.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/vulkan-loader/src/-1.4.335.0-00818a78b7.clean
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Configuring x64-windows
+CMake Warning at C:/Projects/ThemisDB/vcpkg_installed/x64-windows/share/vcpkg-cmake/vcpkg_cmake_configure.cmake:344 (message):
+  The following variables are not used in CMakeLists.txt:
+
+      BUILD_WSI_DIRECTFB_SUPPORT
+      BUILD_WSI_WAYLAND_SUPPORT
+      BUILD_WSI_XCB_SUPPORT
+      BUILD_WSI_XLIB_SUPPORT
+      Python3_EXECUTABLE
+
+  Please recheck them and remove the unnecessary options from the
+  `vcpkg_cmake_configure` call.
+
+  If these options should still be passed for whatever reason, please use the
+  `MAYBE_UNUSED_VARIABLES` argument.
+Call Stack (most recent call first):
+  buildtrees/versioning_/versions/vulkan-loader/16879c942d1d518eaabfe675375bbf5317e7ba57/portfile.cmake:26 (vcpkg_cmake_configure)
+  scripts/ports.cmake:206 (include)
+
+
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/vulkan-loader_x64-windows/lib/pkgconfig/vulkan.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/vulkan-loader_x64-windows/debug/lib/pkgconfig/vulkan.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vulkan-loader_x64-windows/share/vulkan-loader/copyright
+-- Performing post-build validation
+Starting submission of vulkan-loader:x64-windows@1.4.335.0 to 1 binary cache(s) in the background
+Elapsed time to handle vulkan-loader:x64-windows: 12 s
+Completed submission of vulkan-headers:x64-windows@1.4.335.0#1 to 1 binary cache(s) in 831 ms
+Installing 70/71 vulkan:x64-windows@2023-12-17...
+vulkan:x64-windows@2023-12-17 package ABI: 3585cdc6a25d5beaab82444d4037abe56c8e04c3c33ec0adc29a2b994f9af2fd
+Building vulkan:x64-windows@2023-12-17...
+-- Configuring x64-windows
+-- Found Vulkan 1.4.335 (C:/Projects/ThemisDB/vcpkg_installed/x64-windows/lib/vulkan-1.lib)
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vulkan_x64-windows/share/vulkan/detect-vulkan/CMakeLists.txt
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vulkan_x64-windows/share/vulkan/detect-vulkan/vulkan-result.cmake.in
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vulkan_x64-windows/share/vulkan/usage
+-- Skipping post-build validation due to VCPKG_POLICY_EMPTY_PACKAGE
+Starting submission of vulkan:x64-windows@2023-12-17 to 1 binary cache(s) in the background
+Elapsed time to handle vulkan:x64-windows: 2.8 s
+Completed submission of vulkan-loader:x64-windows@1.4.335.0 to 1 binary cache(s) in 278 ms
+Installing 71/71 yaml-cpp:x64-windows@0.9.0...
+yaml-cpp:x64-windows@0.9.0 package ABI: 98c2e6464535360295c63dc35bd5807f5c42543983b88e3471ec1e5d2cde735b
+Building yaml-cpp:x64-windows@0.9.0...
+-- Using cached jbeder-yaml-cpp-yaml-cpp-0.9.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/yaml-cpp/src/-cpp-0.9.0-6c65d1a0d9.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/jbeder-yaml-cpp-yaml-cpp-0.9.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/yaml-cpp/src/-cpp-0.9.0-6c65d1a0d9.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/yaml-cpp_x64-windows/lib/pkgconfig/yaml-cpp.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/yaml-cpp_x64-windows/debug/lib/pkgconfig/yaml-cpp.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/yaml-cpp_x64-windows/share/yaml-cpp/copyright
+-- Performing post-build validation
+Starting submission of yaml-cpp:x64-windows@0.9.0 to 1 binary cache(s) in the background
+Elapsed time to handle yaml-cpp:x64-windows: 15 s
+Installed contents are licensed to you by owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
+Some packages did not declare an SPDX license. Check the `copyright` file for each package for more information about their licensing.
+Packages installed in this vcpkg installation declare the following licenses:
+(Apache-2.0 OR MIT)
+(GPL-2.0-only OR Apache-2.0)
+(MIT OR WTFPL)
+Apache-2.0
+BSD-2-Clause
+BSD-3-Clause
+BSD-3-Clause-Open-MPI
+BSL-1.0
+CC0-1.0
+GPL-3.0-or-later
+ISC
+MIT
+MPL-2.0
+bzip2-1.0.6
+curl
+The package zlib is compatible with built-in CMake targets:
+
+    find_package(ZLIB REQUIRED)
+    target_link_libraries(main PRIVATE ZLIB::ZLIB)
+
+openssl is compatible with built-in CMake targets:
+
+  find_package(OpenSSL REQUIRED)
+  target_link_libraries(main PRIVATE OpenSSL::SSL)
+  target_link_libraries(main PRIVATE OpenSSL::Crypto)
+
+c-ares provides CMake targets:
+
+  find_package(c-ares CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE c-ares::cares)
+
+c-ares provides pkg-config modules:
+
+  # asynchronous DNS lookup library
+  libcares
+
+grpc provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(gRPC CONFIG REQUIRED)
+  # note: 19 additional targets are not displayed.
+  target_link_libraries(main PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+
+zstd provides CMake targets:
+
+  find_package(zstd CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE zstd::libzstd)
+
+mimalloc provides CMake targets:
+
+  find_package(mimalloc CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:mimalloc-static>,mimalloc-static,mimalloc>)
+
+To ensure the mimalloc-override.dll is loaded at runtime on Windows with
+dynamic linkage, it is suggested to insert some call to the mimalloc API
+in the main function, eg. `mi_version()`. Cf.
+https://github.com/microsoft/mimalloc/blob/dev/readme.md#dynamic-override-on-windows
+
+lz4 provides CMake targets:
+
+  find_package(lz4 CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE lz4::lz4)
+
+lz4 provides pkg-config modules:
+
+  liblz4
+
+The package arrow provides CMake targets:
+
+    find_package(Arrow CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE "$<IF:$<BOOL:${ARROW_BUILD_STATIC}>,Arrow::arrow_static,Arrow::arrow_shared>")
+
+    find_package(Parquet CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE "$<IF:$<BOOL:${ARROW_BUILD_STATIC}>,Parquet::parquet_static,Parquet::parquet_shared>")
+
+    find_package(ArrowFlight CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE "$<IF:$<BOOL:${ARROW_BUILD_STATIC}>,ArrowFlight::arrow_flight_static,ArrowFlight::arrow_flight_shared>")
+
+benchmark provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(benchmark CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE benchmark::benchmark benchmark::benchmark_main)
+
+benchmark provides pkg-config modules:
+
+  # Google microbenchmark framework
+  benchmark
+
+  # Google microbenchmark framework (with main() function)
+  benchmark_main
+
+The package boost-asio is compatible with built-in CMake targets of FindBoost.cmake:
+
+    find_package(Boost REQUIRED COMPONENTS asio)
+    target_link_libraries(main PRIVATE Boost::asio)
+
+or the generated cmake configs via:
+
+    find_package( REQUIRED CONFIG)
+    target_link_libraries(main PRIVATE Boost::asio)
+
+The package boost-beast is compatible with built-in CMake targets of FindBoost.cmake:
+
+    find_package(Boost REQUIRED COMPONENTS beast)
+    target_link_libraries(main PRIVATE Boost::beast)
+
+or the generated cmake configs via:
+
+    find_package( REQUIRED CONFIG)
+    target_link_libraries(main PRIVATE Boost::beast)
+
+The package boost-url is compatible with built-in CMake targets of FindBoost.cmake:
+
+    find_package(Boost REQUIRED COMPONENTS url)
+    target_link_libraries(main PRIVATE Boost::url)
+
+or the generated cmake configs via:
+
+    find_package( REQUIRED CONFIG)
+    target_link_libraries(main PRIVATE Boost::url)
+
+The package boost-variant is compatible with built-in CMake targets of FindBoost.cmake:
+
+    find_package(Boost REQUIRED COMPONENTS variant)
+    target_link_libraries(main PRIVATE Boost::variant)
+
+or the generated cmake configs via:
+
+    find_package( REQUIRED CONFIG)
+    target_link_libraries(main PRIVATE Boost::variant)
+
+The package cpp-httplib provides CMake target `httplib::httplib`.
+
+In CMake:
+
+  find_package(httplib CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE httplib::httplib)
+
+crc32c provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(Crc32c CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Crc32c::crc32c)
+
+curl is compatible with built-in CMake targets:
+
+    find_package(CURL REQUIRED)
+    target_link_libraries(main PRIVATE CURL::libcurl)
+
+faiss provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(faiss CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE faiss)
+
+The package gtest is compatible with built-in CMake targets:
+
+    enable_testing()
+    
+    find_package(GTest CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+    
+    add_test(AllTestsInMain main)
+
+hnswlib provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(hnswlib CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE hnswlib::hnswlib)
+
+libzip provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(libzip CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE libzip::zip)
+
+libzip provides pkg-config modules:
+
+  # library for handling zip archives
+  libzip
+
+msgpack provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(msgpack-cxx CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE msgpack-cxx)
+
+The package nlohmann-json provides CMake targets:
+
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+The package nlohmann-json can be configured to not provide implicit conversions via a custom triplet file:
+
+    set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+
+For more information, see the docs here:
+    
+    https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
+
+onnxruntime provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(onnxruntime CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE onnxruntime::onnxruntime)
+
+onnxruntime provides pkg-config modules:
+
+  # ONNX runtime
+  libonnxruntime
+
+opencl provides CMake targets:
+
+  find_package(OpenCL CONFIG REQUIRED)
+
+  # Khronos OpenCL ICD Loader
+  target_link_libraries(main PRIVATE OpenCL::OpenCL)
+
+  # Khronos OpenCL Headers and C++ bindings
+  target_link_libraries(main PRIVATE OpenCL::Headers)
+  target_link_libraries(main PRIVATE OpenCL::HeadersCpp)
+
+  # OpenCL Utility Library and C++ bindings
+  target_link_libraries(main PRIVATE OpenCL::Utils)
+  target_link_libraries(main PRIVATE OpenCL::UtilsCpp)
+
+opencl provides pkg-config modules:
+
+  # Khronos OpenCL ICD Loader
+  OpenCL
+
+  # Khronos OpenCL Headers and C++ bindings
+  OpenCL-Headers
+  OpenCL-CLHPP
+
+This package is only an OpenCL SDK. To actually run OpenCL code you also need to install an implementation.
+
+  Windows: Implementations typically ship with the drivers of you CPU/GPU vendors.
+  Linux:   Implementations may be installed from your distro's repo or manually.
+  Apple:   Consult your distribution vendor on the state of OpenCL support:
+           https://support.apple.com/en-us/HT202823
+
+opentelemetry-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(opentelemetry-cpp CONFIG REQUIRED)
+  # note: 24 additional targets are not displayed.
+  target_link_libraries(main PRIVATE opentelemetry-cpp::api opentelemetry-cpp::ext opentelemetry-cpp::sdk opentelemetry-cpp::logs)
+
+opentelemetry-cpp provides pkg-config modules:
+
+  # A header-only library to support instrumentation with OpenTelemetry.
+  opentelemetry_api
+
+  # Common components for the OpenTelemetry SDK, a library for exporting telemetry.
+  opentelemetry_common
+
+  # In-memory span exporter for testing and debugging.
+  opentelemetry_exporter_in_memory
+
+  # In-memory metric exporter for testing and debugging.
+  opentelemetry_exporter_in_memory_metric
+
+  # Exports log records to output stream.
+  opentelemetry_exporter_ostream_logs
+
+  # Builder for OStream log record exporter.
+  opentelemetry_exporter_ostream_logs_builder
+
+  # Exports metrics to output stream.
+  opentelemetry_exporter_ostream_metrics
+
+  # Builder for OStream metrics exporter.
+  opentelemetry_exporter_ostream_metrics_builder
+
+  # Exports trace spans to output stream.
+  opentelemetry_exporter_ostream_span
+
+  # Builder for OStream span exporter.
+  opentelemetry_exporter_ostream_span_builder
+
+  # Common utilities for OTLP exporter builders.
+  opentelemetry_exporter_otlp_builder_utils
+
+  # Exports trace spans via OTLP HTTP.
+  opentelemetry_exporter_otlp_http
+
+  # Builder for OTLP HTTP span exporter.
+  opentelemetry_exporter_otlp_http_builder
+
+  # HTTP client for OTLP protocol.
+  opentelemetry_exporter_otlp_http_client
+
+  # Exports log records via OTLP HTTP.
+  opentelemetry_exporter_otlp_http_log
+
+  # Builder for OTLP HTTP log record exporter.
+  opentelemetry_exporter_otlp_http_log_builder
+
+  # Exports metrics via OTLP HTTP.
+  opentelemetry_exporter_otlp_http_metric
+
+  # Builder for OTLP HTTP metric exporter.
+  opentelemetry_exporter_otlp_http_metric_builder
+
+  # Components for exporting logs in the OpenTelemetry SDK.
+  opentelemetry_logs
+
+  # Components for exporting metrics in the OpenTelemetry SDK.
+  opentelemetry_metrics
+
+  # OTLP recordable implementation for spans, metrics, and logs.
+  opentelemetry_otlp_recordable
+
+  # Components for resource detection in the OpenTelemetry SDK.
+  opentelemetry_resources
+
+  # Components for exporting traces in the OpenTelemetry SDK.
+  opentelemetry_trace
+
+  # A library exporting version information for OpenTelemetry.
+  opentelemetry_version
+
+prometheus-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(prometheus-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE prometheus-cpp::core prometheus-cpp::pull prometheus-cpp::util)
+
+pugixml provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(pugixml CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE pugixml::shared pugixml::pugixml)
+
+pugixml provides pkg-config modules:
+
+  # Light-weight, simple and fast XML parser for C++ with XPath support.
+  pugixml
+
+rocksdb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(RocksDB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE RocksDB::rocksdb RocksDB::rocksdb-shared)
+
+rocksdb provides pkg-config modules:
+
+  # An embeddable persistent key-value store for fast storage
+  rocksdb
+
+shaderc provides CMake targets:
+
+    find_package(unofficial-shaderc CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE unofficial::shaderc::shaderc)
+
+simdjson provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(simdjson CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE simdjson::simdjson)
+
+simdjson provides pkg-config modules:
+
+  # Parsing gigabytes of JSON per second
+  simdjson
+
+The package spdlog provides CMake targets:
+
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog)
+
+    # Or use the header-only version
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog_header_only)
+
+tbb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(TBB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE TBB::tbb TBB::tbbmalloc TBB::tbbmalloc_proxy)
+
+tbb provides pkg-config modules:
+
+  # C++ library for parallel programming on multi-core processors.
+  tbb
+
+tl-expected provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(tl-expected CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE tl::expected)
+
+vulkan is compatible with built-in CMake targets:
+
+    # https://cmake.org/cmake/help/latest/module/FindVulkan.html
+    find_package(Vulkan REQUIRED)
+    target_link_libraries(main PRIVATE Vulkan::Vulkan)
+
+yaml-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(yaml-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE yaml-cpp::yaml-cpp)
+
+yaml-cpp provides pkg-config modules:
+
+  # A YAML parser and emitter for C++
+  yaml-cpp
+
+Completed submission of vulkan:x64-windows@2023-12-17 to 1 binary cache(s) in 50.5 ms
+Waiting for 1 remaining binary cache submissions...
+Completed submission of yaml-cpp:x64-windows@0.9.0 to 1 binary cache(s) in 661 ms (1/1)
+All requested installations completed successfully in: 1.3 h

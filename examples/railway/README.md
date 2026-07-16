@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Railway Monitoring System - Quick Start Guide
 
 Vollständiges IoT-basiertes Echtzeit-Überwachungssystem für Zugverkehr mit KI-gestützter Analyse.

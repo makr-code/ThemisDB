@@ -1,27 +1,20 @@
+/**
+ * @file pkcs11_minimal.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pkcs11_minimal.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     268                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e45182eb8  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
-    • 22978a7bb  2026-03-01  feat(security): add PKCS#11 C++ wrapper interface (pkcs11... ║
-    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
-    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pkcs11_minimal.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -264,7 +257,11 @@ struct CK_FUNCTION_LIST {
     
     // Warning: Using minimal PKCS#11 header in production build
     #ifndef THEMIS_USE_VENDOR_PKCS11
-        #warning "Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production."
+        #ifdef _MSC_VER
+            #pragma message("Warning: Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production.")
+        #else
+            #warning "Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production."
+        #endif
     #endif
 #endif
 // =============================================================================

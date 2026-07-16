@@ -1,23 +1,21 @@
+/**
+ * @file paged_block_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_block_manager.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     174                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_block_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 165
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #230 Fix LLM compilation infrast... (2026-03-11) | #595 Integrate PagedBlockManager... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -55,11 +53,11 @@ namespace llm {
 class PagedBlockManager {
 public:
     struct Block {
-        int block_id;
-        int physical_address;
-        bool is_free;
+        int block_id = 0;
+        int physical_address = 0;
+        bool is_free = true;
         std::vector<int> tokens;
-        size_t memory_bytes;
+        size_t memory_bytes = 0;
         int ref_count = 0;  // For copy-on-write (v1.4.0)
     };
     
@@ -72,12 +70,12 @@ public:
     };
     
     struct Stats {
-        int num_blocks;
-        int num_free_blocks;
-        int num_allocated_blocks;
-        size_t total_memory_bytes;
-        size_t used_memory_bytes;
-        double fragmentation_ratio;
+        int num_blocks = 0;
+        int num_free_blocks = 0;
+        int num_allocated_blocks = 0;
+        size_t total_memory_bytes = 0;
+        size_t used_memory_bytes = 0;
+        double fragmentation_ratio = 0.0;
     };
     
     explicit PagedBlockManager(const Config& config);
@@ -175,3 +173,4 @@ private:
 
 } // namespace llm
 } // namespace themis
+

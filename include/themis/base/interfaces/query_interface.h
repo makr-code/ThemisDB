@@ -1,23 +1,20 @@
+/**
+ * @file query_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_interface.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     135                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_interface.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -31,15 +28,16 @@ namespace themis {
 
 /**
  * @brief Result of a query execution
- * 
- * @deprecated Use Result<T> pattern instead
- * Kept for backward compatibility during migration
+ *
+ * @deprecated Use Result<std::string> from utils/expected.h instead.
+ *   Kept for backward compatibility during migration.
+ *   All new code must use Result<std::string> from utils/expected.h.
  */
-struct QueryResult {
+struct [[deprecated("Use Result<std::string> from utils/expected.h instead of QueryResult")]] QueryResult {
     bool success = false;
     std::optional<std::string> error_message;
     
-    bool hasError() const { return error_message.has_value(); }
+    [[nodiscard]] bool hasError() const { return error_message.has_value(); }
 };
 
 /**
@@ -59,14 +57,14 @@ public:
      * @param context Opaque context pointer (e.g., document, row data)
      * @return true if expression evaluates to true, false otherwise
      */
-    virtual bool evaluate(const std::string& expression, const void* context) = 0;
+    [[nodiscard]] virtual bool evaluate(const std::string& expression, const void* context) const = 0;
     
     /**
      * @brief Get the type of expression language supported
      * 
      * @return String identifying the expression language (e.g., "AQL", "SQL")
      */
-    virtual std::string get_expression_type() const = 0;
+    [[nodiscard]] virtual std::string get_expression_type() const = 0;
 };
 
 /// Shared pointer type for IExpressionEvaluator
@@ -91,7 +89,7 @@ public:
      * @note Legacy signature returning QueryResult is deprecated.
      *       Implementations should migrate to Result<std::string>.
      */
-    virtual Result<std::string> execute(const std::string& query) = 0;
+    [[nodiscard]] virtual Result<std::string> execute(const std::string& query) = 0;
     
     /**
      * @brief Validate a query without executing it
@@ -99,14 +97,14 @@ public:
      * @param query Query string
      * @return Result<void> - success if valid, error with details otherwise
      */
-    virtual Result<void> validate(const std::string& query) const = 0;
+    [[nodiscard]] virtual Result<void> validate(const std::string& query) const = 0;
     
     /**
      * @brief Create an expression evaluator
      * 
      * @return Result<std::unique_ptr<IExpressionEvaluator>> with evaluator or error
      */
-    virtual Result<std::unique_ptr<IExpressionEvaluator>> createExpressionEvaluator() const = 0;
+    [[nodiscard]] virtual Result<std::unique_ptr<IExpressionEvaluator>> createExpressionEvaluator() const = 0;
     
     /**
      * @brief Generate execution plan explanation
@@ -114,7 +112,7 @@ public:
      * @param query Query string
      * @return Result<std::string> with execution plan or error
      */
-    virtual Result<std::string> explainQuery(const std::string& query) const = 0;
+    [[nodiscard]] virtual Result<std::string> explainQuery(const std::string& query) const = 0;
 };
 
 /// Shared pointer type for IQueryEngine
@@ -132,7 +130,7 @@ public:
      * 
      * @return Shared pointer to query engine
      */
-    virtual IQueryEnginePtr create() = 0;
+    [[nodiscard]] virtual IQueryEnginePtr create() = 0;
 };
 
 } // namespace themis

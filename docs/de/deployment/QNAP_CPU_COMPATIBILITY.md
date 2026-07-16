@@ -1,6 +1,6 @@
 # QNAP CPU Compatibility Fix
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.0  
 **Kategorie:** 🚀 Deployment
 
@@ -289,5 +289,5 @@ If issues persist after v1.0.1 deployment:
 ---
 
 **Version**: 1.0.1  
-**Last Updated**: 2025-12-02  
+**Last Updated**: 2026-04-06  
 **Status**: ✅ Fixed (pending rebuild)

@@ -186,7 +186,7 @@ def main() -> int:
     repo_root = Path(__file__).resolve().parent.parent.parent
 
     # Only validate explicit roadmap / future-enhancement planning files.
-    # feature_enhancement.md is the auto-generated code maturity analysis and
+    # FEATURE_ENHANCEMENT.md is the auto-generated code maturity analysis and
     # is intentionally excluded from structure validation.
     targets = [
         repo_root / "roadmap.md",

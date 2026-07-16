@@ -1,60 +1,31 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hybrid_retention_manager.h                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file hybrid_retention_manager.h
- * @brief Hybrid Data Retention Manager for ThemisDB
- * 
- * Implements a three-stage hybrid retention strategy combining:
- * - Stage 1: Gorilla compression (0-7 days) - Lossless compression
- * - Stage 2: Adaptive retention (7-365 days) - Variance-based downsampling
- * - Stage 3: Time-based retention (>365 days) - Daily aggregates
- * 
- * Benefits:
- * - 99.9% storage reduction
- * - Preserves anomalies and important events
- * - Maintains analytical capability
- * - Fully automated and configurable
- * 
- * ⚠️ SECURITY: This component executes queries and processes data.
- * Production deployments require proper authentication, authorization,
- * and resource limits.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_HYBRID_RETENTION_MANAGER_H
-#define THEMIS_HYBRID_RETENTION_MANAGER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/gorilla.h"
 #include <string>
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 
 // Forward declarations
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 
 /**
  * @brief Configuration for hybrid retention strategy
@@ -209,7 +180,7 @@ private:
     HybridRetentionConfig config_;
     
     bool running_ = false;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Task IDs for cleanup
     std::string stage1_task_id_;
@@ -236,5 +207,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_HYBRID_RETENTION_MANAGER_H

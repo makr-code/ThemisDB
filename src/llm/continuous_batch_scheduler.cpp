@@ -1,23 +1,21 @@
+/**
+ * @file continuous_batch_scheduler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=13, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            continuous_batch_scheduler.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     549                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: continuous_batch_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 681
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=19, M=4, L=0
+ * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #242 Complete PagedAttention int... (2026-03-11) | #215 Implement P1 LLM Inference ... (2026-03-11) | #1211 Fix null pointer dereferenc... (2026-03-11) | #1215 Fix thread-safety: atomic c... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/continuous_batch_scheduler.h"
@@ -33,11 +31,17 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
+static size_t ensureMinimumPrefillChunkSize(size_t configured_size) {
+    // Enforce a lower bound of 1 so that chunked prefill never stalls completely.
+    return std::max<size_t>(1, configured_size);
+}
+
 ContinuousBatchScheduler::ContinuousBatchScheduler(
     const SchedulerConfig& config,
     PagedKVCache* kv_cache
 ) : config_(config),
     kv_cache_(kv_cache),
+    effective_prefill_chunk_size_(ensureMinimumPrefillChunkSize(config.prefill_chunk_size)),
     waiting_queue_(
         [](const std::shared_ptr<ScheduledRequest>& a,
            const std::shared_ptr<ScheduledRequest>& b) {
@@ -54,6 +58,7 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
     spdlog::info("  Max concurrent: {}", config_.max_concurrent_requests);
     spdlog::info("  Preemption: {}", config_.enable_preemption ? "enabled" : "disabled");
     spdlog::info("  Priority scheduling: {}", config_.enable_priority_scheduling ? "enabled" : "disabled");
+    stats_.adaptive_prefill_chunk_size_tokens = effective_prefill_chunk_size_;
 }
 
 ContinuousBatchScheduler::~ContinuousBatchScheduler() {
@@ -126,7 +131,14 @@ std::string ContinuousBatchScheduler::submitRequest(
     
     // Wake up scheduler
     cv_.notify_one();
-    
+
+    // Notify shard router about updated queue depth.
+    // Called inside the mutex — AdaptiveShardRouter's own lock is independent
+    // so there is no circular lock ordering.
+    if (shard_load_cb_) {
+        shard_load_cb_(waiting_queue_.size(), stats_.avg_time_to_first_token_ms);
+    }
+
     return scheduled->request_id;
 }
 
@@ -217,11 +229,29 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     
     std::vector<ScheduledRequest*> batch;
     size_t total_tokens = 0;
+    size_t reserved_blocks_in_batch = 0;
     
     // First, continue active decode requests
     for (auto& req : active_requests_) {
         if (req->state == RequestState::DECODE) {
-            if (canAddToBatch(req.get(), total_tokens)) {
+            // Phase 3 n_ctx / KV-budget guard: ensure at least one free block
+            // is available before scheduling a decode step.  A fully exhausted
+            // KV cache must not enter the decode loop — it would cause a
+            // silent decode failure or corrupt the KV state.
+            // Note: if all blocks are held by active decode requests, they will
+            // be freed as those requests complete, so the stall is self-healing.
+            // Requests that stall here for longer than request_timeout_ms will
+            // be cancelled by the engine's timeout monitor (enforced externally).
+            if (kv_cache_) {
+                const auto kv_stats = kv_cache_->getStats();
+                if (kv_stats.blocks_free == 0) {
+                    spdlog::warn("KV cache exhausted; skipping decode for request {}",
+                                 req->request_id);
+                    stats_.kv_budget_exhausted_count++;
+                    continue;
+                }
+            }
+            if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
                 batch.push_back(req.get());
                 total_tokens++;  // Each decode request adds 1 token
             }
@@ -240,13 +270,14 @@ ContinuousBatchScheduler::scheduleNextBatch() {
         allocateKVCacheBlocks(req.get());
         
         // Check if we can add to batch
-        size_t prefill_tokens = config_.enable_chunked_prefill 
-            ? std::min(req->total_prompt_tokens, config_.prefill_chunk_size)
+        size_t prefill_tokens = config_.enable_chunked_prefill
+            ? std::min(req->total_prompt_tokens, effective_prefill_chunk_size_)
             : req->total_prompt_tokens;
         
-        if (canAddToBatch(req.get(), total_tokens + prefill_tokens)) {
+        if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
             batch.push_back(req.get());
             total_tokens += prefill_tokens;
+            reserved_blocks_in_batch += req->allocated_blocks.size();
             active_requests_.push_back(req);
         } else {
             // Put back in queue
@@ -294,10 +325,37 @@ void ContinuousBatchScheduler::processBatchResults(
         return;
     }
     
+    bool saw_decode_error = false;
+    std::vector<ScheduledRequest*> to_retry;
+
     for (size_t i = 0; i < batch.size(); ++i) {
         auto* req = batch[i];
         const auto& resp = responses[i];
-        
+        const bool decode_failed = !resp.error_message.empty();
+        if (decode_failed) {
+            saw_decode_error = true;
+            if (config_.enable_adaptive_batch_retry) {
+                freeKVCacheBlocks(req);
+                req->state = RequestState::WAITING;
+                req->tokens_generated = 0;
+                to_retry.push_back(req);
+                continue;
+            }
+
+            req->state = RequestState::FAILED;
+            freeKVCacheBlocks(req);
+            active_requests_.erase(
+                std::remove_if(active_requests_.begin(), active_requests_.end(),
+                              [req](const auto& r) { return r && r.get() == req; }),
+                active_requests_.end()
+            );
+            if (req->callback) {
+                req->callback(resp);
+            }
+            stats_.failed_requests++;
+            continue;
+        }
+
         req->tokens_generated++;
         req->last_token_at = std::chrono::system_clock::now();
         
@@ -341,8 +399,49 @@ void ContinuousBatchScheduler::processBatchResults(
             }
         }
     }
+
+    for (auto* req : to_retry) {
+        active_requests_.erase(
+            std::remove_if(active_requests_.begin(), active_requests_.end(),
+                          [req](const auto& r) { return r && r.get() == req; }),
+            active_requests_.end()
+        );
+        auto it = all_requests_.find(req->request_id);
+        if (it != all_requests_.end()) {
+            waiting_queue_.push(it->second);
+        }
+    }
+
+    const size_t max_prefill_chunk = ensureMinimumPrefillChunkSize(config_.prefill_chunk_size);
+    if (saw_decode_error && config_.enable_adaptive_batch_retry) {
+        stats_.batch_retry_count++;
+        const size_t previous = effective_prefill_chunk_size_;
+        effective_prefill_chunk_size_ = std::max<size_t>(1, effective_prefill_chunk_size_ / 2);
+        if (effective_prefill_chunk_size_ < previous) {
+            spdlog::warn("Adaptive batch retry downshift: prefill chunk {} -> {}",
+                         previous, effective_prefill_chunk_size_);
+        } else {
+            spdlog::debug("Adaptive batch retry: prefill chunk already at minimum ({})",
+                          effective_prefill_chunk_size_);
+        }
+    } else if (!saw_decode_error && config_.enable_adaptive_batch_retry &&
+               effective_prefill_chunk_size_ < max_prefill_chunk) {
+        const size_t previous = effective_prefill_chunk_size_;
+        effective_prefill_chunk_size_ = std::min(max_prefill_chunk,
+                                                 effective_prefill_chunk_size_ * 2);
+        if (effective_prefill_chunk_size_ > previous) {
+            spdlog::info("Adaptive batch retry recovery: prefill chunk {} -> {}",
+                         previous, effective_prefill_chunk_size_);
+        }
+    }
+    stats_.adaptive_prefill_chunk_size_tokens = effective_prefill_chunk_size_;
     
     updateStats();
+
+    // Notify shard router about updated queue depth after batch completion.
+    if (shard_load_cb_) {
+        shard_load_cb_(waiting_queue_.size(), stats_.avg_time_to_first_token_ms);
+    }
 }
 
 void ContinuousBatchScheduler::preemptRequests(
@@ -413,16 +512,37 @@ ContinuousBatchScheduler::Stats ContinuousBatchScheduler::getStats() const {
     return stats_;
 }
 
+ContinuousBatchScheduler::LLMStats ContinuousBatchScheduler::getLLMStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    LLMStats out;
+    out.pending_requests = waiting_queue_.size();
+
+    // Compute average queue wait from all currently-waiting requests.
+    // We use the delta between now and submitted_at as a proxy for queue latency.
+    // This is intentionally a read-only snapshot and never modifies state.
+    if (!waiting_queue_.size()) {
+        out.avg_queue_ms = 0.0;
+        return out;
+    }
+
+    // The priority_queue does not support iteration, so we use the pre-computed
+    // current_queue_depth from stats_ and avg_time_to_first_token_ms as the
+    // best approximation we have without draining the queue.
+    out.avg_queue_ms = stats_.avg_time_to_first_token_ms;
+    return out;
+}
+
 bool ContinuousBatchScheduler::canAddToBatch(
     const ScheduledRequest* request,
-    size_t current_batch_tokens
+    size_t current_batch_tokens,
+    size_t reserved_blocks
 ) const {
     // Check batch size limit
     // Note: batch already includes current requests
     
     // Check token budget
     size_t tokens_needed = (request->state == RequestState::PREFILL)
-        ? std::min(request->total_prompt_tokens, config_.prefill_chunk_size)
+        ? std::min(request->total_prompt_tokens, effective_prefill_chunk_size_)
         : 1;  // Decode needs 1 token
     
     if (current_batch_tokens + tokens_needed > config_.max_tokens_per_batch) {
@@ -431,12 +551,19 @@ bool ContinuousBatchScheduler::canAddToBatch(
     
     // Check KV cache availability
     if (kv_cache_) {
-        // Calculate blocks needed for this request
-        size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
-        size_t blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
+        // Decode requests already have KV allocations and need no additional blocks.
+        if (request->state == RequestState::DECODE) {
+            return true;
+        }
+
+        size_t blocks_needed = request->allocated_blocks.size();
+        if (blocks_needed == 0) {
+            size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
+            blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
+        }
         
         auto stats = kv_cache_->getStats();
-        if (stats.blocks_free < blocks_needed) {
+        if (stats.blocks_free < reserved_blocks + blocks_needed) {
             return false;
         }
     }
@@ -448,24 +575,36 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
     if (!kv_cache_) {
         return;
     }
+
+    // Avoid duplicate placeholder/allocation growth for queued requests that
+    // are considered in multiple scheduling cycles.
+    if (!request->allocated_blocks.empty()) {
+        return;
+    }
     
     // Estimate blocks needed for total sequence length (prompt + generation)
     size_t tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
     size_t blocks_needed = (tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
     
-    // Get block table for this sequence
+    // Get block table for this sequence; initialize it if this is the first
+    // request for the sequence ID (no prior KV-cache state).
     auto block_table = kv_cache_->getBlockTable(request->sequence_id);
     if (!block_table) {
-        // Block table doesn't exist yet, it will be created when we store KV data
-        // Reserve the blocks by tracking them in allocated_blocks
-        // This ensures consistency with canAddToBatch() availability check
-        request->allocated_blocks.reserve(blocks_needed);
-        for (size_t i = 0; i < blocks_needed; ++i) {
-            request->allocated_blocks.push_back(-1);  // Placeholder, actual allocation on store
+        // Initialize the block table by storing an empty KV payload for layer 0.
+        // PagedKVCache::store() creates a BlockTable entry for the sequence when
+        // one does not exist, without allocating physical blocks (kv_data is empty).
+        // After this call getBlockTable() is guaranteed to return a valid pointer.
+        kv_cache_->store(request->sequence_id, 0, {});
+        block_table = kv_cache_->getBlockTable(request->sequence_id);
+        if (!block_table) {
+            // KV cache failed to create a block table (e.g., out of memory).
+            // Log and return without poisoning allocated_blocks with sentinels.
+            spdlog::warn("allocateKVCacheBlocks: failed to create block table for "
+                         "request {} (sequence {})", request->request_id, request->sequence_id);
+            return;
         }
-        spdlog::debug("Reserved {} blocks for request {} (sequence {}), will allocate on first store",
-                      blocks_needed, request->request_id, request->sequence_id);
-        return;
+        spdlog::debug("Created block table for request {} (sequence {})",
+                      request->request_id, request->sequence_id);
     }
     
     // Allocate blocks through the block table
@@ -550,3 +689,4 @@ std::string ContinuousBatchScheduler::generateRequestId() {
 
 } // namespace llm
 } // namespace themis
+

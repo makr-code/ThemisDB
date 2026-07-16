@@ -1,24 +1,20 @@
+/**
+ * @file voice_session_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.42
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_session_manager.h                            ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-03-09 03:56:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_session_manager.h | Version: 0.0.42
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Session management with persistence for Phase 6 production readiness
@@ -92,10 +88,10 @@ struct SessionTimeoutConfig {
 class ISessionPersistenceBackend {
 public:
     virtual ~ISessionPersistenceBackend() = default;
-    virtual bool save(const VoiceSessionData& session) = 0;
-    virtual std::optional<VoiceSessionData> load(const std::string& session_id) = 0;
-    virtual bool remove(const std::string& session_id) = 0;
-    virtual std::vector<std::string> listActiveSessions() = 0;
+    [[nodiscard]] virtual bool save(const VoiceSessionData& session) = 0;
+    [[nodiscard]] virtual std::optional<VoiceSessionData> load(const std::string& session_id) = 0;
+    [[nodiscard]] virtual bool remove(const std::string& session_id) = 0;
+    [[nodiscard]] virtual std::vector<std::string> listActiveSessions() = 0;
 };
 
 // In-memory persistence backend (default)
@@ -122,7 +118,14 @@ public:
     );
     ~VoiceSessionManager() = default;
 
-    // Create a new session
+    /**
+     * Create a new voice session.
+     * @param user_id User identifier (non-empty required)
+     * @param device_id Device identifier (optional, defaults to empty string)
+     * @return VoiceSessionData with valid session_id if created; empty session_id if fail-closed (invalid user_id)
+     * @note Rejects empty user_id fail-closed to prevent ghost sessions with missing owner context;
+     *       returns VoiceSessionData with empty session_id on validation failure
+     */
     VoiceSessionData createSession(const std::string& user_id, const std::string& device_id = "");
 
     // Get existing session (returns nullopt if not found or expired)
@@ -130,7 +133,17 @@ public:
 
     // Update session (activity, history, context)
     bool updateSession(const std::string& session_id, const json& context_update);
+    
+    /**
+     * Add a conversation turn to the session history.
+     * @param session_id Session identifier
+     * @param user_msg User message (non-empty required)
+     * @param assistant_msg Assistant response message (non-empty required)
+     * @return true if turn was added successfully; false if session not found or message is empty (fail-closed)
+     * @note Rejects empty user_msg or assistant_msg fail-closed to prevent silent history corruption
+     */
     bool addConversationTurn(const std::string& session_id, const std::string& user_msg, const std::string& assistant_msg);
+    
     bool touchSession(const std::string& session_id);  // Update last_activity
 
     // Update the preferred language for a session (used by auto-locale switching)

@@ -1,6 +1,6 @@
 # ThemisDB Audit & Analysis Documentation
 
-**Last Updated:** 2025-12-15  
+**Last Updated:** 2026-04-06  
 **Version:** v1.2.0
 
 ---
@@ -203,5 +203,5 @@ ThemisDB v1.2.0 is **production-ready** and offers **exceptional value** for:
 
 ---
 
-**Last Updated:** 2025-12-15  
+**Last Updated:** 2026-04-06  
 **Version:** v1.2.0

@@ -1,38 +1,34 @@
-# ThemisDB Header Files
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-This directory contains the public header files and interfaces for ThemisDB components.
+# ThemisDB Public Headers (`include/`)
 
-## Directory Structure
+Dieses Verzeichnis enthält die öffentlichen C++-Schnittstellen von ThemisDB.
 
-The headers are organized to mirror the source code structure:
+## Struktur
 
-- **acceleration/** - GPU and hardware acceleration interfaces
-- **api/** - API server interfaces and HTTP request/response structures
-- **auth/** - Authentication and authorization interfaces
-- **cache/** - Caching interfaces and abstractions
-- **cdc/** - Change Data Capture interfaces
-- **content/** - Content management interfaces
-- **document/** - Document storage interfaces
-- **exporters/** - Data export interfaces
-- **geo/** - Geospatial processing interfaces
-- **governance/** - Policy engine and governance interfaces
-- **importers/** - Data import interfaces
-- **index/** - Index interfaces (vector, graph, secondary)
-- **llm/** - LLM interaction interfaces
-- **plugins/** - Plugin system interfaces
-- **query/** - Query engine and AQL parser interfaces
-- **security/** - Security, encryption, and key management interfaces
-- **server/** - Server component interfaces
-- **sharding/** - Sharding and horizontal scaling interfaces
-- **storage/** - Storage layer interfaces
-- **timeseries/** - Time series data interfaces
-- **transaction/** - Transaction and SAGA interfaces
-- **utils/** - Utility interfaces and helpers
+- Header spiegeln die Kernmodule aus `src/`.
+- Top-Level enthält modulweise Unterordner (z. B. `ai`, `api`, `query`, `storage`, `llm`, `temporal`).
+- Für Navigation pro Modul dient jeweils das Modul-`README.md` im jeweiligen Unterordner.
+
+## Nutzung
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Installation
+
+Header werden durch den regulären ThemisDB-Build bereitgestellt.
 
 ## Usage
 
-Include headers using the `#include <themisdb/component/header.hpp>` pattern.
+Einbindung erfolgt über die Modul-Header unter `include/<modul>/...`.
 
-## Documentation
+## Bezug
 
-For detailed API documentation, see the [API documentation](../docs/api/).
+- Implementierungen: [`../src/README.md`](../src/README.md)
+- Gesamt-Buildfluss: [`../README.md`](../README.md)
+- Architektur: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Erweiterungen: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- AI-Modul-Header: [`ai/README.md`](./ai/README.md)

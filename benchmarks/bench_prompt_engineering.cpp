@@ -1,18 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_prompt_engineering.cpp                       ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-10                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~380                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_prompt_engineering.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -225,7 +216,7 @@ static void BM_FeedbackCollector_RecordFeedback(benchmark::State& state) {
             "prompt-bench",
             "query " + std::to_string(i),
             "response " + std::to_string(i),
-            FeedbackType::Positive
+            FeedbackType::USER_POSITIVE
         );
         benchmark::DoNotOptimize(id);
         ++i;
@@ -244,7 +235,7 @@ static void BM_FeedbackCollector_GetStats(benchmark::State& state) {
             "prompt-bench",
             "q" + std::to_string(i),
             "r" + std::to_string(i),
-            (i % 3 == 0) ? FeedbackType::Negative : FeedbackType::Positive
+            (i % 3 == 0) ? FeedbackType::USER_NEGATIVE : FeedbackType::USER_POSITIVE
         );
     }
     for (auto _ : state) {

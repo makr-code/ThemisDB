@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_pmu_counters.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     204                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3fc507357  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_pmu_counters.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Tests for Phase 4 Hardware PMU counter integration (cache miss analysis).
@@ -201,5 +186,164 @@ TEST(Phase4FeatureFlagsTest, PmemFlagUnaffectedByPmuToggle) {
     EXPECT_FALSE(flags.pmem_enabled());
     flags.set_pmu_enabled(false);
 }
+
+#ifndef THEMIS_ENABLE_PMU_COUNTERS
+TEST(PmuCounterStubBridgeTest, BridgeCallbacksProvideSyntheticMetrics) {
+    PmuCounter::setOpenFn([](uint32_t type, uint64_t config) {
+        return type == 1 && config == 2;
+    });
+    PmuCounter::setReadFn([] { return 1234u; });
+    CacheMissAnalyzer::setProbeFn([] { return true; });
+    CacheMissAnalyzer::setStopFn([] {
+        CacheMissMetrics metrics;
+        metrics.l1d_read_misses = 10;
+        metrics.llc_misses = 20;
+        metrics.branch_mispredictions = 30;
+        return metrics;
+    });
+
+    PmuCounter counter;
+    EXPECT_TRUE(counter.open(1, 2));
+    EXPECT_TRUE(counter.is_open());
+    EXPECT_EQ(counter.read(), 1234u);
+
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+    auto metrics = analyzer.stop();
+    EXPECT_TRUE(metrics.available);
+    EXPECT_EQ(metrics.l1d_read_misses, 10u);
+    EXPECT_EQ(metrics.llc_misses, 20u);
+    EXPECT_EQ(metrics.branch_mispredictions, 30u);
+    EXPECT_TRUE(CacheMissAnalyzer::pmu_accessible());
+
+    PmuCounter::setOpenFn(nullptr);
+    PmuCounter::setReadFn(nullptr);
+    CacheMissAnalyzer::setProbeFn(nullptr);
+    CacheMissAnalyzer::setStopFn(nullptr);
+}
+#endif
+
+// ---------------------------------------------------------------------------
+// Non-Linux platform backend tests
+// Verify the RDTSC / cycle-count fallback that is active on macOS, Windows,
+// and all other non-Linux platforms.
+// ---------------------------------------------------------------------------
+
+#ifndef __linux__
+
+TEST(PmuCounterTest, NonLinuxOpenAlwaysSucceeds) {
+    // On non-Linux platforms, open() unconditionally returns true because
+    // RDTSC / QueryThreadCycleTime / mach_absolute_time is always available.
+    PmuCounter counter;
+    bool ok = counter.open(0, 0);
+    EXPECT_TRUE(ok);
+    EXPECT_TRUE(counter.is_open());
+}
+
+TEST(PmuCounterTest, NonLinuxCycleCountIsPositiveAfterWork) {
+    // After enable() + some work, read() must return a non-zero elapsed
+    // cycle (or time) delta from the RDTSC / platform fallback.
+    PmuCounter counter;
+    ASSERT_TRUE(counter.open(0, 0));
+    counter.enable();
+    volatile uint64_t sum = 0;
+    for (int i = 0; i < 100'000; ++i) sum += static_cast<uint64_t>(i);
+    (void)sum;
+    uint64_t cycles = counter.read();
+    EXPECT_GT(cycles, 0u) << "Cycle counter must advance after real work";
+}
+
+TEST(PmuCounterTest, NonLinuxReadBeforeEnableReturnsZeroOrSafe) {
+    // read() before enable() should return 0 (start was recorded as 0 in open())
+    PmuCounter counter;
+    ASSERT_TRUE(counter.open(0, 0));
+    // Don't call enable() — read() should not crash and return a defined value.
+    EXPECT_NO_THROW(counter.read());
+}
+
+TEST(PmuCounterTest, NonLinuxMultipleOpenReusesSafeSlots) {
+    // Opening many counters must not overflow the fixed-size slot pool for
+    // kMaxFallbackSlots (128 slots) by wrapping around safely.
+    std::vector<PmuCounter> counters(64);
+    for (auto& c : counters) {
+        EXPECT_TRUE(c.open(0, 0));
+        EXPECT_TRUE(c.is_open());
+    }
+}
+
+TEST(CacheMissAnalyzerTest, NonLinuxFallbackIsAvailable) {
+    // On non-Linux, CacheMissAnalyzer should always report available=true
+    // because the RDTSC / cycle-count fallback always succeeds.
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+
+    analyzer.start();
+    volatile int x = 0;
+    for (int i = 0; i < 10'000; ++i) x ^= i;
+    (void)x;
+    CacheMissMetrics m = analyzer.stop();
+
+    EXPECT_TRUE(m.available)
+        << "Non-Linux fallback must set CacheMissMetrics::available = true";
+}
+
+TEST(CacheMissAnalyzerTest, NonLinuxPmuAccessibleReturnsTrue) {
+    // RDTSC / mach_absolute_time / QueryThreadCycleTime is always accessible.
+    EXPECT_TRUE(CacheMissAnalyzer::pmu_accessible());
+}
+
+TEST(CacheMissAnalyzerTest, NonLinuxStopMetricsFieldsAreDefined) {
+    // On non-Linux without true PMU access, cache-miss fields are 0 but
+    // available is true.  Verify the struct has defined (not garbage) values.
+    CacheMissAnalyzer analyzer;
+    ASSERT_TRUE(analyzer.is_available());
+    analyzer.start();
+    volatile int dummy = 1;
+    (void)dummy;
+    CacheMissMetrics m = analyzer.stop();
+    EXPECT_TRUE(m.available);
+    // Cache-miss event counts are 0 on cycle-count fallback (no hardware PMU).
+    EXPECT_EQ(m.l1d_read_misses,       0u);
+    EXPECT_EQ(m.llc_misses,            0u);
+    EXPECT_EQ(m.branch_mispredictions, 0u);
+}
+
+#ifdef __APPLE__
+TEST(CacheMissAnalyzerTest, MacOsKpcOrFallbackIsCoherent) {
+    // On macOS, either kpc counters or the RDTSC/CNTVCT_EL0 fallback is used.
+    // Either way, multiple start/stop cycles must remain coherent and not crash.
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+
+    for (int iter = 0; iter < 5; ++iter) {
+        analyzer.start();
+        volatile uint64_t s = 0;
+        for (int i = 0; i < 1000; ++i) s += static_cast<uint64_t>(i * i);
+        (void)s;
+        CacheMissMetrics m = analyzer.stop();
+        EXPECT_TRUE(m.available) << "macOS analyzer must stay available across iterations";
+    }
+}
+#endif // __APPLE__
+
+#ifdef _WIN32
+TEST(CacheMissAnalyzerTest, WindowsCycleCountBackendIsCoherent) {
+    // On Windows, __rdtsc() (x86/x86_64) or QueryThreadCycleTime (ARM64) is
+    // used.  Verify that multiple cycles remain coherent and available=true.
+    CacheMissAnalyzer analyzer;
+    EXPECT_TRUE(analyzer.is_available());
+
+    for (int iter = 0; iter < 5; ++iter) {
+        analyzer.start();
+        volatile uint64_t s = 0;
+        for (int i = 0; i < 1000; ++i) s += static_cast<uint64_t>(i * i);
+        (void)s;
+        CacheMissMetrics m = analyzer.stop();
+        EXPECT_TRUE(m.available) << "Windows analyzer must stay available across iterations";
+    }
+}
+#endif // _WIN32
+
+#endif // !__linux__
 
 // Main removed - using GTest's main from themis_tests.exe

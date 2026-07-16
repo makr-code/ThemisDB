@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cycle_metrics.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     324                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b4f732549  2026-02-25  audit: fix cycle_metrics stubs, update metadata, add PMU ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_cycle_metrics.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/cycle_metrics.h"
@@ -78,7 +62,7 @@ TEST(CycleMetricsTest, CPUModel) {
  * @brief Test scoped cycle timer
  */
 TEST(CycleMetricsTest, ScopedCycleTimer) {
-    uint64_t cycles = 0;
+    [[maybe_unused]] uint64_t cycles = 0;
     
     {
         ScopedCycleTimer timer(&cycles);
@@ -90,7 +74,8 @@ TEST(CycleMetricsTest, ScopedCycleTimer) {
     }
     
     // Should have measured some cycles
-    EXPECT_GT(cycles, 0);
+        (void)cycles;
+        EXPECT_GT(cycles, 0);
 }
 
 /**
@@ -295,7 +280,7 @@ TEST(CycleMetricsTest, ZeroCostAbstraction) {
     // This test verifies that macros compile without errors
     // When THEMIS_ENABLE_CYCLE_METRICS is OFF, macros should compile to nothing
     
-    uint64_t cycles = 0;
+    [[maybe_unused]] uint64_t cycles = 0;
     
     THEMIS_MEASURE_CYCLES_START(cycles);
     // Do some work
@@ -320,6 +305,7 @@ TEST(CycleMetricsTest, ZeroCostAbstraction) {
     THEMIS_SCOPED_CACHE_MISS_TIMER(pmu_analyzer, pmu_metrics);
 
     // Test should pass regardless of whether metrics are enabled
+    (void)cycles;
     SUCCEED();
 }
 

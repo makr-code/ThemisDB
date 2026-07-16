@@ -1,7 +1,7 @@
 {
   "module": "scheduler",
-  "validated": "2026-03-09",
-  "source_commit": "ae47515",
+  "validated": "2026-03-11",
+  "source_commit": "1d4165d",
   "primary_doc": "src/scheduler/README.md",
   "findings": [
     {
@@ -20,7 +20,9 @@
       "severity": "medium",
       "roadmap_marker": "[ ]",
       "issue_title_suggestion": "feat(scheduler): implement priority-based dispatch ordering in schedulerLoop",
-      "label_suggestions": ["type:feature", "priority:medium", "scheduler", "status:open"]
+      "label_suggestions": ["type:feature", "priority:medium", "scheduler", "status:open"],
+      "resolution": "FIXED: std::sort by priority (descending) added to schedulerLoop() after adjustConcurrencyLimit() and before dispatch loop (src/scheduler/task_scheduler.cpp)",
+      "status": "resolved"
     },
     {
       "id": "SCHED-MISSING-002",
@@ -74,7 +76,9 @@
       "severity": "low",
       "roadmap_marker": "[ ]",
       "issue_title_suggestion": "feat(scheduler): add Grafana dashboard JSON for scheduler metrics",
-      "label_suggestions": ["type:feature", "priority:low", "scheduler", "observability", "status:open"]
+      "label_suggestions": ["type:feature", "priority:low", "scheduler", "observability", "status:open"],
+      "resolution": "FIXED: config/grafana/dashboards/themisdb-scheduler-dashboard.json created; covers all themis_scheduler_* metrics (stat overview, concurrency/queue-depth timeseries, success/failure rates, per-task duration and last-run, enabled-status table, $task_name filter variable)",
+      "status": "resolved"
     },
     {
       "id": "SCHED-MISSING-005",

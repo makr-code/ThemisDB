@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ThemisClient.php                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1249                                           ║
+    • Total Lines:     1248                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 65b6fc41e  2026-02-24  fix: resolve remaining Python (34) and PHP (23) error-han... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -629,7 +624,22 @@ class ThemisClient
      * Begin a new ACID transaction.
      *
      * @param array $options Transaction options:
-     *   - isolation_level: 'READ_COMMITTED' or 'SNAPSHOT' (default: 'READ_COMMITTED')
+     *   - isolation_level: Isolation level for the transaction. One of:
+     *       'READ_COMMITTED'  – only committed values visible (default).
+     *                          Non-repeatable reads and phantom reads possible.
+     *       'SNAPSHOT'        – consistent snapshot as of transaction start.
+     *
+     *                          WARNING: Write-skew and phantom-read anomalies
+     *                          are possible at SNAPSHOT isolation. Two concurrent
+     *                          SNAPSHOT transactions reading the same rows and
+     *                          writing disjoint keys can both commit even when
+     *                          their combined effect violates an application
+     *                          invariant (e.g. double-booking, over-withdrawal).
+     *                          Use 'SERIALIZABLE' for strict correctness.
+     *
+     *       'SERIALIZABLE'    – full serializability via SSI / predicate locking.
+     *                          Prevents write skew and phantom reads. Higher
+     *                          latency and more aborts than SNAPSHOT.
      *   - timeout: Transaction timeout in seconds (optional)
      * @return Transaction Transaction object
      * @throws TransactionException If transaction cannot be started
@@ -644,6 +654,8 @@ class ThemisClient
             $body['isolation'] = 'snapshot';
         } elseif ($isolationLevel === 'READ_COMMITTED') {
             $body['isolation'] = 'read_committed';
+        } elseif ($isolationLevel === 'SERIALIZABLE') {
+            $body['isolation'] = 'serializable';
         } else {
             throw new \InvalidArgumentException("Invalid isolation level: {$isolationLevel}");
         }

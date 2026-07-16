@@ -1,14 +1,14 @@
 # Acceleration Module
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/acceleration/ -->
 
-**Stand:** 9. März 2026  
-**Version:** 1.1  
-**Kategorie:** GPU / Hardware-Beschleunigung  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Stand:** 6. April 2026
+**Version:** 1.1
+**Kategorie:** GPU / Hardware-Beschleunigung
+**Validated:** 2026-05-10 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -68,7 +68,7 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 - `raii/` — Header-only RAII-Wrapper für GPU-Ressourcen (`CudaStream`, `CudaDeviceMemory`, OpenCL- und Vulkan-Ressourcen); siehe [`include/acceleration/raii/README.md`](../../../include/acceleration/raii/README.md)
 - `metrics/` — Backend-Metriken (`BackendMetrics`, `MetricsCollector`, `Counter`, `Gauge`, `Histogram`, `Timer`)
 
-**Gesamt:** ~40 Implementierungsdateien, ~27 Header-Dateien
+**Gesamt:** Aktueller Bestand und Referenzen werden in [`src/MODULE_FUNCTION_USAGE_MAP.md`](../../../src/MODULE_FUNCTION_USAGE_MAP.md) gepflegt (inkl. Header-/Implementierungsübersicht).
 
 ---
 
@@ -79,7 +79,7 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 | CUDA | NVIDIA GPU (sm_70+) | `THEMIS_ENABLE_CUDA` | 🚧 Release-Candidate |
 | HIP/ROCm | AMD GPU | `THEMIS_ENABLE_HIP` | ✅ Implementiert |
 | Vulkan | Plattformübergreifend (Mali, Apple M, AMD) | `THEMIS_ENABLE_VULKAN` | 🚧 In Bearbeitung |
-| OpenCL | Breite Hardware-Unterstützung | — | 🔜 Geplant |
+| OpenCL | Breite Hardware-Unterstützung | — | ✅ Implementiert |
 | Metal | Apple macOS/iOS | — | 🧪 Experimentell |
 | DirectX | Windows | — | 🧪 Experimentell |
 | FAISS GPU | NVIDIA (über FAISS) | `THEMIS_ENABLE_CUDA` | ✅ Implementiert |
@@ -185,7 +185,7 @@ cmake -DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_VULKAN=OFF ..
 
 ### Reality-Check & Offene Implementierungen
 
-- [missing-implementations.md](missing-implementations.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
+- [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
 - [missing-implementations.json](missing-implementations.json) — Maschinenlesbares Format des obigen Berichts
 
 ### Verwandte Module
@@ -199,4 +199,13 @@ cmake -DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_VULKAN=OFF ..
 ## Weitere Themen
 
 - [Backend-Typen und Konfiguration](backends.md) — Detaillierte Beschreibung der unterstützten Backends
-- [Fehlende Implementierungen](missing-implementations.md) — Reality-Check-Report: offene Implementierungslücken mit Code-Evidence und Issue-Vorschlägen
+- [Fehlende Implementierungen](MISSING_IMPLEMENTATIONS.md) — Reality-Check-Report: offene Implementierungslücken mit Code-Evidence und Issue-Vorschlägen
+
+## Installation
+
+Das Modul wird mit ThemisDB gebaut. Für Linux ist der dokumentierte Preset:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```

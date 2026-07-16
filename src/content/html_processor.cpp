@@ -1,47 +1,23 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            html_processor.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     649                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8bd1fe74d  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
-    • 5a022e694  2026-02-26  Implement HTML content extraction with boilerplate removal ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright (c) 2024 ThemisDB
-// SPDX-License-Identifier: MIT
-
 /**
  * @file html_processor.cpp
- * @brief HTML Content Processor Implementation
- *
- * Extracts plain text from HTML with boilerplate removal.
- * Pure C++ — no external HTML parsing library required.
- *
- * @author ThemisDB Team
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/html_processor.h"
 
+#include <exception>
 #include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <regex>
 #include <sstream>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace themis {
@@ -281,7 +257,10 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
                 } else {
                     code = std::stol(ref.substr(1));
                 }
-            } catch (...) {
+            } catch (const std::invalid_argument&) {
+                result += text[pos++];
+                continue;
+            } catch (const std::out_of_range&) {
                 result += text[pos++];
                 continue;
             }

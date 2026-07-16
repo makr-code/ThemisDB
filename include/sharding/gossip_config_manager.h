@@ -1,27 +1,23 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gossip_config_manager.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     391                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file gossip_config_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_SHARDING_GOSSIP_CONFIG_MANAGER_H
-#define THEMIS_SHARDING_GOSSIP_CONFIG_MANAGER_H
+/*
+ * ThemisDB | File: gossip_config_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <map>
@@ -30,9 +26,20 @@
 #include <mutex>
 #include <atomic>
 #include <functional>
+#include <optional>
 #include <chrono>
 #include <thread>
-#include "shard_rpc.pb.h"
+
+namespace themis {
+namespace sharding {
+namespace proto {
+class VectorClock;
+class ConfigUpdate;
+class ResourceSnapshot;
+class GossipMessage;
+} // namespace proto
+} // namespace sharding
+} // namespace themis
 
 namespace themis {
 namespace sharding {
@@ -48,7 +55,7 @@ class PrometheusMetrics;
  * Used for anti-entropy and conflict resolution in the gossip protocol.
  * Based on Lamport's logical clocks and vector clocks.
  * 
- * @sources
+ * Sources:
  * - Paper: Lamport, L. (1978). "Time, clocks, and the ordering of events in a distributed system"
  * - Paper: Fidge, C. J. (1988). "Timestamps in message-passing systems that preserve partial ordering"
  * - Implementation: Inspired by Apache Cassandra and Amazon Dynamo
@@ -166,7 +173,11 @@ struct GossipConfigManagerConfig {
     uint32_t update_ttl = 10;                 // Default TTL for updates (rounds)
     uint32_t anti_entropy_interval_ms = 5000; // Anti-entropy sync interval
     bool require_mtls = true;                 // Require mTLS for communication
-    
+
+    // Cross-shard RPC connection pool configuration.
+    // Propagated via gossip so all shards converge on the same pool limit.
+    uint32_t rpc_max_pool_connections = 50;   // Per-endpoint connection pool size
+
     std::string local_shard_id;
     std::string local_endpoint;
 };
@@ -186,7 +197,7 @@ struct GossipConfigManagerConfig {
  * - Periodic gossip rounds with peer selection
  * - Prometheus metrics integration
  * 
- * @sources
+ * Sources:
  * - YARN Architecture: NodeManager heartbeat and resource tracking
  * - Dynamo: Vector clocks and anti-entropy
  * - Cassandra: Gossip protocol implementation
@@ -211,6 +222,15 @@ class GossipConfigManager {
 public:
     using ConfigUpdateCallback = std::function<void(const ConfigUpdate&)>;
     using ResourceSnapshotCallback = std::function<void(const ResourceSnapshot&)>;
+
+    /**
+     * Transport function type for gossip message delivery.
+     * @param peer_endpoint  Destination endpoint string (e.g. "https://shard-2:8080")
+     * @param message        Gossip message to deliver
+     * @return true if the message was accepted by the peer, false on error
+     */
+    using GossipSendFn = std::function<bool(const std::string& peer_endpoint,
+                                            const proto::GossipMessage& message)>;
     
     /**
      * Construct GossipConfigManager
@@ -272,6 +292,20 @@ public:
      * @param callback Function called when resource snapshot is received
      */
     void onResourceSnapshot(ResourceSnapshotCallback callback);
+
+    /**
+     * Inject a custom gossip transport function.
+     *
+     * When set, every outbound gossip message is delivered via @p fn instead
+     * of the default MTLSClient HTTP path.  Intended for testing or for
+     * integrating alternative transports (e.g. gRPC gossip service).
+     *
+     * @param fn  Callable with signature
+     *            `bool(const std::string& endpoint, const proto::GossipMessage&)`.
+     *            Returning true counts as a successful delivery; false increments
+     *            the error counter.  Must be thread-safe.
+     */
+    void setGossipSendFunction(GossipSendFn fn);
     
     /**
      * Get current configuration value
@@ -343,12 +377,16 @@ private:
     
     // Threading
     std::atomic<bool> running_{false};
+    mutable std::mutex lifecycle_mutex_;
     std::thread gossip_thread_;
     std::thread anti_entropy_thread_;
     
     // Callbacks
     ConfigUpdateCallback config_update_callback_;
     ResourceSnapshotCallback resource_snapshot_callback_;
+    mutable std::mutex callback_mutex_;
+    std::optional<GossipSendFn> gossip_send_fn_;  // injected transport; nullopt → use client_
+    mutable std::mutex gossip_send_fn_mutex_;
     
     // Statistics
     std::atomic<uint64_t> gossip_rounds_{0};
@@ -390,5 +428,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_GOSSIP_CONFIG_MANAGER_H

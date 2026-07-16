@@ -1,29 +1,29 @@
+/**
+ * @file cycle_metrics.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cycle_metrics.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     152                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cycle_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 207
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #906 Implement cycle-based perfo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/cycle_metrics.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <cstring>
+#include <mutex>
 
 #ifdef __linux__
 #include <unistd.h>
@@ -111,6 +111,35 @@ std::string HardwareCycleCounter::cpu_model() noexcept {
 }
 
 #ifdef THEMIS_ENABLE_GPU_CYCLE_METRICS
+namespace {
+std::mutex& gpuStartFnMutex() {
+    static std::mutex m;
+    return m;
+}
+HardwareCycleCounter::GpuCyclesStartFn& gpuStartFnStorage() {
+    static HardwareCycleCounter::GpuCyclesStartFn fn;
+    return fn;
+}
+std::mutex& gpuEndFnMutex() {
+    static std::mutex m;
+    return m;
+}
+HardwareCycleCounter::GpuCyclesEndFn& gpuEndFnStorage() {
+    static HardwareCycleCounter::GpuCyclesEndFn fn;
+    return fn;
+}
+} // namespace
+
+void HardwareCycleCounter::setGpuCyclesStartFn(GpuCyclesStartFn fn) {
+    std::lock_guard<std::mutex> lk(gpuStartFnMutex());
+    gpuStartFnStorage() = std::move(fn);
+}
+
+void HardwareCycleCounter::setGpuCyclesEndFn(GpuCyclesEndFn fn) {
+    std::lock_guard<std::mutex> lk(gpuEndFnMutex());
+    gpuEndFnStorage() = std::move(fn);
+}
+
 #ifdef __CUDACC__
 #include <cuda_runtime.h>
 
@@ -141,11 +170,45 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
     return static_cast<uint64_t>(milliseconds * 1'500'000);
 }
 #else
+// STUB/SIMULATION NOTE:
+// Purpose:          No-op stubs for GPU cycle measurement when CUDA is not available.
+//                   gpu_cycles_start() returns nullptr; gpu_cycles_end() returns 0.
+//                   Allows the cycle_metrics interface to compile and link on non-CUDA hosts.
+// Activation:       Active when THEMIS_ENABLE_GPU_CYCLE_METRICS is defined but __CUDACC__
+//                   is not — i.e. non-CUDA compilation units that include the header.
+// Production Delta: No GPU timing data is collected; callers receive zero elapsed cycles.
+// Removal Plan:     Compile this translation unit with nvcc (or clang CUDA) and the CUDA
+//                   runtime linked to enable real GPU cycle measurement.
+//                   Tracked in src/performance/FUTURE_ENHANCEMENTS.md § GPU Cycle Metrics.
 void* HardwareCycleCounter::gpu_cycles_start() noexcept {
+    GpuCyclesStartFn fn;
+    {
+        std::lock_guard<std::mutex> lk(gpuStartFnMutex());
+        fn = gpuStartFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return nullptr;
+        }
+    }
     return nullptr;
 }
 
 uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
+    GpuCyclesEndFn fn;
+    {
+        std::lock_guard<std::mutex> lk(gpuEndFnMutex());
+        fn = gpuEndFnStorage();
+    }
+    if (fn) {
+        try {
+            return fn(event);
+        } catch (...) {
+            return 0;
+        }
+    }
     return 0;
 }
 #endif
@@ -153,3 +216,4 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
 
 } // namespace performance
 } // namespace themis
+

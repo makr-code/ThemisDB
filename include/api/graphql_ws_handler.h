@@ -1,3 +1,23 @@
+/**
+ * @file graphql_ws_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: graphql_ws_handler.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 261
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4310 [High Priority] Implement G... (2026-03-17)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -5,6 +25,7 @@
 #include "api/graphql.h"
 #include "cdc/changefeed.h"
 #include <boost/beast/http.hpp>
+#include <nlohmann/json.hpp>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -75,11 +96,14 @@ public:
 
     ~GraphQLWsHandler();
 
-    // Non-copyable; each instance represents one logical connection.
-    GraphQLWsHandler(const GraphQLWsHandler&) = delete;
+    // Non-copyable and non-movable: each instance owns a shared alive_ flag that
+    // is captured by value in CDC lambda closures.  Allowing moves would leave
+    // the source's alive_ null; the source's destructor would then call reset(),
+    // which dereferences alive_ → null-pointer UB.
+    GraphQLWsHandler(const GraphQLWsHandler&)            = delete;
     GraphQLWsHandler& operator=(const GraphQLWsHandler&) = delete;
-    GraphQLWsHandler(GraphQLWsHandler&&) = default;
-    GraphQLWsHandler& operator=(GraphQLWsHandler&&) = default;
+    GraphQLWsHandler(GraphQLWsHandler&&)                 = delete;
+    GraphQLWsHandler& operator=(GraphQLWsHandler&&)      = delete;
 
     // -----------------------------------------------------------------------
     // Frame processing
@@ -156,6 +180,24 @@ public:
      */
     static bool isGraphQLWsPath(std::string_view path);
 
+    // -----------------------------------------------------------------------
+    // Test accessor
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Return the shared alive flag for white-box testing.
+     *
+     * Allows tests to verify that reset() sets the flag to false with the
+     * correct memory ordering before subscription handles are cleared, and
+     * that a captured copy of the flag (as held by a CDC callback lambda)
+     * correctly observes false after reset().
+     *
+     * Not intended for use in production code.
+     */
+    const std::shared_ptr<std::atomic<bool>>& aliveForTesting() const noexcept {
+        return alive_;
+    }
+
 private:
     // -----------------------------------------------------------------------
     // Internal message handlers
@@ -166,6 +208,28 @@ private:
                                               const std::string& payload_json);
     std::vector<std::string> handleComplete(const std::string& id);
     std::vector<std::string> handlePing(const std::string& payload_json);
+
+    /// Extract the `onChange` collection argument from a parsed subscription document.
+    static std::string extractOnChangeCollection(const graphql::Document& doc);
+
+    /**
+     * @brief Validate that the JSON @p variables map satisfies the declared
+     *        VariableDefinition types of @p op.
+     *
+     * Checks:
+     * - Non-null variables without defaults must be present.
+     * - Non-null variables must not have a null JSON value.
+     * - Provided scalar variables must match their declared GraphQL type
+     *   (String/ID → string, Int → integer, Float → number, Boolean → boolean).
+     * - List-typed variables must be JSON arrays (or null if nullable).
+     *
+     * @param op        Parsed GraphQL operation whose variable definitions to
+     *                  validate against.
+     * @param variables JSON object of variable values supplied by the client.
+     * @return Empty string on success; human-readable error message otherwise.
+     */
+    static std::string validateVariables(const graphql::Operation& op,
+                                         const nlohmann::json& variables);
 
     // -----------------------------------------------------------------------
     // Members
@@ -178,9 +242,19 @@ private:
     /// True after connection_ack has been sent.
     std::atomic<bool> connected_{false};
 
-    /// Per-subscription entry: tracks the CDC subscription handle.
+    /**
+     * @brief Lifetime flag shared between this handler and all CDC callback lambdas.
+     *
+     * Set to @c false in reset() *before* subscription handles are destroyed,
+     * so any in-flight CDC callback running on another thread will observe the
+     * flag and return early instead of dereferencing `this` (avoiding
+     * use-after-free).  The flag is stored in a @c shared_ptr so the lambda
+     * can outlive the handler without dangling.
+     */
+    std::shared_ptr<std::atomic<bool>> alive_;
+
+    /// Per-subscription entry: holds the CDC subscription handle (RAII).
     struct SubscriptionEntry {
-        bool                                active = true;
         themis::Changefeed::SubscriptionHandle cdc_handle;
     };
 
@@ -190,9 +264,6 @@ private:
 
     // Frames queued by CDC callbacks for delivery.  Guarded by mutex_.
     std::vector<std::string> pending_frames_;
-
-    /// Extract the `onChange` collection argument from a parsed subscription document.
-    static std::string extractOnChangeCollection(const graphql::Document& doc);
 };
 
 } // namespace api

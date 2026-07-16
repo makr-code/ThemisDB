@@ -1,110 +1,71 @@
 # Importers Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaDB, MongoDB, Oracle, SQLite, Kafka, S3/flat-file importers implemented. Plugin API, streaming, conflict resolution, and schema auto-detection complete.
 
-## Completed ✅
-- [x] PostgreSQL importer
-- [x] Schema mapping and transformation
-- [x] Batch import operations
-- [x] Incremental import support
-- [x] Custom import format handlers
-- [x] Import pipeline infrastructure
-- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) (Issue: #1835)
-- [x] MongoDB importer for document collections (`importers/mongo_importer.cpp`) (Issue: #1836)
-- [x] Import progress reporting with streaming callbacks (Issue: #1864)
-- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
-- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) (Issue: #1839)
-- [x] Schema auto-detection and validation on import (`importers/schema_validator.cpp`) (Issue: #1856)
-- [x] Kafka consumer importer (`importers/kafka_importer.cpp`) (Issue: #1843)
-- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
-- [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
-- [x] S3-compatible object-storage source connector (`importers/s3_importer.cpp`) (Issue: #1855)
+Production importer runtime exists across relational/document/stream/file/object ingestion paths, schema/conflict/quality handling, and auditable post-processing support.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Completed ✅ (additional)
-- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1835)
-- [x] MongoDB importer for document collections (Issue: #1836)
-- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
-- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) with schema auto-detection (Issue: #1839)
-- [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
-- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
-- [I] Import progress reporting with streaming callbacks (Target: Q3 2026) (Issue: #1864)
+- [~] hardening connector parity and fallback determinism across mixed runtime capability profiles (Target: Q3 2026)
+- [~] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
+- [~] diagnostics consistency for schema/conflict/connector denial incidents (Target: Q3 2026)
 
-## Planned Features 📋
+## Planned Features
 
-### Short-term (Next 3-6 months)
-- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
-- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) (Issue: #1839)
-- [x] Schema auto-detection and validation on import (Issue: #1856)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under high-volume multi-connector ingestion loads (Target: Q4 2026)
+- [ ] extend stress coverage for mixed schema drift and conflict strategy scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for connector and validation failure incidents (Target: Q4 2026)
 
-### Long-term (6-12 months)
-- [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
-- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
-- [I] Microsoft SQL Server importer (Issue: #1845)
-- [~] GUI-based import wizard (web UI) (Issue: #1847)
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for parser/import/conflict pathways (Target: Q1 2027)
+- [ ] broaden benchmark depth for CDC, stream, and quality/audit-intensive workflows (Target: Q1 2027)
+- [ ] harden long-running reliability under sustained ingest pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Core PostgreSQL Importer (Status: Completed ✅)
-- [x] PostgreSQL importer (`importers/postgres_importer.cpp`) with connection pooling
-- [x] Schema mapping and field-type transformation layer
-- [x] Batch import operations with configurable chunk size
-- [x] Incremental import support (watermark-based change tracking)
-- [x] Custom import format handler registration API
-- [x] Import pipeline infrastructure (source → transform → sink)
+### Phase 1: Design / API Contract
+- [ ] freeze connector/schema/conflict/audit contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for validation, conflict, and connector capability classes (Target: Q3 2026)
 
-### Phase 2: Streaming & Conflict Resolution (Status: Completed ✅)
-- [x] Streaming import for large datasets without full in-memory load (Target: Q2 2026) (Issue: #1863)
-- [x] Import progress reporting with streaming callbacks (Target: Q2 2026)
-- [x] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
-- [x] Dry-run mode to preview import without writing data (Target: Q3 2026)
+### Phase 2: Core Implementation
+- [ ] complete hardening for connector import and schema/validation internals (Target: Q4 2026)
+- [ ] align conflict/quality/audit behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Multi-Source & Plugin API (Status: Completed ✅)
-- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
-- [x] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
-- [x] Flat-file CSV / TSV / Parquet importer with schema auto-detection (`importers/flatfile_importer.cpp`) (Issue: #1853)
-- [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
-- [x] S3-compatible object-storage source connector (`importers/s3_importer.cpp`) (Issue: #1855)
-- [x] Schema auto-detection and validation on import (`importers/schema_validator.cpp`) (Issue: #1856)
-- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
-- [x] Kafka consumer importer (`importers/kafka_importer.cpp`) (Issue: #1843)
-- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Target: Q4 2026)
+- [ ] unify diagnostics across schema, conflict, and capability failure incidents (Target: Q4 2026)
 
-### Phase 4: Abstract Interface Contracts (Status: Completed ✅)
-- [x] `IImportConflictResolver` – stateless conflict-resolution interface (`include/importers/importer_interfaces.h`)
-- [x] `IFlatFileSchemaDetector` – advisory flat-file schema detection interface with `SchemaConfidence`
-- [x] `IKafkaConsumerSource` – async Kafka consumer source interface with explicit offset commit
-- [x] `IIncrementalImportCursor` – pull-based resumable cursor with `CheckpointToken`
-- [x] `IImporterPlugin` – URI-scheme-based plugin entry point (`pluginId()`, `supportedSchemes()`, `createImporter()`)
-- [x] `IImporterPluginRegistry` – scheme-keyed plugin registry with `resolve(uri)` returning `nullptr` for unknown schemes
-- [x] `REGISTER_IMPORTER_PLUGIN` macro – static-init plugin registration
-- [x] Unit tests for all abstract interfaces (`tests/test_importer_interfaces.cpp`, 42 tests)
+### Phase 4: Tests
+- [ ] expand focused regressions for mixed connector/schema/conflict edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for high-throughput import workloads (Target: Q4 2026)
 
-### Phase 5: Build System Audit (Status: Completed ✅)
-- [x] All 11 `src/importers/*.cpp` files registered in `cmake/CMakeLists.txt` (`s3_importer.cpp` gated by `THEMIS_ENABLE_S3`)
-- [x] All 11 `src/importers/*.cpp` files registered in `cmake/ModularBuild.cmake` (`THEMIS_QUERY_SOURCES`; `s3_importer.cpp` gated by `THEMIS_ENABLE_S3`)
-- [x] Focused standalone test targets added in `tests/CMakeLists.txt`: FlatfileImporterFocusedTests, SchemaValidatorImporterFocusedTests, ImporterConflictResolverFocusedTests, ImporterAsyncApiFocusedTests, MySQLImporterFocusedTests, MongoImporterFocusedTests, SQLiteImporterFocusedTests, KafkaImporterFocusedTests, OracleImporterFocusedTests, S3ImporterFocusedTests, PostgresImporterFocusedTests, ImportWizardFocusedTests
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for importer hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core importers module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1857)
-- [x] Integration tests against live PostgreSQL (Issue: #1858)
-- [I] Performance benchmarks (rows/sec, GB/hr) (Issue: #1859)
-- [I] Security audit (SQL injection, credential handling) (Issue: #1860)
-- [I] Documentation complete (Issue: #1861)
-- [I] API stability guaranteed (Issue: #1862)
 
-## Known Issues & Limitations
-- MySQL/Oracle importers require the respective client library at link time (`THEMIS_ENABLE_MYSQL`, `THEMIS_ENABLE_OCI`); builds without those flags return `CONNECTOR_NOT_SUPPORTED`.
-- Kafka importer requires `THEMIS_ENABLE_KAFKA` and librdkafka at link time; compiles cleanly without it but every `importData()` call returns an error.
-- Binary/blob field types may require manual mapping.
-- No distributed parallel import across multiple nodes.
-- GUI-based import wizard is planned but not yet implemented (Issue: #1847).
-- Microsoft SQL Server importer is planned (Issue: #1845).
+- [x] core importer surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for connector/validation/conflict edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on connector availability and build/runtime feature flags.
+- selected connector and conflict edge scenarios need continued hardening.
+- benchmark breadth should continue expanding for advanced ingest workflows.
 
 ## Breaking Changes
-- Importer plugin API will be stabilised in v1.5.0; breaking changes expected before that milestone.
+
+No breaking importer contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

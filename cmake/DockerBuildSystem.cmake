@@ -23,7 +23,9 @@ set(THEMIS_DOCKER_BUILDX_PUSH OFF
     CACHE BOOL "Docker buildx push instead of load")
 
 # Package store for pre-built packages
-set(THEMIS_PACKAGE_STORE "${CMAKE_SOURCE_DIR}/vcpkg_packages")
+if(NOT DEFINED THEMIS_PACKAGE_STORE)
+    set(THEMIS_PACKAGE_STORE "${CMAKE_SOURCE_DIR}/releases")
+endif()
 
 # Clean docker build context directory
 set(THEMIS_DOCKER_CONTEXT_DIR "${CMAKE_BINARY_DIR}/docker-context")

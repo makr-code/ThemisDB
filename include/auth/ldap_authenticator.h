@@ -1,35 +1,37 @@
+/**
+ * @file ldap_authenticator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ldap_authenticator.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 79129146f  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ldap_authenticator.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 328
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4113 feat(auth): Async / Non-Blo... (2026-03-12) | #4105 fix(auth): address LDAP con... (2026-03-12) | #3831 security(auth): LDAP DN and... (2026-03-12) | #2823 feat(auth): LDAP/Active Dir... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "auth/auth_error.h"
+#include "auth/auth_worker_thread_pool.h"
+#include "auth/ldap_connection_pool.h"
 
 #include <string>
 #include <vector>
 #include <optional>
 #include <memory>
 #include <chrono>
+#include <functional>
+#include <future>
+#include <functional>
 
 namespace themis {
 namespace utils { class AuditLogger; }
@@ -80,6 +82,24 @@ struct LDAPConfig {
 
     // Fallback role assigned when no group mapping matches
     std::string default_role{"readonly"};
+
+    // -----------------------------------------------------------------------
+    // Connection pool settings (used when the pool is enabled)
+    // -----------------------------------------------------------------------
+
+    /// Enable the LDAP connection pool.  When false, a new connection is
+    /// opened for every authenticate() call (pre-pool behaviour).
+    bool pool_enabled{true};
+
+    /// Minimum number of idle connections kept alive in the pool.
+    int pool_min_idle{2};
+
+    /// Maximum total connections (idle + active) in the pool.
+    int pool_max_size{16};
+
+    /// Maximum time (milliseconds) to wait for a free connection before
+    /// authenticate() returns a failure.
+    int pool_checkout_timeout_ms{5000};
 };
 
 /**
@@ -147,6 +167,12 @@ struct LDAPAuthResult {
  */
 class LDAPAuthenticator {
 public:
+    using LdapBindFn = std::function<LDAPAuthResult(const std::string& username,
+                                                    const std::string& dn,
+                                                    const std::string& password)>;
+
+    static void setLdapBindFn(LdapBindFn fn);
+
     /**
      * @brief Construct an uninitialised authenticator.
      */
@@ -174,7 +200,10 @@ public:
      *
      * Validates the configuration (non-empty server_url and bind_dn_template)
      * but does NOT open a network connection — connections are opened per
-     * authenticate() call to keep the authenticator stateless.
+     * authenticate() call (or kept alive in the connection pool).
+     *
+     * When config.pool_enabled is true (the default) a connection pool is
+     * pre-warmed with config.pool_min_idle connections.
      *
      * @param config  LDAP configuration
      * @return true on success, false if the configuration is invalid
@@ -198,9 +227,35 @@ public:
                                 const std::string& password);
 
     /**
+     * @brief Non-blocking variant of authenticate().
+     *
+     * Dispatches the LDAP bind to the internal AuthWorkerThreadPool so the
+     * calling thread is never stalled by network latency.
+     *
+     * Performance target: P99 latency visible to callers ≤ 50 ms even when
+     * the LDAP backend takes up to 200 ms.
+     *
+     * @param username  Plain username
+     * @param password  User password
+     * @return std::future<LDAPAuthResult> — becomes ready when the bind completes
+     * @throws AuthException synchronously on invalid input
+     * @throws std::runtime_error if the internal thread pool is not running
+     */
+    std::future<LDAPAuthResult> authenticateAsync(const std::string& username,
+                                                   const std::string& password);
+
+    /**
      * @brief Return the current configuration (after initialize()).
      */
     const LDAPConfig& getConfig() const { return config_; }
+
+    /**
+     * @brief Return a non-owning pointer to the connection pool, or nullptr
+     * if the pool is disabled or the authenticator is not yet initialised.
+     *
+     * Exposed for metrics collection (pool_size, idle_connections, …).
+     */
+    const LDAPConnectionPool* connectionPool() const noexcept { return pool_.get(); }
 
     /**
      * @brief Build a user DN by substituting {username} in the template.
@@ -211,6 +266,21 @@ public:
      * @return DN string with {username} replaced
      */
     std::string buildUserDN(const std::string& username) const;
+
+    /**
+     * @brief Build the group search filter by substituting and filter-escaping placeholders.
+     *
+     * Substitutes placeholders in group_search_filter with RFC 4515-escaped values:
+     * - {dn} with the distinguished name
+     * - {username} with the username (when provided)
+     * Public for unit-testing; callers normally use authenticate().
+     *
+     * @param dn        Distinguished Name to substitute into {dn}
+     * @param username  Optional username to substitute into {username}
+     * @return Filter string with substituted placeholders
+     */
+    std::string buildGroupSearchFilter(const std::string& dn,
+                                       const std::string& username = "") const;
 
     /**
      * @brief Map a list of LDAP group names to ThemisDB roles.
@@ -228,14 +298,41 @@ private:
     LDAPConfig   config_;
     utils::AuditLogger* audit_logger_{nullptr}; ///< Non-owning, optional.
 
+    /// Worker thread pool for authenticateAsync().  Created at construction
+    /// time so it is always available after initialize().
+    ///
+    /// LIFETIME NOTE: worker_pool_ MUST remain the last data member declared.
+    /// C++ destroys members in reverse-declaration order, so worker_pool_ is
+    /// destroyed first — its shutdown() joins all in-flight worker threads
+    /// before config_, initialized_, etc. are released.  This ensures that
+    /// tasks capturing 'this' (via authenticateAsync()) never access a
+    /// dangling member.
+    std::unique_ptr<LDAPConnectionPool> pool_;       ///< LDAP connection pool (optional)
+    std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
+
     /**
      * @brief Perform the LDAP bind and optional group search.
      *
      * Called by authenticate() after input validation.
+     * When a connection pool is available the connection is checked out from
+     * the pool; otherwise a fresh connection is opened per-call.
      */
     LDAPAuthResult performBind(const std::string& username,
                                const std::string& dn,
                                const std::string& password);
+
+public:
+#ifndef THEMIS_HAS_LDAP
+    /// Callback type for injecting an LDAP bind implementation in non-libldap builds.
+    using LdapBindFn = std::function<LDAPAuthResult(
+        const std::string& username,
+        const std::string& dn,
+        const std::string& password)>;
+
+    /// Inject an LDAP bind implementation for the non-libldap stub path.
+    /// Pass empty fn to restore fail-closed stub default.
+    static void setLdapBindFn(LdapBindFn fn);
+#endif // !THEMIS_HAS_LDAP
 };
 
 } // namespace auth

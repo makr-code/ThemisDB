@@ -67,6 +67,17 @@ All complaints will be reviewed and investigated promptly and fairly.
 All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.
 
+## Project-Specific Reporting Channels
+
+To keep governance and escalation paths consistent across project documents:
+
+- **General community conduct concerns:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- **Code of Conduct incidents in project spaces:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **Security-sensitive incidents or abuse involving vulnerabilities/secrets:** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
+- **Role and escalation context:** [GOVERNANCE.md](GOVERNANCE.md) and [MAINTAINERS.md](MAINTAINERS.md)
+
+For all reports, the Project Lead and maintainers follow the responsibility model in [GOVERNANCE.md](GOVERNANCE.md) and the operational process in [SOP.md](SOP.md).
+
 ## Enforcement Guidelines
 
 Community leaders will follow these Community Impact Guidelines in determining
@@ -131,3 +142,7 @@ For answers to common questions about this code of conduct, see the FAQ at
 [Mozilla CoC]: https://github.com/mozilla/diversity
 [FAQ]: https://www.contributor-covenant.org/faq
 [translations]: https://www.contributor-covenant.org/translations
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

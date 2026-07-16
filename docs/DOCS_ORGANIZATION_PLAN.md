@@ -1,94 +1,76 @@
 # Documentation Organization Plan
 
-## Current State (as of 2026-03)
-- ~387 markdown files in `docs/` root (many are implementation summaries, review reports, and working documents)
-- 59 subdirectories with well-organized technical documentation
+Stand: 2026-04-18
 
-## Navigation & Hub Files
+## Zielbild
 
-The following files serve as primary navigation entry points and must be kept consistent:
+`docs/` ist inhaltlich in Modulen und sprachspezifischen Bereichen organisiert. Der Root soll nur als klarer Einstieg dienen.
 
-| File | Purpose |
-|------|---------|
-| `00_DOCUMENTATION_INDEX.md` | Master index with all major documentation areas |
-| `DOCUMENTATION_HUB.md` | User-facing navigation hub (role-based, use-case-based) |
-| `CATEGORY_INDEX.md` | Category-organized reference index |
-| `DOCS_ORGANIZATION_PLAN.md` | This file — documentation structure overview |
+## Governance-Referenz
 
-## Established Subdirectory Structure
+- Verbindliche PR-Regeln fuer Docs-Aenderungen: `governance/DOCS_PR_POLICY.md`
 
-### Language-specific technical docs
-- `de/` — German-language feature docs, architecture, security, guides, APIs
-  - `de/aql/` — AQL query language reference
-  - `de/architecture/` — Architecture docs (MVCC, multi-model, caching, wire protocol)
-  - `de/apis/` — API specifications (REST, GraphQL, gRPC, WebSocket, MCP)
-  - `de/deployment/` — Build, Docker, CI/CD deployment docs
-  - `de/features/` — Feature documentation (vector ops, transactions, CDC, etc.)
-  - `de/guides/` — Operational guides (RBAC, TLS, deployment, build)
-  - `de/performance/` — Performance optimization docs
-  - `de/security/` — Security implementation docs (encryption, HSM, policies)
-  - `de/compliance/` — Compliance guides (GDPR, BCP, risk register)
+## Verbindliche Root-Dateien
 
-- `en/` — English-language deployment and operations docs
-  - `en/deployment/` — Docker build guides, environment variables
-  - `en/gpu/` — GPU vector indexing architecture
-  - `en/operations/` — Monitoring, operations runbooks
-  - `en/features/` — Feature guides (PITR, etc.)
+- `README.md` (Startseite)
+- `00_DOCUMENTATION_INDEX.md` (stabiler Master-Index)
+- `DOCUMENTATION_HUB.md` (rollenbasiert)
+- `CATEGORY_INDEX.md` (themenbasiert)
+- `DOCS_ORGANIZATION_PLAN.md` (Regeln)
 
-### User-facing content
-- `tutorials/` — Step-by-step hands-on tutorials
-- `use-cases/` — Production-ready application guides (E-Commerce, IoT, RAG, SaaS)
-- `knowledge-base/` — Troubleshooting, performance tips, migration guides, backup/recovery
-- `certification/` — Professional certification programs
-- `troubleshooting/` — Per-module troubleshooting guides
+## Verzeichnisprinzip
 
-### Core reference
-- `api/` — API reference overview
-- `architecture/` — (legacy path, prefer `de/architecture/`)
-- `research/` — Research papers, architecture decisions, best practices
-- `security/` — Security policies, HSM, PKCS11, production hardening
-- `replication/` — Replication module documentation
+- Sprachraeume: `de/`, `en/`
+- Lernpfade: `tutorials/`, `use-cases/`, `knowledge-base/`, `certification/`
+- Betrieb: `en/deployment/`, `en/operations/`, `replication/`, `production/`
+- Querschnitt: `architecture/`, `security/`, `compliance/`, `observability/`
+- Historie/Altmaterial: `ARCHIVED/`, `archive/`, `implementation-history/`
 
-### Operations & tooling
-- `tools/` — Admin, analysis, development, ingestion, operations tools docs
-- `production/` — Production runbooks and checklists
-- `benchmarks/` — Benchmark methodology (CHIMERA), hardware specs
-- `acceleration/` — GPU capability negotiation, error codes, production readiness
-- `sharding/` — Shard RPC client documentation
-- `storage/` — Storage backend docs (RocksDB, cloud blob)
-- `timeseries/` — Time-series configuration and reference
+## Aufraeumregeln
 
-### Meta / process docs
-- `ARCHIVED/` — Historical development documents (GAP analyses, old roadmaps, todos, implementation summaries)
-- `archive/` — Older reports and analysis files
-- `Audit/` — Architecture and documentation audit reports
-- `reviews/` — Code and module review reports
-- `reports/` — Release reports, competitive analysis, implementation summaries
-- `schemas/` — Data schema documentation
-- `training/` — Security awareness training materials
+- Keine neuen `tmp_*.md` Dateien im Root.
+- Dateien mit Build-/Test-/Security-Output (`build_*.txt`, `test_*.txt`, `scout_cves_*.sarif`, `sec_block.txt`) sind keine Leitdokumente und duerfen nicht als redaktionelle Quelle behandelt werden.
+- Implementierungszusammenfassungen und Ad-hoc-Review-Dumps nicht im Root halten.
+- Neue Root-Dateien nur, wenn sie langfristiger Navigation dienen.
+- Dokumente mit kurzer Halbwertszeit in `archive/` oder modulspezifische Unterordner verschieben.
+- Relevanz-Triage immer mit zwei Signalen: interne Referenzen + Datum.
+- Wenn Dateisystem-Zeitstempel vereinheitlicht sind, fuer Datumsbewertung Git-Historie (`git log -1 --format=%cs`) verwenden.
 
-## Recommended Cleanup (Future Work)
+## Root-Artefakt-Regel (Build/Test/Security)
 
-The docs root still contains many working documents and implementation summaries
-that could be moved to `implementation-history/` or `ARCHIVED/implementation-summaries/`
-to keep the root cleaner for navigational files. This includes files matching patterns:
-- `*_IMPLEMENTATION_SUMMARY.md`
-- `*_COMPLETE*.md`
-- `*_REVIEW_*.md`
-- `CODE_REVIEW_*.md`
-- `tmp_*.md`
+- `tmp_*.md` (Arbeitsnotizen) -> `docs/archive/tmp-notes/`
+- `build_*.txt` (Build-Ausgaben) -> `logs/archive/`
+- `test_*.txt` (Test-Ausgaben) -> `tests/outputs/` bzw. `tests/outputs/archive/`
+- `scout_cves_*.sarif` (Scan-Rohdaten) -> `docs/audit-framework/evidence/<version>/scans/`
+- `sec_block.txt` (temporäre Security-Hinweise) -> `docs/ARCHIVED/root-drafts/`
 
-The `tmp_*.md` files in docs root are temporary working documents and should be removed
-once their content has been incorporated.
+Detail-Inventar und aktuelle Triage siehe:
+- `docs/de/reports/ROOT_ARTEFAKT_INVENTAR_2026-05.md`
 
-## Key Entry Points by Audience
+## Durchgefuehrte Bereinigung (2026-04-18)
 
-| Audience | Start Here |
-|----------|-----------|
-| New users | `de/guides/QUICKSTART.md` |
-| Developers | `api/API_REFERENCE.md`, `de/aql/aql_syntax.md` |
-| Contributors | `../CONTRIBUTING.md`, `de/architecture/ARCHITECTURE_OVERVIEW.md` |
-| Operators | `en/deployment/DOCKER_BUILD_GUIDE.md`, `en/operations/MONITORING_SETUP_GUIDE.md` |
-| Security team | `de/security/security_implementation.md`, `de/security/README.md` |
-| AQL users | `de/aql/aql_syntax.md`, `de/aql/aql_functions_reference.md` |
-| MVCC/architecture | `de/architecture/architecture_mvcc.md`, `de/architecture/architecture_multi_model.md` |
+- `tmp_issue_*.md` aus dem Root nach `archive/tmp-notes/` verschoben.
+- Navigationsdateien auf konsistente, valide Einstiegslinks reduziert.
+- Doppelte und veraltete Linklisten in den Haupt-Hubs entfernt.
+- 28 Root-Dateien mit Muster `*IMPLEMENTATION_SUMMARY*.md` nach `implementation-history/summaries/` verschoben.
+- Ausgewaehlte Referenzen in bestehenden Docs auf die neuen Pfade aktualisiert.
+- 13 Root-Dateien aus der Phase-Status-Welle (`PHASE*_COMPLETE|STATUS|PROGRESS`) nach `implementation-history/phases/` verschoben.
+- Betroffene Verweise in `PRODUCTION_HARDENING_SUMMARY.md` auf die neuen Ziele angepasst.
+- 14 Root-Dateien aus der Review-Welle (`*_REVIEW*.md`, `*CODE_REVIEW*.md`, finale Review-Reports) nach `implementation-history/reviews/` verschoben.
+- Referenzen in `docs/ci-cd/README.md`, `docs/en/llm/CUDA_KERNEL_IMPLEMENTATION.md` und `docs/troubleshooting/core_troubleshooting.md` auf neue Ziele umgestellt.
+- 24 Root-Dateien aus der Status/Complete-Welle nach `implementation-history/status-reports/` verschoben (Kriterium: 0 interne Referenzen + historisches Git-Datum).
+- `RESET_COMPLETE.md` verbleibt vorerst im Root (juengstes Git-Datum in dieser Welle).
+- 17 unreferenzierte Dokumentationsprozess-Snapshots nach `governance/documentation-history/` verschoben.
+- 10 unreferenzierte Build-/Tooling-Snapshots nach `build-guide/` verschoben.
+
+## Naechste Schritte
+
+- Verbleibende Root-Snapshots regelmaessig erneut triagieren (Referenzen + Git-Datum), bevor sie verschoben werden.
+- Link-Check in CI fuer die vier Root-Navigationsdateien etablieren.
+
+## Aktuelle Root-Leitlinie
+
+Im Root verbleiben bevorzugt:
+- Einstieg, Navigation und Governance
+- wenige zentrale Runbooks oder Hubs mit aktiver Querverlinkung
+- keine abgeschlossenen Snapshot-Berichte ohne Referenzen

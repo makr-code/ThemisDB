@@ -372,4 +372,4 @@ All third-party licenses are compatible with ThemisDB's MIT License with Governm
 
 **ThemisDB License:** MIT License with Government Clause  
 **Document Version:** 2.0  
-**Last Updated:** 2. Februar 2026
+**Last Updated:** 6. April 2026

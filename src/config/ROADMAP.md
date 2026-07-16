@@ -1,79 +1,71 @@
 # Config Module Roadmap
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- validated: 2026-03-09 | status: current | source: src/config/ -->
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, deprecation warning aggregation, and Prometheus metrics export via the `/metrics` endpoint. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
 
-## Completed ✅
-- [x] Legacy-to-new config path mapping with 60+ path mappings
-- [x] Filesystem fallback: tries new path first, then legacy path with deprecation warning
-- [x] LRU cache (capacity and TTL configurable via `THEMIS_CONFIG_CACHE_SIZE` / `THEMIS_CONFIG_CACHE_TTL` env vars, defaults: 1000 / 300 s) for resolved paths
-- [x] Path traversal prevention and normalization
-- [x] Symlink escape detection: rejects symlinks resolving outside the config root
-- [x] Deprecation and removal-date metadata per mapped path (all 60+ paths covered)
-- [x] Migration guide links per deprecated path
-- [x] Thread-safe metrics: hits, misses, cache hits, legacy fallbacks (std::atomic)
-- [x] Optional API: `tryResolve()` returning `std::nullopt` on failure
-- [x] Typed exception hierarchy for config-related errors
-- [x] Coverage of AI/ML, security, compliance, performance, platform, networking, and monitoring categories
-- [x] Deprecation warning aggregation report: `deprecationReport()` API, `setAggregationEnabled()`, background reporter thread (Issue: #1659)
-- [x] Config audit trail: log which paths were accessed and when — `ConfigAuditLog` with bounded in-memory ring-buffer, `setAuditLogEnabled()` / `auditLog()` / `clearAuditLog()` API (Issue: #1668)
-- [x] Automatic legacy path migration script with dry-run mode — `config_migration_scanner` CLI (`--root`, `--output text|json|csv`, `--dry-run`, `--fix`); unit-tested via `tests/test_config_migration_scanner.cpp` (Issue: #1661)
-- [x] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
-- [x] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
-- [x] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
+Production config runtime exists for path resolution, schema validation, config observability, watcher signaling, and encrypted-store integration surfaces.
 
-## In Progress 🚧
-- [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
+## In Progress
 
-## Planned Features 📋
+- [~] hardening resolver/validator edge-case consistency under complex config sets (Target: Q3 2026)
+- [~] benchmark stabilization for config resolution and update-serialization hot paths (Target: Q3 2026)
+- [~] diagnostics consistency improvements across audit/watcher/encrypted-store failures (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
+## Planned Features
 
-### Long-term (6-12 months)
-- [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
-- [x] Integration with config validation (JSON Schema / YAML schema) via `ConfigSchemaValidator` — validates YAML/JSON config files against JSON Schema Draft 7 subset (Issue: #1666)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior for path mapping and validation race-edge scenarios (Target: Q4 2026)
+- [ ] expand regressions for file-watcher churn and resolver fallback permutations (Target: Q4 2026)
+- [ ] improve operator diagnostics for config validation and secure-store incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline config p95/p99 envelopes for release-profile resolver/validator pathways (Target: Q1 2027)
+- [ ] add dedicated benchmark coverage beyond current resolver-focused measurements (Target: Q1 2027)
+- [ ] harden long-running watcher and encrypted-store rotation behavior under sustained load (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Legacy Path Resolution and Caching (Status: Completed)
-- [x] Built legacy-to-new path mapping table with 60+ entries across all config categories
-- [x] Implemented filesystem fallback: tries new path first, emits deprecation warning on fallback
-- [x] Implemented LRU cache with capacity 1000 and TTL 5 min for resolved paths
-- [x] Added typed exception hierarchy (`ConfigNotFoundException`, `ConfigPathException`, etc.)
-- [x] Implemented thread-safe metrics counters using `std::atomic` (hits, misses, legacy fallbacks)
+### Phase 1: Design / API Contract
+- [ ] freeze resolver/validator/secure-store contracts for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for mapping/validation/watcher/store failure classes (Target: Q3 2026)
 
-### Phase 2: Security and API Hardening (Status: Completed)
-- [x] Added path traversal prevention with `..` normalization and absolute-path rejection
-- [x] Added deprecation and removal-date metadata per mapped path
-- [x] Added migration guide URL per deprecated path
-- [x] Implemented `tryResolve()` optional API returning `std::nullopt` on missing path
+### Phase 2: Core Implementation
+- [ ] complete hardening for resolution, validation, and watcher internals (Target: Q4 2026)
+- [ ] align encrypted-store and metrics/audit behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Metadata Completion and Validation Hardening (Status: Completed)
-- [x] Complete `METADATA_TABLE` entries for all 60+ mapped paths — every PATH_MAPPING key now has `deprecated_date`, `removal_date`, and `migration_guide_url` (Issue: #1676)
-- [x] Harden absolute path validation to reject symlinks outside the config root (Issue: #1677)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for malformed config and invalid mapping states (Target: Q4 2026)
+- [ ] unify diagnostics across resolver/validator/watcher/store failure paths (Target: Q4 2026)
 
-### Phase 4: Tooling and Observability (Status: Completed)
-- [x] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
-- [x] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
-- [x] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
-- [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
+### Phase 4: Tests
+- [ ] expand focused regressions for schema, resolver fallback, and watcher race scenarios (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for secure-store and metrics/audit permutations (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for config hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core config module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (539 lines) (Issue: #1674)
-- [x] Integration tests (path resolution, LRU cache, fallback, metadata)
-- [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675)
-- [x] Security audit (path traversal prevention, symlink escape hardening)
-- [x] Documentation complete (`src/config/README.md`, `src/config/ARCHITECTURE.md`, `src/config/ROADMAP.md`, `src/config/FUTURE_ENHANCEMENTS.md`)
-- [x] API stability guaranteed for ConfigPathResolver
 
-## Known Issues & Limitations
-- Does not parse or validate config file contents (YAML/JSON parsing is out of scope)
-- Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
-- Secrets management and credential injection are explicitly out of scope
-- Migration scanner available: `config_migration_scanner --fix` rewrites legacy path strings in config files in-place (creates `.bak` backups).
+- [x] core config surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for resolver/validator/watcher/store edges
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- benchmark coverage remains narrow and resolver-centric in current mapping.
+- selected watcher and secure-store long-running edge profiles require ongoing hardening.
+- behavior remains partially capability-dependent on enabled runtime integrations.
 
 ## Breaking Changes
-- Removal of deprecated legacy path mappings is planned once migration tooling is released and a deprecation window expires
-- Cache size and TTL are now configurable via `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL` environment variables (defaults: 1000 entries / 300 s)
+
+No breaking config-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

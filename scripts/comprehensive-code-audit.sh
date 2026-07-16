@@ -320,21 +320,41 @@ run_cppcheck() {
 
 run_clang_tidy() {
     print_subheader "Running clang-tidy"
+
+    local compile_db=""
+    local candidate
+    for candidate in \
+        "${PROJECT_ROOT}/build-msvc-windows-debug/compile_commands.json" \
+        "${PROJECT_ROOT}/build-msvc-windows-release/compile_commands.json" \
+        "${PROJECT_ROOT}/build-gcc-linux-debug/compile_commands.json" \
+        "${PROJECT_ROOT}/build-gcc-linux-release/compile_commands.json" \
+        "${PROJECT_ROOT}/build/compile_commands.json"; do
+        if [ -f "$candidate" ]; then
+            compile_db="$candidate"
+            break
+        fi
+    done
     
     # Check if compile_commands.json exists
-    if [ ! -f "${PROJECT_ROOT}/build/compile_commands.json" ]; then
+    if [ -z "$compile_db" ]; then
         print_info "Generating compile_commands.json..."
         cd "$PROJECT_ROOT"
         cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
               -DCMAKE_BUILD_TYPE=Debug \
-              -B build \
+              -B build-gcc-linux-debug \
               -G Ninja 2>&1 | tee "${AUDIT_DIR}/sast/cmake-output.txt" || true
+        if [ -f "${PROJECT_ROOT}/build-gcc-linux-debug/compile_commands.json" ]; then
+            compile_db="${PROJECT_ROOT}/build-gcc-linux-debug/compile_commands.json"
+        fi
     fi
     
-    if [ ! -f "${PROJECT_ROOT}/build/compile_commands.json" ]; then
+    if [ -z "$compile_db" ]; then
         print_warning "Could not generate compile_commands.json, skipping clang-tidy"
         return 0
     fi
+
+    local compile_dir
+    compile_dir="$(dirname "$compile_db")"
     
     local output_file="${AUDIT_DIR}/sast/clang-tidy-output.txt"
     
@@ -346,7 +366,7 @@ run_clang_tidy() {
     find "${PROJECT_ROOT}/src" "${PROJECT_ROOT}/include" \
         -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.hpp" \) \
         2>/dev/null | head -n "$file_limit" | \
-        xargs -I {} clang-tidy -p "${PROJECT_ROOT}/build" {} \
+        xargs -I {} clang-tidy -p "$compile_dir" {} \
         2>&1 | tee "$output_file" || true
     
     # Count warnings and errors

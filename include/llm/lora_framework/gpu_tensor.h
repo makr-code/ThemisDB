@@ -1,23 +1,21 @@
+/**
+ * @file gpu_tensor.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_tensor.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     336                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_tensor.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 340
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11) | #606 Implement GPU-native mixed ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,10 +26,14 @@
 #include <vector>
 #include <memory>
 #include <cstddef>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace llm {
 namespace lora {
+
+class Tensor;
 
 /**
  * @brief GPU-enabled Tensor class for LoRA training
@@ -251,6 +253,17 @@ public:
      */
     bool has_inf_or_nan() const;
 
+    // ========== dtype-cast callback bridges (STUB #2/#3) ==========
+    //
+    // Allow injection of a real GPU dtype-cast kernel for CUDA (STUB #2) or
+    // HIP/ROCm (STUB #3) builds, replacing the default CPU round-trip fallback.
+    // The function receives the current element data as fp32, the source DType,
+    // and the target DType; it returns the converted element data as fp32.
+    // Passing nullptr reverts to the CPU round-trip fallback path.
+    using DtypeCastFn = std::function<std::vector<float>(const std::vector<float>&, DType, DType)>;
+    static void setCudaDtypeCastFn(DtypeCastFn fn);
+    static void setHipDtypeCastFn(DtypeCastFn fn);
+
 private:
     std::vector<size_t> shape_;
     Device device_;
@@ -323,15 +336,14 @@ namespace gpu_tensor_utils {
     /**
      * @brief Convert legacy Tensor to GPUTensor
      */
-    class Tensor;  // Forward declaration
-    GPUTensor from_legacy_tensor(const Tensor& tensor, 
-                                 const Device& device = Device::cpu(),
-                                 DType dtype = DType::FLOAT32);
+    [[nodiscard]] GPUTensor from_legacy_tensor(const Tensor& tensor,
+                                               const Device& device = Device::cpu(),
+                                               DType dtype = DType::FLOAT32);
     
     /**
      * @brief Convert GPUTensor to legacy Tensor
      */
-    Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
+    [[nodiscard]] Tensor to_legacy_tensor(const GPUTensor& gpu_tensor);
 }
 
 } // namespace lora

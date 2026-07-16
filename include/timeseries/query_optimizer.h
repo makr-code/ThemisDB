@@ -1,23 +1,20 @@
+/**
+ * @file query_optimizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_optimizer.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_optimizer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -85,6 +82,12 @@ public:
         bool explain = false;  // Return optimization plan
         std::vector<PredicateFilter> predicates;  ///< Optional tag predicates to push down
         bool use_cache = true;  ///< Whether to use/populate the query plan cache
+
+        /// Decode-width hint for the Gorilla SIMD decoder.
+        /// Tells the decoder which value width to use for width-specific vectorisation paths,
+        /// avoiding unnecessary bit-width checks in tight decode loops.
+        enum class DecodeWidth { Auto, Float32, Float64 };
+        DecodeWidth decode_width = DecodeWidth::Auto;
     };
     
     struct QueryPlan {
@@ -96,6 +99,8 @@ public:
         double estimated_speedup = 1.0;  // Speedup factor vs raw query
         std::string explanation;
         std::vector<PredicateFilter> active_predicates;  ///< Predicates included in this plan
+        /// Decode-width resolved from the hint, propagated to the SIMD decoder.
+        OptimizationHint::DecodeWidth decode_width = OptimizationHint::DecodeWidth::Auto;
     };
     
     explicit TSQueryOptimizer(TSStore* store);

@@ -50,6 +50,58 @@ explicit `(Target: …)` annotation and require manual milestone assignment.
 python3 -m pytest tests/test_sync_milestones.py -v
 ```
 
+### Issue Sync from Consolidated Roadmap
+
+Create and reconcile GitHub issues from the consolidated [src/ROADMAP.md](../src/ROADMAP.md)
+backlog. The script resolves each roadmap row to the linked
+`src/<module>/FUTURE_ENHANCEMENTS.md` section, extracts acceptance criteria, and
+can backfill issue references into the roadmap after successful creation. Generated
+issues use governance-aligned `area:*`, `priority:*`, `type:*`, and `status:*`
+labels and render the mandatory `Context`, `Goal`, `Acceptance Criteria`,
+`Relationships`, and `References` sections in the issue body.
+
+- **`sync-issues-from-roadmap.py`** – Preview, apply, and backfill roadmap issues.
+
+**Usage:**
+
+```bash
+# Generate issue bodies and preview reports only
+python3 scripts/sync-issues-from-roadmap.py --mode preview
+
+# Limit to a specific module or priority for batching
+python3 scripts/sync-issues-from-roadmap.py --mode preview --module auth --limit 5
+python3 scripts/sync-issues-from-roadmap.py --mode preview --priority critical
+
+# Create missing issues with gh CLI and write Issue references back to src/ROADMAP.md
+python3 scripts/sync-issues-from-roadmap.py --mode apply --backfill
+
+# Backfill later from a prior apply manifest
+python3 scripts/sync-issues-from-roadmap.py --mode backfill \
+  --manifest artifacts/roadmap-issues/roadmap-issues-apply.json
+
+# Optional: run the same flow via workflow_dispatch in GitHub Actions
+gh workflow run sync-roadmap-issues.yml -f mode=preview -f priority=critical -f limit=10
+```
+
+**Outputs:**
+
+- `artifacts/roadmap-issues/roadmap-issues-preview.json`
+- `artifacts/roadmap-issues/roadmap-issues-preview.md`
+- `artifacts/roadmap-issues/bodies/*.md`
+- `artifacts/roadmap-issues/roadmap-issues-apply.json`
+- `artifacts/roadmap-issues/roadmap-issues-summary.json`
+- `artifacts/roadmap-issues/roadmap-issues-summary.md`
+
+The summary artifacts are written automatically after `preview`, `apply`, and
+`backfill` runs and contain per-priority totals plus any remaining roadmap rows
+without an issue reference.
+
+**Tests:** `tests/test_sync_issues_from_roadmap.py`
+
+```bash
+python3 -m pytest tests/test_sync_issues_from_roadmap.py -v
+```
+
 ---
 
 ### Release Scripts
@@ -149,8 +201,26 @@ See the [add-doc-metadata workflow](../.github/workflows/add-doc-metadata.yml) f
 ### LLM & Benchmarking Scripts (New in v1.3.0+)
 Scripts for managing LLM models and running inferencing benchmarks:
 - `download-ollama-models.ps1` - Download models from Ollama and convert to GGUF
+- `prepare_release_mini_llm.py` - Prepare a small GGUF release bundle for llama.cpp (`default.gguf` + manifest)
 - `run-llm-benchmarks.ps1` - Execute LLM inferencing benchmarks
 - `setup-llm-benchmarks.ps1` - Complete workflow: download + build + benchmark
+
+### Release Asset Helpers
+
+Scripts for release packaging with bundled documentation and LLM assets:
+
+- `generate_docs_database.py` - Generate the precompiled documentation JSON database
+- `generate_docs_rocksdb.py` - Generate importer code for docs.db / RocksDB documentation bundle
+- `prepare_release_mini_llm.py` - Download or stage a small GGUF model as `models/default.gguf`
+
+**Quick Start:**
+```bash
+# Prepare release mini model bundle
+python3 scripts/prepare_release_mini_llm.py --output-dir release/models
+
+# Generate documentation database JSON
+python3 scripts/generate_docs_database.py --output data/docs_database.json
+```
 
 **Quick Start:**
 ```powershell
@@ -194,6 +264,21 @@ python3 scripts/toc-check.py
 # Generate JSON reports for CI/CD
 python3 scripts/docs-lint.py --format json --output lint-report.json
 ```
+
+### Local Quality Gate (Windows)
+
+Run a local end-to-end quality flow (build, tests, static analysis, security scan, docs):
+
+- **`quality-gate.ps1`** - PowerShell runner with per-step skip switches and report output
+- **`quality_gate_gui.py`** - Tkinter desktop launcher for `quality-gate.ps1`
+
+**Quick Start:**
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1
+python .\scripts\quality_gate_gui.py
+```
+
+Detailed guide: [docs/development/LOCAL_QUALITY_GATE.md](../docs/development/LOCAL_QUALITY_GATE.md)
 
 **CI/CD Integration:**
 - Automated via `.github/workflows/documentation-validation.yml`

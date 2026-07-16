@@ -1,25 +1,20 @@
+/**
+ * @file query_optimizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_optimizer.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     312                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5af2d754f  2026-02-28  feat: integrate per-query cost model into query optimizer... ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_optimizer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -33,14 +28,20 @@
 
 #include "query/query_engine.h"
 #include "query/adaptive_optimizer.h"
+#include "query/optimizer_cost_model.h"
 
 // Forward-declare PerQueryCostModel to avoid a hard dependency;
 // callers that want to use it must include the full header.
 namespace themis { namespace performance { namespace phase3 { class PerQueryCostModel; } } }
 
-namespace themis {
+// Forward-declare StatisticsCollector and MetricsCollector to avoid hard dependencies.
+namespace themis { class StatisticsCollector; }
+namespace themis { namespace observability { class MetricsCollector; } }
 
-class SecondaryIndexManager;
+namespace themis {
+namespace query {
+
+using SecondaryIndexManager = ::themis::SecondaryIndexManager;
 
 class QueryOptimizer {
 public:
@@ -58,12 +59,38 @@ public:
         double nlp_complexity = 0.0;                // Query complexity estimate (0.0-1.0)
         std::vector<std::string> nlp_suggested_indexes; // Suggested index types
         std::map<std::string, std::string> nlp_hints;   // Semantic optimization hints
+
+        // Serialization + execution-path recommendation (SerializationStrategyAdvisor)
+        OptimizerCostModel::SerializationAdvice serialization_advice;
     };
 
-    QueryOptimizer(SecondaryIndexManager& secIdx);
+    /// @param secIdx          Secondary index manager (required).
+    /// @param stats_collector Optional statistics collector for cardinality/histogram estimates.
+    /// @param metrics_collector Optional metrics collector for Prometheus instrumentation.
+    QueryOptimizer(SecondaryIndexManager& secIdx,
+                   StatisticsCollector* stats_collector = nullptr,
+                   observability::MetricsCollector* metrics_collector = nullptr);
 
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
+
+    // =============================
+    // Serialization Advisor tuning
+    // =============================
+
+    /**
+     * @brief Replace the cost constants used by the serialization-strategy advisor.
+     *
+     * Allows external calibration (e.g. via PerQueryCostModel::calibrate) to flow
+     * into subsequent chooseOrderForAndQuery() calls.  Thread-safe only with
+     * external serialization of calls to this method and chooseOrderForAndQuery().
+     */
+    void setAdvisorCostConstants(const OptimizerCostModel::CostConstants& c);
+
+    /**
+     * @brief Return a read-only reference to the advisor's current cost constants.
+     */
+    const OptimizerCostModel::CostConstants& advisorCostConstants() const;
     
     // NLP-enhanced query optimization (PR #317 Phase 1)
     // Combines traditional cost-based optimization with NLP-based semantic analysis
@@ -77,6 +104,19 @@ public:
 
     Result<std::vector<BaseEntity>>
     executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
+
+    /**
+     * @brief Execute optimized conjunctive query and return only match count.
+     * @param engine Query engine instance used for execution
+     * @param q Original conjunctive query (table context)
+     * @param plan Optimized predicate order generated by chooseOrderForAndQuery()
+     * @return Number of matching primary keys
+     *
+     * Uses the same optimized sequential predicate order as executeOptimizedKeys,
+     * but avoids returning key payload to the caller.
+     */
+    Result<size_t>
+    executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
 
     // =============================
     // Per-Query Cost Model Integration (Phase 3, Issue #2419)
@@ -131,8 +171,8 @@ public:
     enum class VectorGeoPlan { SpatialThenVector, VectorThenSpatial };
     struct VectorGeoCostResult {
         VectorGeoPlan plan;
-        double costSpatialFirst;
-        double costVectorFirst;
+        double costSpatialFirst = 0.0;
+        double costVectorFirst = 0.0;
     };
     static VectorGeoCostResult chooseVectorGeoPlan(const VectorGeoCostInput& in);
 
@@ -147,9 +187,9 @@ public:
         size_t limit = 100;               // requested limit
     };
     struct ContentGeoCostResult {
-        double costFulltextThenSpatial;
-        double costSpatialThenFulltext; // for future when spatial prefilter can restrict FT search scope
-        bool chooseFulltextFirst;       // current plan choice
+        double costFulltextThenSpatial = 0.0;
+        double costSpatialThenFulltext = 0.0; // for future when spatial prefilter can restrict FT search scope
+        bool chooseFulltextFirst = false;       // current plan choice
     };
     static ContentGeoCostResult estimateContentGeo(const ContentGeoCostInput& in);
 
@@ -163,8 +203,8 @@ public:
         double spatialSelectivity = 1.0; // fraction of vertices passing spatial filter
     };
     struct GraphPathCostResult {
-        double estimatedExpandedVertices;
-        double estimatedTimeMs; // abstract
+        double estimatedExpandedVertices = 0.0;
+        double estimatedTimeMs = 0.0; // abstract
     };
     static GraphPathCostResult estimateGraphPath(const GraphPathCostInput& in);
 
@@ -217,9 +257,9 @@ public:
      * @brief Optimize for vector workload with adaptive HNSW tuning
      */
     struct VectorWorkloadPlan {
-        int recommended_ef_search;
-        size_t recommended_k_overfetch;
-        bool use_prefiltering;
+        int recommended_ef_search = 0;
+        size_t recommended_k_overfetch = 0;
+        bool use_prefiltering = false;
         std::string index_type;  // "hnsw", "ivf", "flat"
     };
     
@@ -233,10 +273,10 @@ public:
      * @brief Optimize for graph workload
      */
     struct GraphWorkloadPlan {
-        size_t max_expansion_depth;
-        bool use_bidirectional_search;
-        bool enable_spatial_pruning;
-        size_t recommended_parallelism;
+        size_t max_expansion_depth = 0;
+        bool use_bidirectional_search = false;
+        bool enable_spatial_pruning = false;
+        size_t recommended_parallelism = 0;
     };
     
     GraphWorkloadPlan optimizeGraphWorkload(
@@ -248,16 +288,29 @@ private:
     SecondaryIndexManager& secIdx_;
     bool adaptive_enabled_ = false;
 
+    // Injected collectors (non-owning pointers; callers manage lifetime)
+    StatisticsCollector* stats_collector_ = nullptr;
+    observability::MetricsCollector* metrics_collector_ = nullptr;
+
     // Per-query cost model (Phase 3, Issue #2419)
     mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
 
+    // Cost model instance shared across chooseOrderForAndQuery() calls so that
+    // calibrated constants (via setAdvisorCostConstants / PerQueryCostModel::calibrate)
+    // are preserved between calls instead of being discarded with a local instance.
+    OptimizerCostModel advisor_cost_model_;
+
     // Adaptive query optimization components
     // Use the full implementations from adaptive_optimizer.h
-    using AdaptiveQueryStats = ::themis::AdaptiveQueryStats;
-    using AdaptivePlanSelector = ::themis::AdaptivePlanSelector;
+    // (No using needed - both AdaptiveQueryStats and AdaptivePlanSelector are in themis::query namespace)
     
     class DistributedQueryCostModel {
     public:
+        explicit DistributedQueryCostModel(
+            StatisticsCollector* stats = nullptr,
+            observability::MetricsCollector* metrics = nullptr)
+            : stats_collector_(stats), metrics_collector_(metrics) {}
+
         struct ShardInfo {
             std::string shard_id;
             size_t estimated_rows = 0;
@@ -296,6 +349,11 @@ private:
         double calculatePredicateSelectivity(
             const std::vector<PredicateEq>& predicates,
             const std::string& table) const;
+
+    private:
+        // Non-owning pointers injected at construction time
+        StatisticsCollector* stats_collector_ = nullptr;
+        observability::MetricsCollector* metrics_collector_ = nullptr;
     };
     
     class MultiIndexOptimizer {
@@ -310,4 +368,7 @@ private:
     mutable std::shared_ptr<MultiIndexOptimizer> multi_index_optimizer_;
 };
 
+} // namespace query
 } // namespace themis
+
+

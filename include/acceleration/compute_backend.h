@@ -1,37 +1,36 @@
+/**
+ * @file compute_backend.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            compute_backend.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     594                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
-    • 55513f505  2026-02-23  feat(acceleration): add CUDAMatrixBackend declaration and... ║
-    • 0d9d8563c  2026-02-23  feat(acceleration): API stability for acceleration backen... ║
-    • 9724334d6  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: compute_backend.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1119
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4620 feat(acceleration): Backend... (2026-04-13) | #4338 [WIP] Update documentation ... (2026-03-19) | #3555 docs(acceleration): ROADMAP... (2026-03-12) | #2755 feat(acceleration): final p... (2026-03-12) | #2717 feat(acceleration): Impleme... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <memory>
 #include <cstdint>
+#include <atomic>
+#include <algorithm>
+#include <shared_mutex>
 #include "acceleration/error_context.h"
 #include "acceleration/kernel_invocation.h"
+#include "acceleration/compute_future.h"
 
 namespace themis {
 namespace acceleration {
@@ -57,30 +56,45 @@ inline constexpr uint32_t BACKEND_CONTRACT_VERSION = 100; // v1.0
 
 // Backend types for hardware acceleration
 enum class BackendType {
-    CPU,        // CPU-only (fallback)
-    CUDA,       // NVIDIA CUDA
-    ZLUDA,      // AMD ZLUDA (CUDA compatibility for AMD GPUs)
-    HIP,        // AMD HIP (Heterogeneous-computing Interface for Portability)
-    ROCM,       // AMD ROCm
-    DIRECTX,    // DirectX Compute Shaders (Windows)
-    VULKAN,     // Vulkan Compute (cross-platform)
-    OPENGL,     // OpenGL Compute Shaders (legacy support)
-    METAL,      // Apple Metal
-    ONEAPI,     // Intel OneAPI/SYCL (cross-platform)
-    OPENCL,     // OpenCL (generic)
-    WEBGPU,     // WebGPU (browser-based, future)
-    MULTI_GPU,  // Multi-GPU sharding (distributes across N devices)
-    AUTO        // Auto-detect best available
+    CPU,            // CPU-only (fallback)
+    CUDA,           // NVIDIA CUDA
+    ZLUDA,          // AMD ZLUDA (CUDA compatibility for AMD GPUs)
+    HIP,            // AMD HIP (Heterogeneous-computing Interface for Portability)
+    ROCM,           // AMD ROCm
+    DIRECTX,        // DirectX Compute Shaders (Windows)
+    VULKAN,         // Vulkan Compute (cross-platform)
+    OPENGL,         // OpenGL Compute Shaders (legacy support)
+    METAL,          // Apple Metal (GPU)
+    ONEAPI,         // Intel OneAPI/SYCL (cross-platform)
+    OPENCL,         // OpenCL (generic)
+    WEBGPU,         // WebGPU (browser-based, future)
+    MULTI_GPU,      // Multi-GPU sharding (distributes across N devices)
+    // ── AI-specific accelerator backends ─────────────────────────────────────
+    // Dedicated AI/inference hardware with dedicated low-power neural engines.
+    // All AI backends expose graceful CPU fallback via AiHardwareDispatcher.
+    NPU_APPLE,      // Apple Neural Engine (Core ML / Metal Performance Shaders)
+    NPU_INTEL,      // Intel NPU (OpenVINO / iGPU tile)
+    NPU_QUALCOMM,   // Qualcomm QNN / Hexagon DSP / Snapdragon NPU
+    NPU_ARM,        // ARM Ethos-N / Mali AI extensions
+    NNAPI,          // Android Neural Networks API (delegates to best available)
+    ONNX_RUNTIME,   // ONNX Runtime (universal AI inference, selects EP at runtime)
+    AUTO            // Auto-detect best available
 };
 
 // Floating-point and quantisation precision modes.
 // Values are stable bitmask flags; combine with bitwise OR.
 enum class PrecisionMode : uint32_t {
-    NONE = 0,
-    FP32 = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
-    FP16 = 1u << 1,   ///< 16-bit IEEE 754 half precision
-    BF16 = 1u << 2,   ///< bfloat16
-    INT8 = 1u << 3,   ///< 8-bit integer quantisation
+    NONE  = 0,
+    FP32  = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
+    FP16  = 1u << 1,   ///< 16-bit IEEE 754 half precision
+    BF16  = 1u << 2,   ///< bfloat16
+    INT8  = 1u << 3,   ///< 8-bit integer quantisation (symmetric / asymmetric)
+    // ── AI / LLM quantisation modes ─────────────────────────────────────────
+    // Used by NPU and dedicated AI inference engines.
+    INT4  = 1u << 4,   ///< 4-bit integer (GPTQ / AWQ / NF4 schemes)
+    FP4   = 1u << 5,   ///< 4-bit float (e.g. NF4, FP4-E2M1)
+    W4A8  = 1u << 6,   ///< 4-bit weights, 8-bit activations (Qualcomm AI Engine)
+    W8A8  = 1u << 7,   ///< 8-bit weights and 8-bit activations (symmetric INT8)
 };
 
 inline constexpr PrecisionMode operator|(PrecisionMode a, PrecisionMode b) noexcept {
@@ -125,9 +139,19 @@ struct DeviceCapabilityInfo {
     bool        is_healthy        = true;    ///< false when the device reported an error
     std::string error_message;              ///< Non-empty when is_healthy == false
 
-    // Derived precision support flags
+    // Derived precision support flags (GPU / CPU backends)
     bool        supports_fp16     = false;   ///< true for CUDA sm_70+ / ROCm gfx900+
     bool        supports_bf16     = false;   ///< true for CUDA sm_80+ (Ampere and newer)
+
+    // ── AI / NPU-specific fields ──────────────────────────────────────────────
+    bool        is_npu            = false;   ///< true when this is a dedicated neural engine
+    uint32_t    npu_tops          = 0;       ///< Reported NPU peak throughput in TOPS (0 = unknown)
+    bool        supports_int4     = false;   ///< 4-bit inference (GPTQ/AWQ/NF4)
+    bool        supports_w4a8     = false;   ///< W4A8 mixed-precision (Qualcomm AI Engine, etc.)
+    std::string onnx_ep;                     ///< Preferred ONNX Runtime execution provider name
+                                             ///<  ("CUDAExecutionProvider", "CoreMLExecutionProvider",
+                                             ///<   "QNNExecutionProvider", "OpenVINOExecutionProvider",
+                                             ///<   "CPUExecutionProvider" …)
 };
 
 // Capability contract for a compute backend.
@@ -140,6 +164,7 @@ struct BackendCapabilities {
     bool supportsMatrixOps = false;    ///< FP16/BF16 matrix multiply via Tensor Core
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
+    bool supportsAiInference = false;  ///< Dedicated AI inference path (NPU / ONNX Runtime)
 
     // Precision feature matrix: OR of PrecisionMode flags.
     // Must include at least PrecisionMode::FP32 for any vector or geo backend.
@@ -156,6 +181,10 @@ struct BackendCapabilities {
     // Vendor name for GPU/hardware identification (e.g. "NVIDIA", "AMD", "Intel", "ARM")
     // Empty string means unknown or CPU backend.
     std::string vendorName;
+
+    // ── AI / NPU-specific ────────────────────────────────────────────────────
+    uint32_t    npuTops           = 0;    ///< Reported peak throughput in TOPS (0 = unknown)
+    std::string preferredOnnxEP;          ///< ONNX Runtime execution provider (empty = CPU)
 };
 
 // Backend health status — returned by IComputeBackend::getHealthStatus()
@@ -214,21 +243,58 @@ struct BackendHealthStatus {
     }
 };
 
+/**
+ * @brief Result returned by `IComputeBackend::submitSimilarityKernel()`.
+ *
+ * FP tolerance guarantee: results produced by hardware-accelerated paths must
+ * agree with the CPU baseline within <= 1e-6 relative error for FP32 inputs.
+ */
+struct SimilarityKernelResult {
+    // Per-query top-k results as (corpus_id, distance) pairs, sorted ascending
+    // by distance. Outer index = query index; inner index = rank.
+    std::vector<std::vector<std::pair<uint32_t, float>>> results;
+
+    DistanceMetric metric_used    = DistanceMetric::L2;
+    PrecisionMode  precision_used = PrecisionMode::FP32;
+    bool           used_hw_path   = false;
+    double         speedup_vs_cpu = 1.0;
+};
+
+// Input descriptor for a batched similarity kernel invocation.
+struct BatchDescriptor {
+    const float* queries     = nullptr;
+    size_t       num_queries = 0;
+    size_t       dim         = 0;
+    const float* vectors     = nullptr;
+    size_t       num_vectors = 0;
+    size_t       k           = 1;
+};
+
+// Plain-data runtime configuration for a compute kernel dispatch.
+struct KernelConfig {
+    uint32_t       block_size = 256;
+    uint32_t       grid_size  = 0;
+    uint32_t       shared_mem = 0;
+    DistanceMetric metric     = DistanceMetric::L2;
+    PrecisionMode  precision  = PrecisionMode::FP32;
+    bool           async_exec = false;
+};
+
 // Base interface for compute backends
 class IComputeBackend {
 public:
     virtual ~IComputeBackend() = default;
     
     // Backend identification
-    virtual const char* name() const noexcept = 0;
-    virtual BackendType type() const noexcept = 0;
-    virtual bool isAvailable() const noexcept = 0;
+    [[nodiscard]] virtual const char* name() const noexcept = 0;
+    [[nodiscard]] virtual BackendType type() const noexcept = 0;
+    [[nodiscard]] virtual bool isAvailable() const noexcept = 0;
     
     // Capabilities
-    virtual BackendCapabilities getCapabilities() const = 0;
+    [[nodiscard]] virtual BackendCapabilities getCapabilities() const = 0;
     
     // Lifecycle
-    virtual bool initialize() = 0;
+    [[nodiscard]] virtual bool initialize() = 0;
     virtual void shutdown() = 0;
     
     // Error handling (Phase 2.2b)
@@ -253,6 +319,82 @@ public:
         }
         return BackendHealthStatus::makeHealthy(
             getCapabilities().deviceName);
+    }
+
+    // -------------------------------------------------------------------------
+    // submitSimilarityKernel() — async hardware-accelerated similarity search.
+    //
+    // Dispatches a batched vector similarity search to the fastest available
+    // execution path.  The default implementation runs the search synchronously
+    // on the CPU and returns an already-fulfilled ComputeFuture so that callers
+    // can use a uniform async API regardless of backend type.
+    //
+    // GPU backends (CUDA, Vulkan, HIP, …) should override this method to
+    // dispatch to their respective device kernels.
+    //
+    // FP tolerance guarantee: hardware paths must agree with the CPU baseline
+    // within ≤ 1e-6 relative error for FP32 inputs.
+    //
+    // Parameters:
+    //   batch  — Input descriptor: query/corpus pointers, sizes, and k.
+    //   config — Kernel execution configuration: metric, precision, block size.
+    //   token  — Optional cancellation token (default-constructed = no cancel).
+    //
+    // Returns a ComputeFuture<SimilarityKernelResult> that will be ready once
+    // the kernel completes.  The default implementation sets the future ready
+    // immediately (synchronous CPU fallback).
+    // -------------------------------------------------------------------------
+    virtual ComputeFuture<SimilarityKernelResult>
+    submitSimilarityKernel(const BatchDescriptor& batch,
+                           [[maybe_unused]] const KernelConfig&    config,
+                           CancellationToken       token = {}) {
+        // Default CPU fallback: brute-force L2 / cosine / inner-product search.
+        SimilarityKernelResult result;
+        result.metric_used    = config.metric;
+        result.precision_used = config.precision;
+        result.used_hw_path   = false;
+        result.speedup_vs_cpu = 1.0;
+
+        if (batch.queries && batch.vectors && batch.num_queries > 0
+                && batch.num_vectors > 0 && batch.dim > 0 && batch.k > 0) {
+            result.results.resize(batch.num_queries);
+            for (size_t qi = 0; qi < batch.num_queries; ++qi) {
+                if (token.is_cancelled()) break;
+                const float* q = batch.queries + qi * batch.dim;
+                std::vector<std::pair<uint32_t, float>> row;
+                row.reserve(batch.num_vectors);
+                for (size_t vi = 0; vi < batch.num_vectors; ++vi) {
+                    const float* v = batch.vectors + vi * batch.dim;
+                    float dist = 0.0f;
+                    if (config.metric == DistanceMetric::L2 ||
+                        config.metric == DistanceMetric::COSINE) {
+                        for (size_t d = 0; d < batch.dim; ++d) {
+                            float diff = q[d] - v[d];
+                            dist += diff * diff;
+                        }
+                    } else {
+                        // Inner-product (negative dot product for min-heap)
+                        for (size_t d = 0; d < batch.dim; ++d) {
+                            dist -= q[d] * v[d];
+                        }
+                    }
+                    row.emplace_back(static_cast<uint32_t>(vi), dist);
+                }
+                const size_t k = std::min(batch.k, row.size());
+                std::partial_sort(row.begin(),
+                                  row.begin() + static_cast<ptrdiff_t>(k),
+                                  row.end(),
+                                  [](const std::pair<uint32_t, float>& a,
+                                     const std::pair<uint32_t, float>& b) {
+                                      return a.second < b.second;
+                                  });
+                row.resize(k);
+                result.results[qi] = std::move(row);
+            }
+        }
+
+        return ComputeFuture<SimilarityKernelResult>::make_ready(
+            std::move(result));
     }
     
 protected:
@@ -300,7 +442,7 @@ public:
     virtual ~IVectorBackend() = default;
     
     // Distance computation
-    virtual std::vector<float> computeDistances(
+    [[nodiscard]] virtual std::vector<float> computeDistances(
         const float* queries,
         size_t numQueries,
         size_t dim,
@@ -312,7 +454,7 @@ public:
     // Batch KNN search — results sorted ascending by distance.
     // Tie-breaking rule: when two candidates share the same distance the one
     // with the lower vector index is placed first (deterministic ordering).
-    virtual std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
+    [[nodiscard]] virtual std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
         const float* queries,
         size_t numQueries,
         size_t dim,
@@ -350,7 +492,7 @@ public:
     virtual ~IGraphBackend() = default;
     
     // Batch BFS traversal
-    virtual std::vector<std::vector<uint32_t>> batchBFS(
+    [[nodiscard]] virtual std::vector<std::vector<uint32_t>> batchBFS(
         const uint32_t* adjacency,
         size_t numVertices,
         const uint32_t* startVertices,
@@ -359,7 +501,7 @@ public:
     ) = 0;
     
     // Batch shortest path
-    virtual std::vector<std::vector<uint32_t>> batchShortestPath(
+    [[nodiscard]] virtual std::vector<std::vector<uint32_t>> batchShortestPath(
         const uint32_t* adjacency,
         const float* weights,
         size_t numVertices,
@@ -375,7 +517,7 @@ public:
     virtual ~IGeoBackend() = default;
     
     // Batch distance calculations
-    virtual std::vector<float> batchDistances(
+    [[nodiscard]] virtual std::vector<float> batchDistances(
         const double* latitudes1,
         const double* longitudes1,
         const double* latitudes2,
@@ -385,7 +527,7 @@ public:
     ) = 0;
     
     // Batch point-in-polygon tests
-    virtual std::vector<bool> batchPointInPolygon(
+    [[nodiscard]] virtual std::vector<bool> batchPointInPolygon(
         const double* pointLats,
         const double* pointLons,
         size_t numPoints,
@@ -412,10 +554,23 @@ public:
     /// for GPU backends.  @p precision selects the arithmetic type; the
     /// implementation is free to fall back to a wider type if unsupported.
     /// Returns 0 on success, non-zero on failure.
-    virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
+    [[nodiscard]] virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
 
     /// Populate the frozen kernel dispatch table for this backend.
     virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
+};
+
+/// Per-type backend aggregation stored in BackendRegistry::typeIndex_.
+/// One instance exists per distinct BackendType in the registry.  The typed
+/// interface pointer fields are set once by registerBackend() (one
+/// dynamic_cast per interface per registration) and are then used in the hot
+/// query path without further dynamic_cast calls.
+struct RegisteredBackend {
+    IComputeBackend* base      = nullptr;  ///< First registered backend of this type
+    IVectorBackend*  vectorPtr = nullptr;  ///< First IVectorBackend of this type, or nullptr
+    IGraphBackend*   graphPtr  = nullptr;  ///< First IGraphBackend of this type, or nullptr
+    IGeoBackend*     geoPtr    = nullptr;  ///< First IGeoBackend of this type, or nullptr
+    IMatrixBackend*  matrixPtr = nullptr;  ///< First IMatrixBackend of this type, or nullptr
 };
 
 // Forward declaration
@@ -576,7 +731,15 @@ private:
     BackendRegistry(const BackendRegistry&) = delete;
     BackendRegistry& operator=(const BackendRegistry&) = delete;
     
+    // Protects all mutable state below.
+    // Read-only operations (getBackend, getBestXBackend, selectXBackendFor,
+    // getAvailableBackends, deviceInfo) acquire a shared lock.
+    // Write operations (registerBackend, shutdownAll, initializeRuntime,
+    // autoDetect, loadPlugins, loadPlugin) acquire an exclusive lock.
+    mutable std::shared_mutex registryMutex_;
+
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
+    std::unordered_map<BackendType, RegisteredBackend> typeIndex_;
     std::unique_ptr<PluginLoader> pluginLoader_;
 
     // Backends selected at the last initializeRuntime() call (nullptr until
@@ -584,10 +747,383 @@ private:
     IVectorBackend* selectedVectorBackend_ = nullptr;
     IGraphBackend*  selectedGraphBackend_  = nullptr;
     IGeoBackend*    selectedGeoBackend_    = nullptr;
-    bool            runtimeInitialized_    = false;
+    std::atomic<bool> runtimeInitialized_{false};
 
     // Device info snapshot captured at the last initializeRuntime() call.
     std::vector<DeviceCapabilityInfo> cachedDeviceInfo_;
+};
+
+// =============================================================================
+// DeviceCapabilityFlags — strongly-typed bitmask for per-device features
+// =============================================================================
+
+/**
+ * @brief Strongly-typed bitmask of hardware capability flags.
+ *
+ * Each flag corresponds to a discrete hardware feature that may or may not be
+ * present on a given GPU.  Combine flags with bitwise OR; test with
+ * `hasCapability()`.
+ *
+ * ## Validity
+ * The known-valid mask is `DeviceCapabilityFlags::KNOWN_VALID_MASK`.  Bitmasks
+ * that have bits set outside of this mask are rejected by
+ * `IDeviceCapabilityQuery::queryCapabilities()` (returns `NONE` on error).
+ */
+enum class DeviceCapabilityFlags : uint32_t {
+    NONE                 = 0,
+    FLOAT32              = 1u << 0,  ///< IEEE 754 single-precision (always present on FP-capable devices)
+    FLOAT16              = 1u << 1,  ///< IEEE 754 half-precision compute (native fp16)
+    BFLOAT16             = 1u << 2,  ///< Brain float BF16 arithmetic
+    INT8                 = 1u << 3,  ///< 8-bit integer arithmetic (including VNNI)
+    TENSOR_CORES         = 1u << 4,  ///< Tensor Core acceleration (sm_70+, RDNA3+)
+    WARP_PRIMITIVES      = 1u << 5,  ///< Warp shuffle / ballot / vote intrinsics
+    DYNAMIC_PARALLELISM  = 1u << 6,  ///< CUDA dynamic parallelism (sm_35+)
+    UNIFIED_MEMORY       = 1u << 7,  ///< CUDA/HIP unified virtual address space
+    PEER_ACCESS          = 1u << 8,  ///< Device-to-device peer memory access (NVLink / PCIe BAR)
+    COMPUTE_PREEMPTION   = 1u << 9,  ///< Fine-grained thread-level compute preemption
+    COOPERATIVE_GROUPS   = 1u << 10, ///< CUDA cooperative group launches
+    GRAPH_CAPTURE        = 1u << 11, ///< CUDA/HIP graph capture and replay
+
+    /// Mask of all valid capability bits.  Queries that return flags with bits
+    /// outside this mask are considered an error (forward-compat guard).
+    KNOWN_VALID_MASK     = (1u << 12) - 1u,
+};
+
+inline constexpr DeviceCapabilityFlags operator|(DeviceCapabilityFlags a,
+                                                  DeviceCapabilityFlags b) noexcept {
+    return static_cast<DeviceCapabilityFlags>(
+        static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
+}
+inline constexpr DeviceCapabilityFlags operator&(DeviceCapabilityFlags a,
+                                                  DeviceCapabilityFlags b) noexcept {
+    return static_cast<DeviceCapabilityFlags>(
+        static_cast<uint32_t>(a) & static_cast<uint32_t>(b));
+}
+inline constexpr DeviceCapabilityFlags operator~(DeviceCapabilityFlags a) noexcept {
+    return static_cast<DeviceCapabilityFlags>(~static_cast<uint32_t>(a));
+}
+inline constexpr bool hasCapability(DeviceCapabilityFlags flags,
+                                     DeviceCapabilityFlags flag) noexcept {
+    return (static_cast<uint32_t>(flags) & static_cast<uint32_t>(flag)) != 0;
+}
+
+// =============================================================================
+// DeviceSet — small-vector of up to 8 device indices (stack allocated)
+// =============================================================================
+
+/**
+ * @brief Compact set of GPU device indices (max 8 devices).
+ *
+ * Stack-allocated to avoid heap allocation in the hot path of
+ * `IMultiGPUSelector::selectDevices()`.  Construction time for an 8-device
+ * selection is O(1) with no allocator involvement.
+ *
+ * Thread safety: individual `DeviceSet` instances are not thread-safe; callers
+ * must synchronise access.
+ */
+struct DeviceSet {
+    /// Maximum number of GPU devices that can be held in a single set.
+    static constexpr size_t kMaxDevices = 8;
+
+    uint32_t devices[kMaxDevices] = {};  ///< Device indices (in priority order)
+    uint32_t count                = 0;   ///< Number of valid entries in @p devices
+
+    // ── Accessors ─────────────────────────────────────────────────────────
+
+    bool     empty()                    const noexcept { return count == 0; }
+    size_t   size()                     const noexcept { return static_cast<size_t>(count); }
+    uint32_t operator[](size_t i)       const noexcept { return devices[i]; }
+    uint32_t front()                    const noexcept { return devices[0]; }
+    uint32_t back()                     const noexcept { return devices[count > 0 ? count - 1u : 0u]; }
+
+    const uint32_t* begin()             const noexcept { return devices; }
+    const uint32_t* end()               const noexcept { return devices + count; }
+
+    // ── Mutation ──────────────────────────────────────────────────────────
+
+    /**
+     * @brief Append a device index if capacity allows.
+     * @return true on success; false when the set is already full.
+     */
+    bool push(uint32_t device) noexcept {
+        if (count >= kMaxDevices) return false;
+        devices[count++] = device;
+        return true;
+    }
+};
+
+// =============================================================================
+// WorkloadDescriptor — hints for IMultiGPUSelector::selectDevices()
+// =============================================================================
+
+/**
+ * @brief Latency class for a compute workload.
+ *
+ * Used by `IMultiGPUSelector` to bias device selection toward low-latency
+ * (interactive) or high-throughput (batch) scheduling strategies.
+ */
+enum class LatencyClass : uint8_t {
+    INTERACTIVE = 0,  ///< Latency-critical (< 1 ms); minimise queue depth
+    BATCH       = 1,  ///< Throughput-oriented; minutes; GPU saturation preferred
+    BACKGROUND  = 2,  ///< Non-interactive; accept long queue wait times
+};
+
+/**
+ * @brief Descriptor used by `IMultiGPUSelector::selectDevices()` to
+ *        communicate the resource characteristics of an upcoming workload.
+ */
+struct WorkloadDescriptor {
+    size_t       byte_size     = 0;                     ///< Total input data size in bytes
+    uint64_t     flop_estimate = 0;                     ///< Estimated FLOPs (0 = unknown)
+    LatencyClass latency_class = LatencyClass::BATCH;   ///< Scheduling priority hint
+    PrecisionMode precision    = PrecisionMode::FP32;   ///< Required precision mode
+};
+
+// =============================================================================
+// BatchDescriptor — input/output shape for kernel dispatch
+// =============================================================================
+
+/**
+ * @brief Shape and pointer descriptor for a batched similarity kernel call.
+ *
+ * All pointers are host pointers for CPU backends; GPU backends are
+ * responsible for any required host-to-device transfers.
+ */
+// BatchDescriptor is defined before IComputeBackend.
+
+// =============================================================================
+// KernelConfig — plain-data runtime parameters for a compute kernel
+// =============================================================================
+
+/**
+ * @brief Plain-data runtime configuration for a compute kernel dispatch.
+ *
+ * This struct must not contain any CUDA/Vulkan/HIP types so that it can be
+ * included in any translation unit without GPU SDK headers.
+ *
+ * Backend implementations translate this struct into the corresponding
+ * device-specific launch parameters (e.g. `dim3 blockDim` for CUDA).
+ */
+// KernelConfig is defined before IComputeBackend.
+
+// =============================================================================
+// KernelDescriptor — combined batch + config + optional named kernel
+// =============================================================================
+
+/**
+ * @brief Full descriptor for a kernel submission to IAsyncComputeDispatch.
+ *
+ * Combines the data-shape information (`BatchDescriptor`) with the execution
+ * configuration (`KernelConfig`) and an optional named kernel identifier that
+ * can be looked up via `IKernelRegistry`.
+ */
+struct KernelDescriptor {
+    BatchDescriptor batch;            ///< Input / output shapes and host pointers
+    KernelConfig    config;           ///< Execution parameters
+    std::string     kernel_name;      ///< Optional: resolved via IKernelRegistry (empty = auto)
+};
+
+// =============================================================================
+// SimilarityKernelResult — return value of submitSimilarityKernel()
+// =============================================================================
+
+// SimilarityKernelResult is defined before IComputeBackend.
+
+// =============================================================================
+// IComputeBackend::submitSimilarityKernel() — default virtual method
+// =============================================================================
+// The method is added to IComputeBackend below via a non-pure virtual with a
+// default CPU-fallback implementation.  Backends that support hardware-
+// accelerated similarity search should override it.
+//
+// Note: IComputeBackend is defined earlier in this header; we add the new
+// method by providing a standalone free function + default in a derived helper.
+// To avoid breaking ABI for existing IComputeBackend subclasses the method is
+// non-pure virtual with a full default body.
+// =============================================================================
+
+// =============================================================================
+// IDeviceCapabilityQuery — query hardware feature flags without a GPU context
+// =============================================================================
+
+/**
+ * @brief Interface for querying device capability flags.
+ *
+ * All methods must be callable **before** CUDA/Vulkan context creation so
+ * that device selection can happen at startup without side effects.
+ *
+ * Implementations must be thread-safe: any method may be called concurrently
+ * from multiple threads without external locking.
+ */
+class IDeviceCapabilityQuery {
+public:
+    virtual ~IDeviceCapabilityQuery() = default;
+
+    /**
+     * @brief Query capability flags for a specific device.
+     *
+     * @param device_index  Driver device index (0-based).
+     * @return Detected `DeviceCapabilityFlags`.  Returns `NONE` when the
+     *         device index is invalid, the driver is not loaded, or the
+     *         returned flags contain bits outside `KNOWN_VALID_MASK`.
+     */
+    [[nodiscard]] virtual DeviceCapabilityFlags queryCapabilities(int device_index) const noexcept = 0;
+
+    /**
+     * @brief Query capabilities for all enumerated devices.
+     *
+     * @return One `DeviceCapabilityFlags` entry per device in driver
+     *         enumeration order.  An empty vector is returned when no GPU
+     *         driver is present.
+     */
+    [[nodiscard]] virtual std::vector<DeviceCapabilityFlags> queryAll() const = 0;
+};
+
+// =============================================================================
+// IMultiGPUSelector — thread-safe workload-to-device mapping
+// =============================================================================
+
+/**
+ * @brief Interface for selecting the best set of GPU devices for a workload.
+ *
+ * ## Thread safety
+ * `selectDevices()` is guaranteed to be safe to call concurrently from N
+ * threads without external locking.  Implementations must document any
+ * internal synchronisation used.
+ *
+ * ## Typical usage
+ * @code
+ *   auto& selector = registry.getMultiGPUSelector();
+ *   WorkloadDescriptor wl;
+ *   wl.byte_size     = num_vectors * dim * sizeof(float);
+ *   wl.flop_estimate = num_vectors * dim * 2; // multiply-add per element
+ *   wl.latency_class = LatencyClass::INTERACTIVE;
+ *   wl.precision     = PrecisionMode::FP32;
+ *
+ *   DeviceSet devices = selector.selectDevices(wl);
+ *   // devices[0] is the highest-priority recommended GPU.
+ * @endcode
+ */
+class IMultiGPUSelector {
+public:
+    virtual ~IMultiGPUSelector() = default;
+
+    /**
+     * @brief Select the best set of GPU devices for the given workload.
+     *
+     * Thread-safe: safe to call concurrently from N threads.
+     *
+     * @param workload  Descriptor with size, FLOP estimate, and latency class.
+     * @return Set of selected device indices in priority order (highest
+     *         priority first).  Returns an empty `DeviceSet` when no suitable
+     *         GPU device is available.
+     */
+    [[nodiscard]] virtual DeviceSet selectDevices(const WorkloadDescriptor& workload) const = 0;
+
+    /**
+     * @brief Returns the number of GPU devices visible to this selector.
+     *
+     * Thread-safe.
+     */
+    [[nodiscard]] virtual uint32_t deviceCount() const noexcept = 0;
+};
+
+// =============================================================================
+// IKernelRegistry — named compute kernel lookup table
+// =============================================================================
+
+/**
+ * @brief Registry for named compute kernel function pointers.
+ *
+ * Allows `IAsyncComputeDispatch` to resolve named kernels at dispatch time
+ * without hard-coding symbol names.  Intended for use by plugin backends that
+ * expose custom kernel implementations at runtime.
+ *
+ * Kernel names are arbitrary strings; by convention they use the format
+ * `"<backend>/<operation>"` (e.g. `"cuda/l2_distance"`, `"vulkan/topk"`).
+ *
+ * ## Thread safety
+ * Implementations must document their thread-safety guarantees.  The default
+ * expectation is that `resolveKernel()` and `hasKernel()` are safe to call
+ * concurrently, while `registerKernel()` and `deregisterKernel()` require
+ * exclusive access.
+ */
+class IKernelRegistry {
+public:
+    virtual ~IKernelRegistry() = default;
+
+    /**
+     * @brief Register a named kernel function pointer.
+     *
+     * @param name    Kernel identifier string (e.g. `"cuda/cosine_distance"`).
+     * @param fn_ptr  Opaque function pointer to the kernel launcher.
+     * @return true on success; false if @p name is already registered.
+     */
+    [[nodiscard]] virtual bool registerKernel(std::string name, void* fn_ptr) = 0;
+
+    /**
+     * @brief Resolve a named kernel to its function pointer.
+     *
+     * @param name  Kernel identifier string.
+     * @return Function pointer cast to `void*`, or `nullptr` if not registered.
+     */
+    [[nodiscard]] virtual void* resolveKernel(const std::string& name) const = 0;
+
+    /**
+     * @brief Returns true if a kernel with @p name is registered.
+     *
+     * Thread-safe (read-only lookup).
+     */
+    [[nodiscard]] virtual bool hasKernel(const std::string& name) const noexcept = 0;
+
+    /**
+     * @brief Remove a kernel from the registry.
+     *
+     * @return true if the kernel was present and removed; false otherwise.
+     */
+    [[nodiscard]] virtual bool deregisterKernel(const std::string& name) noexcept = 0;
+};
+
+// =============================================================================
+// IAsyncComputeDispatch — non-blocking kernel submission
+// =============================================================================
+
+/**
+ * @brief Interface for non-blocking kernel submission and result collection.
+ *
+ * Callers submit a `KernelDescriptor` (containing the input data shape and
+ * execution parameters) and immediately receive a `ComputeFuture<T>`.  The
+ * kernel executes asynchronously; `ComputeFuture::get()` blocks until it
+ * completes.
+ *
+ * ## Cancellation
+ * The caller may request early termination via `CancellationToken::cancel()`.
+ * The implementation is responsible for observing the token and aborting
+ * (best-effort) before full completion.  After cancellation, `get()` may
+ * still return a valid result if the kernel finished before the token was
+ * observed.
+ *
+ * ## Performance target
+ * The `submit()` call overhead on the calling thread must be ≤ 2 µs
+ * (measured on x86-64, GCC -O2) regardless of queue depth.
+ */
+class IAsyncComputeDispatch {
+public:
+    virtual ~IAsyncComputeDispatch() = default;
+
+    /**
+     * @brief Submit a similarity kernel for asynchronous execution.
+     *
+     * @param descriptor  Combined batch shape + kernel config + optional
+     *                    named kernel identifier.
+     * @param token       Cancellation token (default-constructed = no
+     *                    cancellation support).
+     * @return A `ComputeFuture<SimilarityKernelResult>` that will carry the
+     *         result once the kernel completes.
+     */
+    [[nodiscard]] virtual ComputeFuture<SimilarityKernelResult>
+    submit(const KernelDescriptor& descriptor,
+           CancellationToken        token = {}) = 0;
 };
 
 } // namespace acceleration

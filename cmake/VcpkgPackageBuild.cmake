@@ -20,11 +20,46 @@ if(NOT DEFINED THEMIS_OUTPUT_DIR)
     message(FATAL_ERROR "THEMIS_OUTPUT_DIR not defined")
 endif()
 
+# In script mode (-P), CMAKE_SOURCE_DIR points to the current working directory,
+# not necessarily the repository root. Resolve the project root from this script.
+get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+
+# Some callers pass quoted -D values (e.g. -DTHEMIS_VCPKG_ROOT=\"C:/...\").
+# Strip a single pair of surrounding quotes so path checks remain valid.
+foreach(_var IN ITEMS THEMIS_VCPKG_ROOT THEMIS_TRIPLET THEMIS_EDITION THEMIS_OUTPUT_DIR)
+    if(DEFINED ${_var})
+        set(_sanitized_value "${${_var}}")
+        string(REPLACE "\\\"" "\"" _sanitized_value "${_sanitized_value}")
+        string(REGEX REPLACE "^\"(.*)\"$" "\\1" _sanitized_value "${_sanitized_value}")
+        set(${_var} "${_sanitized_value}")
+    endif()
+endforeach()
+
+# Normalize filesystem paths for reliable EXISTS checks across generators/shells.
+file(TO_CMAKE_PATH "${THEMIS_VCPKG_ROOT}" THEMIS_VCPKG_ROOT)
+file(TO_CMAKE_PATH "${THEMIS_OUTPUT_DIR}" THEMIS_OUTPUT_DIR)
+if(WIN32)
+    string(REGEX REPLACE "^/([A-Za-z]:/)" "\\1" THEMIS_VCPKG_ROOT "${THEMIS_VCPKG_ROOT}")
+    string(REGEX REPLACE "^/([A-Za-z]:/)" "\\1" THEMIS_OUTPUT_DIR "${THEMIS_OUTPUT_DIR}")
+endif()
+
+function(themis_win_path_to_wsl input_path output_var)
+    string(REPLACE "\\" "/" _path "${input_path}")
+    if(_path MATCHES "^([A-Za-z]):(.*)")
+        string(TOLOWER "${CMAKE_MATCH_1}" _drive)
+        set(_path "/mnt/${_drive}${CMAKE_MATCH_2}")
+    endif()
+    set(${output_var} "${_path}" PARENT_SCOPE)
+endfunction()
+
 # ============================================================================
 # Platform-specific vcpkg executable
 # ============================================================================
 
-if(WIN32 OR THEMIS_TRIPLET MATCHES "windows")
+if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
+    set(VCPKG_EXECUTABLE "${THEMIS_VCPKG_ROOT}/vcpkg")
+    set(BOOTSTRAP_SCRIPT "${THEMIS_VCPKG_ROOT}/bootstrap-vcpkg.sh")
+elseif(WIN32 OR THEMIS_TRIPLET MATCHES "windows")
     set(VCPKG_EXECUTABLE "${THEMIS_VCPKG_ROOT}/vcpkg.exe")
     set(BOOTSTRAP_SCRIPT "${THEMIS_VCPKG_ROOT}/bootstrap-vcpkg.bat")
 else()
@@ -36,7 +71,17 @@ endif()
 # Bootstrap vcpkg if needed
 # ============================================================================
 
-if(NOT EXISTS "${VCPKG_EXECUTABLE}")
+set(_need_bootstrap OFF)
+if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
+    # Linux package builds on Windows run entirely in WSL and bootstrap on demand.
+    set(_need_bootstrap OFF)
+else()
+    if(NOT EXISTS "${VCPKG_EXECUTABLE}")
+        set(_need_bootstrap ON)
+    endif()
+endif()
+
+if(_need_bootstrap)
     message(STATUS "Bootstrapping vcpkg for ${THEMIS_TRIPLET}...")
     
     if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
@@ -44,11 +89,10 @@ if(NOT EXISTS "${VCPKG_EXECUTABLE}")
         message(STATUS "Using WSL for Linux package build...")
         
         # Convert Windows path to WSL path
-        string(REPLACE "\\" "/" _vcpkg_root_unix "${THEMIS_VCPKG_ROOT}")
-        string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _vcpkg_root_wsl "${_vcpkg_root_unix}")
+        themis_win_path_to_wsl("${THEMIS_VCPKG_ROOT}" _vcpkg_root_wsl)
         
         execute_process(
-            COMMAND wsl bash -c "cd ${_vcpkg_root_wsl} && ./bootstrap-vcpkg.sh"
+            COMMAND wsl bash -c "cd ${_vcpkg_root_wsl} && bash ./bootstrap-vcpkg.sh"
             RESULT_VARIABLE _result
             OUTPUT_VARIABLE _output
             ERROR_VARIABLE _error
@@ -77,17 +121,24 @@ endif()
 string(TOLOWER "${THEMIS_EDITION}" _edition_lower)
 
 # Try Docker manifest first, fall back to root
-set(MANIFEST_ROOT "${CMAKE_SOURCE_DIR}/docker")
+set(MANIFEST_ROOT "${THEMIS_ROOT_DIR}/docker")
 set(MANIFEST_FILE "${MANIFEST_ROOT}/vcpkg-${_edition_lower}.json")
 
 if(NOT EXISTS "${MANIFEST_FILE}")
-    set(MANIFEST_ROOT "${CMAKE_SOURCE_DIR}")
-    set(MANIFEST_FILE "${CMAKE_SOURCE_DIR}/vcpkg.json")
+    set(MANIFEST_ROOT "${THEMIS_ROOT_DIR}")
+    set(MANIFEST_FILE "${THEMIS_ROOT_DIR}/vcpkg.json")
 endif()
 
 if(NOT EXISTS "${MANIFEST_FILE}")
     message(FATAL_ERROR "No vcpkg manifest found for edition ${THEMIS_EDITION}")
 endif()
+
+# vcpkg expects a file named vcpkg.json inside --x-manifest-root.
+# Stage the selected edition manifest under that canonical name.
+set(MANIFEST_STAGE_ROOT "${THEMIS_OUTPUT_DIR}/.vcpkg-manifest")
+file(MAKE_DIRECTORY "${MANIFEST_STAGE_ROOT}")
+file(READ "${MANIFEST_FILE}" _manifest_content)
+file(WRITE "${MANIFEST_STAGE_ROOT}/vcpkg.json" "${_manifest_content}")
 
 # ============================================================================
 # Create output directory
@@ -101,6 +152,7 @@ message(STATUS "==========================================")
 message(STATUS "Triplet: ${THEMIS_TRIPLET}")
 message(STATUS "Edition: ${THEMIS_EDITION}")
 message(STATUS "Manifest: ${MANIFEST_FILE}")
+message(STATUS "Manifest root: ${MANIFEST_STAGE_ROOT}")
 message(STATUS "Output: ${THEMIS_OUTPUT_DIR}")
 message(STATUS "==========================================")
 
@@ -110,9 +162,10 @@ message(STATUS "==========================================")
 
 set(_vcpkg_args
     install
+    --vcpkg-root=${THEMIS_VCPKG_ROOT}
     --triplet=${THEMIS_TRIPLET}
     --x-install-root=${THEMIS_OUTPUT_DIR}
-    --x-manifest-root=${MANIFEST_ROOT}
+    --x-manifest-root=${MANIFEST_STAGE_ROOT}
     --x-buildtrees-root=${THEMIS_VCPKG_ROOT}/buildtrees
     --x-packages-root=${THEMIS_VCPKG_ROOT}/packages
     --x-downloads-root=${THEMIS_VCPKG_ROOT}/downloads
@@ -123,18 +176,15 @@ if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
     message(STATUS "Building Linux packages via WSL...")
     
     # Convert paths to WSL format
-    string(REPLACE "\\" "/" _output_dir_unix "${THEMIS_OUTPUT_DIR}")
-    string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _output_dir_wsl "${_output_dir_unix}")
+    themis_win_path_to_wsl("${THEMIS_OUTPUT_DIR}" _output_dir_wsl)
     
-    string(REPLACE "\\" "/" _manifest_root_unix "${MANIFEST_ROOT}")
-    string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _manifest_root_wsl "${_manifest_root_unix}")
+    themis_win_path_to_wsl("${MANIFEST_STAGE_ROOT}" _manifest_root_wsl)
     
-    string(REPLACE "\\" "/" _vcpkg_root_unix "${THEMIS_VCPKG_ROOT}")
-    string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _vcpkg_root_wsl "${_vcpkg_root_unix}")
+    themis_win_path_to_wsl("${THEMIS_VCPKG_ROOT}" _vcpkg_root_wsl)
     
     # Build WSL command
-    set(_wsl_cmd 
-        "cd ${_vcpkg_root_wsl} && ./vcpkg install --triplet=${THEMIS_TRIPLET} --x-install-root=${_output_dir_wsl} --x-manifest-root=${_manifest_root_wsl} --x-buildtrees-root=${_vcpkg_root_wsl}/buildtrees --x-packages-root=${_vcpkg_root_wsl}/packages --x-downloads-root=${_vcpkg_root_wsl}/downloads"
+    set(_wsl_cmd
+        "cd ${_vcpkg_root_wsl} && if [ ! -x ./vcpkg ]; then bash ./bootstrap-vcpkg.sh; fi && ./vcpkg install --triplet=${THEMIS_TRIPLET} --x-install-root=${_output_dir_wsl} --x-manifest-root=${_manifest_root_wsl} --x-buildtrees-root=${_vcpkg_root_wsl}/buildtrees --x-packages-root=${_vcpkg_root_wsl}/packages --x-downloads-root=${_vcpkg_root_wsl}/downloads"
     )
     
     execute_process(
@@ -149,7 +199,7 @@ else()
     # Native build
     execute_process(
         COMMAND "${VCPKG_EXECUTABLE}" ${_vcpkg_args}
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        WORKING_DIRECTORY "${THEMIS_ROOT_DIR}"
         RESULT_VARIABLE _result
         OUTPUT_VARIABLE _output
         ERROR_VARIABLE _error

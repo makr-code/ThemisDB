@@ -1,84 +1,69 @@
-# Change Data Capture (CDC) Module
-<!-- Status: current | validated: 2026-03-09 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
+# ThemisDB CDC Module
 
-Change Data Capture and changefeed implementation for ThemisDB.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-Implements Change Data Capture for ThemisDB, providing real-time change notifications via SSE streaming, filtered subscriptions, change log management, historical change replay, and CDC-driven incremental materialized view maintenance.
-
-## Subsystem Scope
-
-**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management, cross-collection aggregated streams, CDC-based materialized view maintenance, WebSocket transport (`WsTransport`, `cdc_ws_handler.cpp`), Kafka producer transport (`KafkaCDCProducer`), `ICDCTransport` abstract interface, consumer group semantics (`ConsumerGroupManager`), at-least-once delivery (`DeliveryTracker`), dead-letter queue (`DeadLetterQueue`), transactional outbox (`OutboxWriter`, `OutboxRelay`), change stream compression, Debezium format support, schema registry integration, GDPR-aware change log redaction.
+The cdc module provides change data capture runtime surfaces for ThemisDB, including changefeed recording, stream delivery, replay, transport integration, and operational administration for change-event pipelines.
 
 ## Relevant Interfaces
 
-- `changefeed.cpp` — core change capture engine
-- `changefeed_buffer.cpp` — per-tenant in-memory ring buffer for pending events
-- `tenant_buffer_manager.cpp` — per-tenant buffer lifecycle and quota enforcement
-- `ws_transport.cpp` — WebSocket transport (`WsTransport`, implements `ICDCTransport`)
-- `cdc_ws_handler.cpp` — WebSocket HTTP handler wiring for CDC streams
-- `kafka_cdc_producer.cpp` — Kafka transport backend (`KafkaCDCProducer`, opt-in via `THEMIS_ENABLE_KAFKA`)
-- `consumer_group.cpp` — consumer group semantics with durable offset tracking (`ConsumerGroupManager`)
-- `delivery_tracker.cpp` — at-least-once delivery with redelivery and acknowledgement (`DeliveryTracker`)
-- `dead_letter_queue.cpp` — persistence of events that exhaust delivery retries (`DeadLetterQueue`)
-- `outbox.cpp` — transactional outbox pattern for atomic CDC + application data publishing (`OutboxWriter`, `OutboxRelay`)
-- `cross_collection_stream.cpp` — cross-collection change aggregation (`CrossCollectionStream`)
-- `cdc_materialized_view.cpp` — CDC-driven incremental materialized view maintenance (`CDCMaterializedViewMaintainer`)
-- `cdc_admin.cpp` — admin API for subscription and buffer management
+| Interface / File | Role |
+|---|---|
+| changefeed.cpp | core capture/replay/event stream behavior |
+| changefeed_buffer.cpp | buffering and retrieval surfaces for change events |
+| tenant_buffer_manager.cpp | tenant-scoped buffer lifecycle and quotas |
+| cdc_ws_handler.cpp | websocket-facing CDC stream handler |
+| ws_transport.cpp | CDC transport implementation over websocket paths |
+| kafka_cdc_producer.cpp | Kafka-oriented CDC transport producer integration |
+| consumer_group.cpp | consumer group state and offset handling |
+| delivery_tracker.cpp | delivery state tracking and acknowledgement surfaces |
+| dead_letter_queue.cpp | failed delivery persistence/replay queue |
+| outbox.cpp | transactional outbox integration surfaces |
+| cross_collection_stream.cpp | cross-collection stream aggregation behavior |
+| cdc_materialized_view.cpp | incremental materialized-view maintenance hooks |
+| cdc_admin.cpp | CDC administration and operations endpoints |
 
-## Current Delivery Status
+## Scope
 
-**Maturity:** 🟢 Production — SSE-based changefeeds, filtered subscriptions, WebSocket transport, consumer groups, and Kafka producer integration operational.
+In scope:
+- capture, replay, and stream delivery of change events
+- transport and consumer-group delivery coordination
+- CDC operational admin, buffering, and failure handling surfaces
+- CDC integration paths for downstream replication and view maintenance
 
-## Components
+Out of scope:
+- non-CDC business logic in domain modules
+- full external pipeline orchestration outside CDC integration contracts
+- storage/query execution internals not owned by CDC runtime surfaces
 
-- Changefeed engine (`changefeed.cpp`)
-- Per-tenant in-memory ring buffer for pending events (`changefeed_buffer.cpp`)
-- Per-tenant buffer lifecycle and quota enforcement with backpressure (`tenant_buffer_manager.cpp`)
-- Server-Sent Events (SSE) streaming
-- WebSocket-based change streaming (`ws_transport.cpp`, `cdc_ws_handler.cpp`)
-- Kafka producer transport for enterprise CDC pipelines (`kafka_cdc_producer.cpp`)
-- Consumer group semantics with durable offset tracking (`consumer_group.cpp`)
-- At-least-once delivery tracker with acknowledgement and redelivery (`delivery_tracker.cpp`)
-- Dead-letter queue for failed event deliveries (`dead_letter_queue.cpp`)
-- Transactional outbox pattern for atomic CDC + application data publishing (`outbox.cpp`)
-- Cross-collection change aggregation (`cross_collection_stream.cpp`)
-- CDC-based incremental materialized view maintenance (`cdc_materialized_view.cpp`)
-- Admin API for subscription and buffer management (`cdc_admin.cpp`)
+## Runtime Behavior and Limits
 
-## Features
+- behavior depends on configured transports, retention, and delivery settings.
+- delivery semantics are bounded by configured acknowledgement/replay controls.
+- degraded transport/backends produce structured runtime failure behavior.
 
-- Real-time change notifications
-- SSE-based and WebSocket-based event streaming
-- Filtered change subscriptions (collection, key prefix, operation type)
-- Historical change replay from stored change log
-- Consumer group semantics with durable offset tracking and partition assignment
-- At-least-once delivery guarantees with consumer acknowledgement and redelivery
-- Dead-letter queue for events that exhaust delivery retries
-- Transactional outbox pattern for atomic CDC + application data publishing
-- Cross-collection merged event streams with per-collection resume cursors
-- CDC-driven incremental materialized view maintenance (GROUP BY aggregations updated in O(1) per change)
-- Kafka-compatible producer interface for enterprise integration (Debezium envelope format supported)
-- GDPR-aware change log redaction (PII field scrubbing)
-- Change stream compression for high-volume feeds
+## Sourcecode Verification (Module: cdc/readme)
 
-## Documentation
-
-For CDC documentation, see:
-- [Architecture Guide](ARCHITECTURE.md) — component diagram, data flow, threading model
-- [Roadmap](ROADMAP.md) — feature status and planned work
-- [CDC Operations Runbook](../../docs/CDC_OPERATIONS_RUNBOOK.md) — production operations
-- [CDC Implementation Summary](../../docs/CDC_IMPLEMENTATION_SUMMARY.md) — implementation history
-- [Change Data Capture (DE)](../../docs/de/features/features_change_data_capture.md) — end-user guide (German)
-
-## Scientific References
-
-1. Stonebraker, M., Rowe, L. A., & Hirohama, M. (1990). **The Implementation of Postgres**. *IEEE Transactions on Knowledge and Data Engineering*, 2(1), 125–142. https://doi.org/10.1109/69.43410
-
-2. Kleppmann, M. (2017). **Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems**. O'Reilly Media. ISBN: 978-1-449-37332-0
-
-3. Mohan, C., Haderle, D., Lindsay, B., Pirahesh, H., & Schwarz, P. (1992). **ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging**. *ACM Transactions on Database Systems*, 17(1), 94–162. https://doi.org/10.1145/128765.128770
-
-4. Flink Community. (2015). **Apache Flink: Stream and Batch Processing in a Single Engine**. *IEEE Data Engineering Bulletin*, 38(4), 28–38. http://sites.computer.org/debull/A15dec/p28.pdf
+- Verified files:
+  - src/cdc/changefeed.cpp
+  - src/cdc/changefeed_buffer.cpp
+  - src/cdc/tenant_buffer_manager.cpp
+  - src/cdc/cdc_ws_handler.cpp
+  - src/cdc/ws_transport.cpp
+  - src/cdc/kafka_cdc_producer.cpp
+  - src/cdc/consumer_group.cpp
+  - src/cdc/delivery_tracker.cpp
+  - src/cdc/dead_letter_queue.cpp
+  - src/cdc/outbox.cpp
+  - src/cdc/cross_collection_stream.cpp
+  - src/cdc/cdc_materialized_view.cpp
+  - src/cdc/cdc_admin.cpp
+- Verified behavior surfaces:
+  - CDC capture/replay and transport integration paths
+  - delivery tracking, buffering, and dead-letter/outbox behavior
+  - admin and cross-collection/materialized-view integration hooks
+- Note:
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - historical entries remain in CHANGELOG.md

@@ -1,27 +1,21 @@
+/**
+ * @file ann_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ann_index.h                                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     295                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
-    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ann_index.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 280
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4374 [WIP] Update developer docu... (2026-03-22) | #3123 [index] DiskANN/ScaNN ANN b... (2026-03-12) | #2946 feat(index): DiskANN/ScaNN ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -79,20 +73,20 @@ public:
                        size_t count, size_t dim) = 0;
 
     /// Add a single vector with @p id to the index.
-    virtual bool add(int64_t id, const float* vector, size_t dim) = 0;
+    [[nodiscard]] virtual bool add(int64_t id, const float* vector, size_t dim) = 0;
 
     /// Return the @p k nearest neighbours of @p query.
     virtual std::vector<AnnSearchResult> search(const float* query, size_t dim,
                                                  int k) const = 0;
 
     /// Persist the index to @p path directory.  Returns false if not supported.
-    virtual bool save(const std::string& path) const { (void)path; return false; }
+    virtual bool save(const std::string& /*path*/) const { return false; }
 
     /// Load index from @p path directory.  Returns false if not supported.
-    virtual bool load(const std::string& path) { (void)path; return false; }
+    virtual bool load(const std::string& /*path*/) { return false; }
 
     /// Number of vectors currently in the index.
-    virtual size_t size() const = 0;
+    [[nodiscard]] virtual size_t size() const = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -294,3 +288,4 @@ private:
 
 } // namespace index
 } // namespace themis
+

@@ -261,5 +261,5 @@ Migrate high-traffic, high-value code paths from legacy error patterns (`return 
 
 ---
 
-**Last Updated:** 2026-01-20  
+**Last Updated:** 2026-04-06  
 **Next Update:** After PluginManager completion

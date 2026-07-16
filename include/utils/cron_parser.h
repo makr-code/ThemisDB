@@ -1,78 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cron_parser.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     211                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • cc68749fe  2026-02-22  chore(scheduler): audit cleanup – update banners Stubs:0 ... ║
-    • c298befed  2026-02-22  feat(scheduler): implement full cron expression parsing (... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file cron_parser.h
- * @brief Cron expression parser and evaluator for task scheduling
- *
- * Implements standard 5-field cron syntax (minute hour day month weekday)
- * and an optional 6-field form with an additional year field
- * (minute hour day month weekday year).
- *
- * Supported syntax:
- * - Wildcards: * (any value)
- * - Ranges: 0-5 (values from 0 to 5)
- * - Lists: 1,3,5 (specific values); list items may themselves be ranges or
- *   steps, e.g. "1,3-5,*\/10"
- * - Steps: *\/15 (every 15 units), 0-30/5 (every 5 from 0 to 30),
- *   5/15 (starting at 5, every 15 up to the field maximum)
- *
- * Name aliases (case-insensitive):
- * - Month  field: JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC
- *   (and full names JANUARY … DECEMBER)
- * - Weekday field: SUN MON TUE WED THU FRI SAT
- *   (and full names SUNDAY … SATURDAY)
- * Name aliases may be used in ranges and lists, e.g. "JAN-MAR", "MON,WED,FRI".
- *
- * Special expressions:
- * - @yearly / @annually  – once a year  ("0 0 1 1 *")
- * - @monthly             – once a month ("0 0 1 * *")
- * - @weekly              – once a week  ("0 0 * * 0")
- * - @daily / @midnight   – once a day   ("0 0 * * *")
- * - @hourly              – once an hour ("0 * * * *")
- * - @reboot              – at startup   (never fires via getNextExecution)
- *
- * Timezone support:
- * Use the getNextExecution(from, tz_offset_seconds) overload to schedule
- * tasks relative to a fixed-offset timezone (e.g. UTC+1 = +3600 seconds).
- *
- * Examples:
- * - "0 9-17 * * 1-5"      = Weekdays 9-17h every hour
- * - "0 9-17 * * MON-FRI"  = Same as above using name aliases
- * - "*\/15 * * * *"        = Every 15 minutes
- * - "5/15 * * * *"         = Minutes 5, 20, 35, 50
- * - "1,3-5,7 * * * *"     = Minutes 1, 3, 4, 5, 7
- * - "0 0 1 * *"           = First day of month at midnight
- * - "0 0 1 JAN-MAR *"     = First day of Jan, Feb, Mar at midnight
- * - "30 2 * * 0"          = Every Sunday at 2:30 AM
- * - "@daily"              = Every day at midnight
- * - "@hourly"             = Every hour on the hour
- * - "0 9 * * 1 2025"      = Every Monday at 9:00 in 2025 only (6-field)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_CRON_PARSER_H
-#define THEMIS_CRON_PARSER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -209,4 +146,3 @@ private:
 
 } // namespace themis
 
-#endif // THEMIS_CRON_PARSER_H

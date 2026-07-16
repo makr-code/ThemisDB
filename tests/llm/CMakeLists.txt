@@ -1,0 +1,156 @@
+# LLM focused module tests (flat hierarchy under tests/llm)
+
+file(GLOB LLM_MODULE_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+)
+
+foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "module_llm_${_stem}_focused")
+    set(_ctest "${_stem}_LlmFocusedTests")
+
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
+    )
+    # When building modularly the llama_cpp plugin may not be linked into
+    # `themis_core`. Ensure focused LLM tests have the plugin implementation
+    # available by compiling the plugin sources directly into the test target.
+    if(THEMIS_BUILD_MODULAR)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            # RAG assembler provides context assembly used by LlamaCppPlugin::generateRAG()
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_ai_orchestrator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_kernel_fusion_cpu_fallback" OR _stem STREQUAL "test_kernel_fusion_cuda")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_caching")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_deployment_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_mcp_orchestrator_bridge")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_real_embeddings")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
+    target_link_libraries(${_target} PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    themis_register_module_focused_test(
+        MODULE llm
+        NAME ${_ctest}
+        TARGET ${_target}
+        TIER unit
+        TIMEOUT 120
+    )
+endforeach()
+
+# AUTOGEN PREFIX BLOCK: llm
+file(GLOB LLM_AUTOGEN_PREFIX_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_*.cpp"
+)
+
+foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "module_llm_${_stem}_autofocused")
+    set(_ctest "${_stem}_llm_AutoFocusedTests")
+
+    if(TARGET ${_target})
+        continue()
+    endif()
+
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
+    )
+    if(_stem STREQUAL "test_llm_ai_orchestrator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_kernel_fusion_cpu_fallback" OR _stem STREQUAL "test_llm_kernel_fusion_cuda")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_caching")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_deployment_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_mcp_orchestrator_bridge")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_real_embeddings")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
+        )
+    endif()
+    target_link_libraries(${_target} PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    themis_register_module_focused_test(
+        MODULE llm
+        NAME ${_ctest}
+        TARGET ${_target}
+        TIER unit
+        TIMEOUT 120
+        LABELS llm autogen
+    )
+endforeach()

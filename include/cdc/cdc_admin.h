@@ -1,27 +1,21 @@
+/**
+ * @file cdc_admin.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cdc_admin.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     339                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
-    • 06f59a69f  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
-    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
-    • de729d957  2026-02-24  cdc: expose retention policy configuration in getRetentio... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cdc_admin.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 357
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5137 Research review: harden CDC... (2026-05-14) | #3687 feat(cdc): runtime-configur... (2026-03-12) | #2846 [cdc] GDPR-aware PII field ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -35,7 +29,10 @@
 #include "nlohmann/json.hpp"
 
 namespace themis {
+// Forward declarations
+class RocksDBWrapper;
 namespace cdc {
+class ICDCTransport;
 
 // Forward declarations
 class TenantBufferManager;
@@ -145,6 +142,7 @@ struct RetentionStatus {
     uint64_t policy_max_event_count = 1000000;      ///< Maximum number of events to retain
     size_t   policy_max_size_bytes = Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES;  ///< Maximum log size in bytes
     uint32_t policy_cleanup_interval_minutes = 60;  ///< Interval between background cleanup runs
+    bool     cleanup_thread_running = false;        ///< Whether the background cleanup thread is currently active
 
     nlohmann::json toJson() const {
         return {
@@ -155,6 +153,7 @@ struct RetentionStatus {
             {"newest_timestamp_ms",   newest_timestamp_ms},
             {"next_cleanup_time_ms",  next_cleanup_time_ms},
             {"compact_on_cleanup",    compact_on_cleanup},
+            {"cleanup_thread_running", cleanup_thread_running},
             {"policy", {
                 {"enabled",                   policy_enabled},
                 {"max_age_hours",             policy_max_age_hours},
@@ -219,6 +218,31 @@ public:
     explicit CDCAdmin(TenantBufferManager* tenant_manager);
     
     ~CDCAdmin() = default;
+
+    /**
+     * @brief Wire a RocksDB storage backend for GDPR redaction audit logging.
+     *
+     * When set, every call to redactByKeyPrefix() writes a structured audit
+     * record to the @c cdc_redactions column family of @p storage.  The audit
+     * record contains:
+     *   @code{"key_prefix":..., "redacted_count":..., "timestamp_ms":..., "operator":...}@endcode
+     *
+     * @param storage  RocksDBWrapper instance (not owned; must outlive CDCAdmin).
+     *                 Pass @c nullptr to disable audit logging.
+     */
+    void setAuditStorage(RocksDBWrapper* storage) noexcept { audit_storage_ = storage; }
+
+    /**
+     * @brief Wire a CDC transport for Kafka tombstone propagation.
+     *
+     * When set, every call to redactByKeyPrefix() publishes a tombstone
+     * (EVENT_DELETE ChangeEvent with null value) for each affected key via
+     * @p transport.  This propagates GDPR erasure to downstream Kafka consumers.
+     *
+     * @param transport  CDC transport (not owned; must outlive CDCAdmin).
+     *                   Pass @c nullptr to disable tombstone propagation.
+     */
+    void setTransport(ICDCTransport* transport) noexcept { transport_ = transport; }
     
     // Purge operations
     
@@ -329,6 +353,11 @@ private:
     Changefeed* changefeed_;
     TenantBufferManager* tenant_manager_;
     std::chrono::system_clock::time_point creation_time_;
+
+    /// Optional RocksDB backend for writing GDPR redaction audit log entries.
+    RocksDBWrapper* audit_storage_ = nullptr;
+    /// Optional CDC transport for publishing Kafka tombstones after redaction.
+    ICDCTransport* transport_ = nullptr;
     
     // Helper methods
     uint64_t countEventsInRange(uint64_t start, uint64_t end);

@@ -1,23 +1,21 @@
+/**
+ * @file bao.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bao.cpp                                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     172                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bao.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 170
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=0, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Bao: Making Learned Query Optimization Practical
@@ -40,6 +38,7 @@ struct BaoOptimizer::Impl {
     size_t queries_optimized = 0;
     size_t model_updates = 0;
     double total_speedup = 0.0;
+    size_t miss_count = 0;  ///< Plans flagged as sub-optimal by update_model()
     
     Impl() : rng(std::random_device{}()) {}
     
@@ -157,6 +156,7 @@ void BaoOptimizer::update_model(const QueryPlan& plan, const QueryResult& result
         impl_->total_speedup += reward;
     } else {
         arm.second += 1.0; // Failure (poor plan)
+        ++impl_->miss_count;
     }
 }
 
@@ -168,6 +168,12 @@ BaoOptimizer::Stats BaoOptimizer::get_stats() const {
         ? impl_->total_speedup / impl_->queries_optimized 
         : 0.0;
     return stats;
+}
+
+double BaoOptimizer::getMissRate() const {
+    if (impl_->queries_optimized == 0) return 0.0;
+    return static_cast<double>(impl_->miss_count) /
+           static_cast<double>(impl_->queries_optimized);
 }
 
 } // namespace phase3

@@ -1,45 +1,22 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_audit_manager.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     269                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4228c5bc5  2026-02-23  fix(scheduler): close remaining audit gaps in searchable ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file task_audit_manager.h
- * @brief Central manager for task scheduler audit logging and anomaly detection
- * 
- * Integrates:
- * - Audit event logging with AuditLogger
- * - Anomaly detection with TaskAnomalyDetector
- * - Security event reporting
- * - Query and export interfaces
- * - GDPR-compliant data handling
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_TASK_AUDIT_MANAGER_H
-#define THEMIS_TASK_AUDIT_MANAGER_H
+#pragma once
 
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_anomaly_detector.h"
 #include "utils/audit_logger.h"
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <chrono>
@@ -245,7 +222,7 @@ private:
     TaskAuditConfig config_;
     std::unique_ptr<TaskAnomalyDetector> anomaly_detector_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // In-memory cache for recent events (for querying)
     std::deque<TaskAuditEvent> recent_audit_events_;
@@ -266,5 +243,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_AUDIT_MANAGER_H

@@ -489,5 +489,5 @@ target_link_libraries(themis-server PRIVATE httplib::httplib)
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2026-01-13  
+**Last Updated:** 2026-04-06  
 **Next Review:** After Action 1.2 decision

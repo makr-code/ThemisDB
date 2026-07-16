@@ -1,32 +1,32 @@
+/**
+ * @file aql_conversation_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.39
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_conversation_context.h                         ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-03-09 03:52:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     151                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_conversation_context.h | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 206
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4151 feat(aql): Bounded conversa... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "aql/llm_aql_handler.h"
+#include "aql/llm_token_estimator.h"
 #include <string>
 #include <vector>
 #include <memory>
+#include <cstddef>
+#include <functional>
 
 namespace themis {
 namespace aql {
@@ -38,6 +38,16 @@ namespace aql {
  * `refine()` call appends the user's follow-up message to the history and
  * asks the LLM to produce an improved AQL query, taking all previous
  * exchanges into account.
+ *
+ * The context enforces a sliding-window budget: when the conversation exceeds
+ * @c Config::max_turns rounds or @c Config::max_history_tokens estimated
+ * tokens, the oldest user+assistant message pair is evicted (the system
+ * message is always preserved).
+ *
+ * All reads and writes to the conversation history are protected by an
+ * internal mutex, so `start()`, `refine()`, `reset()`, `turnCount()`,
+ * `tokenCount()`, and `getHistory()` are safe to call concurrently on the
+ * same instance.
  *
  * Usage example:
  * @code
@@ -64,11 +74,63 @@ namespace aql {
 class AQLConversationContext {
 public:
     /**
-     * @brief Construct a context that will use @p handler for LLM calls.
-     * @param handler Reference to an LLMAQLHandler instance.
-     *                The handler must outlive this context.
+     * @brief Runtime configuration for the conversation context.
+     *
+     * Pass an instance to the constructor to override the defaults.
+     */
+    struct Config {
+        /** Maximum number of user/assistant turn pairs to keep in history.
+         *  When this limit is reached, the oldest pair is evicted before
+         *  adding a new user message.  Set to 0 to disable turn-count
+         *  eviction.  Defaults to 50. */
+        std::size_t max_turns = 50;
+
+        /** Maximum total estimated tokens in the conversation history
+         *  (including the system message).  Oldest user+assistant pairs are
+         *  evicted until the new message fits within this budget.
+         *  Set to 0 to disable token-budget enforcement.  Defaults to 8192.
+         *
+         *  @note This is a best-effort limit.  If the system prompt alone
+         *  exceeds the budget, it is preserved and no further eviction is
+         *  possible; the configured limit will be exceeded in that case. */
+        std::size_t max_history_tokens = 8192;
+
+        /**
+         * @brief Optional LLM executor override.
+         *
+         * If set, this function is called instead of `LLMAQLHandler::executeChat`
+         * for every LLM invocation.  Primarily intended for unit testing so that
+         * tests can drive the conversation without a real model loaded.
+         *
+         * The callback receives the current conversation history and must return
+         * the assistant response string (or throw on error).
+         *
+         * Leave as `nullptr` (default) to use the real `LLMAQLHandler`.
+         */
+        std::function<std::string(const std::vector<std::pair<std::string, std::string>>&)>
+            llm_executor = nullptr;
+    };
+
+    /**
+     * @brief Construct a context with a handler (default configuration)
+     * @param handler   Reference to an LLMAQLHandler instance.
+     *                  The handler must outlive this context.
      */
     explicit AQLConversationContext(LLMAQLHandler& handler);
+    
+    /**
+     * @brief Construct a context with handler, configuration, and custom estimator
+     * @param handler   Reference to an LLMAQLHandler instance.
+     *                  The handler must outlive this context.
+     * @param config    Runtime configuration (max turns, token budget).
+     * @param estimator Optional token estimator; defaults to
+     *                  CharDivisionEstimator (4 chars per token).
+     */
+    explicit AQLConversationContext(
+      LLMAQLHandler& handler,
+      Config config,
+      std::unique_ptr<TokenEstimator> estimator = nullptr
+    );
     ~AQLConversationContext();
 
     // Non-copyable, movable
@@ -90,7 +152,7 @@ public:
     void setSchemaContext(const std::string& schema);
 
     /** @brief Return the current schema context string. */
-    const std::string& getSchemaContext() const;
+    std::string getSchemaContext() const;
 
     // =========================================================================
     // Conversation
@@ -129,11 +191,14 @@ public:
     // Inspection
     // =========================================================================
 
-    /** @brief Number of user turns so far (excludes system messages). */
+    /** @brief Number of user turns currently retained in history (≤ Config::max_turns). */
     std::size_t turnCount() const;
 
+    /** @brief Estimated total token count of the current conversation history. */
+    std::size_t tokenCount() const;
+
     /** @brief Return the last AQL query generated, or empty string if none. */
-    const std::string& lastQuery() const;
+    std::string lastQuery() const;
 
     /**
      * @brief Full conversation history as role/content message pairs.

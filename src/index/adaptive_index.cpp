@@ -1,23 +1,21 @@
+/**
+ * @file adaptive_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_index.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     637                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 637
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=1, L=0
+ * PR History (last 5): #3573 feat(index): parallel batch... (2026-03-12) | #762 Perf: Scale to 10B records ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/adaptive_index.h"
@@ -166,6 +164,10 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     SelectivityStats stats;
     stats.collection = collection;
     stats.field = field;
+
+    if (!db_) {
+        return stats;
+    }
     
     // Build prefix for collection
     std::string prefix = "d:" + collection + ":";
@@ -173,6 +175,9 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     rocksdb::ReadOptions read_opts;
     // RACE CONDITION FIX: Use unique_ptr for automatic cleanup and safer lifetime management
     std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts));
+    if (!it) {
+        return stats;
+    }
     
     std::set<std::string> unique_values;
     std::map<std::string, int> value_counts;
@@ -194,14 +199,17 @@ SelectivityAnalyzer::analyze(const std::string& collection,
             } else {
                 stats.null_count++;
             }
-            
+
             total++;
             sampled++;
-        } catch (const std::exception& e) {
-            (void)e;
+        } catch ([[maybe_unused]] const std::exception& e) {
             // Skip invalid JSON
             continue;
         }
+    }
+
+    if (!it->status().ok()) {
+        return stats;
     }
     
     // No need to delete - unique_ptr handles cleanup automatically
@@ -373,7 +381,11 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
         }
         
         // Analyze selectivity
-        auto stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+        SelectivityAnalyzer::SelectivityStats stats;
+        {
+            std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+            stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+        }
         
         // Calculate score
         double score = calculateScore(pattern, stats);
@@ -414,19 +426,19 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
 
 bool IndexSuggestionEngine::indexExists(const std::string& collection,
                                        const std::string& field) const {
-    std::lock_guard<std::mutex> lock(existingIndexesMutex_);
+    std::shared_lock<std::shared_mutex> lock(existingIndexesMutex_);
     return existingIndexes_.count(collection + ":" + field) > 0;
 }
 
 void IndexSuggestionEngine::registerIndex(const std::string& collection,
                                           const std::string& field) {
-    std::lock_guard<std::mutex> lock(existingIndexesMutex_);
+    std::unique_lock<std::shared_mutex> lock(existingIndexesMutex_);
     existingIndexes_.insert(collection + ":" + field);
 }
 
 void IndexSuggestionEngine::unregisterIndex(const std::string& collection,
                                              const std::string& field) {
-    std::lock_guard<std::mutex> lock(existingIndexesMutex_);
+    std::unique_lock<std::shared_mutex> lock(existingIndexesMutex_);
     existingIndexes_.erase(collection + ":" + field);
 }
 
@@ -449,7 +461,11 @@ double IndexSuggestionEngine::calculateScore(
     double time_score = std::min(avg_time / 100.0, 1.0);
     
     // Selectivity benefit
-    double selectivity_score = analyzer_->calculateIndexBenefit(stats);
+    double selectivity_score = 0.0;
+    {
+        std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+        selectivity_score = analyzer_->calculateIndexBenefit(stats);
+    }
     
     // Weighted average
     double score = (freq_score * 0.4) + 
@@ -545,10 +561,14 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
         }
         
         // Analyze selectivity
-        auto stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
-        
-        // Phase 2: Apply cache-aware analysis
-        auto cache_aware_stats = analyzer_->analyzeCacheAware(stats);
+        SelectivityAnalyzer::SelectivityStats stats;
+        SelectivityAnalyzer::SelectivityStats cache_aware_stats;
+        {
+            std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
+            stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
+            // Phase 2: Apply cache-aware analysis
+            cache_aware_stats = analyzer_->analyzeCacheAware(stats);
+        }
         
         // Calculate cache-aware score
         double base_score = calculateScore(pattern, cache_aware_stats);

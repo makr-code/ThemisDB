@@ -1,27 +1,21 @@
+/**
+ * @file kernel_invocation.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.33
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kernel_invocation.h                                ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-03-09 03:52:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     283                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • edaecffe6  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
-    • 4507018b1  2026-02-23  docs(acceleration): mark issue #1387 as PR, update kernel... ║
-    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kernel_invocation.h | Version: 0.0.33 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 268
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3555 docs(acceleration): ROADMAP... (2026-03-12) | #3545 docs(acceleration): sync pr... (2026-03-12) | #2689 feat(acceleration): API sta... (2026-03-12) | #2674 feat(acceleration): fallbac... (2026-03-12) | #2667 feat(acceleration): Tensor ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -237,6 +231,7 @@ enum class MatrixPrecision : uint32_t {
     FP32 = 0, ///< 32-bit IEEE 754 single precision (CPU fallback)
     FP16 = 1, ///< 16-bit IEEE 754 half precision  (Tensor Core on SM 7.0+)
     BF16 = 2, ///< bfloat16                         (Tensor Core on SM 8.0+)
+    INT8 = 3, ///< 8-bit integer with FP32 accumulator (Tensor Core on SM 7.5+)
 };
 
 /// Describes one batched matrix-multiply call: C = alpha * A × B + beta * C.

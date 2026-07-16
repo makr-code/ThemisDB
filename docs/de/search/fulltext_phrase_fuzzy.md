@@ -1,6 +1,6 @@
 # Enhanced Fulltext Search: Phrase and Fuzzy Matching
 
-**Stand:** 22. Januar 2026  
+**Stand:** 22. April 2026  
 **Version:** 1.4.1  
 **Kategorie:** Search
 

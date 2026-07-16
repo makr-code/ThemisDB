@@ -391,6 +391,6 @@ For issues, questions, or contributions:
 
 ---
 
-**Last Updated**: February 2026  
+**Last Updated**:  April 2026
 **Version**: v2.2  
 **Status**: Production Ready

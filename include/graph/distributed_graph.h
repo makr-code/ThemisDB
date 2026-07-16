@@ -1,24 +1,21 @@
+/**
+ * @file distributed_graph.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_graph.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     331                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 86e22786e  2026-02-25  feat(graph): implement distributed graph query execution ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_graph.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 322
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5119 [Docs][Module] graph - Sync... (2026-05-13) | #4299 feat(graph): DistributedGra... (2026-03-16)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -31,6 +28,7 @@
 #include <memory>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
 
 namespace themis {
@@ -90,7 +88,7 @@ public:
     virtual ~ShardGraphExecutor() = default;
 
     /// Returns the unique identifier of this shard.
-    virtual std::string shardId() const = 0;
+    [[nodiscard]] virtual std::string shardId() const = 0;
 
     /**
      * @brief Execute a BFS traversal on this shard and return visited vertex IDs.
@@ -100,7 +98,7 @@ public:
      * @param constraints  Optional query constraints (edge type, forbidden vertices, …).
      * @return Visited vertex IDs, each qualified as "<id>@<shardId>".
      */
-    virtual Result<std::vector<std::string>> executeBFS(
+    [[nodiscard]] virtual Result<std::vector<std::string>> executeBFS(
         const std::string& start_vertex,
         int max_depth,
         const GraphQueryOptimizer::QueryConstraints& constraints) = 0;
@@ -114,7 +112,7 @@ public:
      * @return PathResult with node IDs qualified as "<id>@<shardId>" and total cost.
      *         Returns ERR_GRAPH_PATH_NOT_FOUND when no path exists on this shard.
      */
-    virtual Result<GraphIndexManager::PathResult> executeDijkstra(
+    [[nodiscard]] virtual Result<GraphIndexManager::PathResult> executeDijkstra(
         const std::string& start_vertex,
         const std::string& target_vertex,
         const GraphQueryOptimizer::QueryConstraints& constraints) = 0;
@@ -186,9 +184,11 @@ private:
  * Fault tolerance: unhealthy shards (isHealthy() == false) are skipped
  * automatically; the result is still returned from the remaining shards.
  *
- * Thread safety: addShard() / removeShard() must not be called concurrently
- * with shortestPath() or kHopNeighbors().  Query methods themselves are
- * safe to call from multiple threads concurrently.
+ * Thread safety: all public methods are fully thread-safe.  Multiple
+ * threads may call shortestPath(), kHopNeighbors(), shardIds(), shardCount(),
+ * and resolveShardForVertex() concurrently without blocking each other
+ * (shared_lock).  addShard() and removeShard() take an exclusive lock and
+ * will briefly pause concurrent readers while the shard map is modified.
  *
  * Usage:
  * @code
@@ -318,7 +318,7 @@ private:
 
     // Registered shards: shard_id -> executor
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
-    mutable std::mutex shards_mutex_;
+    mutable std::shared_mutex shards_mutex_;
 
     /// Collect all healthy shard executors (snapshot under lock).
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
@@ -330,3 +330,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

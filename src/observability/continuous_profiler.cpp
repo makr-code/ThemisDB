@@ -1,25 +1,21 @@
+/**
+ * @file continuous_profiler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=16, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            continuous_profiler.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:59:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     541                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 654a7b5ae  2026-02-22  fix(observability): fix two thread-safety bugs and Wreord... ║
-    • c9fc2c24e  2026-02-22  feat(observability): implement pprof/async-profiler compa... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: continuous_profiler.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 591
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=23, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3783 feat(observability): implem... (2026-03-12) | #2573 feat(observability): wire c... (2026-03-12) | #2544 [observability] Implement p... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "observability/continuous_profiler.h"
@@ -41,8 +37,17 @@
 #if defined(__linux__) || defined(__APPLE__)
 #  include <execinfo.h>
 #  define THEMIS_HAS_BACKTRACE 1
+#elif defined(_WIN32)
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
+#  include <windows.h>
+#  include <dbghelp.h>
+#  define THEMIS_HAS_BACKTRACE 0
+#  define THEMIS_HAS_WIN32_DBGHELP 1
 #else
 #  define THEMIS_HAS_BACKTRACE 0
+#  define THEMIS_HAS_WIN32_DBGHELP 0
 #endif
 
 namespace themis {
@@ -55,7 +60,7 @@ namespace observability {
 namespace {
 
 /** Collect a raw call stack, up to @p max_depth frames. */
-std::vector<std::string> captureStack(int max_depth = 64) {
+std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
     std::vector<std::string> frames;
 #if THEMIS_HAS_BACKTRACE
     std::vector<void*> buffer(static_cast<size_t>(max_depth));
@@ -73,8 +78,45 @@ std::vector<std::string> captureStack(int max_depth = 64) {
     }
     ::free(symbols);
 #else
-    // No backtrace support on this platform; return a placeholder.
+#if defined(THEMIS_HAS_WIN32_DBGHELP) && THEMIS_HAS_WIN32_DBGHELP
+    // Windows DbgHelp path: CaptureStackBackTrace + SymFromAddr
+    constexpr DWORD kMaxFrames = 64;
+    void* frame_ptrs[kMaxFrames] = {};
+    const DWORD captured = ::CaptureStackBackTrace(
+        /*FramesToSkip=*/1,  // skip this captureStack() frame
+        /*FramesToCapture=*/std::min(static_cast<DWORD>(max_depth), kMaxFrames),
+        frame_ptrs,
+        /*BackTraceHash=*/nullptr);
+
+    if (captured > 0) {
+        const HANDLE process = ::GetCurrentProcess();
+        ::SymInitialize(process, nullptr, TRUE);
+
+        // SymFromAddr needs a SYMBOL_INFO buffer with space for the name
+        constexpr DWORD kNameLen = 256;
+        alignas(SYMBOL_INFO) char sym_buf[sizeof(SYMBOL_INFO) + kNameLen * sizeof(TCHAR)];
+        auto* sym = reinterpret_cast<SYMBOL_INFO*>(sym_buf);
+        sym->SizeOfStruct = sizeof(SYMBOL_INFO);
+        sym->MaxNameLen   = kNameLen;
+
+        frames.reserve(static_cast<size_t>(captured));
+        for (DWORD i = 0; i < captured; ++i) {
+            DWORD64 displacement = 0;
+            if (::SymFromAddr(process, reinterpret_cast<DWORD64>(frame_ptrs[i]),
+                              &displacement, sym)) {
+                frames.emplace_back(sym->Name);
+            } else {
+                char addr_buf[32];
+                std::snprintf(addr_buf, sizeof(addr_buf), "0x%p", frame_ptrs[i]);
+                frames.emplace_back(addr_buf);
+            }
+        }
+    } else {
+        frames.emplace_back("(stack-trace-unavailable)");
+    }
+#else
     frames.emplace_back("(stack-trace-unavailable)");
+#endif
 #endif
     return frames;
 }
@@ -223,6 +265,23 @@ public:
         snap.duration = config_.snapshot_interval;
 
         if (type == ProfileType::CPU) {
+            // Under heavy scheduling/load, the background sampler may not have
+            // produced the first sample yet when snapshot() is called shortly
+            // after start(). Capture one synchronous sample as a safe fallback
+            // so callers get a non-empty snapshot whenever CPU profiling is
+            // enabled.
+            if (cpu_stacks_.empty() &&
+                enabled_.load(std::memory_order_acquire) &&
+                config_.enable_cpu_profiling) {
+                auto frames = captureStack(64);
+                std::string key;
+                for (size_t i = 0; i < frames.size(); ++i) {
+                    if (i > 0) key += ';';
+                    key += frames[i];
+                }
+                cpu_stacks_[key]++;
+            }
+
             // Serialise current accumulated stacks to folded-stacks text
             std::string text;
             for (const auto& [stack, count] : cpu_stacks_) {
@@ -540,3 +599,5 @@ ContinuousProfilerConfig ContinuousProfiler::getConfig() const {
 
 } // namespace observability
 } // namespace themis
+
+

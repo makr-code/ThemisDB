@@ -1,24 +1,21 @@
+/**
+ * @file changefeed_buffer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            changefeed_buffer.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     503                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b7ab19d6f  2026-02-24  feat(cdc): implement dead-letter queue for failed event d... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: changefeed_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 493
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=0, L=0
+ * PR History (last 5): #3616 fix(cdc): build system audi... (2026-03-12) | #97 Complete auto-batching infr... (2026-03-11) | #3685 test(cdc): increase unit te... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "cdc/changefeed_buffer.h"
@@ -43,9 +40,13 @@ ChangefeedBuffer::ChangefeedBuffer(Changefeed* changefeed,
     rate_limit_window_start_ = std::chrono::steady_clock::now();
 }
 
-ChangefeedBuffer::~ChangefeedBuffer() {
-    if (running_.load()) {
-        stop();
+ChangefeedBuffer::~ChangefeedBuffer() noexcept {
+    try {
+        if (running_.load()) {
+            stop();
+        }
+    } catch (...) {
+        // Destructors must not throw while draining the background flush thread.
     }
 }
 
@@ -74,7 +75,8 @@ void ChangefeedBuffer::stop() {
     // Wake up flush thread
     flush_cv_.notify_all();
     
-    // Wait for flush thread to finish
+    // Safe blocking join: the worker only waits on flush_cv_. After clearing
+    // running_ and notifying above, the thread wakes promptly and exits.
     if (flush_thread_.joinable()) {
         flush_thread_.join();
     }
@@ -117,6 +119,7 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     if (config_.compress_payloads && event.value.has_value()) {
         size_t payload_size = event.value->size();
         if (payload_size > config_.compression_threshold_bytes) {
+#pragma warning(suppress: 4456)
             CDC_MEASURE_LATENCY(metrics_.compression_latency);
             try {
                 auto compressed = utils::zstd_compress(*event.value, 3);
@@ -164,12 +167,12 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
         // Add to buffer
         auto& buffer = buffers_[event.type];
         BufferedEvent buffered_event(event);
-        size_t event_size = buffered_event.memory_bytes;
+        size_t buffered_size = buffered_event.memory_bytes;
         buffer.add(std::move(buffered_event));
         
         stats_.events_buffered++;
         stats_.current_buffer_size++;
-        stats_.current_buffer_memory += event_size;
+        stats_.current_buffer_memory += buffered_size;
         
         // Check if this buffer needs immediate flush
         if (buffer.events.size() >= config_.max_events_per_buffer) {
@@ -268,6 +271,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
                     if (event.value.has_value()) {
                         {
+#pragma warning(suppress: 4456)
                             CDC_MEASURE_LATENCY(metrics_.decompression_latency);
                             try {
                                 std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
@@ -317,8 +321,9 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                     if (config_.exponential_backoff && retry_count > 1) {
                         // Cap exponential backoff to prevent overflow (max 30 seconds)
                         int exponent = std::min(retry_count - 1, 8);  // 2^8 = 256
+                        long long exponential_backoff_ms = static_cast<long long>(config_.retry_backoff_ms.count()) * (1LL << exponent);
                         backoff = std::chrono::milliseconds(
-                            std::min(config_.retry_backoff_ms.count() * (1 << exponent), 30000LL)
+                            std::min(exponential_backoff_ms, 30000LL)
                         );
                     }
                     

@@ -1,24 +1,20 @@
+/**
+ * @file pmu_counters.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pmu_counters.h                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     177                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3fc507357  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pmu_counters.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB - Hardware Performance Counter (PMU) Integration
@@ -42,6 +38,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 
 namespace themis {
 namespace performance {
@@ -67,6 +64,9 @@ struct CacheMissMetrics {
 /// Not copyable; movable.
 class PmuCounter {
 public:
+    using OpenFn = std::function<bool(uint32_t, uint64_t)>;
+    using ReadFn = std::function<uint64_t()>;
+
     PmuCounter() noexcept;
     ~PmuCounter() noexcept;
 
@@ -98,6 +98,9 @@ public:
     /// Returns true if the counter was successfully opened.
     bool is_open() const noexcept { return fd_ >= 0; }
 
+    static void setOpenFn(OpenFn fn);
+    static void setReadFn(ReadFn fn);
+
 private:
     int fd_{-1};
 };
@@ -119,6 +122,9 @@ private:
 /// @endcode
 class CacheMissAnalyzer {
 public:
+    using StopFn = std::function<CacheMissMetrics()>;
+    using ProbeFn = std::function<bool()>;
+
     CacheMissAnalyzer() noexcept;
     ~CacheMissAnalyzer() noexcept = default;
 
@@ -136,6 +142,9 @@ public:
 
     /// Static convenience check (tries to open a test counter).
     static bool pmu_accessible() noexcept;
+
+    static void setStopFn(StopFn fn);
+    static void setProbeFn(ProbeFn fn);
 
 private:
     PmuCounter l1d_misses_;

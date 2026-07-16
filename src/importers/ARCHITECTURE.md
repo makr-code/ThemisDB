@@ -1,200 +1,59 @@
-# Importers Module — Architecture Guide
+# Architecture - Importers Module
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
-**Module Path:** `src/importers/`
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
----
+## Overview
 
-## 1. Overview
+The importers module composes connector-specific ingestion, schema handling, conflict/quality controls, and audit/MDM orchestration into a bounded import subsystem for ThemisDB.
 
-The Importers module provides one-time and incremental data import from external database
-systems into ThemisDB. It handles schema discovery, schema mapping to ThemisDB's multi-model
-layout, batch data transfer, and incremental sync via change tracking.
+## Main Execution Planes
 
-Current connectors: PostgreSQL (production-ready), MySQL (in progress), MongoDB (production-ready).
+1. Connector and source plane
+- relational/document/stream/file/object source ingestion adapters
+- capability-aware connector selection and bounded fallback behavior
 
----
+2. Schema and transformation plane
+- source schema extraction/inference/validation
+- mapping and normalization behavior before persistence
 
-## 2. Design Principles
+3. Conflict/quality/audit plane
+- conflict strategies, data quality checks, and immutable audit paths
+- deterministic error reporting for invalid/unsafe import outcomes
 
-- **Schema Mapping First** – the importer translates source schema to ThemisDB schema
-  before any data is transferred; this allows validation and preview without side effects.
-- **Batch-Oriented** – large imports are split into configurable batches to limit memory
-  usage and enable resumption on failure.
-- **Incremental Support** – after initial import, incremental runs transfer only changed
-  rows using source-side change tracking (last-modified timestamp or WAL-based CDC).
-- **Source-Agnostic Pipeline** – `import_pipeline.cpp` orchestrates all importers; adding
-  a new source requires only a new connector, not pipeline changes.
-- **Quarantine on Error** – rows that fail validation or conversion are written to a
-  quarantine table rather than causing the import to abort.
+4. MDM and advanced helper plane
+- canonicalization/entity-linking and post-import enrichment helpers
+- temporal, CDC, integrity, and federation-related support flows
 
----
+## Core Contracts
 
-## 3. Component Architecture
-
-### 3.1 Key Components
-
-| File | Role |
+| Contract | Behavior |
 |---|---|
-| `postgres_importer.cpp` | PostgreSQL source connector: schema discovery, data transfer |
-| `mysql_importer.cpp` | MySQL source connector (in progress) |
-| `mongo_importer.cpp` | MongoDB source connector (production-ready) |
+| connector contract | deterministic source validation and import execution |
+| schema contract | explicit validation/inference and mapping semantics |
+| integrity contract | bounded conflict, quality, and auditability behavior |
+| enrichment contract | explicit MDM/advanced helper post-processing semantics |
 
-### 3.2 Component Diagram
+## Failure Semantics
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  Import API (src/server/)                        │
-│   POST /import  { source: "postgres", config: {...} }            │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────────┐
-│                     Import Pipeline                              │
-│                                                                  │
-│  1. SchemaMapper: discover source schema → ThemisDB schema       │
-│  2. Validate mapping (user confirmation or auto-approve)         │
-│  3. Batch iterator: fetch records in batches                     │
-│  4. Transform + validate each record                             │
-│  5. Write to ThemisDB storage/index                              │
-│  6. Quarantine failed records                                    │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ per-source connector
-         ┌─────────────────┴───────────────────┐
-         │                                     │
-┌────────▼──────────┐             ┌────────────▼──────────────────┐
-│ PostgresImporter  │             │ MySQLImporter / MongoImporter  │
-│ libpq connection  │             │ (MySQL: in progress;           │
-│ schema discovery  │             │  MongoDB: production-ready)    │
-│ batch cursor      │             └───────────────────────────────┘
-└───────────────────┘
-```
+- invalid source/schema input fails with explicit structured outcomes.
+- unavailable connector/runtime capability paths degrade deterministically.
+- conflict strategy violations or unsafe quality checks fail before unsafe commit behavior.
 
----
+## Sourcecode Verification (Module: importers/architecture)
 
-## 4. Data Flow
-
-### 4.1 Initial Import
-
-```
-ImportRequest { source: "postgres", dsn: "...", tables: ["users", "orders"] }
-    │
-    ▼
-PostgresImporter::discoverSchema(tables)
-    → {tables, columns, types, primary_keys, foreign_keys}
-    │
-    ▼
-SchemaMapper::map(source_schema) → ThemisDB collection schema
-    │
-    ▼
-User confirms mapping (or auto-approve via config)
-    │
-    ▼
-Import loop:
-    batch_cursor.next(batch_size) → [rows]
-    for each row:
-        ├─ transform types (postgres → ThemisDB types)
-        ├─ validate (not-null, type constraints)
-        ├─ valid → write to storage
-        └─ invalid → write to quarantine_table
-    │
-    ▼
-Import complete: {imported: N, quarantined: M, duration: Xs}
-```
-
-### 4.2 Incremental Import
-
-```
-IncrementalImportRequest { last_cursor: "2026-01-01T00:00:00Z" }
-    │
-    ▼
-PostgresImporter::fetchChangedRows(since: last_cursor)
-    → rows modified after cursor
-    │
-    ▼
-Same transform/validate/write pipeline
-    │
-    ▼
-Update cursor to current timestamp
-```
-
----
-
-## 5. Integration Points
-
-| Direction | Module | Interface |
-|---|---|---|
-| **Writes to** | `src/storage/` | Batch writes via `RocksDBWrapper` |
-| **Registers with** | `src/index/` | Secondary index updates during import |
-| **Uses** | `src/metadata/` | Schema registration after mapping |
-| **Consumed by** | `src/server/` | Import API endpoints |
-
----
-
-## 6. Threading & Concurrency Model
-
-- Each import job runs on a dedicated background thread.
-- Concurrent imports from different sources are supported; each uses an independent connection.
-- Batch writes use ThemisDB transactions for atomicity per batch.
-- Quarantine writes are separate transactions to avoid blocking the main import.
-
----
-
-## 7. Performance Architecture
-
-| Technique | Detail |
-|---|---|
-| Batch fetching | Configurable batch size (default: 1000 rows) reduces round-trips |
-| Parallel table import | Multiple tables imported concurrently (configurable parallelism) |
-| Server-side cursor | PostgreSQL server-side cursor avoids loading entire table into memory |
-
----
-
-## 8. Security Considerations
-
-- Source database credentials are never logged; stored only in memory for the duration
-  of the import.
-- Connection strings are validated to prevent injection (SSRF, etc.).
-- Import is scoped to the authenticated user's tenant; cross-tenant imports are rejected.
-
----
-
-## 9. Configuration
-
-| Parameter | Default | Description |
-|---|---|---|
-| `importers.batch_size` | 1000 | Records per batch |
-| `importers.parallel_tables` | 4 | Concurrent table imports |
-| `importers.quarantine_enabled` | true | Enable quarantine on error |
-| `importers.auto_approve_mapping` | false | Skip user confirmation for schema mapping |
-| `importers.incremental.strategy` | "timestamp" | Incremental mode: timestamp / wal-cdc |
-
----
-
-## 10. Error Handling
-
-| Error Type | Strategy |
-|---|---|
-| Connection failure | Abort import; return structured error |
-| Schema discovery failure | Abort import; return error |
-| Row transformation failure | Quarantine row; continue batch |
-| Batch write failure | Retry batch (up to 3 times); then abort import |
-
----
-
-## 11. Known Limitations & Future Work
-
-- MySQL importer is in progress.
-- MongoDB importer is production-ready (JSON-Lines/NDJSON and JSON array formats via mongoexport).
-- WAL-based CDC incremental import (PostgreSQL logical replication) is planned.
-- Flat-file importers (CSV, JSON Lines) are planned.
-- Schema migration on re-import (schema drift detection) is not yet implemented.
-
----
-
-## 12. References
-
-- `src/importers/README.md` — module overview
-- `docs/importers_roadmap.md` — roadmap
-- `docs/importers_runbook.md` — operational runbook
-- `ARCHITECTURE.md` (root) — full system architecture
+- Verified files:
+  - src/importers/postgres_importer.cpp
+  - src/importers/mysql_importer.cpp
+  - src/importers/mongo_importer.cpp
+  - src/importers/flatfile_importer.cpp
+  - src/importers/schema_validator.cpp
+  - src/importers/conflict_resolver.cpp
+  - src/importers/data_quality.cpp
+  - src/importers/audit_trail.cpp
+  - src/importers/mdm_engine.cpp
+  - src/importers/postgres_cdc.cpp
+- Verified architecture claims:
+  - explicit connector/schema/integrity/enrichment planes
+  - deterministic failure and fallback behavior boundaries
+  - module-local ownership of import orchestration surfaces

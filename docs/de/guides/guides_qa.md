@@ -26,7 +26,7 @@ Comprehensive QA and testing strategy guide.
 
 Diese Seite beschreibt die Teststrategie, Werkzeuge und Best Practices zur Sicherstellung der Softwarequalität in ThemisDB: Unit/Integration/E2E-Tests, CI/CD, Code Coverage, statische Analysen und Performance-Regressionstests.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🛠️ Developer/Technical
 

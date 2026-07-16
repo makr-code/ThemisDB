@@ -1,256 +1,58 @@
-# Search Module API - Future Enhancements
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/search/FUTURE_ENHANCEMENTS.md -->
+
+# Search Module — Public Header Future Enhancements
+
+**Module Path:** `include/search/`
+**Canonical implementation enhancements:** [`../../src/search/FUTURE_ENHANCEMENTS.md`](../../src/search/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Scope
 
-- API-level enhancements to `include/search/` headers
-- LTR (learning-to-rank) interface (`LearningToRank`, model hot-swap API)
-- Neural sparse retrieval API (compile-time optional, `NeuralSparseRetriever`)
-- Faceted search interface (`FacetedSearch`, composable drill-down API)
-- Cross-lingual search API (`CrossLingualSearch`, multi-embedding fusion)
-- Query rewriting hook (`QueryRewriter`, pluggable ordered rewrite chain)
+Planned enhancements to the **public header contract** in `include/search/`. Runtime hardening and benchmark work remain tracked in:
+
+→ [`../../src/search/FUTURE_ENHANCEMENTS.md`](../../src/search/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Design Constraints
 
-- [ ] LTR model is hot-swappable without server restart
-- [ ] Faceted search API is composable — facets can be combined via intersection
-- [ ] Neural sparse API is compile-time optional (`THEMIS_NEURAL_SPARSE` flag)
-- [ ] No breaking changes to existing `HybridSearch` API
-- [ ] All new interfaces use `Result<T>` for error propagation (no exceptions)
-- [ ] Query rewriting hooks are ordered and individually enable/disable-able
-
-## Required Interfaces
-
-| Interface | Consumer | Notes |
-|-----------|----------|-------|
-| `LearningToRank` | Search result re-ranking pipelines | Hot-swappable model; online click-through training |
-| `NeuralSparseRetriever` | Neural IR search backends | Compile-time optional via `THEMIS_NEURAL_SPARSE` |
-| `FacetedSearch` | Browse/filter UIs | Composable facet intersection; ≤ 5 ms aggregation |
-| `CrossLingualSearch` | Multilingual applications | RRF fusion over multilingual embeddings |
-| `QueryRewriter` | Query preprocessing pipeline | Ordered hook chain; ≤ 20 ms total rewrite budget |
-
-## Delivered in v1.5.0
-
-All features listed below were delivered in v1.5.0.  The actual public API is
-documented in [`README.md`](README.md).
-
-### Query Expansion API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
-
-`QueryExpander` provides synonym expansion, Levenshtein-based spelling
-correction, alternative query generation, and zero-result relaxation.
+- `[x]` Retrieval, fusion, and rerank outcomes must remain explicit and deterministic.
+- `[x]` Partial-result and degraded-shard behavior must remain visible to consumers.
+- `[x]` LLM-assisted and multimodal headers must preserve optional/degradable semantics.
+- `[x]` Analytics and streaming contracts must remain consumable by API and monitoring layers.
 
 ---
 
-### Ranked Spelling Correction Suggestions API
-**Status:** ✅ Delivered in v1.7.0 — see `include/search/query_expander.h`
+## Required Interfaces (Header Contract)
 
-`QueryExpander::suggestSpellingCorrections()` returns a ranked list of
-`SpellingCorrection` candidates (suggestion, edit_distance, confidence) for
-a single misspelled word.  `QueryExpander::suggestQueryCorrections()` returns
-ranked full-query correction strings by substituting each misspelled token
-with its best correction, plus an all-corrected variant.
-
----
-
-### Fuzzy Search API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/fuzzy_matcher.h`
-
-`FuzzyMatcher` supports Levenshtein, Soundex, Metaphone, and N-gram
-similarity as a thin wrapper over `SecondaryIndexManager::scanFulltextFuzzy`.
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| hybrid/distributed retrieval APIs | `hybrid_search.h`, `distributed_hybrid_search.h` | Query and API layers | ✅ Stable |
+| query shaping and rerank APIs | `query_expander.h`, `llm_query_rewriter.h`, `llm_reranker.h` | Search pipeline composition | ✅ Stable |
+| result stream / analytics APIs | `search_result_stream.h`, `search_analytics.h` | UI and operational tooling | ✅ Stable |
+| multimodal and federated APIs | `multi_modal_search.h`, `federated_search.h` | Advanced retrieval deployments | ✅ Stable |
 
 ---
 
-### Faceted Search API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/faceted_search.h`
+## Planned Enhancements
 
-`FacetedSearch` computes categorical value-count facets, numeric range
-bucket facets, and supports active-facet drill-down filter intersection.
+### Short-Term (Q3 2026)
 
----
+- Document degraded-shard, overlap-variance, and candidate-limit behavior consistently across distributed/public retrieval headers.
+- Standardize naming for search incident, capability, and rerank-result DTOs.
+- Clarify optional/degradable semantics for LLM-assisted and multimodal search headers.
 
-### Search Analytics API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/search_analytics.h`
+### Medium-Term (Q4 2026)
 
-Thread-safe query log with p95/p99 latency, zero-result rate, and
-per-query frequency tracking.
+- Introduce `search_incident.h` and `search_capability_profile.h` for shared diagnostics/capability exchange.
+- Document benchmark-reference expectations for hybrid merge, rerank, and distributed hot paths.
+- Align federated and distributed headers around a shared partial-result vocabulary.
 
----
+### Long-Term
 
-### Autocomplete API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/autocomplete.h`
-
-`AutocompleteEngine` provides prefix-index suggestions and popular-query
-suggestions, combined and deduplicated.
-
----
-
-### Learning to Rank API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/learning_to_rank.h`
-
-Linear feature-vector re-ranker with online click-through training and
-deterministic A/B variant routing.
-
----
-
-### Multi-Modal Search API
-**Status:** ✅ Delivered in v1.5.0 — see `include/search/multi_modal_search.h`
-
-Unified TEXT + embedding (IMAGE/AUDIO/CUSTOM) search with weighted RRF
-fusion across all modalities.
-
----
-
-## Delivered in v1.9.0
-
-### MultiFieldBoostedSearch API (`include/search/multi_field_search.h`)
-**Status:** ✅ Delivered in v1.9.0
-
-`MultiFieldBoostedSearch` provides configurable per-field boost weighting over BM25
-full-text scores, implementing the "title > body > tags" search priority.
-
-Key API surface:
-- `search(query, fields)` — per-field BM25 + normalization + boost-weighted combination
-- `defaultFields(table)` — canonical `title/body/tags` preset (boosts 3.0 / 1.0 / 0.5)
-- `normalizeScores(scored)` — public static helper, directly unit-testable
-- `setConfig(config)` — runtime config replacement
-
----
-
-## Delivered in v2.0.0
-
-### PersonalizedRanker API (`include/search/personalized_ranker.h`)
-**Status:** ✅ Delivered in v2.0.0
-
-`PersonalizedRanker` records per-user interaction events and uses them to
-compute time-decayed personalization boosts for search result re-ranking.
-
-Key API surface:
-- `recordInteraction(interaction)` — record a VIEW, CLICK, BOOKMARK, LIKE, or DISLIKE event
-- `computeScore(user_id, doc_id)` — personalization score in [-1, 1] with exponential time decay
-- `applyPersonalization(user_id, candidates)` — boost/suppress `RankedResult::final_score` and re-sort
-- `getUserInteractions(user_id)` — inspect stored per-user history (most-recent first)
-- `clearUser(user_id)` / `clear()` — GDPR-compatible data removal
-- Configurable `decay_rate`, `boost_weight`, and `max_interactions_per_user`
-- Thread-safe via shared `std::mutex`
-### CrossLingualSearch API (`include/search/cross_lingual_search.h`)
-**Status:** ✅ Delivered in v2.0.0
-
-`CrossLingualSearch` provides cross-lingual semantic retrieval by operating on
-multilingual embedding vectors, enabling queries in one language to match
-documents written in any language stored in the same vector space.
-
-Key API surface:
-- `search(embedding, hints)` — kNN query with distance-to-similarity conversion,
-  per-language boost factors, score threshold filter, and k-cap
-- `searchMultiEmbedding(queries, hints)` — fuses multiple query embeddings (e.g.
-  one per language variant) via weighted Reciprocal Rank Fusion (RRF) before
-  applying language boosts and threshold filtering
-- `setLanguageMap(map)` — supplies `doc_id → language_code` mapping for result
-  annotation (`Result::language`) and `LanguageHint` boost lookup
-- `setConfig(config)` — runtime config replacement
-- `LanguageHint` struct: `{language_code, boost}` — ISO 639-1 code + score multiplier
-- `EmbeddingQuery` struct: `{embedding, weight}` — pre-computed vector + RRF weight
-- `Result` struct: `{document_id, score, language}` — enriched with language metadata
-
----
-
-## Delivered in v2.1.0
-
-### SearchHighlighter API (`include/search/search_highlighter.h`)
-**Status:** ✅ Delivered in v2.1.0 (Issue #2457)
-
-`SearchHighlighter` provides highlight and snippet generation for matched search
-terms in document text, enabling rich result presentation.
-
-Key API surface:
-- `highlight(text, terms)` — wraps every occurrence of a query term in `text` with
-  configurable open/close markup tags (default `<em>` / `</em>`); case-insensitive,
-  word-boundary matching, original capitalisation preserved
-- `highlight(text, query)` — convenience overload: tokenises the raw query string first
-- `highlight(text, terms_vector)` — overload accepting a pre-split term list
-- `snippet(text, terms)` — extracts a short excerpt (≤ `Config::window_size` chars)
-  centred on the densest cluster of query-term matches, with terms highlighted and
-  `Config::separator` prepended/appended where the text is truncated
-- `snippet(text, query)` / `snippet(text, terms_vector)` — convenience overloads
-- `snippet(..., window_size)` — per-call window size override
-- `setConfig(config)` — runtime config replacement
-- `tokenize(query)` — public static helper: splits and lower-cases a raw query string
-- `applyHighlight(text, terms, open_tag, close_tag)` — public static helper, directly testable
-- `bestWindowOffset(lower_text, terms, window_size)` — public static helper for snippet offset
-- `Config` fields: `open_tag`, `close_tag`, `separator`, `window_size`, `max_window_size`
-
----
-
-## Delivered in v2.2.0
-
-### NegativeKeywordFilter API (`include/search/negative_keyword_filter.h`)
-**Status:** ✅ Delivered in v2.2.0 (Issue #2003)
-
-`NegativeKeywordFilter` implements the `NOT` / minus-prefix operator for full-text search
-queries, enabling callers to exclude documents that contain specific terms.
-
-Supported query syntax:
-- Minus prefix: `"machine learning -neural"` → excludes docs containing "neural"
-- `NOT` keyword: `"machine learning NOT neural"` → equivalent
-- Mixed: `"database -slow NOT crash"` → excludes both "slow" and "crash"
-
-Key API surface:
-- `ParsedQuery` struct: `positive_query` (terms to search for) + `negative_terms` (terms to exclude)
-- `parseQuery(raw_query)` — static; parses `-term` and `NOT term` syntax, lowercases negatives,
-  handles dangling `NOT`, lone `-` as positive token, case-insensitive `NOT` keyword
-- `filter(table, column, candidate_pks, negative_terms)` — uses secondary index
-  `scanFulltext()` to collect documents containing excluded terms, then removes them
-  from `candidate_pks` while preserving order
-- Null-index safety: returns error Status but preserves `candidate_pks` unchanged
-- Empty `negative_terms`: passes through all PKs with OK Status
-- Exception safety: `filter()` never throws; all index exceptions are caught and logged
-
-Typical pipeline usage:
-1. `parseQuery()` to split raw user query into positive + negative parts
-2. Run BM25 / hybrid search on `positive_query`
-3. `filter()` on the result PKs with `negative_terms`
-4. Retain only results in the filtered PK set
-
----
-
-- **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
-- **Multi-namespace VectorIndexManager**: one instance per modality namespace
-- **Streaming result delivery**: async/generator API for large `k` values
-
----
-
-## Test Strategy
-
-- Unit tests for `LearningToRank` re-ranking with synthetic feature vectors and known score ordering
-- Model hot-swap tests verifying zero-downtime swap under concurrent search load
-- Faceted search composability tests with nested filter combinations across multiple facet types
-- Cross-lingual search tests using parallel corpora (query in language A, results in language B)
-- Query rewriter hook ordering tests ensuring deterministic rewrite output
-- Compile-time exclusion tests confirming `NeuralSparseRetriever` is absent without `THEMIS_NEURAL_SPARSE`
-
-## Performance Targets
-
-- LTR re-ranking ≤ 10 ms for top-100 candidates (p99)
-- Faceted aggregation ≤ 5 ms for up to 10 facets over 1 M documents
-- Query rewriting pipeline ≤ 20 ms end-to-end
-- Neural sparse retrieval ≤ 50 ms for vocabulary size ≤ 30,000 terms
-- `CrossLingualSearch::searchMultiEmbedding()` RRF fusion ≤ 15 ms for 5 query embeddings
-
-## Security / Reliability
-
-- Search query strings hashed (SHA-256) before storage in analytics log — raw query never persisted
-- No query content included in error messages or stack traces
-- LTR model updates validated against a held-out test set before hot-swap activation
-- Faceted filter inputs sanitized to prevent injection into underlying index scans
-- Rate limiting applied at the search API boundary to prevent denial-of-service via expensive queries
-
-## See Also
-
-- [Current API](README.md)
-- [Implementation FUTURE_ENHANCEMENTS](../../src/search/FUTURE_ENHANCEMENTS.md)
-
----
-
-*Last Updated: March 2026*  
-*Current API Version: v2.2.0*  
-*Next Target: v2.3.0*
+- Add extension hooks for custom fusion and reranking strategies without replacing search core contracts.
+- Unify retrieval, rerank, and analytics outputs under a shared search result envelope.

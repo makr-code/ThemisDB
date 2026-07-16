@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_automl.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     593                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • f5db1202d  2026-02-23  feat(analytics): implement AutoML integration for automat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_automl.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=9; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -46,7 +30,10 @@
 #include <gtest/gtest.h>
 #include "analytics/automl.h"
 
+#include <cassert>
+#include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <set>
 #include <string>
 #include <vector>
@@ -405,7 +392,7 @@ TEST_F(RegressionTest, PredictReturnsSameCount) {
 TEST_F(RegressionTest, PredictionsAreNumericStrings) {
     auto preds = model.predict(data);
     for (const auto& p : preds) {
-        EXPECT_NO_THROW(std::stod(p)) << "Non-numeric prediction: " << p;
+        EXPECT_NO_THROW((void)std::stod(p)) << "Non-numeric prediction: " << p;
     }
 }
 
@@ -591,4 +578,287 @@ TEST(DefaultAlgorithmsTest, RegressionWithAllAlgorithms) {
     EXPECT_FALSE(model.candidateModels().empty());
     auto preds = model.predict(data);
     EXPECT_EQ(preds.size(), data.size());
+}
+
+// ============================================================================
+// KNN Regressor accuracy: y = 2*x (section 10, FUTURE_ENHANCEMENTS.md)
+// Verifies KNNModel::predictOneReg() is not the 0.0 stub and produces
+// predictions within ±0.5 of the true value for a simple linear function.
+// ============================================================================
+
+/**
+ * Build a simple 1-D regression dataset: y = 2 * x, x in [0, 1].
+ * The KNN regressor (inverse-distance-weighted mean of k=5 nearest
+ * neighbours) must predict a value close to 2 * query_x.
+ */
+static std::vector<DataPoint> makeLinearData(int n) {
+    std::vector<DataPoint> pts;
+    pts.reserve(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        DataPoint p;
+        p.id = "lin" + std::to_string(i);
+        double x = static_cast<double>(i) / static_cast<double>(n - 1);
+        p.set("x", x);
+        p.fields["y"] = 2.0 * x;
+        pts.push_back(std::move(p));
+    }
+    return pts;
+}
+
+TEST(KNNRegressorTest, PredictOneRegNotStub) {
+    // Train KNN-only regressor on y = 2x with 100 points.
+    auto train = makeLinearData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::R2;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 5;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::KNN};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+    ASSERT_EQ(model.task(), AutoMLTask::REGRESSION);
+
+    // Query point: x = 0.5, expected y ≈ 1.0.
+    DataPoint query;
+    query.id = "q";
+    query.set("x", 0.5);
+
+    const std::string pred_str = model.predictOne(query);
+    ASSERT_NO_THROW((void)std::stod(pred_str));
+    const double pred = std::stod(pred_str);
+
+    // Must not be the 0.0 stub and must be within ±0.5 of the true value.
+    EXPECT_NE(pred, 0.0) << "KNNModel::predictOneReg() appears to be the 0.0 stub";
+    EXPECT_NEAR(pred, 1.0, 0.5)
+        << "KNN prediction for x=0.5 (expected y≈1.0) was " << pred;
+}
+
+TEST(KNNRegressorTest, PredictAtEndpoints) {
+    auto train = makeLinearData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::R2;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 5;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::KNN};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+
+    // At x=0.0, expected y ≈ 0.0.
+    DataPoint q0; q0.id = "q0"; q0.set("x", 0.0);
+    double p0 = std::stod(model.predictOne(q0));
+    EXPECT_NEAR(p0, 0.0, 0.5) << "KNN at x=0: expected ~0.0, got " << p0;
+
+    // At x=1.0, expected y ≈ 2.0.
+    DataPoint q1; q1.id = "q1"; q1.set("x", 1.0);
+    double p1 = std::stod(model.predictOne(q1));
+    EXPECT_NEAR(p1, 2.0, 0.5) << "KNN at x=1: expected ~2.0, got " << p1;
+}
+
+// KNN Regression accuracy: y = 2x  (issue #137 · item 10)
+// ============================================================================
+
+/**
+ * Build a dataset with a single feature x and target y = 2*x.
+ * x is uniformly spread over [0, 10] with `n` points.
+ * Requires n >= 2 to produce a meaningful linear spread.
+ */
+static std::vector<DataPoint> makeLinear2xData(int n) {
+    if (n < 2) {
+        throw std::invalid_argument("makeLinear2xData requires at least 2 points");
+    }
+    std::vector<DataPoint> data;
+    data.reserve(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        DataPoint p;
+        p.id = "knn" + std::to_string(i);
+        double x = static_cast<double>(i) * 10.0 / (n - 1);
+        p.set("x", x);
+        p.fields["y"] = 2.0 * x;
+        data.push_back(std::move(p));
+    }
+    return data;
+}
+
+TEST(KNNRegressionTest, PredictOneRegLinearRelation) {
+    // Train a KNN regressor on y = 2x with 100 points spanning [0, 10].
+    // Querying x = 5.0 must return a value within ±0.5 of the expected 10.0.
+    auto data = makeLinear2xData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target              = "y";
+    cfg.task                = AutoMLTask::REGRESSION;
+    cfg.metric              = AutoMLMetric::RMSE;
+    cfg.algorithms          = {ModelAlgorithm::KNN};
+    cfg.max_trials          = 2;
+    cfg.cv_folds            = 2;
+    cfg.feature_engineering = false;
+    cfg.ensemble            = false;
+    cfg.random_seed         = 42;
+
+    auto model = automl.trainRegressor(data, cfg);
+
+    DataPoint query;
+    query.id = "q";
+    query.set("x", 5.0);
+
+    double pred = std::stod(model.predictOne(query));
+    EXPECT_NEAR(pred, 10.0, 0.5)
+        << "KNN regression on y=2x: predicted " << pred
+        << " but expected ~10.0 for x=5.0";
+}
+
+TEST(KNNRegressionTest, PredictOneRegPerformance) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
+        GTEST_SKIP() << "Skipping performance test (set THEMIS_RUN_PERF_TESTS=1 to enable)";
+    }
+
+    // Build a 10 000-sample training set: y = 2x, x in [0, 10].
+    auto data = makeLinear2xData(10000);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target              = "y";
+    cfg.task                = AutoMLTask::REGRESSION;
+    cfg.metric              = AutoMLMetric::RMSE;
+    cfg.algorithms          = {ModelAlgorithm::KNN};
+    cfg.max_trials          = 1;
+    cfg.cv_folds            = 2;
+    cfg.feature_engineering = false;
+    cfg.ensemble            = false;
+    cfg.random_seed         = 42;
+
+    auto model = automl.trainRegressor(data, cfg);
+
+    DataPoint query;
+    query.id = "q";
+    query.set("x", 5.0);
+
+    // Warm up
+    model.predictOne(query);
+
+    // Measure a single prediction — must complete in ≤ 1 ms.
+    auto t0  = std::chrono::high_resolution_clock::now();
+    model.predictOne(query);
+    auto t1  = std::chrono::high_resolution_clock::now();
+    auto us  = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+
+    EXPECT_LE(us, 1000)
+        << "KNN predictOneReg (n=10 000) took " << us
+        << " µs — limit is 1000 µs (1 ms)";
+}
+
+// ============================================================================
+// LRModel (LogisticRegression) regression proxy via expected-class value
+// Verifies LRModel::predictOneReg() no longer returns the 0.0 stub and
+// produces a value in [0, 1] for a binary-class training dataset.
+// ============================================================================
+
+/**
+ * Build a binary classification dataset: class = (x > 0.5 ? 1 : 0).
+ * When used as a regression proxy the expected output for x just above 0.5
+ * should be close to 1.0, and for x just below 0.5 it should be close to 0.0.
+ */
+static std::vector<DataPoint> makeBinaryThresholdData(int n) {
+    std::vector<DataPoint> pts;
+    pts.reserve(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        DataPoint p;
+        p.id = "lr" + std::to_string(i);
+        double x = static_cast<double>(i) / static_cast<double>(n - 1);
+        p.set("x", x);
+        // Target for regression: 0 when x <= 0.5, 1 when x > 0.5
+        p.fields["y"] = (x > 0.5) ? 1.0 : 0.0;
+        pts.push_back(std::move(p));
+    }
+    return pts;
+}
+
+TEST(LRModelRegressorTest, PredictOneRegNotZeroStub) {
+    // Train LOGISTIC_REGRESSION on the binary dataset.
+    auto train = makeBinaryThresholdData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::RMSE;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 3;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::LOGISTIC_REGRESSION};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+    ASSERT_EQ(model.task(), AutoMLTask::REGRESSION);
+
+    // Query point far above decision boundary: x = 0.9, expected y ≈ 1.0.
+    DataPoint qHigh;
+    qHigh.id = "qh";
+    qHigh.set("x", 0.9);
+
+    const std::string pred_str = model.predictOne(qHigh);
+    ASSERT_NO_THROW((void)std::stod(pred_str));
+    const double pred = std::stod(pred_str);
+
+    // Result must be a valid probability in [0, 1].
+    EXPECT_GE(pred, 0.0) << "LRModel::predictOneReg() returned value below 0";
+    EXPECT_LE(pred, 1.0) << "LRModel::predictOneReg() returned value above 1";
+
+    // Must not be the 0.0 stub for a clearly positive example.
+    EXPECT_NE(pred, 0.0) << "LRModel::predictOneReg() appears to still be the 0.0 stub";
+}
+
+TEST(LRModelRegressorTest, PredictOneRegRangeMonotonic) {
+    // The LR regression proxy must return higher values for x near 1.0
+    // (positive region) than for x near 0.0 (negative region).
+    auto train = makeBinaryThresholdData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::RMSE;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 3;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::LOGISTIC_REGRESSION};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+
+    DataPoint qLow;
+    qLow.id = "ql";
+    qLow.set("x", 0.1);
+    const double predLow = std::stod(model.predictOne(qLow));
+
+    DataPoint qHigh;
+    qHigh.id = "qh";
+    qHigh.set("x", 0.9);
+    const double predHigh = std::stod(model.predictOne(qHigh));
+
+    // The logistic proxy must assign higher score to the positive region.
+    EXPECT_GT(predHigh, predLow)
+        << "LRModel regression proxy: predHigh=" << predHigh
+        << " should exceed predLow=" << predLow;
 }

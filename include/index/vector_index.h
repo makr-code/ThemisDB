@@ -1,26 +1,21 @@
+/**
+ * @file vector_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_index.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     518                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ade1fdc2e  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_index.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 539
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #5121 docs(index): update VECTOR_... (2026-05-14) | #4096 feat(chimera): Production T... (2026-03-12) | #2946 feat(index): DiskANN/ScaNN ... (2026-03-12) | #909 Integrate Rotary Position E... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -34,6 +29,8 @@
 #include <optional>
 #include <utility>
 #include <memory>
+#include <cstdint>
+#include <mutex>
 
 namespace themis {
 
@@ -58,7 +55,7 @@ namespace utils {
 /// - In-Memory Cache für schnellen Zugriff, optional HNSW-Index für ANN
 /// - Optional: Audit Logging für Vector-Operationen (Phase 1 Knowledge Graph Protection)
 ///
-/// @sources
+/// Sources:
 /// - HNSW Algorithm: Malkov, Y. A., & Yashunin, D. A. (2018).
 ///   "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
 ///   IEEE Transactions on Pattern Analysis and Machine Intelligence
@@ -220,6 +217,20 @@ public:
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
 
+    /// KNN-Suche mit optionalem Evaluator-basiertem Kandidatenfilter.
+    ///
+    /// Der Evaluator wird nur fuer den JSON-Kontextvertrag
+    /// `themis_json_context_v1` angewendet (Kontext: `const nlohmann::json*`).
+    /// Fuer andere Evaluator-Typen faellt die Methode auf `searchKnn(...)`
+    /// ohne Evaluatorfilter zurueck.
+    std::pair<Status, std::vector<Result>> searchKnnEvaluated(
+        const std::vector<float>& query,
+        size_t k,
+        const IExpressionEvaluator* evaluator,
+        size_t candidateMultiplier = 4,
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+
     // KNN-Suche mit Attribut-Filter (Post-Filtering)
     // Filtert Ergebnisse basierend auf Entity-Attributen nach HNSW-Suche
     struct AttributeFilter {
@@ -289,6 +300,20 @@ public:
         const std::vector<float>& query,
         float epsilon,
         size_t max_results = 0,  // 0 = unbegrenzt
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+
+    /// Radius-Suche mit optionalem Evaluator-basiertem Kandidatenfilter.
+    ///
+    /// Der Evaluator wird nur fuer den JSON-Kontextvertrag
+    /// `themis_json_context_v1` angewendet (Kontext: `const nlohmann::json*`).
+    /// Fuer andere Evaluator-Typen faellt die Methode auf
+    /// `searchKnnRadius(...)` ohne Evaluatorfilter zurueck.
+    std::pair<Status, std::vector<Result>> searchKnnRadiusEvaluated(
+        const std::vector<float>& query,
+        float epsilon,
+        size_t max_results,
+        const IExpressionEvaluator* evaluator,
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
     
@@ -368,7 +393,12 @@ public:
     int getEfSearch() const { return efSearch_; }
     int getM() const { return m_; }
     int getEfConstruction() const { return efConstruction_; }
-    size_t getVectorCount() const { return pkToId_.size(); }
+    size_t getVectorCount() const {
+        if (useHnsw_ || ann_backend_ != nullptr) {
+            return pkToId_.size();
+        }
+        return cache_.size();
+    }
     bool isHnswEnabled() const { return useHnsw_; }
     const std::string& getSavePath() const { return savePath_; }
     
@@ -405,6 +435,15 @@ public:
     /// Get current rotary embedding configuration
     /// Returns nullopt if rotary embeddings are not enabled
     std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+
+    struct RotaryEmbeddingStats {
+        uint64_t total_rotated_entities = 0;
+        uint64_t total_relational_rotations = 0;
+        double avg_rotation_time_us = 0.0;
+    };
+
+    /// Get runtime RoPE stats. Returns nullopt when RoPE is disabled.
+    std::optional<RotaryEmbeddingStats> getRotaryEmbeddingStats() const;
     
     /// Add entity with automatic positional rotation
     /// The embedding is rotated based on the position parameter before storage
@@ -421,6 +460,23 @@ public:
         std::string_view vectorField,
         const std::string& relation_type
     );
+
+    /**
+     * @brief Runtime counters for rotary embedding operations.
+     *
+     * Incremented atomically by addEntityWithRotation (total_rotated_entities)
+     * and addEntityWithRelationalRotation (relational_rotations).
+     */
+    struct RotaryStats {
+        uint64_t total_rotated_entities{0};  ///< Cumulative positional-rotation adds
+        uint64_t relational_rotations{0};    ///< Cumulative relational-rotation adds
+    };
+
+    /// Return a snapshot of the rotary embedding counters.
+    RotaryStats getRotaryStats() const {
+        return { rotary_positional_rotations_.load(std::memory_order_relaxed),
+                 rotary_relational_rotations_.load(std::memory_order_relaxed) };
+    }
     
     /// KNN search with rotation-aware query
     /// Rotates the query vector before search
@@ -449,6 +505,7 @@ private:
     std::string hnswKeyId_ = "hnsw_index";  // Key ID for HNSW index encryption
 
     // In-Memory Mapping PK <-> Label-ID (für HNSW) und Cache für Fallback
+    mutable std::recursive_mutex index_state_mutex_;
     mutable std::unordered_map<std::string, size_t> pkToId_;
     mutable std::vector<std::string> idToPk_;
     mutable std::unordered_map<std::string, std::vector<float>> cache_; // für Fallback/Whitelist
@@ -463,6 +520,7 @@ private:
     struct HnswDeleter { void operator()(void* /*p*/) const {} };
     // Wir verwenden Pointer-void, um hnswlib-Header-Dependency zu vermeiden, wenn nicht definiert
     void* hnswIndex_ = nullptr; // tatsächlich hnswlib::HierarchicalNSW<float>*
+    void* hnswSpace_ = nullptr; // tatsächlich hnswlib::SpaceInterface<float>* (owned; freed with hnswIndex_)
     bool useHnsw_ = false;
 #else
     bool useHnsw_ = false;
@@ -501,6 +559,10 @@ private:
     // Rotary Embeddings support
     std::unique_ptr<RotaryEmbedding> rotary_embedding_;
     bool rotary_enabled_ = false;
+    mutable std::atomic<uint64_t> rotary_positional_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_relational_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_query_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_total_rotation_time_us_{0};
     
     // Advanced Vector Index Integration (v1.5.0+)
     AdvancedIndexConfig advanced_config_;

@@ -4,7 +4,10 @@ param(
     [string]$Version = "1.3.0",
     [switch]$Dev,
     [switch]$IncludeTests,
-    [switch]$IncludeBenchmarks
+    [switch]$IncludeBenchmarks,
+    [switch]$PrepareMiniLlm,
+    [string]$PythonExecutable = "python",
+    [string]$MiniLlmSourceFile = ""
 )
 
 $ErrorActionPreference = 'Stop'
@@ -117,7 +120,7 @@ llm:
   enabled: true
   plugin: llamacpp
   model:
-    path: ./models/mistral-7b-instruct-v0.2.Q4_K_M.gguf
+        path: ./models/default.gguf
     n_gpu_layers: 32
     n_ctx: 4096
     n_batch: 512
@@ -163,6 +166,64 @@ if ($response.StatusCode -eq 200) {
 '@
 $healthScript | Out-File "$stage\scripts\monitoring\health-check.ps1" -Encoding UTF8
 Write-Host "  + backup.ps1, restore.ps1, health-check.ps1" -ForegroundColor Green
+
+# Copy optional docs database and mini model bundle
+Write-Host "`n[3b/6] Integriere docs.db und Mini-LLM Assets..." -ForegroundColor Yellow
+
+$docsCandidates = @(
+    (Join-Path $repo "build-msvc\data\docs.db"),
+    (Join-Path $repo "data\docs.db")
+)
+
+$docsJsonCandidates = @(
+    (Join-Path $repo "build-msvc\data\docs_database.json"),
+    (Join-Path $repo "data\docs_database.json")
+)
+
+foreach ($candidate in $docsCandidates | Select-Object -Unique) {
+    if (Test-Path $candidate) {
+        Copy-Item $candidate -Destination "$stage\data\docs.db" -Force
+        Write-Host "  + docs.db" -ForegroundColor Green
+        break
+    }
+}
+
+foreach ($candidate in $docsJsonCandidates | Select-Object -Unique) {
+    if (Test-Path $candidate) {
+        Copy-Item $candidate -Destination "$stage\data\docs_database.json" -Force
+        Write-Host "  + docs_database.json" -ForegroundColor Green
+        break
+    }
+}
+
+if ($PrepareMiniLlm) {
+    $miniLlmScript = Join-Path $repo "scripts\prepare_release_mini_llm.py"
+    if (Test-Path $miniLlmScript) {
+        $helperArgs = @($miniLlmScript, "--output-dir", "$stage\models")
+        if ($MiniLlmSourceFile) {
+            $helperArgs += @("--source-file", $MiniLlmSourceFile)
+        }
+
+        try {
+            & $PythonExecutable @helperArgs
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "  + Mini-LLM Bundle erstellt" -ForegroundColor Green
+            } else {
+                Write-Host "  - Mini-LLM Bundle fehlgeschlagen" -ForegroundColor Yellow
+            }
+        } catch {
+            Write-Host "  - Mini-LLM Bundle fehlgeschlagen: $_" -ForegroundColor Yellow
+        }
+    }
+} else {
+    foreach ($candidate in @("default.gguf", "mini-llm.manifest.json")) {
+        $src = Join-Path $repo "models\$candidate"
+        if (Test-Path $src) {
+            Copy-Item $src -Destination "$stage\models\" -Force
+            Write-Host "  + $candidate" -ForegroundColor Green
+        }
+    }
+}
 
 # Copy Documentation
 Write-Host "`n[4/6] Kopiere Dokumentation..." -ForegroundColor Yellow

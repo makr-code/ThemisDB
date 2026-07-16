@@ -1,27 +1,21 @@
+/**
+ * @file ingestion_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 80/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=3, M=36, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_manager.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1976                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
-    • 16cb82276  2026-02-28  feat(ingestion): dynamic source reconfiguration without r... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 51c189e9d  2026-02-28  feat(ingestion): implement CDC source connector for live ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2323
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=11, M=42, L=0
+ * PR History (last 5): #4962 docs(doxygen): tranche-3 re... (2026-05-11) | #4227 feat(ingestion): S3-Compati... (2026-03-14) | #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3628 feat(ingestion): end-to-end... (2026-03-12) | #3574 fix: clear all remaining st... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/ingestion_manager.h"
@@ -30,9 +24,13 @@
 #include "ingestion/api_connector.h"
 #include "ingestion/kafka_connector.h"
 #include "ingestion/object_storage_connector.h"
+#include "ingestion/s3_connector.h"
 #include "ingestion/database_connector.h"
 #include "ingestion/web_crawler_connector.h"
 #include "ingestion/cdc_connector.h"
+#include "ingestion/deontic_extractor.h"
+#include "ingestion/agentic_reference_validator.h"
+#include "ingestion/llm_adapter.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -91,7 +89,7 @@ static std::string sourceTypeLabel(SourceType t) {
 }
 
 /// Map IngestionErrorCode to its integer string for a metric label
-static std::string errorCodeLabel(IngestionErrorCode c) {
+[[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
 
@@ -112,7 +110,7 @@ static std::string regexEscape(const std::string& s) {
     return out;
 }
 
-/// Build a compiled regex that matches `"key"\s*:` at a JSON object key position
+/// Build a compiled regex that matches `"key"\\s*:` at a JSON object key position
 /// (preceded by `{` or `,`).  Field names are literal-escaped before insertion.
 static std::regex buildKeyRegex(const std::string& key) {
     return std::regex(R"([{,]\s*\")" + regexEscape(key) + R"(\"\s*:)");
@@ -171,7 +169,7 @@ static bool looksLikeJson(const std::string& content) {
 struct CompiledFieldRule {
     std::string            name;
     SchemaFieldRule        rule;
-    std::regex             key_re;     ///< compiled [{,]\s*"name"\s*: pattern
+    std::regex             key_re;     ///< compiled [{,]\\s*"name"\\s*: pattern
     std::optional<std::regex> value_re; ///< compiled field-value pattern (if any)
     bool                   key_re_ok    = false;
     bool                   value_re_ok  = false;
@@ -564,7 +562,7 @@ public:
                 
                 case SourceType::FILESYSTEM: {
                     auto fs_ingester = std::make_unique<FileSystemIngester>();
-                    if (!fs_ingester->initialize(config)) {
+                    if (!fs_ingester->initialize(config) && !dry_run_) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
                                        "Failed to initialize filesystem ingester",
@@ -595,6 +593,19 @@ public:
                 case SourceType::KAFKA: {
                     auto kafka_connector = std::make_unique<KafkaConnector>();
                     kafka_connector->setRetryConfig(retry_config_);
+                    // Inject the shared checkpoint store so that Kafka consumer-group
+                    // offsets are committed only AFTER the ThemisDB checkpoint is
+                    // written.  This preserves at-least-once delivery semantics.
+                    if (incremental_mode_) {
+                        std::shared_ptr<CheckpointStore> cs;
+                        {
+                            std::lock_guard<std::mutex> lock(mutex_);
+                            cs = checkpoint_store_shared_;
+                        }
+                        if (cs) {
+                            kafka_connector->setCheckpointStore(cs);
+                        }
+                    }
                     if (!kafka_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
@@ -607,16 +618,48 @@ public:
                 }
 
                 case SourceType::OBJECT_STORAGE: {
-                    auto obj_connector = std::make_unique<ObjectStorageConnector>();
-                    obj_connector->setRetryConfig(retry_config_);
-                    if (!obj_connector->initialize(config)) {
-                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
-                                       "Failed to initialize ObjectStorage connector",
-                                       source_id);
-                        return stats;
+                    // Route S3-compatible sources to the dedicated S3Connector
+                    // (which provides incremental checkpointing, concurrent
+                    // downloads, flat-file format delegation, and a per-page
+                    // max_keys_per_list cap).  All other providers (gcs, azure)
+                    // fall through to the generic ObjectStorageConnector.
+                    auto prov_it = config.options.find("provider");
+                    std::string provider = (prov_it != config.options.end())
+                                          ? prov_it->second : "s3";
+
+                    if (provider == "s3" || provider.empty()) {
+                        auto s3_connector = std::make_unique<S3Connector>();
+                        s3_connector->setRetryConfig(retry_config_);
+                        if (incremental_mode_) {
+                            std::shared_ptr<CheckpointStore> cs;
+                            {
+                                std::lock_guard<std::mutex> lock(mutex_);
+                                cs = checkpoint_store_shared_;
+                            }
+                            if (cs) {
+                                s3_connector->setCheckpointStore(cs);
+                            }
+                        }
+                        if (!s3_connector->initialize(config)) {
+                            stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                           IngestionErrorSeverity::ERROR,
+                                           "Failed to initialize S3 connector",
+                                           source_id);
+                            return stats;
+                        }
+                        connector = std::move(s3_connector);
+                    } else {
+                        auto obj_connector = std::make_unique<ObjectStorageConnector>();
+                        obj_connector->setRetryConfig(retry_config_);
+                        if (!obj_connector->initialize(config)) {
+                            stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                           IngestionErrorSeverity::ERROR,
+                                           "Failed to initialize ObjectStorage connector",
+                                           source_id);
+                            return stats;
+                        }
+                        connector = std::move(obj_connector);
                     }
-                    connector = std::move(obj_connector);
                     break;
                 }
 
@@ -699,8 +742,10 @@ public:
                     return stats;
             }
             
-            // Check availability
-            if (!connector->isAvailable()) {
+            // Check availability for real ingestion runs. Dry-run mode is allowed
+            // to inspect source metadata or report zero-count previews without
+            // requiring the backing source to be currently reachable.
+            if (!dry_run_ && !connector->isAvailable()) {
                 stats.addError(IngestionErrorCode::SOURCE_UNAVAILABLE,
                                IngestionErrorSeverity::ERROR,
                                "Source not available: " + source_id, source_id);
@@ -799,6 +844,14 @@ public:
                     if (schema_configs_.count(source_id) &&
                         schema_configs_.at(source_id).isEnabled()) {
                         steps.push_back("schema_validation");
+                    }
+                    if (legal_ingestion_configs_.count(source_id) &&
+                        legal_ingestion_configs_.at(source_id).isEnabled()) {
+                        steps.push_back("deontic_extraction");
+                        steps.push_back("semantic_validation");
+                        if (legal_ingestion_configs_.at(source_id).validate_references) {
+                            steps.push_back("reference_validation");
+                        }
                     }
                 }
                 if (config.type == SourceType::FILESYSTEM) {
@@ -1010,6 +1063,25 @@ public:
         return true;
     }
 
+    void setLegalIngestionConfig(const std::string& source_id,
+                                  const LegalIngestionConfig& config) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!config.isEnabled()) {
+            legal_ingestion_configs_.erase(source_id);
+        } else {
+            legal_ingestion_configs_[source_id] = config;
+        }
+    }
+
+    bool getLegalIngestionConfig(const std::string& source_id,
+                                  LegalIngestionConfig& out) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = legal_ingestion_configs_.find(source_id);
+        if (it == legal_ingestion_configs_.end()) return false;
+        out = it->second;
+        return true;
+    }
+
     void setDryRun(bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
@@ -1208,7 +1280,39 @@ public:
         return plugin_registry_.listPlugins();
     }
 
-private:
+    void setLineageTrackingEnabled(bool enabled) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        lineage_enabled_ = enabled;
+    }
+
+    bool isLineageTrackingEnabled() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_enabled_;
+    }
+
+    std::vector<IngestionLineageRecord> getLineageRecords(
+            const std::string& source_id) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_store_.getBySource(source_id);
+    }
+
+    std::vector<IngestionLineageRecord> getLineageRecordsByRun(
+            const std::string& run_correlation_id) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_store_.getByCorrelationId(run_correlation_id);
+    }
+
+    std::vector<IngestionLineageRecord> getAllLineageRecords() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_store_.getAll();
+    }
+
+    void clearLineageRecords() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        lineage_store_.clear();
+    }
+
+public:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
     bool checkRateLimit(const std::string& source_id,
@@ -1300,6 +1404,7 @@ private:
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
     std::unordered_map<std::string, SchemaConfig> schema_configs_; ///< Per-source schema configs
+    std::unordered_map<std::string, LegalIngestionConfig> legal_ingestion_configs_; ///< Per-source legal pipeline
     std::vector<QuarantineEntry> quarantine_;
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
@@ -1308,6 +1413,9 @@ private:
     ConnectorPluginRegistry plugin_registry_; ///< Registry for third-party plugin connectors
     IngestionLineageStore lineage_store_;     ///< In-memory lineage record store
     bool lineage_enabled_ = false;            ///< Lineage tracking on/off
+    std::shared_ptr<ITextGenerationBackend> text_gen_backend_; ///< injected AI backend (SoC)
+    std::shared_ptr<WorkflowEngine> workflow_engine_; ///< injected workflow orchestrator (v2.0)
+    std::shared_ptr<ReIngestionController> reingestion_controller_; ///< LLM-as-judge loop (v2.1)
     mutable std::mutex mutex_;
 };
 
@@ -1498,33 +1606,129 @@ std::vector<std::string> IngestionManager::listConnectorPlugins() const {
 }
 
 void IngestionManager::enableLineageTracking(bool enabled) {
-    impl_->lineage_enabled_ = enabled;
+    impl_->setLineageTrackingEnabled(enabled);
 }
 
 bool IngestionManager::isLineageTrackingEnabled() const {
-    return impl_->lineage_enabled_;
+    return impl_->isLineageTrackingEnabled();
 }
 
 std::vector<IngestionLineageRecord> IngestionManager::getLineageRecords(
         const std::string& source_id) const {
-    return impl_->lineage_store_.getBySource(source_id);
+    return impl_->getLineageRecords(source_id);
 }
 
 std::vector<IngestionLineageRecord> IngestionManager::getLineageRecordsByRun(
         const std::string& run_correlation_id) const {
-    return impl_->lineage_store_.getByCorrelationId(run_correlation_id);
+    return impl_->getLineageRecordsByRun(run_correlation_id);
 }
 
 std::vector<IngestionLineageRecord> IngestionManager::getAllLineageRecords() const {
-    return impl_->lineage_store_.getAll();
+    return impl_->getAllLineageRecords();
 }
 
 void IngestionManager::clearLineageRecords() {
-    impl_->lineage_store_.clear();
+    impl_->clearLineageRecords();
 }
 
-// ============================================================================
-// IngestionMetricsExporter
+void IngestionManager::setLegalIngestionConfig(const std::string& source_id,
+                                                const LegalIngestionConfig& config) {
+    impl_->setLegalIngestionConfig(source_id, config);
+}
+
+bool IngestionManager::getLegalIngestionConfig(const std::string& source_id,
+                                                LegalIngestionConfig& out) const {
+    return impl_->getLegalIngestionConfig(source_id, out);
+}
+
+LegalExtractionResult IngestionManager::runLegalExtraction(
+        const std::string& document_id,
+        const std::string& text,
+        const LegalIngestionConfig& config) const {
+    SemanticValidator validator;
+    LegalQualityGates gates;
+    gates.min_confidence.threshold     = config.confidence_threshold;
+    gates.deontic_confidence.threshold = config.confidence_threshold;
+    gates.section_hierarchy.required   = config.require_section_struct;
+    validator.setQualityGates(gates);
+
+    // SoC: wire the injected AI backend into the validator when available.
+    // The ingestion pipeline never knows about a concrete LLM class; it only
+    // calls ITextGenerationBackend through LegalLlmAdapter.
+    {
+        std::shared_ptr<ITextGenerationBackend> backend;
+        {
+            std::lock_guard<std::mutex> lock(impl_->mutex_);
+            backend = impl_->text_gen_backend_;
+        }
+        if (backend && backend->isAvailable()) {
+            LegalLlmAdapter adapter(backend);
+            validator.setExtractor(adapter.buildExtractor(config.confidence_threshold));
+        }
+    }
+
+    LegalExtractionResult result = validator.extractDocument(document_id, text);
+
+    if (config.validate_references) {
+        AgenticReferenceValidator ref_validator;
+        auto ref_report = ref_validator.validate(text);
+        if (ref_report.dangling_count > 0) {
+            for (const auto& w : ref_report.warnings) {
+                result.warnings.push_back(w);
+            }
+            result.validation.gate_results.emplace_back(
+                "no_dangling_refs", false,
+                std::to_string(ref_report.dangling_count) + " dangling reference(s)");
+        } else {
+            result.validation.gate_results.emplace_back("no_dangling_refs", true);
+        }
+    }
+
+    return result;
+}
+
+void IngestionManager::setTextGenerationBackend(
+        std::shared_ptr<ITextGenerationBackend> backend) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->text_gen_backend_ =
+        backend ? std::move(backend)
+                : std::make_shared<NullTextGenerationBackend>();
+}
+
+std::shared_ptr<ITextGenerationBackend>
+IngestionManager::getTextGenerationBackend() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    if (!impl_->text_gen_backend_) {
+        return std::make_shared<NullTextGenerationBackend>();
+    }
+    return impl_->text_gen_backend_;
+}
+
+void IngestionManager::setWorkflowEngine(
+        std::shared_ptr<WorkflowEngine> engine) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->workflow_engine_ = std::move(engine);
+}
+
+std::shared_ptr<WorkflowEngine>
+IngestionManager::getWorkflowEngine() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    return impl_->workflow_engine_;
+}
+
+// ---- LLM-as-judge re-ingestion quality control (v2.1) --------------------
+
+void IngestionManager::setReIngestionController(
+        std::shared_ptr<ReIngestionController> controller) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->reingestion_controller_ = std::move(controller);
+}
+
+std::shared_ptr<ReIngestionController>
+IngestionManager::getReIngestionController() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    return impl_->reingestion_controller_;
+}
 // ============================================================================
 
 namespace {
@@ -1901,6 +2105,12 @@ IngestionBuilder& IngestionBuilder::withSchemaValidation(
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withLegalIngestionConfig(
+        const std::string& source_id, const LegalIngestionConfig& config) {
+    opts_->legal_ingestion_configs[source_id] = config;
+    return *this;
+}
+
 std::unique_ptr<IngestionManager> IngestionBuilder::build() {
     auto mgr = std::make_unique<IngestionManager>(opts_->db_connection);
 
@@ -1916,6 +2126,10 @@ std::unique_ptr<IngestionManager> IngestionBuilder::build() {
 
     for (const auto& kv : opts_->schema_configs) {
         mgr->setSchemaConfig(kv.first, kv.second);
+    }
+
+    for (const auto& kv : opts_->legal_ingestion_configs) {
+        mgr->setLegalIngestionConfig(kv.first, kv.second);
     }
 
     for (auto& kv : opts_->plugin_factories) {
@@ -2118,4 +2332,6 @@ std::string IngestionAdminApi::healthJson() const {
 
 } // namespace ingestion
 } // namespace themis
+
+
 

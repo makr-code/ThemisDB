@@ -1,114 +1,35 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            stubs.cpp                                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     111                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file stubs.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-// Stub implementations for linking purposes
-// These stubs allow themis_tests to link successfully
-// They are minimal implementations that prevent linker errors
+/*
+ * ThemisDB | File: stubs.cpp | Version: 0.0.47 | Last Modified: 2026-06-02 11:49:05
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 24
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
 
-#include <memory>
-#include <map>
-#include <string>
-#include <vector>
-#include "security/pii_redaction_policy.h"
+// Reserved placeholder for future development stubs.
+//
+// All stub implementations that previously lived here have been migrated to
+// their canonical production source files:
+//
+//   themis::llm::lora::Feedback              → include/llm/lora_framework/lora_feedback.h
+//   themis::llm::lora::TrainingTriggerPlugin → src/llm/lora_framework/feedback_plugin.cpp
+//   themis::llm::lora::CacheAwareWeightingPlugin → src/llm/lora_framework/feedback_plugin.cpp
+//   themis::llm::lora::LoRATrainingConfig    → src/llm/lora_framework/lora_training_config.cpp
+//   themis::llm::lora::FeedbackStorageService → src/llm/lora_framework/lora_feedback_storage.cpp
+//
+// Migration completed: 2026-04-27 (v1.9.0)
+// See src/ROADMAP.md § "Consolidation Phase — Stub/Simulation Lifecycle"
 
-namespace themis::llm::lora {
-
-struct Feedback {
-    // Stub
-};
-
-struct TrainingTriggerPlugin {
-    virtual ~TrainingTriggerPlugin() = default;
-};
-
-struct CacheAwareWeightingPlugin {
-    virtual ~CacheAwareWeightingPlugin() = default;
-    virtual void process(Feedback&) {}
-};
-
-struct LoRATrainingConfig {
-    static LoRATrainingConfig loadFromFile(const std::string&) {
-        return {};
-    }
-    
-    std::shared_ptr<TrainingTriggerPlugin> createTrainingTriggerPlugin(const std::string&) const {
-        return std::make_shared<TrainingTriggerPlugin>();
-    }
-    
-    std::shared_ptr<CacheAwareWeightingPlugin> createCacheWeightingPlugin(const std::string&) const {
-        return std::make_shared<CacheAwareWeightingPlugin>();
-    }
-};
-
-struct FeedbackStorageService {
-    std::vector<Feedback> getFeedbackForAdapter(const std::string&, unsigned __int64) const {
-        return {};
-    }
-};
-
-} // namespace themis::llm::lora
-
-namespace themis::security {
-
-PIIRedactionPolicy& PIIRedactionPolicy::get() {
-    static PIIRedactionPolicy instance;
-    return instance;
-}
-
-PIIRedactionPolicy::PIIRedactionPolicy() : strict_mode_(false) {}
-
-std::string PIIRedactionPolicy::redactForLog(const std::string& message) const {
-    return message;
-}
-
-std::map<std::string, std::string> PIIRedactionPolicy::redactAttributes(
-    const std::map<std::string, std::string>& attributes) const {
-    return attributes;
-}
-
-std::string PIIRedactionPolicy::redactAttributeValue(const std::string&, const std::string& value) const {
-    return value;
-}
-
-std::map<std::string, std::string> PIIRedactionPolicy::redactLabels(
-    const std::map<std::string, std::string>& labels) const {
-    return labels;
-}
-
-bool PIIRedactionPolicy::reload(const std::string&) {
-    return true;
-}
-
-bool PIIRedactionPolicy::isStrictMode() const {
-    return strict_mode_;
-}
-
-void PIIRedactionPolicy::setStrictMode(bool strict) {
-    strict_mode_ = strict;
-}
-
-std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
-    return text;
-}
-
-} // namespace themis::security
 

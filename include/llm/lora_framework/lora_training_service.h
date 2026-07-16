@@ -1,23 +1,21 @@
+/**
+ * @file lora_training_service.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_training_service.h                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_training_service.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 391
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #745 Integrate ShardRouter and S... (2026-03-23) | #702 Implement QLoRA 4-bit/8-bit... (2026-03-11) | #569 Integrate QLoRA infrastruct... (2026-03-11) | #550 Implement Production Traini... (2026-03-11) | #548 Integrate LoRA Training wit... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -106,6 +104,7 @@ struct TrainingData {
  * @brief Training result
  */
 struct TrainingResult {
+    virtual ~TrainingResult() = default;
     bool success = false;
     std::string adapter_id;
     std::string version;
@@ -135,6 +134,7 @@ struct TrainingResult {
  * @brief Training metrics
  */
 struct TrainingMetrics {
+    virtual ~TrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
     int current_step = 0;
@@ -188,6 +188,21 @@ public:
         // Phase 2: Base model integration settings
         std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
         bool use_base_model = false;         // Enable base model integration (Phase 2b)
+
+        /**
+         * @brief Optional model-path resolver.
+         *
+         * When set, this function is called with a model identifier (e.g. the
+         * base_model_path stem) to return the actual filesystem path of the GGUF
+         * file.  Implement with LLMModelStorage::resolveGGUFPath() or any other
+         * model registry.  When nullptr the raw @p base_model_path string is used
+         * directly, preserving backward-compatible behaviour.
+         *
+         * @param model_id  Model identifier string.
+         * @return Absolute or relative path to the GGUF file.
+         */
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+        ModelPathProviderFn model_path_provider;
         
         // QLoRA configuration
         QLoRAConfig qlora;
@@ -349,6 +364,26 @@ private:
         const std::string& model_path,
         const QLoRAConfig& config
     );
+
+    // ─── ModelPathProvider bridge (stub #289) ────────────────────────────────
+
+    /// @brief Type alias for model path lookup injection.
+    using ModelPathProviderFn = std::function<std::string(const std::string& model_name)>;
+
+    /**
+     * @brief Install a model path lookup callback for loadQuantizedBaseModel().
+     *
+     * When set, loadQuantizedBaseModel() calls this function to resolve the GGUF
+     * file path for a given model name instead of relying on the caller-provided
+     * path.  Replaces the synthetic 3-layer fallback when the path is not found.
+     * @param fn Callable receiving a model name → resolved absolute file path.
+     */
+    static void setModelPathProviderFn(ModelPathProviderFn fn);
+
+    /**
+     * @brief Remove the model path lookup bridge (reverts to caller-supplied path).
+     */
+    static void clearModelPathProviderFn();
     
     /**
      * @brief Estimate memory usage for QLoRA training

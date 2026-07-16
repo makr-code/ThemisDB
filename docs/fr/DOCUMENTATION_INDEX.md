@@ -172,7 +172,7 @@ docs/
 ### Statut & Planification
 - [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Audit de développement
 - [development/implementation_status.md](development/implementation_status.md) - Statut
-- [development/roadmap.md](development/roadmap.md) - Feuille de route
+- [development/ROADMAP.md](development/ROADMAP.md) - Feuille de route
 - [development/priorities.md](development/priorities.md) - Priorités
 
 ### Implémentations API
@@ -187,9 +187,9 @@ docs/
 - **Issues :** https://github.com/makr-code/ThemisDB/issues
 
 ### Badges
-- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
-- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml)
-- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml)
+- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
+- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml)
+- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/06-infrastructure_gpu_gpu-ci.yml)
 
 ## 📋 Navigation par Thème
 

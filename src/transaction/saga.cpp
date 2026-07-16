@@ -1,26 +1,25 @@
+/**
+ * @file saga.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            saga.cpp                                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: saga.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 294
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #3602 fix(transaction): SAGA comp... (2026-03-12) | #1445 feat(transaction): named sa... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "transaction/saga.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -65,8 +64,12 @@ void Saga::compensate() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e.what());
             // Continue with other compensations
-        } catch (...) {
-            THEMIS_ERROR("SAGA: Unknown error during compensation of '{}'", it->operation_name);
+        } catch (const std::string& e) {
+            THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e);
+        } catch (const char* e) {
+            THEMIS_ERROR("SAGA: Compensation failed for '{}': {}",
+                         it->operation_name,
+                         (e ? e : "<null>"));
         }
     }
     
@@ -156,9 +159,14 @@ void Saga::compensateWithRetry(int max_retries,
             } catch (const std::exception& e) {
                 THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
                             it->operation_name, attempt + 1, e.what());
-            } catch (...) {
-                THEMIS_WARN("SAGA: Unknown error during compensation of '{}' (attempt {})",
-                            it->operation_name, attempt + 1);
+            } catch (const std::string& e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name, attempt + 1, e);
+            } catch (const char* e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name,
+                            attempt + 1,
+                            (e ? e : "<null>"));
             }
         }
 
@@ -189,10 +197,9 @@ Saga::Metrics Saga::getMetrics() const {
 void SagaOperation::putEntityWithCompensation(
     RocksDBWrapper& db,
     const std::string& key,
-    const std::vector<uint8_t>& value,
+    [[maybe_unused]] const std::vector<uint8_t>& value,
     Saga& saga
 ) {
-    (void)value;
     // Check if key exists (for idempotency)
     auto existing = db.get(key);
     
@@ -239,10 +246,9 @@ void SagaOperation::indexPutWithCompensation(
     SecondaryIndexManager& idx,
     const std::string& table,
     const BaseEntity& entity,
-    RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
-    (void)batch;
     const std::string& pk = entity.getPrimaryKey();
     
     // Compensating action: remove from secondary index
@@ -259,10 +265,9 @@ void SagaOperation::indexPutWithCompensation(
 void SagaOperation::graphAddWithCompensation(
     GraphIndexManager& graph,
     const BaseEntity& edge,
-    RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
-    (void)batch;
     std::string edge_id = edge.getPrimaryKey();
     
     // Compensating action: delete graph edge
@@ -279,11 +284,10 @@ void SagaOperation::graphAddWithCompensation(
 void SagaOperation::vectorAddWithCompensation(
     VectorIndexManager& vec,
     const BaseEntity& entity,
-    RocksDBWrapper::WriteBatchWrapper& batch,
-    const std::string& vectorField,
+    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
+    [[maybe_unused]] const std::string& vectorField,
     Saga& saga
 ) {
-    (void)batch; (void)vectorField;
     const std::string& pk = entity.getPrimaryKey();
     
     // Compensating action: remove from vector cache and HNSW
@@ -298,3 +302,4 @@ void SagaOperation::vectorAddWithCompensation(
 }
 
 } // namespace themis
+

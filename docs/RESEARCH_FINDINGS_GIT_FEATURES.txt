@@ -352,7 +352,7 @@ DATA PROTECTION:
 DOKUMENTATION ERSTELLT
 ================================================================================
 
-1. docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md (1302 Zeilen)
+1. research/GIT_LIKE_FEATURES_FOR_MVCC.md (1302 Zeilen)
    → Vollständige technische Analyse mit Code-Beispielen
    → REST API Spezifikationen
    → Testing Strategien
@@ -382,7 +382,7 @@ FÜR PRODUCT OWNER:
 4. ✅ Budget freigeben (9-11 Wochen)
 
 FÜR ENTWICKLER:
-1. ✅ Vollständige Analyse lesen: docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md
+1. ✅ Vollständige Analyse lesen: research/GIT_LIKE_FEATURES_FOR_MVCC.md
 2. ✅ Proof-of-Concept für SnapshotManager starten
 3. ✅ Design Review mit Team
 4. ✅ Implementation Sprint 1 starten

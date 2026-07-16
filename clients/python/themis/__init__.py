@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            __init__.py                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1032                                           ║
+    • Total Lines:     1031                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 65b6fc41e  2026-02-24  fix: resolve remaining Python (34) and PHP (23) error-han... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -497,16 +492,34 @@ class ThemisClient:
         timeout: Optional[float] = None,
     ) -> "Transaction":
         """Begin a new transaction.
-        
+
         Args:
-            isolation_level: Transaction isolation level ("READ_COMMITTED" or "SNAPSHOT")
+            isolation_level: Transaction isolation level. One of:
+                - ``"READ_COMMITTED"`` – only committed values are visible (default).
+                  Non-repeatable reads and phantom reads are possible.
+                - ``"SNAPSHOT"`` – the transaction sees a consistent snapshot of the
+                  database as of its start time.
+
+                  .. warning::
+                     **Write-skew and phantom-read anomalies are possible at SNAPSHOT
+                     isolation.** Two concurrent SNAPSHOT transactions that each read
+                     the same data and then write disjoint keys can both commit even
+                     when their combined effect violates an application invariant
+                     (e.g. double-booking, over-withdrawal). Use ``"SERIALIZABLE"``
+                     when strict correctness is required.
+
+                - ``"SERIALIZABLE"`` – full serializability via Snapshot Isolation
+                  plus write-conflict detection (SSI / predicate locking). Prevents
+                  write skew and phantom reads. May abort more transactions and has
+                  higher latency than SNAPSHOT.
             timeout: Transaction timeout in seconds (optional)
-            
+
         Returns:
             Transaction object
-            
+
         Raises:
             TransactionError: If transaction cannot be started
+            ValueError: If an invalid isolation level is supplied
         """
         endpoint = self.endpoints[0]
         body: Dict[str, Any] = {}
@@ -514,6 +527,8 @@ class ThemisClient:
             body["isolation"] = "snapshot"
         elif isolation_level == "READ_COMMITTED":
             body["isolation"] = "read_committed"
+        elif isolation_level == "SERIALIZABLE":
+            body["isolation"] = "serializable"
         else:
             raise ValueError(f"Invalid isolation level: {isolation_level}")
         

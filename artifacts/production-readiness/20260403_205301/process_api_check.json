@@ -1,0 +1,8 @@
+{
+  "generated_at": "2026-04-03T20:53:01.3900641+02:00",
+  "embedding_field_present": true,
+  "find_similar_api_present": true,
+  "full_text_search_api_present": true,
+  "embedding_audit_item_tracked": true,
+  "security_items_tracked": true
+}

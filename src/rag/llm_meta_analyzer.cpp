@@ -1,31 +1,16 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_meta_analyzer.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     287                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file llm_meta_analyzer.cpp
- * @brief Implementation of LLM Meta Analyzer base class
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=11, H=7, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/llm_meta_analyzer.h"
+#include <stdexcept>
 #include "rag/llm_integration.h"
 #include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
@@ -34,6 +19,7 @@
 #include <algorithm>
 #include <atomic>
 #include <cstdint>
+#include <mutex>
 
 namespace themis::rag {
 
@@ -42,10 +28,11 @@ struct LLMMetaAnalyzer::Impl {
     AnalysisConfig config;
     std::unordered_map<std::string, AnalysisResult> cache;
     
-    // Metrics
+    // Metrics - protected with mutex for thread-safe access
     size_t total_calls = 0;
     size_t cache_hits = 0;
     size_t cache_misses = 0;
+    mutable std::mutex metrics_mutex;
 };
 
 void LLMMetaAnalyzer::loadConfig(const AnalysisConfig& config) {
@@ -76,9 +63,40 @@ std::string LLMMetaAnalyzer::buildPrompt(
     const std::string& input_text,
     const std::vector<std::string>& criteria
 ) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate task description and input size to prevent memory exhaustion
+    if (task_description.size() > 10000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: task_description exceeds maximum ({})", 
+                   task_description.size());
+        throw std::invalid_argument("Task description exceeds maximum size");
+    }
+    
+    if (input_text.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: input_text exceeds maximum ({})", 
+                   input_text.size());
+        throw std::invalid_argument("Input text exceeds maximum size");
+    }
+    
+    // Validate criteria count and individual sizes
+    if (criteria.size() > 100) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: criteria count exceeds maximum ({})", 
+                   criteria.size());
+        throw std::invalid_argument("Criteria count exceeds maximum");
+    }
+    
+    for (const auto& criterion : criteria) {
+        if (criterion.size() > 10000) {
+            THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: criterion exceeds maximum size ({})", 
+                       criterion.size());
+            throw std::invalid_argument("Individual criterion exceeds maximum size");
+        }
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     std::ostringstream prompt;
     
     prompt << "Task: " << task_description << "\n\n";
+    // Note: input_text has been validated for size above
     prompt << "Input:\n" << input_text << "\n\n";
     
     if (!criteria.empty()) {
@@ -108,6 +126,24 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
     const std::vector<std::string>& criteria,
     const std::vector<std::string>& examples
 ) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate all inputs to prevent memory exhaustion and injection attacks
+    if (task_description.size() > 10000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: task_description exceeds maximum");
+        throw std::invalid_argument("Task description exceeds maximum size");
+    }
+    
+    if (input_text.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: input_text exceeds maximum");
+        throw std::invalid_argument("Input text exceeds maximum size");
+    }
+    
+    if (criteria.size() > 100 || examples.size() > 50) {
+        THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: criteria/examples count exceeds maximum");
+        throw std::invalid_argument("Criteria or examples count exceeds maximum");
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     std::ostringstream prompt;
     
     prompt << "Task: " << task_description << "\n\n";
@@ -120,6 +156,7 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
         prompt << "\n";
     }
     
+    // Note: input_text has been validated for size above
     prompt << "Input:\n" << input_text << "\n\n";
     
     if (!criteria.empty()) {
@@ -240,7 +277,7 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
             request.base_request.prompt    = prompt;
             request.base_request.max_tokens = 512;
             // Low temperature (0.1) for deterministic analytical tasks; valid range 0.0-1.0
-            request.base_request.temperature = 0.1;
+            request.base_request.temperature = 0.1f;
             request.allow_caching = true;
             request.priority      = 0;
 
@@ -263,6 +300,9 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
 
 void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& metrics) {
     if (impl_) {
+        // Protect metrics access with lock to prevent data races
+        std::lock_guard<std::mutex> lock(impl_->metrics_mutex);
+        
         metrics["llm_total_calls"] = static_cast<double>(impl_->total_calls);
         metrics["llm_cache_hits"] = static_cast<double>(impl_->cache_hits);
         metrics["llm_cache_misses"] = static_cast<double>(impl_->cache_misses);
@@ -275,6 +315,14 @@ void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& met
 }
 
 std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
+    // ── INPUT VALIDATION ────────────────────────────────────────────────────
+    // Validate input size for cache key computation
+    if (input.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::computeCacheKey: input exceeds maximum ({})", input.size());
+        throw std::invalid_argument("Input for cache key exceeds maximum size");
+    }
+    // ── end input validation ────────────────────────────────────────────────
+    
     // FNV-1a hash for better distribution than std::hash
     static constexpr uint64_t kFNVPrime  = 0x00000100000001B3ULL;
     static constexpr uint64_t kFNVOffset = 0xCBF29CE484222325ULL;
@@ -288,3 +336,4 @@ std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
 }
 
 } // namespace themis::rag
+

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_timeseries_ingestion.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     446                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_timeseries_ingestion.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Benchmark: Timeseries Ingestion Performance
@@ -31,6 +16,7 @@
 #include <filesystem>
 #include <random>
 #include <cmath>
+#include <chrono>
 
 using namespace themis;
 
@@ -40,45 +26,59 @@ using namespace themis;
 
 class TimeseriesBenchmarkFixture : public benchmark::Fixture {
 public:
-    void SetUp(const ::benchmark::State& /*state*/) override {
-        // Clean up any existing test database
-        test_db_path_ = "./data/bench_timeseries_tmp";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
-        }
+    void SetUp(const ::benchmark::State& state) override {
+        // Use an absolute, per-fixture unique path to avoid Windows path parsing
+        // edge cases and cross-thread collisions in benchmark runs.
+        const auto now = std::chrono::steady_clock::now().time_since_epoch().count();
+        tls_test_db_path_ = std::string("C:\\tmp\\bench_ts_") +
+            std::to_string(state.thread_index()) + "_" +
+            std::to_string(now);
+        std::error_code ec;
+        std::filesystem::remove_all(tls_test_db_path_, ec);
+        std::filesystem::create_directories(tls_test_db_path_);
         
         // Create RocksDB wrapper
         RocksDBWrapper::Config config;
-        config.db_path = test_db_path_;
+        config.db_path = tls_test_db_path_;
         config.memtable_size_mb = 256;
         config.block_cache_size_mb = 512;
         
-        db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
-        if (!db_->open()) {
+        tls_db_ = std::make_unique<RocksDBWrapper>(config);
+        if (!tls_db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
         
         // Create timeseries store
-        ts_store_ = std::make_unique<TimeSeriesStore>(db_->getRawDB(), nullptr);
+        tls_ts_store_ = std::make_unique<TimeSeriesStore>(tls_db_->getRawDB(), nullptr);
     }
     
     void TearDown(const ::benchmark::State& /*state*/) override {
-        ts_store_.reset();
-        db_->close();
-        db_.reset();
+        tls_ts_store_.reset();
+        if (tls_db_) {
+            tls_db_->close();
+        }
+        tls_db_.reset();
         
         // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
-        }
+        std::error_code ec;
+        std::filesystem::remove_all(tls_test_db_path_, ec);
+        tls_test_db_path_.clear();
     }
-    
+
 protected:
-    std::string test_db_path_;
-    std::unique_ptr<RocksDBWrapper> db_;
-    std::unique_ptr<TimeSeriesStore> ts_store_;
+    static TimeSeriesStore* tsStore() {
+        return tls_ts_store_.get();
+    }
+
+private:
+    static thread_local std::string tls_test_db_path_;
+    static thread_local std::unique_ptr<RocksDBWrapper> tls_db_;
+    static thread_local std::unique_ptr<TimeSeriesStore> tls_ts_store_;
 };
+
+thread_local std::string TimeseriesBenchmarkFixture::tls_test_db_path_;
+thread_local std::unique_ptr<RocksDBWrapper> TimeseriesBenchmarkFixture::tls_db_;
+thread_local std::unique_ptr<TimeSeriesStore> TimeseriesBenchmarkFixture::tls_ts_store_;
 
 // ============================================================================
 // Benchmark: Raw Data Ingestion
@@ -99,7 +99,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, RawDataIngestion)(benchmark::Stat
         point.timestamp_ms = timestamp++;
         point.value = value_dist(rng);
         
-        bool success = ts_store_->put(metric, entity, point);
+        bool success = tsStore()->put(metric, entity, point);
         benchmark::DoNotOptimize(success);
         
         if (!success) {
@@ -149,7 +149,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, BatchIngestion)(benchmark::State&
         
         // Write batch
         for (const auto& point : batch) {
-            ts_store_->put(metric, entity, point);
+            tsStore()->put(metric, entity, point);
         }
     }
     
@@ -193,7 +193,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, MultipleMetrics)(benchmark::State
         const std::string& metric = metrics[metric_dist(rng)];
         const std::string& entity = entities[entity_dist(rng)];
         
-        ts_store_->put(metric, entity, point);
+        tsStore()->put(metric, entity, point);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -334,7 +334,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, TimeRangeQuery)(benchmark::State&
         TimeSeriesStore::DataPoint point;
         point.timestamp_ms = base_timestamp + (i * 1000); // 1 second intervals
         point.value = value_dist(rng);
-        ts_store_->put(metric, entity, point);
+        tsStore()->put(metric, entity, point);
     }
     
     // Query different time ranges
@@ -347,7 +347,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, TimeRangeQuery)(benchmark::State&
         TimeSeriesStore::RangeQuery rq;
         rq.from_ms = start_time;
         rq.to_ms = end_time;
-        auto results = ts_store_->query(metric, entity, rq);
+        auto results = tsStore()->query(metric, entity, rq);
         benchmark::DoNotOptimize(results);
     }
     
@@ -381,7 +381,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, Downsampling)(benchmark::State& s
         TimeSeriesStore::DataPoint point;
         point.timestamp_ms = base_timestamp + (i * 1000);
         point.value = value_dist(rng);
-        ts_store_->put(metric, entity, point);
+        tsStore()->put(metric, entity, point);
     }
     
     const int downsample_interval = state.range(0); // in seconds
@@ -394,7 +394,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, Downsampling)(benchmark::State& s
         TimeSeriesStore::RangeQuery rq;
         rq.from_ms = start_time;
         rq.to_ms = end_time;
-        auto aggregated = ts_store_->aggregate(metric, entity, rq);
+        auto aggregated = tsStore()->aggregate(metric, entity, rq);
         
         benchmark::DoNotOptimize(aggregated);
     }
@@ -430,7 +430,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, OutOfOrderWrites)(benchmark::Stat
         point.timestamp_ms = base_timestamp + (point_count * 1000) + (time_offset_dist(rng) * 1000);
         point.value = value_dist(rng);
         
-        ts_store_->put(metric, entity, point);
+        tsStore()->put(metric, entity, point);
         point_count++;
     }
     
@@ -443,5 +443,115 @@ BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, OutOfOrderWrites)
     ->Threads(1)
     ->Threads(4)
     ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Downsampling Throughput (TS-6, Run-Plan 17)
+// Standalone (no fixture) — creates its own DB per run.
+// Measures throughput of bucketed 1-minute window downsampling over 1 hour
+// of high-resolution (1 point/second) data.
+// Reports: input-points/s, buckets_per_iter, P99 surrogate via counters.
+// ============================================================================
+
+// implements bucketed 1-minute aggregate downsampling directly on RocksDB
+// (stores points with key="ts:<metric>:<entity>:<ts_ms>", scans per bucket)
+static void BM_DownsamplingThroughput(benchmark::State& state) {
+    namespace fs = std::filesystem;
+    constexpr int64_t kPointsPerHour = 3600;
+    constexpr int64_t kBucketMs      = 60 * 1000LL;
+    constexpr int64_t kNumBuckets    = 60;
+
+    const std::string db_path =
+        std::string("C:\\tmp\\bench_ts_ds_") +
+        std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+    fs::remove_all(db_path);
+    fs::create_directories(db_path);
+
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = db_path;
+    cfg.memtable_size_mb = 256;
+    cfg.block_cache_size_mb = 512;
+    cfg.enable_wal = false;
+    cfg.disable_wal_for_benchmark = true;
+
+    RocksDBWrapper db(cfg);
+    if (!db.open()) {
+        state.SkipWithError("Failed to open RocksDB for DownsamplingThroughput");
+        return;
+    }
+
+    // Store data points as: key="ts:req_rate:ds_server:<ts_ms_str>", value=double as string
+    const int64_t base_ts = 1700000000000LL;
+    std::mt19937 rng(77);
+    std::uniform_real_distribution<double> val_dist(50.0, 500.0);
+
+    for (int64_t i = 0; i < kPointsPerHour; ++i) {
+        int64_t ts_ms = base_ts + i * 1000;
+        std::string key = "ts:req_rate:ds_server:" + std::to_string(ts_ms);
+        // Store value as 8-byte little-endian double
+        double v = val_dist(rng);
+        std::string val(sizeof(double), '\0');
+        std::memcpy(val.data(), &v, sizeof(double));
+        db.put(key, val);
+    }
+
+    int64_t total_buckets = 0;
+    std::vector<int64_t> bucket_latencies_us;
+    bucket_latencies_us.reserve(static_cast<size_t>(kNumBuckets * 50));
+
+    for (auto _ : state) {
+        double grand_sum = 0.0;
+        for (int64_t b = 0; b < kNumBuckets; ++b) {
+            int64_t from_ms = base_ts + b * kBucketMs;
+            int64_t to_ms   = base_ts + (b + 1) * kBucketMs - 1;
+
+            auto t0 = std::chrono::steady_clock::now();
+
+            // Scan bucket: sequential get() for all 60 points in this minute
+            double bucket_sum = 0.0;
+            int64_t bucket_count = 0;
+            for (int64_t ts_ms = from_ms; ts_ms <= to_ms; ts_ms += 1000) {
+                std::string key = "ts:req_rate:ds_server:" + std::to_string(ts_ms);
+                std::string val;
+                if (db.get(key, val) && val.size() == sizeof(double)) {
+                    double v = 0.0;
+                    std::memcpy(&v, val.data(), sizeof(double));
+                    bucket_sum += v;
+                    ++bucket_count;
+                }
+            }
+            double bucket_avg = (bucket_count > 0) ? (bucket_sum / bucket_count) : 0.0;
+            benchmark::DoNotOptimize(bucket_avg);
+            grand_sum += bucket_avg;
+
+            auto t1 = std::chrono::steady_clock::now();
+            bucket_latencies_us.push_back(
+                std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+        }
+        benchmark::DoNotOptimize(grand_sum);
+        total_buckets += kNumBuckets;
+    }
+
+    state.SetItemsProcessed(state.iterations() * kPointsPerHour);
+    state.counters["buckets_per_iter"] = static_cast<double>(kNumBuckets);
+    state.counters["input_pts_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * kPointsPerHour),
+        benchmark::Counter::kIsRate);
+    state.counters["total_buckets"] = static_cast<double>(total_buckets);
+
+    if (!bucket_latencies_us.empty()) {
+        std::sort(bucket_latencies_us.begin(), bucket_latencies_us.end());
+        const size_t p99_idx = bucket_latencies_us.size() * 99 / 100;
+        state.counters["bucket_agg_P99_us"] =
+            static_cast<double>(bucket_latencies_us[p99_idx]);
+    }
+
+    db.close();
+    fs::remove_all(db_path);
+}
+
+BENCHMARK(BM_DownsamplingThroughput)
+    ->Unit(benchmark::kMillisecond)
+    ->Iterations(50)
+    ->UseRealTime();
 
 BENCHMARK_MAIN();

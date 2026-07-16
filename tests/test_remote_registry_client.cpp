@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_remote_registry_client.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:06:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     372                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bfe82c39d  2026-02-27  fix(base): code-audit fixes for RemoteRegistryClient ║
-    • 27a08eb54  2026-02-27  feat(base): implement remote plugin loading from authenti... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_remote_registry_client.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /// @file test_remote_registry_client.cpp
@@ -36,11 +20,24 @@
 #include "themis/base/remote_registry_client.h"
 #include "themis/base/module_loader.h"
 
+#include <atomic>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
+#include <future>
+#include <memory>
 #include <string>
 
 using namespace themis::modules;
+
+namespace {
+struct ScopedBackoffDispatcherReset {
+    ~ScopedBackoffDispatcherReset() { RemoteRegistryClient::setBackoffDispatcher(nullptr); }
+};
+}  // namespace
 
 // =============================================================================
 // RegistryConfig – defaults
@@ -370,4 +367,307 @@ TEST(RemoteRegistryClient, IntegrityCheckSkippedWhenNoHashProvided) {
     }
 
     std::filesystem::remove_all(tmp_dir);
+}
+
+// =============================================================================
+// RegistryConfig::max_total_retry_time_ms – default and field assignment
+// =============================================================================
+
+TEST(RegistryConfig, MaxTotalRetryTimeMsDefault) {
+    RegistryConfig cfg;
+    EXPECT_EQ(cfg.max_total_retry_time_ms, 30000);
+}
+
+TEST(RegistryConfig, MaxTotalRetryTimeMsAssignment) {
+    RegistryConfig cfg;
+    cfg.max_total_retry_time_ms = 5000;
+    EXPECT_EQ(cfg.max_total_retry_time_ms, 5000);
+}
+
+// =============================================================================
+// RequestStats – default values
+// =============================================================================
+
+TEST(RequestStats, DefaultValues) {
+    RequestStats s;
+    EXPECT_EQ(s.attempts, 0);
+    EXPECT_TRUE(s.last_error.empty());
+}
+
+// =============================================================================
+// RemoteRegistryClient::lastRequestStats – populated after failed request
+// =============================================================================
+
+TEST(RemoteRegistryClient, LastRequestStatsAfterFailure) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    RemoteRegistryClient client(cfg);
+
+    // Trigger a request that will fail (unreachable server).
+    client.listPlugins();
+
+    const auto stats = client.lastRequestStats();
+    EXPECT_EQ(stats.attempts, 1);           // max_retries=0 → exactly 1 attempt
+    EXPECT_FALSE(stats.last_error.empty()); // should record the CURL error
+}
+
+// =============================================================================
+// RemoteRegistryClient::lastRequestStats – zero attempts before any request
+// =============================================================================
+
+TEST(RemoteRegistryClient, LastRequestStatsInitiallyZero) {
+    RegistryConfig cfg;
+    cfg.registry_url = "https://registry.example.com/api/v1";
+
+    RemoteRegistryClient client(cfg);
+    const auto stats = client.lastRequestStats();
+    EXPECT_EQ(stats.attempts, 0);
+    EXPECT_TRUE(stats.last_error.empty());
+}
+
+// =============================================================================
+// max_total_retry_time_ms – very small budget aborts retry loop quickly
+// =============================================================================
+
+TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
+    RegistryConfig cfg;
+    cfg.registry_url             = "http://127.0.0.1:1";
+    cfg.timeout_ms               = 50;   // tiny timeout so the test runs fast
+    cfg.max_retries              = 5;
+    cfg.max_total_retry_time_ms  = 1;    // 1 ms budget: exhausted before any retry
+    cfg.verify_ssl               = false;
+
+    RemoteRegistryClient client(cfg);
+    client.listPlugins();
+
+    // The budget check runs before each attempt. After the first attempt
+    // completes (≥1 ms elapsed), the budget is exhausted and no further
+    // attempts are started — so exactly 1 attempt should be recorded.
+    const auto stats = client.lastRequestStats();
+    EXPECT_EQ(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
+}
+
+// =============================================================================
+// Async methods — release caller thread; require shared_ptr ownership
+// =============================================================================
+
+TEST(RemoteRegistryClient, ListPluginsAsyncUnreachableServer) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto future = client->listPluginsAsync();
+
+    auto plugins = future.get();
+    EXPECT_TRUE(plugins.empty());
+}
+
+TEST(RemoteRegistryClient, FetchPluginAsyncUnreachableServer) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto future = client->fetchPluginAsync("some_plugin");
+    auto result = future.get();
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(RemoteRegistryClient, DownloadPluginAsyncEmptyUrl) {
+    RegistryConfig cfg;
+    cfg.registry_url = "https://registry.example.com/api/v1";
+    cfg.download_dir = "/tmp";
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+
+    RegistryPluginEntry entry;
+    entry.name    = "async_plugin";
+    entry.version = "1.0.0";
+    // download_url intentionally left empty
+
+    auto future = client->downloadPluginAsync(entry);
+    auto result = future.get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_EQ(result.plugin_name, "async_plugin");
+}
+
+TEST(RemoteRegistryClient, AsyncStatsUpdatedAfterFutureGet) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+
+    EXPECT_EQ(client->lastRequestStats().attempts, 0);
+
+    auto future = client->listPluginsAsync();
+    future.get();
+
+    const auto stats = client->lastRequestStats();
+    EXPECT_EQ(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
+}
+
+TEST(RemoteRegistryClient, AsyncKeepsClientAlive) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    auto launch_and_drop = [&]() {
+        auto client = std::make_shared<RemoteRegistryClient>(cfg);
+        return client->listPluginsAsync();
+    };
+
+    auto future = launch_and_drop();
+    auto plugins = future.get();
+    EXPECT_TRUE(plugins.empty());
+}
+
+// =============================================================================
+// Async backoff dispatcher — custom scheduler integration
+// =============================================================================
+
+TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
+    std::atomic<int> total_delay_ms{0};
+
+    auto dispatcher = [&total_delay_ms](std::chrono::milliseconds delay) {
+        total_delay_ms.fetch_add(static_cast<int>(delay.count()), std::memory_order_relaxed);
+        auto promise = std::make_shared<std::promise<void>>();
+        auto fut     = promise->get_future();
+        promise->set_value();
+        return fut;
+    };
+
+    ScopedBackoffDispatcherReset guard;
+    RemoteRegistryClient::setBackoffDispatcher(dispatcher);
+
+    RegistryConfig cfg;
+    cfg.registry_url            = "http://127.0.0.1:1";
+    cfg.timeout_ms              = 5;
+    cfg.max_retries             = 1;
+    cfg.max_total_retry_time_ms = 15;
+    cfg.verify_ssl              = false;
+
+    RemoteRegistryClient client(cfg);
+    auto plugins = client.listPlugins();
+
+    EXPECT_TRUE(plugins.empty());
+    EXPECT_GT(total_delay_ms.load(), 0);
+
+    const auto stats = client.lastRequestStats();
+    EXPECT_GE(stats.attempts, 1);
+    EXPECT_FALSE(stats.last_error.empty());
+}
+
+TEST(RemoteRegistryClient, HttpGetAsyncReleasesCaller) {
+    RegistryConfig cfg;
+    cfg.registry_url            = "http://127.0.0.1:1";
+    cfg.timeout_ms              = 10;
+    cfg.max_retries             = 0;
+    cfg.max_total_retry_time_ms = 5;
+    cfg.verify_ssl              = false;
+
+    auto client = std::make_shared<RemoteRegistryClient>(cfg);
+    auto fut = client->httpGetAsync(cfg.registry_url + "/plugins");
+
+    EXPECT_TRUE(fut.valid());
+    EXPECT_THROW(fut.get(), std::runtime_error);
+}
+
+// =============================================================================
+// Async API — listPluginsAsync / fetchPluginAsync / downloadPluginAsync
+// =============================================================================
+
+static RegistryConfig makeFastFailConfig() {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+    return cfg;
+}
+
+TEST(RemoteRegistryClient, ListPluginsAsyncReturnsEmptyOnFailure) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    auto fut = client->listPluginsAsync();
+    ASSERT_EQ(fut.valid(), true);
+
+    const auto result = fut.get();
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(RemoteRegistryClient, FetchPluginAsyncReturnsNulloptOnFailure) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    auto fut = client->fetchPluginAsync("nonexistent_plugin");
+    ASSERT_EQ(fut.valid(), true);
+
+    const auto result = fut.get();
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(RemoteRegistryClient, DownloadPluginAsyncFailsGracefully) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    RegistryPluginEntry entry;
+    entry.name         = "async_test_plugin";
+    entry.version      = "1.0.0";
+    entry.download_url = "http://127.0.0.1:1/async_test_plugin-1.0.0.so";
+
+    auto fut = client->downloadPluginAsync(entry);
+    ASSERT_EQ(fut.valid(), true);
+
+    const auto result = fut.get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(RemoteRegistryClient, AsyncThrowsWhenNotOwnedBySharedPtr) {
+    RemoteRegistryClient client(makeFastFailConfig());
+    EXPECT_THROW(client.listPluginsAsync(), std::bad_weak_ptr);
+}
+
+TEST(RemoteRegistryClient, FetchPluginAsyncThrowsWhenNotOwnedBySharedPtr) {
+    RemoteRegistryClient client(makeFastFailConfig());
+    EXPECT_THROW(client.fetchPluginAsync("x"), std::bad_weak_ptr);
+}
+
+TEST(RemoteRegistryClient, DownloadPluginAsyncThrowsWhenNotOwnedBySharedPtr) {
+    RemoteRegistryClient client(makeFastFailConfig());
+    RegistryPluginEntry entry;
+    entry.name         = "p";
+    entry.version      = "0.0.1";
+    entry.download_url = "http://127.0.0.1:1/p-0.0.1.so";
+    EXPECT_THROW(client.downloadPluginAsync(entry), std::bad_weak_ptr);
+}
+
+TEST(RemoteRegistryClient, ListPluginsAsyncCallerNotBlocked) {
+    auto client = std::make_shared<RemoteRegistryClient>(makeFastFailConfig());
+
+    const auto before = std::chrono::steady_clock::now();
+    auto fut = client->listPluginsAsync();
+    const auto after = std::chrono::steady_clock::now();
+
+    const auto dispatch_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        after - before).count();
+    EXPECT_LT(dispatch_ms, 100) << "listPluginsAsync() blocked the caller for "
+                                 << dispatch_ms << " ms";
+
+    EXPECT_TRUE(fut.get().empty());
 }

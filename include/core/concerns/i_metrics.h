@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_metrics.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file i_metrics.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 89/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -59,6 +47,8 @@ public:
      * @param name   Metric name (e.g. "http_requests_total").
      * @param value  Amount to add; must be >= 0. Default is 1.
      * @param labels Key/value label set for cardinality (keep cardinality low).
+        * @note Implementations may reject or clamp negative values, depending on
+        *       backend semantics.
      */
     virtual void incrementCounter(const std::string& name, int64_t value = 1, const Labels& labels = {}) = 0;
 
@@ -80,6 +70,10 @@ public:
 
     /**
      * @brief Increment a gauge by a delta.
+        *
+        * @param name   Metric name.
+        * @param delta  Amount to add (positive).
+        * @param labels Key/value label set.
      * @param name   Metric name.
      * @param delta  Amount to add (positive).
      * @param labels Key/value label set.
@@ -108,6 +102,8 @@ public:
      * @param name   Metric name (e.g. "request_duration_seconds").
      * @param value  Observed value (in the metric's natural unit).
      * @param labels Key/value label set.
+        * @note Implementations may drop or bucket observations if their
+        *       backend cannot represent unbounded cardinality or precision.
      */
     virtual void observeHistogram(const std::string& name, double value, const Labels& labels = {}) = 0;
 
@@ -129,6 +125,10 @@ public:
 
     /**
      * @brief Increment the error counter for an operation.
+        *
+        * The concrete metric name is backend-specific but must be stable within
+        * a process so dashboards can aggregate it reliably.
+        *
      * @param operation Logical operation name.
      * @param labels    Additional key/value labels.
      */
@@ -136,6 +136,10 @@ public:
 
     /**
      * @brief Increment the success counter for an operation.
+        *
+        * The concrete metric name is backend-specific but must be stable within
+        * a process so dashboards can aggregate it reliably.
+        *
      * @param operation Logical operation name.
      * @param labels    Additional key/value labels.
      */
@@ -150,15 +154,19 @@ public:
      *
      * The returned string is suitable for serving on a `/metrics` HTTP
      * endpoint and scraping by a Prometheus server.
+        * Implementations should produce a point-in-time snapshot and may flush
+        * internal buffers before serialising.
      *
      * @return Prometheus-formatted metrics string.
      */
-    virtual std::string exportMetrics() const = 0;
+    [[nodiscard]] virtual std::string exportMetrics() const = 0;
 
     /**
      * @brief Reset all counters, gauges, and histograms to zero.
      *
-     * Primarily intended for test isolation.  Do NOT call in production.
+        * Primarily intended for test isolation and explicit lifecycle control.
+        * Production callers should only use this if a full metrics reset is an
+        * intentional operational action.
      */
     virtual void reset() = 0;
 
@@ -167,14 +175,16 @@ public:
      * @brief Flush any pending metric observations to the backend.
      *
      * Call before shutdown() to ensure the final snapshot is published.
-     * Default is a no-op.
+        * Default is a no-op.
      */
     virtual void flush() noexcept {}
 
     /**
      * @brief Shut down the metrics backend and release resources.
      *
-     * Default is a no-op.
+        * After shutdown, implementations may drop subsequent updates or treat
+        * them as undefined behavior depending on backend lifecycle semantics.
+        * Default is a no-op.
      */
     virtual void shutdown() noexcept {}
 
@@ -189,19 +199,38 @@ public:
 
 /**
  * @brief RAII helper for automatic latency tracking.
+ *
+ * Starts timing on construction and records the elapsed duration as a
+ * latency observation when the object goes out of scope. This keeps call
+ * sites concise and avoids manual try/finally timing code.
  */
 class LatencyTimer {
 public:
+    /**
+     * @brief Start timing an operation immediately.
+     *
+     * @param metrics   Metrics sink that receives the final latency sample.
+     * @param operation  Logical operation name used for the metric series.
+     * @param labels     Optional label set attached to the recorded sample.
+     */
     LatencyTimer(IMetrics& metrics, const std::string& operation, const IMetrics::Labels& labels = {})
         : metrics_(metrics), operation_(operation), labels_(labels),
           start_(std::chrono::steady_clock::now()) {}
 
+    /**
+     * @brief Record the elapsed time as a latency metric if the timer is still active.
+     */
     ~LatencyTimer() {
         auto end = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_);
         metrics_.recordLatency(operation_, static_cast<double>(duration.count()), labels_);
     }
 
+    /**
+     * @brief Return the elapsed time since construction in milliseconds.
+     *
+     * @return Elapsed milliseconds as a double precision value.
+     */
     double elapsedMs() const noexcept {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_);

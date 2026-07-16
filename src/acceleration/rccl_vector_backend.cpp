@@ -1,30 +1,35 @@
+/**
+ * @file rccl_vector_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=10; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=5, Debt=0, C=0, H=2, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rccl_vector_backend.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     527                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rccl_vector_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 644
+ * Gap Summary: total=10; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=5, Debt=0, C=0, H=2, M=5, L=0
+ * PR History (last 5): #1113 Implement Multi-GPU Vector ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "acceleration/rccl_vector_backend.h"
+#include <cfloat>
 #include <iostream>
+#include <algorithm>
 #include <chrono>
+#include <mutex>
+#include <numeric>
 #include <stdexcept>
 #include <cstring>
+#include <mutex>
+#include <utility>
+#include <vector>
 
 #ifdef THEMIS_ENABLE_RCCL
 #include <rccl/rccl.h>
@@ -56,6 +61,30 @@
 
 namespace themis {
 namespace acceleration {
+
+namespace {
+
+std::mutex& rcclAllReduceFnMutex() {
+    static std::mutex mutex;
+    return mutex;
+}
+
+RCCLVectorBackend::AllReduceFn& rcclAllReduceFnStorage() {
+    static RCCLVectorBackend::AllReduceFn callback;
+    return callback;
+}
+
+RCCLVectorBackend::AllReduceFn getRcclAllReduceFn() {
+    std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());
+    return rcclAllReduceFnStorage();
+}
+
+} // namespace
+
+void RCCLVectorBackend::setAllReduceFn(AllReduceFn fn) {
+    std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());
+    rcclAllReduceFnStorage() = std::move(fn);
+}
 
 #ifdef THEMIS_ENABLE_RCCL
 
@@ -432,12 +461,80 @@ bool RCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* loc
         return true;
     }
     
-    // Distributed mergeTopK is not yet implemented. Avoid claiming success.
-    std::cerr << "RCCLVectorBackend::mergeTopK: distributed merge (worldSize = "
-              << worldSize << ") is not implemented yet." << std::endl;
-    (void)root;   // suppress unused parameter warning until implemented
-    (void)stream; // suppress unused parameter warning until implemented
-    return false;
+    // Distributed mergeTopK via rcclAllGather + host-side partial sort + rcclBcast.
+    //
+    // Mirrors the NCCL implementation in nccl_vector_backend.cpp:
+    //   1. AllGather — every rank sends its localK (indices, distances) to all
+    //      other ranks, producing worldSize × localK candidates.
+    //   2. Host-side merge — D2H copy + std::partial_sort → global top-k.
+    //   3. Broadcast — H2D copy + rcclBcast from root to all ranks.
+
+    pImpl->startTiming();
+
+    const size_t totalK = static_cast<size_t>(worldSize) * localK;
+
+    // ── Step 1: Allocate gathered device buffers ───────────────────────────────
+    uint32_t* d_gathered_indices  = nullptr;
+    float*    d_gathered_distances = nullptr;
+    HIP_CHECK(hipMalloc(&d_gathered_indices,  totalK * sizeof(uint32_t)));
+    HIP_CHECK(hipMalloc(&d_gathered_distances, totalK * sizeof(float)));
+
+    // ── Step 2: AllGather — collect per-rank localK results ───────────────────
+    rcclGroupStart();
+    RCCL_CHECK(rcclAllGather(
+        localIndices, d_gathered_indices, localK, rcclUint32,
+        pImpl->comm, stream));
+    RCCL_CHECK(rcclAllGather(
+        localDistances, d_gathered_distances, localK, rcclFloat,
+        pImpl->comm, stream));
+    rcclGroupEnd();
+    HIP_CHECK(hipStreamSynchronize(stream));
+
+    // ── Step 3: Host-side merge ────────────────────────────────────────────────
+    std::vector<uint32_t> h_indices(totalK);
+    std::vector<float>    h_distances(totalK);
+    HIP_CHECK(hipMemcpy(h_indices.data(),   d_gathered_indices,
+                        totalK * sizeof(uint32_t), hipMemcpyDeviceToHost));
+    HIP_CHECK(hipMemcpy(h_distances.data(), d_gathered_distances,
+                        totalK * sizeof(float),    hipMemcpyDeviceToHost));
+
+    {
+        hipError_t e1 = hipFree(d_gathered_indices);
+        hipError_t e2 = hipFree(d_gathered_distances);
+        if (e1 != hipSuccess || e2 != hipSuccess) {
+            std::cerr << "HIP error freeing gathered buffers in mergeTopK" << std::endl;
+            return false;
+        }
+    }
+
+    std::vector<size_t> order(totalK);
+    std::iota(order.begin(), order.end(), 0u);
+    const size_t select_k = (k < totalK) ? k : totalK;
+    std::partial_sort(order.begin(), order.begin() + select_k, order.end(),
+                      [&](size_t a, size_t b) {
+                          return h_distances[a] < h_distances[b];
+                      });
+
+    std::vector<uint32_t> h_global_indices(k, static_cast<uint32_t>(-1));
+    std::vector<float>    h_global_distances(k, FLT_MAX);
+    for (size_t i = 0; i < select_k; ++i) {
+        h_global_indices[i]   = h_indices[order[i]];
+        h_global_distances[i] = h_distances[order[i]];
+    }
+
+    HIP_CHECK(hipMemcpy(globalIndices,   h_global_indices.data(),
+                        k * sizeof(uint32_t), hipMemcpyHostToDevice));
+    HIP_CHECK(hipMemcpy(globalDistances, h_global_distances.data(),
+                        k * sizeof(float),    hipMemcpyHostToDevice));
+
+    // ── Step 4: Broadcast from root to all ranks ───────────────────────────────
+    rcclGroupStart();
+    RCCL_CHECK(rcclBcast(globalIndices,   k, rcclUint32, root, pImpl->comm, stream));
+    RCCL_CHECK(rcclBcast(globalDistances, k, rcclFloat,  root, pImpl->comm, stream));
+    rcclGroupEnd();
+
+    pImpl->recordCollective();
+    return true;
 }
 
 RCCLVectorBackend::Statistics RCCLVectorBackend::getStatistics() const {
@@ -486,6 +583,19 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 
 #else // THEMIS_ENABLE_RCCL
 
+// STUB/SIMULATION NOTE:
+// Purpose: Satisfy the linker and allow ThemisDB to be built and run without
+//   RCCL (ROCm Collective Communications Library — AMD counterpart to NCCL).
+//   All multi-GPU collective operations return false, isRCCLAvailable() returns
+//   false, so callers can gracefully fall back to single-GPU or CPU paths.
+// Activation: `THEMIS_ENABLE_RCCL` is not defined at compile time (default for
+//   non-ROCm builds, CUDA-only builds, and CPU-only builds).
+// Production Delta: All AMD multi-GPU collective operations are unavailable.
+//   Distributed ANN search (mergeTopK across ROCm GPUs) is completely disabled.
+//   Multi-GPU training gradient synchronisation via RCCL is unavailable.
+// Removal Plan: Install ROCm + RCCL and set `-DTHEMIS_ENABLE_RCCL=1` in CMake.
+//   The full RCCL implementation block (above `#else`) will then be compiled.
+// Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
 // Stub implementation when RCCL is not available
 // Define empty Impl class to satisfy unique_ptr
 class RCCLVectorBackend::Impl {
@@ -505,7 +615,21 @@ int RCCLVectorBackend::getRank() const { return 0; }
 int RCCLVectorBackend::getWorldSize() const { return 1; }
 std::vector<int> RCCLVectorBackend::getDeviceIds() const { return {}; }
 bool RCCLVectorBackend::isP2PEnabled() const { return false; }
-bool RCCLVectorBackend::allReduce(const float*, float*, size_t, ReductionOp, void*) { return false; }
+bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
+                                  ReductionOp op, void* stream) {
+    if (auto fn = getRcclAllReduceFn(); fn) {
+        try {
+            return fn(send, recv, count, op, stream);
+        } catch (const std::exception &) {
+            return false;
+        } catch (const std::string &) {
+            return false;
+        } catch (const char *) {
+            return false;
+        }
+    }
+    return false;
+}
 bool RCCLVectorBackend::broadcast(float*, size_t, int, void*) { return false; }
 bool RCCLVectorBackend::allGather(const float*, float*, size_t, void*) { return false; }
 bool RCCLVectorBackend::reduce(const float*, float*, size_t, ReductionOp, int, void*) { return false; }
@@ -528,3 +652,4 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>&) { return false
 
 } // namespace acceleration
 } // namespace themis
+

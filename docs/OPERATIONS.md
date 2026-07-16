@@ -1,7 +1,7 @@
 # Operations Guide
 
-**Version:** 1.4.0-alpha  
-**Last Updated:** January 2026  
+**Version:** 1.8.0-rc1  
+**Last Updated:** April 2026  
 **Purpose:** Master index for production operations documentation
 
 ---
@@ -25,6 +25,7 @@ This operations guide provides comprehensive documentation for deploying, managi
 ### Getting Started
 - [Pre-Deployment Checklist](production/CHECKLISTS/pre_deployment.md) - Verify readiness before deployment
 - [Deployment Guide](production/DEPLOYMENT.md) - Step-by-step deployment instructions
+- [Deployment Documentation Index](deployment/README.md) - All deployment-related docs
 - [Post-Deployment Checklist](production/CHECKLISTS/post_deployment.md) - Validation after deployment
 
 ### Auto-Scaling & High Availability
@@ -33,6 +34,7 @@ This operations guide provides comprehensive documentation for deploying, managi
 - [Load Balancer Integration](production/LOAD_BALANCER_INTEGRATION.md) - NGINX, AWS ALB, GCP LB, Istio, HAProxy
 
 ### Day-to-Day Operations
+- [Operations Documentation Index](operations/README.md) - Handbooks, runbooks, admin guides
 - [Operational Runbooks](production/RUNBOOKS.md) - Standard operational procedures
   - [Upgrade Runbook](production/RUNBOOKS/UPGRADE_RUNBOOK.md) - Zero-downtime upgrade procedures
   - [Restore Runbook](production/RUNBOOKS/RESTORE_RUNBOOK.md) - Backup restoration procedures
@@ -40,6 +42,8 @@ This operations guide provides comprehensive documentation for deploying, managi
   - [Scaling Runbook](production/RUNBOOKS/SCALING_RUNBOOK.md) - Horizontal and vertical scaling
 - [Monitoring Guide](production/MONITORING.md) - Metrics, dashboards, and alerting
 - [Troubleshooting Guide](production/TROUBLESHOOTING.md) - Common issues and solutions
+- [CDC Operations Runbook](CDC_OPERATIONS_RUNBOOK.md) - Change Data Capture operational procedures
+- [Backup & Recovery System](backup_recovery_system.md) - Backup types, restore, PITR
 
 ### Operational Excellence
 - [Disaster Recovery Plan](production/DISASTER_RECOVERY.md) - DR procedures, RTO/RPO, backup strategies
@@ -47,10 +51,17 @@ This operations guide provides comprehensive documentation for deploying, managi
 - [Auto-Scaling Guide](production/AUTOSCALING.md) - Kubernetes HPA/VPA, load balancer integration
 
 ### Security & Compliance
+- [Security Documentation Index](security/README.md) - All security-related docs and quick reference
 - [Security Hardening](production/SECURITY.md) - Security best practices and configuration
 - [Compliance Checklists](production/CHECKLISTS/compliance.md) - SOC2, GDPR, HIPAA compliance
 - [Incident Response](production/CHECKLISTS/incident_response.md) - Structured incident handling
 - [Operational Compliance Checklist](production/CHECKLISTS/operational_compliance.md) - Monthly compliance verification
+
+### CI/CD & Release
+- [CI/CD Documentation](ci-cd/README.md) - Workflow architecture, release process
+- [CI/CD Architecture](ci-cd/ci-architecture.md) - Pipeline design and workflow details
+- [Release Workflows](ci-cd/workflows/04-release/) - Release automation documentation
+- [Maintenance Schedule](maintenance/README.md) - Automated maintenance tasks
 
 ### Performance
 - [Performance Tuning](production/PERFORMANCE_TUNING.md) - Optimization techniques and best practices
@@ -402,6 +413,12 @@ themisdb-cli support-bundle --output /tmp/support-bundle.tar.gz
 
 ## Changelog
 
+### Version 1.8.1 (May 2026)
+- Updated documentation structure and cross-links
+- Added Operations, Deployment, Maintenance, and Security directory indices
+- Aligned version references across all operations documents
+- Added CI/CD release process links
+
 ### Version 1.0 (January 2026)
 - Initial production operations documentation
 - Comprehensive deployment guides
@@ -422,9 +439,9 @@ We welcome feedback on this documentation:
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** January 2026  
-**Next Review:** April 2026
+**Document Version:** 1.8.1  
+**Last Updated:** May 2026  
+**Next Review:** August 2026
 
 ---
 

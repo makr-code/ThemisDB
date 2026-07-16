@@ -1,26 +1,25 @@
+/**
+ * @file consistent_hash.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            consistent_hash.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     110                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • initial  2026-03-09  Initial production implementation          ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: consistent_hash.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 132
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * PR History (last 5): #3662 fix(utils): remove duplicat... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/consistent_hash.h"
+#include "utils/hash_util.h"
 
 #include <algorithm>
 #include <mutex>
@@ -29,19 +28,21 @@
 namespace themis {
 namespace utils {
 
+static uint64_t mix64(uint64_t x) {
+    x ^= x >> 33;
+    x *= 0xff51afd7ed558ccdULL;
+    x ^= x >> 33;
+    x *= 0xc4ceb9fe1a85ec53ULL;
+    x ^= x >> 33;
+    return x;
+}
+
 // ---------------------------------------------------------------------------
 // FNV-1a 64-bit
 // ---------------------------------------------------------------------------
 
 uint64_t ConsistentHashRing::fnv1a64(const std::string& s) {
-    constexpr uint64_t basis = 14695981039346656037ULL;
-    constexpr uint64_t prime = 1099511628211ULL;
-    uint64_t h = basis;
-    for (unsigned char c : s) {
-        h ^= static_cast<uint64_t>(c);
-        h *= prime;
-    }
-    return h;
+    return mix64(themis::hash::fnv1a64(s));
 }
 
 uint64_t ConsistentHashRing::virtualKey(const std::string& node, size_t idx) {

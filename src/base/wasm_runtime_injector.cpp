@@ -1,30 +1,30 @@
+/**
+ * @file wasm_runtime_injector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wasm_runtime_injector.cpp                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(base): WASM runtime injection API      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wasm_runtime_injector.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 128
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "themis/base/wasm_runtime_injector.h"
-#include "utils/logger.h"
 
 #include <algorithm>
 #include <mutex>
 #include <vector>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace modules {
@@ -36,11 +36,11 @@ namespace modules {
 namespace {
 
 struct Registry {
-    std::mutex                          mu;
-    std::vector<WasmRuntimeDescriptor>  entries;
+    std::mutex mu;
+    std::vector<WasmRuntimeDescriptor> entries;
 };
 
-Registry& globalRegistry() {
+Registry &globalRegistry() {
     static Registry r;
     return r;
 }
@@ -52,25 +52,23 @@ Registry& globalRegistry() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void WasmRuntimeInjector::registerRuntime(WasmRuntimeDescriptor desc) {
-    auto& reg = globalRegistry();
+    auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
 
     // Replace existing entry with the same name
-    for (auto& e : reg.entries) {
+    for (auto &e : reg.entries) {
         if (e.name == desc.name) {
             THEMIS_INFO("WasmRuntimeInjector: replacing runtime '{}'", desc.name);
             e = std::move(desc);
             return;
         }
     }
-    THEMIS_INFO("WasmRuntimeInjector: registered runtime '{}' (priority={})",
-                desc.name, desc.priority);
+    THEMIS_INFO("WasmRuntimeInjector: registered runtime '{}' (priority={})", desc.name, desc.priority);
     reg.entries.push_back(std::move(desc));
 }
 
-std::unique_ptr<IWasmRuntime>
-WasmRuntimeInjector::create(const std::string& runtime_name) {
-    auto& reg = globalRegistry();
+std::unique_ptr<IWasmRuntime> WasmRuntimeInjector::create(const std::string &runtime_name) {
+    auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
 
     if (reg.entries.empty()) {
@@ -80,8 +78,8 @@ WasmRuntimeInjector::create(const std::string& runtime_name) {
 
     if (runtime_name.empty()) {
         // Auto-select: highest priority
-        const WasmRuntimeDescriptor* best = nullptr;
-        for (const auto& e : reg.entries) {
+        const WasmRuntimeDescriptor *best = nullptr;
+        for (const auto &e : reg.entries) {
             if (best == nullptr || e.priority > best->priority) {
                 best = &e;
             }
@@ -94,7 +92,7 @@ WasmRuntimeInjector::create(const std::string& runtime_name) {
     }
 
     // Named lookup
-    for (const auto& e : reg.entries) {
+    for (const auto &e : reg.entries) {
         if (e.name == runtime_name && e.factory) {
             return e.factory();
         }
@@ -105,32 +103,34 @@ WasmRuntimeInjector::create(const std::string& runtime_name) {
 }
 
 bool WasmRuntimeInjector::available() noexcept {
-    auto& reg = globalRegistry();
+    auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
     return !reg.entries.empty();
 }
 
 std::vector<std::string> WasmRuntimeInjector::registeredNames() {
-    auto& reg = globalRegistry();
+    auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
 
     // Copy and sort by descending priority
-    std::vector<const WasmRuntimeDescriptor*> ptrs;
+    std::vector<const WasmRuntimeDescriptor *> ptrs;
     ptrs.reserve(reg.entries.size());
-    for (const auto& e : reg.entries) ptrs.push_back(&e);
+    for (const auto &e : reg.entries) {
+        ptrs.push_back(&e);
+    }
     std::sort(ptrs.begin(), ptrs.end(),
-              [](const WasmRuntimeDescriptor* a, const WasmRuntimeDescriptor* b){
-                  return a->priority > b->priority;
-              });
+              [](const WasmRuntimeDescriptor *a, const WasmRuntimeDescriptor *b) { return a->priority > b->priority; });
 
     std::vector<std::string> names;
     names.reserve(ptrs.size());
-    for (const auto* p : ptrs) names.push_back(p->name);
+    for (const auto *p : ptrs) {
+        names.push_back(p->name);
+    }
     return names;
 }
 
 void WasmRuntimeInjector::clearAll() {
-    auto& reg = globalRegistry();
+    auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
     reg.entries.clear();
 }

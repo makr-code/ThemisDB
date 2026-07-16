@@ -1,88 +1,21 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_graph_retriever.h                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     498                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • c5ef77899  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file knowledge_graph_retriever.h
- * @brief Knowledge graph-augmented retrieval with entity linking
- *
- * Augments standard vector-search retrieval with a lightweight in-memory
- * knowledge graph (KG).  Named entities are extracted from the query and
- * from each candidate document, linked to KG nodes, and the neighbourhood
- * of matched nodes is traversed to surface additional relevant documents.
- *
- * Architecture:
- * @code
- *   Query
- *     ↓
- *   EntityLinker  ──────────► KnowledgeGraph
- *     │                           │  (BFS traversal)
- *     │         neighbour nodes   │
- *     ▼◄──────────────────────────┘
- *   KG-boosted document scores
- *     ↓
- *   KGRetrievalResult (augmented candidates)
- * @endcode
- *
- * Design goals:
- * - Zero external dependencies: entity extraction uses a configurable
- *   dictionary + capitalisation heuristic; no NLP library required.
- * - Thread-safe graph operations via internal mutex.
- * - Score fusion: original_score * (1 - kg_weight) + kg_score * kg_weight.
- * - Pluggable: callers supply initial candidates; the retriever only adds
- *   KG-derived signal on top of them.
- * - Configurable traversal depth (default 2 hops).
- *
- * Integration example:
- * @code
- *   #include "rag/knowledge_graph_retriever.h"
- *
- *   using namespace themis::rag::kg;
- *
- *   // Build / load the knowledge graph
- *   KnowledgeGraph graph;
- *   graph.addNode({"ent-1", "HNSW Algorithm", {"HNSW", "Hierarchical NSW"},
- *                  EntityType::CONCEPT});
- *   graph.addNode({"ent-2", "Vector Index", {}, EntityType::CONCEPT});
- *   graph.addEdge({"ent-1", "ent-2", RelationType::RELATED_TO, 0.9});
- *
- *   // Create retriever
- *   KGRetrieverConfig cfg;
- *   cfg.max_traversal_depth = 2;
- *   cfg.kg_score_weight     = 0.3;
- *
- *   KnowledgeGraphRetriever retriever(graph, cfg);
- *
- *   // Augment existing vector-search results
- *   auto result = retriever.retrieve(query, initial_docs);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "rag/rag_judge.h"
+#include "graph/knowledge_graph_reasoner.h"
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -195,6 +128,17 @@ struct KGRetrievalResult {
 
     /// Wall-clock time for the entire augmentation pass (milliseconds).
     double elapsed_ms = 0.0;
+
+    // ── Reasoning-chain fields (populated when a KnowledgeGraphReasoner is set) ──
+
+    /// Inference chains derived during this retrieval pass (one per linked query entity).
+    std::vector<graph::InferenceChain> inference_chains;
+
+    /// True when at least one inference chain produced derived triples.
+    bool has_reasoning = false;
+
+    /// Time spent on KnowledgeGraphReasoner::infer() calls (ms).
+    double reasoning_elapsed_ms = 0.0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -239,6 +183,20 @@ struct KGRetrieverConfig {
 
     /// Entity linker configuration.
     EntityLinkerConfig linker_config;
+
+    // ── KnowledgeGraphReasoner integration ───────────────────────────────────
+
+    /// Maximum inference hops when a KnowledgeGraphReasoner is attached.
+    /// Set to 0 to disable reasoning even when a reasoner is registered.
+    int max_inference_hops = 5;
+
+    /// When true, the serialised InferenceChain for each query entity is
+    /// stored in `RetrievedDocument::metadata["reasoning_chain"]`.
+    bool attach_reasoning_chain_to_metadata = true;
+
+    /// Timeout budget for reasoning per query entity (ms).  Inference that
+    /// exceeds this budget is skipped gracefully (fallback to direct KG query).
+    double reasoning_timeout_ms = 200.0;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -336,12 +294,17 @@ public:
      * @param start_id       Starting node identifier.
      * @param max_depth      Maximum BFS depth (1 = direct neighbours only).
      * @param min_edge_weight Minimum edge weight to follow.
+     * @param max_nodes      Maximum number of nodes to visit (DoS guard, GAP-010).
+     *                       The BFS terminates once this many nodes have been
+     *                       enqueued, preventing unbounded traversal of dense
+     *                       graphs.  Defaults to 4096.
      * @return               Set of reachable node IDs (excluding start_id).
      */
     std::unordered_set<std::string> neighbours(
         const std::string& start_id,
         size_t             max_depth      = 1,
-        double             min_edge_weight = 0.0) const;
+        double             min_edge_weight = 0.0,
+        size_t             max_nodes      = 4096) const;
 
     /**
      * @brief Return all outgoing edges from @p node_id.  Thread-safe.
@@ -459,6 +422,25 @@ public:
      * @brief Replace configuration.
      */
     void setConfig(const KGRetrieverConfig& config);
+
+    // ── KnowledgeGraphReasoner integration ────────────────────────────────────
+
+    /**
+     * @brief Attach a KnowledgeGraphReasoner for multi-hop inference.
+     *
+     * When set, `retrieve()` calls `KnowledgeGraphReasoner::infer()` for each
+     * linked query entity and includes the resulting `InferenceChain` in the
+     * `KGRetrievalResult::inference_chains` list.  When
+     * `KGRetrieverConfig::attach_reasoning_chain_to_metadata` is true, the
+     * chain is also serialised into
+     * `RetrievedDocument::metadata["reasoning_chain"]`.
+     *
+     * Pass `nullptr` to detach the current reasoner.
+     *
+     * @param reasoner  Pointer to a fully configured `KnowledgeGraphReasoner`
+     *                  (must outlive this retriever or be detached first).
+     */
+    void setReasoner(graph::KnowledgeGraphReasoner* reasoner);
 
 private:
     struct Impl;

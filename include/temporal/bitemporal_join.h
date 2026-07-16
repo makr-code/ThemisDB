@@ -1,58 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bitemporal_join.h                                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(temporal): bitemporal join operators   ║
-                           (system time + valid time predicates)       ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file bitemporal_join.h
- * @brief Bi-temporal join operators for SQL:2011 combined temporal predicates.
- *
- * A bi-temporal join correlates two versioned tables on BOTH the system-time
- * axis (when the data was stored) and the valid-time axis (when the fact held
- * in the modelled reality).  This file implements the three canonical join
- * modes from SQL:2011 §T005:
- *
- * | Mode                      | Predicate                                   |
- * |---------------------------|---------------------------------------------|
- * | SEQUENCED                 | Join only rows whose valid-time periods overlap |
- * | NON-SEQUENCED             | Ignore temporal axes; plain equi-join        |
- * | CURRENT                   | Join only rows current at a given point-in-time |
- *
- * Plus ThemisDB extensions:
- * - CONTAINED_IN join  (left valid-time ⊆ right valid-time)
- * - OVERLAPPING join   (left valid-time ∩ right valid-time ≠ ∅)
- * - SNAPSHOT join      (both tables seen at the same system-time snapshot)
- *
- * ## Usage
- * ```cpp
- * BiTemporalJoin join(left_rows, right_rows, config);
- * auto results = join.execute();
- * ```
- *
- * @note Thread Safety: BiTemporalJoin instances are not thread-safe.
- *   Create separate instances per thread or query.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "temporal/temporal_types.h"
@@ -155,11 +109,20 @@ public:
      *
      * @param left   Left-hand versioned rows.
      * @param right  Right-hand versioned rows.
-     * @param config Join configuration (mode, point-in-time, etc.).
      */
     BiTemporalJoin(std::vector<BiTemporalRow> left,
-                   std::vector<BiTemporalRow> right,
-                   Config                     config = {});
+             std::vector<BiTemporalRow> right);
+
+    /**
+     * @brief Construct the join operator with input row sets.
+     *
+     * @param left   Left-hand versioned rows.
+     * @param right  Right-hand versioned rows.
+     * @param config Join configuration (mode, point-in-time, etc.).
+     */
+    explicit BiTemporalJoin(std::vector<BiTemporalRow> left,
+                std::vector<BiTemporalRow> right,
+                Config                     config);
 
     /**
      * @brief Execute the join and return all matching result rows.

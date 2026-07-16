@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_bench.cpp                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     711                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
-    • f75117981  2026-02-28  feat(llm): speculative decoding for latency reduction - a... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_bench.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -51,6 +35,7 @@
 #include "llm/async_inference_engine.h"
 #include "llm/inference_engine_enhanced.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/openai_compat_adapter.h"
 
 #include <vector>
 #include <string>
@@ -704,6 +689,131 @@ static void BM_EnhancedEngine_LatencyP99(benchmark::State& state) {
     engine.shutdown();
 }
 BENCHMARK(BM_EnhancedEngine_LatencyP99)->Iterations(3);
+
+// ═══════════════════════════════════════════════════════════════════
+// BM_OpenAICompatAdapter_ParseRequest
+// Measures the overhead of OpenAICompatAdapter::parseRequest() on a
+// typical multi-message chat body.
+//
+// Acceptance criterion (AC-6): adapter serialisation/deserialisation
+// overhead ≤ 2 ms vs direct submitRequest() call.
+// ═══════════════════════════════════════════════════════════════════
+
+static void BM_OpenAICompatAdapter_ParseRequest(benchmark::State& state) {
+    using json = nlohmann::json;
+    // Representative chat body: 3 messages including a system prompt.
+    const json body = {
+        {"model",    "llama3"},
+        {"messages", json::array({
+            {{"role","system"},    {"content","You are a helpful assistant."}},
+            {{"role","user"},      {"content","What is the capital of France?"}},
+            {{"role","assistant"}, {"content","Paris."}},
+            {{"role","user"},      {"content","And Germany?"}}
+        })},
+        {"temperature", 0.7},
+        {"max_tokens",  512},
+        {"stop",        json::array({"END", "STOP"})},
+        {"stream",      false}
+    };
+
+    for (auto _ : state) {
+        auto result = OpenAICompatAdapter::parseRequest(body);
+        benchmark::DoNotOptimize(result);
+        benchmark::ClobberMemory();
+    }
+
+    state.SetLabel("parse_request");
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_OpenAICompatAdapter_ParseRequest)->Iterations(1000);
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+static void BM_OpenAICompatAdapter_BuildResponse(benchmark::State& state) {
+    InferenceResponse resp;
+    resp.text              = "Paris is the capital of France.";
+    resp.model_id          = "llama3";
+    resp.tokens_prompt     = 25;
+    resp.tokens_generated  = 8;
+
+    const std::string cid = OpenAICompatAdapter::generateCompletionId();
+
+    for (auto _ : state) {
+        auto j = OpenAICompatAdapter::buildResponse(resp, "llama3", cid);
+        benchmark::DoNotOptimize(j);
+        benchmark::ClobberMemory();
+    }
+
+    state.SetLabel("build_response");
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_OpenAICompatAdapter_BuildResponse)->Iterations(1000);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Round-trip: parse + build_response; the combined figure must remain ≤ 2 ms.
+// ─────────────────────────────────────────────────────────────────────────────
+
+static void BM_OpenAICompatAdapter_RoundTrip(benchmark::State& state) {
+    using json = nlohmann::json;
+    const json body = {
+        {"model",       "llama3"},
+        {"messages",    json::array({
+            {{"role","system"}, {"content","Be concise."}},
+            {{"role","user"},   {"content","What is 2+2?"}}
+        })},
+        {"temperature", 0.0},
+        {"max_tokens",  16}
+    };
+
+    const std::string cid = OpenAICompatAdapter::generateCompletionId();
+
+    InferenceResponse resp;
+    resp.text             = "4";
+    resp.model_id         = "llama3";
+    resp.tokens_prompt    = 12;
+    resp.tokens_generated = 1;
+
+    std::vector<double> round_trip_ns;
+    round_trip_ns.reserve(1000);
+
+    for (auto _ : state) {
+        auto t0 = std::chrono::steady_clock::now();
+
+        auto parse = OpenAICompatAdapter::parseRequest(body);
+        auto j     = OpenAICompatAdapter::buildResponse(resp, "llama3", cid);
+
+        auto t1 = std::chrono::steady_clock::now();
+        round_trip_ns.push_back(
+            static_cast<double>(
+                std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count()));
+
+        benchmark::DoNotOptimize(parse);
+        benchmark::DoNotOptimize(j);
+        benchmark::ClobberMemory();
+    }
+
+    // Compute mean and p99 and expose as benchmark counters
+    if (!round_trip_ns.empty()) {
+        std::sort(round_trip_ns.begin(), round_trip_ns.end());
+        const double mean_us = std::accumulate(
+            round_trip_ns.begin(), round_trip_ns.end(), 0.0) /
+            (static_cast<double>(round_trip_ns.size()) * 1000.0);
+
+        const size_t p99_idx =
+            static_cast<size_t>(round_trip_ns.size() * 0.99);
+        const double p99_us  = round_trip_ns[p99_idx] / 1000.0;
+
+        state.counters["mean_us"]           = benchmark::Counter(mean_us);
+        state.counters["p99_us"]            = benchmark::Counter(p99_us);
+        // AC-6 assertion: p99 must remain well below 2000 µs (2 ms)
+        state.counters["p99_within_2ms"]    =
+            benchmark::Counter(p99_us < 2000.0 ? 1.0 : 0.0);
+    }
+
+    state.SetLabel("round_trip");
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_OpenAICompatAdapter_RoundTrip)->Iterations(1000);
 
 // ═══════════════════════════════════════════════════════════════════
 // Main

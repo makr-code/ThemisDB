@@ -1,26 +1,21 @@
+/**
+ * @file graphql_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graphql_cache.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • d1b7d6452  2026-02-22  Code audit bugfixes: eliminate hash collision, add defaul... ║
-    • 54d480371  2026-02-22  Improve GraphQL API layer performance: O(1) LRU, parse ca... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graphql_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 322
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4605 feat(api): implement select... (2026-04-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +23,7 @@
 #include <string>
 #include <list>
 #include <unordered_map>
+#include <unordered_set>
 #include <chrono>
 #include <mutex>
 #include <memory>
@@ -139,6 +135,23 @@ public:
         }
     }
     
+    /**
+     * @brief Erase all entries for which the predicate returns true
+     * @param pred Callable with signature `bool(const T& value)`
+     */
+    template<typename Predicate>
+    void eraseIf(Predicate pred) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (auto it = cache_.begin(); it != cache_.end(); ) {
+            if (pred(it->second.first.value)) {
+                lru_order_.erase(it->second.second);
+                it = cache_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     /**
      * @brief Clear all cache entries
      */
@@ -262,6 +275,7 @@ public:
         std::string data;           // Serialized response data
         std::string etag;           // ETag for conditional requests
         std::chrono::steady_clock::time_point last_modified;
+        std::unordered_set<std::string> collections;  // Collections read by this query
     };
     
     static ResponseCache& instance() {
@@ -285,11 +299,14 @@ public:
     
     /**
      * @brief Invalidate responses for a specific collection/type
+     *
+     * Only evicts entries whose tag set includes @p pattern, leaving
+     * responses that reference other collections untouched.
      */
     void invalidatePattern(const std::string& pattern) {
-        // TODO: Implement pattern-based invalidation
-        // For now, just clear the entire cache
-        cache_.clear();
+        cache_.eraseIf([&pattern](const CachedResponse& response) {
+            return response.collections.count(pattern) > 0;
+        });
     }
     
     /**

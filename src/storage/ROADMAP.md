@@ -1,146 +1,71 @@
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-
 # Storage Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Current Status
-v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, WAL, BlobDB, multi-model key schema, backup/PITR, compression, field-level encryption, and columnar format support.
 
-## Completed ✅
-- [x] `RocksDBWrapper` – MVCC transactions, WAL, BlobDB, multi-path SSTables, async I/O
-- [x] `MVCCStore` – multi-version concurrency control with snapshot isolation
-- [x] `WALStorage` – write-ahead log management and replay (`wal_storage.cpp`)
-- [x] `KeySchema` – unified multi-model key encoding (relational, document, graph, vector, timeseries)
-- [x] `StorageEngine` – high-level abstraction with dependency injection (evaluator, encryption, key provider, index manager)
-- [x] `BackupManager` – incremental and full backup with checksum verification
-- [x] `PITRManager` – point-in-time recovery via WAL replay and snapshot restore
-- [x] Blob storage backends: INLINE, RocksDB BlobDB, Filesystem, S3, Azure Blob, WebDAV
-- [x] `BlobRedundancyManager` – RAID-1 mirror across multiple backends
-- [x] `CompressionStrategy` – pluggable per-table compression (Snappy, Zstd, LZ4, Brotli, None)
-- [x] `ColumnarFormat` – columnar storage for analytical workloads
-- [x] `BatchWriteOptimizer` – adaptive batching to reduce write amplification
-- [x] `SecuritySignature` + `SecuritySignatureManager` – field-level AES-GCM encryption and HMAC-SHA256 tamper detection
-- [x] `StorageAuditLogger` – structured audit trail for all storage operations
-- [x] `IndexMaintenance` – background index rebuild, optimize, and consistency checks
-- [x] `CompactionManager` – manual and scheduled RocksDB compaction control
-- [x] `DiskSpaceMonitor` – real-time disk quota monitoring and alerting
-- [x] `DatabaseConnectionManager` – connection pooling and lifecycle management
-- [x] `TransactionRetryManager` – exponential backoff retry for failed transactions
-- [x] `MergeOperators` – custom RocksDB merge operators (counters, list appends)
-- [x] `RaftMVCCBridge` – integration between Raft consensus log and MVCC storage
-- [x] `HLC` (Hybrid Logical Clock) – causally consistent timestamps across nodes
-- [x] `HistoryManager` – version history and change tracking per key
-- [x] `NLPMetadataExtractor` – automatic metadata extraction for ingested documents
-- [x] `CompressedStorage` – transparent compression/decompression layer
-- [x] `BaseEntity` – common base type for all storage-layer entities
-- [x] Production-mode safety flag (`THEMIS_PRODUCTION_MODE`) preventing no-op encryption defaults
+Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces.
 
-## In Progress 🚧
-*(none currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [~] hardening failure-path behavior under sustained write/load and maintenance overlap (Target: Q3 2026)
+- [~] improving diagnostics consistency across storage, replay, and recovery stages (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for storage hot paths (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [x] Tiered storage (hot/warm/cold) with automatic data migration based on access patterns (Target: v1.6.0)
-  - Inputs: RocksDB key-space with per-key last-access timestamps tracked by `AccessTracker`
-  - Outputs: transparent reads/writes regardless of tier; background `TierMigrationWorker` moves data between NVMe (hot), SATA (warm), and object storage (cold)
-  - Affected files: new `tiered_storage.cpp`, extend `StorageEngine`, `DiskSpaceMonitor`
-  - Migration policy: age-based (hot→warm after 30 days, warm→cold after 90 days) and access-based (zero-read in window → demote); configurable via `TieredStorageConfig`
-  - Errors: migration failure rolls back and retries with exponential backoff; partial migration never leaves data inconsistent (copy-then-delete)
-  - Tests: unit tests for policy evaluation; integration test verifying read-after-migrate returns original data
-  - Perf: migration background overhead < 5% of sustained write throughput; cold-tier read latency documented in config (object storage SLA dependent)
-- [x] GCS (Google Cloud Storage) blob backend (`blob_backend_gcs.cpp`) (Target: v1.6.0)
-  - Inputs/outputs: same `IBlobBackend` interface as existing S3/Azure backends
-  - Affected files: new `blob_backend_gcs.cpp`, `../include/storage/blob_backend_gcs.h`; register in `BlobStorageManager`
-  - Auth: ADC (Application Default Credentials) via `GOOGLE_APPLICATION_CREDENTIALS`; fail-closed if credentials absent
-  - Errors: GCS API errors mapped to `StorageError`; retry on transient 5xx/429 with jitter backoff
-  - Tests: integration test against GCS emulator (`fake-gcs-server`)
-- [ ] Erasure coding redundancy mode in `BlobRedundancyManager` (space-efficient alternative to RAID-1) (Target: v1.7.0)
-  - Inputs/outputs: same `BlobRedundancyManager` interface; new `RedundancyMode::ERASURE_CODING` enum value
-  - Algorithm: Reed-Solomon(k, m) with configurable k data shards and m parity shards; `k=4, m=2` default (tolerates 2 backend failures with 1.5× space overhead vs 3× for RAID-1)
-  - Affected files: extend `blob_redundancy_manager.cpp`; add `erasure_coding.cpp` for RS encode/decode
-  - Errors: reconstruction failure if fewer than k shards available → return `StorageError::INSUFFICIENT_SHARDS`
-  - Tests: unit tests for encode/decode round-trip; fault-injection test dropping m shards and verifying recovery
-  - Compat: existing RAID-1 blobs are not migrated automatically; migration tool planned as separate CLI
+## Planned Features
 
-### Long-term (6-12 months)
-- [ ] Distributed transactions across shards via two-phase commit (2PC) with Raft coordination (Target: v1.7.0)
-  - Inputs: multi-shard `TransactionManager` operations spanning separate RocksDB instances
-  - Outputs: atomic commit or rollback across all participant shards
-  - Affected files: new `distributed_transaction_manager.cpp`; coordinate via existing `RaftMVCCBridge`
-  - Protocol: 2PC with Raft-logged prepare/commit records; coordinator writes prepare to its own WAL before sending to participants
-  - Errors: coordinator crash during prepare → participants abort on timeout; coordinator crash after commit → participants re-read Raft log to resolve
-  - Tests: chaos test (kill coordinator after prepare, verify all participants converge); correctness test for cross-shard atomicity
-  - Perf: 2PC round-trip adds ≤ 2× single-shard latency on same-datacenter nodes
-- [ ] Vectorized execution support in `ColumnarFormat` (SIMD batch processing) (Target: v2.0.0)
-  - Inputs: columnar scan batches of up to 8,192 rows
-  - Outputs: filtered/projected result batches processed via AVX2 SIMD instructions
-  - Affected files: extend `columnar_format.cpp`; add `simd_filter.cpp` with runtime CPU feature detection
-  - Constraints: graceful fallback to scalar path when AVX2 is unavailable; no ABI change to `ColumnarFormat` public API
-  - Perf: ≥ 4× scan throughput vs. scalar baseline on integer equality and range predicates
-- [ ] Native Parquet export from columnar format (Target: v2.0.0)
-  - Inputs: `ColumnarFormat` table scan result
-  - Outputs: Apache Parquet file compatible with Spark, DuckDB, Pandas
-  - Affected files: new `parquet_exporter.cpp` using Apache Arrow C++ library
-  - Errors: schema inference failure for unknown types → surface as `ExportError::UNSUPPORTED_TYPE`
-  - Tests: round-trip test (export then re-import with DuckDB and verify row/column counts)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
+- [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for write/replay/recovery-sensitive paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for mount-latency and storage allocator edge paths (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained mixed read/write pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Core RocksDB Layer (Status: Completed ✅)
-- [x] `RocksDBWrapper` with MVCC, WAL, BlobDB, multi-path SSTables, async I/O
-- [x] `MVCCStore` snapshot isolation
-- [x] `WALStorage` management and replay
-- [x] `KeySchema` multi-model encoding
-- [x] `StorageEngine` with dependency injection
-- [x] `MergeOperators` for counter and list operations
-- [x] `HLC` hybrid logical clocks
+### Phase 1: Design / API Contract
+- [ ] freeze storage wrapper/engine/recovery contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for durability and recovery incident classes (Target: Q3 2026)
 
-### Phase 2: Backup, Recovery & Blob Storage (Status: Completed ✅)
-- [x] `BackupManager` incremental and full backups
-- [x] `PITRManager` point-in-time recovery
-- [x] Blob backends: Filesystem, RocksDB BlobDB, S3, Azure Blob, WebDAV
-- [x] `BlobRedundancyManager` RAID-1 mirror
+### Phase 2: Core Implementation
+- [ ] complete hardening for WAL/MVCC and backup/PITR internals (Target: Q4 2026)
+- [ ] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Compression, Optimization & Security (Status: Completed ✅)
-- [x] `CompressionStrategy` pluggable per-table compression
-- [x] `ColumnarFormat` analytical storage
-- [x] `BatchWriteOptimizer` adaptive write batching
-- [x] `CompactionManager` manual and scheduled compaction
-- [x] `SecuritySignature` field-level AES-GCM encryption
-- [x] `SecuritySignatureManager` HMAC-SHA256 tamper detection
-- [x] `StorageAuditLogger` structured audit trail
-- [x] Production-mode safety flag
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026)
+- [ ] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026)
 
-### Phase 4: Operational & Advanced Features (Status: Completed ✅)
-- [x] `DiskSpaceMonitor` quota monitoring
-- [x] `IndexMaintenance` background optimization
-- [x] `TransactionRetryManager` exponential backoff
-- [x] `DatabaseConnectionManager` connection pooling
-- [x] `RaftMVCCBridge` Raft-to-MVCC integration
-- [x] `HistoryManager` version tracking
-- [x] `NLPMetadataExtractor` automatic metadata
+### Phase 4: Tests
+- [ ] expand focused regressions for replay, PITR, and tiered/blob edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for mixed write + maintenance workloads (Target: Q4 2026)
 
-### Phase 5: Tiered Storage & Distributed Transactions (Status: In Progress 🚧)
-- [x] Tiered storage (hot/warm/cold) with age- and access-based migration policies
-- [x] GCS blob backend
-- [ ] Erasure coding in `BlobRedundancyManager`
-- [ ] 2PC distributed transactions with Raft coordination
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for storage hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core storage module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit test coverage for core storage paths
-- [x] Integration tests with real RocksDB instance
-- [x] Backup and PITR restore validation
-- [x] Encryption enabled in all production deployments (`THEMIS_PRODUCTION_MODE`)
-- [x] Audit logging for all write operations
-- [x] Performance benchmarks for tiered storage migration (Target: v1.6.0)
-- [ ] Chaos/fault-injection tests for blob backend failover (Target: v1.7.0)
 
-## Known Issues & Limitations
-- Erasure coding in `BlobRedundancyManager` is planned but not implemented; current redundancy is RAID-1 mirror only
-- `NLPMetadataExtractor` depends on an external NLP model; slow startup if model is not pre-warmed
-- `ColumnarFormat` does not yet support native Parquet export
-- Tiered storage uses flat filesystem files per key; for large datasets a more efficient store (e.g. RocksDB column-family per tier) is recommended
+- [x] core storage surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for durability/recovery edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on storage configuration, backend profile, and workload shape.
+- selected replay/recovery/tiering edge scenarios need continued hardening.
+- benchmark depth should continue expanding for advanced storage workloads.
 
 ## Breaking Changes
-- `StorageEngine::createDefault()` factory is deprecated; use the DI constructor with explicit `IExpressionEvaluatorPtr`, `IFieldEncryptionPtr`, `IKeyProviderPtr`, and `IIndexManagerPtr` to avoid insecure defaults in production
-- `KeySchema` key format v1.5.0+ (prefix-based) is not backward-compatible with keys created before v1.5.0; migration required for existing data
+
+No breaking storage contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

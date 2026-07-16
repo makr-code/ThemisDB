@@ -1,27 +1,21 @@
+/**
+ * @file cep_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cep_engine.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1199                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 46115ba8b  2026-02-26  audit: fix file header line counts, update ROADMAP and RE... ║
-    • c4315d917  2026-02-26  audit(cep): fix stale doc comments, file metadata, and RO... ║
-    • 5f1b20fc0  2026-02-26  feat(cep): implement stateful pattern matching with check... ║
-    • 13ff5a532  2026-02-26  feat(analytics): enhance EPL parser with CREATE RULE, SEL... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cep_engine.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1207
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4374 [WIP] Update developer docu... (2026-03-22) | #4311 Implement memory pool alloc... (2026-03-17) | #2988 [analytics] EPL parser for ... (2026-03-12) | #2986 feat(cep): stateful NFA pat... (2026-03-12) | #2743 [analytics] CEP: Engine-lev... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -59,6 +53,9 @@
 #include <variant>
 #include <any>
 #include <regex>
+
+// Lock-free MPMC ring buffer for the CEP event queue.
+#include "analytics/detail/ring_buffer.h"
 
 namespace themisdb {
 namespace analytics {
@@ -217,7 +214,7 @@ constexpr uint32_t DEFAULT_CHECKPOINT_INTERVAL_MS = 10000;
 /**
  * Field value (variant type)
  */
-using FieldValue = std::variant<
+using CepFieldValue = std::variant<
     std::monostate,         // null
     bool,
     int64_t,
@@ -251,7 +248,7 @@ struct Event {
     uint32_t partition_id = 0;
     
     // Payload
-    std::map<std::string, FieldValue> fields;
+    std::map<std::string, CepFieldValue> fields;
     std::vector<uint8_t> raw_payload;
     
     // Tracking
@@ -269,7 +266,7 @@ struct Event {
         return std::nullopt;
     }
     
-    void setField(const std::string& name, FieldValue value) {
+    void setField(const std::string& name, CepFieldValue value) {
         fields[name] = std::move(value);
     }
     
@@ -285,7 +282,7 @@ struct PatternMatch {
     std::string rule_id;
     std::chrono::system_clock::time_point match_time;
     std::vector<Event> matched_events;
-    std::map<std::string, FieldValue> bindings;  // Captured values
+    std::map<std::string, CepFieldValue> bindings;  // Captured values
     double confidence = 1.0;
 };
 
@@ -295,11 +292,11 @@ struct PatternMatch {
 struct AggregationResult {
     std::string aggregation_id;
     AggregationType type;
-    FieldValue result;
+    CepFieldValue result;
     uint64_t count = 0;
     std::chrono::system_clock::time_point window_start;
     std::chrono::system_clock::time_point window_end;
-    std::map<std::string, FieldValue> group_by_values;
+    std::map<std::string, CepFieldValue> group_by_values;
 };
 
 /**
@@ -313,7 +310,7 @@ struct Alert {
     std::string message;
     std::chrono::system_clock::time_point timestamp;
     PatternMatch match;
-    std::map<std::string, FieldValue> context;
+    std::map<std::string, CepFieldValue> context;
     bool acknowledged = false;
 };
 
@@ -333,6 +330,9 @@ struct WindowConfig {
     bool emit_on_close = true;                   // Emit results when window closes
     bool emit_on_event = false;                  // Emit on every event
     std::chrono::milliseconds allowed_lateness{0}; // Late event tolerance
+    /// How often the timer thread wakes to emit GLOBAL window snapshots and
+    /// close expired SESSION windows.  Smaller values reduce emission latency.
+    std::chrono::milliseconds global_window_emit_interval_ms{500};
 };
 
 /**
@@ -607,7 +607,7 @@ private:
         uint32_t current_state;
         std::vector<Event> matched_events;
         std::chrono::steady_clock::time_point start_time;
-        std::map<std::string, FieldValue> bindings;
+        std::map<std::string, CepFieldValue> bindings;
     };
     std::map<std::string, std::vector<PartialMatch>> partial_matches_;
     mutable std::mutex state_mutex_;
@@ -671,6 +671,16 @@ public:
     };
     Stats getStats() const;
 
+    /**
+     * Carries a snapshot of window data for deferred callback dispatch.
+     * Events are moved in to avoid copies when closing windows.
+     */
+    struct WindowCallbackBatch {
+        std::vector<Event> events;
+        std::chrono::system_clock::time_point start;
+        std::chrono::system_clock::time_point end;
+    };
+
 private:
     WindowConfig config_;
     WindowCallback callback_;
@@ -703,7 +713,9 @@ private:
     std::mutex timer_mutex_;
     
     void timerLoop();
-    void closeWindow(Window& window);
+    // Marks window closed and returns a batch for deferred dispatch (lock must
+    // be held by caller; callback is NOT invoked here).
+    std::optional<WindowCallbackBatch> closeWindow(Window& window);
     void handleTumblingWindow(const Event& event);
     void handleSlidingWindow(const Event& event);
     void handleSessionWindow(const Event& event);
@@ -768,8 +780,8 @@ private:
         double max = std::numeric_limits<double>::lowest();
         std::vector<double> values;  // For percentile, stddev
         std::set<std::string> distinct_values;
-        FieldValue first_value;
-        FieldValue last_value;
+        CepFieldValue first_value;
+        CepFieldValue last_value;
         bool has_first = false;
     };
     
@@ -783,7 +795,7 @@ private:
     
     std::string getGroupKey(const Event& event) const;
     void updateAggregation(AggregationState& state, const Event& event);
-    FieldValue computeResult(const AggregationState& state) const;
+    CepFieldValue computeResult(const AggregationState& state) const;
 };
 
 // ============================================================================
@@ -962,7 +974,7 @@ public:
         EventType type,
         const std::string& collection,
         const std::string& document_id,
-        const std::map<std::string, FieldValue>& fields);
+        const std::map<std::string, CepFieldValue>& fields);
     
     // ========== Rule Management ==========
     
@@ -1123,10 +1135,16 @@ private:
     std::thread metrics_thread_;
     std::condition_variable cv_;
     std::mutex mutex_;
+    // Used by metricsLoop() to wake immediately when running_ becomes false.
+    std::condition_variable metrics_cv_;
+    std::mutex metrics_mutex_;
     
-    // Processing
-    std::queue<std::pair<std::string, Event>> event_queue_;
-    mutable std::mutex queue_mutex_;
+    // Processing — lock-free MPMC ring buffer replaces std::queue + mutex.
+    // Capacity mirrors max_queue_depth from CEPConfig (set during initialize()).
+    // The ring buffer is re-created if initialize() is called again.
+    std::unique_ptr<themis::analytics::detail::EventRingBuffer<
+        std::pair<std::string, Event>>> event_queue_;
+    // size_approx() is used for backpressure fill-ratio checks and getStats().
     
     void workerLoop();
     void metricsLoop();
@@ -1197,3 +1215,4 @@ inline const char* aggregationTypeToString(AggregationType type) {
 
 } // namespace analytics
 } // namespace themisdb
+

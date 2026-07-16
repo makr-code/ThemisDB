@@ -1,23 +1,21 @@
+/**
+ * @file tensor_dtype.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_dtype.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     185                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_dtype.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 175
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -97,7 +95,7 @@ inline bool is_mixed_precision(DType dtype) {
  */
 inline uint16_t fp32_to_fp16_bits(float value) {
     // IEEE 754 half precision conversion (simplified)
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(float));
     
     uint32_t sign = (bits >> 16) & 0x8000;
@@ -131,7 +129,7 @@ inline float fp16_bits_to_fp32(uint16_t value) {
         // Zero or denormal
         if (mantissa == 0) {
             uint32_t bits = sign;
-            float result;
+            float result = 0.0f;
             std::memcpy(&result, &bits, sizeof(float));
             return result;
         }
@@ -140,13 +138,13 @@ inline float fp16_bits_to_fp32(uint16_t value) {
     } else if (exponent == 31) {
         // Infinity or NaN
         uint32_t bits = sign | 0x7F800000 | (mantissa << 13);
-        float result;
+        float result = 0.0f;
         std::memcpy(&result, &bits, sizeof(float));
         return result;
     }
     
     uint32_t bits = sign | ((exponent - 15 + 127) << 23) | (mantissa << 13);
-    float result;
+    float result = 0.0f;
     std::memcpy(&result, &bits, sizeof(float));
     return result;
 }
@@ -160,7 +158,7 @@ inline float fp16_bits_to_fp32(uint16_t value) {
  * @return BF16 value (stored in uint16_t)
  */
 inline uint16_t fp32_to_bf16_bits(float value) {
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(float));
     
     // BF16 is just upper 16 bits of FP32
@@ -178,7 +176,7 @@ inline uint16_t fp32_to_bf16_bits(float value) {
  */
 inline float bf16_bits_to_fp32(uint16_t value) {
     uint32_t bits = static_cast<uint32_t>(value) << 16;
-    float result;
+    float result = 0.0f;
     std::memcpy(&result, &bits, sizeof(float));
     return result;
 }

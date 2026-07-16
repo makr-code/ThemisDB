@@ -1,23 +1,21 @@
+/**
+ * @file signature_verifier.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            signature_verifier.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   83.0/100                                       ║
-    • Total Lines:     657                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: signature_verifier.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 749
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): #527 Implement RSA-SHA256 signat... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/security/signature_verifier.h"
@@ -28,6 +26,8 @@
 #include <openssl/sha.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
+#include <openssl/x509_vfy.h>
+#include <curl/curl.h>
 #include <cstring>
 
 namespace themis {
@@ -541,60 +541,159 @@ SignatureVerificationResult CRLChecker::verify(
     return result;
 }
 
+// libcurl write callback – appends received bytes to a std::string.
+static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+    auto* buf = static_cast<std::string*>(userdata);
+    buf->append(ptr, size * nmemb);
+    return size * nmemb;
+}
+
+X509_CRL* CRLChecker::downloadAndParseCRL() const {
+    if (crl_url_.empty()) {
+        return nullptr;
+    }
+
+    std::string raw;
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        spdlog::error("CRLChecker: curl_easy_init() failed");
+        return nullptr;
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, crl_url_.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &raw);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);          // 10 s total
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    CURLcode rc = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+
+    if (rc != CURLE_OK) {
+        spdlog::error("CRLChecker: CRL download failed ({}): {}", crl_url_,
+                      curl_easy_strerror(rc));
+        return nullptr;
+    }
+
+    if (raw.empty()) {
+        spdlog::error("CRLChecker: Empty response when downloading CRL from {}", crl_url_);
+        return nullptr;
+    }
+
+    // Try DER first, then PEM.
+    const auto* der_data =
+        reinterpret_cast<const unsigned char*>(raw.data());
+    X509_CRL* crl = d2i_X509_CRL(nullptr, &der_data,
+                                  static_cast<long>(raw.size()));
+    if (!crl) {
+        // Try PEM
+        BIO* bio = BIO_new_mem_buf(raw.data(), static_cast<int>(raw.size()));
+        if (bio) {
+            crl = PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr);
+            BIO_free(bio);
+        }
+    }
+
+    if (!crl) {
+        spdlog::error("CRLChecker: Failed to parse CRL from {}", crl_url_);
+        return nullptr;
+    }
+
+    spdlog::info("CRLChecker: CRL downloaded and parsed from {}", crl_url_);
+    return crl;
+}
+
+X509_CRL* CRLChecker::getOrRefreshCRL() const {
+    std::lock_guard<std::mutex> lk(cache_mutex_);
+
+    auto now = std::chrono::steady_clock::now();
+    if (crl_cache_.crl && now < crl_cache_.expires_at) {
+        return crl_cache_.crl;   // still valid
+    }
+
+    // Free stale entry.
+    if (crl_cache_.crl) {
+        X509_CRL_free(crl_cache_.crl);
+        crl_cache_.crl = nullptr;
+    }
+
+    X509_CRL* fresh = downloadAndParseCRL();
+    if (!fresh) {
+        return nullptr;
+    }
+
+    // Determine TTL from CRL's nextUpdate field; fall back to 1 hour.
+    std::chrono::seconds ttl{3600};
+    const ASN1_TIME* next_update = X509_CRL_get0_nextUpdate(fresh);
+    if (next_update) {
+        struct tm tm_next{};
+        if (ASN1_TIME_to_tm(next_update, &tm_next) == 1) {
+            time_t t_next;
+#ifdef _WIN32
+            t_next = _mkgmtime(&tm_next);
+#else
+            t_next = timegm(&tm_next);
+#endif
+            time_t t_now   = std::time(nullptr);
+            long   secs    = static_cast<long>(t_next - t_now);
+            if (secs > 60) {
+                ttl = std::chrono::seconds{secs};
+            }
+        }
+    }
+
+    crl_cache_.crl        = fresh;
+    crl_cache_.expires_at = now + ttl;
+    spdlog::debug("CRLChecker: CRL cached for {} seconds", ttl.count());
+    return fresh;
+}
+
 bool CRLChecker::isCertificateRevoked(X509* cert) {
-    
+
     if (!cert) {
         spdlog::error("isCertificateRevoked: Invalid certificate");
         return false;
     }
-    
-    spdlog::debug("Checking certificate revocation status");
-    
-    // Note: Full CRL download/parsing would require:
-    // 1. HTTP client to download CRL from crl_url_
-    // 2. Parse CRL using d2i_X509_CRL_bio()
-    // 3. Check certificate serial number against CRL entries
-    // 4. Cache CRL for performance
-    
-    // Security Policy: CRL checking with graceful degradation
-    // - If CRL URL is empty, assume not revoked (no CRL configured)
-    // - If CRL check fails, assume not revoked (availability over strict validation)
-    // - This trade-off prioritizes system availability but should be documented
-    // - For strict security requirements, configure fail-closed behavior
-    
+
     if (crl_url_.empty()) {
-        spdlog::debug("No CRL URL configured - assuming certificate is not revoked");
-        return false;  // Not revoked (no CRL to check)
+        spdlog::debug("No CRL URL configured – assuming not revoked");
+        return false;
     }
-    
-    // Extract certificate serial number for logging
-    ASN1_INTEGER* serial = X509_get_serialNumber(cert);
-    if (serial) {
-        BIGNUM* bn_serial = ASN1_INTEGER_to_BN(serial, nullptr);
-        if (bn_serial) {
-            char* serial_hex = BN_bn2hex(bn_serial);
-            if (serial_hex) {
-                spdlog::debug("Checking revocation for certificate serial: {}", serial_hex);
-                OPENSSL_free(serial_hex);
+
+    // Log serial for auditability.
+    ASN1_INTEGER* serial_asn1 = X509_get_serialNumber(cert);
+    if (serial_asn1) {
+        BIGNUM* bn = ASN1_INTEGER_to_BN(serial_asn1, nullptr);
+        if (bn) {
+            char* hex = BN_bn2hex(bn);
+            if (hex) {
+                spdlog::debug("CRLChecker: Checking revocation for serial: {}", hex);
+                OPENSSL_free(hex);
             }
-            BN_free(bn_serial);
+            BN_free(bn);
         }
     }
-    
-    // TODO: In production, implement actual CRL download and checking:
-    // 1. Download CRL from crl_url_ using HTTP client (libcurl or similar)
-    // 2. Parse CRL: X509_CRL* crl = d2i_X509_CRL_bio(bio, nullptr)
-    // 3. Check if cert is in CRL: X509_CRL_get0_by_cert(crl, nullptr, cert)
-    // 4. Cache CRL with TTL based on nextUpdate field
-    // 5. Make fail-open/fail-closed behavior configurable
-    
-    spdlog::warn("CRL checking not fully implemented - CRL download requires HTTP client");
-    spdlog::info("CRL URL configured: {} (check skipped, assuming not revoked)", crl_url_);
-    
-    // SECURITY NOTE: This returns false (not revoked) when CRL checking fails.
-    // This is a graceful degradation for availability, but may not be suitable
-    // for all security requirements. Consider making this configurable.
-    return false;  // Not revoked (fail-open policy)
+
+    X509_CRL* crl = getOrRefreshCRL();
+    if (!crl) {
+        // Fail-open: CRL unavailable → assume not revoked (availability over strict validation).
+        spdlog::warn("CRLChecker: CRL unavailable from {} – assuming not revoked (fail-open)",
+                     crl_url_);
+        return false;
+    }
+
+    // X509_CRL_get0_by_cert returns 1 when the certificate is found in the CRL.
+    X509_REVOKED* revoked_entry = nullptr;
+    int found = X509_CRL_get0_by_cert(crl, &revoked_entry, cert);
+    if (found > 0) {
+        spdlog::warn("CRLChecker: Certificate IS revoked (found in CRL at {})", crl_url_);
+        return true;
+    }
+
+    spdlog::debug("CRLChecker: Certificate is NOT revoked");
+    return false;
 }
 
 // ===== Builder =====
@@ -658,3 +757,4 @@ std::shared_ptr<ISignatureVerifier> SignatureVerifierBuilder::build() {
 } // namespace security
 } // namespace llm
 } // namespace themis
+

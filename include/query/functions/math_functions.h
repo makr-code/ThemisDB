@@ -1,31 +1,30 @@
+/**
+ * @file math_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            math_functions.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     737                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: math_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "query/functions/function_registry.h"
+#include <cstdint>
 #include <cmath>
 #include <random>
 #include <numeric>
+#include <limits>
 
 // Define M_PI if not available
 #ifndef M_PI
@@ -36,6 +35,14 @@ namespace themis {
 namespace query {
 namespace functions {
 
+namespace {
+inline int clampRoundPrecision(int64_t rawPrecision) {
+    constexpr int64_t kMinPrecision = -308;
+    constexpr int64_t kMaxPrecision = 308;
+    return static_cast<int>(std::clamp(rawPrecision, kMinPrecision, kMaxPrecision));
+}
+} // namespace
+
 // ============================================================================
 // Math Functions
 // ============================================================================
@@ -45,6 +52,7 @@ namespace functions {
  */
 class AbsFunction : public IFunction {
 public:
+    ~AbsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ABS",
@@ -68,6 +76,7 @@ public:
  */
 class CeilFunction : public IFunction {
 public:
+    ~CeilFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CEIL",
@@ -91,6 +100,7 @@ public:
  */
 class FloorFunction : public IFunction {
 public:
+    ~FloorFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "FLOOR",
@@ -114,6 +124,7 @@ public:
  */
 class RoundFunction : public IFunction {
 public:
+    ~RoundFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ROUND",
@@ -135,7 +146,7 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         double num = toNumber(args[0]);
-        int precision = args.size() > 1 ? static_cast<int>(args[1].get<int64_t>()) : 0;
+        int precision = args.size() > 1 ? clampRoundPrecision(args[1].get<int64_t>()) : 0;
         
         if (precision == 0) {
             return std::round(num);
@@ -151,6 +162,7 @@ public:
  */
 class SqrtFunction : public IFunction {
 public:
+    ~SqrtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SQRT",
@@ -176,6 +188,7 @@ public:
  */
 class PowFunction : public IFunction {
 public:
+    ~PowFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "POW",
@@ -202,6 +215,7 @@ public:
  */
 class LogFunction : public IFunction {
 public:
+    ~LogFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOG",
@@ -239,6 +253,7 @@ public:
  */
 class Log10Function : public IFunction {
 public:
+    ~Log10Function() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOG10",
@@ -264,6 +279,7 @@ public:
  */
 class ExpFunction : public IFunction {
 public:
+    ~ExpFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "EXP",
@@ -287,6 +303,7 @@ public:
  */
 class SinFunction : public IFunction {
 public:
+    ~SinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SIN",
@@ -307,6 +324,7 @@ public:
 
 class CosFunction : public IFunction {
 public:
+    ~CosFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "COS",
@@ -327,6 +345,7 @@ public:
 
 class TanFunction : public IFunction {
 public:
+    ~TanFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TAN",
@@ -350,6 +369,7 @@ public:
  */
 class AsinFunction : public IFunction {
 public:
+    ~AsinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ASIN",
@@ -372,6 +392,7 @@ public:
 
 class AcosFunction : public IFunction {
 public:
+    ~AcosFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ACOS",
@@ -394,6 +415,7 @@ public:
 
 class AtanFunction : public IFunction {
 public:
+    ~AtanFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ATAN",
@@ -414,6 +436,7 @@ public:
 
 class Atan2Function : public IFunction {
 public:
+    ~Atan2Function() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ATAN2",
@@ -440,6 +463,7 @@ public:
  */
 class DegreesFunction : public IFunction {
 public:
+    ~DegreesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DEGREES",
@@ -460,6 +484,7 @@ public:
 
 class RadiansFunction : public IFunction {
 public:
+    ~RadiansFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RADIANS",
@@ -483,6 +508,7 @@ public:
  */
 class PiFunction : public IFunction {
 public:
+    ~PiFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "PI",
@@ -508,6 +534,7 @@ public:
  */
 class RandomFunction : public IFunction {
 public:
+    ~RandomFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RANDOM",
@@ -536,6 +563,7 @@ public:
  */
 class RandIntFunction : public IFunction {
 public:
+    ~RandIntFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RAND_INT",
@@ -568,6 +596,7 @@ public:
  */
 class MinFunction : public IFunction {
 public:
+    ~MinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MIN",
@@ -607,6 +636,7 @@ public:
 
 class MaxFunction : public IFunction {
 public:
+    ~MaxFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MAX",
@@ -649,6 +679,7 @@ public:
  */
 class SumFunction : public IFunction {
 public:
+    ~SumFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SUM",
@@ -677,6 +708,7 @@ public:
  */
 class AvgFunction : public IFunction {
 public:
+    ~AvgFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "AVG",

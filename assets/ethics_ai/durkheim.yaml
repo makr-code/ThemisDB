@@ -1,0 +1,283 @@
+school_id: durkheim
+name: Social Ethics (Durkheim)
+name_de: Sozialethik (Durkheim)
+taxonomy_class: non_mainstream
+tags:
+- durkheim
+- soziologie
+- kollektives_gewissen
+- soziale_tatsachen
+- solidaritaet
+- religion
+applicable_domains:
+- social_justice
+- education_ethics
+- organizational_ethics
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält solidarity ODER collective ODER social_norms
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen
+domain_overrides:
+  social_justice:
+    weight_boost: 0.15
+    note: Soziale Solidarität als Gerechtigkeitsbasis
+founders:
+- name: Émile Durkheim
+  years: 1858-1917
+  nationality: French
+  key_works:
+  - title: The Division of Labor in Society
+    year: 1893
+    significance: Social solidarity and organic vs. mechanical solidarity
+  - title: Suicide
+    year: 1897
+    significance: Social factors in individual behavior
+  biography: Founder of sociology, emphasized social cohesion and collective conscience
+- name: Jane Addams
+  years: 1860-1935
+  nationality: American
+  key_works:
+  - title: Democracy and Social Ethics
+    year: 1902
+    significance: Applied ethics to social problems
+  - title: Twenty Years at Hull-House
+    year: 1910
+    significance: Social work and community organization
+  biography: Social reformer and peace activist, Nobel Peace Prize 1931, pioneer of social work
+- name: Amartya Sen
+  years: 1933-present
+  nationality: Indian
+  key_works:
+  - title: Development as Freedom
+    year: 1999
+    significance: Capabilities approach to human development
+  - title: The Idea of Justice
+    year: 2009
+    significance: Comparative justice and social choice
+  biography: Economist and philosopher, developed capability approach to welfare
+historical_context:
+  period: 19th Century - Present
+  philosophical_movement: Social Reform, Welfare State Theory
+  zeitgeist: Social justice, solidarity, community welfare, human dignity
+  influences:
+  - source: Christian Social Teaching
+    thinkers:
+    - Aquinas
+    - Catholic Social Thought
+    impact: Common good and preferential option for poor
+  - source: Socialism and Social Democracy
+    thinkers:
+    - Marx
+    - Bernstein
+    impact: Critique of inequality and economic justice
+  - source: Pragmatism
+    thinkers:
+    - Dewey
+    - Addams
+    impact: Democratic participation and social reform
+  reactions_against:
+  - Extreme individualism
+  - Social atomization
+  - Economic inequality
+  - Exclusion and marginalization
+main_theses:
+- thesis_id: social_solidarity
+  name: Social Solidarity
+  description: Society bound together by mutual interdependence and shared values
+  explanation: "Individuals are fundamentally social beings embedded in communities.\nSocial cohesion requires both organic\
+    \ solidarity (division of labor) \nand collective conscience (shared values and norms).\n"
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: capability_approach
+  name: Capability Approach (Sen)
+  description: Social justice measured by capabilities people have to achieve well-being
+  explanation: 'Focus not just on resources but on what people can do and be.
+
+    Society should ensure all members have real opportunities (capabilities)
+
+    to achieve functioning they have reason to value.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: collective_responsibility
+  name: Collective Responsibility
+  description: Society has obligations to ensure welfare of all members
+  explanation: 'Social problems require collective solutions.
+
+    Community has responsibility for vulnerable members.
+
+    Social institutions should promote human flourishing for all.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- Social safety net as collective obligation
+- Education and healthcare as social rights
+- Work and employment as social goods
+- Housing and basic needs as human rights
+- Community participation and social inclusion
+- Intergenerational solidarity
+- Care ethics and mutual support
+- Cultural diversity and social cohesion
+decision_framework:
+  primary_test: Social Impact Test
+  description: Does this serve the collective welfare?
+  steps:
+  - Assess impact on most vulnerable members
+  - Consider effects on social solidarity
+  - Evaluate contribution to capabilities
+  - Ensure inclusive and participatory process
+  secondary_test: Common Good Test
+  criteria:
+  - Benefits society as a whole
+  - Reduces inequality and exclusion
+  - Strengthens social bonds
+  - Sustainable for future generations
+strengths:
+- Recognizes social nature of human beings
+- Addresses structural causes of problems
+- Promotes solidarity and mutual support
+- Protects vulnerable populations
+- Balances individual and collective goods
+- Empirically grounded in social science
+- Applicable to diverse policy domains
+weaknesses:
+- Tension between solidarity and individual liberty
+- Risk of paternalism and over-regulation
+- Challenge of defining 'common good'
+- Difficulty balancing competing group interests
+- Potential for free-riding on collective efforts
+- Cultural variations in social obligations
+- Funding constraints for social programs
+internal_debate:
+  individual_vs_collective:
+    issue: How to balance individual rights and collective welfare?
+    positions:
+    - 'Liberal: Individual rights constrain collective action'
+    - 'Communitarian: Common good takes priority'
+    - 'Balance: Reconcile both through democratic deliberation'
+  equality_vs_difference:
+    issue: Should social policy treat everyone equally or differently?
+    positions:
+    - 'Equality: Universal programs for all'
+    - 'Difference: Targeted programs for disadvantaged'
+    - 'Both: Universal floor with targeted supplements'
+  state_vs_civil_society:
+    issue: Who should provide social support?
+    positions:
+    - 'State-centered: Government welfare programs'
+    - 'Civil society: Community organizations and voluntary sector'
+    - 'Subsidiarity: Support at most local appropriate level'
+philosophical_positioning:
+  relation_to_utilitarian: Concerned with social welfare but emphasizes capabilities not just utility
+  relation_to_kantian: Respects human dignity and autonomy within social context
+  relation_to_virtue_ethics: Cultivates civic virtues and care for others
+  relation_to_communitarian: Emphasizes community but retains individual rights
+practical_applications:
+  social_welfare:
+    principle: Social safety net
+    considerations:
+    - Unemployment benefits and job placement
+    - Disability support and accessibility
+    - Old-age pensions and elderly care
+    - Child and family support
+  healthcare:
+    principle: Health as social right
+    considerations:
+    - Universal healthcare access
+    - Prevention and public health
+    - Mental health services
+    - Health equity across populations
+  education:
+    principle: Equal educational opportunity
+    considerations:
+    - Free public education
+    - Early childhood programs
+    - Special education and inclusion
+    - Lifelong learning opportunities
+  housing:
+    principle: Adequate housing for all
+    considerations:
+    - Affordable housing programs
+    - Homelessness prevention
+    - Community development
+    - Tenant protections
+modern_developments:
+  universal_basic_income:
+    description: Unconditional cash transfers to all citizens
+    significance: Radical rethinking of social security
+  social_investment:
+    description: Preventive social policies investing in human capital
+    significance: Shift from passive to active welfare state
+  community_organizing:
+    description: Grassroots movements for social change
+    significance: Bottom-up approach to social problems
+  care_ethics:
+    description: Recognition of care work as socially valuable
+    significance: Challenges market-centered view of productivity
+critiques:
+  libertarian_critique: Social welfare undermines individual responsibility and market efficiency
+  marxist_critique: Social democracy merely manages capitalism, doesn't transform it
+  feminist_critique: Traditional social ethics neglects gender dimensions of care
+  capability_critique: Difficulty measuring and comparing capabilities
+  dependency_concern: Risk of creating welfare dependency
+key_literature:
+- author: Durkheim, Émile
+  title: The Division of Labor in Society
+  year: 1893
+- author: Addams, Jane
+  title: Democracy and Social Ethics
+  year: 1902
+- author: Sen, Amartya
+  title: Development as Freedom
+  year: 1999
+- author: Nussbaum, Martha
+  title: Creating Capabilities
+  year: 2011
+- author: Rawls, John
+  title: A Theory of Justice
+  year: 1971
+cross_school_tensions:
+- own_thesis: social_facts
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: collective_constraint_vs_aggregate_maximization
+  rebuttal_cite_weight: 0.8
+- own_thesis: collective_conscience
+  opposing_school: kant
+  opposing_thesis: kategorischer_imperativ
+  tension_type: collective_morality_vs_individual_rational_law
+  rebuttal_cite_weight: 0.65

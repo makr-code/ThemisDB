@@ -1,33 +1,42 @@
+/**
+ * @file hnsw_parameter_tuner.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hnsw_parameter_tuner.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     548                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 939a30a6f  2026-02-22  feat(index/perf): Add auto-tuner for HNSW ef_construction... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hnsw_parameter_tuner.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 606
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=1, L=0
+ * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #1120 Add workload-specific index... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/hnsw_parameter_tuner.h"
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <numeric>
+#include <vector>
 
 #ifdef __SSE__
 #include <xmmintrin.h>
+#endif
+
+// Platform-specific cache-line size queries
+#if defined(__linux__)
+#   include <unistd.h>   // sysconf
+#elif defined(__APPLE__)
+#   include <sys/sysctl.h>
+#elif defined(_WIN32)
+#   include <windows.h>
+#   include <sysinfoapi.h>
 #endif
 
 namespace themis {
@@ -509,7 +518,10 @@ WorkloadClassifier::Stats WorkloadClassifier::getStats() const {
 
 // HnswMemoryOptimizer implementation
 
-void HnswMemoryOptimizer::prefetchNodes(const std::vector<size_t>& node_ids) {
+void HnswMemoryOptimizer::prefetchNodes([[maybe_unused]] const std::vector<size_t>& node_ids) {
+#if !defined(__SSE__) && !defined(__GNUC__)
+    (void)node_ids;
+#endif
 #ifdef __SSE__
     // Use SIMD prefetch instructions if available
     for (size_t id : node_ids) {
@@ -527,8 +539,63 @@ void HnswMemoryOptimizer::prefetchNodes(const std::vector<size_t>& node_ids) {
 }
 
 size_t HnswMemoryOptimizer::getCacheLineSize() {
-    // Most modern CPUs use 64-byte cache lines
-    // TODO: Could use sysconf(_SC_LEVEL1_DCACHE_LINESIZE) on Linux
+#if defined(__linux__)
+    // Use POSIX sysconf on Linux; returns -1 on unsupported systems.
+    const long sz = sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
+    if (sz > 0) {
+        return static_cast<size_t>(sz);
+    }
+#elif defined(__APPLE__)
+    // macOS exposes the cache line size via sysctl hw.cachelinesize.
+    std::size_t line = 0;
+    std::size_t len  = sizeof(line);
+    if (sysctlbyname("hw.cachelinesize", &line, &len, nullptr, 0) == 0 && line > 0) {
+        return line;
+    }
+#elif defined(_WIN32)
+    // Windows: enumerate logical processor relationships to find the L1
+    // data cache line size.
+    DWORD bufSize = 0;
+    GetLogicalProcessorInformation(nullptr, &bufSize);
+    if (bufSize > 0) {
+        std::vector<SYSTEM_LOGICAL_PROCESSOR_INFORMATION> buf(
+            bufSize / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION));
+        if (GetLogicalProcessorInformation(buf.data(), &bufSize)) {
+            for (const auto& info : buf) {
+                if (info.Relationship == RelationCache &&
+                    info.Cache.Type   == CacheData &&
+                    info.Cache.Level  == 1 &&
+                    info.Cache.LineSize > 0) {
+                    return static_cast<size_t>(info.Cache.LineSize);
+                }
+            }
+        }
+    }
+#endif
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
+    // CPUID leaf 0x1: EBX[15:8] gives CLFLUSH line size * 8.
+    // Supported on all x86/x64 CPUs that have CLFLUSH (CPUID.01h:EDX.CLFSH[bit 19]).
+    uint32_t eax = 1, ebx = 0, ecx = 0, edx = 0; // eax/ecx used in GCC asm path only
+#   if defined(_MSC_VER)
+    int regs[4] = {};
+    __cpuid(regs, 1);
+    ebx = static_cast<uint32_t>(regs[1]);
+    edx = static_cast<uint32_t>(regs[3]);
+    (void)eax; (void)ecx;  // only used in GCC/Clang asm branch
+#   else
+    __asm__ volatile(
+        "cpuid"
+        : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
+        : "a"(eax), "c"(ecx));
+#   endif
+    if (edx & (1u << 19)) {                     // CLFLUSH feature bit
+        const size_t sz = ((ebx >> 8) & 0xFFu) * 8u;
+        if (sz > 0) return sz;
+    }
+#endif
+
+    // Conservative fallback valid for all modern x86/x64/ARM/RISC-V CPUs.
     return 64;
 }
 
@@ -547,3 +614,4 @@ bool HnswMemoryOptimizer::hasSIMDPrefetch() {
 
 } // namespace index
 } // namespace themis
+

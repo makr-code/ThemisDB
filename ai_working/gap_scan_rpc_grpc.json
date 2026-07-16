@@ -1,0 +1,22 @@
+{
+  "module": "rpc_grpc",
+  "summary": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "tests\\test_shard_rpc_grpc.cpp",
+      "line_num": 29,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock request handler for testing",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    }
+  ]
+}

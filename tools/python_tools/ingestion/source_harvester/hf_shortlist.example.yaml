@@ -1,0 +1,34 @@
+storage:
+  sqlite_path: .harvester_hf_state.db
+  output_jsonl: .harvester_hf_documents.jsonl
+
+http:
+  timeout_seconds: 30
+  user_agent: ThemisDB-SourceHarvester/0.1
+  max_retries: 3
+  retry_backoff_seconds: 1.5
+
+sources:
+  - name: hf_code_and_retrieval_shortlist
+    kind: huggingface_dataset_metadata
+    enabled: true
+    dataset_ids:
+      - code-search-net/code_search_net
+      - google-research-datasets/mbpp
+      - openai/openai_humaneval
+      - xlangai/DS-1000
+      - microsoft/ms_marco
+      - BeIR/fiqa
+      - codeparrot/apps
+      - bigcode/the-stack-smol
+      - bigcode/the-stack-v2
+    search_queries:
+      - the stack
+      - code search net
+      - mbpp
+      - human eval
+      - apps
+      - ds-1000
+      - ms marco
+      - beir
+    search_limit: 10

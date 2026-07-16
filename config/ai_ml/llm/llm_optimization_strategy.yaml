@@ -1,0 +1,218 @@
+# LLM Optimization Strategy
+# ============================================================
+# Consolidates all LLM-layer performance targets from
+# PERFORMANCE_EXPECTATIONS.md (§14, §39.20, Appendix B §37.1–37.3)
+# into a single operational configuration consumed by:
+#   - LlamaWrapper / LLMEngine
+#   - IncrementalLoRATrainer (via adalora_optimization_strategy.yaml)
+#   - WorkloadFingerprintEngine (Paper 2 / IMPL-B8)
+#   - IntentClassifier (Paper 2 / IMPL-B7)
+#   - ExplainabilityReasonBuilder (Paper 2 / IMPL-B9)
+# ============================================================
+
+llm_optimization_strategy:
+
+  # ---------------------------------------------------------------
+  # 1. Inference SLOs (from PERFORMANCE_EXPECTATIONS.md §14)
+  # ---------------------------------------------------------------
+  slo:
+    # L-1: Time-to-First-Token ≤ 200 ms P99 (A10G, 512-token prompt)
+    ttft_p99_ms: 200
+    # Current measured estimate: ~350 ms (PERF §39.20)
+    ttft_current_estimate_ms: 350
+    # L-2: Streaming token throughput regression budget ≤ 2 %
+    streaming_regression_budget_pct: 2.0
+    # L-3: LoRA hot-load (7B, Rank 64, FP16) ≤ 5 s wall-clock
+    lora_hot_load_slo_s: 5.0
+    # L-4: Adapter serialisation ≤ 2 ms
+    adapter_serialisation_ms: 2.0
+    # L-5: Work-stealing task dispatch P99 ≤ 50 µs
+    work_stealing_dispatch_p99_us: 50
+    # L-6: Speculative Decoding token-latency overhead ≤ 15 %
+    speculative_decoding_overhead_pct: 15.0
+    # L-7: GPU utilisation improvement ≥ 10 % on mixed workloads
+    gpu_utilisation_gain_pct: 10.0
+    # L-8: Speculative Decoding ≥ 2× tokens/s vs. non-speculative (7B + 0.5B draft)
+    speculative_throughput_multiplier: 2.0
+    # LoRA Adapter application overhead ≤ 1 ms (PERF Appendix D §39.20)
+    adapter_application_overhead_ms: 1.0
+    # OpenAI-compat adapter round-trip overhead ≤ 2 ms (PERF §39.20)
+    openai_compat_round_trip_ms: 2.0
+    # Incomplete-stream warning latency ≤ 500 ms (PERF §39.20)
+    incomplete_stream_warning_ms: 500
+
+  # ---------------------------------------------------------------
+  # 2. Speculative Decoding (Phase 2.1 / L-6, L-8)
+  #    Source: PERF §37.1 v1.9.0, llm_config.production.yaml
+  # ---------------------------------------------------------------
+  speculative_decoding:
+    enabled: true
+    # Draft model (small, fast)
+    draft_model: "llama-2-1b-q4"
+    draft_model_path: "models/llama-2-1b-q4.gguf"
+    # Number of tokens the draft model proposes per step
+    speculative_tokens: 7
+    # Acceptance threshold — lower = more aggressive speculation
+    acceptance_threshold: 0.75
+    enable_draft_kv_cache: true
+    # Target: ≥ 2× tokens/s (L-8)
+    throughput_target_multiplier: 2.0
+    # Overhead budget: ≤ 15 % accepted-token latency (L-6)
+    overhead_budget_pct: 15.0
+
+  # ---------------------------------------------------------------
+  # 3. Continuous Batching & Work-Stealing (L-5)
+  #    Source: llm_config.production.yaml, PERF §14
+  # ---------------------------------------------------------------
+  continuous_batching:
+    enabled: true
+    max_batch_size: 64
+    max_concurrent_requests: 256
+    max_tokens_per_batch: 16384
+    scheduler_policy: "priority"
+    enable_preemption: true
+    enable_chunked_prefill: true
+    prefill_chunk_size: 1024
+
+  work_stealing_pool:
+    enabled: true
+    worker_threads: 8
+    queue_depth: 256
+    # SLO gate: P99 dispatch ≤ 50 µs (L-5)
+    dispatch_p99_slo_us: 50
+    # Bypass DeduplicationCache for streaming to hit TTFT SLO (PERF §39.20)
+    bypass_dedup_cache_for_streaming: true
+
+  # ---------------------------------------------------------------
+  # 4. KV-Cache & Prefix-Cache
+  #    Source: llm_config.production.yaml, PERF §37.2 #33 (Lock-Free L1)
+  # ---------------------------------------------------------------
+  kv_cache:
+    enabled: true
+    reuse: true
+    # Lock-Free L1 read path (PR #4322 / #4329, v1.8.0) — target 5 M ops/s/core
+    l1_lockfree: true
+    l1_target_ops_per_core: 5_000_000
+
+  prefix_cache:
+    enabled: true
+    similarity_threshold: 0.98
+    max_entries: 5000
+    min_prefix_length: 10
+    ttl_seconds: 14400
+    # LRU O(1) eviction (PR #4322, v1.8.0)
+    eviction: "lru_o1"
+
+  # ---------------------------------------------------------------
+  # 5. AdaLoRA Integration (references adalora_optimization_strategy.yaml)
+  #    Source: PERF §37.1 #4 (PR #4405), §37.2 #30 (PR #4333)
+  # ---------------------------------------------------------------
+  adalora:
+    config_ref: "config/lora/adalora_optimization_strategy.yaml"
+    # Force-enable for all fine-tuning runs in this strategy
+    enabled: true
+    # Hot-load SLO: ≤ 5 s wall-clock for 7B/Rank-64/FP16 (L-3)
+    hot_load_slo_s: 5.0
+    # Serialisation SLO: ≤ 2 ms (L-4)
+    serialisation_slo_ms: 2.0
+    # Application overhead SLO: ≤ 1 ms (PERF §39.20)
+    application_overhead_ms: 1.0
+
+  # ---------------------------------------------------------------
+  # 6. GPU Utilisation & Hardware Targets
+  #    Source: PERF §37.1 #27 (NVML), §37.1 #26 (CUDA kMaxK), L-7
+  # ---------------------------------------------------------------
+  gpu:
+    target_utilisation_pct: 80
+    # L-7: ≥ 10 % GPU utilisation improvement vs. baseline on mixed workloads
+    utilisation_gain_slo_pct: 10.0
+    # NVML monitoring via VLLMResourceManager (PR #4318, v1.8.0)
+    nvml_monitoring:
+      enabled: true
+      snapshot_cache_ttl_ms: 200    # PR #4318: getStats() < 2 ms (cached)
+    # CUDA kMaxK = 1024 with dynamic shared memory (PR #4320, v1.8.0)
+    cuda_max_k: 1024
+    cuda_shared_memory_kb: 32       # At k=1024
+
+  # ---------------------------------------------------------------
+  # 7. Paper 2 Module Integration Hooks
+  # ---------------------------------------------------------------
+
+  # IMPL-B7: IntentClassifier — classifies user query intent before LLM dispatch
+  intent_classifier:
+    enabled: false                  # Enable when THEMIS_ENABLE_SECURITY=1
+    # Maximum additional latency budget (must not exceed TTFT SLO)
+    max_latency_budget_ms: 5
+    # Cache classification results for repeated queries
+    cache_ttl_ms: 60000
+
+  # IMPL-B8: WorkloadFingerprintEngine — derives LLM load profile from DB workload
+  workload_fingerprint:
+    enabled: false                  # Enable when THEMIS_ENABLE_SERVER=1
+    # Fingerprint window: rolling window over last N queries
+    window_size: 1000
+    # Re-compute fingerprint every N new queries
+    update_interval: 100
+    # Feed fingerprint into AdaLoRA rank-budget negotiation
+    feed_into_adalora_rank_budget: true
+
+  # IMPL-B9: ExplainabilityReasonBuilder — attaches CoT trace to LLM responses
+  explainability:
+    enabled: false                  # Enable when THEMIS_ENABLE_RAG=1
+    # Maximum tokens for reason trace (avoid TTFT regression)
+    max_reason_tokens: 128
+    # SLO: reason-build overhead ≤ 10 ms (budget from L-1 TTFT)
+    max_overhead_ms: 10
+
+  # ---------------------------------------------------------------
+  # 8. TTFT Optimisation Pipeline
+  #    Source: PERF §39.20, current estimate 350 ms → target ≤ 200 ms
+  # ---------------------------------------------------------------
+  ttft_optimisation:
+    # Steps applied in order to close the 350 ms → 200 ms gap
+    steps:
+      - name: "bypass_dedup_cache_streaming"
+        description: "Skip DeduplicationCache hash-check on streaming path"
+        expected_saving_ms: 10
+        implemented: true           # PERF §39.20 confirmed
+
+      - name: "speculative_decoding"
+        description: "Reduce TTFT by running draft model ahead of full model"
+        expected_saving_ms: 60
+        implemented: true           # PR #4405
+
+      - name: "prefix_cache_hit"
+        description: "Serve TTFT from KV-prefix cache for repeated prompts"
+        expected_saving_ms: 80
+        implemented: true
+
+      - name: "chunked_prefill"
+        description: "Process prefill in 1024-token chunks to interleave decode"
+        expected_saving_ms: 30
+        implemented: true
+
+      - name: "jit_hot_path"
+        description: "JIT-compiled AQL execution paths (PR #4398, v1.9.0)"
+        expected_saving_ms: 20
+        implemented: true
+
+    # Total expected saving: ~200 ms — bridges current 350 ms estimate to target
+    total_expected_saving_ms: 200
+    target_ttft_ms: 200             # L-1 SLO
+
+  # ---------------------------------------------------------------
+  # 9. CI / Release Gates
+  #    Source: PERF §4.7, §37.2 #23 (SLO Monitor PR #4329)
+  # ---------------------------------------------------------------
+  ci_gates:
+    # Block release when P99 regression > 20 % above baseline (PR #4329)
+    p99_regression_block_pct: 20.0
+    # Block release when AdaLoRA SLO breach detected
+    adalora_slo_gate: true
+    # Benchmark suite to run for gate validation
+    benchmark_suite:
+      - "bench_llm_inference_performance"
+      - "bench_lora_framework"
+    # GPU runner required for L-1, L-7, L-8
+    gpu_runner_required: true
+    gpu_runner_tag: "cuda-sm80"

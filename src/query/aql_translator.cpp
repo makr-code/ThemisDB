@@ -1,24 +1,21 @@
+/**
+ * @file aql_translator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=54, H=6, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_translator.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1807                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_translator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1935
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=72, H=9, M=12, L=0
+ * PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #751 Phase 4 Error Handling: Sto... (2026-03-11) | #632 Implement General Graph Tra... (2026-03-11) | #633 Configure general graph tra... (2026-03-11) | #750 Phase 1-2: Query engine err... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/aql_translator.h"
@@ -53,6 +50,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     std::vector<TranslationResult::CTEExecution> cte_executions;
     if (ast->with_clause) {
         query::SubqueryOptimizer optimizer;
+        cte_executions.reserve(ast->with_clause->ctes.size());
 
         for (const auto& cte_def : ast->with_clause->ctes) {
             if (!cte_def.subquery) {
@@ -144,13 +142,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 if (!std::holds_alternative<int64_t>(kLit->value)) {
                                     return TranslationResult::Error("SIMILARITY() k must be int");
                                 }
-                                k = static_cast<size_t>(std::get<int64_t>(kLit->value));
+                                { int64_t _kv = std::get<int64_t>(kLit->value);
+                                  if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                                  k = static_cast<size_t>(_kv); }
                             } else if (ast->limit) {
                                 k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
                             }
 
                             std::shared_ptr<Expression> spatialExpr;
                             std::vector<std::shared_ptr<Expression>> extraPreds;
+                            extraPreds.reserve(ast->filters.size());
                             for (const auto& filter : ast->filters) {
                                 if (!filter || !filter->condition) {
                                     continue;
@@ -252,7 +253,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                             }
                                             auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                             if (std::holds_alternative<int64_t>(lim->value)) {
-                                                fulltextLimit = static_cast<size_t>(std::get<int64_t>(lim->value));
+                                                { int64_t _lv = std::get<int64_t>(lim->value);
+                                                  if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                                  fulltextLimit = static_cast<size_t>(_lv); }
                                             }
                                         }
                                         continue;
@@ -278,6 +281,78 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         }
                     }
                 }
+            }
+        }
+
+        // Spatial JOIN rule: detect
+        //   FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
+        // Conditions: exactly 2 FOR clauses, exactly 1 filter, no LET/COLLECT,
+        //             filter is (GEO_DISTANCE(field_a, field_b) <= literal) or (<).
+        if (ast->for_nodes.size() == 2 &&
+            ast->filters.size() == 1 &&
+            ast->let_nodes.empty() &&
+            !ast->collect)
+        {
+            const auto& filter_expr = ast->filters[0]->condition;
+            bool spatial_join_detected = false;
+            TranslationResult::SpatialJoinQuery sjq_candidate;
+
+            if (filter_expr &&
+                filter_expr->getType() == ASTNodeType::BinaryOp)
+            {
+                auto* bin = static_cast<BinaryOpExpr*>(filter_expr.get());
+                if ((bin->op == BinaryOperator::Lte ||
+                     bin->op == BinaryOperator::Lt) &&
+                    bin->left &&
+                    bin->left->getType() == ASTNodeType::FunctionCall &&
+                    bin->right &&
+                    bin->right->getType() == ASTNodeType::Literal)
+                {
+                    auto* fn  = static_cast<FunctionCallExpr*>(bin->left.get());
+                    auto* rhs = static_cast<LiteralExpr*>(bin->right.get());
+                    if (fn->name == "GEO_DISTANCE" &&
+                        fn->arguments.size() == 2 &&
+                        fn->arguments[0]->getType() == ASTNodeType::FieldAccess &&
+                        fn->arguments[1]->getType() == ASTNodeType::FieldAccess &&
+                        (std::holds_alternative<double>(rhs->value) ||
+                         std::holds_alternative<int64_t>(rhs->value)))
+                    {
+                        double threshold_m = std::holds_alternative<double>(rhs->value)
+                            ? std::get<double>(rhs->value)
+                            : static_cast<double>(std::get<int64_t>(rhs->value));
+
+                        if (threshold_m > 0.0) {
+                            const auto* fa0 = static_cast<FieldAccessExpr*>(fn->arguments[0].get());
+                            const auto* fa1 = static_cast<FieldAccessExpr*>(fn->arguments[1].get());
+                            // Each argument must be a simple variable.field access.
+                            if (fa0->object && fa0->object->getType() == ASTNodeType::Variable &&
+                                fa1->object && fa1->object->getType() == ASTNodeType::Variable)
+                            {
+                                const std::string var0 = static_cast<VariableExpr*>(fa0->object.get())->name;
+                                const std::string var1 = static_cast<VariableExpr*>(fa1->object.get())->name;
+                                const std::string& bv0 = ast->for_nodes[0].variable;
+                                const std::string& bv1 = ast->for_nodes[1].variable;
+                                if ((var0 == bv0 && var1 == bv1) ||
+                                    (var0 == bv1 && var1 == bv0))
+                                {
+                                    bool swapped = (var0 == bv1);
+                                    sjq_candidate.outer_collection = ast->for_nodes[0].collection;
+                                    sjq_candidate.inner_collection = ast->for_nodes[1].collection;
+                                    sjq_candidate.outer_var        = bv0;
+                                    sjq_candidate.inner_var        = bv1;
+                                    sjq_candidate.outer_field      = swapped ? fa1->field : fa0->field;
+                                    sjq_candidate.inner_field      = swapped ? fa0->field : fa1->field;
+                                    sjq_candidate.threshold_m      = threshold_m;
+                                    spatial_join_detected = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (spatial_join_detected) {
+                return finalizeResult(TranslationResult::SuccessSpatialJoin(std::move(sjq_candidate)));
             }
         }
 
@@ -337,13 +412,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     if (!std::holds_alternative<int64_t>(kLit->value)) {
                         return TranslationResult::Error("SIMILARITY() k must be integer literal");
                     }
-                    k = static_cast<size_t>(std::get<int64_t>(kLit->value));
+                    { int64_t _kv = std::get<int64_t>(kLit->value);
+                      if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                      k = static_cast<size_t>(_kv); }
                 } else if (ast->limit) {
                     k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
                 }
 
                 std::shared_ptr<Expression> spatialExpr;
                 std::vector<std::shared_ptr<Expression>> extraPreds;
+                extraPreds.reserve(ast->filters.size());
                 for (const auto& filter : ast->filters) {
                     if (!filter || !filter->condition) {
                         continue;
@@ -446,7 +524,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 }
                                 auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                 if (std::holds_alternative<int64_t>(lim->value)) {
-                                    fulltextLimit = static_cast<size_t>(std::get<int64_t>(lim->value));
+                                    { int64_t _lv = std::get<int64_t>(lim->value);
+                                      if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                      fulltextLimit = static_cast<size_t>(_lv); }
                                 }
                             }
                             continue;
@@ -471,7 +551,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 return finalizeResult(TranslationResult::SuccessContentGeo(std::move(cq)));
             }
 
-            // Backward compatibility: treat legacy FunctionCall nodes for SIMILARITY/PROXIMITY
+            // Compat path: handle FunctionCall nodes for SIMILARITY/PROXIMITY.
+            // TODO: Remove once all callers emit the canonical VectorQuery AST node.
             if (spec.expression->getType() == ASTNodeType::FunctionCall) {
                 auto func = std::static_pointer_cast<FunctionCallExpr>(spec.expression);
                 std::string name = func->name;
@@ -515,13 +596,16 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         if (!std::holds_alternative<int64_t>(kLit->value)) {
                             return TranslationResult::Error("SIMILARITY() k must be integer literal");
                         }
-                        k = static_cast<size_t>(std::get<int64_t>(kLit->value));
+                        { int64_t _kv = std::get<int64_t>(kLit->value);
+                          if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                          k = static_cast<size_t>(_kv); }
                     } else if (ast->limit) {
                         k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
                     }
 
                     std::shared_ptr<Expression> spatialExpr;
                     std::vector<std::shared_ptr<Expression>> extraPreds;
+                    extraPreds.reserve(ast->filters.size());
                     for (const auto& filter : ast->filters) {
                         if (!filter || !filter->condition) {
                             continue;
@@ -622,7 +706,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                     }
                                     auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                     if (std::holds_alternative<int64_t>(lim->value)) {
-                                        fulltextLimit = static_cast<size_t>(std::get<int64_t>(lim->value));
+                                        { int64_t _lv = std::get<int64_t>(lim->value);
+                                          if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                          fulltextLimit = static_cast<size_t>(_lv); }
                                     }
                                 }
                                 continue;
@@ -686,11 +772,42 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (disjQuery.disjuncts.empty()) {
                 disjQuery.disjuncts = std::move(disjuncts);
             } else {
-                // Multiple filters with OR: combine via cartesian product (DNF expansion)
-                // For simplicity in v1, require single FILTER with OR
-                if (ast->filters.size() > 1) {
-                    return TranslationResult::Error("Multiple FILTER clauses with OR not yet supported - combine into single FILTER");
+                // Multiple FILTERs with OR: AND-combine via cartesian product (DNF expansion).
+                // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
+                // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
+                constexpr size_t kMaxDNFDisjuncts = 1000;
+                if (disjQuery.disjuncts.size() * disjuncts.size() > kMaxDNFDisjuncts) {
+                    return TranslationResult::Error(
+                        "OR query too complex: DNF expansion would produce " +
+                        std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +
+                        " disjuncts (limit: " + std::to_string(kMaxDNFDisjuncts) + ")");
                 }
+                std::vector<ConjunctiveQuery> merged;
+                merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
+                for (const auto& existing : disjQuery.disjuncts) {
+                    for (const auto& incoming : disjuncts) {
+                        ConjunctiveQuery combined;
+                        combined.table = existing.table;
+                        // Merge equality predicates
+                        combined.predicates = existing.predicates;
+                        combined.predicates.insert(combined.predicates.end(),
+                                                   incoming.predicates.begin(),
+                                                   incoming.predicates.end());
+                        // Merge range predicates
+                        combined.rangePredicates = existing.rangePredicates;
+                        combined.rangePredicates.insert(combined.rangePredicates.end(),
+                                                        incoming.rangePredicates.begin(),
+                                                        incoming.rangePredicates.end());
+                        // Preserve first non-null optional predicates
+                        combined.fulltextPredicate  = existing.fulltextPredicate  ? existing.fulltextPredicate  : incoming.fulltextPredicate;
+                        combined.phrasePredicate    = existing.phrasePredicate    ? existing.phrasePredicate    : incoming.phrasePredicate;
+                        combined.fuzzyPredicate     = existing.fuzzyPredicate     ? existing.fuzzyPredicate     : incoming.fuzzyPredicate;
+                        combined.spatialPredicate   = existing.spatialPredicate   ? existing.spatialPredicate   : incoming.spatialPredicate;
+                        combined.pk_eq              = existing.pk_eq              ? existing.pk_eq              : incoming.pk_eq;
+                        merged.push_back(std::move(combined));
+                    }
+                }
+                disjQuery.disjuncts = std::move(merged);
             }
         }
         
@@ -744,7 +861,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        { int64_t _lv = std::get<int64_t>(limitLiteral->value);
+                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("FULLTEXT() limit must be an integer");
                     }
@@ -786,7 +905,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        { int64_t _lv = std::get<int64_t>(limitLiteral->value);
+                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("PHRASE() limit must be an integer");
                     }
@@ -828,7 +949,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto distLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(distLiteral->value)) {
-                        maxDistance = static_cast<int>(std::get<int64_t>(distLiteral->value));
+                        const int64_t distVal = std::get<int64_t>(distLiteral->value);
+                        if (distVal < 0 || distVal > 1000) {
+                            return TranslationResult::Error("FUZZY() maxDistance must be between 0 and 1000");
+                        }
+                        maxDistance = static_cast<int>(distVal);
                     } else {
                         return TranslationResult::Error("FUZZY() maxDistance must be an integer");
                     }
@@ -842,7 +967,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[3]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                        limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                        const int64_t limitVal = std::get<int64_t>(limitLiteral->value);
+                        if (limitVal < 0) {
+                            return TranslationResult::Error("FUZZY() limit must be non-negative");
+                        }
+                        limit = static_cast<size_t>(limitVal);
                     } else {
                         return TranslationResult::Error("FUZZY() limit must be an integer");
                     }
@@ -968,9 +1097,11 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     };
                     continue; // Skip normal predicate extraction for this filter
                 } else {
-                    // Cannot compute bbox - log warning and skip spatial predicate
-                    THEMIS_WARN("Spatial predicate {} requires bbox but could not compute from expression", 
-                                funcName);
+                    // Non-literal geometry expressions cannot be resolved at translation time.
+                    // Silently dropping the spatial filter would bypass the geo-fence entirely.
+                    return TranslationResult::Error(
+                        "ST_* spatial filter with non-literal geometry is not supported; "
+                        "use a literal coordinate string or WKT geometry (e.g. [[minx,miny],[maxx,maxy]])");
                 }
             }
         }
@@ -1086,7 +1217,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         }
                         auto limitLiteral = std::static_pointer_cast<LiteralExpr>(fulltextFunc->arguments[2]);
                         if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                            limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                            { int64_t _lv = std::get<int64_t>(limitLiteral->value);
+                              if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                              limit = static_cast<size_t>(_lv); }
                         } else {
                             return TranslationResult::Error("FULLTEXT() limit must be an integer");
                         }
@@ -1698,7 +1831,12 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
                 }
                 auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                 if (std::holds_alternative<int64_t>(limitLiteral->value)) {
-                    limit = static_cast<size_t>(std::get<int64_t>(limitLiteral->value));
+                    int64_t limit_value = std::get<int64_t>(limitLiteral->value);
+                    if (limit_value < 0) {
+                        error = "FULLTEXT() limit must be non-negative";
+                        return {};
+                    }
+                    limit = static_cast<size_t>(limit_value);
                 } else {
                     error = "FULLTEXT() limit must be an integer";
                     return {};
@@ -1808,4 +1946,5 @@ void AQLTranslator::attachCTEs(
 }
 
 } // namespace themis
+
 

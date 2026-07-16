@@ -1,0 +1,6 @@
+The package cpp-httplib provides CMake target `httplib::httplib`.
+
+In CMake:
+
+  find_package(httplib CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE httplib::httplib)

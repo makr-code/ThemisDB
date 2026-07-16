@@ -1,23 +1,21 @@
+/**
+ * @file embedding_provider.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedding_provider.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     466                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: embedding_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 460
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): #642 Implement 3 critical LoRA f... (2026-03-11) | #649 LLM Core - Complete Impleme... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/embedding_provider.h"
@@ -79,6 +77,10 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     // Tokenize text
     // NOTE: We need a tokenizer instance. For now, we'll use llama.cpp's tokenization directly.
     const llama_vocab* vocab = llama_model_get_vocab(model_);
+    if (!vocab) {
+        spdlog::error("llama_model_get_vocab returned null while generating embedding");
+        return std::vector<float>();
+    }
     
     std::vector<llama_token> tokens_buffer(text.size() + 16);
     int32_t n_tokens = llama_tokenize(
@@ -364,7 +366,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
         batch.seq_id[i][0] = 0;
         batch.logits[i] = (i == llama_tokens.size() - 1) ? 1 : 0;  // Only last token needs logits
     }
-    batch.n_tokens = llama_tokens.size();
+    batch.n_tokens = static_cast<int32_t>(llama_tokens.size());
     
     // Decode to get embeddings
     int result = llama_decode(context_, batch);

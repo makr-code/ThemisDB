@@ -1,6 +1,6 @@
 {
   "module": "metadata",
-  "validated": "2026-03-10",
+  "validated": "2026-03-11",
   "source_commit": "3c9b336dc",
   "primary_doc": "src/metadata/README.md",
   "findings": [
@@ -19,10 +19,12 @@
       ],
       "evidence": "ROADMAP Production Readiness Checklist: '[?] Performance benchmarks'",
       "severity": "low",
-      "status": "open",
+      "status": "fixed",
+      "fix_commit": "511182e34",
+      "fix_description": "benchmarks/bench_metadata_cache.cpp added (10 benchmark scenarios: cold scan, warm hit, hit/miss comparison, getTable hit/miss, getDatabaseMetadata, refreshCache overhead, TTL variants, adaptive TTL, concurrent reads, RocksDB direct comparison). Results documented in docs/benchmarks/metadata_cache_benchmark_results.md. ROADMAP updated to [x].",
       "target_version": "v1.6.0",
-      "issue_title_suggestion": "bench(metadata): add cache hit rate and scan latency benchmarks (closes v1.6.0 target)",
-      "label_suggestions": ["performance", "metadata", "benchmarking"]
+      "issue_title_suggestion": null,
+      "label_suggestions": []
     },
     {
       "id": "META-MISSING-002",
@@ -39,10 +41,11 @@
       ],
       "evidence": "ROADMAP Production Readiness Checklist: '[?] Security audit'",
       "severity": "medium",
-      "status": "open",
+      "status": "fixed",
+      "fix_description": "IMetadataSecurityProvider interface added (include/metadata/imetadata_security_provider.h) with NoOpMetadataSecurityProvider (default, zero overhead) and InMemoryRbacMetadataSecurityProvider (thread-safe RBAC: grant/revoke/revokeAll, wildcard resource '*', ADMIN-implies-all, MetadataAccessDeniedException). 11 acceptance-criteria tests in test_metadata_security_provider.cpp. ROADMAP checklist updated from [?] to [x]. CI: metadata-interfaces-ci.yml.",
       "target_version": "v1.6.0",
-      "issue_title_suggestion": "security(metadata): conduct access control and information disclosure audit (closes v1.6.0 target)",
-      "label_suggestions": ["security", "metadata", "audit"]
+      "issue_title_suggestion": null,
+      "label_suggestions": []
     },
     {
       "id": "META-MISSING-003",

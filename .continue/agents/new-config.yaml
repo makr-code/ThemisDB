@@ -1,0 +1,228 @@
+name: ThemisDB Remote Ollama Config
+version: 1.0.0
+schema: v1
+
+models:
+	- name: "Remote Coding (qwen2.5-coder-14b)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "qwen2.5-coder:14b"
+		capabilities:
+			- tool_use
+		roles:
+			- edit
+			- apply
+			- summarize
+		completionOptions:
+			temperature: 0.15
+			topP: 0.9
+			maxTokens: 4096
+
+	- name: "Remote Deep Coding (deepseek-coder-v2-16b)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "deepseek-coder-v2:16b"
+		roles:
+			- edit
+			- apply
+			- summarize
+		completionOptions:
+			temperature: 0.1
+			topP: 0.9
+			maxTokens: 6144
+
+	# Lightweight tool-capable coding fallback for edit/apply.
+	- name: "Remote Coding Lite (Unsloth-Phi4-mini)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "MHKetbi/Unsloth-Phi-4-mini-instruct:latest"
+		capabilities:
+			- tool_use
+		roles:
+			- edit
+			- apply
+			- summarize
+		completionOptions:
+			temperature: 0.2
+			topP: 0.9
+			maxTokens: 3072
+
+	# No native tool-calling in this Ollama build; use for chat/reasoning only.
+	- name: "Remote Agent (phi4)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "phi4:latest"
+		roles:
+			- chat
+			- summarize
+		completionOptions:
+			temperature: 0.2
+			topP: 0.9
+			maxTokens: 4096
+
+	- name: "Remote Agent (gemma4)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "gemma4:latest"
+		capabilities:
+			- tool_use
+			- image_input
+		roles:
+			- chat
+		chatOptions:
+			baseAgentSystemMessage: |
+				You are a senior coding agent for ThemisDB.
+				Prioritize correctness, small safe patches, and verification steps.
+				Use tools when available and keep responses grounded in retrieved context.
+		completionOptions:
+			temperature: 0.2
+			topP: 0.9
+			maxTokens: 4096
+
+	# Supports tool-calling — verified against remote endpoint.
+	- name: "Remote Fast Chat (Unsloth-Phi4-mini)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "MHKetbi/Unsloth-Phi-4-mini-instruct:latest"
+		capabilities:
+			- tool_use
+		roles:
+			- chat
+			- summarize
+		completionOptions:
+			temperature: 0.25
+			topP: 0.9
+			maxTokens: 3072
+
+	- name: "Remote Autocomplete (codestral)"
+		provider: ollama
+		apiBase: "http://192.168.178.106:11434"
+		model: "codestral:latest"
+		roles:
+			- autocomplete
+		autocompleteOptions:
+			debounceDelay: 250
+			maxPromptTokens: 1024
+			modelTimeout: 8000
+			onlyMyCode: true
+
+	- name: Autodetect
+		provider: ollama
+		model: AUTODETECT
+
+rules:
+	- Keep responses concise and implementation-focused.
+	- Prefer minimal, production-safe changes.
+	- Always mention test/build verification status when code changes are proposed.
+
+context:
+	- provider: file
+	- provider: code
+	- provider: diff
+	- provider: terminal
+
+prompts:
+	- name: themis-agent
+		description: ThemisDB coding agent workflow
+		prompt: |
+			Act as a coding agent for ThemisDB.
+			1) Explore affected files and constraints first.
+			2) Propose the smallest safe implementation.
+			3) Apply changes with clear reasoning.
+			4) Validate with relevant build/tests.
+			5) Report outcome and risks.
+	- name: explain-change
+		description: Explain a patch with risks and test impact
+		prompt: |
+			Explain the selected change in terms of behavior, risks, compatibility impact, and recommended tests.
+	- name: delegate-feature-gated
+		description: Delegate feature work to remote coding model with strict gates
+		prompt: |
+			You are the implementation executor. Follow these constraints exactly.
+			TASK:
+			- Implement only the requested feature scope.
+			CONSTRAINTS:
+			- Change the minimum number of files.
+			- Do not introduce compatibility shims unless explicitly requested.
+			- Keep public API unchanged unless task requires it.
+			ACCEPTANCE CRITERIA:
+			- Build passes for affected targets.
+			- Relevant tests pass.
+			REQUIRED OUTPUT FORMAT:
+			1) Plan (max 5 lines)
+			2) Files changed
+			3) Patch summary
+			4) Verification commands executed
+			5) Risks and follow-ups
+	- name: delegate-refactor-gated
+		description: Delegate refactor with behavior lock and verification gate
+		prompt: |
+			You are the refactor executor. Preserve behavior unless explicitly requested.
+			TASK:
+			- Refactor the specified code path for clarity/maintainability/performance.
+			HARD RULES:
+			- No behavior change.
+			- No API surface change unless requested.
+			- Keep diffs focused and reversible.
+			VERIFICATION:
+			- Run targeted build/tests for affected modules.
+			REQUIRED OUTPUT FORMAT:
+			1) Behavior invariants checked
+			2) Refactor plan (max 5 lines)
+			3) Files changed
+			4) Verification commands + outcomes
+			5) Residual risks
+	- name: delegate-bugfix-gated
+		description: Delegate bugfix with root-cause and regression gate
+		prompt: |
+			You are the bugfix executor. Fix root cause, not symptoms.
+			TASK:
+			- Implement the smallest safe fix for the reported defect.
+			HARD RULES:
+			- Include at least one regression test when feasible.
+			- Avoid unrelated refactors.
+			- Document edge cases handled by the fix.
+			REQUIRED OUTPUT FORMAT:
+			1) Root cause (max 4 lines)
+			2) Fix strategy (max 4 lines)
+			3) Files changed
+			4) Test or repro command and result
+			5) Any remaining known limitation
+	- name: delegate-orchestrator-router
+		description: Orchestrator policy to route tasks to the correct delegated prompt and model class
+		prompt: |
+			You are the orchestration layer. Do not implement code directly until routing is decided.
+			Route each request using this policy:
+			1) Classify task type as one of: feature, refactor, bugfix.
+			2) Select delegated prompt by task type:
+			   - feature -> delegate-feature-gated
+			   - refactor -> delegate-refactor-gated
+			   - bugfix -> delegate-bugfix-gated
+			3) Select model class by capability need:
+			   - If tool usage is required (file system, terminal, MCP tools), use a tool-capable model.
+			   - If task is heavy refactor/CMake and no tool usage is required, prefer deep coding model.
+			4) Emit routing decision before execution in this fixed format:
+			   - TASK_TYPE: <feature|refactor|bugfix>
+			   - DELEGATED_PROMPT: <prompt-name>
+			   - MODEL_CLASS: <tool-capable|deep-coding|reasoning>
+			   - ACCEPTANCE_GATES: <build/tests/docs expectations>
+			5) Enforce delegated output gates and reject incomplete responses.
+	- name: delegate-tasktype-model-cheatsheet
+		description: Deterministic tasktype-to-model routing cheatsheet for ThemisDB
+		prompt: |
+			Use this routing matrix before delegation. Return only one selected route.
+			ROUTING MATRIX:
+			- feature + tools/MCP needed -> model: qwen2.5-coder:14b, prompt: delegate-feature-gated
+			- feature + no tools + heavy generation -> model: deepseek-coder-v2:16b, prompt: delegate-feature-gated
+			- refactor + behavior lock + tools needed -> model: qwen2.5-coder:14b, prompt: delegate-refactor-gated
+			- refactor + heavy/CMake + no tools -> model: deepseek-coder-v2:16b, prompt: delegate-refactor-gated
+			- bugfix + repro/test execution/tools needed -> model: qwen2.5-coder:14b, prompt: delegate-bugfix-gated
+			- bugfix + lightweight fallback with tools -> model: MHKetbi/Unsloth-Phi-4-mini-instruct:latest, prompt: delegate-bugfix-gated
+			- chat/reasoning only (no tools) -> model: phi4:latest
+			- chat + tools required -> model: gemma4:latest
+			OUTPUT FORMAT:
+			- TASK_TYPE: <feature|refactor|bugfix|chat>
+			- TOOLS_REQUIRED: <yes|no>
+			- MODEL: <model-id>
+			- PROMPT: <prompt-name or n/a>
+			- JUSTIFICATION: <one short line>

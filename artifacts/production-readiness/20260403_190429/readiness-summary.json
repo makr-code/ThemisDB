@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-04-03T19:04:38.6951201+02:00",
+  "build_preset": "msvc-ninja-release",
+  "repeat_count": 1,
+  "output_dir": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_190429",
+  "gates": [
+    {
+      "name": "cluster-chaos-local",
+      "passed": true,
+      "details": "Phase4 slice repeated until-fail:1; tests=8; failed=0",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_190429\\phase4_ctest.log"
+    },
+    {
+      "name": "sla-99.99-local-proxy",
+      "passed": true,
+      "details": "Pass-rate=100,000% (threshold 99.99%) based on repeated phase4 suite",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_190429\\phase4_ctest.junit.xml"
+    },
+    {
+      "name": "pentest-report-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "beta-module-exit",
+      "passed": false,
+      "details": "9 beta modules still listed in ROADMAP.md",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_190429\\beta_modules.txt"
+    }
+  ],
+  "failed_gate_count": 2
+}

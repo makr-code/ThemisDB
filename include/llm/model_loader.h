@@ -1,56 +1,29 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_loader.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include "llm/llm_plugin_interface.h"
-#include "utils/expected.h"
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <chrono>
-#include <mutex>
-#include <optional>
-#include <future>
-#include <thread>
-#include <functional>
-#include <atomic>
 
 /**
  * @file model_loader.h
- * @brief Ollama-inspired lazy model loading for ThemisDB
- * 
- * This component implements lazy loading of LLM models similar to Ollama:
- * - Models are loaded on-demand when first requested
- * - Models can be unloaded automatically when not used (TTL-based eviction)
- * - Multiple models can be kept in memory simultaneously (with memory limits)
- * - Efficient model switching with minimal overhead
- * 
- * Key features from Ollama:
- * - Lazy loading: Models load only when needed
- * - Automatic unloading: Unused models are evicted based on LRU + TTL
- * - Multi-model support: Keep multiple models loaded
- * - Resource management: Respect VRAM/RAM limits
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_plugin_interface.h"
+#include "utils/expected.h"
+
+#include <atomic>
+#include <chrono>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -69,8 +42,8 @@ enum class LoadPhase {
  */
 struct LoadProgress {
     LoadPhase phase;
-    double phase_progress;        // 0.0-1.0 within current phase
-    double overall_percent;       // 0-100 overall progress
+    double phase_progress = 0.0;        // 0.0-1.0 within current phase
+    double overall_percent = 0.0;       // 0-100 overall progress
     std::string status_msg;
     std::chrono::steady_clock::time_point start_time;
     
@@ -104,6 +77,7 @@ private:
  * @brief Model cache entry with metadata
  */
 struct CachedModel {
+    virtual ~CachedModel() = default;
     std::string model_id;
     std::string model_path;
     ModelInfo info;
@@ -155,6 +129,9 @@ public:
         // GGUF Loader preference (security - embedded safetensor)
         bool prefer_custom_gguf_loader = true;  // Prefer custom GGUFLoader over native llama.cpp
         bool fallback_to_native = true;          // Fallback to llama_load_model_from_file() on error
+        
+        // Security: Model integrity verification
+        bool require_model_integrity = false;   // Require SHA-256 checksum for model loading
     };
     
     explicit LazyModelLoader(const Config& config);
@@ -170,10 +147,33 @@ public:
      * 
      * @param model_id Unique model identifier
      * @param model_path Path to model file (if not loaded)
-     * @param load_config Optional loading configuration
-     * @return Model handle or nullptr on failure
+     * @param load_config Optional loading configuration. Supports SHA-256
+     *        integrity keys `expected_checksum`, `model_checksum`, or `checksum`.
+     *        When no expected checksum is provided, the loader emits a security
+     *        warning and continues with a non-blocking integrity check.
+     * @return Model handle or nullptr on failure, including checksum mismatches
+     *         or digest calculation failures when an expected checksum is supplied
      */
     CachedModel* getOrLoadModel(
+        const std::string& model_id,
+        const std::string& model_path,
+        const json& load_config = {}
+    );
+    
+    /**
+     * @brief Get or load a model with shared ownership (thread-safe access)
+     * 
+     * Same as getOrLoadModel() but returns a shared_ptr to ensure the model
+     * remains valid even if another thread unloads it.
+     * 
+     * Thread-safe.
+     * 
+     * @param model_id Unique model identifier
+     * @param model_path Path to model file (if not loaded)
+     * @param load_config Optional loading configuration
+     * @return shared_ptr to CachedModel or nullptr on failure
+     */
+    std::shared_ptr<CachedModel> getOrLoadModelShared(
         const std::string& model_id,
         const std::string& model_path,
         const json& load_config = {}
@@ -184,7 +184,11 @@ public:
      * 
      * Loads a model asynchronously in the background.
      * Useful for warming up the cache before actual requests.
+     * Applies the same SHA-256 integrity verification rules as getOrLoadModel().
      * 
+     * @param model_id Unique model identifier
+     * @param model_path Path to model file
+     * @param load_config Optional loading configuration with checksum hints
      * @return true if preload started successfully
      */
     bool preloadModel(
@@ -203,8 +207,11 @@ public:
      * @param model_path Path to model file
      * @param progress_cb Optional callback for progress updates
      * @param cancel_token Optional cancellation token
-     * @param load_config Optional loading configuration
-     * @return Future that resolves to model handle or nullptr on failure
+     * @param load_config Optional loading configuration, including optional
+     *        SHA-256 checksum hints via `expected_checksum`, `model_checksum`,
+     *        or `checksum`
+     * @return Future that resolves to model handle or nullptr on failure,
+     *         including checksum mismatches when an expected hash is supplied
      */
     std::future<CachedModel*> loadAsync(
         const std::string& model_id,
@@ -316,6 +323,11 @@ private:
         const std::string& model_path,
         const json& config
     );
+    [[nodiscard]] bool verifyModelChecksum(
+        const std::string& model_id,
+        const std::string& model_path,
+        const json& config
+    ) const;
     
     bool hasCapacity(size_t vram_mb, size_t ram_mb) const;
     void updateMemoryUsage();

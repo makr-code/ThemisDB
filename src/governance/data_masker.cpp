@@ -1,26 +1,21 @@
+/**
+ * @file data_masker.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            data_masker.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
-    • 8d2569bdd  2026-02-26  fix(governance): code audit – data race, maskFieldsArray ... ║
-    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: data_masker.cpp | Version: 0.0.15 | Last Modified: 2026-06-01 19:37:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 215
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): #3030 feat(governance): automated... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/data_masker.h"
@@ -55,7 +50,7 @@ std::string toHex(const unsigned char *data, size_t len) {
 }
 
 /// Compute SHA-256 hex digest of @p input.
-std::string sha256Hex(const std::string &input) {
+std::string dataMaskerSha256Hex(const std::string &input) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), digest);
     return toHex(digest, SHA256_DIGEST_LENGTH);
@@ -67,7 +62,7 @@ std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     if (key.empty()) {
         THEMIS_WARN("DataMasker::TOKENIZE strategy called with empty collection_secret; "
                     "falling back to SHA-256 (no HMAC) - pseudonym stability across collections is lost");
-        return sha256Hex(input); // Fallback: unkeyed hash when secret is absent
+        return dataMaskerSha256Hex(input); // Fallback: unkeyed hash when secret is absent
     }
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int digest_len     = 0;
@@ -77,7 +72,7 @@ std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     if (!result) {
         THEMIS_ERROR("DataMasker: OpenSSL HMAC-SHA256 failed; falling back to SHA-256 (no HMAC) - "
                      "pseudonym stability across collections is lost");
-        return sha256Hex(input); // Fallback on OpenSSL error
+        return dataMaskerSha256Hex(input); // Fallback on OpenSSL error
     }
     return toHex(digest, digest_len);
 }
@@ -122,7 +117,7 @@ std::string DataMasker::applyStrategy(const std::string &value, const FieldMaski
         }
 
         case MaskingStrategy::HASH: {
-            const std::string hex = sha256Hex(value);
+            const std::string hex = dataMaskerSha256Hex(value);
             return "sha_" + hex;
         }
     }
@@ -228,3 +223,4 @@ nlohmann::json DataMasker::maskFieldsArray(const nlohmann::json &docs, const Fie
 
 } // namespace governance
 } // namespace themis
+

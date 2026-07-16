@@ -1,24 +1,20 @@
+/**
+ * @file transaction_wal.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_wal.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_wal.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -36,9 +32,7 @@ using LSN = themis::sharding::LSN;
 using WALEntry = themis::sharding::WALEntry;
 using WALManager = themis::sharding::WALManager;
 
-/**
- * Transaction protocol types
- */
+/** @brief Distributed transaction protocol families recorded in transaction WAL. */
 enum class TransactionProtocol {
     TWO_PHASE_COMMIT,
     THREE_PHASE_COMMIT,
@@ -47,10 +41,7 @@ enum class TransactionProtocol {
     CALVIN           // Deterministic distributed transactions via pre-ordering
 };
 
-/**
- * Transaction WAL entry types
- * Base type starts at 30, actual types are 130-138 (base + 100)
- */
+/** @brief Transaction WAL entry kinds persisted by coordinator/participants. */
 enum class TransactionWALEntryType {
     BEGIN = 130,      // Transaction started
     PREPARE = 131,    // Prepare request sent to participant
@@ -62,9 +53,7 @@ enum class TransactionWALEntryType {
     COMPENSATE = 137  // SAGA compensation step
 };
 
-/**
- * Transaction WAL entry structure
- */
+/** @brief Canonical transaction WAL payload after decode from base WAL entry. */
 struct TransactionWALEntry {
     LSN lsn;
     TransactionWALEntryType type;
@@ -82,9 +71,7 @@ struct TransactionWALEntry {
           protocol(TransactionProtocol::TWO_PHASE_COMMIT), vote(false) {}
 };
 
-/**
- * Configuration for Transaction WAL
- */
+/** @brief Runtime configuration for transaction WAL path, retention and fsync policy. */
 struct TransactionWALConfig {
     std::string wal_directory;
     std::string snapshot_directory;
@@ -119,13 +106,12 @@ struct TransactionWALConfig {
  */
 class TransactionWAL {
 public:
+    /** @brief Construct transaction WAL facade with immutable configuration. */
     explicit TransactionWAL(const TransactionWALConfig& config);
+    /** @brief Destroy transaction WAL facade and owned WAL manager. */
     ~TransactionWAL();
 
-    /**
-     * Initialize the WAL
-     * Creates directories and sets up WAL manager
-     */
+    /** @brief Initialize directories and underlying WAL manager instance. */
     bool initialize();
 
     /**
@@ -226,28 +212,23 @@ public:
      */
     std::vector<TransactionWALEntry> readEntries(LSN start_lsn = LSN(0, 0));
 
-    /**
-     * Check if snapshot should be created
-     * 
-     * @param operations_count Number of operations since last snapshot
-     * @return true if snapshot should be created
-     */
+    /** @brief Return whether operation count reached configured snapshot interval. */
     bool shouldCreateSnapshot(uint64_t operations_count) const;
 
-    /**
-     * Get current LSN
-     */
+    /** @brief Return latest known WAL LSN from manager (or cached fallback). */
     LSN getCurrentLSN() const;
 
 private:
     TransactionWALConfig config_;
     std::unique_ptr<WALManager> wal_manager_;
+    // TWAL-1: current_lsn_ is updated from any calling thread; protect with mutex.
+    mutable std::mutex lsn_mutex_;
     LSN current_lsn_;
 
-    // Helper to convert TransactionWALEntry to WALEntry
+    /** @brief Convert transaction WAL payload into generic WAL entry wire shape. */
     WALEntry toWALEntry(const TransactionWALEntry& txn_entry);
 
-    // Helper to convert WALEntry to TransactionWALEntry
+    /** @brief Decode generic WAL entry into transaction WAL payload if compatible. */
     std::optional<TransactionWALEntry> fromWALEntry(const WALEntry& wal_entry);
 };
 

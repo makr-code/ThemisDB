@@ -1,23 +1,21 @@
+/**
+ * @file performance_analyzer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=22, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            performance_analyzer.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     564                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: performance_analyzer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 595
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=26, L=0
+ * PR History (last 5): #3577 [MODULE] network + observab... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "observability/performance_analyzer.h"
@@ -359,8 +357,47 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
 }
 
 PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& query_profiler) {
-    // Placeholder - would need to inspect operator stats
-    return PerformanceIssue{};
+    auto stats = query_profiler.get_statistics();
+
+    // Derive a full-scan proxy from queries that ran without index support.
+    // QueryProfiler does not expose an explicit full_scan_count field yet;
+    // queries_with_index == 0 means the executor fell back to a sequential scan.
+    // Note: this is an approximation — partial-index or covering-index usage
+    // still sets `used_index = true`, so the proxy may undercount.  If the
+    // counters are inconsistent (queries_with_index > total_queries) we treat
+    // the situation conservatively as zero full scans rather than underflowing.
+    const size_t total_queries      = stats.value("total_queries",      static_cast<size_t>(0));
+    const size_t queries_with_index = stats.value("queries_with_index", static_cast<size_t>(0));
+    const size_t full_scan_proxy    = (queries_with_index <= total_queries)
+                                      ? (total_queries - queries_with_index)
+                                      : 0u;
+
+    if (full_scan_proxy == 0 || full_scan_proxy < impl_->config.max_full_scan_threshold) {
+        return PerformanceIssue{};
+    }
+
+    PerformanceIssue issue;
+    issue.severity  = (full_scan_proxy > impl_->config.max_full_scan_threshold * 10)
+                      ? IssueSeverity::CRITICAL
+                      : IssueSeverity::WARNING;
+    issue.category  = IssueCategory::QUERY_OPTIMIZATION;
+    issue.title     = "High Full-Scan Query Rate";
+    issue.description =
+        std::to_string(full_scan_proxy) + " of " + std::to_string(total_queries) +
+        " recent queries ran without index support (potential full-table scans).";
+    issue.recommendations = {
+        "Add indexes on frequently filtered columns",
+        "Review query predicates with EXPLAIN",
+        "Ensure statistics are up-to-date",
+        "Consider partial or composite indexes"
+    };
+    issue.metrics = json{
+        {"total_queries",      total_queries},
+        {"queries_with_index", queries_with_index},
+        {"full_scan_proxy",    full_scan_proxy},
+        {"threshold",          impl_->config.max_full_scan_threshold}
+    };
+    return issue;
 }
 
 PerformanceIssue PerformanceAnalyzer::check_index_usage(const QueryProfiler& query_profiler) {
@@ -394,6 +431,7 @@ PerformanceIssue PerformanceAnalyzer::check_index_usage(const QueryProfiler& que
 PerformanceIssue PerformanceAnalyzer::check_cache_hit_rate(
     const QueryProfiler& query_profiler,
     const StorageProfiler& storage_profiler) {
+    (void)query_profiler;
     auto cache_metrics = storage_profiler.get_cache_metrics();
     
     if (cache_metrics.empty() || !cache_metrics.contains("operation_cache")) {
@@ -565,3 +603,4 @@ std::string PerformanceAnalyzer::generate_html_issue_section(const PerformanceIs
 
 } // namespace observability
 } // namespace themis
+

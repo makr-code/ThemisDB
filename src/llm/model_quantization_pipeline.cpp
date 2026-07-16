@@ -1,26 +1,21 @@
+/**
+ * @file model_quantization_pipeline.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            model_quantization_pipeline.cpp                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     741                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18a122393  2026-02-28  audit: fix security and quality issues in ModelQuantizati... ║
-    • e24aa3275  2026-02-28  fix: address code review feedback in ModelQuantizationPip... ║
-    • 6bd2e0739  2026-02-28  feat(llm): add ModelQuantizationPipeline for GGUF/AWQ/GPT... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: model_quantization_pipeline.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 727
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=8, L=0
+ * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3266 feat(llm): GGUF/AWQ/GPTQ qu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/model_quantization_pipeline.h"
@@ -740,3 +735,5 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
 
 } // namespace llm
 } // namespace themis
+
+

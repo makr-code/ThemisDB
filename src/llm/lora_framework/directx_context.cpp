@@ -1,23 +1,21 @@
+/**
+ * @file directx_context.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            directx_context.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     318                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: directx_context.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 319
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=2, M=1, L=0
+ * PR History (last 5): #572 Complete DirectX 12 Compute... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/directx_context.h"
@@ -25,8 +23,10 @@
 #ifdef _WIN32
 
 #include <stdexcept>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
@@ -95,9 +95,14 @@ bool DirectXContext::initialize() {
         return true;
     }
     
-    // Enable debug layer in debug builds
+    // Enable debug layer in debug builds or when explicitly requested via env
     #ifdef _DEBUG
     enable_debug_layer();
+    #else
+    const char* dbg_env = std::getenv("THEMIS_ENABLE_D3D_DEBUG");
+    if (dbg_env && std::string(dbg_env) == "1") {
+        enable_debug_layer();
+    }
     #endif
     
     // Create DXGI factory
@@ -174,6 +179,14 @@ bool DirectXContext::create_device() {
                 
                 std::cout << "DirectX 12: Using adapter " << adapter_id_ 
                          << ": " << gpu_description_ << "\n";
+                // If debug layer enabled, acquire the InfoQueue for message capture
+                ComPtr<ID3D12InfoQueue> iq;
+                if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&iq)))) {
+                    info_queue_ = iq;
+                    // Break on errors and corruption
+                    info_queue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
+                    info_queue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
+                }
                 return true;
             }
         }
@@ -227,9 +240,10 @@ bool DirectXContext::create_command_list() {
         return false;
     }
     
-    // Command lists are created in recording state, close it
+    // Command lists are created in recording state; close it to start idle.
     command_list_->Close();
-    
+    command_list_recording_ = false;
+
     return true;
 }
 
@@ -260,9 +274,9 @@ void DirectXContext::enable_debug_layer() {
     }
 }
 
-void DirectXContext::wait_for_gpu() {
+bool DirectXContext::wait_for_gpu(uint32_t timeout_ms) {
     if (!fence_ || !fence_event_) {
-        return;
+        return false;
     }
     
     // Signal fence with current value
@@ -270,7 +284,7 @@ void DirectXContext::wait_for_gpu() {
     HRESULT hr = command_queue_->Signal(fence_.Get(), fence_to_wait);
     if (FAILED(hr)) {
         std::cerr << "Failed to signal fence\n";
-        return;
+        return false;
     }
     fence_value_++;
     
@@ -279,39 +293,71 @@ void DirectXContext::wait_for_gpu() {
         hr = fence_->SetEventOnCompletion(fence_to_wait, fence_event_);
         if (FAILED(hr)) {
             std::cerr << "Failed to set fence event\n";
-            return;
+            return false;
         }
-        WaitForSingleObject(fence_event_, INFINITE);
+        const DWORD wait_result = WaitForSingleObject(fence_event_, timeout_ms);
+        if (wait_result == WAIT_TIMEOUT) {
+            std::cerr << "DirectX wait_for_gpu timed out after " << timeout_ms << " ms\n";
+            return false;
+        }
+        if (wait_result != WAIT_OBJECT_0) {
+            std::cerr << "DirectX wait_for_gpu failed with wait code " << wait_result << "\n";
+            return false;
+        }
     }
+    return true;
 }
 
 void DirectXContext::reset_command_list() {
+    // If a command list is already recording, execute it first to free the allocator
+    if (command_list_recording_) {
+        execute_command_list();
+    }
+
     // Reset allocator
     HRESULT hr = command_allocator_->Reset();
     if (FAILED(hr)) {
         throw std::runtime_error("Failed to reset command allocator");
     }
-    
+
     // Reset command list
     hr = command_list_->Reset(command_allocator_.Get(), nullptr);
     if (FAILED(hr)) {
         throw std::runtime_error("Failed to reset command list");
     }
+    command_list_recording_ = true;
 }
 
-void DirectXContext::execute_command_list() {
+void DirectXContext::execute_command_list(uint32_t timeout_ms) {
     // Close command list
     HRESULT hr = command_list_->Close();
     if (FAILED(hr)) {
         throw std::runtime_error("Failed to close command list");
     }
+    command_list_recording_ = false;
     
     // Execute command list
     ID3D12CommandList* cmd_lists[] = {command_list_.Get()};
     command_queue_->ExecuteCommandLists(1, cmd_lists);
     
     // Wait for completion
-    wait_for_gpu();
+    if (!wait_for_gpu(timeout_ms)) {
+        throw std::runtime_error("DirectX command execution timed out or failed while waiting for GPU");
+    }
+
+    // Dump any stored debug messages
+    if (info_queue_) {
+        UINT64 num = info_queue_->GetNumStoredMessagesAllowedByRetrievalFilter();
+        for (UINT64 i = 0; i < num; ++i) {
+            SIZE_T msgLen = 0;
+            info_queue_->GetMessage(i, nullptr, &msgLen);
+            std::vector<char> buffer(msgLen);
+            D3D12_MESSAGE* msg = reinterpret_cast<D3D12_MESSAGE*>(buffer.data());
+            info_queue_->GetMessage(i, msg, &msgLen);
+            std::cerr << "D3D12 INFOQUEUE: " << msg->pDescription << "\n";
+        }
+        info_queue_->ClearStoredMessages();
+    }
 }
 
 } // namespace directx

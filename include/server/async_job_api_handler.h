@@ -1,25 +1,20 @@
+/**
+ * @file async_job_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_job_api_handler.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     242                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • baa1f73a1  2026-02-24  fix(api): code audit fixes for async job API ║
-    • e182799cd  2026-02-23  feat(api): async job API for long-running AQL queries ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_job_api_handler.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -31,7 +26,9 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <boost/beast/http.hpp>
@@ -40,6 +37,8 @@
 namespace themis {
 
 class AuthMiddleware;
+
+class AdaptiveQueryCache;
 
 namespace server {
 
@@ -125,6 +124,15 @@ public:
     /// Return a snapshot of all known jobs.
     std::vector<std::shared_ptr<AsyncJobRecord>> all() const;
 
+    /// Return JSON snapshot for one job; std::nullopt if not found.
+    std::optional<nlohmann::json> getJsonSnapshot(const std::string& id) const;
+
+    /// Return JSON snapshots of all known jobs.
+    std::vector<nlohmann::json> allJsonSnapshots() const;
+
+    /// Request cancellation and return {status, already_terminal}; nullopt if not found.
+    std::optional<std::pair<AsyncJobStatus, bool>> requestCancel(const std::string& id);
+
     /// Remove completed/failed/cancelled jobs older than `ttl_`.
     void prune();
 
@@ -179,15 +187,19 @@ public:
                        const std::string& auth_header)>;
 
     /**
-     * @param executor   Callable that executes an AQL query.
-     * @param auth       Optional AuthMiddleware for access control at submission.
-     *                   Pass nullptr to bypass authentication (tests only).
-     * @param registry   Shared job registry (created internally if nullptr).
+     * @param executor     Callable that executes an AQL query.
+     * @param auth         Optional AuthMiddleware for access control at submission.
+     *                     Pass nullptr to bypass authentication (tests only).
+     * @param registry     Shared job registry (created internally if nullptr).
+     * @param result_cache Optional AdaptiveQueryCache for persisting completed job
+     *                     results with TTL = 1 hour, per the AC requirement.
+     *                     Created internally with TTL=3600 s if nullptr.
      */
     explicit AsyncJobApiHandler(
-        AqlExecutor                         executor,
-        std::shared_ptr<AuthMiddleware>     auth     = nullptr,
-        std::shared_ptr<AsyncJobRegistry>   registry = nullptr);
+        AqlExecutor                                        executor,
+        std::shared_ptr<AuthMiddleware>                    auth         = nullptr,
+        std::shared_ptr<AsyncJobRegistry>                  registry     = nullptr,
+        std::shared_ptr<AdaptiveQueryCache>         result_cache = nullptr);
 
     /// Wait for running jobs to finish (up to a short grace period) on
     /// destruction so that background threads do not outlive dependencies.
@@ -230,9 +242,11 @@ private:
     /// Launch `job` on a background thread via `executor_`.
     void launchJob(std::shared_ptr<AsyncJobRecord> job);
 
-    AqlExecutor                       executor_;
-    std::shared_ptr<AuthMiddleware>   auth_;
-    std::shared_ptr<AsyncJobRegistry> registry_;
+    AqlExecutor                                    executor_;
+    std::shared_ptr<AuthMiddleware>                auth_;
+    std::shared_ptr<AsyncJobRegistry>              registry_;
+    /// AdaptiveQueryCache used to persist completed job results (TTL = 1 h).
+    std::shared_ptr<AdaptiveQueryCache>     result_cache_;
 
     // Track live futures so the destructor can join them.
     mutable std::mutex                           futures_mutex_;

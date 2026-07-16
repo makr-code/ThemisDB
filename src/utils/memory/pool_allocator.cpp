@@ -1,23 +1,21 @@
+/**
+ * @file pool_allocator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=30, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pool_allocator.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     926                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pool_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 917
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=43, M=2, L=0
+ * PR History (last 5): #963 Fix integer overflow vulner... (2026-03-11) | #791 Implement memory pool alloc... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Memory Pool Allocator Implementation
@@ -76,7 +74,7 @@ struct BuddyAllocator::Block {
 
 
 struct BuddyAllocator::Impl {
-    uint8_t* memory;
+    std::unique_ptr<uint8_t[]> memory;
     size_t total_size;
     size_t min_block_size;
     size_t max_order;
@@ -109,8 +107,8 @@ struct BuddyAllocator::Impl {
         }
         
         // Allocate memory
-        memory = new uint8_t[total_size];
-        std::memset(memory, 0, total_size);
+        memory = std::make_unique<uint8_t[]>(total_size);
+        std::memset(memory.get(), 0, total_size);
         
         // Initialize free list heads
         free_list_heads.resize(max_order + 1, 0);
@@ -121,14 +119,12 @@ struct BuddyAllocator::Impl {
         initial_block.is_free = true;
         initial_block.next = 0;
         
-        uintptr_t addr = reinterpret_cast<uintptr_t>(memory);
+        uintptr_t addr = reinterpret_cast<uintptr_t>(memory.get());
         blocks[addr] = initial_block;
         free_list_heads[max_order] = addr;
     }
     
-    ~Impl() {
-        delete[] memory;
-    }
+    ~Impl() noexcept = default;
     
     size_t getOrder(size_t size) {
         size_t order = 0;
@@ -238,7 +234,7 @@ BuddyAllocator::BuddyAllocator(size_t total_size, size_t min_block_size)
     : impl_(std::make_unique<Impl>(total_size, min_block_size)) {
 }
 
-BuddyAllocator::~BuddyAllocator() = default;
+BuddyAllocator::~BuddyAllocator() noexcept = default;
 
 Result<void*> BuddyAllocator::allocate(size_t size, AllocationHint hint) {
     if (size == 0) {
@@ -318,7 +314,7 @@ Result<void> BuddyAllocator::reset() {
     initial_block.is_free = true;
     initial_block.next = 0;
     
-    uintptr_t addr = reinterpret_cast<uintptr_t>(impl_->memory);
+    uintptr_t addr = reinterpret_cast<uintptr_t>(impl_->memory.get());
     impl_->blocks[addr] = initial_block;
     impl_->free_list_heads[impl_->max_order] = addr;
     
@@ -365,28 +361,26 @@ double BuddyAllocator::getFragmentation() const {
 // ============================================================================
 
 struct SlabAllocator::Slab {
-    uint8_t* memory;
+    std::unique_ptr<uint8_t[]> memory;
     size_t object_size;
     size_t object_count;
     std::vector<bool> free_map;
     size_t free_count;
-    Slab* next;
+    std::unique_ptr<Slab> next;
     
     Slab(size_t obj_size, size_t obj_count)
-        : object_size(obj_size), object_count(obj_count), 
-          free_count(obj_count), next(nullptr) {
+        : object_size(obj_size), object_count(obj_count),
+          free_count(obj_count) {
         // Check for integer overflow: object_size * object_count
         if (obj_count > 0 && obj_size > SIZE_MAX / obj_count) {
             throw std::overflow_error("Slab allocation size overflow: object_size * object_count exceeds SIZE_MAX");
         }
-        memory = new uint8_t[object_size * object_count];
-        std::memset(memory, 0, object_size * object_count);
+        memory = std::make_unique<uint8_t[]>(object_size * object_count);
+        std::memset(memory.get(), 0, object_size * object_count);
         free_map.resize(object_count, true);
     }
     
-    ~Slab() {
-        delete[] memory;
-    }
+    ~Slab() noexcept = default;
     
     void* allocate() {
         if (free_count == 0) {
@@ -397,7 +391,7 @@ struct SlabAllocator::Slab {
             if (free_map[i]) {
                 free_map[i] = false;
                 free_count--;
-                return memory + (i * object_size);
+                return memory.get() + (i * object_size);
             }
         }
         
@@ -406,7 +400,7 @@ struct SlabAllocator::Slab {
     
     bool deallocate(void* ptr) {
         uintptr_t addr = reinterpret_cast<uintptr_t>(ptr);
-        uintptr_t base = reinterpret_cast<uintptr_t>(memory);
+        uintptr_t base = reinterpret_cast<uintptr_t>(memory.get());
         
         if (addr < base || addr >= base + (object_size * object_count)) {
             return false;
@@ -424,7 +418,7 @@ struct SlabAllocator::Slab {
     
     bool contains(void* ptr) const {
         uintptr_t addr = reinterpret_cast<uintptr_t>(ptr);
-        uintptr_t base = reinterpret_cast<uintptr_t>(memory);
+        uintptr_t base = reinterpret_cast<uintptr_t>(memory.get());
         return addr >= base && addr < base + (object_size * object_count);
     }
 };
@@ -434,14 +428,14 @@ struct SlabAllocator::Impl {
     size_t objects_per_slab;
     size_t max_slabs;
     
-    Slab* head_slab;
+    std::unique_ptr<Slab> head_slab;
     size_t slab_count;
     
     std::mutex mutex;
     
     Impl(size_t obj_size, size_t objs_per_slab, size_t max)
         : object_size(obj_size), objects_per_slab(objs_per_slab),
-          max_slabs(max), head_slab(nullptr), slab_count(0) {
+          max_slabs(max), slab_count(0) {
         
         // Ensure object size is at least pointer size and aligned
         if (object_size < sizeof(void*)) {
@@ -450,24 +444,17 @@ struct SlabAllocator::Impl {
         object_size = alignSize(object_size, sizeof(void*));
     }
     
-    ~Impl() {
-        Slab* slab = head_slab;
-        while (slab != nullptr) {
-            Slab* next = slab->next;
-            delete slab;
-            slab = next;
-        }
-    }
+    ~Impl() noexcept = default;
     
     void* allocate() {
         // Try existing slabs first
-        Slab* slab = head_slab;
+        Slab* slab = head_slab.get();
         while (slab != nullptr) {
             void* ptr = slab->allocate();
             if (ptr != nullptr) {
                 return ptr;
             }
-            slab = slab->next;
+            slab = slab->next.get();
         }
         
         // Need new slab
@@ -475,21 +462,22 @@ struct SlabAllocator::Impl {
             return nullptr;  // Hit slab limit
         }
         
-        Slab* new_slab = new Slab(object_size, objects_per_slab);
-        new_slab->next = head_slab;
-        head_slab = new_slab;
+        auto new_slab = std::make_unique<Slab>(object_size, objects_per_slab);
+        void* allocation = new_slab->allocate();
+        new_slab->next = std::move(head_slab);
+        head_slab = std::move(new_slab);
         slab_count++;
-        
-        return new_slab->allocate();
+
+        return allocation;
     }
     
     bool deallocate(void* ptr) {
-        Slab* slab = head_slab;
+        Slab* slab = head_slab.get();
         while (slab != nullptr) {
             if (slab->contains(ptr)) {
                 return slab->deallocate(ptr);
             }
-            slab = slab->next;
+            slab = slab->next.get();
         }
         return false;
     }
@@ -500,9 +488,9 @@ SlabAllocator::SlabAllocator(size_t object_size, size_t objects_per_slab,
     : impl_(std::make_unique<Impl>(object_size, objects_per_slab, max_slabs)) {
 }
 
-SlabAllocator::~SlabAllocator() = default;
+SlabAllocator::~SlabAllocator() noexcept = default;
 
-Result<void*> SlabAllocator::allocate(size_t size, AllocationHint hint) {
+Result<void*> SlabAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");
@@ -559,14 +547,7 @@ Result<void> SlabAllocator::reset() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     // Delete all slabs
-    Slab* slab = impl_->head_slab;
-    while (slab != nullptr) {
-        Slab* next = slab->next;
-        delete slab;
-        slab = next;
-    }
-    
-    impl_->head_slab = nullptr;
+    impl_->head_slab.reset();
     impl_->slab_count = 0;
     stats_.reset();
     
@@ -588,10 +569,10 @@ double SlabAllocator::getUtilization() const {
     size_t total_objects = impl_->slab_count * impl_->objects_per_slab;
     size_t used_objects = 0;
     
-    Slab* slab = impl_->head_slab;
+    Slab* slab = impl_->head_slab.get();
     while (slab != nullptr) {
         used_objects += (slab->object_count - slab->free_count);
-        slab = slab->next;
+        slab = slab->next.get();
     }
     
     return static_cast<double>(used_objects) / total_objects;
@@ -622,9 +603,7 @@ struct StackAllocator::Impl {
         allocation_stack.reserve(reserve_size);
     }
     
-    ~Impl() {
-        delete[] memory;
-    }
+    ~Impl() noexcept = default;
 };
 
 StackAllocator::StackAllocator(size_t capacity)
@@ -633,7 +612,7 @@ StackAllocator::StackAllocator(size_t capacity)
 
 StackAllocator::~StackAllocator() = default;
 
-Result<void*> StackAllocator::allocate(size_t size, AllocationHint hint) {
+Result<void*> StackAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");
@@ -927,3 +906,4 @@ Result<void> PoolAllocator::reset() {
 
 } // namespace memory
 } // namespace themis
+

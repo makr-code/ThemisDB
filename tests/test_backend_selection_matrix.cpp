@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_backend_selection_matrix.cpp                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     725                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6ffb074e0  2026-02-23  feat(tests): add unit tests for backend selection and cap... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_backend_selection_matrix.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Backend Selection and Capability Negotiation Matrix
@@ -724,4 +708,101 @@ TEST(BackendSelectionMatrix, SelectBackendFor_ImpossiblePrecisionAndAsync_Return
 
     auto* b = BackendRegistry::instance().selectBackendFor(reqs);
     EXPECT_EQ(b, nullptr);
+}
+
+// =============================================================================
+// BackendRegistry O(1) type index (Issue #236 / v1.9.0)
+//
+// Validates that the BackendType→RegisteredBackend index correctly aggregates
+// multiple backends that share the same BackendType (e.g., CPUVectorBackend,
+// CPUGraphBackend, CPUGeoBackend, CPUMatrixBackend all have type CPU), so that
+// typed selectors return the right specialised backend without dynamic_cast.
+// =============================================================================
+
+TEST(BackendSelectionMatrix, TypeIndex_GetBackend_ReturnsCPU) {
+    // getBackend(CPU) must return a non-null IComputeBackend after the type
+    // index was populated at construction time.
+    auto* b = BackendRegistry::instance().getBackend(BackendType::CPU);
+    ASSERT_NE(b, nullptr);
+    EXPECT_EQ(b->type(), BackendType::CPU);
+}
+
+TEST(BackendSelectionMatrix, TypeIndex_SelectVectorBackendFor_ReturnsCPUVector) {
+    // selectVectorBackendFor now uses the type index.  On a CPU-only system,
+    // the result must be the CPUVectorBackend (implements IVectorBackend).
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+
+    auto* vb = BackendRegistry::instance().selectVectorBackendFor(reqs);
+    ASSERT_NE(vb, nullptr);
+    EXPECT_EQ(vb->type(), BackendType::CPU);
+    EXPECT_TRUE(vb->getCapabilities().supportsVectorOps);
+}
+
+TEST(BackendSelectionMatrix, TypeIndex_SelectGraphBackendFor_ReturnsCPUGraph) {
+    // CPUGraphBackend and CPUVectorBackend share BackendType::CPU.
+    // The type index must store graphPtr → CPUGraphBackend separately from
+    // vectorPtr → CPUVectorBackend so typed selection returns the right one.
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsGraphOps = true;
+
+    auto* gb = BackendRegistry::instance().selectGraphBackendFor(reqs);
+    ASSERT_NE(gb, nullptr);
+    EXPECT_EQ(gb->type(), BackendType::CPU);
+    EXPECT_TRUE(gb->getCapabilities().supportsGraphOps);
+}
+
+TEST(BackendSelectionMatrix, TypeIndex_SelectGeoBackendFor_ReturnsCPUGeo) {
+    // CPUGeoBackend shares BackendType::CPU with vector and graph backends.
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsGeoOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+
+    auto* geo = BackendRegistry::instance().selectGeoBackendFor(reqs);
+    ASSERT_NE(geo, nullptr);
+    EXPECT_EQ(geo->type(), BackendType::CPU);
+    EXPECT_TRUE(geo->getCapabilities().supportsGeoOps);
+}
+
+TEST(BackendSelectionMatrix, TypeIndex_SelectMatrixBackendFor_ReturnsCPUMatrix) {
+    ensureCpuMatrixBackend();
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsMatrixOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+
+    auto* mb = BackendRegistry::instance().selectMatrixBackendFor(reqs);
+    ASSERT_NE(mb, nullptr);
+    EXPECT_EQ(mb->type(), BackendType::CPU);
+    EXPECT_TRUE(mb->getCapabilities().supportsMatrixOps);
+}
+
+TEST(BackendSelectionMatrix, TypeIndex_TypedPointersAreDistinct) {
+    // Verify that each typed selector returns a *different* interface pointer
+    // even though all four CPU backends share BackendType::CPU.  This proves
+    // that the type index stores separate typed pointers per interface.
+    BackendRegistry::CapabilityRequirements vectorReqs; vectorReqs.needsVectorOps = true;
+    BackendRegistry::CapabilityRequirements graphReqs;  graphReqs.needsGraphOps   = true;
+    BackendRegistry::CapabilityRequirements geoReqs;    geoReqs.needsGeoOps       = true;
+
+    auto* vb  = BackendRegistry::instance().selectVectorBackendFor(vectorReqs);
+    auto* gb  = BackendRegistry::instance().selectGraphBackendFor(graphReqs);
+    auto* geo = BackendRegistry::instance().selectGeoBackendFor(geoReqs);
+
+    ASSERT_NE(vb, nullptr);
+    ASSERT_NE(gb, nullptr);
+    ASSERT_NE(geo, nullptr);
+
+    // All are CPU type but different interface instances.
+    EXPECT_EQ(vb->type(),  BackendType::CPU);
+    EXPECT_EQ(gb->type(),  BackendType::CPU);
+    EXPECT_EQ(geo->type(), BackendType::CPU);
+
+    // Each implements only its declared interface (capabilities should differ).
+    EXPECT_TRUE (vb->getCapabilities().supportsVectorOps);
+    EXPECT_FALSE(vb->getCapabilities().supportsGraphOps);
+    EXPECT_TRUE (gb->getCapabilities().supportsGraphOps);
+    EXPECT_FALSE(gb->getCapabilities().supportsVectorOps);
+    EXPECT_TRUE (geo->getCapabilities().supportsGeoOps);
+    EXPECT_FALSE(geo->getCapabilities().supportsVectorOps);
 }

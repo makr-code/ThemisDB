@@ -1,23 +1,20 @@
+/**
+ * @file relational_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            relational_functions.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1033                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: relational_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -76,6 +73,7 @@ namespace functions {
  */
 class CountDistinctFunction : public IFunction {
 public:
+    ~CountDistinctFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COUNT_DISTINCT",
@@ -106,6 +104,7 @@ public:
  */
 class GroupConcatFunction : public IFunction {
 public:
+    ~GroupConcatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GROUP_CONCAT",
@@ -147,6 +146,7 @@ public:
  */
 class CollectFunction : public IFunction {
 public:
+    ~CollectFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COLLECT",
@@ -191,6 +191,7 @@ public:
  */
 class StddevFunction : public IFunction {
 public:
+    ~StddevFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "STDDEV",
@@ -230,6 +231,7 @@ public:
  */
 class StddevSampleFunction : public IFunction {
 public:
+    ~StddevSampleFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "STDDEV_SAMPLE",
@@ -269,6 +271,7 @@ public:
  */
 class VarianceFunction : public IFunction {
 public:
+    ~VarianceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VARIANCE",
@@ -308,6 +311,7 @@ public:
  */
 class MedianFunction : public IFunction {
 public:
+    ~MedianFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MEDIAN",
@@ -348,6 +352,7 @@ public:
  */
 class PercentileFunction : public IFunction {
 public:
+    ~PercentileFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PERCENTILE",
@@ -395,6 +400,7 @@ public:
  */
 class CoalesceFunction : public IFunction {
 public:
+    ~CoalesceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COALESCE",
@@ -432,6 +438,7 @@ public:
  */
 class NullIfFunction : public IFunction {
 public:
+    ~NullIfFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "NULLIF",
@@ -462,6 +469,7 @@ public:
  */
 class GreatestFunction : public IFunction {
 public:
+    ~GreatestFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GREATEST",
@@ -500,6 +508,7 @@ public:
  */
 class LeastFunction : public IFunction {
 public:
+    ~LeastFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LEAST",
@@ -538,6 +547,7 @@ public:
  */
 class IfFunction : public IFunction {
 public:
+    ~IfFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IF",
@@ -571,6 +581,7 @@ public:
  */
 class InnerJoinFunction : public IFunction {
 public:
+    ~InnerJoinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "INNER_JOIN",
@@ -634,6 +645,7 @@ public:
  */
 class LeftJoinFunction : public IFunction {
 public:
+    ~LeftJoinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LEFT_JOIN",
@@ -702,6 +714,7 @@ public:
  */
 class LookupFunction : public IFunction {
 public:
+    ~LookupFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LOOKUP",
@@ -743,6 +756,7 @@ public:
  */
 class RowNumberFunction : public IFunction {
 public:
+    ~RowNumberFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ROW_NUMBER",
@@ -782,6 +796,7 @@ public:
  */
 class LagFunction : public IFunction {
 public:
+    ~LagFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LAG",
@@ -805,7 +820,7 @@ public:
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
         int offset = args.size() > 2 ? args[2].get<int>() : 1;
-        nlohmann::json defaultVal = args.size() > 3 ? args[3] : nullptr;
+        nlohmann::json defaultVal = args.size() > 3 ? args[3] : nlohmann::json(nullptr);
         
         nlohmann::json result = nlohmann::json::array();
         
@@ -838,6 +853,7 @@ public:
  */
 class LeadFunction : public IFunction {
 public:
+    ~LeadFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LEAD",
@@ -861,7 +877,7 @@ public:
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
         int offset = args.size() > 2 ? args[2].get<int>() : 1;
-        nlohmann::json defaultVal = args.size() > 3 ? args[3] : nullptr;
+        nlohmann::json defaultVal = args.size() > 3 ? args[3] : nlohmann::json(nullptr);
         
         nlohmann::json result = nlohmann::json::array();
         
@@ -894,6 +910,7 @@ public:
  */
 class RunningSumFunction : public IFunction {
 public:
+    ~RunningSumFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "RUNNING_SUM",
@@ -946,6 +963,7 @@ public:
  */
 class NtileFunction : public IFunction {
 public:
+    ~NtileFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "NTILE",
@@ -1033,4 +1051,5 @@ inline void registerRelationalFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
+
 

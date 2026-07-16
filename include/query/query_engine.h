@@ -1,29 +1,26 @@
+/**
+ * @file query_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_engine.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     787                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_engine.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <string>
+#include <functional>
 #include <string_view>
 #include <vector>
 #include <optional>
@@ -39,11 +36,27 @@
 
 namespace themis {
 
+class RocksDBWrapper;
+class SecondaryIndexManager;
+class BaseEntity;
+class VectorIndexManager;
+class GraphIndexManager;
+class StatisticsCollector;
+class AQLTranslator;
+namespace utils {
+class AuditLogger;
+}
+namespace index {
+class SpatialIndexManager;
+}
+
+namespace query {
+
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
 
 // Forward declaration for StatisticsCollector (avoid including the header)
-class StatisticsCollector;
+using StatisticsCollector = ::themis::StatisticsCollector;
 using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
 // using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;  // IQueryEngine not defined
 using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
@@ -52,8 +65,14 @@ using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
 using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
-namespace query { struct Expression; struct Query; class CTECache; struct QueryPlanNode; }
+struct Expression; struct Query; class CTECache; struct QueryPlanNode;
 
+/**
+ * @brief Input model for recursive graph path expansion queries.
+ *
+ * Describes start/end anchors, traversal depth, optional temporal validity
+ * constraints, and optional spatial constraints for graph+geo hybrid queries.
+ */
 struct RecursivePathQuery {
     std::string start_node;
     std::string end_node;
@@ -73,17 +92,25 @@ struct RecursivePathQuery {
 };
 
 // General Traversal Query Structures
+/**
+ * @brief Traversal direction for graph expansion operations.
+ */
 enum class TraversalDirection { OUTBOUND, INBOUND, ANY };
 
+/**
+ * @brief Result row for graph traversals.
+ */
 struct TraversalResult {
     std::string vertex_pk;
-    int depth;
+    int depth = 0;
     std::vector<std::string> path;   // Full path from start to this vertex
     std::vector<std::string> edges;  // Edge IDs traversed
     nlohmann::json vertex_data;      // Full vertex entity data
 };
 
-// Vector + Geo Hybrid Query
+/**
+ * @brief Query model for hybrid vector similarity plus spatial filtering.
+ */
 struct VectorGeoQuery {
     std::string table;
     std::string vector_field = "embedding";
@@ -95,7 +122,11 @@ struct VectorGeoQuery {
     std::vector<std::shared_ptr<query::Expression>> extra_filters; // evaluated conjunctively
 };
 
-// Filtered Vector Search Query (Pure Vector + Attribute Filters, NO Geo)
+/**
+ * @brief Query model for vector similarity search with attribute filters.
+ *
+ * This variant intentionally excludes geo predicates.
+ */
 struct FilteredVectorSearchQuery {
     std::string table;
     std::string vector_field = "embedding";
@@ -133,7 +164,9 @@ struct FilteredVectorSearchQuery {
     std::string strategy = "auto";
 };
 
-// Radius Vector Search Query (Epsilon-based neighbors)
+/**
+ * @brief Query model for epsilon/radius vector neighbor search.
+ */
 struct RadiusVectorSearchQuery {
     std::string table;
     std::string vector_field = "embedding";
@@ -146,7 +179,9 @@ struct RadiusVectorSearchQuery {
     std::string strategy = "auto";
 };
 
-// Content Search Query (Fulltext + Metadata Filtering)
+/**
+ * @brief Full-text query model with optional metadata filters.
+ */
 struct ContentSearchQuery {
     std::string table;
     std::string fulltext_field = "content"; // Field containing text content
@@ -166,7 +201,9 @@ struct ContentSearchQuery {
     double min_score = 0.0;
 };
 
-// Content + Geo Hybrid Query
+/**
+ * @brief Full-text query model combined with optional spatial filtering.
+ */
 struct ContentGeoQuery {
     std::string table;
     std::string text_field;
@@ -178,28 +215,23 @@ struct ContentGeoQuery {
     std::optional<std::vector<float>> center_point; // for distance boosting: [lon, lat]
 };
 
-class RocksDBWrapper;
-class SecondaryIndexManager;
-class BaseEntity;
-class VectorIndexManager;
+using RocksDBWrapper = ::themis::RocksDBWrapper;
+using SecondaryIndexManager = ::themis::SecondaryIndexManager;
+using BaseEntity = ::themis::BaseEntity;
+using VectorIndexManager = ::themis::VectorIndexManager;
+using SpatialIndexManager = ::themis::index::SpatialIndexManager;
 
-namespace index {
-class SpatialIndexManager;
-}
-using SpatialIndexManager = index::SpatialIndexManager;
-class AQLTranslator; // avoid including translator in header
+using AQLTranslator = ::themis::AQLTranslator; // avoid including translator in header
 
 // Forward declarations für AQL-Typen
-namespace query {
-    struct ForNode;
-    struct FilterNode;
-    struct LetNode;
-    struct ReturnNode;
-    struct SortNode;
-    struct LimitNode;
-    struct CollectNode;
-    struct Expression;
-}
+struct ForNode;
+struct FilterNode;
+struct LetNode;
+struct ReturnNode;
+struct SortNode;
+struct LimitNode;
+struct CollectNode;
+struct Expression;
 
 struct PredicateEq {
     std::string column;
@@ -276,6 +308,15 @@ struct ConjunctiveQuery {
     std::optional<PredicatePhrase> phrasePredicate; // optional: PHRASE(column, phrase, limit)
     std::optional<PredicateFuzzy> fuzzyPredicate; // optional: FUZZY(column, query, maxDistance, limit)
     std::optional<PredicateSpatial> spatialPredicate; // optional: ST_*(geometry_column, ...) (G3)
+
+    // Direct primary-key lookup fast path.
+    // When set, executeAndKeys / executeAndEntities skip all secondary-index
+    // scans and perform a single direct storage read for the given primary key.
+    // Other predicates are ignored when pk_eq is set — use this only when the
+    // primary key uniquely identifies the desired entity.
+    // This is ACID-compliant: the direct RocksDB read uses the same isolation
+    // level as any other storage access in the engine.
+    std::optional<std::string> pk_eq;
 };
 
 // Disjunctive Query: OR-verknüpfte AND-Blöcke (Disjunctive Normal Form)
@@ -286,14 +327,13 @@ struct DisjunctiveQuery {
     std::optional<OrderBy> orderBy;
 };
 
-class GraphIndexManager;
+using GraphIndexManager = ::themis::GraphIndexManager;
 
 class QueryEngine {
 public:
     // DEPRECATED: Legacy Status struct - use Result<T> instead
     // Kept temporarily for backward compatibility during migration
-    [[deprecated("Use Result<T> pattern instead")]]
-    struct Status {
+    struct [[deprecated("Use Result<T> pattern instead")]] Status {
         bool ok = true;
         std::string message;
         static Status OK() { return {}; }
@@ -366,7 +406,33 @@ public:
      * Pass nullptr to disable statistics-based optimisation.
      */
     void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
-    
+
+    /**
+     * @brief Inject a collection-access checker (QE-2 fix).
+     *
+     * When set, every public `execute*` method checks whether the caller is
+     * permitted to access the requested collection before executing any I/O.
+     *
+     * Signature: `bool checker(const std::string& collection,
+     *                           const std::string& caller_id)`.
+     * Return `true` to allow, `false` to deny.  A `nullptr` checker disables
+     * the gate (permissive mode — only safe in single-tenant / trusted callers).
+     *
+     * The caller is responsible for injecting a real ACL implementation before
+     * the engine is exposed to untrusted query paths.
+     *
+     * @param checker Callable that returns true iff access is allowed.
+     * @param caller_id Opaque identity string forwarded to every checker call.
+     */
+    void setCollectionAccessChecker(
+        std::function<bool(const std::string& collection,
+                           const std::string& caller_id)> checker,
+        std::string caller_id = "") noexcept
+    {
+        collection_access_checker_ = std::move(checker);
+        collection_access_caller_id_ = std::move(caller_id);
+    }
+
     /**
      * @brief Provide expression evaluator for Storage and Index to use
      * 
@@ -392,7 +458,7 @@ public:
 
     // General graph traversal (non-shortest path)
     // Performs BFS with depth filtering and direction support
-    // Note: Edge type filtering not yet implemented (requires TraversalQuery extension)
+    // Edge type filtering: pass edgeTypeFilter to restrict which edges are followed.
     /**
      * @brief Execute a general graph traversal query
      * @param startVertex Starting vertex primary key
@@ -400,17 +466,22 @@ public:
      * @param maxDepth Maximum traversal depth (limits recursion)
      * @param direction Traversal direction (OUTBOUND, INBOUND, or ANY)
      * @param graphId Graph identifier (default: "default")
+     * @param edgeTypeFilter Optional edge type filter; only edges whose graphId
+     *        matches this value are followed. Empty string = no filtering.
      * @return Vector of traversal results containing visited vertices and paths
      * 
-     * Performs breadth-first or depth-first graph traversal starting from the given vertex.
+     * Performs breadth-first graph traversal starting from the given vertex.
      * Results include the full path and depth information for each reachable vertex.
+     * When edgeTypeFilter is non-empty, only edges with a matching graphId are
+     * traversed (same convention as RecursivePathQuery::edge_type).
      */
     Result<std::vector<TraversalResult>> executeGeneralTraversal(
         const std::string& startVertex,
         int minDepth,
         int maxDepth,
         TraversalDirection direction,
-        const std::string& graphId = "default"
+        const std::string& graphId = "default",
+        const std::string& edgeTypeFilter = ""
     ) const;
 
     /**
@@ -435,6 +506,22 @@ public:
      * Supports fulltext search, fuzzy search, spatial queries, and traditional predicates.
      */
     Result<std::vector<std::string>> executeAndKeys(const ConjunctiveQuery& q) const;
+
+    /**
+     * @brief Execute conjunctive (AND) query and return only match count
+     * @param q Conjunctive query with equality/range/fulltext/spatial predicates
+     * @return Number of matching primary keys
+     *
+     * Uses the same predicate planning and index-based execution as executeAndKeys,
+     * but avoids entity materialization entirely. This is the preferred path for
+     * COUNT-like workloads and join cardinality checks.
+     *
+     * Failure/edge cases:
+     * - Returns an error when query validation/execution fails (e.g. invalid table,
+     *   unsupported predicate combination, missing required index in strict path).
+     * - Returns 0 for valid queries with no matches.
+     */
+    Result<size_t> executeAndCount(const ConjunctiveQuery& q) const;
 
     /**
      * @brief Variant of executeAndKeys with BM25 scoring support
@@ -606,7 +693,7 @@ public:
     // Returns top-k vectors that satisfy spatial constraint
     struct VectorGeoResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<VectorGeoResult>> executeVectorGeoQuery(
@@ -617,7 +704,7 @@ public:
     // Returns documents matching fulltext query within spatial constraint
     struct ContentGeoResult {
         std::string pk;
-        double bm25_score;
+        double bm25_score = 0.0;
         std::optional<double> geo_distance; // if boost_by_distance enabled
         nlohmann::json entity;
     };
@@ -629,7 +716,7 @@ public:
     // No spatial constraints (use VectorGeoQuery for geo+vector)
     struct FilteredVectorSearchResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
@@ -640,7 +727,7 @@ public:
     // Returns all vectors within distance threshold (epsilon)
     struct RadiusVectorSearchResult {
         std::string pk;
-        float vector_distance;
+        float vector_distance = 0.0f;
         nlohmann::json entity;
     };
     Result<std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
@@ -651,7 +738,7 @@ public:
     // Returns documents matching fulltext query and metadata filters
     struct ContentSearchResult {
         std::string pk;
-        double bm25_score;
+        double bm25_score = 0.0;
         nlohmann::json entity;
     };
     Result<std::vector<ContentSearchResult>> executeContentSearch(
@@ -677,6 +764,20 @@ public:
     /// @returns  Root node of the execution plan tree.
     query::QueryPlanNode buildExplainPlan(const ConjunctiveQuery& q) const;
 
+    /**
+     * @brief List all collection/table names known to the storage layer.
+     *
+     * Scans all keys in the underlying RocksDB and returns the unique
+     * collection or table names extracted from the key schema prefix
+     * (e.g. keys of the form `doc:<name>:<pk>` or `rel:<name>:<pk>`).
+     *
+     * Returns an empty vector when the engine was constructed with the DI
+     * constructor and no legacy RocksDB instance is available.
+     *
+     * @return Sorted list of unique collection/table names.
+     */
+    std::vector<std::string> listCollections() const;
+
 private:
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
     SecondaryIndexManager* secIdx_ = nullptr;  // Changed from reference to pointer
@@ -684,6 +785,9 @@ private:
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
     SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
     StatisticsCollector* stats_collector_ = nullptr;  ///< Optional; for cardinality-based optimisation
+    ::themis::utils::AuditLogger* audit_logger_ = nullptr;  ///< Optional non-owning audit sink for query phase telemetry
+    std::function<bool(const std::string&, const std::string&)> collection_access_checker_;
+    std::string collection_access_caller_id_;  ///< Caller identity forwarded to access checker
     
     // New interface-based dependencies (used with DI constructors)
     // When these are set, they take precedence over legacy pointers
@@ -694,11 +798,12 @@ private:
     // This is returned by get_expression_evaluator() to break circular dependencies
     class QueryExpressionEvaluator : public IExpressionEvaluator {
     public:
+    ~QueryExpressionEvaluator() override = default;
         explicit QueryExpressionEvaluator(QueryEngine* engine) 
             : engine_(engine) {}
         
         // Delegates to AQL parser + QueryEngine::evaluateCondition()
-        bool evaluate(const std::string& expression, const void* context) override;
+        bool evaluate(const std::string& expression, const void* context) const override;
         std::string get_expression_type() const override;
 
         // Helpers for richer evaluation paths (non-override)
@@ -783,4 +888,8 @@ struct QueryEngine::EvaluationContext {
     }
 };
 
+} // namespace query
 } // namespace themis
+
+
+

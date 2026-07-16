@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Core Framework Headers
 
 ## Module Purpose
@@ -91,7 +93,7 @@ Defines three editions with different hardware limits and feature sets. Edition 
 using namespace themis::edition;
 
 // Compile-time checks
-static_assert(IsEdition<EditionType::ENTERPRISE>(), 
+static_assert(IsEdition<EditionType::ENTERPRISE>(),
               "Enterprise edition required");
 
 // Runtime checks
@@ -147,17 +149,17 @@ using namespace themis::license;
 // Check for embedded license
 if (hasEmbeddedLicense()) {
     auto license = getEmbeddedLicense().value();
-    
+
     // Validate license
     if (isLicenseValid(license)) {
         std::cout << "Licensed to: " << license.organization_name << std::endl;
         std::cout << "Edition: " << license.edition << std::endl;
-        
+
         int days = getDaysUntilExpiry(license);
         if (days > 0 && days < 30) {
             std::cerr << "Warning: License expires in " << days << " days" << std::endl;
         }
-        
+
         // Verify signature
         if (!verifyLicenseSignature(license)) {
             std::cerr << "Error: Invalid license signature" << std::endl;
@@ -165,7 +167,7 @@ if (hasEmbeddedLicense()) {
     } else {
         std::cerr << "Error: License expired" << std::endl;
     }
-    
+
     // Print license info at startup
     std::cout << formatLicenseInfo(license) << std::endl;
 }
@@ -179,6 +181,36 @@ if (hasEmbeddedLicense()) {
 **DLL export/import macros for modular builds**
 
 Cross-platform macros for exporting symbols from shared libraries (DLLs on Windows, .so files on Linux).
+
+---
+
+#### edition_manager.h
+**Runtime edition management and feature-gate evaluation**
+
+Provides APIs to check active edition at runtime and evaluate per-feature access gates.
+
+---
+
+#### module_hash_verifier.h
+**SHA-256 module hash verification**
+
+Verifies module binary hashes against a trusted manifest to detect tampering before load.
+
+---
+
+#### module_signature_verifier.h
+**X.509 digital signature verification for modules**
+
+Validates module code signatures using certificate chains; supports Authenticode (Windows) and GPG (Linux).
+
+---
+
+#### runtime_license_gate.h
+**Runtime license enforcement gate**
+
+Enforces license-derived feature restrictions at runtime; raises policy exceptions for unlicensed feature use.
+
+---
 
 **Platform Support:**
 - Windows: `__declspec(dllexport/dllimport)`
@@ -345,7 +377,7 @@ Contains pure abstract interfaces that break circular dependencies between core 
 
 **Interface Files:**
 - `storage_interface.h` - Storage engine abstraction
-- `query_interface.h` - Query engine abstraction  
+- `query_interface.h` - Query engine abstraction
 - `index_interface.h` - Index manager abstraction
 - `security_interface.h` - Encryption abstraction
 
@@ -543,6 +575,29 @@ High-performance clients use the wire protocol:
 
 ---
 
+## Runtime Behavior, Error Cases, and Limits
+
+- **Module loading (`themis/base/module_loader.h`)** is fail-closed by design: hash/signature verification failures return `ModuleVerificationResult` with `success == false` and prevent activation of the module.
+- **License checks (`themis/license_info.h`, `themis/runtime_license_gate.h`)** deny gated features when no valid license is embedded or when license constraints are violated.
+- **Edition gates (`themis/edition.h`, `themis/edition_manager.h`)** are compile-time + runtime constraints: unavailable features remain disabled in Community builds even when referenced by callers.
+- **Wire protocol v1 (`themis/network/wire_protocol_server.hpp`)** enforces frame integrity checks and a maximum payload size of **64 MB** per message (`themis::wire::MAX_PAYLOAD_SIZE`).
+- **Operational limit:** `WireProtocolServer` is intended for a single-threaded `io_context` event loop unless external synchronization is provided (see [Roadmap Known Issues](../../src/themis/ROADMAP.md)).
+
+## Public Entry Points (Quick Reference)
+
+| Entry point | Purpose |
+|-------------|---------|
+| `themis/build_info.h` | Build/runtime metadata and reproducibility information |
+| `themis/edition.h` | Compile-time edition configuration and feature flags |
+| `themis/edition_manager.h` | Runtime feature-gate evaluation by edition/license state |
+| `themis/license_info.h` | Embedded license access and signature/expiry validation |
+| `themis/runtime_license_gate.h` | Structured runtime allow/deny decisions (`GateResult`) |
+| `themis/base/module_loader.h` | Secure dynamic module loading + verification |
+| `themis/module_hash_verifier.h` | SHA-256 module integrity verification |
+| `themis/module_signature_verifier.h` | Platform-specific signature verification |
+| `themis/network/wire_protocol_server.hpp` | Binary wire protocol server (v1) |
+| `themis/network/wire_protocol_v2.hpp` | Multiplexed wire protocol API (v2) |
+
 ## Dependencies
 
 ### Internal Dependencies
@@ -597,7 +652,7 @@ elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
 endif()
 ```
 
-### Edition Selection
+## Edition Selection
 
 ```bash
 # Configure for Community edition (default)
@@ -613,7 +668,7 @@ cmake -B build -DTHEMIS_EDITION=HYPERSCALER
 cmake --build build
 ```
 
-### License Embedding
+## License Embedding
 
 ```bash
 # Embed license at build time
@@ -641,15 +696,15 @@ cmake --build build
 
 int main() {
     using namespace themis;
-    
+
     // 1. Print build information
     auto config = build_info::getBuildConfiguration();
     std::cout << build_info::formatBuildInfo(config) << std::endl;
-    
+
     // 2. Validate edition
     auto edition = edition::EditionInfo::Get();
     std::cout << "Edition: " << edition.name << std::endl;
-    
+
     // 3. Check license
     if (license::hasEmbeddedLicense()) {
         auto lic = license::getEmbeddedLicense().value();
@@ -659,31 +714,31 @@ int main() {
         }
         std::cout << license::formatLicenseInfo(lic) << std::endl;
     }
-    
+
     // 4. Load modules
     modules::ModuleLoader loader;
     loader.setRequireSignature(true);
-    
+
     // Load required modules
     auto modules = {"themis_storage", "themis_query", "themis_security"};
     for (const auto& mod : modules) {
         auto result = loader.loadModule(std::string("/modules/") + mod + ".dll", mod);
         if (!result.success) {
-            std::cerr << "Failed to load " << mod << ": " 
+            std::cerr << "Failed to load " << mod << ": "
                       << result.errorMessage << std::endl;
             return 1;
         }
     }
-    
+
     // 5. Start wire protocol server
     boost::asio::io_context io_context;
     wire::WireProtocolServer wire_server(io_context, 9090);
     wire_server.start();
-    
+
     // 6. Run application
     std::cout << "ThemisDB started successfully" << std::endl;
     io_context.run();
-    
+
     return 0;
 }
 ```
@@ -695,22 +750,22 @@ int main() {
 
 void initialize_features() {
     using namespace themis::edition;
-    
+
     if (FEATURE_FIELD_ENCRYPTION) {
         // Enterprise/Hyperscaler only
         initialize_field_encryption();
     }
-    
+
     if (FEATURE_MULTI_MASTER) {
         // Enterprise/Hyperscaler only
         initialize_replication();
     }
-    
+
     if (FEATURE_RBAC) {
         // Enterprise/Hyperscaler only
         initialize_rbac();
     }
-    
+
     // Community edition features (always available)
     initialize_basic_auth();
     initialize_tls();
@@ -724,39 +779,39 @@ void initialize_features() {
 
 bool verify_deployment(const std::string& modules_dir) {
     using namespace themis::modules;
-    
+
     ModuleLoader loader;
     loader.setRequireSignature(true);
-    
+
     // Verify all modules before starting
     std::vector<std::string> required_modules = {
         "themis_storage", "themis_query", "themis_security"
     };
-    
+
     for (const auto& mod : required_modules) {
         std::string path = modules_dir + "/" + mod + ".dll";
         auto result = loader.loadModule(path, mod);
-        
+
         if (!result.success) {
             std::cerr << "Module verification failed: " << mod << std::endl;
             std::cerr << "Error: " << result.errorMessage << std::endl;
             return false;
         }
-        
+
         std::cout << "✓ Verified: " << mod << std::endl;
         std::cout << "  Hash: " << result.moduleHash << std::endl;
-        
+
 #ifdef _WIN32
         if (result.hasAuthenticode) {
             std::cout << "  Signed by: " << result.authenticodeSigner << std::endl;
         }
-        
+
         if (result.zoneId == 3) {
             std::cerr << "  Warning: Downloaded from internet" << std::endl;
         }
 #endif
     }
-    
+
     return true;
 }
 ```
@@ -784,10 +839,13 @@ bool verify_deployment(const std::string& modules_dir) {
 ## Related Documentation
 
 - [Base Interfaces README](base/README.md) - Dependency inversion interfaces
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned improvements
+- [Themis Source README](../../src/themis/README.md) - Runtime behavior and implementation details
+- [Roadmap](../../src/themis/ROADMAP.md) - Delivery status, phases, limits, and known issues
+- [Future Enhancements](../../src/themis/FUTURE_ENHANCEMENTS.md) - Planned improvements
 - [Architecture Overview](../../ARCHITECTURE.md) - System architecture
-- [Modularization Plan](../../docs/architecture/MODULARIZATION_PLAN.md) - Module strategy
-- [Build Documentation](../../docs/BUILD.md) - Build instructions
+- [Modularization Plan (DE)](../../docs/de/architecture/MODULARIZATION_PLAN.md) - Module strategy
+- [German Themis Index](../../docs/de/themis/index.md) - Secondary module docs and verification
+- [English Themis Index](../../docs/en/themis/index.md) - Secondary module docs and verification
 
 ---
 
@@ -809,8 +867,24 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned enhancements
+- [Source Roadmap](../../src/themis/ROADMAP.md) - Current status and next phases
+- [Source Security Notes](../../src/themis/SECURITY.md) - Threat model and security controls
 - [Storage Module](../storage/README.md) - Storage interfaces
 - [Query Module](../query/README.md) - Query interfaces
 - [Server Module](../server/README.md) - Server interfaces
 - [Security Module](../security/README.md) - Security interfaces
+
+## Troubleshooting
+
+- **`loadModule(...)` fails with verification errors:** verify module hash/signature artifacts and ensure production policy settings (`setRequireSignature`, whitelist/blacklist) match deployment.
+- **Feature unexpectedly denied:** inspect `edition::EditionInfo::Get()` and runtime gate checks to confirm the active edition/license permits the feature.
+- **Wire protocol client disconnects early:** validate frame magic/version/CRC and payload size; malformed frames are rejected.
+- **Edition-specific behavior differs between builds:** confirm `-DTHEMIS_EDITION=...` and license embedding settings used during CMake configure.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

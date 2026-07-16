@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_client.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     134                                            ║
+    • Total Lines:     137                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,9 +39,9 @@ struct VLLMConfig {
     bool use_streaming = false;                      // Enable streaming responses
     
     // Generation parameters
-    float temperature = 0.7;
+    float temperature = 0.7f;
     int max_tokens = 2048;
-    float top_p = 0.95;
+    float top_p = 0.95f;
     int top_k = 50;
     std::vector<std::string> stop_sequences = {};
 };
@@ -101,7 +98,7 @@ public:
     std::vector<VLLMResponse> generateMultiple(
         const std::string& prompt,
         int n = 10,
-        float temperature = 0.8
+        float temperature = 0.8f
     );
     
     /**

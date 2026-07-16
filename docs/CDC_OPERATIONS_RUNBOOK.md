@@ -2,8 +2,8 @@
 
 **ThemisDB Change Data Capture Operations Guide**
 
-Version: 1.0  
-Last Updated: 2026-02-20
+Version: 1.1  
+Last Updated: 2026-05-13
 
 ---
 
@@ -888,9 +888,15 @@ LOG("P95: {}μs, Throughput: {} eps",
 
 ### Related Documentation
 
-- [CDC Architecture](../docs/cdc_roadmap.md)
-- [API Reference](../docs/CDC_API_REFERENCE.md)
-- [Configuration Guide](../docs/CDC_CONFIG_GUIDE.md)
+- [CDC Architecture](de/roadmap/cdc_roadmap.md)
+- [CDC Primary Sources](de/cdc/PRIMARY_SOURCES.md)
+- [Operations Handbook](operations/OPERATIONS_HANDBOOK.md)
+- [Backup & Recovery System](backup_recovery_system.md)
+- [Disaster Recovery Plan](production/DISASTER_RECOVERY_PLAN.md)
+- [Restore Runbook](production/RUNBOOKS/RESTORE_RUNBOOK.md)
+- [Incident Response Playbook](operations/incident-response/INCIDENT_RESPONSE_PLAYBOOK.md)
+- [Monitoring Guide](production/MONITORING.md)
+- [CI/CD Pipelines](ci-cd/README.md)
 
 ---
 

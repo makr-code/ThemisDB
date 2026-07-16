@@ -1,7 +1,9 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Governance Module — Public Headers
 
-**Version:** 1.0  
-**Last Updated:** 2026-03-09  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `include/governance/`
 
 ---
@@ -35,6 +37,10 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | `cross_tenant_policy_inheritance.h` | Cross-tenant hierarchical policy composition (most-restrictive-wins, cycle detection); `CrossTenantPolicyInheritance` |
 | `model_governance.h` | AI/ML model training governance, bias auditing, training data lineage; `ModelGovernancePolicy`, `BiasAuditReport` |
 | `opa_adapter.h` | Open Policy Agent integration for Rego-based policy evaluation; `OpaAdapter`, `OpaAdapter::Config` |
+| `cross_border_transfer.h` | Cross-border data transfer compliance rules and controls; `CrossBorderTransferPolicy` |
+| `gdpr_subject_rights.h` | GDPR data subject rights evaluators (access, erasure, portability, rectification); `GdprSubjectRights` |
+| `hipaa_rules.h` | HIPAA safeguards and PHI handling rules; `HipaaRuleSet` |
+| `iso27001_rules.h` | ISO 27001 information security controls and evidence collection; `Iso27001Controls` |
 
 ## See Also
 
@@ -44,3 +50,56 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 - [`src/governance/FUTURE_ENHANCEMENTS.md`](../../src/governance/FUTURE_ENHANCEMENTS.md) — Planned features with performance targets and IEEE references
 - [`docs/de/governance/README.md`](../../docs/de/governance/README.md) — German secondary documentation
 
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "governance/policy_engine.h"
+#include "governance/data_masker.h"
+#include "governance/opa_adapter.h"
+```
+
+Example integration:
+
+```cpp
+themis::governance::PolicyEngine engine;
+engine.loadFromYAML("/etc/themisdb/governance/policies.yaml");
+auto permission = engine.checkQueryPermission(headers, "/api/search");
+```
+
+### Configuration Surface (Public API)
+
+- `PolicyEngine::loadFromYAML(path)` reads:
+  - `vs_classification.*` profiles
+  - `enforcement.resource_mapping`
+  - `enforcement.default_mode`
+  - `data_masking.enabled` and `data_masking.rules`
+- `OpaAdapter::Config`:
+  - `endpoint_url`
+  - `policy_path`
+  - `timeout_ms`
+  - optional `mode` (`REST`/`WASM`) and `wasm_bundle_path`
+
+### Runtime Behavior, Errors, and Limits
+
+- OPA unavailability/timeouts return `std::nullopt` in adapter evaluation; `PolicyEngine` falls back to native evaluation.
+- `PolicyEngine::reloadIfChanged(std::string* err)` returns `false` on stat/parse/load failures and can provide details via `err`.
+- `PolicyEngine::checkInferencePermission()` returns structured `allowed/http_status/denial_reason` for caller-facing 401/403 handling.
+- `DataMasker` applies masking to matching JSON field keys; when policy is disabled or empty it is a no-op.
+
+### Troubleshooting and Related Docs
+
+- [Governance Troubleshooting Guide](../../docs/troubleshooting/governance_troubleshooting.md)
+- [Module Overview (`src/governance/README.md`)](../../src/governance/README.md)
+- [Architecture (`src/governance/ARCHITECTURE.md`)](../../src/governance/ARCHITECTURE.md)
+- [Roadmap (`src/governance/ROADMAP.md`)](../../src/governance/ROADMAP.md)
+- [Future Enhancements (`src/governance/FUTURE_ENHANCEMENTS.md`)](../../src/governance/FUTURE_ENHANCEMENTS.md)

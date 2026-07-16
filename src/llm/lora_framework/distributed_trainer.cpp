@@ -1,23 +1,21 @@
+/**
+ * @file distributed_trainer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_trainer.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     286                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 343
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=2, M=4, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/distributed_trainer.h"
@@ -54,28 +52,51 @@ bool DistributedTrainer::initialize() {
         spdlog::warn("DistributedTrainer already initialized");
         return true;
     }
-    
-    if (!is_distributed()) {
-        spdlog::info("Single process mode (world_size=1), skipping initialization");
-        initialized_ = true;
-        return true;
+
+    if (config_.world_size < 1) {
+        spdlog::error("DistributedTrainer initialization failed: invalid world_size={} (must be >= 1)",
+                      config_.world_size);
+        return false;
     }
-    
-    spdlog::info("Initializing distributed training:");
-    spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
-    spdlog::info("  Master: {}:{}", config_.master_addr, config_.master_port);
-    
-    // NOTE: This is a placeholder implementation for Phase 3
-    // Real implementation would initialize NCCL/Gloo/MPI here
-    // For now, we just validate the configuration
-    
+
     if (config_.rank < 0 || config_.rank >= config_.world_size) {
         spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
         return false;
     }
     
+    if (!is_distributed()) {
+        spdlog::info("Single process mode (world_size=1), skipping collective operation validation");
+        initialized_ = true;
+        return true;
+    }
+    
+    // FAIL-CLOSED VALIDATION (Batch 2 - Remove Pseudo-AllReduce)
+    // For multi-rank distributed training, all collective operations (AllReduce, Broadcast, Barrier)
+    // MUST be wired via real implementations (NCCL/MPI/Gloo).
+    // No synthetic or placeholder fallbacks are permitted.
+    spdlog::info("Initializing distributed training (fail-closed mode):");
+    spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
+    spdlog::info("  Master: {}:{}", config_.master_addr, config_.master_port);
+    spdlog::info("  Validating required collective operation callbacks...");
+    
+    if (!allreduce_cpu_fn_) {
+        spdlog::error("FAIL-CLOSED: AllReduceFn bridge not installed. Distributed training requires "
+                      "real collective operations. Call setAllReduceCpuFn() with NCCL/MPI/Gloo before initialize().");
+        return false;
+    }
+    if (!broadcast_fn_) {
+        spdlog::error("FAIL-CLOSED: BroadcastFn bridge not installed. Distributed training requires "
+                      "real collective operations. Call setBroadcastFn() with NCCL/MPI/Gloo before initialize().");
+        return false;
+    }
+    if (!barrier_fn_) {
+        spdlog::error("FAIL-CLOSED: BarrierFn bridge not installed. Distributed training requires "
+                      "real collective operations. Call setBarrierFn() with NCCL/MPI/Gloo before initialize().");
+        return false;
+    }
+    
     initialized_ = true;
-    spdlog::info("Distributed training initialized successfully");
+    spdlog::info("Distributed training initialized successfully (all collective operations verified)");
     return true;
 }
 
@@ -103,6 +124,12 @@ bool DistributedTrainer::is_master() const {
 bool DistributedTrainer::synchronize_gradients(std::vector<Tensor*>& gradients) {
     if (!is_distributed()) {
         return true;  // No synchronization needed
+    }
+
+    if (!allreduce_cpu_fn_) {
+        spdlog::error("DistributedTrainer::synchronize_gradients failed: missing AllReduceCpuFn "
+                      "for world_size={}", config_.world_size);
+        return false;
     }
     
     auto start = std::chrono::high_resolution_clock::now();
@@ -132,6 +159,12 @@ bool DistributedTrainer::broadcast_parameters(std::vector<Tensor*>& parameters) 
     if (!is_distributed()) {
         return true;  // No broadcast needed
     }
+
+    if (!broadcast_fn_) {
+        spdlog::error("DistributedTrainer::broadcast_parameters failed: missing BroadcastFn "
+                      "for world_size={}", config_.world_size);
+        return false;
+    }
     
     auto start = std::chrono::high_resolution_clock::now();
     
@@ -156,9 +189,27 @@ void DistributedTrainer::barrier() {
     if (!is_distributed()) {
         return;
     }
-    
-    // Placeholder: Real implementation would use NCCL/MPI barrier
-    spdlog::debug("Barrier synchronization (rank {})", config_.rank);
+
+    if (!barrier_fn_) {
+        spdlog::error("DistributedTrainer::barrier() called without BarrierFn bridge. "
+                      "Multi-rank training requires real collective operations (NCCL/MPI/Gloo). "
+                      "Call setBarrierFn() before training begins.");
+        throw std::runtime_error("BarrierFn not wired: cannot synchronize distributed training.");
+    }
+
+    (*barrier_fn_)();
+}
+
+void DistributedTrainer::setBarrierFn(BarrierFn fn) {
+    barrier_fn_ = std::move(fn);
+}
+
+void DistributedTrainer::setBroadcastFn(BroadcastFn fn) {
+    broadcast_fn_ = std::move(fn);
+}
+
+void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
+    allreduce_cpu_fn_ = std::move(fn);
 }
 
 DistributedStats DistributedTrainer::stats() const {
@@ -191,38 +242,43 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// CPU-based AllReduce (simplified for single-node)
+// allreduce_cpu: delegates to the injected AllReduceCpuFn when available
+// (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn()
+// before training starts when world_size > 1).  Falls back to local scale for
+// single-process builds (world_size == 1) where no peer exchange is needed.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    // NOTE: This is a simplified CPU implementation for Phase 1
-    // Real distributed implementation would:
-    // 1. Use shared memory for multi-process on same node (via MPI/shmem)
-    // 2. Use NCCL AllReduce for multi-GPU (native GPU communication)
-    // 3. Use MPI for multi-node clusters
-    // 
-    // For Phase 1, we simulate by averaging (assumes gradients already aggregated)
-    // In production, this would:
-    //   - Collect gradients from all ranks via MPI_Allreduce or NCCL
-    //   - Sum them element-wise
-    //   - Divide by world_size
-    //
-    // TODO: When GPU support is added, replace with:
-    //   ncclAllReduce(data, data, count, ncclFloat, ncclSum, comm, stream)
-    //   then divide by world_size
-    
-    float scale = 1.0f / static_cast<float>(config_.world_size);
-    for (float& val : data) {
-        val *= scale;
+    if (!allreduce_cpu_fn_) {
+        if (config_.world_size > 1) {
+            spdlog::error("DistributedTrainer::allreduce_cpu() called without AllReduceCpuFn bridge. "
+                         "Multi-rank training (world_size={}) requires real collective operations (NCCL/MPI/Gloo). "
+                         "Call setAllReduceCpuFn() before training begins.", config_.world_size);
+            throw std::runtime_error("AllReduceCpuFn not wired: cannot synchronize distributed gradients.");
+        }
+        
+        // Single-process fallback is safe: no peer communication needed
+        const float scale = 1.0f / static_cast<float>(config_.world_size);
+        for (float& val : data) {
+            val *= scale;
+        }
+        return;
     }
+
+    (*allreduce_cpu_fn_)(data);
 }
 
 // CPU-based Broadcast (simplified)
 void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
-    // Placeholder: In real implementation, this would:
-    // 1. Master (rank 0) sends data to all other ranks
-    // 2. Non-master ranks receive data from master
-    
-    // For Phase 3, we skip actual communication
-    // This assumes parameters are already synchronized via shared storage
+    if (!broadcast_fn_) {
+        if (config_.world_size > 1) {
+            spdlog::error("DistributedTrainer::broadcast_cpu() called without BroadcastFn bridge. "
+                         "Multi-rank training (world_size={}) requires real collective operations (NCCL/MPI/Gloo). "
+                         "Call setBroadcastFn() before training begins.", config_.world_size);
+            throw std::runtime_error("BroadcastFn not wired: cannot synchronize distributed parameters.");
+        }
+        return;
+    }
+
+    (*broadcast_fn_)(data);
 }
 
 // ============================================================================
@@ -287,3 +343,4 @@ bool is_mpi_available() {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

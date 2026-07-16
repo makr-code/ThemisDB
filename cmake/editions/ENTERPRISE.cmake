@@ -9,8 +9,12 @@ set(THEMIS_SHARDING_MAX_NODES 100 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 4096 CACHE STRING "Maximum cache size (MB)" FORCE)
 
 # Feature defaults for ENTERPRISE edition
-# Advanced features enabled, gRPC required
-set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC required for ENTERPRISE edition" FORCE)
+# Advanced features enabled, gRPC required (skipped in CI mode)
+if(NOT THEMIS_CI_MODE)
+    set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC required for ENTERPRISE edition" FORCE)
+else()
+    message(STATUS "  ENTERPRISE CI mode: gRPC not force-enabled")
+endif()
 if(NOT DEFINED THEMIS_ENABLE_LLM)
     set(THEMIS_ENABLE_LLM ON CACHE BOOL "LLM available in ENTERPRISE edition")
 endif()
@@ -72,7 +76,6 @@ set(THEMIS_ENABLE_DISTRIBUTED_TRAINING OFF CACHE BOOL "Distributed training not 
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_ENTERPRISE_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=24)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=100)
 
 message(STATUS "  Hardware limits: Up to 24 GB GPU VRAM, 100 nodes, 4 GB cache")

@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Report beschreibt den Stand zum Zeitpunkt der Erstellung.
+> Für aktuellen Stand: Quellcode in `src/llm/` und `include/llm/` prüfen.
+
 # Implementation: LLM Status Anzeige im Themis Ingestion Tool
 
 ## Übersicht

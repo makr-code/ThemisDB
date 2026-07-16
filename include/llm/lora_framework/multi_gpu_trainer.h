@@ -1,23 +1,21 @@
+/**
+ * @file multi_gpu_trainer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_trainer.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     184                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_trainer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 174
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #578 [LoRA Phase 10.5] Implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -110,13 +108,13 @@ public:
         const std::vector<GPUTensor>& targets);
     
     /**
-     * @brief Shard a batch across GPUs
-     * 
+     * @brief Shard a batch across GPUs.
+     *
      * Splits a single large batch into N smaller batches, one per GPU.
-     * 
-     * @param batch Full batch tensor (batch_size, features)
-     * @param num_gpus Number of GPUs to shard across
-     * @return Vector of sharded tensors, one per GPU
+     *
+     * @param batch Full batch tensor (batch_size, features).
+     * @param ctx Multi-GPU context describing available devices.
+     * @return Vector of sharded tensors, one per GPU.
      */
     static std::vector<GPUTensor> shard_batch(
         const GPUTensor& batch,
@@ -172,8 +170,8 @@ private:
     Config config_;
     Stats stats_;
     
-    int current_step_;
-    int accumulation_counter_;
+    int current_step_ = 0;
+    int accumulation_counter_ = 0;
     
     // Compute loss (MSE)
     float compute_loss(const GPUTensor& output, const GPUTensor& target);

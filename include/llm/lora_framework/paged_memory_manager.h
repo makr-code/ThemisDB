@@ -1,23 +1,21 @@
+/**
+ * @file paged_memory_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_memory_manager.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     301                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_memory_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 294
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #576 Implement paged optimizers ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -47,6 +45,7 @@ using PageID = uint64_t;
  * and paged between them.
  */
 struct PagedBuffer {
+    virtual ~PagedBuffer() = default;
     PageID id = 0;
     size_t size_bytes = 0;
     void* cpu_ptr = nullptr;
@@ -60,6 +59,7 @@ struct PagedBuffer {
  * @brief Page information for tracking
  */
 struct PageInfo {
+    virtual ~PageInfo() = default;
     PageID id = 0;
     size_t size_bytes = 0;
     Device device = Device::cpu();
@@ -76,6 +76,7 @@ struct PageInfo {
 template<typename Key, typename Value>
 class LRUCache {
 public:
+    virtual ~LRUCache() = default;
     explicit LRUCache(size_t capacity) : capacity_(capacity) {}
     
     void put(const Key& key, const Value& value) {
@@ -147,7 +148,7 @@ private:
         cache_.erase(lru);
     }
     
-    size_t capacity_;
+    size_t capacity_ = 0;
     std::unordered_map<Key, Value> cache_;
 };
 
@@ -285,13 +286,13 @@ private:
     PageID next_page_id_ = 1;
     
     // Active set size (max pages on GPU)
-    size_t active_set_size_;
+    size_t active_set_size_ = 0;
     
     // Access counter for LRU
-    uint64_t access_counter_ = 0;
+    mutable uint64_t access_counter_ = 0;
     
     // Helper to get current timestamp for LRU
-    uint64_t getCurrentTimestamp() {
+    uint64_t getCurrentTimestamp() const {
         return access_counter_++;
     }
     

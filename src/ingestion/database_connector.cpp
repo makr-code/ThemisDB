@@ -1,25 +1,21 @@
+/**
+ * @file database_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=3, H=2, M=14, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            database_connector.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     755                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39e5f1bbd  2026-02-27  fix(ingestion): mask credentials in ODBC error messages; ... ║
-    • 99bb0fef9  2026-02-27  feat(ingestion): add JDBC-compatible DatabaseConnector so... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: database_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 755
+ * Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=3, H=2, M=21, L=0
+ * PR History (last 5): #3097 feat(ingestion): JDBC-compa... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_ODBC is defined the full ODBC-backed implementation is
@@ -193,7 +189,7 @@ static std::string buildOdbcConnectionString(
 
 /// Return a copy of an ODBC connection string with the PWD value masked.
 /// This is used in log/error messages to avoid credential leakage.
-static std::string sanitisedConnectionString(const std::string& cs) {
+[[maybe_unused]] static std::string sanitisedConnectionString(const std::string& cs) {
     // Case-insensitive search for "PWD=" without copying the whole string.
     static const std::string target = "pwd=";
     auto it = std::search(cs.begin(), cs.end(),
@@ -457,7 +453,16 @@ public:
 
 private:
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of DatabaseConnector without a live RDBMS
+    //   by using an injected row_fetch_fn_ instead of a real SQL connection.
+    // Activation: Active when row_fetch_fn_ is non-null (set via
+    //   DatabaseConnector::setRowFetchForTesting()).
+    // Production Delta: Rows come from the injected lambda instead of a real
+    //   database connection.  No connection pooling, no transaction management.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
+    // Removal Plan: Not removed — remains the test-injection path.
+    // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
@@ -749,8 +754,14 @@ void DatabaseConnector::setRetryConfig(const RetryConfig& config) {
 }
 
 void DatabaseConnector::setRowFetchForTesting(RowFetchFn fn) {
+    setRowBatchProvider(std::move(fn));
+}
+
+void DatabaseConnector::setRowBatchProvider(RowFetchFn fn) {
     impl_->setRowFetchForTesting(std::move(fn));
 }
 
 } // namespace ingestion
 } // namespace themis
+
+

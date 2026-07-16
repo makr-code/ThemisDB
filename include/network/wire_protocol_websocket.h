@@ -1,27 +1,21 @@
+/**
+ * @file wire_protocol_websocket.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_websocket.h                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:54:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6144e4347  2026-03-01  feat(network): implement WebSocket binary frame support f... ║
-    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
-    • 0d6fb9967  2026-02-22  fix(network): audit fixes – connection-count correctness ... ║
-    • 6d2d48159  2026-02-22  feat(network): implement WebSocket upgrade support on wir... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_websocket.h | Version: 0.0.18 | Last Modified: 2026-05-22 06:56:08
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 201
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3388 feat(network): implement We... (2026-03-12) | #2545 [network] WebSocket upgrade... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol – WebSocket upgrade session
@@ -181,8 +175,6 @@ private:
     void handleBinaryGet(const uint8_t* payload_data, uint32_t payload_size);
     void handleBinaryPut(const uint8_t* payload_data, uint32_t payload_size);
     void handleBinaryDelete(const uint8_t* payload_data, uint32_t payload_size);
-    // Binary frame helpers
-    void sendBinaryError(uint32_t error_code, const std::string& message);
 
     // Write helpers
     void doWrite();
@@ -218,3 +210,4 @@ private:
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
+

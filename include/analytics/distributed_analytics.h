@@ -1,25 +1,21 @@
+/**
+ * @file distributed_analytics.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_analytics.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1e9824a24  2026-02-24  fix(analytics): align STDDEV/VARIANCE to population varia... ║
-    • baf1ff92d  2026-02-24  feat(analytics): implement distributed analytics sharding... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_analytics.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 338
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4324 Implement cached health sta... (2026-03-19)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -64,9 +60,14 @@
 
 #include "analytics/olap.h"
 
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <future>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace themisdb {
@@ -169,8 +170,19 @@ public:
         /// were skipped.
         bool allow_partial_results = true;
 
+        /// Maximum fraction of shards that may fail before the entire
+        /// `executeDistributed()` call is considered failed.
+        /// Range: [0.0, 1.0]. Default: 0.20 (tolerate up to 20 % failures).
+        /// When `allow_partial_results` is false, this field is not consulted
+        /// (a single failure is already fatal).
+        double max_failure_rate = 0.20;
+
         /// Timeout per shard in milliseconds. 0 = no timeout.
         uint32_t shard_timeout_ms = 30000;
+
+        /// Interval between background health-monitor sweeps.
+        /// Default: 5 s.  Set to zero to disable the background monitor.
+        std::chrono::milliseconds health_check_interval{5000};
     };
 
     /**
@@ -194,11 +206,12 @@ public:
     };
 
     // ------------------------------------------------------------------
-    // Construction
+    // Construction / destruction
     // ------------------------------------------------------------------
 
-    DistributedAnalyticsSharding() = default;
-    explicit DistributedAnalyticsSharding(const Config& cfg) : config_(cfg) {}
+    DistributedAnalyticsSharding();
+    explicit DistributedAnalyticsSharding(const Config& cfg);
+    ~DistributedAnalyticsSharding();
 
     // ------------------------------------------------------------------
     // Shard management
@@ -207,9 +220,16 @@ public:
     /**
      * Register a shard and its executor.
      * Overwrites any previously registered executor for the same shard_id.
+     *
+     * @param shard_id      Unique shard identifier.
+     * @param executor      Per-shard query executor.
+     * @param tenant_id     Optional tenant this shard exclusively serves.
+     *                      Empty string means the shard is accessible to all
+     *                      tenants (or tenant isolation is not required).
      */
     void addShard(const std::string& shard_id,
-                  std::shared_ptr<ShardQueryExecutor> executor);
+                  std::shared_ptr<ShardQueryExecutor> executor,
+                  const std::string& tenant_id = {});
 
     /**
      * Deregister a shard.
@@ -219,8 +239,21 @@ public:
     /** Total number of registered shards. */
     size_t getShardCount() const;
 
-    /** Number of registered shards whose executor reports isHealthy(). */
+    /**
+     * Number of registered shards whose background health monitor last
+     * reported as healthy.  Reads a cached atomic flag — does not perform
+     * any network I/O; completes in ≤ 2 µs.
+     */
     size_t getHealthyShardCount() const;
+
+    /**
+     * Asynchronously query live health for all registered shards.
+     *
+     * Unlike getHealthyShardCount(), this performs real isHealthy() calls
+     * without holding the shard registry lock, so it never blocks addShard()
+     * or removeShard().  The result is delivered via the returned future.
+     */
+    std::future<size_t> getHealthyShardCountAsync() const;
 
     /** Returns all registered shard IDs. */
     std::vector<std::string> getShardIds() const;
@@ -278,6 +311,12 @@ private:
         const std::vector<themis::analytics::Dimension>& dims,
         int64_t grouping_id);
 
+    /** Start the background health-monitor thread (if interval > 0). */
+    void startHealthMonitor();
+
+    /** Entry-point for the background health-monitor thread. */
+    void runHealthMonitor();
+
     // ---------------------------------------------------------------
     // State
     // ---------------------------------------------------------------
@@ -288,9 +327,22 @@ private:
     struct ShardEntry {
         std::string shard_id;
         std::shared_ptr<ShardQueryExecutor> executor;
+        /// If non-empty, only queries whose `tenant_id` matches are allowed
+        /// on this shard.  Empty = accessible to all tenants.
+        std::string allowed_tenant_id;
+        /// Cached health flag updated by the background monitor.
+        /// Initialised to true (optimistic) when a shard is first added.
+        std::shared_ptr<std::atomic<bool>> cached_healthy =
+            std::make_shared<std::atomic<bool>>(true);
     };
 
     std::vector<ShardEntry> shards_;
+
+    // Background health-monitor
+    std::atomic<bool>       stopping_{false};
+    std::mutex              health_monitor_mutex_;
+    std::condition_variable health_monitor_cv_;
+    std::thread             health_monitor_thread_;
 };
 
 } // namespace analytics

@@ -1,27 +1,25 @@
+/**
+ * @file s3_importer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            s3_importer.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     713                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 56f00ce00  2026-02-27  feat: add S3-compatible object storage source connector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: s3_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 679
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=8, L=0
+ * PR History (last 5): #4227 feat(ingestion): S3-Compati... (2026-03-14) | #3626 feat(importers): build syst... (2026-03-12) | #3081 feat(importers): S3-compati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/s3_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <aws/core/Aws.h>
 #include <aws/core/auth/AWSCredentials.h>
@@ -444,29 +442,6 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
 // Static URL helpers
 // ============================================================================
 
-bool S3Importer::parseS3Url(const std::string& url,
-                              std::string& bucket,
-                              std::string& key) {
-    static const std::string prefix = "s3://";
-    if (url.size() < prefix.size() ||
-        url.substr(0, prefix.size()) != prefix) {
-        return false;
-    }
-
-    std::string rest = url.substr(prefix.size());
-    auto slash = rest.find('/');
-    if (slash == std::string::npos) {
-        // s3://bucket  (no key)
-        bucket = rest;
-        key.clear();
-    } else {
-        bucket = rest.substr(0, slash);
-        key    = rest.substr(slash + 1);
-    }
-
-    return !bucket.empty();
-}
-
 std::string S3Importer::sanitisedConnectionId(const S3SourceConfig& cfg,
                                                const std::string& bucket) {
     std::string endpoint =
@@ -712,3 +687,5 @@ themis_plugin_destroy_s3_importer(themis::plugins::IThemisPlugin* plugin) {
 }
 
 } // extern "C"
+
+

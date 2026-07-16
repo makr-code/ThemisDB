@@ -1,23 +1,21 @@
+/**
+ * @file paged_kv_cache_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paged_kv_cache_manager.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     405                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paged_kv_cache_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 405
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=6, L=0
+ * PR History (last 5): #5404 W1-L15 batch 38: Harden KV ... (2026-05-28) | #993 Implement vLLM-inspired GPU... (2026-03-11) | #1126 Add dynamic cache routing, ... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/paged_kv_cache_manager.h"
@@ -31,6 +29,10 @@ namespace llm {
 
 PagedKVCacheManager::PagedKVCacheManager(const Config& config)
     : config_(config) {
+    // IVB-PKV-01: Guard zero block_size before any block arithmetic
+    if (config_.block_size == 0) {
+        throw std::invalid_argument("PagedKVCacheManager: block_size must be > 0");
+    }
     initializeBlocks();
 }
 
@@ -91,6 +93,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
     }
     
     // Calculate number of blocks to share
+    // IVB-PKV-02: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
     size_t blocks_to_share = (prefix_length + config_.block_size - 1) / config_.block_size;
     blocks_to_share = std::min(blocks_to_share, parent_it->second.block_ids.size());
     
@@ -131,7 +134,11 @@ PagedKVCacheManager::getBlockTable(uint64_t seq_id) const {
 PagedKVCacheManager::BlockTable 
 PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     // Calculate number of blocks needed
-    size_t num_blocks_needed = (num_tokens + config_.block_size - 1) / config_.block_size;
+    // IVB-PKV-03: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
+    // Handle num_tokens == 0: allocate 0 blocks (valid empty sequence).
+    size_t num_blocks_needed = (num_tokens > 0)
+        ? (num_tokens + config_.block_size - 1) / config_.block_size
+        : 0;
     
     // Allocate blocks
     std::vector<int> block_ids = allocateBlocks(num_blocks_needed);
@@ -195,7 +202,7 @@ PagedKVCacheManager::getMemoryStats() const {
     stats.prefix_sharing_ratio = calculatePrefixSavings() / 100.0;
     
     // Populate shared_blocks count
-    stats.shared_blocks = total_blocks_shared_.load();
+    stats.shared_blocks = total_blocks_shared_.load(std::memory_order_acquire);
     
     // Calculate memory usage
     stats.bytes_per_block = calculateBlockMemorySize();
@@ -218,7 +225,7 @@ PagedKVCacheManager::getBlockInfo(int block_id) const {
         BlockInfo info;
         info.block_id = block.block_id;
         info.device_ptr = block.device_ptr;
-        info.ref_count = block.ref_count.load();
+        info.ref_count = block.ref_count.load(std::memory_order_acquire);
         info.is_pinned = block.is_pinned;
         info.parent_sequence_id = block.parent_sequence_id;
         return info;
@@ -245,7 +252,7 @@ size_t PagedKVCacheManager::defragment() {
 
     size_t reclaimed = 0;
     for (const auto& block : blocks_) {
-        if (block.ref_count.load() == 0 &&
+        if (block.ref_count.load(std::memory_order_acquire) == 0 &&
             !block.is_pinned &&
             known_free.find(block.block_id) == known_free.end()) {
             free_block_ids_.push_back(block.block_id);
@@ -294,8 +301,8 @@ size_t PagedKVCacheManager::calculateBlockMemorySize() const {
 }
 
 double PagedKVCacheManager::calculatePrefixSavings() const {
-    size_t total_allocated = total_blocks_allocated_.load();
-    size_t shared = total_blocks_shared_.load();
+    size_t total_allocated = total_blocks_allocated_.load(std::memory_order_acquire);
+    size_t shared = total_blocks_shared_.load(std::memory_order_acquire);
     
     if (total_allocated == 0) return 0.0;
     
@@ -360,7 +367,7 @@ void PagedKVCacheManager::updateWorkloadMetrics() {
             // Estimate prefix length from shared blocks
             for (int block_id : table.block_ids) {
                 if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
-                    if (blocks_[block_id].ref_count.load() > 1) {
+                    if (blocks_[block_id].ref_count.load(std::memory_order_acquire) > 1) {
                         total_prefix_length += config_.block_size;
                     }
                 }
@@ -406,3 +413,4 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(Workl
 
 } // namespace llm
 } // namespace themis
+

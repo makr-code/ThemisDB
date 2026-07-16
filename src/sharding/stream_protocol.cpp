@@ -1,23 +1,21 @@
+/**
+ * @file stream_protocol.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=1, C=6, H=15, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            stream_protocol.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     1352                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: stream_protocol.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1443
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=1, C=11, H=22, M=15, L=0
+ * PR History (last 5): #101 v1.3.0: Source Code Review ... (2026-03-11) | #145 Implement v1.3.0 Phase 2: C... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -28,6 +26,7 @@
  */
 
 #include "sharding/stream_protocol.h"
+#include "utils/thread_join_utils.h"
 #include <openssl/evp.h>
 #include <cstring>
 #include <algorithm>
@@ -37,14 +36,15 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <spdlog/spdlog.h>
 
 // Optional: LZ4 compression (conditional compilation)
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
 #include <lz4.h>
 #endif
 
 // Optional: Zstd compression (conditional compilation)
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
 #include <zstd.h>
 #endif
 
@@ -112,6 +112,7 @@ uint32_t calculateCRC32(const uint8_t* data, size_t length) {
     return crc ^ 0xFFFFFFFF;
 }
 
+/** @brief Generate pseudo-random per-session identifier. */
 uint32_t generateSessionId() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -125,6 +126,7 @@ uint32_t generateSessionId() {
 // StreamMessageHeader Implementation
 // ============================================================================
 
+/** @brief Serialize stream message header into fixed-size wire bytes. */
 std::vector<uint8_t> StreamMessageHeader::serialize() const {
     std::vector<uint8_t> result(SIZE);
     size_t pos = 0;
@@ -164,6 +166,11 @@ std::vector<uint8_t> StreamMessageHeader::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize stream message header from wire bytes.
+ * @param data Serialized header bytes.
+ * @return Parsed header or std::nullopt for malformed/short input.
+ */
 std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::vector<uint8_t>& data) {
     if (data.size() < SIZE) {
         return std::nullopt;
@@ -210,6 +217,10 @@ std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::v
 // StreamChunk Implementation
 // ============================================================================
 
+/**
+ * @brief Verify chunk payload checksum.
+ * @return true when checksum matches serialized payload data.
+ */
 bool StreamChunk::verify() const {
     if (data.empty()) {
         return checksum == 0;
@@ -217,6 +228,7 @@ bool StreamChunk::verify() const {
     return calculateCRC32(data.data(), data.size()) == checksum;
 }
 
+/** @brief Serialize chunk metadata and payload into transport bytes. */
 std::vector<uint8_t> StreamChunk::serialize() const {
     std::vector<uint8_t> result;
     
@@ -258,7 +270,13 @@ std::vector<uint8_t> StreamChunk::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize chunk from transport bytes and validate metadata bounds.
+ * @param data Serialized chunk bytes.
+ * @return Parsed chunk or std::nullopt for malformed/inconsistent input.
+ */
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
+    // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
     if (data.size() < 24) {
         return std::nullopt;
     }
@@ -300,6 +318,25 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
                      static_cast<uint32_t>(data[pos+3]);
     pos += 4;
     
+    // W2-S03: Validate chunk metadata consistency
+    // Fail-closed if uncompressed_size exceeds 1GB (impossibly large single chunk)
+    constexpr uint32_t MAX_UNCOMPRESSED_SIZE = 1024u * 1024u * 1024u;  // 1GB
+    if (chunk.uncompressed_size == 0 || chunk.uncompressed_size > MAX_UNCOMPRESSED_SIZE) {
+        return std::nullopt;
+    }
+    
+    // Fail-closed if compressed_size doesn't match payload size
+    size_t payload_size = data.size() - pos;
+    if (chunk.compressed_size != payload_size) {
+        return std::nullopt;
+    }
+    
+    // Fail-closed if uncompressed_size < compressed_size (invalid compression claim)
+    // Only allow when uncompressed and compressed are the same (no compression)
+    if (chunk.compressed_size > 0 && chunk.uncompressed_size < chunk.compressed_size) {
+        return std::nullopt;
+    }
+    
     // data
     if (data.size() > pos) {
         chunk.data.assign(data.begin() + pos, data.end());
@@ -312,6 +349,10 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
 // StreamFileProgress Implementation
 // ============================================================================
 
+/**
+ * @brief Compute transfer throughput over observed activity window.
+ * @return Average bytes per second since start_time.
+ */
 double StreamFileProgress::getThroughputBytesPerSecond() const {
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         last_activity - start_time
@@ -325,6 +366,7 @@ double StreamFileProgress::getThroughputBytesPerSecond() const {
 // StreamingStats Implementation
 // ============================================================================
 
+/** @brief Export streaming counters in Prometheus exposition format. */
 std::string StreamingStats::toPrometheusFormat() const {
     std::ostringstream oss;
     
@@ -365,16 +407,20 @@ std::string StreamingStats::toPrometheusFormat() const {
 // StreamCompressor Implementation
 // ============================================================================
 
+/**
+ * @brief Compress payload using selected algorithm, with passthrough fallback.
+ * @return Compressed bytes, or original bytes when algorithm is unavailable/fails.
+ */
 std::vector<uint8_t> StreamCompressor::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
-    int level) {
+    [[maybe_unused]] int level) {
     
     if (data.empty() || algorithm == CompressionAlgorithm::NONE) {
         return data;
     }
     
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
     if (algorithm == CompressionAlgorithm::LZ4) {
         int max_dst_size = LZ4_compressBound(static_cast<int>(data.size()));
         std::vector<uint8_t> compressed(max_dst_size);
@@ -393,7 +439,7 @@ std::vector<uint8_t> StreamCompressor::compress(
     }
 #endif
 
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
     if (algorithm == CompressionAlgorithm::ZSTD) {
         size_t max_dst_size = ZSTD_compressBound(data.size());
         std::vector<uint8_t> compressed(max_dst_size);
@@ -417,16 +463,20 @@ std::vector<uint8_t> StreamCompressor::compress(
     return data;
 }
 
+/**
+ * @brief Decompress payload to expected size, with passthrough fallback.
+ * @return Decompressed bytes, or original bytes when algorithm is unavailable/fails.
+ */
 std::vector<uint8_t> StreamCompressor::decompress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
-    size_t uncompressed_size) {
+    [[maybe_unused]] size_t uncompressed_size) {
     
     if (data.empty() || algorithm == CompressionAlgorithm::NONE) {
         return data;
     }
     
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
     if (algorithm == CompressionAlgorithm::LZ4) {
         std::vector<uint8_t> decompressed(uncompressed_size);
         
@@ -444,7 +494,7 @@ std::vector<uint8_t> StreamCompressor::decompress(
     }
 #endif
 
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
     if (algorithm == CompressionAlgorithm::ZSTD) {
         std::vector<uint8_t> decompressed(uncompressed_size);
         
@@ -466,15 +516,16 @@ std::vector<uint8_t> StreamCompressor::decompress(
     return data;
 }
 
+/** @brief Return whether algorithm is compiled into current binary. */
 bool StreamCompressor::isSupported(CompressionAlgorithm algorithm) {
     switch (algorithm) {
         case CompressionAlgorithm::NONE:
             return true;
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
         case CompressionAlgorithm::LZ4:
             return true;
 #endif
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
         case CompressionAlgorithm::ZSTD:
             return true;
 #endif
@@ -557,13 +608,42 @@ bool StreamSession::initialize() {
     }
     
     transitionState(StreamSessionState::PREPARING);
-    
-    // In real implementation:
-    // 1. Establish mTLS connection to remote
-    // 2. Send PREPARE_REQUEST with file list
-    // 3. Wait for PREPARE_ACK
-    
-    // For now, simulate successful preparation
+
+    // Validate that a remote endpoint is configured — without one, no
+    // PREPARE_REQUEST can ever be sent (even with a real transport).
+    if (config_.remote_endpoint.empty()) {
+        transitionState(StreamSessionState::ABORTED);
+        return false;
+    }
+
+    // If a preparation callback has been injected (e.g. a real mTLS transport
+    // that exchanges PREPARE_REQUEST / PREPARE_ACK), delegate to it.
+    std::function<bool()> prepare_callback;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        prepare_callback = prepare_callback_;
+    }
+    if (prepare_callback) {
+        const bool prepared = prepare_callback();
+        if (!prepared) {
+            transitionState(StreamSessionState::ABORTED);
+        }
+        return prepared;
+    }
+
+    // No transport callback wired yet.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow the StreamSession state machine to advance past PREPARING
+    //          while the mTLS PREPARE_REQUEST/PREPARE_ACK exchange is not yet
+    //          wired up.  The remote endpoint is validated above to catch
+    //          misconfigured sessions early.
+    // Activation: `prepare_callback_` not set (no real transport injected).
+    // Production Delta: No actual connection is established; the remote side
+    //                   has no matching prepared session, so subsequent data
+    //                   transfers will fail on the remote end.
+    // Removal Plan: Inject a real mTLS preparation callback via
+    //               `setPrepareTransferCallback()` and remove this fallback.
+    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
     return true;
 }
 
@@ -588,16 +668,36 @@ bool StreamSession::start() {
 }
 
 void StreamSession::pause() {
-    // Signal tasks to pause
-    for (auto& [id, task] : transfer_tasks_) {
-        task->pause();
+    std::vector<StreamTransferTask*> tasks;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        tasks.reserve(transfer_tasks_.size());
+        for (auto& [id, task] : transfer_tasks_) {
+            tasks.push_back(task.get());
+        }
+    }
+
+    for (auto* task : tasks) {
+        if (task) {
+            task->pause();
+        }
     }
 }
 
 void StreamSession::resume() {
-    // Signal tasks to resume
-    for (auto& [id, task] : transfer_tasks_) {
-        task->resume();
+    std::vector<StreamTransferTask*> tasks;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        tasks.reserve(transfer_tasks_.size());
+        for (auto& [id, task] : transfer_tasks_) {
+            tasks.push_back(task.get());
+        }
+    }
+
+    for (auto* task : tasks) {
+        if (task) {
+            task->resume();
+        }
     }
 }
 
@@ -607,26 +707,45 @@ void StreamSession::abort(const std::string& reason) {
     }
     
     transitionState(StreamSessionState::ABORTED);
-    
-    // Abort all tasks
-    for (auto& [id, task] : transfer_tasks_) {
-        task->abort();
+
+    std::vector<StreamTransferTask*> transfer_task_ptrs;
+    std::vector<StreamReceiveTask*> receive_task_ptrs;
+    StreamCompletionCallback completion_callback;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        transfer_task_ptrs.reserve(transfer_tasks_.size());
+        for (auto& [id, task] : transfer_tasks_) {
+            transfer_task_ptrs.push_back(task.get());
+        }
+        receive_task_ptrs.reserve(receive_tasks_.size());
+        for (auto& [id, task] : receive_tasks_) {
+            receive_task_ptrs.push_back(task.get());
+        }
+        completion_callback = completion_callback_;
     }
-    for (auto& [id, task] : receive_tasks_) {
-        task->abort();
+    
+    for (auto* task : transfer_task_ptrs) {
+        if (task) {
+            task->abort();
+        }
+    }
+    for (auto* task : receive_task_ptrs) {
+        if (task) {
+            task->abort();
+        }
     }
     
     cv_.notify_all();
     
     if (session_thread_.joinable()) {
-        session_thread_.join();
+        themis::utils::joinThreadWithin(session_thread_);
     }
     if (heartbeat_thread_.joinable()) {
-        heartbeat_thread_.join();
+        themis::utils::joinThreadWithin(heartbeat_thread_);
     }
     
-    if (completion_callback_) {
-        completion_callback_(session_id_, false, reason);
+    if (completion_callback) {
+        completion_callback(session_id_, false, reason);
     }
 }
 
@@ -667,11 +786,18 @@ StreamSessionProgress StreamSession::getProgress() const {
 }
 
 void StreamSession::setProgressCallback(StreamProgressCallback callback) {
+    std::lock_guard<std::mutex> lock(mutex_);
     progress_callback_ = std::move(callback);
 }
 
 void StreamSession::setCompletionCallback(StreamCompletionCallback callback) {
+    std::lock_guard<std::mutex> lock(mutex_);
     completion_callback_ = std::move(callback);
+}
+
+void StreamSession::setPrepareTransferCallback(std::function<bool()> cb) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    prepare_callback_ = std::move(cb);
 }
 
 bool StreamSession::isActive() const {
@@ -686,8 +812,10 @@ void StreamSession::sessionLoop() {
         bool all_complete = true;
         bool any_failed = false;
         
+        bool has_files = false;
         {
             std::lock_guard<std::mutex> lock(mutex_);
+            has_files = !files_.empty();
             
             if (config_.direction == StreamDirection::OUTGOING) {
                 for (const auto& [id, task] : transfer_tasks_) {
@@ -710,19 +838,29 @@ void StreamSession::sessionLoop() {
         if (any_failed) {
             transitionState(StreamSessionState::FAILED);
             running_.store(false);
-            
-            if (completion_callback_) {
-                completion_callback_(session_id_, false, "Transfer task failed");
+
+            StreamCompletionCallback completion_callback;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                completion_callback = completion_callback_;
+            }
+            if (completion_callback) {
+                completion_callback(session_id_, false, "Transfer task failed");
             }
             break;
         }
         
-        if (all_complete && !files_.empty()) {
+        if (all_complete && has_files) {
             transitionState(StreamSessionState::COMPLETE);
             running_.store(false);
-            
-            if (completion_callback_) {
-                completion_callback_(session_id_, true, "");
+
+            StreamCompletionCallback completion_callback;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                completion_callback = completion_callback_;
+            }
+            if (completion_callback) {
+                completion_callback(session_id_, true, "");
             }
             break;
         }
@@ -748,8 +886,13 @@ void StreamSession::heartbeatLoop() {
 }
 
 void StreamSession::notifyProgress() {
-    if (progress_callback_) {
-        progress_callback_(getProgress());
+    StreamProgressCallback progress_callback;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        progress_callback = progress_callback_;
+    }
+    if (progress_callback) {
+        progress_callback(getProgress());
     }
 }
 
@@ -757,7 +900,7 @@ void StreamSession::transitionState(StreamSessionState new_state) {
     state_.store(new_state);
 }
 
-bool StreamSession::sendMessage(StreamMessageType type, const std::vector<uint8_t>& payload) {
+bool StreamSession::sendMessage([[maybe_unused]] StreamMessageType type, [[maybe_unused]] const std::vector<uint8_t>& payload) {
     // In real implementation, this would send over the mTLS connection
     return true;
 }
@@ -775,9 +918,10 @@ void StreamCoordinator::initialize(const StreamThrottleConfig& throttle_config) 
     if (initialized_.exchange(true)) {
         return;
     }
-    
+
+    std::lock_guard<std::mutex> lock(mutex_);
     throttle_config_ = throttle_config;
-    
+
     if (throttle_config_.max_bytes_per_second > 0) {
         global_rate_limiter_ = std::make_shared<StreamRateLimiter>(
             throttle_config_.max_bytes_per_second
@@ -789,13 +933,19 @@ void StreamCoordinator::shutdown() {
     if (!initialized_.exchange(false)) {
         return;
     }
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    for (auto& plan : active_plans_) {
-        plan->abort();
+
+    std::vector<std::shared_ptr<StreamPlan>> active_plans;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        active_plans = active_plans_;
+        active_plans_.clear();
     }
-    active_plans_.clear();
+
+    for (auto& plan : active_plans) {
+        if (plan) {
+            plan->abort();
+        }
+    }
 }
 
 std::shared_ptr<StreamPlan> StreamCoordinator::createPlan(const StreamPlanConfig& config) {
@@ -813,10 +963,15 @@ std::vector<std::shared_ptr<StreamPlan>> StreamCoordinator::getActivePlans() con
 }
 
 void StreamCoordinator::updateThrottleConfig(const StreamThrottleConfig& config) {
-    throttle_config_ = config;
+    std::shared_ptr<StreamRateLimiter> global_rate_limiter;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        throttle_config_ = config;
+        global_rate_limiter = global_rate_limiter_;
+    }
     
-    if (global_rate_limiter_ && config.max_bytes_per_second > 0) {
-        global_rate_limiter_->setRate(config.max_bytes_per_second);
+    if (global_rate_limiter && config.max_bytes_per_second > 0) {
+        global_rate_limiter->setRate(config.max_bytes_per_second);
     }
 }
 
@@ -861,7 +1016,7 @@ void StreamPlan::abort() {
     }
     
     if (executor_thread_.joinable()) {
-        executor_thread_.join();
+        themis::utils::joinThreadWithin(executor_thread_);
     }
 }
 
@@ -949,7 +1104,13 @@ void StreamPlan::executorLoop() {
 }
 
 void StreamPlan::notifyListeners(std::function<void(IStreamListener&)> callback) {
-    for (auto& listener : listeners_) {
+    std::vector<std::shared_ptr<IStreamListener>> listeners;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        listeners = listeners_;
+    }
+
+    for (auto& listener : listeners) {
         if (listener) {
             callback(*listener);
         }
@@ -972,7 +1133,7 @@ StreamTransferTask::StreamTransferTask(
 StreamTransferTask::~StreamTransferTask() {
     abort();
     if (transfer_thread_.joinable()) {
-        transfer_thread_.join();
+        themis::utils::joinThreadWithin(transfer_thread_);
     }
 }
 
@@ -1024,35 +1185,63 @@ void StreamTransferTask::transferLoop() {
     while (running_) {
         {
             std::unique_lock<std::mutex> lock(mutex_);
-            cv_.wait(lock, [this] { return !paused_ || !running_; });
+            // Use wait_for with the session timeout to prevent indefinite blocking
+            // if paused_ is set but never cleared (e.g. caller forgets to resume).
+            const auto wait_dur = std::chrono::milliseconds(
+                config_.timeout_ms > 0 ? config_.timeout_ms : DEFAULT_TIMEOUT_MS);
+            cv_.wait_for(lock, wait_dur, [this] { return !paused_ || !running_; });
         }
         
         if (!running_) break;
-        
-        // Process pending retries
-        while (!pending_retries_.empty()) {
-            uint32_t chunk_index = pending_retries_.front();
-            pending_retries_.pop();
-            
+
+        for (;;) {
+            uint32_t chunk_index = 0;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                if (pending_retries_.empty()) {
+                    break;
+                }
+                chunk_index = pending_retries_.front();
+                pending_retries_.pop();
+            }
+
             if (auto chunk = createChunk(chunk_index)) {
                 sendChunk(*chunk);
             }
         }
         
-        // Send next chunk
-        if (next_chunk_to_send_ < chunks_acked_.size()) {
-            if (!chunks_acked_[next_chunk_to_send_]) {
-                if (auto chunk = createChunk(next_chunk_to_send_)) {
-                    if (sendChunk(*chunk)) {
-                        next_chunk_to_send_++;
-                    }
+        uint32_t chunk_index = 0;
+        bool has_chunk = false;
+        bool already_acked = false;
+        bool transfer_complete = false;
+        {
+            std::lock_guard<std::mutex> lock(progress_mutex_);
+            if (next_chunk_to_send_ < chunks_acked_.size()) {
+                chunk_index = next_chunk_to_send_;
+                already_acked = chunks_acked_[chunk_index];
+                has_chunk = true;
+                if (already_acked) {
+                    ++next_chunk_to_send_;
                 }
             } else {
-                next_chunk_to_send_++;
+                transfer_complete = true;
             }
-        } else {
+        }
+
+        if (transfer_complete) {
             complete_ = true;
             break;
+        }
+
+        if (has_chunk && !already_acked) {
+            if (auto chunk = createChunk(chunk_index)) {
+                if (sendChunk(*chunk)) {
+                    std::lock_guard<std::mutex> lock(progress_mutex_);
+                    if (next_chunk_to_send_ == chunk_index) {
+                        ++next_chunk_to_send_;
+                    }
+                }
+            }
         }
         
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -1111,6 +1300,11 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
 }
 
 bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
+    // W2-S07: Document stream transfer semantics
+    // - Local staging: written to temporary file without replication
+    // - Remote setup: would require consensus before durable write
+    // - Recovery: based on source file and transaction log, not staging files
+    
     // Local implementation: write chunk to temporary staging area
     // In distributed setup, this would send via RPC/network to target shard
     
@@ -1133,6 +1327,16 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         }
     }
 
+    // W2-S07: Validate chunk before writing to persistent storage
+    if (chunk.chunk_index == std::numeric_limits<uint32_t>::max()) {
+        spdlog::error("Invalid chunk index for staging write");
+        return false;
+    }
+    if (chunk.data.size() > 1024 * 1024 * 1024) {  // 1GB max chunk
+        spdlog::error("Chunk data exceeds maximum size ({})", chunk.data.size());
+        return false;
+    }
+    
     // Write chunk to staging file (simulates network transfer)
     std::filesystem::path chunk_file = staging_dir / 
         (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");
@@ -1201,46 +1405,93 @@ bool StreamReceiveTask::start() {
 }
 
 bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
+    if (!running_ || failed_ || complete_) {
+        return false;
+    }
+
+    if (chunk.chunk_index >= chunks_received_.size()) {
+        std::cerr << "Rejecting chunk with out-of-range index " << chunk.chunk_index
+                  << " for file " << file_.file_id << std::endl;
+        failed_ = true;
+        return false;
+    }
+
+    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
+        chunk.compressed_size > chunk.uncompressed_size) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to inconsistent size metadata" << std::endl;
+        failed_ = true;
+        return false;
+    }
+
+    const uint64_t expected_offset = static_cast<uint64_t>(chunk.chunk_index) * config_.chunk_size;
+    const uint64_t remaining = file_.file_size > expected_offset
+        ? file_.file_size - expected_offset
+        : 0;
+    const uint32_t expected_uncompressed = static_cast<uint32_t>(
+        std::min<uint64_t>(config_.chunk_size, remaining));
+
+    if (chunk.file_offset != expected_offset || expected_uncompressed == 0 ||
+        chunk.uncompressed_size != expected_uncompressed) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to unexpected offset/size metadata" << std::endl;
+        failed_ = true;
+        return false;
+    }
+
     {
         std::lock_guard<std::mutex> lock(write_mutex_);
-        
-        if (chunk.chunk_index < chunks_received_.size()) {
-            chunks_received_[chunk.chunk_index] = true;
+
+        if (chunk.chunk_index < next_expected_chunk_ || chunks_received_[chunk.chunk_index]) {
+            std::cerr << "Rejecting stale or duplicate chunk " << chunk.chunk_index
+                      << " for file " << file_.file_id << std::endl;
+            failed_ = true;
+            return false;
         }
-        
-        // Check if this is the next expected chunk
+
+        if (chunk.chunk_index > next_expected_chunk_ &&
+            out_of_order_chunks_.count(chunk.chunk_index) > 0) {
+            std::cerr << "Rejecting duplicate buffered chunk " << chunk.chunk_index
+                      << " for file " << file_.file_id << std::endl;
+            failed_ = true;
+            return false;
+        }
+
         if (chunk.chunk_index == next_expected_chunk_) {
             if (!writeChunk(chunk)) {
+                chunks_received_[chunk.chunk_index] = false;
+                std::cerr << "Failed to write chunk " << chunk.chunk_index
+                          << " for file " << file_.file_id << std::endl;
+                failed_ = true;
                 return false;
             }
+            chunks_received_[chunk.chunk_index] = true;
+            next_expected_chunk_++;
             
-            // Write any buffered out-of-order chunks
             while (out_of_order_chunks_.count(next_expected_chunk_)) {
                 if (!writeChunk(out_of_order_chunks_[next_expected_chunk_])) {
+                    chunks_received_[next_expected_chunk_] = false;
+                    std::cerr << "Failed to flush buffered chunk " << next_expected_chunk_
+                              << " for file " << file_.file_id << std::endl;
+                    failed_ = true;
                     return false;
                 }
+                chunks_received_[next_expected_chunk_] = true;
                 out_of_order_chunks_.erase(next_expected_chunk_);
                 next_expected_chunk_++;
             }
-            
-            next_expected_chunk_++;
         } else {
-            // Buffer out-of-order chunk
             out_of_order_chunks_[chunk.chunk_index] = chunk;
+            chunks_received_[chunk.chunk_index] = true;
         }
-    }
-    
-    // Check if all chunks received
-    bool all_received = true;
-    for (bool received : chunks_received_) {
-        if (!received) {
-            all_received = false;
-            break;
+
+        const bool all_received = std::all_of(
+            chunks_received_.begin(), chunks_received_.end(), [](bool received) {
+                return received;
+            });
+        if (all_received) {
+            complete_ = true;
         }
-    }
-    
-    if (all_received) {
-        complete_ = true;
     }
     
     return true;
@@ -1277,13 +1528,27 @@ bool StreamReceiveTask::verifyIntegrity() const {
 }
 
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
+    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
+        chunk.compressed_size > chunk.uncompressed_size) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to invalid payload metadata" << std::endl;
+        return false;
+    }
+
+    if (chunk.file_offset > file_.file_size ||
+        file_.file_size - chunk.file_offset < chunk.uncompressed_size) {
+        std::cerr << "Rejecting chunk " << chunk.chunk_index
+                  << " due to out-of-bounds file range" << std::endl;
+        return false;
+    }
+
     // Decompress if needed
     std::vector<uint8_t> write_data;
     if (chunk.compressed_size < chunk.uncompressed_size) {
         // Data is compressed, decompress it
         write_data = StreamCompressor::decompress(
             chunk.data, config_.compression, chunk.uncompressed_size);
-        if (write_data.empty() && chunk.uncompressed_size > 0) {
+        if (write_data.size() != chunk.uncompressed_size) {
             std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
             return false;
         }
@@ -1301,12 +1566,18 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     // Write to target file
-    std::ofstream file(file_.target_path, std::ios::binary | std::ios::in | std::ios::out);
+    const std::string& target_path = output_path_.empty() ? file_.target_path : output_path_;
+    if (target_path.empty()) {
+        std::cerr << "No target path configured for chunk " << chunk.chunk_index << std::endl;
+        return false;
+    }
+
+    std::ofstream file(target_path, std::ios::binary | std::ios::in | std::ios::out);
     if (!file) {
         // File doesn't exist, create it
-        file.open(file_.target_path, std::ios::binary | std::ios::out);
+        file.open(target_path, std::ios::binary | std::ios::out);
         if (!file) {
-            std::cerr << "Failed to open target file: " << file_.target_path << std::endl;
+            std::cerr << "Failed to open target file: " << target_path << std::endl;
             return false;
         }
     }
@@ -1353,3 +1624,4 @@ void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
 
 } // namespace streaming
 } // namespace themisdb
+

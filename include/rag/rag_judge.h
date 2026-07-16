@@ -1,32 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_judge.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     517                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 554149430  2026-02-26  RAG-Modul: Replace stub claim extraction/verification wit... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file rag_judge.h
- * @brief LLM-as-Judge for RAG System Quality Evaluation
- * 
- * Evaluates RAG system outputs on multiple dimensions including faithfulness,
- * relevance, completeness, and coherence using LLM-based assessment.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -38,6 +18,7 @@
 #include <functional>
 #include <chrono>
 #include <cmath>
+#include <optional>
 
 namespace themis::rag::judge {
 
@@ -73,6 +54,39 @@ enum class EvaluationMode {
 };
 
 /**
+ * @brief Bias score for a document (Wave A3: Fairness & Bias Detection).
+ *
+ * Quantifies detected biases across multiple dimensions (gender, occupational,
+ * ethnicity, intersectional). Added in v1.20.0 for ethical RAG evaluation.
+ *
+ * @reference Bolukbasi et al. (2016) "Man is to Computer Programmer
+ *            as Woman is to Homemaker: Debiasing Word Embeddings"
+ *            NeurIPS 2016, arXiv:1607.06520
+ */
+struct BiasScore {
+    /// Overall bias magnitude (0.0 = no bias, 1.0 = extreme bias)
+    double overall_score = 0.0;
+
+    /// Gender bias component (0.0–1.0)
+    double gender_bias = 0.0;
+
+    /// Occupational stereotype bias (0.0–1.0)
+    double occupational_bias = 0.0;
+
+    /// Ethnicity/cultural bias (0.0–1.0)
+    double ethnicity_bias = 0.0;
+
+    /// Stereotype density: freq(biased_terms) / total_terms in passage
+    double stereotype_density = 0.0;
+
+    /// True if this document likely contains problematic bias
+    bool flagged = false;
+
+    /// Confidence in the bias score (0.0–1.0)
+    double confidence = 0.0;
+};
+
+/**
  * @brief Retrieved document for evaluation context
  */
 struct RetrievedDocument {
@@ -80,6 +94,9 @@ struct RetrievedDocument {
     std::string content;
     double similarity_score;
     std::unordered_map<std::string, std::string> metadata;
+
+    /// Optional bias score (Wave A3: populated by FairnessDetector if enabled)
+    std::optional<BiasScore> bias_score;
 };
 
 /**
@@ -105,7 +122,15 @@ struct EvaluationResult {
     bool respects_human_autonomy;                ///< NEW: Respects user autonomy
     bool shows_moral_diversity;                  ///< NEW: Shows diverse perspectives
     bool has_ethical_citations;                  ///< NEW: Cites sources for moral claims
-    
+
+    // AI Safety / reliability fields
+    /// True when config.enable_prompt_injection_screening is true and documents were non-empty
+    bool injection_screened = false;
+    /// Number of injection findings across all context documents; 0 when injection_screened is false
+    size_t injection_findings_count = 0;
+    /// True when evaluation was blocked because at least one finding had HIGH or higher severity
+    bool injection_blocked = false;
+
     // Quality assessment
     bool passed_quality_threshold;               ///< Meets minimum quality
     double confidence;                           ///< Judge's confidence in evaluation
@@ -182,6 +207,13 @@ struct RAGJudgeConfig {
     bool cache_evaluations = true;               ///< Cache results for identical inputs
     bool async_evaluation = false;               ///< Run evaluation asynchronously
     size_t batch_size = 8;                      ///< For batch processing
+
+    // AI Safety: prompt-injection screening
+    bool enable_prompt_injection_screening = true;  ///< Scan retrieved docs before evaluation
+    bool block_on_high_severity_injection  = true;  ///< Block (skip LLM eval) on HIGH+ severity
+
+    // AI Safety: bias tracking
+    bool enable_bias_tracking = true;               ///< Track evaluations for bias analysis
     
     /**
      * @brief Validate that weights sum to approximately 1.0
@@ -210,6 +242,7 @@ struct EvaluationInput {
     std::vector<RetrievedDocument> documents;
     std::string generated_answer;
     std::unordered_map<std::string, std::string> metadata;
+    std::string tenant_id; ///< Tenant identifier for cache isolation; empty means global/anonymous
 };
 
 /**
@@ -234,10 +267,14 @@ struct RAGTestCase {
 class RAGJudge {
 public:
     /**
+     * @brief Default constructor for judge
+     */
+    RAGJudge();
+    
+    /**
      * @brief Construct judge with configuration
      * @param config Evaluation configuration
      */
-    RAGJudge();
     explicit RAGJudge(const RAGJudgeConfig& config);
     
     /**
@@ -250,7 +287,6 @@ public:
      * @param query User query
      * @param documents Retrieved documents
      * @param generated_answer Generated answer to evaluate
-     * @param config Optional override configuration
      * @return Evaluation result with scores and analysis
      */
     EvaluationResult evaluate(
@@ -258,6 +294,15 @@ public:
         const std::vector<RetrievedDocument>& documents,
         const std::string& generated_answer
     );
+    
+    /**
+     * @brief Evaluate a single RAG output with custom configuration
+     * @param query User query
+     * @param documents Retrieved documents
+     * @param generated_answer Generated answer to evaluate
+     * @param config Optional override configuration
+     * @return Evaluation result with scores and analysis
+     */
     EvaluationResult evaluate(
         const std::string& query,
         const std::vector<RetrievedDocument>& documents,
@@ -332,9 +377,36 @@ public:
      */
     void clearCache();
 
+    /**
+     * @brief Summary of bias analysis accumulated over evaluation history.
+     *
+     * Returned by getBiasAnalysis(). Self-contained; does not require
+     * inclusion of bias_detector.h by the caller.
+     */
+    struct BiasAnalysisSummary {
+        bool has_significant_length_bias   = false; ///< Correlation between score and answer length
+        bool has_significant_position_bias = false; ///< Preference for first/second doc position
+        double length_bias_magnitude       = 0.0;   ///< Absolute Pearson correlation [0,1]
+        double position_bias_magnitude     = 0.0;   ///< Deviation from 50/50 position split [0,1]
+        size_t samples_analyzed            = 0;     ///< Number of evaluations included
+    };
+
+    /**
+     * @brief Run bias analysis over all accumulated evaluations.
+     *
+     * Only meaningful when config.enable_bias_tracking is true.
+     * Returns a zeroed-out summary when fewer than the minimum required
+     * samples have been accumulated.
+     *
+     * @return BiasAnalysisSummary for the current evaluation history.
+     */
+    BiasAnalysisSummary getBiasAnalysis() const;
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
+    RAGJudgeConfig getConfigSnapshot() const;
+    EvaluationResult evaluateWithConfig(const EvaluationInput& input, const RAGJudgeConfig& config);
     
     // Internal evaluation methods
     double evaluateFaithfulness(const EvaluationInput& input);

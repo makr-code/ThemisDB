@@ -1,33 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_evaluator.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_evaluator.h
- * @brief Metrics-based prompt evaluation
- * 
- * Provides evaluation metrics for prompt quality including:
- * - Semantic similarity
- * - Output quality metrics
- * - Statistical validation
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -36,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <mutex>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 
@@ -59,12 +39,12 @@ public:
      * @param text Input text to embed
      * @return Dense embedding vector (any dimension); empty vector on error
      */
-    virtual std::vector<double> embed(const std::string& text) const = 0;
+    [[nodiscard]] virtual std::vector<double> embed(const std::string& text) const = 0;
 
     /**
      * @brief Human-readable name of this provider (for logging / metrics)
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 };
 
 /**
@@ -231,18 +211,25 @@ public:
      * @param provider Shared pointer to an IEmbeddingProvider implementation
      */
     void setEmbeddingProvider(std::shared_ptr<IEmbeddingProvider> provider) {
+        std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
         embedding_provider_ = std::move(provider);
     }
 
     /**
      * @brief Remove the attached embedding provider (fall back to Jaccard)
      */
-    void clearEmbeddingProvider() { embedding_provider_.reset(); }
+    void clearEmbeddingProvider() {
+        std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
+        embedding_provider_.reset();
+    }
 
     /**
      * @brief Returns true if a live embedding provider is attached
      */
-    bool hasEmbeddingProvider() const { return embedding_provider_ != nullptr; }
+    bool hasEmbeddingProvider() const {
+        std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
+        return embedding_provider_ != nullptr;
+    }
 
     /**
      * @brief Compute embedding-based cosine similarity between two strings
@@ -274,7 +261,16 @@ public:
 
 private:
     EvaluatorConfig config_;
-    std::shared_ptr<IEmbeddingProvider> embedding_provider_;  ///< Optional embedding model
+    mutable std::mutex embedding_provider_mutex_;
+    std::shared_ptr<IEmbeddingProvider> embedding_provider_;  ///< Optional embedding model; snapshot under embedding_provider_mutex_
+
+    [[nodiscard]] std::shared_ptr<IEmbeddingProvider> getEmbeddingProviderSnapshot() const;
+
+    double computeEmbeddingSimilarity(
+        const std::string& s1,
+        const std::string& s2,
+        const std::shared_ptr<IEmbeddingProvider>& provider
+    ) const;
     
     /**
      * @brief Compute weighted score from individual metrics

@@ -1,45 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            preflight_health_check.h                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     250                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file preflight_health_check.h
- * @brief Pre-flight health check system for the Updates module.
- *
- * Implements Issue #2490 – pre-flight disk space, memory headroom, and
- * dependency-version checks that must all pass before a hot-reload update
- * is started.  The full battery of checks must complete in ≤ 2 seconds
- * (see module FUTURE_ENHANCEMENTS.md, Performance Targets).
- *
- * Design:
- *  - `IHealthCheck`           – abstract interface for a single check
- *  - `HealthCheckResult`      – result of one check
- *  - `PreflightCheckResult`   – aggregate result of all checks
- *  - `DiskSpaceChecker`       – ensures ≥ 2× bundle bytes of free disk space
- *  - `MemoryHeadroomChecker`  – ensures a minimum amount of free RAM
- *  - `DependencyVersionChecker` – validates a dependency meets a minimum version
- *  - `PreflightHealthChecker` – orchestrator; runs all registered checks
- *
- * All checks are injected via their constructors and are independently
- * testable without touching the real filesystem or /proc.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -113,13 +80,13 @@ public:
      * @brief Human-readable name used in HealthCheckResult::check_name.
      * @return Stable name string (e.g. "disk_space").
      */
-    virtual std::string name() const = 0;
+    [[nodiscard]] virtual std::string name() const = 0;
 
     /**
      * @brief Execute the check.
      * @return HealthCheckResult with @c passed set accordingly.
      */
-    virtual HealthCheckResult run() = 0;
+    [[nodiscard]] virtual HealthCheckResult run() = 0;
 };
 
 // ---------------------------------------------------------------------------

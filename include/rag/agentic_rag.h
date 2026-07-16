@@ -1,54 +1,21 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            agentic_rag.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 141136c01  2026-02-24  audit(rag): fix dead code, unused include, wrong metadata... ║
-    • 7845f6477  2026-02-24  feat(rag): Agentic RAG with iterative retrieval loops (Ph... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file agentic_rag.h
- * @brief Agentic RAG with iterative retrieval loops (RAG Phase 4)
- *
- * Implements an agentic retrieval-augmented generation loop that:
- *   1. Runs an initial retrieval pass.
- *   2. Evaluates the retrieved context using the existing RAGJudge.
- *   3. Detects knowledge gaps with the KnowledgeGapDetector.
- *   4. When gaps are found, reformulates the query and invokes the
- *      caller-supplied retrieval function again.
- *   5. Repeats until the quality threshold is met, the maximum number
- *      of iterations is reached, or no gap remains.
- *
- * Design goals:
- *   - Bring-your-own retrieval: callers supply a RetrievalFn lambda so
- *     the engine is decoupled from any specific vector store.
- *   - No external dependencies beyond the standard library and the
- *     existing themis::rag components.
- *   - Thread-compatible: instances are not shared across threads;
- *     use one AgenticRAG per concurrent request.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "rag/rag_judge.h"
 #include "rag/knowledge_gap_detector.h"
+#include "rag/delegate_evaluator.h"
 
+#include <optional>
 #include <string>
 #include <vector>
 #include <functional>
@@ -69,7 +36,8 @@ enum class StopReason {
     MAX_ITERATIONS,        ///< Maximum number of iterations reached
     NO_GAP_DETECTED,       ///< KnowledgeGapDetector found no gap
     NO_NEW_DOCUMENTS,      ///< Retrieval returned no additional documents
-    CANCELLED              ///< Externally cancelled via AgenticRAG::cancel()
+    CANCELLED,             ///< Externally cancelled via AgenticRAG::cancel()
+    BUDGET_EXCEEDED        ///< Session token budget cap reached (Gap 4)
 };
 
 // ---------------------------------------------------------------------------
@@ -116,6 +84,19 @@ struct AgenticRAGResult {
 
     /// True when the quality threshold was ultimately satisfied.
     bool quality_satisfied;
+
+    /// Optional relay result from the DELEGATE-52 safety-net check.
+    ///
+    /// Populated after `run()` when a `RelayGuardConfig` is set on
+    /// `AgenticRAGConfig`.  Present as `std::nullopt` when no relay guard is
+    /// configured or when the relay could not be executed.
+    std::optional<delegate_eval::RelayResult> delegate_relay;
+
+    /// Cumulative token count consumed across all LLM calls in this session.
+    /// Best-effort: summed from InferenceResponse::tokens_generated when
+    /// available; may be 0 if the backend does not report token counts.
+    /// Used for budget enforcement (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7).
+    size_t tokens_consumed = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -174,6 +155,58 @@ struct AgenticRAGConfig {
 
     /// KnowledgeGapDetector configuration forwarded to the gap detector.
     knowledge_gap::KnowledgeGapConfig gap_config;
+
+    /// Maximum total tokens that may be consumed across all LLM calls in a
+    /// single run() session.  When the cumulative token count reaches this
+    /// value the loop stops with StopReason::BUDGET_EXCEEDED and the partial
+    /// result is returned.
+    /// 0 (default) disables enforcement — existing behaviour is preserved.
+    /// (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7; tracked in
+    ///  rag/FUTURE_ENHANCEMENTS.md §"Session Token-Budget Cap")
+    size_t max_session_tokens = 0;
+
+    // -----------------------------------------------------------------------
+    // DELEGATE-52 relay guard (optional pre-production safety net)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Configuration for the optional DELEGATE-52 round-trip safety net.
+     *
+     * When all required fields are populated and `relay_guard` is set, the
+     * `AgenticRAG::run()` method fires a `RoundTripSimulator::run()` relay
+     * against a compact seed built from the final retrieved documents after
+     * the main loop completes.  The relay result is stored in
+     * `AgenticRAGResult::delegate_relay`.
+     *
+     * The relay is **best-effort**: any exception is swallowed and
+     * `delegate_relay` remains `std::nullopt` on failure.
+     *
+     * All pointer members are **non-owning**.  The caller must ensure that
+     * `simulator` and `evaluator` outlive the `AgenticRAG::run()` call.
+     */
+    struct RelayGuardConfig {
+        /// Non-owning pointer to a pre-configured `RoundTripSimulator`.
+        /// Required — if null, no relay is executed.
+        delegate_eval::RoundTripSimulator* simulator = nullptr;
+
+        /// Non-owning pointer to the domain evaluator used by the relay.
+        /// Required — if null, no relay is executed.
+        delegate_eval::IDomainEvaluator* evaluator = nullptr;
+
+        /// Ordered list of forward/backward edit-pair instructions for the relay.
+        /// Required — if empty, no relay is executed.
+        std::vector<delegate_eval::RoundTripEditPair> edit_pairs;
+
+        /// Callable that applies a single edit instruction to a document.
+        /// Required — if null, no relay is executed.
+        delegate_eval::EditFn edit_fn;
+    };
+
+    /// Optional DELEGATE-52 relay guard configuration.
+    /// When present and all `RelayGuardConfig` fields are non-null / non-empty,
+    /// a round-trip relay is executed after the agentic loop and the result is
+    /// stored in `AgenticRAGResult::delegate_relay`.
+    std::optional<RelayGuardConfig> relay_guard;
 };
 
 // ---------------------------------------------------------------------------

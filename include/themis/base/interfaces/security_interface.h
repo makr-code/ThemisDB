@@ -1,23 +1,20 @@
+/**
+ * @file security_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            security_interface.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     133                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: security_interface.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -46,7 +43,7 @@ public:
      * @param plaintext The plaintext data to encrypt
      * @return Encrypted data as byte vector
      */
-    virtual std::vector<uint8_t> encrypt_field(
+    [[nodiscard]] virtual std::vector<uint8_t> encrypt_field(
         const std::string& field_name,
         const std::vector<uint8_t>& plaintext) = 0;
     
@@ -57,7 +54,7 @@ public:
      * @param ciphertext The encrypted data to decrypt
      * @return Decrypted plaintext as byte vector
      */
-    virtual std::vector<uint8_t> decrypt_field(
+    [[nodiscard]] virtual std::vector<uint8_t> decrypt_field(
         const std::string& field_name,
         const std::vector<uint8_t>& ciphertext) = 0;
     
@@ -67,7 +64,7 @@ public:
      * @param field_name Name of the field to check
      * @return true if field should be encrypted, false otherwise
      */
-    virtual bool should_encrypt(const std::string& field_name) const = 0;
+    [[nodiscard]] virtual bool should_encrypt(const std::string& field_name) const = 0;
 };
 
 /// Shared pointer type for IFieldEncryption
@@ -89,7 +86,7 @@ public:
      * @param key_id Logical key identifier (e.g., "user_pii", "payment_info")
      * @return The encryption key as byte vector
      */
-    virtual std::vector<uint8_t> get_key(const std::string& key_id) = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> get_key(const std::string& key_id) = 0;
     
     /**
      * @brief Rotate a key to a new version
@@ -97,7 +94,7 @@ public:
      * @param key_id Logical key identifier
      * @return The new encryption key as byte vector
      */
-    virtual std::vector<uint8_t> rotate_key(const std::string& key_id) = 0;
+    [[nodiscard]] virtual std::vector<uint8_t> rotate_key(const std::string& key_id) = 0;
 };
 
 /// Shared pointer type for IKeyProvider
@@ -115,7 +112,7 @@ public:
      * 
      * @return Shared pointer to field encryption
      */
-    virtual IFieldEncryptionPtr create() = 0;
+    [[nodiscard]] virtual IFieldEncryptionPtr create() = 0;
 };
 
 /**
@@ -130,7 +127,7 @@ public:
      * 
      * @return Shared pointer to key provider
      */
-    virtual IKeyProviderPtr create() = 0;
+    [[nodiscard]] virtual IKeyProviderPtr create() = 0;
 };
 
 } // namespace themis

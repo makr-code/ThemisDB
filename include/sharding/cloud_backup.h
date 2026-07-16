@@ -1,24 +1,20 @@
+/**
+ * @file cloud_backup.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cloud_backup.h                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 252b3f2e9  2026-02-07  Implement production GPU backend, cloud backup infrastruc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cloud_backup.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +25,7 @@
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <functional>
 
 namespace themis {
 
@@ -124,6 +121,44 @@ struct ReplicationTarget {
  * - Backup retention and lifecycle management
  * - Point-in-time recovery from cloud backups
  * - Incremental and full backup support
+ *
+ * ## Cloud SDK Integration (Callback Injection)
+ * 
+ * This coordinator uses a callback-based dependency injection pattern to support
+ * cloud SDKs without hard build-time dependencies:
+ * 
+ * **Production Usage**:
+ * @code
+ * // Initialize cloud SDKs (e.g., AWS SDK for S3)
+ * // ...
+ * 
+ * // Set callbacks before creating coordinator
+ * setS3UploadFn([](const std::string& bucket, const std::string& local_path,
+ *                   const std::string& remote_path,
+ *                   const std::map<std::string, std::string>& metadata) {
+ *     // Use AWS SDK to upload
+ *     // return success status
+ * });
+ * // Set all 5 callbacks: upload, download, delete, list, exists
+ * 
+ * // Create coordinator - will verify all callbacks are set
+ * CloudBackupCoordinator coordinator(agent, manager, config);
+ * 
+ * // Operations now use real cloud SDKs via callbacks
+ * coordinator.createBackup("backup-1", {"shard1", "shard2"});
+ * @endcode
+ *
+ * **Error Behavior**:
+ * - If any required callback is not set, createBackup() fails immediately with
+ *   THEMIS_ERROR logging and returns false (fail-closed behavior)
+ * - All operations are deterministic: either succeed with real cloud operations
+ *   or fail with clear error messages
+ * 
+ * @see setS3UploadFn, setS3DownloadFn, setS3DeleteFn, setS3ListFn, setS3ExistsFn
+ * @see setAzureUploadFn, setAzureDownloadFn, setAzureDeleteFn, setAzureListFn, setAzureExistsFn
+ * @see setGCSUploadFn, setGCSDownloadFn, setGCSDeleteFn, setGCSListFn, setGCSExistsFn
+ * @see cloud_sdk_integration.h for real SDK implementations (S3, Azure, GCS)
+ * @see src/sharding/cloud_backup.cpp for detailed implementation documentation
  */
 class CloudBackupCoordinator {
 public:
@@ -157,9 +192,14 @@ public:
     /**
      * Restore a backup from cloud storage
      * 
-     * @param backup_id Backup identifier to restore
-     * @param shard_ids List of shard IDs to restore
-     * @return true if restore was successful
+        * @param backup_id Backup identifier to restore
+        * @param shard_ids List of shard IDs to restore
+        * @return true if restore was successful
+        * @return false when the cloud provider is not configured, the backup is
+        *         unknown, the shard list is empty, any shard id is empty, any
+        *         requested shard is not part of the catalogued backup, the backup
+        *         id is empty, or no local BackupManager is available to apply the
+        *         downloaded artifact
      */
     bool restoreBackup(const std::string& backup_id,
                       const std::vector<std::string>& shard_ids);
@@ -169,6 +209,7 @@ public:
      * 
      * @param backup_id Backup identifier to delete
      * @return true if deletion was successful
+     * @return false when the backup_id is empty or the backup is not found
      */
     bool deleteBackup(const std::string& backup_id);
     
@@ -202,6 +243,7 @@ public:
      * 
      * @param datacenter_id Target datacenter identifier
      * @return true if replication was enabled
+     * @return false when datacenter_id is empty or replication target not found
      */
     bool enableContinuousReplication(const std::string& datacenter_id);
     
@@ -210,6 +252,7 @@ public:
      * 
      * @param datacenter_id Target datacenter identifier
      * @return true if replication was disabled
+     * @return false when datacenter_id is empty or replication target not found
      */
     bool disableContinuousReplication(const std::string& datacenter_id);
     
@@ -217,6 +260,67 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
 };
+
+using S3DownloadFn = std::function<bool(const std::string& bucket,
+                                        const std::string& remote_path,
+                                        const std::string& local_path)>;
+using S3UploadFn = std::function<bool(const std::string& bucket,
+                                      const std::string& local_path,
+                                      const std::string& remote_path,
+                                      const std::map<std::string, std::string>& metadata)>;
+using S3DeleteFn = std::function<bool(const std::string& bucket,
+                                      const std::string& remote_path)>;
+using S3ListFn = std::function<std::vector<std::string>(const std::string& bucket,
+                                                        const std::string& prefix)>;
+using S3ExistsFn = std::function<bool(const std::string& bucket,
+                                      const std::string& remote_path)>;
+using AzureUploadFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& local_path,
+                                         const std::string& remote_path,
+                                         const std::map<std::string, std::string>& metadata)>;
+using AzureDownloadFn = std::function<bool(const std::string& account,
+                                           const std::string& container,
+                                           const std::string& remote_path,
+                                           const std::string& local_path)>;
+using AzureDeleteFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& remote_path)>;
+using AzureListFn = std::function<std::vector<std::string>(const std::string& account,
+                                                           const std::string& container,
+                                                           const std::string& prefix)>;
+using AzureExistsFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& remote_path)>;
+using GCSUploadFn = std::function<bool(const std::string& bucket,
+                                       const std::string& local_path,
+                                       const std::string& remote_path,
+                                       const std::map<std::string, std::string>& metadata)>;
+using GCSDownloadFn = std::function<bool(const std::string& bucket,
+                                         const std::string& remote_path,
+                                         const std::string& local_path)>;
+using GCSDeleteFn = std::function<bool(const std::string& bucket,
+                                       const std::string& remote_path)>;
+using GCSListFn = std::function<std::vector<std::string>(const std::string& bucket,
+                                                         const std::string& prefix)>;
+using GCSExistsFn = std::function<bool(const std::string& bucket,
+                                       const std::string& remote_path)>;
+
+void setS3DownloadFn(S3DownloadFn fn);
+void setS3UploadFn(S3UploadFn fn);
+void setS3DeleteFn(S3DeleteFn fn);
+void setS3ListFn(S3ListFn fn);
+void setS3ExistsFn(S3ExistsFn fn);
+void setAzureUploadFn(AzureUploadFn fn);
+void setAzureDownloadFn(AzureDownloadFn fn);
+void setAzureDeleteFn(AzureDeleteFn fn);
+void setAzureListFn(AzureListFn fn);
+void setAzureExistsFn(AzureExistsFn fn);
+void setGCSUploadFn(GCSUploadFn fn);
+void setGCSDownloadFn(GCSDownloadFn fn);
+void setGCSDeleteFn(GCSDeleteFn fn);
+void setGCSListFn(GCSListFn fn);
+void setGCSExistsFn(GCSExistsFn fn);
 
 } // namespace sharding
 } // namespace themis

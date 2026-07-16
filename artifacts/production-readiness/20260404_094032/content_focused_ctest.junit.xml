@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="4"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="1"
+	timestamp="2026-04-04T09:40:32"
+	>
+	<testcase name="AsyncIngestionBackpressureFocusedTests" classname="AsyncIngestionBackpressureFocusedTests" time="1.48785" status="run">
+		<properties>
+			<property name="cmake_labels" value="async;backpressure;content;focused;ingestion;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 10 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 8 tests from AsyncIngestionBackpressureTest
+[ RUN      ] AsyncIngestionBackpressureTest.IngestStream_ReturnsFutureWithContentId
+[       OK ] AsyncIngestionBackpressureTest.IngestStream_ReturnsFutureWithContentId (102 ms)
+[ RUN      ] AsyncIngestionBackpressureTest.IngestStream_FuturePropagatesException
+[       OK ] AsyncIngestionBackpressureTest.IngestStream_FuturePropagatesException (102 ms)
+[ RUN      ] AsyncIngestionBackpressureTest.SubmitStream_BlocksAtMaxQueueDepth
+[       OK ] AsyncIngestionBackpressureTest.SubmitStream_BlocksAtMaxQueueDepth (234 ms)
+[ RUN      ] AsyncIngestionBackpressureTest.IngestStream_BlocksAtMaxQueueDepth
+[       OK ] AsyncIngestionBackpressureTest.IngestStream_BlocksAtMaxQueueDepth (230 ms)
+[ RUN      ] AsyncIngestionBackpressureTest.Shutdown_UnblocksBlockedIng...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="LegacyOfficeExtractionFocusedTests" classname="LegacyOfficeExtractionFocusedTests" time="0.0529508" status="run">
+		<properties>
+			<property name="cmake_labels" value="content;doc;focused;legacy;libreoffice;office;posix-spawn;ppt;unit;xls"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+Note: Google Test filter = LegacyOfficeExtractionTest.*:LegacyOfficeMetricsTest.*
+[==========] Running 13 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 11 tests from LegacyOfficeExtractionTest
+[ RUN      ] LegacyOfficeExtractionTest.TooSmallBlobReturnsError
+[       OK ] LegacyOfficeExtractionTest.TooSmallBlobReturnsError (0 ms)
+[ RUN      ] LegacyOfficeExtractionTest.WrongMagicHeaderIsRejected
+[       OK ] LegacyOfficeExtractionTest.WrongMagicHeaderIsRejected (0 ms)
+[ RUN      ] LegacyOfficeExtractionTest.DocBlobSetsDocumentTypeMetadata
+[       OK ] LegacyOfficeExtractionTest.DocBlobSetsDocumentTypeMetadata (0 ms)
+[ RUN      ] LegacyOfficeExtractionTest.XlsBlobSetsDocumentTypeMetadata
+[       OK ] LegacyOfficeExtractionTest.XlsBlobSetsDocumentTypeMetadata (0 ms)
+[ RUN      ] LegacyOfficeExtractionTest.PptBlobSetsDocumentTypeMetadata
+[       OK ] LegacyOfficeE...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="LibreOfficeSecurityFocusedTests" classname="LibreOfficeSecurityFocusedTests" time="0.0634644" status="run">
+		<properties>
+			<property name="cmake_labels" value="content;focused;office;path-hijacking;posix-spawn;sandbox;security;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+Note: Google Test filter = LibreOfficeSecurityTest.*
+[==========] Running 7 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 7 tests from LibreOfficeSecurityTest
+[ RUN      ] LibreOfficeSecurityTest.RelativePathInConfigIsRejected
+[       OK ] LibreOfficeSecurityTest.RelativePathInConfigIsRejected (0 ms)
+[ RUN      ] LibreOfficeSecurityTest.DotSlashPathInConfigIsRejected
+[       OK ] LibreOfficeSecurityTest.DotSlashPathInConfigIsRejected (0 ms)
+[ RUN      ] LibreOfficeSecurityTest.PathTraversalInConfigIsRejected
+[       OK ] LibreOfficeSecurityTest.PathTraversalInConfigIsRejected (0 ms)
+[ RUN      ] LibreOfficeSecurityTest.ShellMetacharactersInPathAreNotInterpreted
+[       OK ] LibreOfficeSecurityTest.ShellMetacharactersInPathAreNotInterpreted (0 ms)
+[ RUN      ] LibreOfficeSecurityTest.OLEBlobWithEmbeddedNullBytesHandledSafely
+[       OK ] LibreOfficeSecurityTest...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ContentEmbeddingPipelineFocusedTests" classname="ContentEmbeddingPipelineFocusedTests" time="0.0526377" status="run">
+		<properties>
+			<property name="cmake_labels" value="content;embedding;focused;metrics;pipeline;policy;unit;v1.8.0;vector"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 29 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 17 tests from EmbeddingPipelineTest
+[ RUN      ] EmbeddingPipelineTest.DefaultConfig_PipelineDisabled
+[       OK ] EmbeddingPipelineTest.DefaultConfig_PipelineDisabled (0 ms)
+[ RUN      ] EmbeddingPipelineTest.NonEmptyModelName_PipelineEnabled
+[       OK ] EmbeddingPipelineTest.NonEmptyModelName_PipelineEnabled (0 ms)
+[ RUN      ] EmbeddingPipelineTest.BatchSizeClamped_MinIs1
+[       OK ] EmbeddingPipelineTest.BatchSizeClamped_MinIs1 (0 ms)
+[ RUN      ] EmbeddingPipelineTest.BatchSizeClamped_MaxIs32
+[       OK ] EmbeddingPipelineTest.BatchSizeClamped_MaxIs32 (0 ms)
+[ RUN      ] EmbeddingPipelineTest.BatchSizeWithinBounds_Preserved
+[       OK ] EmbeddingPipelineTest.BatchSizeWithinBounds_Preserved (0 ms)
+[ RUN      ] EmbeddingPipelineTest.TimeoutClamped_MinIs100ms
+[       OK ] EmbeddingPipel...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

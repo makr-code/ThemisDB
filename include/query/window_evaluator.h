@@ -1,23 +1,20 @@
+/**
+ * @file window_evaluator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            window_evaluator.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     361                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: window_evaluator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -138,7 +135,7 @@ struct WindowFrame {
 /**
  * @brief Window Specification
  */
-struct WindowSpec {
+struct WindowEvalSpec {
     std::string name;  // Named window (e.g., "w" in WINDOW w AS (...))
     std::vector<std::shared_ptr<Expression>> partitionBy;  // PARTITION BY expressions
     std::vector<SortSpec> orderBy;                         // ORDER BY specifications
@@ -170,14 +167,14 @@ public:
     /**
      * @brief Evaluiert Window Functions für alle Rows
      * @param rows Die zu verarbeitenden Rows (JSON-Dokumente)
-     * @param windowSpec Die Window-Spezifikation (PARTITION BY, ORDER BY, FRAME)
+    * @param windowSpec Die Window-Spezifikation (PARTITION BY, ORDER BY, FRAME)
      * @param windowFunc Die Window Function Definition
      * @param forVariable Der FOR-Loop Variable Name (z.B. "doc")
      * @return Vector von evaluierten Werten (ein Wert pro Row)
      */
     std::vector<nlohmann::json> evaluate(
         const std::vector<nlohmann::json>& rows,
-        const WindowSpec& windowSpec,
+        const WindowEvalSpec& windowSpec,
         const WindowFunctionCall& windowFunc,
         const std::string& forVariable
     );

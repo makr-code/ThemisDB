@@ -1,0 +1,175 @@
+{
+  "module": "api",
+  "generated": "2026-03-22",
+  "validated_at_commit": "47727816d",
+  "branch": "copilot/update-docs-and-sourcecode",
+  "primary_source": "src/api/",
+  "summary": "Production-ready for HTTP/REST, GraphQL, WebSocket, OTLP tracing, rate limiting, geo-index hooks, and versioned routing as of v1.8.0. Fifteen open items identified: gRPC stub wiring (6), gRPC server correctness (3), GraphQL completeness (2), middleware improvements (4).",
+  "findings": [
+    {
+      "id": "FINDING-API-001",
+      "severity": "high",
+      "status": "open",
+      "claim_source": "src/api/ROADMAP.md: Phase 3 [x] gRPC surface with proto definitions",
+      "expected": "ExecuteAQL RPC executes AQL queries and returns results",
+      "observed": "themisdb_grpc_service.cpp:~line 302 returns UNIMPLEMENTED with message 'AQL execution requires an AQLEngine; wire one in via ThemisDBGrpcServiceFactory'",
+      "evidence_paths": ["src/api/themisdb_grpc_service.cpp", "include/api/themisdb_grpc_service.h"],
+      "issue_title_suggestion": "[api] Wire gRPC ExecuteAQL stub via ThemisDBGrpcServiceFactory",
+      "label_suggestions": ["enhancement", "api", "grpc"]
+    },
+    {
+      "id": "FINDING-API-002",
+      "severity": "high",
+      "status": "open",
+      "claim_source": "src/api/ROADMAP.md: Phase 3 [x] gRPC surface",
+      "expected": "Server-side streaming RPC StreamAQL(AQLQueryRequest) returns (stream AQLRow)",
+      "observed": "themisdb_grpc_service.cpp:~line 337 — streaming loop exists as commented code; returns UNIMPLEMENTED",
+      "evidence_paths": ["src/api/themisdb_grpc_service.cpp"],
+      "issue_title_suggestion": "[api] Wire gRPC StreamAQL server-side streaming stub",
+      "label_suggestions": ["enhancement", "api", "grpc"]
+    },
+    {
+      "id": "FINDING-API-003",
+      "severity": "high",
+      "status": "open",
+      "claim_source": "src/api/ROADMAP.md: Phase 3 [x] gRPC surface",
+      "expected": "VectorSearch, FilteredVectorSearch, HybridSearch, FullTextSearch RPCs return results",
+      "observed": "All four handlers return UNIMPLEMENTED in themisdb_grpc_service.cpp:~line 354-393",
+      "evidence_paths": ["src/api/themisdb_grpc_service.cpp"],
+      "issue_title_suggestion": "[api] Wire gRPC VectorSearch / HybridSearch / FullTextSearch stubs",
+      "label_suggestions": ["enhancement", "api", "grpc"]
+    },
+    {
+      "id": "FINDING-API-004",
+      "severity": "high",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: gRPC API Surface section",
+      "expected": "All writes in BatchWrite RPC succeed or fail atomically",
+      "observed": "BatchWrite loop calls db_->put() individually; on partial failure, response still returns success=true with no error code",
+      "evidence_paths": ["src/api/themisdb_grpc_service.cpp"],
+      "issue_title_suggestion": "[api] Fix gRPC BatchWrite partial-failure silent success",
+      "label_suggestions": ["bug", "api", "grpc"]
+    },
+    {
+      "id": "FINDING-API-005",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "include/api/FUTURE_ENHANCEMENTS.md: Design Constraints",
+      "expected": "GrpcApiServer::start() releases mutex before blocking I/O",
+      "observed": "grpc_server.cpp:start() calls builder.BuildAndStart() inside std::lock_guard<std::mutex>, blocking stop() and isRunning() for entire port-bind and TLS-handshake duration",
+      "evidence_paths": ["src/api/grpc_server.cpp"],
+      "issue_title_suggestion": "[api] Fix GrpcApiServer::start() holding mutex across BuildAndStart()",
+      "label_suggestions": ["bug", "api", "grpc", "concurrency"]
+    },
+    {
+      "id": "FINDING-API-006",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "include/api/FUTURE_ENHANCEMENTS.md: Design Constraints",
+      "expected": "GrpcApiServer::stop() completes within a bounded time window",
+      "observed": "grpc_server.cpp:stop() calls server_->Shutdown() with no deadline — can block indefinitely",
+      "evidence_paths": ["src/api/grpc_server.cpp"],
+      "issue_title_suggestion": "[api] Add 30-second deadline to GrpcApiServer::stop() Shutdown()",
+      "label_suggestions": ["bug", "api", "grpc", "reliability"]
+    },
+    {
+      "id": "FINDING-API-007",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "include/api/graphql.h: documented as Not yet supported",
+      "expected": "Full GraphQL spec compliance including fragments, directives, inline fragments",
+      "observed": "graphql.h explicitly documents 'Not yet supported: Fragments, Directives, Inline fragments'; Apollo/Relay-style queries fail at parse time",
+      "evidence_paths": ["include/api/graphql.h", "src/api/graphql.cpp"],
+      "issue_title_suggestion": "[api] Implement GraphQL fragment and directive support in Parser",
+      "label_suggestions": ["enhancement", "api", "graphql"]
+    },
+    {
+      "id": "FINDING-API-008",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: GraphQL Schema Completion section",
+      "expected": "Schema::introspect() supports __typename, __Field, __InputValue, __EnumValue, __Directive per GraphQL June 2018 spec",
+      "observed": "Only __schema and __type are handled; introspection-based tooling does not work fully",
+      "evidence_paths": ["src/api/graphql.cpp"],
+      "issue_title_suggestion": "[api] Add missing GraphQL introspection meta-types (__typename, __Field, etc.)",
+      "label_suggestions": ["enhancement", "api", "graphql"]
+    },
+    {
+      "id": "FINDING-API-009",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: Rate Limiter section",
+      "expected": "RateLimiter::buckets_ map does not grow unbounded in long-running deployments",
+      "observed": "Every unique key creates a Bucket entry that is never evicted; stale tenant-ID/IP entries accumulate indefinitely",
+      "evidence_paths": ["include/api/rate_limiter.h"],
+      "issue_title_suggestion": "[api] Add TTL-based stale bucket eviction to RateLimiter",
+      "label_suggestions": ["enhancement", "api", "performance"]
+    },
+    {
+      "id": "FINDING-API-010",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: Audit Logger section",
+      "expected": "AuditLogger::log() does not hold mutex during handler callbacks",
+      "observed": "audit_logger.h::log() holds std::lock_guard for entire body including handler dispatch loop; file-writing/network handlers stall all concurrent API threads",
+      "evidence_paths": ["include/api/audit_logger.h"],
+      "issue_title_suggestion": "[api] Fix AuditLogger blocking handler dispatch under mutex",
+      "label_suggestions": ["bug", "api", "concurrency"]
+    },
+    {
+      "id": "FINDING-API-011",
+      "severity": "low",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: GraphQL Response Cache section",
+      "expected": "invalidatePattern(collection) evicts only entries referencing the given collection",
+      "observed": "graphql_cache.h:290 ignores the pattern argument and calls cache_.clear()",
+      "evidence_paths": ["include/api/graphql_cache.h"],
+      "issue_title_suggestion": "[api] Implement selective collection-based cache invalidation in ResponseCache",
+      "label_suggestions": ["enhancement", "api", "graphql", "performance"]
+    },
+    {
+      "id": "FINDING-API-012",
+      "severity": "low",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: OTLP Exporter section",
+      "expected": "OtlpExporter reuses a persistent CURL* handle across flush batches",
+      "observed": "otlp_exporter.cpp::flushBatch() calls curl_easy_init()/curl_easy_cleanup() on every flush",
+      "evidence_paths": ["src/api/otlp_exporter.cpp", "include/api/otlp_exporter.h"],
+      "issue_title_suggestion": "[api] Use persistent CURL handle in OtlpExporter::flushBatch()",
+      "label_suggestions": ["enhancement", "api", "performance"]
+    },
+    {
+      "id": "FINDING-API-013",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: WebSocket Streaming section",
+      "expected": "WsChangeHandler::validate() URL-decodes from_sequence and key_prefix query-string parameters",
+      "observed": "ws_handler.cpp uses std::string::find for ad-hoc parsing; percent-encoded values are never decoded",
+      "evidence_paths": ["src/api/ws_handler.cpp"],
+      "issue_title_suggestion": "[api] Fix WsChangeHandler URL-decoding for query-string parameters",
+      "label_suggestions": ["bug", "api", "websocket"]
+    },
+    {
+      "id": "FINDING-API-014",
+      "severity": "low",
+      "status": "open",
+      "claim_source": "include/api/FUTURE_ENHANCEMENTS.md: gRPC Bridge Interface section",
+      "expected": "A concrete GrpcBridgeImpl class registers services and routes dispatches",
+      "observed": "grpc_bridge.h defines pure-virtual IGRPCBridge; no concrete implementation exists",
+      "evidence_paths": ["include/api/grpc_bridge.h"],
+      "issue_title_suggestion": "[api] Implement GrpcBridgeImpl concrete class for IGRPCBridge interface",
+      "label_suggestions": ["enhancement", "api", "grpc"]
+    },
+    {
+      "id": "FINDING-API-015",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/api/FUTURE_ENHANCEMENTS.md: Security/Reliability section",
+      "expected": "QueryAllowList enforcement active in production builds; startup warning if disabled",
+      "observed": "persisted_queries.h::QueryAllowList has enabled_=false in default constructor; no startup THEMIS_WARN emitted in NDEBUG builds",
+      "evidence_paths": ["include/api/persisted_queries.h"],
+      "issue_title_suggestion": "[api] Add startup warning when QueryAllowList is disabled in production",
+      "label_suggestions": ["security", "api"]
+    }
+  ]
+}

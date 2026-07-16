@@ -1,23 +1,21 @@
+/**
+ * @file keys_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            keys_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     139                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: keys_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 133
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/keys_api_handler.h"
@@ -25,6 +23,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
@@ -34,6 +33,7 @@ KeysApiHandler::KeysApiHandler(std::shared_ptr<KeyProvider> key_provider)
 
 nlohmann::json KeysApiHandler::listKeys() {
     try {
+    auto span = Tracer::startSpan("listKeys");
         if (!key_provider_) {
             THEMIS_WARN("Keys API: KeyProvider not initialized, returning empty list");
             return {
@@ -41,8 +41,9 @@ nlohmann::json KeysApiHandler::listKeys() {
                 {"total", 0}
             };
         }
+        auto& key_provider = *key_provider_;
         
-        auto keys = key_provider_->listKeys();
+        auto keys = key_provider.listKeys();
         nlohmann::json items = nlohmann::json::array();
         
         for (const auto& key_meta : keys) {
@@ -95,9 +96,9 @@ nlohmann::json KeysApiHandler::listKeys() {
     }
 }
 
-nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohmann::json& body) {
-    (void)body;
+nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unused]] const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("rotateKey");
         if (!key_provider_) {
             THEMIS_ERROR("Keys API: KeyProvider not initialized");
             return {
@@ -106,9 +107,10 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohma
                 {"status_code", 503}
             };
         }
+        auto& key_provider = *key_provider_;
         
         // Check if key exists
-        if (!key_provider_->hasKey(key_id)) {
+        if (!key_provider.hasKey(key_id)) {
             THEMIS_WARN("Keys API: Key not found: {}", key_id);
             return {
                 {"error", "Not Found"},
@@ -118,7 +120,7 @@ nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohma
         }
         
         // Perform rotation
-        uint32_t new_version = key_provider_->rotateKey(key_id);
+        uint32_t new_version = key_provider.rotateKey(key_id);
         
         THEMIS_INFO("Keys API: Rotated key '{}' to version {}", key_id, new_version);
         

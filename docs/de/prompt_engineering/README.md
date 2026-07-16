@@ -1,11 +1,11 @@
 # Prompt Engineering Modul
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/prompt_engineering/ -->
 
-**Stand:** 9. März 2026  
-**Version:** 1.1  
-**Kategorie:** LLM Prompt-Management  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Stand:** 6. April 2026
+**Version:** 1.1
+**Kategorie:** LLM Prompt-Management
+**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -25,6 +25,9 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 - **Chain-of-Thought** – `ChainOfThoughtBuilder` mit Schritt-Trennzeichen, Zero-Shot/Few-Shot-Helfer
 - **RAG-Prompt-Builder** – `RAGPromptBuilder` mit budgetbewusster Chunk-Selektion und Quellenangaben
 - **System-Prompt-Manager** – `SystemPromptManager` mit rollenbasierten Overrides
+- **Context-Window-Budget** – `ContextWindowBudgetManager` mit tokenbasierter Limitierung und `PromptBudgetExceededError`
+- **Reflection Tuning** – `ReflectionTuner` mit vier Strategien (SELF_REFINE, REFLEXION, CONSTITUTIONAL, SOCRATIC), dynamisch selbst-bewusstem Prompting (`SelfAwareContext`), `ReflectionHallucinationGuard` gegen Halluzinations-Verstärkung
+- **LLM-Reflection-Adapter** – `ILLMProviderReflectionAdapter` verbindet jeden bestehenden `ILLMProvider` direkt mit dem `ReflectionTuner` (Adapter-Muster)
 
 ---
 
@@ -45,9 +48,16 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `prompt_engineering_metrics.cpp` | Prometheus-kompatible Metriken + Snapshot/Restore |
 | `prompt_engineering_integration.cpp` | Hochrangige Facade + Hintergrund-Worker-Thread |
 | `prompt_injection_detector.cpp` | Musterbasierte Prompt-Injection-Erkennung und Bereinigung |
-| `chain_of_thought.cpp` | CoT-Prompt-Konstruktion: Builder, Zero-Shot, Few-Shot, Wrap-Helfer |
+| `chain_of_thought.cpp` | CoT-Prompt-Konstruktion: Builder, Zero-Shot, Few-Shot, Wrap-Helfer; Tracer-Wiring |
+| `cot_tracer.cpp` | Per-Schritt-Tracing: `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` |
+| `prompt_regression_runner.cpp` | Qualitäts-Regressionserkennung: `PromptRegressionRunner`, `RegressionFixture`, `RegressionResult` |
+| `prompt_ab_experiment.cpp` | A/B-Experiment-Framework: `PromptABExperimentFramework`, `PromptExperiment`, `ExperimentVariant`, MurmurHash3-32 |
+| `prompt_library_io.cpp` | Import/Export-Bibliothek: `PromptLibraryIO`, `PromptLibraryBundle`, JSON+YAML, FNV-1a-Prüfsumme |
 | `rag_prompt_builder.cpp` | RAG-Prompt-Zusammenstellung: budgetbewusste Chunk-Selektion |
 | `system_prompt_manager.cpp` | System-Prompt-Registry mit rollenbasierter Override-Unterstützung |
+| `context_window_manager.cpp` | Token-Budget-Enforcement vor LLM-Dispatch (`ContextWindowBudgetManager`, `ITokenCounter`) |
+| `reflection_tuner.cpp` | Iterativer Selbstkritik-Revisions-Zyklus (`ReflectionTuner`, `DynamicReflectionPromptBuilder`, `SelfAwareContext`, `ReflectionHallucinationGuard`) |
+| `llm_reflection_adapter.cpp` | Adapter `ILLMProvider` → `IReflectionProvider` (`ILLMProviderReflectionAdapter`, `IReflectionScorer`) |
 
 ### Öffentliche Header (`include/prompt_engineering/`)
 
@@ -65,8 +75,15 @@ Das Prompt Engineering Modul stellt ein vollständiges **Lifecycle-Management-Sy
 | `prompt_engineering_integration.h` | `PromptEngineeringIntegration`, `IntegrationConfig`, `ExecutionContext` |
 | `prompt_injection_detector.h` | `PromptInjectionDetector`, `DetectionResult` |
 | `chain_of_thought.h` | `ChainOfThoughtBuilder`, `CoTStep`, `CoTConfig` |
+| `cot_tracer.h` | `IChainOfThoughtTracer`, `CoTSpanRecord`, `RecordingCoTTracer`, `CoTTraceCollector`, `StepId` |
+| `prompt_regression_runner.h` | `PromptRegressionRunner`, `RegressionFixture`, `RegressionConfig`, `RegressionResult`, `FixtureDelta` |
+| `prompt_ab_experiment.h` | `PromptABExperimentFramework`, `PromptExperiment`, `ExperimentVariant`, `ExperimentContext`, `ExperimentStatus`, `ExperimentOutcome`, `ExperimentSummary` |
+| `prompt_library_io.h` | `PromptLibraryIO`, `PromptLibraryBundle`, `ExportFormat`, `ImportResult`, `ExportResult` |
 | `rag_prompt_builder.h` | `RAGPromptBuilder`, `RetrievedChunk`, `RAGPromptConfig` |
 | `system_prompt_manager.h` | `SystemPromptManager`, `SystemPrompt`, `Role` |
+| `context_window_manager.h` | `ContextWindowBudgetManager`, `ITokenCounter`, `CharDivisionCounter`, `ModelTokenBudget`, `BudgetAllocation`, `PromptBudgetExceededError` |
+| `reflection_tuner.h` | `ReflectionTuner`, `IReflectionProvider`, `DynamicReflectionPromptBuilder`, `SelfAwareContext`, `ReflectionHallucinationGuard`, `ReflectionConfig`, `ReflectionResult` |
+| `llm_reflection_adapter.h` | `ILLMProviderReflectionAdapter`, `IReflectionScorer` |
 
 ---
 
@@ -94,8 +111,15 @@ PromptEngineeringIntegration  (Facade + Hintergrund-Worker)
         ├─ PromptInjectionDetector   (zustandslose Sicherheitsschicht)
         │
         ├─ ChainOfThoughtBuilder     (reine Berechnung; CoT-Prompt-Konstruktion)
+        │       └─ IChainOfThoughtTracer  (per-step-Tracing; RecordingCoTTracer / CoTTraceCollector)
         ├─ RAGPromptBuilder          (reine Berechnung; RAG-Kontext-Injektion)
-        └─ SystemPromptManager       (In-Memory-Registry; rollenbasierte System-Prompts)
+        ├─ SystemPromptManager       (In-Memory-Registry; rollenbasierte System-Prompts)
+        ├─ ContextWindowBudgetManager (Token-Limit-Enforcement; ITokenCounter)
+        ├─ ReflectionTuner           (iterativer Selbstkritik-Zyklus; 4 Strategien)
+        │       ├─ DynamicReflectionPromptBuilder  (strategy-spezifische Prompts)
+        │       ├─ SelfAwareContext               (Konfidenz/Unsicherheit aus Antworttext)
+        │       └─ ReflectionHallucinationGuard   (Marker-Scan + Divergenz-Erkennung)
+        └─ ILLMProviderReflectionAdapter  (ILLMProvider → IReflectionProvider Bridge)
 ```
 
 ---
@@ -196,6 +220,10 @@ Testdateien in `tests/`:
 | `test_prompt_injection_detector.cpp` | Injection-Erkennung |
 | `test_prompt_policy.cpp` | Prompt-Richtlinien |
 | `test_chain_of_thought.cpp` | CoT-Builder |
+| `test_cot_tracer.cpp` | CoT-Tracer (IChainOfThoughtTracer, RecordingCoTTracer, CoTTraceCollector) |
+| `test_prompt_regression_runner.cpp` | Prompt-Regressions-Runner (PromptRegressionRunner, RegressionFixture, FeedbackCollector-Integration) |
+| `test_prompt_ab_experiment.cpp` | A/B-Experiment-Framework (PromptABExperimentFramework, MurmurHash3-32, Welch-t-Test, WinnerCallback) |
+| `test_prompt_library_io.cpp` | Import/Export-Bibliothek (PromptLibraryIO, JSON/YAML-Roundtrip, FNV-1a-Prüfsumme) |
 | `test_rag_prompt_builder.cpp` | RAG-Prompt-Builder |
 | `test_system_prompt_manager.cpp` | System-Prompt-Manager |
 
@@ -209,7 +237,7 @@ Testdateien in `tests/`:
 - [ARCHITECTURE (src/prompt_engineering)](../../../src/prompt_engineering/ARCHITECTURE.md) — Architektur-Leitfaden
 - [ROADMAP (src/prompt_engineering)](../../../src/prompt_engineering/ROADMAP.md) — Entwicklungs-Roadmap, verifiziert gegen Sourcecode
 - [FUTURE_ENHANCEMENTS (src/prompt_engineering)](../../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md) — Geplante Features mit Performance-Zielen und IEEE-Referenzen
-- [FUTURE_ENHANCEMENTS (include/prompt_engineering)](../../../include/prompt_engineering/FUTURE_ENHANCEMENTS.md) — Header-API-Enhancements
+- [README (include/prompt_engineering)](../../../include/prompt_engineering/README.md) — Öffentliche Header-API und Konfigurationsflächen
 
 ### Verwandte Module
 
@@ -219,5 +247,5 @@ Testdateien in `tests/`:
 
 ### Reality-Check & Offene Implementierungen
 
-- [missing-implementations.md](missing-implementations.md) — Reality-Check: fehlende/unvollständige Implementierungen mit Evidence und Issue-Vorschlägen (Stand 2026-03-09)
+- [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) — Reality-Check: fehlende/unvollständige Implementierungen mit Evidence und Issue-Vorschlägen (Stand 2026-03-09)
 - [missing-implementations.json](missing-implementations.json) — Maschinenlesbares Format

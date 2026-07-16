@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Performance Optimization Benchmarks
 
 This directory contains benchmarking and validation tools for research-based performance optimizations.
@@ -174,6 +176,6 @@ For questions:
 
 ---
 
-**Last Updated**: 2025-12-24  
+**Last Updated**: 2026-04-06  
 **Version**: 1.0  
 **Status**: ✅ Infrastructure Ready for Phase 1

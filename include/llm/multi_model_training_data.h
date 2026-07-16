@@ -1,23 +1,21 @@
+/**
+ * @file multi_model_training_data.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_model_training_data.h                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     312                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_model_training_data.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 304
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright (c) 2025 ThemisDB
@@ -43,6 +41,7 @@ class RelationalJoinProvider;
  * @brief Graph context enrichment result
  */
 struct GraphContext {
+    virtual ~GraphContext() = default;
     std::vector<std::string> related_nodes;
     std::vector<std::string> relationship_types;
     std::vector<std::string> paths;
@@ -133,6 +132,7 @@ struct MultiModelEnrichmentConfig {
  * @brief Statistics about multi-model enrichment
  */
 struct EnrichmentStatistics {
+    virtual ~EnrichmentStatistics() = default;
     int total_examples = 0;
     int graph_enriched = 0;
     int vector_enriched = 0;

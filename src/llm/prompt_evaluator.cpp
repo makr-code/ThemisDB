@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_evaluator.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     341                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_evaluator.cpp
- * @brief Implementation of prompt evaluator
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/prompt_evaluator.h"
@@ -233,7 +217,7 @@ double PromptEvaluator::computeRelevance(
 bool PromptEvaluator::isStatisticallySignificant(
     const std::vector<double>& baseline_scores,
     const std::vector<double>& new_scores,
-    double confidence_level
+    double /*confidence_level*/
 ) {
     if (baseline_scores.empty() || new_scores.empty()) {
         return false;
@@ -272,12 +256,17 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
     result.reserve(s.length());
     
     for (char c : s) {
-        if (std::isspace(c)) {
+        const bool is_space = (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+        if (is_space) {
             if (!result.empty() && result.back() != ' ') {
-                result += ' ';
+                result.push_back(' ');
             }
         } else {
-            result += std::tolower(c);
+            if (c >= 'A' && c <= 'Z') {
+                result.push_back(static_cast<char>(c - 'A' + 'a'));
+            } else {
+                result.push_back(c);
+            }
         }
     }
     

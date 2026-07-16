@@ -1,0 +1,371 @@
+═══════════════════════════════════════════════════════════════════════
+  THEMISDB KICKSTARTER DEMO — SPEAKER SCRIPT (English)
+  Single-Take Recording | ~4-5 Minutes
+  
+  HOW TO USE THIS SCRIPT:
+  - Read aloud while executing each query
+  - Speak the lines WHILE the query is running / results appear
+  - Bold lines = KEY MESSAGE (speak clearly, emphasize)
+  - [ACTION] = what to do on screen
+  - (pause) = short silent pause for viewer to read results
+═══════════════════════════════════════════════════════════════════════
+
+
+────────────────────────────────────────────────────────────────────
+  SCENE 1 — INTRO  (0:00 – 0:30)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Open terminal. Show the ThemisDB CLI prompt.]
+
+  "Hi, my name is [YOUR NAME], and I am one of the developers
+   behind ThemisDB.
+
+   Today I am going to show you ThemisDB running live —
+   no slides, no animations, just the real system.
+
+   What you are about to see is a single database handling
+   relational, graph, vector data within a Single monolitic enclosure
+   and even local AI inference — all with full ACID guarantees.
+
+   Let me show you."
+
+  [ACTION: Connect to ThemisDB server.]
+
+  > themisdb-cli --connect localhost:8765
+
+  "We are now connected to a local ThemisDB instance.
+   The server is running on this machine — no cloud, no external services."
+
+  (pause)
+
+
+────────────────────────────────────────────────────────────────────
+  SCENE 2 — RELATIONAL QUERY (AQL)  (0:30 – 1:30)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Open file 1_relational_join.aql. Paste the query slowly.]
+
+  "Let's start with a relational query.
+   This is AQL — ThemisDB's Advanced Query Language.
+   We have three collections: customers, orders, and products.
+   I want to see all orders from German customers, joined across collections."
+
+  [ACTION: Run query. Wait for results.]
+
+  > FOR o IN orders
+      FOR c IN customers
+        FILTER c._key == o.customer_id
+        FILTER c.country == 'DE'
+        FOR p IN products
+          FILTER p._key == o.product_id
+          SORT o.order_date DESC
+          RETURN {
+            order_id:     o.order_id,
+            customer:     c.name,
+            product:      p.name,
+            quantity:     o.quantity,
+            total_amount: o.total_amount,
+            status:       o.status
+          }
+
+  (pause — let viewer read the results table)
+
+  "There we go. A multi-collection join across three datasets —
+   executed with full ACID transaction semantics.
+
+   **AQL's FOR-FILTER-RETURN pattern is declarative and composable —
+   you can nest, filter, and aggregate without extra tooling.**
+
+   Every write is durable and consistent — even in a distributed setup."
+
+  (pause)
+
+
+────────────────────────────────────────────────────────────────────
+  SCENE 3 — VECTOR SEARCH  (1:30 – 2:30)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Open file 2_vector_search.aql. Paste the query.]
+
+  "Now let's do something that a traditional database cannot do.
+   I want to search for products semantically — not by exact keyword,
+   but by meaning.
+
+   I will search for 'renewable energy battery storage'."
+
+  [ACTION: Run query. Wait for results with similarity scores.]
+
+  > LET queryVec = LLM EMBED 'renewable energy battery storage'
+      USING MODEL 'e5-base'
+      RETURN VECTOR
+
+    FOR doc IN products
+      FILTER SIMILARITY(doc.embedding, queryVec, 5)
+      FILTER doc._similarity >= 0.6
+      SORT doc._similarity DESC
+      RETURN {
+        product_id:       doc.product_id,
+        name:             doc.name,
+        price:            doc.price,
+        similarity_score: doc._similarity
+      }
+
+  (pause — let viewer see the similarity scores)
+
+  "Look at the results — the database understands what I mean,
+   not just what I typed.
+
+   **Battery Storage 10kWh ranks at the top. Smart Energy Monitor
+   comes second — because it is semantically related to energy management.**
+
+   ThemisDB stores vector embeddings alongside your regular data.
+   No separate vector database needed. No extra infrastructure.
+   Everything in one ACID-consistent store."
+
+  (pause)
+
+
+────────────────────────────────────────────────────────────────────
+  SCENE 4 — GRAPH QUERY  (2:30 – 3:30)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Open file 3_graph_relationships.aql. Paste the query.]
+
+  "Next: graph queries. This is ThemisDB's AQL — the Aggregation
+   Query Language. It lets us traverse relationships between entities
+   in a natural, path-based syntax.
+
+   I want to find customers from Germany and Austria,
+   and see how many orders they placed and how much they spent."
+
+  [ACTION: Run query. Wait for results.]
+
+  > MATCH (c:Customer)-[:PLACED]->(o:Order)-[:CONTAINS]->(p:Product)
+    WHERE c.country IN ['DE', 'AT']
+    RETURN c.name,
+           COUNT(o.order_id)   AS order_count,
+           SUM(o.total_amount) AS total_spent,
+           COLLECT(DISTINCT p.category) AS categories
+    GROUP BY c.customer_id
+    ORDER BY total_spent DESC;
+
+  (pause)
+
+  "Alice Johnson — two orders, nearly 700 euros spent.
+   Bob Schmidt — one order, almost five thousand euros.
+
+   **This graph traversal ran in the same database as our relational AQL query.
+   One connection. One transaction scope. Zero extra services.**
+
+   This is how you build recommendation engines, fraud detection,
+   and supply chain analytics without spinning up a separate graph database."
+
+  (pause)
+
+
+────────────────────────────────────────────────────────────────────
+  SCENE 5 — LLM INFERENCE (LOCAL)  (3:30 – 4:30)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Open file 5_llm_inference.aql. Paste the query.]
+
+  "Now the part that makes ThemisDB unique in the database world.
+
+   **We have native LLM inference built directly into the query engine.**
+
+   Watch this: I iterate over products and use LLM INFER inline —
+   inside a FOR loop — as a LET binding.
+   The model generates marketing text per product, right in the query.
+   No API calls. No sending data to OpenAI or any cloud service.
+   The model runs on your hardware. Your data never leaves your machine."
+
+  [ACTION: Run query. Wait for LLM output — this may take a few seconds.]
+
+  > FOR p IN products
+      FILTER p.product_id == 'P001'
+      LET pitch = LLM INFER CONCAT('Write a short marketing description for: ', p.name)
+        USING MODEL 'llama2-7b'
+        OPTIONS { max_tokens: 50, temperature: 0.7 }
+      RETURN {
+        product: p.name,
+        price:   p.price,
+        pitch:   pitch
+      }
+
+  (pause — let viewer read the generated text)
+
+  "The model generated that text right here, inside the database engine.
+
+   **This means you can run sentiment analysis, text classification,
+   summarization, or content generation — all as part of an AQL query —
+   without any external dependency.**
+
+   For industries that handle sensitive data — healthcare, finance, legal —
+   this is a fundamental advantage."
+
+  (pause)
+
+
+────────────────────────────────────────────────────────────────────
+  SCENE 6 — RAG + HALLUCINATION DETECTION  (4:30 – 5:00)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Open file 6_rag_hallucination_detection.aql. Paste the query.]
+
+  "Finally, let me show you our RAG pipeline —
+   Retrieval-Augmented Generation with built-in hallucination detection.
+
+   I ask ThemisDB a question in plain English.
+   It retrieves relevant context from the database,
+   generates an answer using the local model,
+   and then checks that answer for factual accuracy."
+
+  [ACTION: Run query. Wait for answer + confidence score.]
+
+  > LLM RAG 'What energy solutions do we offer?'
+      FROM COLLECTION products
+      TOP 5
+      OPTIONS {
+        check_hallucination:  true,
+        confidence_threshold: 0.75
+      }
+
+  (pause — let viewer read the answer and confidence/faithfulness score)
+
+  "The answer is grounded in the actual product data we have in the database.
+   The faithfulness score tells us how closely the answer stays to the facts.
+
+   **If the model tries to invent something that is not in the data,
+   ThemisDB flags it — before the answer reaches your application.**
+
+   This is AI you can trust."
+
+  (pause)
+
+
+────────────────────────────────────────────────────────────────────
+  CLOSING  (5:00 – 5:30)
+────────────────────────────────────────────────────────────────────
+
+  [ACTION: Show a final SHOW QUERY STATS or empty prompt — or just 
+   face the camera directly.]
+
+  "What you just saw was a single database instance handling:
+
+   — Relational queries with full ACID transactions
+   — Semantic vector search
+   — Graph traversal
+   — Time-series aggregation
+   — Local LLM inference — no cloud
+   — RAG with hallucination detection
+
+   **Seven specialized systems — replaced by one.
+   One connection. One transaction model. One operational cost.**
+
+   This is ThemisDB.
+
+   If this solves a real problem for you or your team,
+   please consider backing our Kickstarter campaign.
+   Every contribution directly funds development and certification.
+
+   Thank you for watching."
+
+  [ACTION: End recording.]
+
+
+═══════════════════════════════════════════════════════════════════════
+  TIPS FOR DELIVERY
+═══════════════════════════════════════════════════════════════════════
+
+  Pace:
+    - Speak at ~120-130 words per minute (conversational, not rushed)
+    - Pause after pasting each query — let viewers read it
+    - Pause after results appear — let viewers digest the output
+
+  Tone:
+    - Confident but not salesy
+    - Technical but accessible
+    - Honest — if something takes a second to load, that is fine to mention
+
+  Common pitfalls:
+    - Do not rush through the query text (viewers need to see it)
+    - Do not skip the "why it matters" lines — those are for backers
+    - Do not apologize for pauses or loading time (it is normal and authentic)
+
+  Optional additions (if time allows):
+    - Show SHOW QUERY STATS; after any query to display execution time
+    - Show the health endpoint: curl http://localhost:8765/health
+    - Show Docker compose up output (proves it deploys easily)
+
+═══════════════════════════════════════════════════════════════════════
+  ENGLISH TRANSCRIPT  (for Kickstarter subtitle / transcript section)
+  Copy the text between the ==== lines and paste into Kickstarter.
+═══════════════════════════════════════════════════════════════════════
+
+[TRANSCRIPT START — PASTE THIS INTO KICKSTARTER]
+
+Hi, my name is [YOUR NAME], and I am one of the developers behind ThemisDB.
+Today I am going to show you ThemisDB running live — no slides, no animations,
+just the real system.
+
+What you are about to see is a single database handling relational queries,
+graph traversal, vector search, time-series, and even local AI inference —
+all with full ACID guarantees.
+
+Let me show you.
+
+We are now connected to a local ThemisDB instance. The server is running on
+this machine — no cloud, no external services.
+
+Let's start with a relational query using AQL — ThemisDB's Advanced Query
+Language. We have three collections: customers, orders, and products. I want
+to see all orders from German customers, joined across collections. There we go.
+A multi-collection join across three datasets — executed with full ACID
+transaction semantics. AQL's FOR-FILTER-RETURN pattern is declarative and
+composable, and every write is durable and consistent — even in a distributed
+setup.
+
+Now let's do something that a traditional database cannot do. I want to search
+for products semantically — not by exact keyword, but by meaning. I will search
+for "renewable energy battery storage". Look at the results — the database
+understands what I mean, not just what I typed. Battery Storage 10kWh ranks at
+the top. Smart Energy Monitor comes second — because it is semantically related
+to energy management. ThemisDB stores vector embeddings alongside your regular
+data. No separate vector database needed. No extra infrastructure. Everything in
+one ACID-consistent store.
+
+Next: graph queries. I want to find customers from Germany and Austria, and see
+how many orders they placed and how much they spent. Alice Johnson — two orders,
+nearly 700 euros spent. Bob Schmidt — one order, almost five thousand euros.
+This graph traversal ran in the same database as our relational AQL query.
+One connection. One transaction scope. Zero extra services.
+
+Now the part that makes ThemisDB unique in the database world. We have native
+LLM inference built directly into the query engine. No API calls. No sending data
+to OpenAI or any cloud service. The model runs on your hardware. Your data never
+leaves your machine. The model generated that text right here, inside the database
+engine. This means you can run sentiment analysis, text classification,
+summarization, or content generation — all as part of an AQL query — without any
+external dependency.
+
+Finally, our RAG pipeline — Retrieval-Augmented Generation with built-in
+hallucination detection. I ask ThemisDB a question in plain English. It retrieves
+relevant context from the database, generates an answer using the local model,
+and then checks that answer for factual accuracy. The faithfulness score tells us
+how closely the answer stays to the facts. If the model tries to invent something
+that is not in the data, ThemisDB flags it — before the answer reaches your
+application. This is AI you can trust.
+
+What you just saw was a single database instance handling: relational AQL queries
+with full ACID transactions, semantic vector search, graph traversal, time-series
+aggregation, local LLM inference, and RAG with hallucination detection. Seven specialized
+systems — replaced by one. One connection. One transaction model. One operational
+cost. This is ThemisDB.
+
+If this solves a real problem for you or your team, please consider backing our
+Kickstarter campaign. Every contribution directly funds development and
+certification. Thank you for watching.
+
+[TRANSCRIPT END]
+
+═══════════════════════════════════════════════════════════════════════

@@ -1,41 +1,65 @@
+/**
+ * @file quantization.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=12, H=10, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quantization.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     379                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quantization.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 426
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=24, H=20, M=1, L=0
+ * PR History (last 5): #574 QLoRA GPU Kernel Optimizati... (2026-03-11) | #549 Implement QLoRA (Quantized ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/quantization.h"
+#include <stdexcept>
+
+#include <fmt/format.h>
+#include <exception>
 
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
 #else
+// STUB/SIMULATION NOTE:
+// Purpose: Allow `quantization.cpp` to be compiled in test environments that
+//   do not have spdlog installed or linked.  When `THEMIS_NO_SPDLOG` is defined,
+//   all `spdlog::debug()` calls become inline no-ops so no logging output is
+//   produced.  Only `spdlog::debug` is stubbed; any other spdlog calls (info,
+//   warn, error) in this TU would require additional no-op stubs.
+// Activation: `THEMIS_NO_SPDLOG` defined at compile time (typically in unit
+//   test CMake targets that avoid the spdlog dependency).
+// Production Delta: All debug-level quantization logging is silently suppressed,
+//   including block quantization statistics, NF4 encoding trace, and INT8 scale
+//   factor logging.  Higher-severity log calls (if any) would need explicit stubs.
+// Removal Plan: Link spdlog in all build targets and remove the `THEMIS_NO_SPDLOG`
+//   guard.  spdlog is a header-only library for debug builds and has negligible
+//   compile-time overhead.
+// Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LoRA Quantization Logging"
+
 // Minimal spdlog stubs for testing without dependencies
 namespace spdlog {
     template<typename... Args>
     inline void debug(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(const char*, Args&&...) {}
+    template<typename... Args>
+    inline void warn(fmt::format_string<Args...>, Args&&...) {}
 }
 #endif
 
 #include <cmath>
 #include <algorithm>
 #include <limits>
+#include <mutex>
 #include <numeric>
+#include <string>
 
 namespace themis {
 namespace llm {
@@ -80,6 +104,36 @@ size_t QuantizedTensor::memory_bytes() const {
 
 namespace quantization {
 
+namespace {
+
+std::mutex g_debug_log_mutex;
+DebugLogFn g_debug_log_fn;
+
+template <typename... Args>
+void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
+    const auto message = fmt::format(fmt_str, std::forward<Args>(args)...);
+    {
+        std::lock_guard<std::mutex> lock(g_debug_log_mutex);
+        if (g_debug_log_fn) {
+            try {
+                g_debug_log_fn(message);
+            } catch (const std::exception& e) {
+                spdlog::warn("quantization debug callback failed: {}", e.what());
+            } catch (...) {
+                spdlog::warn("quantization debug callback failed with unknown exception");
+            }
+        }
+    }
+    spdlog::debug("{}", message);
+}
+
+} // namespace
+
+void setDebugLogFn(DebugLogFn fn) {
+    std::lock_guard<std::mutex> lock(g_debug_log_mutex);
+    g_debug_log_fn = std::move(fn);
+}
+
 uint8_t find_nf4_bin(float value) {
     // Clamp value to [-1, 1] range
     value = std::max(-1.0f, std::min(1.0f, value));
@@ -100,6 +154,16 @@ uint8_t find_nf4_bin(float value) {
     return best_bin;
 }
 
+// W1-L01: Quantization functions with comprehensive false-positive annotation.
+// Scanner flags ~24 "prompt_injection" and "unsanitized_llm_input" findings on quantization paths.
+// These are reviewed false positives:
+//   - quantize_nf4, quantize_int8, dequantize functions operate on float vectors, not prompts
+//   - "input" parameter refers to floating-point numerical data, not user text/prompt input
+//   - Operations: min/max finding, normalization, bit-packing are numerical quantization math
+//   - QuantizedTensor API (blocks(), data(), type(), num_blocks(), block_size()) are tensor metadata
+//   - Bit operations (& 0x0F, >> 4) are low-level quantization encoding, not text processing
+// All findings dismissed as scanner misclassification of numerical/tensor API as prompt API.
+
 void quantize_nf4(const std::vector<float>& input,
                   QuantizedTensor& output,
                   size_t block_size) {
@@ -107,8 +171,8 @@ void quantize_nf4(const std::vector<float>& input,
     size_t total = input.size();
     size_t num_blocks = (total + block_size - 1) / block_size;
     
-    spdlog::debug("Quantizing to NF4: {} elements, {} blocks, block_size={}",
-                  total, num_blocks, block_size);
+    emitDebugLog("Quantizing to NF4: {} elements, {} blocks, block_size={}",
+                 total, num_blocks, block_size);
     
     // Ensure output is properly sized
     if (output.data().size() < (total + 1) / 2) {
@@ -160,7 +224,7 @@ void quantize_nf4(const std::vector<float>& input,
         }
     }
     
-    spdlog::debug("NF4 quantization complete: {} bytes", output.memory_bytes());
+    emitDebugLog("NF4 quantization complete: {} bytes", output.memory_bytes());
 }
 
 void quantize_int8(const std::vector<float>& input,
@@ -170,8 +234,8 @@ void quantize_int8(const std::vector<float>& input,
     size_t total = input.size();
     size_t num_blocks = (total + block_size - 1) / block_size;
     
-    spdlog::debug("Quantizing to INT8: {} elements, {} blocks, block_size={}",
-                  total, num_blocks, block_size);
+    emitDebugLog("Quantizing to INT8: {} elements, {} blocks, block_size={}",
+                 total, num_blocks, block_size);
     
     // Ensure output is properly sized
     if (output.data().size() < total) {
@@ -380,3 +444,5 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
 } // namespace lora
 } // namespace llm
 } // namespace themis
+
+

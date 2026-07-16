@@ -1,54 +1,33 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_security_validator.h                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
 
-#include <string>
-#include <vector>
-#include <optional>
-#include <regex>
-#include <unordered_set>
+/**
+ * @file lora_security_validator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+#include "llm/llm_model_audit_logger.h"
+#include "llm/lora_certificate_store.h"
+
 #include <chrono>
 #include <memory>
-#include <nlohmann/json.hpp>
+#include <optional>
+#include <regex>
+#include <string>
+#include <unordered_set>
+#include <vector>
 
-using json = nlohmann::json;
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {
 
-// Forward declaration to avoid a circular include with llm_model_audit_logger.h
-class LLMModelAuditLogger;
-
-/**
- * @file lora_security_validator.h
- * @brief Security validation for LoRa adapters
- * 
- * Provides security checks for LoRa adapters including:
- * - Signature verification
- * - Integrity checks
- * - Anomaly detection in weights
- * - Metadata validation
- */
+using json = nlohmann::json;
 
 /**
  * @brief LoRa signature verification result
@@ -80,6 +59,12 @@ struct LoRASecurityConfig {
     bool require_signature = true;
     std::vector<std::string> trusted_signers;  // X.509 cert fingerprints
     bool enforce_cert_validity = true;
+
+    // Certificate store paths
+    // Local store: PEM files named <fingerprint>.pem
+    std::string cert_store_path = "config/security/lora_certs/";
+    // System store fallback (empty disables system-store lookup)
+    std::string system_cert_store_path = "/etc/ssl/certs";
     
     // Integrity checks
     bool verify_checksum = true;
@@ -100,7 +85,9 @@ struct LoRASecurityConfig {
 class LoRASecurityValidator {
 public:
     explicit LoRASecurityValidator(const LoRASecurityConfig& config);
-    ~LoRASecurityValidator() = default;
+    /// @brief Virtual destructor to allow safe polymorphic use in tests and
+    ///        custom validator implementations injected via Config::security_validator.
+    virtual ~LoRASecurityValidator() = default;
     
     /**
      * @brief Verify signature of a LoRa adapter file
@@ -148,10 +135,14 @@ public:
      * - Size constraints
      * - Format version
      * 
+     * Virtual to allow test doubles and custom validators to be injected via
+     * MultiLoRAManager::Config::security_validator without subclassing the
+     * full implementation.
+     *
      * @param lora_path Path to LoRa adapter file
      * @return true if metadata is valid
      */
-    bool validateMetadata(const std::string& lora_path);
+    virtual bool validateMetadata(const std::string& lora_path);
     
     /**
      * @brief Detect anomalies in LoRa weights
@@ -227,9 +218,26 @@ public:
      */
     void setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger);
 
+    /**
+     * @brief Replace the certificate store used for fingerprint lookups.
+     *
+     * By default the validator constructs its own LoRACertificateStore from
+     * the paths in LoRASecurityConfig.  Call this to inject a custom or
+     * pre-populated store (e.g., in tests).
+     *
+     * @param store Shared ownership of the certificate store.
+     */
+    void setCertificateStore(std::shared_ptr<LoRACertificateStore> store);
+
+    /**
+     * @brief Return the active certificate store.
+     */
+    std::shared_ptr<LoRACertificateStore> getCertificateStore() const;
+
 private:
     LoRASecurityConfig config_;
     std::shared_ptr<LLMModelAuditLogger> audit_logger_;
+    std::shared_ptr<LoRACertificateStore> cert_store_;
     
     // Helper methods
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);

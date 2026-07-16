@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_extensions.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   50.0/100                                       ║
-    • Total Lines:     983                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • aee5ad185  2026-02-24  Implement betweenness centrality and Louvain community de... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file graph_extensions.h
- * @brief Extended Graph Functions for ThemisDB AQL
- * 
- * Provides advanced graph algorithms and path operations:
- * - All shortest paths
- * - K shortest paths
- * - Weighted shortest path
- * - Path utilities (length, vertices, edges, weight)
- * - Community detection (Louvain)
- * - Centrality measures (Betweenness, Closeness)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -52,6 +27,21 @@ namespace themis {
 namespace query {
 namespace functions {
 
+namespace {
+inline int clampIterationsFromJson(const nlohmann::json& value, int fallback = 100) {
+    if (!value.is_number()) {
+        return fallback;
+    }
+    const double raw = value.get<double>();
+    if (!std::isfinite(raw)) {
+        return fallback;
+    }
+    constexpr double kMinIterations = 1.0;
+    constexpr double kMaxIterations = 1'000'000.0;
+    return static_cast<int>(std::clamp(raw, kMinIterations, kMaxIterations));
+}
+} // namespace
+
 // ============================================================================
 // ALL_SHORTEST_PATHS - Find all shortest paths between two vertices
 // ============================================================================
@@ -59,6 +49,7 @@ namespace functions {
 /*
 class AllShortestPathsFunction : public IFunction {
 public:
+    ~AllShortestPathsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ALL_SHORTEST_PATHS",
@@ -109,6 +100,7 @@ public:
 /*
 class KShortestPathsFunction : public IFunction {
 public:
+    ~KShortestPathsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "K_SHORTEST_PATHS",
@@ -216,6 +208,7 @@ public:
 /*
 class WeightedShortestPathFunction : public IFunction {
 public:
+    ~WeightedShortestPathFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "WEIGHTED_SHORTEST_PATH",
@@ -264,6 +257,7 @@ public:
 /*
 class PathLengthFunction : public IFunction {
 public:
+    ~PathLengthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_LENGTH",
@@ -302,6 +296,7 @@ public:
 /*
 class PathVerticesFunction : public IFunction {
 public:
+    ~PathVerticesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_VERTICES",
@@ -336,6 +331,7 @@ public:
 /*
 class PathEdgesFunction : public IFunction {
 public:
+    ~PathEdgesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_EDGES",
@@ -370,6 +366,7 @@ public:
 /*
 class PathWeightFunction : public IFunction {
 public:
+    ~PathWeightFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PATH_WEIGHT",
@@ -414,6 +411,7 @@ public:
 /*
 class BetweennessCentralityFunction : public IFunction {
 public:
+    ~BetweennessCentralityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "BETWEENNESS_CENTRALITY",
@@ -444,6 +442,7 @@ public:
 /*
 class ClosenessCentralityFunction : public IFunction {
 public:
+    ~ClosenessCentralityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CLOSENESS_CENTRALITY",
@@ -483,6 +482,7 @@ public:
  */
 class BetweennessCentralityExtFunction : public IFunction {
 public:
+    ~BetweennessCentralityExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "BETWEENNESS_CENTRALITY",
@@ -638,6 +638,7 @@ private:
     }
 
 public:
+    ~LouvainCommunitiesExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LOUVAIN_COMMUNITIES",
@@ -855,6 +856,7 @@ private:
     }
 
 public:
+    ~LabelPropagationCommunitiesExtFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LABEL_PROPAGATION_COMMUNITIES",
@@ -888,9 +890,9 @@ public:
         int max_iterations = 100;
         if (args.size() > 1) {
             if (args[1].is_object() && args[1].contains("max_iterations")) {
-                max_iterations = static_cast<int>(args[1]["max_iterations"].get<double>());
+                max_iterations = clampIterationsFromJson(args[1]["max_iterations"], max_iterations);
             } else if (args[1].is_number()) {
-                max_iterations = static_cast<int>(args[1].get<double>());
+                max_iterations = clampIterationsFromJson(args[1], max_iterations);
             }
         }
 

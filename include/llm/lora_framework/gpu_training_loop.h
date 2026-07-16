@@ -1,23 +1,21 @@
+/**
+ * @file gpu_training_loop.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_training_loop.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     308                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_training_loop.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 301
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #596 Implement GPU-accelerated L... (2026-03-11) | #609 Implement Gradient Checkpoi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -47,6 +45,7 @@ class BaseModelAdapter;
  * @brief Training metrics for GPU training
  */
 struct GPUTrainingMetrics {
+    virtual ~GPUTrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
     int current_step = 0;
@@ -69,6 +68,7 @@ using GPUTrainingCallback = std::function<void(const GPUTrainingMetrics&)>;
  * @brief Configuration for GPU training loop
  */
 struct GPUTrainingConfig {
+    virtual ~GPUTrainingConfig() = default;
     // Basic training parameters
     int num_epochs = 3;
     float learning_rate = 1e-4f;
@@ -309,3 +309,4 @@ float computeFusedMSELossGradientGPU(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

@@ -1,24 +1,21 @@
+/**
+ * @file themis_help_lora.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 264
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #371 Implement ThemisHelpLoRA: D... (2026-03-11) | #370 Integrate themis_help_lora ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -31,6 +28,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -44,6 +42,7 @@ using llm::FeedbackType;  // Make FeedbackType available in this namespace
  * @brief Performance metrics for ThemisHelpLoRA
  */
 struct PerformanceMetrics {
+    virtual ~PerformanceMetrics() = default;
     int64_t total_queries = 0;
     int64_t successful_queries = 0;
     int64_t failed_queries = 0;
@@ -56,6 +55,7 @@ struct PerformanceMetrics {
  * @brief Feedback statistics
  */
 struct FeedbackStats {
+    virtual ~FeedbackStats() = default;
     size_t total_feedback = 0;
     size_t positive_feedback = 0;
     size_t negative_feedback = 0;
@@ -77,9 +77,20 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
+        /**
+         * @brief Optional GGUF path resolver for @ref base_model_id.
+         *
+         * When set, this callback is queried first for both lazy inference-time
+         * model loading and training-service base-model initialization.
+         * Return an empty string to fall back to the default local path
+         * `models/<base_model_id>.gguf`.
+         */
+        ModelPathProviderFn model_path_provider;
         
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
@@ -87,22 +98,38 @@ public:
         std::string ollama_model_name = "llama2:7b";
         std::string model_config_yaml = "config/llm_remote_models.yaml";
         bool auto_download_model = true;
-        
+
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
-        
+
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items
         std::chrono::hours training_interval{24}; // Or train daily
-        
+
         // Quality settings
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
+
+        /**
+         * @brief Optional model-path resolver injected at startup.
+         *
+         * When set, the resolver is called with @p base_model_id and must
+         * return the absolute filesystem path to the GGUF model file.
+         * Implement via `LLMModelStorage::resolveGGUFPath(model_id)` and wire
+         * at server startup.
+         *
+         * When not set, the component falls back to the relative path
+         * `"models/" + base_model_id + ".gguf"`, which is only correct when
+         * the server working directory contains a `models/` sub-directory.
+         *
+         * @param model_id The base_model_id string from this Config.
+         * @return Absolute path to the GGUF file, or empty on resolution failure.
+         */
     };
-    
+
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();

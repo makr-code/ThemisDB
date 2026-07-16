@@ -1,25 +1,21 @@
+/**
+ * @file serverless_function_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            serverless_function_api_handler.cpp                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     527                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8b9f66e57  2026-02-23  fix(server): audit – fix data race in executeFunction, is... ║
-    • 2bd0bc816  2026-02-23  feat(server): implement serverless function hosting (in-p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: serverless_function_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 607
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): #2636 feat(server): Serverless fu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/serverless_function_api_handler.h"
@@ -28,16 +24,37 @@
 #include <chrono>
 #include <atomic>
 #include <climits>
+#include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <thread>
 #include <future>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
+#include "utils/input_validator.h"
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxServerlessIdentifierLength = 128;
+
+bool isValidServerlessIdentifier(const std::string& value, const bool allow_empty = false) {
+    if (value.empty()) {
+        return allow_empty;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxServerlessIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ServerlessFunction helpers
@@ -256,6 +273,7 @@ http::response<http::string_body>
 ServerlessFunctionApiHandler::handleRegister(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleRegister");
     json body;
     try {
         body = json::parse(req.body());
@@ -269,9 +287,18 @@ ServerlessFunctionApiHandler::handleRegister(
         return makeErrorResponse(http::status::bad_request,
                                  "'name' field is required", req);
     }
+    if (!isValidServerlessIdentifier(body["name"].get<std::string>())) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function name", req);
+    }
     if (!body.contains("code")) {
         return makeErrorResponse(http::status::bad_request,
                                  "'code' field is required", req);
+    }
+    if (body.contains("tenant_id") && (!body["tenant_id"].is_string() ||
+        !isValidServerlessIdentifier(body["tenant_id"].get<std::string>(), true))) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid tenant_id", req);
     }
 
     std::string code_err = validateCode(body["code"]);
@@ -286,7 +313,9 @@ ServerlessFunctionApiHandler::handleRegister(
     fn.description = body.value("description", "");
     fn.code        = body["code"];
     fn.timeout_ms       = body.value("timeout_ms", 5000u);
-    fn.memory_limit_kb  = body.value("memory_limit_kb", 4096u);
+    // GAP-022: Cap creation-time memory_limit_kb at 16 GB (16,777,216 KB).
+    static constexpr uint32_t kMaxMemoryLimitKb = 16'777'216u;
+    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096u), kMaxMemoryLimitKb);
     fn.version     = 1;
     fn.created_at  = utcNow();
     fn.updated_at  = fn.created_at;
@@ -308,18 +337,37 @@ http::response<http::string_body>
 ServerlessFunctionApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleList");
     // Optional ?tenant_id= filter via query string.
     std::string tenant_filter;
     const std::string target{req.target()};
     auto qpos = target.find('?');
     if (qpos != std::string::npos) {
-        const std::string qs = target.substr(qpos + 1);
-        const std::string key = "tenant_id=";
-        auto kpos = qs.find(key);
-        if (kpos != std::string::npos) {
-            tenant_filter = qs.substr(kpos + key.size());
-            auto amp = tenant_filter.find('&');
-            if (amp != std::string::npos) tenant_filter = tenant_filter.substr(0, amp);
+        std::string_view query{target};
+        query.remove_prefix(qpos + 1);
+        while (!query.empty()) {
+            const auto amp = query.find('&');
+            const auto token = query.substr(0, amp);
+            const auto eq = token.find('=');
+            const auto key = token.substr(0, eq);
+            if (key == "tenant_id") {
+                if (eq == std::string_view::npos) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+
+                tenant_filter = std::string(token.substr(eq + 1));
+                if (!tenant_filter.empty() && !isValidServerlessIdentifier(tenant_filter, true)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+                break;
+            }
+
+            if (amp == std::string_view::npos) {
+                break;
+            }
+            query.remove_prefix(amp + 1);
         }
     }
 
@@ -344,6 +392,11 @@ ServerlessFunctionApiHandler::handleGet(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleGet");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -362,6 +415,11 @@ ServerlessFunctionApiHandler::handleUpdate(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleUpdate");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     json body;
     try {
         body = json::parse(req.body());
@@ -381,12 +439,21 @@ ServerlessFunctionApiHandler::handleUpdate(
 
     if (body.contains("name") && body["name"].is_string() &&
         !body["name"].get<std::string>().empty()) {
+        if (!isValidServerlessIdentifier(body["name"].get<std::string>())) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "invalid function name", req);
+        }
         fn.name = body["name"].get<std::string>();
     }
     if (body.contains("description")) {
         fn.description = body.value("description", fn.description);
     }
     if (body.contains("tenant_id")) {
+        if (!body["tenant_id"].is_string() ||
+            !isValidServerlessIdentifier(body["tenant_id"].get<std::string>(), true)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "invalid tenant_id", req);
+        }
         fn.tenant_id = body.value("tenant_id", fn.tenant_id);
     }
     if (body.contains("code")) {
@@ -404,8 +471,16 @@ ServerlessFunctionApiHandler::handleUpdate(
     }
     if (body.contains("memory_limit_kb") && body["memory_limit_kb"].is_number()) {
         const int64_t v = body["memory_limit_kb"].get<int64_t>();
-        if (v > 0 && v <= static_cast<int64_t>(UINT32_MAX)) {
+        // GAP-022: Cap memory_limit_kb to prevent DoS via absurdly large allocation
+        // requests.  UINT32_MAX (~4TB) is the previous upper bound; now capped at
+        // 16GB (16,777,216 KB) which is the practical maximum per-function limit.
+        static constexpr int64_t kMaxMemoryLimitKb = 16'777'216; // 16 GB
+        if (v > 0 && v <= kMaxMemoryLimitKb) {
             fn.memory_limit_kb = static_cast<uint32_t>(v);
+        } else if (v > kMaxMemoryLimitKb) {
+            spdlog::warn("[SECURITY] Serverless: memory_limit_kb={} exceeds cap {}; "
+                         "clamping to cap (GAP-022/CWE-400)", v, kMaxMemoryLimitKb);
+            fn.memory_limit_kb = static_cast<uint32_t>(kMaxMemoryLimitKb);
         }
     }
 
@@ -426,6 +501,11 @@ ServerlessFunctionApiHandler::handleDelete(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleDelete");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -447,6 +527,11 @@ ServerlessFunctionApiHandler::handleInvoke(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleInvoke");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     // Fetch function under lock, then release before execution to avoid
     // holding the registry mutex during potentially long-running work.
     ServerlessFunction fn;
@@ -510,6 +595,11 @@ ServerlessFunctionApiHandler::handleVersions(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleVersions");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = version_history_.find(id);
     if (it == version_history_.end()) {

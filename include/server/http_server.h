@@ -1,27 +1,20 @@
+/**
+ * @file http_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http_server.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1044                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
-    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
-    • b8533aab4  2026-02-28  feat(scheduler): implement TaskSchedulerApiHandler and we... ║
-    • b501b870f  2026-02-28  feat(metadata): wire ColumnLineageTracker into REST API v... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http_server.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -59,12 +52,18 @@
 #include "server/websocket_session.h"
 #endif
 #include "server/audit_api_handler.h"
+#include "server/export_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/shard_repair_api_handler.h"
+#include "server/sharding_metrics_handler.h"
+#include "sharding/shard_repair_engine.h"
+#include "sharding/prometheus_metrics.h"
 #include "server/vector_api_handler.h"
 #include "server/rope_api_handler.h"
 #include "server/spatial_api_handler.h"
 #include "server/monitoring_api_handler.h"
 #include "server/query_api_handler.h"
+#include "server/continuous_query_api_handler.h"
 #include "server/policy_api_handler.h"
 #include "server/prompt_api_handler.h"
 #include "server/graph_api_handler.h"
@@ -73,6 +72,7 @@
 #include "server/bpmn_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
+#include "cdc/consumer_group.h"
 #include "server/saga_api_handler.h"
 #include "server/geo_topology_api_handler.h"
 #include "server/replication_topology_api_handler.h"
@@ -83,6 +83,7 @@
 #include "server/keys_api_handler.h"
 #include "server/api_key_mgmt_handler.h"
 #include "server/session_api_handler.h"
+#include "server/saml_auth_provider.h"
 #include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
@@ -99,9 +100,19 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/graphql_api_handler.h"
 #include "server/grpc_web_proxy_handler.h"
 #include "server/serverless_function_api_handler.h"
+
+// Forward declaration for AI Safety Layer HILG approval endpoints (ASL-6).
+// Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+namespace themis { namespace server { class McpServer; } }
+namespace themis::performance::phase3 { class BaoOptimizer; }
+namespace themis::performance { class WorkloadAdaptiveOptimizer; }
+namespace themis::prompt_engineering { class FeedbackCollector; }
+namespace themis::rag::learning { class ContinuousLearningOrchestrator; }
+namespace themis::observability { class IProvenanceStore; }
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
+#include "server/maintenance_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
@@ -145,7 +156,13 @@ class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PITRManager;
 class TaskScheduler;
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
+class MVCCStore;
+
+namespace query {
+class ContinuousQueryEngine;
+}
 
 namespace prompt_engineering {
 class PromptManager;
@@ -177,7 +194,13 @@ class MultiPrimaryCoordinator;
 class HealthMonitor;
 class CollectionRedundancyManager;
 class ConsistentHashRing;
+class ShardRepairEngine;
 class ShardTopology;
+class ShardingManager;
+}
+
+namespace modules {
+class ModuleLoader;
 }
 
 namespace index {
@@ -303,6 +326,7 @@ public:
         std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
+    /** @brief Destructor performs graceful server shutdown. */
     ~HttpServer();
 
     /**
@@ -369,6 +393,11 @@ public:
         return concerns_;
     }
 
+    /// @return the shared AuditLogger instance (may be nullptr if audit init failed).
+    std::shared_ptr<themis::utils::AuditLogger> getAuditLogger() const {
+        return audit_logger_;
+    }
+
     /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
     RequestValidationMiddleware* getRequestValidator() {
         return request_validator_.get();
@@ -376,6 +405,33 @@ public:
     const RequestValidationMiddleware* getRequestValidator() const {
         return request_validator_.get();
     }
+
+    /**
+     * @brief Enable and configure the SAML 2.0 Service Provider.
+     *
+     * SAML SP endpoints (/api/v1/auth/saml/login, /acs, /slo, /metadata) are
+     * only active after this method is called.  Without it every SAML endpoint
+     * returns HTTP 503.
+     *
+     * Call this after constructing the server and before calling start().
+     * It is NOT thread-safe with concurrent request handlers — do not call it
+     * while the server is running.  Replacing an already-initialized SAML
+     * provider at runtime is not supported.
+     *
+     * @param config  Full SamlAuthProvider::Config including SAMLConfig (IdP
+     *                certificate, entity IDs, ACS URL), optional SLO URL, and
+     *                an optional custom token factory.
+     * @throws std::invalid_argument if required config fields are empty.
+     * @throws std::runtime_error   if the IdP certificate cannot be parsed.
+     */
+    void enableSaml(const SamlAuthProvider::Config& config) {
+        saml_provider_ = std::make_unique<SamlAuthProvider>(config);
+    }
+
+    /**
+     * @brief Return whether SAML SP has been enabled (i.e. enableSaml() was called).
+     */
+    bool isSamlEnabled() const { return saml_provider_ != nullptr; }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
     /**
@@ -392,11 +448,137 @@ public:
     friend class Http3Session;
 #endif
 
+    /**
+     * @brief Inject the live ShardingManager into the HTTP server.
+     *
+     * Must be called before start() to activate /v1/admin/shards endpoints.
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     *
+     * @param mgr Pointer to the live ShardingManager (typically the singleton).
+     */
+    void setShardingManager(sharding::ShardingManager* mgr) {
+        sharding_manager_ = mgr;
+    }
+
+    /**
+     * @brief Inject shard repair engine and wire metrics handler integration.
+     * @param engine Shared shard repair engine instance.
+     */
+    void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
+        shard_repair_engine_ = std::move(engine);
+        // Lazily construct the repair REST API handler the first time a real
+        // engine is injected so that auth_ is guaranteed to be set by then.
+        if (shard_repair_engine_ && !shard_repair_api_) {
+            shard_repair_api_ = std::make_unique<themis::server::ShardRepairApiHandler>(
+                shard_repair_engine_, auth_);
+        }
+        // Forward engine update to an already-existing handler (e.g. re-injection).
+        if (shard_repair_api_) {
+            shard_repair_api_->setRepairEngine(shard_repair_engine_);
+        }
+        // Build (or update) the ShardingMetricsHandler so that anti-entropy
+        // repair metrics are exposed on GET /metrics.  We create a fresh
+        // PrometheusMetrics instance scoped to the repair engine; no SLO
+        // monitor is attached by default (can be added later via a separate
+        // setter if needed).
+        if (shard_repair_engine_) {
+            sharding::PrometheusMetrics::Config pmc;
+            pmc.http_port = 0;   // standalone HTTP scrape port disabled;
+            pmc.http_path = "/metrics"; // metrics are served via HttpServer
+            auto repair_prom = std::make_shared<sharding::PrometheusMetrics>(pmc);
+            shard_repair_engine_->setPrometheusMetrics(repair_prom);
+
+            sharding_metrics_handler_ = std::make_shared<ShardingMetricsHandler>(
+                std::move(repair_prom));
+            sharding_metrics_handler_->setRepairEngine(shard_repair_engine_);
+
+            if (monitoring_api_) {
+                monitoring_api_->setShardingMetrics(sharding_metrics_handler_);
+            }
+        }
+    }
+
+    /// @return the injected ShardingManager (may be nullptr before injection).
+    sharding::ShardingManager* getShardingManager() const {
+        return sharding_manager_;
+    }
+
+    /**
+     * @brief Inject the live ModuleLoader for /v1/admin/modules/{name} endpoints.
+     *
+     * Must be called before start() to activate module management endpoints.
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     *
+     * @param loader Pointer to the live ModuleLoader instance (or nullptr to disable).
+     */
+    void setModuleLoader(modules::ModuleLoader* loader) {
+        module_loader_ = loader;
+    }
+
+    /// @return the injected ModuleLoader (may be nullptr before injection).
+    modules::ModuleLoader* getModuleLoader() const {
+        return module_loader_;
+    }
+
+    /**
+     * @brief Wire a ContinuousQueryEngine and activate the CQL REST endpoints.
+     *
+     * Registers the engine with the internal ContinuousQueryApiHandler so that
+     * the following endpoints become active:
+     *   POST   /v1/queries/continuous
+     *   DELETE /v1/queries/continuous/:name
+     *   GET    /v1/queries/continuous
+     *   GET    /v1/queries/continuous/:name/results   (SSE)
+     *
+     * Must be called after construction and before start().
+     * Calling it multiple times replaces the previous engine.
+     *
+     * @param engine  Shared engine instance; passing nullptr disables the endpoints.
+     */
+    void setContinuousQueryEngine(
+        std::shared_ptr<themis::query::ContinuousQueryEngine> engine);
+
+    /**
+     * @brief Attach an MCP server instance to enable the AI Safety Layer
+     *        HILG approval endpoints (`/v1/ai/\*`).
+     *
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     * Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+     */
+    void setMcpServer(std::shared_ptr<themis::server::McpServer> mcp_server);
+
+
+    /**
+     * @brief Registered endpoint information (dynamically assembled from config)
+     */
+    struct RegisteredEndpoint {
+        std::string method;    // GET, POST, PUT, DELETE, PATCH, etc.
+        std::string path;      // e.g. "/query", "/entities/:id"
+        std::string description;
+    };
+
+    /**
+     * @brief Get list of all registered API endpoints (dynamic)
+     *
+     * Returns dynamically constructed endpoint list based on:
+     *  - Always-available core endpoints (/health, /query, /entities, etc.)
+     *  - Config-enabled feature endpoints (LLM, CDC, TimeSeries, etc.)
+     *  - SAML endpoints (if enableSaml() was called)
+     *
+     * Useful for:
+     *  - Startup logs (no more hardcoding endpoint lists)
+     *  - API documentation generation
+     *  - Health checks / capability discovery
+     *
+     * @return vector of RegisteredEndpoint structs, sorted by path
+     */
+    std::vector<RegisteredEndpoint> getRegisteredEndpoints() const;
+
 private:
     // Session class for handling individual connections
     class Session : public std::enable_shared_from_this<Session> {
     public:
-        Session(tcp::socket socket, HttpServer* server);
+        Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved = false);
         ~Session();
         void start();
 
@@ -414,13 +596,13 @@ private:
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
-        net::steady_timer read_timer_; // enforces request_timeout_ms
+        net::steady_timer read_timer_; ///< I/O timeout timer: armed before async_read and async_write
     };
 
     // SSL Session class for handling TLS connections
     class SslSession : public std::enable_shared_from_this<SslSession> {
     public:
-        SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server);
+        SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved = false);
         ~SslSession();
         void start();
 
@@ -441,7 +623,7 @@ private:
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
-        net::steady_timer read_timer_; // enforces request_timeout_ms
+        net::steady_timer read_timer_; ///< I/O timeout timer: armed before async_read and async_write
     };
 
     // Request routing
@@ -575,6 +757,12 @@ private:
     http::response<http::string_body> handleSessionRevokeById(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSessionRevokeOthers(const http::request<http::string_body>& req);
 
+    // SAML 2.0 SP endpoints
+    http::response<http::string_body> handleSamlLogin(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlAcs(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlSlo(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlMetadata(const http::request<http::string_body>& req);
+
     // PKI endpoints (sign/verify)
     http::response<http::string_body> handlePkiSign(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePkiVerify(const http::request<http::string_body>& req);
@@ -676,6 +864,12 @@ private:
         const http::request<http::string_body>& req,
         std::string_view route_key);
 
+    void recordContinuousLearningQueryTelemetry(
+        const http::request<http::string_body>& req,
+        const http::response<http::string_body>& res,
+        std::chrono::steady_clock::time_point request_start,
+        bool is_aql);
+
     // Accept new connections
     void doAccept();
     void onAccept(beast::error_code ec, tcp::socket socket);
@@ -712,10 +906,17 @@ private:
     // Prompt Manager for managing prompt templates (in-memory or RocksDB-backed)
     std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager_;
     rocksdb::ColumnFamilyHandle* prompt_cf_handle_ = nullptr;
+    std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer_;
+    std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer_;
+    std::shared_ptr<themis::prompt_engineering::FeedbackCollector> live_feedback_collector_;
+    std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
+        continuous_learning_orchestrator_;
     
     // Changefeed (Sprint A CDC)
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
+    // Consumer group manager for /v2/cdc/stream group-protocol sessions
+    std::unique_ptr<cdc::ConsumerGroupManager> consumer_group_manager_;
     
     // Snapshot Manager (Named Snapshots feature)
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
@@ -723,6 +924,7 @@ private:
     
     // MVCC API Handler (per-record versioning + HLC)
     std::unique_ptr<server::MvccApiHandler> mvcc_api_handler_;
+    std::shared_ptr<themis::MVCCStore>      mvcc_store_; // shared with MvccCleanupHandler
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
@@ -751,9 +953,9 @@ private:
 #endif
     
     // Time-Series Store (Sprint B)
-    std::unique_ptr<TSStore> timeseries_;
+    std::shared_ptr<TSStore> timeseries_;
     rocksdb::ColumnFamilyHandle* ts_cf_handle_ = nullptr;
-    std::unique_ptr<ContinuousAggregateManager> ts_agg_manager_;
+    std::shared_ptr<ContinuousAggregateManager> ts_agg_manager_;
     // Governance Policy Engine
     std::unique_ptr<themis::PolicyEngine> policy_engine_;
     std::unique_ptr<themis::OpaAdapter> opa_adapter_;
@@ -774,7 +976,10 @@ private:
     
     // Audit API Handler
     std::unique_ptr<themis::server::AuditApiHandler> audit_api_;
-    
+
+    // Export API Handler (JSONL LLM export — EXP-001)
+    std::unique_ptr<themis::server::ExportApiHandler> export_api_;
+
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
     
@@ -795,10 +1000,22 @@ private:
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
+    std::unique_ptr<themis::server::ShardRepairApiHandler> shard_repair_api_;
+    std::shared_ptr<themis::server::ShardingMetricsHandler> sharding_metrics_handler_;
+    // Shared Alertmanager instance – created during monitoring init, reused for
+    // TaskScheduler SLA-breach alerts and Cache SLO monitor.
+    std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
+    // Shared persistent provenance store used by observability export endpoints.
+    std::shared_ptr<observability::IProvenanceStore> provenance_store_;
     // Cross-cutting concerns (lifecycle hooks + health probes); optional.
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
     std::unique_ptr<themis::server::QueryApiHandler> query_api_;
+    // Continuous Query API Handler (CQL Phase 8 REST/SSE endpoints)
+    std::unique_ptr<themis::server::ContinuousQueryApiHandler> continuous_query_api_;
+    std::shared_ptr<themis::query::ContinuousQueryEngine> continuous_query_engine_;
+    // MCP server reference for AI Safety Layer HILG endpoints (ASL-6)
+    std::shared_ptr<themis::server::McpServer> mcp_server_;
     // Policy API Handler
     std::unique_ptr<themis::server::PolicyApiHandler> policy_api_;
     // Prompt API Handler
@@ -846,6 +1063,8 @@ private:
     // Session Management Handler
     std::shared_ptr<themis::auth::SessionManager> session_manager_;
     std::unique_ptr<themis::server::SessionApiHandler> session_api_;
+    // SAML 2.0 SP Handler
+    std::unique_ptr<themis::server::SamlAuthProvider> saml_provider_;
     // PKI API Handler
     std::unique_ptr<themis::server::PkiApiHandler> pki_api_;
     
@@ -875,7 +1094,8 @@ private:
     std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
     
     // Ethics AI API Handler (ethical decision-making and evaluation)
-    std::unique_ptr<themis::server::EthicsApiHandler> ethics_api_;
+    std::unique_ptr<QueryEngine>                         ethics_query_engine_;
+    std::unique_ptr<themis::server::EthicsApiHandler>   ethics_api_;
     
     // Health/Error Service (separate port)
     std::unique_ptr<themis::server::HealthErrorService> health_error_service_;
@@ -885,6 +1105,11 @@ private:
     std::unique_ptr<SchemaManager> schema_manager_;
 
     // GraphQL API Handler
+    // IMPORTANT: graphql_query_engine_ must be declared BEFORE graphql_api_handler_
+    // so that it is destroyed AFTER the handler (C++ destroys in reverse declaration
+    // order).  The handler holds a raw pointer to the engine; if the engine were
+    // destroyed first the handler's destructor could dereference freed memory.
+    std::unique_ptr<QueryEngine> graphql_query_engine_; ///< AQL engine for GraphQL resolvers
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
 
     // gRPC-Web proxy – translates browser gRPC-Web requests to native gRPC
@@ -900,6 +1125,10 @@ private:
     std::unique_ptr<QueryEngine> task_scheduler_engine_;   // QueryEngine owned by the scheduler subsystem
     std::unique_ptr<themis::TaskScheduler> task_scheduler_;
     std::unique_ptr<themis::server::TaskSchedulerApiHandler> task_scheduler_api_;
+
+    // Database Maintenance Orchestrator – central coordinator for all maintenance
+    std::unique_ptr<themis::maintenance::DatabaseMaintenanceOrchestrator> maintenance_orchestrator_;
+    std::unique_ptr<themis::server::MaintenanceApiHandler> maintenance_api_;
 
     // Async job API – long-running AQL query submission and polling
     std::unique_ptr<themis::server::AsyncJobApiHandler> async_job_api_;
@@ -922,8 +1151,18 @@ private:
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
+    /**
+     * @brief Construct HTTP server with extended sharding coordination dependencies.
+     */
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
+
+    // Live ShardingManager (injected via setShardingManager before start())
+    sharding::ShardingManager* sharding_manager_{nullptr};
+    std::shared_ptr<sharding::ShardRepairEngine> shard_repair_engine_;
+
+    // Live ModuleLoader (injected via setModuleLoader before start())
+    modules::ModuleLoader* module_loader_{nullptr};
 
     // RAID redundancy components (optional)
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
@@ -978,6 +1217,29 @@ private:
     std::mutex audit_rate_mutex_;
     std::unordered_map<std::string, RateState> audit_rate_buckets_;
     uint32_t audit_rate_limit_per_minute_{100};
+
+    // Data race prevention mutexes for shared member variables
+    std::mutex api_handlers_mutex_;           // Protects all API handlers: monitoring_api_, cache_api_, cache_admin_api_, ethics_api_, graph_api_, vector_api_, prompt_api_
+    std::mutex storage_mutex_;                // Protects storage_ access
+    std::mutex registry_mutex_;               // Protects registry_ access
+    std::mutex continuous_learning_orchestrator_mutex_;  // Protects continuous_learning_orchestrator_
+    std::mutex vector_index_mutex_;           // Protects vector_index_
+    std::mutex policy_engine_mutex_;          // Protects policy_engine_
+    std::mutex voice_assistant_mutex_;        // Protects voice_assistant_
+    std::mutex inference_engine_mutex_;       // Protects inference_engine_
+    std::mutex graph_index_mutex_;            // Protects graph_index_
+    std::mutex rate_limiting_middleware_mutex_;  // Protects rate_limiting_middleware_
+    std::mutex tracing_middleware_mutex_;     // Protects tracing_middleware_
+    std::mutex request_validator_mutex_;      // Protects request_validator_ access
+    std::mutex max_body_bytes_mutex_;         // Protects max_body_bytes_ access
+
+    // Hot-reloadable config shadows — written via POST /config (on a worker thread),
+    // read concurrently by other worker threads.  Atomic to prevent data races.
+    std::atomic<uint32_t> request_timeout_ms_live_{30000};
+    std::atomic<bool>     feature_semantic_cache_live_{false};
+    std::atomic<bool>     feature_llm_store_live_{false};
+    std::atomic<bool>     feature_cdc_live_{false};
+    std::atomic<bool>     feature_timeseries_live_{false};
     
     // Latency histogram buckets (in microseconds): 100us, 500us, 1ms, 5ms, 10ms, 50ms, 100ms, 500ms, 1s, 5s, 10s+
     std::atomic<uint64_t> latency_bucket_100us_{0};

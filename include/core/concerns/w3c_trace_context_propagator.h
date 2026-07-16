@@ -1,25 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            w3c_trace_context_propagator.h                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     267                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de52d9bd5  2026-02-27  chore(core): audit cleanup — remove unused include, updat... ║
-    • e8e481e71  2026-02-27  feat(core): add W3CTraceContextPropagator for W3C TraceCo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file w3c_trace_context_propagator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -195,7 +182,7 @@ private:
         return {};
     }
 
-    /// Return true iff @p s consists of exactly @p expected_len lowercase hex
+    /// Return true iff @p s consists of exactly @p expected_len hex
     /// characters and is not all zeros.
     static bool isValidHex(const std::string& s, std::size_t expected_len) {
         if (s.size() != expected_len) return false;

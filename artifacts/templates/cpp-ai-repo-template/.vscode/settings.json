@@ -1,0 +1,12 @@
+{
+  "cmake.useCMakePresets": "always",
+  "cmake.configureOnOpen": true,
+
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.default.cppStandard": "YOUR_CPP_STANDARD",
+  "C_Cpp.enableCppCodeEditingTools": true,
+  "C_Cpp.codeAnalysis.runAutomatically": true,
+  "C_Cpp.errorSquiggles": "enabled",
+
+  "github.copilot.chat.scope": "workspace"
+}

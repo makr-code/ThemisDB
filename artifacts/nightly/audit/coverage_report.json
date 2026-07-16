@@ -1,0 +1,397 @@
+{
+  "generated": "2026-04-15T19:48:28Z",
+  "total_modules": 35,
+  "covered_modules": 1,
+  "modules": {
+    "2": {
+      "id": 2,
+      "name": "Storage",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "3": {
+      "id": 3,
+      "name": "Index",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "4": {
+      "id": 4,
+      "name": "Query",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "5": {
+      "id": 5,
+      "name": "Graph",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "6": {
+      "id": 6,
+      "name": "Transactions",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "7": {
+      "id": 7,
+      "name": "CDC / Realtime",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "8": {
+      "id": 8,
+      "name": "Timeseries",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "9": {
+      "id": 9,
+      "name": "Analytics (OLAP)",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "10": {
+      "id": 10,
+      "name": "Vector / Embedding",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "11": {
+      "id": 11,
+      "name": "Geospatial",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "12": {
+      "id": 12,
+      "name": "Full-Text Search",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "13": {
+      "id": 13,
+      "name": "Auth / Security",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "14": {
+      "id": 14,
+      "name": "Sharding",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "15": {
+      "id": 15,
+      "name": "Replication / HA",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "16": {
+      "id": 16,
+      "name": "Backup / Storage Tiers",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "17": {
+      "id": 17,
+      "name": "LLM Integration",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "18": {
+      "id": 18,
+      "name": "ML / Training",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "19": {
+      "id": 19,
+      "name": "Exporters",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "20": {
+      "id": 20,
+      "name": "Importers",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "21": {
+      "id": 21,
+      "name": "API / Protocols",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "22": {
+      "id": 22,
+      "name": "Plugins / WASM",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "23": {
+      "id": 23,
+      "name": "Scheduler",
+      "bench_count": 7,
+      "error_count": 0,
+      "bench_names": [
+        "bench_task_scheduler"
+      ],
+      "mean_cpu_ns": 45.52571428571429,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "🟢"
+    },
+    "24": {
+      "id": 24,
+      "name": "Observability",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "25": {
+      "id": 25,
+      "name": "Acceleration",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "26": {
+      "id": 26,
+      "name": "Adaptive Query Compilation",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "27": {
+      "id": 27,
+      "name": "Chimera Suite",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "28": {
+      "id": 28,
+      "name": "AQL Reference",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "29": {
+      "id": 29,
+      "name": "Schema / Metadata",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "30": {
+      "id": 30,
+      "name": "Cluster Updates",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "31": {
+      "id": 31,
+      "name": "Governance",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "32": {
+      "id": 32,
+      "name": "Ethics AI",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "33": {
+      "id": 33,
+      "name": "System-Level (TPC/YCSB)",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "34": {
+      "id": 34,
+      "name": "Temporal",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "35": {
+      "id": 35,
+      "name": "Process Mining",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "36": {
+      "id": 36,
+      "name": "ONNX-CLIP (Image Embedding)",
+      "bench_count": 14,
+      "error_count": 0,
+      "bench_names": [
+        "bench_onnx_clip_vit_backend",
+        "bench_onnx_clip_cpu"
+      ],
+      "mean_cpu_ns": 325.19544444444443,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "🟢"
+    }
+  }
+}

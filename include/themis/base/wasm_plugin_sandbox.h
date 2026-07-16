@@ -1,25 +1,20 @@
+/**
+ * @file wasm_plugin_sandbox.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wasm_plugin_sandbox.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     435                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f5a88cea2  2026-02-27  audit: fix non-function import parsing bug, remove unused... ║
-    • 7ff4e928f  2026-02-26  feat(base): WASM-based plugin isolation for untrusted code ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wasm_plugin_sandbox.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB WASM Plugin Sandbox
@@ -154,7 +149,7 @@ public:
      * @param memory_size   Size of linear_memory in bytes.
      * @return true on success.
      */
-    virtual bool instantiate(
+    [[nodiscard]] virtual bool instantiate(
         const std::vector<uint8_t>&         wasm_bytes,
         const std::vector<WasmHostFunction>& host_fns,
         uint8_t*                             linear_memory,
@@ -168,7 +163,7 @@ public:
      * @param out          Output blob filled by the runtime.
      * @return true on success; false on trap or missing export.
      */
-    virtual bool call(const std::string&          export_name,
+    [[nodiscard]] virtual bool call(const std::string&          export_name,
                       const std::vector<uint8_t>& args,
                       std::vector<uint8_t>&        out) = 0;
 
@@ -176,7 +171,7 @@ public:
     virtual void destroy() = 0;
 
     /// @brief Human-readable name of the engine (e.g. "wasmtime-0.35").
-    virtual std::string engineName() const = 0;
+    [[nodiscard]] virtual std::string engineName() const = 0;
 };
 
 // =============================================================================
@@ -253,6 +248,24 @@ public:
         /// from bytes directly).
         std::string wasm_path;
 
+        /// Total instruction fuel budget for this sandbox (0 = unlimited).
+        ///
+        /// Each callExport() invocation deducts @ref fuel_check_interval units
+        /// from the budget. When the budget reaches zero, callExport() returns a
+        /// structured fuel-exhaustion error without invoking the runtime, bounding
+        /// runaway plugin execution. Reset the budget by reloading the module.
+        uint64_t max_instructions = 0;
+
+        /// Fuel units consumed per callExport() invocation (default: 1).
+        ///
+        /// In a real WASM interpreter this would correspond to how often fuel is
+        /// decremented in the bytecode dispatch loop. At the sandbox boundary
+        /// level it sets the granularity of the per-call fuel deduction.
+        ///
+        /// @note A value of 0 is treated as 1 (minimum cost of one unit per
+        ///       call) to avoid infinite free calls when a budget is set.
+        uint64_t fuel_check_interval = 1;
+
         static Config defaults() { return {}; }
     };
 
@@ -278,10 +291,10 @@ public:
     void setRuntime(std::unique_ptr<WasmRuntime> runtime);
 
     /// @brief Return true if a runtime has been injected.
-    bool hasRuntime() const noexcept;
+    [[nodiscard]] bool hasRuntime() const noexcept;
 
     /// @brief Return the engine name (empty string if no runtime).
-    std::string engineName() const;
+    [[nodiscard]] std::string engineName() const;
 
     // ── Host-function allowlist ───────────────────────────────────────────
 
@@ -298,7 +311,7 @@ public:
     void clearHostFunctions();
 
     /// @brief Return the number of registered host functions.
-    size_t hostFunctionCount() const noexcept;
+    [[nodiscard]] size_t hostFunctionCount() const noexcept;
 
     // ── Loading ────────────────────────────────────────────────────────────
 
@@ -315,7 +328,7 @@ public:
      *
      * @return true on success.
      */
-    bool loadFromFile(const std::string& path);
+    [[nodiscard]] bool loadFromFile(const std::string& path);
 
     /**
      * @brief Validate and load a .wasm plugin from an in-memory byte buffer.
@@ -324,7 +337,7 @@ public:
      *
      * @return true on success.
      */
-    bool loadFromBytes(const std::vector<uint8_t>& bytes,
+    [[nodiscard]] bool loadFromBytes(const std::vector<uint8_t>& bytes,
                        const std::string& module_name = "anonymous");
 
     /**
@@ -343,19 +356,19 @@ public:
      * @param args         Serialised argument blob (format is plugin-defined).
      * @return WasmCallResult describing success, output, duration.
      */
-    WasmCallResult callExport(const std::string&          export_name,
+    [[nodiscard]] WasmCallResult callExport(const std::string&          export_name,
                               const std::vector<uint8_t>& args = {});
 
     // ── State ──────────────────────────────────────────────────────────────
 
-    bool isLoaded() const noexcept  { return loaded_; }
-    const std::string& lastError() const noexcept { return last_error_; }
+    [[nodiscard]] bool isLoaded() const noexcept  { return loaded_; }
+    [[nodiscard]] const std::string& lastError() const noexcept { return last_error_; }
 
     /// @brief Metadata parsed from the loaded .wasm binary.
-    const WasmModuleInfo& moduleInfo() const noexcept { return module_info_; }
+    [[nodiscard]] const WasmModuleInfo& moduleInfo() const noexcept { return module_info_; }
 
     /// @brief Warnings produced during load (e.g. sandbox limitations).
-    const std::vector<std::string>& loadWarnings() const noexcept {
+    [[nodiscard]] const std::vector<std::string>& loadWarnings() const noexcept {
         return load_warnings_;
     }
 
@@ -365,11 +378,11 @@ public:
      * @brief Return a pointer to the plugin's linear memory.
      * @return nullptr if not loaded.
      */
-    const uint8_t* linearMemory() const noexcept;
-    uint8_t*       linearMemory() noexcept;
+    [[nodiscard]] const uint8_t* linearMemory() const noexcept;
+    [[nodiscard]] uint8_t*       linearMemory() noexcept;
 
     /// @brief Byte size of the linear memory arena.
-    size_t linearMemorySize() const noexcept;
+    [[nodiscard]] size_t linearMemorySize() const noexcept;
 
     // ── Statistics ─────────────────────────────────────────────────────────
 
@@ -380,7 +393,20 @@ public:
         uint64_t total_call_us   = 0; ///< Accumulated call duration (µs)
     };
 
-    Stats stats() const noexcept { return stats_; }
+    [[nodiscard]] Stats stats() const noexcept { return stats_; }
+
+    // ── Fuel / instruction metering ────────────────────────────────────────
+
+    /**
+     * @brief Return the number of fuel units remaining in the sandbox budget.
+     *
+     * When @ref Config::max_instructions is 0 (unlimited), this always returns
+     * `UINT64_MAX`. After a fuel-exhaustion error the value is 0.
+     *
+     * Fuel is reset to @ref Config::max_instructions when a new module is loaded
+     * via loadFromBytes() / loadFromFile().
+     */
+    [[nodiscard]] uint64_t remainingFuel() const noexcept;
 
 private:
     Config                           config_;
@@ -395,6 +421,7 @@ private:
     std::vector<std::string>         load_warnings_;
     Stats                            stats_{};
     std::unique_ptr<ModuleSandbox>   os_sandbox_;
+    uint64_t                         fuel_remaining_     = 0; ///< Remaining fuel units (UINT64_MAX when unlimited)
 
     // ── Helpers ──────────────────────────────────────────────────────────
     bool validateWasmHeader(const std::vector<uint8_t>& bytes);
@@ -421,15 +448,15 @@ public:
      *        supported version.
      * @return A WasmModuleInfo with valid==true on success.
      */
-    static WasmModuleInfo validate(const std::vector<uint8_t>& bytes);
+    [[nodiscard]] static WasmModuleInfo validate(const std::vector<uint8_t>& bytes);
 
     /**
      * @brief Convenience overload: read the file at @p path and validate.
      */
-    static WasmModuleInfo validateFile(const std::string& path);
+    [[nodiscard]] static WasmModuleInfo validateFile(const std::string& path);
 
     /// @brief Return the 4 WASM magic bytes { 0x00, 0x61, 0x73, 0x6d }.
-    static const uint8_t* magicBytes() noexcept;
+    [[nodiscard]] static const uint8_t* magicBytes() noexcept;
 };
 
 } // namespace modules

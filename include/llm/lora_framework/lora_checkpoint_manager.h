@@ -1,53 +1,14 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_checkpoint_manager.h                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(llm): LoRA checkpoint manager          ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
 
 /**
  * @file lora_checkpoint_manager.h
- * @brief LoRA adapter checkpoint lifecycle management.
- *
- * Provides durable, versioned checkpointing of LoRA adapter weights
- * during and after fine-tuning, enabling:
- *
- * - Mid-training resume after process failure or preemption.
- * - Best-checkpoint selection based on validation-loss tracking.
- * - Automatic rotation to bound on-disk storage.
- * - Atomic save/load with SHA-256 integrity verification.
- *
- * ## Storage Layout
- * ```
- * <root>/
- *   <adapter_id>/
- *     checkpoint-<step>.bin      – adapter weights (safetensors)
- *     checkpoint-<step>.meta.json – training metadata
- *     best.json                  – symlink/record to best checkpoint
- * ```
- *
- * ## Thread Safety
- * All public methods are thread-safe.  Concurrent saves from multiple
- * trainers sharing the same manager are serialised with a mutex.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 97/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "lora_config.h"
@@ -74,6 +35,7 @@ namespace lora {
  * @brief Snapshot of training state attached to a checkpoint.
  */
 struct CheckpointMeta {
+    virtual ~CheckpointMeta() = default;
     std::string adapter_id;          ///< Unique adapter identifier
     uint64_t    step        = 0;     ///< Global training step at checkpoint
     uint32_t    epoch       = 0;     ///< Epoch at checkpoint
@@ -124,7 +86,8 @@ public:
         std::chrono::seconds auto_save_interval{0}; ///< 0 = disabled; >0 = background auto-save period
     };
 
-    explicit LoRACheckpointManager(Config config = {});
+    LoRACheckpointManager();
+    explicit LoRACheckpointManager(Config config);
     ~LoRACheckpointManager();
 
     // Non-copyable
@@ -222,3 +185,4 @@ private:
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

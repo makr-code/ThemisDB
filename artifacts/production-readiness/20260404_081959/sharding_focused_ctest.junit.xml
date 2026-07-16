@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="4"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="97"
+	timestamp="2026-04-04T08:20:14"
+	>
+	<testcase name="ShardingTransactionWALFocusedTests" classname="ShardingTransactionWALFocusedTests" time="0.109456" status="run">
+		<properties>
+			<property name="cmake_labels" value="2pc;saga;sharding;transaction;unit;wal"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 17 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 15 tests from TransactionWALTest
+[ RUN      ] TransactionWALTest.Initialize_CreatesDirectories
+[2026-04-04 08:20:14.873] [info] Created transaction WAL directory: /tmp/themis_txn_wal_181006947933600
+[2026-04-04 08:20:14.874] [info] Created transaction snapshot directory: /tmp/themis_txn_snap_181006947933600
+[2026-04-04 08:20:14.874] [info] Transaction WAL initialized successfully
+[       OK ] TransactionWALTest.Initialize_CreatesDirectories (2 ms)
+[ RUN      ] TransactionWALTest.Initialize_DoubleInit_Succeeds
+[2026-04-04 08:20:14.876] [info] Created transaction WAL directory: /tmp/themis_txn_wal_181006950788700
+[2026-04-04 08:20:14.876] [info] Created transaction snapshot directory: /tmp/themis_txn_snap_181006950788700
+[2026-04-04 08:20:14.876] [info] Transaction WAL initialized successfull...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ShardingCoreFocusedTests" classname="ShardingCoreFocusedTests" time="90.0237" status="fail">
+		<failure message="Timeout"/>
+		<properties>
+			<property name="cmake_labels" value="consensus;core;focused;raft;sharding;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 27 tests from 4 test suites.
+[----------] Global test environment set-up.
+[----------] 12 tests from URNTest
+[ RUN      ] URNTest.ParseValidURN
+[       OK ] URNTest.ParseValidURN (0 ms)
+[ RUN      ] URNTest.ParseGraphURN
+[       OK ] URNTest.ParseGraphURN (0 ms)
+[ RUN      ] URNTest.ParseVectorURN
+[       OK ] URNTest.ParseVectorURN (0 ms)
+[ RUN      ] URNTest.ParseInvalidPrefix
+[       OK ] URNTest.ParseInvalidPrefix (0 ms)
+[ RUN      ] URNTest.ParseInvalidUUID
+[       OK ] URNTest.ParseInvalidUUID (0 ms)
+[ RUN      ] URNTest.ParseInvalidModel
+[       OK ] URNTest.ParseInvalidModel (0 ms)
+[ RUN      ] URNTest.ParseTooFewParts
+[       OK ] URNTest.ParseTooFewParts (0 ms)
+[ RUN      ] URNTest.ToStringRoundTrip
+[       OK ] URNTest.ToStringRoundTrip (0 ms)
+[ RUN      ] URNTest.ValidUUID
+[       OK ] URNTest.ValidUUID (0 ms)
+[ RUN      ] URNTest.GetResourceId
+[       OK ] URNTest.GetResourceId (0 ms)
+[ RUN      ] URNTest.Hash
+[       OK ] URNTest.Hash (0 ms)
+[ RUN      ] URNTest.Equality
+[       OK ] URNTest.Equality (0 ms)
+[----------] 12 tests from URNTest (0 ms total)
+
+[----------] 9 tests from ConsistentHashTest
+[ RUN      ] ConsistentHashTest.AddShard
+[       OK ] ConsistentHashTest.AddShard (0 ms)
+[ RUN      ] ConsistentHashTest.AddMultipleShards
+[       OK ] ConsistentHashTest.AddMultipleShards (0 ms)
+[ RUN      ] ConsistentHashTest.RemoveShard
+[       OK ] ConsistentHashTest.RemoveShard (0 ms)
+[ RUN      ] ConsistentHashTest.GetShardForHash
+[       OK ] ConsistentHashTest.GetShardForHash (0 ms)
+[ RUN      ] ConsistentHashTest.GetShardForURN
+[       OK ] ConsistentHashTest.GetShardForURN (0 ms)
+[ RUN      ] ConsistentHashTest.ConsistentMapping
+[       OK ] ConsistentHashTest.ConsistentMapping (0 ms)
+[ RUN      ] ConsistentHashTest.GetSuccessors
+[       OK ] ConsistentHashTest.GetSuccessors (0 ms)
+[ RUN      ] ConsistentHashTest.GetAllShards
+[       OK ] ConsistentHashTest.GetAllShards (0 ms)
+[ RUN      ] ConsistentHashTest.BalanceFactor
+[       OK ] ConsistentHashTest.BalanceFactor (0 ms)
+[----------] 9 tests from ConsistentHashTest (2 ms total)
+
+[----------] 4 tests from ShardTopologyTest
+[ RUN      ] ShardTopologyTest.AddAndGetShard
+Initialized MTLSConnectionPoolManager
+ShardTopology: Failed to query metadata store: Network error: connect: Es konnte keine Verbindung hergestellt werden, da der Zielcomputer die Verbindung verweigerte [system:10061 at C:\VCC\themis\vcpkg_installed\x64-windows\include\boost/asio/detail/win_iocp_socket_service.hpp:629:5 in function 'class boost::system::error_code __cdecl boost::asio::detail::win_iocp_socket_service&lt;class boost::asio::ip::tcp&gt;::connect(struct boost::asio::detail::win_iocp_socket_service&lt;class boost::asio::ip::tcp&gt;::implementation_type &amp;,const class boost::asio::ip::basic_endpoint&lt;class boost::asio::ip::tcp&gt; &amp;,class boost::system::error_code &amp;)']
+Shutting down MTLSConnectionPoolManager with 0 endpoint pools
+[       OK ] ShardTopologyTest.AddAndGetShard (23414 ms)
+[ RUN      ] ShardTopologyTest.RemoveShard
+Initialized MTLSConnectionPoolManager
+ShardTopology: Failed to query metadata store: Network error: connect: Es konnte keine Verbindung hergestellt werden, da der Zielcomputer die Verbindung verweigerte [system:10061 at C:\VCC\themis\vcpkg_installed\x64-windows\include\boost/asio/detail/win_iocp_socket_service.hpp:629:5 in function 'class boost::system::error_code __cdecl boost::asio::detail::win_iocp_socket_service&lt;class boost::asio::ip::tcp&gt;::connect(struct boost::asio::detail::win_iocp_socket_service&lt;class boost::asio::ip::tcp&gt;::implementation_type &amp;,const class boost::asio::ip::basic_endpoint&lt;class boost::asio::ip::tcp&gt; &amp;,class boost::system::error_code &amp;)']
+Shutting down MTLSConnectionPoolManager with 0 endpoint pools
+[       OK ] ShardTopologyTest.RemoveShard (23348 ms)
+[ RUN      ] ShardTopologyTest.UpdateHealth
+Initialized MTLSConnectionPoolManager
+ShardTopology: Failed to query metadata store: Network error: connect: Es konnte keine Verbindung hergestellt werden, da der Zielcomputer die Verbindung verweigerte [system:10061 at C:\VCC\themis\vcpkg_installed\x64-windows\include\boost/asio/detail/win_iocp_socket_service.hpp:629:5 in function 'class boost::system::error_code __cdecl boost::asio::detail::win_iocp_socket_service&lt;class boost::asio::ip::tcp&gt;::connect(struct boost::asio::detail::win_iocp_socket_service&lt;class boost::asio::ip::tcp&gt;::implementation_type &amp;,const class boost::asio::ip::basic_endpoint&lt;class boost::asio::ip::tcp&gt; &amp;,class boost::system::error_code &amp;)']
+Shutting down MTLSConnectionPoolManager with 0 endpoint pools
+[       OK ] ShardTopologyTest.UpdateHealth (23315 ms)
+[ RUN      ] ShardTopologyTest.GetHealthyShards
+Initialized MTLSConnectionPoolManager
+</system-out>
+	</testcase>
+	<testcase name="ShardingChaosFocusedTests" classname="ShardingChaosFocusedTests" time="6.61674" status="run">
+		<properties>
+			<property name="cmake_labels" value="chaos;focused;partition;resilience;sharding;split-brain;unit"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from ShardingChaosTest
+[ RUN      ] ShardingChaosTest.NetworkPartitionScenario
+[       OK ] ShardingChaosTest.NetworkPartitionScenario (145 ms)
+[ RUN      ] ShardingChaosTest.CascadingFailureHandling
+[       OK ] ShardingChaosTest.CascadingFailureHandling (218 ms)
+[ RUN      ] ShardingChaosTest.RandomFailureInjection
+[       OK ] ShardingChaosTest.RandomFailureInjection (4000 ms)
+[ RUN      ] ShardingChaosTest.SplitBrainScenario
+[       OK ] ShardingChaosTest.SplitBrainScenario (0 ms)
+[ RUN      ] ShardingChaosTest.MultipleSimultaneousFailures
+[       OK ] ShardingChaosTest.MultipleSimultaneousFailures (1956 ms)
+[ RUN      ] ShardingChaosTest.SlowShardPerformanceDegradation
+[       OK ] ShardingChaosTest.SlowShardPerformanceDegradation (171 ms)
+[ RUN      ] ShardingChaosTest.Byzantine...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="ShardRpcIntegrationFocusedTests" classname="ShardRpcIntegrationFocusedTests" time="0.0527047" status="run">
+		<properties>
+			<property name="cmake_labels" value="cert-rotation;focused;metrics;mtls;retry-policy;rpc;sharding;unit;v1.8.0"/>
+		</properties>
+		<system-out>Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 16 tests from 9 test suites.
+[----------] Global test environment set-up.
+[----------] 2 tests from ShardRpcRetryPolicyTest
+[ RUN      ] ShardRpcRetryPolicyTest.DefaultValues
+[       OK ] ShardRpcRetryPolicyTest.DefaultValues (0 ms)
+[ RUN      ] ShardRpcRetryPolicyTest.CustomValues
+[       OK ] ShardRpcRetryPolicyTest.CustomValues (0 ms)
+[----------] 2 tests from ShardRpcRetryPolicyTest (0 ms total)
+
+[----------] 3 tests from ShardRpcClientConfigPoolTest
+[ RUN      ] ShardRpcClientConfigPoolTest.DefaultConnectionPoolConfig
+[       OK ] ShardRpcClientConfigPoolTest.DefaultConnectionPoolConfig (0 ms)
+[ RUN      ] ShardRpcClientConfigPoolTest.PoolPointerCanBeSet
+Initialized MTLSConnectionPoolManager
+Shutting down MTLSConnectionPoolManager with 0 endpoint pools
+[       OK ] ShardRpcClientConfigPoolTest.PoolPointerCanBeSet (0 ms)
+[ RUN      ] ShardRpcClientConfigPoolTest.Propagate...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

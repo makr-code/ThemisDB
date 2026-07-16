@@ -1,0 +1,223 @@
+═══════════════════════════════════════════════════════════════════════
+  KICKSTARTER VIDEO RECORDING CHECKLIST
+  Live Demo: 4-5 Minutes (Single-Take, Unedited)
+═══════════════════════════════════════════════════════════════════════
+
+BEFORE RECORDING:
+─────────────────────────────────────────────────────────────────────
+  □ Close all windows (no notifications, no distractions)
+  □ Enlarge terminal font (14-16pt minimum)
+  □ Prepare demo commands (copy each query ready)
+  □ Test microphone (clear, no background noise)
+  □ Open OBS Studio or screen recorder
+  □ Maximize terminal window
+  □ Have water ready (for dry throat)
+
+RECORDING FLOW - TIMELINE (4-5 Minutes)
+─────────────────────────────────────────────────────────────────────
+
+[SCENE 1: INTRO - 0:00 to 0:30] (30 seconds)
+─────────────────────────────────────────────────────────────────────
+What to do:
+  1. Open ThemisDB CLI terminal
+  2. Show: "Connected to ThemisDB on localhost:8765"
+  3. Look at camera
+
+What to say:
+  "Hallo, willkommen zu ThemisDB - eine Multi-Modell-Datenbank mit
+   ACID-Transaktionen, nativer AI, und Graph-Support. Ich zeige euch
+   jetzt eine Live-Demo."
+
+Expected duration: 30 seconds
+
+
+[SCENE 2: SQL & RELATIONAL - 0:30 to 1:30] (1 minute)
+─────────────────────────────────────────────────────────────────────
+File: demo/queries/1_relational_join.sql
+
+Command:
+  SELECT o.order_id, c.name, p.name, o.quantity, o.total_amount, o.status
+  FROM orders o
+  JOIN customers c ON o.customer_id = c.customer_id
+  JOIN products p ON o.product_id = p.product_id
+  WHERE c.country = 'DE';
+
+What to do:
+  1. Type (or paste) the query
+  2. Press ENTER
+  3. Wait for results
+  4. Show the results table
+
+What to say:
+  "Hier sehen wir klassische SQL-Abfragen mit ACID-Transaktionen.
+   Wir verbinden drei Tabellen (orders, customers, products) mit einem
+   JOIN und filtern nach Land. Alle Daten sind ACID-garantiert und
+   konsistent."
+
+Expected duration: 1 minute
+
+
+[SCENE 3: VECTOR SEARCH - 1:30 to 2:30] (1 minute)
+─────────────────────────────────────────────────────────────────────
+File: demo/queries/2_vector_search.sql
+
+Command:
+  SELECT product_id, name, description, price, similarity_score
+  FROM products_vector_search(
+    query='renewable energy battery storage',
+    top_k=5,
+    min_similarity=0.6
+  )
+  ORDER BY similarity_score DESC;
+
+What to do:
+  1. Paste the query
+  2. Press ENTER
+  3. Show results with similarity scores
+
+What to say:
+  "Dies ist die Vektor-Suche. Statt exakte Keywords suchen wir
+   semantisch nach 'renewable energy battery storage'. ThemisDB
+   erstellt Embeddings und findet relevante Produkte, auch wenn
+   die exakten Worter nicht vorhanden sind."
+
+Expected duration: 1 minute
+
+
+[SCENE 4: GRAPH QUERIES - 2:30 to 3:30] (1 minute)
+─────────────────────────────────────────────────────────────────────
+File: demo/queries/3_graph_relationships.aql
+
+Command:
+  MATCH (c:Customer)-[:PLACED]->(o:Order)-[:CONTAINS]->(p:Product)
+  WHERE c.country IN ['DE', 'AT']
+  RETURN c.name, COUNT(o.order_id) AS order_count,
+         SUM(o.total_amount) AS total_spent,
+         COLLECT(DISTINCT p.category) AS categories
+  GROUP BY c.customer_id
+  ORDER BY total_spent DESC;
+
+What to do:
+  1. Paste the graph query
+  2. Press ENTER
+  3. Show the relationship results
+
+What to say:
+  "Die Graph-Engine zeigt Beziehungen zwischen Entitaten. Hier sehen
+   wir: Welche Kunden (aus Deutschland/Osterreich) haben welche
+   Bestellungen aufgegeben und welche Produkte gekauft. Das ist perfekt
+   fur Recommendation Engines und Netzwerk-Analysen."
+
+Expected duration: 1 minute
+
+
+[SCENE 5: LLM INFERENCE - 3:30 to 4:30] (1 minute)
+─────────────────────────────────────────────────────────────────────
+File: demo/queries/5_llm_inference.aql
+
+Command:
+  SELECT llm_generate(
+    model='llama2-7b',
+    prompt='Write marketing copy for: Solar Panel 400W',
+    max_tokens=50,
+    temperature=0.7
+  ) AS marketing_pitch;
+
+What to do:
+  1. Paste the LLM query
+  2. Press ENTER
+  3. Wait for model inference
+  4. Show the generated text
+
+What to say:
+  "WICHTIG: ThemisDB hat NATIVE LLM-Unterstützung! Keine Cloud-Calls,
+   keine Latenz, keine Abhängigkeiten. Alles lauft lokal auf eurem
+   Server. Hier sehen wir llama2-7b, die Marketing-Copy generiert.
+   Volle Datensicherheit und Kontrolle!"
+
+Expected duration: 1 minute
+
+
+[SCENE 6: RAG WITH HALLUCINATION DETECTION - 4:30 to 5:00] (30 seconds)
+─────────────────────────────────────────────────────────────────────
+File: demo/queries/6_rag_hallucination_detection.aql
+
+Command:
+  SELECT rag_answer(
+    question='What energy solutions do we offer?',
+    context=(SELECT STRING_AGG(description, ' | ')
+             FROM products
+             WHERE category IN ('Energy Storage','Smart Grid')),
+    check_hallucination=true,
+    confidence_threshold=0.75
+  ) AS answer;
+
+What to do:
+  1. Paste the RAG query
+  2. Press ENTER
+  3. Show the answer and confidence metrics
+
+What to say:
+  "RAG-Pipeline mit Hallucination Detection. ThemisDB beantwortet
+   Fragen basierend auf den Produktdaten, pruft automatisch auf
+   falsche Informationen und gibt ein Vertrauen-Score. Keine
+   falschen Antworten, volle Nachvollziehbarkeit."
+
+Expected duration: 30 seconds
+
+
+[CLOSING - 5:00 to 5:30] (optional)
+─────────────────────────────────────────────────────────────────────
+What to say:
+  "Das war eine Live-Demo von ThemisDB. Alle 6 Model-Types (SQL, Graph,
+   Vector, TimeSeries, LLM, RAG, Document) in EINER Datenbank mit
+   ACID-Transaktionen. Performance: <100ms. Keine separate Infrastruktur
+   nötig. Vielen Dank!"
+
+═══════════════════════════════════════════════════════════════════════
+
+IMPORTANT TIPS:
+─────────────────────────────────────────────────────────────────────
+
+✓ DO:
+  ✓ Speak slowly (not rushed)
+  ✓ Explain WHILE the query runs (not after)
+  ✓ One error is OK (makes it authentic!)
+  ✓ Pause between scenes (let viewers breathe)
+  ✓ Keep energy/enthusiasm
+  ✓ Look at camera sometimes
+
+✗ DON'T:
+  ✗ Edit the video (must be single-take!)
+  ✗ Add background music or effects
+  ✗ Use AI-generated voiceover
+  ✗ Make fast cuts or transitions
+  ✗ Pause too long (viewers lose interest)
+  ✗ Use unclear camera angles
+  ✗ Add annotations or graphics
+
+TECHNICAL REQUIREMENTS:
+─────────────────────────────────────────────────────────────────────
+  Format:        MP4 (H.264 codec)
+  Resolution:    1280x720 (HD) or higher
+  Frame rate:    30 FPS
+  Audio:         44.1kHz, clear English, no background noise
+  Duration:      4-5 minutes
+  File size:     < 500 MB
+
+SAVE THE FILE:
+  Location:      demo/videos/themisdb-demo-video.mp4
+  Format:        MP4
+  Quality:       YouTube/Vimeo ready
+
+═══════════════════════════════════════════════════════════════════════
+
+AFTER RECORDING:
+─────────────────────────────────────────────────────────────────────
+  1. Review the video (does it show all 6 model types?)
+  2. Check audio (is it clear and audible?)
+  3. Create 6 screenshots (see SCREENSHOT_GUIDE.txt)
+  4. Add English transcript/subtitles
+  5. Upload to Kickstarter
+
+═══════════════════════════════════════════════════════════════════════

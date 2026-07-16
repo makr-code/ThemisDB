@@ -1,26 +1,25 @@
+/**
+ * @file vector_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=14, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     740                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 813
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=26, L=0
+ * PR History (last 5): #1451 feat(index): HNSW increment... (2026-03-11) | #459 Refactor vector operations ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/vector_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -31,11 +30,39 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
+#include "utils/input_validator.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t MAX_VECTOR_SEARCH_BODY_SIZE = 2'000'000;
+constexpr size_t MAX_VECTOR_BATCH_BODY_SIZE = 120'000'000;
+constexpr size_t MAX_VECTOR_FILTER_BODY_SIZE = 4'000'000;
+constexpr size_t MAX_VECTOR_FIELD_NAME_LENGTH = 128;
+constexpr size_t MAX_VECTOR_PK_LENGTH = 1024;
+
+bool isBodyWithinLimit(std::string_view body, size_t max_len) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(body), max_len);
+}
+
+bool isValidVectorFieldName(std::string_view field_name) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(field_name), MAX_VECTOR_FIELD_NAME_LENGTH) &&
+           validator.validatePathSegment(std::string(field_name));
+}
+
+bool isValidVectorPk(std::string_view pk) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(pk), MAX_VECTOR_PK_LENGTH) &&
+           validator.validatePathSegment(std::string(pk));
+}
+
+} // namespace
 
 VectorApiHandler::VectorApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -66,6 +93,12 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
     span.setAttribute("http.path", "/vector/search");
     
     try {
+        if (!isBodyWithinLimit(req.body(), MAX_VECTOR_SEARCH_BODY_SIZE)) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
+
         // Governance enforcement: block ANN for certain classifications in enforce mode
         auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
         std::string classification;
@@ -139,6 +172,11 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             try {
                 // Einfaches Cursor-Format: numerischer Offset als String
                 std::string cur = body_json["cursor"].get<std::string>();
+                if (cur.size() > 64) {
+                    span.setStatus(false, "Cursor too long");
+                    return makeErrorResponse(http::status::bad_request,
+                        "Field 'cursor' exceeds maximum allowed length", req);
+                }
                 offset = static_cast<size_t>(std::stoull(cur));
             } catch (...) {
                 offset = 0;
@@ -211,6 +249,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
     span.setAttribute("http.path", "/vector/batch_insert");
 
     try {
+        if (!isBodyWithinLimit(req.body(), MAX_VECTOR_BATCH_BODY_SIZE)) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
+
         auto body = json::parse(req.body());
 
         if (!body.contains("items") || !body["items"].is_array()) {
@@ -219,6 +263,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
         }
 
         std::string vector_field = body.value("vector_field", std::string("embedding"));
+        if (!isValidVectorFieldName(vector_field)) {
+            span.setStatus(false, "invalid_vector_field");
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid field: vector_field", req);
+        }
+
         std::string object_name = vector_index_->getObjectName();
         int configured_dim = vector_index_->getDimension();
         size_t inserted = 0;
@@ -300,6 +350,8 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 if (!it.contains("vector") || !it["vector"].is_array()) { ++errors; continue; }
 
                 std::string pk = it["pk"].get<std::string>();
+                if (!isValidVectorPk(pk)) { ++errors; continue; }
+
                 std::vector<float> vec;
                 vec.reserve(it["vector"].size());
                 for (const auto& v : it["vector"]) {
@@ -408,13 +460,19 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
         if (req.body().empty()) {
             return makeErrorResponse(http::status::bad_request, "Empty body; expected { pks: [...]} or { prefix: '...' }", req);
         }
+        if (!isBodyWithinLimit(req.body(), MAX_VECTOR_FILTER_BODY_SIZE)) {
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         auto body = json::parse(req.body());
 
         size_t deleted = 0;
         if (body.contains("pks") && body["pks"].is_array()) {
             for (const auto& v : body["pks"]) {
                 if (!v.is_string()) continue;
-                auto st = vector_index_->removeByPk(v.get<std::string>());
+                const std::string pk = v.get<std::string>();
+                if (!isValidVectorPk(pk)) continue;
+                auto st = vector_index_->removeByPk(pk);
                 if (st.ok) ++deleted;
             }
             json resp = {{"deleted", deleted}, {"method", "pks"}};
@@ -425,6 +483,10 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
 
         if (body.contains("prefix") && body["prefix"].is_string()) {
             std::string prefix = body["prefix"].get<std::string>();
+            if (!isValidVectorPk(prefix)) {
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid field: prefix", req);
+            }
             // Scan RocksDB for keys starting with objectName:prefix
             std::string fullPrefix = vector_index_->getObjectName() + ":" + prefix;
             storage_->scanPrefix(fullPrefix, [&](std::string_view key, std::string_view /*value*/){
@@ -698,16 +760,37 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess(
-    const http::request<http::string_body>& req,
+    [[maybe_unused]] const http::request<http::string_body>& req,
     const std::string& permission,
-    const std::string& resource,
-    const std::string& path)
+    const std::string& /*resource*/,
+    const std::string& /*path*/)
 {
-    (void)permission; (void)resource; (void)path;
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt;
     }
-    // TODO: implement fine-grained scope checks; currently allow if auth is enabled.
+
+    // GAP-001: Enforce scope-based authorization (CWE-862).
+    // Extract Bearer token and use auth_->authorize() to check the required
+    // permission scope, replacing the previous stub that granted access to any
+    // authenticated user without checking their role.
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
+    }
+
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header.data(), auth_header.size())
+    );
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
+    }
+
     return std::nullopt;
 }
 
@@ -715,9 +798,9 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
     AuthContext ctx;
     
     // Extract from Authorization header
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header != req.end()) {
-        std::string auth_value(auth_header->value());
+    const auto auth_header = req[http::field::authorization];
+    if (!auth_header.empty()) {
+        std::string auth_value(auth_header.data(), auth_header.size());
         // Simple extraction - in real impl, parse JWT or other tokens
         // For now, just extract basic info from headers
     }
@@ -738,3 +821,5 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
 
 } // namespace server
 } // namespace themis
+
+

@@ -1,0 +1,9 @@
+| **api** | 🟡 Beta — Core HTTP complete, gRPC/OpenAPI in progress | [src/api/ROADMAP.md](src/api/ROADMAP.md) |
+| **content** | 🟡 Beta — MIME/text extraction complete, OCR/audio planned | [src/content/ROADMAP.md](src/content/ROADMAP.md) |
+| **core** | 🟡 Beta — DI framework and adapters functional | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
+| **geo** | 🟡 Beta — CPU queries tested; GPU backend with CPU fallback | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
+| **governance** | 🟡 Beta — GDPR/HIPAA rules functional; OPA planned | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
+| **gpu** | 🟡 Beta — Device management complete; multi-node coordination in progress | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
+| **graph** | 🟡 Beta — Cost-based optimiser, constrained path finding, parallel traversal, distributed shards, GPU fallback functional; EXPLAIN AQL output planned | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
+| **process** | 🟡 Beta — Core BPMN/EPK/VCC-VPB import, Graph-RAG, and ProcessLinker complete; semantic search (embeddings) in progress | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
+| **sharding** | 🟡 Beta — Consensus and repair engine complete; advanced observability in progress | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |

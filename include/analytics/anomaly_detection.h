@@ -1,25 +1,21 @@
+/**
+ * @file anomaly_detection.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.32
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            anomaly_detection.h                                ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 03:52:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     354                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eec0dd3fa  2026-02-25  feat(analytics): implement explain() for ISOLATION_FOREST... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: anomaly_detection.h | Version: 0.0.32 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 364
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4313 fix(analytics): StreamingAn... (2026-03-18) | #2725 feat(analytics): AutoML int... (2026-03-12) | #1444 feat(analytics): implement ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,7 +36,11 @@
  *
  * Thread-safety:
  *   - AnomalyDetector: train() is NOT thread-safe; predict/explain are.
- *   - StreamingAnomalyDetector: fully thread-safe (mutex-protected).
+ *   - StreamingAnomalyDetector: fully thread-safe.  Two independent mutexes:
+ *     window_mu_ guards the deque/anomaly list; detector_mu_ guards the model.
+ *     train() runs entirely off both locks; only a brief exclusive swap of the
+ *     newly-trained model acquires detector_mu_.  Concurrent predict() calls
+ *     share detector_mu_ and never block each other or window updates.
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
@@ -53,10 +53,12 @@
 #include <chrono>
 #include <deque>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <variant>
 #include <vector>
@@ -300,9 +302,18 @@ public:
     explicit StreamingAnomalyDetector(const Config& config);
 
     /**
+     * Destructor: sets the stopping flag to prevent new async retrains from
+     * launching, then waits for any in-flight background retrain to finish
+     * before members (`mu_`, `detector_`, etc.) are destroyed.
+     */
+    ~StreamingAnomalyDetector();
+
+    /**
      * Process a new data point.
      * Returns an AnomalyResult only when the detector is already trained.
      * Returns nullopt while warming up.
+     * Lock-hold is bounded to ≤ 50 µs (window copy only); training runs
+     * asynchronously on a background thread.
      */
     std::optional<AnomalyResult> process(const DataPoint& point);
 
@@ -324,12 +335,21 @@ public:
     const AnomalyDetector& detector() const noexcept { return detector_; }
 
 private:
-    Config                        config_;
-    AnomalyDetector               detector_;
-    mutable std::mutex            mu_;
-    std::deque<DataPoint>         window_;
-    std::vector<AnomalyResult>    anomalies_;
-    size_t                        points_seen_ = 0;
+    /** Copy the current window under a brief shared lock and return it. */
+    std::vector<DataPoint> snapshotWindow() const;
+    /** Build a DetectorConfig from config_ (used when creating a fresh retrain detector). */
+    DetectorConfig makeDetectorConfig() const noexcept;
+
+    Config                           config_;
+    AnomalyDetector                  detector_;
+    mutable std::shared_mutex        window_mu_;   ///< guards window_, anomalies_, points_seen_
+    mutable std::shared_mutex        detector_mu_; ///< guards detector_; held only for brief swap
+    std::deque<DataPoint>            window_;
+    std::vector<AnomalyResult>       anomalies_;
+    size_t                           points_seen_ = 0;
+    std::atomic<bool>                retraining_{false};
+    std::atomic<bool>                stopping_{false};  ///< set in dtor to prevent new retrains
+    std::future<void>                retrain_future_;
 };
 
 // ============================================================================

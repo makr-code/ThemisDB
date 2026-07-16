@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_streaming_window.cpp                          ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 04:01:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     755                                            ║
-    • Open Issues:     TODOs: 4, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e2ddc67a4  2026-02-28  feat(analytics): add factory functions for window types a... ║
-    • d8694e04a  2026-02-22  Fix 7 bugs in streaming_window + 4 regression tests ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_streaming_window.cpp | Version: 0.0.32
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=7; TODO=5, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -451,6 +434,38 @@ TEST_F(SessionWindowTest, TimerDrivenExpiry) {
     std::this_thread::sleep_for(400ms);
 
     EXPECT_GE(fired.load(), 1);
+}
+
+// Validates that session_expiry_check_interval_ms is honoured end-to-end:
+// the window must fire within gap + check_interval + 50 ms of the last event.
+TEST_F(SessionWindowTest, ConfigurableExpiryInterval) {
+    constexpr auto gap_ms           = 100ms;
+    constexpr auto check_interval   = 80ms;   // non-default, smaller than gap
+    constexpr auto tolerance        = 50ms;
+    // Expected upper bound for emission after last event:
+    //   100ms (gap) + 80ms (check_interval) + 50ms (tolerance) = 230ms
+    constexpr auto max_wait = gap_ms + check_interval + tolerance;
+
+    std::atomic<int> fired{0};
+    std::chrono::steady_clock::time_point ingest_time;
+
+    SessionWindowConfig c;
+    c.gap                             = gap_ms;
+    c.session_expiry_check_interval_ms = check_interval;
+    auto win = createSessionWindow(c);
+    win->setResultCallback([&](WindowResult) { ++fired; });
+
+    ingest_time = std::chrono::steady_clock::now();
+    win->ingest(rec("r1", 0ms, 1.0, "cfg-user"));
+
+    // Poll until fired or max_wait elapses
+    const auto deadline = ingest_time + max_wait;
+    while (fired.load() == 0 && std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(5ms);
+    }
+
+    EXPECT_GE(fired.load(), 1)
+        << "SessionWindow did not emit within gap + check_interval + 50 ms";
 }
 
 TEST_F(SessionWindowTest, AggregationsSumAvg) {

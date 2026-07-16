@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_backend_capability_contract.cpp               ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-03-09 04:02:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     468                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c613ea7a9  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b1e5bf11d  2026-02-23  fix(acceleration): register VulkanVectorBackend in Backen... ║
-    • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
-    • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_backend_capability_contract.cpp | Version: 0.0.27
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Test: Backend Capability Contract
@@ -445,7 +427,7 @@ TEST(BackendCapabilityContract, RegistryContainsVulkanWhenAvailable) {
     auto& registry = BackendRegistry::instance();
     auto* vk = registry.getBackend(BackendType::VULKAN);
     if (vk == nullptr) {
-        GTEST_SKIP() << "No Vulkan ICD available on this system; skipping registration check";
+        GTEST_SKIP() << "capability:vulkan_icd_available=false;reason=no_vulkan_icd_for_registration_check";
     }
     EXPECT_EQ(vk->type(), BackendType::VULKAN);
     auto caps = vk->getCapabilities();
@@ -460,7 +442,7 @@ TEST(BackendCapabilityContract, RegistryBestVectorBackendPrefersVulkanOverCPU) {
     auto& registry = BackendRegistry::instance();
     auto* vk = registry.getBackend(BackendType::VULKAN);
     if (vk == nullptr) {
-        GTEST_SKIP() << "No Vulkan ICD available on this system";
+        GTEST_SKIP() << "capability:vulkan_icd_available=false;reason=no_vulkan_icd_available_on_system";
     }
     auto* best = registry.getBestVectorBackend();
     ASSERT_NE(best, nullptr);

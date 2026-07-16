@@ -1,30 +1,27 @@
+/**
+ * @file cdc_ws_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cdc_ws_handler.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     152                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 13aae88f8  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
-    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cdc_ws_handler.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 159
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #2795 feat(cdc): WebSocket transp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "cdc/changefeed.h"
+#include "cdc/consumer_group.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <unordered_map>
@@ -46,6 +43,16 @@ namespace cdc {
  *                 "key_prefix":"US-","event_types":["PUT","DELETE"]}
  *   unsubscribe  {"action":"unsubscribe","id":"sub-1"}
  *   ack          {"action":"ack","id":"sub-1","sequence":10042}
+ *
+ * Consumer-group extension (v1.8.0):
+ *   subscribe    {"action":"subscribe","group_id":"etl-workers",
+ *                 "consumer_id":"worker-3","collection":"orders"}
+ *   ack          {"action":"ack","group_id":"etl-workers","sequence":10042}
+ *
+ * When "group_id" is present, the handler uses a ConsumerGroupManager to:
+ *   - resume delivery from the group's committed offset + 1 on reconnect
+ *   - filter events to the consumer's assigned partition (key-hash mod N)
+ *   - durably advance the committed offset on ack
  *
  * Multiple named subscriptions may be active simultaneously on one connection.
  * Each subscription tracks its own last-acked and last-sent sequence numbers.
@@ -74,9 +81,15 @@ public:
      * @param max_pending_ack  Override for the pending-ack queue limit (default:
      *                         kMaxPendingAck).  Pass a small value in unit tests
      *                         to trigger back-pressure without 1,000 events.
+     * @param group_manager    Optional ConsumerGroupManager for consumer-group
+     *                         semantics.  When non-null, subscriptions that carry
+     *                         a "group_id" field use it for partition filtering and
+     *                         durable offset commit.  Pass nullptr (the default) for
+     *                         plain fan-out mode (existing behaviour).
      */
-    explicit CdcWebSocketHandler(size_t max_pending_ack = kMaxPendingAck)
-        : max_pending_ack_(max_pending_ack) {}
+    explicit CdcWebSocketHandler(size_t max_pending_ack = kMaxPendingAck,
+                                  ConsumerGroupManager* group_manager = nullptr)
+        : max_pending_ack_(max_pending_ack), group_manager_(group_manager) {}
 
     /**
      * @brief Process a client control frame.
@@ -138,6 +151,9 @@ private:
         uint64_t last_acked_sequence{0};
         uint64_t last_sent_sequence{0};
         std::deque<PendingEvent> pending_ack;
+        // Consumer-group fields (empty when not in group mode)
+        std::string group_id;
+        std::string consumer_id;
     };
 
     static nlohmann::json buildEventFrame(const Changefeed::ChangeEvent& ev,
@@ -147,6 +163,7 @@ private:
     mutable std::mutex mu_;
     std::atomic<uint64_t> ws_overflow_total_{0};
     size_t max_pending_ack_{kMaxPendingAck};
+    ConsumerGroupManager* group_manager_{nullptr};  ///< Not owned; may be nullptr
 };
 
 } // namespace cdc

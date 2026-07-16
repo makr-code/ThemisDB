@@ -1,24 +1,21 @@
+/**
+ * @file adaptive_vram_allocator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_vram_allocator.h                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     187                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_vram_allocator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 208
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -87,18 +84,18 @@ public:
      * @brief Detailed allocation plan
      */
     struct AllocationPlan {
-        size_t model_weights;          // Static model parameters
-        size_t kv_cache_static;        // Pre-allocated KV cache
-        size_t kv_cache_dynamic;       // On-demand KV cache growth
-        size_t activations;            // Intermediate activations
-        size_t overhead;               // System overhead (~5%)
-        size_t total;                  // Total VRAM requirement
+        size_t model_weights = 0;      // Static model parameters
+        size_t kv_cache_static = 0;        // Pre-allocated KV cache
+        size_t kv_cache_dynamic = 0;   // On-demand KV cache growth
+        size_t activations = 0;        // Intermediate activations
+        size_t overhead = 0;           // System overhead (~5%)
+        size_t total = 0;              // Total VRAM requirement
         
         // Detailed breakdown
-        size_t kv_size_per_token;      // KV cache bytes per token
-        size_t max_tokens_cached;      // Maximum tokens that can be cached
-        float expected_fragmentation;  // Expected fragmentation percentage
-        bool fits_in_vram;             // Whether allocation fits in available VRAM
+        size_t kv_size_per_token = 0;  // KV cache bytes per token
+        size_t max_tokens_cached = 0;  // Maximum tokens that can be cached
+        float expected_fragmentation = 0.0f;  // Expected fragmentation percentage
+        bool fits_in_vram = false;     // Whether allocation fits in available VRAM
         
         std::string recommendation;    // Human-readable recommendation
     };
@@ -119,6 +116,40 @@ public:
     AllocationPlan calculateOptimalAllocation(
         const ModelConfig& model,
         const HardwareInfo& hw,
+        const InferenceConfig& config
+    );
+
+    /**
+     * @brief Calculate allocation for target + draft model simultaneously.
+     *
+     * Reserves VRAM for both models as required by speculative decoding:
+     *   - Target model is allocated with its own @p target_config.
+     *   - Draft model shares the same GPU; its weights are added on top of the
+     *     target allocation.  The draft model is quantized to INT4 by default
+     *     (precision_bytes = 0) to minimise footprint — pass a @p draft_config
+     *     with a non-zero precision_bytes to override.
+     *
+     * The returned plan's @c total and @c fits_in_vram fields account for both
+     * models.  The @c model_weights field reflects the combined weight footprint;
+     * @c draft_model_weights provides the draft-only contribution.
+     *
+     * @param target_config Target model architecture parameters.
+     * @param draft_config  Draft model architecture parameters.
+     *                      If @c precision_bytes == 0 the draft is treated as
+     *                      INT4 (0.5 bytes per parameter).
+     * @param hw            Hardware capabilities (total/available VRAM).
+     * @param config        Shared inference configuration (batch size, etc.).
+     * @return              Combined allocation plan with @c draft_model_weights set.
+     */
+    struct DualModelAllocationPlan : AllocationPlan {
+        size_t draft_model_weights = 0;   ///< Draft model weight footprint (bytes).
+        int    draft_precision_bytes = 0; ///< Effective bytes per parameter for draft (0 = INT4 = 0.5).
+    };
+
+    DualModelAllocationPlan calculateDualModelAllocation(
+        const ModelConfig&   target_config,
+        const ModelConfig&   draft_config,
+        const HardwareInfo&  hw,
         const InferenceConfig& config
     );
 

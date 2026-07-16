@@ -1,30 +1,26 @@
+/**
+ * @file metadata_shard.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            metadata_shard.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     372                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: metadata_shard.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_METADATA_SHARD_H
-#define THEMISDB_SHARDING_METADATA_SHARD_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include "sharding/wal_manager.h"
@@ -48,9 +44,7 @@ namespace sharding {
 
 using LSN = themis::sharding::LSN;
 
-/**
- * @brief Metadata partition key types
- */
+/** @brief Logical metadata partitions distributed across metadata shards. */
 enum class MetadataPartitionKey {
     SCHEMA,          // Schema definitions
     INDEX,           // Index metadata
@@ -60,17 +54,20 @@ enum class MetadataPartitionKey {
     CONFIGURATION    // Configuration data
 };
 
-/**
- * @brief Metadata entry
- */
+/** @brief Versioned metadata key/value record stored in a partition. */
 struct MetadataEntry {
+    /** @brief Logical key inside partition. */
     std::string key;                           // Metadata key
+    /** @brief JSON payload for metadata value. */
     nlohmann::json value;                      // Metadata value
+    /** @brief Monotonic version for conflict resolution. */
     uint64_t version;                          // Version number
+    /** @brief Owning metadata partition. */
     MetadataPartitionKey partition;            // Partition this belongs to
     std::chrono::system_clock::time_point created_at;
     std::chrono::system_clock::time_point updated_at;
     
+    /** @brief Serialize entry to JSON representation for cache/persistence paths. */
     nlohmann::json toJson() const {
         return {
             {"key", key},
@@ -84,6 +81,7 @@ struct MetadataEntry {
         };
     }
     
+    /** @brief Deserialize metadata entry from JSON representation. */
     static MetadataEntry fromJson(const nlohmann::json& j) {
         MetadataEntry entry;
         entry.key = j["key"];
@@ -98,29 +96,39 @@ struct MetadataEntry {
     }
 };
 
-/**
- * @brief Metadata shard configuration
- */
+/** @brief Runtime configuration for one metadata shard instance. */
 struct MetadataShardConfig {
+    /** @brief Shard identifier of this metadata shard instance. */
     std::string shard_id;                      // This shard's ID
+    /** @brief Partitions managed locally by this shard. */
     std::vector<MetadataPartitionKey> partitions;  // Partitions managed by this shard
+    /** @brief Total shard count used for ownership/routing hash decisions. */
     size_t num_metadata_shards = 3;            // Total number of metadata shards
     
     // Cache settings
+    /** @brief Enable bounded LRU cache for metadata reads. */
     bool enable_cache = true;
+    /** @brief Maximum cache entry count. */
     size_t cache_size = 10000;
+    /** @brief Cache entry time-to-live duration. */
     std::chrono::seconds cache_ttl{300};
     
     // Replication settings
+    /** @brief Desired replication factor for metadata changes. */
     uint32_t replication_factor = 3;
     
     // Consistency settings
+    /** @brief Route write operations through consensus before local commit. */
     bool enforce_strong_consistency = true;
     
     // Phase 2.2: Persistence settings
+    /** @brief Enable WAL + snapshot persistence for crash recovery. */
     bool enable_persistence = false;           // Enable WAL and snapshots
+    /** @brief Base directory for WAL/snapshot files. */
     std::string data_dir;                      // Data directory for WAL and snapshots
+    /** @brief Snapshot trigger interval in number of metadata operations. */
     uint64_t snapshot_interval = 10000;        // Snapshot every N operations
+    /** @brief Maximum retained snapshot files. */
     size_t max_snapshots = 10;                 // Keep last N snapshots
 };
 
@@ -136,26 +144,22 @@ struct MetadataShardConfig {
  */
 class MetadataShard {
 public:
+    /** @brief Construct metadata shard with routing/config and optional consensus module. */
     explicit MetadataShard(
         const MetadataShardConfig& config,
         std::shared_ptr<ConsensusModule> consensus
     );
     
+    /** @brief Destructor stops shard and releases cache/persistence resources. */
     ~MetadataShard();
     
-    /**
-     * @brief Initialize the metadata shard
-     */
+    /** @brief Initialize partitions, persistence backends, and recovery state. */
     bool initialize();
     
-    /**
-     * @brief Start the metadata shard
-     */
+    /** @brief Mark shard as running and ready to serve operations. */
     bool start();
     
-    /**
-     * @brief Stop the metadata shard
-     */
+    /** @brief Stop shard and clear volatile cache state. */
     void stop();
     
     /**
@@ -200,14 +204,10 @@ public:
      */
     std::vector<std::string> listKeys(MetadataPartitionKey partition) const;
     
-    /**
-     * @brief Get partition statistics
-     */
+    /** @brief Return statistics for one partition. */
     nlohmann::json getPartitionStats(MetadataPartitionKey partition) const;
     
-    /**
-     * @brief Get all statistics
-     */
+    /** @brief Return shard-wide statistics including cache and partitions. */
     nlohmann::json getStatistics() const;
     
     /**
@@ -220,40 +220,30 @@ public:
         std::function<void(const MetadataEntry&)> callback
     );
     
-    /**
-     * @brief Phase 2.2: Create periodic snapshot
-     * @return true if successful
-     */
+    /** @brief Create snapshot from current storage when persistence is enabled. */
     bool createPeriodicSnapshot();
     
-    /**
-     * @brief Phase 2.2: Recover from WAL
-     * @return true if successful
-     */
+    /** @brief Recover shard state from latest snapshot plus WAL replay. */
     bool recoverFromWAL();
 
 private:
-    /**
-     * @brief Determine which shard owns a key
-     */
+    /** @brief Determine owning shard id for given partition/key pair. */
     std::string determineShardOwner(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
     
-    /**
-     * @brief Cache management
-     */
+    /** @brief Insert/update one entry in cache when cache is enabled. */
     void cacheEntry(const MetadataEntry& entry);
+    /** @brief Lookup entry in cache by partition/key. */
     std::optional<MetadataEntry> getCachedEntry(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
+    /** @brief Invalidate one cache key after mutation/removal. */
     void invalidateCache(MetadataPartitionKey partition, const std::string& key);
     
-    /**
-     * @brief Apply metadata change via consensus
-     */
+    /** @brief Propose and wait for consensus commit of metadata mutation. */
     bool applyChange(
         const std::string& operation,
         MetadataPartitionKey partition,
@@ -299,38 +289,29 @@ private:
  */
 class MetadataShardRouter {
 public:
+    /** @brief Construct router with configured shard-count hashing domain. */
     explicit MetadataShardRouter(size_t num_shards);
     
-    /**
-     * @brief Add a metadata shard
-     */
+    /** @brief Register shard instance under shard id. */
     void addShard(const std::string& shard_id, std::shared_ptr<MetadataShard> shard);
     
-    /**
-     * @brief Remove a metadata shard
-     */
+    /** @brief Unregister shard instance by shard id. */
     void removeShard(const std::string& shard_id);
     
-    /**
-     * @brief Get metadata entry
-     */
+    /** @brief Route and read metadata entry from owning shard. */
     std::optional<MetadataEntry> get(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
     
-    /**
-     * @brief Put metadata entry
-     */
+    /** @brief Route and write metadata entry to owning shard. */
     bool put(
         MetadataPartitionKey partition,
         const std::string& key,
         const nlohmann::json& value
     );
     
-    /**
-     * @brief Delete metadata entry
-     */
+    /** @brief Route and delete metadata entry on owning shard. */
     bool remove(
         MetadataPartitionKey partition,
         const std::string& key
@@ -341,23 +322,17 @@ public:
      */
     std::vector<std::string> listKeys(MetadataPartitionKey partition) const;
     
-    /**
-     * @brief Get routing statistics
-     */
+    /** @brief Return router operation/error and shard-level statistics snapshot. */
     nlohmann::json getStatistics() const;
     
 private:
-    /**
-     * @brief Determine which shard to route to
-     */
+    /** @brief Resolve target shard id for partition/key request. */
     std::string routeToShard(
         MetadataPartitionKey partition,
         const std::string& key
     ) const;
     
-    /**
-     * @brief Hash function for consistent hashing
-     */
+    /** @brief Hash key into shard-space index domain. */
     size_t hashKey(const std::string& key) const;
     
     size_t num_shards_;
@@ -372,4 +347,3 @@ private:
 } // namespace sharding
 } // namespace themisdb
 
-#endif // THEMISDB_SHARDING_METADATA_SHARD_H

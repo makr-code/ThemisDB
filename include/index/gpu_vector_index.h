@@ -1,31 +1,27 @@
+/**
+ * @file gpu_vector_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_vector_index.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bdf8bb008  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
-    • 2813641e1  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_vector_index.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 168
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4186 feat(index): GPU Memory Ove... (2026-03-13) | #3015 [index] Configurable GPU me... (2026-03-12) | #1104 Update GPU master tracking ... (2026-03-11) | #1098 Implement Vulkan backend fo... (2026-03-11) | #1094 Add HIP/ROCm backend for AM... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "index/vector_index.h"
+#include "index/gpu_memory_oversubscription.h"
 #include "acceleration/compute_backend.h"
 #include <memory>
 #include <vector>
@@ -51,7 +47,7 @@ namespace index {
  * - Automatic backend selection
  * - Production-ready performance (200K+ queries/sec on GPU)
  * 
- * @sources
+ * Sources:
  * - HNSW Algorithm: Malkov & Yashunin (2018) - IEEE TPAMI
  * - FAISS: Johnson et al. (2019) - IEEE Transactions on Big Data
  * - ROCm/HIP: https://rocm.docs.amd.com/
@@ -93,6 +89,14 @@ public:
         // Memory optimization
         bool useMixedPrecision = false; // Enable FP16/TF32 (GPU backends)
         
+        // GPU Memory Oversubscription (v1.7.0)
+        // When enabled, vectors are partitioned and streamed from host RAM into
+        // VRAM as needed.  Allows indexes larger than available GPU VRAM.
+        bool enable_oversubscription = false;          // Enable paging/streaming
+        size_t vram_budget_mb = 0;                     // VRAM cap in MB (0 = no limit)
+        PrefetchStrategy prefetch_strategy = PrefetchStrategy::LRU; // Eviction/prefetch policy
+        size_t oversubscription_partition_vectors = 65536; // Vectors per partition chunk
+        
         // Fallback
         bool allowCPUFallback = true;  // Fall back to CPU if GPU unavailable
     };
@@ -110,6 +114,13 @@ public:
         double avgQueryTimeMs = 0.0;
         double throughputQPS = 0.0;
         bool isGPUActive = false;
+        // Oversubscription statistics (populated when enable_oversubscription = true).
+        bool oversubscriptionActive = false;
+        size_t oversubHotPartitions  = 0;  ///< Partitions currently in VRAM.
+        size_t oversubColdPartitions = 0;  ///< Partitions in host RAM only.
+        size_t oversubEvictions      = 0;  ///< Total LRU evictions.
+        size_t oversubLoads          = 0;  ///< Total partition loads into VRAM.
+        double oversubPrefetchHitRate = 0.0; ///< Prefetch hit rate [0,1].
     };
     
     // Constructor
@@ -147,6 +158,11 @@ public:
     // Backend control
     bool switchBackend(Backend backend);
     std::vector<Backend> getAvailableBackends() const;
+
+    // Oversubscription control (v1.7.0)
+    // Returns the oversubscription stats; the returned Stats::oversubscriptionActive
+    // field is false when oversubscription is disabled.
+    GPUMemoryOversubscriptionManager::Stats getOversubscriptionStats() const;
     
     // Backend availability:
     // - CPU: Always available (fallback)

@@ -1,35 +1,64 @@
+/**
+ * @file gossip_protocol.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 80/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=2, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gossip_protocol.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     685                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gossip_protocol.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 814
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=15, M=19, L=0
+ * PR History (last 5): #52 Implement horizontal/vertic... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/gossip_protocol.h"
+#include <stdexcept>
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <random>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
+#include <memory>
+#include <spdlog/spdlog.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+
+// RAII deleters for OpenSSL resources
+namespace {
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* ptr) const {
+        if (ptr) EVP_MD_CTX_free(ptr);
+    }
+};
+
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* ptr) const {
+        if (ptr) EVP_PKEY_free(ptr);
+    }
+};
+
+struct FILE_Deleter {
+    void operator()(FILE* ptr) const {
+        if (ptr) fclose(ptr);
+    }
+};
+
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using FILE_ptr = std::unique_ptr<FILE, FILE_Deleter>;
+}
 
 namespace themis {
 namespace sharding {
@@ -86,12 +115,13 @@ void GossipProtocol::stop() {
     
     running_.store(false);
     
-    if (gossip_thread_.joinable()) {
-        gossip_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(gossip_thread_)) {
+        THEMIS_WARN("[GossipProtocol] gossip thread did not finish within shutdown deadline; detaching.");
     }
     
-    if (cleanup_thread_.joinable()) {
-        cleanup_thread_.join();
+    if (!themis::utils::joinThreadWithin(cleanup_thread_)) {
+        THEMIS_WARN("[GossipProtocol] cleanup thread did not finish within shutdown deadline; detaching.");
     }
 }
 
@@ -119,58 +149,72 @@ size_t GossipProtocol::getPeerCount() const {
 }
 
 void GossipProtocol::addPeer(const PeerInfo& peer) {
-    std::lock_guard<std::mutex> lock(peers_mutex_);
-    
-    // Check max peers limit
-    if (peers_.size() >= config_.max_peers && 
-        peers_.find(peer.peer_id) == peers_.end()) {
-        return;  // At capacity, don't add new peers
+    PeerDiscoveryCallback peer_discovered_callback;
+    PeerInfo discovered_peer;
+
+    {
+        std::lock_guard<std::mutex> lock(peers_mutex_);
+
+        // Check max peers limit
+        if (peers_.size() >= config_.max_peers &&
+            peers_.find(peer.peer_id) == peers_.end()) {
+            return;  // At capacity, don't add new peers
+        }
+
+        auto it = peers_.find(peer.peer_id);
+        if (it == peers_.end()) {
+            // New peer
+            PeerInfo new_peer = peer;
+            new_peer.first_seen = std::chrono::system_clock::now();
+            new_peer.last_seen = std::chrono::system_clock::now();
+            peers_[peer.peer_id] = new_peer;
+            peers_discovered_++;
+
+            // Sync with topology without re-acquiring peers_mutex_
+            syncWithTopologyLocked();
+
+            peer_discovered_callback = on_peer_discovered_;
+            discovered_peer = std::move(new_peer);
+        } else {
+            // Update existing peer
+            if (peer.version > it->second.version) {
+                it->second.endpoint = peer.endpoint;
+                it->second.datacenter = peer.datacenter;
+                it->second.region = peer.region;
+                it->second.version = peer.version;
+                it->second.last_seen = std::chrono::system_clock::now();
+                it->second.is_healthy = true;
+            }
+        }
     }
-    
-    auto it = peers_.find(peer.peer_id);
-    if (it == peers_.end()) {
-        // New peer
-        PeerInfo new_peer = peer;
-        new_peer.first_seen = std::chrono::system_clock::now();
-        new_peer.last_seen = std::chrono::system_clock::now();
-        peers_[peer.peer_id] = new_peer;
-        peers_discovered_++;
-        
-        // Notify callback
-        if (on_peer_discovered_) {
-            on_peer_discovered_(new_peer);
-        }
-        
-        // Sync with topology
-        syncWithTopology();
-    } else {
-        // Update existing peer
-        if (peer.version > it->second.version) {
-            it->second.endpoint = peer.endpoint;
-            it->second.datacenter = peer.datacenter;
-            it->second.region = peer.region;
-            it->second.version = peer.version;
-            it->second.last_seen = std::chrono::system_clock::now();
-            it->second.is_healthy = true;
-        }
+
+    if (peer_discovered_callback) {
+        peer_discovered_callback(discovered_peer);
     }
 }
 
 void GossipProtocol::removePeer(const std::string& peer_id) {
-    std::lock_guard<std::mutex> lock(peers_mutex_);
-    
-    auto it = peers_.find(peer_id);
-    if (it != peers_.end()) {
+    PeerLostCallback peer_lost_callback;
+
+    {
+        std::lock_guard<std::mutex> lock(peers_mutex_);
+
+        auto it = peers_.find(peer_id);
+        if (it == peers_.end()) {
+            return;
+        }
+
         peers_.erase(it);
         peers_lost_++;
-        
-        // Notify callback
-        if (on_peer_lost_) {
-            on_peer_lost_(peer_id);
-        }
-        
-        // Sync with topology
-        syncWithTopology();
+
+        // Sync with topology without re-acquiring peers_mutex_
+        syncWithTopologyLocked();
+
+        peer_lost_callback = on_peer_lost_;
+    }
+
+    if (peer_lost_callback) {
+        peer_lost_callback(peer_id);
     }
 }
 
@@ -197,6 +241,22 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     }
     
     // Handle message based on type
+    // 1. Custom handlers are dispatched first (registered via registerCustomHandler)
+    {
+        std::function<void(const GossipMessage&)> custom_handler;
+        {
+            std::lock_guard<std::mutex> lock(peers_mutex_);
+            auto it = custom_handlers_.find(message.message_type);
+            if (it != custom_handlers_.end()) {
+                custom_handler = it->second;
+            }
+        }
+        if (custom_handler) {
+            custom_handler(message);
+        }
+    }
+
+    // 2. Built-in type handling
     if (message.message_type == "heartbeat") {
         // Update peer status
         PeerInfo peer;
@@ -253,11 +313,31 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
 }
 
 void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
     on_peer_discovered_ = std::move(callback);
 }
 
 void GossipProtocol::onPeerLost(PeerLostCallback callback) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
     on_peer_lost_ = std::move(callback);
+}
+
+void GossipProtocol::setRaftMembershipGateFn(RaftMembershipGateFn fn) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
+    raft_membership_gate_fn_ = std::move(fn);
+}
+
+void GossipProtocol::registerCustomHandler(
+    const std::string& message_type,
+    std::function<void(const GossipMessage&)> handler
+) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
+    auto it = custom_handlers_.find(message_type);
+    if (it != custom_handlers_.end()) {
+        std::cerr << "[GossipProtocol] WARNING: duplicate registerCustomHandler for type '"
+                  << message_type << "' — previous handler overwritten\n";
+    }
+    custom_handlers_[message_type] = std::move(handler);
 }
 
 nlohmann::json GossipProtocol::getStatistics() const {
@@ -340,7 +420,7 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
                 handleMessage(response_msg);
             }
         }
-    } catch (const std::exception& e) {
+    } catch (...) {
         // Log error, mark peer as potentially unhealthy
         std::lock_guard<std::mutex> lock(peers_mutex_);
         auto it = peers_.find(peer.peer_id);
@@ -372,7 +452,7 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
                 handleMessage(response_msg);
             }
         }
-    } catch (const std::exception& e) {
+    } catch (...) {
         // Log error
     }
 }
@@ -400,7 +480,7 @@ void GossipProtocol::sendLeaveMessage() {
                 message.toJson()
             );
             messages_sent_++;
-        } catch (const std::exception& e) {
+        } catch (...) {
             // Best effort, ignore errors
         }
     }
@@ -442,10 +522,9 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
         return selected;
     }
     
-    // Random selection
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
+    // GOS-3: Use thread_local RNG to avoid data races on the shared generator.
+    thread_local std::mt19937 gen(std::random_device{}());
+
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
     size_t select_count = std::min(count, candidates.size());
@@ -496,12 +575,19 @@ void GossipProtocol::updatePeerHealth() {
 void GossipProtocol::syncWithTopology() {
     if (!topology_) return;
     
-    // Convert discovered peers to ShardInfo and add to topology
+    // Convert discovered peers to ShardInfo and add to topology.
+    // Acquire the lock so this public variant is safe to call from outside.
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    
+    syncWithTopologyLocked();
+}
+
+// Called only when peers_mutex_ is already held by the current thread.
+void GossipProtocol::syncWithTopologyLocked() {
+    if (!topology_) return;
+
     for (const auto& [id, peer] : peers_) {
         if (!peer.is_healthy) continue;
-        
+
         // Check if already in topology
         if (!topology_->hasShard(peer.peer_id)) {
             ShardInfo shard;
@@ -510,8 +596,28 @@ void GossipProtocol::syncWithTopology() {
             shard.datacenter = peer.datacenter;
             shard.is_healthy = peer.is_healthy;
             shard.certificate_serial = peer.certificate_serial;
-            
-            topology_->addShard(shard);
+
+            // CC-4: Gate gossip-driven topology mutations behind the Raft membership
+            // protocol.  When a RaftMembershipGateFn is registered, only admit the peer
+            // to the routing topology if the gate approves it (i.e., the peer has been
+            // confirmed through Raft joint-consensus).  Without a gate (backward compat),
+            // use the legacy warn+add path.
+            if (raft_membership_gate_fn_) {
+                if (raft_membership_gate_fn_(peer.peer_id, peer.endpoint)) {
+                    topology_->addShard(shard);
+                } else {
+                    spdlog::debug("[GOSSIP] Peer '{}' denied by Raft membership gate; "
+                                  "tracked for health monitoring only.",
+                                  peer.peer_id);
+                }
+            } else {
+                spdlog::warn("[GOSSIP] Adding gossip-discovered peer '{}' to topology. "
+                             "This peer has NOT been admitted through Raft membership "
+                             "change and MUST NOT affect quorum calculations. "
+                             "Ensure quorum is computed only from Raft-confirmed members.",
+                             peer.peer_id);
+                topology_->addShard(shard);
+            }
         } else {
             // Update health status
             topology_->updateHealth(peer.peer_id, peer.is_healthy);
@@ -520,9 +626,9 @@ void GossipProtocol::syncWithTopology() {
 }
 
 std::string GossipProtocol::generateMessageId() const {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<uint64_t> dis;
+    // GOS-3: thread_local RNG to avoid data races on the shared generator.
+    thread_local std::mt19937 gen(std::random_device{}());
+    thread_local std::uniform_int_distribution<uint64_t> dis;
     
     std::stringstream ss;
     ss << "msg_" << std::hex << std::setfill('0') << std::setw(16) << dis(gen);
@@ -534,38 +640,37 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
         return "";  // No signing if no key configured
     }
     
-    // Load private key
-    FILE* fp = fopen(config_.private_key_path.c_str(), "r");
-    if (!fp) {
-        return "";
-    }
-    
-    EVP_PKEY* pkey = PEM_read_PrivateKey(fp, nullptr, nullptr, nullptr);
-    fclose(fp);
-    
-    if (!pkey) {
-        return "";
-    }
-    
-    // Create message to sign
-    std::string to_sign = message.message_id + message.sender_id + 
-                          message.message_type + std::to_string(message.timestamp);
-    
-    // Sign with RSA-SHA256
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) {
-        EVP_PKEY_free(pkey);
-        return "";
-    }
+    try {
+        // Load private key with RAII
+        FILE_ptr fp(fopen(config_.private_key_path.c_str(), "r"));
+        if (!fp) {
+            return "";
+        }
+        
+        EVP_PKEY_ptr pkey(PEM_read_PrivateKey(fp.get(), nullptr, nullptr, nullptr));
+        if (!pkey) {
+            return "";
+        }
+        fp.reset();  // Close file after reading key
+        
+        // Create message to sign
+        std::string to_sign = message.message_id + message.sender_id + 
+                              message.message_type + std::to_string(message.timestamp);
+        
+        // Sign with RSA-SHA256 using RAII
+        EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+        if (!ctx) {
+            return "";
+        }
     
     std::string signature;
     
-    if (EVP_DigestSignInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1) {
-        if (EVP_DigestSignUpdate(ctx, to_sign.c_str(), to_sign.length()) == 1) {
+    if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1) {
+        if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {
             size_t sig_len = 0;
-            if (EVP_DigestSignFinal(ctx, nullptr, &sig_len) == 1) {
+            if (EVP_DigestSignFinal(ctx.get(), nullptr, &sig_len) == 1) {
                 std::vector<unsigned char> sig(sig_len);
-                if (EVP_DigestSignFinal(ctx, sig.data(), &sig_len) == 1) {
+                if (EVP_DigestSignFinal(ctx.get(), sig.data(), &sig_len) == 1) {
                     // Base64 encode
                     signature.resize(((sig_len + 2) / 3) * 4 + 1);
                     int out_len = EVP_EncodeBlock(
@@ -578,10 +683,11 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
         }
     }
     
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(pkey);
-    
     return signature;
+    } catch (const std::exception& e) {
+        spdlog::error("Exception during message signing: {}", e.what());
+        return "";
+    }
 }
 
 bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
@@ -589,16 +695,91 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
     if (!config_.validate_certificates) {
         return true;
     }
-    
-    // If signature is empty, accept (peer may not have signing configured)
+
+    // If signature is empty and validation is enabled, fail-closed: an
+    // unsigned message from a peer must not be accepted when the operator
+    // has explicitly enabled certificate validation.
     if (message.signature.empty()) {
-        return true;
+        spdlog::warn("GossipProtocol: rejecting unsigned message '{}' from '{}': "
+                     "validate_certificates is enabled",
+                     message.message_id, message.sender_id);
+        return false;
     }
-    
-    // Full signature verification would require the peer's public key
-    // This would typically be retrieved from the certificate during mTLS handshake
-    // For now, return true if signature is present
-    return true;
+
+    // GOS-2: Attempt real RSA-SHA256 signature verification when a public key
+    // is available for the sender. Public key files are expected at:
+    //   {peer_public_keys_dir}/{sender_id}.pem
+    if (config_.peer_public_keys_dir.empty()) {
+        // No key directory configured — fail-closed: cannot verify signature.
+        spdlog::warn("GossipProtocol: rejecting message '{}' from '{}': "
+                     "validate_certificates is enabled but peer_public_keys_dir "
+                     "is not configured",
+                     message.message_id, message.sender_id);
+        return false;
+    }
+
+    try {
+        const std::string key_path = config_.peer_public_keys_dir + "/" +
+                                     message.sender_id + ".pem";
+        FILE_ptr fp(fopen(key_path.c_str(), "r"));
+        if (!fp) {
+            spdlog::warn("GossipProtocol: no public key file '{}' for peer '{}' — "
+                         "rejecting signed message", key_path, message.sender_id);
+            return false;
+        }
+
+        EVP_PKEY_ptr pkey(PEM_read_PUBKEY(fp.get(), nullptr, nullptr, nullptr));
+        if (!pkey) {
+            spdlog::error("GossipProtocol: failed to load public key from '{}': {}",
+                          key_path, ERR_reason_error_string(ERR_get_error()));
+            return false;
+        }
+
+        // Reconstruct the signed payload (must match signMessage())
+        const std::string to_verify = message.message_id + message.sender_id +
+                                      message.message_type +
+                                      std::to_string(message.timestamp);
+
+        // Base64-decode the stored signature
+        const std::string& b64 = message.signature;
+        std::vector<unsigned char> sig(b64.size());
+        const int decoded_len = EVP_DecodeBlock(
+            sig.data(),
+            reinterpret_cast<const unsigned char*>(b64.data()),
+            static_cast<int>(b64.size())
+        );
+        if (decoded_len <= 0) {
+            spdlog::warn("GossipProtocol: base64 decode failed for signature from '{}'",
+                         message.sender_id);
+            return false;
+        }
+        // EVP_DecodeBlock pads to a multiple of 3 — strip trailing padding bytes.
+        int sig_len = decoded_len;
+        const size_t pad = std::count(b64.rbegin(), b64.rbegin() + 2, '=');
+        sig_len -= static_cast<int>(pad);
+
+        EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+        bool valid = false;
+
+        if (ctx) {
+            if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1 &&
+                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(), to_verify.size()) == 1 &&
+                EVP_DigestVerifyFinal(ctx.get(),
+                                      sig.data(),
+                                      static_cast<size_t>(sig_len)) == 1) {
+                valid = true;
+            } else {
+                spdlog::warn("GossipProtocol: signature verification failed for "
+                             "message '{}' from '{}'",
+                             message.message_id, message.sender_id);
+            }
+        }
+
+        return valid;
+    } catch (const std::exception& e) {
+        spdlog::error("Exception during message verification: {}", e.what());
+        return false;
+    }
 }
 
 bool GossipProtocol::checkRateLimit(const std::string& peer_id) {
@@ -686,3 +867,4 @@ GossipMessage GossipProtocol::createLeaveMessage() const {
 
 } // namespace sharding
 } // namespace themis
+

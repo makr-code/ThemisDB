@@ -1,23 +1,21 @@
+/**
+ * @file property_graph.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            property_graph.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1270                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: property_graph.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1279
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=10, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #767 Implement cascade deletion ... (2026-03-11) | #1089 Complete GNN embeddings and... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Property Graph Manager Implementation
@@ -25,47 +23,77 @@
 #include "index/property_graph.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
 #include <unordered_map>
 #include <queue>
 #include <stack>
+#include <stdexcept>
 
 namespace themis {
+
+namespace {
+
+[[nodiscard]] std::vector<std::string> parseLabelsField(const std::string& raw_labels) {
+    std::vector<std::string> labels;
+    if (raw_labels.empty()) {
+        return labels;
+    }
+
+    // Preferred format: JSON string array, e.g. ["Person","Employee"].
+    try {
+        auto parsed = nlohmann::json::parse(raw_labels);
+        if (parsed.is_array()) {
+            labels.reserve(parsed.size());
+            for (const auto& entry : parsed) {
+                if (!entry.is_string()) {
+                    continue;
+                }
+                auto label = entry.get<std::string>();
+                if (!label.empty()) {
+                    labels.push_back(std::move(label));
+                }
+            }
+            return labels;
+        }
+    } catch (...) {
+        // Backward-compatible fallback below (legacy comma-separated encoding).
+    }
+
+    // Legacy format fallback: comma-separated string.
+    std::stringstream ss(raw_labels);
+    std::string label;
+    while (std::getline(ss, label, ',')) {
+        label.erase(0, label.find_first_not_of(" \t"));
+        label.erase(label.find_last_not_of(" \t") + 1);
+        if (!label.empty()) {
+            labels.push_back(std::move(label));
+        }
+    }
+    return labels;
+}
+
+[[nodiscard]] std::string encodeLabelsField(const std::vector<std::string>& labels) {
+    return nlohmann::json(labels).dump();
+}
+
+} // namespace
 
 PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 
 // ===== Helper Methods =====
 
 std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& node) const {
-    std::vector<std::string> labels;
-    
-    // Try to get _labels field as array
-    auto labelsField = node.getField("_labels");
-    if (!labelsField.has_value()) {
-        return labels;  // No labels
+    // Delegate to BaseEntity::getFieldAsStringArray(), which handles both the
+    // current JSON-array serialization and the legacy comma-separated format.
+    auto arr = node.getFieldAsStringArray("_labels");
+    if (!arr.has_value()) {
+        return {};
     }
 
-    // Value can be variant, check if it's a vector
-    // For now, we'll use getFieldAsString and parse comma-separated (simplified)
-    // TODO: Extend BaseEntity to support string arrays
-    auto labelsStr = node.getFieldAsString("_labels");
-    if (labelsStr.has_value()) {
-        std::string labels_str = *labelsStr;
-        std::stringstream ss(labels_str);
-        std::string label;
-        while (std::getline(ss, label, ',')) {
-            // Trim whitespace
-            label.erase(0, label.find_first_not_of(" \t"));
-            label.erase(label.find_last_not_of(" \t") + 1);
-            if (!label.empty()) {
-                labels.push_back(label);
-            }
-        }
-    }
-    
-    return labels;
+    return *arr;
 }
 
 std::optional<std::string> PropertyGraphManager::extractType_(const BaseEntity& edge) const {
@@ -280,12 +308,7 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
 
     // Add label to node
     labels.push_back(std::string(label));
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -321,20 +344,15 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     BaseEntity node = BaseEntity::deserialize(std::string(pk), *blob);
     std::vector<std::string> labels = extractLabels_(node);
 
-    // Remove label
-    auto it = std::find(labels.begin(), labels.end(), label);
+    // Update labels
+    const auto it = std::find(labels.begin(), labels.end(), label);
     if (it == labels.end()) {
-        return Status::OK();  // Label doesn't exist (idempotent)
+        return Status::OK();  // Label not present (idempotent)
     }
     labels.erase(it);
 
     // Update labels string
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -1271,3 +1289,4 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
+

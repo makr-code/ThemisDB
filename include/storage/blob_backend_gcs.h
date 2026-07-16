@@ -1,3 +1,22 @@
+/**
+ * @file blob_backend_gcs.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: blob_backend_gcs.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include "storage/blob_storage_backend.h"
@@ -26,7 +45,7 @@ public:
      * @param prefix   Optional object-name prefix (e.g. "blobs/")
      */
     explicit GCSBlobBackend(const std::string& bucket, const std::string& prefix = "");
-    ~GCSBlobBackend() override = default;
+    ~GCSBlobBackend() override;
 
     Result<BlobRef>              put(const std::string& blob_id,
                                     const std::vector<uint8_t>& data) override;

@@ -1,0 +1,119 @@
+# =============================================================================
+# ThemisDB CHIMERA – Integration Test Stack
+# =============================================================================
+# Spins up real MongoDB, Qdrant, and Neo4j containers for CI integration
+# tests that exercise the production driver paths (THEMIS_ENABLE_* builds).
+#
+# Usage:
+#   docker compose -f docker/docker-compose.chimera-integration.yml up -d
+#   # ... run integration tests ...
+#   docker compose -f docker/docker-compose.chimera-integration.yml down -v
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # MongoDB (replica set required for multi-document transactions)
+  # ---------------------------------------------------------------------------
+  mongodb:
+    image: mongo:7.0
+    container_name: chimera-mongodb
+    command: >
+      mongod --replSet rs0
+             --bind_ip_all
+             --port 27017
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ""
+      MONGO_INITDB_ROOT_PASSWORD: ""
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: >
+        mongosh --quiet --eval
+        "try { rs.status().ok } catch(e) { rs.initiate().ok }"
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    networks:
+      - chimera-net
+
+  # MongoDB replica-set initialisation side-car (runs once, then exits)
+  mongodb-init:
+    image: mongo:7.0
+    container_name: chimera-mongodb-init
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: >
+      mongosh --host mongodb:27017 --quiet --eval
+      "try { rs.status(); } catch(e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'mongodb:27017' }] }); }"
+    networks:
+      - chimera-net
+    restart: "no"
+
+  # ---------------------------------------------------------------------------
+  # Qdrant vector database
+  # ---------------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: chimera-qdrant
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC API
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - chimera-net
+
+  # ---------------------------------------------------------------------------
+  # Neo4j graph database
+  # ---------------------------------------------------------------------------
+  neo4j:
+    image: neo4j:5.18-community
+    container_name: chimera-neo4j
+    ports:
+      - "7474:7474"   # HTTP API (used by Neo4jAdapter)
+      - "7687:7687"   # Bolt protocol
+    environment:
+      NEO4J_AUTH: neo4j/testpassword
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: >
+        wget -qO- http://localhost:7474 || exit 1
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    networks:
+      - chimera-net
+
+# =============================================================================
+# Volumes & Networks
+# =============================================================================
+
+volumes:
+  mongodb_data:
+    driver: local
+  qdrant_data:
+    driver: local
+  neo4j_data:
+    driver: local
+
+networks:
+  chimera-net:
+    driver: bridge

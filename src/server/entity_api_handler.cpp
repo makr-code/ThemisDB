@@ -1,30 +1,25 @@
+/**
+ * @file entity_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=15, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            entity_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1110                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
-    • 1c7c2d949  2026-02-23  fix: resolve 4 RULE-CPP-002 audit violations in entity_ap... ║
-    • 8f1e0c598  2026-02-23  Add batch operations unit tests, update ROADMAP and fix S... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: entity_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1235
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=5, M=23, L=0
+ * PR History (last 5): #2800 [cdc] Change event enrichme... (2026-03-12) | #2726 [api] Batch operations for ... (2026-03-12) | #449 Refactor: Extract EntityApi... (2026-03-11) | #1130 Close production-readiness ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/entity_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -45,6 +40,7 @@
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "api/geo_index_hooks.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
@@ -57,6 +53,20 @@ namespace server {
 
 using json = nlohmann::json;
 using Tracer = themis::Tracer;
+
+namespace {
+
+constexpr size_t kMaxEntityBatchKeyPartLength = 256;
+
+bool isValidEntityBatchKeyPart(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxEntityBatchKeyPartLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 EntityApiHandler::EntityApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -106,14 +116,14 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -132,21 +142,21 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
 std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
-    const std::string& action,
-    const std::string& resource
+    const std::string& /*action*/,
+    const std::string& /*resource*/
 ) {
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt; // Auth disabled, allow access
     }
     
     // Extract token from Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
     }
     
     auto token_opt = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token_opt) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -890,6 +900,15 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                 
                 std::string table = key.substr(0, pos);
                 std::string pk = key.substr(pos+1);
+
+                if (!isValidEntityBatchKeyPart(table) || !isValidEntityBatchKeyPart(pk)) {
+                    errors.push_back({
+                        {"index", i},
+                        {"key", key},
+                        {"error", "Key contains invalid table or pk characters"}
+                    });
+                    continue;
+                }
                 
                 ValidatedOp vop;
                 vop.op_type = op_type;
@@ -1225,3 +1244,4 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
 } // namespace server
 } // namespace themis
+

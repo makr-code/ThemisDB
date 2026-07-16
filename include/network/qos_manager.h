@@ -1,24 +1,21 @@
+/**
+ * @file qos_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            qos_manager.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     496                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a57c9c42c  2026-02-25  feat(network): implement per-tenant network bandwidth quotas ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: qos_manager.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 833
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4273 feat(network): Bandwidth Ma... (2026-03-15) | #1333 Network module: QoS manager... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Network QoS Manager
@@ -30,10 +27,13 @@
 #include <atomic>
 #include <chrono>
 #include <cstdint>
+#include <deque>
 #include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
+#include <optional>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -131,6 +131,138 @@ private:
 };
 
 // =============================================================================
+// LeakyBucket – constant-rate traffic shaper
+// =============================================================================
+
+/**
+ * @brief Leaky bucket traffic shaper.
+ *
+ * Models a bucket with a fixed capacity that drains at a constant rate
+ * (`drain_rate_bps` bits per second).  Data is added to the bucket via
+ * `add(bytes)`.  If the bucket is full, `add()` returns false (overflow).
+ *
+ * Unlike the TokenBucket, the LeakyBucket enforces a strict constant output
+ * rate with no accumulation — burst traffic is smoothed out.
+ *
+ * Thread-safe via an internal mutex.
+ */
+class LeakyBucket {
+public:
+    /**
+     * @param drain_rate_bps  Output drain rate in bits per second.
+     * @param capacity_bytes  Maximum bucket fill in bytes.
+     */
+    LeakyBucket(uint64_t drain_rate_bps, uint64_t capacity_bytes);
+
+    /**
+     * @brief Add `bytes` of data to the bucket.
+     *
+     * Drains elapsed time from the bucket first, then adds the new data.
+     * Returns false if the bucket overflows (capacity exceeded after adding).
+     *
+     * @param bytes Number of bytes to add.
+     * @return true if the bytes were accepted; false if the bucket overflowed.
+     */
+    bool add(uint64_t bytes);
+
+    /**
+     * @brief Check whether `bytes` can be transmitted now without overflow.
+     *
+     * Does NOT consume tokens; use `add()` to actually commit the send.
+     *
+     * @return true if sending `bytes` would not overflow the bucket.
+     */
+    bool tryConform(uint64_t bytes) const;
+
+    /**
+     * @brief Update drain rate and capacity at runtime.
+     * @param drain_rate_bps  New output rate in bits per second.
+     * @param capacity_bytes  New bucket capacity in bytes.
+     */
+    void reconfigure(uint64_t drain_rate_bps, uint64_t capacity_bytes);
+
+    /** @brief Current bucket fill in bytes. */
+    double currentFill() const;
+
+    /** @brief Configured bucket capacity in bytes. */
+    uint64_t capacityBytes() const;
+
+    /** @brief Configured drain rate in bps. */
+    uint64_t drainRateBps() const;
+
+private:
+    /** Drain elapsed bytes from bucket based on elapsed time. */
+    void drain();
+
+    mutable std::mutex mutex_;
+    double fill_;                    ///< Current bucket fill (bytes)
+    uint64_t drain_rate_bps_;        ///< Drain rate in bits per second
+    uint64_t capacity_bytes_;        ///< Maximum bucket capacity (bytes)
+    std::chrono::steady_clock::time_point last_drain_;
+};
+
+// =============================================================================
+// CongestionController – per-connection AIMD congestion control
+// =============================================================================
+
+/**
+ * @brief Simple AIMD congestion controller for per-connection rate adaptation.
+ *
+ * Implements a TCP-like AIMD (Additive Increase / Multiplicative Decrease)
+ * algorithm:
+ *   - Slow start:  window doubles each RTT until `ssthresh_bytes` is reached.
+ *   - Congestion avoidance: window increases by MSS per RTT.
+ *   - On packet loss:  ssthresh = window / 2;  window = ssthresh.
+ *
+ * Thread-safe via an internal mutex.
+ */
+class CongestionController {
+public:
+    static constexpr uint64_t kDefaultMss         = 1'460;        ///< bytes
+    static constexpr uint64_t kDefaultInitialCwnd = 10 * kDefaultMss;
+    static constexpr uint64_t kMaxCwnd            = 64 * 1024 * 1024;  ///< 64 MB
+
+    CongestionController();
+
+    /**
+     * @brief Record a successful ACK (bytes acknowledged, round-trip time).
+     *
+     * Grows the congestion window according to slow-start / congestion-avoidance.
+     *
+     * @param bytes_acked  Number of bytes acknowledged.
+     * @param rtt          Measured round-trip time.
+     */
+    void recordAck(uint64_t bytes_acked, std::chrono::microseconds rtt);
+
+    /**
+     * @brief Record a packet loss event.
+     *
+     * Halves the congestion window (AIMD decrease) and sets the slow-start
+     * threshold.
+     */
+    void recordLoss();
+
+    /** @brief Current congestion window in bytes. */
+    uint64_t cwnd() const;
+
+    /** @brief Current slow-start threshold in bytes. */
+    uint64_t ssthresh() const;
+
+    /** @brief Smoothed RTT estimate. */
+    std::chrono::microseconds smoothedRtt() const;
+
+    /** @brief Reset to initial state. */
+    void reset();
+
+private:
+    mutable std::mutex mutex_;
+    uint64_t cwnd_;             ///< Congestion window (bytes)
+    uint64_t ssthresh_;         ///< Slow-start threshold (bytes)
+    std::chrono::microseconds srtt_;  ///< Smoothed RTT
+    bool in_slow_start_;
+};
+
+// =============================================================================
 // QoSManager – per-connection rate limiting and priority scheduling
 // =============================================================================
 
@@ -172,8 +304,16 @@ public:
         /** Total aggregate bandwidth cap (bps).  0 = unlimited. */
         uint64_t max_bandwidth_bps = 0;
 
+        /** Convenience: total aggregate bandwidth cap in Mbps.
+         *  When non-zero, overrides max_bandwidth_bps (1 Mbps = 1,000,000 bps). */
+        uint64_t max_bandwidth_mbps = 0;
+
         /** Default per-connection sustained rate (bps).  0 = unlimited. */
         uint64_t default_rate_bps = 0;
+
+        /** Convenience: default per-connection limit in Mbps.
+         *  When non-zero, overrides default_rate_bps. */
+        uint64_t per_connection_limit_mbps = 0;
 
         /** Default burst size per connection (bytes).  0 = unlimited. */
         uint64_t default_burst_bytes = 1'000'000;  // 1 MB
@@ -184,8 +324,15 @@ public:
         /** Enable strict priority scheduling (CRITICAL starves LOW). */
         bool enable_priority_scheduling = true;
 
+        /** Enable priority queuing (alias for enable_priority_scheduling). */
+        bool enable_priority_queuing = true;
+
         /** Enable fair queuing (equal service at the same priority level). */
         bool enable_fair_queuing = true;
+
+        /** Maximum consecutive dequeues from higher priority before
+         *  a lower-priority connection is forcibly served (starvation guard). */
+        uint32_t starvation_guard_threshold = 16;
     };
 
     explicit QoSManager(const Config& config);
@@ -247,6 +394,177 @@ public:
     void clearTokenBucket(uint64_t connection_id);
 
     // -------------------------------------------------------------------------
+    // Snake-case API (issue requirement: consistent with FUTURE_ENHANCEMENTS spec)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Change the priority of a live connection (snake_case alias).
+     * @param connection_id Target connection.
+     * @param priority      New priority.
+     */
+    void set_priority(uint64_t connection_id, Priority priority) {
+        setPriority(connection_id, priority);
+    }
+
+    /**
+     * @brief Set a per-connection bandwidth limit in bytes per second.
+     *
+     * Internally creates a token bucket with a burst equal to one second of
+     * sustained throughput.  Use `setTokenBucket()` for explicit burst control.
+     *
+     * @param connection_id   Target connection.
+     * @param bytes_per_second Sustained bandwidth limit in bytes per second.
+     */
+    void set_bandwidth_limit(uint64_t connection_id, uint64_t bytes_per_second);
+
+    /**
+     * @brief Set a token bucket for traffic shaping (snake_case alias).
+     *
+     * @param connection_id Target connection.
+     * @param rate_bps      Sustained rate in bits per second.
+     * @param burst_bytes   Maximum burst size in bytes.
+     */
+    void set_token_bucket(uint64_t connection_id,
+                          uint64_t rate_bps,
+                          uint64_t burst_bytes) {
+        setTokenBucket(connection_id, rate_bps, burst_bytes);
+    }
+
+    // -------------------------------------------------------------------------
+    // Leaky bucket shaping
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach a leaky bucket shaper to a connection.
+     *
+     * The leaky bucket enforces a strict constant drain rate with no burst
+     * allowance.  Data that overflows the bucket is considered "non-conformant"
+     * and `allowSend()` will return false for it.
+     *
+     * @param connection_id    Target connection.
+     * @param drain_rate_bps   Constant drain rate in bits per second.
+     * @param capacity_bytes   Maximum bucket capacity in bytes.
+     */
+    void setLeakyBucket(uint64_t connection_id,
+                        uint64_t drain_rate_bps,
+                        uint64_t capacity_bytes);
+
+    /**
+     * @brief Remove the leaky bucket shaper from a connection.
+     * @param connection_id Target connection.
+     */
+    void clearLeakyBucket(uint64_t connection_id);
+
+    // -------------------------------------------------------------------------
+    // Priority queue scheduling
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Pending send descriptor for priority queue scheduling.
+     */
+    struct PendingSend {
+        uint64_t connection_id = 0;
+        uint64_t bytes         = 0;
+        Priority priority      = Priority::MEDIUM;
+    };
+
+    /**
+     * @brief Enqueue a pending send into the priority scheduler.
+     *
+     * The send is placed into the priority queue corresponding to the
+     * connection's current priority level.  The scheduler does NOT
+     * immediately consume token bucket tokens — that happens in `allowSend()`.
+     *
+     * @param connection_id Source connection.
+     * @param bytes         Number of bytes to send.
+     * @return true if the item was accepted; false if the connection is unknown.
+     */
+    bool enqueueSend(uint64_t connection_id, uint64_t bytes);
+
+    /**
+     * @brief Dequeue the next pending send selected by priority + fair-queuing.
+     *
+     * Selects the highest-priority non-empty queue.  Within a priority level,
+     * connections are served in round-robin order (fair queuing).
+     *
+     * A starvation guard ensures that lower-priority items are occasionally
+     * served even when higher-priority queues are always non-empty (see
+     * `Config::starvation_guard_threshold`).
+     *
+     * @return The next PendingSend, or std::nullopt if all queues are empty.
+     */
+    std::optional<PendingSend> dequeueForSend();
+
+    /**
+     * @brief Return the number of pending sends in a specific priority queue.
+     * @param priority Queue to query.
+     */
+    size_t getPendingQueueDepth(Priority priority) const;
+
+    // -------------------------------------------------------------------------
+    // Congestion control
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Record a successful ACK for congestion window adaptation.
+     *
+     * @param connection_id Connection that received the ACK.
+     * @param bytes_acked   Number of bytes acknowledged.
+     * @param rtt           Measured round-trip time for this segment.
+     */
+    void recordAck(uint64_t connection_id,
+                   uint64_t bytes_acked,
+                   std::chrono::microseconds rtt);
+
+    /**
+     * @brief Record a packet loss event for congestion window reduction.
+     * @param connection_id Connection that experienced the loss.
+     */
+    void recordLoss(uint64_t connection_id);
+
+    /**
+     * @brief Return the current congestion window for a connection (bytes).
+     *
+     * Returns UINT64_MAX if no congestion controller is registered for the
+     * connection (unlimited window).
+     *
+     * @param connection_id Target connection.
+     */
+    uint64_t getCongestionWindow(uint64_t connection_id) const;
+
+    // -------------------------------------------------------------------------
+    // Linux tc integration
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Configuration for Linux Traffic Control (tc) integration.
+     */
+    struct TcConfig {
+        /** Network interface to configure (e.g. "eth0"). */
+        std::string interface_name;
+
+        /** Enable tc integration (Linux only; no-op on other platforms). */
+        bool enabled = false;
+
+        /** Total bandwidth allocated on the interface (bps). */
+        uint64_t total_rate_bps = 0;
+    };
+
+    /**
+     * @brief Apply an HTB qdisc configuration on a Linux network interface.
+     *
+     * Issues `tc qdisc` and `tc class` commands to set up a Hierarchical Token
+     * Bucket on the specified interface.  On non-Linux platforms this function
+     * returns false without doing anything.
+     *
+     * Requires the process to have sufficient privileges (CAP_NET_ADMIN).
+     *
+     * @param tc_config  tc configuration parameters.
+     * @return true if tc commands succeeded; false otherwise.
+     */
+    bool configureTc(const TcConfig& tc_config);
+
+    // -------------------------------------------------------------------------
     // Hot-path: send permission and accounting
     // -------------------------------------------------------------------------
 
@@ -301,6 +619,10 @@ public:
         bool     has_token_bucket = false;
         uint64_t token_bucket_rate_bps   = 0;
         uint64_t token_bucket_burst_bytes = 0;
+        // Congestion control fields (UINT64_MAX = no CC active)
+        uint64_t congestion_window = UINT64_MAX;         ///< Current cwnd in bytes
+        uint64_t congestion_ssthresh_bytes = UINT64_MAX; ///< Slow-start threshold (bytes)
+        uint64_t smoothed_rtt_us = 0;                    ///< Smoothed RTT in microseconds
     };
 
     /**
@@ -440,6 +762,12 @@ private:
         mutable std::mutex token_bucket_mutex;  // protects token_bucket
         std::shared_ptr<TokenBucket> token_bucket;  // nullptr = unlimited
 
+        mutable std::mutex leaky_bucket_mutex;  // protects leaky_bucket
+        std::shared_ptr<LeakyBucket> leaky_bucket;  // nullptr = no leaky shaping
+
+        mutable std::mutex congestion_mutex;    // protects congestion_ctrl
+        std::shared_ptr<CongestionController> congestion_ctrl;  // nullptr = no CC
+
         std::atomic<uint64_t> bytes_sent{0};
         std::atomic<uint64_t> bytes_received{0};
         std::atomic<uint64_t> bytes_shaped{0};
@@ -448,6 +776,11 @@ private:
     };
 
     std::shared_ptr<ConnectionState> findConnection(uint64_t id) const;
+
+    // Resolve effective max_bandwidth_bps from config (handles mbps override)
+    uint64_t effectiveMaxBandwidthBps() const;
+    // Resolve effective default_rate_bps from config (handles per_connection_limit_mbps)
+    uint64_t effectiveDefaultRateBps() const;
 
     Config config_;
 
@@ -467,6 +800,21 @@ private:
     // Optional backpressure callback
     mutable std::mutex callback_mutex_;
     std::function<void(uint64_t, uint64_t)> backpressure_cb_;
+
+    // -------------------------------------------------------------------------
+    // Priority queue scheduling state
+    // -------------------------------------------------------------------------
+
+    // One deque per priority level; each entry is a PendingSend
+    mutable std::mutex pq_mutex_;
+    std::deque<PendingSend> pq_critical_;
+    std::deque<PendingSend> pq_high_;
+    std::deque<PendingSend> pq_medium_;
+    std::deque<PendingSend> pq_low_;
+
+    // Starvation guard: tracks how many consecutive high-priority sends have
+    // been served so that low-priority connections are not starved indefinitely.
+    uint32_t pq_consecutive_high_serves_{0};
 
     // -------------------------------------------------------------------------
     // Per-tenant bandwidth quota state

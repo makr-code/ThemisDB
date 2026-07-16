@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_macro.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e6c4d3fc4  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
-    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
-    • 7bdfe2da2  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_macro.h
- * @brief Voice command macro types and VoiceMacroManager interface
- *
- * Provides user-defined voice command shortcuts to AQL queries and
- * multi-step command sequences (Phase 3 roadmap item).
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,155 +1,373 @@
-# Security Policy
+<div align="center">
 
-## Vulnerability Disclosure Policy
+# 🔐 Security Policy
 
-### Contact Information
+**ThemisDB Security Team**
 
-Report security vulnerabilities via **GitHub Security Advisories** (preferred):
-[https://github.com/makr-code/ThemisDB/security/advisories/new](https://github.com/makr-code/ThemisDB/security/advisories/new)
+[![Security Score](https://img.shields.io/badge/security-A+-green)](https://github.com/makr-code/ThemisDB/security)
+[![Gitleaks](https://img.shields.io/badge/Gitleaks-enabled-blue)](https://github.com/gitleaks/gitleaks)
+[![Responsible Disclosure](https://img.shields.io/badge/disclosure-responsible-orange)](https://github.com/makr-code/ThemisDB/security/policy)
 
-**Email:** security@makr-code.com  
-**GPG Key:** Available upon request (fingerprint provided on first contact)  
-**Response Time:** 24–48 hours for Critical issues
-
-> **Do NOT** open public GitHub issues for security vulnerabilities.
-
-### Responsible Disclosure Timeline
-
-| Stage | Timeframe | Description |
-|-------|-----------|-------------|
-| Acknowledgment | ≤ 24 hours | Confirm receipt of the report |
-| Initial Assessment | ≤ 72 hours | Classify severity and scope |
-| Remediation Plan | ≤ 14 days | Provide a fix timeline |
-| Patch Release | 7–90 days | Depending on severity (see SLA below) |
-| Public Disclosure | After patch | Coordinated with reporter |
-
-### CVE Coordination
-
-For significant vulnerabilities, we coordinate CVE assignment with MITRE. Reporters who wish to remain anonymous may request so during the disclosure process.
+</div>
 
 ---
 
-## Security Incident Response
+## 📋 Supported Versions
 
-### Security Severity Definitions
+> [!IMPORTANT]
+> ThemisDB is actively maintained. Security updates are provided for supported versions only.
 
-| Severity | Description | Examples |
-|----------|-------------|---------|
-| **Critical** | Remote code execution, auth bypass, data exfiltration without auth | RCE, unauthenticated admin access |
-| **High** | Privilege escalation, significant data exposure, denial-of-service | SQL/AQL injection, SSRF, auth token leakage |
-| **Medium** | Information disclosure, limited impact auth bypass | Verbose error messages, CSRF |
-| **Low** | Minor information disclosure, low-impact issues | Path disclosure, non-sensitive metadata leaks |
-
-### SLA for Fixes
-
-| Severity | Patch SLA | Patch Release Cadence |
-|----------|-----------|----------------------|
-| Critical | 7 days | Emergency hotfix release |
-| High | 30 days | Out-of-band patch release |
-| Medium | 90 days | Next scheduled patch release |
-| Low | Next major/minor | Bundled with regular release |
-
-### Patch Release Cadence
-
-- **Emergency hotfixes** (Critical): Released as soon as fix is validated.
-- **Security patches** (High): Out-of-band releases within 30 days.
-- **Maintenance patches** (Medium/Low): Bundled into regular monthly/quarterly releases.
-- All security-related releases are tagged with a CVE reference where applicable.
+| Version | Status | Security Updates | End of Life |
+|---------|:------:|:----------------:|:-----------:|
+| **1.x** | ✅ Active | ✅ Yes | TBD |
+| **0.9.x** | ✅ Maintenance | ✅ Yes | 2026-12-31 |
+| **< 0.9** | ❌ Unsupported | ❌ No | 2024-01-01 |
 
 ---
 
-## Supported Versions Matrix
+## 🚨 Reporting a Vulnerability
 
-| Version | Release Date | Support Ends | Status |
-|---------|-------------|--------------|--------|
-| **1.x.x** | 2025-Q4 | 2027-Q4 | ✅ Active |
-| **2.0.0** | TBD | TBD | 🔮 Planned |
-| **< 1.0** | 2024 | 2025-Q4 | ❌ End of Life |
+> We take security vulnerabilities **seriously**. If you discover a security issue, please follow our responsible disclosure process.
 
-Security updates are provided **only for Active supported versions**.
+### ❌ Do NOT
 
----
+> [!CAUTION]
+> **Never do these things:**
+> - ❌ Open a public GitHub issue for security vulnerabilities
+> - ❌ Discuss the vulnerability publicly before it's addressed
+> - ❌ Exploit the vulnerability beyond demonstration purposes
 
-## Dependency Security
+### ✅ Do
 
-### vcpkg Lock-File Management
+<details open>
+<summary><b>1️⃣ Report via GitHub Security Advisories (Recommended)</b></summary>
 
-- All dependencies are pinned via `vcpkg.json` and `vcpkg-configuration.json`.
-- Lock files must be committed and reviewed for every dependency update.
-- Dependency upgrades require a dedicated PR with security justification.
+1. Go to [Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
+2. Create a new **private** security advisory
+3. Include:
+   - 📝 **Description** of the vulnerability
+   - 🔄 **Steps to reproduce** the issue
+   - 💥 **Potential impact** assessment
+   - 🛠️ **Suggested fixes** (optional)
 
-### Known Vulnerable Dependencies Audit
+</details>
 
-- Run `trivy fs --scanners vuln .` or the comprehensive audit script to check for known CVEs.
-- CVE audits are performed as part of the `security-hardening-ci` workflow.
-- Known exceptions are documented in `.github/security-exceptions.md` (if present).
+<details>
+<summary><b>2️⃣ Use Responsible Disclosure</b></summary>
 
-### SBOM (Software Bill of Materials) Generation
+- ⏳ Give us **reasonable time** to address the issue
+- 🤐 No public disclosure before fix is released
+- 🤝 Coordinate disclosure timeline with security team
 
-- SBOM is generated during release builds using `trivy sbom` or `syft`.
-- Published as a release artifact alongside each tagged release.
-- Format: CycloneDX JSON and SPDX.
+</details>
 
----
+<details>
+<summary><b>3️⃣ Provide Sufficient Detail</b></summary>
 
-## Code Security Practices
+Help us reproduce and verify the issue:
+- 🖥️ Environment details (OS, version, configuration)
+- 📊 Proof-of-concept (PoC) code or steps
+- 📸 Screenshots or logs (if applicable)
 
-### Static Analysis
+</details>
 
-- **clang-tidy**: Enforced via `.clang-tidy` config; runs in CI on every PR.
-- **cppcheck**: Runs with security-focused checks (`--enable=warning,style`).
-- Configuration: `.cppcheck` and `.cppcheck-suppressions`.
+### Response Timeline
 
-### Address Sanitizer (ASan) in CI
+| Timeframe | Action | Status |
+|-----------|--------|:------:|
+| **Within 24 hours** | Acknowledgment of your report | 📨 |
+| **Within 72 hours** | Initial assessment & severity classification | 🔍 |
+| **7-14 days** | Detailed response with remediation plan | 📋 |
+| **30-90 days** | Fix released (depending on severity/complexity) | 🚀 |
 
-- ASan builds run in CI (`security-hardening-ci` workflow) to detect memory errors.
-- UBSan (Undefined Behavior Sanitizer) is also enabled for fuzz targets.
-- Any new ASan failure blocks merge.
-
-### Memory Safety Guidelines
-
-- No raw pointer ownership — use `std::unique_ptr` / `std::shared_ptr`.
-- All array access via bounds-checked containers.
-- Buffer overflows caught via ASan + unit tests.
-- See `docs/security/PRODUCTION_HARDENING_CHECKLIST.md` for full guidelines.
-
-### Input Validation Requirements
-
-- All user-supplied input validated against JSON schema before processing.
-- AQL injection prevention is mandatory for all query paths.
-- Path traversal protection required for all file-system operations.
-- Request body size limited to 10 MB by default (configurable).
+> [!NOTE]
+> **Critical vulnerabilities** are prioritized and may receive expedited fixes within **7 days**.
 
 ---
 
-## Third-Party Security Review
+## 🛡️ Security Measures
 
-### Review Process for External Dependencies
+ThemisDB implements **defense-in-depth** security across all layers:
 
-1. New dependency proposed in PR with justification.
-2. License checked for copyleft conflicts (GPL, AGPL) — see License Compliance below.
-3. Security audit via `trivy` or `osv-scanner` before merge.
-4. Pin exact version in `vcpkg.json`; no floating versions.
-5. Periodic re-audit via `security-hardening-ci` workflow.
+<details open>
+<summary><b>🔑 Authentication & Authorization</b></summary>
 
-### License Compliance (Copyleft Check)
+- ✅ **RBAC** (Role-Based Access Control) with 4-tier hierarchy
+- ✅ **mTLS** (Mutual TLS) for client authentication
+- ✅ **Token-based API** authentication
+- ✅ **HashiCorp Vault** integration for secrets management
 
-- **Allowed:** MIT, Apache 2.0, BSD (2/3-clause), ISC, BSL-1.0.
-- **Requires review:** LGPL, MPL-2.0, EPL-2.0.
-- **Not allowed:** GPL-2.0, GPL-3.0, AGPL-3.0 (without explicit legal approval).
-- License policy documented in `.license-policy.json`.
+**Security Level:** ⭐⭐⭐⭐⭐
+
+</details>
+
+<details>
+<summary><b>🌐 Network Protocol Security (v1.3.0+)</b></summary>
+
+| Protocol | Security Features | TLS Version |
+|----------|------------------|:-----------:|
+| **HTTP/2** | Server Push, TLS 1.3 required | 1.3+ |
+| **WebSocket** | WSS (WebSocket Secure) | 1.2+ |
+| **MQTT** | TLS/mTLS support, auth required | 1.2+ |
+| **PostgreSQL Wire** | SSL/TLS encryption, RBAC | 1.2+ |
+| **MCP Server** | Transport security (stdio/SSE/WS) | 1.2+ |
+
+> [!IMPORTANT]
+> All protocols require **explicit opt-in** build switches for production readiness.
+
+</details>
+
+<details>
+<summary><b>🔒 Encryption</b></summary>
+
+**Data-at-Rest:**
+- 🔐 **AES-256-GCM** encryption
+- 🗄️ **Field-Level Encryption** (schema-based selective encryption)
+- 🔑 **Key Management:** HSM (PKCS#11), Vault, or Mock providers
+
+**Data-in-Transit:**
+- 🌐 **TLS 1.3** (with TLS 1.2 fallback)
+- 🔗 **Perfect Forward Secrecy** (PFS)
+- 📜 **Certificate pinning** for HSM/TSA
+
+</details>
+
+<details>
+<summary><b>✅ Input Validation</b></summary>
+
+- 📋 **JSON Schema** validation
+- 💉 **AQL injection** prevention
+- 🚫 **Path traversal** protection
+- 📦 **Request body size limits** (10MB default)
+
+</details>
+
+<details>
+<summary><b>🚦 Rate Limiting & DoS Protection</b></summary>
+
+- ⏱️ **Token bucket algorithm** (100 req/min default)
+- 🌍 **Per-IP rate limiting**
+- 👤 **Per-user rate limiting**
+- ⚙️ **Configurable thresholds**
+
+</details>
+
+<details>
+<summary><b>📊 Audit & Compliance</b></summary>
+
+**Audit Logging:**
+- 📝 **65+ security event types**
+- 🔐 **Encrypt-then-Sign** audit logs
+- 🔗 **Hash chain** for tamper detection
+- 🔔 **SIEM integration** (Syslog RFC 5424, Splunk HEC)
+
+**Compliance Ready:**
+- ✅ GDPR/DSGVO
+- ✅ eIDAS
+- ✅ SOC 2
+- ✅ HIPAA
+
+</details>
 
 ---
 
-## Security Contact
+## 🔒 Security Hardening
 
-| Method | Details |
-|--------|---------|
-| **GitHub Security Advisories** | [Report here](https://github.com/makr-code/ThemisDB/security/advisories/new) (preferred) |
-| **Email** | security@makr-code.com |
-| **GPG Key** | Fingerprint provided on first contact |
-| **Response Time** | 24–48 hours for Critical; 72 hours for others |
+> [!IMPORTANT]
+> For production deployments, follow our [Security Hardening Guide](docs/security/security_hardening.md).
+
+### Hardening Checklist
+
+| Step | Action | Priority |
+|:----:|--------|:--------:|
+| 1️⃣ | Enable TLS with strong cipher suites | 🔴 Critical |
+| 2️⃣ | Configure RBAC with least-privilege principle | 🔴 Critical |
+| 3️⃣ | Enable audit logging with encryption | 🟡 High |
+| 4️⃣ | Use external key management (Vault/HSM) | 🟡 High |
+| 5️⃣ | Configure rate limiting appropriately | 🟢 Medium |
+| 6️⃣ | Set up monitoring and alerting | 🟢 Medium |
+| 7️⃣ | Regular security updates and patching | 🔴 Critical |
 
 ---
 
-*This security policy is reviewed and updated quarterly. Last review: 2026-Q1.*
+## 📚 Security Documentation
+
+<details>
+<summary><b>Core Security Guides</b></summary>
+
+- 📖 [Security Overview](docs/security/security_overview.md)
+- 🔐 [TLS Setup Guide](docs/guides/guides_tls_setup.md)
+- 👥 [RBAC Configuration](docs/security/security_implementation.md)
+- 🔒 [Encryption Strategy](docs/security/security_encryption_strategy.md)
+- 🔑 [Key Management](docs/security/security_key_management.md)
+- 🏦 [HSM Integration](docs/security/security_hsm.md)
+
+</details>
+
+<details>
+<summary><b>Advanced Security Topics</b></summary>
+
+- 📝 [Audit Logging](docs/features/features_audit_logging.md)
+- ⚠️ [Threat Model](docs/security/security_threat_model.md)
+- 🛡️ [Hardware Attack Vectors](docs/de/security/security_hardware_attack_vectors.md) - USB, PCIe, CPU, RAM, I/O threats
+- ✅ [Full Audit Checklist (BSI C5, ISO 27001, DSGVO)](docs/compliance/compliance_full_checklist.md)
+
+</details>
+
+<details>
+<summary><b>🆕 Knowledge Graph Protection (2026)</b></summary>
+
+**Protection against AI data theft and knowledge graph exfiltration:**
+
+- 🛡️ [Knowledge Graph Protection Guide (EN)](docs/en/security/knowledge_graph_protection.md)
+- 🛡️ [Wissensgraphen-Schutz (DE)](docs/de/security/knowledge_graph_protection.md)
+- 📊 [Impact Summary & Implementation Plan (DE)](docs/de/security/graph_protection_impact_summary.md)
+- ⚙️ [Graph Protection Configuration Example](config/graph_protection.yaml)
+
+**Topics covered:**
+- Systematic graph exfiltration detection
+- Vector embedding theft prevention
+- Training data extraction protection
+- Access pattern anomaly detection
+- Graph watermarking & fingerprinting (planned)
+
+</details>
+
+---
+
+## 🤝 Vulnerability Disclosure Policy
+
+We follow **responsible disclosure practices**:
+
+<details>
+<summary><b>1️⃣ Acknowledgment</b></summary>
+
+Security researchers who responsibly disclose vulnerabilities will be **acknowledged in our security advisories** (unless they prefer to remain anonymous).
+
+</details>
+
+<details>
+<summary><b>2️⃣ No Legal Action</b></summary>
+
+We will **not take legal action** against security researchers who:
+- ✅ Act in good faith
+- ✅ Follow this security policy
+- ✅ Do not access or modify other users' data
+- ✅ Do not disrupt our services
+
+</details>
+
+<details>
+<summary><b>3️⃣ CVE Coordination</b></summary>
+
+For significant vulnerabilities, we will coordinate **CVE assignment with MITRE**.
+
+</details>
+
+---
+
+## 🔍 Security Scanning
+
+> **Automated security scanning** is integrated into our CI/CD pipeline.
+
+### Tools
+
+| Tool | Purpose | Integration |
+|------|---------|:-----------:|
+| **Gitleaks** | Secret detection in source code | ✅ CI/CD |
+| **clang-tidy** | Static analysis for C++ code | ✅ CI/CD |
+| **cppcheck** | Additional C++ security checks | ✅ CI/CD |
+| **Trivy** | Container image vulnerability scanning | ✅ CI/CD |
+| **OWASP ZAP** | Dynamic application security testing | 🚧 Planned |
+
+### Run Scans Locally
+
+<details>
+<summary><b>Windows (PowerShell)</b></summary>
+
+```powershell
+.\security-scan.ps1
+```
+
+</details>
+
+<details>
+<summary><b>Linux/WSL</b></summary>
+
+```bash
+# If the script exists
+./security-scan.ps1
+
+# Or use tools directly:
+gitleaks detect --source . --verbose
+cppcheck --enable=warning,style --inconclusive ./src ./include
+```
+
+</details>
+
+---
+
+## 📞 Security Contact
+
+| Method | Purpose | Link |
+|--------|---------|------|
+| 🔒 **GitHub Security Advisories** | Report vulnerabilities (Recommended) | [Report](https://github.com/makr-code/ThemisDB/security/advisories/new) |
+| 💬 **GitHub Issues** | Non-sensitive security discussions | [Issues](https://github.com/makr-code/ThemisDB/issues) |
+| 🔑 **PGP Key** | Encrypted communications | Available upon request |
+
+> [!NOTE]
+> **Response Time:** Within 24 hours for initial acknowledgment.
+
+---
+
+## 📅 Changelog
+
+| Date | Event |
+|------|-------|
+| **2026-01** | 🔒 Major security improvements in v1.3.4 (RocksDB, Docker, Updates) |
+| **2025-12** | 🔐 Update Checker security features & Manifest signing design |
+| **2025-11** | 📝 Initial security policy publication |
+
+---
+
+## 🔒 Recent Security Work
+
+> [!NOTE]
+> **Comprehensive Security Summary (v1.3.0 - v1.3.4):**  
+> See [Security Work Summary](/docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md) for detailed information about recent security improvements.
+
+### Highlights (v1.3.4)
+
+**RocksDB Wrapper Security Fixes:**
+- ✅ 7 critical vulnerabilities fixed (use-after-free, null-pointer, memory leaks)
+- ✅ 8 medium-severity issues resolved (deadlocks, resource leaks)
+- 📊 100% elimination of segfault risks
+- 📖 [Full Audit Report](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+
+**Docker Security Improvements:**
+- ✅ Ubuntu 24.04 LTS base image (extended security support)
+- ✅ Automated security updates during build
+- ✅ 80%+ reduction in CVEs
+- 📖 [Docker Security Fixes](/docs/DOCKER_SECURITY_FIXES.md)
+
+**Update Checker Security:**
+- ✅ Token masking and secure handling
+- ✅ HTTPS-only communication
+- ✅ Thread-safe implementation
+- 📖 [Update Security Summary](/docs/de/releases/updates_security_summary.md)
+
+**Binary Authenticity (Design):**
+- ✅ Cryptographic manifest signing architecture
+- ✅ SHA-256 hash verification
+- ✅ RSA-4096 digital signatures
+- 📖 [Manifest Security](/docs/de/releases/updates_manifest_security.md)
+
+---
+
+<div align="center">
+
+**🔐 Security is a top priority at ThemisDB**
+
+[🚨 Report a Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · [📖 Security Docs](docs/security/) · [🛡️ Hardening Guide](docs/security/security_hardening.md)
+
+</div>

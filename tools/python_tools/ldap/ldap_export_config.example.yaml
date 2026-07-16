@@ -1,0 +1,150 @@
+# ThemisDB LDAP/Active Directory Export Configuration
+# =====================================================
+#
+# This configuration file defines how to connect to an LDAP/AD server
+# and export directory objects (Users, Groups, OUs) to JSONL format.
+
+# LDAP Connection Settings
+# -------------------------
+
+# LDAP server URL (use ldaps:// for SSL)
+server: "ldap://dc.example.com"
+
+# LDAP server port (389 for standard, 636 for SSL)
+port: 389
+
+# Use SSL/TLS connection
+use_ssl: false
+
+# Bind DN for authentication (use a read-only service account)
+# Example: "CN=ThemisDB Service,OU=Service Accounts,DC=example,DC=com"
+bind_dn: "CN=ldap-reader,DC=example,DC=com"
+
+# Bind password (consider using environment variables or secrets manager)
+# Environment variable: ${LDAP_BIND_PASSWORD}
+bind_password: "your-secure-password"
+
+# Base DN for searches (the root of your directory tree)
+base_dn: "DC=example,DC=com"
+
+# Search Configuration
+# --------------------
+
+# LDAP filters for different object types
+# Adjust these filters based on your AD schema and requirements
+
+# User filter - finds all user objects
+# Common filters:
+#   - All users: (objectClass=user)
+#   - Only active users: (&(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))
+#   - Specific OU: (&(objectClass=user)(distinguishedName=*,OU=Employees,DC=example,DC=com))
+user_filter: "(objectClass=user)"
+
+# Group filter - finds all group objects
+group_filter: "(objectClass=group)"
+
+# Organizational Unit filter
+ou_filter: "(objectClass=organizationalUnit)"
+
+# Page size for paged searches (max entries per LDAP query)
+# Recommended: 1000 (many AD servers have a default limit of 1000)
+page_size: 1000
+
+# Attributes to Export
+# --------------------
+
+# User attributes to export
+# These will be included in the JSONL output for each user node
+user_attributes:
+  - sAMAccountName       # Windows logon name
+  - objectGUID           # Unique identifier
+  - distinguishedName    # Full DN path
+  - mail                 # Email address
+  - displayName          # Display name
+  - memberOf             # Group memberships
+  - userPrincipalName    # UPN (user@domain.com)
+  - cn                   # Common name
+  - description          # Description field
+  - department           # Department (optional)
+  - title                # Job title (optional)
+  - manager              # Manager DN (optional)
+
+# Group attributes to export
+group_attributes:
+  - sAMAccountName       # Group name
+  - objectGUID           # Unique identifier
+  - distinguishedName    # Full DN path
+  - cn                   # Common name
+  - description          # Description
+  - member               # Direct members
+  - memberOf             # Parent groups
+
+# Organizational Unit attributes
+ou_attributes:
+  - objectGUID           # Unique identifier
+  - distinguishedName    # Full DN path
+  - ou                   # OU name
+  - description          # Description
+
+# Output Configuration
+# --------------------
+
+# Output JSONL file path
+output_file: "ad_export.jsonl"
+
+# Generate file-link style keys for simple file aliasing
+# When enabled, adds a "file_link" field like "file:ad/{objectGUID}.json"
+generate_file_links: false
+
+# File link prefix (only used if generate_file_links is true)
+file_link_prefix: "file:ad/"
+
+# Processing Options
+# ------------------
+
+# Export users (set to false to skip)
+export_users: true
+
+# Export groups (set to false to skip)
+export_groups: true
+
+# Export organizational units (set to false to skip)
+export_ous: true
+
+# Maximum number of entries to export (null = no limit)
+# Useful for testing with a subset of your directory
+max_entries: null
+
+# Example Usage
+# -------------
+#
+# Export with this config file:
+#   python3 tools/ldap_export.py --config tools/ldap_export_config.yaml
+#
+# Export and then ingest into ThemisDB:
+#   python3 tools/ldap_export.py --config tools/ldap_export_config.yaml --output ad_export.jsonl
+#   python3 tools/ingest.py --source ad_export.jsonl --config tools/ingest_config.yaml
+#
+# Test with limited entries:
+#   python3 tools/ldap_export.py --config tools/ldap_export_config.yaml --max-entries 100
+#
+# Security Notes
+# --------------
+#
+# 1. Credentials: Never commit bind passwords to version control
+#    - Use environment variables: bind_password: "${LDAP_BIND_PASSWORD}"
+#    - Use secrets manager (Vault, AWS Secrets Manager, etc.)
+#    - Use file permissions to protect this config file (chmod 600)
+#
+# 2. Service Account: Use a dedicated read-only LDAP service account
+#    - Minimum required permissions: read access to users, groups, OUs
+#    - No write or admin permissions needed
+#
+# 3. Network Security: Use SSL/TLS in production
+#    - Set use_ssl: true and server: "ldaps://dc.example.com"
+#    - Verify certificates in production environments
+#
+# 4. Output Security: Protect the JSONL output file
+#    - Contains sensitive directory information
+#    - Store in secure location with restricted access
+#    - Encrypt if storing long-term

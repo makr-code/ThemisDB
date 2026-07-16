@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Cross-Cutting Concerns Abstraction Layer
 
 This directory contains the central abstraction layer for cross-cutting concerns in ThemisDB. It provides unified interfaces for logging, tracing, metrics collection, and caching, enabling dependency injection, testability, and flexibility in implementation choices.
@@ -77,7 +79,7 @@ Abstract metrics interface for counters, gauges, and histograms.
 
 void myFunction(IMetrics& metrics) {
     metrics.incrementCounter("requests_total");
-    
+
     LatencyTimer timer(metrics, "operation_latency");
     // Work happens here
     // Latency automatically recorded on destruction
@@ -196,32 +198,32 @@ private:
 void MyComponent::performOperation(const std::string& userId) {
     // Logging
     concerns_->logger().debug("Starting operation for user: " + userId);
-    
+
     // Tracing
     auto span = concerns_->tracer().startSpan("performOperation");
     span->setAttribute("user_id", userId);
-    
+
     // Metrics
     LatencyTimer timer(concerns_->metrics(), "operation_duration");
-    
+
     try {
         // Check cache
         auto cacheKey = "user:" + userId;
         auto cached = concerns_->cache().get(cacheKey);
-        
+
         if (cached) {
             concerns_->metrics().incrementCounter("cache_hits");
             return;
         }
-        
+
         concerns_->metrics().incrementCounter("cache_misses");
-        
+
         // Perform operation
         // ...
-        
+
         concerns_->metrics().recordSuccess("performOperation");
         span->setStatus(true);
-        
+
     } catch (const std::exception& e) {
         concerns_->logger().error("Operation failed: " + std::string(e.what()));
         concerns_->metrics().recordError("performOperation");
@@ -241,18 +243,18 @@ void MyComponent::performOperation(const std::string& userId) {
 TEST(MyComponentTest, PerformOperation) {
     // Create no-op context for testing
     auto concerns = ConcernsContext::createNoOp();
-    
+
     // Or use custom mocks
     auto mockLogger = std::make_unique<MockLogger>();
     EXPECT_CALL(*mockLogger, info(_)).Times(1);
-    
+
     auto concerns = ConcernsContext::createCustom(
         std::move(mockLogger),
         std::make_unique<NoOpTracer>(),
         std::make_unique<NoOpMetrics>(),
         std::make_unique<NoOpCache>()
     );
-    
+
     MyComponent component(concerns);
     component.performOperation("user123");
 }
@@ -513,3 +515,11 @@ from destructors, signal handlers, and other non-throwing contexts:
 - [ ] Performance profiling and optimization
 - [ ] Additional cache strategies (LFU, ARC)
 - [ ] Distributed cache support
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

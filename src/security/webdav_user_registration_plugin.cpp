@@ -1,28 +1,27 @@
+/**
+ * @file webdav_user_registration_plugin.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            webdav_user_registration_plugin.cpp                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     333                                            ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: webdav_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 650
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=4, L=0
+ * PR History (last 5): #4426 fix(security): replace Resu... (2026-03-26) | #4359 feat(security): AQL read-on... (2026-03-21) | #815 Add plugin-based security a... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 #include <iomanip>
 
@@ -33,6 +32,25 @@
 
 namespace themis {
 namespace security {
+
+namespace {
+
+// ── RAII Wrappers for OpenSSL and curl objects ──────────────────────────────
+struct WebDAV_EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+#ifdef THEMIS_ENABLE_WEBDAV
+struct WebDAV_CURL_slist_Deleter {
+    void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); }
+};
+
+using WebDAV_CURL_slist_ptr = std::unique_ptr<struct curl_slist, WebDAV_CURL_slist_Deleter>;
+#endif
+
+using WebDAV_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, WebDAV_EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 /**
  * @brief WebDAV User Registration Plugin
@@ -91,8 +109,8 @@ public:
     
     Result<UserRegistrationData> registerUser(
         const std::string& user_id,
-        const std::string& password,
-        const std::unordered_map<std::string, std::string>& attributes
+        [[maybe_unused]] const std::string& password,
+        [[maybe_unused]] const std::unordered_map<std::string, std::string>& attributes
     ) override {
         THEMIS_INFO("WebDAV plugin: Registering user '{}'", user_id);
         
@@ -147,7 +165,7 @@ public:
     
     Result<UserRegistrationData> authenticateUser(
         const std::string& user_id,
-        const std::string& password
+        [[maybe_unused]] const std::string& password
     ) override {
         THEMIS_INFO("WebDAV plugin: Authenticating user '{}'", user_id);
         
@@ -173,13 +191,146 @@ public:
         
 #ifdef THEMIS_ENABLE_WEBDAV
         std::vector<UserRegistrationData> users;
-        
-        // TODO: Implement WebDAV PROPFIND to list users
-        // 1. Send PROPFIND request to user directory
-        // 2. Parse WebDAV XML response
-        // 3. For each user, create UserRegistrationData
-        // 4. If Active Directory mode, query AD properties
-        
+
+        std::string url = config_.webdav_base_url;
+        if (!config_.user_directory.empty()) {
+            url += "/" + config_.user_directory + "/";
+        }
+
+        // Collect the raw PROPFIND response body.
+        std::string response_body;
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            return themis::Err<std::vector<UserRegistrationData>>(
+                errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Failed to initialise CURL for PROPFIND"
+            );
+        }
+
+        // Depth: 1 – list direct children (one entry per user sub-resource).
+        WebDAV_CURL_slist_ptr headers(nullptr);
+        headers.reset(curl_slist_append(headers.get(), "Depth: 1"));
+        headers.reset(curl_slist_append(headers.get(), "Content-Type: application/xml"));
+
+        // Minimal PROPFIND body requesting displayname and resourcetype.
+        static const char kPropfindBody[] =
+            "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+            "<D:propfind xmlns:D=\"DAV:\">"
+            "<D:prop><D:displayname/><D:resourcetype/></D:prop>"
+            "</D:propfind>";
+
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_USERNAME, config_.webdav_username.c_str());
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, config_.webdav_password.c_str());
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, kPropfindBody);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                         static_cast<long>(sizeof(kPropfindBody) - 1));
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+        if (!config_.verify_ssl) {
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        }
+
+        CURLcode res = curl_easy_perform(curl);
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        if (res != CURLE_OK) {
+            return themis::Err<std::vector<UserRegistrationData>>(
+                errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "PROPFIND request failed: " + std::string(curl_easy_strerror(res))
+            );
+        }
+        if (http_code != 207 && http_code != 200) {
+            return themis::Err<std::vector<UserRegistrationData>>(
+                errors::ErrorCode::ERR_API_UNAUTHORIZED,
+                "PROPFIND returned HTTP " + std::to_string(http_code)
+            );
+        }
+
+        // Parse the WebDAV XML multi-status response.
+        // Each <D:response> element with an href that differs from the
+        // collection root itself represents a user sub-resource.
+        //
+        // NOTE: We use lightweight string-scanning instead of a full XML parser
+        // to avoid an additional dependency.  This approach assumes that the
+        // WebDAV server uses the "D:" namespace prefix for DAV: elements (the
+        // de-facto standard for WebDAV implementations).  Responses that use a
+        // different prefix, CDATA sections, or comments around tag names will
+        // not be parsed correctly.  The impact is degraded functionality (fewer
+        // users synced), not a security vulnerability — no user data is
+        // trusted without further validation in registerUser().
+        //
+        // Security: XML entity expansion (billion-laughs) attacks are not
+        // applicable here because we do string-scanning rather than feeding
+        // the response to an XML parser.  However, an extremely large response
+        // body could exhaust memory.  Callers should configure
+        // CURLOPT_MAXFILESIZE on the curl handle if the WebDAV server is
+        // untrusted (the current implementation omits this to avoid blocking
+        // large but legitimate user directories — tune for your environment).
+        const std::string base_href = url;
+        size_t pos = 0;
+        while ((pos = response_body.find("<D:response>", pos)) != std::string::npos) {
+            size_t end = response_body.find("</D:response>", pos);
+            if (end == std::string::npos) break;
+            std::string entry = response_body.substr(pos, end - pos);
+            pos = end + 1;
+
+            // Extract href.
+            static constexpr size_t kHrefOpenLen  = sizeof("<D:href>") - 1;
+            size_t href_start = entry.find("<D:href>");
+            size_t href_end   = entry.find("</D:href>");
+            if (href_start == std::string::npos || href_end == std::string::npos) continue;
+            href_start += kHrefOpenLen;
+            std::string href = entry.substr(href_start, href_end - href_start);
+
+            // Strip the base path and any trailing slash to get the user id.
+            if (href == base_href || href == base_href + "/") continue;
+            size_t slash = href.rfind('/');
+            std::string user_id = (slash != std::string::npos)
+                                  ? href.substr(slash + 1)
+                                  : href;
+            if (user_id.empty()) continue;
+
+            // Extract displayname if present.
+            static constexpr size_t kDisplayNameOpenLen = sizeof("<D:displayname>") - 1;
+            std::string display_name = user_id;
+            size_t dn_start = entry.find("<D:displayname>");
+            size_t dn_end   = entry.find("</D:displayname>");
+            if (dn_start != std::string::npos && dn_end != std::string::npos) {
+                dn_start += kDisplayNameOpenLen;
+                display_name = entry.substr(dn_start, dn_end - dn_start);
+            }
+
+            UserRegistrationData data;
+            data.user_id    = user_id;
+            data.source     = "webdav";
+            data.source_uri = config_.webdav_base_url;
+            data.attributes["displayName"] = display_name;
+
+            if (config_.active_directory_mode) {
+                auto props_result = getUserPropertiesFromAD(user_id);
+                if (props_result.is_ok()) {
+                    auto props = props_result.value();
+                    data.attributes.insert(props.begin(), props.end());
+                    if (props.find("memberOf") != props.end()) {
+                        data.roles = mapADGroupsToRoles(props.at("memberOf"));
+                    }
+                }
+            }
+
+            if (data.roles.empty()) {
+                data.roles.push_back("readonly");
+            }
+
+            users.push_back(std::move(data));
+        }
+
         THEMIS_INFO("WebDAV plugin: Synced {} users", users.size());
         return themis::Ok(std::move(users));
 #else
@@ -194,14 +345,84 @@ public:
         THEMIS_INFO("WebDAV plugin: Updating user '{}'", user_id);
         
 #ifdef THEMIS_ENABLE_WEBDAV
-        // TODO: Implement user property update from WebDAV
-        // Query WebDAV for updated user properties
-        
         UserRegistrationData data;
-        data.user_id = user_id;
-        data.source = "webdav";
+        data.user_id    = user_id;
+        data.source     = "webdav";
         data.source_uri = config_.webdav_base_url;
-        
+
+        // Retrieve the latest user properties from the WebDAV server via PROPFIND.
+        std::string url = config_.webdav_base_url;
+        if (!config_.user_directory.empty()) {
+            url += "/" + config_.user_directory + "/" + user_id;
+        } else {
+            url += "/" + user_id;
+        }
+
+        std::string response_body;
+        CURL* curl = curl_easy_init();
+        if (curl) {
+            struct curl_slist* headers = nullptr;
+            headers = curl_slist_append(headers, "Depth: 0");
+            headers = curl_slist_append(headers, "Content-Type: application/xml");
+
+            static const char kPropfindBody[] =
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                "<D:propfind xmlns:D=\"DAV:\">"
+                "<D:allprop/>"
+                "</D:propfind>";
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_USERNAME, config_.webdav_username.c_str());
+            curl_easy_setopt(curl, CURLOPT_PASSWORD, config_.webdav_password.c_str());
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, kPropfindBody);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                             static_cast<long>(sizeof(kPropfindBody) - 1));
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+            if (!config_.verify_ssl) {
+                curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+                curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+            }
+
+            CURLcode res = curl_easy_perform(curl);
+            long http_code = 0;
+            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+
+            if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
+                // Extract displayname from the PROPFIND response.
+                static constexpr size_t kDisplayNameOpenLen = sizeof("<D:displayname>") - 1;
+                size_t dn_start = response_body.find("<D:displayname>");
+                size_t dn_end   = response_body.find("</D:displayname>");
+                if (dn_start != std::string::npos && dn_end != std::string::npos) {
+                    dn_start += kDisplayNameOpenLen;
+                    data.attributes["displayName"] =
+                        response_body.substr(dn_start, dn_end - dn_start);
+                }
+            } else {
+                THEMIS_WARN("WebDAV PROPFIND for user '{}' returned HTTP {}", user_id, http_code);
+            }
+        }
+
+        // If Active Directory mode, also fetch AD-specific properties.
+        if (config_.active_directory_mode) {
+            auto props_result = getUserPropertiesFromAD(user_id);
+            if (props_result.is_ok()) {
+                auto props = props_result.value();
+                data.attributes.insert(props.begin(), props.end());
+                if (props.find("memberOf") != props.end()) {
+                    data.roles = mapADGroupsToRoles(props.at("memberOf"));
+                }
+            }
+        }
+
+        if (data.roles.empty()) {
+            data.roles.push_back("readonly");
+        }
+
         return themis::Ok(std::move(data));
 #else
         return themis::Err<UserRegistrationData>(
@@ -224,7 +445,7 @@ private:
     ) {
         CURL* curl = curl_easy_init();
         if (!curl) {
-            return Result<void>::Err("Failed to initialize CURL");
+            return themis::ErrVoid(errors::ErrorCode::ERR_NET_CONNECTION_REFUSED, "Failed to initialize CURL");
         }
         
         // Build WebDAV URL for user's home directory
@@ -252,7 +473,8 @@ private:
         curl_easy_cleanup(curl);
         
         if (res != CURLE_OK) {
-            return Result<void>::Err(
+            return themis::ErrVoid(
+                errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
                 "WebDAV request failed: " + std::string(curl_easy_strerror(res))
             );
         }
@@ -264,10 +486,11 @@ private:
         
         // HTTP 401 Unauthorized
         if (response_code == 401) {
-            return Result<void>::Err("Invalid credentials");
+            return themis::ErrVoid(errors::ErrorCode::ERR_API_UNAUTHORIZED, "Invalid credentials");
         }
         
-        return Result<void>::Err(
+        return themis::ErrVoid(
+            errors::ErrorCode::ERR_API_UNAUTHORIZED,
             "WebDAV authentication failed with status: " + std::to_string(response_code)
         );
     }
@@ -278,13 +501,102 @@ private:
     Result<std::unordered_map<std::string, std::string>> getUserPropertiesFromAD(
         const std::string& user_id
     ) {
-        // TODO: Implement AD property retrieval via WebDAV
-        // Use PROPFIND with AD-specific properties
-        
+        // Use WebDAV PROPFIND with AD-specific properties.
+        // Active Directory exposed via WebDAV (e.g., Exchange WebDAV or
+        // SharePoint) returns properties in the "urn:schemas:contacts:" and
+        // "urn:schemas:httpmail:" namespaces.  We request displayName, mail,
+        // and memberOf via a targeted PROPFIND body.
+
+        std::string url = config_.webdav_base_url;
+        if (!config_.user_directory.empty()) {
+            url += "/" + config_.user_directory + "/" + user_id;
+        } else {
+            url += "/" + user_id;
+        }
+
         std::unordered_map<std::string, std::string> properties;
+        // Populate safe defaults so callers always get sensible values even
+        // when the WebDAV request cannot be made.
         properties["displayName"] = user_id;
-        properties["mail"] = user_id + "@company.com";
-        
+        properties["mail"]        = user_id + "@" + extractHostFromUrl(config_.webdav_base_url);
+
+#ifdef THEMIS_ENABLE_WEBDAV
+        std::string response_body;
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
+        }
+
+        // PROPFIND body requesting AD contact + mail schema properties.
+        static const char kAdPropfindBody[] =
+            "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+            "<D:propfind xmlns:D=\"DAV:\""
+            " xmlns:C=\"urn:schemas:contacts:\""
+            " xmlns:M=\"urn:schemas:httpmail:\">"
+            "<D:prop>"
+            "<D:displayname/>"
+            "<C:givenname/>"
+            "<C:sn/>"
+            "<M:to/>"
+            "<C:memberOf/>"
+            "</D:prop>"
+            "</D:propfind>";
+
+        struct curl_slist* headers = nullptr;
+        headers = curl_slist_append(headers, "Depth: 0");
+        headers = curl_slist_append(headers, "Content-Type: application/xml");
+
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_USERNAME, config_.webdav_username.c_str());
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, config_.webdav_password.c_str());
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PROPFIND");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, kAdPropfindBody);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                         static_cast<long>(sizeof(kAdPropfindBody) - 1));
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+        if (!config_.verify_ssl) {
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        }
+
+        CURLcode res = curl_easy_perform(curl);
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        if (res == CURLE_OK && (http_code == 200 || http_code == 207)) {
+            // Helper: extract text between open and close tags.
+            auto extract = [&](const std::string& open_tag,
+                               const std::string& close_tag) -> std::string {
+                size_t s = response_body.find(open_tag);
+                size_t e = response_body.find(close_tag);
+                if (s == std::string::npos || e == std::string::npos) return {};
+                s += open_tag.size();
+                return response_body.substr(s, e - s);
+            };
+
+            auto dn = extract("<D:displayname>", "</D:displayname>");
+            if (!dn.empty()) properties["displayName"] = dn;
+
+            auto given = extract("<C:givenname>", "</C:givenname>");
+            if (!given.empty()) properties["givenName"] = given;
+
+            auto sn = extract("<C:sn>", "</C:sn>");
+            if (!sn.empty()) properties["sn"] = sn;
+
+            auto mail = extract("<M:to>", "</M:to>");
+            if (!mail.empty()) properties["mail"] = mail;
+
+            auto member_of = extract("<C:memberOf>", "</C:memberOf>");
+            if (!member_of.empty()) properties["memberOf"] = member_of;
+        } else {
+            THEMIS_WARN("WebDAV AD PROPFIND for user '{}' returned HTTP {}", user_id, http_code);
+        }
+#endif // THEMIS_ENABLE_WEBDAV
+
         return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
     }
     
@@ -310,6 +622,38 @@ private:
         
         return roles;
     }
+
+    /**
+     * @brief libcurl write callback — appends received bytes to a std::string.
+     *
+     * Signature matches `curl_write_callback` so that it can be passed to
+     * `curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback)`.
+     * `userdata` must point to a `std::string`.
+     */
+    static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                    void* userdata) {
+        auto* body = static_cast<std::string*>(userdata);
+        body->append(ptr, size * nmemb);
+        return size * nmemb;
+    }
+
+    /**
+     * @brief Extract the hostname from a URL for use as a mail domain.
+     *
+     * Strips the scheme (e.g. "https://") and any path component so that
+     * "https://sharepoint.company.com/sites/hr" → "sharepoint.company.com".
+     * Returns "company.com" when the URL cannot be parsed.
+     */
+    static std::string extractHostFromUrl(const std::string& url) {
+        std::string host;
+        size_t p = url.find("://");
+        host = (p != std::string::npos) ? url.substr(p + 3) : url;
+        size_t slash = host.find('/');
+        if (slash != std::string::npos) {
+            host = host.substr(0, slash);
+        }
+        return host.empty() ? "company.com" : host;
+    }
 #endif
     
     std::string hashPassword(const std::string& password) const {
@@ -317,11 +661,10 @@ private:
         unsigned char hash[EVP_MAX_MD_SIZE];
         unsigned int hash_len = 0;
         
-        EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-        EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
-        EVP_DigestUpdate(mdctx, password.c_str(), password.length());
-        EVP_DigestFinal_ex(mdctx, hash, &hash_len);
-        EVP_MD_CTX_free(mdctx);
+        WebDAV_EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+        EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
+        EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
+        EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
         
         std::stringstream ss;
         for (unsigned int i = 0; i < hash_len; i++) {
@@ -334,3 +677,4 @@ private:
 
 } // namespace security
 } // namespace themis
+

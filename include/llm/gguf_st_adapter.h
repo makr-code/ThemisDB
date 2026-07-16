@@ -1,24 +1,21 @@
+/**
+ * @file gguf_st_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gguf_st_adapter.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     244                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gguf_st_adapter.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 233
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #577 Add GGUF Format Support for... (2026-03-11) | #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -98,17 +95,19 @@ struct GGUFSTConfig {
 
 /// GGUF-ST Section Header
 struct SectionHeader {
+    virtual ~SectionHeader() = default;
     char magic[4];          // Section identifier
-    uint32_t version;       // Section format version
-    uint64_t data_size;     // Size of data following header
-    uint32_t flags;         // Compression flags, etc.
-    uint32_t reserved;      // Reserved for future use
+    uint32_t version = 0;       // Section format version
+    uint64_t data_size = 0;     // Size of data following header
+    uint32_t flags = 0;         // Compression flags, etc.
+    uint32_t reserved = 0;      // Reserved for future use
 };
 
 /// GGUF-ST Adapter - Read/Write hybrid format adapters
 /// Extends BlobStorageManager for storage operations
 class GGUFSTAdapter {
 public:
+    virtual ~GGUFSTAdapter() = default;
     explicit GGUFSTAdapter(
         std::shared_ptr<storage::BlobStorageManager> storage,
         const GGUFSTConfig& config = {}

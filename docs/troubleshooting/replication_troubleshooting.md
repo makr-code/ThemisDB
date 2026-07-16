@@ -290,8 +290,8 @@ replication:
 
 ## Related Documentation
 
-- [Replication Implementation Status](../REPLICATION_IMPLEMENTATION_STATUS.md)
+- [Replication Implementation Status](../reports/REPLICATION_IMPLEMENTATION_STATUS.md)
 - [HA Replication Guide](../replication/replication-ha-guide.md)
-- [Raft Consensus Design](../RAFT_CONSENSUS_DESIGN.md)
-- [Hot Spare Management](../hot_spare_management.md)
-- [WAL & gRPC mTLS Configuration](../WAL_GRPC_MTLS_CONFIGURATION.md)
+- [Raft Consensus Design](../architecture/RAFT_CONSENSUS_DESIGN.md)
+- [Hot Spare Management](../build-guide/hot_spare_management.md)
+- [WAL & gRPC mTLS Configuration](../architecture/WAL_GRPC_MTLS_CONFIGURATION.md)

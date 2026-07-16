@@ -1,30 +1,27 @@
+/**
+ * @file mysql_importer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=11, M=25, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mysql_importer.cpp                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:58:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1285                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
-    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
-    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mysql_importer.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 1356
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=14, M=27, L=0
+ * PR History (last 5): #4288 feat(importers): MySQL/Mari... (2026-03-16) | #4242 feat(importers): v1.8.0 Mon... (2026-03-15) | #3241 [importers] Integrate with ... (2026-03-12) | #3240 [importers] Wire import con... (2026-03-12) | #3239 [importers] Implement dry-r... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/mysql_importer.h"
+#include <stdexcept>
+#include "utils/hash_util.h"
+#include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -34,63 +31,19 @@
 #include <future>
 #include <regex>
 #include <cctype>
+#include <cinttypes>
+#include <cstdio>
+#include <unordered_map>
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 namespace themis {
 namespace importers {
 
-// ============================================================================
-// File-level helpers
-// ============================================================================
-
-/**
- * @brief Memory-bounded line reader (mirrors postgres_importer helper).
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited). When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true. Returns false only when EOF is reached before any bytes are read.
- */
-static bool streamReadLine(std::istream& file,
-                            std::string& line,
-                            size_t max_bytes,
-                            bool& truncated) {
-    truncated = false;
-    line.clear();
-
-    if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
-        return true;
-    }
-
-    char c = '\0';
-    size_t count = 0;
-    bool got_any = false;
-
-    while (file.get(c)) {
-        got_any = true;
-        if (c == '\n') break;
-
-        if (count < max_bytes) {
-            line += c;
-            ++count;
-        } else {
-            truncated = true;
-            while (file.get(c) && c != '\n') { /* discard */ }
-            break;
-        }
-    }
-
-    return got_any;
-}
-
-/**
- * @brief Convert a string to lower-case (ASCII only).
- */
-static std::string toLower(const std::string& s) {
-    std::string result = s;
-    for (auto& c : result) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    return result;
-}
+// Note: streamReadLine() and toLower() are defined in importer_common.h
+// as inline functions shared across all importer implementations.
 
 // ============================================================================
 // Constructor / Destructor
@@ -152,6 +105,7 @@ bool MySQLImporter::initialize(const std::string& config) {
 
         // ---- Config-level type overrides (applied before ImportOptions overrides) ----
         if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
+            std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
             for (auto& [k, v] : cfg["type_overrides"].items()) {
                 if (v.is_string())
                     config_type_overrides_[k] = v.get<std::string>();
@@ -251,6 +205,7 @@ ImportStats MySQLImporter::importData(
         stats.elapsed_seconds);
 
     // Prometheus / OTel metrics emission
+    // Generic pipeline-level counters
     emitMetric(options, "themisdb_import_rows_total",
                {{"status", "imported"}},
                static_cast<double>(stats.imported_records));
@@ -271,6 +226,13 @@ ImportStats MySQLImporter::importData(
                    {{"code", std::to_string(static_cast<uint32_t>(e.code))}},
                    1.0);
     }
+    // MySQL-specific counters (consistent with import pipeline naming convention)
+    emitMetric(options, "importers_mysql_rows_imported_total",
+               {},
+               static_cast<double>(stats.imported_records));
+    emitMetric(options, "importers_mysql_errors_total",
+               {},
+               static_cast<double>(stats.failed_records + stats.structured_errors.size()));
 
     // OTel span for the entire import
     emitSpan(options, "import_total",
@@ -434,6 +396,17 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         file.seekg(0);
     }
 
+    // --- Delta / incremental import hash loading ---
+    // When delta_hash_file is set, rows whose FNV-1a hash has already been seen
+    // are skipped.  Setting delta_key_columns = {"updated_at"} implements the
+    // recommended high-watermark pattern for MySQL sources.
+    std::unordered_set<uint64_t> delta_hashes;
+    if (!options.delta_hash_file.empty()) {
+        delta_hashes = loadDeltaHashes(options.delta_hash_file);
+        THEMIS_INFO("MySQL incremental import: loaded {} known hashes from '{}'",
+                    delta_hashes.size(), options.delta_hash_file);
+    }
+
     // Per-line read limit (default 64 MB, honoring max_statement_size_bytes)
     const size_t line_read_limit = options.max_statement_size_bytes > 0
                                    ? options.max_statement_size_bytes
@@ -529,7 +502,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
             stats.total_records++;
             if (!options.dry_run) {
                 auto t0 = std::chrono::steady_clock::now();
-                parseInsert(current_sql, options, stats, line_number);
+                parseInsert(current_sql, options, stats, line_number, delta_hashes);
                 double dur = std::chrono::duration<double>(
                     std::chrono::steady_clock::now() - t0).count();
                 emitSpan(options, "insert_batch", {}, dur);
@@ -545,6 +518,13 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         // LOCK TABLES / UNLOCK TABLES / DROP TABLE / SET / USE are ignored silently.
 
         current_sql.clear();
+    }
+
+    // Persist updated delta hashes so the next incremental import can skip these rows.
+    if (!options.dry_run && !options.delta_hash_file.empty() && !delta_hashes.empty()) {
+        saveDeltaHashes(options.delta_hash_file, delta_hashes);
+        THEMIS_INFO("MySQL incremental import: persisted {} hashes to '{}'",
+                    delta_hashes.size(), options.delta_hash_file);
     }
 
     return !cancelled_;
@@ -713,7 +693,8 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
 }
 
 bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& options,
-                                 ImportStats& stats, size_t line_number) {
+                                 ImportStats& stats, size_t line_number,
+                                 std::unordered_set<uint64_t>& delta_hashes) {
     // MySQL INSERT supports:
     //   INSERT [LOW_PRIORITY|DELAYED|HIGH_PRIORITY] [IGNORE] INTO
     //     [`db`.]`table` [(col1,...)] VALUES (v1,...),(v2,...);
@@ -811,6 +792,24 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
         std::string tuple_str = values_payload.substr(tuple_start, tuple_end - tuple_start);
         std::vector<std::string> values = parseInsertValues(tuple_str);
 
+        // --- Delta / incremental import check ---
+        // When delta_hash_file is configured, compute a FNV-1a hash of the row
+        // key (or the full tuple string if delta_key_columns is empty) and skip
+        // rows that were already imported in a previous run.
+        if (!options.delta_hash_file.empty()) {
+            uint64_t h = computeRowHash(tuple_str, values,
+                                        options.delta_key_columns,
+                                        eff_schema.columns);
+            if (delta_hashes.count(h)) {
+                stats.skipped_records++;
+                emitMetric(options, "themisdb_import_rows_total",
+                           {{"table", table_name}, {"status", "skipped"}}, 1.0);
+                pos = k;
+                continue;
+            }
+            delta_hashes.insert(h);
+        }
+
         if (!eff_schema.columns.empty() &&
             values.size() != eff_schema.columns.size()) {
             ImportError err;
@@ -824,6 +823,8 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
             stats.failed_records++;
             emitMetric(options, "themisdb_import_rows_total",
                        {{"table", table_name}, {"status", "failed"}}, 1.0);
+            emitMetric(options, "importers_mysql_errors_total",
+                       {{"table", table_name}}, 1.0);
         } else {
             json entity = convertRowToEntity(eff_schema, values);
             THEMIS_DEBUG("MySQL INSERT entity: {}", entity.dump());
@@ -836,6 +837,8 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
             rows_imported++;
             emitMetric(options, "themisdb_import_rows_total",
                        {{"table", table_name}, {"status", "imported"}}, 1.0);
+            emitMetric(options, "importers_mysql_rows_imported_total",
+                       {{"table", table_name}}, 1.0);
             if (cancelled_) return true;  // outer loop checks cancelled_ and stops
         }
 
@@ -852,8 +855,11 @@ std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
     if (it != options.type_overrides.end()) return it->second;
 
     // 2. Config-level overrides (from initialize())
-    auto ci = config_type_overrides_.find(mysql_type);
-    if (ci != config_type_overrides_.end()) return ci->second;
+    {
+        std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
+        auto ci = config_type_overrides_.find(mysql_type);
+        if (ci != config_type_overrides_.end()) return ci->second;
+    }
 
     // 3. JDBC tinyInt1isBit: TINYINT(1) -> boolean when enabled
     if (jdbc_config_.tinyint1_as_boolean) {
@@ -1244,6 +1250,72 @@ void MySQLImporter::reportProgress(ProgressCallback& callback, const std::string
 }
 
 // ============================================================================
+// Delta / incremental import helpers
+// ============================================================================
+//
+// FNV-1a 64-bit hash – matches the implementation in postgres_importer.cpp so
+// that hash files written by one importer can be read by the other.
+static uint64_t mysql_fnv1a64(const char* data, size_t len) {
+    return themis::hash::fnv1a64(data, len);
+}
+
+uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
+                                        const std::vector<std::string>& values,
+                                        const std::vector<std::string>& key_columns,
+                                        const std::vector<std::string>& schema_columns) {
+    if (key_columns.empty() || schema_columns.empty()) {
+        // Hash the entire raw tuple string (full-row fingerprint)
+        return mysql_fnv1a64(tuple_str.data(), tuple_str.size());
+    }
+    // Hash only the key column values, separated by a non-printable sentinel.
+    // Setting key_columns = {"updated_at"} is the recommended high-watermark
+    // configuration: only rows with a new updated_at value will be imported.
+    static constexpr char kFieldSep = '\x01';
+    std::unordered_map<std::string, size_t> schema_column_index;
+    schema_column_index.reserve(schema_columns.size());
+    for (size_t i = 0; i < schema_columns.size(); ++i) {
+        schema_column_index.emplace(schema_columns[i], i);
+    }
+    std::string key_data;
+    for (const auto& kc : key_columns) {
+        auto it = schema_column_index.find(kc);
+        if (it != schema_column_index.end()) {
+            size_t idx = it->second;
+            if (idx < values.size()) {
+                key_data += values[idx];
+            }
+        }
+        key_data += kFieldSep;
+    }
+    return mysql_fnv1a64(key_data.data(), key_data.size());
+}
+
+std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {
+    std::unordered_set<uint64_t> hashes;
+    std::ifstream f(delta_hash_file);
+    if (!f) return hashes;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        try {
+            hashes.insert(std::stoull(line, nullptr, 16));
+        } catch (...) {}
+    }
+    return hashes;
+}
+
+void MySQLImporter::saveDeltaHashes(const std::string& delta_hash_file,
+                                     const std::unordered_set<uint64_t>& hashes) {
+    std::ofstream f(delta_hash_file, std::ios::trunc);
+    if (!f) return;
+    for (uint64_t h : hashes) {
+        char buf[17];
+        std::snprintf(buf, sizeof(buf), "%016" PRIx64, h);
+        f << buf << "\n";
+    }
+}
+
+// ============================================================================
 // Plugin implementation
 // ============================================================================
 
@@ -1284,3 +1356,23 @@ extern "C" {
         delete plugin;
     }
 }
+
+// ============================================================================
+// IImporterPluginRegistry – static-init self-registration
+// ============================================================================
+//
+// Registers MySQLImporterSchemePlugin with ImporterSchemeRegistry at program
+// startup so that IImporterPluginRegistry::instance().resolve("mysql://…")
+// and resolve("mariadb://…") return this plugin without any manual wiring.
+//
+// The macro is called from within the themis::importers namespace so that
+// the unqualified PluginClass name is valid for C++ token-paste (##).
+
+namespace themis {
+namespace importers {
+REGISTER_IMPORTER_PLUGIN(MySQLImporterSchemePlugin)
+} // namespace importers
+} // namespace themis
+
+
+

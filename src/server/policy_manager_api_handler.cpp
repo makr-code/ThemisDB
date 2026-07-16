@@ -1,23 +1,21 @@
+/**
+ * @file policy_manager_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_manager_api_handler.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     416                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_manager_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 477
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=3, L=0
+ * PR History (last 5): #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/policy_manager_api_handler.h"
@@ -25,11 +23,38 @@
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 
 #include <chrono>
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxPolicyBodySize = 1'000'000;
+constexpr size_t kMaxRuleIdLength = 256;
+constexpr size_t kMaxPolicyFieldLength = 4096;
+
+bool isValidPolicyBody(std::string_view body) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(body), kMaxPolicyBodySize);
+}
+
+bool isValidRuleId(std::string_view rule_id) {
+    themis::utils::InputValidator validator;
+    return !rule_id.empty() &&
+           validator.validateStringLength(std::string(rule_id), kMaxRuleIdLength) &&
+           validator.validatePathSegment(std::string(rule_id));
+}
+
+bool isValidPolicyField(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), kMaxPolicyFieldLength) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+} // namespace
 
 PolicyManagerApiHandler::PolicyManagerApiHandler(
     std::shared_ptr<themis::governance::PolicyManager> policy_manager,
@@ -46,6 +71,7 @@ PolicyManagerApiHandler::PolicyManagerApiHandler(
 http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListRules");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -79,7 +105,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleGetRule");
     try {
+        if (!isValidRuleId(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -104,7 +135,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
 http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCreateRule");
     try {
+        if (!isValidPolicyBody(req.body())) {
+            return makeErrorResponse(http::status::bad_request, "Request body exceeds maximum allowed size", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
         }
@@ -112,6 +148,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         if (!policy_manager_) {
             return makeErrorResponse(http::status::service_unavailable, "PolicyManager not initialized", req);
         }
+        auto& policy_manager = *policy_manager_;
         
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
@@ -123,9 +160,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         if (rule.id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Rule ID is required", req);
         }
+        if (!isValidRuleId(rule.id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
         
         // Check if rule already exists
-        if (policy_manager_->getRule(rule.id).has_value()) {
+        if (policy_manager.getRule(rule.id).has_value()) {
             return makeErrorResponse(http::status::conflict, "Rule already exists: " + rule.id, req);
         }
         
@@ -134,7 +174,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         rule.updated_at = rule.created_at;
         
         // Add rule
-        policy_manager_->addRule(rule);
+        policy_manager.addRule(rule);
         
         THEMIS_INFO("Created policy rule: {}", rule.id);
         
@@ -158,7 +198,15 @@ http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleUpdateRule");
     try {
+        if (!isValidRuleId(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+        if (!isValidPolicyBody(req.body())) {
+            return makeErrorResponse(http::status::bad_request, "Request body exceeds maximum allowed size", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
         }
@@ -212,7 +260,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleDeleteRule");
     try {
+        if (!isValidRuleId(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
         }
@@ -247,7 +300,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
 http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleEvaluatePolicy");
     try {
+        if (!isValidPolicyBody(req.body())) {
+            return makeErrorResponse(http::status::bad_request, "Request body exceeds maximum allowed size", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -267,9 +325,18 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
         std::string resource = body["resource"].get<std::string>();
         std::string action = body["action"].get<std::string>();
         std::vector<std::string> user_roles;
+
+        if (!isValidPolicyField(resource) || !isValidPolicyField(action)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid resource or action field", req);
+        }
         
         if (body.contains("user_roles")) {
             user_roles = body["user_roles"].get<std::vector<std::string>>();
+            for (const auto& role : user_roles) {
+                if (!isValidPolicyField(role)) {
+                    return makeErrorResponse(http::status::bad_request, "Invalid user_roles entry", req);
+                }
+            }
         }
         
         // Evaluate policy
@@ -308,6 +375,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
 http::response<http::string_body> PolicyManagerApiHandler::handleGetStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetStats");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -379,17 +447,18 @@ bool PolicyManagerApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy endpoint");
         return false;
     }
     
     // Extract Bearer token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header->value().data(), auth_header->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     
     if (!token) {
@@ -401,7 +470,7 @@ bool PolicyManagerApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for policy endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,

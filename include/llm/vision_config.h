@@ -1,23 +1,21 @@
+/**
+ * @file vision_config.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 89/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vision_config.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     348                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vision_config.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 345
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #690 Production-grade Vision/Mul... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +25,8 @@
 #include <memory>
 #include <unordered_map>
 #include <chrono>
+#include <mutex>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -49,10 +49,10 @@ struct ModelLicense {
     std::string license_id;              ///< License identifier (e.g., "MIT", "Apache-2.0")
     std::string license_name;            ///< Human-readable license name
     std::string license_url;             ///< URL to full license text
-    bool commercial_use;                 ///< Allowed for commercial use
-    bool modification;                   ///< Allowed to modify
-    bool distribution;                   ///< Allowed to distribute
-    bool attribution_required;           ///< Attribution required
+    bool commercial_use = false;                 ///< Allowed for commercial use
+    bool modification = false;                   ///< Allowed to modify
+    bool distribution = false;                   ///< Allowed to distribute
+    bool attribution_required = false;           ///< Attribution required
     std::vector<std::string> restrictions; ///< Additional restrictions
     
     /**
@@ -70,6 +70,7 @@ struct ModelLicense {
  * @brief Model metadata with license information
  */
 struct VisionModelMetadata {
+    virtual ~VisionModelMetadata() = default;
     std::string model_id;                ///< Unique model identifier
     std::string model_name;              ///< Human-readable name
     std::string version;                 ///< Model version
@@ -77,8 +78,8 @@ struct VisionModelMetadata {
     std::string attribution;             ///< Required attribution text
     std::string citation;                ///< Citation for academic use
     std::string source_url;              ///< Source URL
-    bool production_ready;               ///< Ready for production use
-    size_t memory_requirement_mb;        ///< Memory requirement
+    bool production_ready = false;               ///< Ready for production use
+    size_t memory_requirement_mb = 0;        ///< Memory requirement
     std::vector<std::string> capabilities; ///< Supported capabilities
 };
 
@@ -86,13 +87,14 @@ struct VisionModelMetadata {
  * @brief Resource limits for vision processing
  */
 struct VisionResourceLimits {
-    size_t max_memory_mb;                ///< Maximum memory usage
-    size_t max_memory_per_request_mb;    ///< Memory per request
-    size_t max_vram_mb;                  ///< Maximum VRAM usage
-    size_t max_vram_per_model_mb;        ///< VRAM per model
-    size_t max_concurrent_requests;      ///< Max concurrent requests
-    size_t max_concurrent_models;        ///< Max models loaded
-    size_t max_queue_size;               ///< Request queue size
+    virtual ~VisionResourceLimits() = default;
+    size_t max_memory_mb = 0;                ///< Maximum memory usage
+    size_t max_memory_per_request_mb = 0;    ///< Memory per request
+    size_t max_vram_mb = 0;                  ///< Maximum VRAM usage
+    size_t max_vram_per_model_mb = 0;        ///< VRAM per model
+    size_t max_concurrent_requests = 0;      ///< Max concurrent requests
+    size_t max_concurrent_models = 0;        ///< Max models loaded
+    size_t max_queue_size = 0;               ///< Request queue size
     std::chrono::seconds max_inference_time; ///< Max inference time
     std::chrono::seconds max_model_load_time; ///< Max model load time
     std::chrono::seconds request_timeout;     ///< Request timeout
@@ -103,11 +105,12 @@ struct VisionResourceLimits {
  * @brief Rate limiting configuration
  */
 struct VisionRateLimits {
-    bool enabled;                        ///< Rate limiting enabled
-    size_t requests_per_minute;          ///< Requests per minute
-    size_t requests_per_hour;            ///< Requests per hour
-    size_t requests_per_day;             ///< Requests per day
-    size_t burst_size;                   ///< Burst allowance
+    virtual ~VisionRateLimits() = default;
+    bool enabled = false;                        ///< Rate limiting enabled
+    size_t requests_per_minute = 0;          ///< Requests per minute
+    size_t requests_per_hour = 0;            ///< Requests per hour
+    size_t requests_per_day = 0;             ///< Requests per day
+    size_t burst_size = 0;                   ///< Burst allowance
     std::string on_limit_exceeded;       ///< Behavior: reject, queue, throttle
 };
 
@@ -115,12 +118,13 @@ struct VisionRateLimits {
  * @brief Resource quota tracking
  */
 struct VisionResourceQuota {
-    bool enabled;                        ///< Quota enforcement enabled
+    virtual ~VisionResourceQuota() = default;
+    bool enabled = false;                        ///< Quota enforcement enabled
     std::string enforcement;             ///< Enforcement mode: soft, hard
-    size_t daily_requests;               ///< Daily request quota
-    size_t monthly_requests;             ///< Monthly request quota
-    size_t total_inference_minutes;      ///< Total inference time quota
-    size_t total_vram_hours;             ///< GPU hours quota
+    size_t daily_requests = 0;               ///< Daily request quota
+    size_t monthly_requests = 0;             ///< Monthly request quota
+    size_t total_inference_minutes = 0;      ///< Total inference time quota
+    size_t total_vram_hours = 0;             ///< GPU hours quota
     std::string reset_period;            ///< Reset period: daily, weekly, monthly
 };
 
@@ -128,30 +132,31 @@ struct VisionResourceQuota {
  * @brief Monitoring configuration
  */
 struct VisionMonitoringConfig {
-    bool enabled;                        ///< Monitoring enabled
-    bool track_latency;                  ///< Track latency metrics
-    bool track_throughput;               ///< Track throughput metrics
-    bool track_error_rate;               ///< Track error rates
-    bool track_resource_usage;           ///< Track resource usage
-    bool track_model_usage;              ///< Track model usage
+    virtual ~VisionMonitoringConfig() = default;
+    bool enabled = false;                        ///< Monitoring enabled
+    bool track_latency = false;                  ///< Track latency metrics
+    bool track_throughput = false;               ///< Track throughput metrics
+    bool track_error_rate = false;               ///< Track error rates
+    bool track_resource_usage = false;           ///< Track resource usage
+    bool track_model_usage = false;              ///< Track model usage
     std::chrono::seconds collect_interval; ///< Metric collection interval
     
     // Prometheus configuration
     struct PrometheusConfig {
-        bool enabled;
-        int port;
+        bool enabled = false;
+        int port = 0;
         std::string path;
         std::string namespace_prefix;
     } prometheus;
     
     // Audit configuration
     struct AuditConfig {
-        bool enabled;
+        bool enabled = false;
         std::vector<std::string> events;  ///< Events to audit
         std::string storage_type;         ///< Storage: database, file, syslog
-        int retention_days;               ///< Retention period
+        int retention_days = 0;               ///< Retention period
         std::string compliance_mode;      ///< Compliance mode
-        bool include_pii;                 ///< Include PII in logs
+        bool include_pii = false;                 ///< Include PII in logs
     } audit;
 };
 
@@ -159,51 +164,52 @@ struct VisionMonitoringConfig {
  * @brief Security configuration for vision processing
  */
 struct VisionSecurityConfig {
+    virtual ~VisionSecurityConfig() = default;
     // Input validation
     struct ValidationConfig {
-        bool enabled;
-        size_t max_image_size_mb;
+        bool enabled = false;
+        size_t max_image_size_mb = 0;
         std::pair<int, int> max_image_resolution;  // width, height
         std::vector<std::string> allowed_formats;
-        bool validate_image_integrity;
-        bool scan_for_malware;
-        size_t max_prompt_length;
-        bool sanitize_prompts;
-        bool block_injection_attempts;
+        bool validate_image_integrity = false;
+        bool scan_for_malware = false;
+        size_t max_prompt_length = 0;
+        bool sanitize_prompts = false;
+        bool block_injection_attempts = false;
     } validation;
     
     // Sandboxing
     struct SandboxConfig {
-        bool enabled;
+        bool enabled = false;
         std::string type;                 ///< Sandbox type: process, container, vm
-        bool isolate_memory;
-        bool isolate_network;
-        bool isolate_filesystem;
-        bool allow_file_read;
-        bool allow_file_write;
-        bool allow_network;
-        size_t sandbox_memory_mb;
-        int sandbox_cpu_cores;
+        bool isolate_memory = false;
+        bool isolate_network = false;
+        bool isolate_filesystem = false;
+        bool allow_file_read = false;
+        bool allow_file_write = false;
+        bool allow_network = false;
+        size_t sandbox_memory_mb = 0;
+        int sandbox_cpu_cores = 0;
         std::chrono::seconds sandbox_timeout;
     } sandboxing;
     
     // Model verification
     struct ModelVerificationConfig {
-        bool enabled;
-        bool verify_signatures;
+        bool enabled = false;
+        bool verify_signatures = false;
         std::vector<std::string> trusted_publishers;
-        bool verify_checksums;
+        bool verify_checksums = false;
         std::string checksum_algorithm;
-        bool scan_models;
+        bool scan_models = false;
     } model_verification;
     
     // Access control
     struct AccessControlConfig {
-        bool enabled;
-        bool require_authentication;
-        bool role_based_access;
+        bool enabled = false;
+        bool require_authentication = false;
+        bool role_based_access = false;
         std::vector<std::string> allowed_roles;
-        bool require_api_key;
+        bool require_api_key = false;
         std::string api_key_header;
     } access_control;
 };
@@ -212,40 +218,41 @@ struct VisionSecurityConfig {
  * @brief Pipeline configuration
  */
 struct VisionPipelineConfig {
+    virtual ~VisionPipelineConfig() = default;
     std::string stability;               ///< Stability level: development, staging, production
     
     // Error handling
     struct ErrorHandlingConfig {
         std::string strategy;            ///< Strategy: fail_fast, graceful, retry
-        bool retry_enabled;
-        int max_retry_attempts;
+        bool retry_enabled = false;
+        int max_retry_attempts = 0;
         std::string backoff_strategy;    ///< Backoff: linear, exponential, fixed
         std::chrono::milliseconds initial_delay;
         std::chrono::milliseconds max_delay;
-        bool use_cpu_fallback;
-        bool use_smaller_model;
-        bool return_error_response;
+        bool use_cpu_fallback = false;
+        bool use_smaller_model = false;
+        bool return_error_response = false;
     } error_handling;
     
     // Preprocessing
     struct PreprocessingConfig {
-        bool enabled;
+        bool enabled = false;
         std::string resize_strategy;     ///< Strategy: fixed, adaptive, none
-        bool normalize;
-        bool augmentation;
-        bool cache_preprocessed;
+        bool normalize = false;
+        bool augmentation = false;
+        bool cache_preprocessed = false;
         std::chrono::seconds cache_ttl;
     } preprocessing;
     
     // Postprocessing
     struct PostprocessingConfig {
-        bool enabled;
+        bool enabled = false;
         std::string format;              ///< Format: json, protobuf
-        bool include_metadata;
-        bool include_timings;
-        bool include_confidence_scores;
-        float min_confidence_threshold;
-        int max_results;
+        bool include_metadata = false;
+        bool include_timings = false;
+        bool include_confidence_scores = false;
+        float min_confidence_threshold = 0.0f;
+        int max_results = 0;
     } postprocessing;
 };
 
@@ -263,17 +270,31 @@ struct VisionPipelineConfig {
 class VisionConfig {
 public:
     /**
-     * @brief Load configuration from YAML file
+     * @brief Load configuration from a YAML file into a fully initialized object.
+     * @param config_path Path to the YAML configuration document.
+     * @return Shared configuration instance with defaults applied to missing
+     *         fields.
+     * @throws std::runtime_error When YAML parsing fails.
+     * @note The returned shared pointer is published only after construction has
+     *       completed, so callers never observe partially initialized state.
      */
     static std::shared_ptr<VisionConfig> loadFromFile(const std::string& config_path);
     
     /**
-     * @brief Load configuration from JSON
+     * @brief Load configuration from a JSON object into a fully initialized object.
+     * @param config JSON object containing configuration overrides.
+     * @return Shared configuration instance with defaults preserved for omitted
+     *         fields.
+     * @note The returned shared pointer is published only after construction has
+     *       completed, so callers never observe partially initialized state.
      */
     static std::shared_ptr<VisionConfig> loadFromJson(const nlohmann::json& config);
     
     /**
-     * @brief Get default configuration
+     * @brief Get the default configuration instance.
+     * @return Shared configuration instance containing production defaults.
+     * @note The returned shared pointer is published only after construction has
+     *       completed, so callers never observe partially initialized state.
      */
     static std::shared_ptr<VisionConfig> getDefault();
     
@@ -283,35 +304,35 @@ public:
     bool validate(std::string& error_message) const;
     
     // API Configuration
-    VisionAPIStability getAPIStability() const { return api_stability_; }
-    const std::string& getAPIVersion() const { return api_version_; }
-    const std::string& getAPIPrefix() const { return api_prefix_; }
-    bool isBackwardCompatible() const { return backward_compatible_; }
+    VisionAPIStability getAPIStability() const;
+    const std::string& getAPIVersion() const;
+    const std::string& getAPIPrefix() const;
+    bool isBackwardCompatible() const;
     
     // License Management
-    bool isLicenseEnforced() const { return enforce_licenses_; }
+    bool isLicenseEnforced() const;
     bool isLicenseAllowed(const std::string& license_id) const;
     std::shared_ptr<ModelLicense> getModelLicense(const std::string& model_id) const;
     bool validateModelUsage(const std::string& model_id, bool is_commercial) const;
     std::string getRequiredAttribution(const std::string& model_id) const;
     
     // Resource Management
-    const VisionResourceLimits& getResourceLimits() const { return resource_limits_; }
-    const VisionRateLimits& getRateLimits() const { return rate_limits_; }
-    const VisionResourceQuota& getResourceQuota() const { return resource_quota_; }
+    const VisionResourceLimits& getResourceLimits() const;
+    const VisionRateLimits& getRateLimits() const;
+    const VisionResourceQuota& getResourceQuota() const;
     
     // Monitoring
-    const VisionMonitoringConfig& getMonitoringConfig() const { return monitoring_config_; }
-    bool isMonitoringEnabled() const { return monitoring_config_.enabled; }
-    bool isAuditEnabled() const { return monitoring_config_.audit.enabled; }
+    const VisionMonitoringConfig& getMonitoringConfig() const;
+    bool isMonitoringEnabled() const;
+    bool isAuditEnabled() const;
     
     // Security
-    const VisionSecurityConfig& getSecurityConfig() const { return security_config_; }
-    bool isSandboxingEnabled() const { return security_config_.sandboxing.enabled; }
-    bool isModelVerificationEnabled() const { return security_config_.model_verification.enabled; }
+    const VisionSecurityConfig& getSecurityConfig() const;
+    bool isSandboxingEnabled() const;
+    bool isModelVerificationEnabled() const;
     
     // Pipeline
-    const VisionPipelineConfig& getPipelineConfig() const { return pipeline_config_; }
+    const VisionPipelineConfig& getPipelineConfig() const;
     
     // Model Registry
     std::vector<std::string> getAvailableModels() const;
@@ -324,6 +345,9 @@ public:
 
 private:
     VisionConfig() = default;
+    
+    // Thread safety
+    mutable std::shared_mutex config_mutex_;
     
     // Configuration data
     VisionAPIStability api_stability_ = VisionAPIStability::STABLE;

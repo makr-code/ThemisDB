@@ -1,30 +1,25 @@
+/**
+ * @file monitoring_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=3, M=72, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1767                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 00c0dd69d  2026-03-01  audit: fix HTTP codes, add auth guards, OpenAPI registrat... ║
-    • 390a4ccf1  2026-02-28  feat(api): add missing endpoints to OpenAPI 3.x spec and ... ║
-    • 2500bf5da  2026-02-26  audit(query): fix gaps in UDF registration API – security... ║
-    • ba8cbc86e  2026-02-24  audit(config): complete Prometheus metrics export — docs,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: monitoring_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 16:47:35
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2069
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=5, M=78, L=0
+ * PR History (last 5): #3149 feat(api): Complete OpenAPI... (2026-03-12) | #2831 [config] Wire Prometheus me... (2026-03-12) | #2693 [core] Secrets interface fo... (2026-03-12) | #452 REFACTOR: Extract monitorin... (2026-03-11) | #1107 Add HSM security warning sy... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/monitoring_api_handler.h"
+#include <stdexcept>
 #include "server/openapi_route_registry.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -41,9 +36,14 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
+#include "observability/provenance_store.h"
 #include "config/config_metrics_exporter.h"
+#include "rag/continuous_learning_orchestrator.h"
+#include <algorithm>
 #include <ctime>
 #include <sstream>
+#include <string_view>
+#include <vector>
 #ifndef _WIN32
 #include <sys/resource.h>
 #endif
@@ -88,6 +88,7 @@ MonitoringApiHandler::MonitoringApiHandler(
 http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleHealthCheck");
     // Implementation moved from http_server.cpp handleHealthCheck()
     auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::steady_clock::now() - *start_time_
@@ -124,6 +125,7 @@ http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
 http::response<http::string_body> MonitoringApiHandler::handleLiveness(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleLiveness");
     // Liveness probe: server process is running and not deadlocked
     bool alive = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
 
@@ -149,6 +151,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
 http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleReadiness");
     // Readiness probe: server is ready to accept traffic.
     // Reports per-layer health: server state, storage, connections, memory.
     bool server_running = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
@@ -224,6 +227,7 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
 http::response<http::string_body> MonitoringApiHandler::handleVersion(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleVersion");
     // Implementation moved from http_server.cpp handleVersion()
     try {
         auto build_config = themis::build_info::getBuildConfiguration();
@@ -299,6 +303,19 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                 modules_disabled.push_back(module_info);
             }
         }
+
+        auto sort_modules_by_name = [](json& modules) {
+            std::sort(modules.begin(), modules.end(), [](const json& a, const json& b) {
+                const std::string name_a = a.value("name", "");
+                const std::string name_b = b.value("name", "");
+                if (name_a == name_b) {
+                    return a.dump() < b.dump();
+                }
+                return name_a < name_b;
+            });
+        };
+        sort_modules_by_name(modules_compiled);
+        sort_modules_by_name(modules_disabled);
         
         response["modules"] = {
             {"compiled_in", modules_compiled},
@@ -337,6 +354,18 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
                     {"patch", v.patch}
                 });
             }
+            std::sort(supported.begin(), supported.end(), [](const json& a, const json& b) {
+                const int major_a = a.value("major", 0);
+                const int major_b = b.value("major", 0);
+                if (major_a != major_b) return major_a < major_b;
+                const int minor_a = a.value("minor", 0);
+                const int minor_b = b.value("minor", 0);
+                if (minor_a != minor_b) return minor_a < minor_b;
+                const int patch_a = a.value("patch", 0);
+                const int patch_b = b.value("patch", 0);
+                if (patch_a != patch_b) return patch_a < patch_b;
+                return a.dump() < b.dump();
+            });
             response["supported_api_versions"] = supported;
         }
         
@@ -356,6 +385,7 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
 http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleOpenApi");
     // Assemble an OpenAPI 3.1.0 document from all routes registered via
     // RouteRegistry.  registerRoutes() is called here so that monitoring-handler
     // routes are always present even if the caller did not invoke it explicitly
@@ -391,6 +421,7 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
 http::response<http::string_body> MonitoringApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleStats");
     // Implementation moved from http_server.cpp handleStats()
     try {
         auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
@@ -422,7 +453,20 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
             }},
             {"storage", rocksdb_json}
         };
-        
+
+        if (continuous_learning_orchestrator_) {
+            try {
+                const auto loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                response["continuous_learning"] =
+                    loop_context.empty() ? json::object() : json::parse(loop_context);
+            } catch (const std::exception& e) {
+                response["continuous_learning"] = {
+                    {"error", "Failed to serialize continuous learning status"},
+                    {"detail", e.what()}
+                };
+            }
+        }
+         
         return makeResponse(http::status::ok, response.dump(2), req); // Pretty print with indent 2
     } catch (const std::exception& e) {
         error_count_->fetch_add(1, std::memory_order_relaxed);
@@ -434,6 +478,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
 http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCapabilities");
     // Implementation moved from http_server.cpp handleCapabilities()
     // No auth required for capabilities (read-only, non-sensitive)
     json caps;
@@ -545,6 +590,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
 http::response<http::string_body> MonitoringApiHandler::handleMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleMetrics");
     // Basic Prometheus metrics implementation
     // Includes core server metrics, auth metrics, RocksDB stats, and index rebuild metrics
     // Note: Some advanced metrics (latency histograms, vector index, SSE, rate limiter, sharding)
@@ -622,6 +668,73 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "# TYPE vccdb_qps gauge\n";
         out += "vccdb_qps " + std::to_string(qps) + "\n";
 
+        if (continuous_learning_orchestrator_) {
+            try {
+                const std::string loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                if (!loop_context.empty()) {
+                    const json loop_json = json::parse(loop_context, nullptr, false);
+                    if (!loop_json.is_discarded() &&
+                        loop_json.contains("loops") &&
+                        loop_json["loops"].is_array() &&
+                        !loop_json["loops"].empty()) {
+                        auto sanitize_label = [](std::string s) -> std::string {
+                            for (char& c : s) {
+                                if (c == '"' || c == '\n' || c == '\\') {
+                                    c = '_';
+                                }
+                            }
+                            return s;
+                        };
+                        out += "# HELP themis_continuous_learning_loop_signal_value Latest loop signal value\n";
+                        out += "# TYPE themis_continuous_learning_loop_signal_value gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_guardrail_passed Loop guardrail state (1=passed,0=failed)\n";
+                        out += "# TYPE themis_continuous_learning_loop_guardrail_passed gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_success Last loop execution success (1=success,0=failure)\n";
+                        out += "# TYPE themis_continuous_learning_loop_success gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_metric_delta Latest loop metric delta\n";
+                        out += "# TYPE themis_continuous_learning_loop_metric_delta gauge\n";
+                        out += "# HELP themis_continuous_learning_loop_live_signal Loop uses live provider signal (1=yes,0=fallback/advisory)\n";
+                        out += "# TYPE themis_continuous_learning_loop_live_signal gauge\n";
+
+                        for (const auto& loop : loop_json["loops"]) {
+                            if (!loop.is_object()) {
+                                continue;
+                            }
+                            const int loop_id = loop.value("loop_id", -1);
+                            const std::string phase =
+                                sanitize_label(loop.value("phase", std::string{"UNKNOWN"}));
+                            const std::string source =
+                                sanitize_label(loop.value("signal_source", std::string{"unknown"}));
+                            const double signal_value = loop.value("signal_value", 0.0);
+                            const double metric_delta = loop.value("metric_delta", 0.0);
+                            const int guardrail = loop.value("guardrail", false) ? 1 : 0;
+                            const int success = loop.value("success", false) ? 1 : 0;
+                            const int live_signal = (source == "live") ? 1 : 0;
+
+                            const std::string labels =
+                                "{loop_id=\"" + std::to_string(loop_id) +
+                                "\",phase=\"" + phase +
+                                "\",source=\"" + source + "\"}";
+                            out += "themis_continuous_learning_loop_signal_value" + labels +
+                                " " + std::to_string(signal_value) + "\n";
+                            out += "themis_continuous_learning_loop_guardrail_passed" + labels +
+                                " " + std::to_string(guardrail) + "\n";
+                            out += "themis_continuous_learning_loop_success" + labels +
+                                " " + std::to_string(success) + "\n";
+                            out += "themis_continuous_learning_loop_metric_delta" + labels +
+                                " " + std::to_string(metric_delta) + "\n";
+                            out += "themis_continuous_learning_loop_live_signal" + labels +
+                                " " + std::to_string(live_signal) + "\n";
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to collect continuous learning metrics: {}", e.what());
+            } catch (...) {
+                THEMIS_WARN("Unknown error while collecting continuous learning metrics");
+            }
+        }
+
         // Auth metrics
         if (auth_) {
             const auto& m = auth_->getMetrics();
@@ -657,11 +770,32 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "rocksdb_memtable_size_bytes " + std::to_string(memtable_bytes) + "\n";
 
         if (r.contains("files_per_level") && r["files_per_level"].is_object()) {
+            std::vector<std::pair<std::string, uint64_t>> level_rows;
             for (auto it = r["files_per_level"].begin(); it != r["files_per_level"].end(); ++it) {
-                std::string level = it.key();
                 uint64_t val = 0;
                 if (it.value().is_number_integer()) val = static_cast<uint64_t>(it.value().get<int64_t>());
                 else if (it.value().is_number_unsigned()) val = it.value().get<uint64_t>();
+                level_rows.emplace_back(it.key(), val);
+            }
+            auto parse_level_index = [](const std::string& level) -> int {
+                if (level.size() > 1 && (level[0] == 'L' || level[0] == 'l')) {
+                    try {
+                        return std::stoi(level.substr(1));
+                    } catch (...) {
+                    }
+                }
+                return -1;
+            };
+            std::sort(level_rows.begin(), level_rows.end(),
+                      [&](const auto& lhs, const auto& rhs) {
+                          const int lhs_idx = parse_level_index(lhs.first);
+                          const int rhs_idx = parse_level_index(rhs.first);
+                          if (lhs_idx >= 0 && rhs_idx >= 0 && lhs_idx != rhs_idx) {
+                              return lhs_idx < rhs_idx;
+                          }
+                          return lhs.first < rhs.first;
+                      });
+            for (const auto& [level, val] : level_rows) {
                 out += "rocksdb_files_level{level=\"" + level + "\"} " + std::to_string(val) + "\n";
             }
         }
@@ -701,38 +835,48 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             auto& plugin_manager = themis::plugins::PluginManager::instance();
             auto all_stats = plugin_manager.getMetrics().getAllStats();
+            std::vector<std::string> sorted_plugin_names;
+            sorted_plugin_names.reserve(all_stats.size());
+            for (const auto& [plugin_name, _] : all_stats) {
+                sorted_plugin_names.push_back(plugin_name);
+            }
+            std::sort(sorted_plugin_names.begin(), sorted_plugin_names.end());
             
             if (!all_stats.empty()) {
                 out += "\n# HELP themis_plugin_loads_total Total number of plugin loads\n";
                 out += "# TYPE themis_plugin_loads_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
                     out += "themis_plugin_loads_total{plugin=\"" + plugin_name + "\"} 1\n";
                 }
                 
                 out += "\n# HELP themis_plugin_reloads_total Total number of plugin reloads\n";
                 out += "# TYPE themis_plugin_reloads_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_reloads_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.reload_count) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_errors_total Total number of plugin errors\n";
                 out += "# TYPE themis_plugin_errors_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_errors_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.errors) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_function_calls_total Total number of plugin function calls\n";
                 out += "# TYPE themis_plugin_function_calls_total counter\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_function_calls_total{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.function_calls) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_load_duration_seconds Plugin load duration\n";
                 out += "# TYPE themis_plugin_load_duration_seconds histogram\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     double load_seconds = stats.load_time.count() / 1000.0;
                     out += "themis_plugin_load_duration_seconds_sum{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(load_seconds) + "\n";
@@ -741,14 +885,16 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 
                 out += "\n# HELP themis_plugin_memory_bytes Plugin memory usage in bytes\n";
                 out += "# TYPE themis_plugin_memory_bytes gauge\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     out += "themis_plugin_memory_bytes{plugin=\"" + plugin_name + "\"} " 
                          + std::to_string(stats.memory_bytes) + "\n";
                 }
                 
                 out += "\n# HELP themis_plugin_call_latency_milliseconds Plugin call latency metrics\n";
                 out += "# TYPE themis_plugin_call_latency_milliseconds summary\n";
-                for (const auto& [plugin_name, stats] : all_stats) {
+                for (const auto& plugin_name : sorted_plugin_names) {
+                    const auto& stats = all_stats.at(plugin_name);
                     if (stats.function_calls > 0) {
                         out += "themis_plugin_call_latency_milliseconds{plugin=\"" + plugin_name 
                              + "\",quantile=\"0.95\"} " + std::to_string(stats.p95_call_latency_ms) + "\n";
@@ -843,14 +989,22 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
 http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handlePluginMetrics");
     // GET /api/plugins/metrics - Return plugin metrics in JSON format
     try {
         auto& plugin_manager = themis::plugins::PluginManager::instance();
         auto all_stats = plugin_manager.getMetrics().getAllStats();
+        std::vector<std::string> sorted_plugin_names;
+        sorted_plugin_names.reserve(all_stats.size());
+        for (const auto& [plugin_name, _] : all_stats) {
+            sorted_plugin_names.push_back(plugin_name);
+        }
+        std::sort(sorted_plugin_names.begin(), sorted_plugin_names.end());
         
         json response;
         
-        for (const auto& [plugin_name, stats] : all_stats) {
+        for (const auto& plugin_name : sorted_plugin_names) {
+            const auto& stats = all_stats.at(plugin_name);
             // Convert loaded_at to ISO 8601 string
             auto time_t_val = std::chrono::system_clock::to_time_t(stats.loaded_at);
             std::tm tm_val;
@@ -913,16 +1067,18 @@ http::response<http::string_body> MonitoringApiHandler::makeResponse(
 http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleShardingMetrics");
     if (!sharding_metrics_) {
         return makeErrorResponse(http::status::service_unavailable, 
                                  "Sharding metrics not configured", req);
     }
+    auto& sharding_metrics = *sharding_metrics_;
     
     try {
-        std::string metrics = sharding_metrics_->getMetrics();
+        std::string metrics = sharding_metrics.getMetrics();
         
         // Also include SLO metrics if available
-        std::string slo_metrics = sharding_metrics_->getSLOMetrics();
+        std::string slo_metrics = sharding_metrics.getSLOMetrics();
         if (!slo_metrics.empty()) {
             metrics += "\n" + slo_metrics;
         }
@@ -943,13 +1099,15 @@ http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
 http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleSLOStatus");
     if (!sharding_metrics_) {
         return makeErrorResponse(http::status::service_unavailable, 
                                  "SLO monitoring not configured", req);
     }
+    auto& sharding_metrics = *sharding_metrics_;
     
     try {
-        std::string slo_status = sharding_metrics_->getSLOStatus();
+        std::string slo_status = sharding_metrics.getSLOStatus();
         return makeResponse(http::status::ok, slo_status, req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, 
@@ -978,6 +1136,75 @@ json MonitoringApiHandler::buildConcernsJson(
     return result;
 }
 
+namespace {
+
+[[nodiscard]] std::string urlDecode(std::string_view input) {
+    std::string out;
+    out.reserve(input.size());
+
+    auto hexValue = [](char c) -> int {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
+        if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+        return -1;
+    };
+
+    for (std::size_t i = 0; i < input.size(); ++i) {
+        const char ch = input[i];
+        if (ch == '+') {
+            out.push_back(' ');
+            continue;
+        }
+        if (ch == '%' && i + 2 < input.size()) {
+            const int hi = hexValue(input[i + 1]);
+            const int lo = hexValue(input[i + 2]);
+            if (hi >= 0 && lo >= 0) {
+                out.push_back(static_cast<char>((hi << 4) | lo));
+                i += 2;
+                continue;
+            }
+        }
+        out.push_back(ch);
+    }
+
+    return out;
+}
+
+[[nodiscard]] std::vector<std::pair<std::string, std::string>> parseQueryParams(
+    std::string_view target) {
+    std::vector<std::pair<std::string, std::string>> params;
+    const auto query_pos = target.find('?');
+    if (query_pos == std::string_view::npos || query_pos + 1 >= target.size()) {
+        return params;
+    }
+
+    std::string_view query = target.substr(query_pos + 1);
+    std::size_t pos = 0;
+    while (pos < query.size()) {
+        const auto amp = query.find('&', pos);
+        const auto token_end = (amp == std::string_view::npos) ? query.size() : amp;
+        const auto eq = query.find('=', pos);
+
+        if (eq != std::string_view::npos && eq < token_end) {
+            auto key = urlDecode(query.substr(pos, eq - pos));
+            auto value = urlDecode(query.substr(eq + 1, token_end - eq - 1));
+            params.emplace_back(std::move(key), std::move(value));
+        } else {
+            auto key = urlDecode(query.substr(pos, token_end - pos));
+            params.emplace_back(std::move(key), std::string{});
+        }
+
+        if (amp == std::string_view::npos) {
+            break;
+        }
+        pos = amp + 1;
+    }
+
+    return params;
+}
+
+} // namespace
+
 // ============================================================================
 // Operator Observability REST API  (Q1)
 // ============================================================================
@@ -985,6 +1212,7 @@ json MonitoringApiHandler::buildConcernsJson(
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlerts(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleObservabilityAlerts");
     try {
         auto severityToString = [](observability::AlertSeverity severity) -> const char* {
             switch (severity) {
@@ -1006,7 +1234,23 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 
         json arr = json::array();
         if (alertmanager_) {
-            for (const auto& alert : alertmanager_->getActiveAlerts()) {
+            auto& alertmanager = *alertmanager_;
+            auto active_alerts = alertmanager.getActiveAlerts();
+            std::sort(active_alerts.begin(), active_alerts.end(),
+                      [](const auto& lhs, const auto& rhs) {
+                          if (lhs.fired_at != rhs.fired_at) {
+                              return lhs.fired_at < rhs.fired_at;
+                          }
+                          if (lhs.alert_id != rhs.alert_id) {
+                              return lhs.alert_id < rhs.alert_id;
+                          }
+                          if (lhs.alert_name != rhs.alert_name) {
+                              return lhs.alert_name < rhs.alert_name;
+                          }
+                          return lhs.message < rhs.message;
+                      });
+
+            for (const auto& alert : active_alerts) {
                 json a;
                 a["alert_id"]   = alert.alert_id;
                 a["alert_name"] = alert.alert_name;
@@ -1025,7 +1269,13 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                 std::strftime(ts, sizeof(ts), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
                 a["fired_at"] = ts;
                 json labels = json::object();
-                for (const auto& [k, v] : alert.labels) { labels[k] = v; }
+                std::vector<std::pair<std::string, std::string>> sorted_labels(
+                    alert.labels.begin(), alert.labels.end());
+                std::sort(sorted_labels.begin(), sorted_labels.end(),
+                          [](const auto& lhs, const auto& rhs) {
+                              return lhs.first < rhs.first;
+                          });
+                for (const auto& [k, v] : sorted_labels) { labels[k] = v; }
                 a["labels"] = labels;
                 arr.push_back(a);
             }
@@ -1033,8 +1283,8 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
         json body;
         body["alerts"] = arr;
         body["count"]  = arr.size();
-        body["alertmanager_enabled"] = (alertmanager_ != nullptr) &&
-                                       alertmanager_->getConfig().enabled;
+        body["alertmanager_enabled"] =
+            (alertmanager_ != nullptr) && alertmanager_->getConfig().enabled;
         return makeResponse(http::status::ok, body.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
@@ -1045,6 +1295,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlertSilence(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleObservabilityAlertSilence");
     try {
         // Extract alert ID from path: /api/v1/observability/alerts/{id}/silence
         const std::string target = std::string(req.target());
@@ -1085,8 +1336,9 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
             return makeErrorResponse(http::status::service_unavailable,
                                      "Alertmanager not configured", req);
         }
+        auto& alertmanager = *alertmanager_;
 
-        auto result = alertmanager_->silenceAlert(alert_id, duration_minutes);
+        auto result = alertmanager.silenceAlert(alert_id, duration_minutes);
         if (!result) {
             return makeErrorResponse(http::status::bad_gateway,
                                      "Silence request failed: " + result.error().message(), req);
@@ -1106,6 +1358,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealth(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleObservabilityHealth");
     try {
         json body;
         body["status"] = "ok";
@@ -1161,6 +1414,174 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
     }
 }
 
+http::response<http::string_body> MonitoringApiHandler::handleObservabilityProvenance(
+    const http::request<http::string_body>& req)
+{
+    auto span = Tracer::startSpan("handleObservabilityProvenance");
+    try {
+        if (!provenance_store_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "Provenance store not configured", req);
+        }
+
+        std::optional<std::string> query_id;
+        std::optional<int64_t> start_ts_ms;
+        std::optional<int64_t> end_ts_ms;
+        std::size_t limit = 1000;
+
+        const auto parse_i64 = [](const std::string& value, int64_t& out) -> bool {
+            if (value.empty()) {
+                return false;
+            }
+            try {
+                std::size_t consumed = 0;
+                out = std::stoll(value, &consumed);
+                return consumed == value.size();
+            } catch (...) {
+                return false;
+            }
+        };
+
+        const auto params = parseQueryParams(
+            std::string_view(req.target().data(), req.target().size()));
+        for (const auto& [key, value] : params) {
+            if (key == "query_id") {
+                if (!value.empty()) {
+                    query_id = value;
+                }
+                continue;
+            }
+            if (key == "start_ts_ms") {
+                int64_t parsed = 0;
+                if (!parse_i64(value, parsed)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid start_ts_ms query parameter", req);
+                }
+                start_ts_ms = parsed;
+                continue;
+            }
+            if (key == "end_ts_ms") {
+                int64_t parsed = 0;
+                if (!parse_i64(value, parsed)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid end_ts_ms query parameter", req);
+                }
+                end_ts_ms = parsed;
+                continue;
+            }
+            if (key == "limit") {
+                int64_t parsed = 0;
+                if (!parse_i64(value, parsed) || parsed <= 0) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "limit must be a positive integer", req);
+                }
+                limit = static_cast<std::size_t>(parsed);
+            }
+        }
+
+        if ((start_ts_ms.has_value() && !end_ts_ms.has_value()) ||
+            (!start_ts_ms.has_value() && end_ts_ms.has_value())) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Both start_ts_ms and end_ts_ms are required for time-range queries",
+                                     req);
+        }
+        if (start_ts_ms.has_value() && end_ts_ms.has_value() && *start_ts_ms > *end_ts_ms) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "start_ts_ms must be <= end_ts_ms", req);
+        }
+
+        constexpr std::size_t kMaxLimit = 10000;
+        if (limit > kMaxLimit) {
+            limit = kMaxLimit;
+        }
+
+        std::vector<observability::ProvenanceStepRecord> records;
+        std::string source = "all_queries";
+        if (query_id.has_value()) {
+            source = "query_chain";
+            records = provenance_store_->getProvenanceChain(*query_id);
+            if (start_ts_ms.has_value()) {
+                records.erase(
+                    std::remove_if(records.begin(), records.end(),
+                                   [&](const observability::ProvenanceStepRecord& rec) {
+                                       return rec.timestamp_ms < *start_ts_ms ||
+                                              rec.timestamp_ms > *end_ts_ms;
+                                   }),
+                    records.end());
+                source = "query_chain_time_range";
+            }
+        } else if (start_ts_ms.has_value()) {
+            source = "time_range";
+            records = provenance_store_->getRecordsByTimeRange(*start_ts_ms, *end_ts_ms);
+        } else {
+            const auto query_ids = provenance_store_->listQueryIds();
+            for (const auto& id : query_ids) {
+                auto chain = provenance_store_->getProvenanceChain(id);
+                records.insert(records.end(), chain.begin(), chain.end());
+            }
+        }
+
+        std::sort(records.begin(), records.end(),
+                  [](const observability::ProvenanceStepRecord& lhs,
+                     const observability::ProvenanceStepRecord& rhs) {
+                      if (lhs.timestamp_ms != rhs.timestamp_ms) {
+                          return lhs.timestamp_ms < rhs.timestamp_ms;
+                      }
+                      if (lhs.query_id != rhs.query_id) {
+                          return lhs.query_id < rhs.query_id;
+                      }
+                      return lhs.step_number < rhs.step_number;
+                  });
+
+        bool truncated = false;
+        if (records.size() > limit) {
+            records.resize(limit);
+            truncated = true;
+        }
+
+        json out = json::object();
+        out["source"] = source;
+        out["limit"] = limit;
+        out["count"] = records.size();
+        out["truncated"] = truncated;
+        if (query_id.has_value()) {
+            out["query_id"] = *query_id;
+        }
+        if (start_ts_ms.has_value()) {
+            out["start_ts_ms"] = *start_ts_ms;
+            out["end_ts_ms"] = *end_ts_ms;
+        }
+
+        json rows = json::array();
+        for (const auto& rec : records) {
+            rows.push_back({
+                {"query_id", rec.query_id},
+                {"step_number", rec.step_number},
+                {"correlation_id", rec.correlation_id},
+                {"timestamp_ms", rec.timestamp_ms},
+                {"layer_name", rec.layer_name},
+                {"source_layer", rec.source_layer},
+                {"num_candidates", rec.num_candidates},
+                {"num_selected", rec.num_selected},
+                {"input_vector_hash", rec.input_vector_hash},
+                {"shard_id", rec.shard_id},
+                {"backend_name", rec.backend_name},
+                {"routing_reason_code", rec.routing_reason_code},
+                {"fallback_mode", rec.fallback_mode},
+                {"confidence_policy_version", rec.confidence_policy_version},
+                {"decision_duration_us", rec.decision_duration_us}
+            });
+        }
+        out["records"] = std::move(rows);
+
+        return makeResponse(http::status::ok, out.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+                                 std::string("Failed to query provenance records: ") + e.what(),
+                                 req);
+    }
+}
+
 // ---------------------------------------------------------------------------
 // /metrics/html  – lightweight human-readable metrics dashboard
 // ---------------------------------------------------------------------------
@@ -1168,6 +1589,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
 http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleMetricsHtml");
     try {
         // Collect raw Prometheus text
         std::string version;
@@ -1181,7 +1603,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         ).count();
 
         // Build a minimal metrics snapshot for the HTML table
-        // We reuse the text metrics output from handleMetrics() but wrap it in HTML.
         // Gather a fresh copy via MonitoringApiHandler::handleMetrics() internals is complex,
         // so we call through the existing implementation.
         // Build an artificial GET /metrics request to reuse the implementation.
@@ -1194,21 +1615,38 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         std::istringstream iss(prom_text);
         std::string line;
         while (std::getline(iss, line)) {
-            if (line.empty() || line[0] == '#') continue;
             auto sp = line.rfind(' ');
             if (sp == std::string::npos) continue;
             rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
         }
+        std::sort(rows.begin(), rows.end(), [](const auto& a, const auto& b) {
+            if (a.first == b.first) {
+                return a.second < b.second;
+            }
+            return a.first < b.first;
+        });
 
         std::string html;
-        html.reserve(8192);
+        auto escape_html = [](std::string_view value) {
+            std::string escaped;
+            escaped.reserve(value.size());
+            for (const char ch : value) {
+                switch (ch) {
+                    case '&': escaped += "&amp;"; break;
+                    case '<': escaped += "&lt;"; break;
+                    case '>': escaped += "&gt;"; break;
+                    case '"': escaped += "&quot;"; break;
+                    default: escaped.push_back(ch); break;
+                }
+            }
+            return escaped;
+        };
         html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
         html += "<meta charset=\"UTF-8\">\n";
         html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
         html += "<title>ThemisDB Metrics</title>\n";
         html += "<style>\n";
         html += "body{font-family:monospace;background:#1a1a2e;color:#e0e0e0;margin:0;padding:16px}\n";
-        html += "h1{color:#00d4ff;margin-bottom:4px;}\n";
         html += "p.sub{color:#888;margin-top:0;font-size:0.85em}\n";
         html += "table{border-collapse:collapse;width:100%;margin-top:12px}\n";
         html += "th{background:#16213e;color:#00d4ff;padding:6px 12px;text-align:left;";
@@ -1217,7 +1655,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         html += "tr:hover td{background:#16213e}\n";
         html += ".val{text-align:right;color:#00ff9f}\n";
         html += "a{color:#00d4ff;text-decoration:none}a:hover{text-decoration:underline}\n";
-        html += "</style>\n</head>\n<body>\n";
         html += "<h1>ThemisDB Metrics Dashboard</h1>\n";
         html += "<p class=\"sub\">Version: <b>" + version + "</b> &nbsp;|&nbsp; ";
         html += "Uptime: <b>" + std::to_string(uptime_seconds) + "s</b> &nbsp;|&nbsp; ";
@@ -1226,7 +1663,120 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         for (const auto& [name, val] : rows) {
             html += "<tr><td>" + name + "</td><td class=\"val\">" + val + "</td></tr>\n";
         }
-        html += "</table>\n</body>\n</html>\n";
+        html += "</table>\n";
+
+        if (continuous_learning_orchestrator_) {
+            std::string loop_context = "{}";
+            try {
+                loop_context = continuous_learning_orchestrator_->serializeLoopContext();
+                if (loop_context.empty()) {
+                    loop_context = "{}";
+                }
+            } catch (const std::exception& e) {
+                loop_context = std::string("{\"error\":\"") + e.what() + "\"}";
+            }
+            html += "<h2>Continuous Learning Loops</h2>\n";
+
+            // Parse the loop JSON into an HTML table.  The format produced by
+            // serializeLoopContext() is: {"loops":[{...},{...}]}
+            // We do a lightweight scan instead of pulling in a full JSON library.
+            auto extract_str = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":\"";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find('"', pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+            auto extract_num = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find_first_of(",}", pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+            auto extract_bool = [&](const std::string& src, const std::string& key) -> std::string {
+                const std::string needle = "\"" + key + "\":";
+                auto pos = src.find(needle);
+                if (pos == std::string::npos) return "";
+                pos += needle.size();
+                auto end = src.find_first_of(",}", pos);
+                if (end == std::string::npos) return "";
+                return src.substr(pos, end - pos);
+            };
+
+            // Split the "loops" array into per-loop JSON snippets
+            std::vector<std::string> loop_items;
+            {
+                auto arr_start = loop_context.find("[{");
+                auto arr_end   = loop_context.rfind("}]");
+                if (arr_start != std::string::npos && arr_end != std::string::npos
+                        && arr_end > arr_start) {
+                    std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
+                    // Split on "},{" boundaries
+                    size_t cur = 0;
+                    while (cur < arr.size()) {
+                        auto next = arr.find("},{", cur);
+                        if (next == std::string::npos) {
+                            loop_items.push_back(arr.substr(cur));
+                            break;
+                        }
+                        loop_items.push_back(arr.substr(cur, next - cur + 1));
+                        cur = next + 2;
+                    }
+                }
+            }
+
+            if (loop_items.empty()) {
+                html += "<p><em>No loop results yet.</em></p>\n";
+            } else {
+                html += "<table>\n";
+                html += "<tr>"
+                        "<th>Phase</th>"
+                        "<th>Signal Value</th>"
+                        "<th>Signal Source</th>"
+                        "<th>Guardrail</th>"
+                        "<th>Success</th>"
+                        "<th>Metric&nbsp;&Delta;</th>"
+                        "<th>Adapter</th>"
+                        "<th>Timestamp</th>"
+                        "</tr>\n";
+                for (const auto& item : loop_items) {
+                    const std::string phase      = extract_str(item, "phase");
+                    const std::string sig_val    = extract_num(item, "signal_value");
+                    const std::string sig_src    = extract_str(item, "signal_source");
+                    const std::string guardrail  = extract_bool(item, "guardrail");
+                    const std::string success    = extract_bool(item, "success");
+                    const std::string mdelta     = extract_num(item, "metric_delta");
+                    const std::string adapter    = extract_str(item, "adapter");
+                    const std::string timestamp  = extract_str(item, "timestamp");
+
+                    const bool gpass = (guardrail == "true");
+                    const bool spass = (success == "true");
+                    const bool is_live = (sig_src == "live");
+
+                    html += "<tr>";
+                    html += "<td>" + escape_html(phase) + "</td>";
+                    html += "<td class=\"val\">" + escape_html(sig_val) + "</td>";
+                    html += "<td style=\"color:" + std::string(is_live ? "#00ff9f" : "#ff9f00") + "\">"
+                         + escape_html(sig_src.empty() ? "—" : sig_src) + "</td>";
+                    html += "<td style=\"color:" + std::string(gpass ? "#00ff9f" : "#ff4444") + "\">"
+                         + (gpass ? "&#10003;" : "&#10007;") + "</td>";
+                    html += "<td style=\"color:" + std::string(spass ? "#00ff9f" : "#ff4444") + "\">"
+                         + (spass ? "&#10003;" : "&#10007;") + "</td>";
+                    html += "<td class=\"val\">" + escape_html(mdelta) + "</td>";
+                    html += "<td>" + escape_html(adapter.empty() ? "—" : adapter) + "</td>";
+                    html += "<td>" + escape_html(timestamp.empty() ? "—" : timestamp) + "</td>";
+                    html += "</tr>\n";
+                }
+                html += "</table>\n";
+            }
+        }
+
+        html += "</body>\n</html>\n";
 
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");
@@ -1248,6 +1798,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
 http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleLicenseStatus");
     using namespace themis::license;
 
     const RuntimeLicenseGate& gate = RuntimeLicenseGate::instance();
@@ -1389,6 +1940,25 @@ void MonitoringApiHandler::registerRoutes() {
         "getObservabilityHealth", {"observability"}, {}, {},
         {{"200",{{"description","Observability health status"},
                  {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}}  }
+    }});
+    reg.registerRoute({"/api/v1/observability/provenance", "get", {
+        "Query persisted retrieval provenance",
+        "Returns retrieval provenance records from the persistent store. "
+        "Supports query_id chain export, time-range filtering, and limit capping.",
+        "getObservabilityProvenance", {"observability"},
+        {
+            RouteParam{"query_id", "query", false, "Query identifier", {{"type","string"}}},
+            RouteParam{"start_ts_ms", "query", false, "Start timestamp (ms since epoch)", {{"type","integer"}}},
+            RouteParam{"end_ts_ms", "query", false, "End timestamp (ms since epoch)", {{"type","integer"}}},
+            RouteParam{"limit", "query", false, "Maximum returned records (default 1000, max 10000)", {{"type","integer"}}}
+        },
+        {},
+        {
+            {"200",{{"description","Provenance export payload"},
+                     {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
+            {"400",{{"description","Invalid query parameters"}}},
+            {"503",{{"description","Provenance store not configured"}}}
+        }
     }});
 
     // --- License ---
@@ -1766,3 +2336,4 @@ void MonitoringApiHandler::registerRoutes() {
 
 } // namespace server
 } // namespace themis
+

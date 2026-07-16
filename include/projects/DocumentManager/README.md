@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # DocumentManager Module
 
 ## Overview
@@ -62,3 +64,11 @@ If you're migrating from the old `document` module:
    - New: `themis::projects::DocumentManager`
 
 For temporary backward compatibility, you can use `#include "document/document_manager_deprecated.h"` which provides namespace aliases.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

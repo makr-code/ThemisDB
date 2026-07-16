@@ -1,0 +1,60 @@
+{
+  "issues_scanned": 1645,
+  "low_confidence_mismatches": 6,
+  "suggestions": [
+    {
+      "issue": 2318,
+      "title": "[themis] Resolve module dependencies",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2316,
+      "title": "[themis] Zone.Identifier quarantine detection on Windows",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2313,
+      "title": "[themis] Load module SHA-256 hash verification",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2310,
+      "title": "[themis] Feature gate community editions",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2128,
+      "title": "[themis] Move wire protocol server to src/server",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2121,
+      "title": "[themis] Move wire protocol implementation to separate module",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    }
+  ]
+}

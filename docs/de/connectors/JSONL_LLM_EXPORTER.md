@@ -1,6 +1,6 @@
 # JSONL LLM Exporter - LoRA/QLoRA Training Data Export
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Exporters
 
@@ -227,21 +227,74 @@ JSONLLLMExporter exporter(config);
 
 ### Validating Template Field Availability
 
-Before running a full export you can perform a dry-run check on a representative entity to verify that all required fields are present:
+Before running a full export you can perform a collection-level dry-run check to verify that all required fields are present in every entity.  The `validateTemplate()` function iterates a representative sample, collects every missing field name across all entities, deduplicates the list, and returns a sorted result — making it reliable for automated comparisons in CI.
+
+#### API (C++)
 
 ```cpp
 #include "exporters/format_template.h"
 
-auto tpl = makeFormatTemplate(FormatTemplateType::ALPACA);
-FormatTemplateFieldMapping mapping;  // or fill in your field names
+// --- Option A: free function (no exporter instance needed) ---
+std::vector<themis::BaseEntity> sample = /* load representative entities */;
 
-std::vector<std::string> missing;
-if (!tpl->validateFields(entity, mapping, &missing)) {
-    for (const auto& f : missing) {
-        std::cerr << "Missing required field: " << f << "\n";
+auto result = themis::exporters::validateTemplate(
+    FormatTemplateType::ALPACA,
+    FormatTemplateFieldMapping{},   // use defaults, or fill in overrides
+    sample
+);
+
+if (!result.valid) {
+    std::cerr << result.entities_failed << " / " << result.entities_checked
+              << " entities have missing fields:\n";
+    for (const auto& f : result.missing_fields) {
+        std::cerr << "  missing: " << f << '\n';
     }
+    // return EXIT_FAILURE or throw, as appropriate for your pipeline
 }
+
+// --- Option B: via JSONLLLMExporter (uses active config mapping) ---
+themis::exporters::JSONLLLMConfig cfg;
+cfg.format_template_type = FormatTemplateType::CHATML;
+cfg.template_field_mapping.user_field      = "prompt";
+cfg.template_field_mapping.assistant_field = "response";
+
+themis::exporters::JSONLLLMExporter exporter(cfg);
+
+auto r2 = exporter.validateTemplate(sample);
+if (!r2.valid) { /* ... */ }
 ```
+
+**`TemplateValidationResult` fields:**
+
+| Field | Type | Description |
+|---|---|---|
+| `valid` | `bool` | `true` when every entity satisfies all required fields |
+| `missing_fields` | `vector<string>` | Sorted, deduplicated list of absent field names |
+| `entities_checked` | `size_t` | Total entities examined |
+| `entities_failed` | `size_t` | Entities with at least one missing field |
+
+#### CLI (automation / CI)
+
+```bash
+# Pipe a JSONL collection sample via stdin and validate against the Alpaca template:
+cat sample.jsonl | themisdb-export \
+    --collection @my_collection \
+    --validate-template alpaca
+
+# With custom field-name overrides:
+cat sample.jsonl | themisdb-export \
+    --collection @my_collection \
+    --validate-template alpaca \
+    --template-instruction prompt \
+    --template-output completion
+
+# Exit codes:
+#   0  All required fields present
+#   1  One or more required fields missing (field names printed to stderr)
+#   3  Unknown template name or missing --collection
+```
+
+The `--validate-template` flag skips the actual export entirely — no output file is written.
 
 ### Reconfiguring at Runtime
 

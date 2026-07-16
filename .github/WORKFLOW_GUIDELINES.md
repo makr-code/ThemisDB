@@ -1,0 +1,100 @@
+# Workflow Guidelines
+
+## Scope
+Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
+Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
+Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
+duerfen nicht stillschweigend reaktiviert werden.
+
+## Aktive Workflows (19)
+- `.github/workflows/00-shared_changelog-update.yml`
+- `.github/workflows/00-shared_changelog-backfill.yml`
+- `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
+- `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
+- `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
+- `.github/workflows/08-maintenance_root-docs-hygiene.yml`
+- `.github/workflows/08-maintenance_src-include-docs-align.yml`
+- `.github/workflows/08-maintenance_docs-orphan-check.yml`
+- `.github/workflows/08-maintenance_code-maturity.yml`
+- `.github/workflows/08-quality_doxygen-coverage-gate.yml`
+- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+- `.github/workflows/09-pr-gates_scanner-delta-report.yml`
+- `.github/workflows/09-pr-gates_high-exception-record.yml`
+- `.github/workflows/sbom-ci.yml`
+- `.github/workflows/security-dast-ci.yml`
+- `.github/workflows/soc2-evidence-ci.yml`
+- `.github/workflows/copilot-ollama-router-ci.yml`
+- `.github/workflows/copilot-regression-guard.yml`
+- `.github/workflows/performance-regression-check.yml`
+
+## Harte Grenzen fuer neue oder reaktivierte CI
+- Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
+- Alles unter `.github/no_workflows/` bleibt deaktiviert, bis eine explizite Reaktivierungsentscheidung dokumentiert ist.
+- Jeder reaktivierte Workflow braucht einen klar benannten Owner, ein Ablaufdatum fuer die naechste Review und einen Abschaltplan.
+- Pull-Request-Trigger sind nur zulaessig, wenn `branches:` und `paths:` beide eng begrenzt sind.
+- `paths:` duerfen nur datei- oder modulspezifische Bereiche enthalten. Globale Trigger wie `src/**`, `include/**`, `**/*.md` oder Repo-weit wirksame Sammelmuster sind fuer neue PR-Workflows nicht zulaessig.
+- `push:` auf `develop` oder `main` ist nur fuer Release-, Packaging- oder explizit nicht-blockierende Nachtlaeufe zulaessig.
+- Schwere Jobs muessen `workflow_dispatch` oder `schedule` bevorzugen. Sie duerfen nicht bei jedem PR-Sync anlaufen.
+- Jeder PR-Workflow braucht `concurrency` mit workflow/ref-Gruppierung und `cancel-in-progress: true`.
+- Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
+- Wenn Triggergrenzen nicht knapp und messbar formulierbar sind, bleibt der Workflow in `.github/no_workflows/`.
+- Reaktivierungen oder neue Workflow-Dateien muessen den `Workflow Boundary Guard` passieren, bevor sie aktiv bleiben duerfen.
+
+## Reaktivierungs-Checkliste
+- Der fachliche Nutzen ist branch-gate-relevant, release-relevant oder compliance-pflichtig.
+- Die Logik passt nicht sinnvoll als Job in einen bestehenden aktiven Workflow.
+- Trigger sind auf konkrete Dateien, ein einzelnes Modul oder einen klaren Release-Pfad begrenzt.
+- Der Workflow enthaelt eine Kostenbremse: `paths`, `branches`, `concurrency`, kurze `timeout-minutes` und moeglichst fruehe Exit-Bedingungen.
+- Der Workflow wurde lokal mit `scripts/test-github-actions-local.ps1` geprueft.
+- Die Reaktivierung ist in `.github/WORKFLOW_REGISTRY.md` dokumentiert.
+- Fuer den ersten Rollout ist der Workflow entweder `workflow_dispatch`-only oder nicht-blockierend (`continue-on-error` bzw. kein Required Check), bis die Triggerqualitaet verifiziert ist.
+
+## Verbotene Muster
+- Ein Spezialworkflow, der denselben Dateibaum wie ein bestehender Workflow ueberwacht.
+- Ein Benchmark-, Audit- oder Nightly-Workflow als Required PR Check.
+- Trigger auf Dokumentationsaenderungen fuer Build-, Security- oder Performance-Jobs.
+- Neue Schatten-CI in Form von fast identischen Kopien bestehender Build- oder Testlogik.
+- Reaktivierung aus `.github/no_workflows/`, ohne die Ursache fuer die frueheren Uebertrigger zu dokumentieren.
+
+## Naming Conventions
+- Behalte den numerischen Prefix je Verantwortungsbereich (`01`, `03`, `04`, `09`) bei.
+- Dateinamen muessen den Zweck klar beschreiben und lane-neutral bleiben.
+- Keine neuen kategorischen Prefixe ohne Registry-Update.
+
+## Best Practices
+- Trigger nur fuer reale Gates/Release-Lanes definieren (keine Schatten-CI).
+- `paths:` und `branches:` eng schneiden; im Zweifel enger statt "vorsichtshalber breit".
+- `concurrency` mit `cancel-in-progress` auf Push/PR-Workflows setzen.
+- Berechtigungen minimal halten (`permissions` least privilege).
+- Schwere Benchmark-, GPU- und Sweep-Jobs standardmaessig ueber `schedule` oder `workflow_dispatch` isolieren.
+
+## Security Guidelines
+- Keine Secrets im YAML oder in Shell-Skripten hardcoden.
+- Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
+- Third-party Actions auf stabile Major-Versionen pinnen.
+
+## Manually Triggering Workflows
+Empfohlen via GitHub CLI:
+
+```bash
+gh workflow run "03-editions_ci.yml" --repo makr-code/ThemisDB --ref develop --field edition=COMMUNITY --field build_type=Release
+gh workflow run "04-release_bootstrap-release-branches.yml" --repo makr-code/ThemisDB --ref main
+```
+
+## Troubleshooting
+- Lokal zuerst linten: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`
+- Danach Dry-Run: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun`
+- Registry, Guidelines und Reaktivierungsbegruendung bei Struktur-Aenderungen immer zusammen aktualisieren.
+
+## Doxygen Coverage Threshold (Maintainer)
+- Der Doxygen-Coverage-Gate liest den Schwellwert zentral aus `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`.
+- Standardwert ist `90`.
+- Empfohlene stufenweise Anhebung: `90 -> 92 -> 95`.
+- Nach jeder Anhebung zuerst mehrere PR-Laeufe beobachten und nur bei stabiler Signalqualitaet weiter erhoehen.
+- Bei hoher False-Positive-Rate den Schwellwert voruebergehend zuruecksetzen und Doku-Luecken gezielt abbauen.
+
+## PR Governance for AI-Generated Changes
+- Pull Requests labeled `ai-generated` require maintainer review before merge.
+- Copilot PR summary/review support should be enabled in repository settings to assist human review, but does not replace maintainer approval.
+- `ai-generated` PRs should explicitly document validation scope and documentation synchronization status.
+- Auto-merge for `ai-generated` PRs should remain disabled unless a maintainer explicitly authorizes it.

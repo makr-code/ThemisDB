@@ -106,6 +106,94 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lora_provenance_cli.cpp")
 endif()
 
 # ============================================================================
+# themisctl — Unified ThemisDB Management CLI
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisctl.cpp")
+    message(STATUS "Adding themisctl unified management CLI")
+
+    project(ThemisTools LANGUAGES CXX)
+
+    add_executable(themisctl
+        themisctl.cpp
+    )
+
+    target_compile_features(themisctl PRIVATE cxx_std_17)
+
+    target_include_directories(themisctl PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+    # cpp-httplib provides the HTTP client (header-only)
+    find_package(httplib QUIET)
+    if(httplib_FOUND)
+        target_link_libraries(themisctl PRIVATE httplib::httplib)
+    else()
+        # Fallback: assume httplib.h is on the include path (e.g. via vcpkg toolchain)
+        message(STATUS "httplib package not found via find_package; assuming httplib.h is on include path")
+    endif()
+
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(themisctl PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+
+    # OpenSSL is optional (HTTPS support for themisctl via cpp-httplib)
+    find_package(OpenSSL QUIET)
+    if(OpenSSL_FOUND)
+        target_link_libraries(themisctl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+        target_compile_definitions(themisctl PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)
+    endif()
+
+    # GNU Readline for REPL command history (optional)
+    find_package(Readline QUIET)
+    if(Readline_FOUND)
+        target_link_libraries(themisctl PRIVATE ${READLINE_LIBRARIES})
+        target_include_directories(themisctl PRIVATE ${READLINE_INCLUDE_DIR})
+        target_compile_definitions(themisctl PRIVATE THEMISCTL_ENABLE_READLINE=1)
+        message(STATUS "themisctl: readline found — REPL will use line editing + history")
+    else()
+        # Fallback: check for the library directly (common on Debian/Ubuntu)
+        find_library(READLINE_LIB readline)
+        if(READLINE_LIB)
+            target_link_libraries(themisctl PRIVATE ${READLINE_LIB})
+            target_compile_definitions(themisctl PRIVATE THEMISCTL_ENABLE_READLINE=1)
+            message(STATUS "themisctl: readline found (manual) — REPL will use line editing + history")
+        else()
+            message(STATUS "themisctl: readline not found — REPL will use plain getline()")
+        endif()
+    endif()
+
+    install(TARGETS themisctl
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+
+    # ── Shell completion scripts ───────────────────────────────────────────────
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/completion/themisctl.bash")
+        install(FILES completion/themisctl.bash
+            DESTINATION share/bash-completion/completions
+            RENAME themisctl
+            COMPONENT tools
+        )
+    endif()
+
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/completion/_themisctl")
+        install(FILES completion/_themisctl
+            DESTINATION share/zsh/site-functions
+            COMPONENT tools
+        )
+    endif()
+
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/completion/themisctl.fish")
+        install(FILES completion/themisctl.fish
+            DESTINATION share/fish/vendor_completions.d
+            COMPONENT tools
+        )
+    endif()
+
+    message(STATUS "themisctl unified management CLI configured")
+endif()
+
+# ============================================================================
 # Config Migration Scanner
 # ============================================================================
 

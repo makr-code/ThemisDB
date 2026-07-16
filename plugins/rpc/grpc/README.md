@@ -56,10 +56,10 @@ cd /path/to/ThemisDB
 mkdir build && cd build
 
 # Enable gRPC plugin
-cmake .. -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
-         -DTHEMIS_BUILD_RPC_GRPC_PLUGIN=ON
+cmake .. -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON \
+         -DTHEMIS_PLUGIN_RPC_GRPC=ON
 
-make themis_rpc_grpc
+cmake --build . --target themis_rpc_grpc
 ```
 
 ### Output

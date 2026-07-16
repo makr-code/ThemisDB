@@ -1,6 +1,6 @@
 # ThemisDB AI-Ökosystem: Horizontales Sharding mit integriertem LLM
 
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Architecture / AI Infrastructure  
 **Sprache:** Deutsch
@@ -947,7 +947,7 @@ services:
   # Shard 1: Legal Domain
   # ═══════════════════════════════════════════════════════════
   themis-shard-1:
-    image: themisdb/themis:ai-shard
+    image: themisdb/themisdb:ai-shard
     runtime: nvidia
     hostname: shard-1-legal
     environment:
@@ -981,7 +981,7 @@ services:
   # Shard 2: Medical Domain
   # ═══════════════════════════════════════════════════════════
   themis-shard-2:
-    image: themisdb/themis:ai-shard
+    image: themisdb/themisdb:ai-shard
     runtime: nvidia
     hostname: shard-2-medical
     environment:
@@ -1015,7 +1015,7 @@ services:
   # Shard 3: Environment Domain
   # ═══════════════════════════════════════════════════════════
   themis-shard-3:
-    image: themisdb/themis:ai-shard
+    image: themisdb/themisdb:ai-shard
     runtime: nvidia
     hostname: shard-3-environment
     environment:
@@ -1097,7 +1097,7 @@ spec:
     spec:
       containers:
       - name: themis
-        image: themisdb/themis:ai-shard
+        image: themisdb/themisdb:ai-shard
         env:
         - name: THEMIS_SHARD_ID
           valueFrom:
@@ -1212,3 +1212,101 @@ Ein **vollständiges AI-Ökosystem** mit:
 **Erstellt:** Dezember 2025  
 **Autor:** ThemisDB AI Team  
 **Status:** Design Document / Implementation Proposal
+
+---
+
+## Phase 5 — KV-Prefix Cross-Shard Transfer (v2.0.0)
+
+### Motivation
+
+Requests with long system prompts (≥ 256 tokens) force every shard to
+re-evaluate the prefix from scratch, adding significant latency.  Phase 5
+allows the source shard to pre-compute the KV cache for the shared prefix
+and transfer it to the target shard via `RemoteExecutor::postBinary()`.
+
+### Data Flow
+
+```
+Source Shard                            Target Shard
+─────────────────────────────────────── ────────────────────────────────────────
+LLMAQLHandler::executeInfer()
+  │
+  ├── routeByDomain() → "shard-legal"
+  │
+  └── KVPrefixTransferManager
+        │
+        ├── token_estimate ≥ 256?       POST /api/v1/kv-prefix/ingest
+        │     YES → serialise()  ──────────────────────────────────────────► warm KV cache
+        │           postBinary()
+        │
+        └── generate(request)           generate(request)  ← warmed prefix → TTFT −30 %
+```
+
+### API
+
+```cpp
+// Setup (once per LLMAQLHandler instance):
+auto mgr = std::make_unique<KVPrefixTransferManager>(
+    *remote_executor,                          // RemoteExecutor for binary transfer
+    std::make_unique<KVStateSerializerLlama>() // production: llama_state_seq_save_file
+);
+handler.setKVPrefixTransferManager(std::move(mgr));
+
+// executeInfer() triggers transfer automatically when:
+//   • domain routing selects a remote shard (routed_shard_id is non-empty)
+//   • request.system_prompt is present and non-empty
+//   • estimated token count ≥ min_prefix_tokens (default: 256)
+```
+
+### Constraints
+
+| Constraint | Detail |
+|-----------|--------|
+| Model compatibility | Source and target must run the same base model + quantisation |
+| Transfer cost | Base64-encoded KV state adds ~33 % payload overhead over raw binary |
+| Fallback | If transfer fails, inference runs cold — no error is surfaced to caller |
+| Serialiser | Default `NullKVStateSerializer` produces empty payload (no TTFT savings until `KVStateSerializerLlama` is linked) |
+
+---
+
+## Phase 6 — Benchmark Data: Distributed Inference
+
+Benchmark file: `benchmarks/bench_llm_raid_pipeline.cpp`
+
+### BM_DomainRouting_OverheadPerRequest
+
+Measures the cost of a single `routeByDomain()` call in a 3-shard cluster.
+
+| Scenario | Target | Notes |
+|---------|--------|-------|
+| Routing decision latency | ≤ 5 µs p99 | In-process, no network |
+
+Run:
+
+```bash
+./bench_llm_raid_pipeline --benchmark_filter=BM_DomainRouting_OverheadPerRequest \
+                          --benchmark_repetitions=5
+```
+
+### BM_BatchFanOut_LatencyScaling
+
+Measures wall-clock latency for `executeBatchInfer()` fan-out at batch sizes
+1, 8, 16, 32, 64 with `std::async` parallelism.
+
+| Batch size | Expected throughput | Target |
+|-----------|---------------------|--------|
+| 1 | 1× baseline | — |
+| 8 | ~8× | — |
+| 64 | ≥ 16× (thread-pool limited) | p99 ≤ 4× single-request latency |
+
+Run:
+
+```bash
+./bench_llm_raid_pipeline --benchmark_filter=BM_BatchFanOut_LatencyScaling \
+                          --benchmark_repetitions=3
+```
+
+---
+
+**Updated:** 2026-04-19  
+**Change:** Added Phase 5 KV-Prefix Transfer architecture and Phase 6 benchmark data.

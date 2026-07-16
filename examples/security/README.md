@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Security Examples
 
 This directory contains example code demonstrating ThemisDB's security features.
@@ -163,6 +165,6 @@ For production deployments, consider:
 ## See Also
 
 - [Access Control Framework Documentation](../../docs/security/access_control_framework.md)
-- [RBAC Guide](../../docs/security/rbac.md)
-- [Authentication Guide](../../docs/security/authentication.md)
-- [Security Best Practices](../../docs/security/security_hardening.md)
+- [RBAC Guide](../../docs/security/rbac.md) <!-- TODO: verify -->
+- [Authentication Guide](../../docs/security/authentication.md) <!-- TODO: verify -->
+- [Security Best Practices](../../docs/security/security_hardening.md) <!-- TODO: verify -->

@@ -1,24 +1,21 @@
+/**
+ * @file s3_importer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            s3_importer.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     258                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 56f00ce00  2026-02-27  feat: add S3-compatible object storage source connector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: s3_importer.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 263
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3081 feat(importers): S3-compati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -157,7 +154,25 @@ public:
      */
     static bool parseS3Url(const std::string& url,
                             std::string& bucket,
-                            std::string& key);
+                std::string& key) {
+      static const std::string prefix = "s3://";
+      if (url.size() < prefix.size() ||
+        url.substr(0, prefix.size()) != prefix) {
+        return false;
+      }
+
+      std::string rest = url.substr(prefix.size());
+      auto slash = rest.find('/');
+      if (slash == std::string::npos) {
+        bucket = rest;
+        key.clear();
+      } else {
+        bucket = rest.substr(0, slash);
+        key = rest.substr(slash + 1);
+      }
+
+      return !bucket.empty();
+    }
 
     /**
      * @brief Return a sanitised (credential-free) connection identifier.

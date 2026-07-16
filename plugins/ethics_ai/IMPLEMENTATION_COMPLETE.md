@@ -327,13 +327,14 @@ FOR case IN process_instances
 ```bash
 # Configure with all features
 cmake -B build \
-  -DTHEMIS_BUILD_ETHICS_AI_PLUGIN=ON \
+  -DTHEMIS_BUILD_ENTERPRISE_PLUGINS=ON \
+  -DTHEMIS_PLUGIN_ETHICS_AI=ON \
   -DTHEMIS_BUILD_TESTS=ON \
   -DTHEMIS_BUILD_BENCHMARKS=ON \
   -DTHEMIS_BUILD_EXAMPLES=ON
 
 # Build
-cmake --build build --target ethics_ai_plugin
+cmake --build build --target bench_rag_ethics
 
 # Or build everything
 cmake --build build

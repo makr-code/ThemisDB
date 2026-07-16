@@ -1,28 +1,29 @@
+/**
+ * @file pitr_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pitr_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pitr_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 300
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * PR History (last 5): #1080 Complete Git-like features:... (2026-03-11) | #1082 Implement Point-in-Time Rec... (2026-03-11) | #1085 Activate git-like features:... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/pitr_api_handler.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+#include "utils/tracing.h"
+#include "utils/input_validator.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -52,6 +53,7 @@ void PITRApiHandler::registerRoutes(httplib::Server& server) {
 
 void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleRestore");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -116,6 +118,7 @@ void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Respons
 
 void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handlePreview");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -180,6 +183,7 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
 
 void PITRApiHandler::handleGetProgress(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetProgress");
         auto progress_opt = pitr_manager_.getProgress();
         
         if (!progress_opt.has_value()) {
@@ -215,7 +219,18 @@ PITRManager::RestoreOptions PITRApiHandler::parseRestoreOptions(const json& body
     
     if (body.contains("tables") && body["tables"].is_array()) {
         for (const auto& table : body["tables"]) {
-            options.tables.push_back(table.get<std::string>());
+            std::string table_name = table.get<std::string>();
+            
+            // QW-46 Guard: Fail-closed collection name validation
+            {
+                utils::InputValidator validator;
+                if (!validator.validateStringLength(table_name, 256) || !validator.validatePathSegment(table_name)) {
+                    THEMIS_ERROR("QW-46 Guard: Invalid table name in PITR restore options");
+                    continue;  // Skip invalid table names
+                }
+            }
+            
+            options.tables.push_back(table_name);
         }
     }
     

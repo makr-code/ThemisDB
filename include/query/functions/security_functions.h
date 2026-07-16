@@ -1,38 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            security_functions.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     952                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file security_functions.h
- * @brief Security-related AQL functions for validation, sanitization, and masking
- * 
- * This module provides security functions that integrate with ThemisDB's
- * existing security infrastructure (encryption.h, signing.h, rbac.h).
- * 
- * Categories:
- * - Validation: IS_EMAIL, IS_URL, IS_UUID, IS_IP, IS_PHONE, IS_IBAN, IS_CREDIT_CARD
- * - Sanitization: SANITIZE, SANITIZE_HTML, ESCAPE_HTML, HAS_INJECTION
- * - Masking: MASK, MASK_EMAIL, MASK_PHONE, MASK_CREDIT_CARD, MASK_IBAN
- * - Hashing: HASH_SHA256, HASH_SHA512, HASH_MD5 (deprecated)
- * - Checksum: CHECKSUM, VERIFY_CHECKSUM
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -65,11 +39,12 @@ namespace functions {
  * 
  * Uses RFC 5322 simplified regex pattern.
  * 
- * @example IS_EMAIL("user@example.com") → true
- * @example IS_EMAIL("invalid") → false
+ * - Example: IS_EMAIL("user@example.com") → true
+ * - Example: IS_EMAIL("invalid") → false
  */
 class IsEmailFunction : public IFunction {
 public:
+    ~IsEmailFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_EMAIL",
@@ -102,11 +77,12 @@ public:
  * 
  * Supports http, https, ftp protocols.
  * 
- * @example IS_URL("https://example.com/path") → true
- * @example IS_URL("not-a-url") → false
+ * - Example: IS_URL("https://example.com/path") → true
+ * - Example: IS_URL("not-a-url") → false
  */
 class IsUrlFunction : public IFunction {
 public:
+    ~IsUrlFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_URL",
@@ -136,11 +112,12 @@ public:
 /**
  * @brief IS_UUID(str) - Validate UUID format (v1-v5)
  * 
- * @example IS_UUID("550e8400-e29b-41d4-a716-446655440000") → true
- * @example IS_UUID("not-a-uuid") → false
+ * - Example: IS_UUID("550e8400-e29b-41d4-a716-446655440000") → true
+ * - Example: IS_UUID("not-a-uuid") → false
  */
 class IsUuidFunction : public IFunction {
 public:
+    ~IsUuidFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_UUID",
@@ -172,11 +149,12 @@ public:
  * @param str IP address to validate
  * @param version Optional: 4 for IPv4, 6 for IPv6, omit for both
  * 
- * @example IS_IP("192.168.1.1") → true
- * @example IS_IP("::1", 6) → true
+ * - Example: IS_IP("192.168.1.1") → true
+ * - Example: IS_IP("::1", 6) → true
  */
 class IsIpFunction : public IFunction {
 public:
+    ~IsIpFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_IP",
@@ -221,11 +199,12 @@ public:
 /**
  * @brief IS_PHONE(str, countryCode?) - Validate phone number format
  * 
- * @example IS_PHONE("+49 123 456789") → true
- * @example IS_PHONE("0123456789", "DE") → true
+ * - Example: IS_PHONE("+49 123 456789") → true
+ * - Example: IS_PHONE("0123456789", "DE") → true
  */
 class IsPhoneFunction : public IFunction {
 public:
+    ~IsPhoneFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_PHONE",
@@ -268,10 +247,11 @@ public:
 /**
  * @brief IS_IBAN(str) - Validate IBAN format with checksum
  * 
- * @example IS_IBAN("DE89370400440532013000") → true
+ * - Example: IS_IBAN("DE89370400440532013000") → true
  */
 class IsIbanFunction : public IFunction {
 public:
+    ~IsIbanFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_IBAN",
@@ -327,10 +307,11 @@ public:
 /**
  * @brief IS_CREDIT_CARD(str) - Validate credit card number (Luhn algorithm)
  * 
- * @example IS_CREDIT_CARD("4532015112830366") → true
+ * - Example: IS_CREDIT_CARD("4532015112830366") → true
  */
 class IsCreditCardFunction : public IFunction {
 public:
+    ~IsCreditCardFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "IS_CREDIT_CARD",
@@ -390,10 +371,11 @@ public:
  * @param str String to sanitize
  * @param type Type of sanitization: "html", "sql", "json", "filename" (default: "html")
  * 
- * @example SANITIZE("<script>alert('xss')</script>", "html") → "&lt;script&gt;..."
+ * - Example: SANITIZE("<script>alert('xss')</script>", "html") → "<script>..."
  */
 class SanitizeFunction : public IFunction {
 public:
+    ~SanitizeFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "SANITIZE",
@@ -434,8 +416,8 @@ private:
         result.reserve(str.size() * 1.2);
         for (char c : str) {
             switch (c) {
-                case '<': result += "&lt;"; break;
-                case '>': result += "&gt;"; break;
+                case '<': result += "<"; break;
+                case '>': result += ">"; break;
                 case '&': result += "&amp;"; break;
                 case '"': result += "&quot;"; break;
                 case '\'': result += "&#39;"; break;
@@ -500,10 +482,11 @@ private:
  * @param str String to check
  * @param type Type: "sql", "xss", "path", "cmd" (default: all)
  * 
- * @example HAS_INJECTION("1'; DROP TABLE users--", "sql") → true
+ * - Example: HAS_INJECTION("1'; DROP TABLE users--", "sql") → true
  */
 class HasInjectionFunction : public IFunction {
 public:
+    ~HasInjectionFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "HAS_INJECTION",
@@ -595,11 +578,12 @@ public:
  * @param end Characters to show at end (default: 0)
  * @param char Masking character (default: '*')
  * 
- * @example MASK("1234567890", 0, 4) → "******7890"
- * @example MASK("secret", 1, 1, '#') → "s####t"
+ * - Example: MASK("1234567890", 0, 4) → "******7890"
+ * - Example: MASK("secret", 1, 1, '#') → "s####t"
  */
 class MaskFunction : public IFunction {
 public:
+    ~MaskFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK",
@@ -648,10 +632,11 @@ public:
 /**
  * @brief MASK_EMAIL(email) - Mask email address
  * 
- * @example MASK_EMAIL("john.doe@example.com") → "j******e@e*****e.com"
+ * - Example: MASK_EMAIL("john.doe@example.com") → "j******e@e*****e.com"
  */
 class MaskEmailFunction : public IFunction {
 public:
+    ~MaskEmailFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK_EMAIL",
@@ -707,10 +692,11 @@ public:
 /**
  * @brief MASK_CREDIT_CARD(card) - Mask credit card number (show last 4 digits)
  * 
- * @example MASK_CREDIT_CARD("4532015112830366") → "************0366"
+ * - Example: MASK_CREDIT_CARD("4532015112830366") → "************0366"
  */
 class MaskCreditCardFunction : public IFunction {
 public:
+    ~MaskCreditCardFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK_CREDIT_CARD",
@@ -747,10 +733,11 @@ public:
 /**
  * @brief MASK_IBAN(iban) - Mask IBAN (show country code and last 4 chars)
  * 
- * @example MASK_IBAN("DE89370400440532013000") → "DE**************3000"
+ * - Example: MASK_IBAN("DE89370400440532013000") → "DE**************3000"
  */
 class MaskIbanFunction : public IFunction {
 public:
+    ~MaskIbanFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "MASK_IBAN",
@@ -793,10 +780,11 @@ public:
  * @param str String to hash
  * @param algorithm "fnv1a" (default), "djb2"
  * 
- * @example HASH("password") → "af63bd4c..."
+ * - Example: HASH("password") → "af63bd4c..."
  */
 class HashFunction : public IFunction {
 public:
+    ~HashFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "HASH",
@@ -857,6 +845,7 @@ private:
  */
 class ChecksumFunction : public IFunction {
 public:
+    ~ChecksumFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name = "CHECKSUM",
@@ -953,3 +942,4 @@ inline void registerSecurityFunctions() {
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
+

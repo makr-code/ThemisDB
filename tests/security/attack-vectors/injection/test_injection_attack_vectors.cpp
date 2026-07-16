@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_injection_attack_vectors.cpp                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 19:14:43                                ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     390                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • initial  2026-03-09  feat(security): add injection attack vector tests ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_injection_attack_vectors.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -316,4 +302,157 @@ TEST_F(InjectionAttackVectorTest, ASTValidation_InsertOperationBlocked) {
     );
     EXPECT_FALSE(result.is_safe)
         << "AQL INSERT operation must be blocked by AST validator";
+}
+
+// ============================================================================
+// Read-Only Context Validation
+// validateForReadOnlyContext() must accept pure read queries and reject any
+// query that contains write or DDL operations.
+// ============================================================================
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_PureReadQuery_Allowed) {
+    auto result = detector_.validateForReadOnlyContext(
+        "FOR doc IN users FILTER doc.active == true LIMIT 20 RETURN doc"
+    );
+    EXPECT_TRUE(result.is_safe)
+        << "Pure read query must be allowed in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_InsertBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "INSERT {name: 'attacker', role: 'admin'} INTO users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "INSERT must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_UpdateBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "FOR doc IN users UPDATE doc WITH {role: 'admin'} IN users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "UPDATE must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_ReplaceBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "FOR doc IN users REPLACE doc WITH {role: 'admin'} IN users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "REPLACE must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_UpsertBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "UPSERT {name: 'evil'} INSERT {name: 'evil'} UPDATE {} IN users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "UPSERT must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_RemoveBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "FOR doc IN users REMOVE doc IN users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "REMOVE must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_DeleteKeywordBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "FOR doc IN users DELETE doc IN users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "DELETE must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_DropCollectionBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "DROP COLLECTION users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "DROP COLLECTION must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_DropCollectionRejectedByAstParse) {
+    auto result = detector_.validateForReadOnlyContext(
+        "DROP COLLECTION users"
+    );
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_NE(result.error_message.find("Parse error"), std::string::npos)
+        << "Read-only validation must reject non-AQL write syntax via parser/AST path";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_CreateCollectionBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "CREATE COLLECTION backdoor"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "CREATE COLLECTION must be rejected in read-only context";
+}
+
+TEST_F(InjectionAttackVectorTest, ReadOnly_CaseInsensitiveWriteBlocked) {
+    auto result = detector_.validateForReadOnlyContext(
+        "for doc in users insert doc into shadow_users"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "Lowercase 'insert' must be rejected in read-only context (case-insensitive)";
+}
+
+// ============================================================================
+// Unbounded FOR Loop Validation
+// validateUnboundedForLoops() must reject queries with FOR loops that have no
+// LIMIT clause, while allowing bounded and aggregate queries.
+// ============================================================================
+
+TEST_F(InjectionAttackVectorTest, UnboundedLoop_BoundedByLimit_Allowed) {
+    auto result = detector_.validateUnboundedForLoops(
+        "FOR doc IN users LIMIT 100 RETURN doc"
+    );
+    EXPECT_TRUE(result.is_safe)
+        << "FOR loop bounded by LIMIT must be allowed";
+}
+
+TEST_F(InjectionAttackVectorTest, UnboundedLoop_WithOffsetLimit_Allowed) {
+    auto result = detector_.validateUnboundedForLoops(
+        "FOR doc IN orders FILTER doc.status == 'open' LIMIT 0, 50 RETURN doc"
+    );
+    EXPECT_TRUE(result.is_safe)
+        << "FOR loop with LIMIT offset,count must be allowed";
+}
+
+TEST_F(InjectionAttackVectorTest, UnboundedLoop_NoLimit_Rejected) {
+    auto result = detector_.validateUnboundedForLoops(
+        "FOR doc IN users RETURN doc"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "Unbounded FOR loop without LIMIT must be rejected";
+}
+
+TEST_F(InjectionAttackVectorTest, UnboundedLoop_WithFilterButNoLimit_Rejected) {
+    auto result = detector_.validateUnboundedForLoops(
+        "FOR doc IN logs FILTER doc.level == 'error' RETURN doc"
+    );
+    EXPECT_FALSE(result.is_safe)
+        << "FOR loop with FILTER but no LIMIT must be rejected";
+}
+
+TEST_F(InjectionAttackVectorTest, UnboundedLoop_CollectAggregate_Allowed) {
+    // COLLECT queries are exempt from the LIMIT requirement because the result
+    // set is bounded by the number of distinct grouping-key values, not by
+    // the total collection size.  In the worst case a high-cardinality key
+    // (e.g., a UUID per document) still produces at most N groups for N input
+    // rows — the same order as a LIMIT N would achieve — so the exemption is
+    // considered an acceptable trade-off to avoid blocking legitimate analytics
+    // queries.
+    //
+    // Memory note: O(N) memory is required for N distinct groups, which can
+    // be significant on large collections.  Callers that need a hard upper
+    // bound on memory usage should add a LIMIT clause themselves, even for
+    // COLLECT queries.
+    auto result = detector_.validateUnboundedForLoops(
+        "FOR doc IN events COLLECT status = doc.status WITH COUNT INTO cnt RETURN {status, cnt}"
+    );
+    EXPECT_TRUE(result.is_safe)
+        << "COLLECT aggregate query without LIMIT must be allowed (bounded by group count)";
 }

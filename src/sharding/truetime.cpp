@@ -1,29 +1,29 @@
+/**
+ * @file truetime.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            truetime.cpp                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     423                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: truetime.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 430
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=7, L=0
+ * PR History (last 5): #4212 fix(chimera/percolator): re... (2026-03-15) | #1033 Replace TrueTime stub with ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "sharding/truetime.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <thread>
 #include <sstream>
 #include <algorithm>
@@ -41,10 +41,15 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <stdexcept>
 #endif
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct TrueTime clock and optionally start sync thread.
+ * @param config TrueTime configuration.
+ */
 TrueTime::TrueTime(const Config& config)
     : config_(config)
     , uncertainty_ns_(config.base_uncertainty_us * 1000)
@@ -64,10 +69,15 @@ TrueTime::TrueTime(const Config& config)
     }
 }
 
+/** @brief Destructor stops background synchronization thread. */
 TrueTime::~TrueTime() {
     stopSyncThread();
 }
 
+/**
+ * @brief Return current corrected time interval with uncertainty bounds.
+ * @return TrueTime interval [earliest, latest].
+ */
 TTInterval TrueTime::now() const {
     auto system_time = getSystemTime();
     
@@ -84,6 +94,10 @@ TTInterval TrueTime::now() const {
     );
 }
 
+/**
+ * @brief Wait until timestamp is definitely before TT.now().earliest.
+ * @param timestamp Target timestamp.
+ */
 void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     // Wait until timestamp is definitely in the past
     // i.e., timestamp < now().earliest
@@ -121,18 +135,30 @@ void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     }
 }
 
+/** @brief Alias for now() emphasizing uncertainty semantics. */
+TTInterval TrueTime::now_with_uncertainty() const {
+    // Identical to now(); provided as an explicit named method for the
+    // Percolator commit-wait pattern where callers need the [earliest, latest]
+    // interval to compute: wait until TT.now().earliest > commit_ts + epsilon.
+    return now();
+}
+
+/** @brief Return current uncertainty epsilon. */
 std::chrono::nanoseconds TrueTime::getUncertainty() const {
     return std::chrono::nanoseconds(calculateUncertainty());
 }
 
+/** @brief Return current drift estimate. */
 std::chrono::nanoseconds TrueTime::getDrift() const {
     return std::chrono::nanoseconds(drift_ns_.load(std::memory_order_relaxed));
 }
 
+/** @brief Trigger immediate synchronization attempt. */
 bool TrueTime::syncNow() {
     return performSync();
 }
 
+/** @brief Return JSON stats snapshot for diagnostics/monitoring. */
 std::string TrueTime::getStats() const {
     std::ostringstream oss;
     oss << "{"
@@ -144,6 +170,7 @@ std::string TrueTime::getStats() const {
     return oss.str();
 }
 
+/** @brief Start periodic synchronization thread if not already running. */
 void TrueTime::startSyncThread() {
     if (sync_thread_running_.exchange(true)) {
         return; // Already running
@@ -152,22 +179,29 @@ void TrueTime::startSyncThread() {
     sync_thread_ = std::thread(&TrueTime::syncThreadFunc, this);
 }
 
+/** @brief Stop periodic synchronization thread if running. */
 void TrueTime::stopSyncThread() {
     if (!sync_thread_running_.exchange(false)) {
         return; // Not running
     }
     
-    if (sync_thread_.joinable()) {
-        sync_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(sync_thread_)) {
+        THEMIS_WARN("[TrueTime] sync thread did not finish within shutdown deadline; detaching.");
     }
 }
 
+/** @brief Read raw system clock in nanoseconds since epoch. */
 std::chrono::nanoseconds TrueTime::getSystemTime() const {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     );
 }
 
+/**
+ * @brief Synchronize against configured NTP servers and update drift/uncertainty.
+ * @return true if at least one server produced a valid offset.
+ */
 bool TrueTime::performSync() {
     if (config_.ntp_servers.empty()) {
         // No NTP servers configured, use local time with increased uncertainty
@@ -218,17 +252,31 @@ bool TrueTime::performSync() {
     return true;
 }
 
+/**
+ * @brief Query one NTP server and compute local clock offset.
+ * @param server NTP server hostname/address.
+ * @param offset Output offset in nanoseconds.
+ * @return true on successful query and offset calculation.
+ */
 bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     // Implement SNTP (Simple Network Time Protocol) client - RFC 4330
     // This is a simplified version suitable for time synchronization
     
+#ifdef _WIN32
+    using SocketHandle = SOCKET;
+    static constexpr SocketHandle kInvalidSocket = INVALID_SOCKET;
+#else
+    using SocketHandle = int;
+    static constexpr SocketHandle kInvalidSocket = -1;
+#endif
+
     // RAII wrapper for socket to ensure cleanup
     class SocketGuard {
-        int fd_;
+        SocketHandle fd_;
     public:
-        explicit SocketGuard(int fd) : fd_(fd) {}
-        ~SocketGuard() { 
-            if (fd_ >= 0) {
+        explicit SocketGuard(SocketHandle fd) : fd_(fd) {}
+        ~SocketGuard() {
+            if (fd_ != kInvalidSocket) {
 #ifdef _WIN32
                 closesocket(fd_);
 #else
@@ -236,7 +284,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
 #endif
             }
         }
-        int get() const { return fd_; }
+        SocketHandle get() const { return fd_; }
         // Prevent copying
         SocketGuard(const SocketGuard&) = delete;
         SocketGuard& operator=(const SocketGuard&) = delete;
@@ -263,8 +311,8 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         };
         
         // Create socket with RAII cleanup
-        int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-        if (sockfd < 0) {
+        SocketHandle sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (sockfd == kInvalidSocket) {
             return false;
         }
         SocketGuard socketGuard(sockfd);
@@ -388,16 +436,17 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         
         return true;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
 
+/** @brief Compute time uncertainty growth since last successful sync. */
 uint64_t TrueTime::calculateUncertainty() const {
     uint64_t base_uncertainty = uncertainty_ns_.load(std::memory_order_relaxed);
     
     // Calculate time since last sync
-    auto now_ns = getSystemTime().count();
+    uint64_t now_ns = static_cast<uint64_t>(getSystemTime().count());
     uint64_t last_sync = last_sync_ns_.load(std::memory_order_relaxed);
     uint64_t time_since_sync_ns = now_ns > last_sync ? now_ns - last_sync : 0;
     
@@ -408,9 +457,11 @@ uint64_t TrueTime::calculateUncertainty() const {
     uint64_t total_uncertainty = base_uncertainty + drift_uncertainty;
     
     // Cap at max drift
-    return std::min(total_uncertainty, config_.max_drift_us * 1000);
+    const auto max_drift_ns = static_cast<uint64_t>(config_.max_drift_us) * static_cast<uint64_t>(1000);
+    return std::min<uint64_t>(total_uncertainty, max_drift_ns);
 }
 
+/** @brief Background synchronization loop running at configured interval. */
 void TrueTime::syncThreadFunc() {
     while (sync_thread_running_.load()) {
         // Perform sync
@@ -424,3 +475,5 @@ void TrueTime::syncThreadFunc() {
 }
 
 } // namespace themis::sharding
+
+

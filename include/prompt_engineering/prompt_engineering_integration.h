@@ -1,26 +1,20 @@
+/**
+ * @file prompt_engineering_integration.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_engineering_integration.h                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4e4752b78  2026-03-01  fix(prompt_engineering): wire buildMultiModalPrompt into ... ║
-    • f07f34efb  2026-02-22  Audit fixes: correct Stubs counter and strengthen injecti... ║
-    • b5b22125a  2026-02-22  Wire PromptInjectionDetector into PromptEngineeringIntegr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_engineering_integration.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -41,6 +35,8 @@
 #include "feedback_collector.h"
 #include "prompt_version_control.h"
 #include "prompt_injection_detector.h"
+#include "reflection_tuner.h"
+#include "prompt_engineering_metrics.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -65,7 +61,11 @@ struct IntegrationConfig {
     
     // Injection detection
     bool enable_injection_detection = true;
-    
+
+    // Reflection Tuning (optional; off by default — zero overhead when disabled)
+    bool enable_reflection_tuning = false;
+    size_t reflection_max_iterations = 3;
+
     // Optimization thresholds
     size_t min_executions_before_optimization = 100;
     double min_success_rate_for_optimization = 0.7;
@@ -241,6 +241,24 @@ public:
     // Configuration
     IntegrationConfig getConfig() const;
     void updateConfig(const IntegrationConfig& config);
+
+    // Reflection Tuning integration
+    /**
+     * @brief Attach a `ReflectionTuner` for optional post-generation response
+     *        refinement.
+     *
+     * When set and `IntegrationConfig::enable_reflection_tuning` is `true`,
+     * `afterExecution()` runs a reflection cycle on each successful response
+     * and records the results via `PromptEngineeringMetrics`.
+     */
+    void setReflectionTuner(std::shared_ptr<ReflectionTuner> tuner);
+
+    /**
+     * @brief Attach a `PromptEngineeringMetrics` instance for reflection
+     *        observability.  When not set, reflection metrics are silently
+     *        discarded.
+     */
+    void setMetrics(std::shared_ptr<PromptEngineeringMetrics> metrics);
     
 private:
     void checkAndTriggerOptimization(const std::string& prompt_id);
@@ -258,6 +276,8 @@ private:
     std::shared_ptr<FeedbackCollector> feedback_collector_;
     std::shared_ptr<PromptVersionControl> version_control_;
     std::shared_ptr<PromptInjectionDetector> injection_detector_;
+    std::shared_ptr<ReflectionTuner>         reflection_tuner_;
+    std::shared_ptr<PromptEngineeringMetrics> metrics_;
     
     std::unique_ptr<BackgroundOptimizationWorker> background_worker_;
     

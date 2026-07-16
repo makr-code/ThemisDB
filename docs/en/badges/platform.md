@@ -19,7 +19,7 @@ A static badge listing the operating systems on which ThemisDB can be built and 
 
 | Source | URL |
 |--------|-----|
-| CI platform (Linux) | [`.github/workflows/themis-core-ci.yml`](../../../.github/workflows/themis-core-ci.yml) |
+| CI platform (Linux) | [`.github/workflows/01-core_themis-core-ci.yml`](../../../.github/workflows/01-core_themis-core-ci.yml) |
 | Windows build script | [`setup-build-env.ps1`](../../../setup-build-env.ps1) |
 | Build documentation | [`SETUP.md`](../../../SETUP.md) |
 

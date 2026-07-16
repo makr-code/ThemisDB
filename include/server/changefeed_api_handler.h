@@ -1,36 +1,38 @@
+/**
+ * @file changefeed_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            changefeed_api_handler.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1c8568075  2026-02-24  Implement GDPR-aware PII field scrubbing HTTP endpoint fo... ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: changefeed_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
+#include <chrono>
+#include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <optional>
+#include <atomic>
+#include <vector>
+#include <set>
+#include <ostream>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include "server/auth_middleware.h"
+#include "cdc/delivery_tracker.h"
 
 namespace themis {
 
@@ -44,6 +46,149 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 
 class SseConnectionManager;
+
+/**
+ * @brief Async SSE stream for event-driven delivery without polling.
+ *
+ * Manages the complete lifecycle of an SSE stream subscription:
+ * - Subscribes to the changefeed using the event-driven subscription model
+ * - Buffers incoming events with backpressure handling (bounded queue)
+ * - Handles client disconnections gracefully
+ * - Cleans up subscription on stream close (RAII)
+ * - Formats events as SSE and writes to the output stream
+ *
+ * Usage:
+ * ```cpp
+ * AsyncSSEStream stream(changefeed, output_stream, consumer_id, max_seconds);
+ * stream.run(key_prefix, event_types);  // Blocks until stream closes or timeout
+ * ```
+ */
+class AsyncSSEStream {
+public:
+    /**
+     * @brief Stream configuration for backpressure and event handling.
+     */
+    struct Config {
+        /// Maximum events to buffer before dropping oldest (backpressure)
+        size_t max_buffered_events = 1000;
+        /// Heartbeat interval in milliseconds (0 = disabled)
+        uint32_t heartbeat_interval_ms = 15000;
+        /// Maximum duration before stream auto-closes (in seconds)
+        uint32_t max_duration_seconds = 300;
+        /// Backpressure strategy: true = drop oldest, false = drop newest
+        bool drop_oldest_on_overflow = true;
+    };
+
+    /**
+     * @brief Construct an async SSE stream.
+     *
+     * @param changefeed Shared changefeed source for subscriptions
+     * @param output Output stream for SSE lines
+     * @param consumer_id Optional consumer ID for at-least-once tracking
+     * @param config Stream configuration
+     */
+    AsyncSSEStream(
+        std::shared_ptr<Changefeed> changefeed,
+        std::ostream& output,
+        const std::string& consumer_id = "",
+        const Config& config = Config{}
+    );
+
+    /**
+     * @brief Destructor cleans up subscription automatically (RAII).
+     */
+    ~AsyncSSEStream() noexcept;
+
+    /**
+     * @brief Start the async stream with optional filtering.
+     *
+     * Blocks until the stream times out, client disconnects, or an error occurs.
+     * Events are delivered via the subscription callback.
+     *
+     * @param key_prefix Optional key prefix filter (empty = no filter)
+     * @param event_types Optional event type filters (empty = all types)
+     * @return Number of events delivered
+     */
+    size_t run(
+        const std::string& key_prefix = "",
+        const std::set<Changefeed::ChangeEventType>& event_types = {}
+    );
+
+    /**
+     * @brief Signal the stream to close gracefully.
+     *
+     * Called by client disconnect handler or timeout.
+     */
+    void close() noexcept;
+
+    /**
+     * @brief Get the number of events that were delivered.
+     */
+    size_t getEventCount() const noexcept { return event_count_; }
+
+    /**
+     * @brief Get the number of events dropped due to backpressure.
+     */
+    size_t getDroppedEventCount() const noexcept { return dropped_events_; }
+
+    /**
+     * @brief Get the number of heartbeat comments sent.
+     */
+    size_t getHeartbeatCount() const noexcept { return heartbeat_count_; }
+
+    /**
+     * @brief Get the raw events that were delivered.
+     * 
+     * Returns a copy of the events that were successfully delivered
+     * to the output stream. Useful for at-least-once delivery tracking.
+     */
+    std::vector<Changefeed::ChangeEvent> getDeliveredEvents() const noexcept;
+
+private:
+    /// Event queue entry (raw event with additional metadata)
+    struct QueuedEvent {
+        Changefeed::ChangeEvent event;
+        int64_t enqueued_at_ms = 0;
+    };
+
+    /// Subscription callback handler (invoked on changefeed events)
+    void onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept;
+
+    /// Drain queued events and write them to the output stream
+    void drainEventQueue() noexcept;
+
+    /// Send a heartbeat comment
+    void sendHeartbeat() noexcept;
+
+    std::shared_ptr<Changefeed> changefeed_;
+    std::ostream& output_;
+    std::string consumer_id_;
+    Config config_;
+
+    /// Subscription handle (auto-unsubscribes on destruction)
+    Changefeed::SubscriptionHandle subscription_handle_;
+
+    /// Thread-safe event queue for backpressure handling
+    mutable std::mutex queue_mutex_;
+    std::vector<QueuedEvent> event_queue_;
+    
+    /// Delivered events for at-least-once tracking
+    mutable std::mutex delivered_mutex_;
+    std::vector<Changefeed::ChangeEvent> delivered_events_;
+
+    /// Stream state
+    std::atomic<bool> active_{true};
+    std::atomic<bool> should_close_{false};
+
+    /// Statistics
+    std::atomic<size_t> event_count_{0};
+    std::atomic<size_t> dropped_events_{0};
+    std::atomic<size_t> heartbeat_count_{0};
+
+    /// Heartbeat timing
+    std::chrono::steady_clock::time_point last_heartbeat_time_;
+    std::chrono::steady_clock::time_point stream_start_time_;
+};
 
 /**
  * @brief Handler for Changefeed (CDC) Operations
@@ -65,6 +210,61 @@ class SseConnectionManager;
  */
 class ChangefeedApiHandler {
 public:
+    // ─── Async SSE stream writer bridge (stub #305 resolution) ──────────────
+
+    /**
+     * @brief Injection bridge for a production async SSE write loop.
+     *
+     * When registered via `setSseStreamWriterFn()`, the SSE keep-alive
+     * handler delegates the entire event-push lifecycle to this function
+     * instead of running its own sync busy-wait poll loop.  This allows the
+     * caller (e.g., an Asio-backed HTTP/2 session) to drive writes through
+     * its own async strand.
+     *
+     * The function must:
+     *  - Call `mgr.pollRawEvents(conn_id, …)` to drain buffered raw events.
+     *  - Format each event as SSE (`"id: N\ndata: {...}\n\n"`) and write to
+     *    `body`.
+     *  - Send heartbeat comments (`": heartbeat\n\n"`) as needed.
+     *  - Return when `max_duration` has elapsed or the client disconnects.
+     *
+     * The handler's delivery_tracker is NOT passed here; callers that need
+     * at-least-once tracking should obtain raw events from the manager and
+     * call the tracker themselves via a separate injection.
+     *
+     * @param mgr              Active SSE connection manager.
+     * @param conn_id          Connection ID returned by registerConnection().
+     * @param body             Output stream for SSE lines.
+     * @param max_duration     Maximum wall-clock duration for the stream.
+     * @param heartbeat_ms     Heartbeat interval hint (0 = use manager default).
+     * @param max_events_per_poll Maximum events to drain per poll cycle.
+     */
+    using SseStreamWriterFn = std::function<void(
+        SseConnectionManager& mgr,
+        uint64_t conn_id,
+        std::ostream& body,
+        std::chrono::seconds max_duration,
+        uint32_t heartbeat_ms,
+        size_t max_events_per_poll
+    )>;
+
+    /**
+     * @brief Register an async SSE stream writer for keep-alive connections.
+     *
+     * Thread-safe.  Replaces any previously registered writer.
+     *
+     * @param fn  Writer function; may be empty to clear.
+     */
+    static void setSseStreamWriterFn(SseStreamWriterFn fn);
+
+    /**
+     * @brief Clear any previously registered SSE stream writer.
+     *
+     * After this call the handler reverts to its built-in sync poll loop.
+     * Thread-safe.
+     */
+    static void clearSseStreamWriterFn();
+
     /**
      * @brief Construct a new Changefeed API Handler
      * 
@@ -140,6 +340,21 @@ public:
     http::response<http::string_body> handleCompact(const http::request<http::string_body>& req);
 
     /**
+     * @brief Handle POST /changefeed/stream/ack request
+     *
+     * Acknowledges delivery of SSE change events, clearing them from the
+     * at-least-once in-flight tracking state for the given consumer.
+     *
+     * Accepted JSON body fields:
+     *   consumer_id      (string, required) – opaque consumer identifier
+     *   up_to_sequence   (uint64, required) – highest sequence number to acknowledge
+     *
+     * @param req HTTP request with JSON body
+     * @return HTTP response with acknowledgement result
+     */
+    http::response<http::string_body> handleStreamAck(const http::request<http::string_body>& req);
+
+    /**
      * @brief Handle POST /changefeed/redact request (GDPR right to erasure)
      *
      * Scrubs PII from all change log entries whose key starts with the
@@ -164,6 +379,14 @@ private:
     std::shared_ptr<SseConnectionManager> sse_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     bool feature_cdc_;
+
+    /// At-least-once delivery tracker for SSE consumers.
+    /// Tracks in-flight events per consumer_id until the client ACKs them.
+    cdc::DeliveryTracker delivery_tracker_;
+
+    // Static async SSE stream writer bridge (guarded by sse_writer_mutex_).
+    static SseStreamWriterFn sse_stream_writer_fn_;
+    static std::mutex        sse_writer_mutex_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

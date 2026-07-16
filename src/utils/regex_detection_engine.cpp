@@ -1,23 +1,21 @@
+/**
+ * @file regex_detection_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            regex_detection_engine.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     529                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: regex_detection_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 536
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=10, L=0
+ * PR History (last 5): #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/regex_detection_engine.h"
@@ -245,6 +243,22 @@ nlohmann::json RegexDetectionEngine::getMetadata() const {
     metadata["signed_at"] = signature_.signed_at;
     
     return metadata;
+}
+
+size_t RegexDetectionEngine::maxPatternLength() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    // Return the length of the longest regex_str across all enabled patterns.
+    // PIIStreamScanner uses this as the sliding-window overlap so that patterns
+    // whose match spans straddle a chunk boundary are still detected.
+    size_t max_len = 0;
+    for (const auto& p : patterns_) {
+        if (p.enabled && p.regex_str.size() > max_len) {
+            max_len = p.regex_str.size();
+        }
+    }
+    // Apply a minimum floor equal to kDefaultLookaheadBytes so that even a
+    // pattern-less engine produces a usable overlap value.
+    return max_len > kDefaultLookaheadBytes ? max_len : kDefaultLookaheadBytes;
 }
 
 void RegexDetectionEngine::loadEmbeddedDefaults() {
@@ -530,3 +544,4 @@ std::unique_ptr<IPIIDetectionEngine> createRegexEngine() {
 
 } // namespace utils
 } // namespace themis
+

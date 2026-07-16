@@ -1,24 +1,21 @@
+/**
+ * @file metrics_collector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            metrics_collector.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     236                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c64d550cf  2026-02-21  feat(core): implement Prometheus metrics adapter for Kube... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: metrics_collector.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 283
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4272 feat(observability): upgrad... (2026-03-15) | #3328 [WIP] Add SLO/SLA complianc... (2026-03-12) | #3289 [WIP] Add exemplars on Prom... (2026-03-12) | #2873 feat(governance): OPA polic... (2026-03-12) | #1041 Fix thread-safety in cache/... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +24,7 @@
 #include <map>
 #include <vector>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 #include <chrono>
 #include <memory>
@@ -73,7 +71,11 @@ struct Exemplar {
  * 
  * Thread-Safety:
  * - All public methods are thread-safe
- * - Counter and gauge operations are protected by mutex during map insertion
+ * - Read operations (getPrometheusMetrics, getCardinalityLimit) use
+ *   std::shared_lock, allowing multiple concurrent readers
+ * - Write operations (record*, increment*, setGauge, observeHistogram, reset)
+ *   use std::unique_lock for exclusive access
+ * - Counter and gauge operations are protected during map insertion
  * - Histogram operations are fully synchronized
  * - Safe for concurrent access from multiple threads
  * 
@@ -131,7 +133,13 @@ public:
     // Get metrics in Prometheus text format
     std::string getPrometheusMetrics() const;
     
-    // Reset all metrics (for testing)
+    /**
+     * @brief Reset all collected metric state to defaults.
+     *
+     * Clears counters, gauges, histograms, cardinality tracking, dropped-series
+     * counters, and restores the cardinality limit to the default disabled
+     * state (`0`). Intended primarily for tests and process-wide reinitialization.
+     */
     void reset();
 
     // ===== Cardinality control =====
@@ -214,7 +222,7 @@ private:
     ~MetricsCollector() = default;
     
     friend class LatencyTracker;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Cardinality limit (0 = disabled)
     size_t cardinality_limit_ = 0;
@@ -253,7 +261,7 @@ private:
      *        by the cardinality limit.  Returns true if the observation should
      *        proceed, false if it should be dropped.
      *
-     * Caller MUST hold mutex_ before calling this.
+     * Caller MUST hold mutex_ exclusively (unique_lock) before calling this.
      */
     bool checkCardinality(const std::string& name, const std::string& key);
     

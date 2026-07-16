@@ -1086,6 +1086,6 @@ themisdb-server --database.integrity-check --database.path /var/lib/themisdb/
 
 ---
 
-**Last Updated:** 2024-01-24  
+**Last Updated:** 2026-04-06  
 **Version:** 1.4.0  
 **Maintainer:** ThemisDB Team

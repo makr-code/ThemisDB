@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_ingestion_integration.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:04:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     774                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ab1851da9  2026-02-28  Fix doxygen comment block opener in integration test file ║
-    • 613a5b5eb  2026-02-28  Add integration tests for filesystem, HuggingFace, and ge... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_ingestion_integration.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 81/100
+ * Gap Summary: total=10; TODO=1, Stub=2, Unimpl=0, Mock=6, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -771,6 +755,104 @@ TEST(MultiSourceIntegrationTest, ParallelIngestionMultipleSources) {
     EXPECT_EQ(report.total_failures,  0u);
 
     fs::remove_all(root);
+}
+
+// ============================================================================
+// HTTP client TLS configuration – ca_bundle_path tests
+// ============================================================================
+
+TEST(RetryConfigTest, CaBundlePathDefaultIsEmpty) {
+    RetryConfig cfg;
+    EXPECT_TRUE(cfg.ca_bundle_path.empty());
+}
+
+TEST(RetryConfigTest, CaBundlePathCanBeSet) {
+    RetryConfig cfg;
+    cfg.ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    EXPECT_EQ(cfg.ca_bundle_path, "/etc/ssl/certs/ca-certificates.crt");
+}
+
+TEST(HuggingFaceIntegrationTest, CaBundlePathFromOptions) {
+    HuggingFaceConnector conn;
+    SourceConfig cfg = makeHfConfig("hf_ca_bundle", "test/dataset", "train");
+    cfg.options["ca_bundle_path"] = "/etc/ssl/certs/ca-certificates.crt";
+    ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
+
+    // Ingestion must succeed with ca_bundle_path option set (mock HTTP path)
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST(HuggingFaceIntegrationTest, CaBundlePathViaRetryConfig) {
+    HuggingFaceConnector conn;
+    SourceConfig cfg = makeHfConfig("hf_ca_retry", "test/dataset", "train");
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    RetryConfig retry;
+    retry.ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    conn.setRetryConfig(retry);
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
+
+    // setRetryConfig must not discard ca_bundle_path
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
+    EXPECT_EQ(stats.documents_failed, 0u);
+}
+
+TEST(GenericApiIntegrationTest, CaBundlePathFromOptions) {
+    GenericApiConnector conn;
+
+    SourceConfig cfg;
+    cfg.source_id              = "api_ca_bundle";
+    cfg.type                   = SourceType::API;
+    cfg.location               = "https://api.example.com/data";
+    cfg.options["page_size"]   = "3";
+    cfg.options["max_pages"]   = "1";
+    cfg.options["text_field"]  = "text";
+    cfg.options["ca_bundle_path"] = "/etc/ssl/certs/ca-certificates.crt";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    conn.setHttpGetForTesting(
+        [](const std::string& /*url*/, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            return {200, makeApiPage(3)};
+        });
+
+    // Ingestion must succeed with ca_bundle_path option set (mock HTTP path)
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 3u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST(GenericApiIntegrationTest, CaBundlePathViaRetryConfig) {
+    GenericApiConnector conn;
+
+    SourceConfig cfg;
+    cfg.source_id             = "api_ca_retry";
+    cfg.type                  = SourceType::API;
+    cfg.location              = "https://api.example.com/data";
+    cfg.options["page_size"]  = "2";
+    cfg.options["max_pages"]  = "1";
+    cfg.options["text_field"] = "text";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    RetryConfig retry;
+    retry.ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    conn.setRetryConfig(retry);
+
+    conn.setHttpGetForTesting(
+        [](const std::string& /*url*/, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            return {200, makeApiPage(2)};
+        });
+
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 2u);
+    EXPECT_EQ(stats.documents_failed, 0u);
 }
 
 TEST(MultiSourceIntegrationTest, IngestAllReportCorrelationIds) {

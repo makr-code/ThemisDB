@@ -1,24 +1,21 @@
+/**
+ * @file multi_gpu_backend.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_backend.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     207                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e7afd57b  2026-02-23  feat(acceleration): implement MultiGPUVectorBackend with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_backend.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 195
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2703 feat(acceleration): impleme... (2026-03-12) | #2668 feat(acceleration): Multi-G... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -72,7 +69,7 @@ struct ShardDescriptor {
  * conditionally registers this backend so it is offered by getBestVectorBackend()
  * ahead of single-GPU CUDA in the fallback chain.
  *
- * @see future_enhancements.md — "Multi-GPU Sharding for Large Embedding Datasets"
+ * @see FUTURE_ENHANCEMENTS.md — "Multi-GPU Sharding for Large Embedding Datasets"
  * @version v1.9.0 (Target)
  */
 class MultiGPUVectorBackend : public IVectorBackend {
@@ -206,3 +203,4 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+

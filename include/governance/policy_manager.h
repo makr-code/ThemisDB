@@ -1,24 +1,21 @@
+/**
+ * @file policy_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     215                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 251
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4300 feat(governance): CSV expor... (2026-03-17) | #1075 Implement GAP-004 Phase 5: ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,7 +26,9 @@
 #include <optional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 #include "policy_version_history.h"
 
@@ -77,6 +76,24 @@ struct PolicyRule {
     
     /// Check if rule applies to a resource/action combination
     bool appliesTo(const std::string& resource, const std::string& action) const;
+};
+
+/// Immutable snapshot of the complete policy rule set.
+///
+/// Used as the double-buffer read target for `PolicyManager::reloadPolicies()`.
+/// Readers capture a `shared_ptr<const PolicySet>` without holding any lock;
+/// the old set is kept alive by its ref-count until all in-flight readers finish,
+/// satisfying the "zero requests dropped during reload window" requirement.
+///
+/// **Immutability contract**: instances must never be modified after being
+/// published via the `active_policy_set_` field.  Always create a fresh
+/// `PolicySet` and atomically swap the pointer instead of mutating the current one.
+struct PolicySet {
+    std::unordered_map<std::string, PolicyRule> rules;
+    /// Stable deterministic identifier derived from sorted rule IDs.
+    /// Used only for logging and audit entries, not for cryptographic integrity.
+    std::string version_hash;
+    std::int64_t loaded_at = 0; ///< Unix epoch milliseconds of last load
 };
 
 /// PolicyManager manages governance rules and RBAC policies
@@ -196,11 +213,40 @@ public:
     /// Query audit trail by user
     std::vector<PolicyRuleVersion> getAuditTrailByUser(
         const std::string& user, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
+
+    // ========== Hot-Reload API (double-buffer) ==========
+
+    /// Reload policies from disk with an atomic double-buffer swap.
+    ///
+    /// Loads the new rule set from @p path, validates it via PolicyValidator,
+    /// and – only if validation passes – atomically promotes it as the active
+    /// PolicySet via a release-store. Readers that captured a snapshot of the
+    /// old set before the swap will complete normally (the old PolicySet stays
+    /// alive through its shared_ptr ref-count).
+    ///
+    /// On validation failure the current rule set is retained unchanged.
+    /// Emits a `governance_policy_reload_total` Prometheus counter with
+    /// `result=success` or `result=failure` in both cases.
+    ///
+    /// @param path   Path to a YAML or JSON policy file.
+    /// @param err    Optional output: error description on failure.
+    /// @return       true on success, false on load or validation failure.
+    bool reloadPolicies(const std::string& path, std::string* err = nullptr);
+
+    /// @return The version hash of the currently active PolicySet.
+    ///         Empty string if no policy set has been promoted via reloadPolicies().
+    std::string activePolicyVersion() const;
     
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, PolicyRule> rules_;
     PolicyVersionHistory version_history_;             // Version history manager
+
+    // Double-buffer for hot-reload: reloadPolicies() promotes a new PolicySet
+    // with a release-store; findApplicableRules()/evaluatePolicy() acquire a
+    // shared_ptr snapshot so that in-flight reads never block on reload.
+    mutable std::shared_mutex policy_set_mutex_;
+    std::shared_ptr<const PolicySet> active_policy_set_;  // null until first reloadPolicies()
     
     /// Helper: match pattern with wildcards
     bool matchPattern(const std::string& pattern, const std::string& value) const;

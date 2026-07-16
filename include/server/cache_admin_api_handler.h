@@ -1,35 +1,30 @@
+/**
+ * @file cache_admin_api_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.20
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_admin_api_handler.h                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-09 03:55:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     188                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6eb47cdea  2026-02-24  feat(cache): implement tenant management API with per-ten... ║
-    • 3ae442842  2026-02-24  fix(cache): address audit gaps - update docs, header, ROA... ║
-    • 30ccf1a0f  2026-02-24  feat(cache): implement tenant-level cache statistics dash... ║
-    • 1650fa69b  2026-02-24  feat(cache): add /health endpoint with per-tier status an... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cache_admin_api_handler.h | Version: 0.0.20
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "server/auth_middleware.h"
 #include "cache/adaptive_query_cache.h"
+#include "cache/cache_hit_rate_slo_monitor.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
@@ -171,9 +166,20 @@ public:
     http::response<http::string_body> handlePiiEvict(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Attach an SLO monitor whose latency status is included in
+     *        GET /v1/admin/cache/stats responses.
+     *
+     * May be nullptr (default) to omit the "slo" block from the response.
+     * Thread-safe: updates are synchronized with request-time reads.
+     */
+    void setSloMonitor(std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor);
+
 private:
     std::shared_ptr<AdaptiveQueryCache> cache_;
     std::shared_ptr<AuthMiddleware> auth_;
+    mutable std::mutex slo_monitor_mutex_;
+    std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor_;
 
     // Returns false and fills `out` with a 401/403 response if auth fails.
     bool checkAuth(const http::request<http::string_body>& req,

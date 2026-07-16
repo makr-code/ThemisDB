@@ -1,27 +1,21 @@
+/**
+ * @file wire_protocol_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     439                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b437bbe00  2026-02-25  fix(network): audit – 3 bugs fixed in per-tenant bandwidt... ║
-    • a57c9c42c  2026-02-25  feat(network): implement per-tenant network bandwidth quotas ║
-    • 48054ea22  2026-02-22  fix(server/network): finalize WebSocket upgrade – ROADMAP... ║
-    • 6d2d48159  2026-02-22  feat(network): implement WebSocket upgrade support on wir... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server.h | Version: 0.0.47 | Last Modified: 2026-05-29 14:12:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 554
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3631 feat(network): implement Wi... (2026-03-12) | #2545 [network] WebSocket upgrade... (2026-03-11) | #1136 Complete production-ready T... (2026-03-11) | #1137 Implement BPMN wire protoco... (2026-03-11) | #1157 Enforce TLS for Wire Protoc... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol Server Header
@@ -44,7 +38,9 @@
 #include <deque>
 #include <atomic>
 #include <mutex>
+#include <functional>
 #include <unordered_map>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 // Forward declarations
@@ -56,6 +52,9 @@ class TransactionManager;
 class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
+namespace index { class SpatialIndexManager; }
 
 namespace network {
 
@@ -69,6 +68,47 @@ namespace websocket = beast::websocket;
 // Forward declaration of the WebSocket session (defined in wire_protocol_websocket.h)
 class WireProtocolWebSocketSession;
 #endif
+
+// ---------------------------------------------------------------------------
+// GEO_QUERY injection bridge (stub #284 replacement)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Geospatial query injection bridge for the JSON wire protocol.
+ *
+ * When set via setNetworkGeoQueryFn(), GEO_QUERY "near" messages can be
+ * dispatched to this function when no SpatialIndexManager is configured.
+ * This closes the previous startup/runtime mismatch where the server accepted
+ * a geo bridge during bootstrap but still returned GEO_NOT_INTEGRATED.
+ *
+ * The function receives the collection name, centre coordinates (WGS84
+ * decimal degrees), search radius in metres, and result limit.  It must
+ * return a nlohmann::json array of matching document objects.
+ *
+ * Thread-safety: the stored function pointer is protected by an internal
+ * mutex; callers may register/clear the bridge at any time.
+ *
+ * @param collection  Target collection name.
+ * @param lat         Latitude of the search centre (WGS84, decimal degrees).
+ * @param lon         Longitude of the search centre (WGS84, decimal degrees).
+ * @param radius_m    Search radius in metres (>0).
+ * @param limit       Maximum number of results (<=0 means no limit).
+ * @return            JSON array of matching document objects.
+ */
+using GeoQueryFn = std::function<nlohmann::json(
+    const std::string& collection, double lat, double lon,
+    double radius_m, int limit)>;
+
+/**
+ * @brief Register the geospatial query injection bridge.
+ *
+ * Thread-safe.  Replaces any previously registered function.  Pass a
+ * null/empty function to clear the bridge and restore the
+ * GEO_NOT_INTEGRATED fallback behaviour.
+ *
+ * @param fn  Callable to handle GEO_QUERY messages, or nullptr to clear.
+ */
+void setNetworkGeoQueryFn(GeoQueryFn fn);
 
 /**
  * @brief Wire Protocol Server - Binary TCP Protocol
@@ -129,6 +169,28 @@ public:
         // rejected as invalid binary frames.
         bool enable_websocket_upgrade = false;
 
+        // IPv6 support
+        // When true the server binds to an IPv6 socket.  If host is the default
+        // "0.0.0.0" it is automatically promoted to "::" (IPv6 any-address).
+        // Explicit IPv6 addresses in host (e.g. "::1" or "fe80::1") are always
+        // honoured regardless of this flag.
+        bool enable_ipv6 = false;
+
+        // Dual-stack mode (IPV6_V6ONLY=0).
+        // When enable_ipv6 is true and this flag is true, a single IPv6 socket
+        // also accepts IPv4-mapped connections, eliminating the need for two
+        // listener sockets.  Defaults to true; set to false to accept only pure
+        // IPv6 connections.
+        bool ipv6_dual_stack = true;
+
+        // TCP listen backlog — controls the OS-level pending-connection queue
+        // size passed to listen(2).  Under heavy load, connections beyond this
+        // limit are silently dropped by the kernel before they ever reach the
+        // application.  A value of 128 is the Linux default; increase for
+        // high-concurrency deployments (the effective maximum is bounded by
+        // /proc/sys/net/core/somaxconn on Linux).
+        int tcp_backlog = 128;
+
         Config() = default;
     };
 
@@ -141,7 +203,8 @@ public:
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<ProcessGraphManager> process_graph = nullptr,
         std::shared_ptr<TSStore> ts_store = nullptr,
-        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr
+        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr,
+        std::shared_ptr<QueryEngine> query_engine = nullptr
     );
 
     ~WireProtocolServer();
@@ -163,6 +226,9 @@ public:
      * Creates separate IO context and worker threads,
      * isolated from HTTP server to prevent interference.
      * Enforces transport security validation before starting.
+    * Enforces fail-closed runtime dependency checks: QueryEngine must be
+    * present and at least one geospatial backend (SpatialIndexManager or
+    * GeoQueryFn bridge) must be configured.
      */
     void start();
 
@@ -257,6 +323,25 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    /**
+     * @brief Inject a SpatialIndexManager for GEO_QUERY dispatch.
+     *
+     * When set, GEO_QUERY commands on this wire-protocol port are dispatched to
+     * the provided spatial index instead of returning GEO_NOT_INTEGRATED.  The
+     * manager is accessed from multiple session threads and must be thread-safe.
+     *
+     * @param idx  Shared spatial index manager; nullptr disables geo dispatch
+     *             and restores the NOT_INTEGRATED fallback.
+     */
+    void setSpatialIndexManager(std::shared_ptr<index::SpatialIndexManager> idx);
+
+    // Cursor entry used by paginated query responses.
+    struct CursorEntry {
+        nlohmann::json results;    // Full result set (JSON array)
+        size_t         offset = 0; // Next item index to return
+        int64_t        ttl_ms = 0; // Expiry (epoch ms); 0 = never
+    };
+
 private:
     class Session;  // Forward declaration
 
@@ -286,6 +371,17 @@ private:
     std::shared_ptr<ProcessGraphManager> process_graph_;
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
+    std::shared_ptr<QueryEngine> query_engine_;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index_; ///< Optional geo-query back-end (stub #284).
+
+    // Geospatial query injection bridge (stub #284)
+    mutable std::mutex geo_query_fn_mutex_;
+    GeoQueryFn         geo_query_fn_;
+
+    // Cursor registry: stores live AQL query results for batch pagination.
+    // cursor_id -> {results as JSON array, current offset, TTL timestamp}
+    mutable std::mutex cursors_mutex_;
+    std::unordered_map<std::string, CursorEntry> cursors_;
 
     // Networking (SEPARATE from HTTP server!)
     std::unique_ptr<net::io_context> io_context_;  // Dedicated IO context
@@ -308,9 +404,10 @@ private:
 
     // Rate limiting state (per-IP)
     struct RateLimitState {
-        uint64_t window_start_ms = 0;
-        uint32_t request_count_second = 0;
-        uint32_t request_count_minute = 0;
+        uint64_t window_start_ms        = 0;  // start of current 1-second window
+        uint64_t minute_window_start_ms = 0;  // start of current 60-second window
+        uint32_t request_count_second   = 0;
+        uint32_t request_count_minute   = 0;
     };
     mutable std::mutex rate_limit_mutex_;
     std::unordered_map<std::string, RateLimitState> rate_limits_;
@@ -321,6 +418,16 @@ private:
     // Server state
     std::atomic<bool> running_{false};
     std::atomic<uint64_t> session_id_counter_{0};
+
+    // Backpressure / overload tracking
+    // Counts accepted (live) connections; incremented in registerConnection(),
+    // decremented in unregisterConnection().  Used for the global max_connections
+    // check without holding connections_mutex_.
+    std::atomic<uint32_t> active_connection_count_{0};
+    // True while the server is in an overloaded state (active connections >=
+    // max_connections).  Used to gate "entering overload" / "recovering" log
+    // messages to one transition per state change instead of one per request.
+    std::atomic<bool> overloaded_{false};
 
     // Statistics
     mutable std::mutex stats_mutex_;
@@ -374,6 +481,12 @@ private:
     void asyncWriteResponse(const std::vector<uint8_t>& data);
     void doWrite();  // Internal write loop
 
+    // Dispatch a heavy handler function to the server's worker_pool_.
+    // Copies payload_buffer_ and header_buffer_ for the worker lambda so the
+    // I/O thread can immediately begin reading the next frame.
+    // Falls back to direct invocation when worker_pool_ is not configured.
+    void dispatchToWorkerPool(std::function<void()> handler);
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
     // Protocol detection: reads first 4 bytes and decides binary vs WebSocket
     void asyncDetectProtocol();
@@ -386,12 +499,20 @@ private:
     // Message handlers (OpCode dispatch)
     void handleMessage();
     void handleHello();
-    void handleAuthRequest();
+    void handleAuthRequest();   // 0x03 (backward-compat alias) and 0x04 AUTH_RESPONSE
     void handleGet();
     void handlePut();
     void handleDelete();
+    void handleBatchGet();
+    void handleBatchPut();
     void handleQuery();
+    void handleCursorNext();
+    void handleCursorClose();
+    void handleTransactionBegin();
+    void handleTransactionCommit();
+    void handleTransactionAbort();
     void handleVectorSearch();
+    void handleGraphTraverse();
     void handleGeoQuery();
     void handleTimeseriesQuery();
     void handleBpmnStartProcess();
@@ -415,6 +536,7 @@ private:
     
     // Authentication state
     std::atomic<bool> authenticated_{false};
+    std::atomic<bool> closed_{false};
     std::string username_;
     std::string client_ip_;
 

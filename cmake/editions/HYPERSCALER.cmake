@@ -9,12 +9,16 @@ set(THEMIS_SHARDING_MAX_NODES 0 CACHE STRING "Maximum sharding nodes - 0 = unlim
 set(THEMIS_MAX_CACHE_SIZE_MB 0 CACHE STRING "Maximum cache size (MB) - 0 = unlimited" FORCE)
 
 # Feature defaults for HYPERSCALER edition
-# All features enabled
-set(THEMIS_ENABLE_LLM ON CACHE BOOL "LLM enabled for HYPERSCALER edition" FORCE)
-set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC enabled for HYPERSCALER edition" FORCE)
-set(THEMIS_ENABLE_GPU ON CACHE BOOL "GPU enabled for HYPERSCALER edition" FORCE)
-set(THEMIS_ENABLE_TRACING ON CACHE BOOL "Tracing enabled for HYPERSCALER edition" FORCE)
-set(THEMIS_ENABLE_DISTRIBUTED_TRAINING ON CACHE BOOL "Distributed training enabled for HYPERSCALER edition" FORCE)
+# All features enabled (skipped in CI mode so runners without heavy deps can build)
+if(NOT THEMIS_CI_MODE)
+    set(THEMIS_ENABLE_LLM ON CACHE BOOL "LLM enabled for HYPERSCALER edition" FORCE)
+    set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC enabled for HYPERSCALER edition" FORCE)
+    set(THEMIS_ENABLE_GPU ON CACHE BOOL "GPU enabled for HYPERSCALER edition" FORCE)
+    set(THEMIS_ENABLE_TRACING ON CACHE BOOL "Tracing enabled for HYPERSCALER edition" FORCE)
+    set(THEMIS_ENABLE_DISTRIBUTED_TRAINING ON CACHE BOOL "Distributed training enabled for HYPERSCALER edition" FORCE)
+else()
+    message(STATUS "  HYPERSCALER CI mode: heavyweight features not force-enabled (LLM/GPU/gRPC/Tracing/DistTraining)")
+endif()
 
 # All optional features available (user can disable if needed)
 if(NOT DEFINED THEMIS_ENABLE_HSM_REAL)
@@ -23,7 +27,6 @@ endif()
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_HYPERSCALER_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=0)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=0)
 
 message(STATUS "  Hardware limits: Unlimited GPU VRAM, unlimited nodes, unlimited cache")

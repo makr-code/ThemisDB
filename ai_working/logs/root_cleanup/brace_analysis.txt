@@ -1,0 +1,309 @@
+Opening braces: 161
+Closing braces: 162
+Balance: -1
+
+Line   32: +1 -0 | balance =   1 | namespace themis {
+Line   33: +1 -0 | balance =   2 | namespace graph {
+Line   47: +2 -1 | balance =   3 | //   { "concepts": [ { "id": "...", "parents": ["...", ...] } ],
+Line   48: +1 -0 | balance =   4 | //     "axioms":   [ { "source_class": "...", "edge_type": "...",
+Line   49: +0 -2 | balance =   2 | //                     "target_class": "..." } ] }
+Line   52: +1 -0 | balance =   3 | namespace {
+Line   54: +1 -0 | balance =   4 | static void skipWs(const std::string &s, std::size_t &pos) {
+Line   55: +1 -0 | balance =   5 |     while (pos < s.size() && (s[pos] == ' ' || s[pos] == '\t' || s[pos
+Line   57: +0 -1 | balance =   4 |     }
+Line   58: +0 -1 | balance =   3 | }
+Line   60: +1 -0 | balance =   4 | static bool expect(const std::string &s, std::size_t &pos, char c) {
+Line   62: +1 -0 | balance =   5 |     if (pos >= s.size() || s[pos] != c) {
+Line   64: +0 -1 | balance =   4 |     }
+Line   67: +0 -1 | balance =   3 | }
+Line   70: +1 -0 | balance =   4 | static std::string parseString(const std::string &s, std::size_t &pos)
+Line   72: +1 -0 | balance =   5 |     if (pos >= s.size() || s[pos] != '"') {
+Line   73: +1 -1 | balance =   5 |         return {};
+Line   74: +0 -1 | balance =   4 |     }
+Line   77: +1 -0 | balance =   5 |     while (pos < s.size() && s[pos] != '"') {
+Line   78: +1 -0 | balance =   6 |         if (s[pos] == '\\' && pos + 1 < s.size()) {
+Line   81: +1 -0 | balance =   7 |             switch (esc) {
+Line  103: +0 -1 | balance =   6 |             }
+Line  104: +1 -1 | balance =   6 |         } else {
+Line  106: +0 -1 | balance =   5 |         }
+Line  108: +0 -1 | balance =   4 |     }
+Line  109: +1 -0 | balance =   5 |     if (pos < s.size()) {
+Line  111: +0 -1 | balance =   4 |     }
+Line  113: +0 -1 | balance =   3 | }
+Line  116: +1 -0 | balance =   4 | static std::vector<std::string> parseStringArray(const std::string &s,
+Line  119: +1 -0 | balance =   5 |     if (pos >= s.size() || s[pos] != '[') {
+Line  121: +0 -1 | balance =   4 |     }
+Line  124: +1 -0 | balance =   5 |     while (pos < s.size() && s[pos] != ']') {
+Line  126: +1 -0 | balance =   6 |         if (!val.empty()) {
+Line  128: +0 -1 | balance =   5 |         }
+Line  130: +1 -0 | balance =   6 |         if (pos < s.size() && s[pos] == ',') {
+Line  132: +0 -1 | balance =   5 |         }
+Line  134: +0 -1 | balance =   4 |     }
+Line  135: +1 -0 | balance =   5 |     if (pos < s.size()) {
+Line  137: +0 -1 | balance =   4 |     }
+Line  139: +0 -1 | balance =   3 | }
+Line  141: +1 -1 | balance =   3 | // Parse { "key": value, ... } ÔÇö values may be strings or string arr
+Line  145: +1 -0 | balance =   4 |             std::unordered_map<std::string, std::vector<std::string>> 
+Line  148: +2 -0 | balance =   6 |     if (pos >= s.size() || s[pos] != '{') {
+Line  150: +0 -1 | balance =   5 |     }
+Line  153: +1 -1 | balance =   5 |     while (pos < s.size() && s[pos] != '}') {
+Line  156: +1 -0 | balance =   6 |         if (pos < s.size() && s[pos] == ':') {
+Line  158: +0 -1 | balance =   5 |         }
+Line  160: +1 -0 | balance =   6 |         if (pos < s.size() && s[pos] == '[') {
+Line  162: +1 -0 | balance =   7 |             if (array_fields) {
+Line  164: +0 -1 | balance =   6 |             }
+Line  165: +1 -1 | balance =   6 |         } else {
+Line  168: +0 -1 | balance =   5 |         }
+Line  170: +1 -0 | balance =   6 |         if (pos < s.size() && s[pos] == ',') {
+Line  172: +0 -1 | balance =   5 |         }
+Line  174: +0 -1 | balance =   4 |     }
+Line  175: +1 -0 | balance =   5 |     if (pos < s.size()) {
+Line  176: +0 -1 | balance =   4 |         ++pos; // skip '}'
+Line  177: +0 -1 | balance =   3 |     }
+Line  179: +0 -1 | balance =   2 | }
+Line  192: +1 -0 | balance =   3 | struct YamlEntry {
+Line  195: +0 -1 | balance =   2 | };
+Line  197: +1 -0 | balance =   3 | static std::string trimYaml(const std::string &s) {
+Line  199: +1 -0 | balance =   4 |     if (a == std::string::npos) {
+Line  200: +1 -1 | balance =   4 |         return {};
+Line  201: +0 -1 | balance =   3 |     }
+Line  204: +0 -1 | balance =   2 | }
+Line  207: +1 -0 | balance =   3 |                                                int section_indent) {
+Line  213: +1 -0 | balance =   4 |     auto flush = [&]() {
+Line  214: +1 -0 | balance =   5 |         if (in_entry && (!current.scalar.empty() || !current.list.empt
+Line  216: +1 -1 | balance =   5 |             current = YamlEntry{};
+Line  218: +0 -1 | balance =   4 |         }
+Line  219: +0 -1 | balance =   3 |     };
+Line  221: +1 -0 | balance =   4 |     while (i < lines.size()) {
+Line  225: +1 -0 | balance =   5 |         while (indent < static_cast<int>(raw.size()) && raw[indent] ==
+Line  227: +0 -1 | balance =   4 |         }
+Line  229: +1 -0 | balance =   5 |         if (line.empty() || line[0] == '#') {
+Line  232: +0 -1 | balance =   4 |         }
+Line  235: +1 -0 | balance =   5 |         if (indent == section_indent && line[0] == '-') {
+Line  241: +1 -0 | balance =   6 |             if (colon != std::string::npos) {
+Line  244: +1 -0 | balance =   7 |                 if (!val.empty() && val[0] == '#') {
+Line  246: +0 -1 | balance =   6 |                 }
+Line  247: +1 -0 | balance =   7 |                 if (!key.empty() && !val.empty()) {
+Line  249: +0 -1 | balance =   6 |                 }
+Line  250: +0 -1 | balance =   5 |             }
+Line  253: +0 -1 | balance =   4 |         }
+Line  256: +1 -0 | balance =   5 |         if (in_entry && indent > section_indent) {
+Line  258: +1 -0 | balance =   6 |             if (colon == std::string::npos) {
+Line  260: +1 -0 | balance =   7 |                 if (!current_list_key.empty() && line[0] == '-') {
+Line  262: +1 -0 | balance =   8 |                     if (!val.empty()) {
+Line  264: +0 -1 | balance =   7 |                     }
+Line  265: +0 -1 | balance =   6 |                 }
+Line  268: +0 -1 | balance =   5 |             }
+Line  271: +1 -0 | balance =   6 |             if (!val.empty() && val[0] == '#') {
+Line  273: +0 -1 | balance =   5 |             }
+Line  274: +1 -0 | balance =   6 |             if (val.empty()) {
+Line  277: +1 -1 | balance =   6 |             } else {
+Line  280: +0 -1 | balance =   5 |             }
+Line  283: +0 -1 | balance =   4 |         }
+Line  288: +0 -1 | balance =   3 |     }
+Line  291: +0 -1 | balance =   2 | }
+Line  293: +0 -1 | balance =   1 | } // anonymous namespace
+Line  299: +1 -0 | balance =   2 | bool OntologyManager::loadFromJson(std::string_view path) {
+Line  300: +1 -1 | balance =   2 |     std::string p{path};
+Line  301: +1 -1 | balance =   2 |     std::ifstream f{p};
+Line  302: +1 -0 | balance =   3 |     if (!f.is_open()) {
+Line  304: +0 -1 | balance =   2 |     }
+Line  308: +0 -1 | balance =   1 | }
+Line  310: +1 -0 | balance =   2 | bool OntologyManager::loadFromJsonString(std::string_view json_text) {
+Line  312: +0 -1 | balance =   1 | }
+Line  314: +1 -0 | balance =   2 | bool OntologyManager::loadFromYaml(std::string_view path) {
+Line  315: +1 -1 | balance =   2 |     std::string p{path};
+Line  316: +1 -1 | balance =   2 |     std::ifstream f{p};
+Line  317: +1 -0 | balance =   3 |     if (!f.is_open()) {
+Line  319: +0 -1 | balance =   2 |     }
+Line  323: +0 -1 | balance =   1 | }
+Line  325: +1 -0 | balance =   2 | void OntologyManager::addConcept(std::string id, std::vector<std::stri
+Line  326: +1 -0 | balance =   3 |     if (built_) {
+Line  328: +0 -1 | balance =   2 |     }
+Line  333: +0 -1 | balance =   1 | }
+Line  335: +1 -0 | balance =   2 | void OntologyManager::addAxiom(std::string source_class, std::string e
+Line  336: +1 -0 | balance =   3 |     if (built_) {
+Line  338: +0 -1 | balance =   2 |     }
+Line  339: +1 -1 | balance =   2 |     axioms_.push_back({std::move(source_class), std::move(edge_type), 
+Line  340: +0 -1 | balance =   1 | }
+Line  342: +1 -0 | balance =   2 | void OntologyManager::build() {
+Line  343: +1 -0 | balance =   3 |     if (built_) {
+Line  345: +0 -1 | balance =   2 |     }
+Line  347: +1 -0 | balance =   3 |     for (const auto &axiom : axioms_) {
+Line  348: +1 -0 | balance =   4 |         if (auto it = concepts_.find(axiom.source_class); it != concep
+Line  350: +0 -1 | balance =   3 |         }
+Line  351: +1 -0 | balance =   4 |         if (auto it = concepts_.find(axiom.target_class); it != concep
+Line  353: +0 -1 | balance =   3 |         }
+Line  354: +0 -1 | balance =   2 |     }
+Line  356: +0 -1 | balance =   1 | }
+Line  360: +1 -0 | balance =   2 | bool OntologyManager::isAUncached(std::string_view conceptName, std::s
+Line  361: +1 -0 | balance =   3 |     if (conceptName == superConcept) {
+Line  363: +0 -1 | balance =   2 |     }
+Line  370: +1 -0 | balance =   3 |     while (!frontier.empty() && depth < kMaxIsADepth) {
+Line  372: +1 -0 | balance =   4 |         for (std::size_t i = 0; i < level_size; ++i) {
+Line  376: +1 -0 | balance =   5 |             if (it == concepts_.end()) {
+Line  378: +0 -1 | balance =   4 |             }
+Line  379: +1 -0 | balance =   5 |             for (const auto &parent : it->second.parents) {
+Line  380: +1 -0 | balance =   6 |                 if (parent == superConcept) {
+Line  382: +0 -1 | balance =   5 |                 }
+Line  383: +1 -0 | balance =   6 |                 if (!visited.count(parent)) {
+Line  386: +0 -1 | balance =   5 |                 }
+Line  387: +0 -1 | balance =   4 |             }
+Line  388: +0 -1 | balance =   3 |         }
+Line  390: +0 -1 | balance =   2 |     }
+Line  392: +0 -1 | balance =   1 | }
+Line  394: +1 -0 | balance =   2 | void OntologyManager::evictIsACacheEntry() const {
+Line  396: +1 -0 | balance =   3 |     if (!isa_cache_lru_.empty()) {
+Line  399: +0 -1 | balance =   2 |     }
+Line  400: +0 -1 | balance =   1 | }
+Line  402: +1 -0 | balance =   2 | bool OntologyManager::isA(std::string_view conceptName, std::string_vi
+Line  405: +1 -0 | balance =   3 |     {
+Line  408: +1 -0 | balance =   4 |         if (it != isa_cache_.end()) {
+Line  410: +0 -1 | balance =   3 |         }
+Line  411: +0 -1 | balance =   2 |     }
+Line  415: +1 -0 | balance =   3 |     {
+Line  418: +1 -0 | balance =   4 |         if (isa_cache_.find(cache_key) == isa_cache_.end()) {
+Line  419: +1 -0 | balance =   5 |             if (isa_cache_.size() >= kIsACacheCapacity) {
+Line  421: +0 -1 | balance =   4 |             }
+Line  424: +0 -1 | balance =   3 |         }
+Line  425: +0 -1 | balance =   2 |     }
+Line  427: +0 -1 | balance =   1 | }
+Line  432: +1 -0 | balance =   2 |                                                                   std:
+Line  434: +1 -0 | balance =   3 |     for (const auto &axiom : axioms_) {
+Line  435: +1 -0 | balance =   4 |         if (isA(sourceClass, axiom.source_class) && isA(targetClass, a
+Line  437: +0 -1 | balance =   3 |         }
+Line  438: +0 -1 | balance =   2 |     }
+Line  440: +0 -1 | balance =   1 | }
+Line  443: +1 -0 | balance =   2 |                                         std::string_view edgeType) con
+Line  445: +1 -0 | balance =   3 |     if (!hasConcept(sourceClass) || !hasConcept(targetClass)) {
+Line  447: +0 -1 | balance =   2 |     }
+Line  449: +1 -0 | balance =   3 |     if (allowed.empty()) {
+Line  451: +0 -1 | balance =   2 |     }
+Line  453: +0 -1 | balance =   1 | }
+Line  457: +1 -0 | balance =   2 | std::string OntologyManager::toJson() const {
+Line  459: +1 -0 | balance =   3 |     out << "{\n  \"concepts\": [\n";
+Line  461: +1 -0 | balance =   4 |     for (const auto &[id, node] : concepts_) {
+Line  462: +1 -0 | balance =   5 |         if (!first_concept) {
+Line  464: +0 -1 | balance =   4 |         }
+Line  466: +1 -0 | balance =   5 |         out << "    {\"id\": \"" << id << "\"";
+Line  467: +1 -0 | balance =   6 |         if (!node.parents.empty()) {
+Line  470: +1 -0 | balance =   7 |             for (const auto &p : node.parents) {
+Line  471: +1 -0 | balance =   8 |                 if (!fp) {
+Line  473: +0 -1 | balance =   7 |                 }
+Line  476: +0 -1 | balance =   6 |             }
+Line  478: +0 -1 | balance =   5 |         }
+Line  479: +0 -1 | balance =   4 |         out << "}";
+Line  480: +0 -1 | balance =   3 |     }
+Line  483: +1 -0 | balance =   4 |     for (const auto &ax : axioms_) {
+Line  484: +1 -0 | balance =   5 |         if (!first_axiom) {
+Line  486: +0 -1 | balance =   4 |         }
+Line  488: +1 -0 | balance =   5 |         out << "    {\"source_class\": \"" << ax.source_class << "\", 
+Line  489: +0 -1 | balance =   4 |             << "\", \"target_class\": \"" << ax.target_class << "\"}";
+Line  490: +0 -1 | balance =   3 |     }
+Line  491: +0 -1 | balance =   2 |     out << "\n  ]\n}";
+Line  493: +0 -1 | balance =   1 | }
+Line  495: +1 -0 | balance =   2 | std::string OntologyManager::toYaml() const {
+Line  498: +1 -0 | balance =   3 |     for (const auto &[id, node] : concepts_) {
+Line  500: +1 -0 | balance =   4 |         if (!node.parents.empty()) {
+Line  502: +1 -0 | balance =   5 |             for (const auto &p : node.parents) {
+Line  504: +0 -1 | balance =   4 |             }
+Line  505: +0 -1 | balance =   3 |         }
+Line  506: +0 -1 | balance =   2 |     }
+Line  508: +1 -0 | balance =   3 |     for (const auto &ax : axioms_) {
+Line  512: +0 -1 | balance =   2 |     }
+Line  514: +0 -1 | balance =   1 | }
+Line  518: +1 -0 | balance =   2 | bool OntologyManager::hasConcept(std::string_view id) const {
+Line  520: +0 -1 | balance =   1 | }
+Line  522: +1 -0 | balance =   2 | const OntologyManager::ConceptNode *OntologyManager::getConcept(std::s
+Line  524: +1 -0 | balance =   3 |     if (it == concepts_.end()) {
+Line  526: +0 -1 | balance =   2 |     }
+Line  528: +0 -1 | balance =   1 | }
+Line  534: +1 -0 | balance =   2 | bool OntologyManager::parseJson(const std::string &text) {
+Line  535: +1 -0 | balance =   3 |     if (built_) {
+Line  537: +0 -1 | balance =   2 |     }
+Line  540: +2 -0 | balance =   4 |     if (!expect(text, pos, '{')) {
+Line  542: +0 -1 | balance =   3 |     }
+Line  544: +1 -0 | balance =   4 |     while (pos < text.size()) {
+Line  546: +1 -1 | balance =   4 |         if (pos < text.size() && text[pos] == '}') {
+Line  548: +0 -1 | balance =   3 |         }
+Line  550: +1 -0 | balance =   4 |         if (!expect(text, pos, ':')) {
+Line  552: +0 -1 | balance =   3 |         }
+Line  554: +1 -0 | balance =   4 |         if (pos >= text.size() || text[pos] != '[') {
+Line  558: +0 -1 | balance =   3 |         }
+Line  561: +1 -0 | balance =   4 |         if (section_key == "concepts") {
+Line  563: +1 -0 | balance =   5 |             while (pos < text.size() && text[pos] != ']') {
+Line  567: +1 -0 | balance =   6 |                 if (!id.empty()) {
+Line  570: +1 -0 | balance =   7 |                     if (arr_fields.count("parents")) {
+Line  572: +0 -1 | balance =   6 |                     }
+Line  574: +0 -1 | balance =   5 |                 }
+Line  576: +1 -0 | balance =   6 |                 if (pos < text.size() && text[pos] == ',') {
+Line  578: +0 -1 | balance =   5 |                 }
+Line  580: +0 -1 | balance =   4 |             }
+Line  581: +1 -1 | balance =   4 |         } else if (section_key == "axioms") {
+Line  583: +1 -0 | balance =   5 |             while (pos < text.size() && text[pos] != ']') {
+Line  588: +1 -0 | balance =   6 |                 if (!src.empty() && !et.empty() && !tgt.empty()) {
+Line  589: +1 -1 | balance =   6 |                     axioms_.push_back({std::move(src), std::move(et), 
+Line  590: +0 -1 | balance =   5 |                 }
+Line  592: +1 -0 | balance =   6 |                 if (pos < text.size() && text[pos] == ',') {
+Line  594: +0 -1 | balance =   5 |                 }
+Line  596: +0 -1 | balance =   4 |             }
+Line  597: +1 -1 | balance =   4 |         } else {
+Line  600: +1 -0 | balance =   5 |             while (pos < text.size() && depth > 0) {
+Line  601: +1 -0 | balance =   6 |                 if (text[pos] == '[') {
+Line  603: +1 -1 | balance =   6 |                 } else if (text[pos] == ']') {
+Line  605: +0 -1 | balance =   5 |                 }
+Line  607: +0 -1 | balance =   4 |             }
+Line  609: +0 -1 | balance =   3 |         }
+Line  610: +1 -0 | balance =   4 |         if (pos < text.size() && text[pos] == ']') {
+Line  612: +0 -1 | balance =   3 |         }
+Line  614: +1 -0 | balance =   4 |         if (pos < text.size() && text[pos] == ',') {
+Line  616: +0 -1 | balance =   3 |         }
+Line  617: +0 -1 | balance =   2 |     }
+Line  619: +0 -1 | balance =   1 | }
+Line  621: +1 -0 | balance =   2 | bool OntologyManager::parseYaml(const std::string &text) {
+Line  622: +1 -0 | balance =   3 |     if (built_) {
+Line  624: +0 -1 | balance =   2 |     }
+Line  627: +1 -0 | balance =   3 |     {
+Line  630: +1 -0 | balance =   4 |         while (std::getline(ss, line)) {
+Line  632: +0 -1 | balance =   3 |         }
+Line  633: +0 -1 | balance =   2 |     }
+Line  636: +1 -0 | balance =   3 |     while (i < lines.size()) {
+Line  638: +1 -0 | balance =   4 |         if (raw.empty() || raw[0] == '#') {
+Line  641: +0 -1 | balance =   3 |         }
+Line  644: +1 -0 | balance =   4 |         if (colon == std::string::npos) {
+Line  647: +0 -1 | balance =   3 |         }
+Line  654: +1 -0 | balance =   4 |         while (look < lines.size()) {
+Line  657: +1 -0 | balance =   5 |             while (ind < static_cast<int>(l.size()) && l[ind] == ' ') 
+Line  659: +0 -1 | balance =   4 |             }
+Line  661: +1 -0 | balance =   5 |             if (!lt.empty() && lt[0] != '#') {
+Line  664: +0 -1 | balance =   4 |             }
+Line  666: +0 -1 | balance =   3 |         }
+Line  667: +1 -0 | balance =   4 |         if (entry_indent < 0) {
+Line  669: +0 -1 | balance =   3 |         }
+Line  673: +1 -0 | balance =   4 |         if (section_key == "concepts") {
+Line  674: +1 -0 | balance =   5 |             for (const auto &e : entries) {
+Line  676: +1 -0 | balance =   6 |                 if (id.empty()) {
+Line  678: +0 -1 | balance =   5 |                 }
+Line  681: +1 -0 | balance =   6 |                 if (e.list.count("parents")) {
+Line  683: +1 -1 | balance =   6 |                 } else if (e.scalar.count("parents")) {
+Line  685: +0 -1 | balance =   5 |                 }
+Line  687: +0 -1 | balance =   4 |             }
+Line  688: +1 -1 | balance =   4 |         } else if (section_key == "axioms") {
+Line  689: +1 -0 | balance =   5 |             for (const auto &e : entries) {
+Line  693: +1 -0 | balance =   6 |                 if (!src.empty() && !et.empty() && !tgt.empty()) {
+Line  694: +1 -1 | balance =   6 |                     axioms_.push_back({std::move(src), std::move(et), 
+Line  695: +0 -1 | balance =   5 |                 }
+Line  696: +0 -1 | balance =   4 |             }
+Line  697: +0 -1 | balance =   3 |         }
+Line  698: +0 -1 | balance =   2 |     }
+Line  700: +0 -1 | balance =   1 | }
+Line  702: +0 -1 | balance =   0 | } // namespace graph
+Line  703: +0 -1 | balance =  -1 | } // namespace themis
+^^^ IMBALANCE DETECTED at line 703
+
+Last 5 lines:
+Line  701: 
+Line  702: } // namespace graph
+Line  703: } // namespace themis
+Line  704: 
+Line  705: 

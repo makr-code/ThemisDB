@@ -1,25 +1,21 @@
+/**
+ * @file workload_predictor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            workload_predictor.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     305                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 326d6a2d5  2026-02-25  fix(performance): code audit fixes for workload predictor ║
-    • d7e7aa959  2026-02-25  feat(performance): add ML-based workload predictor for pr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: workload_predictor.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 292
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2921 feat(performance): ML-based... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/workload_predictor.h"
@@ -47,7 +43,7 @@ WorkloadPredictor::WorkloadPredictor(const Config& config)
 // ---------------------------------------------------------------------------
 
 void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.push_back(snapshot);
     // Evict oldest observation when window is full
     while (history_.size() > config_.history_window) {
@@ -60,7 +56,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
 // ---------------------------------------------------------------------------
 
 WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     WorkloadForecast result{};
 
@@ -221,12 +217,12 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
 // ---------------------------------------------------------------------------
 
 size_t WorkloadPredictor::observation_count() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     return history_.size();
 }
 
 void WorkloadPredictor::reset() noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.clear();
 }
 
@@ -304,3 +300,4 @@ double WorkloadPredictor::clamp(double v, double lo, double hi) noexcept {
 
 } // namespace performance
 } // namespace themis
+

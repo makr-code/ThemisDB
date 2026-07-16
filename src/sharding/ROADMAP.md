@@ -1,100 +1,72 @@
-# Sharding Production Readiness Roadmap
+# Sharding Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-**Status:** 🚧 In Progress — Phase 3 (RPC Integration & Persistent State)
-
-| Component | Status |
-|-----------|--------|
-| Pluggable consensus (Raft/Gossip/Paxos) | ✅ Production-ready |
-| Cross-shard transaction coordinator (2PC/3PC/SAGA/Percolator) | ✅ Production-ready |
-| Distributed deadlock detection | ✅ Production-ready |
-| ShardRepairEngine (Reed-Solomon, anti-entropy) | ✅ Production-ready |
-| Prometheus metrics + Admin API | ✅ Production-ready |
-| RPC integration (cross-shard read/write) | 🚧 In Progress |
-| Persistent Paxos acceptor state | 🚧 In Progress |
-| Consistent-hashing metadata shards | 🔲 Planned |
-| Cross-shard query routing | 🔲 Planned |
-| Adaptive rebalancer | 🔲 Planned |
+Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability.
 
 ## In Progress
 
-- [~] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
-- [~] Persistent Paxos acceptor state (survives process restart) (Target: Q2 2026)
+- [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
+- [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)
+- [x] Real AWS S3, Azure Storage, and Google Cloud Storage SDK integrations for cloud backup (Target: Q2 2026)
 
 ## Planned Features
 
-- [ ] Complete metadata shard implementation with consistent hashing (Target: Q3 2026)
-- [ ] End-to-end cross-shard query routing layer (Target: Q3 2026)
-- [ ] gRPC transport with mTLS for all inter-shard RPC channels (Target: Q3 2026)
-- [ ] Adaptive rebalancer driven by per-shard access-pattern telemetry (Target: Q4 2026)
-- [ ] Reed-Solomon repair parallelisation across repair workers (Target: Q4 2026)
-- [ ] Raft snapshot compaction to bound log growth (Target: Q4 2026)
-- [ ] Chaos-engineering test suite (shard partition, node failure injection) (Target: Q4 2026)
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under sustained shard migration and skewed load (Target: Q4 2026)
+- [ ] expand stress coverage for cross-shard transaction and anti-entropy edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for rebalance/repair incident triage (Target: Q4 2026)
 
-## Introduction
-Sharding is a database architecture pattern that involves breaking a database into smaller, more manageable pieces called shards. A comprehensive sharding strategy is essential for scaling applications effectively. This roadmap outlines the implementation phases for preparing the ThemisDB sharding architecture for production.
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for routing, commit, and migration-sensitive paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for advanced multi-DC and topology-failure scenarios (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained distributed write pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Consensus & Transaction Coordination (Status: Completed ✅)
-- [x] Pluggable consensus framework supporting Raft, Gossip, and Paxos strategies
-- [x] ConsensusFactory – runtime strategy selection and configuration
-- [x] Cross-shard transaction coordinator with 2PC, 3PC, SAGA, and Percolator protocols
-- [x] Distributed deadlock detection (wait-for-graph cycle detection)
-- [x] Metadata sharding design and data-model documentation
-- [x] Architecture documentation and ADRs
+### Phase 1: Design / API Contract
+- [ ] freeze routing/coordination/transaction contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for sharding failure classes (Target: Q3 2026)
 
-### Phase 2: Repair Engine & Observability (Status: Completed ✅)
-- [x] ShardRepairEngine – automated shard repair orchestration
-- [x] Reed-Solomon erasure decoder via Vandermonde matrix construction
-- [x] Prometheus metrics for shard health, repair ops, and consensus latency
-- [x] Admin API endpoints (shard status, force-repair, rebalance trigger)
+### Phase 2: Core Implementation
+- [ ] complete hardening for routing/coordinator and transaction internals (Target: Q4 2026)
+- [ ] align repair/rebalance/migration behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: RPC Integration & Persistent State (Status: In Progress 🚧)
-- [?] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
-- [?] Persistent Paxos acceptor state (survives process restart) (Target: Q2 2026)
-- [?] Complete metadata shard implementation with consistent hashing (Target: Q3 2026)
-- [?] End-to-end cross-shard query routing layer (Target: Q3 2026)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for quorum loss, migration faults, and repair failures (Target: Q4 2026)
+- [ ] unify diagnostics across routing/transaction/operations incident classes (Target: Q4 2026)
 
-### Phase 4: Hardening & Adaptive Rebalancing (Status: Planned 📋)
-- [?] gRPC transport with mTLS for all inter-shard RPC channels
-- [?] Adaptive rebalancer driven by per-shard access-pattern telemetry
-- [?] Reed-Solomon repair parallelisation across repair workers
-- [?] Raft snapshot compaction to bound log growth
-- [?] Chaos-engineering test suite (shard partition, node failure injection)
+### Phase 4: Tests
+- [ ] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for distributed load and topology churn (Target: Q4 2026)
 
-### Phase 5: Hardware Migration Support (Status: Beta 🟡)
-- [x] `HardwareMigrationManager` — safe endpoint replacement without altering hash-ring positions
-- [x] `NodeIdentity` — logical shard identity persisted to disk, independent of physical hardware
-- [x] Ring-stability validation: assert that virtual-node positions are unchanged after endpoint update
-- [ ] Admin API endpoint `/api/v1/shards/{id}/migrate-hardware` (Target: Q3 2026)
-- [ ] Raft peer-address update integration (Target: Q3 2026)
-- [ ] Drain-period enforcement with in-flight request tracking (Target: Q3 2026)
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for sharding hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
-## Conclusion
-Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.
+### Phase 6: Documentation and Acceptance
+- [x] core sharding module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
+
 ## Production Readiness Checklist
 
-- [x] Pluggable consensus framework (Raft/Gossip/Paxos) tested under simulated failures
-- [x] Cross-shard transactions with rollback and deadlock detection
-- [x] ShardRepairEngine with Reed-Solomon erasure recovery
-- [x] Prometheus metrics and admin API endpoints
-- [ ] RPC integration with mTLS for all cross-shard channels
-- [ ] Persistent consensus state survives process restart
-- [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
-- [ ] Chaos-engineering test suite passing (shard partition, node failure, split-brain)
+- [x] core sharding surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for failure/transaction/repair edge paths
+- [ ] release benchmark stabilization complete
 
-## Known Issues & Limitations
+## Known Issues and Limitations
 
-- `[?]` Cross-shard RPC (`sharding/rpc/`) stubs not yet fully wired — inter-shard calls fall back to in-process routing in current builds.
-- `[?]` Paxos acceptor state is in-memory only; a process restart loses pending votes (tracked for Phase 3 fix).
-- `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
-- `[?]` Chaos test suite not yet committed to CI — shard partition failures detected only in manual test runs.
+- runtime behavior depends on topology size, quorum profile, and migration pressure.
+- selected failure and topology-churn edge scenarios need continued hardening.
+- benchmark depth should continue expanding for advanced distributed workloads.
 
-| # | Description | Status |
-|---|-------------|--------|
-| 1 | `HardwareMigrationManager::captureRingSnapshotLocked()` uses total virtual-node count as a per-shard sentinel; per-shard vnode counts are not individually exposed by `ConsistentHashRing`. | Acceptable for v1 — stability is guaranteed because `replaceEndpoint` never touches the ring. |
-| 2 | Drain period tracking is configuration-only; active connection draining is not yet implemented. | Planned (Phase 5). |
+## Breaking Changes
+
+No breaking sharding contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

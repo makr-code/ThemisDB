@@ -1,42 +1,39 @@
+/**
+ * @file parquet_exporter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=7, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            parquet_exporter.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     995                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d2bec4ef7  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
-    • 89cdebdf9  2026-02-23  audit(exporters): fulfill all audit items for Parquet export ║
-    • c7c509d73  2026-02-22  feat(exporters): add Parquet export for training datasets ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: parquet_exporter.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 954
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=16, M=21, L=0
+ * PR History (last 5): #3224 [exporters] Add duration an... (2026-03-12) | #3222 [exporters] Implement strea... (2026-03-12) | #3221 exporters: AES-256-GCM expo... (2026-03-12) | #3220 feat(exporters): Alpaca, Sh... (2026-03-12) | #3215 [exporters] Implement incre... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "exporters/parquet_exporter.h"
+
+#include <algorithm>
+#include <chrono>
+#include <cstring>
+#include <fstream>
+#include <set>
+#include <sstream>
+#include <variant>
+
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_interface.h"
 #include "exporters/exporter_metrics.h"
 #include "exporters/pii_detector.h"
 #include "utils/logger.h"
-#include <fstream>
-#include <sstream>
-#include <chrono>
-#include <cstring>
-#include <set>
-#include <algorithm>
-#include <variant>
 
 #ifdef ARROW_ENABLED
 #include <arrow/api.h>
@@ -75,13 +72,13 @@ static constexpr uint8_t T_STRING = 11;
 static constexpr uint8_t T_LIST   = 15;
 
 // Write a big-endian 16-bit integer
-inline void writeU16(std::vector<uint8_t>& buf, uint16_t v) {
+inline void writeU16(std::vector<uint8_t> &buf, uint16_t v) {
     buf.push_back(static_cast<uint8_t>(v >> 8));
     buf.push_back(static_cast<uint8_t>(v & 0xFF));
 }
 
 // Write a big-endian 32-bit integer
-inline void writeI32(std::vector<uint8_t>& buf, int32_t v) {
+inline void writeI32(std::vector<uint8_t> &buf, int32_t v) {
     uint32_t u = static_cast<uint32_t>(v);
     buf.push_back(static_cast<uint8_t>(u >> 24));
     buf.push_back(static_cast<uint8_t>((u >> 16) & 0xFF));
@@ -90,7 +87,7 @@ inline void writeI32(std::vector<uint8_t>& buf, int32_t v) {
 }
 
 // Write a big-endian 64-bit integer
-inline void writeI64(std::vector<uint8_t>& buf, int64_t v) {
+inline void writeI64(std::vector<uint8_t> &buf, int64_t v) {
     uint64_t u = static_cast<uint64_t>(v);
     for (int s = 56; s >= 0; s -= 8) {
         buf.push_back(static_cast<uint8_t>((u >> s) & 0xFF));
@@ -98,26 +95,24 @@ inline void writeI64(std::vector<uint8_t>& buf, int64_t v) {
 }
 
 // Write a Thrift string (4-byte BE length + bytes)
-inline void writeThriftString(std::vector<uint8_t>& buf, const std::string& s) {
+inline void writeThriftString(std::vector<uint8_t> &buf, const std::string &s) {
     writeI32(buf, static_cast<int32_t>(s.size()));
     buf.insert(buf.end(), s.begin(), s.end());
 }
 
 // Thrift field header
-inline void writeFieldHeader(std::vector<uint8_t>& buf,
-                             uint8_t field_type, int16_t field_id) {
+inline void writeFieldHeader(std::vector<uint8_t> &buf, uint8_t field_type, int16_t field_id) {
     buf.push_back(field_type);
     writeU16(buf, static_cast<uint16_t>(field_id));
 }
 
 // Thrift struct STOP byte
-inline void writeStop(std::vector<uint8_t>& buf) {
+inline void writeStop(std::vector<uint8_t> &buf) {
     buf.push_back(T_STOP);
 }
 
 // Thrift list header: element type + element count
-inline void writeListHeader(std::vector<uint8_t>& buf,
-                            uint8_t elem_type, int32_t count) {
+inline void writeListHeader(std::vector<uint8_t> &buf, uint8_t elem_type, int32_t count) {
     buf.push_back(elem_type);
     writeI32(buf, count);
 }
@@ -147,9 +142,7 @@ static constexpr int32_t PARQUET_PAGE_DATA = 0;
 //   4: required string            name
 //   5: optional i32               num_children
 // }
-static void encodeSchemaElement(std::vector<uint8_t>& buf,
-                                const std::string& name,
-                                bool is_group,
+static void encodeSchemaElement(std::vector<uint8_t> &buf, const std::string &name, bool is_group,
                                 int32_t num_children = 0) {
     if (!is_group) {
         // type = BYTE_ARRAY (field 1, i32)
@@ -178,11 +171,15 @@ static void encodeSchemaElement(std::vector<uint8_t>& buf,
 //   3: required Encoding definition_level_encoding
 //   4: required Encoding repetition_level_encoding
 // }
-static void encodeDataPageHeader(std::vector<uint8_t>& buf, int32_t num_values) {
-    writeFieldHeader(buf, T_I32, 1); writeI32(buf, num_values);
-    writeFieldHeader(buf, T_I32, 2); writeI32(buf, PARQUET_ENCODING_PLAIN);
-    writeFieldHeader(buf, T_I32, 3); writeI32(buf, PARQUET_ENCODING_PLAIN);
-    writeFieldHeader(buf, T_I32, 4); writeI32(buf, PARQUET_ENCODING_PLAIN);
+static void encodeDataPageHeader(std::vector<uint8_t> &buf, int32_t num_values) {
+    writeFieldHeader(buf, T_I32, 1);
+    writeI32(buf, num_values);
+    writeFieldHeader(buf, T_I32, 2);
+    writeI32(buf, PARQUET_ENCODING_PLAIN);
+    writeFieldHeader(buf, T_I32, 3);
+    writeI32(buf, PARQUET_ENCODING_PLAIN);
+    writeFieldHeader(buf, T_I32, 4);
+    writeI32(buf, PARQUET_ENCODING_PLAIN);
     writeStop(buf);
 }
 
@@ -194,13 +191,14 @@ static void encodeDataPageHeader(std::vector<uint8_t>& buf, int32_t num_values) 
 //   3: required i32      compressed_page_size
 //   5: optional DataPageHeader data_page_header
 // }
-static void encodePageHeader(std::vector<uint8_t>& buf,
-                             int32_t uncompressed_size,
-                             int32_t compressed_size,
+static void encodePageHeader(std::vector<uint8_t> &buf, int32_t uncompressed_size, int32_t compressed_size,
                              int32_t num_values) {
-    writeFieldHeader(buf, T_I32, 1); writeI32(buf, PARQUET_PAGE_DATA);
-    writeFieldHeader(buf, T_I32, 2); writeI32(buf, uncompressed_size);
-    writeFieldHeader(buf, T_I32, 3); writeI32(buf, compressed_size);
+    writeFieldHeader(buf, T_I32, 1);
+    writeI32(buf, PARQUET_PAGE_DATA);
+    writeFieldHeader(buf, T_I32, 2);
+    writeI32(buf, uncompressed_size);
+    writeFieldHeader(buf, T_I32, 3);
+    writeI32(buf, compressed_size);
     // field 5: data_page_header (STRUCT)
     writeFieldHeader(buf, 12 /* T_STRUCT */, 5);
     encodeDataPageHeader(buf, num_values);
@@ -219,13 +217,11 @@ static void encodePageHeader(std::vector<uint8_t>& buf,
 //   7: required i64                  total_compressed_size
 //   9: required i64                  data_page_offset
 // }
-static void encodeColumnMetaData(std::vector<uint8_t>& buf,
-                                 const std::string& col_name,
-                                 int64_t num_values,
-                                 int64_t total_size,
-                                 int64_t data_page_offset) {
+static void encodeColumnMetaData(std::vector<uint8_t> &buf, const std::string &col_name, int64_t num_values,
+                                 int64_t total_size, int64_t data_page_offset) {
     // type = BYTE_ARRAY
-    writeFieldHeader(buf, T_I32, 1); writeI32(buf, PARQUET_TYPE_BYTE_ARRAY);
+    writeFieldHeader(buf, T_I32, 1);
+    writeI32(buf, PARQUET_TYPE_BYTE_ARRAY);
     // encodings: [PLAIN]
     writeFieldHeader(buf, T_LIST, 2);
     writeListHeader(buf, T_I32, 1);
@@ -235,15 +231,20 @@ static void encodeColumnMetaData(std::vector<uint8_t>& buf,
     writeListHeader(buf, T_STRING, 1);
     writeThriftString(buf, col_name);
     // codec = UNCOMPRESSED
-    writeFieldHeader(buf, T_I32, 4); writeI32(buf, PARQUET_CODEC_UNCOMPRESSED);
+    writeFieldHeader(buf, T_I32, 4);
+    writeI32(buf, PARQUET_CODEC_UNCOMPRESSED);
     // num_values
-    writeFieldHeader(buf, T_I64, 5); writeI64(buf, num_values);
+    writeFieldHeader(buf, T_I64, 5);
+    writeI64(buf, num_values);
     // total_uncompressed_size
-    writeFieldHeader(buf, T_I64, 6); writeI64(buf, total_size);
+    writeFieldHeader(buf, T_I64, 6);
+    writeI64(buf, total_size);
     // total_compressed_size
-    writeFieldHeader(buf, T_I64, 7); writeI64(buf, total_size);
+    writeFieldHeader(buf, T_I64, 7);
+    writeI64(buf, total_size);
     // data_page_offset
-    writeFieldHeader(buf, T_I64, 9); writeI64(buf, data_page_offset);
+    writeFieldHeader(buf, T_I64, 9);
+    writeI64(buf, data_page_offset);
     writeStop(buf);
 }
 
@@ -253,13 +254,10 @@ static void encodeColumnMetaData(std::vector<uint8_t>& buf,
 //   2: required i64               file_offset
 //   3: optional ColumnMetaData    meta_data
 // }
-static void encodeColumnChunk(std::vector<uint8_t>& buf,
-                              const std::string& col_name,
-                              int64_t file_offset,
-                              int64_t num_values,
-                              int64_t data_size,
-                              int64_t data_page_offset) {
-    writeFieldHeader(buf, T_I64, 2); writeI64(buf, file_offset);
+static void encodeColumnChunk(std::vector<uint8_t> &buf, const std::string &col_name, int64_t file_offset,
+                              int64_t num_values, int64_t data_size, int64_t data_page_offset) {
+    writeFieldHeader(buf, T_I64, 2);
+    writeI64(buf, file_offset);
     // meta_data (STRUCT, field 3)
     writeFieldHeader(buf, 12 /* T_STRUCT */, 3);
     encodeColumnMetaData(buf, col_name, num_values, data_size, data_page_offset);
@@ -281,19 +279,18 @@ struct ColumnChunkInfo {
     int64_t data_page_offset;
 };
 
-static void encodeRowGroup(std::vector<uint8_t>& buf,
-                           const std::vector<ColumnChunkInfo>& chunks,
-                           int64_t total_byte_size,
-                           int64_t num_rows) {
+static void encodeRowGroup(std::vector<uint8_t> &buf, const std::vector<ColumnChunkInfo> &chunks,
+                           int64_t total_byte_size, int64_t num_rows) {
     // columns: list<ColumnChunk>
     writeFieldHeader(buf, T_LIST, 1);
     writeListHeader(buf, 12 /* T_STRUCT */, static_cast<int32_t>(chunks.size()));
-    for (const auto& c : chunks) {
-        encodeColumnChunk(buf, c.name, c.file_offset,
-                          c.num_values, c.data_size, c.data_page_offset);
+    for (const auto &c : chunks) {
+        encodeColumnChunk(buf, c.name, c.file_offset, c.num_values, c.data_size, c.data_page_offset);
     }
-    writeFieldHeader(buf, T_I64, 2); writeI64(buf, total_byte_size);
-    writeFieldHeader(buf, T_I64, 3); writeI64(buf, num_rows);
+    writeFieldHeader(buf, T_I64, 2);
+    writeI64(buf, total_byte_size);
+    writeFieldHeader(buf, T_I64, 3);
+    writeI64(buf, num_rows);
     writeStop(buf);
 }
 
@@ -308,33 +305,33 @@ static void encodeRowGroup(std::vector<uint8_t>& buf,
 //   6: optional string               created_by
 // }
 struct FileMetaInput {
-    std::vector<std::string> columns;          // column names (leaf schema elements)
+    std::vector<std::string> columns; // column names (leaf schema elements)
     std::vector<ColumnChunkInfo> chunks;
-    int64_t num_rows = 0;
+    int64_t num_rows        = 0;
     int64_t total_byte_size = 0;
     std::string created_by;
     std::map<std::string, std::string> kv_metadata;
 };
 
-static std::vector<uint8_t> encodeFileMetaData(const FileMetaInput& in) {
+static std::vector<uint8_t> encodeFileMetaData(const FileMetaInput &in) {
     std::vector<uint8_t> buf;
 
     // version = 2
-    writeFieldHeader(buf, T_I32, 1); writeI32(buf, 2);
+    writeFieldHeader(buf, T_I32, 1);
+    writeI32(buf, 2);
 
     // schema: message (group) element + one leaf per column
     writeFieldHeader(buf, T_LIST, 2);
-    writeListHeader(buf, 12 /* T_STRUCT */,
-                    static_cast<int32_t>(in.columns.size() + 1));
+    writeListHeader(buf, 12 /* T_STRUCT */, static_cast<int32_t>(in.columns.size() + 1));
     // message schema (group)
-    encodeSchemaElement(buf, "schema", true,
-                        static_cast<int32_t>(in.columns.size()));
-    for (const auto& col : in.columns) {
+    encodeSchemaElement(buf, "schema", true, static_cast<int32_t>(in.columns.size()));
+    for (const auto &col : in.columns) {
         encodeSchemaElement(buf, col, false);
     }
 
     // num_rows
-    writeFieldHeader(buf, T_I64, 3); writeI64(buf, in.num_rows);
+    writeFieldHeader(buf, T_I64, 3);
+    writeI64(buf, in.num_rows);
 
     // row_groups: list with a single RowGroup
     writeFieldHeader(buf, T_LIST, 4);
@@ -344,9 +341,8 @@ static std::vector<uint8_t> encodeFileMetaData(const FileMetaInput& in) {
     // key_value_metadata (field 5) – list of KeyValue structs
     if (!in.kv_metadata.empty()) {
         writeFieldHeader(buf, T_LIST, 5);
-        writeListHeader(buf, 12 /* T_STRUCT */,
-                        static_cast<int32_t>(in.kv_metadata.size()));
-        for (const auto& kv : in.kv_metadata) {
+        writeListHeader(buf, 12 /* T_STRUCT */, static_cast<int32_t>(in.kv_metadata.size()));
+        for (const auto &kv : in.kv_metadata) {
             // KeyValue { 1: required string key; 2: optional string value }
             writeFieldHeader(buf, T_STRING, 1);
             writeThriftString(buf, kv.first);
@@ -373,10 +369,10 @@ struct DataPage {
     std::vector<uint8_t> values;
 };
 
-static DataPage encodePlainByteArrayPage(const std::vector<std::string>& vals) {
+static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     // Serialise values first so we know the byte size
     std::vector<uint8_t> value_buf;
-    for (const auto& v : vals) {
+    for (const auto &v : vals) {
         // PLAIN BYTE_ARRAY: 4-byte little-endian length + bytes
         uint32_t len = static_cast<uint32_t>(v.size());
         value_buf.push_back(static_cast<uint8_t>(len & 0xFF));
@@ -388,46 +384,51 @@ static DataPage encodePlainByteArrayPage(const std::vector<std::string>& vals) {
 
     int32_t data_size = static_cast<int32_t>(value_buf.size());
     std::vector<uint8_t> header_buf;
-    encodePageHeader(header_buf, data_size, data_size,
-                     static_cast<int32_t>(vals.size()));
+    encodePageHeader(header_buf, data_size, data_size, static_cast<int32_t>(vals.size()));
 
     return {std::move(header_buf), std::move(value_buf)};
 }
 
 // ── Value-to-string conversion ───────────────────────────────────────────────
-static std::string valueToString(const std::optional<Value>& opt_val) {
-    if (!opt_val.has_value()) return "";
-    return std::visit([](const auto& v) -> std::string {
-        using T = std::decay_t<decltype(v)>;
-        if constexpr (std::is_same_v<T, std::monostate>) {
-            return "";
-        } else if constexpr (std::is_same_v<T, bool>) {
-            return v ? "true" : "false";
-        } else if constexpr (std::is_same_v<T, int64_t>) {
-            return std::to_string(v);
-        } else if constexpr (std::is_same_v<T, double>) {
-            std::ostringstream oss;
-            oss << v;
-            return oss.str();
-        } else if constexpr (std::is_same_v<T, std::string>) {
-            return v;
-        } else if constexpr (std::is_same_v<T, std::vector<float>>) {
-            // Represent embedding as JSON array string
-            std::ostringstream oss;
-            oss << "[";
-            for (size_t i = 0; i < v.size(); ++i) {
-                if (i > 0) oss << ",";
-                oss << v[i];
+static std::string valueToString(const std::optional<Value> &opt_val) {
+    if (!opt_val.has_value()) {
+        return "";
+    }
+    return std::visit(
+        [](const auto &v) -> std::string {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::monostate>) {
+                return "";
+            } else if constexpr (std::is_same_v<T, bool>) {
+                return v ? "true" : "false";
+            } else if constexpr (std::is_same_v<T, int64_t>) {
+                return std::to_string(v);
+            } else if constexpr (std::is_same_v<T, double>) {
+                std::ostringstream oss;
+                oss << v;
+                return oss.str();
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                return v;
+            } else if constexpr (std::is_same_v<T, std::vector<float>>) {
+                // Represent embedding as JSON array string
+                std::ostringstream oss;
+                oss << "[";
+                for (size_t i = 0; i < v.size(); ++i) {
+                    if (i > 0) {
+                        oss << ",";
+                    }
+                    oss << v[i];
+                }
+                oss << "]";
+                return oss.str();
+            } else {
+                // vector<uint8_t> — binary blob
+                std::ostringstream oss;
+                oss << "<binary:" << v.size() << ">";
+                return oss.str();
             }
-            oss << "]";
-            return oss.str();
-        } else {
-            // vector<uint8_t> — binary blob
-            std::ostringstream oss;
-            oss << "<binary:" << v.size() << ">";
-            return oss.str();
-        }
-    }, *opt_val);
+        },
+        *opt_val);
 }
 
 } // anonymous namespace
@@ -436,7 +437,7 @@ static std::string valueToString(const std::optional<Value>& opt_val) {
 // ParquetExporter implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
-ParquetExporter::ParquetExporter(const ParquetExportConfig& config)
+ParquetExporter::ParquetExporter(const ParquetExportConfig &config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
 bool ParquetExporter::isArrowAvailable() {
@@ -447,27 +448,28 @@ bool ParquetExporter::isArrowAvailable() {
 #endif
 }
 
-std::vector<std::string> ParquetExporter::resolveColumns(
-    const std::vector<BaseEntity>& entities,
-    const ExportOptions& options
-) const {
+std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseEntity> &entities,
+                                                         const ExportOptions &options) const {
     // Build candidate set from ExportOptions then ParquetExportConfig
-    std::set<std::string> exclude_set(config_.exclude_columns.begin(),
-                                      config_.exclude_columns.end());
+    std::set<std::string> exclude_set(config_.exclude_columns.begin(), config_.exclude_columns.end());
     exclude_set.insert(options.exclude_fields.begin(), options.exclude_fields.end());
 
     // Explicit include list
     if (!options.include_fields.empty()) {
         std::vector<std::string> cols;
-        for (const auto& f : options.include_fields) {
-            if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);
+        for (const auto &f : options.include_fields) {
+            if (exclude_set.find(f) == exclude_set.end()) {
+                cols.push_back(f);
+            }
         }
         return cols;
     }
     if (!config_.include_columns.empty()) {
         std::vector<std::string> cols;
-        for (const auto& f : config_.include_columns) {
-            if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);
+        for (const auto &f : config_.include_columns) {
+            if (exclude_set.find(f) == exclude_set.end()) {
+                cols.push_back(f);
+            }
         }
         return cols;
     }
@@ -475,8 +477,8 @@ std::vector<std::string> ParquetExporter::resolveColumns(
     // Auto-detect: collect all field names across all entities
     if (config_.auto_detect_schema) {
         std::set<std::string> seen;
-        for (const auto& e : entities) {
-            for (const auto& kv : e.getAllFields()) {
+        for (const auto &e : entities) {
+            for (const auto &kv : e.getAllFields()) {
                 if (exclude_set.find(kv.first) == exclude_set.end()) {
                     seen.insert(kv.first);
                 }
@@ -487,7 +489,7 @@ std::vector<std::string> ParquetExporter::resolveColumns(
 
     // Derive from column_hints
     std::vector<std::string> cols;
-    for (const auto& hint : config_.column_hints) {
+    for (const auto &hint : config_.column_hints) {
         if (exclude_set.find(hint.name) == exclude_set.end()) {
             cols.push_back(hint.name);
         }
@@ -495,29 +497,22 @@ std::vector<std::string> ParquetExporter::resolveColumns(
     return cols;
 }
 
-ExportStats ParquetExporter::exportEntities(
-    const std::vector<BaseEntity>& entities,
-    const ExportOptions& options
-) {
+ExportStats ParquetExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
 
     ExportStats stats;
-    stats.metrics = metrics_;
+    stats.metrics   = metrics_;
     auto start_time = std::chrono::steady_clock::now();
 
     // ── Tenant isolation check ─────────────────────────────────────────────
     if (options.tenant_context && options.tenant_context->enforce_isolation) {
-        if (!options.tenant_context->hasScope("export:read") &&
-            !options.tenant_context->hasScope("export:write")) {
-            throw ExporterException(
-                errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,
-                "Insufficient permissions for Parquet export operation",
-                "tenant_id=" + options.tenant_context->tenant_id
-            );
+        if (!options.tenant_context->hasScope("export:read") && !options.tenant_context->hasScope("export:write")) {
+            throw ExporterException(errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,
+                                    "Insufficient permissions for Parquet export operation",
+                                    "tenant_id=" + options.tenant_context->tenant_id);
         }
-        THEMIS_INFO("Parquet export for tenant: {}, user: {}",
-                    options.tenant_context->tenant_id,
+        THEMIS_INFO("Parquet export for tenant: {}, user: {}", options.tenant_context->tenant_id,
                     options.tenant_context->user_id);
     }
 
@@ -538,15 +533,12 @@ ExportStats ParquetExporter::exportEntities(
     ExportStats result = exportFallback(entities, options, columns);
 #endif
 
-    auto end_time = std::chrono::steady_clock::now();
-    result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-        end_time - start_time);
+    auto end_time         = std::chrono::steady_clock::now();
+    result.duration       = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
     result.total_entities = stats.total_entities;
-    result.metrics = metrics_;
+    result.metrics        = metrics_;
 
-    metrics_->recordExport(result.exported_entities,
-                           result.bytes_written,
-                           result.duration);
+    metrics_->recordExport(result.exported_entities, result.bytes_written, result.duration);
     metrics_->recordParquetBytesWritten(result.bytes_written);
     return result;
 }
@@ -556,11 +548,8 @@ ExportStats ParquetExporter::exportEntities(
 // ─────────────────────────────────────────────────────────────────────────────
 
 #ifdef ARROW_ENABLED
-ExportStats ParquetExporter::exportWithArrow(
-    const std::vector<BaseEntity>& entities,
-    const ExportOptions& options,
-    const std::vector<std::string>& columns
-) {
+ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &entities, const ExportOptions &options,
+                                             const std::vector<std::string> &columns) {
     ExportStats stats;
 
     // ── Set up PII detector if needed ──────────────────────────────────────
@@ -584,18 +573,21 @@ ExportStats ParquetExporter::exportWithArrow(
 
     // ── Build Arrow schema ─────────────────────────────────────────────────
     arrow::FieldVector fields;
-    for (const auto& col : columns) {
+    for (const auto &col : columns) {
         std::shared_ptr<arrow::DataType> dt = arrow::utf8();
         // Apply column hints if present
-        for (const auto& hint : config_.column_hints) {
+        for (const auto &hint : config_.column_hints) {
             if (hint.name == col) {
                 switch (hint.type) {
                     case ParquetColumnType::INT64:
-                        dt = arrow::int64(); break;
+                        dt = arrow::int64();
+                        break;
                     case ParquetColumnType::DOUBLE:
-                        dt = arrow::float64(); break;
+                        dt = arrow::float64();
+                        break;
                     case ParquetColumnType::BOOLEAN:
-                        dt = arrow::boolean(); break;
+                        dt = arrow::boolean();
+                        break;
                     default:
                         break;
                 }
@@ -609,9 +601,7 @@ ExportStats ParquetExporter::exportWithArrow(
     std::shared_ptr<arrow::io::FileOutputStream> outfile;
     auto open_status = arrow::io::FileOutputStream::Open(options.output_path);
     if (!open_status.ok()) {
-        throw ExportIOException(
-            "Failed to open output file: " + open_status.status().ToString(),
-            options.output_path);
+        throw ExportIOException("Failed to open output file: " + open_status.status().ToString(), options.output_path);
     }
     outfile = *open_status;
 
@@ -627,20 +617,16 @@ ExportStats ParquetExporter::exportWithArrow(
         props_builder.compression(parquet::Compression::UNCOMPRESSED);
     }
 
-    auto props = props_builder.build();
-    auto arrow_props = parquet::ArrowWriterProperties::Builder()
-                           .store_schema()
-                           ->build();
+    auto props       = props_builder.build();
+    auto arrow_props = parquet::ArrowWriterProperties::Builder().store_schema()->build();
 
-    std::unique_ptr<parquet::arrow::FileWriter> writer;
-    auto status = parquet::arrow::FileWriter::Open(
-        *schema, arrow::default_memory_pool(), outfile,
-        std::move(props), std::move(arrow_props), &writer);
-    if (!status.ok()) {
-        throw ExportIOException(
-            "Failed to create Parquet writer: " + status.ToString(),
-            options.output_path);
+    auto writer_result = parquet::arrow::FileWriter::Open(*schema, arrow::default_memory_pool(), outfile,
+                                                          std::move(props), std::move(arrow_props));
+    if (!writer_result.ok()) {
+        throw ExportIOException("Failed to create Parquet writer: " + writer_result.status().ToString(),
+                                options.output_path);
     }
+    auto writer = std::move(writer_result).ValueOrDie();
 
     // ── Collect column builders ────────────────────────────────────────────
     std::set<std::string> duplicate_set;
@@ -650,12 +636,13 @@ ExportStats ParquetExporter::exportWithArrow(
     std::vector<std::vector<std::string>> col_values(columns.size());
 
     auto flush_row_group = [&]() -> bool {
-        if (row_group_rows == 0) return true;
+        if (row_group_rows == 0)
+            return true;
 
         arrow::ArrayVector arrays;
         for (size_t ci = 0; ci < columns.size(); ++ci) {
             arrow::StringBuilder builder;
-            for (const auto& v : col_values[ci]) {
+            for (const auto &v : col_values[ci]) {
                 if (v.empty()) {
                     (void)builder.AppendNull();
                 } else {
@@ -667,16 +654,17 @@ ExportStats ParquetExporter::exportWithArrow(
             arrays.push_back(arr);
         }
 
-        auto batch = arrow::RecordBatch::Make(schema,
-            static_cast<int64_t>(row_group_rows), arrays);
+        auto batch = arrow::RecordBatch::Make(schema, static_cast<int64_t>(row_group_rows), arrays);
         arrow::RecordBatchVector batches = {batch};
-        auto tbl = arrow::Table::FromRecordBatches(batches);
-        if (!tbl.ok()) return false;
-        auto ws = writer->WriteTable(**tbl,
-            static_cast<int64_t>(config_.row_group_size));
-        if (!ws.ok()) return false;
+        auto tbl                         = arrow::Table::FromRecordBatches(batches);
+        if (!tbl.ok())
+            return false;
+        auto ws = writer->WriteTable(**tbl, static_cast<int64_t>(config_.row_group_size));
+        if (!ws.ok())
+            return false;
 
-        for (auto& v : col_values) v.clear();
+        for (auto &v : col_values)
+            v.clear();
         row_group_rows = 0;
         return true;
     };
@@ -687,7 +675,7 @@ ExportStats ParquetExporter::exportWithArrow(
         aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
     }
 
-    for (const auto& entity : entities) {
+    for (const auto &entity : entities) {
         // Tenant isolation
         if (options.tenant_context && options.tenant_context->enforce_isolation) {
             auto tenant_val = entity.getFieldAsString("tenant_id");
@@ -717,13 +705,11 @@ ExportStats ParquetExporter::exportWithArrow(
                 bool has_pii = pii_detector->containsPII(val);
                 if (has_pii) {
                     metrics_->recordPIIDetection();
-                    if (config_.pii_config.fail_on_pii &&
-                        !config_.pii_config.enable_redaction) {
-                        throw ExporterException(
-                            errors::ErrorCode::ERR_EXPORT_IO_ERROR,
-                            "PII detected in field '" + columns[ci] +
-                            "' and fail_on_pii is enabled",
-                            "entity_id=" + entity.getPrimaryKey());
+                    if (config_.pii_config.fail_on_pii && !config_.pii_config.enable_redaction) {
+                        throw ExporterException(errors::ErrorCode::ERR_EXPORT_IO_ERROR,
+                                                "PII detected in field '" + columns[ci]
+                                                    + "' and fail_on_pii is enabled",
+                                                "entity_id=" + entity.getPrimaryKey());
                     }
                     if (config_.pii_config.enable_redaction) {
                         val = pii_detector->redactPII(val);
@@ -744,8 +730,7 @@ ExportStats ParquetExporter::exportWithArrow(
             }
         }
 
-        if (options.progress_callback &&
-            stats.exported_entities % options.progress_interval == 0) {
+        if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
             options.progress_callback(stats);
         }
     }
@@ -754,13 +739,13 @@ ExportStats ParquetExporter::exportWithArrow(
 
     auto close_status = writer->Close();
     if (!close_status.ok()) {
-        stats.errors.push_back("Failed to close Parquet writer: " +
-                               close_status.ToString());
+        stats.errors.push_back("Failed to close Parquet writer: " + close_status.ToString());
     }
 
     // Report bytes
     auto tell = outfile->Tell();
-    if (tell.ok()) stats.bytes_written = static_cast<size_t>(*tell);
+    if (tell.ok())
+        stats.bytes_written = static_cast<size_t>(*tell);
     (void)outfile->Close();
 
     return stats;
@@ -771,11 +756,8 @@ ExportStats ParquetExporter::exportWithArrow(
 // Minimal hand-written Parquet fallback (no Arrow dependency)
 // ─────────────────────────────────────────────────────────────────────────────
 
-ExportStats ParquetExporter::exportFallback(
-    const std::vector<BaseEntity>& entities,
-    const ExportOptions& options,
-    const std::vector<std::string>& columns
-) {
+ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entities, const ExportOptions &options,
+                                            const std::vector<std::string> &columns) {
     ExportStats stats;
 
     // ── Set up PII detector if needed ──────────────────────────────────────
@@ -786,14 +768,15 @@ ExportStats ParquetExporter::exportFallback(
         pii_cfg.detect_phone       = config_.pii_config.detect_phone;
         pii_cfg.detect_ssn         = config_.pii_config.detect_ssn;
         pii_cfg.detect_credit_card = config_.pii_config.detect_credit_card;
-        if (config_.pii_config.redaction_strategy == "hash")
+        if (config_.pii_config.redaction_strategy == "hash") {
             pii_cfg.default_strategy = PIIDetector::RedactionStrategy::HASH;
-        else if (config_.pii_config.redaction_strategy == "remove")
+        } else if (config_.pii_config.redaction_strategy == "remove") {
             pii_cfg.default_strategy = PIIDetector::RedactionStrategy::REMOVE;
-        else if (config_.pii_config.redaction_strategy == "partial")
+        } else if (config_.pii_config.redaction_strategy == "partial") {
             pii_cfg.default_strategy = PIIDetector::RedactionStrategy::PARTIAL;
-        else
+        } else {
             pii_cfg.default_strategy = PIIDetector::RedactionStrategy::MASK;
+        }
         pii_detector = std::make_unique<PIIDetector>(pii_cfg);
     }
 
@@ -808,7 +791,7 @@ ExportStats ParquetExporter::exportFallback(
         aql_filter_fb = std::make_unique<AqlPredicateFilter>(options.filter_expression);
     }
 
-    for (const auto& entity : entities) {
+    for (const auto &entity : entities) {
         // Tenant isolation
         if (options.tenant_context && options.tenant_context->enforce_isolation) {
             auto tenant_val = entity.getFieldAsString("tenant_id");
@@ -837,13 +820,11 @@ ExportStats ParquetExporter::exportFallback(
                 bool has_pii = pii_detector->containsPII(val);
                 if (has_pii) {
                     metrics_->recordPIIDetection();
-                    if (config_.pii_config.fail_on_pii &&
-                        !config_.pii_config.enable_redaction) {
-                        throw ExporterException(
-                            errors::ErrorCode::ERR_EXPORT_IO_ERROR,
-                            "PII detected in field '" + columns[ci] +
-                            "' and fail_on_pii is enabled",
-                            "entity_id=" + entity.getPrimaryKey());
+                    if (config_.pii_config.fail_on_pii && !config_.pii_config.enable_redaction) {
+                        throw ExporterException(errors::ErrorCode::ERR_EXPORT_IO_ERROR,
+                                                "PII detected in field '" + columns[ci]
+                                                    + "' and fail_on_pii is enabled",
+                                                "entity_id=" + entity.getPrimaryKey());
                     }
                     if (config_.pii_config.enable_redaction) {
                         val = pii_detector->redactPII(val);
@@ -858,14 +839,12 @@ ExportStats ParquetExporter::exportFallback(
         ++row_count;
         ++stats.exported_entities;
 
-        if (options.progress_callback &&
-            stats.exported_entities % options.progress_interval == 0) {
+        if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
             options.progress_callback(stats);
         }
 
         // File size limit: check each 100 entities
-        if (options.max_file_size_bytes > 0 &&
-            stats.exported_entities % 100 == 0) {
+        if (options.max_file_size_bytes > 0 && stats.exported_entities % 100 == 0) {
             // rough estimate: 128 bytes average per entity
             if (stats.exported_entities * 128 > options.max_file_size_bytes) {
                 break;
@@ -877,32 +856,27 @@ ExportStats ParquetExporter::exportFallback(
         // Write an empty valid Parquet file (magic + empty footer)
         std::ofstream ofs(options.output_path, std::ios::binary);
         if (!ofs.is_open()) {
-            throw ExportIOException(
-                "Cannot open output file for writing",
-                options.output_path, errno);
+            throw ExportIOException("Cannot open output file for writing", options.output_path, errno);
         }
         static const char magic[] = "PAR1";
         ofs.write(magic, 4);
 
         // Build minimal FileMetaData for an empty file
         FileMetaInput fmi;
-        fmi.columns     = columns;
-        fmi.num_rows    = 0;
-        fmi.created_by  = "ThemisDB-parquet_exporter/1.0.0";
-        for (const auto& kv : config_.file_metadata) fmi.kv_metadata[kv.first] = kv.second;
+        fmi.columns    = columns;
+        fmi.num_rows   = 0;
+        fmi.created_by = "ThemisDB-parquet_exporter/1.0.0";
+        for (const auto &kv : config_.file_metadata) {
+            fmi.kv_metadata[kv.first] = kv.second;
+        }
 
         auto footer = encodeFileMetaData(fmi);
-        ofs.write(reinterpret_cast<const char*>(footer.data()),
-                  static_cast<std::streamsize>(footer.size()));
+        ofs.write(reinterpret_cast<const char *>(footer.data()), static_cast<std::streamsize>(footer.size()));
 
         uint32_t footer_len = static_cast<uint32_t>(footer.size());
         // Footer length is little-endian in Parquet format
-        char flen[4] = {
-            static_cast<char>(footer_len & 0xFF),
-            static_cast<char>((footer_len >> 8) & 0xFF),
-            static_cast<char>((footer_len >> 16) & 0xFF),
-            static_cast<char>((footer_len >> 24) & 0xFF)
-        };
+        char flen[4] = {static_cast<char>(footer_len & 0xFF), static_cast<char>((footer_len >> 8) & 0xFF),
+                        static_cast<char>((footer_len >> 16) & 0xFF), static_cast<char>((footer_len >> 24) & 0xFF)};
         ofs.write(flen, 4);
         ofs.write(magic, 4);
         stats.bytes_written = static_cast<size_t>(ofs.tellp());
@@ -912,10 +886,8 @@ ExportStats ParquetExporter::exportFallback(
     // ── Write Parquet file ─────────────────────────────────────────────────
     std::ofstream ofs(options.output_path, std::ios::binary);
     if (!ofs.is_open()) {
-        auto err_code = std::to_string(
-            static_cast<int>(errors::ErrorCode::ERR_EXPORT_IO_ERROR));
-        stats.errors.push_back(err_code + ": Cannot open output file: " +
-                               options.output_path);
+        auto err_code = std::to_string(static_cast<int>(errors::ErrorCode::ERR_EXPORT_IO_ERROR));
+        stats.errors.push_back(err_code + ": Cannot open output file: " + options.output_path);
         stats.failed_entities += row_count;
         stats.exported_entities = 0;
         return stats;
@@ -938,17 +910,14 @@ ExportStats ParquetExporter::exportFallback(
         int64_t data_page_offset = static_cast<int64_t>(file_offset);
 
         // Write page header
-        ofs.write(reinterpret_cast<const char*>(page.header.data()),
-                  static_cast<std::streamsize>(page.header.size()));
+        ofs.write(reinterpret_cast<const char *>(page.header.data()), static_cast<std::streamsize>(page.header.size()));
         file_offset += page.header.size();
 
         // Write page values
-        ofs.write(reinterpret_cast<const char*>(page.values.data()),
-                  static_cast<std::streamsize>(page.values.size()));
+        ofs.write(reinterpret_cast<const char *>(page.values.data()), static_cast<std::streamsize>(page.values.size()));
         file_offset += page.values.size();
 
-        int64_t col_size = static_cast<int64_t>(page.header.size() +
-                                                 page.values.size());
+        int64_t col_size = static_cast<int64_t>(page.header.size() + page.values.size());
         row_group_total_bytes += col_size;
 
         ColumnChunkInfo info;
@@ -967,21 +936,18 @@ ExportStats ParquetExporter::exportFallback(
     fmi.num_rows        = static_cast<int64_t>(row_count);
     fmi.total_byte_size = row_group_total_bytes;
     fmi.created_by      = "ThemisDB-parquet_exporter/1.0.0";
-    for (const auto& kv : config_.file_metadata) fmi.kv_metadata[kv.first] = kv.second;
+    for (const auto &kv : config_.file_metadata) {
+        fmi.kv_metadata[kv.first] = kv.second;
+    }
 
     auto footer = encodeFileMetaData(fmi);
-    ofs.write(reinterpret_cast<const char*>(footer.data()),
-              static_cast<std::streamsize>(footer.size()));
+    ofs.write(reinterpret_cast<const char *>(footer.data()), static_cast<std::streamsize>(footer.size()));
     file_offset += footer.size();
 
     // Footer length (4 bytes, little-endian)
     uint32_t footer_len = static_cast<uint32_t>(footer.size());
-    char flen[4] = {
-        static_cast<char>(footer_len & 0xFF),
-        static_cast<char>((footer_len >> 8) & 0xFF),
-        static_cast<char>((footer_len >> 16) & 0xFF),
-        static_cast<char>((footer_len >> 24) & 0xFF)
-    };
+    char flen[4]        = {static_cast<char>(footer_len & 0xFF), static_cast<char>((footer_len >> 8) & 0xFF),
+                           static_cast<char>((footer_len >> 16) & 0xFF), static_cast<char>((footer_len >> 24) & 0xFF)};
     ofs.write(flen, 4);
     file_offset += 4;
 
@@ -991,8 +957,7 @@ ExportStats ParquetExporter::exportFallback(
     ofs.close();
     stats.bytes_written = file_offset;
 
-    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes",
-                row_count, columns.size(), file_offset);
+    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count, columns.size(), file_offset);
 
     return stats;
 }

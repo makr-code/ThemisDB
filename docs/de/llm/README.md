@@ -1,9 +1,9 @@
 # LLM & AI Integration Documentation
 
-<!-- Status: current | validated: 2026-03-09 | Primary: ../../../src/llm/ | ../../../include/llm/ -->
-<!-- Links: ../../../src/llm/README.md · ../../../src/llm/ROADMAP.md · inventory.md · missing-implementations.md -->
+<!-- Status: current | validated: 2026-04-09 | Primary: ../../../src/llm/ | ../../../include/llm/ -->
+<!-- Links: ../../../src/llm/README.md · ../../../src/llm/ROADMAP.md · inventory.md · MISSING_IMPLEMENTATIONS.md -->
 
-**Stand:** 9. März 2026  
+**Stand:** 9. April 2026  
 **Version:** 1.16.0 (Production-ready)  
 **Kategorie:** LLM & Distributed AI
 
@@ -54,7 +54,7 @@ Ab v1.16.0 bietet ThemisDB ein **vollständiges, produktionsreifes LLM-Modul** m
 - [🔧 Feature Implementation Guide](./LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md)
 - [README_PLUGINS.md](./README_PLUGINS.md) – Plugin-Schnellstart
 - [inventory.md](./inventory.md) – Vollständiges Modul-Inventar
-- [missing-implementations.md](./missing-implementations.md) – Bekannte Lücken
+- [MISSING_IMPLEMENTATIONS.md](./MISSING_IMPLEMENTATIONS.md) – Bekannte Lücken
 
 ## 📚 Feature-Dokumentation (v1.16.0)
 
@@ -266,7 +266,7 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 - +25-40% Qualitätsverbesserung
 - Real-time Feedback-Loop
 
-**Siehe:** [LLM Integration Benefits Analysis](../enterprise/LLM_INTEGRATION_BENEFITS_ANALYSIS.md)
+**Siehe:** [Enterprise Feature Analysis](../enterprise/ENTERPRISE_FEATURE_ANALYSIS.md)
 
 ## Verwandte Dokumentation
 
@@ -360,7 +360,7 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 ### Weitere Ressourcen
 
 - [Features: Semantic Cache](../features/features_semantic_cache.md) - LLM Response Caching
-- [Sharding Overview](../sharding/sharding_overview.md) - Horizontales Sharding in ThemisDB
-- [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)
+- [Sharding Overview](../sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Horizontales Sharding in ThemisDB
+- [AQL Prompt Engineering](../prompt_engineering/README.md)
 - [Projects: RAG LLM Programmierhilfe](../projects/RAG_LLM_PROGRAMMIERHILFE.md)
-- [Roadmap](../roadmap/ROADMAP.md) - ThemisDB Roadmap (v1.5.0 LLM Integration)
+- [Roadmap](../roadmap/roadmap_overview.md) - ThemisDB Roadmap (v1.5.0 LLM Integration)

@@ -1,23 +1,21 @@
+/**
+ * @file gpu_lora_layers.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=34, H=36, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_lora_layers.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     628                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_lora_layers.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 750
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=75, H=84, M=1, L=0
+ * PR History (last 5): #998 C++ Audit: Eliminate raw me... (2026-03-11) | #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #573 Implement kernel fusion opt... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11) | #609 Implement Gradient Checkpoi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_lora_layers.h"
@@ -35,6 +33,10 @@
 
 #ifdef THEMIS_ENABLE_HIP
 #include "llm/lora_framework/hip_fused_kernels.h"
+#endif
+
+#ifdef THEMIS_ENABLE_VULKAN
+#include "llm/lora_framework/vulkan_kernels.h"
 #endif
 
 namespace themis {
@@ -55,6 +57,12 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
     , device_(device)
     , use_fused_kernels_(use_fused_kernels)
     , use_flash_lora_(use_flash_lora) {
+    if (in_dim_ == 0 || out_dim_ == 0 || rank_ == 0) {
+        throw std::invalid_argument("GPULoRALayer requires non-zero in_dim/out_dim/rank");
+    }
+    if (!std::isfinite(scaling_)) {
+        throw std::invalid_argument("GPULoRALayer scaling must be finite");
+    }
     
     // Check FlashLoRA availability
     if (use_flash_lora_ && !FlashLoRA::is_available(device)) {
@@ -83,6 +91,12 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     // Verify input is on the same device
     if (input.device() != device_) {
         throw std::runtime_error("Input device mismatch in GPULoRALayer::forward");
+    }
+    if (input.shape().size() != 2) {
+        throw std::invalid_argument("GPULoRALayer::forward expects a 2D input tensor");
+    }
+    if (input.shape()[1] != in_dim_) {
+        throw std::invalid_argument("GPULoRALayer::forward input feature dimension mismatch");
     }
     
     // Gradient checkpointing: Only cache input if NOT checkpointing
@@ -120,7 +134,8 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     }
     
     // Try to use fused kernels if enabled and on CUDA/HIP
-    if (use_fused_kernels_ && (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP)) {
+    if (use_fused_kernels_ &&
+        (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP || device_.type == DeviceType::VULKAN)) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device_.type == DeviceType::CUDA) {
             // Use fused CUDA kernel
@@ -197,6 +212,51 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
             spdlog::warn("Fused HIP kernel failed, falling back to unfused");
         }
 #endif
+#ifdef THEMIS_ENABLE_VULKAN
+        if (device_.type == DeviceType::VULKAN) {
+            auto batch_size = input.shape()[0];
+            GPUTensor output({batch_size, out_dim_}, device_);
+
+            static bool vulkan_ready = false;
+            if (!vulkan_ready) {
+                if (!::themis::lora::vulkan::is_vulkan_available() ||
+                    !::themis::lora::vulkan::initialize_vulkan_lora(device_.device_id)) {
+                    spdlog::warn("Vulkan fused forward init failed, falling back to unfused");
+                } else {
+                    vulkan_ready = true;
+                }
+            }
+
+            if (vulkan_ready) {
+                auto input_host = input.download();
+                auto b_host = B_->download();
+                auto a_host = A_->download();
+                std::vector<float> output_host(batch_size * out_dim_);
+
+                try {
+                    ::themis::lora::vulkan::launch_fused_lora_forward(
+                        input_host.data(),
+                        b_host.data(),
+                        a_host.data(),
+                        output_host.data(),
+                        batch_size,
+                        in_dim_,
+                        rank_,
+                        out_dim_,
+                        scaling_);
+
+                    output.upload(output_host);
+                    if (!use_checkpointing_) {
+                        // Keep backward compatibility with existing checkpoint logic.
+                        cached_h_ = input.matmul(*B_);
+                    }
+                    return output;
+                } catch (const std::exception& e) {
+                    spdlog::warn("Fused Vulkan forward kernel failed, falling back to unfused: {}", e.what());
+                }
+            }
+        }
+#endif
     }
     
     // Unfused path (original implementation)
@@ -225,34 +285,75 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     if (grad_output.device() != device_) {
         throw std::runtime_error("Gradient device mismatch in GPULoRALayer::backward");
     }
-    
-    // Gradient checkpointing: Recompute activations if needed
-    GPUTensor input_for_backward;
-    GPUTensor h_for_backward;
-    
-    if (use_checkpointing_) {
-        // Recompute activations (trade compute for memory)
-        spdlog::debug("Recomputing activations for checkpointed layer {}", layer_id_);
-        
-        // Note: In a full implementation, the input should be saved by the
-        // checkpointer. For now, we check if cached_input_ has data.
-        if (cached_input_.size() == 0) {
-            throw std::runtime_error(
-                "Checkpointing enabled but no input saved. "
-                "This is likely a bug in the checkpointing integration."
-            );
-        }
-        
-        input_for_backward = cached_input_.clone();
-        h_for_backward = input_for_backward.matmul(*B_);
-    } else {
-        // Use cached activations (normal path)
-        input_for_backward = cached_input_.clone();
-        h_for_backward = cached_h_.clone();
+    if (grad_output.shape().size() != 2) {
+        throw std::invalid_argument("GPULoRALayer::backward expects a 2D grad_output tensor");
+    }
+    if (grad_output.shape()[1] != out_dim_) {
+        throw std::invalid_argument("GPULoRALayer::backward grad_output feature dimension mismatch");
+    }
+    if (cached_input_.shape().empty()) {
+        throw std::runtime_error("GPULoRALayer::backward called before a successful forward pass");
     }
     
     // Try to use fused kernels if enabled and on CUDA/HIP
-    if (use_fused_kernels_ && (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP)) {
+    if (use_fused_kernels_ &&
+        (device_.type == DeviceType::CUDA || device_.type == DeviceType::HIP || device_.type == DeviceType::VULKAN)) {
+#ifdef THEMIS_ENABLE_VULKAN
+        if (device_.type == DeviceType::VULKAN) {
+            if (cached_input_.shape().empty()) {
+                throw std::runtime_error("No cached input for Vulkan fused backward pass");
+            }
+
+            auto batch_size = grad_output.shape()[0];
+            A_->ensure_grad();
+            B_->ensure_grad();
+            GPUTensor grad_input({batch_size, in_dim_}, device_);
+
+            static bool vulkan_ready = false;
+            if (!vulkan_ready) {
+                if (!::themis::lora::vulkan::is_vulkan_available() ||
+                    !::themis::lora::vulkan::initialize_vulkan_lora(device_.device_id)) {
+                    spdlog::warn("Vulkan fused backward init failed, falling back to unfused");
+                } else {
+                    vulkan_ready = true;
+                }
+            }
+
+            if (vulkan_ready) {
+                auto input_host = cached_input_.download();
+                auto b_host = B_->download();
+                auto a_host = A_->download();
+                auto grad_output_host = grad_output.download();
+
+                std::vector<float> grad_a_host(rank_ * out_dim_);
+                std::vector<float> grad_b_host(in_dim_ * rank_);
+                std::vector<float> grad_input_host(batch_size * in_dim_);
+
+                try {
+                    ::themis::lora::vulkan::launch_fused_lora_backward(
+                        input_host.data(),
+                        b_host.data(),
+                        a_host.data(),
+                        grad_output_host.data(),
+                        grad_a_host.data(),
+                        grad_b_host.data(),
+                        grad_input_host.data(),
+                        batch_size,
+                        in_dim_,
+                        rank_,
+                        out_dim_,
+                        scaling_);
+
+                    A_->grad->upload(grad_a_host);
+                    B_->grad->upload(grad_b_host);
+                    grad_input.upload(grad_input_host);
+                    return grad_input;
+                } catch (const std::exception& e) {
+                    spdlog::warn("Fused Vulkan backward kernel failed, falling back to unfused: {}", e.what());
+                }
+            }
+        }
+#endif
 #ifdef THEMIS_ENABLE_CUDA
         if (device_.type == DeviceType::CUDA) {
             // Use fused CUDA backward kernel
@@ -349,6 +450,34 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
             spdlog::warn("Fused HIP backward kernel failed, falling back to unfused");
         }
 #endif
+    }
+
+    // Gradient checkpointing: Recompute activations if needed
+    GPUTensor input_for_backward;
+    GPUTensor h_for_backward;
+
+    if (use_checkpointing_) {
+        // Recompute activations (trade compute for memory)
+        spdlog::debug("Recomputing activations for checkpointed layer {}", layer_id_);
+
+        // Note: In a full implementation, the input should be saved by the
+        // checkpointer. For now, we check if cached_input_ has data.
+        if (cached_input_.shape().empty()) {
+            throw std::runtime_error(
+                "Checkpointing enabled but no input saved. "
+                "This is likely a bug in the checkpointing integration."
+            );
+        }
+
+        input_for_backward = cached_input_.clone();
+        h_for_backward = input_for_backward.matmul(*B_);
+    } else {
+        // Use cached activations (normal path)
+        input_for_backward = cached_input_.clone();
+        if (cached_h_.shape().empty()) {
+            throw std::runtime_error("GPULoRALayer::backward missing cached intermediate activation");
+        }
+        h_for_backward = cached_h_.clone();
     }
     
     // Unfused path (original implementation)
@@ -629,3 +758,4 @@ GPUTensor GPULoRATrainer::compute_mse_grad(const GPUTensor& output, const GPUTen
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

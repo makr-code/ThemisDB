@@ -1,35 +1,54 @@
+/**
+ * @file keyprovider_signing.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            keyprovider_signing.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     98                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: keyprovider_signing.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 90
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #3438 feat(security/updates): HSM... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/signing.h"
+#include <stdexcept>
 #include "security/signing_provider.h"
 #include "security/cms_signing.h"
 #include <openssl/pem.h>
 #include <openssl/err.h>
 #include <openssl/x509.h>
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 
 namespace themis {
+
+namespace {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free(p); }
+};
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
+};
+struct X509_Deleter {
+    void operator()(X509* p) const { if (p) X509_free(p); }
+};
+
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
+
+} // anonymous namespace
 
 class KeyProviderSigningService : public SigningService {
 public:
@@ -43,29 +62,27 @@ public:
 
         // Fallback: retrieve raw private key bytes and perform local CMS signing
         auto key_bytes = kp_->getKey(key_id);
-        BIO* bio = BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size()));
+        BIO_ptr bio(BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size())));
         if (!bio) throw std::runtime_error("BIO_new_mem_buf failed");
 
-        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
-        BIO_free(bio);
+        EVP_PKEY_ptr pkey(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
         if (!pkey) throw std::runtime_error("Failed to parse private key from KeyProvider");
 
-        // Optionally load cert (keep raw pointers and transfer ownership to CMSSigningService)
+        // Optionally load cert (transfer ownership to CMSSigningService)
         X509* cert_ptr = nullptr;
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size()));
-                X509* x = PEM_read_bio_X509(cbio, nullptr, nullptr, nullptr);
-                BIO_free(cbio);
-                if (x) cert_ptr = x; // transfer ownership to CMSSigningService below
+                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size())));
+                X509_ptr x(PEM_read_bio_X509(cbio.get(), nullptr, nullptr, nullptr));
+                if (x) cert_ptr = x.release(); // transfer ownership to CMSSigningService below
             }
         } catch (...) {
             // missing cert is acceptable
         }
 
         // pkey is owned by the CMSSigningService after construction
-        CMSSigningService cms(cert_ptr, pkey);
+        CMSSigningService cms(cert_ptr, pkey.release());
         return cms.sign(data, key_id);
     }
 
@@ -74,12 +91,11 @@ public:
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO* cbio = BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size()));
-                X509* x = PEM_read_bio_X509(cbio, nullptr, nullptr, nullptr);
-                BIO_free(cbio);
+                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size())));
+                X509_ptr x(PEM_read_bio_X509(cbio.get(), nullptr, nullptr, nullptr));
                 if (x) {
                     // transfer ownership of 'x' to CMSSigningService
-                    CMSSigningService cms(x, nullptr);
+                    CMSSigningService cms(x.release(), nullptr);
                     return cms.verify(data, signature, key_id);
                 }
             }
@@ -99,3 +115,5 @@ std::shared_ptr<SigningService> createKeyProviderSigningService(std::shared_ptr<
 }
 
 } // namespace themis
+
+

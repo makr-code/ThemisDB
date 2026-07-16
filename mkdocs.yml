@@ -43,6 +43,13 @@ theme:
 plugins:
     - search:
         lang: de
+    - with-pdf:
+            output_path: artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf
+            cover_title: "ThemisDB Dokumentation"
+            cover_subtitle: "Version 1.3.5"
+            toc_title: "Inhaltsverzeichnis"
+            toc_depth: 3
+            enabled_if_env: ENABLE_PDF_EXPORT
     - print-site:
             add_to_navigation: true
             print_page_title: 'Gesamte Dokumentation (Druckansicht)'
@@ -56,13 +63,6 @@ plugins:
             add_full_urls: false
             add_cover_page: true
             cover_page_template: "docs/print-cover.html"
-    - with-pdf:
-            output_path: artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf
-            cover_title: "ThemisDB Dokumentation"
-            cover_subtitle: "Version 1.3.5"
-            toc_title: "Inhaltsverzeichnis"
-            toc_depth: 3
-            enabled_if_env: ENABLE_PDF_EXPORT
 
 markdown_extensions:
   - admonition
@@ -86,6 +86,10 @@ nav:
 - 🗺️ Navigation Guide: DOCUMENTATION_NAVIGATION_GUIDE.md
 - 📑 Category Index: CATEGORY_INDEX.md
 - ❓ FAQ: FAQ.md
+- 🔌 WordPress Plugin Updates: plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md
+- 🔁 WordPress Update Examples: plugins/WORDPRESS_PLUGIN_UPDATE_EXAMPLES.md
+- ⚙️ WordPress Plugin Release CI/CD: ci-cd/WORDPRESS_PLUGIN_RELEASE_PIPELINE.md
+- 🧭 WordPress Plugin Operations Runbook: ci-cd/WORDPRESS_PLUGIN_OPERATIONS.md
 - 🚀 Quick Start: ../QUICKSTART.md
 - 📖 Examples Index: EXAMPLES_INDEX_NEW.md
 - 💡 Use Cases:
@@ -146,7 +150,7 @@ nav:
   - PROCESS MINING RESEARCH AND ROADMAP: de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md
   - PROCESS MINING SUMMARY: de/analytics/PROCESS_MINING_SUMMARY.md
   - README PROCESS MINING: de/analytics/README_PROCESS_MINING.md
-  - BPMN Future Enhancements: de/analytics/bpmn_future_enhancements.md
+  - BPMN Future Enhancements: de/analytics/BPMN_FUTURE_ENHANCEMENTS.md
 - Apis:
   - Übersicht: de/apis/README.md
   - ACTUALIZATION SUMMARY: de/apis/ACTUALIZATION_SUMMARY.md
@@ -363,7 +367,7 @@ nav:
   - implementation status: de/development/implementation_status.md
   - pki eidas: de/development/pki-eidas.md
   - priorities: de/development/priorities.md
-  - roadmap: de/development/roadmap.md
+  - roadmap: de/development/ROADMAP.md
   - saga api implementation: de/development/saga_api_implementation.md
   - search gap analysis: de/development/search_gap_analysis.md
   - sprint summary 2025 11 17: de/development/sprint_summary_2025-11-17.md
@@ -560,6 +564,7 @@ nav:
   - performance vector compression lossless: de/performance/performance_vector_compression_lossless.md
   - performance vulkan: de/performance/performance_vulkan.md
   - performance vulkan impl: de/performance/performance_vulkan_impl.md
+  - nightly bench sweep: de/performance/nightly_bench_sweep.md
 - Plugins:
   - Übersicht: de/plugins/README.md
   - DIFFERENTIAL UPDATE MODE: de/plugins/DIFFERENTIAL_UPDATE_MODE.md
@@ -701,6 +706,17 @@ nav:
   - stemming: de/search/stemming.md
 - Security:
   - Übersicht: de/security/README.md
+  - 🛡️ AI Safety Layer:
+    - Übersicht: de/security/ai_safety/README.md
+    - Architektur (7 Schichten): de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md
+    - Destructive Operation Guard: de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+    - AQL Read-Only Enforcer: de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md
+    - IntentClassifier AQL-Erweiterung: de/security/ai_safety/AI_SAFETY_INTENT_CLASSIFIER.md
+    - Pre-Operation Snapshot: de/security/ai_safety/AI_SAFETY_SNAPSHOT.md
+    - Environment Isolation Guard: de/security/ai_safety/AI_SAFETY_ENVIRONMENT.md
+    - AI Session Audit Trail: de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+    - Betriebshandbuch: de/security/ai_safety/AI_SAFETY_RUNBOOK.md
+    - Schnellreferenz: de/security/ai_safety/AI_SAFETY_QUICK_REFERENCE.md
   - BSI C5 COLUMN ENCRYPTION COMPLIANCE: de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md
   - BSI C5 EXECUTIVE SUMMARY: de/security/BSI_C5_EXECUTIVE_SUMMARY.md
   - BSI C5 MULTI MODEL ENCRYPTION ANALYSIS: de/security/BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md

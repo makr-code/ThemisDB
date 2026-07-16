@@ -1,31 +1,30 @@
+/**
+ * @file udf_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            udf_api_handler.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1200426fc  2026-02-26  feat(query): implement UDF registration API (Issue #2433) ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: udf_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 237
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #2982 feat(query): UDF registrati... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/udf_api_handler.h"
 #include "query/functions/udf_registry.h"
+#include "utils/input_validator.h"
 
 #include <nlohmann/json.hpp>
 #include <stdexcept>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -67,6 +66,19 @@ UdfApiHandler::makeErrorResponse(
 http::response<http::string_body>
 UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleRegister");
+    const themis::utils::InputValidator validator;
+
+    if (!validator.validateStringLength(req.body(), 1'000'000)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Request body exceeds maximum allowed size", req);
+    }
+
+    if (!validator.validateJSON(req.body())) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Request body contains potentially unsafe content", req);
+    }
+
     json body;
     try {
         body = json::parse(req.body());
@@ -91,6 +103,12 @@ UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 
     UdfDefinition def;
     def.name = body["name"].get<std::string>();
+
+    if (!validator.validatePathSegment(def.name) ||
+        !validator.validateStringLength(def.name, 128)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Field 'name' contains invalid characters or length", req);
+    }
 
     if (body.contains("description") && body["description"].is_string()) {
         def.description = body["description"].get<std::string>();
@@ -161,6 +179,7 @@ UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 http::response<http::string_body>
 UdfApiHandler::handleList(const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleList");
     auto udfs = UdfRegistry::instance().listUdfs();
     json arr = json::array();
     for (const auto& d : udfs) {
@@ -180,6 +199,13 @@ UdfApiHandler::handleGet(
     const http::request<http::string_body>& req,
     const std::string& name)
 {
+    auto span = Tracer::startSpan("handleGet");
+    const themis::utils::InputValidator validator;
+    if (!validator.validatePathSegment(name) || !validator.validateStringLength(name, 128)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "UDF name contains invalid characters or length", req);
+    }
+
     try {
         auto def = UdfRegistry::instance().getUdf(name);
         return makeJsonResponse(http::status::ok, def.toJson(), req);
@@ -198,6 +224,13 @@ UdfApiHandler::handleDelete(
     const http::request<http::string_body>& req,
     const std::string& name)
 {
+    auto span = Tracer::startSpan("handleDelete");
+    const themis::utils::InputValidator validator;
+    if (!validator.validatePathSegment(name) || !validator.validateStringLength(name, 128)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "UDF name contains invalid characters or length", req);
+    }
+
     try {
         UdfRegistry::instance().unregisterUdf(name);
     } catch (const std::runtime_error&) {

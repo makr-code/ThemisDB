@@ -1,30 +1,26 @@
+/**
+ * @file oracle_importer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oracle_importer.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1077                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • 9870104df  2026-02-28  feat(importers): Add Oracle Database importer (header, im... ║
-    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
-    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oracle_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1064
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=11, L=0
+ * PR History (last 5): #3157 feat(importers): Add Oracle... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/oracle_importer.h"
+#include <stdexcept>
+#include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -50,7 +46,7 @@ namespace importers {
  * remaining bytes of the current line are discarded and @p truncated is set
  * to true. Returns false only when EOF is reached before any bytes are read.
  */
-static bool streamReadLine(std::istream& file,
+static bool streamReadLineOracle(std::istream& file,
                             std::string& line,
                             size_t max_bytes,
                             bool& truncated) {
@@ -86,7 +82,7 @@ static bool streamReadLine(std::istream& file,
 /**
  * @brief Convert a string to lower-case (ASCII only).
  */
-static std::string toLower(const std::string& s) {
+static std::string toLowerOracle(const std::string& s) {
     std::string result = s;
     for (auto& ch : result) ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
     return result;
@@ -357,7 +353,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         int hdr_lines = 0;
         bool found_header = false;
         bool hdr_trunc = false;
-        while (streamReadLine(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
+        while (streamReadLineOracle(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
             if (hdr_line.find("Oracle") != std::string::npos ||
                 hdr_line.find("ORACLE") != std::string::npos ||
                 hdr_line.find("expdp") != std::string::npos ||
@@ -393,7 +389,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
     size_t batch_row_count = 0;
     bool line_truncated = false;
 
-    while (streamReadLine(file, line, line_read_limit, line_truncated) && !cancelled_) {
+    while (streamReadLineOracle(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
 
         if (line_truncated) {
@@ -789,7 +785,7 @@ std::string OracleImporter::mapOracleTypeToThemis(const std::string& oracle_type
     std::string base_type = oracle_type;
     size_t paren = base_type.find('(');
     if (paren != std::string::npos) base_type = base_type.substr(0, paren);
-    std::string lower = toLower(base_type);
+    std::string lower = toLowerOracle(base_type);
     // Trim trailing whitespace
     {
         size_t l = lower.find_last_not_of(" \t");
@@ -1076,3 +1072,5 @@ void OracleImporterPlugin::shutdown() {
 
 } // namespace importers
 } // namespace themis
+
+

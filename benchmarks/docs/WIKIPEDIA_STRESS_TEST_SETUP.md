@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Stress-Test-Setup** – Konfiguration beschreibt einen bestimmten Teststand.
+
 # 📚 Wikipedia Stress Test - ThemisDB v1.0.1
 
 **Status:** 🔄 IN PREPARATION  

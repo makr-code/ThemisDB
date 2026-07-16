@@ -1,30 +1,62 @@
+/**
+ * @file pki_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pki_api_handler.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     471                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pki_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 557
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=14, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/pki_api_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 #include <openssl/sha.h>
+#include "utils/tracing.h"
+
+#include <algorithm>
 
 namespace themis { namespace server {
+
+namespace {
+
+constexpr size_t kMaxPkiIdentifierLength = 256;
+constexpr size_t kMaxBase64FieldLength = 8 * 1024 * 1024;
+
+bool isValidIdentifier(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), kMaxPkiIdentifierLength) &&
+           validator.validatePathSegment(std::string(value));
+}
+
+bool isLikelyValidBase64(std::string_view value) {
+    themis::utils::InputValidator validator;
+    if (value.empty() || !validator.validateStringLength(std::string(value), kMaxBase64FieldLength)) {
+        return false;
+    }
+
+    return std::all_of(value.begin(), value.end(), [](char ch) {
+        const unsigned char c = static_cast<unsigned char>(ch);
+        return (c >= 'A' && c <= 'Z') ||
+               (c >= 'a' && c <= 'z') ||
+               (c >= '0' && c <= '9') ||
+               c == '+' || c == '/' || c == '=';
+    });
+}
+
+} // namespace
 
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -73,9 +105,15 @@ PkiApiHandler::PkiApiHandler(std::shared_ptr<SigningService> signing_service,
 
 nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("sign");
         if (!signing_service_) {
             THEMIS_ERROR("PKI API: Signing service not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["status_code"] = 503; return j;
+        }
+        auto& signing_service = *signing_service_;
+
+        if (!isValidIdentifier(key_id)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid key_id"; j["status_code"] = 400; return j;
         }
 
         if (!body.contains("data_b64")) {
@@ -83,9 +121,12 @@ nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::js
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
-        SigningResult res = signing_service_->sign(data, key_id);
+        SigningResult res = signing_service.sign(data, key_id);
 
         nlohmann::json resp;
         resp["signature_b64"] = base64_encode(res.signature);
@@ -100,19 +141,31 @@ nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::js
 
 nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("verify");
         if (!signing_service_) {
             THEMIS_ERROR("PKI API: Signing service not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["status_code"] = 503; return j;
+        }
+        auto& signing_service = *signing_service_;
+
+        if (!isValidIdentifier(key_id)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid key_id"; j["status_code"] = 400; return j;
         }
 
         if (!body.contains("data_b64") || !body.contains("signature_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing data_b64 or signature_b64"; j["status_code"] = 400; return j;
         }
 
-        auto data = base64_decode(body["data_b64"].get<std::string>());
-        auto sig = base64_decode(body["signature_b64"].get<std::string>());
+        const auto data_b64 = body["data_b64"].get<std::string>();
+        const auto signature_b64 = body["signature_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64) || !isLikelyValidBase64(signature_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid base64 payload"; j["status_code"] = 400; return j;
+        }
 
-        bool ok = signing_service_->verify(data, sig, key_id);
+        auto data = base64_decode(data_b64);
+        auto sig = base64_decode(signature_b64);
+
+        bool ok = signing_service.verify(data, sig, key_id);
         nlohmann::json resp; resp["valid"] = ok; return resp;
 
     } catch (const std::exception& ex) {
@@ -127,19 +180,24 @@ nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::
 
 nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("hsmSign");
         if (!hsm_provider_) {
             THEMIS_ERROR("PKI API: HSM provider not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "HSM not configured"; j["status_code"] = 503; return j;
         }
+        auto& hsm_provider = *hsm_provider_;
 
         if (!body.contains("data_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing data_b64"; j["status_code"] = 400; return j;
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
-        auto result = hsm_provider_->sign(data);
+        auto result = hsm_provider.sign(data);
 
         if (!result.success) {
             nlohmann::json j; j["error"] = "Internal Server Error"; j["message"] = "HSM signing failed"; j["status_code"] = 500; return j;
@@ -160,12 +218,14 @@ nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::hsmListKeys() {
     try {
+    auto span = Tracer::startSpan("hsmListKeys");
         if (!hsm_provider_) {
             THEMIS_ERROR("PKI API: HSM provider not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "HSM not configured"; j["status_code"] = 503; return j;
         }
+        auto& hsm_provider = *hsm_provider_;
 
-        auto keys = hsm_provider_->listKeys();
+        auto keys = hsm_provider.listKeys();
 
         {
             nlohmann::json resp;
@@ -197,19 +257,24 @@ nlohmann::json PkiApiHandler::hsmListKeys() {
 
 nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("getTimestamp");
         if (!tsa_) {
             THEMIS_ERROR("PKI API: TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "TSA not configured"; j["status_code"] = 503; return j;
         }
+        auto& tsa = *tsa_;
 
         if (!body.contains("data_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing data_b64"; j["status_code"] = 400; return j;
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
-        auto token = tsa_->getTimestamp(data);
+        auto token = tsa.getTimestamp(data);
 
         if (!token.success) {
             nlohmann::json j; j["error"] = "Internal Server Error"; j["message"] = "TSA request failed"; j["status_code"] = 500; return j;
@@ -229,10 +294,12 @@ nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("verifyTimestamp");
         if (!tsa_) {
             THEMIS_ERROR("PKI API: TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "TSA not configured"; j["status_code"] = 503; return j;
         }
+        auto& tsa = *tsa_;
 
         if (!body.contains("timestamp_token_b64") || !body.contains("data_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing timestamp_token_b64 or data_b64"; j["status_code"] = 400; return j;
@@ -240,9 +307,12 @@ nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
 
         std::string token_b64 = body["timestamp_token_b64"].get<std::string>();
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(token_b64) || !isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid base64 payload"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
-        auto token = tsa_->parseToken(token_b64);
-        bool ok = tsa_->verifyTimestamp(data, token);
+        auto token = tsa.parseToken(token_b64);
+        bool ok = tsa.verifyTimestamp(data, token);
         nlohmann::json resp;
         resp["valid"] = ok;
         resp["timestamp_utc"] = token.timestamp_utc;
@@ -261,27 +331,33 @@ nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("eidasSign");
         if (!hsm_provider_ || !tsa_) {
             THEMIS_ERROR("PKI API: HSM or TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "eIDAS signing requires HSM and TSA"; j["status_code"] = 503; return j;
         }
+        auto& hsm_provider = *hsm_provider_;
+        auto& tsa = *tsa_;
 
         if (!body.contains("data_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing data_b64"; j["status_code"] = 400; return j;
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         // Step 1: Sign with HSM
-        auto hsm_result = hsm_provider_->sign(data);
+        auto hsm_result = hsm_provider.sign(data);
         if (!hsm_result.success) {
             nlohmann::json j; j["error"] = "Internal Server Error"; j["message"] = "HSM signing failed"; j["status_code"] = 500; return j;
         }
 
         // Step 2: Get timestamp for signature
         auto signature_bytes = base64_decode(hsm_result.signature_b64);
-        auto ts_token = tsa_->getTimestamp(signature_bytes);
+        auto ts_token = tsa.getTimestamp(signature_bytes);
         if (!ts_token.success) {
             THEMIS_WARN("PKI API: Timestamp failed, signature created without timestamp");
         }
@@ -310,10 +386,13 @@ nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("eidasVerify");
         if (!hsm_provider_ || !tsa_) {
             THEMIS_ERROR("PKI API: HSM or TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "eIDAS verification requires HSM and TSA"; j["status_code"] = 503; return j;
         }
+        auto& hsm_provider = *hsm_provider_;
+        auto& tsa = *tsa_;
 
         if (!body.contains("qualified_signature") || !body.contains("data_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing qualified_signature or data_b64"; j["status_code"] = 400; return j;
@@ -321,6 +400,9 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
 
         auto qualified_sig = body["qualified_signature"];
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         // Step 1: Verify signature
@@ -329,8 +411,12 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
         }
 
         std::string sig_b64 = qualified_sig["signature_b64"].get<std::string>();
+        if (!isLikelyValidBase64(sig_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid signature_b64"; j["status_code"] = 400; return j;
+            return j;
+        }
         auto signature_bytes = base64_decode(sig_b64);
-        bool sig_valid = hsm_provider_->verify(data, sig_b64);
+        bool sig_valid = hsm_provider.verify(data, sig_b64);
 
         // Step 2: Verify timestamp if present
         bool ts_valid = true;
@@ -338,8 +424,11 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
             !qualified_sig["timestamp_token_b64"].get<std::string>().empty()) {
             
             std::string ts_token_b64 = qualified_sig["timestamp_token_b64"].get<std::string>();
-            auto ts_token = tsa_->parseToken(ts_token_b64);
-            ts_valid = tsa_->verifyTimestamp(signature_bytes, ts_token);
+            if (!isLikelyValidBase64(ts_token_b64)) {
+                nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid timestamp_token_b64"; j["status_code"] = 400; return j;
+            }
+            auto ts_token = tsa.parseToken(ts_token_b64);
+            ts_valid = tsa.verifyTimestamp(signature_bytes, ts_token);
         }
 
         nlohmann::json resp;
@@ -363,6 +452,7 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::listCertificates() {
     try {
+    auto span = Tracer::startSpan("listCertificates");
         nlohmann::json certs_array = nlohmann::json::array();
 
         if (hsm_provider_) {
@@ -396,19 +486,25 @@ nlohmann::json PkiApiHandler::listCertificates() {
 
 nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
     try {
+    auto span = Tracer::startSpan("getCertificate");
         if (!hsm_provider_) {
             return {{"error","Service Unavailable"},{"message","HSM provider not configured"},{"status_code",503}};
+        }
+        auto& hsm_provider = *hsm_provider_;
+
+        if (!isValidIdentifier(cert_id)) {
+            return {{"error","Bad Request"},{"message","invalid cert_id"},{"status_code",400}};
         }
 
         // cert_id may be a key label or a hex key id
         // Try by label first (most common case)
-        auto cert_pem = hsm_provider_->getCertificate(cert_id);
+        auto cert_pem = hsm_provider.getCertificate(cert_id);
         if (!cert_pem.has_value()) {
             // Fall back: find key whose id matches cert_id
-            auto keys = hsm_provider_->listKeys();
+            auto keys = hsm_provider.listKeys();
             for (const auto& k : keys) {
                 if (k.id == cert_id) {
-                    cert_pem = hsm_provider_->getCertificate(k.label);
+                    cert_pem = hsm_provider.getCertificate(k.label);
                     break;
                 }
             }
@@ -434,6 +530,7 @@ nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
 
 nlohmann::json PkiApiHandler::getStatus() {
     try {
+    auto span = Tracer::startSpan("getStatus");
         nlohmann::json status = {
             {"signing_service", signing_service_ ? "available" : "unavailable"},
             {"hsm", hsm_provider_ ? "available" : "unavailable"},
@@ -469,3 +566,4 @@ nlohmann::json PkiApiHandler::getStatus() {
 }
 
 }} // namespace themis::server
+

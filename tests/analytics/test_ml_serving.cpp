@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_ml_serving.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     440                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 588afc809  2026-02-24  fix(analytics): register ml_serving.cpp in build system a... ║
-    • 732bcd4d4  2026-02-24  test(analytics): fix duplicate MLServingClient constructi... ║
-    • 197b8b5b1  2026-02-24  feat(analytics): integrate ONNX Runtime and TensorFlow Se... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_ml_serving.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -54,6 +37,10 @@
  */
 
 #include <gtest/gtest.h>
+#include <atomic>
+#include <chrono>
+#include <future>
+#include <thread>
 #include "analytics/ml_serving.h"
 
 using namespace themisdb::analytics;
@@ -436,6 +423,81 @@ TEST(BackendInterfaceTest, PolymorphicCallDoesNotCrash) {
         req.inputs.push_back(MLTensor{"input", {1, 2}, {1.f, 2.f}});
 
         // Must not throw – status can be anything
-        EXPECT_NO_THROW(b->infer(req));
+        EXPECT_NO_THROW({
+            auto infer_result = b->infer(req);
+            static_cast<void>(infer_result);
+        });
     }
+}
+
+// ============================================================================
+// Concurrency – TOCTOU + full-inference-lock fix (Issue #5a / #5b)
+// ============================================================================
+
+// Two threads simultaneously infer on two *different* models.
+// Neither thread should block the other, deadlock, or throw.
+// This test validates the fix without requiring a real ONNX session:
+// when ONNX is absent both threads get UNAVAILABLE immediately with
+// no global serialisation; when ONNX is present the session is
+// held via shared_ptr and Run() executes outside sessions_mutex.
+TEST(ONNXServingBackendTest, ConcurrentInferDifferentModelsNoDeadlock) {
+    ONNXServingBackend backend;
+
+    std::atomic<bool> thread1_threw{false};
+    std::atomic<bool> thread2_threw{false};
+
+    auto make_req = [](const std::string& model_name) {
+        MLServingRequest req;
+        req.model_name = model_name;
+        req.inputs.push_back(MLTensor{"input", {1, 4}, {1.0f, 2.0f, 3.0f, 4.0f}});
+        return req;
+    };
+
+    // Use futures so a deadlock/regression causes the test to fail with a
+    // clear timeout message rather than hanging the entire test binary.
+    auto f1 = std::async(std::launch::async, [&] {
+        try { (void)backend.infer(make_req("model_alpha")); }
+        catch (...) { thread1_threw = true; }
+    });
+    auto f2 = std::async(std::launch::async, [&] {
+        try { (void)backend.infer(make_req("model_beta")); }
+        catch (...) { thread2_threw = true; }
+    });
+
+    constexpr auto kTimeout = std::chrono::seconds(10);
+    ASSERT_EQ(f1.wait_for(kTimeout), std::future_status::ready) << "Thread 1 timed out – possible deadlock";
+    ASSERT_EQ(f2.wait_for(kTimeout), std::future_status::ready) << "Thread 2 timed out – possible deadlock";
+
+    EXPECT_FALSE(thread1_threw) << "Thread 1 threw an exception";
+    EXPECT_FALSE(thread2_threw) << "Thread 2 threw an exception";
+}
+
+// Two threads infer on the *same* model concurrently.
+// The per-model loading mutex must prevent a double-load race without
+// causing a deadlock or exception.
+TEST(ONNXServingBackendTest, ConcurrentInferSameModelNoDeadlock) {
+    ONNXServingBackend backend;
+
+    std::atomic<bool> any_threw{false};
+
+    MLServingRequest req;
+    req.model_name = "shared_model";
+    req.inputs.push_back(MLTensor{"input", {1, 2}, {0.5f, 1.0f}});
+
+    // Use futures with a hard timeout so a deadlock surfaces as a test failure
+    // rather than an indefinite hang.
+    auto f1 = std::async(std::launch::async, [&] {
+        try { (void)backend.infer(req); }
+        catch (...) { any_threw = true; }
+    });
+    auto f2 = std::async(std::launch::async, [&] {
+        try { (void)backend.infer(req); }
+        catch (...) { any_threw = true; }
+    });
+
+    constexpr auto kTimeout = std::chrono::seconds(10);
+    ASSERT_EQ(f1.wait_for(kTimeout), std::future_status::ready) << "Thread 1 timed out – possible deadlock";
+    ASSERT_EQ(f2.wait_for(kTimeout), std::future_status::ready) << "Thread 2 timed out – possible deadlock";
+
+    EXPECT_FALSE(any_threw) << "A thread threw an unexpected exception";
 }

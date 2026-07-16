@@ -1,23 +1,20 @@
+/**
+ * @file wal_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_manager.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -80,10 +77,7 @@ namespace themis::sharding {
  * - Crash recovery support
  */
 
-/**
- * Log Sequence Number (LSN)
- * Uniquely identifies a position in the WAL
- */
+/** @brief Log sequence position identifying one byte-offset in WAL history. */
 struct LSN {
     uint64_t segment;  // WAL segment number
     uint64_t offset;   // Offset within segment
@@ -91,37 +85,42 @@ struct LSN {
     LSN() : segment(0), offset(0) {}
     LSN(uint64_t seg, uint64_t off) : segment(seg), offset(off) {}
     
+    /** @brief Strict ordering by segment first, then offset. */
     bool operator<(const LSN& other) const {
         if (segment != other.segment) return segment < other.segment;
         return offset < other.offset;
     }
     
+    /** @brief Equality across both segment and offset components. */
     bool operator==(const LSN& other) const {
         return segment == other.segment && offset == other.offset;
     }
     
+    /** @brief Non-strict ordering helper. */
     bool operator<=(const LSN& other) const {
         return *this < other || *this == other;
     }
 
+    /** @brief Strict greater-than ordering helper. */
     bool operator>(const LSN& other) const {
         return other < *this;
     }
 
+    /** @brief Non-strict greater-than ordering helper. */
     bool operator>=(const LSN& other) const {
         return !(*this < other);
     }
     
+    /** @brief Format LSN as "segment/offset". */
     std::string toString() const {
         return std::to_string(segment) + "/" + std::to_string(offset);
     }
     
+    /** @brief Parse LSN from segment/offset text representation. */
     static LSN fromString(const std::string& str);
 };
 
-/**
- * WAL Entry Types
- */
+/** @brief Enumerates logical operation types persisted to WAL. */
 enum class WALEntryType : uint8_t {
     INSERT = 1,
     UPDATE = 2,
@@ -133,10 +132,7 @@ enum class WALEntryType : uint8_t {
     PREPARE_TX = 8   // 2PC PREPARE phase log entry (in-doubt recovery)
 };
 
-/**
- * WAL Entry
- * Single atomic operation recorded in the log
- */
+/** @brief One atomic WAL record including type, LSN, timestamp and payload. */
 struct WALEntry {
     LSN lsn;                    // Log sequence number
     WALEntryType type;          // Entry type
@@ -144,96 +140,84 @@ struct WALEntry {
     std::string transaction_id; // Transaction ID (optional)
     nlohmann::json data;        // Operation data (JSON for flexibility)
     
-    /**
-     * Serialize to binary format
-     */
+    /** @brief Serialize WAL entry into binary wire/storage format. */
     std::vector<uint8_t> serialize() const;
     
-    /**
-     * Deserialize from binary format
-     */
+    /** @brief Deserialize WAL entry from binary bytes. */
     static WALEntry deserialize(const std::vector<uint8_t>& bytes);
     
-    /**
-     * Get size in bytes
-     */
+    /** @brief Return serialized entry size in bytes. */
     size_t size() const;
 };
 
-/**
- * WAL Manager Configuration
- */
+/** @brief Runtime WAL storage/retention and fsync policy configuration. */
 struct WALManagerConfig {
+    /** @brief Directory containing WAL segment files. */
     std::string wal_directory = "./wal";
+    /** @brief Max bytes per segment before rotating to next segment file. */
     size_t segment_size = 16 * 1024 * 1024;  // 16 MB per segment
+    /** @brief Maximum number of WAL segments retained on disk. */
     size_t max_segments = 100;                // Max segments to keep
+    /** @brief Flush stream on each append (durability over throughput). */
     bool sync_on_write = true;                // fsync after each write
+    /** @brief Buffered-write threshold before forced flush. */
     size_t write_buffer_size = 64 * 1024;     // 64 KB buffer
 };
 
-/**
- * WAL Manager
- * 
- * Thread-safe write-ahead log manager
- */
+/** @brief Thread-safe write-ahead log manager with segment rotation and retention. */
 class WALManager {
 public:
+    /** @brief Construct WAL manager with configured directory/segment policy. */
     explicit WALManager(const WALManagerConfig& config);
+
+    /** @brief Destructor flushes buffered writes and closes segment file. */
     ~WALManager();
     
     /**
-     * Append entry to WAL
-     * @param entry Entry to append
-     * @return LSN of appended entry
+     * @brief Append one entry to WAL and assign its LSN/timestamp.
+     * @param entry Entry payload to persist.
+     * @return Assigned LSN for the appended record.
      */
     LSN append(const WALEntry& entry);
     
     /**
-     * Read entry at specific LSN
-     * @param lsn Log sequence number
-     * @return Entry at LSN, or nullopt if not found
+     * @brief Read one entry at exact LSN.
+     * @param lsn Target LSN.
+     * @return Entry when found, otherwise std::nullopt.
      */
     std::optional<WALEntry> read(const LSN& lsn);
     
     /**
-     * Read entries from start_lsn (inclusive) to end_lsn (exclusive)
-     * @param start_lsn Start LSN (inclusive)
-     * @param end_lsn End LSN (exclusive), or nullopt for all remaining
-     * @return Vector of entries
+     * @brief Read entries in half-open LSN interval [start_lsn, end_lsn).
+     * @param start_lsn Inclusive start LSN.
+     * @param end_lsn Optional exclusive end LSN; nullopt reads to current tail.
+     * @return Ordered WAL entries in requested range.
      */
     std::vector<WALEntry> readRange(const LSN& start_lsn, 
                                     const std::optional<LSN>& end_lsn = std::nullopt);
     
-    /**
-     * Get current LSN (position of next write)
-     */
+    /** @brief Return current LSN (position of next append). */
     LSN getCurrentLSN() const;
     
-    /**
-     * Get oldest available LSN
-     */
+    /** @brief Return oldest retained LSN after segment retention cleanup. */
     LSN getOldestLSN() const;
     
-    /**
-     * Force flush buffered entries to disk
-     */
+    /** @brief Flush buffered WAL bytes to active segment stream. */
     void flush();
     
     /**
-     * Create checkpoint at current position
-     * @return LSN of checkpoint
+     * @brief Append checkpoint marker at current WAL tail.
+     * @return LSN assigned to the checkpoint entry.
      */
     LSN checkpoint();
     
     /**
-     * Truncate WAL before given LSN
-     * @param lsn LSN to truncate before
+     * @brief Truncate segment retention before target LSN boundary.
+     * @param lsn Entries strictly before this boundary become eligible for deletion.
      */
     void truncate(const LSN& lsn);
     
-    /**
-     * Get WAL statistics
-     */
+    /** @brief Return WAL statistics snapshot. */
     struct Statistics;
     Statistics getStatistics() const;
 
@@ -256,45 +240,36 @@ private:
     std::atomic<uint64_t> total_entries_{0};
     std::atomic<uint64_t> total_bytes_{0};
     
-    /**
-     * Open or create segment file
-     */
+    /** @brief Open or create WAL segment file by segment number. */
     void openSegment(uint64_t segment_number);
     
-    /**
-     * Close current segment
-     */
+    /** @brief Close active WAL segment file when open. */
     void closeSegment();
     
-    /**
-     * Rotate to new segment
-     */
+    /** @brief Rotate active segment and apply retention cleanup. */
     void rotateSegment();
     
-    /**
-     * Get segment file path
-     */
+    /** @brief Build filesystem path for a WAL segment number. */
     std::string getSegmentPath(uint64_t segment_number) const;
     
-    /**
-     * Load existing segments on startup
-     */
+    /** @brief Discover existing segments and recover current/oldest LSN. */
     void loadExistingSegments();
     
-    /**
-     * Cleanup old segments
-     */
+    /** @brief Delete old segments beyond max_segments retention limit. */
     void cleanupOldSegments();
 };
 
-/**
- * WAL Manager Statistics
- */
+/** @brief Snapshot counters and cursor positions for WAL manager state. */
 struct WALManager::Statistics {
+    /** @brief Total number of appended WAL entries since process start. */
     uint64_t total_entries = 0;
+    /** @brief Total number of payload bytes appended since process start. */
     uint64_t total_bytes = 0;
+    /** @brief Number of on-disk segment files currently retained. */
     uint64_t segments = 0;
+    /** @brief Current append cursor (position of next append). */
     LSN current_lsn;
+    /** @brief Oldest retained LSN after retention/truncation cleanup. */
     LSN oldest_lsn;
 };
 

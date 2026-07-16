@@ -13,7 +13,7 @@ RELEASE_DIR="${REPO_ROOT}/release"
 # Configuration
 TAG="${1:-$(cat "$REPO_ROOT/VERSION" 2>/dev/null || echo "")}"
 PLATFORMS="${PLATFORMS:-linux/amd64,linux/arm64}"
-DOCKERFILE="${DOCKERFILE:-Dockerfile.simple}"
+DOCKERFILE="${DOCKERFILE:-Dockerfile.unified}"
 PUSH="${PUSH:-false}"
 NO_CACHE="${NO_CACHE:-false}"
 BUILD_BINARY="${BUILD_BINARY:-false}"
@@ -46,25 +46,20 @@ echo ""
 # Step 1: Build binary if requested
 if [ "$BUILD_BINARY" = "true" ]; then
     echo -e "${YELLOW}════════ Building themis_server binary ════════${NC}"
-    
-    mkdir -p "$REPO_ROOT/build-wsl"
+
     cd "$REPO_ROOT"
-    
-    export VCPKG_ROOT="${REPO_ROOT}/vcpkg"
-    
+
     echo -e "${CYAN}Configuring CMake...${NC}"
-    cmake -S . -B build-wsl -G Ninja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" \
+    cmake --preset linux-release \
         -DTHEMIS_BUILD_TESTS=OFF \
         -DTHEMIS_BUILD_BENCHMARKS=OFF
-    
+
     echo -e "${CYAN}Building themis_server...${NC}"
-    cmake --build build-wsl --target themis_server --parallel "$(nproc)"
-    
+    cmake --build --preset linux-release --target themis_server
+
     # Copy binary to release directory
     mkdir -p "$RELEASE_DIR"
-    BINARY_PATH="${REPO_ROOT}/build-wsl/themis_server"
+    BINARY_PATH="${REPO_ROOT}/build-gcc-linux-release/themis_server"
     if [ -f "$BINARY_PATH" ]; then
         echo -e "${CYAN}Copying binary to $RELEASE_DIR...${NC}"
         cp "$BINARY_PATH" "${RELEASE_DIR}/themis_server"
@@ -72,20 +67,7 @@ if [ "$BUILD_BINARY" = "true" ]; then
     fi
 fi
 
-# Step 2: Ensure binary exists for Dockerfile.simple
-if [ "$DOCKERFILE" = "Dockerfile.simple" ]; then
-    BINARY_FILE="${RELEASE_DIR}/themis_server"
-    if [ ! -f "$BINARY_FILE" ]; then
-        echo -e "${RED}ERROR: Binary not found at $BINARY_FILE${NC}"
-        echo -e "${YELLOW}Either:${NC}"
-        echo -e "${YELLOW}  1. Build it first with: BUILD_BINARY=true TAG=$TAG $0${NC}"
-        echo -e "${YELLOW}  2. Use full Dockerfile: DOCKERFILE=Dockerfile $0${NC}"
-        exit 1
-    fi
-    echo -e "${GREEN}Binary found: $BINARY_FILE${NC}"
-fi
-
-# Step 3: Check Docker installation
+# Step 2: Check Docker installation
 echo ""
 echo -e "${YELLOW}════════ Checking Docker installation ════════${NC}"
 if ! command -v docker &> /dev/null; then
@@ -94,12 +76,12 @@ if ! command -v docker &> /dev/null; then
 fi
 docker --version | sed "s/^/${GREEN}/" | sed "s/$/${NC}/"
 
-# Step 4: Build Docker image
+# Step 3: Build Docker image
 echo ""
 echo -e "${YELLOW}════════ Building Docker image ════════${NC}"
 
-IMAGE_TAG="themisdb/themis:$TAG"
-IMAGE_TAG_LATEST="themisdb/themis:latest"
+IMAGE_TAG="themisdb/themisdb:$TAG"
+IMAGE_TAG_LATEST="themisdb/themisdb:latest"
 
 # For multi-arch builds, use buildx
 if [[ "$PLATFORMS" == *","* ]]; then
@@ -178,7 +160,7 @@ echo -e "${GREEN}╚════════════════════
 echo ""
 echo -e "${CYAN}Image Tags:${NC}"
 echo "  • $IMAGE_TAG"
-echo "  • $IMAGE_TAG_LATEST"
+  echo "  • $IMAGE_TAG_LATEST"
 echo ""
 echo -e "${CYAN}Next Steps:${NC}"
 if [ "$PUSH" = "true" ]; then

@@ -1,23 +1,21 @@
+/**
+ * @file base_model_adapter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            base_model_adapter.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     736                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: base_model_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 727
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=13, M=11, L=0
+ * PR History (last 5): #548 Integrate LoRA Training wit... (2026-03-11) | #593 [LoRA] Implement Real Token... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/base_model_adapter.h"
@@ -648,7 +646,7 @@ bool LoRAEnhancedModel::createLoRAAdapters() {
     return true;
 }
 
-Tensor LoRAEnhancedModel::forward(const Tensor& input, int layer_idx) {
+Tensor LoRAEnhancedModel::forward(const Tensor& input, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
     }
@@ -670,7 +668,7 @@ Tensor LoRAEnhancedModel::forward(const Tensor& input, int layer_idx) {
     return input.clone();
 }
 
-Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int layer_idx) {
+Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
     }
@@ -737,3 +735,4 @@ bool LoRAEnhancedModel::importLoRAWeights(
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

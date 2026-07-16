@@ -1,26 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_logger.h                                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     244                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 86c25566c  2026-02-24  fix(core): resolve logStructured() stub — inject trace ID... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 7f17c52b6  2026-02-21  feat(core): structured log correlation — span_id in Trace... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file i_logger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -64,8 +50,9 @@ struct TraceContext {
  * mock loggers and runtime switching of logging implementations.
  *
  * Structured logging extension:
- *   - logStructured() emits a JSON-formatted log line with arbitrary key/value
- *     fields, enabling machine-readable log ingestion.
+ *   - logStructured() emits structured key/value metadata alongside the
+ *     message. Backends that override it may serialize to JSON, while the
+ *     default implementation preserves the fields in a flat text form.
  *   - logWithContext() additionally injects a TraceContext so every log line
  *     carries trace_id and request_id for end-to-end correlation.
  */
@@ -126,14 +113,15 @@ public:
     /**
      * @brief Emit a structured (JSON) log line with arbitrary key/value fields.
      *
-     * Implementations MUST produce a single-line JSON object containing at least
-     * "level" and "message" keys, plus every entry in @p fields.
-     * PII-sensitive field values SHOULD be redacted by the implementation before
-     * they are written to the sink.
-     *
-     * Default implementation appends fields as key=value pairs to the message
-     * so that trace/span IDs injected via logWithContext() are not silently
-     * dropped by backends that only override log().
+    * Implementations SHOULD preserve every entry in @p fields in a way that is
+    * machine-readable by the backend. JSON serialization is a common choice,
+    * but the interface does not require a specific wire format.
+    * PII-sensitive field values SHOULD be redacted by the implementation before
+    * they are written to the sink.
+    *
+    * The default implementation appends fields as key=value pairs to the
+    * message so that trace/span IDs injected via logWithContext() are not
+    * silently dropped by backends that only override log().
      */
     virtual void logStructured(Level level,
                                const std::string& message,
@@ -152,9 +140,9 @@ public:
     /**
      * @brief Emit a structured log line with trace/request-id context injected.
      *
-     * Equivalent to logStructured() but also injects ctx.trace_id, ctx.span_id,
-     * and ctx.request_id into the emitted JSON object so log lines can be
-     * correlated with distributed traces.
+    * Equivalent to logStructured() but also injects ctx.trace_id, ctx.span_id,
+    * and ctx.request_id into the emitted structured metadata so log lines can
+    * be correlated with distributed traces.
      */
     virtual void logWithContext(Level level,
                                 const std::string& message,
@@ -181,7 +169,7 @@ public:
      * @brief Return the current minimum severity level.
      * @return Active minimum level.
      */
-    virtual Level getLevel() const = 0;
+    [[nodiscard]] virtual Level getLevel() const = 0;
 
     /**
      * @brief Set the spdlog-compatible format pattern for log lines.
@@ -204,7 +192,8 @@ public:
     /**
      * @brief Shut down the logger and release resources.
      *
-     * After shutdown(), all logging calls are silently dropped.
+    * After shutdown(), all logging calls are silently dropped or rejected by
+    * the implementation contract.
      * Default is a no-op.
      */
     virtual void shutdown() noexcept {}

@@ -295,7 +295,7 @@ export THEMIS_BENCHMARK_MODE=1
 
 ## 6. Roadmap to Production Readiness
 
-See [/roadmap.md](../../roadmap.md) for the detailed implementation roadmap.
+See [/ROADMAP.md](../../ROADMAP.md) for the detailed implementation roadmap.
 
 ### Phase 1: Critical Fixes (This PR)
 - ✅ Fix L2 distance consistency across all backends
@@ -388,11 +388,11 @@ The ThemisDB acceleration module demonstrates strong foundational architecture w
 - [CUDA Backend Documentation](../en/performance/CUDA_BACKEND.md)
 - [Vulkan Backend Documentation](../en/performance/VULKAN_BACKEND.md)
 - [Hardware Acceleration Guide](../en/performance/HARDWARE_ACCELERATION.md)
-- [Implementation Roadmap](../../roadmap.md)
+- [Implementation Roadmap](../../ROADMAP.md)
 - [Plugin Security Policy](../../src/acceleration/plugin_security.cpp)
 
 ---
 
 **Document Maintainer:** ThemisDB Core Team  
-**Last Updated:** 2026-02-19  
+**Last Updated:** 2026-04-06  
 **Next Review:** 2026-05-19

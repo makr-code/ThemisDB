@@ -1,33 +1,36 @@
+/**
+ * @file gossip_config_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=7, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gossip_config_manager.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     807                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gossip_config_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 834
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=14, M=6, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4259 feat(sharding): Wire Orphan... (2026-03-15) | #708 Implement Gossip-Enhanced C... (2026-03-11) | #722 Implement YARN-Inspired Sha... (2026-03-11) | #764 Implement Distributed Coord... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/gossip_config_manager.h"
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
+#include "shard_rpc.pb.h"
+#include "utils/thread_join_utils.h"
+#include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
 #include <random>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 // Note: uuid/uuid.h is Linux-specific, Windows uses different UUID APIs
 // For cross-platform UUID support, consider using boost::uuid or similar
 // #include <uuid/uuid.h>
@@ -226,36 +229,51 @@ GossipConfigManager::~GossipConfigManager() {
 }
 
 void GossipConfigManager::start() {
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+
     if (!config_.enabled) {
         return;  // Manager disabled
     }
-    
+
     if (running_.load()) {
         return;  // Already running
     }
-    
+
     running_.store(true);
-    
-    // Start gossip thread
-    gossip_thread_ = std::thread(&GossipConfigManager::gossipLoop, this);
-    
-    // Start anti-entropy thread
-    anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
+
+    try {
+        // Start gossip thread
+        gossip_thread_ = std::thread(&GossipConfigManager::gossipLoop, this);
+
+        // Start anti-entropy thread
+        anti_entropy_thread_ = std::thread(&GossipConfigManager::antiEntropyLoop, this);
+    } catch (...) {
+        running_.store(false);
+        if (gossip_thread_.joinable()) {
+            themis::utils::joinThreadWithin(gossip_thread_);
+        }
+        if (anti_entropy_thread_.joinable()) {
+            themis::utils::joinThreadWithin(anti_entropy_thread_);
+        }
+        throw;
+    }
 }
 
 void GossipConfigManager::stop() {
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+
     if (!running_.load()) {
         return;  // Already stopped
     }
-    
+
     running_.store(false);
-    
+
     if (gossip_thread_.joinable()) {
-        gossip_thread_.join();
+        themis::utils::joinThreadWithin(gossip_thread_);
     }
-    
+
     if (anti_entropy_thread_.joinable()) {
-        anti_entropy_thread_.join();
+        themis::utils::joinThreadWithin(anti_entropy_thread_);
     }
 }
 
@@ -263,6 +281,18 @@ std::string GossipConfigManager::publishConfigUpdate(
     const std::string& config_key,
     const std::string& config_value
 ) {
+    // W2-S05: Fail-closed on empty config_key
+    if (config_key.empty()) {
+        spdlog::error("Cannot publish config update with empty config_key");
+        return "";
+    }
+    
+    // W2-S05: Fail-closed on empty config_value
+    if (config_value.empty()) {
+        spdlog::error("Cannot publish config update for key {} with empty config_value", config_key);
+        return "";
+    }
+    
     ConfigUpdate update;
     update.update_id = generateUpdateId();
     update.config_key = config_key;
@@ -305,6 +335,33 @@ std::string GossipConfigManager::publishConfigUpdate(
 }
 
 void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapshot) {
+    // W2-S05: Fail-closed on empty shard_id
+    if (snapshot.shard_id.empty()) {
+        spdlog::error("Cannot publish resource snapshot with empty shard_id");
+        return;
+    }
+    
+    // W2-S05: Fail-closed on invalid memory metrics (available > total)
+    if (snapshot.available_memory_bytes > snapshot.total_memory_bytes) {
+        spdlog::error("Invalid memory metrics in snapshot for shard {}: available {} > total {}",
+                      snapshot.shard_id, snapshot.available_memory_bytes, snapshot.total_memory_bytes);
+        return;
+    }
+    
+    // W2-S05: Fail-closed on invalid disk metrics (available > total)
+    if (snapshot.available_disk_bytes > snapshot.total_disk_bytes) {
+        spdlog::error("Invalid disk metrics in snapshot for shard {}: available {} > total {}",
+                      snapshot.shard_id, snapshot.available_disk_bytes, snapshot.total_disk_bytes);
+        return;
+    }
+    
+    // W2-S05: Fail-closed on invalid CPU metrics (available > total)
+    if (snapshot.available_cpu_cores > snapshot.total_cpu_cores) {
+        spdlog::error("Invalid CPU metrics in snapshot for shard {}: available {} > total {}",
+                      snapshot.shard_id, snapshot.available_cpu_cores, snapshot.total_cpu_cores);
+        return;
+    }
+    
     // Store snapshot locally
     handleResourceSnapshot(snapshot);
     
@@ -332,6 +389,25 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
 ) {
     messages_received_++;
     
+    // W2-S05: Fail-closed on empty message_type
+    if (message.message_type().empty()) {
+        spdlog::error("Received gossip message with empty message_type");
+        proto::GossipMessage ack;
+        ack.set_sender_shard_id(config_.local_shard_id);
+        ack.set_message_type("nack");
+        return ack;
+    }
+    
+    // W2-S05: Fail-closed on empty sender_shard_id (needed for causality tracking)
+    if (message.sender_shard_id().empty()) {
+        spdlog::warn("Received gossip message with empty sender_shard_id from message_type {}",
+                     message.message_type());
+        proto::GossipMessage ack;
+        ack.set_sender_shard_id(config_.local_shard_id);
+        ack.set_message_type("nack");
+        return ack;
+    }
+    
     // Record metric
     if (metrics_) {
         metrics_->recordGossipMessagesReceived();
@@ -346,11 +422,33 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
     if (message.message_type() == "config_update") {
         if (message.has_config_update()) {
             auto update = ConfigUpdate::fromProto(message.config_update());
+            
+            // W2-S05: Fail-closed if config_key is empty (data integrity check)
+            if (update.config_key.empty()) {
+                spdlog::warn("Received config_update with empty config_key from shard {}",
+                             message.sender_shard_id());
+                proto::GossipMessage ack;
+                ack.set_sender_shard_id(config_.local_shard_id);
+                ack.set_message_type("nack");
+                return ack;
+            }
+            
             handleConfigUpdate(update);
         }
     } else if (message.message_type() == "resource_snapshot") {
         if (message.has_resource_snapshot()) {
             auto snapshot = ResourceSnapshot::fromProto(message.resource_snapshot());
+            
+            // W2-S05: Fail-closed if shard_id is empty (data integrity check)
+            if (snapshot.shard_id.empty()) {
+                spdlog::warn("Received resource_snapshot with empty shard_id from sender {}",
+                             message.sender_shard_id());
+                proto::GossipMessage ack;
+                ack.set_sender_shard_id(config_.local_shard_id);
+                ack.set_message_type("nack");
+                return ack;
+            }
+            
             handleResourceSnapshot(snapshot);
         }
     } else if (message.message_type() == "heartbeat") {
@@ -378,10 +476,12 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
 }
 
 void GossipConfigManager::onConfigUpdate(ConfigUpdateCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     config_update_callback_ = std::move(callback);
 }
 
 void GossipConfigManager::onResourceSnapshot(ResourceSnapshotCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     resource_snapshot_callback_ = std::move(callback);
 }
 
@@ -541,10 +641,8 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
         return selected;
     }
     
-    // Random selection
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
+    // Random selection (thread-local generator avoids cross-thread data races).
+    thread_local std::mt19937 gen(std::random_device{}());
     std::shuffle(candidates.begin(), candidates.end(), gen);
     
     size_t select_count = std::min(count, candidates.size());
@@ -553,27 +651,68 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     return selected;
 }
 
+void GossipConfigManager::setGossipSendFunction(GossipSendFn fn) {
+    std::lock_guard<std::mutex> lock(gossip_send_fn_mutex_);
+    gossip_send_fn_ = std::move(fn);
+}
+
 void GossipConfigManager::sendGossipMessage(
-    const std::string& peer_endpoint [[maybe_unused]],
-    const proto::GossipMessage& message [[maybe_unused]]
+    const std::string& peer_endpoint,
+    const proto::GossipMessage& message
 ) {
-    (void)peer_endpoint;
-    (void)message;
-    if (!client_) return;
-    
+    std::optional<GossipSendFn> gossip_send_fn;
+    {
+        std::lock_guard<std::mutex> lock(gossip_send_fn_mutex_);
+        gossip_send_fn = gossip_send_fn_;
+    }
+
+    if (!client_ && !gossip_send_fn) return;
+
     try {
-        // Serialize message to JSON for HTTP POST
-        // In a real implementation, this would use protobuf serialization
-        // For now, we'll skip the actual network call
-        messages_sent_++;
-        
-        // Track propagation latency
-        auto now = std::chrono::steady_clock::now();
-        // In a real implementation, we'd measure round-trip time
-        
+        auto t0 = std::chrono::steady_clock::now();
+
+        if (gossip_send_fn) {
+            // Injected transport (test or alternative production path).
+            bool ok = (*gossip_send_fn)(peer_endpoint, message);
+            if (ok) {
+                messages_sent_++;
+            }
+        } else {
+            // Default path: serialize the GossipMessage to binary via protobuf
+            // and POST it to the peer's gossip endpoint over mTLS.
+            std::string payload;
+            if (!message.SerializeToString(&payload)) {
+                spdlog::warn("GossipConfigManager::sendGossipMessage — proto serialization failed; "
+                             "message dropped (peer={})", peer_endpoint);
+                return;
+            }
+            // Wrap the binary payload in a JSON envelope accepted by
+            // /api/v1/gossip on the receiving shard.
+            nlohmann::json body;
+            body["sender"] = config_.local_shard_id;
+            body["payload_b64"] = nlohmann::json::binary_t(
+                std::vector<uint8_t>(payload.begin(), payload.end()));
+            auto resp = client_->post(peer_endpoint, "/api/v1/gossip", body);
+            if (resp.success) {
+                messages_sent_++;
+            } else {
+                spdlog::debug("GossipConfigManager::sendGossipMessage — HTTP error "
+                              "(peer={}, status={})", peer_endpoint, resp.status_code);
+            }
+        }
+
+        auto t1 = std::chrono::steady_clock::now();
+        double latency_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+        {
+            std::lock_guard<std::mutex> lk(latency_mutex_);
+            propagation_latencies_ms_.push_back(latency_ms);
+            // Cap history to avoid unbounded growth.
+            if (propagation_latencies_ms_.size() > 1000) {
+                propagation_latencies_ms_.erase(propagation_latencies_ms_.begin());
+            }
+        }
     } catch (const std::exception& e) {
-        (void)e; // silence unused warning in stub
-        // Log error (in production, use proper logging)
+        spdlog::warn("GossipConfigManager::sendGossipMessage — exception: {}", e.what());
     }
 }
 
@@ -609,6 +748,21 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
             }
         }
         
+        const bool key_exists = (it != config_updates_.end());
+        if (!key_exists && config_updates_.size() >= config_.max_updates) {
+            if (config_updates_.empty()) {
+                return;
+            }
+
+            auto oldest_it = config_updates_.begin();
+            for (auto iter = config_updates_.begin(); iter != config_updates_.end(); ++iter) {
+                if (iter->second.timestamp_ns < oldest_it->second.timestamp_ns) {
+                    oldest_it = iter;
+                }
+            }
+            config_updates_.erase(oldest_it);
+        }
+
         // Accept the update
         config_updates_[update.config_key] = update;
         current_config_[update.config_key] = update.config_value;
@@ -622,16 +776,22 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
     
     // Notify callback
-    if (config_update_callback_) {
-        config_update_callback_(update);
+    ConfigUpdateCallback config_update_callback;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        config_update_callback = config_update_callback_;
+    }
+    if (config_update_callback) {
+        config_update_callback(update);
     }
     
     // Calculate and track propagation latency
-    auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    const uint64_t now_ns = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+    ).count());
     
-    double latency_ms = (now_ns - update.timestamp_ns) / 1e6;
+    const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0ULL;
+    double latency_ms = latency_ns / 1e6;
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         propagation_latencies_ms_.push_back(latency_ms);
@@ -671,8 +831,13 @@ void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapsho
     }
     
     // Notify callback
-    if (resource_snapshot_callback_) {
-        resource_snapshot_callback_(snapshot);
+    ResourceSnapshotCallback resource_snapshot_callback;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        resource_snapshot_callback = resource_snapshot_callback_;
+    }
+    if (resource_snapshot_callback) {
+        resource_snapshot_callback(snapshot);
     }
 }
 
@@ -683,29 +848,25 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     }
     
     // Check update age
-    auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    const uint64_t now_ns = static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+    ).count());
     
-    // Reject updates older than 1 hour
+    // Reject updates older than 1 hour.
     static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;
-    if (now_ns - update.timestamp_ns > MAX_UPDATE_AGE_NS) {
+    // Accept bounded future skew to avoid unsigned underflow and tolerate mild clock drift.
+    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300ULL * 1000000000ULL;
+    if (update.timestamp_ns > now_ns) {
+        if (update.timestamp_ns - now_ns > MAX_FUTURE_SKEW_NS) {
+            return false;
+        }
+    } else if (now_ns - update.timestamp_ns > MAX_UPDATE_AGE_NS) {
         return false;
     }
-    
-    // Check max updates limit
-    {
-        std::lock_guard<std::mutex> lock(config_mutex_);
-        if (config_updates_.size() >= config_.max_updates) {
-            // Remove oldest update
-            auto oldest_it = config_updates_.begin();
-            for (auto it = config_updates_.begin(); it != config_updates_.end(); ++it) {
-                if (it->second.timestamp_ns < oldest_it->second.timestamp_ns) {
-                    oldest_it = it;
-                }
-            }
-            config_updates_.erase(oldest_it);
-        }
+
+    // Zero capacity means this node should not retain update history.
+    if (config_.max_updates == 0) {
+        return false;
     }
     
     return true;
@@ -808,3 +969,4 @@ proto::GossipMessage GossipConfigManager::createAntiEntropyMessage() {
 
 } // namespace sharding
 } // namespace themis
+

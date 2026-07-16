@@ -1,6 +1,6 @@
 # Observability-Modul — Primär-Inventar
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ../../../src/observability/README.md -->
 
 Prüfstand: 2026-03-09 | Branch: `develop`
@@ -28,7 +28,7 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | Datei | Typ | Status |
 |---|---|---|
 | `README.md` | Deutsche Übersicht (Einstieg, Beispiele, Verweise) | ✅ Aktuell (2026-03-09) |
-| `missing-implementations.md` | Reality-Check-Report (4 Befunde) | ✅ Erstellt (2026-03-09) |
+| `MISSING_IMPLEMENTATIONS.md` | Reality-Check-Report (4 Befunde) | ✅ Erstellt (2026-03-09) |
 | `missing-implementations.json` | Maschinenlesbarer Report | ✅ Erstellt (2026-03-09) |
 | `inventory.md` | Dieser Report | ✅ Erstellt (2026-03-09) |
 | `observability_metrics.md` | Prometheus-Metriken Referenz | Bestand (nicht validiert) |

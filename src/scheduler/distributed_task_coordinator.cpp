@@ -1,26 +1,21 @@
+/**
+ * @file distributed_task_coordinator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_task_coordinator.cpp                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:59:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     344                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6bdc7ab4a  2026-03-01  feat(scheduler): implement distributed cron leader electi... ║
-    • 0367b9a10  2026-02-22  Fix test bug and stop-race-condition in DistributedTaskCo... ║
-    • 49cd5bf58  2026-02-22  Implement distributed task coordination across nodes (Pha... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_task_coordinator.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 344
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=1, L=0
+ * PR History (last 5): #3364 [scheduler] Distributed cro... (2026-03-12) | #2568 [scheduler] Distributed tas... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "scheduler/distributed_task_coordinator.h"
@@ -33,6 +28,22 @@
 namespace themis {
 
 // ── Constructor / Destructor ─────────────────────────────────────────────────
+
+DistributedTaskCoordinator::DistributedTaskCoordinator(
+    TaskScheduler* scheduler,
+    sharding::DistributedCoordinator* coordinator)
+{
+    const Config default_config{};
+    if (!scheduler) {
+        throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
+    }
+    if (!coordinator) {
+        throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
+    }
+    scheduler_ = scheduler;
+    coordinator_ = coordinator;
+    config_ = default_config;
+}
 
 DistributedTaskCoordinator::DistributedTaskCoordinator(
     TaskScheduler* scheduler,
@@ -155,10 +166,9 @@ void DistributedTaskCoordinator::deactivateScheduler() {
         for (const auto& [id, task] : task_registry_) {
             try {
                 scheduler_->unregisterTask(id);
-            } catch (const std::exception& ex) {
+            } catch ([[maybe_unused]] const std::exception& ex) {
                 // Ignore: task may not have been registered if there was an
                 // error during activation.
-                (void)ex;
             }
         }
     }

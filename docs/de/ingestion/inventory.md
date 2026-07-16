@@ -1,6 +1,6 @@
 # Ingestion-Modul – Primäres Inventar
 
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/ingestion/ | ../../../include/ingestion/ -->
 
 **Datum:** März 2026  
@@ -69,7 +69,7 @@
 |---|---|
 | `docs/de/ingestion/README.md` | Deutsche Modul-Übersicht; Konnektor-Status-Tabelle; Quicklinks |
 | `docs/de/ingestion/inventory.md` | Dieses Inventardokument |
-| `docs/de/ingestion/missing-implementations.md` | Report fehlender/unvollständiger Implementierungen |
+| `docs/de/ingestion/MISSING_IMPLEMENTATIONS.md` | Report fehlender/unvollständiger Implementierungen |
 
 ---
 
@@ -94,5 +94,5 @@
 - Tests: 18 Standalone-Focused-Test-Targets in `tests/CMakeLists.txt` via `add_ingestion_focused_test`-Makro ergänzt
 - Benchmark: `bench_ingestion_kv` in `cmake/CMakeLists.txt` registriert
 
-### ⚠️ Bekannte Einschränkungen (dokumentiert in `missing-implementations.md`)
+### ⚠️ Bekannte Einschränkungen (dokumentiert in `MISSING_IMPLEMENTATIONS.md`)
 - ✅ Alle ROADMAP-Aufgaben implementiert. Keine offenen Items.

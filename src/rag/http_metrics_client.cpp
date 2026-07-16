@@ -1,32 +1,17 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http_metrics_client.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     373                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file http_metrics_client.cpp
- * @brief Implementation of HTTP Metrics Client
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/http_metrics_client.h"
 #include "utils/logger.h"
+#include "utils/retry_policy.h"
 #include <httplib.h>
 #include <nlohmann/json.hpp>
 #include <thread>
@@ -55,7 +40,6 @@ struct HTTPMetricsClient::Impl {
             http_client->set_compress(true);
         }
         
-        (void)config;
     }
 };
 
@@ -127,127 +111,122 @@ HTTPResponse HTTPMetricsClient::request(
     const std::string& body,
     const std::unordered_map<std::string, std::string>& headers) {
     
-    return requestWithRetry(method, path, body, headers, 0);
+    return requestWithRetry(method, path, body, headers);
 }
 
 HTTPResponse HTTPMetricsClient::requestWithRetry(
     HTTPMethod method,
     const std::string& path,
     const std::string& body,
-    const std::unordered_map<std::string, std::string>& headers,
-    int retry_count) {
-    
-    auto start = std::chrono::steady_clock::now();
-    
-    // Prepare headers
-    httplib::Headers http_headers;
-    for (const auto& [key, value] : headers) {
-        http_headers.emplace(key, value);
-    }
-    
-    // Add user agent
-    http_headers.emplace("User-Agent", config_.user_agent);
-    
-    // Perform request
-    httplib::Result result;
-    switch (method) {
-        case HTTPMethod::GET:
-            result = impl_->http_client->Get(path.c_str(), http_headers);
-            break;
-        case HTTPMethod::POST:
-            result = impl_->http_client->Post(path.c_str(), http_headers, body, "application/json");
-            break;
-        case HTTPMethod::PUT:
-            result = impl_->http_client->Put(path.c_str(), http_headers, body, "application/json");
-            break;
-        case HTTPMethod::DELETE_:
-            result = impl_->http_client->Delete(path.c_str(), http_headers);
-            break;
-        default:
-            HTTPResponse response;
-            response.success = false;
-            response.error_message = "Unsupported HTTP method";
-            return response;
-    }
-    
-    auto end = std::chrono::steady_clock::now();
-    auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    
+    const std::unordered_map<std::string, std::string>& headers) {
+
+    const themis::utils::RetryConfig retry_cfg{
+        /* max_attempts       */ static_cast<uint32_t>(config_.max_retries + 1),
+        /* initial_backoff_ms */ static_cast<uint32_t>(config_.retry_backoff_ms),
+        /* max_backoff_ms     */ 30'000u,
+        /* multiplier         */ 2.0,
+        /* jitter_fraction    */ 0.0,
+    };
+    themis::utils::ExponentialBackoff backoff(retry_cfg);
+
     HTTPResponse response;
-    response.latency = latency;
-    
-    if (result) {
-        response.status_code = result->status;
-        response.body = result->body;
-        
-        // Copy headers
-        for (const auto& [key, value] : result->headers) {
-            response.headers[key] = value;
+
+    for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
+        auto start = std::chrono::steady_clock::now();
+
+        // Prepare headers
+        httplib::Headers http_headers;
+        for (const auto& [key, value] : headers) {
+            http_headers.emplace(key, value);
         }
-        
-        // Check if successful (2xx status codes)
-        response.success = (result->status >= 200 && result->status < 300);
-        
-        if (!response.success && retry_count < config_.max_retries) {
-            // Retry with exponential backoff
-            int backoff_ms = config_.retry_backoff_ms * (1 << retry_count);
-            THEMIS_WARN("Request failed with status {}, retrying in {}ms (attempt {}/{})",
-                          result->status, backoff_ms, retry_count + 1, config_.max_retries);
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
-            
-            {
-                std::lock_guard<std::mutex> lock(stats_mutex_);
-                stats_.retries_attempted++;
+        http_headers.emplace("User-Agent", config_.user_agent);
+
+        // Perform request
+        httplib::Result result;
+        switch (method) {
+            case HTTPMethod::GET:
+                result = impl_->http_client->Get(path.c_str(), http_headers);
+                break;
+            case HTTPMethod::POST:
+                result = impl_->http_client->Post(path.c_str(), http_headers, body, "application/json");
+                break;
+            case HTTPMethod::PUT:
+                result = impl_->http_client->Put(path.c_str(), http_headers, body, "application/json");
+                break;
+            case HTTPMethod::DELETE_:
+                result = impl_->http_client->Delete(path.c_str(), http_headers);
+                break;
+            default:
+                response.success = false;
+                response.error_message = "Unsupported HTTP method";
+                return response;
+        }
+
+        auto end = std::chrono::steady_clock::now();
+        response.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        response.headers.clear();
+
+        if (result) {
+            response.status_code = result->status;
+            response.body        = result->body;
+            for (const auto& [key, value] : result->headers) {
+                response.headers[key] = value;
             }
-            
-            return requestWithRetry(method, path, body, headers, retry_count + 1);
-        }
-        
-        if (response.success) {
-            THEMIS_DEBUG("HTTP {} {} succeeded with status {}", 
-                           method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
+            response.success = (result->status >= 200 && result->status < 300);
+
+            if (response.success) {
+                THEMIS_DEBUG("HTTP {} {} succeeded with status {}",
+                               method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
+                break; // done
+            }
+
+            if (attempt < config_.max_retries) {
+                THEMIS_WARN("Request failed with status {}, retrying in {}ms (attempt {}/{})",
+                              result->status, backoff.current_delay_ms(),
+                              attempt + 1, config_.max_retries);
+                {
+                    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
+                    stats_.retries_attempted++;
+                }
+                backoff.wait();
+            } else {
+                response.error_message = "HTTP " + std::to_string(result->status);
+                THEMIS_ERROR("HTTP {} {} failed with status {}",
+                               method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
+            }
         } else {
-            response.error_message = "HTTP " + std::to_string(result->status);
-            THEMIS_ERROR("HTTP {} {} failed with status {}", 
-                           method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
-        }
-    } else {
-        response.success = false;
-        response.status_code = 0;
-        response.error_message = httplib::to_string(result.error());
-        
-        if (retry_count < config_.max_retries) {
-            int backoff_ms = config_.retry_backoff_ms * (1 << retry_count);
-            THEMIS_WARN("Request failed: {}, retrying in {}ms (attempt {}/{})",
-                          response.error_message, backoff_ms, retry_count + 1, config_.max_retries);
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
-            
-            {
-                std::lock_guard<std::mutex> lock(stats_mutex_);
-                stats_.retries_attempted++;
+            response.success       = false;
+            response.status_code   = 0;
+            response.error_message = httplib::to_string(result.error());
+
+            if (attempt < config_.max_retries) {
+                THEMIS_WARN("Request failed: {}, retrying in {}ms (attempt {}/{})",
+                              response.error_message, backoff.current_delay_ms(),
+                              attempt + 1, config_.max_retries);
+                {
+                    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
+                    stats_.retries_attempted++;
+                }
+                backoff.wait();
+            } else {
+                THEMIS_ERROR("HTTP {} {} failed: {}",
+                               method == HTTPMethod::POST ? "POST" : "GET", path, response.error_message);
             }
-            
-            return requestWithRetry(method, path, body, headers, retry_count + 1);
         }
-        
-        THEMIS_ERROR("HTTP {} {} failed: {}", 
-                       method == HTTPMethod::POST ? "POST" : "GET", path, response.error_message);
     }
-    
+
     // Call callback if set
     if (request_callback_) {
         std::string method_str;
         switch (method) {
-            case HTTPMethod::GET: method_str = "GET"; break;
-            case HTTPMethod::POST: method_str = "POST"; break;
-            case HTTPMethod::PUT: method_str = "PUT"; break;
+            case HTTPMethod::GET:    method_str = "GET";    break;
+            case HTTPMethod::POST:   method_str = "POST";   break;
+            case HTTPMethod::PUT:    method_str = "PUT";    break;
             case HTTPMethod::DELETE_: method_str = "DELETE"; break;
         }
-        request_callback_(method_str, path, response.status_code, latency.count());
+        request_callback_(method_str, path, response.status_code, response.latency.count());
     }
-    
+
     updateStatistics(response, 1);
     return response;
 }
@@ -258,12 +237,12 @@ bool HTTPMetricsClient::isEndpointHealthy() {
 }
 
 HTTPMetricsClient::Statistics HTTPMetricsClient::getStatistics() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
 void HTTPMetricsClient::resetStatistics() {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_ = Statistics();
 }
 
@@ -272,7 +251,7 @@ void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
 }
 
 void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t metrics_count) {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     
     stats_.requests_sent++;
     stats_.metrics_sent += metrics_count;

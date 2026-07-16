@@ -23,6 +23,7 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | Section | Description |
 |---------|-------------|
 | [🤝 Code of Conduct](#-code-of-conduct) | Community guidelines |
+| [🧭 Governance Roles & Escalation](#governance-roles--escalation) | Role model, contribution path, and escalation channels |
 | [🚀 Getting Started](#-getting-started) | Set up development environment |
 | [💻 Development Workflow](#-development-workflow) | Branching and committing |
 | [✅ Code Quality Standards](#-code-quality-standards) | Enforced quality checks |
@@ -46,6 +47,24 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 > - **Focus on what is best** for the community and project
 >
 > Please read the full [Code of Conduct](CODE_OF_CONDUCT.md) for details.
+
+---
+
+## 🧭 Governance Roles & Escalation
+
+Use this unified path for both external and internal contributors:
+
+1. Follow this document for setup, workflow, quality checks, and PR process.
+2. Use [GOVERNANCE.md](GOVERNANCE.md) for role boundaries and final decision authority.
+3. Use [MAINTAINERS.md](MAINTAINERS.md) to identify module ownership and review routing.
+4. Use [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for behavior and moderation rules.
+5. Use [SECURITY.md](SECURITY.md) and [SOP.md](SOP.md) for private vulnerability and incident response processes.
+
+Canonical channels:
+
+- **General questions / governance discussion:** [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
+- **Bug reports / feature requests / contributor blockers:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+- **Security vulnerabilities (private):** [GitHub Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
 
 ---
 
@@ -227,7 +246,7 @@ cmake --build build
 
 </details>
 
-See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for third-party dependency information.
+See [docs/de/legal/ATTRIBUTIONS.md](docs/de/legal/ATTRIBUTIONS.md) for third-party dependency information.
 
 **Running tests under Windows / WSL (developer tips)**
 
@@ -270,15 +289,15 @@ choco install llvm cppcheck gitleaks
 
 > [!IMPORTANT]
 > **ThemisDB uses a Git Flow branching strategy:**
-> - `main` = Production-ready release branch (protected)
 > - `develop` = Active development branch (integration)
 > - All features branch from `develop` and merge back to `develop`
-> - See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete details
+> - Release lanes are edition-specific: `minimal`, `community`, `enterprise`, `hyperscaler`, `military`
+> - See [docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md](docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md) for complete details
 
 ### 1. Create a Feature Branch
 
 ```bash
-# IMPORTANT: Always branch from develop (not main)
+# IMPORTANT: Always branch from develop
 git checkout develop
 git pull origin develop
 git checkout -b feature/your-feature-name
@@ -353,7 +372,7 @@ git push origin feature/your-feature-name
 ```
 
 **Create Pull Request:**
-- **Base Branch**: `develop` (not `main`!)
+- **Base Branch**: `develop`
 - **Compare Branch**: `feature/your-feature-name`
 - Add clear description of changes
 - Link related issues
@@ -366,15 +385,15 @@ git push origin feature/your-feature-name
 
 > [!IMPORTANT]
 > **ThemisDB uses a Git Flow branching strategy:**
-> - 🎯 `main` = Production-ready release branch (protected)
 > - 🚧 `develop` = Active development branch (integration)  
 > - 🌿 All features branch from `develop` and merge back to `develop`
-> - 📖 See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete details
+> - 🚢 Edition release lanes: `minimal`, `community`, `enterprise`, `hyperscaler`, `military`
+> - 📖 See [docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md](docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md) for complete details
 
 ### 1️⃣ Create a Feature Branch
 
 ```bash
-# IMPORTANT: Always branch from develop (not main)
+# IMPORTANT: Always branch from develop
 git checkout develop
 git pull origin develop
 git checkout -b feature/your-feature-name
@@ -500,7 +519,7 @@ git push origin feature/your-feature-name
 ```
 
 > [!NOTE]
-> **Target Branch**: Pull requests should target the `develop` branch (not `main`!) unless you are working on a hotfix for production.
+> **Target Branch**: Pull requests should target `develop` unless you are working on an edition-specific release/hotfix.
 
 **When creating your PR:**
 1. Set **Base** to `develop`
@@ -817,6 +836,20 @@ ctest --output-on-failure
 
 </details>
 
+### Tier-Based Security & Hardening Checklist (Required)
+
+For all changes that touch runtime behavior, contributors must include tier information and security evidence.
+
+1. Identify impacted tier(s) using the model in [ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering-model-core-module---plugin).
+2. Document trust-boundary crossings (for example T3 -> T2, T5 -> T4 broker calls).
+3. Confirm boundary controls on changed ingress/extension paths:
+   - authentication and authorization
+   - input validation and parser limits
+   - rate limiting and quota behavior
+   - audit event emission
+4. Add or update tests for changed boundaries, especially for T3/T4/T5 code paths.
+5. If a change effectively increases trust or privilege, include explicit architecture/security maintainer approval in the PR.
+
 ### PR Description Template
 
 ```markdown
@@ -842,7 +875,25 @@ Describe the tests you ran to verify your changes.
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published
 - [ ] I have run `./scripts/check-quality.sh` and fixed all issues
+- [ ] I did not introduce Simulation/Stub/Mockup or legacy compatibility paths without explicit human approval
+- [ ] Any approved non-production path is explicitly human-marked (Reason, Activation, Production Delta, Approved By, Removal Target)
+- [ ] I classified impacted Security Tier(s) and documented trust-boundary crossings
+- [ ] I verified boundary controls (AuthN/AuthZ, validation, rate limits, audit) for affected T3/T4/T5 paths
+- [ ] I added boundary-focused tests for tier-crossing behavior or documented why not applicable
 ```
+
+### Reviewer Gate: Non-Production Paths
+
+Reviewers must treat this as a hard blocker policy:
+
+- No Simulation/Stub/Mockup or legacy compatibility path without explicit human approval.
+- No unmarked non-production path.
+- If approved, require explicit human marker fields in code comments:
+   - Reason
+   - Activation
+   - Production Delta
+   - Approved By
+   - Removal Target
 
 ### Review Process
 
@@ -879,8 +930,8 @@ Describe the tests you ran to verify your changes.
 |------------|--------------|---------|
 | **feature/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per feature |
 | **bugfix/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per fix |
-| **release/** → main | **Merge commit** | Preserves full release history and commit metadata |
-| **hotfix/** → main | **Merge commit** | Preserves full hotfix history for audit purposes |
+| **release/** → edition lane | **Merge commit** | Preserves full release history and commit metadata |
+| **hotfix/** → edition lane | **Merge commit** | Preserves full hotfix history for audit purposes |
 
 **Why squash merge for features/bugfixes?**
 - ✅ Cleaner, more readable git history
@@ -1159,23 +1210,21 @@ ThemisDB uses a **tag-based release strategy** with semantic versioning. Release
 ### Branching Strategy Overview
 
 > [!IMPORTANT]
-> **ThemisDB Git Flow:**
-> - `develop` = Default branch for active development (integration)
-> - `main` = Protected production branch (releases only)
-> - `feature/*` = Feature branches (from/to develop)
-> - `bugfix/*` = Bug fix branches (from/to develop)
-> - `release/*` = Release preparation branches (from develop to main)
-> - `hotfix/*` = Emergency fixes (from/to main, then back to develop)
+> **Canonical branch model:**
+> - `develop` = default integration branch for feature and bugfix work
+> - `minimal`, `community`, `enterprise`, `hyperscaler`, `military` = protected edition release lanes
+> - Legacy names `main` and `millitary` are historical only and must not be used for new PR targets
+> - See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) and [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for normative release governance
 
 ### Release Flow
 
 ```
-feature branches → develop → release branch → main → tag → GitHub Release
-                      ↑                         ↓
-                      └─────── merge back ──────┘
+feature/bugfix branches -> develop -> release/<edition>/vX.Y.Z -> <edition lane> -> tag -> GitHub Release
+                              ^                                              |
+                              +-------------- back-merge/cherry-pick --------+
 ```
 
-### Creating a Release
+### Creating an Edition Release
 
 <details>
 <summary><b>1️⃣ Prepare Release Branch</b></summary>
@@ -1183,75 +1232,57 @@ feature branches → develop → release branch → main → tag → GitHub Rele
 ```bash
 # Branch from develop for release preparation
 git checkout develop
-git pull origin develop
-git checkout -b release/v1.4.0
+git pull --ff-only origin develop
+git checkout -b release/community/v1.4.0
 
-# Update VERSION file
-echo "1.4.0" > VERSION
+# Update version and release notes
+# VERSION -> 1.4.0
+# CHANGELOG.md -> add notes under [1.4.0] - YYYY-MM-DD
 
-# Update CHANGELOG.md
-# Add release notes under ## [1.4.0] - YYYY-MM-DD
-
-# Commit version updates
 git add VERSION CHANGELOG.md
-git commit -m "chore(release): Prepare version 1.4.0"
-git push origin release/v1.4.0
+git commit -m "chore(release): prepare community v1.4.0"
+git push origin release/community/v1.4.0
 ```
 
 </details>
 
 <details>
-<summary><b>2️⃣ Create PR to Main</b></summary>
+<summary><b>2️⃣ Create PR to Edition Lane</b></summary>
 
-1. Create a Pull Request from `release/v1.4.0` to `main`
-2. PR title: "Release v1.4.0"
-3. **Required checks must pass:**
-   - ✅ Build & Test (Ubuntu, Windows, macOS)
-   - ✅ Security scan
-   - ✅ Code quality checks
-4. Get approval from maintainer
-5. Merge using **merge commit** (not squash)
+1. Create a Pull Request from `release/community/v1.4.0` to `community`
+2. Ensure required checks pass
+3. Get maintainer approval
+4. Merge using a merge commit for release provenance
 
 </details>
 
 <details>
-<summary><b>3️⃣ Create and Push Tag</b></summary>
+<summary><b>3️⃣ Tag from Edition Lane</b></summary>
 
 ```bash
-# After PR is merged to main
-git checkout main
-git pull origin main
+git checkout community
+git pull --ff-only origin community
 
-# Create annotated tag with release notes
-git tag -a v1.4.0 -m "Release v1.4.0
-
-- Feature 1: Description
-- Feature 2: Description
-- Bug fix: Description
-
-See CHANGELOG.md for full details."
-
-# Push tag to trigger release workflow
+# Community tag example
+git tag -a v1.4.0 -m "ThemisDB Community v1.4.0"
 git push origin v1.4.0
 ```
 
-> [!NOTE]
-> The tag push **automatically triggers** the release workflow which:
-> - Builds release binaries for Ubuntu, Windows, and macOS
-> - Creates a GitHub Release
-> - Uploads artifacts (.tar.gz, .deb, .zip)
-> - Generates release notes from commits and CHANGELOG.md
+Edition tag examples:
+- `minimal-v1.4.0`
+- `enterprise-v1.4.0`
+- `hyperscaler-v1.4.0`
+- `military-v1.4.0`
 
 </details>
 
 <details>
-<summary><b>4️⃣ Merge Back to Develop</b></summary>
+<summary><b>4️⃣ Back-Merge to Develop</b></summary>
 
 ```bash
-# Keep develop in sync with main
 git checkout develop
-git pull origin develop
-git merge main -m "chore: Merge release v1.4.0 back to develop"
+git pull --ff-only origin develop
+git merge community -m "chore: merge community v1.4.0 back to develop"
 git push origin develop
 ```
 
@@ -1288,9 +1319,9 @@ For critical production issues that need immediate release:
 <summary><b>Hotfix Workflow</b></summary>
 
 ```bash
-# 1. Create hotfix branch from main
-git checkout main
-git pull origin main
+# 1. Create hotfix branch from affected edition lane (example: community)
+git checkout community
+git pull origin community
 git checkout -b hotfix/v1.4.1
 
 # 2. Fix the issue
@@ -1305,19 +1336,19 @@ git add .
 git commit -m "fix: Critical security issue in authentication"
 git push origin hotfix/v1.4.1
 
-# 5. Create PR to main (fast-track approval)
+# 5. Create PR to affected edition lane (fast-track approval)
 # Merge after required checks pass
 
 # 6. Tag the hotfix release
-git checkout main
-git pull origin main
+git checkout community
+git pull origin community
 git tag -a v1.4.1 -m "Hotfix v1.4.1: Security patch"
 git push origin v1.4.1
 
 # 7. Merge back to develop
 git checkout develop
 git pull origin develop
-git merge main -m "chore: Merge hotfix v1.4.1 to develop"
+git merge community -m "chore: Merge hotfix v1.4.1 to develop"
 git push origin develop
 ```
 
@@ -1352,7 +1383,7 @@ Use this checklist when preparing a release:
 - [ ] Security scan passed
 - [ ] Release notes drafted
 - [ ] Release branch created from develop
-- [ ] PR to main created and approved
+- [ ] PR to target edition lane created and approved
 - [ ] Tag created and pushed
 - [ ] GitHub Release published (automatic)
 - [ ] Changes merged back to develop
@@ -1363,7 +1394,7 @@ Use this checklist when preparing a release:
 | Branch | Required Checks | Optional Checks |
 |--------|----------------|-----------------|
 | **develop** | Ubuntu build & test | Windows, macOS |
-| **main** | All platforms (Ubuntu, Windows, macOS) | Security scan |
+| **edition lanes** (`minimal`/`community`/`enterprise`/`hyperscaler`/`military`) | All platforms (Ubuntu, Windows, macOS) | Security scan |
 
 ### Automated Release Workflow
 
@@ -1434,7 +1465,26 @@ When you push a version tag (e.g., `v1.4.0`), the release workflow automatically
 | Platform | Package Format | Repository |
 |----------|---------------|------------|
 | 🐧 **Linux** | `.deb`, `.rpm`, `PKGBUILD` | Debian/Ubuntu, Fedora/RHEL, Arch |
-| 🪟 **Windows** | Chocolatey, WinGet | [chocolatey.org](https://chocolatey.org/) |
+| 🪟 **Windows** | WinGet (`ThemisDB.ThemisDB`), Chocolatey | [winget-pkgs](https://github.com/microsoft/winget-pkgs), [chocolatey.org](https://chocolatey.org/) |
+
+#### WinGet Package Maintainer Workflow
+
+Manifests live in `packaging/winget/manifests/`. After each stable release:
+
+1. Generate manifests from the published GitHub Release asset:
+   ```powershell
+   pwsh scripts/release/new-winget-manifest.ps1 \
+       -Version <X.Y.Z> \
+       -InstallerType zip \
+       -InstallerUrl <URL_FROM_GITHUB_RELEASE> \
+       -InstallerSha256 <HASH_FROM_GITHUB_RELEASE> \
+       -IncludeGermanLocale
+   ```
+2. Validate locally: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<X.Y.Z>`
+3. Submit PR: `pwsh scripts/release/submit-winget-pkgs.ps1 -Version <X.Y.Z> -ForkOwner <github-username>`
+4. Remove Draft status on the PR to trigger Microsoft's automated pipeline.
+
+Pre-release versions (`-rc*`, `-alpha`, `-beta`) are submitted only after the stable version PR is merged. See `RELEASE_STRATEGY.md` § 9.1 for the full policy.
 | 🍎 **macOS** | Homebrew Formula | [brew.sh](https://brew.sh/) |
 
 ### Automation Tools
@@ -1467,11 +1517,256 @@ Use provided scripts to prepare new releases:
 |----------|---------|------|
 | 💬 **GitHub Discussions** | General questions | [Discussions](https://github.com/makr-code/ThemisDB/discussions) |
 | 🐛 **GitHub Issues** | Bug reports & features | [Issues](https://github.com/makr-code/ThemisDB/issues) |
+| 🔒 **GitHub Security Advisories** | Private vulnerability reports | [Report](https://github.com/makr-code/ThemisDB/security/advisories/new) |
 | 📚 **Documentation** | Detailed guides | [docs/](docs/) |
 
 ---
 
-## 📄 License
+## � Contributing to GS3 (Gap Scanner V3)
+
+ThemisDB includes **Gap Scanner V3**, a comprehensive gap detection system. Contributors are welcome to add new scanners!
+
+### Overview
+
+- **46 scanners** organized into 4 phases
+- Each scanner inherits from `BaseGapScanner`
+- Automatic impact classification (Severity × Impact)
+- Auto-discovery via filesystem pattern matching
+
+### Adding a New Scanner
+
+#### 1. Identify Scanner Category
+
+Choose the appropriate phase and category:
+
+| Phase | Category | Use For |
+|-------|----------|---------|
+| **Phase 1** | `ai` | AI-Vibe specific patterns |
+| **Phase 1** | `core` | C++ baseline issues |
+| **Phase 1** | `check` | Syntactic validation |
+| **Phase 2** | `safety` | Exception/input safety |
+| **Phase 3** | `security` | Cryptography, hardening |
+| **Phase 4** | `design` | Architecture rules |
+| **Phase 4** | `quality` | Documentation standards |
+
+#### 2. Create Scanner File
+
+Create file in `tools/scanners/` following the naming convention:
+
+```
+gs3_step<N>_<category>_<name>.py
+```
+
+Example: `gs3_step01_core_memory_bounds.py`
+
+#### 3. Implement Scanner Class
+
+```python
+"""
+Memory bounds checking scanner.
+
+Detects: Buffer overflows, out-of-bounds access, pointer arithmetic errors
+"""
+
+from tools.gs3_base_scanner import BaseGapScanner, GapSeverity
+
+
+class MemoryBoundsScanner(BaseGapScanner):
+    """Detects memory bounds violations."""
+    
+    def __init__(self):
+        super().__init__(
+            name="MemoryBounds",
+            description="Detects buffer overflows and out-of-bounds access",
+            phase=1,  # Phase number
+        )
+    
+    def scan(self, codebase_dir):
+        """Scan codebase for memory bounds issues."""
+        
+        # Your scanning logic here
+        for file in self.collect_files(codebase_dir, pattern='*.cpp'):
+            gaps = self.detect_memory_issues(file)
+            
+            for gap in gaps:
+                # Add gap with automatic impact classification
+                self._add_gap(
+                    file=gap['file'],
+                    line=gap['line'],
+                    category=gap['category'],  # e.g., 'out_of_bounds'
+                    message=gap['message'],
+                    severity=gap['severity'],  # GapSeverity.HIGH
+                    tool_tip=gap.get('details', '')
+                )
+        
+        return self.gaps
+    
+    def detect_memory_issues(self, filepath):
+        """Implementation of your scanning logic."""
+        # TODO: Your detection logic
+        return []
+```
+
+#### 4. Update Orchestrator (if needed)
+
+If not using auto-discovery, update `tools/scanners/gs3_step00_uniform_full.py`:
+
+```python
+from scanners.gs3_step01_core_memory_bounds import MemoryBoundsScanner
+
+# In UniformFullScanner.scan():
+scanner = MemoryBoundsScanner()
+self.gaps.extend(scanner.scan(codebase_dir))
+```
+
+*Note: Modern system uses auto-discovery, so manual import usually not needed.*
+
+#### 5. Test Your Scanner
+
+```bash
+# Run just your scanner
+python -c "
+from tools.scanners.gs3_step01_core_memory_bounds import MemoryBoundsScanner
+scanner = MemoryBoundsScanner()
+gaps = scanner.scan('src')
+print(f'Found {len(gaps)} gaps')
+for gap in gaps[:3]:
+    print(f'  {gap.file}:{gap.line} - {gap.message}')
+"
+
+# Run full GS3 test suite
+python tools/test_gs3_integration.py
+
+# List your scanner in GS3 CLI
+python tools/gs3.py list-scanners --step 1
+```
+
+#### 6. Document Your Scanner
+
+Add a docstring with:
+
+```python
+"""
+Brief description of what this scanner detects.
+
+Detects:
+- Specific pattern 1
+- Specific pattern 2
+- Specific pattern 3
+
+Supported:
+- C++ detection patterns
+- Regex patterns
+- AST analysis
+
+Not supported:
+- Dynamic analysis
+- Runtime detection
+
+False positive rate: ~5-10% (estimated)
+Performance: ~0.5s per 1MB of code
+"""
+```
+
+#### 7. Add Tests
+
+Create `tools/tests/test_gs3_step01_core_memory_bounds.py`:
+
+```python
+import unittest
+from pathlib import Path
+from tools.scanners.gs3_step01_core_memory_bounds import MemoryBoundsScanner
+
+
+class TestMemoryBoundsScanner(unittest.TestCase):
+    
+    def setUp(self):
+        self.scanner = MemoryBoundsScanner()
+    
+    def test_detects_buffer_overflow(self):
+        # Test case for buffer overflow detection
+        test_file = "test_data/buffer_overflow.cpp"
+        gaps = self.scanner.scan(".")
+        
+        # Assert detection
+        self.assertTrue(len(gaps) > 0)
+    
+    def test_no_false_positives(self):
+        # Test safe code doesn't trigger
+        test_file = "test_data/safe_code.cpp"
+        gaps = self.scanner.scan(".")
+        
+        # Assert no false positives
+        self.assertEqual(len(gaps), 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+#### 8. Submit PR
+
+1. Create feature branch: `feature/scanner-memory-bounds`
+2. Implement and test scanner
+3. Update `CHANGELOG.md` with scanner addition
+4. Submit PR with:
+   - Clear description of what the scanner detects
+   - Test results (pass/fail counts)
+   - Performance metrics (time per 1MB code)
+   - Example gaps from real codebase
+
+### Scanner Development Checklist
+
+- ✅ File named `gs3_step<N>_<category>_<name>.py`
+- ✅ Class inherits from `BaseGapScanner`
+- ✅ All `_add_gap()` calls use proper severity/impact
+- ✅ Comprehensive docstring with examples
+- ✅ Unit tests with real code samples
+- ✅ No external dependencies (use only std lib + ThemisDB imports)
+- ✅ Performance acceptable (< 1s per 1000 files)
+- ✅ Registered in orchestrator (if auto-discovery doesn't work)
+- ✅ Listed in `tools/GS3_CLI_GUIDE.md`
+- ✅ PR includes test results and metrics
+
+### Key BaseGapScanner Methods
+
+```python
+# Available in your scanner class:
+
+self._add_gap(
+    file: str,           # File path
+    line: int,           # Line number
+    category: str,       # Gap category
+    message: str,        # Human-readable message
+    severity: GapSeverity,  # CRITICAL/HIGH/MEDIUM/LOW
+    tool_tip: str = None # Additional details
+)
+
+self.collect_files(
+    directory: str,      # Root directory
+    pattern: str = "*.cpp"  # File pattern
+) -> List[str]
+
+self.read_file(filepath: str) -> str
+```
+
+### Example Scanners to Reference
+
+- [gs3_step01_core_memory.py](tools/scanners/gs3_step01_core_memory.py)
+- [gs3_step02_safety_exception.py](tools/scanners/gs3_step02_safety_exception.py)
+- [gs3_step03_security_encryption_leak.py](tools/scanners/gs3_step03_security_encryption_leak.py)
+- [gs3_step04_design_architecture.py](tools/scanners/gs3_step04_design_architecture.py)
+
+### Resources
+
+- [BaseGapScanner API](tools/gs3_base_scanner.py)
+- [Impact Classifier](tools/scanners/gs3_impact_classifier.py)
+- [GS3 CLI Guide](tools/GS3_CLI_GUIDE.md)
+- [GS3 Integration Test Suite](tools/test_gs3_integration.py)
+
+---
+
+## �📄 License
 
 > By contributing to ThemisDB, you agree that your contributions will be licensed under the **MIT License**.
 
@@ -1484,3 +1779,7 @@ Use provided scripts to prepare new releases:
 [⭐ Star us on GitHub](https://github.com/makr-code/ThemisDB) · [📖 Read the Docs](https://makr-code.github.io/ThemisDB/) · [💬 Join Discussions](https://github.com/makr-code/ThemisDB/discussions)
 
 </div>
+
+---
+Zuletzt geprueft (Root-Sync): 2026-06-21
+

@@ -1,26 +1,16 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_model_storage.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     993                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file llm_model_storage.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=17, H=9, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/llm_model_storage.h"
+#include <stdexcept>
 #include "storage/base_entity.h"
 #include "storage/security_signature_manager.h"
 #include "security/mock_key_provider.h"
@@ -52,8 +42,9 @@ using json = nlohmann::json;
 class LLMModelStorage::Impl {
 public:
     explicit Impl(const Config& config) : config_(config) {
+        // Initialize mutex for thread-safe operations
         spdlog::info("LLMModelStorage initialized:");
-        spdlog::info("  Collection: {}", config_.collection_name);
+        spdlog::info("  Collection: {}", config_.key_prefix);
         spdlog::info("  Encryption: {}", config_.enable_encryption);
         spdlog::info("  Signatures: {}", config_.enable_signatures);
         spdlog::info("  Blob Storage: {}", config_.use_blob_storage);
@@ -85,6 +76,7 @@ public:
         const LLMModelMetadata& metadata,
         const std::optional<std::vector<uint8_t>>& model_data
     ) {
+        std::lock_guard<std::mutex> lock(mutex_);
         try {
             if (!config_.db) {
                 spdlog::error("Database not configured");
@@ -198,7 +190,7 @@ public:
             }
             
             // Store in RocksDB
-            std::string key = config_.collection_name + ":" + metadata.model_id;
+            std::string key = config_.key_prefix + metadata.model_id;
             bool success = config_.db->put(key, data_to_store);
             
             if (success) {
@@ -215,6 +207,7 @@ public:
     }
     
     std::optional<LLMModelMetadata> loadModel(const std::string& model_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
         try {
             if (!config_.db) {
                 spdlog::error("Database not configured");
@@ -222,7 +215,7 @@ public:
             }
             
             // Retrieve from RocksDB
-            std::string key = config_.collection_name + ":" + model_id;
+            std::string key = config_.key_prefix + model_id;
             auto data = config_.db->get(key);
             
             if (!data) {
@@ -360,6 +353,7 @@ public:
     }
     
     std::optional<std::vector<uint8_t>> loadModelBlob(const std::string& model_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
         try {
             if (!config_.db) {
                 spdlog::error("Database not configured");
@@ -367,7 +361,7 @@ public:
             }
             
             // Retrieve entity from RocksDB
-            std::string key = config_.collection_name + ":" + model_id;
+            std::string key = config_.key_prefix + model_id;
             auto data = config_.db->get(key);
             
             if (!data) {
@@ -453,7 +447,7 @@ public:
                 // Convert to hex string
                 std::stringstream ss;
                 for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-                    ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+                    ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
                 }
                 std::string computed_hash = ss.str();
                 
@@ -476,59 +470,56 @@ public:
         }
     }
     
-    bool updateModel(const std::string& model_id, const LLMModelMetadata& metadata) {
+    bool updateModel(const std::string& /*model_id*/, const LLMModelMetadata& metadata) {
+        std::lock_guard<std::mutex> lock(mutex_);
         // For simplicity, just store again
         return storeModel(metadata, std::nullopt);
     }
     
     bool deleteModel(const std::string& model_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
         try {
             if (!config_.db) {
                 spdlog::error("Database not configured");
                 return false;
             }
             
-            // Load metadata to get blob reference
-            auto metadata_opt = loadModel(model_id);
-            if (metadata_opt && config_.blob_manager) {
-                // Try to delete blob if it exists
-                std::string key = config_.collection_name + ":" + model_id;
-                auto data = config_.db->get(key);
-                if (data) {
-                    try {
-                        // Decrypt if needed
-                        std::vector<uint8_t> decrypted_data;
-                        if (config_.enable_encryption && encryption_) {
-                            std::string data_str(data->begin(), data->end());
-                            auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
-                            decrypted_data = encryption_->decryptToBytes(encrypted_blob);
-                        } else {
-                            decrypted_data = *data;
-                        }
-                        
-                        BaseEntity entity = BaseEntity::deserialize(model_id, decrypted_data);
-                        
-                        if (entity.hasField("blob_ref_uri")) {
-                            storage::BlobRef ref;
-                            ref.id = entity.getFieldAsString("blob_ref_id").value_or("");
-                            ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
-                            ref.type = static_cast<storage::BlobStorageType>(
-                                entity.getFieldAsInt("blob_ref_type").value_or(0)
-                            );
-                            ref.hash_sha256 = entity.getFieldAsString("blob_ref_hash").value_or("");
-                            ref.size_bytes = entity.getFieldAsInt("blob_ref_size").value_or(0);
-                            
-                            config_.blob_manager->remove(ref);
-                            spdlog::info("Deleted blob for model {}", model_id);
-                        }
-                    } catch (const std::exception& e) {
-                        spdlog::warn("Failed to delete blob for model {}: {}", model_id, e.what());
+            // Load metadata directly without going through loadModel() to avoid deadlock
+            std::string key = config_.key_prefix + model_id;
+            auto data = config_.db->get(key);
+            if (data && config_.blob_manager) {
+                try {
+                    // Decrypt if needed
+                    std::vector<uint8_t> decrypted_data;
+                    if (config_.enable_encryption && encryption_) {
+                        std::string data_str(data->begin(), data->end());
+                        auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
+                        decrypted_data = encryption_->decryptToBytes(encrypted_blob);
+                    } else {
+                        decrypted_data = *data;
                     }
+                    
+                    BaseEntity entity = BaseEntity::deserialize(model_id, decrypted_data);
+                    
+                    if (entity.hasField("blob_ref_uri")) {
+                        storage::BlobRef ref;
+                        ref.id = entity.getFieldAsString("blob_ref_id").value_or("");
+                        ref.uri = entity.getFieldAsString("blob_ref_uri").value_or("");
+                        ref.type = static_cast<storage::BlobStorageType>(
+                            entity.getFieldAsInt("blob_ref_type").value_or(0)
+                        );
+                        ref.hash_sha256 = entity.getFieldAsString("blob_ref_hash").value_or("");
+                        ref.size_bytes = entity.getFieldAsInt("blob_ref_size").value_or(0);
+                        
+                        config_.blob_manager->remove(ref);
+                        spdlog::info("Deleted blob for model {}", model_id);
+                    }
+                } catch (const std::exception& e) {
+                    spdlog::warn("Failed to delete blob for model {}: {}", model_id, e.what());
                 }
             }
             
             // Delete metadata from RocksDB
-            std::string key = config_.collection_name + ":" + model_id;
             // RocksDB wrapper doesn't provide remove() in this version
             // Deletion is handled implicitly or requires alternative approach
             spdlog::debug("Model {} marked for deletion (key: {})", model_id, key);
@@ -548,63 +539,117 @@ public:
     }
     
     bool exists(const std::string& model_id) const {
+        std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.db) {
             return false;
         }
         
-        std::string key = config_.collection_name + ":" + model_id;
+        std::string key = config_.key_prefix + model_id;
         auto data = config_.db->get(key);
         return data.has_value();
     }
     
     std::vector<std::string> listModels(const std::optional<std::string>& filter) const {
+        std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> model_ids;
         
         if (!config_.db) {
             return model_ids;
         }
-        
-        // List all keys with collection prefix
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        // This is a placeholder that would need DB iteration support
-        std::string prefix = config_.collection_name + ":";
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Extract model ID from key
-            std::string model_id = key.substr(prefix.length());
-            
-            // Apply filter if provided
-            if (filter) {
-                // Simple substring filter
-                if (model_id.find(*filter) != std::string::npos) {
-                    model_ids.push_back(model_id);
-                }
-            } else {
-                model_ids.push_back(model_id);
+
+        const std::string prefix = config_.key_prefix;
+        config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
+            if (key.size() <= prefix.size()) {
+                return true;
             }
-        }
+
+            const std::string model_id(key.substr(prefix.size()));
+            if (model_id.empty()) {
+                return true;
+            }
+
+            if (filter && model_id.find(*filter) == std::string::npos) {
+                return true;
+            }
+
+            model_ids.push_back(model_id);
+            return true;
+        });
         
         return model_ids;
     }
     
     bool updateUsageStats(const std::string& model_id, int64_t tokens_generated) {
-        auto metadata_opt = loadModel(model_id);
-        if (!metadata_opt) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        try {
+            if (!config_.db) {
+                spdlog::error("Database not configured");
+                return false;
+            }
+            
+            // Load metadata directly
+            std::string key = config_.key_prefix + model_id;
+            auto data = config_.db->get(key);
+            
+            if (!data) {
+                spdlog::warn("Model {} not found", model_id);
+                return false;
+            }
+            
+            // Decrypt if needed
+            std::vector<uint8_t> decrypted_data;
+            if (config_.enable_encryption && encryption_) {
+                try {
+                    std::string data_str(data->begin(), data->end());
+                    auto encrypted_blob = EncryptedBlob::fromBase64(data_str);
+                    decrypted_data = encryption_->decryptToBytes(encrypted_blob);
+                } catch (const std::exception& e) {
+                    spdlog::error("Failed to decrypt model {}: {}", model_id, e.what());
+                    return false;
+                }
+            } else {
+                decrypted_data = *data;
+            }
+            
+            // Deserialize and update only usage fields to avoid schema drift issues.
+            BaseEntity entity = BaseEntity::deserialize(model_id, decrypted_data);
+
+            const int64_t old_total_inferences = entity.getFieldAsInt("total_inferences").value_or(0);
+            const int64_t old_total_tokens = entity.getFieldAsInt("total_tokens_generated").value_or(0);
+            const int64_t now_unix_ms = static_cast<int64_t>(
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count());
+
+            entity.setField("total_inferences", Value(old_total_inferences + 1));
+            entity.setField("total_tokens_generated", Value(old_total_tokens + tokens_generated));
+            entity.setField("last_used_unix_ms", Value(now_unix_ms));
+
+            // Serialize updated entity
+            std::vector<uint8_t> entity_data = entity.serialize();
+
+            // Encrypt if needed
+            if (config_.enable_encryption && encryption_) {
+                auto encrypted = encryption_->encrypt(entity_data, config_.encryption_key_id);
+                std::string encrypted_str = encrypted.toBase64();
+                entity_data.assign(encrypted_str.begin(), encrypted_str.end());
+            }
+
+            // Store back to database
+            bool success = config_.db->put(key, entity_data);
+            if (success) {
+                spdlog::debug("Updated usage stats for model {}", model_id);
+            }
+            return success;
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to update usage stats for model {}: {}", model_id, e.what());
             return false;
         }
-        
-        auto& metadata = *metadata_opt;
-        metadata.total_inferences++;
-        metadata.total_tokens_generated += tokens_generated;
-        metadata.last_used = std::chrono::system_clock::now();
-        
-        return updateModel(model_id, metadata);
     }
     
     json getStats() const {
+        std::lock_guard<std::mutex> lock(mutex_);
         json stats;
-        stats["collection"] = config_.collection_name;
+        stats["collection"] = config_.key_prefix;
         stats["encryption_enabled"] = config_.enable_encryption;
         stats["blob_storage_enabled"] = config_.use_blob_storage;
         
@@ -617,11 +662,12 @@ public:
     
     // Helper: Get blob reference from metadata
     std::optional<storage::BlobRef> getBlobReference(const std::string& model_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.db) {
             return std::nullopt;
         }
         
-        std::string key = config_.collection_name + ":" + model_id;
+        std::string key = config_.key_prefix + model_id;
         auto data = config_.db->get(key);
         
         if (!data) {
@@ -666,9 +712,276 @@ public:
         return std::nullopt;
     }
     
+    // Graph Operations
+    bool addEdge(
+        const std::string& from_id,
+        const std::string& to_id,
+        LLMEdgeType edge_type,
+        float weight
+    ) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!config_.db) {
+            spdlog::error("Database not configured for graph operations");
+            return false;
+        }
+        
+        try {
+            // Store edge as a separate key-value pair
+            std::string edge_key = config_.key_prefix + "edge:" + from_id + ":" + to_id + 
+                                   ":" + std::to_string(static_cast<int>(edge_type));
+            
+            json edge_data = {
+                {"from", from_id},
+                {"to", to_id},
+                {"type", static_cast<int>(edge_type)},
+                {"weight", weight},
+                {"created_at", std::chrono::system_clock::now().time_since_epoch().count()}
+            };
+            
+            std::string edge_str = edge_data.dump();
+            std::vector<uint8_t> edge_bytes(edge_str.begin(), edge_str.end());
+            
+            bool success = config_.db->put(edge_key, edge_bytes);
+            if (success) {
+                spdlog::info("Added edge: {} -> {} (type={})", from_id, to_id, static_cast<int>(edge_type));
+            }
+            return success;
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to add edge: {}", e.what());
+            return false;
+        }
+    }
+    
+    std::vector<json> getEdges(
+        const std::string& model_id,
+        const std::string& direction
+    ) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::vector<json> edges;
+        
+        if (!config_.db) {
+            return edges;
+        }
+        
+        try {
+            // Scan all edge keys for this model using RocksDBWrapper::scanPrefix.
+            const std::string edge_prefix = config_.key_prefix + "edge:";
+            config_.db->scanPrefix(edge_prefix, [&](std::string_view key, std::string_view) -> bool {
+                // Key format after edge_prefix: from:to:type
+                std::string key_suffix(key.substr(edge_prefix.size()));
+                auto first_colon = key_suffix.find(':');
+                if (first_colon == std::string::npos) return true;
+                std::string from_id = key_suffix.substr(0, first_colon);
+                auto remaining = key_suffix.substr(first_colon + 1);
+                auto second_colon = remaining.find(':');
+                if (second_colon == std::string::npos) return true;
+                std::string to_id = remaining.substr(0, second_colon);
+                
+                // Check if this edge involves the requested model
+                if (from_id != model_id && to_id != model_id) {
+                    return true;
+                }
+                
+                auto edge_data = config_.db->get(key);
+                if (edge_data) {
+                    try {
+                        std::string edge_str(edge_data->begin(), edge_data->end());
+                        json edge_json = json::parse(edge_str);
+                        
+                        // Filter by direction
+                        bool include = false;
+                        if (direction == "both") {
+                            include = true;
+                        } else if (direction == "outgoing" && edge_json["from"] == model_id) {
+                            include = true;
+                        } else if (direction == "incoming" && edge_json["to"] == model_id) {
+                            include = true;
+                        }
+                        
+                        if (include) {
+                            edges.push_back(edge_json);
+                        }
+                    } catch (...) {
+                        // Skip invalid edge data
+                    }
+                }
+                return true;
+            });
+            
+            return edges;
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to get edges: {}", e.what());
+            return edges;
+        }
+    }
+    
+    // Vector Operations
+    bool storeEmbedding(
+        const std::string& model_id,
+        const std::vector<float>& embedding
+    ) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!config_.db) {
+            spdlog::error("Database not configured for vector operations");
+            return false;
+        }
+        
+        if (embedding.empty()) {
+            spdlog::error("Cannot store empty embedding");
+            return false;
+        }
+        
+        try {
+            // Store embedding as a separate key-value pair with metadata
+            std::string embedding_key = config_.key_prefix + "embedding:" + model_id;
+            
+            // Create a JSON object with dimension count for validation
+            json embedding_json = {
+                {"dimensions", embedding.size()},
+                {"values", embedding}  // nlohmann::json handles float serialization portably
+            };
+            
+            std::string json_str = embedding_json.dump();
+            std::vector<uint8_t> embedding_bytes(json_str.begin(), json_str.end());
+            
+            bool success = config_.db->put(embedding_key, embedding_bytes);
+            if (success) {
+                spdlog::info("Stored embedding for model {}: {} dimensions", 
+                            model_id, embedding.size());
+            }
+            return success;
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to store embedding: {}", e.what());
+            return false;
+        }
+    }
+    
+    std::vector<std::pair<std::string, float>> findSimilarModels(
+        const std::string& model_id,
+        int k,
+        float threshold
+    ) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::vector<std::pair<std::string, float>> similar_models;
+        
+        if (!config_.db) {
+            return similar_models;
+        }
+        
+        try {
+            // Get embedding for the query model
+            std::string embedding_key = config_.key_prefix + "embedding:" + model_id;
+            auto query_data = config_.db->get(embedding_key);
+            
+            if (!query_data || query_data->empty()) {
+                spdlog::warn("No embedding found for model {}", model_id);
+                return similar_models;
+            }
+            
+            // Parse JSON to get the embedding
+            std::string query_json_str(query_data->begin(), query_data->end());
+            json query_json;
+            std::vector<float> query_embedding;
+            
+            try {
+                query_json = json::parse(query_json_str);
+                if (!query_json.contains("values") || !query_json.contains("dimensions")) {
+                    spdlog::error("Invalid embedding format for model {}", model_id);
+                    return similar_models;
+                }
+                query_embedding = query_json["values"].get<std::vector<float>>();
+                size_t expected_dims = query_json["dimensions"];
+                
+                if (query_embedding.size() != expected_dims) {
+                    spdlog::error("Embedding dimension mismatch for model {}", model_id);
+                    return similar_models;
+                }
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to parse query embedding for model {}: {}", model_id, e.what());
+                return similar_models;
+            }
+            
+            // Scan all embeddings
+            const std::string embedding_prefix = config_.key_prefix + "embedding:";
+            std::vector<std::pair<std::string, std::vector<float>>> all_embeddings;
+            
+            config_.db->scanPrefix(embedding_prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
+                std::string model_id_from_key(key.substr(embedding_prefix.size()));
+                if (model_id_from_key == model_id) {
+                    return true; // Skip self
+                }
+                
+                auto data = config_.db->get(key);
+                if (data && !data->empty()) {
+                    try {
+                        std::string json_str(data->begin(), data->end());
+                        json j = json::parse(json_str);
+                        if (j.contains("values") && j.contains("dimensions")) {
+                            auto emb = j["values"].get<std::vector<float>>();
+                            if (emb.size() == query_embedding.size()) {
+                                all_embeddings.emplace_back(model_id_from_key, std::move(emb));
+                            }
+                        }
+                    } catch (...) {
+                        // Skip invalid embeddings
+                    }
+                }
+                return true;
+            });
+            
+            // Calculate cosine similarity and find top-k
+            auto cosine_similarity = [](const std::vector<float>& a, const std::vector<float>& b) -> float {
+                if (a.empty() || b.empty() || a.size() != b.size()) {
+                    return 0.0f;
+                }
+                
+                float dot_product = 0.0f;
+                float norm_a = 0.0f;
+                float norm_b = 0.0f;
+                
+                for (size_t i = 0; i < a.size(); i++) {
+                    dot_product += a[i] * b[i];
+                    norm_a += a[i] * a[i];
+                    norm_b += b[i] * b[i];
+                }
+                
+                if (norm_a == 0 || norm_b == 0) {
+                    return 0.0f;
+                }
+                
+                return dot_product / (std::sqrt(norm_a) * std::sqrt(norm_b));
+            };
+            
+            // Find top-k similar models
+            for (const auto& [other_id, other_embedding] : all_embeddings) {
+                float similarity = cosine_similarity(query_embedding, other_embedding);
+                if (similarity >= threshold) {
+                    similar_models.emplace_back(other_id, similarity);
+                }
+            }
+            
+            // Sort by similarity (descending)
+            std::sort(similar_models.begin(), similar_models.end(),
+                [](const auto& a, const auto& b) {
+                    return a.second > b.second;
+                });
+            
+            // Limit to k results
+            if (similar_models.size() > static_cast<size_t>(k)) {
+                similar_models.resize(k);
+            }
+            
+            return similar_models;
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to find similar models: {}", e.what());
+            return similar_models;
+        }
+    }
+    
 private:
     Config config_;
     std::shared_ptr<FieldEncryption> encryption_;
+    mutable std::mutex mutex_;  // Protects all operations on shared state
 };
 
 // LLMModelStorage implementation
@@ -718,147 +1031,21 @@ bool LLMModelStorage::addEdge(
     LLMEdgeType edge_type,
     float weight
 ) {
-    if (!config_.db) {
-        spdlog::error("Database not configured for graph operations");
-        return false;
-    }
-    
-    try {
-        // Store edge as a separate key-value pair
-        std::string edge_key = config_.collection_name + ":edge:" + from_id + ":" + to_id + 
-                               ":" + std::to_string(static_cast<int>(edge_type));
-        
-        json edge_data = {
-            {"from", from_id},
-            {"to", to_id},
-            {"type", static_cast<int>(edge_type)},
-            {"weight", weight},
-            {"created_at", std::chrono::system_clock::now().time_since_epoch().count()}
-        };
-        
-        std::string edge_str = edge_data.dump();
-        std::vector<uint8_t> edge_bytes(edge_str.begin(), edge_str.end());
-        
-        bool success = config_.db->put(edge_key, edge_bytes);
-        if (success) {
-            spdlog::info("Added edge: {} -> {} (type={})", from_id, to_id, static_cast<int>(edge_type));
-        }
-        return success;
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to add edge: {}", e.what());
-        return false;
-    }
+    return impl_->addEdge(from_id, to_id, edge_type, weight);
 }
 
 std::vector<json> LLMModelStorage::getEdges(
     const std::string& model_id,
     const std::string& direction
 ) const {
-    std::vector<json> edges;
-    
-    if (!config_.db) {
-        return edges;
-    }
-    
-    try {
-        // List all edge keys and filter by direction
-        std::string edge_prefix = config_.collection_name + ":edge:";
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Parse key to check if it involves this model
-            // Key format: collection:edge:from:to:type
-            size_t parts_start = key.find(edge_prefix) + edge_prefix.length();
-            std::string key_suffix = key.substr(parts_start);
-            
-            // Parse the key components
-            auto first_colon = key_suffix.find(':');
-            if (first_colon == std::string::npos) continue;
-            
-            std::string from_id = key_suffix.substr(0, first_colon);
-            auto remaining = key_suffix.substr(first_colon + 1);
-            
-            auto second_colon = remaining.find(':');
-            if (second_colon == std::string::npos) continue;
-            
-            std::string to_id = remaining.substr(0, second_colon);
-            
-            // Check if this edge involves the requested model
-            if (from_id != model_id && to_id != model_id) {
-                continue;
-            }
-            
-            auto edge_data = config_.db->get(key);
-            if (edge_data) {
-                try {
-                    std::string edge_str(edge_data->begin(), edge_data->end());
-                    json edge_json = json::parse(edge_str);
-                    
-                    // Filter by direction
-                    bool include = false;
-                    if (direction == "both") {
-                        include = true;
-                    } else if (direction == "outgoing" && edge_json["from"] == model_id) {
-                        include = true;
-                    } else if (direction == "incoming" && edge_json["to"] == model_id) {
-                        include = true;
-                    }
-                    
-                    if (include) {
-                        edges.push_back(edge_json);
-                    }
-                } catch (...) {
-                    // Skip invalid edge data
-                }
-            }
-        }
-        
-        spdlog::info("Found {} edges for model {}", edges.size(), model_id);
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to get edges: {}", e.what());
-    }
-    
-    return edges;
+    return impl_->getEdges(model_id, direction);
 }
 
 bool LLMModelStorage::storeEmbedding(
     const std::string& model_id,
     const std::vector<float>& embedding
 ) {
-    if (!config_.db) {
-        spdlog::error("Database not configured for vector operations");
-        return false;
-    }
-    
-    if (embedding.empty()) {
-        spdlog::error("Cannot store empty embedding");
-        return false;
-    }
-    
-    try {
-        // Store embedding as a separate key-value pair with metadata
-        std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
-        
-        // Create a JSON object with dimension count for validation
-        json embedding_json = {
-            {"dimensions", embedding.size()},
-            {"values", embedding}  // nlohmann::json handles float serialization portably
-        };
-        
-        std::string json_str = embedding_json.dump();
-        std::vector<uint8_t> embedding_bytes(json_str.begin(), json_str.end());
-        
-        bool success = config_.db->put(embedding_key, embedding_bytes);
-        if (success) {
-            spdlog::info("Stored embedding for model {}: {} dimensions", 
-                        model_id, embedding.size());
-        }
-        return success;
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to store embedding: {}", e.what());
-        return false;
-    }
+    return impl_->storeEmbedding(model_id, embedding);
 }
 
 std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
@@ -866,118 +1053,7 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
     int k,
     float threshold
 ) const {
-    std::vector<std::pair<std::string, float>> similar_models;
-    
-    if (!config_.db) {
-        return similar_models;
-    }
-    
-    try {
-        // Get embedding for the query model
-        std::string embedding_key = config_.collection_name + ":embedding:" + model_id;
-        auto query_data = config_.db->get(embedding_key);
-        
-        if (!query_data || query_data->empty()) {
-            spdlog::warn("No embedding found for model {}", model_id);
-            return similar_models;
-        }
-        
-        // Parse JSON to get the embedding
-        std::string query_json_str(query_data->begin(), query_data->end());
-        json query_json;
-        std::vector<float> query_embedding;
-        
-        try {
-            query_json = json::parse(query_json_str);
-            if (!query_json.contains("values") || !query_json.contains("dimensions")) {
-                spdlog::error("Invalid embedding format for model {}", model_id);
-                return similar_models;
-            }
-            query_embedding = query_json["values"].get<std::vector<float>>();
-            size_t expected_dims = query_json["dimensions"];
-            
-            if (query_embedding.size() != expected_dims) {
-                spdlog::error("Embedding dimension mismatch for model {}", model_id);
-                return similar_models;
-            }
-        } catch (const std::exception& e) {
-            spdlog::error("Failed to parse embedding for model {}: {}", model_id, e.what());
-            return similar_models;
-        }
-        
-        // List all embeddings and compute cosine similarity
-        std::string embedding_prefix = config_.collection_name + ":embedding:";
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Extract model ID from key
-            std::string other_model_id = key.substr(embedding_prefix.length());
-            
-            if (other_model_id == model_id) {
-                continue;  // Skip self
-            }
-            
-            auto other_data = config_.db->get(key);
-            if (!other_data || other_data->empty()) {
-                continue;
-            }
-            
-            // Parse other embedding
-            std::string other_json_str(other_data->begin(), other_data->end());
-            std::vector<float> other_embedding;
-            
-            try {
-                json other_json = json::parse(other_json_str);
-                if (!other_json.contains("values")) {
-                    continue;
-                }
-                other_embedding = other_json["values"].get<std::vector<float>>();
-                
-                // Skip if dimension mismatch
-                if (other_embedding.size() != query_embedding.size()) {
-                    continue;
-                }
-            } catch (...) {
-                continue;  // Skip invalid embeddings
-            }
-            
-            // Compute cosine similarity
-            float dot_product = 0.0f;
-            float norm_query = 0.0f;
-            float norm_other = 0.0f;
-            
-            for (size_t i = 0; i < query_embedding.size(); i++) {
-                dot_product += query_embedding[i] * other_embedding[i];
-                norm_query += query_embedding[i] * query_embedding[i];
-                norm_other += other_embedding[i] * other_embedding[i];
-            }
-            
-            float similarity = 0.0f;
-            if (norm_query > 0 && norm_other > 0) {
-                similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
-            }
-            
-            if (similarity >= threshold) {
-                similar_models.push_back({other_model_id, similarity});
-            }
-        }
-        
-        // Sort by similarity (descending) and limit to k
-        std::sort(similar_models.begin(), similar_models.end(),
-                 [](const auto& a, const auto& b) { return a.second > b.second; });
-        
-        if (similar_models.size() > static_cast<size_t>(k)) {
-            similar_models.resize(k);
-        }
-        
-        spdlog::info("Found {} similar models for {}", similar_models.size(), model_id);
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to find similar models: {}", e.what());
-    }
-    
-    return similar_models;
+    return impl_->findSimilarModels(model_id, k, threshold);
 }
 
 bool LLMModelStorage::updateUsageStats(const std::string& model_id, int64_t tokens_generated) {
@@ -994,3 +1070,4 @@ const LLMModelStorage::Config& LLMModelStorage::getConfig() const {
 
 } // namespace llm
 } // namespace themis
+

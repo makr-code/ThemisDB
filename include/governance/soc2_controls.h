@@ -1,24 +1,21 @@
+/**
+ * @file soc2_controls.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            soc2_controls.h                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     304                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a99a6e293  2026-02-25  feat(governance): implement SOC 2 compliance controls and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: soc2_controls.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 291
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -103,20 +100,20 @@ public:
     virtual ~ISoc2Control() = default;
 
     /// Short control identifier (e.g., "CC6.1")
-    virtual std::string id() const = 0;
+    [[nodiscard]] virtual std::string id() const = 0;
 
     /// Trust Services Criteria category (e.g., "CC6", "A1", "C1")
-    virtual std::string criteria() const = 0;
+    [[nodiscard]] virtual std::string criteria() const = 0;
 
     /// One-line title (e.g., "Logical Access Security – Encryption")
-    virtual std::string title() const = 0;
+    [[nodiscard]] virtual std::string title() const = 0;
 
     /// Detailed description of what this control verifies
-    virtual std::string description() const = 0;
+    [[nodiscard]] virtual std::string description() const = 0;
 
     /// Evaluate the control against a single PolicyRule.
     /// Populates the returned Soc2ControlResult with compliance status and evidence.
-    virtual Soc2ControlResult evaluate(const PolicyRule& rule) const = 0;
+    [[nodiscard]] virtual Soc2ControlResult evaluate(const PolicyRule& rule) const = 0;
 };
 
 // ============================================================================

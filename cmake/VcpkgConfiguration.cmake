@@ -5,6 +5,18 @@ message(STATUS "==========================================")
 message(STATUS "vcpkg Configuration")
 message(STATUS "==========================================")
 
+# Consume optional cache vars some tooling passes via -D to avoid
+# "Manually-specified variables were not used" warnings.
+if(DEFINED VCPKG_POWERSHELL_PATH)
+    set(ENV{VCPKG_POWERSHELL_PATH} "${VCPKG_POWERSHELL_PATH}")
+endif()
+if(DEFINED Z_VCPKG_PWSH_PATH)
+    set(ENV{Z_VCPKG_PWSH_PATH} "${Z_VCPKG_PWSH_PATH}")
+endif()
+if(DEFINED Z_VCPKG_POWERSHELL_PATH)
+    set(ENV{Z_VCPKG_POWERSHELL_PATH} "${Z_VCPKG_POWERSHELL_PATH}")
+endif()
+
 # ============================================================================
 # BINARY CACHE CONFIGURATION
 # ============================================================================
@@ -105,10 +117,39 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "vcpkg toolchain file" FORCE)
     message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
-elseif(NOT CMAKE_TOOLCHAIN_FILE STREQUAL "${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake")
-    message(WARNING "CMAKE_TOOLCHAIN_FILE already set to: ${CMAKE_TOOLCHAIN_FILE}")
-    message(WARNING "  Expected: ${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake")
-    message(WARNING "  vcpkg may not be properly configured.")
+else()
+    # Normalize both paths to forward slashes before comparing (Windows backslash vs forward slash)
+    file(TO_CMAKE_PATH "${CMAKE_TOOLCHAIN_FILE}" _current_toolchain_norm)
+    file(TO_CMAKE_PATH "${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake" _expected_toolchain_norm)
+    # Also compare canonicalized absolute paths to tolerate relative/alternate spellings.
+    get_filename_component(_current_toolchain_real "${_current_toolchain_norm}" REALPATH)
+    get_filename_component(_expected_toolchain_real "${_expected_toolchain_norm}" REALPATH)
+    # On Windows paths are case-insensitive – fall back to lowercase comparison
+    string(TOLOWER "${_current_toolchain_norm}" _current_toolchain_lower)
+    string(TOLOWER "${_expected_toolchain_norm}" _expected_toolchain_lower)
+    string(TOLOWER "${_current_toolchain_real}" _current_toolchain_real_lower)
+    string(TOLOWER "${_expected_toolchain_real}" _expected_toolchain_real_lower)
+    # Also accept the local vcpkg subdir as a valid alternative toolchain
+    file(TO_CMAKE_PATH "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake" _local_toolchain_norm)
+    string(TOLOWER "${_local_toolchain_norm}" _local_toolchain_lower)
+    get_filename_component(_local_toolchain_real "${_local_toolchain_norm}" REALPATH)
+    string(TOLOWER "${_local_toolchain_real}" _local_toolchain_real_lower)
+
+    if(_current_toolchain_lower STREQUAL _expected_toolchain_lower)
+        message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (matches vcpkg root)")
+    elseif(_current_toolchain_real_lower STREQUAL _expected_toolchain_real_lower)
+        message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (matches vcpkg root)")
+    elseif(_current_toolchain_norm STREQUAL _expected_toolchain_norm)
+        message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (matches vcpkg root)")
+    elseif(_current_toolchain_lower STREQUAL _local_toolchain_lower)
+        message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (local vcpkg subdir)")
+    elseif(_current_toolchain_real_lower STREQUAL _local_toolchain_real_lower)
+        message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE} (local vcpkg subdir)")
+    else()
+        message(WARNING "CMAKE_TOOLCHAIN_FILE already set to: ${CMAKE_TOOLCHAIN_FILE}")
+        message(WARNING "  Expected: ${VCPKG_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake")
+        message(WARNING "  vcpkg may not be properly configured.")
+    endif()
 endif()
 
 # ============================================================================

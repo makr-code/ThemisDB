@@ -1,3 +1,5 @@
+> **Hinweis:** Algorithmen und Typen gegen aktuellen Sourcecode verifizieren.
+
 # Vector Search Documents - Technische Details
 
 ## Übersicht

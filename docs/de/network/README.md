@@ -1,13 +1,13 @@
 # Network-Modul — Übersicht
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/network/ -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · missing-implementations.md -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MISSING_IMPLEMENTATIONS.md -->
 
-**Stand:** 9. März 2026  
-**Version:** 1.1  
-**Kategorie:** Netzwerk / Transportunfrastruktur  
-**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
+**Stand:** 6. April 2026
+**Version:** 1.1
+**Kategorie:** Netzwerk / Transportunfrastruktur
+**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md))
 
 ---
 
@@ -29,6 +29,7 @@ Das Network-Modul implementiert ThemisDBs hochperformante, sichere Netzwerkschic
 - Service-Mesh-Integration (Istio/Envoy, `THEMIS_ENABLE_SERVICE_MESH`)
 - Per-Tenant-Bandbreiten-Quotas und QoS-Manager (Token-Bucket, Prioritätswarteschlangen)
 - Connection-Level-Kompression (LZ4, Zstd)
+- **IPv6 Dual-Stack** (v1.9.0): `Config::enable_ipv6` + `Config::ipv6_dual_stack` (IPV6_V6ONLY=0)
 
 ---
 
@@ -94,7 +95,7 @@ Das Network-Modul implementiert ThemisDBs hochperformante, sichere Netzwerkschic
 1. **QUERY_AQL und GEO_QUERY noch nicht mit Wire-Protocol integriert** — Beide Handler geben strukturierte Fehlerantworten zurück (`error_code: "AQL_NOT_INTEGRATED"` / `"GEO_NOT_INTEGRATED"`) und verweisen Clients auf die HTTP-REST-API (`POST /api/v1/query` / `GET /api/v1/geo/query`). Vollständige Engine-Integration geplant.
 2. **WebSocket-Binary-Frames nicht dispatched** — Nur JSON-Text-Frames funktionieren vollständig.
 
-Vollständige Details: → [missing-implementations.md](missing-implementations.md)
+Vollständige Details: → [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md)
 
 ### ✅ Vollständig implementiert
 
@@ -117,6 +118,7 @@ Vollständige Details: → [missing-implementations.md](missing-implementations.
 | Testdatei | Beschreibung |
 |---|---|
 | `tests/test_wire_protocol_v1_handlers.cpp` | V1-Opcode-Handler: Config-Defaults, Auth-Logik (3 Modi), HELLO-Capabilities, GET/PUT/DELETE-Key-Format, VECTOR_SEARCH-Shape, QUERY_AQL/GEO_QUERY-Error-Kontrakt |
+| `tests/test_wire_protocol_ipv6.cpp` | IPv6-Unterstützung: Config-Defaults (`enable_ipv6`, `ipv6_dual_stack`), Address-Promotion-Logik, Boost.Asio-IPv6-Parsing, Dual-Stack-Semantik (18 Tests) |
 | `tests/test_wire_protocol_connection_pool.cpp` | Connection-Pool-Lifecycle, RAII-Handles |
 | `tests/test_wire_protocol_v2.cpp` | V2-Protokoll-Konstanten, Frame-Header, Stream-State (29 Tests) |
 | `tests/test_wire_protocol_websocket.cpp` | WebSocket-Upgrade, Protokollerkennung (13 Tests) |
@@ -145,6 +147,30 @@ config.port = 8766;
 config.num_io_threads = 4;
 config.num_worker_threads = 16;
 config.enable_tls = true;
+config.tls_cert_path = "/etc/themisdb/server.crt";
+config.tls_key_path  = "/etc/themisdb/server.key";
+
+WireProtocolServer server(config, storage, secondary_index, ...);
+server.start();
+```
+
+### Wire-Protocol-Server mit IPv6 starten
+
+```cpp
+#include "network/wire_protocol_server.h"
+
+WireProtocolServer::Config config;
+config.port          = 8766;
+// IPv6 aktivieren — "0.0.0.0" wird automatisch auf "::" promoted
+config.enable_ipv6   = true;
+// Dual-Stack: eine einzige IPv6-Socket akzeptiert auch IPv4-mapped Verbindungen
+// (IPV6_V6ONLY=0). Auf false setzen, um ausschließlich native IPv6 zu akzeptieren.
+config.ipv6_dual_stack = true;           // Standard (true)
+// Explizite IPv6-Adressen funktionieren direkt ohne enable_ipv6:
+// config.host       = "::1";            // nur Loopback
+// config.host       = "fe80::1";        // Link-Local
+
+config.enable_tls    = true;
 config.tls_cert_path = "/etc/themisdb/server.crt";
 config.tls_key_path  = "/etc/themisdb/server.key";
 
@@ -183,6 +209,36 @@ quic.start();
 
 ---
 
+## Usage
+
+- Serverseitig typischer Entry-Point: `WireProtocolServer` aus `include/network/wire_protocol_server.h`
+- Für Client-Reuse: `WireProtocolConnectionPool` aus `include/network/wire_protocol_connection_pool.h`
+- Feature-Flags für optionale Transportschichten:
+  - `THEMIS_ENABLE_WEBSOCKET`
+  - `THEMIS_ENABLE_HTTP3`
+  - `THEMIS_ENABLE_GRPC`
+  - `THEMIS_ENABLE_SERVICE_MESH`
+
+## Troubleshooting
+
+- TLS-/mTLS-Startprobleme: Zertifikatpfade und Dateirechte prüfen; `validateTransportSecurity(...)` vor `start()` ausführen.
+- Viele abgewiesene Verbindungen: `max_connections`, `max_connections_per_ip`, `max_requests_per_second` und `max_requests_per_minute` verifizieren.
+- QUERY_AQL/GEO_QUERY liefern Fehlercode: aktuell erwartetes Verhalten; auf HTTP-REST-API ausweichen.
+
+Siehe auch: [docs/troubleshooting/network_troubleshooting.md](../../troubleshooting/network_troubleshooting.md)
+
+---
+
+## Installation
+
+Das Network-Modul wird als Teil von ThemisDB gebaut. Für Header-Nutzung:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+---
+
 ## Links zur Primärdokumentation
 
 - [Sourcecode-README](../../../src/network/README.md)
@@ -190,4 +246,6 @@ quic.start();
 - [Roadmap](../../../src/network/ROADMAP.md)
 - [Future Enhancements](../../../src/network/FUTURE_ENHANCEMENTS.md)
 - [Header-README](../../../include/network/README.md)
-- [Fehlende Implementierungen](missing-implementations.md) ← Dieser Report
+- [Roadmap-Bewertung (docs/de)](../roadmap/network_roadmap.md)
+- [Primärquellen-Inventar](PRIMARY_SOURCES.md)
+- [Fehlende Implementierungen](MISSING_IMPLEMENTATIONS.md) ← Dieser Report

@@ -1,25 +1,21 @@
+/**
+ * @file simd_distance.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            simd_distance.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     439                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e61c0def  2026-02-27  audit: fix Stubs:1 annotations, update line counts, add m... ║
-    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: simd_distance.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 435
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=0, L=0
+ * PR History (last 5): #4269 feat(timeseries): TSStore s... (2026-03-15) | #3101 feat(performance): AVX-512 ... (2026-03-12) | #1115 perf: Memory bandwidth opti... (2026-03-11) | #1124 perf: Reduce cache-miss pen... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SIMD distance calculations for vector embeddings
@@ -434,6 +430,16 @@ float cosine_distance(const float* a, const float* b, std::size_t dim) {
     if (cosine_sim > 1.0f) cosine_sim = 1.0f;
     if (cosine_sim < -1.0f) cosine_sim = -1.0f;
     return 1.0f - cosine_sim;
+}
+
+// batch_cosine_similarity: compute cosine_similarity(query, db[i]) for all i.
+// Implemented as 1.0f - cosine_distance per element; future SIMD optimisation
+// can fuse the norm computation across the batch.
+void batch_cosine_similarity(const float* query, const float* database,
+                              std::size_t n, std::size_t dim, float* results) {
+    for (std::size_t i = 0; i < n; ++i) {
+        results[i] = 1.0f - cosine_distance(query, database + i * dim, dim);
+    }
 }
 
 } // namespace simd

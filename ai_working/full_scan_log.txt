@@ -1,0 +1,8 @@
+usage: gs3_orchestrator.py [-h] [--output OUTPUT] [--verbose]
+                           [--scan-mode {fast,full}] [--docs-doxygen]
+                           [--md-report MD_REPORT]
+                           [--md-report-max-prompt-buckets MD_REPORT_MAX_PROMPT_BUCKETS]
+                           [--md-report-context-chars MD_REPORT_CONTEXT_CHARS]
+                           [--md-report-template-lines {6,10}]
+                           [source_dir]
+gs3_orchestrator.py: error: unrecognized arguments: include tests benchmarks

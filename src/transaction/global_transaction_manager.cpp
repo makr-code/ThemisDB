@@ -1,24 +1,21 @@
+/**
+ * @file global_transaction_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=22, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            global_transaction_manager.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     590                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d928a3fdd  2026-03-01  feat(transaction): Add GlobalTransactionManager for multi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: global_transaction_manager.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=23, M=0, L=0
+ * PR History (last 5): #3649 feat(transaction): complete... (2026-03-12) | #3413 feat(transaction): GlobalTr... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -38,6 +35,14 @@ namespace themis::transaction {
 // ─────────────────────────────────────────────────────────────────────────────
 // Constructor
 // ─────────────────────────────────────────────────────────────────────────────
+
+GlobalTransactionManager::GlobalTransactionManager(
+    const std::string&                              coordinator_id,
+    std::shared_ptr<themis::sharding::TrueTime>     truetime
+)
+    : GlobalTransactionManager(coordinator_id, std::move(truetime), Config{})
+{
+}
 
 GlobalTransactionManager::GlobalTransactionManager(
     const std::string&                              coordinator_id,
@@ -441,6 +446,74 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
     THEMIS_INFO("GlobalTransactionManager [{}] recovery complete – {} in-doubt txn(s) resolved",
                 coordinator_id_, resolved);
     return resolved;
+}
+
+/**
+ * @brief Return stable coordinator type name for global recovery reports.
+ * @return "GlobalTransactionManager".
+ */
+std::string GlobalTransactionManager::recoveryCoordinatorName() const {
+    return "GlobalTransactionManager";
+}
+
+/**
+ * @brief Return name of the durable backend used by this coordinator.
+ * @return "WAL" when a WAL directory is configured, "disabled" otherwise.
+ */
+std::string GlobalTransactionManager::recoveryBackendName() const {
+    return wal_ ? "WAL" : "disabled";
+}
+
+/**
+ * @brief Return normalized snapshot of non-final transactions for global recovery.
+ *
+ * Maps each GlobalTxnState to the canonical RecoverableTwoPhaseState so the
+ * GlobalTwoPhaseCommitRecoveryManager can compute aggregated in-doubt counts.
+ *
+ * @return List of non-final (not COMPLETED) transactions.
+ */
+std::vector<RecoverableTwoPhaseTransaction>
+GlobalTransactionManager::getRecoverableTransactions() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    std::vector<RecoverableTwoPhaseTransaction> result;
+    for (const auto& [txn_id, rec] : transactions_) {
+        if (rec.state == GlobalTxnState::COMPLETED) {
+            continue;
+        }
+
+        RecoverableTwoPhaseTransaction rt;
+        rt.transaction_id = txn_id;
+
+        switch (rec.state) {
+        case GlobalTxnState::ACTIVE:
+            rt.state = RecoverableTwoPhaseState::ACTIVE;
+            break;
+        case GlobalTxnState::PREPARING:
+            rt.state = RecoverableTwoPhaseState::PREPARING;
+            break;
+        case GlobalTxnState::COMMIT_DECIDED:
+            rt.state             = RecoverableTwoPhaseState::COMMITTING;
+            rt.decision_recorded = true;
+            rt.decision_commit   = true;
+            break;
+        case GlobalTxnState::ABORT_DECIDED:
+            rt.state             = RecoverableTwoPhaseState::ABORTING;
+            rt.decision_recorded = true;
+            rt.decision_commit   = false;
+            break;
+        case GlobalTxnState::FAILED:
+            rt.state = RecoverableTwoPhaseState::FAILED;
+            break;
+        default:
+            rt.state = RecoverableTwoPhaseState::UNKNOWN;
+            break;
+        }
+
+        result.push_back(std::move(rt));
+    }
+
+    return result;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -1,208 +1,68 @@
-# Voice Module — Architecture Guide
+# Voice Module - Architecture Guide
 
-**Version:** 1.1  
-**Last Updated:** 2026-03-09  
-**Module Path:** `src/voice/`
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
----
+Version: 1.0
+Last Updated: 2026-05-31
+Module Path: src/voice/
 
 ## 1. Overview
 
-The Voice module provides ThemisDB's voice and audio interface: speech-to-text
-transcription (OpenAI Whisper via `src/content/`), voice-to-AQL query generation, voice
-assistant with conversational AI, voice authentication, wake word detection, batch audio
-processing, meeting support (phone call transcription, protocol generation), real-time
-WebSocket audio streaming for browser clients, emotion/sentiment analysis from voice
-tone, user-defined voice macros, and accessibility features.
+The Voice module implements voice input processing, session control, assistant orchestration, and streaming/telephony voice interfaces.
 
-The module is production-ready (v1.1.0); Whisper integration requires `THEMIS_ENABLE_WHISPER` for full accuracy.
+## 2. Architecture Surfaces
 
----
-
-## 2. Design Principles
-
-- **Whisper-First STT** – speech-to-text uses the Whisper model (via `content::STTProcessor`)
-  for high-accuracy multilingual transcription.
-- **LLM-Powered NLU** – the transcribed text is passed to `EmbeddedLLM` for intent
-  recognition and AQL query generation.
-- **Session Continuity** – `voice_session_manager.cpp` maintains conversation context
-  across multiple utterances.
-- **Security by Default** – `voice_authenticator.cpp` verifies speaker identity before
-  processing privileged commands; `voice_security.cpp` validates audio inputs.
-
----
-
-## 3. Component Architecture
-
-### 3.1 Key Components
-
-| File | Role |
+| Surface | Source files |
 |---|---|
-| `voice_assistant.cpp` | Main orchestrator: STT → NLU → AQL → execute → respond |
-| `voice_assistant_llm.cpp` | LLM integration for intent parsing and response generation |
-| `audio_preprocessing.cpp` | Audio normalization, noise reduction, VAD |
-| `voice_session_manager.cpp` | Session state and conversation history management |
-| `voice_intent_detector.cpp` | Intent classification from transcribed text |
-| `voice_error_handler.cpp` | Structured error handling and user feedback |
-| `voice_model_cache.cpp` | Whisper model caching and warm-up |
-| `voice_audio_storage.cpp` | Audio recording storage and retrieval |
-| `voice_meeting_support.cpp` | Meeting transcription and protocol generation |
-| `voice_batch_processor.cpp` | Batch audio file processing |
-| `voice_authenticator.cpp` | Speaker identity verification |
-| `voice_security.cpp` | Audio input validation and safety checks |
-| `voice_accessibility.cpp` | Accessibility: slower speech, simplified output |
-| `voice_tts_customizer.cpp` | TTS voice customization settings |
-| `wake_word_detector.cpp` | Wake word detection ("Hey Themis") |
-| `emotion_analyzer.cpp` | Emotion and sentiment detection from voice tone |
-| `voice_browser_streaming.cpp` | WebSocket bidirectional audio streaming for browser clients (Issue #2350) |
-| `voice_macro_manager.cpp` | User-defined voice command macros mapped to AQL queries |
+| Assistant and orchestration | src/voice/voice_assistant.cpp, src/voice/voice_assistant_llm.cpp |
+| Audio preprocessing and detection | src/voice/audio_preprocessing.cpp, src/voice/wake_word_detector.cpp, src/voice/emotion_analyzer.cpp |
+| Session and command handling | src/voice/voice_session_manager.cpp, src/voice/voice_intent_detector.cpp, src/voice/voice_macro_manager.cpp |
+| Security and authentication | src/voice/voice_authenticator.cpp, src/voice/voice_security.cpp |
+| Streaming and telephony | src/voice/voice_browser_streaming.cpp, src/voice/voice_telephony.cpp |
+| Storage and batch processing | src/voice/voice_audio_storage.cpp, src/voice/voice_batch_processor.cpp |
+| Accessibility and customization | src/voice/voice_accessibility.cpp, src/voice/voice_tts_customizer.cpp |
 
-### 3.2 Component Diagram
+## 3. Runtime Control Flow
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Audio Input                                   │
-│   microphone stream / uploaded audio file / phone call          │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────────┐
-│                  AudioPreprocessing                              │
-│   noise reduction → VAD → normalize → chunk                     │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ audio chunks
-┌──────────────────────────▼──────────────────────────────────────┐
-│              content::STTProcessor (Whisper)                    │
-│   speech → transcript + speaker diarization + timestamps        │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ text
-┌──────────────────────────▼──────────────────────────────────────┐
-│                  VoiceIntentDetector                             │
-│   intent: "QUERY", "ADMIN", "CHITCHAT", "EXIT"                  │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ intent + text
-┌──────────────────────────▼──────────────────────────────────────┐
-│              VoiceAssistantLLM (EmbeddedLLM)                    │
-│   NL → AQL translation / conversational response               │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ AQL or response text
-┌──────────────────────────▼──────────────────────────────────────┐
-│              QueryEngine / TTS response                          │
-└──────────────────────────────────────────────────────────────────┘
-```
+1. Voice input enters preprocessing and detection paths.
+2. Session and intent handlers classify request intent and context.
+3. Assistant orchestration routes to command, response, or integration path.
+4. Streaming/telephony outputs are emitted with session-state updates.
+5. Security and metrics hooks record diagnostics and outcomes.
 
----
+## 4. Integration Boundaries
 
-## 4. Data Flow
-
-### 4.1 Voice Query
-
-```
-User says: "Show me all users older than 30"
-    │
-    ├─ wake_word_detector: "Hey Themis" heard
-    ├─ audio_preprocessing: VAD → chunk boundary detected
-    ├─ STTProcessor: Whisper → "Show me all users older than 30"
-    ├─ voice_authenticator: verify speaker identity (optional)
-    ├─ voice_intent_detector: intent = QUERY
-    ├─ voice_assistant_llm: NL → AQL:
-    │       "FOR u IN users FILTER u.age > 30 RETURN u"
-    ├─ query_engine.execute(aql) → results
-    ├─ voice_assistant_llm: format results as spoken response
-    └─ TTS: speak response
-```
-
-### 4.2 Meeting Transcription
-
-```
-audio_file = "meeting_2026-02-24.wav"
-    │
-    ├─ voice_batch_processor.process(audio_file)
-    ├─ STTProcessor: full transcription + speaker diarization
-    ├─ voice_meeting_support.generateProtocol(transcript):
-    │       → LLM: extract action items, decisions, attendees
-    │       → return structured meeting protocol
-    └─ voice_audio_storage.store(audio_file, transcript, protocol)
-```
-
----
-
-## 5. Integration Points
-
-| Direction | Module | Interface |
-|---|---|---|
-| **Uses** | `src/content/` | STT (Whisper) and audio processing |
-| **Uses** | `src/llm/` | NL-to-AQL via EmbeddedLLM |
-| **Uses** | `src/query/` | AQL query execution |
-| **Provides to** | `src/server/` | Voice API endpoints |
-| **Uses** | `src/security/` | Voice authentication and security checks |
-
----
-
-## 6. Threading & Concurrency Model
-
-- Audio preprocessing and Whisper inference run on a dedicated audio thread.
-- `VoiceSessionManager` handles concurrent sessions; each session is isolated.
-- `WakeWordDetector` runs on a low-priority background thread.
-- Batch processing uses the shared thread pool (`src/utils/thread_pool_manager.cpp`).
-
----
-
-## 7. Performance Architecture
-
-| Technique | Detail |
+| Direction | Integration |
 |---|---|
-| Voice activity detection | Avoids processing silence; reduces latency |
-| Model warm-up | Whisper model loaded at startup into `voice_model_cache.cpp` |
-| Streaming transcription | Whisper processes audio in overlapping chunks |
-| Batch processing | Multiple audio files processed concurrently |
+| Used by | API and runtime handlers needing voice interaction |
+| Uses | llm/content/security modules and optional backend services |
+| Exposes | voice session APIs, command flows, and streaming interfaces |
 
----
+## 5. Concurrency Model
 
-## 8. Security Considerations
+- voice sessions operate under concurrent request load
+- shared caches/session registries are coordinated by module components
+- streaming paths enforce bounded chunk/session behavior
 
-- `voice_authenticator.cpp` verifies speaker identity before privileged commands.
-- `voice_security.cpp` validates audio inputs to prevent adversarial audio attacks.
-- Transcripts containing PII are processed through `pii_detector` before storage.
-- Audio storage uses the same field-level encryption as document storage.
+## 6. Known Limits
 
----
+- latency and quality envelopes depend on backend model and hardware profile
+- telephony and browser paths are environment-dependent
+- some deployment combinations require additional benchmark evidence
 
-## 9. Configuration
+## 7. Sourcecode Verification (Module: voice/architecture)
 
-| Parameter | Default | Description |
-|---|---|---|
-| `voice.whisper.model` | "base" | Whisper model size (tiny/base/small/medium/large) |
-| `voice.wake_word.enabled` | false | Enable wake word detection |
-| `voice.authentication.enabled` | false | Enable speaker authentication |
-| `voice.tts.enabled` | false | Enable text-to-speech response |
-| `voice.session.timeout_s` | 300 | Session idle timeout |
-
----
-
-## 10. Error Handling
-
-| Error Type | Strategy |
-|---|---|
-| STT transcription failure | Return error to caller; log |
-| NL-to-AQL failure | Respond "I didn't understand that, please rephrase" |
-| AQL execution failure | Speak error description |
-| Authentication failure | Reject command; log security event |
-| Whisper model not loaded | Return 503 |
-
----
-
-## 11. Known Limitations & Future Work
-
-- Voice module is Alpha; Whisper integration is experimental.
-- TTS output requires an external TTS service (not included).
-- Wake word detection is a stub; integration with a dedicated wake word engine is planned.
-- Real-time streaming transcription latency depends on Whisper model size and hardware.
-
----
-
-## 12. References
-
-- `src/voice/README.md` — module overview
-- `docs/voice/` — voice feature documentation
-- `src/content/README.md` — STT implementation details
-- `ARCHITECTURE.md` (root) — full system architecture
+- Verified files:
+  - src/voice/voice_assistant.cpp
+  - src/voice/audio_preprocessing.cpp
+  - src/voice/voice_session_manager.cpp
+  - src/voice/voice_authenticator.cpp
+  - src/voice/voice_browser_streaming.cpp
+  - src/voice/voice_telephony.cpp
+  - src/voice/voice_batch_processor.cpp
+  - src/voice/wake_word_detector.cpp
+- Verified interfaces and behavior:
+  - assistant/session orchestration
+  - streaming and telephony control flow
+  - detection, preprocessing, and auth surfaces

@@ -1,27 +1,21 @@
+/**
+ * @file access_control_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            access_control_manager.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     483                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 949cf4eb2  2026-03-01  feat(security): integrate ZeroTrustPolicyEnforcer into Ac... ║
-    • 136ad815d  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
-    • 09619660f  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
-    • fe5f8a9c8  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: access_control_manager.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 19:36:06
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 469
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=1, M=1, L=0
+ * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #3381 feat(security): Integrate Z... (2026-03-12) | #3380 feat(security): Integrate R... (2026-03-12) | #2560 feat(security): Implement A... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/access_control_manager.h"
@@ -132,6 +126,17 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         if (!auth_middleware_) {
             THEMIS_ERROR("AuthMiddleware not configured");
             metrics_.authentication_failure++;
+            if (config_.enable_audit_logging) {
+                nlohmann::json audit_entry = {
+                    {"event_type", "authentication"},
+                    {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+                    {"user_id", "unknown"},
+                    {"source_ip", source_ip},
+                    {"outcome", "failure"},
+                    {"reason", "AuthMiddleware not configured"}
+                };
+                THEMIS_INFO("AUDIT [AUTHENTICATION]: {}", audit_entry.dump());
+            }
             return std::nullopt;
         }
         
@@ -139,6 +144,17 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         if (!auth_result.authorized) {
             THEMIS_DEBUG("Authentication failed: {}", auth_result.reason);
             metrics_.authentication_failure++;
+            if (config_.enable_audit_logging) {
+                nlohmann::json audit_entry = {
+                    {"event_type", "authentication"},
+                    {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+                    {"user_id", "unknown"},
+                    {"source_ip", source_ip},
+                    {"outcome", "failure"},
+                    {"reason", auth_result.reason}
+                };
+                THEMIS_INFO("AUDIT [AUTHENTICATION]: {}", audit_entry.dump());
+            }
             return std::nullopt;
         }
         
@@ -159,6 +175,17 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
         metrics_.authentication_success++;
         THEMIS_DEBUG("Authentication successful for user '{}' with {} roles", 
             context.user_id, context.roles.size());
+        if (config_.enable_audit_logging) {
+            nlohmann::json audit_entry = {
+                {"event_type", "authentication"},
+                {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()},
+                {"user_id", context.user_id},
+                {"source_ip", source_ip},
+                {"roles", context.roles},
+                {"outcome", "success"}
+            };
+            THEMIS_INFO("AUDIT [AUTHENTICATION]: {}", audit_entry.dump());
+        }
         
         return context;
         
@@ -218,6 +245,7 @@ AccessDecision AccessControlManager::authorize(
             
             // Get which permissions were applied
             auto user_perms = rbac_->getUserPermissions(context.roles);
+            decision.applied_permissions.reserve(user_perms.size());
             for (const auto& perm : user_perms) {
                 if (perm.matches(resource, action)) {
                     decision.applied_permissions.push_back(perm.toString());
@@ -244,13 +272,12 @@ AccessDecision AccessControlManager::authorize(
     } catch (const std::exception& e) {
         THEMIS_ERROR("Authorization error: {}", e.what());
         metrics_.authorization_failure++;
-        
-        // Fail closed: deny access on errors
-        if (config_.fail_closed) {
-            return AccessDecision::Deny("Authorization error: " + std::string(e.what()));
-        } else {
-            return AccessDecision::Allow("Authorization bypassed due to error (fail-open mode)");
-        }
+
+        AccessDecision decision = config_.fail_closed
+            ? AccessDecision::Deny("Authorization error: " + std::string(e.what()))
+            : AccessDecision::Allow("Authorization bypassed due to error (fail-open mode)");
+        auditAccessDecision(context, resource, action, decision);
+        return decision;
     }
 }
 
@@ -281,7 +308,9 @@ AccessDecision AccessControlManager::checkAccess(
             metrics_.access_denied++;
             THEMIS_WARN("Zero-trust denied user='{}' resource='{}' action='{}' reason='{}'",
                         context->user_id, resource, action, zt_result.reason);
-            return AccessDecision::Deny("Zero-trust verification failed: " + zt_result.reason);
+            auto decision = AccessDecision::Deny("Zero-trust verification failed: " + zt_result.reason);
+            auditAccessDecision(*context, resource, action, decision);
+            return decision;
         }
         THEMIS_DEBUG("Zero-trust passed for user='{}' trust_score={:.2f}",
                      context->user_id, zt_result.trust_score);

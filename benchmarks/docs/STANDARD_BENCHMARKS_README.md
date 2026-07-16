@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Standard Benchmarks - Industrie-anerkannte DB-Tests
 
 **Status: ✅ FULLY IMPLEMENTED**
@@ -483,7 +485,7 @@ Nach jedem Benchmark-Run wird überprüft:
 ---
 
 **Version:** 1.0 (Complete Implementation)  
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2026-04-06  
 **Status:** ✅ PRODUCTION READY
 
 Industry-standard benchmarks für wissenschaftlich rigorose Datenbankvergleiche.

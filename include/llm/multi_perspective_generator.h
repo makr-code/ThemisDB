@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_perspective_generator.h                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     400                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file multi_perspective_generator.h
- * @brief Multi-perspective generation for ethical queries
- * 
- * For ethical and moral queries, generates multiple viewpoints to ensure
- * balanced presentation of diverse ethical frameworks. Prevents single-
- * perspective bias and respects moral diversity.
- * 
- * Scientific foundation:
- * - Wang et al. (2023): Self-consistency - Multi-perspective reasoning
- * - UN Human Rights Art. 18, 19: Freedom of thought, opinion
- * - Ethical pluralism: Recognition of multiple valid moral frameworks
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -67,7 +42,7 @@ struct EthicalPerspective {
 struct PerspectiveResponse {
     EthicalPerspective perspective;
     std::string response;
-    float confidence;
+    float confidence = 0.0f;
     std::vector<std::string> key_points;
     std::string reasoning;
 };
@@ -76,6 +51,7 @@ struct PerspectiveResponse {
  * @brief Multi-perspective generation result
  */
 struct MultiPerspectiveResult {
+    virtual ~MultiPerspectiveResult() = default;
     // Original query
     std::string query;
     
@@ -87,12 +63,12 @@ struct MultiPerspectiveResult {
     std::string synthesis_reasoning;
     
     // Diversity metrics
-    int unique_perspectives_count;
-    float perspective_diversity_score;  ///< 0-1, higher = more diverse
-    bool shows_balanced_view;
+    int unique_perspectives_count = 0;
+    float perspective_diversity_score = 0.0f;  ///< 0-1, higher = more diverse
+    bool shows_balanced_view = false;
     
     // Quality metrics
-    bool meets_diversity_requirement;
+    bool meets_diversity_requirement = false;
     std::vector<std::string> common_themes;
     std::vector<std::string> disagreements;
     

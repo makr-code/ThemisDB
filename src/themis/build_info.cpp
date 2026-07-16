@@ -1,24 +1,21 @@
+/**
+ * @file build_info.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=28, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            build_info.cpp                                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1021                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 639136c66  2026-03-01  Migrate build_info.cpp from src/utils to src/themis (getB... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: build_info.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 1060
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=31, L=0
+ * PR History (last 5): #4215 feat(base, chimera): async ... (2026-03-15) | #3830 feat(themis): Modular Build... (2026-03-12) | #3646 fix(themis): complete build... (2026-03-12) | #3429 [WIP] Add full modularizati... (2026-03-12) | #3410 feat(themis): Dynamic featu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -31,12 +28,14 @@
  */
 
 #include "themis/build_info.h"
+#include <stdexcept>
 #include "themis/edition.h"
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
 #include <fstream>
 #include <map>
+#include <mutex>
 
 // Platform headers for executable path
 #if defined(__linux__)
@@ -54,6 +53,25 @@
 namespace themis {
 namespace build_info {
 
+// ============================================================================
+// HSM MODULE STATUS BRIDGE – storage (STUB #95)
+// ============================================================================
+// Defined before getBuildConfiguration() so the #else HSM branch can call it.
+
+namespace {
+
+std::mutex& hsmStatusFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HsmModuleStatusFn& hsmStatusFnStorage() {
+    static HsmModuleStatusFn fn;
+    return fn;
+}
+
+} // anonymous namespace
+
 BuildConfiguration getBuildConfiguration() {
     BuildConfiguration config;
     
@@ -65,13 +83,13 @@ BuildConfiguration getBuildConfiguration() {
     
     switch (edition_info.type) {
         case edition::EditionType::COMMUNITY:
-            config.edition_type = "Community";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::ENTERPRISE:
-            config.edition_type = "Enterprise";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         case edition::EditionType::HYPERSCALER:
-            config.edition_type = "Hyperscaler";
+            config.edition_type = THEMIS_EDITION_STRING;
             break;
         default:
             config.edition_type = "Unknown";
@@ -546,12 +564,33 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
-    config.modules.push_back({
-        "HSM PKCS#11",
-        false,
-        false,
-        "Hardware Security Module integration"
-    });
+    // STUB #95: Consult the runtime bridge when available so the server can
+    // report the actual HSM KEK state (stub vs. injected hardware backend).
+    // Default (no bridge set): report not-compiled-in with stub annotation.
+    {
+        bool is_real_hsm = false;
+        std::string desc = "Hardware Security Module integration (software stub – dev only)";
+        HsmModuleStatusFn fn_copy;
+        {
+            std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
+            fn_copy = hsmStatusFnStorage();
+        }
+        if (fn_copy) {
+            try {
+                auto [hsm_active, bridge_desc] = fn_copy();
+                is_real_hsm = hsm_active;
+                desc = bridge_desc;
+            } catch (...) {
+                // Bridge failure → keep static defaults
+            }
+        }
+        config.modules.push_back({
+            "HSM PKCS#11",
+            is_real_hsm,
+            is_real_hsm,
+            desc
+        });
+    }
 #endif
 
     // Tracing and Observability
@@ -1018,5 +1057,16 @@ bool verifyBuildManifest(const std::string& manifest_path) {
     return commit_ok && toolchain_ok;
 }
 
+void setHsmModuleStatusFn(HsmModuleStatusFn fn) {
+    std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
+    hsmStatusFnStorage() = std::move(fn);
+}
+
+void clearHsmModuleStatusFn() {
+    std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
+    hsmStatusFnStorage() = nullptr;
+}
+
 } // namespace build_info
 } // namespace themis
+

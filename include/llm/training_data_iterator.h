@@ -1,23 +1,21 @@
+/**
+ * @file training_data_iterator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            training_data_iterator.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: training_data_iterator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 210
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -37,6 +35,7 @@ namespace llm {
 /// Extends JSONLLMExporter for data export functionality
 class TrainingDataIterator {
 public:
+    virtual ~TrainingDataIterator() = default;
     /// Configuration for training data iteration
     struct Config {
         // Batch configuration
@@ -49,7 +48,7 @@ public:
         uint64_t random_seed = 42;
         
         // Quality filtering (reuse from JSONLLMExporter)
-        exporters::JSONLLMConfig::QualityFilter quality_filter;
+        exporters::JSONLLLMConfig::QualityFilter quality_filter;
         
         // Multi-model enrichment
         bool enable_graph_context = false;
@@ -89,9 +88,14 @@ public:
     };
     
     explicit TrainingDataIterator(
-        std::shared_ptr<storage::RocksDBWrapper> db,
-        std::shared_ptr<exporters::JSONLLMExporter> exporter,
-        const Config& config = {}
+        std::shared_ptr<RocksDBWrapper> db,
+        std::shared_ptr<exporters::JSONLLLMExporter> exporter
+    );
+
+    explicit TrainingDataIterator(
+        std::shared_ptr<RocksDBWrapper> db,
+        std::shared_ptr<exporters::JSONLLLMExporter> exporter,
+        Config config
     );
     
     // Iterator Operations
@@ -146,8 +150,8 @@ public:
     void setConfig(const Config& config);
     
 private:
-    std::shared_ptr<storage::RocksDBWrapper> db_;
-    std::shared_ptr<exporters::JSONLLMExporter> exporter_;
+    std::shared_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<exporters::JSONLLLMExporter> exporter_;
     Config config_;
     
     // Iterator state
@@ -167,7 +171,7 @@ private:
     
     // Internal helpers
     bool loadSamples(const std::string& aql_query);
-    TrainingSample convertToTrainingSample(const storage::BaseEntity& entity);
+    TrainingSample convertToTrainingSample(const BaseEntity& entity);
     void shuffleSamples();
     void enrichSampleWithGraphContext(TrainingSample& sample);
     void enrichSampleWithVectorContext(TrainingSample& sample);

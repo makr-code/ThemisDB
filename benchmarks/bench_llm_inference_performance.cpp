@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_llm_inference_performance.cpp                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     564                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_llm_inference_performance.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=16; TODO=1, Stub=5, Unimpl=0, Mock=2, Sim=8, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -41,6 +25,7 @@
  */
 
 #include <benchmark/benchmark.h>
+#include "benchmark_artifact_preflight.h"
 #include "llm/multi_lora_manager.h"
 #include "llm/llm_response_cache.h"
 #include <vector>
@@ -123,6 +108,8 @@ void* getMockContext(int id) {
  * Target: <100ms per adapter
  */
 static void BM_LoRA_Load(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig();
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
@@ -130,10 +117,9 @@ static void BM_LoRA_Load(benchmark::State& state) {
     
     for (auto _ : state) {
         std::string adapter_name = "adapter_" + std::to_string(counter++);
-        std::string adapter_path = "/loras/" + adapter_name + ".bin";
         
         auto start = std::chrono::high_resolution_clock::now();
-        mgr.loadLoRA(adapter_name, adapter_path, base_model, 1.0f);
+        mgr.loadLoRA(adapter_name, lora_path, base_model, 1.0f);
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -151,13 +137,15 @@ BENCHMARK(BM_LoRA_Load)->UseManualTime();
  * Target: <10ms per application
  */
 static void BM_LoRA_Apply(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig();
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     void* ctx = getMockContext(1);
     
     // Pre-load adapter
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
@@ -181,13 +169,15 @@ BENCHMARK(BM_LoRA_Apply)->UseManualTime();
  * Target: <5ms per removal
  */
 static void BM_LoRA_Remove(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig();
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     void* ctx = getMockContext(1);
     
     // Pre-load adapter
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     
     for (auto _ : state) {
         state.PauseTiming();
@@ -217,14 +207,16 @@ BENCHMARK(BM_LoRA_Remove)->UseManualTime();
  * Target: <15ms per switch
  */
 static void BM_LoRA_ContextSwitch(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig();
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     void* ctx = getMockContext(1);
     
-    // Pre-load two adapters
-    mgr.loadLoRA("adapter-a", "/loras/adapter-a.bin", base_model, 1.0f);
-    mgr.loadLoRA("adapter-b", "/loras/adapter-b.bin", base_model, 1.0f);
+    // Pre-load two adapters (same stub file, different logical names)
+    mgr.loadLoRA("adapter-a", lora_path, base_model, 1.0f);
+    mgr.loadLoRA("adapter-b", lora_path, base_model, 1.0f);
     
     bool use_a = true;
     
@@ -253,13 +245,15 @@ BENCHMARK(BM_LoRA_ContextSwitch)->UseManualTime();
  * Target: <1ms (intelligent reuse)
  */
 static void BM_LoRA_Reuse(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig();
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     void* ctx = getMockContext(1);
     
     // Pre-load and apply adapter
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
     
     for (auto _ : state) {
@@ -287,12 +281,14 @@ BENCHMARK(BM_LoRA_Reuse)->UseManualTime();
  * Target: Linear scalability with batch size
  */
 static void BM_MultiLoRA_BatchProcessing(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     size_t batch_size = state.range(0);
     auto config = createLoRAConfig(batch_size);
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     
-    // Load multiple adapters
+    // Load multiple adapters (same stub file under different logical names)
     std::vector<std::string> adapters;
     std::vector<void*> contexts;
     
@@ -300,7 +296,7 @@ static void BM_MultiLoRA_BatchProcessing(benchmark::State& state) {
         std::string adapter_name = "batch_adapter_" + std::to_string(i);
         adapters.push_back(adapter_name);
         contexts.push_back(getMockContext(static_cast<int>(i)));
-        mgr.loadLoRA(adapter_name, "/loras/" + adapter_name + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(adapter_name, lora_path, base_model, 1.0f);
     }
     
     for (auto _ : state) {
@@ -405,6 +401,8 @@ BENCHMARK(BM_LLM_PromptLatency)
  * Target: Track memory overhead
  */
 static void BM_LoRA_MemoryUsage(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     size_t num_adapters = state.range(0);
     auto config = createLoRAConfig(num_adapters * 2, 16384);
     
@@ -414,10 +412,10 @@ static void BM_LoRA_MemoryUsage(benchmark::State& state) {
         const std::string base_model = "llama-7b";
         state.ResumeTiming();
         
-        // Load adapters
+        // Load adapters (same stub file under different logical names)
         for (size_t i = 0; i < num_adapters; ++i) {
             std::string adapter_name = "mem_adapter_" + std::to_string(i);
-            mgr.loadLoRA(adapter_name, "/loras/" + adapter_name + ".bin", base_model, 1.0f);
+            mgr.loadLoRA(adapter_name, lora_path, base_model, 1.0f);
         }
         
         benchmark::ClobberMemory();
@@ -443,14 +441,16 @@ BENCHMARK(BM_LoRA_MemoryUsage)
  * Target: Thread-safe with minimal contention
  */
 static void BM_LoRA_Concurrent(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig(16, 16384);
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     
-    // Pre-load adapters
+    // Pre-load adapters (same stub file under different logical names)
     for (int i = 0; i < 8; ++i) {
         std::string adapter_name = "concurrent_" + std::to_string(i);
-        mgr.loadLoRA(adapter_name, "/loras/" + adapter_name + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(adapter_name, lora_path, base_model, 1.0f);
     }
     
     std::atomic<int> counter{0};
@@ -518,12 +518,14 @@ BENCHMARK(BM_LLM_ResponseCache);
  * Target: Track complete inference pipeline overhead
  */
 static void BM_LLM_EndToEnd(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     auto config = createLoRAConfig();
     MultiLoRAManager mgr(config);
     const std::string base_model = "llama-7b";
     void* ctx = getMockContext(1);
     
-    mgr.loadLoRA("e2e-adapter", "/loras/e2e.bin", base_model, 1.0f);
+    mgr.loadLoRA("e2e-adapter", lora_path, base_model, 1.0f);
     
     auto prompts = generatePrompts(100);
     std::mt19937 rng(42);

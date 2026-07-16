@@ -1,43 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            embedding_pipeline.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     160                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ee034a657  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
-    • efa41f432  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright (c) 2024 ThemisDB
-// SPDX-License-Identifier: MIT
-
 /**
  * @file embedding_pipeline.cpp
- * @brief Embedding generation pipeline for the content module (Issue #1697)
- *
- * Wraps EmbeddedLLM::embed() with batch accumulation and timeout enforcement
- * so that every ingested text document can optionally receive an embedding
- * stored alongside the content and registered in the vector index.
- *
- * Design follows FUTURE_ENHANCEMENTS.md § "Embedding Generation Pipeline":
- *  - batch_size  ≤ 32 chunks per inference call
- *  - timeout_ms  = 5 000 ms; on breach: content stored without embedding,
- *                 content_embedding_failures_total counter incremented
- *  - On success: returned vector is L2-normalised (cosine similarity ready)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/embedding_pipeline.h"
@@ -48,6 +17,8 @@
 #include <chrono>
 #include <cmath>
 #include <algorithm>
+#include <exception>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -159,3 +130,4 @@ std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
 
 } // namespace content
 } // namespace themis
+

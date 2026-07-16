@@ -1,19 +1,20 @@
+/**
+ * @file negative_keyword_filter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            negative_keyword_filter.h                          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: negative_keyword_filter.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -112,6 +113,14 @@ public:
     };
 
     /**
+     * @brief Construct with a (possibly null) secondary index.
+     *
+     * @param index  Non-owning pointer to the SecondaryIndexManager used to
+     *               look up documents containing excluded terms.  May be null;
+     *               all filter() calls return an error in that case.
+     */
+    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr);
+    /**
      * @brief Construct with a (possibly null) secondary index and optional config.
      *
      * @param index  Non-owning pointer to the SecondaryIndexManager used to
@@ -119,8 +128,8 @@ public:
      *               all filter() calls return an error in that case.
      * @param config Engine configuration.
      */
-    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr,
-                                   const Config& config = Config{});
+    NegativeKeywordFilter(SecondaryIndexManager* index,
+          const Config& config);
 
     // -----------------------------------------------------------------------
     // Static helpers

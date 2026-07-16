@@ -1,28 +1,25 @@
+/**
+ * @file schema_validator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            schema_validator.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     220                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8638d7889  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
-    • 001179174  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: schema_validator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 207
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/schema_validator.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <cctype>
@@ -34,7 +31,7 @@ namespace importers {
 // Internal helpers
 // ============================================================================
 
-static std::string toLower(const std::string& s) {
+static std::string toLowerSchema(const std::string& s) {
     std::string out;
     out.reserve(s.size());
     for (unsigned char c : s)
@@ -43,7 +40,7 @@ static std::string toLower(const std::string& s) {
 }
 
 static bool valueIsBoolean(const std::string& s) {
-    std::string lower = toLower(s);
+    std::string lower = toLowerSchema(s);
     return lower == "true" || lower == "false";
 }
 
@@ -62,7 +59,7 @@ static bool valueIsDouble(const std::string& s) {
     if (s.empty()) return false;
     try {
         size_t pos = 0;
-        std::stod(s, &pos);
+        (void)std::stod(s, &pos);
         return pos == s.size();
     } catch (...) {
         return false;
@@ -107,7 +104,7 @@ std::string SchemaAutoDetector::typeName(DetectedFieldType t) {
 }
 
 DetectedFieldType SchemaAutoDetector::parseTypeName(const std::string& name) {
-    std::string lower = toLower(name);
+    std::string lower = toLowerSchema(name);
     if (lower == "boolean" || lower == "bool") return DetectedFieldType::BOOLEAN;
     if (lower == "integer" || lower == "int")  return DetectedFieldType::INTEGER;
     if (lower == "double"  || lower == "float" ||
@@ -219,3 +216,4 @@ void SchemaAutoDetector::reset() {
 
 } // namespace importers
 } // namespace themis
+

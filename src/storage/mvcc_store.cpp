@@ -1,24 +1,21 @@
+/**
+ * @file mvcc_store.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mvcc_store.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 886db4610  2026-02-24  Add atomic history/conflict layer to MVCCStore and Transa... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mvcc_store.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 346
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=7, L=0
+ * PR History (last 5): #3483 docs: consolidate MVCC docu... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #1320 Integrate MVCC and HLC time... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -41,6 +38,9 @@ MVCCStore::MVCCStore(
     : db_(std::move(db))
     , clock_(clock ? std::move(clock) : std::make_shared<HybridLogicalClock>())
 {
+    // uncaught_exception scanner alert (line 31): throws std::invalid_argument when
+    // db is null; callers must supply a non-null database instance — intentional API
+    // contract enforcement — false positive.
     if (!db_) {
         throw std::invalid_argument("MVCCStore: db cannot be null");
     }
@@ -100,6 +100,21 @@ void MVCCStore::putWithTimestamp(
     clock_->update(ts);
     std::string vkey = encodeVersionedKey(key, ts);
     db_->put(vkey, value);
+
+    // F-010: Update the latest-version cache so getLatest() can use a direct
+    // point-read.  Only update if ts is >= the currently cached timestamp so
+    // that concurrent writes don't regress the cache to an older version.
+    {
+        std::unique_lock<std::shared_mutex> lk(latest_mu_);
+        auto it = latest_ts_map_.find(std::string(key));
+        // data_race scanner alert (×2): both the map lookup and the map write
+        // are performed inside this unique_lock scope on latest_mu_; all other
+        // accessors of latest_ts_map_ likewise acquire latest_mu_ before access.
+        // The scanner false-positively flags the code inside the lock body.
+        if (it == latest_ts_map_.end() || ts.value >= it->second.value) {
+            latest_ts_map_[std::string(key)] = ts;
+        }
+    }
 }
 
 HLCTimestamp MVCCStore::putInTxn(
@@ -129,7 +144,27 @@ HLCTimestamp MVCCStore::delInTxn(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
-    // Use MAX timestamp to hit the upper bound of the version range.
+    // F-010: fast path — if we have a cached latest timestamp for this key,
+    // perform a direct db_->get() point-read instead of creating an iterator.
+    // This is valid for keys written via put()/putWithTimestamp(); keys written
+    // exclusively through transactions fall through to the iterator path.
+    {
+        std::shared_lock<std::shared_mutex> lk(latest_mu_);
+        auto it = latest_ts_map_.find(std::string(key));
+        if (it != latest_ts_map_.end()) {
+            std::string vkey = encodeVersionedKey(key, it->second);
+            lk.unlock();  // Release before RocksDB I/O; concurrent writers may proceed.
+            auto val = db_->get(vkey);
+            if (val) {
+                // Empty value signals a tombstone (deleted key).
+                if (val->empty()) return std::nullopt;
+                return val;
+            }
+            // Key not found in RocksDB (e.g. compacted away) — fall through
+            // to the slow iterator path which will also return nullopt cleanly.
+        }
+    }
+    // Slow path: iterator-based seek for time-travel reads or cache misses.
     return getAtTimestamp(key, HLCTimestamp{UINT64_MAX});
 }
 
@@ -197,6 +232,10 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     }
 
     std::string_view raw_val = it.value();
+    // null_dereference scanner alerts (lines 225/226, 244/245): raw_val is a
+    // std::string_view into a RocksDB iterator value; it.value() is non-null when the
+    // iterator is valid (validated above); reinterpret_cast to const uint8_t* on a
+    // valid string_view data() pointer is safe — false positives.
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(raw_val.data()),
         reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size()
@@ -271,6 +310,20 @@ uint64_t MVCCStore::gcVersionsBefore(
 }
 
 uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
+    std::vector<std::string> base_keys;
+    scanBaseKeys([&](std::string_view bk) -> bool {
+        base_keys.emplace_back(bk);
+        return true;
+    });
+
+    uint64_t total_deleted = 0;
+    for (const auto& bk : base_keys) {
+        total_deleted += gcVersionsBefore(bk, min_ts, opts);
+    }
+    return total_deleted;
+}
+
+void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> callback) {
     // Collect all versioned keys (those using the versioned key format:
     // <base_key> '\x00' <8-byte-ts>).
     // A key is treated as versioned if it is at least 9 bytes long AND
@@ -283,8 +336,7 @@ uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     db_->scanAll([&](std::string_view vkey, std::string_view) -> bool {
         if (vkey.size() >= 9 &&
             static_cast<unsigned char>(vkey[vkey.size() - 9]) == '\x00') {
-            std::string base_key(vkey.data(), vkey.size() - 9);
-            base_keys.push_back(std::move(base_key));
+            base_keys.emplace_back(vkey.data(), vkey.size() - 9);
         }
         return true;
     });
@@ -294,11 +346,11 @@ uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     std::sort(base_keys.begin(), base_keys.end());
     base_keys.erase(std::unique(base_keys.begin(), base_keys.end()), base_keys.end());
 
-    uint64_t total_deleted = 0;
     for (const auto& bk : base_keys) {
-        total_deleted += gcVersionsBefore(bk, min_ts, opts);
+        if (!callback(bk)) {
+            break;
+        }
     }
-    return total_deleted;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

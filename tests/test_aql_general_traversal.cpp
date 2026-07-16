@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_aql_general_traversal.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     283                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_aql_general_traversal.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Integration test for AQL General Traversal
@@ -39,7 +24,7 @@ protected:
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<GraphIndexManager> graphIdx;
-    std::unique_ptr<QueryEngine> engine;
+    std::unique_ptr<query::QueryEngine> engine;
     std::string dbPath = "data/themis_aql_general_traversal_test";
 
     void SetUp() override {
@@ -57,7 +42,7 @@ protected:
 
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         graphIdx = std::make_unique<GraphIndexManager>(*db);
-        engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx);
+        engine = std::make_unique<query::QueryEngine>(*db, *secIdx, *graphIdx);
         
         // Create a sample graph for testing
         createSampleGraph();

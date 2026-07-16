@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_api_version.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 343985cbc  2026-02-21  Fix resolveVersion: v1 → latest, v1.4 → latest patch (doc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_api_version.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -492,9 +477,18 @@ TEST(RouteVersionRouter, Redirect_UnversionedPath) {
 
 TEST(RouteVersionRouter, Redirect_UnversionedPathWithQuery) {
     RouteVersionRouter vr;
+    // /query/* is an exempt (unversioned) path handled directly by the server
+    // without redirection; verify it is not redirected.
     auto t = vr.getRedirectTarget("/query/aql?limit=10");
+    EXPECT_FALSE(t.has_value());
+}
+
+TEST(RouteVersionRouter, Redirect_UnversionedDocumentPath) {
+    RouteVersionRouter vr;
+    // /documents is a truly unversioned path that the router SHOULD redirect
+    auto t = vr.getRedirectTarget("/some-unversioned-path");
     ASSERT_TRUE(t.has_value());
-    EXPECT_EQ(*t, "/v1/query/aql?limit=10");
+    EXPECT_EQ(*t, "/v1/some-unversioned-path");
 }
 
 TEST(RouteVersionRouter, NoRedirect_AlreadyVersionedV1) {
@@ -525,4 +519,178 @@ TEST(RouteVersionRouter, NoRedirect_GraphQLWebSocket) {
 TEST(RouteVersionRouter, NoRedirect_RootPath) {
     RouteVersionRouter vr;
     EXPECT_FALSE(vr.getRedirectTarget("/").has_value());
+}
+
+// ============================================================================
+// APIVersionRange Tests
+// ============================================================================
+
+TEST(APIVersionRangeTest, ParseValidRange) {
+    auto range = APIVersionRange::parse("1.0-2.0");
+    ASSERT_TRUE(range.has_value());
+    EXPECT_EQ(range->min_version, (APIVersion{1, 0, 0}));
+    EXPECT_EQ(range->max_version, (APIVersion{2, 0, 0}));
+}
+
+TEST(APIVersionRangeTest, ParseValidRangeSemver) {
+    auto range = APIVersionRange::parse("1.2.0-1.4.1");
+    ASSERT_TRUE(range.has_value());
+    EXPECT_EQ(range->min_version, (APIVersion{1, 2, 0}));
+    EXPECT_EQ(range->max_version, (APIVersion{1, 4, 1}));
+}
+
+TEST(APIVersionRangeTest, ParseInvalidRange_NoDash) {
+    EXPECT_FALSE(APIVersionRange::parse("1.0").has_value());
+}
+
+TEST(APIVersionRangeTest, ParseInvalidRange_BadVersion) {
+    EXPECT_FALSE(APIVersionRange::parse("invalid-2.0").has_value());
+}
+
+TEST(APIVersionRangeTest, ParseInvalidRange_MinGreaterThanMax) {
+    EXPECT_FALSE(APIVersionRange::parse("2.0-1.0").has_value());
+}
+
+TEST(APIVersionRangeTest, ParseRangeWithSpacesAroundDash) {
+    // HTTP clients sometimes include spaces: "1.0 - 2.0"
+    auto range = APIVersionRange::parse("1.0 - 2.0");
+    ASSERT_TRUE(range.has_value());
+    EXPECT_EQ(range->min_version, (APIVersion{1, 0, 0}));
+    EXPECT_EQ(range->max_version, (APIVersion{2, 0, 0}));
+}
+
+TEST(APIVersionRangeTest, ParseRangeWithLeadingTrailingWhitespace) {
+    auto range = APIVersionRange::parse("  1.2  -  1.4  ");
+    ASSERT_TRUE(range.has_value());
+    EXPECT_EQ(range->min_version, (APIVersion{1, 2, 0}));
+    EXPECT_EQ(range->max_version, (APIVersion{1, 4, 0}));
+}
+
+TEST(APIVersionRangeTest, Contains) {
+    APIVersionRange range{APIVersion{1, 0, 0}, APIVersion{2, 0, 0}};
+    EXPECT_TRUE(range.contains(APIVersion{1, 0, 0}));
+    EXPECT_TRUE(range.contains(APIVersion{1, 4, 1}));
+    EXPECT_TRUE(range.contains(APIVersion{2, 0, 0}));
+    EXPECT_FALSE(range.contains(APIVersion{0, 9, 0}));
+    EXPECT_FALSE(range.contains(APIVersion{2, 0, 1}));
+}
+
+// ============================================================================
+// APIVersionManager::resolveVersionRange Tests
+// ============================================================================
+
+class APIVersionRangeResolutionTest : public ::testing::Test {
+protected:
+    APIVersionManager manager;
+};
+
+TEST_F(APIVersionRangeResolutionTest, ResolvesHighestVersionInRange) {
+    // Range [1.0, 1.3] should resolve to v1.3.0 (highest supported in range)
+    APIVersionRange range{APIVersion{1, 0, 0}, APIVersion{1, 3, 0}};
+    auto resolved = manager.resolveVersionRange(range);
+    EXPECT_EQ(resolved, (APIVersion{1, 3, 0}));
+}
+
+TEST_F(APIVersionRangeResolutionTest, ResolvesToCurrentWhenRangeCoversCurrent) {
+    // A wide range should resolve to the current version
+    APIVersionRange range{APIVersion{1, 0, 0}, APIVersion{9, 9, 9}};
+    auto resolved = manager.resolveVersionRange(range);
+    EXPECT_EQ(resolved, manager.getCurrentVersion());
+}
+
+TEST_F(APIVersionRangeResolutionTest, FallsBackToCurrentWhenNoMatch) {
+    // Range that covers no supported version
+    APIVersionRange range{APIVersion{5, 0, 0}, APIVersion{6, 0, 0}};
+    auto resolved = manager.resolveVersionRange(range);
+    EXPECT_EQ(resolved, manager.getCurrentVersion());
+}
+
+TEST_F(APIVersionRangeResolutionTest, ExactVersionRange) {
+    // Single-version range
+    APIVersionRange range{APIVersion{1, 2, 0}, APIVersion{1, 2, 0}};
+    auto resolved = manager.resolveVersionRange(range);
+    EXPECT_EQ(resolved, (APIVersion{1, 2, 0}));
+}
+
+// ============================================================================
+// BreakingChange Tests
+// ============================================================================
+
+class BreakingChangeTest : public ::testing::Test {
+protected:
+    APIVersionManager manager;
+};
+
+TEST_F(BreakingChangeTest, NoBreakingChangeRegistered) {
+    auto result = manager.isBreakingChange(APIVersion{1, 0, 0}, APIVersion{1, 4, 1});
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(BreakingChangeTest, GlobalBreakingChangeDetected) {
+    BreakingChangeInfo bc;
+    bc.introduced_in = APIVersion{2, 0, 0};
+    bc.description = "Response format changed";
+    manager.registerBreakingChange(bc);
+
+    auto result = manager.isBreakingChange(APIVersion{1, 4, 1}, APIVersion{2, 0, 0});
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->description, "Response format changed");
+}
+
+TEST_F(BreakingChangeTest, EndpointBreakingChangeDetected) {
+    BreakingChangeInfo bc;
+    bc.introduced_in = APIVersion{2, 0, 0};
+    bc.endpoint = "/entities";
+    bc.description = "Entity response restructured";
+    manager.registerBreakingChange(bc);
+
+    auto result = manager.isBreakingChange(APIVersion{1, 4, 1}, APIVersion{2, 0, 0}, "/entities");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->description, "Entity response restructured");
+}
+
+TEST_F(BreakingChangeTest, EndpointBreakingChangeNotAffectsOtherEndpoint) {
+    BreakingChangeInfo bc;
+    bc.introduced_in = APIVersion{2, 0, 0};
+    bc.endpoint = "/entities";
+    bc.description = "Entity response restructured";
+    manager.registerBreakingChange(bc);
+
+    // A different endpoint should not be affected
+    auto result = manager.isBreakingChange(APIVersion{1, 4, 1}, APIVersion{2, 0, 0}, "/documents");
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(BreakingChangeTest, BreakingChangeNotDetectedWhenFromVersionExceedsIt) {
+    BreakingChangeInfo bc;
+    bc.introduced_in = APIVersion{1, 5, 0};
+    bc.description = "Old breaking change";
+    manager.registerBreakingChange(bc);
+
+    // Client already at v2.0.0 — the break at v1.5.0 is already past
+    auto result = manager.isBreakingChange(APIVersion{2, 0, 0}, APIVersion{2, 1, 0});
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(BreakingChangeTest, BreakingChangeNotDetectedWhenStrictlyBeforeRange) {
+    BreakingChangeInfo bc;
+    bc.introduced_in = APIVersion{1, 5, 0};
+    bc.description = "Minor breaking change";
+    manager.registerBreakingChange(bc);
+
+    // Upgrading from v1.0 to v1.4 does not cross v1.5
+    auto result = manager.isBreakingChange(APIVersion{1, 0, 0}, APIVersion{1, 4, 0});
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(BreakingChangeTest, BreakingChangeMigrationGuideUrl) {
+    BreakingChangeInfo bc;
+    bc.introduced_in = APIVersion{2, 0, 0};
+    bc.description = "New format";
+    bc.migration_guide_url = "https://docs.themisdb.com/migration/v1-to-v2";
+    manager.registerBreakingChange(bc);
+
+    auto result = manager.isBreakingChange(APIVersion{1, 4, 1}, APIVersion{2, 0, 0});
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->migration_guide_url, "https://docs.themisdb.com/migration/v1-to-v2");
 }

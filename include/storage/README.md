@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Storage Module Headers
 
 ## Module Purpose
@@ -49,20 +51,20 @@ public:
         IKeyProviderPtr key_provider,         // Key management
         IIndexManagerPtr index_manager        // Index coordination
     );
-    
+
     // Factory for backward compatibility (uses defaults)
     static std::shared_ptr<StorageEngine> createDefault();
-    
+
     // Basic operations
     Result<void> put(const std::string& key, const std::string& value);
     Result<std::string> get(const std::string& key);
     Result<void> del(const std::string& key);
-    
+
     // Filter-aware operations
     bool apply_filter(const std::string& filter_expr, const void* context);
-    
+
     // Encryption operations
-    std::vector<uint8_t> encrypt_field(const std::string& field_name, 
+    std::vector<uint8_t> encrypt_field(const std::string& field_name,
                                         const std::vector<uint8_t>& plaintext);
     std::vector<uint8_t> decrypt_field(const std::string& field_name,
                                         const std::vector<uint8_t>& ciphertext);
@@ -95,25 +97,25 @@ struct Config {
     std::string db_path = "./data/rocksdb";
     std::string wal_dir;                    // Separate WAL directory
     std::vector<DbPath> db_paths;           // Multi-device SSTable distribution
-    
+
     bool read_only = false;                 // Read-only mode (v1.4.0+)
     size_t memtable_size_mb = 512;          // Write-amp optimization
     size_t block_cache_size_mb = 1024;      // Block cache size
     int block_cache_shard_bits = -1;        // Auto-sharding (-1 = auto)
-    
+
     bool enable_wal = true;
     bool enable_blobdb = true;
     bool enable_statistics = true;
     size_t blob_size_threshold = 4096;      // >4KB → BlobDB
-    
+
     int max_background_jobs = 4;
     int max_background_compactions = -1;    // Auto
     int max_background_flushes = -1;        // Auto
-    
+
     // Async I/O optimization (v1.3.0+)
     bool enable_async_io = false;
     size_t async_io_readahead_size_mb = 0;
-    
+
     // CPU prefetch hints (v1.4.1+)
     bool enable_cpu_prefetch = false;
     int cpu_prefetch_distance = 64;
@@ -128,26 +130,26 @@ public:
     RocksDBWrapper(const Config& config);
     Result<void> open();
     void close();
-    
+
     // Basic operations
     Result<void> put(const std::string& key, const std::string& value);
     Result<std::string> get(const std::string& key);
     Result<void> del(const std::string& key);
-    
+
     // Batch operations
     Result<void> writeBatch(WriteBatch& batch);
-    
+
     // Transactions
     std::unique_ptr<Transaction> beginTransaction();
-    
+
     // Iterators (range queries)
     std::unique_ptr<Iterator> createIterator();
     std::unique_ptr<Iterator> createIterator(const ReadOptions& opts);
-    
+
     // Snapshots (MVCC)
     const Snapshot* getSnapshot();
     void releaseSnapshot(const Snapshot* snapshot);
-    
+
     // Statistics
     std::string getStatistics() const;
     void resetStatistics();
@@ -201,26 +203,26 @@ Graph Index:      gidx:from_id:edge_type:to_id
 class KeySchema {
 public:
     // Encoding
-    static std::string encodeRelationalKey(const std::string& table, 
+    static std::string encodeRelationalKey(const std::string& table,
                                            const std::string& pk);
-    static std::string encodeDocumentKey(const std::string& collection, 
+    static std::string encodeDocumentKey(const std::string& collection,
                                          const std::string& pk);
     static std::string encodeGraphNodeKey(const std::string& node_id);
     static std::string encodeGraphEdgeKey(const std::string& edge_id);
-    static std::string encodeVectorKey(const std::string& object_name, 
+    static std::string encodeVectorKey(const std::string& object_name,
                                        const std::string& pk);
-    static std::string encodeTimeseriesKey(const std::string& series, 
-                                           uint64_t timestamp, 
+    static std::string encodeTimeseriesKey(const std::string& series,
+                                           uint64_t timestamp,
                                            const std::string& pk);
-    
+
     // Decoding
     static std::tuple<DataModel, std::string, std::string> decodeKey(
         const std::string& key);
-    
+
     // Prefix generation for range scans
     static std::string collectionPrefix(const std::string& name);
     static std::string tablePrefix(const std::string& name);
-    
+
     // Validation
     static bool isValidKey(const std::string& key);
     static DataModel extractModel(const std::string& key);
@@ -263,7 +265,7 @@ struct BlobRef {
     std::string sha256_hash;                 // Integrity verification
     std::string compression;                 // Compression algorithm
     std::map<std::string, std::string> metadata;  // Custom metadata
-    
+
     std::string serialize() const;
     static BlobRef deserialize(const std::string& data);
 };
@@ -274,17 +276,17 @@ struct BlobRef {
 class BlobStorageManager {
 public:
     BlobStorageManager(const BlobStorageConfig& config);
-    
+
     // Backend registration
-    void registerBackend(BlobStorageType type, 
+    void registerBackend(BlobStorageType type,
                         std::shared_ptr<IBlobStorageBackend> backend);
-    
+
     // Blob operations (automatic backend selection)
-    BlobRef put(const std::string& blob_id, 
+    BlobRef put(const std::string& blob_id,
                 const std::vector<uint8_t>& data);
     Result<std::vector<uint8_t>> get(const BlobRef& ref);
     Result<void> del(const BlobRef& ref);
-    
+
     // Statistics
     std::map<BlobStorageType, size_t> getBackendStats() const;
 };
@@ -309,18 +311,18 @@ Incremental backup system with versioning and validation.
 class BackupManager {
 public:
     BackupManager(std::shared_ptr<RocksDBWrapper> db);
-    
+
     // Backup operations
     Result<uint32_t> createBackup(bool full = false);
-    Result<void> restoreFromBackup(uint32_t backup_id, 
+    Result<void> restoreFromBackup(uint32_t backup_id,
                                    const std::string& restore_path);
     Result<void> verifyBackup(uint32_t backup_id);
-    
+
     // Management
     std::vector<BackupInfo> listBackups() const;
     Result<void> deleteBackup(uint32_t backup_id);
     Result<void> cleanupOldBackups(size_t keep_count);
-    
+
     // Statistics
     BackupStatistics getStatistics() const;
 };
@@ -336,17 +338,17 @@ Point-in-time recovery with snapshot management.
 class PITRManager {
 public:
     PITRManager(std::shared_ptr<RocksDBWrapper> db);
-    
+
     // Snapshot management
     Result<std::string> createSnapshot();
     std::vector<SnapshotInfo> listSnapshots() const;
     Result<void> deleteSnapshot(const std::string& snapshot_id);
-    
+
     // Recovery
     Result<void> restoreToTimestamp(
         std::chrono::system_clock::time_point timestamp);
     Result<void> restoreToSnapshot(const std::string& snapshot_id);
-    
+
     // Configuration
     void setRetentionPolicy(std::chrono::hours retention);
     void enableAutoSnapshot(std::chrono::minutes interval);
@@ -371,11 +373,11 @@ Digital signatures for data integrity verification.
 class SecuritySignatureManager {
 public:
     SecuritySignatureManager(std::shared_ptr<IKeyProvider> key_provider);
-    
+
     // Signature operations
     std::string sign(const std::string& data);
     bool verify(const std::string& data, const std::string& signature);
-    
+
     // Key management
     void rotateKey();
     std::string getCurrentKeyId() const;
@@ -395,26 +397,55 @@ include/storage/
 ├── blob_storage_manager.h        # Blob orchestration
 ├── blob_storage_backend.h        # Backend interface
 ├── blob_backend_filesystem.h     # Filesystem backend
+├── blob_backend_gcs.h            # Google Cloud Storage backend
 ├── blob_redundancy_manager.h     # RAID-like redundancy
+├── encrypted_blob_backend.h      # Encryption-at-rest blob backend
+├── erasure_coding_backend.h      # Erasure-coded blob backend
+├── zero_copy_blob_transfer.h     # Zero-copy blob transfer
 │
 ├── backup_manager.h              # Incremental backups
 ├── pitr_manager.h                # Point-in-time recovery
+├── history_manager.h             # Historical version management
 │
 ├── compression_strategy.h        # Compression algorithms
 ├── columnar_format.h             # Columnar storage
+├── columnar_cache.h              # Columnar read cache
 ├── batch_write_optimizer.h       # Write batching
+├── gpu_compression.h             # GPU-accelerated compression
 │
 ├── security_signature.h          # Field signatures
 ├── security_signature_manager.h  # Signature management
 │
 ├── index_maintenance.h           # Index operations
 ├── transaction_retry_manager.h   # Transaction retries
+├── distributed_transaction_manager.h # Distributed 2PC coordinator
 ├── database_connection_manager.h # Connection pooling
 ├── disk_space_monitor.h          # Disk monitoring
 ├── merge_operators.h             # RocksDB merge ops
 ├── base_entity.h                 # Entity abstraction
 ├── compressed_storage.h          # Compression layer
-└── nlp_metadata_extractor.h      # NLP metadata (future)
+├── nlp_metadata_extractor.h      # NLP metadata
+│
+├── mvcc_store.h                  # MVCC storage layer
+├── mvcc_chain_pruner.h           # MVCC version GC
+├── raft_mvcc_bridge.h            # Raft/MVCC integration
+├── hlc.h                         # Hybrid Logical Clock
+├── wal_storage.h                 # Write-ahead log storage
+│
+├── adaptive_compaction.h         # Adaptive LSM compaction policy
+├── compaction_manager.h          # Compaction lifecycle manager
+├── concurrent_write_controller.h # Concurrent write coordination
+├── nvme_manager.h                # NVMe device management
+├── online_schema_migration.h     # Live schema migration
+├── schema_dead_weight_detector.h # Unused schema detection
+├── simd_filter.h                 # SIMD-accelerated row filtering
+├── storage_audit_logger.h        # Storage operation audit log
+├── storage_layout_advisor.h      # Storage layout recommendations
+├── storage_parquet_exporter.h    # Parquet export
+├── streaming_ingest_manager.h    # Streaming data ingestion
+├── tiered_storage.h              # Hot/warm/cold tiering
+├── vector_index_backend.h        # Vector index storage backend
+└── wom_tree.h                    # Write-optimized merge tree
 ```
 
 ### Dependency Graph
@@ -536,29 +567,37 @@ storage->put(vec_key, embedding_vector);
 ## Known Limitations
 
 1. **RocksDB Constraints**
-   - Single-node only (no distributed transactions)
-   - No built-in replication
-   - Limited cross-shard transactions
+   - Built-in replication is not provided by `RocksDBWrapper`; replication is handled by upper modules
+   - Cross-shard transactions require explicit participant wiring via `DistributedTransactionManager`
+   - Compaction and cache tuning remains workload-specific and must be tuned per deployment profile
 
 2. **Key Schema**
    - Fixed prefix format (cannot change after data stored)
    - No automatic key migration
 
 3. **Blob Storage**
-   - No automatic tiering between backends
-   - No erasure coding (mirroring only)
+   - External backends depend on provider/network availability
+   - Tiering between blob backends is policy-driven, not automatic for every workload
 
 4. **Backup & Recovery**
    - Restore requires downtime
-   - No online verification during backup
+   - Snapshot/PITR procedures depend on backup and WAL retention policy
 
 5. **Thread Safety**
    - RocksDBWrapper not move-safe during operation
-   - Iterator invalidation on concurrent writes
+   - Iterator lifetime must be managed carefully during concurrent write-heavy workloads
+
+## Runtime Behavior, Errors, and Limits
+
+- Most APIs return `Result<T>` and surface backend/provider failures explicitly (I/O errors, invalid config, timeout/auth failures).
+- Distributed write paths can fail during prepare/commit if any shard participant rejects or becomes unavailable.
+- Blob redundancy in `PARITY` mode requires at least `data_shards` healthy fragments for reconstruction.
+- `StorageEngine::createDefault()` is for convenience; production deployments should use explicit dependency injection and secure key providers.
+- Capacity and latency ceilings are deployment-dependent; use [../../src/storage/PERFORMANCE_EXPECTATIONS.md](../../src/storage/PERFORMANCE_EXPECTATIONS.md) for baseline targets.
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (as of v2.0.0)
 
 ✅ **Stable Interfaces:**
 - StorageEngine with dependency injection
@@ -569,20 +608,20 @@ storage->put(vec_key, embedding_vector);
 - Compression strategies
 
 ⚠️ **Beta Interfaces:**
-- Columnar format API
-- NLP metadata extractor
-- Adaptive index maintenance
+- `WomTree` for write-heavy alternatives to classic LSM behavior
+- Storage layout advisory and advanced schema analysis helpers
 
 🔬 **Experimental:**
-- Distributed transaction support
-- Erasure coding for blobs
-- GPU-accelerated compression
+- Selected AI-assisted maintenance hooks (for example in index analysis workflows)
 
 ## Related Documentation
 
 - [Storage Implementation](../../src/storage/README.md) - Implementation details
 - [RocksDB Layout](../../docs/storage/rocksdb_layout.md) - Physical key layout
 - [Blob Storage Backends](../../docs/storage/CLOUD_BLOB_BACKENDS.md) - Backend implementations
+- [Storage Roadmap](../../src/storage/ROADMAP.md) - Implementation phases and delivery status
+- [Storage Future Enhancements](../../src/storage/FUTURE_ENHANCEMENTS.md) - Planned extensions and constraints
+- [Storage Secondary Docs (DE)](../../docs/de/storage/README.md) - German overview and audits
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Server Module](../server/README.md) - Network protocols
 
@@ -610,6 +649,14 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage header improvements
+- [Storage Future Enhancements](../../src/storage/FUTURE_ENHANCEMENTS.md) - Planned storage improvements
 - [Storage Implementation README](../../src/storage/README.md) - Implementation guide
 - [Server Headers](../server/README.md) - Server interface documentation
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

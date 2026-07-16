@@ -193,6 +193,6 @@ Infrastructure and system behavior.
 > **Note:** Most detailed feature documentation is currently available in German. English translations are in progress.  
 > For the most up-to-date information, please refer to the [German features documentation](../../de/features/).
 
-**Last Updated:** December 22, 2025 | **Status:** ✅ Production Ready
+**Last Updated:** April 2026 | **Status:** ✅ Production Ready
 
 **Version:** 1.3.0 | **License:** MIT | **Support:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)

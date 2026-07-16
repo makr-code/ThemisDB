@@ -1,27 +1,20 @@
+/**
+ * @file aql_runner.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_runner.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     159                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 099187166  2026-02-26  feat(query): implement SQL dialect compatibility layer (e... ║
-    • b1216f45a  2026-02-26  audit: fix stale file headers (Stubs: 0) and add ANALYZE-... ║
-    • 1b5d8a188  2026-02-23  feat(query): implement per-query resource limits (max row... ║
-    • 3fd28c2e4  2026-02-23  feat(query): add query result type annotations for client... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_runner.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -48,11 +41,15 @@ namespace security {
 
 namespace themis {
 
+using ConjunctiveQuery = ::themis::query::ConjunctiveQuery;
+using RecursivePathQuery = ::themis::query::RecursivePathQuery;
+using TraversalDirection = ::themis::query::TraversalDirection;
+
 // High-level convenience dispatcher for AQL execution.
 // Translates AQL to internal query forms and invokes the proper QueryEngine method.
 // Returns Result<nlohmann::json> for unified error handling.
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
-Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine);
+Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& engine);
 
 /// Execute a SQL query (SELECT / INSERT INTO / UPDATE … SET / DELETE FROM) via
 /// the SQL dialect compatibility layer.
@@ -68,7 +65,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine);
 /// @return       Result<nlohmann::json> on success, or an Err with
 ///               ERR_QUERY_PARSE_FAILED when the SQL cannot be parsed /
 ///               transpiled.
-Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine);
+Result<nlohmann::json> executeSQL(const std::string& sql, query::QueryEngine& engine);
 
 /// Execute AQL with per-query resource limits (max rows, max memory, timeout).
 ///
@@ -83,7 +80,7 @@ Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine);
 /// A limit value of 0 means unlimited (the check is skipped).
 Result<nlohmann::json> executeAqlWithLimits(
     const std::string& aql,
-    QueryEngine& engine,
+    query::QueryEngine& engine,
     const query::QueryResourceLimits& limits
 );
 
@@ -97,25 +94,25 @@ Result<nlohmann::json> executeAqlWithLimits(
 /// Returns the execution plan as a JSON object (EXPLAIN format).
 /// Set @p analyze=true to include an `actual_time_ms` / `actual_rows` skeleton
 /// (populated with sentinel values −1 / 0 since no execution is performed here).
-Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine,
+Result<nlohmann::json> explainAql(const std::string& aql, query::QueryEngine& engine,
                                   bool analyze = false);
 
 /// Returns the execution plan as indented text (PostgreSQL-style EXPLAIN output).
-Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine,
+Result<std::string> explainAqlText(const std::string& aql, query::QueryEngine& engine,
                                    bool analyze = false);
 
 /// Returns the execution plan as a Graphviz DOT digraph string.
 /// The output can be piped to `dot -Tpng -o plan.png` for a visual diagram.
-Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
+Result<std::string> explainAqlDot(const std::string& aql, query::QueryEngine& engine);
 
 /// Execute a multi-statement AQL transaction block.
 ///
 /// The @p aql string must have the form:
-///   BEGIN
-///     <AQL statement 1>
-///     <AQL statement 2>
+///   BEGIN [;]
+///     <AQL statement 1> [;]
+///     <AQL statement 2> [;]
 ///     ...
-///   COMMIT | ROLLBACK
+///   COMMIT | ROLLBACK [;]
 ///
 /// If the block ends with COMMIT, every statement is executed in order and the
 /// combined results are returned as a JSON array (one entry per statement).
@@ -123,7 +120,7 @@ Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
 /// @c {"type":"rollback","statements":N} is returned.
 ///
 /// On parse or execution failure the function returns an Err.
-Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine);
+Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::QueryEngine& engine);
 
 // ── Row-level security (RLS) wrappers ────────────────────────────────────────
 //
@@ -138,7 +135,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
 /// by @p ctx are included in the returned result set.
 Result<nlohmann::json> executeAqlWithRLS(
     const std::string& aql,
-    QueryEngine& engine,
+    query::QueryEngine& engine,
     security::RLSManager& rls,
     const security::SecurityContext& ctx
 );
@@ -154,7 +151,7 @@ Result<nlohmann::json> executeAqlWithRLS(
 /// On execution failure the function returns an Err identical to executeAql().
 Result<query::AnnotatedQueryResult> executeAqlAnnotated(
     const std::string& aql,
-    QueryEngine& engine
+    query::QueryEngine& engine
 );
 
 /// Execute AQL with cooperative cancellation support.
@@ -179,7 +176,7 @@ Result<query::AnnotatedQueryResult> executeAqlAnnotated(
 ///                     ERR_QUERY_CANCELLED when the query was cancelled.
 Result<nlohmann::json> executeAqlCancellable(
     const std::string& aql,
-    QueryEngine& engine,
+    query::QueryEngine& engine,
     const std::string& request_id,
     query::QueryCanceller& canceller = query::QueryCanceller::instance()
 );

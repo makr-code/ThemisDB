@@ -17,7 +17,7 @@ This document outlines future enhancements, optimizations, and research directio
 **Tasks:**
 - Replace all stub functions in `src/query/functions/ethics_functions.cpp`
 - Implement real QueryEngine integration in `src/server/ethics_api_handler.cpp`
-- Remove standalone mode from `plugins/ethics_ai/argument_store.cpp`
+- Remove standalone mode from `src/ethics_ai/argument_store.cpp`
 - Connect to actual components (DiscourseEngine, Evaluator, PhilosophyLoader)
 
 **See:** Issue template `001-remove-stubs.md`

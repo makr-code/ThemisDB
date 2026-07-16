@@ -1,23 +1,21 @@
+/**
+ * @file mqtt_session.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mqtt_session.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     798                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mqtt_session.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 903
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=19, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #111 Add comprehensive network p... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_MQTT
@@ -27,10 +25,14 @@
 #include <boost/beast/websocket.hpp>
 #include <iostream>
 #include <algorithm>
+#include <limits>
+#include <unordered_set>
+#include <stdexcept>
 
 MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
     , transportType_(transport)
+    , buffer_{}
     , isConnected_(false)
     , packetIdCounter_(1)
     , protocolVersion_(protocolVersion)
@@ -41,12 +43,16 @@ MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, 
     , bytesThisSecond_(0) {
 }
 
-MqttSession::~MqttSession() {
-    if (isConnected_ && !sessionState_.willTopic.empty()) {
-        triggerWillMessage();
+MqttSession::~MqttSession() noexcept {
+    try {
+        if (isConnected_ && !sessionState_.willTopic.empty()) {
+            triggerWillMessage();
+        }
+        metrics_.disconnectCount++;
+        stop();
+    } catch (...) {
+        // Destructors must not throw.
     }
-    metrics_.disconnectCount++;
-    stop();
 }
 
 void MqttSession::setWebSocket(std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> ws) {
@@ -137,7 +143,7 @@ void MqttSession::handleConnect() {
     sendConnAck(sessionPresent, 0); // Connection accepted
     
     // Start keepalive timer
-    keepaliveTimer_.expires_after(keepaliveInterval_ * 1.5);
+    keepaliveTimer_.expires_after(keepaliveInterval_ + (keepaliveInterval_ / 2));
     keepaliveTimer_.async_wait([this, self = shared_from_this()](boost::beast::error_code ec) {
         if (!ec) {
             // Keepalive timeout - disconnect
@@ -148,7 +154,9 @@ void MqttSession::handleConnect() {
 
 void MqttSession::handlePublish(const std::string& topic, const std::string& payload, uint8_t qos, uint16_t packetId) {
     // MQTT PUBLISH packet handler - production implementation with QoS 0, 1, 2 support
-    if (!isConnected_) return;
+    if (!isConnected_) {
+        return;
+    }
     
     // Rate limiting
     if (!checkRateLimit(topic.size() + payload.size() + 16)) {
@@ -178,7 +186,7 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
             metrics_.qos2Messages++;
             // QoS 2: Exactly once delivery - four-way handshake
             // Check if we've already received this message
-            if (incomingQos2_.find(packetId) == incomingQos2_.end()) {
+            if (!incomingQos2_.contains(packetId)) {
                 // First time receiving - store and send PUBREC
                 Qos2Message msg;
                 msg.packetId = packetId;
@@ -190,6 +198,9 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
             }
             sendPubRec(packetId);
             break;
+
+        default:
+            return;
     }
 }
 
@@ -221,7 +232,9 @@ void MqttSession::handlePubComp(uint16_t packetId) {
 
 void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_t packetId) {
     // MQTT SUBSCRIBE packet handler - production implementation
-    if (!isConnected_) return;
+    if (!isConnected_) {
+        return;
+    }
     
     if (!checkRateLimit(topic.size() + 8)) {
         return;
@@ -230,12 +243,12 @@ void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_
     metrics_.subscribeCount++;
     
     // Parse shared subscription if present ($share/shareName/topic)
-    if (topic.substr(0, 7) == "$share/") {
-        size_t slashPos = topic.find('/', 7);
-        if (slashPos != std::string::npos) {
-            std::string shareName = topic.substr(7, slashPos - 7);
-            std::string actualTopic = topic.substr(slashPos + 1);
-            MqttBroker::getInstance().subscribeShared(shareName, actualTopic, shared_from_this(), qos);
+    if (topic.starts_with("$share/")) {
+        size_t slash_pos = topic.find('/', 7);
+        if (slash_pos != std::string::npos) {
+            std::string share_name = topic.substr(7, slash_pos - 7);
+            std::string actual_topic = topic.substr(slash_pos + 1);
+            MqttBroker::getInstance().subscribeShared(share_name, actual_topic, shared_from_this(), qos);
         }
     } else {
         MqttBroker::getInstance().subscribe(topic, shared_from_this(), qos);
@@ -245,19 +258,21 @@ void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_
     sessionState_.subscriptions[topic] = qos;
     
     // Send retained messages matching this topic
-    auto retainedMsgs = MqttBroker::getInstance().getRetainedMessages(topic);
-    for (const auto& msg : retainedMsgs) {
+    auto retained_messages = MqttBroker::getInstance().getRetainedMessages(topic);
+    for (const auto& msg : retained_messages) {
         sendPublish(msg.topic, msg.payload, msg.qos, true);
     }
     
     // Send SUBACK with granted QoS
-    std::vector<uint8_t> returnCodes = {qos}; // Grant requested QoS
-    sendSubAck(packetId, returnCodes);
+    std::vector<uint8_t> return_codes = {qos}; // Grant requested QoS
+    sendSubAck(packetId, return_codes);
 }
 
 void MqttSession::handleUnsubscribe(const std::string& topic) {
     // MQTT UNSUBSCRIBE packet handler
-    if (!isConnected_) return;
+    if (!isConnected_) {
+        return;
+    }
     
     MqttBroker::getInstance().unsubscribe(topic, shared_from_this());
     sessionState_.subscriptions.erase(topic);
@@ -266,7 +281,7 @@ void MqttSession::handleUnsubscribe(const std::string& topic) {
 void MqttSession::handlePingReq() {
     // MQTT PINGREQ packet handler
     // Reset keepalive timer
-    keepaliveTimer_.expires_after(keepaliveInterval_ * 1.5);
+    keepaliveTimer_.expires_after(keepaliveInterval_ + (keepaliveInterval_ / 2));
     sendPingResp();
 }
 
@@ -283,7 +298,7 @@ void MqttSession::handleDisconnect() {
     stop();
 }
 
-void MqttSession::triggerWillMessage() {
+void MqttSession::triggerWillMessage() const {
     // Send will message on abnormal disconnect
     if (!sessionState_.willTopic.empty()) {
         MqttBroker::getInstance().publish(sessionState_.willTopic, sessionState_.willMessage, 
@@ -307,17 +322,17 @@ void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     // Build MQTT CONNACK packet
     // Format: [Type(0x20), RemainingLength, SessionPresent, ReturnCode]
     std::vector<uint8_t> packet;
-    packet.push_back(0x20); // CONNACK packet type
+    packet.push_back(static_cast<uint8_t>(0x20u)); // CONNACK packet type
     
     if (protocolVersion_ == 5) {
         // MQTT 5.0: Add properties length (0 for now)
-        packet.push_back(3);    // Remaining length
-        packet.push_back(sessionPresent ? 1 : 0);
+        packet.push_back(static_cast<uint8_t>(3u));    // Remaining length
+        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1u : 0u));
         packet.push_back(returnCode);
-        packet.push_back(0);    // Properties length
+        packet.push_back(static_cast<uint8_t>(0u));    // Properties length
     } else {
-        packet.push_back(2);    // Remaining length
-        packet.push_back(sessionPresent ? 1 : 0);
+        packet.push_back(static_cast<uint8_t>(2u));    // Remaining length
+        packet.push_back(static_cast<uint8_t>(sessionPresent ? 1u : 0u));
         packet.push_back(returnCode);
     }
     
@@ -328,12 +343,20 @@ void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
 void MqttSession::sendPublish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {
     // Build MQTT PUBLISH packet
     std::vector<uint8_t> packet;
-    uint8_t flags = (qos << 1);
-    if (retain) flags |= 0x01;
-    packet.push_back(0x30 | flags); // PUBLISH with QoS and retain
+    uint8_t flags = static_cast<uint8_t>(qos << 1);
+    if (retain) {
+        flags = static_cast<uint8_t>(flags | 0x01u);
+    }
+    packet.push_back(static_cast<uint8_t>(0x30u | flags)); // PUBLISH with QoS and retain
     
     // Calculate remaining length
-    uint32_t remainingLength = 2 + topic.size() + payload.size();
+    const size_t payload_size = payload.size();
+    const size_t topic_size = topic.size();
+    const size_t initial_remaining = 2 + topic_size + payload_size;
+    if (initial_remaining > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        return;
+    }
+    uint32_t remainingLength = static_cast<uint32_t>(initial_remaining);
     uint16_t packetId = 0;
     if (qos > 0) {
         remainingLength += 2; // Packet ID for QoS 1 or 2
@@ -352,27 +375,33 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     }
     
     // Encode remaining length (variable length)
-    do {
-        uint8_t encodedByte = remainingLength % 128;
-        remainingLength = remainingLength / 128;
+    while (true) {
+        uint8_t encodedByte = static_cast<uint8_t>(remainingLength % 128u);
+        remainingLength = remainingLength / 128u;
         if (remainingLength > 0) {
-            encodedByte = encodedByte | 128;
+            encodedByte = static_cast<uint8_t>(encodedByte | 128u);
         }
         packet.push_back(encodedByte);
-    } while (remainingLength > 0);
+        if (remainingLength == 0) {
+            break;
+        }
+    }
     
     // Topic length (2 bytes, big-endian)
-    uint16_t topicLen = topic.size();
-    packet.push_back((topicLen >> 8) & 0xFF);
-    packet.push_back(topicLen & 0xFF);
+    if (topic_size > static_cast<size_t>(std::numeric_limits<uint16_t>::max())) {
+        return;
+    }
+    const uint16_t topicLen = static_cast<uint16_t>(topic_size);
+    packet.push_back(static_cast<uint8_t>((topicLen >> 8) & 0xFFu));
+    packet.push_back(static_cast<uint8_t>(topicLen & 0xFFu));
     
     // Topic
     packet.insert(packet.end(), topic.begin(), topic.end());
     
     // Packet ID for QoS > 0
     if (qos > 0) {
-        packet.push_back((packetId >> 8) & 0xFF);
-        packet.push_back(packetId & 0xFF);
+        packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
+        packet.push_back(static_cast<uint8_t>(packetId & 0xFFu));
     }
     
     // Payload
@@ -385,8 +414,8 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
 void MqttSession::sendPubAck(uint16_t packetId) {
     // Build MQTT PUBACK packet (QoS 1 acknowledgment)
     std::vector<uint8_t> packet = {0x40, 0x02};
-    packet.push_back((packetId >> 8) & 0xFF);
-    packet.push_back(packetId & 0xFF);
+    packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
+    packet.push_back(static_cast<uint8_t>(packetId & 0xFFu));
     writeQueue_.push_back(std::move(packet));
     doWrite();
 }
@@ -394,8 +423,8 @@ void MqttSession::sendPubAck(uint16_t packetId) {
 void MqttSession::sendPubRec(uint16_t packetId) {
     // Build MQTT PUBREC packet (QoS 2 step 1)
     std::vector<uint8_t> packet = {0x50, 0x02};
-    packet.push_back((packetId >> 8) & 0xFF);
-    packet.push_back(packetId & 0xFF);
+    packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
+    packet.push_back(static_cast<uint8_t>(packetId & 0xFFu));
     writeQueue_.push_back(std::move(packet));
     doWrite();
 }
@@ -403,8 +432,8 @@ void MqttSession::sendPubRec(uint16_t packetId) {
 void MqttSession::sendPubRel(uint16_t packetId) {
     // Build MQTT PUBREL packet (QoS 2 step 2)
     std::vector<uint8_t> packet = {0x62, 0x02}; // QoS 1 for PUBREL
-    packet.push_back((packetId >> 8) & 0xFF);
-    packet.push_back(packetId & 0xFF);
+    packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
+    packet.push_back(static_cast<uint8_t>(packetId & 0xFFu));
     writeQueue_.push_back(std::move(packet));
     doWrite();
 }
@@ -412,8 +441,8 @@ void MqttSession::sendPubRel(uint16_t packetId) {
 void MqttSession::sendPubComp(uint16_t packetId) {
     // Build MQTT PUBCOMP packet (QoS 2 step 3)
     std::vector<uint8_t> packet = {0x70, 0x02};
-    packet.push_back((packetId >> 8) & 0xFF);
-    packet.push_back(packetId & 0xFF);
+    packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
+    packet.push_back(static_cast<uint8_t>(packetId & 0xFFu));
     writeQueue_.push_back(std::move(packet));
     doWrite();
 }
@@ -423,11 +452,15 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     // Format: [Type(0x90), RemainingLength, PacketId(2), ReturnCodes...]
     std::vector<uint8_t> packet;
     packet.push_back(0x90); // SUBACK packet type
-    packet.push_back(2 + returnCodes.size()); // Remaining length
+    const size_t remaining_suback = 2 + returnCodes.size();
+    if (remaining_suback > static_cast<size_t>(std::numeric_limits<uint8_t>::max())) {
+        return;
+    }
+    packet.push_back(static_cast<uint8_t>(remaining_suback)); // Remaining length
     
     // Packet ID (2 bytes, big-endian)
-    packet.push_back((packetId >> 8) & 0xFF);
-    packet.push_back(packetId & 0xFF);
+    packet.push_back(static_cast<uint8_t>((packetId >> 8) & 0xFFu));
+    packet.push_back(static_cast<uint8_t>(packetId & 0xFFu));
     
     // Return codes
     packet.insert(packet.end(), returnCodes.begin(), returnCodes.end());
@@ -462,8 +495,8 @@ void MqttSession::doRead() {
             }
             
             // Parse fixed header
-            uint8_t packetType = buffer_[0];
-            uint8_t messageType = (packetType >> 4) & 0x0F;
+            const uint8_t packetType = static_cast<uint8_t>(buffer_[0]);
+            const uint8_t messageType = static_cast<uint8_t>((packetType >> 4) & 0x0Fu);
             
             // Decode remaining length (variable length encoding)
             size_t multiplier = 1;
@@ -472,7 +505,7 @@ void MqttSession::doRead() {
             
             for (size_t i = 1; i < bytes_transferred && i < 5; ++i) {
                 headerSize++;
-                uint8_t encodedByte = buffer_[i];
+                const uint8_t encodedByte = static_cast<uint8_t>(buffer_[i]);
                 remainingLength += (encodedByte & 127) * multiplier;
                 multiplier *= 128;
                 
@@ -489,66 +522,110 @@ void MqttSession::doRead() {
                 case 3: // PUBLISH
                     if (bytes_transferred >= headerSize + 2) {
                         // Extract QoS and packet ID if present
-                        uint8_t qos = (packetType >> 1) & 0x03;
+                        const uint8_t qos = static_cast<uint8_t>((packetType >> 1) & 0x03u);
                         
                         // Extract topic name
-                        uint16_t topicLen = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
-                        std::string topic(buffer_.data() + headerSize + 2, topicLen);
+                        const uint16_t topicLen = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 1]))
+                        );
+                        const size_t topic_offset = headerSize + 2;
+                        if (bytes_transferred < topic_offset + topicLen) {
+                            doRead();
+                            return;
+                        }
+                        std::string topic(buffer_.data() + topic_offset, topicLen);
                         
                         uint16_t packetId = 0;
                         size_t payloadOffset = headerSize + 2 + topicLen;
                         
                         if (qos > 0) {
                             // Read packet ID (2 bytes)
-                            packetId = (buffer_[payloadOffset] << 8) | buffer_[payloadOffset + 1];
+                            packetId = static_cast<uint16_t>(
+                                (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[payloadOffset])) << 8) |
+                                static_cast<uint16_t>(static_cast<uint8_t>(buffer_[payloadOffset + 1]))
+                            );
                             payloadOffset += 2;
+                        }
+
+                        const size_t payload_prefix = 2 + topicLen + (qos > 0 ? 2u : 0u);
+                        if (remainingLength < payload_prefix) {
+                            doRead();
+                            return;
                         }
                         
                         std::string payload(buffer_.data() + payloadOffset, 
-                                          remainingLength - 2 - topicLen - (qos > 0 ? 2 : 0));
+                                          remainingLength - payload_prefix);
                         handlePublish(topic, payload, qos, packetId);
                     }
                     break;
                 case 4: // PUBACK (QoS 1 acknowledgment)
                     if (bytes_transferred >= headerSize + 2) {
-                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
                         // QoS 1 complete - no further action needed
                     }
                     break;
                 case 5: // PUBREC (QoS 2 step 1)
                     if (bytes_transferred >= headerSize + 2) {
-                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        const uint16_t packetId = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 1]))
+                        );
                         handlePubRec(packetId);
                     }
                     break;
                 case 6: // PUBREL (QoS 2 step 2)
                     if (bytes_transferred >= headerSize + 2) {
-                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        const uint16_t packetId = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 1]))
+                        );
                         handlePubRel(packetId);
                     }
                     break;
                 case 7: // PUBCOMP (QoS 2 step 3)
                     if (bytes_transferred >= headerSize + 2) {
-                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        const uint16_t packetId = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 1]))
+                        );
                         handlePubComp(packetId);
                     }
                     break;
                 case 8: // SUBSCRIBE
                     if (bytes_transferred >= headerSize + 4) {
                         // Read packet ID (2 bytes)
-                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        const uint16_t packetId = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 1]))
+                        );
                         // Read topic length
-                        uint16_t topicLen = (buffer_[headerSize + 2] << 8) | buffer_[headerSize + 3];
-                        std::string topic(buffer_.data() + headerSize + 4, topicLen);
+                        const uint16_t topicLen = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 2])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 3]))
+                        );
+                        const size_t topic_offset = headerSize + 4;
+                        if (bytes_transferred < topic_offset + topicLen + 1) {
+                            doRead();
+                            return;
+                        }
+                        std::string topic(buffer_.data() + topic_offset, topicLen);
                         // Read QoS
-                        uint8_t qos = buffer_[headerSize + 4 + topicLen];
+                        const uint8_t qos = static_cast<uint8_t>(buffer_[topic_offset + topicLen]);
                         handleSubscribe(topic, qos, packetId);
                     }
                     break;
                 case 10: // UNSUBSCRIBE
                     if (bytes_transferred >= headerSize + 4) {
-                        uint16_t topicLen = (buffer_[headerSize + 2] << 8) | buffer_[headerSize + 3];
-                        std::string topic(buffer_.data() + headerSize + 4, topicLen);
+                        const uint16_t topicLen = static_cast<uint16_t>(
+                            (static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 2])) << 8) |
+                            static_cast<uint16_t>(static_cast<uint8_t>(buffer_[headerSize + 3]))
+                        );
+                        const size_t topic_offset = headerSize + 4;
+                        if (bytes_transferred < topic_offset + topicLen) {
+                            doRead();
+                            return;
+                        }
+                        std::string topic(buffer_.data() + topic_offset, topicLen);
                         handleUnsubscribe(topic);
                     }
                     break;
@@ -602,12 +679,12 @@ MqttBroker& MqttBroker::getInstance() {
     return instance;
 }
 
-void MqttBroker::subscribe(const std::string& topic, std::shared_ptr<MqttSession> session, uint8_t qos) {
+void MqttBroker::subscribe(const std::string& topic, std::shared_ptr<MqttSession> session, uint8_t) {
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_[topic].push_back(session);
 }
 
-void MqttBroker::unsubscribe(const std::string& topic, std::shared_ptr<MqttSession> session) {
+void MqttBroker::unsubscribe(const std::string& topic, std::shared_ptr<MqttSession>) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = subscriptions_.find(topic);
     if (it != subscriptions_.end()) {
@@ -621,7 +698,7 @@ void MqttBroker::unsubscribe(const std::string& topic, std::shared_ptr<MqttSessi
 }
 
 void MqttBroker::subscribeShared(const std::string& shareName, const std::string& topic, 
-                                 std::shared_ptr<MqttSession> session, uint8_t qos) {
+                                 std::shared_ptr<MqttSession> session, uint8_t) {
     std::lock_guard<std::mutex> lock(mutex_);
     sharedSubscriptions_[shareName][topic].push_back(session);
 }
@@ -744,21 +821,54 @@ void MqttBroker::publish(const std::string& topic, const std::string& payload, u
 MqttMetrics MqttBroker::getAggregatedMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     MqttMetrics aggregated;
-    
-    // Aggregate metrics from all sessions would require tracking sessions
-    // For now, return broker-level stats
-    aggregated.connectCount = persistentSessions_.size();
-    
+
+    // Collect unique live sessions from the subscriptions map and aggregate
+    // their per-session counters.  The same MqttSession object may appear in
+    // multiple subscription lists (one entry per topic), so we deduplicate by
+    // raw pointer before summing.
+    std::unordered_set<MqttSession*> seen;
+    for (auto& [topic, session_vec] : subscriptions_) {
+        for (auto& weak_session : session_vec) {
+            auto session = weak_session.lock();
+            if (!session) continue;
+            if (!seen.insert(session.get()).second) continue;  // already counted
+
+            const auto& m = session->getMetrics();
+            aggregated.messagesReceived  += m.messagesReceived.load();
+            aggregated.messagesSent      += m.messagesSent.load();
+            aggregated.bytesReceived     += m.bytesReceived.load();
+            aggregated.bytesSent         += m.bytesSent.load();
+            aggregated.connectCount      += m.connectCount.load();
+            aggregated.disconnectCount   += m.disconnectCount.load();
+            aggregated.subscribeCount    += m.subscribeCount.load();
+            aggregated.publishCount      += m.publishCount.load();
+            aggregated.qos0Messages      += m.qos0Messages.load();
+            aggregated.qos1Messages      += m.qos1Messages.load();
+            aggregated.qos2Messages      += m.qos2Messages.load();
+            aggregated.rateLimitedMessages += m.rateLimitedMessages.load();
+        }
+    }
+
+    // If there are no active (subscribed) sessions, fall back to the number
+    // of persistent sessions so that the connectCount metric is never zero
+    // when clients are connected but have not yet subscribed to any topic.
+    if (seen.empty()) {
+        aggregated.connectCount = persistentSessions_.size();
+    }
+
     return aggregated;
 }
 
 // WebSocket transport support methods for MqttSession
 void MqttSession::doWebSocketRead() {
-    if (!wsStream_) return;
+    if (!wsStream_) {
+        return;
+    }
+    auto& ws_stream = *wsStream_;
     
     auto self = shared_from_this();
-    wsStream_->async_read(
-        boost::beast::flat_buffer(),
+    ws_stream.async_read(
+        wsReadBuffer_,
         [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
             if (ec) {
                 stop();
@@ -770,12 +880,16 @@ void MqttSession::doWebSocketRead() {
             
             // Parse MQTT packet from WebSocket frame
             // WebSocket frames contain complete MQTT packets
+            wsReadBuffer_.consume(wsReadBuffer_.size());
             doWebSocketRead();
         });
 }
 
 void MqttSession::doWebSocketWrite() {
-    if (!wsStream_ || writeQueue_.empty()) return;
+    if (!wsStream_ || writeQueue_.empty()) {
+        return;
+    }
+    auto& ws_stream = *wsStream_;
     
     auto self = shared_from_this();
     auto& packet = writeQueue_.front();
@@ -783,9 +897,9 @@ void MqttSession::doWebSocketWrite() {
     metrics_.messagesSent++;
     metrics_.bytesSent += packet.size();
     
-    wsStream_->async_write(
+    ws_stream.async_write(
         asio::buffer(packet),
-        [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
+        [this, self](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
             if (ec) {
                 stop();
                 return;
@@ -799,3 +913,4 @@ void MqttSession::doWebSocketWrite() {
 }
 
 #endif // THEMIS_ENABLE_MQTT
+

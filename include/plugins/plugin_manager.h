@@ -1,27 +1,20 @@
+/**
+ * @file plugin_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-    • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
-    • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
-    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +25,8 @@
 #include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
 #include "plugins/oci_registry_client.h"  // OCI registry pull support
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
+#include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/expected.h"
 #include <string>
 #include <memory>
@@ -101,6 +96,14 @@ private:
         std::unique_ptr<IThemisPlugin> instance;
         bool loaded = false;
         std::string file_hash;
+
+        /// Capabilities snapshot captured immediately after plugin initialization.
+        /// Used by checkCapabilityEscalation() to detect post-load capability expansion.
+        PluginCapabilities frozen_capabilities;
+
+        /// Set to true when checkCapabilityEscalation() detects a superset violation.
+        /// A restricted plugin remains loaded but is flagged for operator review.
+        bool is_restricted = false;
     };
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
@@ -112,23 +115,73 @@ private:
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
+    /**
+     * @brief Load a shared library from disk.
+     * @param path Absolute or relative path to the plugin binary.
+     * @return Native library handle on success, nullptr on failure.
+     * @note Thread-safe under PluginManager external locking discipline.
+     */
     void* loadLibrary(const std::string& path);
+
+    /**
+     * @brief Resolve an exported symbol from a loaded library handle.
+     * @param handle Native library handle returned by loadLibrary().
+     * @param symbolName Exported symbol name to resolve.
+     * @return Pointer to the resolved symbol, or nullptr if not found.
+     */
     void* getSymbol(void* handle, const std::string& symbolName);
+
+    /**
+     * @brief Unload a previously loaded library handle.
+     * @param handle Native library handle. nullptr is ignored.
+     */
     void unloadLibrary(void* handle);
     
-    // Manifest loading
+    // Manifest loading (with QW-43 path traversal guards)
+    /// @brief Load and validate a plugin manifest from JSON file.
+    /// @note Includes fail-closed guards (QW-43) for path traversal in plugin names.
+    /// @return nullopt if validation fails or manifest is malformed; manifest otherwise.
     std::optional<PluginManifest> loadManifest(const std::string& manifest_path);
     
     // Manifest signature verification
+    /**
+     * @brief Verify the detached signature for a plugin manifest.
+     * @param manifest_path Path to plugin.json manifest.
+     * @param error_message Output error detail when verification fails.
+     * @return true if signature policy is satisfied for the current build mode.
+     * @note Production builds require a valid `.sig` file; development builds warn and continue.
+     */
     bool verifyManifestSignature(const std::string& manifest_path, std::string& error_message);
     
     // Security verification (reuse acceleration/plugin_security.h)
+    /**
+     * @brief Validate plugin binary against configured security policy.
+     * @param path Path to plugin shared library.
+     * @param error_message Output error detail on verification failure.
+     * @return true if the plugin passes policy checks, false otherwise.
+     */
     bool verifyPlugin(const std::string& path, std::string& error_message);
     
+    /**
+     * @brief Compute SHA-256 hash for a file.
+     * @param path File path to hash.
+     * @return Lower-case hex digest string, or empty string on I/O/crypto failure.
+     */
     std::string calculateFileHash(const std::string& path);
     
     // Hot-reload helper methods
+    /**
+     * @brief Find loaded plugins that depend on @p name.
+     * @param name Plugin name to resolve reverse dependencies for.
+     * @return Dependent plugin names in unspecified order.
+     */
     std::vector<std::string> findDependentPlugins(const std::string& name) const;
+
+    /**
+     * @brief Notify registered reload listeners for a plugin lifecycle phase.
+     * @param name Plugin name associated with the event.
+     * @param phase Reload phase being emitted.
+     */
     void notifyPluginReload(const std::string& name, PluginReloadPhase phase);
     
 public:
@@ -143,6 +196,11 @@ public:
      * @brief Scan plugin directory for manifests
      * @param directory Path to plugin directory
      * @return Result<size_t> - Number of plugins discovered or error
+     * 
+     * @note Fail-closed guards (QW-43): Validates plugin names against path traversal attacks.
+     * Rejects plugin names containing directory separators (/, \), path traversal (..), 
+     * absolute paths (C:\, /etc/), or special characters. Only alphanumeric, underscore (_),
+     * and hyphen (-) are permitted. Manifests with invalid names are rejected (fail-closed).
      */
     Result<size_t> scanPluginDirectory(const std::string& directory);
     
@@ -171,7 +229,7 @@ public:
      * @p cache_dir (reusing a cached copy when the SHA-256 digest matches),
      * verifies the binary, and delegates to loadPluginFromPath().
      *
-     * OCI reference format: [registry/]name[:tag][@digest]
+     * OCI reference format: [registry/]name[:tag][\@digest]
      * Example: "ghcr.io/themisdb/plugins/s3_blob:1.2.0"
      *
      * @param oci_ref   OCI image reference string.
@@ -279,6 +337,37 @@ public:
     PluginNegotiationResult negotiateCapabilities(
         const std::string& name,
         const std::vector<PluginCapabilityRequirement>& requirements) const;
+
+    /**
+     * @brief Check whether a loaded plugin has escalated its capabilities beyond
+     *        what was declared in the manifest at load time.
+     *
+     * The capabilities returned by the plugin's getCapabilities() are compared
+     * against the snapshot frozen at load time.  If the current capabilities are
+     * a strict superset (i.e. any flag that was false at load is now true), the
+     * plugin is marked RESTRICTED and ERR_PLUGIN_CAPABILITY_ESCALATION is returned.
+     *
+     * This method is a no-op on the hot call path: capabilities are only checked
+     * when this method is explicitly called (e.g. from a periodic security scan or
+     * after an explicit re-negotiation request).
+     *
+     * @param name  Name of the loaded plugin.
+     * @return      Ok(void) if no escalation is detected.
+     *              Err(ERR_PLUGIN_CAPABILITY_ESCALATION) if escalation is detected;
+     *              the plugin is also marked as RESTRICTED in the registry.
+     *              Err(ERR_PLUGIN_NOT_FOUND) if the plugin is not loaded.
+     */
+    Result<void> checkCapabilityEscalation(const std::string& name);
+
+    /**
+     * @brief Query whether a plugin has been marked RESTRICTED due to a capability
+     *        escalation attempt.
+     *
+     * @param name  Plugin name.
+     * @return      true if the plugin exists, is loaded, and has been marked
+     *              RESTRICTED; false in all other cases.
+     */
+    bool isPluginRestricted(const std::string& name) const;
     
     /**
      * @brief Get plugin metrics
@@ -346,6 +435,37 @@ public:
      * @brief Singleton instance
      */
     static PluginManager& instance();
+
+    // -----------------------------------------------------------------------
+    // Edition / License gating helpers
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Check whether the running edition supports plugins (compile-time gate).
+     * @return true for Enterprise / Hyperscaler editions.
+     */
+    static bool isEditionSupported();
+
+    /**
+     * @brief Check whether the runtime license allows the enterprise_plugins feature.
+     * @return true when the runtime license grants plugin loading.
+     */
+    static bool isLicensed();
+
+    /**
+     * @brief Human-readable error message for Community-edition plugin load attempts.
+     */
+    static std::string communityUnavailableMessage(const std::string& plugin_name);
+
+    /**
+     * @brief Returns marketplace availability info for the running edition.
+     */
+    static std::string marketplaceInfo();
+
+    /**
+     * @brief Returns installation instructions, gated by edition.
+     */
+    static std::string installationInstructions();
 };
 
 /**

@@ -1,32 +1,43 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_api_handler.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     177                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file pii_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
+/*
+ * ThemisDB | File: pii_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 178
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
 #include "server/pii_api_handler.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
 #include <sstream>
 #include <rocksdb/utilities/transaction_db.h>
+#include "utils/tracing.h"
 
 using nlohmann::json;
 
@@ -72,6 +83,7 @@ std::string PIIApiHandler::nowIso8601() {
 
 bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     if (!db_) return false;
+    auto& db = *db_;
     PiiMapping mapping = mappingIn;
     if (mapping.created_at.empty()) mapping.created_at = nowIso8601();
     mapping.updated_at = mapping.created_at;
@@ -79,26 +91,29 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     std::string key = makeKey(mapping.original_uuid);
     std::string existing;
     rocksdb::ReadOptions ro;
-    rocksdb::Status gs = cf_ ? db_->Get(ro, cf_, key, &existing) : db_->Get(ro, key, &existing);
+    rocksdb::Status gs = cf_ ? db.Get(ro, cf_, key, &existing) : db.Get(ro, key, &existing);
     if (gs.ok()) {
+    auto span = Tracer::startSpan("addMapping");
         // duplicate
         return false;
     }
 
     std::string value = mapping.toJson().dump();
     rocksdb::WriteOptions wo;
-    rocksdb::Status s = cf_ ? db_->Put(wo, cf_, key, value) : db_->Put(wo, key, value);
+    rocksdb::Status s = cf_ ? db.Put(wo, cf_, key, value) : db.Put(wo, key, value);
     return s.ok();
 }
 
 std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_uuid) const {
     if (!db_) return std::nullopt;
+    auto& db = *db_;
     std::string key = makeKey(original_uuid);
     std::string value;
     rocksdb::ReadOptions ro;
-    rocksdb::Status s = cf_ ? db_->Get(ro, cf_, key, &value) : db_->Get(ro, key, &value);
+    rocksdb::Status s = cf_ ? db.Get(ro, cf_, key, &value) : db.Get(ro, key, &value);
     if (!s.ok()) return std::nullopt;
     try {
+    auto span = Tracer::startSpan("getMapping");
         json j = json::parse(value);
         return PiiMapping::fromJson(j);
     } catch (...) {
@@ -108,21 +123,24 @@ std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_
 
 bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     if (!db_) return false;
+    auto& db = *db_;
     std::string key = makeKey(original_uuid);
     rocksdb::WriteOptions wo;
-    rocksdb::Status s = cf_ ? db_->Delete(wo, cf_, key) : db_->Delete(wo, key);
+    rocksdb::Status s = cf_ ? db.Delete(wo, cf_, key) : db.Delete(wo, key);
     return s.ok();
 }
 
 json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
+    auto span = Tracer::startSpan("listMappings");
     json out_items = json::array();
     if (!db_) {
         return json{{"items", out_items}, {"total", 0}, {"page", 1}, {"page_size", 0}};
     }
+    auto& db = *db_;
 
     // Full scan over prefix "pii:" in the configured CF
     rocksdb::ReadOptions ro;
-    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db_->NewIterator(ro, cf_) : db_->NewIterator(ro));
+    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db.NewIterator(ro, cf_) : db.NewIterator(ro));
     const std::string prefix = KEY_PREFIX;
     int total = 0;
     int page = std::max(1, filter.page);
@@ -163,6 +181,7 @@ std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
     auto js = listMappings(filter);
     std::string csv = "original_uuid,pseudonym,active,created_at,updated_at\n";
     for (const auto& r : js["items"]) {
+    auto span = Tracer::startSpan("exportCsv");
         csv += r.value("original_uuid", ""); csv += ",";
         csv += r.value("pseudonym", ""); csv += ",";
         csv += (r.value("active", false) ? "true" : "false"); csv += ",";
@@ -175,6 +194,8 @@ std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
 json PIIApiHandler::deleteByUuid(const std::string& uuid) {
     bool ok = deleteMapping(uuid);
     return json{{"status", ok ? "deleted" : "not_found"}, {"uuid", uuid}};
+    auto span = Tracer::startSpan("deleteByUuid");
 }
 
 }} // namespace themis::server
+

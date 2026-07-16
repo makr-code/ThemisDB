@@ -1,33 +1,31 @@
+/**
+ * @file compliance_reporting_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            compliance_reporting_api_handler.cpp               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     388                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2d61f04b5  2026-02-28  fix(governance): wire time_window into API handler with i... ║
-    • 1cb3e6183  2026-02-25  feat(governance): implement PDF and HTML compliance repor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: compliance_reporting_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 382
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=6, L=0
+ * PR History (last 5): #3154 [governance] Implement comp... (2026-03-12) | #1075 Implement GAP-004 Phase 5: ... (2026-03-11) | #1154 Harden ACL enforcement with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/compliance_reporting_api_handler.h"
+#include <stdexcept>
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 
 #include <climits>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -47,6 +45,7 @@ ComplianceReportingApiHandler::ComplianceReportingApiHandler(
 http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageAnalysis(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCoverageAnalysis");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -56,7 +55,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Parse resources from request body if provided
         std::vector<std::string> resources;
         if (!req.body().empty()) {
@@ -70,7 +69,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
             }
         }
         
-        auto analysis = reporter_->analyzeCoverage(resources);
+        auto analysis = reporter.analyzeCoverage(resources);
         
         return makeResponse(http::status::ok, analysis.toJson().dump(2), req);
         
@@ -83,6 +82,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
 http::response<http::string_body> ComplianceReportingApiHandler::handleComplianceReport(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleComplianceReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -92,12 +92,12 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleComplianc
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Get framework from query parameter
         std::string url(req.target());
         auto framework = getQueryParam(url, "framework");
         
-        auto report = reporter_->generateComplianceReport(
+        auto report = reporter.generateComplianceReport(
             framework.value_or("")
         );
         
@@ -112,6 +112,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleComplianc
 http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalysis(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGapAnalysis");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -121,8 +122,8 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
-        auto gaps = reporter_->detectGaps();
+        auto& reporter = *reporter_;
+        auto gaps = reporter.detectGaps();
         
         nlohmann::json json_array = nlohmann::json::array();
         for (const auto& gap : gaps) {
@@ -145,6 +146,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
 http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateReport(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGenerateReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -154,7 +156,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Parse request body
         nlohmann::json body = nlohmann::json::parse(req.body());
         
@@ -164,14 +166,14 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
         }
         
         if (report_type == "summary") {
-            auto report = reporter_->generateSummaryReport();
+            auto report = reporter.generateSummaryReport();
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "compliance") {
             std::string framework = body.value("framework", "");
-            auto report = reporter_->generateComplianceReport(framework);
+            auto report = reporter.generateComplianceReport(framework);
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "risk") {
-            auto report = reporter_->generateRiskAssessmentReport();
+            auto report = reporter.generateRiskAssessmentReport();
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "time_window") {
             // Parse time window bounds (Unix milliseconds).
@@ -215,7 +217,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
                 }
             }
 
-            auto report = reporter_->generateTimeWindowReport(
+            auto report = reporter.generateTimeWindowReport(
                 entries, window_start_ms, window_end_ms, framework);
             return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else {
@@ -233,6 +235,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleExportRep
     const http::request<http::string_body>& req,
     const std::string& report_id
 ) {
+    auto span = Tracer::startSpan("handleExportReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -242,7 +245,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleExportRep
             return makeErrorResponse(http::status::service_unavailable, 
                 "ComplianceReporter not initialized", req);
         }
-        
+        auto& reporter = *reporter_;
         // Get format from query parameter
         std::string url(req.target());
         auto format = getQueryParam(url, "format");
@@ -250,9 +253,9 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleExportRep
         
         // For this simplified implementation, generate a summary report
         // In a full implementation, you would retrieve the cached report by ID
-        auto report = reporter_->generateSummaryReport();
+        auto report = reporter.generateSummaryReport();
         
-        std::string exported = reporter_->exportReport(report, export_format);
+        std::string exported = reporter.exportReport(report, export_format);
         
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "ThemisDB");
@@ -295,16 +298,17 @@ bool ComplianceReportingApiHandler::checkAuth(
         THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to compliance reporting endpoint (dev/test mode only)");
         return true;
     }
+    auto& auth = *auth_;
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for compliance reporting endpoint");
         return false;
     }
     
     // Extract Bearer token
-    const auto auth_value = std::string(auth_it->value());
+    const auto auth_value = std::string(auth_header.data(), auth_header.size());
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {
@@ -317,7 +321,7 @@ bool ComplianceReportingApiHandler::checkAuth(
     std::string required_scope = auth_scope_mapper::mapAuditRoleToScope(required_role);
     
     // Validate token and check required scope
-    auto auth_result = auth_->authorize(*token, required_scope);
+    auto auth_result = auth.authorize(*token, required_scope);
     if (!auth_result.authorized) {
         THEMIS_WARN("Authorization failed for compliance reporting endpoint - user: {}, required scope: {}, reason: {}",
             auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
@@ -387,3 +391,4 @@ std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
 
 } // namespace server
 } // namespace themis
+

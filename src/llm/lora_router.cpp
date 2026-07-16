@@ -1,26 +1,25 @@
+/**
+ * @file lora_router.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_router.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     792                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 823
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=17, H=6, M=5, L=0
+ * PR History (last 5): #691 LoRA-to-LLM Routing Automat... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_router.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -138,7 +137,7 @@ RoutingDecision LoRARouter::routeQuery(
     if (config_.enable_decision_cache) {
         auto cached = getCachedDecision(query);
         if (cached) {
-            spdlog::debug("Cache hit for query: {}", query.substr(0, 50));
+            spdlog::debug("Cache hit for query (length: {})", query.length());
             auto decision = *cached;
             auto end_time = std::chrono::high_resolution_clock::now();
             decision.routing_latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -182,7 +181,10 @@ RoutingDecision LoRARouter::routeQuery(
     
     // Update metrics
     updateMetrics(decision);
-    
+
+    // Emit decision record for non-cached decisions
+    emitAdapterSelectionRecord(decision);
+
     // Cache decision
     if (config_.enable_decision_cache && !decision.is_fallback) {
         cacheDecision(query, decision);
@@ -789,6 +791,43 @@ void LoRARouter::evictExpiredCache() {
             ++it;
         }
     }
+}
+
+void LoRARouter::setDecisionRecordProcessor(
+    std::shared_ptr<DecisionRecordYamlProcessor> processor)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    dr_processor_ = std::move(processor);
+}
+
+void LoRARouter::emitAdapterSelectionRecord(const RoutingDecision& decision) const
+{
+    // dr_processor_ is checked under the caller's mutex_ context
+    if (!dr_processor_) {
+        return;
+    }
+
+    DecisionRecord rec;
+    rec.decision_type = "LORA_ADAPTER_SELECTION";
+    rec.component     = "LoRARouter";
+    rec.outcome       = decision.adapter_id.empty() ? "FALLBACK" : "SUCCESS";
+    rec.confidence    = decision.confidence > 0.0f
+                            ? std::optional<float>(decision.confidence)
+                            : std::nullopt;
+    rec.latency_ms    = static_cast<int64_t>(decision.routing_latency_ms.count());
+
+    rec.parameters["adapter_id"]      = decision.adapter_id;
+    rec.parameters["base_model_id"]   = decision.base_model_id;
+    rec.parameters["gpu_device_id"]   = std::to_string(decision.gpu_device_id);
+    rec.parameters["similarity_score"] = std::to_string(decision.similarity_score);
+    rec.parameters["policy"]          = std::to_string(static_cast<int>(decision.policy_used));
+    rec.parameters["is_fallback"]     = decision.is_fallback ? "true" : "false";
+    if (!decision.reason.empty()) {
+        rec.parameters["reason"] = decision.reason;
+    }
+
+    // submit() is non-blocking — the processor's background thread handles I/O
+    dr_processor_->submit(std::move(rec));
 }
 
 } // namespace llm

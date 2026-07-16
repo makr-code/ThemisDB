@@ -1,62 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_telephony.h                                  ║
-  Version:         1.1.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.1.0  2026-03-09  feat(voice): telephony bridge SIP/WebRTC    ║
-                           (Issue #2495)                               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-#pragma once
-
 /**
  * @file voice_telephony.h
- * @brief Telephony integration bridge for SIP and WebRTC voice calls.
- *
- * Integrates the ThemisDB voice pipeline with telephony systems (SIP/RTP and
- * WebRTC) to enable real-time transcription, voice-activated database queries,
- * and IVR (Interactive Voice Response) flows for inbound/outbound calls.
- *
- * ## Architecture
- * ```
- * SIP UA / WebRTC peer ─── TelephonyBridge ─── VoiceAssistant pipeline
- *   │  (RTP audio, G.711/G.722/Opus)               │
- *   │  ◄── DTMF / IVR prompts                      ├── STT transcription
- *   │  ◄── TTS synthesised responses               ├── NLU / LLM intent
- *   │                                              └── AQL query generation
- * ```
- *
- * ## Supported protocols
- * | Protocol | Transport  | Default port | Audio codecs              |
- * |----------|------------|--------------|---------------------------|
- * | SIP      | UDP / TCP  | 5060 / 5061  | G.711 µ-law (PCMU), PCMA  |
- * | WebRTC   | DTLS-SRTP  | ICE / TURN   | Opus, G.722               |
- *
- * ## Constraints
- * - Max simultaneous calls: ≥100 (configurable)
- * - End-to-end transcription latency: ≤500 ms
- * - DTMF tones must be decoded within 50 ms
- * - Audio encrypted in transit (SRTP for WebRTC; optional SIPS/TLS for SIP)
- *
- * @note Thread Safety: All TelephonyBridge public methods are thread-safe.
- *   Individual call sessions (SipCallSession / WebRtcCallSession) are NOT
- *   thread-safe per instance; callers must serialize access per session.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>
@@ -153,6 +103,42 @@ struct IvrResult {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ITtsBackend — injectable TTS encoder interface
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Injectable text-to-speech backend interface.
+ *
+ * Implement this interface to supply a real TTS encoder (e.g. a G.711 µ-law
+ * PCMU encoder for SIP, or an Opus encoder for WebRTC).
+ *
+ * ## Contract
+ * - `synthesize()` must be thread-safe.
+ * - Each returned inner `vector<uint8_t>` represents one RTP payload frame
+ *   (without RTP header); the session wrapper adds the correct RTP header.
+ * - An empty outer vector indicates synthesis failure or unsupported text.
+ *
+ * @see SipCallSession::setTtsBackend()
+ * @see WebRtcCallSession::setTtsBackend()
+ */
+class ITtsBackend {
+public:
+    virtual ~ITtsBackend() = default;
+
+    /**
+     * @brief Synthesise @p text into a sequence of encoded audio frames.
+     *
+     * @param text   UTF-8 text to synthesise.
+     * @param codec  Target codec (used to select the encoder).
+     * @return       Encoded audio payload frames (one per 20 ms); empty on
+     *               failure or when the text is empty.
+     */
+    virtual std::vector<std::vector<uint8_t>> synthesize(
+        const std::string& text,
+        AudioCodec         codec) = 0;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // SipCallSession
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -166,8 +152,10 @@ struct IvrResult {
  * ## Typical inbound flow
  * ```cpp
  * auto session = SipCallSession::create(config);
- * session->onTranscript([](auto& t){ /* process transcript *\/ });
- * session->onDtmf([](auto& d){ /* handle digit *\/ });
+ * session->onTranscript([](auto& t){ // process transcript
+ * });
+ * session->onDtmf([](auto& d){ // handle digit
+ * });
  * session->start();                 // send 200 OK
  * session->receiveRtpPacket(pkt);   // called per arriving RTP packet
  * session->end();                   // sends BYE
@@ -270,12 +258,25 @@ public:
     /**
      * @brief Synthesise @p text to speech and return RTP-encoded audio.
      *
-     * The output is ready to be sent via the RTP socket.
+     * When a TTS backend has been injected via setTtsBackend(), delegates
+     * synthesis to that backend and wraps each returned frame with a minimal
+     * G.711 RTP header.  Without an injected backend the previous stub
+     * behaviour (raw text bytes in an RTP packet) is retained for compatibility.
      *
      * @param text  Text to speak to the caller.
      * @return RTP packets (one per 20 ms audio frame), empty on error.
      */
     std::vector<std::vector<uint8_t>> synthesizeTts(const std::string& text);
+
+    /**
+     * @brief Inject a TTS backend for real G.711 audio synthesis.
+     *
+     * When set, `synthesizeTts()` delegates to this backend.  Pass `nullptr`
+     * to revert to the stub (raw-text) fallback.
+     *
+     * Thread safety: must be called before the first `synthesizeTts()` call.
+     */
+    void setTtsBackend(std::shared_ptr<ITtsBackend> backend);
 
     // ── Callbacks ─────────────────────────────────────────────────────────────
 
@@ -317,7 +318,8 @@ private:
  * ## Typical browser-initiated flow
  * ```cpp
  * auto session = WebRtcCallSession::create(config);
- * session->onTranscript([](auto& t){ /* process *\/ });
+ * session->onTranscript([](auto& t){ // process
+ * });
  * auto answer_sdp = session->processOffer(offer_sdp);
  * session->start();
  * session->addIceCandidate(ice_json);
@@ -414,8 +416,23 @@ public:
 
     /**
      * @brief Synthesise @p text and return Opus-encoded RTP packets.
+     *
+     * When a TTS backend has been injected via setTtsBackend(), delegates
+     * synthesis to that backend and wraps each returned frame with a minimal
+     * Opus RTP header (PT=111).  Without an injected backend the previous stub
+     * behaviour (raw text bytes in an RTP packet) is retained for compatibility.
      */
     std::vector<std::vector<uint8_t>> synthesizeTts(const std::string& text);
+
+    /**
+     * @brief Inject a TTS backend for real Opus audio synthesis.
+     *
+     * When set, `synthesizeTts()` delegates to this backend.  Pass `nullptr`
+     * to revert to the stub (raw-text) fallback.
+     *
+     * Thread safety: must be called before the first `synthesizeTts()` call.
+     */
+    void setTtsBackend(std::shared_ptr<ITtsBackend> backend);
 
     // ── Callbacks ─────────────────────────────────────────────────────────────
 
@@ -557,7 +574,7 @@ class TelephonyBridge {
 public:
     using Config = TelephonyBridgeConfig;
 
-    explicit TelephonyBridge(Config config = {});
+    explicit TelephonyBridge(Config config = Config{});
     ~TelephonyBridge() = default;
 
     // Non-copyable

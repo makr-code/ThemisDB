@@ -10,6 +10,8 @@
 - ✅ **RPC Plugins** (gRPC)
 - ✅ **Exporters** (JSONL LLM Exporter)
 - ✅ **Importers** (PostgreSQL Importer)
+- ✅ **Scraper Plugin v1.1.0** (Agentic gap-detection web scraping; 56-source knowledge catalog)
+- 🔧 **User Storage Encrypted Plugin v0.2.0** (4-tier gocryptfs AES-256-GCM encrypted storage)
 
 ### Implemented in Source (Requires Build Configuration)
 - 🔧 **Hardware Acceleration Backends** (CUDA, Vulkan, DirectX, HIP, Metal, OpenCL)
@@ -23,6 +25,8 @@
 ## Overview
 
 ThemisDB uses a flexible plugin system that allows extending functionality through dynamically loadable DLLs/shared libraries. The plugin architecture supports multiple plugin types for different purposes.
+
+Compiled plugin implementations are being consolidated into the canonical source tree under src and exposed through public headers under include. The plugins directory remains the compatibility, manifest, roadmap, and legacy entry-point layer.
 
 ## Plugin Architecture
 
@@ -55,59 +59,68 @@ Plugin Types:
 plugins/
 ├── README.md                           (This file)
 ├── PLANNED_ACCELERATION_PLUGINS.md     (Hardware acceleration usage guide)
-├── CMakeLists.txt                      (Build configuration)
+├── CMakeLists.txt                      (Compatibility and manifest entry point)
 ├── blob_storage/                       ✅ Production
 │   ├── README.md
-│   ├── roadmap.md
-│   ├── future_enhancements.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
 │   ├── azure/                          (Azure Blob Storage plugin)
 │   └── s3/                             (Amazon S3 plugin)
 ├── cuda/                               📋 Example/Template
 │   ├── README.md
-│   ├── roadmap.md
-│   ├── future_enhancements.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
 │   ├── CMakeLists.txt.example
 │   ├── cuda_plugin.cpp.example
 │   └── cuda_plugin.json
-├── ethics_ai/                          🔧 WIP
+├── ethics_ai/                          🔧 WIP / compatibility shim to src/ethics_ai
 │   ├── README.md
-│   ├── roadmap.md
-│   └── future_enhancements.md
+│   ├── ROADMAP.md
+│   └── FUTURE_ENHANCEMENTS.md
 ├── exporters/                          ✅ Production
 │   ├── README.md
-│   ├── roadmap.md
-│   ├── future_enhancements.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
 │   └── jsonl_llm/                      (JSONL LLM exporter)
 ├── huggingface/                        ✅ Ready for use
 │   ├── README.md
-│   ├── roadmap.md
-│   └── future_enhancements.md
-├── image_analysis/                     ✅ Production
+│   ├── ROADMAP.md
+│   └── FUTURE_ENHANCEMENTS.md
+├── image_analysis/                     ✅ Production / compatibility shim to src/onnx_clip
 │   ├── README.md
-│   ├── roadmap.md
-│   ├── future_enhancements.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
 │   └── onnx_clip/                      (ONNX CLIP embedding plugin)
 ├── importers/                          ✅ Production
 │   ├── README.md
-│   ├── roadmap.md
-│   ├── future_enhancements.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
 │   └── postgres/                       (PostgreSQL importer)
-├── rpc/                                ✅ Production
+├── rpc/                                ✅ Production / compatibility shim to src/rpc_grpc
 │   ├── README.md
-│   ├── roadmap.md
-│   ├── future_enhancements.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
 │   └── grpc/                           (gRPC plugin)
-└── user_storage_encrypted/             🔧 WIP
+├── scraper/                            ✅ Production v1.1.0 — agentic gap-detection web scraping
+│   ├── CHANGELOG.md
+│   ├── README.md
+│   ├── ROADMAP.md
+│   ├── FUTURE_ENHANCEMENTS.md
+│   └── config/                         (knowledge_sources.yaml, scraper_urls.yaml, gov_sources.yaml)
+└── user_storage_encrypted/             🔧 Implemented v0.2.0 — 4-tier gocryptfs encrypted storage
+    ├── CHANGELOG.md
     ├── README.md
-    ├── roadmap.md
-    └── future_enhancements.md
+    ├── ROADMAP.md
+    └── FUTURE_ENHANCEMENTS.md
 
 > 📄 **Per-plugin documentation:** Every plugin subdirectory contains three standard
-> Markdown files: `README.md` (status, architecture, references), `roadmap.md`
-> (planned work), and `future_enhancements.md` (ideas backlog).
+> Markdown files: `README.md` (status, architecture, references), `ROADMAP.md`
+> (planned work), and `FUTURE_ENHANCEMENTS.md` (ideas backlog).
 
 Note: Hardware acceleration backends (CUDA, Vulkan, etc.) are implemented
-in src/acceleration/ and can be enabled via build configuration.
+in src/acceleration/ and can be enabled via build configuration. Several
+runtime plugins are likewise built from src/* while plugins/* preserves
+legacy CMake entry points, manifests, examples, and roadmap material.
 ```
 
 ## Production Plugin Types
@@ -583,7 +596,8 @@ For developers interested in creating hardware acceleration plugins, see the exa
   - [Image Analysis Plugins](image_analysis/README.md)
   - [Importer Plugins](importers/README.md)
   - [RPC Plugins](rpc/README.md)
-  - [User Storage Encrypted Plugin](user_storage_encrypted/README.md)
+  - [Scraper Plugin v1.1.0](scraper/README.md)
+  - [User Storage Encrypted Plugin v0.2.0](user_storage_encrypted/README.md)
   - [RPC Plugin Architecture](../docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md)
   
 - **Future Plans**:

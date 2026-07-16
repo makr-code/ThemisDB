@@ -111,6 +111,11 @@ if (-not $SkipBuild) {
 if (-not $SkipTidy) {
     Write-Section "Clang-Tidy Static Analysis"
     try {
+        $LogDir = Join-Path $PSScriptRoot "..\logs"
+        New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+        $TidyReport = Join-Path $LogDir "clang-tidy-report.txt"
+        $CppcheckReport = Join-Path $LogDir "cppcheck-report.txt"
+        $GitleaksReport = Join-Path $LogDir "gitleaks-report.json"
         $SourceFiles = Get-ChildItem -Path src,include -Include *.cpp,*.h -Recurse
         $TidyArgs = @("-p", "build", "--quiet")
         if ($Fix) {
@@ -121,7 +126,7 @@ if (-not $SkipTidy) {
             clang-tidy $TidyArgs $_.FullName 2>&1
         }
         
-        $TidyOutput | Out-File -FilePath "clang-tidy-report.txt"
+        $TidyOutput | Out-File -FilePath $TidyReport
         
         $IssueCount = ($TidyOutput | Select-String -Pattern "warning:|error:").Count
         
@@ -141,6 +146,13 @@ if (-not $SkipTidy) {
 if (-not $SkipCppcheck) {
     Write-Section "Cppcheck Linting"
     try {
+        if (-not $LogDir) {
+            $LogDir = Join-Path $PSScriptRoot "..\logs"
+            New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+            $TidyReport = Join-Path $LogDir "clang-tidy-report.txt"
+            $CppcheckReport = Join-Path $LogDir "cppcheck-report.txt"
+            $GitleaksReport = Join-Path $LogDir "gitleaks-report.json"
+        }
         $CppcheckArgs = @(
             "--enable=all",
             "--std=c++17",
@@ -154,7 +166,7 @@ if (-not $SkipCppcheck) {
         )
         
         $CppcheckOutput = cppcheck $CppcheckArgs 2>&1
-        $CppcheckOutput | Out-File -FilePath "cppcheck-report.txt"
+        $CppcheckOutput | Out-File -FilePath $CppcheckReport
         
         if ($CppcheckOutput) {
             Write-Warning "Cppcheck found issues:"
@@ -172,20 +184,27 @@ if (-not $SkipCppcheck) {
 if (-not $SkipGitleaks) {
     Write-Section "Gitleaks Secret Scanning"
     try {
+        if (-not $LogDir) {
+            $LogDir = Join-Path $PSScriptRoot "..\logs"
+            New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+            $TidyReport = Join-Path $LogDir "clang-tidy-report.txt"
+            $CppcheckReport = Join-Path $LogDir "cppcheck-report.txt"
+            $GitleaksReport = Join-Path $LogDir "gitleaks-report.json"
+        }
         $GitleaksArgs = @(
             "detect",
             "--source", ".",
             "--config", ".gitleaks.toml",
             "--report-format", "json",
-            "--report-path", "gitleaks-report.json",
+            "--report-path", $GitleaksReport,
             "--verbose",
             "--no-git"
         )
         
         gitleaks $GitleaksArgs 2>&1 | Out-Null
         
-        if (Test-Path "gitleaks-report.json") {
-            $LeaksContent = Get-Content "gitleaks-report.json" -Raw
+        if (Test-Path $GitleaksReport) {
+            $LeaksContent = Get-Content $GitleaksReport -Raw
             if ($LeaksContent -and $LeaksContent.Trim() -ne "[]" -and $LeaksContent.Trim() -ne "") {
                 $Leaks = $LeaksContent | ConvertFrom-Json
                 if ($Leaks.Count -gt 0) {
@@ -235,10 +254,10 @@ if ($AllPassed) {
 }
 
 Write-Host "`nReports generated:"
-Write-Host "  - clang-tidy-report.txt"
-Write-Host "  - cppcheck-report.txt"
-if (Test-Path "gitleaks-report.json") {
-    Write-Host "  - gitleaks-report.json"
+Write-Host "  - $TidyReport"
+Write-Host "  - $CppcheckReport"
+if (Test-Path $GitleaksReport) {
+    Write-Host "  - $GitleaksReport"
 }
 
 Write-Host "`nNext steps:"

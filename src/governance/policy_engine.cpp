@@ -1,32 +1,28 @@
+/**
+ * @file policy_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=14; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=7, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_engine.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     638                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d2f3985dc  2026-02-27  fix(governance): simulateDecision routes through OPA; add... ║
-    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
-    • 8d2569bdd  2026-02-26  fix(governance): code audit – data race, maskFieldsArray ... ║
-    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 734
+ * Gap Summary: total=14; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=7, Debt=0, C=0, H=9, M=4, L=0
+ * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3170 [governance] Fix detectOver... (2026-03-12) | #3154 [governance] Implement comp... (2026-03-12) | #3133 Fix rollbackToVersion stub:... (2026-03-12) | #3112 feat(governance): policy ev... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/policy_engine.h"
+#include <stdexcept>
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -46,10 +42,12 @@ std::string PolicyEngine::normalize(const std::string &s) {
                    [](unsigned char c) { return static_cast<char>(::tolower(c)); });
     // trim spaces
     auto is_space = [](unsigned char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; };
-    while (!out.empty() && is_space(static_cast<unsigned char>(out.front())))
+    while (!out.empty() && is_space(static_cast<unsigned char>(out.front()))) {
         out.erase(out.begin());
-    while (!out.empty() && is_space(static_cast<unsigned char>(out.back())))
+    }
+    while (!out.empty() && is_space(static_cast<unsigned char>(out.back()))) {
         out.pop_back();
+    }
     return out;
 }
 
@@ -75,20 +73,27 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
                 profile.level = level;
 
                 const auto &val = kv.second;
-                if (val["encryption_required"])
+                if (val["encryption_required"]) {
                     profile.encryption_required = val["encryption_required"].as<bool>();
-                if (val["ann_allowed"])
+                }
+                if (val["ann_allowed"]) {
                     profile.ann_allowed = val["ann_allowed"].as<bool>();
-                if (val["export_allowed"])
+                }
+                if (val["export_allowed"]) {
                     profile.export_allowed = val["export_allowed"].as<bool>();
-                if (val["cache_allowed"])
+                }
+                if (val["cache_allowed"]) {
                     profile.cache_allowed = val["cache_allowed"].as<bool>();
-                if (val["redaction_level"])
+                }
+                if (val["redaction_level"]) {
                     profile.redaction_level = val["redaction_level"].as<std::string>();
-                if (val["retention_days"])
+                }
+                if (val["retention_days"]) {
                     profile.retention_days = val["retention_days"].as<int>();
-                if (val["log_encryption"])
+                }
+                if (val["log_encryption"]) {
                     profile.log_encryption = val["log_encryption"].as<bool>();
+                }
 
                 new_profiles[normalize(level)] = profile;
             }
@@ -124,14 +129,15 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
                     }
                     if (r["strategy"]) {
                         const std::string strat = normalize(r["strategy"].as<std::string>());
-                        if (strat == "tokenize")
+                        if (strat == "tokenize") {
                             rule.strategy = MaskingStrategy::TOKENIZE;
-                        else if (strat == "truncate")
+                        } else if (strat == "truncate") {
                             rule.strategy = MaskingStrategy::TRUNCATE;
-                        else if (strat == "hash")
+                        } else if (strat == "hash") {
                             rule.strategy = MaskingStrategy::HASH;
-                        else
+                        } else {
                             rule.strategy = MaskingStrategy::REDACT;
+                        }
                     }
                     if (r["truncate_length"]) {
                         rule.truncate_length = r["truncate_length"].as<int>();
@@ -214,8 +220,9 @@ bool PolicyEngine::reloadIfChanged(std::string *err) {
     try {
         current_mtime = std::filesystem::last_write_time(path);
     } catch (const std::exception &e) {
-        if (err)
+        if (err) {
             *err = std::string("stat failed: ") + e.what();
+        }
         observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
                                                                   {{"result", "failure"}});
         return false;
@@ -266,8 +273,9 @@ std::string PolicyEngine::getLoadedFilePath() const {
 std::optional<ClassificationProfile> PolicyEngine::getClassificationProfile(const std::string &level) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = classification_profiles_.find(normalize(level));
-    if (it == classification_profiles_.end())
+    if (it == classification_profiles_.end()) {
         return std::nullopt;
+    }
     return it->second;
 }
 
@@ -276,7 +284,7 @@ void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> lo
     audit_logger_ = std::move(logger);
 }
 
-void PolicyEngine::setOpaEvaluator(IPolicyEvaluator* evaluator) {
+void PolicyEngine::setOpaEvaluator(IPolicyEvaluator *evaluator) {
     std::lock_guard<std::mutex> lock(mutex_);
     opa_evaluator_ = evaluator;
 }
@@ -289,11 +297,13 @@ void PolicyEngine::setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std:
 }
 
 bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {
-    if (subject_id.empty())
+    if (subject_id.empty()) {
         return false;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!ccpa_opt_out_subjects_)
+    if (!ccpa_opt_out_subjects_) {
         return false;
+    }
     return ccpa_opt_out_subjects_->count(subject_id) > 0;
 }
 
@@ -301,8 +311,9 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
                                       const std::string &route) const {
     auto get = [&](const char *key) -> std::string {
         auto it = headers.find(key);
-        if (it != headers.end())
+        if (it != headers.end()) {
             return it->second;
+        }
         return std::string();
     };
 
@@ -312,7 +323,7 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     std::string mode;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
     std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
-    IPolicyEvaluator* evaluator = nullptr;
+    IPolicyEvaluator *evaluator = nullptr;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         profiles      = classification_profiles_;
@@ -359,8 +370,8 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
             return d;
         }
         // OPA unavailable – fall through to native evaluation and emit counter.
-        observability::MetricsCollector::getInstance().addCounter(
-            "governance_opa_fallback_total", 1, {{"source", "policy_engine"}});
+        observability::MetricsCollector::getInstance().addCounter("governance_opa_fallback_total", 1,
+                                                                  {{"source", "policy_engine"}});
     }
 
     PolicyDecision d;
@@ -380,8 +391,9 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
 
     // Mode
     auto req_mode = normalize(get("X-Governance-Mode"));
-    if (req_mode != "observe")
+    if (req_mode != "observe") {
         req_mode = mode;
+    }
     d.mode = req_mode;
 
     // Lookup profile
@@ -466,8 +478,9 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
 
     auto get = [&](const char *key) -> std::string {
         auto it = headers.find(key);
-        if (it != headers.end())
+        if (it != headers.end()) {
             return it->second;
+        }
         return std::string();
     };
 
@@ -475,7 +488,7 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     std::unordered_map<std::string, ClassificationProfile> profiles;
     std::unordered_map<std::string, std::string> resource_map;
     std::string mode;
-    IPolicyEvaluator* evaluator = nullptr;
+    IPolicyEvaluator *evaluator = nullptr;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         profiles     = classification_profiles_;
@@ -486,7 +499,7 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     }
 
     SimulationResult result;
-    result.dry_run    = true;
+    result.dry_run = true;
 
     // ---- OPA evaluation in dry-run mode ------------------------------------
     // If an OPA evaluator is configured, use it so that the simulation
@@ -521,8 +534,9 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
 
     // Mode
     auto req_mode = normalize(get("X-Governance-Mode"));
-    if (req_mode != "observe")
+    if (req_mode != "observe") {
         req_mode = mode;
+    }
     d.mode = req_mode;
 
     // Lookup profile
@@ -634,5 +648,99 @@ QueryPermissionResult PolicyEngine::checkQueryPermission(const std::unordered_ma
     return result;
 }
 
+InferencePermissionResult
+PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std::string> &headers) const {
+    InferencePermissionResult result;
+
+    // ── Step 1: extract the API key from the Authorization header ──────────
+    // Accept "Bearer <key>" format (standard OpenAI SDK convention).
+    static const std::string k_route         = "/v1/chat/completions";
+    static const std::string k_auth_header   = "Authorization";
+    static const std::string k_bearer_prefix = "Bearer ";
+
+    auto find_header_ci = [&headers](const std::string &key) -> std::optional<std::string> {
+        auto it = headers.find(key);
+        if (it != headers.end()) {
+            return it->second;
+        }
+        for (const auto &kv : headers) {
+            if (kv.first.size() != key.size()) {
+                continue;
+            }
+            bool equal_ci = true;
+            for (size_t i = 0; i < key.size(); ++i) {
+                if (std::tolower(static_cast<unsigned char>(kv.first[i]))
+                    != std::tolower(static_cast<unsigned char>(key[i]))) {
+                    equal_ci = false;
+                    break;
+                }
+            }
+            if (equal_ci) {
+                return kv.second;
+            }
+        }
+        return std::nullopt;
+    };
+
+    auto auth_value_opt = find_header_ci(k_auth_header);
+    if (!auth_value_opt.has_value() || auth_value_opt->empty()) {
+        result.allowed       = false;
+        result.http_status   = 401;
+        result.denial_reason = "Missing Authorization header; provide a Bearer API key";
+        return result;
+    }
+
+    const std::string &auth_value = *auth_value_opt;
+    const bool has_bearer_prefix
+        = auth_value.size() >= k_bearer_prefix.size()
+          && std::equal(k_bearer_prefix.begin(), k_bearer_prefix.end(), auth_value.begin(), [](char a, char b) {
+                 return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
+             });
+
+    if (!has_bearer_prefix) {
+        result.allowed       = false;
+        result.http_status   = 401;
+        result.denial_reason = "Invalid Authorization header format; expected 'Bearer <api-key>'";
+        return result;
+    }
+
+    const std::string api_key = auth_value.substr(k_bearer_prefix.size());
+    if (api_key.empty()) {
+        result.allowed       = false;
+        result.http_status   = 401;
+        result.denial_reason = "Empty API key in Authorization header";
+        return result;
+    }
+
+    // ── Step 2: evaluate the governance policy for this request ────────────
+    // Propagate the extracted identity via X-Api-Key so evaluate() can apply
+    // classification and CCPA rules that depend on the caller identity.
+    std::unordered_map<std::string, std::string> eval_headers = headers;
+    eval_headers["X-Api-Key"]                                 = api_key;
+
+    try {
+        result.decision = evaluate(eval_headers, k_route);
+    } catch (const std::exception &ex) {
+        result.allowed       = false;
+        result.http_status   = 403;
+        result.denial_reason = std::string("Policy evaluation error: ") + ex.what();
+        return result;
+    }
+
+    // ── Step 3: map the policy decision to an allow/deny outcome ──────────
+    // LLM inference is blocked when the classification is strict ("geheim" /
+    // "streng-geheim") or when ANN/inference is explicitly disabled by policy.
+    if (!result.decision.ann_allowed) {
+        result.allowed       = false;
+        result.http_status   = 403;
+        result.denial_reason = "Inference is not permitted for the current data classification";
+        return result;
+    }
+
+    result.allowed = true;
+    return result;
+}
+
 } // namespace governance
 } // namespace themis
+

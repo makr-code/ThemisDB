@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_aql_st_functions.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:01:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1014                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • a4a3e5f6a  2026-02-25  fix(geo): ST_AsGeoJSON now handles MultiPolygon and Geome... ║
-    • 0608dd49e  2026-02-25  feat(geo): complete ST_UNION/ST_DIFFERENCE – AQL function... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_aql_st_functions.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -809,6 +791,43 @@ TEST_F(STFunctionsTest, ST_Buffer_PolygonExpandMBR)
     EXPECT_DOUBLE_EQ(ring[2][0],  3.0); EXPECT_DOUBLE_EQ(ring[2][1],  3.0);
     EXPECT_DOUBLE_EQ(ring[3][0], -1.0); EXPECT_DOUBLE_EQ(ring[3][1],  3.0);
     EXPECT_DOUBLE_EQ(ring[4][0], -1.0); EXPECT_DOUBLE_EQ(ring[4][1], -1.0);
+}
+
+// Regression: out-of-range arc_points must be clamped before int cast (UB guard).
+// Passing 1e300 must not crash / exhibit UB; result must be a valid Polygon (clamped to 360).
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_HugeValueClampsTo360)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
+// Regression: negative arc_points must be clamped to 3 (lower bound).
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_NegativeValueClampsTo3)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
+// Exact boundary: arc_points = 360 is the maximum allowed value.
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_Boundary360)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
+}
+
+// Exact boundary: arc_points = 3 is the minimum allowed value.
+TEST_F(STFunctionsTest, ST_Buffer_ArcPoints_Boundary3)
+{
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json buffered = callFunction("ST_Buffer", {point, 1.0});
+    ASSERT_TRUE(buffered.is_object());
+    EXPECT_EQ(buffered["type"], "Polygon");
 }
 
 TEST_F(STFunctionsTest, ST_Union_PointPolygonMBR)

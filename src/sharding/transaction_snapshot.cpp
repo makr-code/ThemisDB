@@ -1,24 +1,21 @@
+/**
+ * @file transaction_snapshot.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_snapshot.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     444                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_snapshot.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 432
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/transaction_snapshot.h"
@@ -28,10 +25,11 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
+#include <stdexcept>
 
 namespace sharding {
 
-// Helper function to convert transaction state to string
+/** @brief Convert transaction state enum to persisted string token. */
 std::string transactionStateToString(TransactionState state) {
     switch (state) {
         case TransactionState::INITIATED: return "INITIATED";
@@ -49,6 +47,7 @@ std::string transactionStateToString(TransactionState state) {
     }
 }
 
+/** @brief Parse transaction state enum from persisted string token. */
 TransactionState transactionStateFromString(const std::string& str) {
     if (str == "INITIATED") return TransactionState::INITIATED;
     if (str == "PREPARING") return TransactionState::PREPARING;
@@ -64,6 +63,7 @@ TransactionState transactionStateFromString(const std::string& str) {
     return TransactionState::INITIATED;
 }
 
+/** @brief Convert transaction protocol enum to persisted string token. */
 std::string transactionProtocolToString(TransactionProtocol protocol) {
     switch (protocol) {
         case TransactionProtocol::TWO_PHASE_COMMIT: return "TWO_PHASE_COMMIT";
@@ -75,6 +75,7 @@ std::string transactionProtocolToString(TransactionProtocol protocol) {
     return "TWO_PHASE_COMMIT";
 }
 
+/** @brief Parse transaction protocol enum from persisted string token. */
 TransactionProtocol transactionProtocolFromString(const std::string& str) {
     if (str == "TWO_PHASE_COMMIT") return TransactionProtocol::TWO_PHASE_COMMIT;
     if (str == "THREE_PHASE_COMMIT") return TransactionProtocol::THREE_PHASE_COMMIT;
@@ -84,7 +85,7 @@ TransactionProtocol transactionProtocolFromString(const std::string& str) {
     return TransactionProtocol::TWO_PHASE_COMMIT;
 }
 
-// JSON serialization for ParticipantStatus
+/** @brief Serialize ParticipantStatus into JSON object. */
 void to_json(nlohmann::json& j, const ParticipantStatus& p) {
     j = nlohmann::json{
         {"participant_id", p.participant_id},
@@ -97,6 +98,7 @@ void to_json(nlohmann::json& j, const ParticipantStatus& p) {
     };
 }
 
+/** @brief Deserialize ParticipantStatus from JSON object. */
 void from_json(const nlohmann::json& j, ParticipantStatus& p) {
     j.at("participant_id").get_to(p.participant_id);
     j.at("prepared").get_to(p.prepared);
@@ -107,7 +109,7 @@ void from_json(const nlohmann::json& j, ParticipantStatus& p) {
     j.at("timestamp").get_to(p.timestamp);
 }
 
-// JSON serialization for SAGAStep
+/** @brief Serialize SAGAStep into JSON object. */
 void to_json(nlohmann::json& j, const SAGAStep& s) {
     j = nlohmann::json{
         {"step_number", s.step_number},
@@ -119,6 +121,7 @@ void to_json(nlohmann::json& j, const SAGAStep& s) {
     };
 }
 
+/** @brief Deserialize SAGAStep from JSON object. */
 void from_json(const nlohmann::json& j, SAGAStep& s) {
     j.at("step_number").get_to(s.step_number);
     j.at("operation").get_to(s.operation);
@@ -128,7 +131,7 @@ void from_json(const nlohmann::json& j, SAGAStep& s) {
     j.at("timestamp").get_to(s.timestamp);
 }
 
-// JSON serialization for PercolatorIntent
+/** @brief Serialize PercolatorIntent into JSON object. */
 void to_json(nlohmann::json& j, const PercolatorIntent& i) {
     j = nlohmann::json{
         {"key", i.key},
@@ -138,6 +141,7 @@ void to_json(nlohmann::json& j, const PercolatorIntent& i) {
     };
 }
 
+/** @brief Deserialize PercolatorIntent from JSON object. */
 void from_json(const nlohmann::json& j, PercolatorIntent& i) {
     j.at("key").get_to(i.key);
     j.at("value").get_to(i.value);
@@ -145,7 +149,7 @@ void from_json(const nlohmann::json& j, PercolatorIntent& i) {
     j.at("locked").get_to(i.locked);
 }
 
-// JSON serialization for TransactionSnapshotEntry
+/** @brief Serialize TransactionSnapshotEntry into JSON object. */
 void to_json(nlohmann::json& j, const TransactionSnapshotEntry& e) {
     j = nlohmann::json{
         {"transaction_id", e.transaction_id},
@@ -166,6 +170,7 @@ void to_json(nlohmann::json& j, const TransactionSnapshotEntry& e) {
     };
 }
 
+/** @brief Deserialize TransactionSnapshotEntry from JSON object. */
 void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e) {
     j.at("transaction_id").get_to(e.transaction_id);
     e.protocol = transactionProtocolFromString(j.at("protocol").get<std::string>());
@@ -184,7 +189,7 @@ void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e) {
     j.at("metadata").get_to(e.metadata);
 }
 
-// TransactionSnapshot methods
+/** @brief Serialize TransactionSnapshot to JSON excluding recomputed checksum field. */
 nlohmann::json TransactionSnapshot::toJson() const {
     nlohmann::json j;
     j["snapshot_id"] = snapshot_id;
@@ -197,6 +202,7 @@ nlohmann::json TransactionSnapshot::toJson() const {
     return j;
 }
 
+/** @brief Deserialize TransactionSnapshot from JSON payload with optional checksum field. */
 std::optional<TransactionSnapshot> TransactionSnapshot::fromJson(const nlohmann::json& j) {
     try {
         TransactionSnapshot snapshot;
@@ -216,7 +222,11 @@ std::optional<TransactionSnapshot> TransactionSnapshot::fromJson(const nlohmann:
     }
 }
 
-// TransactionSnapshotManager implementation
+/**
+ * @brief Construct snapshot manager and ensure snapshot directory exists.
+ * @param snapshot_directory Filesystem directory for snapshot files.
+ * @param max_snapshots Maximum number of retained snapshots.
+ */
 TransactionSnapshotManager::TransactionSnapshotManager(
     const std::string& snapshot_directory, 
     size_t max_snapshots)
@@ -231,10 +241,12 @@ TransactionSnapshotManager::TransactionSnapshotManager(
     }
 }
 
+/** @brief Compose snapshot filepath from directory and snapshot id. */
 std::string TransactionSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
     return snapshot_directory_ + "/transaction_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 
+/** @brief Compute SHA-256 checksum over canonical JSON string representation. */
 std::string TransactionSnapshotManager::calculateChecksum(const nlohmann::json& data) const {
     std::string json_str = data.dump();
     unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -248,6 +260,10 @@ std::string TransactionSnapshotManager::calculateChecksum(const nlohmann::json& 
     return ss.str();
 }
 
+/**
+ * @brief Create, checksum and persist a snapshot for active transactions.
+ * @return Snapshot id on success; nullopt on failure.
+ */
 std::optional<uint64_t> TransactionSnapshotManager::createSnapshot(
     const std::string& coordinator_id,
     LSN last_applied_lsn,
@@ -285,6 +301,7 @@ std::optional<uint64_t> TransactionSnapshotManager::createSnapshot(
     }
 }
 
+/** @brief Persist snapshot JSON (including checksum) into target file. */
 bool TransactionSnapshotManager::saveSnapshotToFile(const TransactionSnapshot& snapshot) {
     try {
         std::string filepath = getSnapshotPath(snapshot.snapshot_id);
@@ -309,6 +326,7 @@ bool TransactionSnapshotManager::saveSnapshotToFile(const TransactionSnapshot& s
     }
 }
 
+/** @brief Load snapshot JSON from file and verify embedded checksum. */
 std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshotFromFile(
     const std::string& filepath) {
     
@@ -342,6 +360,7 @@ std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshotFromF
     }
 }
 
+/** @brief Load newest available snapshot, if any exist. */
 std::optional<TransactionSnapshot> TransactionSnapshotManager::loadLatestSnapshot() {
     auto snapshots = listSnapshots();
     if (snapshots.empty()) {
@@ -353,11 +372,13 @@ std::optional<TransactionSnapshot> TransactionSnapshotManager::loadLatestSnapsho
     return loadSnapshot(snapshots[0]);
 }
 
+/** @brief Load snapshot by explicit snapshot id. */
 std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
     std::string filepath = getSnapshotPath(snapshot_id);
     return loadSnapshotFromFile(filepath);
 }
 
+/** @brief Discover snapshot files and return ids sorted newest-first. */
 std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
     std::vector<uint64_t> snapshot_ids;
     
@@ -377,7 +398,7 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshot_ids.push_back(snapshot_id);
-                    } catch (const std::exception& e) {
+                    } catch (...) {
                         spdlog::warn("Invalid snapshot filename: {}", filename);
                     }
                 }
@@ -393,6 +414,7 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
     return snapshot_ids;
 }
 
+/** @brief Delete snapshot file by id. */
 bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
@@ -408,6 +430,7 @@ bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     }
 }
 
+/** @brief Remove oldest snapshots beyond configured retention count. */
 void TransactionSnapshotManager::cleanupOldSnapshots() {
     auto snapshots = listSnapshots();
     
@@ -424,6 +447,7 @@ void TransactionSnapshotManager::cleanupOldSnapshots() {
     spdlog::info("Cleaned up {} old transaction snapshots", to_delete);
 }
 
+/** @brief Verify snapshot checksum matches current serialized content. */
 bool TransactionSnapshotManager::verifySnapshot(const TransactionSnapshot& snapshot) {
     try {
         nlohmann::json j = snapshot.toJson();
@@ -443,3 +467,5 @@ bool TransactionSnapshotManager::verifySnapshot(const TransactionSnapshot& snaps
 }
 
 }  // namespace sharding
+
+

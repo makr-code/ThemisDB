@@ -1,63 +1,29 @@
-# ============================================================================
-# Docker Build Context Optimization
-# ============================================================================
-# Exclude unnecessary directories to speed up context transfer
-
-# ============================================================================
-# INCLUDE: Root files
-# ============================================================================
-!CMakeLists.txt
-!CMakePresets.json
-!VERSION
-!vcpkg.json
-!vcpkg-configuration.json
-!.dockerignore
-!Dockerfile
-!Dockerfile.*
-!docker-compose.yml
-
-# Cache/temp files  
-.git/
-.git/**
-.cache/
+.git
+.github
+.gitignore
+.gitattributes
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+.devcontainer
+.vscode
+.tools
 *.log
-.docker-build-**/
-
-# Large/irrelevant directories (documentation, deployment configs, extras)
-docs/
-deploy/
-helm/
-benchmarks/
-fuzz/
-projects/
-wordpress-plugin/
-wordpress-theme/
-training/                   # LLM training data - not needed at runtime
-pytorch_models/             # Model caches
-llm_cache/                  # LLM cache directory
-cache/                      # General cache
-symbols/                    # Debug symbols
-
-# ============================================================================
-# EXCLUDE: Anything large (redundant safety)
-# ============================================================================
-vcpkg/
-vcpkg/buildtrees/
-vcpkg/packages/
-vcpkg/downloads/
-vcpkg_installed/
-vcpkg_packages/
+build/
+dist/
 node_modules/
-**/node_modules/
-.docker-cache/
-vcpkg/**
-build/**
-build-*/**
-models/**
-projects/**
-external/**
-compendium/**
-release/**
-site/**
-tools/**
-prebuilt-cache/**
+__pycache__
+*.pyc
+.pytest_cache
+.coverage
+.env
+.env.local
+.venv
+venv/
+llama.cpp/**
+vcpkg/
+build-msvc-windows-release/
+build-*/
+build_*/
+.pytest_cache/
+.coverage

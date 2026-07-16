@@ -1,6 +1,6 @@
 {
   "module": "exporters",
-  "validated": "2026-03-10",
+  "validated": "2026-03-11",
   "revision": "HEAD",
   "checked_paths": [
     "src/exporters/",
@@ -25,7 +25,7 @@
       "status": "resolved",
       "resolved_in": "feat(exporters): implement remaining open items (EXP-001,002,004,005)",
       "title": "PolicyEngine Integration for Export Authorization",
-      "resolution": "ERR_EXPORT_POLICY_DENIED (9310) added to error_registry.h. ExportOptions extended with collection_name, requesting_user, and policy_engine* fields. enforceExportPolicy() free function implemented in jsonl_llm_exporter.cpp and called at the top of exportEntities() in all 6 exporters (JSONL, HuggingFace, Parquet, ArrowIPC, Streaming, Incremental)."
+      "resolution": "ERR_EXPORT_POLICY_DENIED (9310) added to error_registry.h. ExportOptions extended with collection_name, requesting_user, and policy_engine* fields. enforceExportPolicy() free function implemented in jsonl_llm_exporter.cpp and called at the top of exportEntities() in all 6 exporters (JSONL, HuggingFace, Parquet, ArrowIPC, Streaming, Incremental). EXPORT_DENIED audit event logged with severity MEDIUM on denial; BULK_EXPORT event logged on approval. 10 unit tests in tests/exporters/test_export_encryption.cpp (ExportPolicyEnforcementTest)."
     },
     {
       "id": "EXP-002",

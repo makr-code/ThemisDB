@@ -1,23 +1,21 @@
+/**
+ * @file distributed_txn_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_txn_api_handler.cpp                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     328                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_txn_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 397
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -25,12 +23,52 @@
 
 #include "server/distributed_txn_api_handler.h"
 #include "sharding/distributed_transaction.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
+#include <cstdlib>
 #include <string_view>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxDistributedTxnIdentifierLength = 256;
+constexpr std::string_view kSnapshotIsolationWarning =
+    "snapshot_isolation may permit write-skew and phantom-read anomalies; "
+    "use 'serializable' for strict invariant safety.";
+constexpr std::string_view kDefaultIsolationEnvVar = "THEMIS_DTXN_DEFAULT_ISOLATION";
+
+bool isValidDistributedTxnIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxDistributedTxnIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+sharding::DistributedIsolationLevel getConfiguredDefaultIsolationLevel() {
+    const char* configured_default = std::getenv(kDefaultIsolationEnvVar.data());
+    if (configured_default == nullptr) {
+        return sharding::DistributedIsolationLevel::SERIALIZABLE;
+    }
+
+    const std::string configured(configured_default);
+    if (configured == "serializable") {
+        return sharding::DistributedIsolationLevel::SERIALIZABLE;
+    }
+    if (configured == "snapshot_isolation") {
+        return sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+    }
+
+    THEMIS_WARN("Ignoring invalid {}='{}'; using serializable",
+                kDefaultIsolationEnvVar, configured);
+    return sharding::DistributedIsolationLevel::SERIALIZABLE;
+}
+
+} // namespace
 
 DistributedTxnApiHandler::DistributedTxnApiHandler(
     std::shared_ptr<sharding::DistributedTransactionCoordinator> coordinator
@@ -45,6 +83,7 @@ DistributedTxnApiHandler::DistributedTxnApiHandler(
 http::response<http::string_body>
 DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleBegin");
         auto body = json::parse(req.body());
 
         if (!body.contains("shards") || !body["shards"].is_array()) {
@@ -59,7 +98,12 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
                 return error(http::status::bad_request,
                              "Each element of 'shards' must be a string", req);
             }
-            shard_ids.push_back(s.get<std::string>());
+            auto shard_id = s.get<std::string>();
+            if (!isValidDistributedTxnIdentifier(shard_id)) {
+                return error(http::status::bad_request,
+                             "Invalid shard identifier", req);
+            }
+            shard_ids.push_back(std::move(shard_id));
         }
 
         if (shard_ids.empty()) {
@@ -67,8 +111,9 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
                          "'shards' must contain at least one shard ID", req);
         }
 
-        // Optional isolation_level: "snapshot_isolation" (default) or "serializable"
-        auto isolation = sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+        // Optional isolation_level: "snapshot_isolation" or "serializable"
+        // Default is serializable unless overridden by THEMIS_DTXN_DEFAULT_ISOLATION.
+        auto isolation = getConfiguredDefaultIsolationLevel();
         if (body.contains("isolation_level")) {
             const std::string isolation_level_str = body["isolation_level"].get<std::string>();
             if (isolation_level_str == "serializable") {
@@ -82,13 +127,17 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
 
         std::string txn_id = coordinator_->beginTransaction(shard_ids, isolation);
 
-        return ok({
+        json response = {
             {"transaction_id",  txn_id},
             {"status",          "active"},
             {"shards",          shard_ids},
             {"isolation_level", isolation == sharding::DistributedIsolationLevel::SERIALIZABLE
                                     ? "serializable" : "snapshot_isolation"}
-        }, req);
+        };
+        if (isolation == sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION) {
+            response["isolation_warning"] = kSnapshotIsolationWarning;
+        }
+        return ok(response, req);
 
     } catch (const json::exception& e) {
         return error(http::status::bad_request,
@@ -106,6 +155,7 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
 http::response<http::string_body>
 DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleOperation");
         auto body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -121,6 +171,13 @@ DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>
         std::string txn_id  = body["transaction_id"];
         std::string shard   = body["shard_id"];
         auto        op      = body["operation"];
+
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request, "Invalid 'transaction_id'", req);
+        }
+        if (!isValidDistributedTxnIdentifier(shard)) {
+            return error(http::status::bad_request, "Invalid 'shard_id'", req);
+        }
 
         if (!coordinator_->addOperation(txn_id, shard, op)) {
             return error(http::status::unprocessable_entity,
@@ -145,6 +202,7 @@ DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>
 http::response<http::string_body>
 DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleCommit");
         auto body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -152,6 +210,9 @@ DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& r
         }
 
         std::string txn_id = body["transaction_id"];
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request, "Invalid 'transaction_id'", req);
+        }
         bool committed = coordinator_->commit(txn_id);
 
         if (committed) {
@@ -178,6 +239,7 @@ DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& r
 http::response<http::string_body>
 DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleAbort");
         auto body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -185,6 +247,9 @@ DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& re
         }
 
         std::string txn_id = body["transaction_id"];
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request, "Invalid 'transaction_id'", req);
+        }
         coordinator_->abort(txn_id);
 
         return ok({{"transaction_id", txn_id}, {"status", "aborted"}}, req);
@@ -205,6 +270,7 @@ DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& re
 http::response<http::string_body>
 DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleReadOnly");
         auto body = json::parse(req.body());
 
         if (!body.contains("shards") || !body["shards"].is_array()) {
@@ -218,7 +284,12 @@ DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>&
                 return error(http::status::bad_request,
                              "Each element of 'shards' must be a string", req);
             }
-            shard_ids.push_back(s.get<std::string>());
+            auto shard_id = s.get<std::string>();
+            if (!isValidDistributedTxnIdentifier(shard_id)) {
+                return error(http::status::bad_request,
+                             "Invalid shard identifier", req);
+            }
+            shard_ids.push_back(std::move(shard_id));
         }
 
         auto operations = body.value("operations", json::object());
@@ -243,6 +314,7 @@ DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>&
 http::response<http::string_body>
 DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleStatus");
         // Extract transaction ID from the URL path: /dtxn/status/{txn_id}
         std::string_view path  = req.target();
         const std::string_view prefix = "/dtxn/status/";
@@ -251,6 +323,10 @@ DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& r
                          "Missing transaction ID in path", req);
         }
         std::string txn_id(path.substr(prefix.size()));
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request,
+                         "Invalid transaction ID in path", req);
+        }
 
         auto state = coordinator_->getTransactionState(txn_id);
         if (!state) {
@@ -276,6 +352,7 @@ DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& r
 http::response<http::string_body>
 DistributedTxnApiHandler::handleStats(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleStats");
         return ok(coordinator_->getStatistics(), req);
     } catch (const std::exception& e) {
         return error(http::status::internal_server_error,

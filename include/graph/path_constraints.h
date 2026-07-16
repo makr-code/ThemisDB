@@ -1,37 +1,33 @@
+/**
+ * @file path_constraints.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            path_constraints.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 23f569828  2026-02-28  fix(graph): fix query injection in path constraints (secu... ║
-    • cf39e23c3  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: path_constraints.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 385
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5119 [Docs][Module] graph - Sync... (2026-05-13) | #3194 [graph] Fix query injection... (2026-03-12) | #2940 feat(graph): cost model cal... (2026-03-12) | #1070 Implement PathConstraints a... (2026-03-11) | #1053 GAP-006: Add stub implement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "utils/expected.h"
+#include "graph/ontology_manager.h"
 #include <string>
 #include <vector>
 #include <optional>
 #include <functional>
 #include <unordered_set>
+#include <memory>
 
 namespace themis {
 
@@ -277,9 +273,63 @@ public:
     ) const;
 
     /**
-     * @brief Get all active constraints
+     * @brief Represents a single semantic constraint violation.
+     *
+     * Returned by `validateSemanticPath()` when an edge in the discovered path
+     * violates the ontology-declared relationship axioms.
      */
-    const std::vector<Constraint>& getConstraints() const { return constraints_; }
+    struct ConstraintViolation {
+        /// The edge identifier that triggered the violation.
+        std::string edge_id;
+        /// Concept class of the source node of the violating edge.
+        std::string source_class;
+        /// Concept class of the target node of the violating edge.
+        std::string target_class;
+        /// The edge type that was found (not permitted by the ontology).
+        std::string edge_type;
+        /// Human-readable description of the violation.
+        std::string description;
+    };
+
+    /**
+     * @brief Attach an ontology-based semantic constraint to this path query.
+     *
+     * After this call, every edge explored during `findConstrainedPaths` is
+     * validated against @p ontology using the prune-first strategy: edges
+     * whose type is not permitted for the (sourceClass, targetClass) pair
+     * are pruned at the BFS frontier level, avoiding generation of invalid
+     * path candidates.
+     *
+     * `validateSemanticPath()` can be used post-discovery for a full
+     * structural check.
+     *
+     * @param ontology Non-owning pointer to a built `OntologyManager`.
+     *                 Must outlive this `PathConstraints` object.
+     * @param ruleset  `STRICT` (default) rejects violating paths; `WARN`
+     *                 records violations but keeps the path.
+     */
+    void addSemanticConstraint(const OntologyManager* ontology,
+                               OntologyManager::Ruleset ruleset = OntologyManager::Ruleset::Strict);
+
+    /**
+     * @brief Validate a discovered path against all attached ontology constraints.
+     *
+     * Iterates over every edge in @p result and calls
+     * `ontology->isEdgeTypeAllowed(srcClass, tgtClass, edgeType)`.  The
+     * node-class lookup uses GraphIndexManager::getNodeField("_class") and
+     * defaults to the empty string (unconstrained) when the field is absent.
+     *
+     * @param result   A path result previously returned by `findConstrainedPaths`.
+     * @return Vector of violations; empty means the path is semantically valid.
+     */
+    std::vector<ConstraintViolation> validateSemanticPath(const PathResult& result) const;
+
+    /**
+     * @brief Return all violations recorded during the last `findConstrainedPaths` call.
+     */
+    const std::vector<ConstraintViolation>& lastViolations() const noexcept {
+        return last_violations_;
+    }
 
     /**
      * @brief Clear all constraints
@@ -290,6 +340,13 @@ public:
      * @brief Get human-readable description of constraints
      */
     std::string describeConstraints() const;
+
+    /**
+     * @brief Access configured constraints for optimization/planning.
+     */
+    [[nodiscard]] const std::vector<Constraint>& getConstraints() const noexcept {
+        return constraints_;
+    }
 
     // ── Security constants ──────────────────────────────────────────────────
     /// Maximum allowed byte length for a node or edge identifier.
@@ -308,6 +365,11 @@ private:
     std::unordered_set<std::string> forbidden_edges_;
     std::unordered_set<std::string> required_edges_;
     GraphIndexManager* graph_mgr_ = nullptr;
+
+    // ── Semantic constraint state ───────────────────────────────────────────
+    const OntologyManager* ontology_ = nullptr;
+    OntologyManager::Ruleset ontology_ruleset_ = OntologyManager::Ruleset::Strict;
+    mutable std::vector<ConstraintViolation> last_violations_;
 
     /**
      * @brief Validate a node or edge identifier supplied as user input.
@@ -331,3 +393,4 @@ private:
 
 } // namespace graph
 } // namespace themis
+

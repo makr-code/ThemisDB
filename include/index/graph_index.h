@@ -1,26 +1,21 @@
+/**
+ * @file graph_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_index.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     329                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f22c734c5  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
-    • daf027b34  2026-02-25  feat(graph): implement subgraph isomorphism queries (patt... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_index.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 319
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4096 feat(chimera): Production T... (2026-03-12) | #1070 Implement PathConstraints a... (2026-03-11) | #627 Phase 3: Refactor QueryEngi... (2026-03-11) | #634 Implement K-Shortest-Paths ... (2026-03-11) | #257 Research & Implementation: ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -34,7 +29,9 @@
 #include <optional>
 #include <unordered_set>
 #include <unordered_map>
+#include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
 #include <memory>
 
@@ -89,17 +86,39 @@ public:
     // Topologie aus RocksDB laden (optional beim Start)
     Status rebuildTopology();
 
-    // Kanten-Operationen (Edge-Entity erwartet Felder: id, _from, _to)
+    /// Edge-Operationen (Edge-Entity benötigt Felder: id, _from, _to)
+    /// 
+    /// @brief Fügt eine Kante zum Graphen hinzu (atomare Operation über WriteBatch).
+    /// 
+    /// @param edge BaseEntity mit erforderlichen Feldern:
+    ///   - id: Eindeutige Kanten-ID (non-empty)
+    ///   - _from: Quell-Knoten-ID (non-empty, fail-closed QW-45 Guard)
+    ///   - _to: Ziel-Knoten-ID (non-empty, fail-closed QW-45 Guard)
+    /// 
+    /// @return Status::OK() bei erfolgreicher Einfügung, Status::Error() bei Validierungsfehlern
+    ///         (fehlende Felder, leere Node-IDs).
+    /// 
+    /// @note **QW-45 Fail-Closed Guard:** Empty or missing _from/_to node IDs are rejected
+    ///       before persistence to prevent graph topology corruption. The guards ensure that
+    ///       every edge has valid, non-empty source and target node references. Any validation
+    ///       failure returns Status::Error() immediately (fail-closed behavior).
     Status addEdge(const BaseEntity& edge);
     Status deleteEdge(std::string_view edgeId);
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
+    /// WriteBatch variant for atomic multi-edge operations.
+    /// Applies same QW-45 fail-closed guards as the main addEdge method.
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::WriteBatchWrapper& batch);
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::WriteBatchWrapper& batch);
 
     // MVCC Transaction Varianten
+    /// Transaction variant for MVCC isolation.
+    /// Applies same QW-45 fail-closed guards as the main addEdge method.
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn);
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn);
+
+    /// Create a write batch for atomic multi-edge mutations (e.g. scheduled refresh).
+    std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> createWriteBatch();
 
     // Nachbarschaftsabfragen (nutzt In-Memory falls verfügbar, sonst RocksDB)
     std::pair<Status, std::vector<std::string>> outNeighbors(std::string_view fromPk) const;
@@ -290,14 +309,16 @@ private:
     RocksDBWrapper& db_;
 
     // In-Memory Adjazenzlisten (thread-safe)
-    mutable std::mutex topology_mutex_;
+    mutable std::shared_mutex topology_mutex_;
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> outEdges_; // fromPk -> [(edgeId, toPk)]
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> inEdges_;  // toPk -> [(edgeId, fromPk)]
-    bool topologyLoaded_ = false;
+    std::atomic<bool> topologyLoaded_{false};
 
     // Hilfsfunktionen
     void addEdgeToTopology_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
     void removeEdgeFromTopology_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
+    void addEdgeToTopologyUnlocked_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
+    void removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& from, const std::string& to, const std::string& graphId = "");
     
     // Edge-Weight-Parsing (liest _weight aus Edge-Entity, default 1.0)
     double getEdgeWeight_(std::string_view graphId, std::string_view edgeId) const;

@@ -1,29 +1,29 @@
+/**
+ * @file cloud_agent.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=6, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cloud_agent.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     708                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cloud_agent.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 698
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=11, M=10, L=0
+ * PR History (last 5): #45 [WIP] Delegate tasks to clo... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/cloud_agent.h"
 #include "sharding/shard_topology.h"
 #include "sharding/remote_executor.h"
 #include "sharding/prometheus_metrics.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
 #include <random>
@@ -88,12 +88,13 @@ void CloudAgent::stop() {
     running_.store(false);
     cv_.notify_all();
     
-    if (worker_thread_.joinable()) {
-        worker_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(worker_thread_)) {
+        THEMIS_WARN("[CloudAgent] worker thread did not finish within shutdown deadline; detaching.");
     }
     
-    if (health_thread_.joinable()) {
-        health_thread_.join();
+    if (!themis::utils::joinThreadWithin(health_thread_)) {
+        THEMIS_WARN("[CloudAgent] health thread did not finish within shutdown deadline; detaching.");
     }
 }
 
@@ -666,8 +667,8 @@ void CloudAgent::updateStatistics(const CloudAgentResult& result) {
 }
 
 void CloudAgent::recordMetrics(
-    const CloudAgentOperation& operation,
-    const CloudAgentResult& result
+    [[maybe_unused]] const CloudAgentOperation& operation,
+    [[maybe_unused]] const CloudAgentResult& result
 ) {
     if (!metrics_ || !config_.enable_metrics) {
         return;

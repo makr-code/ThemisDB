@@ -1,23 +1,21 @@
+/**
+ * @file rotary_embeddings.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rotary_embeddings.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     249                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rotary_embeddings.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 271
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #909 Integrate Rotary Position E... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/rotary_embeddings.h"
@@ -26,6 +24,7 @@
 #include <algorithm>
 #include <numeric>
 #include <functional>
+#include <chrono>
 
 namespace themis {
 
@@ -73,6 +72,15 @@ std::vector<float> RotaryEmbedding::rotate(
     const std::vector<float>& embedding,
     size_t position
 ) const {
+    return rotateImpl(embedding, position, false);
+}
+
+std::vector<float> RotaryEmbedding::rotateImpl(
+    const std::vector<float>& embedding,
+    size_t position,
+    bool is_relational
+) const {
+    const auto started_at = std::chrono::steady_clock::now();
     if (embedding.size() != config_.hidden_dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
@@ -97,6 +105,17 @@ std::vector<float> RotaryEmbedding::rotate(
     // Optional L2 normalization
     if (config_.normalize_after) {
         normalizeL2(rotated);
+    }
+
+    const auto elapsed = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(
+        std::chrono::steady_clock::now() - started_at);
+    {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        ++total_rotated_entities_;
+        if (is_relational) {
+            ++total_relational_rotations_;
+        }
+        total_rotation_time_us_ += elapsed.count();
     }
     
     return rotated;
@@ -173,7 +192,18 @@ std::vector<float> RotaryEmbedding::rotateRelational(
     // This creates a unique rotation for each relation type
     size_t rotation_position = hashRelationType(relation_type);
     
-    return rotate(embedding, rotation_position);
+    return rotateImpl(embedding, rotation_position, true);
+}
+
+RotaryEmbedding::RotationStats RotaryEmbedding::getStats() const {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    RotationStats stats;
+    stats.total_rotated_entities = total_rotated_entities_;
+    stats.total_relational_rotations = total_relational_rotations_;
+    if (total_rotated_entities_ > 0) {
+        stats.avg_rotation_time_us = total_rotation_time_us_ / static_cast<double>(total_rotated_entities_);
+    }
+    return stats;
 }
 
 void RotaryEmbedding::rotateCoordinatePair(

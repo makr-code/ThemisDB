@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_incremental_view.cpp                          ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-03-09 04:01:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     768                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d894064f1  2026-02-26  fix(analytics,cdc): code audit fixes - empty-group cleanu... ║
-    • 92f1b4a1f  2026-02-24  audit(analytics): fix stub annotations, add MaterializedV... ║
-    • edb77c71d  2026-02-24  feat(analytics): implement incremental materialized views... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_incremental_view.cpp | Version: 0.0.32
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -45,7 +28,9 @@
 #include "analytics/incremental_view.h"
 #include "analytics/olap.h"
 
+#include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <thread>
 #include <chrono>
 
@@ -766,4 +751,95 @@ TEST(IncrementalViewUtilTest, ViewAggFuncToString) {
     EXPECT_STREQ(viewAggFuncToString(ViewAggFunc::COUNT_DISTINCT), "COUNT_DISTINCT");
     EXPECT_STREQ(viewAggFuncToString(ViewAggFunc::FIRST),          "FIRST");
     EXPECT_STREQ(viewAggFuncToString(ViewAggFunc::LAST),           "LAST");
+}
+
+// ============================================================================
+// Read-latency regression test (opt-in, set THEMIS_RUN_PERF_TESTS=1)
+// ============================================================================
+
+// AC-IVM-1: background writer calls applyChanges(10 000 rows) while a reader
+// thread calls query() in a tight loop; assert reader P99 ≤ 10 ms.
+TEST(IncrementalViewPerfTest, ReaderP99DuringBatchApply) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping read-latency regression test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable).";
+    }
+
+    ViewDefinition def;
+    def.name = "lat_test";
+    def.source_collection = "col";
+    def.dimensions = {"k"};
+    def.aggregations = {{"cnt", ViewAggFunc::COUNT, ""}};
+    IncrementalView view(def);
+
+    // Seed some initial rows so query() has real groups to iterate over.
+    {
+        std::vector<ChangeRecord> seed;
+        for (int i = 0; i < 500; ++i) {
+            ChangeRecord r;
+            r.type = ChangeType::INSERT;
+            r.collection = "col";
+            r.after_row["k"] = std::to_string(i % 20);
+            seed.push_back(r);
+        }
+        view.applyChanges(seed);
+    }
+
+    // Build the 10 000-row batch that the writer will apply.
+    std::vector<ChangeRecord> batch;
+    batch.reserve(10000);
+    for (int i = 0; i < 10000; ++i) {
+        ChangeRecord r;
+        r.type = ChangeType::INSERT;
+        r.collection = "col";
+        r.after_row["k"] = std::to_string(i % 20);
+        batch.push_back(r);
+    }
+
+    std::atomic<bool> writer_done{false};
+    // reader_ready is set to true once the reader has produced its first sample,
+    // so the writer only starts the large batch after the reader is running.
+    std::atomic<bool> reader_ready{false};
+    std::vector<int64_t> latencies_us;
+    latencies_us.reserve(50000);
+
+    // Reader: call query() in a tight loop until the writer finishes.
+    std::thread reader([&]() {
+        while (!writer_done.load(std::memory_order_acquire)) {
+            auto t0  = std::chrono::steady_clock::now();
+            auto res = view.query();
+            (void)res;
+            auto t1 = std::chrono::steady_clock::now();
+            latencies_us.push_back(
+                std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+            // Signal the writer after recording the first sample.
+            reader_ready.store(true, std::memory_order_release);
+        }
+    });
+
+    // Wait until the reader has entered its loop and produced at least one
+    // latency sample before starting the large write batch, so the writer
+    // cannot finish before the reader has had a chance to observe any contention.
+    while (!reader_ready.load(std::memory_order_acquire)) {
+        std::this_thread::yield();
+    }
+
+    // Writer: apply the large batch while the reader runs concurrently.
+    view.applyChanges(batch);
+    writer_done.store(true, std::memory_order_release);
+    reader.join();
+
+    ASSERT_FALSE(latencies_us.empty()) << "Reader thread produced no samples";
+
+    std::sort(latencies_us.begin(), latencies_us.end());
+    const size_t  p99_idx = std::min(
+        static_cast<size_t>(static_cast<double>(latencies_us.size()) * 0.99),
+        latencies_us.size() - 1);
+    const int64_t p99_us  = latencies_us[p99_idx];
+
+    // P99 must be ≤ 10 ms = 10 000 µs
+    EXPECT_LE(p99_us, 10000)
+        << "Reader P99 latency " << p99_us
+        << " µs exceeds the 10 ms IVM constraint";
 }

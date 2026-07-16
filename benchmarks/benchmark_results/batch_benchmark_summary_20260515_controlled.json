@@ -1,0 +1,62 @@
+[
+  {
+    "file": "bench_distributed_coordinator.json",
+    "parse": "ok",
+    "benchmarkCount": 14,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_distributed_knowledge.json",
+    "parse": "ok",
+    "benchmarkCount": 9,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_graph_traversal.json",
+    "parse": "ok",
+    "benchmarkCount": 52,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_llm_inference_performance.json",
+    "parse": "ok",
+    "benchmarkCount": 26,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_llm_response_cache.json",
+    "parse": "ok",
+    "benchmarkCount": 10,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_rag_hybrid_retriever.json",
+    "parse": "ok",
+    "benchmarkCount": 20,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_replication_throughput.json",
+    "parse": "ok",
+    "benchmarkCount": 7,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_sharding_performance.json",
+    "parse": "ok",
+    "benchmarkCount": 47,
+    "hasErrorOccurred": false
+  },
+  {
+    "file": "bench_timeseries_ingestion.json",
+    "parse": "invalid-json",
+    "benchmarkCount": 0,
+    "hasErrorOccurred": true
+  },
+  {
+    "file": "bench_vector_search.json",
+    "parse": "ok",
+    "benchmarkCount": 9,
+    "hasErrorOccurred": false
+  }
+]

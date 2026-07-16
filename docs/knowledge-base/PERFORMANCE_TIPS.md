@@ -2373,7 +2373,7 @@ watch -n 5 'curl -s http://localhost:8529/_admin/statistics | jq ".server.opsPer
 
 ---
 
-**Last Updated:** 2024-01-24  
+**Last Updated:** 2026-04-06  
 **Version:** 1.4.0  
 **Maintainer:** ThemisDB Team
 

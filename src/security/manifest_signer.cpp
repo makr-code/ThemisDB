@@ -1,23 +1,21 @@
+/**
+ * @file manifest_signer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            manifest_signer.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     394                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: manifest_signer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 385
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=3, L=0
+ * PR History (last 5): #3342 [plugins] Remote plugin loa... (2026-03-12) | #2533 [plugins] Add dedicated dep... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/manifest_signer.h"
@@ -29,46 +27,53 @@
 #include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+#include <memory>
 #include <spdlog/spdlog.h>
 
 namespace themis {
 namespace security {
 
 namespace {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free_all(p); }
+};
+
+using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
+
+} // anonymous namespace
+
+namespace {
     // Base64 encode helper
     std::string base64Encode(const std::vector<uint8_t>& data) {
-        BIO *bio, *b64;
+        BIO_ptr b64(BIO_new(BIO_f_base64()));
+        BIO_ptr bio(BIO_new(BIO_s_mem()));
+        BIO_push(b64.get(), bio.release());
+        
         BUF_MEM *buffer_ptr;
         
-        b64 = BIO_new(BIO_f_base64());
-        bio = BIO_new(BIO_s_mem());
-        bio = BIO_push(b64, bio);
-        
-        BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-        BIO_write(bio, data.data(), data.size());
-        BIO_flush(bio);
-        BIO_get_mem_ptr(bio, &buffer_ptr);
+        BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
+        BIO_write(b64.get(), data.data(), static_cast<int>(data.size()));
+        BIO_flush(b64.get());
+        BIO_get_mem_ptr(b64.get(), &buffer_ptr);
         
         std::string result(buffer_ptr->data, buffer_ptr->length);
-        BIO_free_all(bio);
         
         return result;
     }
     
     // Base64 decode helper
     std::vector<uint8_t> base64Decode(const std::string& encoded) {
-        BIO *bio, *b64;
-        
-        int decode_len = encoded.length();
+        int decode_len = static_cast<int>(encoded.length());
         std::vector<uint8_t> result(decode_len);
         
-        bio = BIO_new_mem_buf(encoded.data(), encoded.length());
-        b64 = BIO_new(BIO_f_base64());
-        bio = BIO_push(b64, bio);
+        BIO_ptr bio(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.length())));
+        BIO_ptr b64(BIO_new(BIO_f_base64()));
+        BIO_push(b64.get(), bio.release());
         
-        BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-        int length = BIO_read(bio, result.data(), decode_len);
-        BIO_free_all(bio);
+        BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
+        int length = BIO_read(b64.get(), result.data(), decode_len);
         
         result.resize(length);
         return result;
@@ -228,6 +233,7 @@ SignedManifest ManifestSigner::signManifest(const BinaryManifest& manifest) {
     std::vector<uint8_t> data(canonical_json.begin(), canonical_json.end());
     
     // Sign with RSA-4096
+    std::lock_guard<std::mutex> lock(mtx_);
     SigningResult result = signing_service_->sign(data, config_.key_id);
     
     if (!result.error.empty()) {
@@ -253,6 +259,7 @@ bool ManifestSigner::verifySignature(const SignedManifest& signed_manifest) {
     std::vector<uint8_t> signature = base64Decode(signed_manifest.signature_base64);
     
     // Verify signature
+    std::lock_guard<std::mutex> lock(mtx_);
     bool valid = signing_service_->verify(data, signature, signed_manifest.signer_id);
     
     if (valid) {
@@ -395,3 +402,4 @@ bool StartupVerifier::verify() {
 
 } // namespace security
 } // namespace themis
+

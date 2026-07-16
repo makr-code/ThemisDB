@@ -1,25 +1,21 @@
+/**
+ * @file aql_query_builder.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.39
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_query_builder.h                                ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-03-09 03:52:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2e58fd3cd  2026-02-23  feat(aql): schema-aware query generation using live colle... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_query_builder.h | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 405
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4222 feat(aql): AQLQueryBuilder ... (2026-03-15) | #3479 [Docs-Audit] src/aql: Fix s... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -121,6 +117,135 @@ public:
      */
     AQLQueryBuilder& collect(const std::string& variable, const std::string& expression);
 
+    // =========================================================================
+    // Graph traversal
+    // =========================================================================
+
+    /**
+     * @brief Add a graph traversal clause: FOR vertex_var, edge_var, path_var IN min..max direction start GRAPH graph
+     * @param vertex_var Vertex loop variable (e.g., "v")
+     * @param edge_var   Edge loop variable (e.g., "e")
+     * @param path_var   Path loop variable (e.g., "p")
+     * @param start      Start vertex id expression (e.g., "\"users/1\"")
+     * @param graph      Graph name (e.g., "myGraph")
+     * @param direction  Traversal direction: "OUTBOUND", "INBOUND", or "ANY" (default "OUTBOUND")
+     * @param min_depth  Minimum traversal depth (default 1)
+     * @param max_depth  Maximum traversal depth (default 1)
+     * @throws std::invalid_argument if any required string is empty or min_depth > max_depth
+     */
+    AQLQueryBuilder& forTraverse(
+        const std::string& vertex_var,
+        const std::string& edge_var,
+        const std::string& path_var,
+        const std::string& start,
+        const std::string& graph,
+        const std::string& direction = "OUTBOUND",
+        int min_depth = 1,
+        int max_depth = 1
+    );
+
+    // =========================================================================
+    // DML (data manipulation) clauses
+    // =========================================================================
+
+    /**
+     * @brief Add an INSERT clause: INSERT doc_expr INTO collection
+     * @param collection Target collection name
+     * @param doc_expr   Document expression to insert (e.g., "{name: \"Alice\"}")
+     */
+    AQLQueryBuilder& insertInto(const std::string& collection, const std::string& doc_expr);
+
+    /**
+     * @brief Add an UPDATE clause: UPDATE doc_expr IN collection
+     * @param collection Target collection name
+     * @param doc_expr   Document/key expression to update (e.g., "u WITH {active: false}")
+     */
+    AQLQueryBuilder& updateIn(const std::string& collection, const std::string& doc_expr);
+
+    /**
+     * @brief Add a REMOVE clause: REMOVE doc_expr IN collection
+     * @param collection Target collection name
+     * @param doc_expr   Document/key expression to remove (e.g., "u" or "u._key")
+     */
+    AQLQueryBuilder& removeIn(const std::string& collection, const std::string& doc_expr);
+
+    /**
+     * @brief Add an UPSERT clause: UPSERT filter_expr INSERT insert_expr UPDATE update_expr IN collection
+     * @param collection  Target collection name
+     * @param filter_expr Search/lookup expression (e.g., "{name: \"Alice\"}")
+     * @param insert_expr Document expression for insert branch
+     * @param update_expr Document expression for update branch
+     */
+    AQLQueryBuilder& upsertIn(
+        const std::string& collection,
+        const std::string& filter_expr,
+        const std::string& insert_expr,
+        const std::string& update_expr
+    );
+
+    /**
+     * @brief Add a REPLACE clause: REPLACE doc_expr IN collection
+     * @param collection Target collection name
+     * @param doc_expr   Document/key expression to replace (e.g., "u WITH {name: \"Bob\"}")
+     */
+    AQLQueryBuilder& replaceIn(const std::string& collection, const std::string& doc_expr);
+
+    // =========================================================================
+    // Ingestion enrichment flag (opt-in)
+    // =========================================================================
+
+    /**
+     * @brief Enable or disable automatic ingestion enrichment for DML clauses.
+     *
+     * When enrichment is enabled **and** an `AQLIngestionBridge` has been made
+     * available to the query executor, every `INSERT`/`UPSERT`/`REPLACE`
+     * document payload is passed through the `WorkflowEngine` before being
+     * written to the database.  Extracted entities are appended to the document
+     * under the key `"_entities"` and are simultaneously written to the graph
+     * store (if a sink was configured on the bridge).
+     *
+     * This flag is purely advisory — the executor is responsible for honouring
+     * it.  It does not affect query generation (i.e. `build()` output is
+     * unchanged), and it is off by default to preserve existing behaviour.
+     *
+     * @param enabled  `true` to activate enrichment (default), `false` to
+     *                 deactivate.
+     * @return Reference to `*this` for fluent chaining.
+     */
+    AQLQueryBuilder& withIngestionEnrichment(bool enabled = true);
+
+    /**
+     * @brief Return `true` when ingestion enrichment has been requested.
+     */
+    bool hasIngestionEnrichment() const;
+
+    // =========================================================================
+    // WINDOW analytics clause
+    // =========================================================================
+
+    /**
+     * @brief Add a WINDOW analytics clause for timeseries queries.
+     *
+     * Renders as: WINDOW partition_expr WITH window_spec
+     * If partition_expr is empty, renders as: WINDOW window_spec
+     *
+     * @param partition_expr Range expression (e.g., "t.time"); pass "" for row-based windows
+     * @param window_spec    Window specification object (e.g., "{ preceding: \"PT30M\" }")
+     */
+    AQLQueryBuilder& window(const std::string& partition_expr, const std::string& window_spec);
+
+    // =========================================================================
+    // Subquery support
+    // =========================================================================
+
+    /**
+     * @brief Add a subquery as a LET binding: LET variable = ( <inner query> )
+     * @param variable Variable name for the subquery result
+     * @param inner    Builder holding the inner query (rendered via getPartialQuery())
+     * @throws std::invalid_argument if variable is empty or inner has no clauses
+     */
+    AQLQueryBuilder& subquery(const std::string& variable, const AQLQueryBuilder& inner);
+
     /**
      * @brief Reset the builder to initial empty state
      */
@@ -164,6 +289,23 @@ public:
      * @return ValidationResult with errors, warnings, and hints
      */
     ValidationResult validate() const;
+
+    /**
+     * @brief Validate the current builder state against an explicit schema snapshot.
+     *
+     * Runs all structural checks (same as @c validate()), then additionally:
+     *  - Warns when a collection in a FOR clause is absent from @p schema.
+     *  - Warns when a field access (@c variable.field) refers to a field not
+     *    present in the schema for that collection.
+     *
+     * The @p schema passed here takes precedence over any schema previously
+     * attached via @c setSchema().  The internally attached schema is not
+     * consulted for schema-aware checks when an explicit @p schema is provided.
+     *
+     * @param schema  Collection metadata snapshot to validate against.
+     * @return ValidationResult with all structural and schema issues found.
+     */
+    ValidationResult validate(const std::vector<CollectionMetadata>& schema) const;
 
     // =========================================================================
     // Schema-aware query generation (live collection metadata)

@@ -1,23 +1,21 @@
+/**
+ * @file lora_router.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_router.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     451                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_router.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 470
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #691 LoRA-to-LLM Routing Automat... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +24,7 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/adapter_registry.h"
 #include "llm/lora_framework/embedding_provider.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -105,6 +104,7 @@ struct RoutingDecision {
  * @brief Routing metrics for monitoring
  */
 struct RoutingMetrics {
+    virtual ~RoutingMetrics() = default;
     size_t total_requests = 0;
     size_t successful_routes = 0;
     size_t fallback_routes = 0;
@@ -176,7 +176,6 @@ public:
      * @param adapter_registry Registry for adapter metadata
      * @param load_balancer Load balancer for GPU-aware placement
      * @param lora_manager Multi-LoRA manager for adapter operations
-     * @param config Router configuration
      */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
@@ -184,6 +183,15 @@ public:
         std::shared_ptr<AdapterLoadBalancer> load_balancer,
         std::shared_ptr<MultiLoRAManager> lora_manager
     );
+    /**
+     * @brief Construct LoRA router
+     * 
+     * @param embedding_provider Provider for query embeddings
+     * @param adapter_registry Registry for adapter metadata
+     * @param load_balancer Load balancer for GPU-aware placement
+     * @param lora_manager Multi-LoRA manager for adapter operations
+     * @param config Router configuration
+     */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
         std::shared_ptr<AdapterRegistry> adapter_registry,
@@ -326,6 +334,18 @@ public:
      * @brief Get cache statistics
      */
     json getCacheStats() const;
+
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every successful non-cached routing decision emits a
+     * `LORA_ADAPTER_SELECTION` decision record written asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_ADAPTER_SELECTION_<id>.yaml`.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<DecisionRecordYamlProcessor> processor);
     
 private:
     Config config_;
@@ -333,6 +353,9 @@ private:
     std::shared_ptr<AdapterRegistry> adapter_registry_;
     std::shared_ptr<AdapterLoadBalancer> load_balancer_;
     std::shared_ptr<MultiLoRAManager> lora_manager_;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<DecisionRecordYamlProcessor> dr_processor_;
     
     mutable std::mutex mutex_;
     
@@ -448,7 +471,11 @@ private:
      * @brief Evict expired cache entries
      */
     void evictExpiredCache();
+
+    /// Emit a LORA_ADAPTER_SELECTION DecisionRecord (non-blocking, caller holds mutex_).
+    void emitAdapterSelectionRecord(const RoutingDecision& decision) const;
 };
 
 } // namespace llm
 } // namespace themis
+

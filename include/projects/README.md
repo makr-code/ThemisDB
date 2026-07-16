@@ -1,306 +1,163 @@
-# Projects Module - Header Documentation
+> **Build:** `cmake --preset release && cmake --build build/release`
+
+# Projects Module - Public Header Documentation
 
 ## Module Purpose
 
-The Projects module provides **project and workspace management** capabilities for ThemisDB. It enables organizing database objects (tables, indexes, queries, models) into logical projects or workspaces, facilitating collaboration, versioning, and environment isolation.
+`include/projects/` exposes the public API for project lifecycle management,
+immutable snapshots, structural diff/merge, template-based project bootstrap,
+collaboration change feeds, metrics, and audit/bundle interfaces.
 
-## Scope
+## Public Header Surface (Entry Points)
 
-### In Scope
-- Project/workspace creation and management
-- Object organization within projects
-- Project-level permissions and access control
-- Project metadata and configuration
-- Project versioning and snapshots
-- Project import/export
-- Multi-project isolation
-- Project templates
+| Header | Main API surface | Notes |
+|---|---|---|
+| `collaboration_manager.h` | `CollaborationManager`, `Permission`, `Change` | Sharing, object locks, change feed, subscriber callbacks |
+| `project_lifecycle.h` | `ProjectLifecycle`, `ProjectState` | Guarded state transitions + append-only lifecycle trail |
+| `project_versioning.h` | `ProjectVersioning`, `SnapshotMeta` | Immutable snapshots with SHA-256 integrity checks |
+| `project_diff.h` | `ProjectDiff`, `ProjectMerge`, `DeltaSet` | Structured JSON diff and three-way merge conflict reporting |
+| `project_template.h` | `ProjectTemplate`, `TemplateOptions` | Built-in/custom template instantiation with validation + rollback |
+| `project_metrics.h` | `ProjectMetrics` | Thread-safe Prometheus counters for change + diff activity |
+| `project_audit_log.h` | `IProjectAuditLog`, `ProjectAuditEntry`, `AuditQueryOptions` | Append-only audit interface for project actions |
+| `in_memory_project_audit_log.h` | `InMemoryProjectAuditLog` | Bounded in-memory `IProjectAuditLog` implementation |
+| `project_bundle.h` | `IProjectBundleManager`, `BundleExportOptions` | Import/export interface contract |
 
-### Out of Scope
-- User authentication (handled by Auth module)
-- Fine-grained RBAC (handled by Security module)
-- Storage implementation (handled by Storage module)
-- Query execution (handled by Query module)
+Related dependency contract:
 
-## Header Files
+- [`DocumentManager/document_manager.h`](./DocumentManager/document_manager.h)
 
-This module currently contains 1 header file in the `include/projects/` directory:
+## Configuration Options
 
-```
-include/projects/
-└── [to be determined based on actual file]
-```
+### Template instantiation (`project_template.h`)
 
-**Note:** The actual header file name should be discovered by exploring the directory. Common patterns might include:
-- `project_manager.h` - Core project management interface
-- `workspace.h` - Workspace abstraction
-- `project_metadata.h` - Project metadata structures
+- `TemplateOptions::project_name` (required)
+- `TemplateOptions::description` (optional)
+- `TemplateOptions::include_sample_data` (default: `false`)
+- `TemplateOptions::extra_config` (default: empty JSON object)
 
-## Architecture
+### Bundle export/import (`project_bundle.h`)
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                   Projects Module                        │
-│                                                          │
-│  ┌─────────────────┐      ┌─────────────────┐          │
-│  │ Project Manager │      │ Project Metadata│          │
-│  │                 │─────▶│                 │          │
-│  │ - Create        │      │ - Name          │          │
-│  │ - Delete        │      │ - Description   │          │
-│  │ - List          │      │ - Owner         │          │
-│  │ - Switch        │      │ - Created       │          │
-│  └─────────────────┘      └─────────────────┘          │
-│          │                        │                      │
-│          │                        │                      │
-│          ▼                        ▼                      │
-│  ┌─────────────────┐      ┌─────────────────┐          │
-│  │   Object Map    │      │ Access Control  │          │
-│  │                 │      │                 │          │
-│  │ - Tables        │      │ - Permissions   │          │
-│  │ - Indexes       │      │ - Roles         │          │
-│  │ - Queries       │      │ - Users         │          │
-│  │ - Models        │      └─────────────────┘          │
-│  └─────────────────┘                                    │
-└─────────────────────────────────────────────────────────┘
-         │                    │
-         ▼                    ▼
-┌────────────────┐    ┌────────────────┐
-│ Storage Module │    │ Security Module│
-└────────────────┘    └────────────────┘
-```
+- `BundleExportOptions::include_data` / `include_schema` / `include_indexes`
+- `BundleExportOptions::include_permissions` (default: `false`)
+- `BundleExportOptions::compression_level` (default: `"fast"`)
+- `BundleExportOptions::encryption_key` (caller-managed)
 
-## Key Concepts
+### Audit queries (`project_audit_log.h`)
 
-### Project
-A **project** is a logical container for database objects, providing:
-- Namespace isolation
-- Version control integration
-- Shared configuration
-- Collaborative workspace
-- Environment separation (dev/test/prod)
+- `AuditQueryOptions::project_id` (required selector)
+- Optional filters: `action_filter`, `actor_id_filter`, time window
+- Pagination/sort: `limit`, `offset`, `sort_direction`
 
-### Workspace
-A **workspace** is an active development environment within a project:
-- Current working context
-- Temporary object staging
-- Local modifications
-- Draft queries and models
+## Runtime Behavior, Failure Modes, and Limits
 
-### Project Metadata
-Metadata associated with each project:
-- Project name and description
-- Owner and contributors
-- Creation and modification timestamps
-- Version history
-- Tags and labels
-- Configuration overrides
+### Lifecycle (`ProjectLifecycle`)
 
-## Usage Examples
+- Allowed transitions: `CREATED -> ACTIVE`, `ACTIVE -> ARCHIVED`, `ACTIVE -> DELETED`, `ARCHIVED -> ACTIVE`, `ARCHIVED -> DELETED`
+- `DELETED` is terminal
+- Typical failures:
+  - `project_id must not be empty`
+  - `Project lifecycle not found`
+  - `Invalid transition from <state> to <state>`
 
-### Example 1: Create and Switch Projects
+### Versioning (`ProjectVersioning`)
+
+- Snapshot IDs are prefixed as `snap:<uuid>`
+- `restoreSnapshot()` verifies SHA-256 before writing
+- Typical failures:
+  - `Snapshot not found`
+  - `Snapshot content missing`
+  - `Snapshot checksum mismatch — data may be corrupt`
+
+### Diff/Merge (`ProjectDiff`, `ProjectMerge`)
+
+- Diffs are structured field-level deltas (`ADDED`, `REMOVED`, `MODIFIED`)
+- Merge reports unresolved conflicts in `MergeResult::conflicts`
+- No automatic conflict policy is applied
+
+### Collaboration (`CollaborationManager`)
+
+- `shareProject()` rejects empty `project_id`/`user.id`
+- `lockObject()` rejects empty locker IDs and concurrent lock collisions
+- `unlockObject()` requires lock ownership
+- In-memory change feed is bounded to the latest **10,000** events per instance
+
+### Audit log implementation (`InMemoryProjectAuditLog`)
+
+- Thread-safe append-only sink
+- Default capacity: **100,000** entries (`kDefaultMaxEntries`)
+- On overflow, evicts the oldest 10%
+
+## Usage Snippets
+
+### 1) Create and restore a snapshot
 
 ```cpp
-#include <projects/project_manager.h>  // Hypothetical
+#include "projects/project_versioning.h"
 
-// Create a new project
-ProjectManager pm;
-auto result = pm.createProject("ml-pipeline", {
-    .description = "Machine learning data pipeline",
-    .owner = "data-science-team",
-    .tags = {"ml", "production"}
-});
+using namespace themis::projects;
 
-if (result.isSuccess()) {
-    // Switch to the new project
-    pm.switchProject("ml-pipeline");
-    
-    // All subsequent operations are scoped to this project
-    // CREATE TABLE, CREATE INDEX, etc.
+ProjectVersioning pv(storage);
+auto snap_or_err = pv.createSnapshot("project-1", "before-migration");
+if (std::holds_alternative<SnapshotId>(snap_or_err)) {
+    const auto sid = std::get<SnapshotId>(snap_or_err);
+    const auto restore = pv.restoreSnapshot(sid, "project-1");
 }
 ```
 
-### Example 2: List Objects in Project
+### 2) Instantiate a built-in template
 
 ```cpp
-// List all tables in the current project
-auto tables = pm.listTables();
-for (const auto& table : tables) {
-    std::cout << "Table: " << table.name 
-              << " (created: " << table.created << ")" << std::endl;
-}
+#include "projects/project_template.h"
 
-// List projects
-auto projects = pm.listProjects();
-for (const auto& proj : projects) {
-    std::cout << "Project: " << proj.name 
-              << " (" << proj.objectCount << " objects)" << std::endl;
-}
+TemplateOptions options;
+options.project_name = "analytics-demo";
+options.include_sample_data = true;
+
+ProjectTemplate pt(storage);
+auto created = pt.instantiate(BuiltinTemplate::ANALYTICS, options);
 ```
 
-### Example 3: Project Snapshots
+### 3) Subscribe to collaboration changes
 
 ```cpp
-// Create a snapshot of the current project state
-auto snapshot = pm.createSnapshot("v1.0.0", {
-    .description = "Production release",
-    .tags = {"release", "stable"}
+#include "projects/collaboration_manager.h"
+
+CollaborationManager cm(storage);
+cm.subscribe([](const Change& c) {
+    // react to project change
 });
-
-// Restore from a snapshot
-pm.restoreSnapshot("v1.0.0");
 ```
 
-### Example 4: Import/Export Projects
+## Installation
 
-```cpp
-// Export project to file
-pm.exportProject("ml-pipeline", "/backup/ml-pipeline.zip", {
-    .includeData = true,
-    .includeIndexes = true,
-    .includeConfig = true
-});
+This module is part of ThemisDB and is built with the default project build:
 
-// Import project from file
-pm.importProject("/backup/ml-pipeline.zip", "ml-pipeline-restored");
+```bash
+cmake --preset release
+cmake --build build/release
 ```
 
-## Integration with Other Modules
+## Troubleshooting
 
-### Storage Module
-- Projects map to storage namespaces or prefixes
-- Object metadata stored in system catalog
-- Project isolation at storage level
+| Symptom | Likely cause | Action |
+|---|---|---|
+| `permission_denied: user id must not be empty` | One or more `User` entries have empty `id` | Validate request payload before `shareProject()` |
+| `Invalid transition ...` | Illegal lifecycle edge (for example `CREATED -> ARCHIVED`) | Call `activate()` before `archive()` |
+| `Snapshot checksum mismatch` | Snapshot content changed/corrupt | Recreate snapshot and verify storage integrity |
+| Missing older collaboration events | In-memory feed exceeded 10,000 entries | Consume feed continuously or persist externally |
 
-### Security Module
-- Project-level access control
-- Role-based permissions
-- Audit logging for project operations
+## Related Documentation and Roadmaps
 
-### Query Module
-- Project context for query execution
-- Name resolution within project scope
-- Cross-project queries with explicit references
-
-### Observability Module
-- Project-level metrics and monitoring
-- Per-project query performance tracking
-- Resource usage attribution
-
-## Design Patterns
-
-### Repository Pattern
-Projects act as repositories for database objects:
-```cpp
-class ProjectRepository {
-    virtual Result<Table> getTable(const std::string& name) = 0;
-    virtual Result<void> saveTable(const Table& table) = 0;
-    virtual Result<std::vector<Table>> listTables() = 0;
-};
-```
-
-### Unit of Work Pattern
-Project transactions group multiple operations:
-```cpp
-ProjectTransaction tx = pm.beginTransaction();
-tx.createTable("users", schema);
-tx.createIndex("users_email_idx", indexDef);
-tx.commit();  // Atomic
-```
-
-### Strategy Pattern
-Different project storage strategies:
-- LocalFileSystemStrategy
-- RemoteGitStrategy
-- DatabaseBackedStrategy
-- HybridStrategy
-
-## Performance Considerations
-
-### Metadata Caching
-- Cache project metadata in memory
-- Invalidate on project modifications
-- LRU eviction for inactive projects
-
-### Lazy Loading
-- Load project objects on demand
-- Prefetch frequently accessed objects
-- Background refresh of metadata
-
-### Scalability
-- Support thousands of projects per instance
-- Efficient project switching (O(1))
-- Concurrent project operations
-
-## Thread Safety
-
-Project operations are **thread-safe** with the following guarantees:
-- **Read operations**: Concurrent reads allowed
-- **Write operations**: Serialized per project
-- **Project switching**: Thread-local context
-
-## Known Limitations
-
-1. **Project Name Length**: Limited to 255 characters
-2. **Object Count**: Soft limit of 100,000 objects per project
-3. **Snapshot Size**: Snapshots can be large for data-heavy projects
-4. **Cross-Project Queries**: Limited support, requires explicit syntax
-5. **Concurrent Modifications**: Last-write-wins for metadata conflicts
-
-## Status
-
-- **Version**: 1.5.x
-- **Stability**: Beta
-- **API Status**: Evolving (may change in future versions)
-
-**Production Readiness:**
-- ✅ Core project management: Stable
-- ✅ Project switching: Stable
-- ⚠️ Snapshots: Beta
-- ⚠️ Import/Export: Beta
-- 🚧 Cross-project queries: In development
-
-## Dependencies
-
-### Required
-- Storage module (metadata storage)
-- Security module (access control)
-
-### Optional
-- Query module (cross-project queries)
-- Observability module (project metrics)
-
-## Related Documentation
-
-- [Storage Module](../storage/README.md) - Object persistence
-- [Security Module](../security/README.md) - Access control
-- [Query Module](../query/README.md) - Query execution context
-- [Metadata Module](../metadata/README.md) - Schema information
-
-## Version History
-
-### v1.5.0 (Current)
-- Basic project creation and management
-- Project switching
-- Object listing
-
-### Planned v1.6.0
-- Project snapshots
-- Import/export functionality
-- Project templates
-
-### Planned v1.7.0
-- Cross-project queries
-- Project versioning with Git integration
-- Collaborative features
-
-## References
-
-- **Repository Pattern**: Fowler, M. "Patterns of Enterprise Application Architecture"
-- **Workspace Management**: Git workflow patterns
-- **Multi-tenancy**: "Multi-Tenant Data Architecture" (Microsoft Azure Docs)
+- Implementation overview: [`../../src/projects/README.md`](../../src/projects/README.md)
+- Architecture: [`../../src/projects/ARCHITECTURE.md`](../../src/projects/ARCHITECTURE.md)
+- Security: [`../../src/projects/SECURITY.md`](../../src/projects/SECURITY.md)
+- Performance targets: [`../../src/projects/PERFORMANCE_EXPECTATIONS.md`](../../src/projects/PERFORMANCE_EXPECTATIONS.md)
+- Module roadmap: [`../../src/projects/ROADMAP.md`](../../src/projects/ROADMAP.md)
+- Future enhancements: [`../../src/projects/FUTURE_ENHANCEMENTS.md`](../../src/projects/FUTURE_ENHANCEMENTS.md)
+- Primary source maps: [`../../docs/en/projects/PRIMARY_SOURCES.md`](../../docs/en/projects/PRIMARY_SOURCES.md), [`../../docs/de/projects/PRIMARY_SOURCES.md`](../../docs/de/projects/PRIMARY_SOURCES.md)
 
 ---
 
-**Last Updated**: 2024-02-10  
-**Status**: Draft - Awaiting actual header file discovery  
-**Maintainer**: ThemisDB Team
+**Last Updated:** 2026-05-13
+**Status:** Maintained
+**Maintainer:** ThemisDB Team

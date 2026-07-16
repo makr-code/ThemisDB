@@ -1,0 +1,122 @@
+{
+  "version": "1.0",
+  "prozess_id": "baugenehmigung-bauo-nrw",
+  "bezeichnung": "Baugenehmigungsverfahren § 63 BauO NRW",
+  "rechtsgrundlage": "§ 63 BauO NRW, VwVfG §§ 24-28",
+
+  "federführende_behoerde": "bauamt-koeln",
+
+  "fachbehoerden": [
+    {
+      "behoerde_id": "denkmalschutz-nrw",
+      "phase": "STELLUNGNAHME",
+      "frist_tage": 30,
+      "stellungnahme_typ": "FACHBEHÖRDLICH",
+      "pflicht": true
+    },
+    {
+      "behoerde_id": "umweltamt-koeln",
+      "phase": "STELLUNGNAHME",
+      "frist_tage": 30,
+      "stellungnahme_typ": "FACHBEHÖRDLICH",
+      "pflicht": true
+    },
+    {
+      "behoerde_id": "feuerwehr-koeln",
+      "phase": "STELLUNGNAHME",
+      "frist_tage": 21,
+      "stellungnahme_typ": "BRANDSCHUTZ",
+      "pflicht": true
+    }
+  ],
+
+  "phasen": [
+    {
+      "id": "ANTRAGSTELLUNG",
+      "reihenfolge": 1,
+      "bezeichnung": "Antragstellung",
+      "beschreibung": "Einreichung des Bauantrags mit Unterlagen",
+      "schritte": [
+        "OZG_DIENST_REGISTRIERUNG",
+        "EID_AUTHENTIFIZIERUNG",
+        "XOEV_IMPORT",
+        "XDOMEA_AKTE_ANLEGEN"
+      ]
+    },
+    {
+      "id": "FORMALPRUEFUNG",
+      "reihenfolge": 2,
+      "bezeichnung": "Formale Prüfung",
+      "beschreibung": "Bauamt prüft Vollständigkeit der Unterlagen",
+      "schritte": [
+        "LLM_VOLLSTAENDIGKEITSPRUEFUNG",
+        "VERFAHRENSART_FESTLEGEN"
+      ]
+    },
+    {
+      "id": "STELLUNGNAHMEN",
+      "reihenfolge": 3,
+      "bezeichnung": "Fachbehörden-Stellungnahmen",
+      "beschreibung": "Bauamt sendet Vorgänge an Fachbehörden (parallel)",
+      "schritte": [
+        "VORGAENGE_ERSTELLEN",
+        "VORGAENGE_VERSENDEN",
+        "STELLUNGNAHMEN_SAMMELN"
+      ],
+      "parallelisierung": true
+    },
+    {
+      "id": "FACHLICHE_PRUEFUNG",
+      "reihenfolge": 4,
+      "bezeichnung": "Fachliche Prüfung",
+      "beschreibung": "Fachbehörden analysieren und erstellen Stellungnahmen",
+      "schritte": [
+        "DOKUMENTE_ANALYSIEREN",
+        "STELLUNGNAHME_ERSTELLEN"
+      ]
+    },
+    {
+      "id": "ENTSCHEIDUNG",
+      "reihenfolge": 5,
+      "bezeichnung": "Entscheidung",
+      "beschreibung": "Bauamt aggregiert Stellungnahmen und entscheidet",
+      "schritte": [
+        "STELLUNGNAHMEN_AGGREGIEREN",
+        "LLM_ENTSCHEIDUNGSEMPFEHLUNG",
+        "BESCHEID_ERSTELLEN"
+      ]
+    },
+    {
+      "id": "BESCHEID",
+      "reihenfolge": 6,
+      "bezeichnung": "Bescheiderteilung",
+      "beschreibung": "Bauamt erzeugt und versendet Bescheid",
+      "schritte": [
+        "BESCHEID_XDOMEA_ERSTELLEN",
+        "BESCHEID_EXPORT",
+        "BESCHEID_ZUSTELLEN"
+      ]
+    }
+  ],
+
+  "xdomea_nachrichten_typen": {
+    "vorgang_anfrage": "ANFORDERUNG",
+    "bescheid": "ERFASSUNG",
+    "akte": "ERFASSUNG"
+  },
+
+  "llm_aufgaben": [
+    {
+      "id": "vollstaendigkeit",
+      "aufgabe_typ": "PROCESS_CONFORMANCE",
+      "domain": "Baugenehmigungsverfahren",
+      "min_score": 0.5
+    },
+    {
+      "id": "entscheidung",
+      "aufgabe_typ": "PROCESS_CONFORMANCE",
+      "domain": "Baugenehmigung-Entscheidung",
+      "min_score": 0.5
+    }
+  ]
+}

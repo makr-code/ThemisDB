@@ -1,38 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            citation_highlighter.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 36f9428a5  2026-02-24  fix(rag): code audit – thread-safety, unused includes, do... ║
-    • 0d07aab99  2026-02-24  fix(rag): fix line count metadata and remove unused inclu... ║
-    • 475d5e8ba  2026-02-24  feat(rag): implement citation highlighting (map answer se... ║
-    • 3bd69376c  2026-02-24  feat(rag): implement citation highlighting (map answer se... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file citation_highlighter.cpp
- * @brief Citation highlighting: map answer sentences to source chunks (Phase 3)
- *
- * Uses a calibrated Jaccard term-overlap scorer to match each answer sentence
- * against every source chunk and selects the best-matching chunk(s) as
- * citations.  No external model files are required; the heuristic path is
- * deterministic and runs in O(S × C × T) where S = number of sentences,
- * C = number of chunks, and T = average token count.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/citation_highlighter.h"

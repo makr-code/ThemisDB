@@ -1,27 +1,32 @@
+/**
+ * @file admin_api.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            admin_api.cpp                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     217                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: admin_api.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 370
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=4, L=0
+ * PR History (last 5): #1171 Implement adaptive capabili... (2026-03-11) | #25 Implement URN-based horizon... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/admin_api.h"
 #include "sharding/shard_repair_engine.h"
+#include "sharding/hardware_migration_manager.h"
+#include "sharding/pki_shard_certificate.h"
+#include <openssl/bio.h>
+#include <openssl/pem.h>
+#include <openssl/x509.h>
+#include <openssl/x509v3.h>
+#include <openssl/x509_vfy.h>
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -52,6 +57,14 @@ void AdminAPI::registerStatsHandler(RequestHandler handler) {
 
 void AdminAPI::registerRepairHandler(RequestHandler handler) {
     repair_handler_ = handler;
+}
+
+void AdminAPI::registerMigrateHardwareHandler(RequestHandler handler) {
+    migrate_hardware_handler_ = handler;
+}
+
+void AdminAPI::setMigrationManager(std::shared_ptr<HardwareMigrationManager> mgr) {
+    migration_manager_ = std::move(mgr);
 }
 
 void AdminAPI::setRepairEngine(std::shared_ptr<ShardRepairEngine> engine) {
@@ -127,16 +140,117 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
             status_body["job_id"] = job_id;
             return repair_handler_(status_body);
         }
+    } else if (path.find(Endpoints::MIGRATE_HARDWARE_PREFIX) == 0
+               && path.find(Endpoints::MIGRATE_HARDWARE_SUFFIX) != std::string::npos
+               && method == "POST") {
+        // Extract shard_id from path: /api/v1/shards/{id}/migrate-hardware
+        const std::string prefix = Endpoints::MIGRATE_HARDWARE_PREFIX;
+        const std::string suffix = Endpoints::MIGRATE_HARDWARE_SUFFIX;
+        std::string mid = path.substr(prefix.size());
+        auto pos = mid.rfind(suffix);
+        if (pos != std::string::npos) {
+            std::string shard_id = mid.substr(0, pos);
+            return handleMigrateHardware(shard_id, body);
+        }
     }
 
     return createErrorResponse(404, "Endpoint not found");
 }
 
 bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
-    // Placeholder - would validate operator certificate
-    // Check certificate has "admin" capability
-    // Verify signature if required
-    return !operator_cert.empty();
+    // Test/development mode: signature verification is disabled, but an
+    // explicit non-empty operator identity is still required.
+    if (!config_.require_signatures) {
+        return !operator_cert.empty();
+    }
+
+    if (operator_cert.empty()) {
+        return false;
+    }
+
+    // Parse the PEM certificate from the caller-supplied string.
+    BIO* bio = BIO_new_mem_buf(operator_cert.data(),
+                               static_cast<int>(operator_cert.size()));
+    if (!bio) return false;
+
+    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    if (!cert) {
+        return false;  // Not a valid PEM certificate.
+    }
+
+    // Verify certificate validity window (not-before / not-after vs. now).
+    const int nb_cmp = X509_cmp_current_time(X509_get0_notBefore(cert));
+    const int na_cmp = X509_cmp_current_time(X509_get0_notAfter(cert));
+    if (nb_cmp > 0 || na_cmp < 0) {
+        // Certificate is not yet valid or has expired.
+        X509_free(cert);
+        return false;
+    }
+
+    // If a CA certificate path is configured, verify the certificate chain.
+    if (!config_.ca_cert_path.empty()) {
+        X509_STORE* store = X509_STORE_new();
+        bool chain_ok = false;
+        if (store) {
+            if (X509_STORE_load_locations(store, config_.ca_cert_path.c_str(), nullptr) == 1) {
+                X509_STORE_CTX* ctx = X509_STORE_CTX_new();
+                if (ctx && X509_STORE_CTX_init(ctx, store, cert, nullptr) == 1) {
+                    chain_ok = (X509_verify_cert(ctx) == 1);
+                }
+                X509_STORE_CTX_free(ctx);
+            }
+            X509_STORE_free(store);
+        }
+        if (!chain_ok) {
+            X509_free(cert);
+            return false;
+        }
+    }
+
+    // Check for admin-capability indicator: look for "admin" or "themis-admin"
+    // in the Subject CN or SAN DNS names.
+    bool has_admin_cap = false;
+
+    // Check Subject CN.
+    X509_NAME* subject = X509_get_subject_name(cert);
+    if (subject) {
+        char cn_buf[256] = {};
+        X509_NAME_get_text_by_NID(subject, NID_commonName, cn_buf, sizeof(cn_buf));
+        std::string cn(cn_buf);
+        if (cn.find("admin") != std::string::npos) {
+            has_admin_cap = true;
+        }
+    }
+
+    // Check Subject Alternative Name DNS entries.
+    if (!has_admin_cap) {
+        GENERAL_NAMES* sans = static_cast<GENERAL_NAMES*>(
+            X509_get_ext_d2i(cert, NID_subject_alt_name, nullptr, nullptr));
+        if (sans) {
+            for (int i = 0; i < sk_GENERAL_NAME_num(sans); ++i) {
+                GENERAL_NAME* gn = sk_GENERAL_NAME_value(sans, i);
+                if (gn->type == GEN_DNS) {
+                    ASN1_STRING* dns = gn->d.dNSName;
+                    std::string dns_str(
+                        reinterpret_cast<const char*>(ASN1_STRING_get0_data(dns)),
+                        ASN1_STRING_length(dns));
+                    if (dns_str.find("admin") != std::string::npos) {
+                        has_admin_cap = true;
+                        break;
+                    }
+                }
+            }
+            GENERAL_NAMES_free(sans);
+        }
+    }
+
+    X509_free(cert);
+
+    // When no CA is configured, any structurally valid, non-expired certificate
+    // with an admin indicator in CN/SAN is accepted (development / test mode).
+    // In production, `ca_cert_path` should always be set.
+    return has_admin_cap;
 }
 
 void AdminAPI::auditLog(const std::string& method, const std::string& path, const std::string& operator_cert) {
@@ -216,5 +330,52 @@ nlohmann::json AdminAPI::buildRepairHealthJson() const {
     return repair;
 }
 
+nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
+                                                  const nlohmann::json& body) {
+    // Custom handler takes precedence over the built-in path.
+    if (migrate_hardware_handler_) {
+        nlohmann::json req = body;
+        req["shard_id"] = shard_id;
+        return migrate_hardware_handler_(req);
+    }
+
+    if (!migration_manager_) {
+        return createErrorResponse(501, "Hardware migration manager not configured");
+    }
+
+    if (shard_id.empty()) {
+        return createErrorResponse(400, "shard_id must not be empty");
+    }
+
+    std::string new_endpoint;
+    if (body.contains("new_endpoint") && body["new_endpoint"].is_string()) {
+        new_endpoint = body["new_endpoint"].get<std::string>();
+    }
+    if (new_endpoint.empty()) {
+        return createErrorResponse(400, "new_endpoint is required");
+    }
+
+    auto result = migration_manager_->replaceEndpoint(shard_id, new_endpoint);
+
+    if (!result.success) {
+        return {
+            {"success", false},
+            {"shard_id", result.shard_id},
+            {"old_endpoint", result.old_endpoint},
+            {"new_endpoint", result.new_endpoint},
+            {"message", result.message}
+        };
+    }
+
+    return {
+        {"success", true},
+        {"shard_id", result.shard_id},
+        {"old_endpoint", result.old_endpoint},
+        {"new_endpoint", result.new_endpoint},
+        {"message", result.message}
+    };
+}
+
 } // namespace sharding
 } // namespace themis
+

@@ -1,23 +1,21 @@
+/**
+ * @file vault_signing_provider.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=0, H=0, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vault_signing_provider.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     191                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vault_signing_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 182
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=0, H=0, M=7, L=0
+ * PR History (last 5): #401 Replace Security Stubs with... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/vault_signing_provider.h"
@@ -31,7 +29,7 @@ using json = nlohmann::json;
 
 namespace themis {
 
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+static size_t vaultWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
 }
@@ -42,7 +40,7 @@ static const std::string b64_chars =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-static std::string base64_encode(const std::vector<uint8_t>& data) {
+static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
     std::string ret;
     int val = 0, valb = -6;
     for (uint8_t c : data) {
@@ -58,7 +56,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
     return ret;
 }
 
-static std::vector<uint8_t> base64_decode(const std::string& encoded) {
+static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) T[(unsigned char)b64_chars[i]] = i;
 
@@ -76,10 +74,10 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
     return out;
 }
 
-VaultSigningProvider::VaultSigningProvider(const Config& cfg) {
+VaultSigningProvider::VaultSigningProvider([[maybe_unused]] const Config& cfg) {
     // store config by copying into a simple global curl state via local static
     // For this prototype we store nothing special; HTTP calls will construct CURL per-call
-    (void)cfg; // no-op stored in this minimal prototype
+    // no-op stored in this minimal prototype
 }
 
 VaultSigningProvider::~VaultSigningProvider() = default;
@@ -113,7 +111,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     // Prepare JSON payload: { "input": base64(data) }
     json payload;
-    payload["input"] = base64_encode(data);
+    payload["input"] = vaultBase64Encode(data);
 
     // Setup CURL
     CURL* curl = curl_easy_init();
@@ -123,7 +121,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.dump().c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, vaultWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 5000L);
 
@@ -163,7 +161,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
             size_t pos = sig_b64.find(':', 6); // after 'vault:'
             if (pos != std::string::npos && pos + 1 < sig_b64.size()) {
                 std::string inner = sig_b64.substr(pos + 1);
-                std::vector<uint8_t> sig = base64_decode(inner);
+                std::vector<uint8_t> sig = vaultBase64Decode(inner);
                 SigningResult res;
                 res.signature = std::move(sig);
                 res.algorithm = "VAULT+TRANSIT";
@@ -174,7 +172,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
         // Otherwise assume sig_b64 itself is base64
         if (!sig_b64.empty()) {
             SigningResult res;
-            res.signature = base64_decode(sig_b64);
+            res.signature = vaultBase64Decode(sig_b64);
             res.algorithm = "VAULT+TRANSIT";
             return res;
         }
@@ -192,3 +190,4 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 }
 
 } // namespace themis
+

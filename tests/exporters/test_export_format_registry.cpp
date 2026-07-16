@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_export_format_registry.cpp                    ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-10                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_export_format_registry.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -26,6 +15,10 @@
 #include "exporters/streaming_exporter.h"
 #include "exporters/incremental_exporter.h"
 #include "exporters/huggingface_exporter.h"
+#include "exporters/format_template.h"
+
+#include <filesystem>
+#include <fstream>
 
 using namespace themis::exporters;
 
@@ -48,7 +41,9 @@ TEST_F(ExportFormatRegistryTest, RegisterBuiltinsPopulatesExpectedFormats) {
     EXPECT_FALSE(keys.empty());
     for (const auto& expected : {"jsonl", "llm_jsonl", "parquet", "arrow",
                                   "arrow_stream", "huggingface", "hf_datasets",
-                                  "streaming", "incremental"}) {
+                                  "streaming", "incremental",
+                                  "jsonl_alpaca", "jsonl_sharegpt",
+                                  "jsonl_chatml", "jsonl_openai_ft"}) {
         EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat(expected))
             << "Missing format: " << expected;
     }
@@ -161,3 +156,206 @@ TEST_F(ExportFormatRegistryTest, ClearRemovesAllFormats) {
     EXPECT_TRUE(ExportFormatRegistry::instance().registeredFormats().empty());
     EXPECT_FALSE(ExportFormatRegistry::instance().hasFormat("jsonl"));
 }
+
+// ── built-in template format shortcuts ───────────────────────────────────────
+
+TEST_F(ExportFormatRegistryTest, BuiltinTemplateAlpacaCreatesCorrectExporter) {
+    ExportFormatRegistry::instance().registerBuiltins();
+    auto exp = ExportFormatRegistry::instance().createExporter("jsonl_alpaca");
+    ASSERT_NE(exp, nullptr);
+    EXPECT_EQ(exp->getName(), "jsonl_llm_exporter");
+    auto* jexp = dynamic_cast<JSONLLLMExporter*>(exp.get());
+    ASSERT_NE(jexp, nullptr);
+    EXPECT_EQ(jexp->getConfig().format_template_type, FormatTemplateType::ALPACA);
+}
+
+TEST_F(ExportFormatRegistryTest, BuiltinTemplateShareGPTCreatesCorrectExporter) {
+    ExportFormatRegistry::instance().registerBuiltins();
+    auto exp = ExportFormatRegistry::instance().createExporter("jsonl_sharegpt");
+    ASSERT_NE(exp, nullptr);
+    auto* jexp = dynamic_cast<JSONLLLMExporter*>(exp.get());
+    ASSERT_NE(jexp, nullptr);
+    EXPECT_EQ(jexp->getConfig().format_template_type, FormatTemplateType::SHAREGPT);
+}
+
+TEST_F(ExportFormatRegistryTest, BuiltinTemplateChatMLCreatesCorrectExporter) {
+    ExportFormatRegistry::instance().registerBuiltins();
+    auto exp = ExportFormatRegistry::instance().createExporter("jsonl_chatml");
+    ASSERT_NE(exp, nullptr);
+    auto* jexp = dynamic_cast<JSONLLLMExporter*>(exp.get());
+    ASSERT_NE(jexp, nullptr);
+    EXPECT_EQ(jexp->getConfig().format_template_type, FormatTemplateType::CHATML);
+}
+
+TEST_F(ExportFormatRegistryTest, BuiltinTemplateOpenAIFTCreatesCorrectExporter) {
+    ExportFormatRegistry::instance().registerBuiltins();
+    auto exp = ExportFormatRegistry::instance().createExporter("jsonl_openai_ft");
+    ASSERT_NE(exp, nullptr);
+    auto* jexp = dynamic_cast<JSONLLLMExporter*>(exp.get());
+    ASSERT_NE(jexp, nullptr);
+    EXPECT_EQ(jexp->getConfig().format_template_type, FormatTemplateType::OPENAI_FINETUNING);
+}
+
+// ── loadTemplatesFromJson ─────────────────────────────────────────────────────
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonRegistersNewFormat) {
+    const std::string json = R"({
+        "templates": [
+            {
+                "format_key":    "jsonl_custom_alpaca",
+                "template_type": "alpaca"
+            }
+        ]
+    })";
+    ExportFormatRegistry::instance().loadTemplatesFromJson(json);
+    EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat("jsonl_custom_alpaca"));
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonCreatesExporterWithCorrectType) {
+    const std::string json = R"({
+        "templates": [
+            {
+                "format_key":    "jsonl_my_chatml",
+                "template_type": "chatml"
+            }
+        ]
+    })";
+    ExportFormatRegistry::instance().loadTemplatesFromJson(json);
+    auto exp = ExportFormatRegistry::instance().createExporter("jsonl_my_chatml");
+    ASSERT_NE(exp, nullptr);
+    auto* jexp = dynamic_cast<JSONLLLMExporter*>(exp.get());
+    ASSERT_NE(jexp, nullptr);
+    EXPECT_EQ(jexp->getConfig().format_template_type, FormatTemplateType::CHATML);
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonAppliesFieldMapping) {
+    const std::string json = R"({
+        "templates": [
+            {
+                "format_key":    "jsonl_custom_alpaca_mapped",
+                "template_type": "alpaca",
+                "field_mapping": {
+                    "instruction_field": "prompt",
+                    "output_field":      "response"
+                }
+            }
+        ]
+    })";
+    ExportFormatRegistry::instance().loadTemplatesFromJson(json);
+    auto exp = ExportFormatRegistry::instance().createExporter("jsonl_custom_alpaca_mapped");
+    ASSERT_NE(exp, nullptr);
+    auto* jexp = dynamic_cast<JSONLLLMExporter*>(exp.get());
+    ASSERT_NE(jexp, nullptr);
+    EXPECT_EQ(jexp->getConfig().template_field_mapping.instruction_field, "prompt");
+    EXPECT_EQ(jexp->getConfig().template_field_mapping.output_field, "response");
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonMultipleEntries) {
+    const std::string json = R"({
+        "templates": [
+            {"format_key": "my_alpaca",   "template_type": "alpaca"},
+            {"format_key": "my_sharegpt", "template_type": "sharegpt"},
+            {"format_key": "my_openai",   "template_type": "openai_finetuning"}
+        ]
+    })";
+    ExportFormatRegistry::instance().loadTemplatesFromJson(json);
+    EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat("my_alpaca"));
+    EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat("my_sharegpt"));
+    EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat("my_openai"));
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnMissingTemplatesArray) {
+    const std::string json = R"({"not_templates": []})";
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson(json),
+        std::invalid_argument
+    );
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnMissingFormatKey) {
+    const std::string json = R"({
+        "templates": [
+            {"template_type": "alpaca"}
+        ]
+    })";
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson(json),
+        std::invalid_argument
+    );
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnMissingTemplateType) {
+    const std::string json = R"({
+        "templates": [
+            {"format_key": "some_key"}
+        ]
+    })";
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson(json),
+        std::invalid_argument
+    );
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnUnknownTemplateType) {
+    const std::string json = R"({
+        "templates": [
+            {"format_key": "bad", "template_type": "nonexistent_type"}
+        ]
+    })";
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson(json),
+        std::invalid_argument
+    );
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnInvalidJson) {
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson("not_valid_json{{{"),
+        nlohmann::json::parse_error
+    );
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonIsAtomicOnPartialFailure) {
+    // First entry is valid; second entry has an unknown template_type.
+    // Neither entry should be registered after the failure (all-or-nothing).
+    const std::string json = R"({
+        "templates": [
+            {"format_key": "good_entry",  "template_type": "alpaca"},
+            {"format_key": "bad_entry",   "template_type": "nonexistent_type"}
+        ]
+    })";
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson(json),
+        std::invalid_argument
+    );
+    // The valid first entry must NOT have been registered.
+    EXPECT_FALSE(ExportFormatRegistry::instance().hasFormat("good_entry"));
+}
+
+// ── loadTemplatesFromConfig ───────────────────────────────────────────────────
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromConfigRegistersFormats) {
+    // Write a temporary JSON config file
+    const auto tmp = std::filesystem::temp_directory_path() / "themis_test_registry_config.json";
+    {
+        std::ofstream f(tmp);
+        f << R"({
+            "templates": [
+                {"format_key": "file_alpaca",   "template_type": "alpaca"},
+                {"format_key": "file_chatml",    "template_type": "chatml"}
+            ]
+        })";
+    }
+    ExportFormatRegistry::instance().loadTemplatesFromConfig(tmp.string());
+    EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat("file_alpaca"));
+    EXPECT_TRUE(ExportFormatRegistry::instance().hasFormat("file_chatml"));
+    std::filesystem::remove(tmp);
+}
+
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromConfigThrowsOnMissingFile) {
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromConfig("/nonexistent/path/config.json"),
+        std::runtime_error
+    );
+}
+

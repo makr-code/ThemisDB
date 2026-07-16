@@ -1,39 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_interfaces.h                                 ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-10                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
 /**
  * @file cache_interfaces.h
- * @brief Pluggable cache abstraction interfaces for the ThemisDB cache module.
- *
- * This header provides the following pure-virtual interfaces:
- *
- *   - IEvictionPolicy   — pluggable eviction strategy (LRU, LFU, ARC, …)
- *   - ICacheAdminOps    — privileged runtime inspection and management
- *   - ICacheWarmup      — batch pre-population from a WarmupSource
- *   - IGDPRPurgeHook    — synchronous, audited PII erasure (GDPR Art. 17)
- *   - ITTLAdapter       — workload-driven adaptive TTL computation
- *
- * Design constraints (from include/cache/FUTURE_ENHANCEMENTS.md):
- *   - All types are forward-declarable; no implementation headers are
- *     pulled in transitively.
- *   - ICacheAdminOps is only obtainable via an authenticated admin
- *     accessor; it is NOT exposed through IEvictionPolicy or ITTLAdapter.
- *   - IGDPRPurgeHook::purge() is synchronous; the audit-log entry is
- *     written before the method returns.
- *   - ITTLAdapter::computeTTL() must never exceed TTLAdapterConfig::maxTTL.
- *   - IEvictionPolicy callbacks receive only keys, never stored values.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -100,14 +73,14 @@ struct IEvictionPolicy {
      * The returned key must be present in the current live key set.
      * Behaviour when called on an empty key set is undefined.
      */
-    virtual std::string evict() = 0;
+    [[nodiscard]] virtual std::string evict() = 0;
 
     /**
      * @brief Human-readable policy name for observability and admin display.
      *
      * Examples: "LRU", "LFU", "ARC".
      */
-    virtual std::string_view name() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view name() const noexcept = 0;
 };
 
 // ============================================================================
@@ -162,7 +135,7 @@ struct ICacheAdminOps {
      *
      * Must complete in ≤ 100 µs regardless of cache size.
      */
-    virtual CacheStats stats() const = 0;
+    [[nodiscard]] virtual CacheStats stats() const = 0;
 
     /**
      * @brief Resize the cache to @p new_capacity maximum entries.
@@ -177,7 +150,7 @@ struct ICacheAdminOps {
      *
      * Returns an empty vector when no keys match or the cache is empty.
      */
-    virtual std::vector<std::string> listKeys(const KeyFilter& filter) const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listKeys(const KeyFilter& filter) const = 0;
 };
 
 // ============================================================================
@@ -231,7 +204,7 @@ struct IWarmupSource {
      * Implementations should return a non-empty batch on every call until
      * the source is exhausted.
      */
-    virtual std::vector<CacheEntry<std::string, std::string>> nextBatch() = 0;
+    [[nodiscard]] virtual std::vector<CacheEntry<std::string, std::string>> nextBatch() = 0;
 };
 
 /**
@@ -254,7 +227,7 @@ struct ICacheWarmup {
      *                an empty vector.
      * @return WarmupResult describing inserted/skipped counts and duration.
      */
-    virtual WarmupResult warm(IWarmupSource& source) = 0;
+    [[nodiscard]] virtual WarmupResult warm(IWarmupSource& source) = 0;
 };
 
 // ============================================================================
@@ -316,7 +289,7 @@ struct IGDPRPurgeHook {
      * @throws std::runtime_error when the audit-log write fails or when
      *         descriptor.subject_id is empty.
      */
-    virtual PurgeResult purge(const PurgeDescriptor& descriptor) = 0;
+    [[nodiscard]] virtual PurgeResult purge(const PurgeDescriptor& descriptor) = 0;
 };
 
 // ============================================================================
@@ -363,7 +336,7 @@ struct ITTLAdapter {
      * @param pattern  Access-pattern statistics for this key.
      * @return Adapted TTL clamped to [config.minTTL, config.maxTTL].
      */
-    virtual std::chrono::milliseconds computeTTL(const std::string& key,
+    [[nodiscard]] virtual std::chrono::milliseconds computeTTL(const std::string& key,
                                                  const AccessPattern& pattern) const = 0;
 
     /**
@@ -373,6 +346,89 @@ struct ITTLAdapter {
      * restarting the cache.
      */
     virtual void configure(const TTLAdapterConfig& config) = 0;
+};
+
+// ============================================================================
+// ICacheBackend<K, V> — common read/write/management interface
+// ============================================================================
+
+/**
+ * @brief Generic typed cache backend interface.
+ *
+ * Provides a minimal, uniform API for all cache implementations in the
+ * ThemisDB cache module (AdaptiveQueryCache, BoundedLRUCache, EmbeddingCache,
+ * SemanticCache, …).  New cache implementations MUST inherit from this
+ * interface to ensure interoperability with cache-agnostic consumers such as
+ * query optimisers, RAG pipelines, and the admin API.
+ *
+ * @tparam K  Key type.  Must be equality-comparable and hashable.
+ * @tparam V  Value type.  Must be move-constructible.
+ *
+ * ### Contract
+ *   - `get()` returns `std::nullopt` on a cache miss; it must never block
+ *     indefinitely.
+ *   - `put()` may silently evict existing entries when capacity is exhausted.
+ *   - `remove()` is idempotent; returning false when the key is absent is
+ *     acceptable.
+ *   - `clear()` must complete in bounded time regardless of cache size.
+ *   - All methods must be thread-safe.
+ *
+ * ### Relation to other interfaces
+ *   - IEvictionPolicy handles the *which-to-evict* decision; ICacheBackend
+ *     handles the *get/put/remove* operations.
+ *   - ICacheAdminOps provides privileged management; obtain it through a
+ *     separate authenticated accessor, not via ICacheBackend.
+ *   - ITTLAdapter computes TTL values; ICacheBackend stores and honours them.
+ */
+template<typename K, typename V>
+struct ICacheBackend {
+    virtual ~ICacheBackend() = default;
+
+    /**
+     * @brief Look up @p key in the cache.
+     *
+     * @return The cached value, or `std::nullopt` on a miss.
+     */
+    virtual std::optional<V> get(const K& key) = 0;
+
+    /**
+     * @brief Insert or update @p key → @p value with optional TTL.
+     *
+     * @param key         Cache key (must not be empty for string keys).
+     * @param value       Value to store.
+     * @param ttl_seconds Time-to-live in seconds; 0 = use cache default.
+     */
+    virtual void put(const K& key, V value, uint32_t ttl_seconds = 0) = 0;
+
+    /**
+     * @brief Explicitly remove @p key from the cache.
+     *
+     * @return true  if the key existed and was removed.
+     * @return false if the key was not present (idempotent).
+     */
+    virtual bool remove(const K& key) = 0;
+
+    /**
+     * @brief Return true if @p key is currently held in the cache.
+     *
+     * Must complete in O(1) amortised time.
+     */
+    virtual bool contains(const K& key) const = 0;
+
+    /**
+     * @brief Remove all entries from the cache.
+     *
+     * After this call, `size() == 0`.
+     */
+    virtual void clear() = 0;
+
+    /**
+     * @brief Return the number of entries currently held.
+     *
+     * The returned value is a snapshot; concurrent modifications may change
+     * it immediately after the call returns.
+     */
+    virtual std::size_t size() const = 0;
 };
 
 } // namespace cache

@@ -1,52 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_api_handler.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
-    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • e6c4d3fc4  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
-    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file voice_api_handler.h
- * @brief Voice Assistant API Handler
- * 
- * Implements RESTful endpoints for voice assistant operations:
- * - Speech-to-text transcription
- * - Text-to-speech synthesis
- * - Voice command processing
- * - Phone call recording and transcription
- * - Meeting protocol generation
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
+#include "server/auth_middleware.h"
 #include <boost/beast.hpp>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "auth/jwt_validator.h"
 
 // Forward declarations
 namespace themis {
@@ -56,6 +28,7 @@ class VoiceAssistant;
 namespace utils {
 class HTTPClientPool;
 }
+class AuthMiddleware;
 }
 
 namespace themis::server {
@@ -105,22 +78,51 @@ class VoiceApiHandler {
 public:
     /**
      * @brief Construct Voice API handler
-     * 
-     * @param voice_assistant Voice assistant instance
+     *
+     * @param voice_assistant Voice assistant instance; **must not be null**.
+     *        Passing nullptr throws `std::invalid_argument`.
+     * @param auth Optional shared authentication middleware used for
+     *             bearer token validation (static tokens and JWT when configured).
+     *
+     * @throws std::invalid_argument if @p voice_assistant is null.
      */
-    explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
+    explicit VoiceApiHandler(
+        std::shared_ptr<voice::VoiceAssistant> voice_assistant,
+        std::shared_ptr<themis::AuthMiddleware> auth = nullptr);
     
     /**
      * @brief Handle Voice API request
-     * 
+     *
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
-     * 
+     *
      * @param req HTTP request
      * @return HTTP response (JSON or audio data)
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
+
+    /**
+     * @brief Function type for bearer-token validation (stub #302).
+     *
+     * When injected via setTokenValidatorFn(), validateBearerToken() delegates
+     * to this function, enabling JWT signature, expiry, audience, and issuer
+     * verification without changing callers.
+     *
+     * @param token The bearer token string (after the "Bearer " prefix).
+     * @return true if the token is valid and the caller is authorized.
+     */
+    using TokenValidatorFn = std::function<bool(std::string_view)>;
+
+    /**
+     * @brief Inject a real JWT/OIDC token validator.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in non-empty-check
+     * fallback (retained for dev/CI builds only).
+     *
+     * @param fn Token validation callback.
+     */
+    static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
     // Core endpoints
@@ -225,6 +227,25 @@ private:
         const http::request<http::string_body>& req);
     
     // Helper methods
+    /**
+     * @brief Validate bearer token from Authorization header.
+     * 
+     * Implements JWT/OIDC validation (issue #302) with the following sequence:
+     * 1. Extract ****** from Authorization header
+     * 2. Try injected token validator (JWTValidator-based, production use)
+     * 3. Fall back to AuthMiddleware for static tokens and configured JWT
+     * 4. Return false (reject) on any validation failure (fail-closed)
+     *
+     * JWT validation includes:
+     * - Signature verification using JWKS
+     * - Token expiry check (exp claim)
+     * - Issuer validation (iss claim)
+     * - Audience validation (aud claim must include "themis-voice-api")
+     * - Token revocation check (JTI blacklist if configured)
+     *
+     * @param req HTTP request containing Authorization header
+     * @return true if token is valid and authorized, false otherwise
+     */
     bool validateBearerToken(const http::request<http::string_body>& req);
     
     http::response<http::string_body> createErrorResponse(
@@ -266,6 +287,7 @@ private:
 
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 };
 
 } // namespace themis::server

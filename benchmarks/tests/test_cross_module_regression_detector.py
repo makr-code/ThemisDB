@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_regression_detector.py           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:07                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:43:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,10 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     489                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2ea392249  2026-03-01  feat(performance): cross-module performance regression de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,7 +31,9 @@ Covers:
 - CLI exit codes via main()
 - Edge cases: single module, all passing, mixed results
 """
-
+# ThemisDB - Hybrid Database System
+# File: test_cross_module_regression_detector.py  Version: 0.0.15
+# Status: ✅ Production Ready
 from __future__ import annotations
 
 import json

@@ -1,26 +1,21 @@
+/**
+ * @file distributed_vector_index.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=7, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_vector_index.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     369                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1ec732da1  2026-02-26  fix(index): Code audit fixes for DistributedVectorIndex –... ║
-    • 6af3fad50  2026-02-26  feat(index): Distributed vector index across shards (Issu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_vector_index.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 356
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=13, M=8, L=0
+ * PR History (last 5): #3136 [index] Wire distributed ve... (2026-03-12) | #3034 feat(index): Distributed ve... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Distributed Vector Index across Shards (Issue #1879)
@@ -29,6 +24,7 @@
 
 #include "index/distributed_vector_index.h"
 #include "index/ann_index.h" // ScaNN
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <limits>
@@ -74,6 +70,7 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
     : config_(cfg)
     , next_id_(cfg.num_shards, 0)
     , local_to_global_id_(cfg.num_shards)
+    , local_to_global_version_(cfg.num_shards)
     , alive_ids_(cfg.num_shards)
 {
     if (cfg.num_shards == 0) {
@@ -92,6 +89,7 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
     , shards_(std::move(shards))
     , next_id_(cfg.num_shards, 0)
     , local_to_global_id_(cfg.num_shards)
+    , local_to_global_version_(cfg.num_shards)
     , alive_ids_(cfg.num_shards)
 {
     if (config_.num_shards == 0) {
@@ -108,7 +106,12 @@ DistributedVectorIndex::DistributedVectorIndex(DistributedVectorIndex&& other) n
     : config_(std::move(other.config_))
     , shards_(std::move(other.shards_))
     , pk_to_shard_(std::move(other.pk_to_shard_))
+    , pk_to_global_id_(std::move(other.pk_to_global_id_))
+    , global_versions_(std::move(other.global_versions_))
+    , local_to_global_id_(std::move(other.local_to_global_id_))
+    , local_to_global_version_(std::move(other.local_to_global_version_))
     , next_id_(std::move(other.next_id_))
+    , next_global_id_(other.next_global_id_)
     , alive_ids_(std::move(other.alive_ids_))
     , ring_(std::move(other.ring_))
 {}
@@ -118,7 +121,12 @@ DistributedVectorIndex& DistributedVectorIndex::operator=(DistributedVectorIndex
         config_      = std::move(other.config_);
         shards_      = std::move(other.shards_);
         pk_to_shard_ = std::move(other.pk_to_shard_);
+        pk_to_global_id_ = std::move(other.pk_to_global_id_);
+        global_versions_ = std::move(other.global_versions_);
+        local_to_global_id_ = std::move(other.local_to_global_id_);
+        local_to_global_version_ = std::move(other.local_to_global_version_);
         next_id_     = std::move(other.next_id_);
+        next_global_id_ = other.next_global_id_;
         alive_ids_   = std::move(other.alive_ids_);
         ring_        = std::move(other.ring_);
     }
@@ -209,11 +217,25 @@ bool DistributedVectorIndex::insert(const std::string& pk,
     // Retire the old entry (if any) from its alive set.
     auto existing = pk_to_shard_.find(pk);
     auto global_existing = pk_to_global_id_.find(pk);
-    if (existing != pk_to_shard_.end()) {
-        const size_t old_shard = existing->second.first;
-        const int64_t old_id   = existing->second.second;
+    const bool had_existing = existing != pk_to_shard_.end();
+    const bool had_global_existing = global_existing != pk_to_global_id_.end();
+    size_t old_shard = 0;
+    int64_t old_id = 0;
+    int64_t old_global_id = 0;
+    uint64_t old_version = 0;
+    if (had_existing) {
+        old_shard = existing->second.first;
+        old_id = existing->second.second;
+        if (had_global_existing) {
+            old_global_id = global_existing->second;
+        }
+        auto old_version_it = local_to_global_version_[old_shard].find(old_id);
+        if (old_version_it != local_to_global_version_[old_shard].end()) {
+            old_version = old_version_it->second;
+        }
         alive_ids_[old_shard].erase(old_id);
         local_to_global_id_[old_shard].erase(old_id);
+        local_to_global_version_[old_shard].erase(old_id);
         // The old vector data remains in ScaNN but will be filtered out in
         // search() because old_id is no longer in alive_ids_[old_shard].
     }
@@ -229,21 +251,39 @@ bool DistributedVectorIndex::insert(const std::string& pk,
     } else {
         global_id = next_global_id_++;
     }
+    auto global_version_it = global_versions_.find(global_id);
+    const bool had_global_version = global_version_it != global_versions_.end();
+    const uint64_t previous_global_version = had_global_version ? global_version_it->second : 0;
 
     // Always allocate a new ID so ScaNN never gets two live entries for
     // the same logical key (re-adding the same old_id would merely append
     // a duplicate without replacing).
     const int64_t new_id = next_id_[target_shard]++;
+    const uint64_t new_version = previous_global_version + 1;
     bool ok = shards_[target_shard]->add(new_id, vec, dim);
     if (ok) {
         pk_to_shard_[pk] = {target_shard, new_id};
         pk_to_global_id_[pk] = global_id;
+        global_versions_[global_id] = new_version;
         alive_ids_[target_shard].insert(new_id);
         local_to_global_id_[target_shard][new_id] = global_id;
-    } else if (existing != pk_to_shard_.end()) {
-        // Rollback: remove the stale routing entry so the key is not
-        // half-visible after a failed add.
-        pk_to_shard_.erase(existing);
+        local_to_global_version_[target_shard][new_id] = new_version;
+    } else if (had_existing) {
+        // Rollback: restore prior routing and alive-id state.
+        pk_to_shard_[pk] = {old_shard, old_id};
+        alive_ids_[old_shard].insert(old_id);
+        local_to_global_id_[old_shard][old_id] = had_global_existing ? old_global_id : old_id;
+        local_to_global_version_[old_shard][old_id] = old_version;
+        if (had_global_existing) {
+            pk_to_global_id_[pk] = old_global_id;
+        }
+        if (had_global_existing) {
+            global_versions_[old_global_id] = old_version;
+        } else if (had_global_version) {
+            global_versions_[global_id] = previous_global_version;
+        } else {
+            global_versions_.erase(global_id);
+        }
     }
     return ok;
 }
@@ -265,6 +305,7 @@ bool DistributedVectorIndex::remove(const std::string& pk) {
     // Remove from alive set so search() filters it out.
     alive_ids_[shard_idx].erase(id);
     local_to_global_id_[shard_idx].erase(id);
+    local_to_global_version_[shard_idx].erase(id);
     pk_to_global_id_.erase(pk);
     // Erase from routing table.
     pk_to_shard_.erase(it);
@@ -277,31 +318,59 @@ bool DistributedVectorIndex::remove(const std::string& pk) {
 
 std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
                                                              size_t dim, int k) const {
-    if (!query || dim == 0 || k <= 0) return {};
+    if (!query || dim == 0 || k <= 0) {
+        THEMIS_WARN("DistributedVectorIndex::search: invalid arguments (dim={} k={})", dim, k);
+        return {};
+    }
 
     // Scatter: query every shard for up to k candidates, then filter to alive IDs.
-    std::vector<AnnSearchResult> merged;
+    struct SearchCandidate {
+        float distance = std::numeric_limits<float>::max();
+        uint64_t version = 0;
+    };
+    std::unordered_map<int64_t, SearchCandidate> best_by_global_id;
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        best_by_global_id.reserve(static_cast<size_t>(k) * shards_.size());
         for (size_t s = 0; s < shards_.size(); ++s) {
             auto partial = shards_[s]->search(query, dim, k);
             for (auto& r : partial) {
                 // Only include results whose ID is still alive in this shard.
                 if (alive_ids_[s].count(r.id)) {
+                    int64_t global_id = r.id;
                     auto it = local_to_global_id_[s].find(r.id);
                     if (it != local_to_global_id_[s].end()) {
-                        r.id = it->second;
+                        global_id = it->second;
                     }
-                    merged.push_back(r);
+                    uint64_t version = 0;
+                    auto version_it = local_to_global_version_[s].find(r.id);
+                    if (version_it != local_to_global_version_[s].end()) {
+                        version = version_it->second;
+                    }
+                    auto best = best_by_global_id.find(global_id);
+                    if (best == best_by_global_id.end() ||
+                        version > best->second.version ||
+                        (version == best->second.version && r.distance < best->second.distance)) {
+                        best_by_global_id[global_id] = {r.distance, version};
+                    }
                 }
             }
         }
     }
 
+    std::vector<AnnSearchResult> merged;
+    merged.reserve(best_by_global_id.size());
+    for (const auto& [id, candidate] : best_by_global_id) {
+        merged.push_back({id, candidate.distance});
+    }
+
     // Merge: sort by distance (ascending) and keep top-k.
     std::sort(merged.begin(), merged.end(),
               [](const AnnSearchResult& a, const AnnSearchResult& b) {
-                  return a.distance < b.distance;
+                  if (a.distance != b.distance) {
+                      return a.distance < b.distance;
+                  }
+                  return a.id < b.id;
               });
 
     if (static_cast<int>(merged.size()) > k) {
@@ -369,3 +438,4 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
 
 } // namespace index
 } // namespace themis
+

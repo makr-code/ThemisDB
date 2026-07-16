@@ -1,24 +1,21 @@
+/**
+ * @file gguf_loader.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gguf_loader.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gguf_loader.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 182
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #577 Add GGUF Format Support for... (2026-03-11) | #780 Implement direct GGUF quant... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -80,11 +77,12 @@ enum class GGUFValueType : uint32_t {
 
 // GGUF tensor metadata
 struct TensorMetadata {
+    virtual ~TensorMetadata() = default;
     std::string name;
     std::vector<int64_t> shape;
     GGMLType type;      // GGML quantization type
-    size_t offset;      // Offset in GGUF file
-    size_t size;        // Size in bytes
+    size_t offset = 0;      // Offset in GGUF file
+    size_t size = 0;        // Size in bytes
     
     // Helper to get type as string
     std::string type_string() const;
@@ -92,12 +90,13 @@ struct TensorMetadata {
 
 // GGUF file metadata
 struct GGUFMetadata {
-    uint32_t version;
+    virtual ~GGUFMetadata() = default;
+    uint32_t version = 0;
     std::string architecture;  // "llama", "mistral", etc.
     std::unordered_map<std::string, std::string> config;
     std::vector<TensorMetadata> tensors;
-    size_t total_size;
-    size_t data_offset;  // Offset where tensor data starts
+    size_t total_size = 0;
+    size_t data_offset = 0;  // Offset where tensor data starts
 };
 
 // GGUF Loader - parses GGUF files and loads into ThemisDB
@@ -162,9 +161,9 @@ private:
     GGUFMetadata metadata_;
     std::string filepath_;
     std::string last_error_;  // Set on parseFile() failure
-    int fd_;  // File descriptor for mmap
+    int fd_ = 0;  // File descriptor for mmap
     void* mmap_base_;
-    size_t mmap_size_;
+    size_t mmap_size_ = 0;
     std::vector<uint8_t> file_buffer_; // Windows fallback buffer
     RocksDBWrapper* db_ = nullptr;  // Not owned
     

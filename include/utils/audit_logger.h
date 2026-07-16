@@ -1,24 +1,20 @@
+/**
+ * @file audit_logger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            audit_logger.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     407                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f7107b065  2026-03-01  Protect audit log against loss: fsync, rotation, secondar... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: audit_logger.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -93,6 +89,7 @@ enum class SecurityEventType {
     DATA_WRITE,
     DATA_DELETE,
     BULK_EXPORT,
+    EXPORT_DENIED,          ///< Export request rejected by PolicyEngine (EXP-001)
     BULK_IMPORT,            ///< Large-scale data import started (e.g. pg_dump)
     BULK_IMPORT_COMPLETED,  ///< Large-scale data import finished; includes stats payload
     
@@ -153,6 +150,24 @@ enum class SecurityEventType {
     TASK_RESOURCE_LIMIT_EXCEEDED,
     TASK_ANOMALY_DETECTED,
     
+    // Sharding Events
+    SHARD_SPLIT,            ///< A hot shard was split into two shards (load-based splitting)
+    SHARD_MERGE,            ///< Two shards were merged into one (load-based merging)
+    SHARD_LIVE_MIGRATION_STARTED,  ///< Dual-write live migration initiated
+    SHARD_LIVE_MIGRATION_COMPLETED, ///< Dual-write live migration completed with atomic cutover
+    SHARD_LIVE_MIGRATION_FAILED,   ///< Dual-write live migration failed
+
+    // AI Safety Layer Events (ASL-12)
+    // Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
+    AI_TOOL_CALL,              ///< AI agent invoked an MCP tool
+    AI_APPROVAL_REQUIRED,      ///< HILG gate held op for operator approval
+    AI_OPERATION_EXECUTED,     ///< Operator approved; operation executed
+    AI_SNAPSHOT_CREATED,       ///< Pre-operation snapshot created (ASL-8)
+    AI_OPERATION_DENIED,       ///< Operator denied a pending operation
+    AI_OPERATION_EXPIRED,      ///< Pending approval TTL expired without action
+    AI_ROLLBACK_EXECUTED,      ///< Operator triggered DB rollback to snapshot (ASL-10)
+    AI_CLEANUP_EXECUTED,       ///< Snapshot cleanup job ran (ASL-11)
+
     // Generic
     CUSTOM_EVENT
 };
@@ -418,6 +433,7 @@ struct HashChainAuditWriterConfig {
     std::string log_path        = "data/logs/audit_chain.jsonl";
     std::string chain_head_path = "data/logs/audit_chain_head.bin";
     bool        fsync_on_write  = true;   ///< fdatasync the head file after each write
+    uint64_t    checkpoint_interval = 1;  ///< persist chain head every N writes (1 = every write)
 };
 
 /**
@@ -472,6 +488,8 @@ public:
 private:
     HashChainAuditWriterConfig cfg_;
     mutable std::mutex         mu_;
+    std::ofstream              log_stream_;
+    std::fstream               chain_head_stream_;
     std::string                last_hash_;
     uint64_t                   seq_{0};
 

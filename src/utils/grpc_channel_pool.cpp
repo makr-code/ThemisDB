@@ -1,23 +1,21 @@
+/**
+ * @file grpc_channel_pool.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=13, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_channel_pool.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     389                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_channel_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 389
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=0, L=0
+ * PR History (last 5): #1118 Optimize connection efficie... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/grpc_channel_pool.h"
@@ -284,7 +282,11 @@ void GrpcChannelPool::warmup(
             
             total_channels_.fetch_add(1);
             channels_created_.fetch_add(1);
-        } catch (const std::exception&) {
+        } catch (const std::exception &) {
+            // Continue best-effort warmup on individual channel creation failures.
+        } catch (const std::string &) {
+            // Continue best-effort warmup on individual channel creation failures.
+        } catch (const char *) {
             // Continue best-effort warmup on individual channel creation failures.
         }
     }
@@ -371,19 +373,25 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
 
         if (!ch) return false;
 
-        // Trigger a connection attempt and wait up to `timeout`
+        // Trigger a connection attempt and wait up to `timeout`.
+        // IDLE is not considered healthy here because it does not prove that a
+        // transport connection can actually be established to the target.
         auto state = ch->GetState(/*try_to_connect=*/true);
-        if (state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE) {
+        if (state == GRPC_CHANNEL_READY) {
             return true;
         }
 
         auto deadline = std::chrono::system_clock::now() + timeout;
         if (ch->WaitForStateChange(state, deadline)) {
             state = ch->GetState(false);
-            return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
+            return state == GRPC_CHANNEL_READY;
         }
         return false;
-    } catch (const std::exception&) {
+    } catch (const std::exception &) {
+        return false;
+    } catch (const std::string &) {
+        return false;
+    } catch (const char *) {
         return false;
     }
 }

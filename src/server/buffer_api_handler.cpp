@@ -1,23 +1,21 @@
+/**
+ * @file buffer_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            buffer_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     450                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: buffer_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 443
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=3, L=0
+ * PR History (last 5): #769 Refactor RPC Service Archit... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/buffer_api_handler.h"
@@ -127,6 +125,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Time series buffer not available", req);
     }
+    auto& ts_buffer = *ts_buffer_;
     
     try {
         auto body = json::parse(req.body());
@@ -146,7 +145,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         point.value = body["value"].get<double>();
         
         // Add to buffer
-        auto status = ts_buffer_->add(point);
+        auto status = ts_buffer.add(point);
 
         if (!status.has_value()) {
             return makeErrorResponse(
@@ -156,7 +155,7 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
         }
         
         // Return success with stats
-        auto stats = ts_buffer_->getStats();
+        auto stats = ts_buffer.getStats();
         json response = {
             {"status", "buffered"},
             {"metric", point.metric},
@@ -189,6 +188,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Vector buffer not available", req);
     }
+    auto& vector_buffer = *vector_buffer_;
     
     try {
         auto body = json::parse(req.body());
@@ -209,7 +209,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         }
         
         // Add to buffer
-        auto status = vector_buffer_->add(entity);
+        auto status = vector_buffer.add(entity);
 
         if (!status.ok) {
             return makeErrorResponse(http::status::internal_server_error,
@@ -217,7 +217,7 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
         }
         
         // Return success with stats
-        auto stats = vector_buffer_->getStats();
+        auto stats = vector_buffer.getStats();
         json response = {
             {"status", "buffered"},
             {"pk", entity.getPrimaryKey()},
@@ -249,6 +249,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Graph buffer not available", req);
     }
+    auto& graph_buffer = *graph_buffer_;
     
     try {
         auto body = json::parse(req.body());
@@ -274,9 +275,9 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         PropertyGraphManager::Status status;
         
         if (type == "node") {
-            status = graph_buffer_->addNode(entity, graph_id);
+            status = graph_buffer.addNode(entity, graph_id);
         } else if (type == "edge") {
-            status = graph_buffer_->addEdge(entity, graph_id);
+            status = graph_buffer.addEdge(entity, graph_id);
         } else {
             return makeErrorResponse(http::status::bad_request,
                                     "Invalid type: must be 'node' or 'edge'", req);
@@ -288,7 +289,7 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
         }
         
         // Return success with stats
-        auto stats = graph_buffer_->getStats();
+        auto stats = graph_buffer.getStats();
         json response = {
             {"status", "buffered"},
             {"graph_id", graph_id},

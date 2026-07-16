@@ -1,25 +1,20 @@
+/**
+ * @file kernel_validator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kernel_validator.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     192                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 81c477dd5  2026-02-25  chore(gpu): code audit — fix stale metadata and update do... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kernel_validator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,16 +90,14 @@ public:
      *
      * @param kernel_id  Unique identifier (e.g. "vector_dot_fp32").
      * @param expected_checksum  FNV-1a 64-bit hash of the canonical blob.
-     *                           Pass 0 to compute it from @p canonical_blob.
-     * @param canonical_blob     Canonical byte sequence for checksum computation
-     *                           (may be empty if expected_checksum is provided
-     *                           directly).
      */
     void registerKernel(const std::string& kernel_id,
                         uint64_t expected_checksum);
 
     /**
      * @brief Register a kernel by computing its checksum from the blob.
+     * @param kernel_id  Unique identifier (e.g. "vector_dot_fp32").
+     * @param canonical_blob Canonical byte sequence for checksum computation.
      */
     void registerKernel(const std::string& kernel_id,
                         const std::vector<uint8_t>& canonical_blob);

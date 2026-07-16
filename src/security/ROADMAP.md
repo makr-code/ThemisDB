@@ -1,135 +1,61 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # Security Module Roadmap
 
 ## Current Status
-v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinct security layers (transport, authentication, authorization, data protection, audit/compliance, and threat detection) are production-ready.
+Production-grade security stack with transport/auth/access-control, encryption/key-management, auditing, and threat-detection components in active use.
 
-## Completed ✅
-- [x] Transport security: TLS 1.3 and mutual TLS (mTLS)
-- [x] Authentication: USB admin key, PKI certificates, multi-factor auth
-- [x] RBAC with role hierarchy and permission inheritance
-- [x] Field-level AES-256-GCM encryption (document, array, and VRAM fields)
-- [x] Key management hierarchy (Master Key → KEK → DEK) with HSM support
-- [x] Key rotation (active, deprecated, rotating DEK states)
-- [x] HashiCorp Vault integration for key storage
-- [x] CMS/PKCS#7 signing and eIDAS-compliant timestamping
-- [x] Malware scanner for plugin manifests
-- [x] AQL injection detection
-- [x] SecurityManager orchestrator
-- [x] Audit log with tamper-evident chaining
-- [x] Compliance features (eIDAS, GDPR-related controls)
-- [x] Attribute-Based Access Control (ABAC) alongside RBAC
-- [x] Zero-trust network policy enforcement (per-request identity verification)
-- [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
-- [x] Row-level security policies in AQL execution (`RLSManager`, `RLSPolicy`, `RLSPredicate`, `AccessControlManager` integration)
-- [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
-- [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
-- [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
-- [x] Post-quantum cryptography migration path (CRYSTALS-Kyber / Dilithium) (`include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`)
-- [x] Systematic attack vector test suite (`tests/security/attack-vectors/crypto/`, `injection/`, `authentication/`)
-- [x] USB admin authenticator HMAC-SHA256 challenge-response with replay protection; Windows MachineGuid fix
-- [x] SOC 2 Type II security compliance evidence collection (`include/security/security_evidence_collector.h`)
+## In Progress
+- [~] Security hardening wave for cryptographic assurance, policy enforcement consistency, and operational resilience (Target: Q3 2026)
+  - [ ] Complete remaining verification for high-assurance crypto/runtime configurations (Target: Q3 2026)
+  - [ ] Tighten failure-path behavior and observability for access-control and key-management surfaces (Target: Q3 2026)
 
-## In Progress 🚧
-- [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
-  - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
+## Planned Features
 
-## Planned Features 📋
+### Short-term (3-6 months)
+- [ ] Harden policy evaluation consistency across RBAC/ABAC/RLS enforcement paths (Target: Q4 2026)
+- [ ] Expand key-rotation and key-provider failover validation under degraded external dependencies (Target: Q4 2026)
+- [ ] Strengthen audit-evidence integrity and export reliability under high event volume (Target: Q4 2026)
 
-### Short-term (Next 3-6 months)
-
-### Long-term (6-12 months)
-- [x] SOC 2 Type II compliance evidence collection (Issue: #2293) — **Shipped** in `src/security/security_evidence_collector.cpp`; 28 tests in `tests/security/test_security_evidence_collector.cpp`
+### Mid-term (6-12 months)
+- [ ] Advance crypto-provider hardening and migration readiness across classical and PQ modes (Target: Q1 2027)
+- [ ] Expand detection and response coverage for auth abuse and injection-style attack patterns (Target: Q1 2027)
+- [ ] Improve zero-trust policy diagnostics and deny-by-default explainability for operators (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Transport, Authentication & Data Protection (Status: Completed ✅)
-- [x] Transport security: TLS 1.3 and mutual TLS (mTLS)
-- [x] Authentication: USB admin key, PKI certificates, multi-factor auth
-- [x] RBAC with role hierarchy and permission inheritance
-- [x] Field-level AES-256-GCM encryption (document, array, and VRAM fields)
-- [x] Key management hierarchy (Master Key → KEK → DEK) with HSM support
-- [x] Key rotation (active, deprecated, rotating DEK states)
-- [x] HashiCorp Vault integration for key storage
-- [x] CMS/PKCS#7 signing and eIDAS-compliant timestamping
-- [x] Malware scanner for plugin manifests
-- [x] AQL injection detection
-- [x] `SecurityManager` orchestrator
-- [x] Audit log with tamper-evident chaining
-- [x] Compliance features (eIDAS, GDPR-related controls)
+### Phase 1: Access and Identity Hardening
+- [ ] Re-validate authentication/session/control paths for fail-closed behavior under edge cases (Target: Q3 2026)
+- [ ] Strengthen token/session invalidation and revocation guarantees (Target: Q3 2026)
 
-### Phase 2: ABAC & HSM Direct Integration (Status: Completed ✅)
-- [x] Attribute-Based Access Control (ABAC) alongside RBAC
-- [x] Hardware Security Module (HSM) direct PKCS#11 integration
-- [x] PKCS#11 C++ wrapper interface (`include/security/pkcs11_wrapper.h`, Issue: #3252)
-  - RAII `Pkcs11Library` (load/unload dynamic library)
-  - RAII `Pkcs11Session` (open/close/login/logout)
-  - `Pkcs11Category` + `makePkcs11Error()` for `std::error_code` integration
-  - Free helpers: `listSlots`, `findObjects`, `findObjectsByLabel`, `signData`,
-    `verifyData`, `encryptData`, `decryptData`, `generateRsaKeyPair`,
-    `getAttribute`, `getAttributeBytes`
-  - Tests: `tests/test_pkcs11_wrapper.cpp` (pure-unit + optional SoftHSM2 integration)
-- [~] FIPS 140-2 / 140-3 validated cryptography mode (see Phase 4: Zero-Trust & Post-Quantum Cryptography)
+### Phase 2: Cryptography and Key Management Hardening
+- [ ] Expand key lifecycle validation (create/rotate/revoke/recover) across providers (Target: Q4 2026)
+- [ ] Tighten crypto error-path handling and secure-default enforcement (Target: Q4 2026)
 
-### Phase 3: Federated Auth & Anomaly Detection (Status: Completed ✅)
-- [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
-- [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
-- [x] Anomaly detection on authentication patterns (brute-force, credential stuffing) (`AuthRateLimiter`)
-- [x] Row-level security policies in AQL execution (`RLSManager`, `AccessControlManager` integration)
+### Phase 3: Policy and Data-Protection Hardening
+- [ ] Expand RLS/masking/policy-enforcement regression coverage under mixed query workloads (Target: Q4 2026)
+- [ ] Validate deny-by-default and policy-merge semantics under conflicting rule sets (Target: Q4 2026)
 
-### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
-- [x] Zero-trust network policy enforcement (per-request identity verification)
-- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
-- [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
-- [x] Secret scanning pre-commit hook for CI pipelines (`scripts/secret_scan.py`, `.pre-commit-config.yaml`, `.github/workflows/secret-scanning-ci.yml`)
-- [x] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) — `include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`
-  - KyberKEM: key generation, encapsulate/decapsulate round-trip, all three security levels (512/768/1024)
-  - DilithiumSigner: sign/verify round-trip, all three security levels (2/3/5)
-  - PostQuantumKeyProvider: Kyber-wrapped DEK wrapKeyWithKyber / unwrapKeyWithKyber
-  - HybridEncryption: HYBRID / CLASSICAL_ONLY / POST_QUANTUM_ONLY modes; AES-256-GCM + Kyber-1024
-  - Tests (production-ready): `tests/test_post_quantum_crypto.cpp` — 40 test cases; throughput ≥ 2 000 ops/s
-- [x] Systematic attack vector test suite (`tests/security/attack-vectors/`)
-  - `crypto/test_crypto_attack_vectors.cpp` — IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
-  - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params
-  - `authentication/test_authentication_attack_vectors.cpp` — RBAC: privilege escalation, permission boundary, lateral movement, deleted/unknown roles, role injection, multi-role combinations
-- [x] USB admin authenticator: HMAC-SHA256 challenge-response with replay protection (`src/security/usb_admin_authenticator.cpp`)
-  - `createChallenge()` now uses OpenSSL CSPRNG and registers challenges with timestamps
-  - `validateChallengeResponse()` verifies HMAC-SHA256(license_key, challenge), enforces TTL and one-time-use
-  - Windows `MachineGuid` read from registry (`HKLM\SOFTWARE\Microsoft\Cryptography\MachineGuid`)
-  - Tests: 18 tests in `tests/test_usb_admin_authenticator.cpp` (valid HMAC, wrong response, replay, unknown, expired, empty, multi-challenge)
-- [x] SOC 2 Type II compliance evidence collection (`include/security/security_evidence_collector.h`, `src/security/security_evidence_collector.cpp`)
-  - Audit log export via `AuditLogger::generateComplianceReport()` + `searchEntries()`
-  - Key-rotation records from `KeyProvider::listKeys()` with version-based rotation detection
-  - Access-control report from `RBAC::listRoles()` / `getRole()` — empty roles, admin wildcard detection
-  - Security metrics snapshot: active keys, deprecated keys, role count, audit log entry count
-  - Append-only JSON export with atomic file write; 12-month retention enforcement; retention verification
-  - Tests: 28 test cases in `tests/security/test_security_evidence_collector.cpp`
+### Phase 4: Threat Detection and Audit Hardening
+- [ ] Re-baseline detection latency and false-positive controls for security signal paths (Target: Q1 2027)
+- [ ] Ensure tamper-evidence and audit export behavior remains bounded and reliable at scale (Target: Q1 2027)
+
+### Phase 5: Documentation and Release Readiness
+- [ ] Keep security docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80%:
-  - KyberKEM/DilithiumSigner/HybridEncryption: 40 tests (`tests/test_post_quantum_crypto.cpp`)
-  - SecurityEvidenceCollector: 28 tests (`tests/security/test_security_evidence_collector.cpp`)
-  - FipsCryptoMode: 20 tests (`tests/security/test_fips_crypto_mode.cpp`)
-  - QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider: covered
-  - Standalone focused test targets for all security sub-directory tests
-- [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
-- [x] Attack vector tests (crypto IV/tag/key confusion, injection, authentication privilege escalation)
-- [x] Challenge-response security: HMAC-SHA256 with replay protection, TTL, one-time-use
-- [x] SOC 2 evidence collection: audit log, key rotations, metrics, RBAC report, retention enforcement
-- [~] Performance benchmarks (encryption overhead, auth latency) (Target: Q2 2026)
-- [~] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026)
-- [x] Documentation complete (ROADMAP.md, FUTURE_ENHANCEMENTS.md, inline docblocks)
-- [x] API stability guaranteed (SecurityManager v1.x, RLSManager v1.5.0, QueryMaskingPolicy v1.5.0)
+- Status: Tracking in progress
+- Nachweise: security focused tests, auth/policy regressions, crypto/key-provider tests, security benchmarks
+- Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
-## Known Issues & Limitations
-- HSM integration uses RSA-OAEP (SHA-256 / MGF1-SHA-256) for DEK wrapping via PKCS#11 C_Encrypt/C_Decrypt.
-- FIPS 140-2 mode requires a FIPS-validated OpenSSL build; not bundled by default.
-- AQL injection detection uses pattern matching; AST-level semantic analysis deferred to v1.6.0+.
-- Zero-trust `ZeroTrustPolicyEnforcer` supports IPv4 CIDR policies only; IPv6 support planned for a follow-up.
-- USB admin challenge-response uses HMAC-SHA256 with the license key as the HMAC secret; consider migrating to Ed25519 signatures with a dedicated per-USB key pair in a future iteration.
+## Known Issues and Limitations
+- Some high-assurance runtime envelopes still require broader benchmark and regression evidence.
+- Certain external dependency failure combinations need additional hardening validation.
+- Policy explainability and operator-facing diagnostics continue to be refined.
 
 ## Breaking Changes
-- SecurityManager API is stable from v1.x.
-- Key management API is stable in v1.5.0; additional rotation hooks planned for v1.6.0+.
-- DEK versioning scheme is fixed; no breaking changes planned.
+- Security public APIs in active major lines remain additive-first.
+- Any behavior change requiring migration must be versioned and documented in changelog/migration notes.

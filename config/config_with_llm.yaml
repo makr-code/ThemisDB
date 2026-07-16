@@ -35,7 +35,6 @@ llm:
   
   # Features
   enable_caching: true  # Enable response caching (future)
-
 # Feature Flags
 features:
   semantic_cache: false

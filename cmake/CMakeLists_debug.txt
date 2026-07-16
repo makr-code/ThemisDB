@@ -3,19 +3,26 @@ project(test_rocksdb_debug)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(_themis_debug_vcpkg_include_dir "")
+set(_themis_debug_vcpkg_lib_dir "")
+if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+    set(_themis_debug_vcpkg_include_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+    set(_themis_debug_vcpkg_lib_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib")
+endif()
+
 # Find required packages
 find_package(RocksDB CONFIG REQUIRED)
 
 # Include directories
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/build-msvc/vcpkg_installed/x64-windows/include
+    ${_themis_debug_vcpkg_include_dir}
 )
 
 # Link directories
 link_directories(
     ${CMAKE_SOURCE_DIR}/build-msvc/Release
-    ${CMAKE_SOURCE_DIR}/build-msvc/vcpkg_installed/x64-windows/lib
+    ${_themis_debug_vcpkg_lib_dir}
 )
 
 # Create executable

@@ -1,975 +1,121 @@
+> **Hinweis:** Vage Eintraege ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
 # Server Module - Future Enhancements
 
 ## Scope
-
-- HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, gRPC, and PostgreSQL wire protocol API server built on Boost.Beast/Asio
-- Request routing, JSON Schema validation, response serialization, and chunked-transfer streaming
-- Connection lifecycle management, rate limiting (token bucket / sliding window), load shedding, and circuit breaking
-- JWT, Kerberos, API token, and USB admin authentication middleware; Apache Ranger policy enforcement
-- Multi-tenancy with tenant isolation; OpenAPI 3.1 spec auto-generation from handler annotations
-- Async job API (`/v2/jobs`), SSE changefeeds, response compression (Gzip, Brotli, Zstd)
-- MCP server for AI integrations; serverless function hosting; TLS 1.3 termination
+- Protocol and API runtime hardening for HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, gRPC, and GraphQL.
+- Routing, auth, validation, and gateway resilience improvements for production clusters.
+- Operational hardening for long-running server processes under mixed workloads.
 
 ## Design Constraints
-
-- [ ] All new protocol handlers must conform to the existing `IRequestHandler` interface; no ad-hoc dispatch
-- [ ] TLS 1.3 is mandatory; TLS 1.2 may only be enabled via explicit `--allow-tls12` flag for legacy clients
-- [ ] Rate limiting state must be consistent across nodes via distributed token bucket (≤ 10 ms propagation delay)
-- [ ] OpenAPI 3.1 spec must be auto-generated from handler annotations; no hand-written spec files for REST endpoints
-- [ ] All REST endpoints must include JSON Schema request validation middleware before handler invocation
-- [ ] gRPC `.proto` field removals are forbidden in v1.x; only additive changes (new optional fields) are allowed
-- [ ] Graceful shutdown must drain all in-flight requests within 30 s before process termination
-- [ ] Admin endpoints (`/admin/**`) require USB admin token or Kerberos ticket; JWT alone is insufficient
+- [ ] All new endpoint paths must pass routing-layer authorization before handler dispatch (Target: Q2 2026)
+- [ ] OpenAPI and JSON-schema validation must remain source-driven from handler contracts (Target: Q4 2026)
+- [ ] gRPC and REST compatibility rules must remain additive in active major versions (Target: ongoing)
+- [ ] Protocol fallback logic must remain deterministic under transient dependency failures (Target: Q4 2026)
+- [ ] Security and observability defaults must remain fail-closed in production mode (Target: ongoing)
 
 ## Required Interfaces
 
 | Interface | Consumer | Notes |
-|-----------|----------|-------|
-| `IRequestHandler` | All REST/gRPC/WS handlers | Route registration, request context, response writer |
-| `IRateLimiter` | `HTTPServer`, `APIGateway` | Token bucket and sliding-window strategies; distributed state |
-| `IAuthProvider` | All endpoints | JWT, Kerberos, API token, USB admin; pluggable per-route |
-| `IJobQueue` | Async job API (`/v2/jobs`) | Submit, poll, cancel long-running AQL queries |
-| `ICompressionCodec` | Response serialization layer | Gzip, Brotli, Zstd; negotiated via `Accept-Encoding` |
-| `IMCPServer` | AI integration consumers | MCP protocol handler for tool calls and context injection |
-| `IMetricsExporter` | Prometheus scrape endpoint (`/metrics`) | Exposes req/s, p99, error rates, active connection counts |
-
-## Planned Features
-
-### GraphQL API Support
-**Priority:** High  
-**Target Version:** v1.7.0
-
-Add GraphQL endpoint alongside REST API for flexible client queries.
-
-**Features:**
-- Full GraphQL schema generation from data model
-- Query, mutation, subscription support
-- DataLoader for batch loading and caching
-- Apollo Federation for distributed graphs
-- GraphQL Playground for interactive queries
-
-**Implementation:**
-```cpp
-GraphQLServer gql_server(storage, schema);
-gql_server.registerQuery("users", user_resolver);
-gql_server.registerMutation("createUser", create_user_resolver);
-gql_server.registerSubscription("userChanges", user_subscription_resolver);
-
-// Mount at /graphql endpoint
-server.registerHandler("/graphql", gql_server.handler());
-```
-
-**Benefits:**
-- Clients fetch exactly what they need (no over/under-fetching)
-- Single request for complex data requirements
-- Strong typing and introspection
-- Better mobile app performance
-
----
-
-### WebAssembly API Handlers
-**Priority:** Medium  
-**Target Version:** v1.8.0
-
-Execute user-defined API handlers in WebAssembly sandbox.
-
-**Use Cases:**
-- Custom business logic without C++ compilation
-- User-defined data transformations
-- Multi-tenant custom endpoints
-- Language-agnostic handler development (Rust, Go, C, etc. → Wasm)
-
-**API:**
-```cpp
-WasmHandlerRegistry registry;
-registry.loadWasm("tenant-001", "custom-validator.wasm");
-
-// Route requests to Wasm handler
-server.registerHandler("/api/v1/tenants/001/custom", 
-                       WasmHandler(registry, "tenant-001"));
-```
-
-**Isolation:**
-- Memory sandboxing via WASI
-- CPU time limits
-- Controlled I/O (no direct storage access)
-- Versioning and rollback
-
----
-
-### HTTP/3 Production Readiness
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Move HTTP/3 from experimental to production-ready.
-
-**Improvements Needed:**
-- Connection migration stability
-- Better QUIC congestion control
-- 0-RTT handshake optimization
-- Fallback to HTTP/2 on QUIC failure
-- Performance benchmarking vs HTTP/2
-
-**Expected Benefits:**
-- 30-50% latency reduction
-- Better mobile network performance
-- Faster connection establishment
-- Built-in encryption (no plaintext HTTP)
-
----
-
-### API Gateway Enhancements
-
-#### Distributed API Gateway
-**Priority:** High  
-**Target Version:** v1.7.0
-
-Deploy API Gateway in distributed mode with Raft consensus.
-
-**Features:**
-- Multi-node gateway cluster
-- Raft-based configuration sync
-- Automatic failover
-- Session affinity for WebSocket/SSE
-- Distributed rate limiting
-
-**Architecture:**
-```
-Client → Load Balancer → [Gateway Node 1]
-                       → [Gateway Node 2] ← Raft Cluster
-                       → [Gateway Node 3]
-```
-
----
-
-#### Smart Routing
-**Priority:** Medium  
-**Target Version:** v1.8.0
-
-ML-based routing decisions for optimal performance.
-
-**Approach:**
-- Learn query patterns and latencies
-- Predict which shard has cached data
-- Route to least-loaded backend
-- Avoid backends with high tail latency
-
-**Expected Improvement:** 20-40% latency reduction via smart routing
-
----
-
-#### Request Coalescing
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Merge duplicate in-flight requests to same resource.
-
-**Scenario:**
-```
-Time 0ms:  Client A requests GET /api/v1/entities/123
-Time 2ms:  Client B requests GET /api/v1/entities/123
-Time 5ms:  Backend returns response
-Time 5ms:  Both clients receive same response
-```
-
-**Benefits:**
-- Reduce backend load
-- Lower latency for duplicate requests
-- Especially effective for expensive queries
-
----
-
-### Authentication Enhancements
-
-#### OAuth2/OIDC Native Support
-**Priority:** High  
-**Target Version:** v1.6.0
-
-First-class OAuth2 and OpenID Connect support.
-
-**Features:**
-- Authorization code flow
-- PKCE for mobile apps
-- Refresh token rotation
-- Token introspection endpoint
-- Discovery endpoint (.well-known/openid-configuration)
-
-**Configuration:**
-```cpp
-OAuth2Config config;
-config.authorization_endpoint = "https://auth.example.com/authorize";
-config.token_endpoint = "https://auth.example.com/token";
-config.client_id = "themisdb";
-config.client_secret = "secret";
-
-auth_middleware.enableOAuth2(config);
-```
-
----
-
-#### SAML 2.0 Support
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-SAML 2.0 integration for enterprise SSO.
-
-**Features:**
-- Service Provider (SP) implementation
-- SAML assertion validation
-- Attribute mapping to ThemisDB user model
-- Single Sign-On (SSO) and Single Logout (SLO)
-
----
-
-#### Passwordless Authentication
-**Priority:** Low  
-**Target Version:** v1.8.0
-
-WebAuthn/FIDO2 support for passwordless login.
-
-**Features:**
-- Biometric authentication
-- Hardware security keys (YubiKey, etc.)
-- Phishing-resistant authentication
-- FIDO2 credential management API
-
----
-
-### Rate Limiting Improvements
-
-#### Distributed Rate Limiting
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Cluster-wide rate limiting with Redis backend.
-
-**Current:** Per-node rate limiting (can be bypassed with multiple nodes)  
-**Target:** Shared rate limit state across all gateway nodes
-
-**Implementation:**
-```cpp
-RateLimiterV2::Config config;
-config.backend = RateLimiterV2::Backend::REDIS;
-config.redis_url = "redis://cluster:6379";
-config.bucket_capacity = 1000;
-config.refill_rate = 100.0;
-
-RateLimiterV2 limiter(config);
-// All nodes share same token bucket in Redis
-```
-
----
-
-#### Adaptive Rate Limiting
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Automatically adjust rate limits based on backend health.
-
-**Logic:**
-- Monitor backend latency and error rates
-- Reduce rate limits when backends struggle
-- Increase rate limits during low load
-- Per-tenant adaptive limits
-
-**Example:**
-```
-Normal operation: 1000 req/min
-Backend p99 > 500ms: Reduce to 500 req/min
-Backend errors > 5%: Reduce to 200 req/min
-Backend recovered: Gradually increase back to 1000 req/min
-```
-
----
-
-#### Cost-Based Rate Limiting
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Rate limit by resource cost rather than request count.
-
-**Concept:**
-- Simple GET = 1 unit
-- Complex query = 10 units
-- Vector search = 20 units
-- LLM completion = 100 units
-
-**Benefits:**
-- Fairer resource allocation
-- Prevent expensive operations from monopolizing resources
-- Better alignment with usage-based pricing
-
----
-
-### API Versioning & Evolution
-
-#### Automatic API Versioning
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Automatic version negotiation and compatibility checks.
-
-**Features:**
-- Semantic versioning for APIs (v1.0.0, v1.1.0, v2.0.0)
-- Client declares supported version range
-- Server responds with best match
-- Deprecation warnings for old versions
-- Breaking change detection
-
-**Headers:**
-```http
-Request:
-  API-Version: 1.2
-  Accept-API-Version: 1.0-2.0
-
-Response:
-  API-Version: 1.5
-  API-Deprecated: v1.0 (remove 2026-12-31)
-```
-
----
-
-#### API Evolution without Breaking Changes
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Support multiple API versions simultaneously.
-
-**Strategy:**
-- Request transformation layer
-- Version-specific serializers
-- Field renaming and restructuring
-- Default values for new fields
-
-**Example:**
-```cpp
-// v1 API: {"user_id": 123}
-// v2 API: {"id": 123, "type": "user"}
-
-ResponseTransformer transformer;
-transformer.registerVersion("v1", [](Response res) {
-    return {{"user_id": res["id"]}};
-});
-transformer.registerVersion("v2", [](Response res) {
-    return res;  // Native format
-});
-```
-
----
-
-### Protocol Enhancements
-
-#### gRPC-Web Support
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-gRPC-Web for browser clients.
-
-**Benefits:**
-- Use gRPC from web applications
-- Better performance than REST
-- Streaming support in browsers
-- Automatic code generation (TypeScript)
-
----
-
-#### Server-Sent Events (SSE) Improvements
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Enhanced SSE with better reconnection and filtering.
-
-**Features:**
-- Automatic reconnection with exponential backoff
-- Client-side filtering (reduce bandwidth)
-- Event replay from last-event-id
-- Compression for large events
-- Binary event support (base64)
-
-**Example:**
-```cpp
-SSEConnectionManager::Config config;
-config.max_reconnect_attempts = 10;
-config.reconnect_backoff_ms = 1000;
-config.enable_compression = true;
-config.max_event_buffer_size = 10000;
-
-SSEConnectionManager sse_mgr(config);
-```
-
----
-
-#### WebSocket Binary Protocol
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Efficient binary protocol for WebSocket.
-
-**Benefits:**
-- 50-70% bandwidth reduction vs JSON
-- Faster parsing (no JSON encoding)
-- Type-safe message schemas
-- Support for large binary payloads
-
-**Encoding:** Protocol Buffers or MessagePack
-
----
-
-### Observability & Monitoring
-
-#### OpenTelemetry Native Integration
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Native OpenTelemetry instrumentation for all API handlers.
-
-**Features:**
-- Automatic trace propagation (W3C Trace Context)
-- Span attributes for all operations
-- Metrics export (OTLP)
-- Trace sampling configuration
-- Baggage propagation
-
----
-
-#### API Analytics Dashboard
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Real-time API analytics and insights.
-
-**Metrics:**
-- Request rate per endpoint
-- Latency histograms (p50, p95, p99)
-- Error rates and status code distribution
-- Top users/tenants by request volume
-- Slowest endpoints
-
-**Integration:** Grafana dashboards
-
----
-
-#### Request Logging Enhancements
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Structured logging with correlation IDs.
-
-**Features:**
-- Request/response logging with sampling
-- Correlation ID propagation
-- Sensitive data redaction (PII, tokens)
-- Log aggregation (Elasticsearch, Loki)
-- Query-able log format (JSON)
-
----
-
-### Performance Optimizations
-
-#### Zero-Copy Response Serialization
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Avoid memory copies during response serialization.
-
-**Current:** Storage → Copy to buffer → JSON encode → Copy to socket  
-**Target:** Storage → JSON encode directly to socket buffer
-
-**Expected Improvement:** 30-50% throughput increase for large responses
-
----
-
-#### Connection Pooling for gRPC
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Reuse gRPC channels for better performance.
-
-**Benefits:**
-- Reduce connection overhead
-- Better CPU utilization
-- Lower latency for subsequent requests
-
----
-
-#### HTTP Response Caching
-**Priority:** High  
-**Target Version:** v1.6.0
-
-Cache HTTP responses at API Gateway level.
-
-**Features:**
-- Cache-Control header support
-- ETag-based validation
-- Vary header support
-- Cache invalidation on writes
-- Per-tenant cache isolation
-
-**Example:**
-```cpp
-HTTPCacheConfig config;
-config.enable = true;
-config.max_size_mb = 1024;
-config.default_ttl_seconds = 300;
-
-api_gateway.enableCache(config);
-
-// Handlers can set cache directives
-response.set(http::field::cache_control, "public, max-age=300");
-response.set(http::field::etag, "\"abc123\"");
-```
-
----
-
-#### Async Request Processing
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Fully async pipeline to avoid blocking worker threads.
-
-**Current:** Some handlers block on I/O (storage, index)  
-**Target:** All handlers use async/await pattern
-
-**Benefits:**
-- Higher concurrency (more requests per thread)
-- Better CPU utilization
-- Lower latency under load
-
----
-
-## Refactoring Opportunities
-
-### Migrate to cpp-httplib
-**Priority:** Low  
-**Target Version:** v1.9.0
-
-Replace Boost.Beast with cpp-httplib for simpler API.
-
-**Motivation:**
-- Simpler API surface
-- Better documentation
-- Active development
-- Smaller binary size
-
-**Note:** See [HTTP_SERVER_REFACTORING_ACTION_PLAN.md](../../HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
-
----
-
-### Separate Protocol Handlers
-**Priority:** Medium  
-**Target Version:** v1.8.0
-
-Extract protocol implementations into separate libraries.
-
-**Structure:**
-```
-libthemis-http/        (HTTP/1.1/2/3 server)
-libthemis-websocket/   (WebSocket)
-libthemis-mqtt/        (MQTT broker)
-libthemis-postgres/    (PostgreSQL protocol)
-libthemis-grpc/        (gRPC services)
-```
-
-**Benefits:**
-- Independent versioning
-- Optional features (disable MQTT if not needed)
-- Easier testing
-- Code reuse in other projects
-
----
-
-### Unified Handler Interface
-**Priority:** Medium  
-**Target Version:** v1.7.0
-
-Standardize handler interface across all API handlers.
-
-**Current:** Inconsistent signatures and error handling  
-**Target:** Unified `IAPIHandler` interface
-
-**Proposal:**
-```cpp
-class IAPIHandler {
-public:
-    virtual Future<Response> handle(Request req, AuthContext auth) = 0;
-    virtual std::string getPath() const = 0;
-    virtual std::vector<http::verb> getSupportedMethods() const = 0;
-    virtual std::vector<std::string> getRequiredScopes() const = 0;
-};
-```
-
----
-
-### Policy Engine Plugin System
-**Priority:** Low  
-**Target Version:** v1.8.0
-
-Allow custom policy evaluators via plugin API.
-
-**Use Cases:**
-- Domain-specific policy logic
-- Integration with external policy services
-- Custom ABAC/RBAC implementations
-
----
-
-## Known Issues
-
-### Issue #1: WebSocket Memory Leak
-**Severity:** Medium  
-**Reported:** v1.5.1
-
-Long-lived WebSocket connections can leak memory over time.
-
-**Symptoms:**
-- Gradual memory increase with persistent WebSockets
-- Memory not released on connection close
-
-**Workaround:** Periodically restart server or limit WebSocket lifetime  
-**Fix:** Fix WebSocketSession destructor and buffer cleanup
-
-**Planned Fix:** v1.6.0
-
----
-
-### Issue #2: HTTP/2 Stream Exhaustion
-**Severity:** High  
-**Reported:** v1.5.0
-
-HTTP/2 connections can exhaust streams under heavy load.
-
-**Symptoms:**
-- "GOAWAY: stream exhausted" errors
-- Client reconnects frequently
-
-**Workaround:** Lower max concurrent streams or use HTTP/1.1  
-**Fix:** Implement stream recycling and better flow control
-
-**Planned Fix:** v1.6.0 (hotfix)
-
----
-
-### Issue #3: Rate Limiter Race Condition
-**Severity:** Low  
-**Reported:** v1.5.2
-
-Token bucket can allow bursts slightly over capacity due to race.
-
-**Impact:** Allows ~1-5% more requests than configured limit
-
-**Workaround:** Lower capacity to compensate  
-**Fix:** Use atomic operations for token updates
-
-**Planned Fix:** v1.6.1
-
----
-
-### Issue #4: JWT Validation Performance
-**Severity:** Medium  
-**Reported:** v1.5.0
-
-JWT validation adds 200-500μs latency per request.
-
-**Cause:** JWKS fetching and signature verification overhead
-
-**Workaround:** Use API tokens for service-to-service communication  
-**Fix:** Implement JWT cache with LRU eviction
-
-**Planned Fix:** v1.6.0
-
----
-
-### Issue #5: PostgreSQL Protocol Compatibility
-**Severity:** Medium  
-**Reported:** v1.5.1
-
-Some PostgreSQL clients fail with extended query protocol.
-
-**Affected:** pgAdmin, some JDBC drivers
-
-**Workaround:** Use simple query protocol  
-**Fix:** Complete extended query protocol implementation
-
-**Planned Fix:** v1.7.0
-
----
-
-### Issue #6: SSE Connection Starvation
-**Severity:** Low  
-**Reported:** v1.5.0
-
-Too many SSE connections can starve other request types.
-
-**Cause:** SSE holds connections open indefinitely
-
-**Workaround:** Limit SSE connections per client  
-**Fix:** Separate thread pool for long-lived connections
-
-**Planned Fix:** v1.6.1
-
----
-
-## Research Areas
-
-### Adaptive Compression
-**Focus:** ML-based compression algorithm selection
-
-**Concept:**
-- Analyze response content (JSON, binary, text)
-- Choose optimal compression (gzip, brotli, zstd)
-- Predict compression ratio before compressing
-- Skip compression if not worth CPU cost
-
-**Research Questions:**
-- Can we predict compression ratio accurately?
-- What's the decision overhead?
-- How to handle different client capabilities?
-
----
-
-### Request Prediction & Prefetching
-**Focus:** Predict future requests based on patterns
-
-**Approach:**
-- Train model on request sequences
-- Predict next likely request
-- Pre-fetch data and cache response
-- Serve from cache when request arrives
-
-**Use Cases:**
-- Dashboard applications (predictable request patterns)
-- Mobile apps (limited request types)
-- Paginated results (prefetch next page)
-
-**Research Questions:**
-- What prediction accuracy is needed to be useful?
-- How to handle cache invalidation?
-- Cost vs benefit analysis?
-
----
-
-### Quantum-Safe TLS
-**Focus:** Post-quantum cryptography for TLS
-
-**Motivation:**
-- Quantum computers will break RSA/ECC
-- Prepare for quantum threat
-
-**Algorithms:**
-- CRYSTALS-Kyber (key exchange)
-- CRYSTALS-Dilithium (signatures)
-- Hybrid classical + post-quantum
-
-**Research Questions:**
-- Performance overhead of PQC?
-- When to deploy?
-- Client compatibility?
-
----
-
-### Edge Computing Integration
-**Focus:** Deploy API Gateway at edge locations
-
-**Architecture:**
-```
-User → [Edge Gateway] → [Regional Gateway] → [Core Database]
-        └─ Local Cache
-```
-
-**Benefits:**
-- Lower latency (edge proximity)
-- Reduced core load
-- Better mobile experience
-
-**Research Questions:**
-- Cache coherence across edge nodes?
-- Partial replication strategies?
-- Edge-to-core consistency?
-
----
-
-### API Abuse Detection
-**Focus:** ML-based anomaly detection for API abuse
-
-**Signals:**
-- Request rate patterns
-- Error rate spikes
-- Unusual endpoint combinations
-- Geographic anomalies
-
-**Actions:**
-- Adaptive rate limiting
-- Temporary IP blocking
-- Require CAPTCHA
-- Alert security team
-
-**Research Questions:**
-- False positive rate?
-- Real-time detection latency?
-- Training data collection?
-
----
-
-## Migration Paths
-
-### v1.5.x → v1.6.x: Enhanced Rate Limiting
-**Breaking Changes:** RateLimiter configuration format
-
-**Old Config:**
-```cpp
-RateLimitConfig config;
-config.bucket_capacity = 1000;
-config.refill_rate = 100.0 / 60.0;
-```
-
-**New Config (v1.6.x):**
-```cpp
-RateLimiterV2::Config config;
-config.algorithm = RateLimiterV2::Algorithm::TOKEN_BUCKET;
-config.token_bucket.capacity = 1000;
-config.token_bucket.refill_rate = 100.0 / 60.0;
-config.backend = RateLimiterV2::Backend::IN_MEMORY;  // or REDIS
-```
-
-**Migration Steps:**
-1. Update configuration to new format
-2. Test with `RateLimiterV2` in parallel with `RateLimiter`
-3. Switch to `RateLimiterV2` once verified
-4. Remove old `RateLimiter` dependencies
-
-**Timeline:** 6 months deprecation period
-
----
-
-### v1.6.x → v1.7.x: API Handler Interface
-**Breaking Changes:** Handler signature changes
-
-**Old Handler:**
-```cpp
-http::response<http::string_body> handle(
-    const http::request<http::string_body>& req,
-    const AuthMiddleware::AuthContext& auth_ctx
-);
-```
-
-**New Handler (v1.7.x):**
-```cpp
-Future<Response> handle(Request req, AuthContext auth);
-```
-
-**Migration Steps:**
-1. Update handler signatures to return `Future<Response>`
-2. Use provided async utilities for I/O operations
-3. Run migration script: `scripts/migrate_handlers_v17.sh`
-4. Rebuild and test
-
-**Benefits:**
-- Non-blocking I/O
-- Better concurrency
-- Easier composition of async operations
-
-**Timeline:** 12 months deprecation period
-
----
-
-### v1.7.x → v1.8.x: Protocol Extraction
-**Breaking Changes:** Link flags and includes
-
-**Old CMake:**
-```cmake
-target_link_libraries(my_app themis-server)
-```
-
-**New CMake (v1.8.x):**
-```cmake
-target_link_libraries(my_app 
-    themis-server-core
-    themis-http        # Only if using HTTP
-    themis-websocket   # Only if using WebSocket
-    themis-grpc        # Only if using gRPC
-)
-```
-
-**Migration Steps:**
-1. Update CMakeLists.txt with granular libraries
-2. Update includes (e.g., `server/http_server.h` → `http/server.h`)
-3. Rebuild
-
-**Benefits:**
-- Smaller binaries (only link what you use)
-- Faster builds (parallel compilation of libraries)
-
-**Timeline:** 18 months deprecation period (v1.7.x still provides monolithic library)
-
----
-
-## Community Contributions Welcome
-
-### High-Impact, Beginner-Friendly
-- [ ] Additional auth providers (GitHub, GitLab, Bitbucket)
-- [ ] API client SDKs (Python, Java, Go, Rust)
-- [ ] OpenAPI spec improvements and examples
-- [ ] Grafana dashboards for API metrics
-- [ ] Postman collections for API testing
-
-### Medium Complexity
-- [ ] GraphQL server implementation
-- [ ] OAuth2 native support
-- [ ] HTTP response caching layer
-- [ ] WebSocket binary protocol
-- [ ] API versioning framework
-
-### Advanced Topics
-- [ ] WebAssembly handler sandbox
-- [ ] Distributed API Gateway with Raft
-- [ ] Quantum-safe TLS integration
-- [ ] ML-based API abuse detection
-- [ ] Edge computing integration
-
-**Contribution Guide:** See [CONTRIBUTING.md](../../CONTRIBUTING.md)
-
----
-
-## Feedback and Discussion
-
-Have ideas for server module improvements? Open an issue or discussion:
-
-- 💡 Feature requests: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
-- 💬 Design discussions: [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)
-- 🐛 Bug reports: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
-
----
-
-*Last Updated: February 2026*  
-*Module Version: v1.5.x*  
-*Next Review: v1.6.0 Release*
-
----
+|---|---|---|
+| `HTTPServer::routeRequest(...)` | all HTTP endpoint flows | must enforce auth/validation sequencing |
+| `AuthMiddleware::authorize(...)` | privileged endpoint routes | policy and scope checks must be explicit |
+| `RateLimiterV2::checkRateLimit(...)` | API gateway and middleware | local and distributed backends must preserve predictable denial behavior |
+| `RequestValidationMiddleware` | request intake path | JSON/schema checks before business logic |
+| `DistributedGateway` | cluster routing | failover, quorum, and config propagation correctness |
+| `WasmHandlerRegistry` | serverless endpoint path | bounded execution policy and safe failure behavior |
+
+## Implementation Notes
+
+### Security and Access Control Hardening
+**Priority:** High
+**Target:** Q2-Q4 2026
+**Status:** Partially Complete
+
+#### Completed
+- [x] Voice API Bearer-Token JWT/OIDC Validation (#302)
+  - Implements JWT signature validation using JWTValidator from JWKS
+  - Validates token expiry, issuer, and audience claims
+  - Supports token revocation via JTI blacklist
+  - Fail-closed rejection semantics
+  - Full test coverage with 12+ test cases covering all validation paths
+  - Documentation with both code comments and test suite
+
+#### Remaining
+- [ ] Complete route inventory for privileged endpoints and verify auth gate presence before handler dispatch.
+- [ ] Add regression tests for all special-case routes (early-routing blocks, admin paths, metrics/reporting paths).
+- [ ] Enforce a no-sensitive-data logging contract for token, scope, and auth failure diagnostics.
+
+### Protocol Reliability Hardening
+**Priority:** High
+**Target:** Q4 2026
+
+- Expand HTTP/3 production tests for migration, packet loss, handshake variability, and fallback behavior.
+- Improve gRPC-web proxy resilience under upstream timeout and partial-failure conditions.
+- Add mixed protocol soak scenarios to validate fairness and backpressure behavior.
+
+### Gateway and Routing Hardening
+**Priority:** Medium
+**Target:** Q4 2026
+
+- Extend distributed gateway failover tests (leader churn, quorum loss, partition/rejoin).
+- Expand smart-routing validation for skewed latency profiles and cache-hit prediction drift.
+- Harden request-coalescing fairness and timeout fallback under high duplicate load.
+
+### Serverless and Extensibility Hardening
+**Priority:** Medium
+**Target:** Q1 2027
+
+- Introduce stricter CPU/memory/runtime policy envelopes for WASM handlers.
+- Add governance and signing checks for future plugin-based adapter loading.
+- Define deactivation and rollback semantics for failed dynamic extension updates.
 
 ## Test Strategy
-
-- Unit test coverage ≥ 80% for all handler, routing, rate-limiter, and auth middleware classes
-- Integration tests covering all 40+ REST endpoints with TLS 1.3, JWT auth, rate limiting, and structured error responses
-- Protocol conformance tests for HTTP/1.1, HTTP/2 (h2), HTTP/3 (h3), WebSocket, gRPC, and PostgreSQL wire protocol
-- Load tests validating ≥ 50,000 req/s sustained throughput at p99 latency ≤ 50 ms with 1,000 concurrent connections
-- Security regression tests: header injection, CORS misconfiguration, request smuggling, and rate-limit bypass attempts
-- Chaos tests: kill backend mid-request and verify graceful 502/503 with correct `Retry-After` header returned to the client
+- Route-level security regression suite for privileged and early-routing endpoints.
+- Fault-injection tests for distributed rate limiting, gateway quorum loss, and upstream dependency timeouts.
+- Protocol soak matrix (HTTP, HTTP/3, gRPC-web, WebSocket, MQTT) with sustained load and recovery validation.
+- Contract drift checks for OpenAPI/gRPC compatibility against source handlers and proto schemas.
 
 ## Performance Targets
-
-- Sustained request throughput ≥ 50,000 req/s on a 4-core reference node (HTTP/1.1 keep-alive, 1 KB payload)
-- p50 latency ≤ 5 ms, p99 latency ≤ 50 ms at 80% CPU utilization under sustained load
-- HTTP/3 QUIC 0-RTT reconnect handshake overhead ≤ 1 RTT after initial session establishment
-- TLS 1.3 handshake latency ≤ 2 ms on ECDSA P-256 certificates on commodity hardware
-- Distributed rate-limiter state synchronization across nodes ≤ 10 ms propagation delay
-- Graceful shutdown: all in-flight requests drained within 30 s; no accepted request dropped after SIGTERM
+- Maintain p99 request latency envelopes under mixed-protocol workload profiles.
+- Maintain throughput stability within agreed release regression budgets.
+- Keep auth/validation middleware overhead bounded under high concurrency.
 
 ## Security / Reliability
+- Fail closed on invalid auth context and malformed security-sensitive request state.
+- Never process privileged operations before explicit access check completion.
+- Keep auditability of routing and auth decisions while avoiding sensitive value leakage.
 
-- All endpoints enforce TLS 1.3; plaintext HTTP is rejected unless `--allow-plaintext` is set explicitly in non-production mode
-- JWT signature validation uses constant-time byte comparison to prevent timing-based signature oracle attacks
-- Rate limiting is enforced at ingress before authentication to prevent credential-stuffing amplification
-- CORS origin validation rejects wildcard `*` in credentialed-request (`withCredentials`) contexts
-- All admin endpoints (`/admin/**`) require USB admin token or Kerberos service ticket; JWT alone is insufficient
-- Request body size hard-limit of 64 MiB enforced at the parser layer; excess causes immediate 413 with connection close
-- Apache Ranger policy denials are logged to the audit trail with caller identity, timestamp, and denied resource path
+## Risk Backlog
+
+### Risk 1: Privileged route drift
+**Severity:** High
+**Signal:** New or refactored routes bypass standardized auth gate sequencing.
+**Mitigation:** Route inventory checks plus regression tests in CI.
+
+### Risk 2: Distributed limiter consistency gaps
+**Severity:** Medium
+**Signal:** Cross-node state lag causes inconsistent deny/allow behavior.
+**Mitigation:** deterministic fallback policies and fault-injection tests.
+
+### Risk 3: HTTP/3 operational variance
+**Severity:** Medium
+**Signal:** Increased tail latency under migration/loss scenarios.
+**Mitigation:** expanded transport soak and tuning profiles.
+
+## Adoption Scenarios
+
+### Scenario A: Security-hardening-first release lane
+- Prioritize route-level auth verification and sensitive logging elimination.
+- Block release if privileged route coverage is incomplete.
+
+### Scenario B: Protocol-reliability-first release lane
+- Prioritize HTTP/3/gRPC-web operational hardening and recovery behavior.
+- Promote only after soak and fault-injection pass criteria are met.
+
+### Scenario C: Extensibility-first release lane
+- Prioritize plugin/WASM governance controls and rollback semantics.
+- Promote only with signed-extension policy and runtime safety gates.

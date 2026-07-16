@@ -1,35 +1,18 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            evaluation_cache.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 17:50:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     250                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file evaluation_cache.cpp
- * @brief LRU evaluation cache with TTL for RAG Judge results
- *
- * Implements an LRU cache with TTL-based expiration, thread-safe access,
- * and detailed statistics tracking.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/evaluation_cache.h"
 #include "utils/logger.h"
 
 #include <functional>
-#include <sstream>
 
 namespace themis::rag::judge {
 
@@ -55,14 +38,13 @@ EvaluationCache::~EvaluationCache() = default;
 
 EvaluationCache::CacheKey EvaluationCache::computeKey(
     const std::string& query, const std::string& answer) {
-    // Simple deterministic key: hash query+answer concatenation
+    // F-018: replace ostringstream with direct integer-to-string conversion.
+    // std::to_string(size_t) is allocation-free on the stack then moves.
     std::size_t h1 = std::hash<std::string>{}(query);
     std::size_t h2 = std::hash<std::string>{}(answer);
     // Combine hashes with a mixing constant (golden ratio)
     std::size_t combined = h1 ^ (h2 * 0x9e3779b9ULL + (h1 << 6) + (h1 >> 2));
-    std::ostringstream oss;
-    oss << combined;
-    return oss.str();
+    return std::to_string(combined);
 }
 
 bool EvaluationCache::isExpired(const CacheEntry& entry) const {
@@ -303,3 +285,4 @@ void EvaluationCache::registerInvalidationCallback(
 }
 
 } // namespace themis::rag::judge
+

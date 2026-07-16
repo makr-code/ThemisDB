@@ -1,322 +1,326 @@
-# ThemisDB AI-Guardrails & Development Setup
+# ThemisDB AI-Guardrails and Development Setup
 
 This directory contains modular Copilot instructions and development tooling for ThemisDB.
 
-## 📂 Directory Structure
+## Directory Structure
 
-```
+```text
 .github/
-├── COPILOT_INSTRUCTIONS.md         # Main entry point (264 lines)
+├── copilot-instructions.md          # Main entry point
 ├── copilot/                         # Modular instruction files
-│   ├── BRANCHING_GUIDE.md           # Git Flow & PR Guidelines
-│   ├── BUILD_GUIDE.md               # CMake Presets & Build Commands
-│   ├── CODE_STANDARDS.md            # C++ Style & Quality Tools
-│   ├── CUDA_OPTIMIZATION.md         # GPU Kernel Design & SIMD
-│   ├── MVCC_CONCURRENCY.md          # Concurrency Patterns & Thread-Safety
-│   ├── PERFORMANCE_PROFILING.md     # Profiling Tools & Benchmark Suite
-│   ├── CUDA_OPTIMIZATION.md         # GPU Kernel Design & Memory Optimization
-│   ├── MVCC_CONCURRENCY.md          # MVCC, Transactions & Thread Safety
-│   ├── PERFORMANCE_PROFILING.md     # GPU/CPU Profiling & Benchmarking
-│   ├── TESTING_GUIDE.md             # Test Requirements & Coverage
-│   ├── CROSS_COMPILATION_CONTEXT.md # Platform-specific Rules
-│   └── VSCODE_CONTEXT.md            # VSCode Remote Development
+│   ├── BRANCHING_GUIDE.md
+│   ├── BUILD_GUIDE.md
+│   ├── BUILD_PERF_AGENT.md
+│   ├── CODE_STANDARDS.md
+│   ├── CUDA_OPTIMIZATION.md
+│   ├── CROSS_COMPILATION_CONTEXT.md
+│   ├── MODERNIZE_AGENT.md
+│   ├── MVCC_CONCURRENCY.md
+│   ├── PERFORMANCE_PROFILING.md
+│   ├── TESTING_GUIDE.md
+│   ├── VSCODE_CONTEXT.md
+│   └── PROMPT_ENGINEERING.md
 ├── scripts/
 │   └── validate_copilot_refs.py     # Validate file references
 └── workflows/
     └── validate-ai-guardrails.yml   # CI validation workflow
 ```
 
-## 🎯 Purpose
+## Purpose
 
 The modular AI-Guardrails architecture provides:
 
-1. **Predictable Copilot Behavior** - Clear, focused instructions per domain
-2. **Maintainability** - Easy to update individual modules without conflicts
-3. **Discoverability** - Logical organization by topic
-4. **Validation** - Automated checks for broken references
+1. **Predictable Copilot behavior**: Clear, focused instructions per domain.
+2. **Maintainability**: Easier updates to individual modules without conflicts.
+3. **Discoverability**: Logical organization by topic.
+4. **Validation**: Automated checks for broken references and structure drift.
 
-## 🚀 Quick Start
+## Installation
+
+No installation is required beyond cloning the repository. To apply the recommended developer setup locally:
+
+```bash
+cp -r .vscode.example .vscode
+```
+
+## Quick Start
 
 ### For Contributors
 
-1. **Read Main Instructions**: Start with [../COPILOT_INSTRUCTIONS.md](../COPILOT_INSTRUCTIONS.md)
-2. **Dive into Modules**: Follow links to relevant guides
-3. **Setup Dev Environment**: Use [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md)
+1. Read the main instructions in [../copilot-instructions.md](../copilot-instructions.md).
+2. Read the team workflow in [AI_CUSTOMIZATION_WORKFLOW.md](AI_CUSTOMIZATION_WORKFLOW.md).
+3. Follow links into the relevant module guides.
+4. Use [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md) for local environment setup.
+
+## AI Workflow Quick Links
+
+- Team workflow playbook: [AI_CUSTOMIZATION_WORKFLOW.md](AI_CUSTOMIZATION_WORKFLOW.md)
+- PR AI report template: [PR_AI_REPORT_TEMPLATE.md](PR_AI_REPORT_TEMPLATE.md)
+- Review severity policy: [REVIEW_SEVERITY_POLICY.md](REVIEW_SEVERITY_POLICY.md)
+- Agents: [../agents/themisdb-implementer.agent.md](../agents/themisdb-implementer.agent.md), [../agents/themisdb-reviewer.agent.md](../agents/themisdb-reviewer.agent.md)
+- Prompts: [../prompts/roadmap-to-production.prompt.md](../prompts/roadmap-to-production.prompt.md), [../prompts/build-triage-windows-release.prompt.md](../prompts/build-triage-windows-release.prompt.md), [../prompts/pr-diff-findings-review.prompt.md](../prompts/pr-diff-findings-review.prompt.md), [../prompts/security-hardening-review.prompt.md](../prompts/security-hardening-review.prompt.md), [../prompts/api-change-impact-review.prompt.md](../prompts/api-change-impact-review.prompt.md), [../prompts/release-readiness-check.prompt.md](../prompts/release-readiness-check.prompt.md), [../prompts/compose-ai-pr-report.prompt.md](../prompts/compose-ai-pr-report.prompt.md), [../prompts/verify-high-exception-record.prompt.md](../prompts/verify-high-exception-record.prompt.md)
 
 ### For Maintainers
 
-1. **Validate Changes**:
+1. Validate changes:
+
    ```bash
    python .github/scripts/validate_copilot_refs.py
    ```
 
-2. **Update Module**: Edit specific module file (e.g., `copilot/BUILD_GUIDE.md`)
+2. Update the affected module file, for example `copilot/BUILD_GUIDE.md`.
+3. Keep the main file compact and focused.
 
-3. **Keep Main File Small**: Main file should stay under 300 lines
+## Usage
 
-## 📖 Module Descriptions
+- Read `../copilot-instructions.md` first.
+- Use the module docs in this directory for task-specific guidance.
+- Re-run `.github/scripts/validate_copilot_refs.py` after editing these docs.
+
+## Module Overview
 
 ### BRANCHING_GUIDE.md
-- Git Flow branching strategy
-- PR creation workflow
-- Merge strategies (squash vs merge commit)
-- Branch naming conventions
+
+- Git Flow branching strategy.
+- PR creation workflow.
+- Merge strategies.
+- Branch naming conventions.
 
 ### BUILD_GUIDE.md
-- CMake presets for all platforms
-- vcpkg offline-first architecture
-- Quick start commands (Windows, Linux, Docker, ARM)
-- Edition-specific builds (Community, Enterprise, Hyperscaler)
-- Troubleshooting common issues
+
+- CMake presets for supported platforms.
+- vcpkg offline-first architecture.
+- Quick start commands for Windows, Linux, Docker, and ARM.
+- Edition-specific build paths.
+- Troubleshooting guidance.
 
 ### CODE_STANDARDS.md
-- C++ coding style (C++17/20)
-- Naming conventions (PascalCase, camelCase, snake_case)
-- Code quality tools (clang-format, clang-tidy, cppcheck)
-- Thread safety patterns
-- Error handling guidelines
+
+- C++ coding style for C++17 and C++20.
+- Naming conventions.
+- Code quality tools.
+- Thread-safety patterns.
+- Error-handling guidelines.
 
 ### TESTING_GUIDE.md
-- Test framework (Google Test)
-- Running tests (all, specific, critical)
-- Test categories (unit, integration, benchmark)
-- Code coverage targets
-- Mock/fixture patterns
+
+- Google Test usage.
+- Running all, targeted, and critical tests.
+- Unit, integration, and benchmark categories.
+- Coverage targets.
+- Mock and fixture patterns.
 
 ### CROSS_COMPILATION_CONTEXT.md
-- Platform support matrix
-- Platform-specific compiler flags
-- SIMD optimizations (x86 SSE/AVX, ARM NEON)
-- vcpkg triplet configuration
-- Docker multi-architecture builds
+
+- Platform support matrix.
+- Platform-specific compiler flags.
+- SIMD optimization notes for x86 and ARM.
+- vcpkg triplet configuration.
+- Docker multi-architecture builds.
 
 ### CUDA_OPTIMIZATION.md
-- GPU architecture basics (Warp, Block, Grid, SM, Compute Capability)
-- Memory hierarchy and access patterns (coalesced, shared memory, bank conflicts)
-- Optimal kernel design (block size, occupancy, shared memory limits)
-- SIMD optimization for x86 (SSE/AVX) and ARM (NEON) with fallback strategy
-- Atomic operations and lock-free patterns on GPU
-- Annotated code examples: vector add, parallel reduction, distance kernel
-- Common GPU pitfalls and how to avoid them
+
+- GPU architecture basics.
+- Memory hierarchy and access patterns.
+- Kernel design guidelines.
+- SIMD fallback strategy for x86 and ARM.
+- GPU atomics and lock-free patterns.
+- Annotated examples.
+- Common pitfalls.
 
 ### MVCC_CONCURRENCY.md
-- MVCC fundamentals: version numbering, snapshot isolation, visibility rules
-- Lock strategies: RWLock, optimistic locking, timestamp ordering
-- Thread-safety patterns: CoW, lock-free queues, atomic counters
-- Deadlock prevention: lock ordering, `std::lock`, timeout strategies
-- Testing concurrent code: ThreadSanitizer, stress tests, race detection
-- Common pitfalls: use-after-free, data races, deadlocks, livelocks
-- NUMA-aware thread affinity for scalable read/write workloads
+
+- MVCC fundamentals.
+- Lock strategies.
+- Thread-safety patterns.
+- Deadlock prevention.
+- Concurrency testing.
+- Transaction lifecycle.
+- Version garbage collection and common pitfalls.
 
 ### PERFORMANCE_PROFILING.md
-- Profiling tool setup: Nsight Systems, Nsight Compute, Linux perf, Valgrind
-- Step-by-step GPU profiling workflow with `nsys` and `ncu` commands
-- CPU profiling with perf + FlameGraph and Valgrind callgrind
-- Key performance metrics with target ranges and warning thresholds
-- Benchmark best practices: warmup, variance reduction, baseline comparisons
-- Google Benchmark and CMake `benchmark` target integration
-- NVTX annotations for timeline correlation
-- CI/CD regression detection workflow and alerting thresholds
-- Per-module performance SLOs (Vector Search, Storage, AQL, MVCC)
-- CUDA kernel design best practices (block/grid sizing, warp-aware programming)
-- Memory optimization (coalesced access, shared memory, pinned memory)
-- SIMD and vector operations (x86 AVX2, ARM NEON)
-- ThemisDB-specific GPU patterns (vector search, geospatial, graph traversal)
 
-### MVCC_CONCURRENCY.md
-- MVCC fundamentals (version numbering, snapshot vs. serializable isolation)
-- Lock strategies (optimistic/pessimistic, lock modes, deadlock detection)
-- Transaction lifecycle (begin → read/write → commit/rollback)
-- Thread safety patterns (RWLocks, atomics, memory ordering)
-- Version garbage collection and common pitfalls
-
-### PERFORMANCE_PROFILING.md
-- GPU profiling with Nsight Compute and Nsight Systems
-- CPU profiling with perf, VTune, and Callgrind
-- Memory access pattern and cache hit-rate analysis
-- Google Benchmark setup and regression detection
-- CI integration for automated benchmark runs
+- GPU and CPU profiling workflows.
+- Key performance metrics and thresholds.
+- Benchmark best practices.
+- Google Benchmark integration.
+- Regression detection in CI.
+- ThemisDB-specific performance patterns.
 
 ### VSCODE_CONTEXT.md
-- VSCode setup and extensions
-- Remote development (WSL, SSH, Dev Containers)
-- CMake integration
-- IntelliSense configuration
-- Debugging workflows
-- Code formatting
 
-## 🔍 Validation
+- VS Code setup and extensions.
+- Remote development options.
+- CMake integration.
+- IntelliSense configuration.
+- Debugging workflows.
+- Formatting support.
+
+### PROMPT_ENGINEERING.md
+
+- Step-by-step decomposition for implementation prompts.
+- Acceptance-criteria-first prompt structure.
+- Checkpoint strategy for long-running autonomous tasks.
+- Canonical prompt patterns for concurrency/networking/rate-limiting tasks.
+
+### MODERNIZE_AGENT.md
+
+- Assessment-plan-execution structure for C++ modernization tasks.
+- Trigger scenarios for legacy toolchains and C++11/14 migration.
+- Validation and staging requirements for safe modernization.
+
+### BUILD_PERF_AGENT.md
+
+- ETL trace-based build bottleneck analysis.
+- Build-time hotspot categories (headers, templates, function generation).
+- Existing CMake-target integration and measurement-first workflow.
+
+## Validation
 
 ### Automated Checks
 
 The CI pipeline validates:
-- ✅ All file references exist
-- ✅ Main file stays under 300 lines
-- ✅ Required modules present
-- ✅ Markdown linting
+
+- All file references exist.
+- The main file stays under 300 lines.
+- Required modules are present.
+- Markdown linting runs on the relevant instruction files.
 
 ### Manual Validation
 
 ```bash
-# Validate file references
 python .github/scripts/validate_copilot_refs.py
-
-# Check main file size
-wc -l .github/COPILOT_INSTRUCTIONS.md
+wc -l .github/copilot-instructions.md
 ```
 
-## ✏️ Editing Guidelines
+## Editing Guidelines
 
 ### When to Create a New Module
 
 Create a new module when:
-- Topic is self-contained (>200 lines of content)
-- Multiple sections relate to the same domain
-- Content will be referenced frequently
-- Reduces complexity in main file
 
-### When to Update Existing Module
+- The topic is self-contained and large enough to justify isolation.
+- Multiple sections belong to the same domain.
+- The content will be referenced frequently.
+- The split reduces complexity in the main file.
+
+### When to Update an Existing Module
 
 Update a module when:
-- Instructions change for that domain
-- New tools/processes are introduced
-- Troubleshooting steps are discovered
-- Examples need clarification
 
-### Keeping Main File Clean
+- Instructions change for that domain.
+- New tools or processes are introduced.
+- New troubleshooting knowledge is discovered.
+- Examples need clarification.
 
-The main `COPILOT_INSTRUCTIONS.md` should:
-- Provide high-level overview
-- Link to detailed modules
-- Show quick reference examples
-- Stay under 300 lines (target: 200)
+### Main File Expectations
+
+The main `copilot-instructions.md` file should:
+
+- Provide a high-level overview.
+- Link to detailed modules.
+- Offer quick reference examples.
+- Stay under 300 lines, with a target around 200.
 
 ### Style Guidelines
 
-1. **Use Headers** - Clear section structure
-2. **Code Examples** - Show good vs bad patterns
-3. **Tables** - For comparison/reference data
-4. **Links** - Reference related docs
-5. **Emojis** - Visual cues (optional, use sparingly)
+1. Use clear headers.
+2. Prefer short, concrete examples.
+3. Use tables only when comparison adds value.
+4. Keep links current.
+5. Use visual flourishes sparingly.
 
-## 🔄 Update Process
+## Update Process
 
-1. **Make Changes** - Edit relevant module(s)
-2. **Validate** - Run validation script
-3. **Test Links** - Click through references
-4. **Commit** - Use conventional commits
-5. **CI Checks** - Ensure all checks pass
+1. Edit the relevant module or main file.
+2. Run the validation script.
+3. Verify cross-references.
+4. Commit with a conventional message.
+5. Confirm CI checks pass.
 
-## 🛠️ Tooling
+## Tooling
 
 ### Validation Script
 
-```python
-# .github/scripts/validate_copilot_refs.py
-- Checks all markdown links in Copilot instructions
-- Validates file existence
-- Reports broken references
-```
+` .github/scripts/validate_copilot_refs.py ` checks markdown links in Copilot instruction files, validates file existence, and reports broken references.
 
 ### CI Workflow
 
-```yaml
-# .github/workflows/validate-ai-guardrails.yml
-- Runs on push/PR to relevant files
-- Validates references
-- Checks file size
-- Lints markdown
-- Verifies module structure
-```
+` .github/workflows/validate-ai-guardrails.yml ` validates references, checks file size, lints markdown, and verifies module structure.
 
 ### Pre-commit Hooks
 
-```yaml
-# .pre-commit-config.yaml
-- Markdown linting
-- YAML validation
-- Secret detection
-- Custom validation hook
-```
+` .pre-commit-config.yaml ` can be used to run markdown linting, YAML validation, secret detection, and custom validation hooks before commit.
 
-## 📊 Metrics
+## Metrics
 
 ### Before Refactoring
-- Single file: 501 lines
-- Complex, hard to navigate
-- No validation
-- Conflicting instructions
+
+- Single file with 501 lines.
+- Difficult to navigate.
+- No validation.
+- Conflicting instructions.
 
 ### After Refactoring
-- Main file: 264 lines (-47%)
-- 9 focused modules
-- Automated validation
-- Clear organization
 
-## 🤝 Contributing
+- Main file reduced to 264 lines.
+- Nine focused modules.
+- Automated validation.
+- Clearer organization.
+
+## Contributing
 
 When contributing to AI-Guardrails:
 
-1. **Follow Structure** - Keep modules focused
-2. **Validate Changes** - Run validation script
-3. **Update Links** - Keep cross-references current
-4. **Document Changes** - Update this README if needed
+1. Keep modules focused.
+2. Run the validation script.
+3. Maintain cross-references.
+4. Update this README when structure changes.
 
-## 📚 Related Documentation
+## Related Documentation
 
-- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Contribution guidelines
-- [ARCHITECTURE.md](../../ARCHITECTURE.md) - System architecture
-- [.devcontainer/](../../.devcontainer/devcontainer.json) - Dev Container setup
-- [.pre-commit-config.yaml](../../.pre-commit-config.yaml) - Pre-commit hooks
+- [CONTRIBUTING.md](../../CONTRIBUTING.md): Contribution guidelines.
+- [ARCHITECTURE.md](../../ARCHITECTURE.md): System architecture.
+- [.devcontainer/](../../.devcontainer/devcontainer.json): Dev Container setup.
+- [.pre-commit-config.yaml](../../.pre-commit-config.yaml): Pre-commit hooks.
 
-## ❓ FAQ
+## FAQ
 
-### Q: Why split into modules?
+### Why split into modules?
 
-A: The monolithic 501-line file was:
-- Hard to maintain
-- Contained contradictory instructions
-- Difficult to navigate
-- No way to validate references
+The previous monolithic file was hard to maintain, difficult to navigate, and impossible to validate reliably. The modular structure provides better separation of concerns, simpler maintenance, clearer organization, and automatic validation.
 
-Modular structure provides:
-- Clear separation of concerns
-- Easier maintenance
-- Better organization
-- Automated validation
+### How often should modules be updated?
 
-### Q: How often should modules be updated?
+Update modules when build processes change, coding standards evolve, new tools are adopted, or better practices are discovered.
 
-A: Update modules when:
-- Build process changes
-- Coding standards evolve
-- New tools are adopted
-- Best practices are discovered
+### Can I add new modules?
 
-### Q: Can I add new modules?
+Yes. Use this sequence:
 
-A: Yes! Follow these steps:
-1. Create module in `.github/copilot/`
-2. Add reference in main file
-3. Update validation if needed
-4. Document in this README
+1. Create the module in `.github/copilot/`.
+2. Add the reference in the main file.
+3. Extend validation if required.
+4. Document the new module in this README.
 
-### Q: What if validation fails?
+### What if validation fails?
 
-A: Common issues:
-- **Broken link**: Update path or create missing file
-- **File too large**: Move content to module
-- **Missing module**: Create required module file
+Common causes are:
 
-## 📞 Support
+- Broken links that need to be updated.
+- An oversized main file that should be split.
+- Missing required modules.
+
+## Support
 
 For questions or issues:
-- Open an issue with label `area:documentation`
-- Consult [CONTRIBUTING.md](../../CONTRIBUTING.md)
-- Ask in team chat/discussions
+
+- Open an issue with label `area:documentation`.
+- Consult [CONTRIBUTING.md](../../CONTRIBUTING.md).
+- Use the team discussion channels.
 
 ---
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-12  
-**Maintainer:** ThemisDB Team
+Version: 1.0
+Last Updated: 2026-04-14
+Maintainer: ThemisDB Team

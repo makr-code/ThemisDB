@@ -16,11 +16,21 @@ The README header is organised into four thematic rows for quick scanning. Each 
 | License | Project license (MIT) | [license.md](license.md) |
 | Docker Pulls | Total Docker Hub pulls for `themisdb/themisdb` | [docker.md](docker.md) |
 
+### Row 1b – Edition CI
+
+| Badge | What it shows | Details |
+|-------|---------------|---------|
+| MINIMAL | Latest MINIMAL edition CI result on `develop` | [edition-ci.md](edition-ci.md) |
+| COMMUNITY | Latest COMMUNITY edition CI result on `develop` | [edition-ci.md](edition-ci.md) |
+| ENTERPRISE | Latest ENTERPRISE edition CI result on `develop` | [edition-ci.md](edition-ci.md) |
+| HYPERSCALER | Latest HYPERSCALER edition CI result on `develop` | [edition-ci.md](edition-ci.md) |
+| MILITARY | Latest MILITARY edition CI result on `develop` | [edition-ci.md](edition-ci.md) |
+
 ### Row 2 – Code Metrics
 
 | Badge | What it shows | Details |
 |-------|---------------|---------|
-| Lines of Code | Total source lines counted by Tokei | [loc.md](loc.md) |
+| Lines of Code | Total source lines (Tokei count, stored in `.github/badges/lines-of-code.json`) | [loc.md](loc.md) |
 | Repo Size | Total repository size (GitHub API) | [repo-size.md](repo-size.md) |
 | Last Commit | Date of the most recent commit on `develop` | [last-commit.md](last-commit.md) |
 | Stars | GitHub star count | [stars.md](stars.md) |
@@ -48,9 +58,10 @@ The README header is organised into four thematic rows for quick scanning. Each 
 
 ## Design rationale
 
-The badge bar uses four rows of five badges each (~20 total) to provide comprehensive project status at a glance without scrolling:
+The badge bar uses five rows of five badges each (~25 total) to provide comprehensive project status at a glance without scrolling:
 
 - **Row 1** answers: *Is the build healthy? What version is this? Can I use it freely?*
+- **Row 1b** answers: *Do all ThemisDB editions (MINIMAL/COMMUNITY/ENTERPRISE/HYPERSCALER/MILITARY) build successfully on `develop`?*
 - **Row 2** answers: *How active is development? How large is the codebase?*
 - **Row 3** answers: *Is this project maintained and welcoming? Where are the docs?*
 - **Row 4** answers: *What technology does this use? Does GPU/LLM support work?*

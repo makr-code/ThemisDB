@@ -1,33 +1,34 @@
+/**
+ * @file themis_core_grpc_service.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=1, Stub=3, Unimpl=2, Mock=1, Sim=1, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_core_grpc_service.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     134                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bb592d7  2026-02-24  Implement ThemisDBGrpcService and fix ThemisCoreServiceIm... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_core_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 167
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=2, Mock=1, Sim=1, Debt=0, C=0, H=0, M=4, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #146 Implement Vector Quantizati... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/themis_core_grpc_service.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
 #include "utils/logger.h"
 #include <atomic>
 #include <chrono>
+#include <exception>
+#include <mutex>
 #include <string>
+#include <utility>
 
 // Conditionally compile the real service implementation when the protobuf
 // stubs generated from proto/themis_core.proto are available on the include
@@ -43,6 +44,11 @@
 
 namespace themis {
 namespace core {
+
+namespace {
+std::mutex g_core_grpc_instance_mutex;
+ThemisCoreServiceImpl::ServiceInstanceFn g_core_grpc_instance_fn;
+} // namespace
 
 class ThemisCoreServiceImpl::Impl {
 public:
@@ -114,22 +120,60 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
     impl_ = std::make_unique<Impl>(db_, txn_mgr_, aql_engine_);
     THEMIS_INFO("ThemisCoreServiceImpl: initialized with gRPC protocol support");
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow ThemisCoreServiceImpl to be constructed and linked without
+    //   the generated protobuf/gRPC stub files for themis_core.proto.  The
+    //   service instance is null; getServiceInstance() returns nullptr so the
+    //   gRPC server simply omits this service from its handler list.
+    // Activation: THEMIS_HAS_CORE_GRPC == 0 (default when protoc has not been
+    //   run against proto/themis_core.proto, or when the generated
+    //   themis_core.grpc.pb.h is not on the include path).
+    // Production Delta: ThemisCoreService is completely absent from the gRPC
+    //   server; clients calling any method on this service receive
+    //   UNIMPLEMENTED.  All database, transaction, and AQL operations
+    //   exposed by ThemisCoreService are inaccessible via gRPC.
+    // Removal Plan: Run `cmake -DTHEMIS_ENABLE_GRPC=ON` with protoc installed
+    //   so that themis_core.grpc.pb.{h,cc} are generated.  Re-enable the
+    //   THEMIS_HAS_CORE_GRPC=1 path; this #else block becomes dead code.
+    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"gRPC Core Service Activation"
     THEMIS_WARN("ThemisCoreServiceImpl: themis_core.grpc.pb.h not found; "
                 "service will be a no-op until protoc generates the stubs");
+
+    // Try injected accessor (for non-proto builds wiring an external service).
+    ServiceInstanceFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
+        fn = g_core_grpc_instance_fn;
+    }
+    if (fn) {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
+            service_ptr_ = nullptr;
+        } catch (...) {
+            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
+            service_ptr_ = nullptr;
+        }
+    }
 #endif
 }
 
 ThemisCoreServiceImpl::~ThemisCoreServiceImpl() = default;
 
+void ThemisCoreServiceImpl::setServiceInstanceFn(ServiceInstanceFn fn) {
+    std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
+    g_core_grpc_instance_fn = std::move(fn);
+}
+
 void* ThemisCoreServiceImpl::getServiceInstance() {
 #if THEMIS_HAS_CORE_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
 #else
-    // proto stubs not generated; returning null is expected here
-    void* no_service = nullptr;
-    return no_service;
+    return service_ptr_;
 #endif
 }
 
 } // namespace core
 } // namespace themis
+

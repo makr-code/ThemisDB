@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_query_cancellation.cpp                        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_query_cancellation.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for query cancellation via request ID.
@@ -143,7 +132,7 @@ TEST(QueryCancellerTest, ReregisterReplacesToken) {
     canceller.cancel("req-004");
     EXPECT_TRUE(token2->isCancelled());
     // token1 is no longer tracked; its state is unspecified but must not crash.
-    EXPECT_NO_THROW(token1->isCancelled());
+    EXPECT_NO_THROW(static_cast<void>(token1->isCancelled()));
 }
 
 TEST(QueryCancellerTest, ScopedRegistration_UnregistersOnDestruction) {
@@ -200,10 +189,12 @@ class ExecuteAqlCancellableTest : public ::testing::Test {
 protected:
     void SetUp() override {
         db_path_ = tmpCancelTestPath("cancel");
-        storage_ = std::make_shared<RocksDBWrapper>(db_path_);
-        storage_->open(db_path_);
-        auto sec_idx = std::make_shared<SecondaryIndexManager>(storage_);
-        engine_ = std::make_unique<QueryEngine>(storage_, sec_idx);
+        RocksDBWrapper::Config config;
+        config.db_path = db_path_;
+        storage_ = std::make_shared<RocksDBWrapper>(config);
+        storage_->open();
+        sec_idx_ = std::make_shared<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *sec_idx_);
     }
 
     void TearDown() override {
@@ -214,13 +205,14 @@ protected:
 
     std::string db_path_;
     std::shared_ptr<RocksDBWrapper> storage_;
+    std::shared_ptr<SecondaryIndexManager> sec_idx_;
     std::unique_ptr<QueryEngine> engine_;
 };
 
 TEST_F(ExecuteAqlCancellableTest, SuccessfulExecution_ReturnsResult) {
     QueryCanceller canceller;
     auto result = executeAqlCancellable(
-        "FOR x IN [] RETURN x",
+        "FOR x IN entities RETURN x",
         *engine_,
         "req-100",
         canceller
@@ -249,7 +241,7 @@ TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
     query_started.store(true);
 
     auto result = executeAqlCancellable(
-        "FOR x IN [] RETURN x",
+        "FOR x IN entities RETURN x",
         *engine_,
         "req-200",
         canceller
@@ -268,7 +260,7 @@ TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
 TEST_F(ExecuteAqlCancellableTest, UnregisteredAfterExecution) {
     QueryCanceller canceller;
     auto result = executeAqlCancellable(
-        "FOR x IN [] RETURN x",
+        "FOR x IN entities RETURN x",
         *engine_,
         "req-300",
         canceller

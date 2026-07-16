@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-04-03T20:31:45.4228320+02:00",
+  "build_preset": "msvc-ninja-release",
+  "repeat_count": 20,
+  "output_dir": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_202437",
+  "gates": [
+    {
+      "name": "openapi-completeness-local",
+      "passed": true,
+      "details": "All source route hints in src/server are documented in openapi/openapi.yaml",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_202437\\openapi-completeness.json"
+    },
+    {
+      "name": "content-focused-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "content-processor-coverage-local",
+      "passed": true,
+      "details": "Processor coverage=92,31% (12/13); threshold=80,00%",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_202437\\content_processor_coverage.json"
+    },
+    {
+      "name": "content-benchmark-local",
+      "passed": true,
+      "details": "bench_content_versioning count=18 (min=18); bench_text_extraction count=20 (min=20); bench_content_processor_paths count=12 (min=12); VersionCreation1MiB=16,089ms<= 50,000ms; Diff1MiB=17,550ms<= 50,000ms; Retrieval=0,374us<= 5,000us; PDF1MiB=2,414ms<= 500,000ms; DOCX1MiB=4,715ms<= 500,000ms; HTML1MiB=94,373ms<= 500,000ms; Plain1MiB=0,222ms<= 500,000ms; OfficePath1MiB=1,234ms<= 750,000ms; OcrPath1MiB=0,648ms<= 750,000ms; ArchivePath1MiB=0,000ms<= 750,000ms",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_202437\\content_bench_processor_paths.json"
+    },
+    {
+      "name": "geo-readiness-local",
+      "passed": false,
+      "details": "bench_geo_cpu_gpu count=25 (min=25); CPU/GPU pairs present: ST_BUFFER=False, exactIntersects=False, geodesicDistance=False",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_202437\\geo_cpu_gpu_parity.json"
+    },
+    {
+      "name": "cluster-chaos-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "sla-99.99-local-proxy",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "pentest-report-local",
+      "passed": false,
+      "details": "Skipped by user",
+      "evidence": ""
+    },
+    {
+      "name": "beta-module-exit",
+      "passed": true,
+      "details": "6 beta modules accepted via -AllowBetaModules",
+      "evidence": "C:\\VCC\\themis\\artifacts\\production-readiness\\20260403_202437\\beta_modules.txt"
+    }
+  ],
+  "failed_gate_count": 5
+}

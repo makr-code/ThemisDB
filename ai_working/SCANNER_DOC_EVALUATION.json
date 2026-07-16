@@ -1,0 +1,402 @@
+{
+  "summary": {
+    "generated_at": "2026-06-03T20:19:47",
+    "latest_scan_file": "ai_working/gap_scan_legacy_compat.json",
+    "latest_scan_mtime": "2026-06-03T20:01:01",
+    "module_docs_total": 65,
+    "module_docs_stale_vs_latest_scan": 65,
+    "module_docs_fresh_vs_latest_scan": 0
+  },
+  "modules": [
+    {
+      "module": "acceleration",
+      "doc_path": "src/acceleration/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "ai",
+      "doc_path": "src/ai/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "analytics",
+      "doc_path": "src/analytics/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-03T15:24:13",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "api",
+      "doc_path": "src/api/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "aql",
+      "doc_path": "src/aql/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "auth",
+      "doc_path": "src/auth/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "base",
+      "doc_path": "src/base/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "cache",
+      "doc_path": "src/cache/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "cdc",
+      "doc_path": "src/cdc/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "chaos",
+      "doc_path": "src/chaos/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "chimera",
+      "doc_path": "src/chimera/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "config",
+      "doc_path": "src/config/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "content",
+      "doc_path": "src/content/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "core",
+      "doc_path": "src/core/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "distributed_knowledge",
+      "doc_path": "src/distributed_knowledge/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "distributed_tensor",
+      "doc_path": "src/distributed_tensor/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "document",
+      "doc_path": "src/document/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "ethics_ai",
+      "doc_path": "src/ethics_ai/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "evaluation",
+      "doc_path": "src/evaluation/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "exporters",
+      "doc_path": "src/exporters/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "failover",
+      "doc_path": "src/failover/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "geo",
+      "doc_path": "src/geo/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "governance",
+      "doc_path": "src/governance/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "gpu",
+      "doc_path": "src/gpu/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "graph",
+      "doc_path": "src/graph/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "importers",
+      "doc_path": "src/importers/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "index",
+      "doc_path": "src/index/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T16:34:37",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "ingestion",
+      "doc_path": "src/ingestion/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "llama_cpp",
+      "doc_path": "src/llama_cpp/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "llm",
+      "doc_path": "src/llm/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "maintenance",
+      "doc_path": "src/maintenance/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "metadata",
+      "doc_path": "src/metadata/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "network",
+      "doc_path": "src/network/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "observability",
+      "doc_path": "src/observability/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "onnx_clip",
+      "doc_path": "src/onnx_clip/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "performance",
+      "doc_path": "src/performance/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "plugins",
+      "doc_path": "src/plugins/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "process",
+      "doc_path": "src/process/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "projects",
+      "doc_path": "src/projects/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "prompt_engineering",
+      "doc_path": "src/prompt_engineering/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "query",
+      "doc_path": "src/query/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "rag",
+      "doc_path": "src/rag/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "replication",
+      "doc_path": "src/replication/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-03T15:24:13",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "retrieval",
+      "doc_path": "src/retrieval/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "rpc_grpc",
+      "doc_path": "src/rpc_grpc/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "scheduler",
+      "doc_path": "src/scheduler/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "scraper",
+      "doc_path": "src/scraper/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "search",
+      "doc_path": "src/search/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "security",
+      "doc_path": "src/security/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-03T15:24:13",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "server",
+      "doc_path": "src/server/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-03T15:24:14",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "sharding",
+      "doc_path": "src/sharding/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "stable_diffusion",
+      "doc_path": "src/stable_diffusion/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "storage",
+      "doc_path": "src/storage/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "temporal",
+      "doc_path": "src/temporal/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "tensor",
+      "doc_path": "src/tensor/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "themis",
+      "doc_path": "src/themis/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "timeseries",
+      "doc_path": "src/timeseries/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "toolbox",
+      "doc_path": "src/toolbox/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "training",
+      "doc_path": "src/training/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "transaction",
+      "doc_path": "src/transaction/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "updates",
+      "doc_path": "src/updates/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "user_storage_encrypted",
+      "doc_path": "src/user_storage_encrypted/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "utils",
+      "doc_path": "src/utils/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "voice",
+      "doc_path": "src/voice/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    },
+    {
+      "module": "whisper",
+      "doc_path": "src/whisper/MODULE_GAPS.md",
+      "doc_mtime": "2026-06-02T14:52:48",
+      "stale_vs_latest_scan": true
+    }
+  ]
+}

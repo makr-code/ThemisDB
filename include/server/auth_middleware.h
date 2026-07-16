@@ -1,33 +1,27 @@
+/**
+ * @file auth_middleware.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_middleware.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
-    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_middleware.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "auth/mtls_authenticator.h"
 
+#include <nlohmann/json.hpp>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -86,6 +80,8 @@ public:
         std::string expected_audience;   // Expected "aud" claim
         std::chrono::seconds jwks_cache_ttl{3600}; // Default 1 hour
         std::chrono::seconds clock_skew{60};       // Default 60 seconds tolerance
+        bool require_issuer_validation = true;   // Require expected_issuer to be configured
+        bool require_audience_validation = true; // Require expected_audience to be configured
         
         // Mapping of JWT claims to scopes and tenant
         std::string scope_claim = "roles";  // Which JWT claim contains scopes (e.g., "roles", "groups", "scopes")
@@ -150,6 +146,19 @@ public:
     void removeToken(std::string_view token);
     void clearTokens();
 
+    /// Configure a role-to-scope mapping used by JWT and Kerberos authorization.
+    ///
+    /// When a JWT or Kerberos token's direct scope claims do not include the
+    /// `required_scope`, the middleware falls back to checking whether any of the
+    /// token's roles maps to that scope through this table.
+    ///
+    /// Example: `setRoleScopeMapping({{"admin", {"cache:write", "cache:read"}},
+    ///                                 {"viewer", {"cache:read"}}})`
+    ///
+    /// Thread-safe; replaces any previously configured mapping.
+    void setRoleScopeMapping(
+        std::unordered_map<std::string, std::vector<std::string>> mapping);
+
     /// Check if token has required scope
     /// @param token Bearer token from Authorization header
     /// @param required_scope Required scope (e.g., "admin", "config:write", "cdc:read", "metrics:read")
@@ -181,6 +190,10 @@ public:
     /// Check if USB admin authentication is enabled and USB is present
     bool isUSBAdminReady() const;
 
+    // testing helper – injects a pre-built JWKS into the JWT validator so tests
+    // can verify scope enforcement without a live JWKS endpoint.
+    void setJWKSForTesting(const nlohmann::json& jwks);
+
 private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, TokenConfig> tokens_; // token -> config
@@ -207,10 +220,20 @@ private:
     // API key authentication
     std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
     bool api_key_enabled_ = false;
-    
+
+    // Role-to-scope mapping: role name → list of scopes that role grants.
+    // Used as fallback in JWT and Kerberos authorization when direct scope
+    // claims don't contain the required_scope.
+    std::unordered_map<std::string, std::vector<std::string>> role_scope_map_;
+    bool role_scope_map_loaded_ = false;  // true once a load attempt has been made
+
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;
-    
+
+    /// Returns true if @p required_scope is granted by any role in @p roles via role_scope_map_.
+    bool roleGrantsScope(const std::vector<std::string>& roles,
+                         std::string_view required_scope) const;
+
     // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
     
@@ -222,6 +245,11 @@ private:
 
     // Helper: try to authorize via API key (combined "key_id.secret" format)
     AuthResult authorizeViaApiKey(std::string_view combined_token, std::string_view required_scope) const;
+
+    // Helper: load role-to-scope mapping from config/security/rbac_roles.yaml.
+    // Must be called with mutex_ held.
+    void loadRoleScopeMapping();
 };
 
 } // namespace themis
+

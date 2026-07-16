@@ -11,6 +11,12 @@ set(THEMIS_AUTO_BOOTSTRAP_DEPS OFF CACHE BOOL "Automatically bootstrap missing t
 # Must be set unconditionally (before MSVC is defined by project())
 set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/msvc_includes_fix.cmake")
 
+# Initialize selected Visual Studio developer environment (optional)
+# This runs VsDevCmd.bat and applies LIB/INCLUDE/LIBPATH/WindowsSdkDir/VCToolsInstallDir
+# into the CMake process so compiler detection and configure steps use the selected
+# MSVC toolset without external wrapper scripts. Control via -DTHEMIS_MSVC_SELECTION=vs2022
+include(cmake/DetectVsDevCmd.cmake OPTIONAL)
+
 # Read VERSION first (before project())
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
@@ -32,6 +38,12 @@ project(Themis
     DESCRIPTION "ThemisDB - Enterprise Distributed Database"
     LANGUAGES CXX
 )
+
+# Treat uncomponentized install() rules as runtime payload by default.
+# This prevents third-party runtime DLLs from leaking into a separate
+# 'Unspecified' package component and colliding with the explicit runtime
+# package during WiX/MSI generation.
+set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
 # Preflight for externally provided toolchain file
 # Common failure: CMAKE_TOOLCHAIN_FILE points to missing repo-local vcpkg path.
@@ -79,12 +91,16 @@ endif()
 # Store full semantic version
 set(THEMIS_VERSION_STRING "${_ver_raw}")
 
+# Default parallelism used by build wrappers and as a hint for developers.
+# This cache entry can be inspected by tools and users; wrappers default to this
+# value when no explicit `-j` is provided.
+
 # Optional submodule initialization during configure
 if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     find_program(THEMIS_GIT_EXECUTABLE git)
     if(THEMIS_GIT_EXECUTABLE)
         set(_themis_missing_submodules "")
-        foreach(_themis_submodule IN ITEMS "ffmpeg" "llama.cpp")
+        foreach(_themis_submodule IN ITEMS "ffmpeg" "llama.cpp" "whisper.cpp" "stable-diffusion.cpp")
             if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/.git" AND
                NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/CMakeLists.txt")
                 list(APPEND _themis_missing_submodules "${_themis_submodule}")
@@ -101,11 +117,14 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
             if(NOT _themis_submodule_result EQUAL 0)
                 message(WARNING
                     "Failed to initialize submodules (${_themis_missing_submodules}): ${_themis_submodule_error}\n"
-                    "You can run manually: git submodule update --init --recursive ffmpeg llama.cpp")
+                    "You can run manually: git submodule update --init --recursive ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp")
             endif()
         endif()
     endif()
 endif()
+
+# Note: wrapper-based build logging was removed; rely on CMake presets and
+# the build system's own `--parallel` / `jobs` settings instead.
 
 # ============================================================================
 # MODULAR CMAKE INCLUDES - REFACTORED BUILD SYSTEM
@@ -128,6 +147,15 @@ include(cmake/Versions.cmake)
 # 2. Compiler setup
 include(cmake/CompilerOptions.cmake)
 
+# 2.5. Compiler cache launcher (sccache/ccache)
+include(cmake/CompilerCache.cmake)
+
+# Core helpers (sets global C++ standard, test helper)
+include(cmake/helpers.cmake OPTIONAL)
+
+# Emit deprecation/warning checks (e.g. add_definitions() usage)
+include(cmake/deprecated_checks.cmake OPTIONAL)
+
 # 3. Platform detection (OS, CPU, triplet)
 include(cmake/platforms/PlatformDetection.cmake)
 
@@ -149,6 +177,17 @@ include(cmake/EditionMatrix.cmake)
 # 8. vcpkg Configuration (binary cache, feature dependencies)
 include(cmake/VcpkgConfiguration.cmake)
 
+# Fallback: ensure vcpkg "installed/<triplet>/include" is on the global include path
+# This helps in environments where per-package imported targets do not propagate
+# an umbrella include directory to all targets (diagnostic / compatibility aid).
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
+    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+endif()
+
 # 9. Dependencies
 include(cmake/Dependencies.cmake)
 
@@ -156,6 +195,28 @@ include(cmake/Dependencies.cmake)
 include(cmake/validation/PlatformValidation.cmake)
 include(cmake/validation/EditionValidation.cmake)
 include(cmake/validation/FeatureValidation.cmake)
+
+# Redirect runtime/library/archive outputs to separate folders on Windows to
+# avoid parallel linker/file-lock collisions in shared `bin/` during large
+# parallel builds. Tests and runtime loaders should prefer the `bin_out` path
+# added below; PATH modifications in tests are updated accordingly.
+if(WIN32)
+    set(_themis_bin_out "${CMAKE_BINARY_DIR}/bin")
+    set(_themis_lib_out "${CMAKE_BINARY_DIR}/lib")
+    file(MAKE_DIRECTORY "${_themis_bin_out}")
+    file(MAKE_DIRECTORY "${_themis_lib_out}")
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${_themis_bin_out})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${_themis_bin_out})
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${_themis_lib_out})
+
+    foreach(_cfg IN ITEMS Debug Release RelWithDebInfo MinSizeRel)
+        string(TOUPPER "${_cfg}" _ucfg)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_ucfg} ${_themis_lib_out})
+    endforeach()
+endif()
 
 # Testing - handled in cmake/CMakeLists.txt via add_subdirectory(tests)
 # (Moved to cmake/CMakeLists.txt to be closer to target definitions)
@@ -190,6 +251,22 @@ option(THEMIS_ENABLE_METRICS_EXPORT
 
 option(THEMIS_BENCHMARK_MODE 
        "Enable all performance measurement features (FOR BENCHMARKING ONLY!)" 
+       OFF)
+
+# ============================================================================
+# CLOUD SDK INTEGRATION
+# ============================================================================
+
+option(THEMIS_WITH_S3_SDK 
+       "Enable AWS S3 cloud backup provider (requires aws-sdk-cpp)" 
+       OFF)
+
+option(THEMIS_WITH_AZURE_SDK 
+       "Enable Azure Blob Storage cloud backup provider (requires azure-storage-blobs-cpp)" 
+       OFF)
+
+option(THEMIS_WITH_GCS_SDK 
+       "Enable Google Cloud Storage cloud backup provider (requires google-cloud-cpp)" 
        OFF)
 
 # ============================================================================
@@ -275,29 +352,74 @@ endif()
 set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")
 
 
-# CHIMERA Adapters (optional, vendor-neutral)
-option(BUILD_CHIMERA_ADAPTERS "Build CHIMERA database adapters" OFF)
+# CHIMERA Suite (optional, vendor-neutral)
+option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
+option(BUILD_CHIMERA_ADAPTERS "Deprecated alias for THEMIS_BUILD_CHIMERA" OFF)
 if(BUILD_CHIMERA_ADAPTERS)
-    add_subdirectory(adapters/chimera)
+    message(DEPRECATION "BUILD_CHIMERA_ADAPTERS is deprecated; use THEMIS_BUILD_CHIMERA instead.")
+    if(NOT THEMIS_BUILD_CHIMERA)
+        set(THEMIS_BUILD_CHIMERA ON CACHE BOOL "Build CHIMERA adapters, focused tests, and benchmark integration" FORCE)
+    endif()
 endif()
+
+# Enable CTest infrastructure at root level so `ctest --preset` can find tests
+# registered inside add_subdirectory(cmake). Without this, CTestTestfile.cmake
+# is only generated in build-dir/cmake/, not in the root binary dir.
+enable_testing()
 
 # Main build logic
 add_subdirectory(cmake)
 
-# Benchmarking
-if(THEMIS_BUILD_BENCHMARKS)
-    add_subdirectory(benchmarks)
+# Include CPack configuration if present (provides CPack packaging config and generators)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPackConfig.cmake")
+    include(cmake/CPackConfig.cmake)
+    message(STATUS "CPack configuration included from cmake/CPackConfig.cmake")
+else()
+    message(STATUS "No cmake/CPackConfig.cmake found — packaging disabled until added")
 endif()
 
 # ============================================================================
 # DOCUMENTATION DATABASE GENERATION
 # ============================================================================
 
-# Control whether docs.db is generated during build. Defaults ON for native builds;
-# Docker should pass -DTHEMIS_BUILD_DOCS_DB=OFF and provide a prebuilt docs.db.
-option(THEMIS_BUILD_DOCS_DB "Generate documentation database during build" ON)
+# Control docs.db handling for local and CI/CD builds.
+# Modes:
+#   AUTO     - local: prefer cache, otherwise build; CI: prefer prebuilt from source
+#   BUILD    - always build docs.db from sources
+#   PREBUILT - use prebuilt docs.db from THEMIS_DOCS_DB_PREBUILT_PATH
+#   OFF      - disable docs.db packaging entirely
+set(THEMIS_DOCS_DB_MODE "AUTO" CACHE STRING "docs.db mode: AUTO, BUILD, PREBUILT, OFF")
+set_property(CACHE THEMIS_DOCS_DB_MODE PROPERTY STRINGS AUTO BUILD PREBUILT OFF)
+set(THEMIS_DOCS_DB_PREBUILT_PATH "${CMAKE_SOURCE_DIR}/data/docs.db" CACHE PATH "Prebuilt docs.db directory path")
+set(THEMIS_DOCS_DB_CACHE_PATH "${CMAKE_BINARY_DIR}/cache/docs.db" CACHE PATH "Local docs.db cache directory path")
 
-if(THEMIS_BUILD_DOCS_DB)
+# Backward-compatible flag support
+option(THEMIS_BUILD_DOCS_DB "Legacy docs.db switch (ON=BUILD, OFF=PREBUILT)" ON)
+if(NOT DEFINED CACHE{THEMIS_DOCS_DB_MODE})
+    if(THEMIS_BUILD_DOCS_DB)
+        set(THEMIS_DOCS_DB_MODE "BUILD" CACHE STRING "docs.db mode" FORCE)
+    else()
+        set(THEMIS_DOCS_DB_MODE "PREBUILT" CACHE STRING "docs.db mode" FORCE)
+    endif()
+endif()
+
+set(_themis_docs_db_mode "${THEMIS_DOCS_DB_MODE}")
+if(_themis_docs_db_mode STREQUAL "AUTO")
+    if(EXISTS "${THEMIS_DOCS_DB_CACHE_PATH}")
+        set(_themis_docs_db_mode "PREBUILT")
+        set(_themis_docs_db_selected_prebuilt "${THEMIS_DOCS_DB_CACHE_PATH}")
+        message(STATUS "docs.db mode AUTO -> PREBUILT (using local cache: ${THEMIS_DOCS_DB_CACHE_PATH})")
+    elseif((DEFINED ENV{CI} OR DEFINED ENV{GITHUB_ACTIONS}) AND EXISTS "${THEMIS_DOCS_DB_PREBUILT_PATH}")
+        set(_themis_docs_db_mode "PREBUILT")
+        set(_themis_docs_db_selected_prebuilt "${THEMIS_DOCS_DB_PREBUILT_PATH}")
+        message(STATUS "docs.db mode AUTO -> PREBUILT (CI with source prebuilt docs.db)")
+    else()
+        set(_themis_docs_db_mode "BUILD")
+        message(STATUS "docs.db mode AUTO -> BUILD")
+    endif()
+endif()
+
+if(_themis_docs_db_mode STREQUAL "BUILD")
     # Find Python3 for documentation database generation
     find_package(Python3 COMPONENTS Interpreter)
     
@@ -352,6 +474,8 @@ if(THEMIS_BUILD_DOCS_DB)
             add_custom_command(
                 OUTPUT ${DOCS_DB_OUTPUT}
                 COMMAND import_docs_rocksdb ${DOCS_JSON_OUTPUT} ${DOCS_DB_OUTPUT}
+                COMMAND ${CMAKE_COMMAND} -E remove_directory "${THEMIS_DOCS_DB_CACHE_PATH}"
+                COMMAND ${CMAKE_COMMAND} -E copy_directory ${DOCS_DB_OUTPUT} "${THEMIS_DOCS_DB_CACHE_PATH}"
                 DEPENDS
                     import_docs_rocksdb
                     ${DOCS_JSON_OUTPUT}
@@ -368,7 +492,7 @@ if(THEMIS_BUILD_DOCS_DB)
             # Install documentation database
             install(
                 DIRECTORY ${DOCS_DB_OUTPUT}
-                DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+                DESTINATION data
                 COMPONENT documentation
                 OPTIONAL
             )
@@ -376,6 +500,7 @@ if(THEMIS_BUILD_DOCS_DB)
             message(STATUS "Documentation database generation enabled")
             message(STATUS "  Output: ${DOCS_DB_OUTPUT}")
             message(STATUS "  Size: ~2-3 MB (1151 documents)")
+            message(STATUS "  Cache: ${THEMIS_DOCS_DB_CACHE_PATH}")
         else()
             message(WARNING "RocksDB not found. Documentation database will be generated as JSON only.")
             message(STATUS "JSON documentation database will be available at: ${DOCS_JSON_OUTPUT}")
@@ -384,16 +509,132 @@ if(THEMIS_BUILD_DOCS_DB)
         message(WARNING "Python3 not found. Documentation database generation disabled.")
         message(STATUS "Install Python 3 to enable automatic documentation database generation.")
     endif()
-else()
-    message(STATUS "Documentation database generation skipped (THEMIS_BUILD_DOCS_DB=OFF)")
-    # If a prebuilt docs.db exists in source tree, install it with the package
-    if(EXISTS "${CMAKE_SOURCE_DIR}/data/docs.db")
-        install(FILES "${CMAKE_SOURCE_DIR}/data/docs.db"
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/data
-            COMPONENT documentation
-        )
-        message(STATUS "Using prebuilt documentation database at ${CMAKE_SOURCE_DIR}/data/docs.db")
+elseif(_themis_docs_db_mode STREQUAL "PREBUILT")
+    if(NOT DEFINED _themis_docs_db_selected_prebuilt)
+        set(_themis_docs_db_selected_prebuilt "${THEMIS_DOCS_DB_PREBUILT_PATH}")
     endif()
+
+    if(EXISTS "${_themis_docs_db_selected_prebuilt}")
+        install(DIRECTORY "${_themis_docs_db_selected_prebuilt}"
+            DESTINATION data
+            COMPONENT documentation
+            OPTIONAL
+        )
+        message(STATUS "Using prebuilt documentation database at ${_themis_docs_db_selected_prebuilt}")
+    else()
+        message(WARNING "docs.db mode PREBUILT selected, but path not found: ${_themis_docs_db_selected_prebuilt}")
+    endif()
+elseif(_themis_docs_db_mode STREQUAL "OFF")
+    message(STATUS "Documentation database packaging disabled (THEMIS_DOCS_DB_MODE=OFF)")
+else()
+    message(FATAL_ERROR "Invalid THEMIS_DOCS_DB_MODE='${THEMIS_DOCS_DB_MODE}'. Allowed: AUTO, BUILD, PREBUILT, OFF")
+endif()
+
+if(DEFINED THEMIS_RELEASE_ROOT_DOC_FILES)
+    foreach(_themis_doc_file IN LISTS THEMIS_RELEASE_ROOT_DOC_FILES)
+        if(EXISTS "${CMAKE_SOURCE_DIR}/${_themis_doc_file}")
+            install(FILES "${CMAKE_SOURCE_DIR}/${_themis_doc_file}"
+                DESTINATION .
+                COMPONENT documentation
+                OPTIONAL
+            )
+        endif()
+    endforeach()
+endif()
+
+if(DEFINED THEMIS_RELEASE_LAYOUT_DOC)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_LAYOUT_DOC}")
+        install(FILES "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_LAYOUT_DOC}"
+            DESTINATION docs
+            COMPONENT documentation
+            OPTIONAL
+        )
+    endif()
+endif()
+
+if(DEFINED THEMIS_RELEASE_SETUP_SCRIPT)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_SETUP_SCRIPT}")
+        install(FILES "${CMAKE_SOURCE_DIR}/${THEMIS_RELEASE_SETUP_SCRIPT}"
+            DESTINATION bin
+            COMPONENT tools
+            OPTIONAL
+        )
+    endif()
+endif()
+
+# ============================================================================
+# OPTIONAL LLM MODEL PACKAGE CONTENT
+# ============================================================================
+
+# Models for release packages:
+# - Gemma stays local for develop workflows
+# - tinyllama is the deploy baseline via Ollama/local model directory
+set(THEMIS_MODELS_MODE "SKIP" CACHE STRING "models packaging mode: AUTO, PACKAGE, SKIP")
+set_property(CACHE THEMIS_MODELS_MODE PROPERTY STRINGS AUTO PACKAGE SKIP)
+set(THEMIS_MODELS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/models" CACHE PATH "Directory containing packaged LLM model files")
+option(THEMIS_PACKAGE_INCLUDE_TINYLLAMA "Include tinyllama artifacts in packaged models component" ON)
+option(THEMIS_PACKAGE_INCLUDE_GEMMA "Include Gemma artifacts in packaged models component" OFF)
+
+set(_themis_models_mode "${THEMIS_MODELS_MODE}")
+if(_themis_models_mode STREQUAL "AUTO")
+    if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
+        set(_themis_models_mode "PACKAGE")
+        message(STATUS "models mode AUTO -> PACKAGE")
+    else()
+        message(FATAL_ERROR "models mode AUTO resolved to PACKAGE, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
+    endif()
+endif()
+
+if(_themis_models_mode STREQUAL "PACKAGE")
+    if(EXISTS "${THEMIS_MODELS_SOURCE_DIR}")
+        if(THEMIS_PACKAGE_INCLUDE_TINYLLAMA)
+            install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
+                DESTINATION models
+                COMPONENT models
+                OPTIONAL
+                FILES_MATCHING
+                PATTERN "*tinyllama*"
+                PATTERN "*TinyLlama*"
+                PATTERN "*gemma*" EXCLUDE
+                PATTERN "*Gemma*" EXCLUDE
+            )
+        endif()
+
+        if(THEMIS_PACKAGE_INCLUDE_GEMMA)
+            install(DIRECTORY "${THEMIS_MODELS_SOURCE_DIR}/"
+                DESTINATION models
+                COMPONENT models
+                OPTIONAL
+                FILES_MATCHING
+                PATTERN "*gemma*"
+                PATTERN "*Gemma*"
+            )
+        endif()
+
+        message(STATUS "Including packaged runtime models from: ${THEMIS_MODELS_SOURCE_DIR}")
+        message(STATUS "  - tinyllama in package: ${THEMIS_PACKAGE_INCLUDE_TINYLLAMA}")
+        message(STATUS "  - gemma in package: ${THEMIS_PACKAGE_INCLUDE_GEMMA}")
+    else()
+        message(FATAL_ERROR "models mode PACKAGE selected, but directory not found: ${THEMIS_MODELS_SOURCE_DIR}")
+    endif()
+elseif(_themis_models_mode STREQUAL "SKIP")
+    message(STATUS "Runtime model packaging disabled (THEMIS_MODELS_MODE=${_themis_models_mode})")
+else()
+    message(FATAL_ERROR "Invalid THEMIS_MODELS_MODE='${THEMIS_MODELS_MODE}'. Allowed: AUTO, PACKAGE, SKIP")
+endif()
+
+# Local develop deployment helper: pull tinyllama via Ollama and export/copy into models/.
+if(WIN32)
+    add_custom_target(deploy-ollama-tinyllama
+        COMMAND "${CMAKE_COMMAND}" -E echo "Deploying tinyllama:1.1b via Ollama to ${THEMIS_MODELS_SOURCE_DIR}"
+        COMMAND pwsh -NoProfile -ExecutionPolicy Bypass
+            -File "${CMAKE_SOURCE_DIR}/scripts/download-ollama-models-fixed.ps1"
+            -ModelNames tinyllama:1.1b
+            -OutputDir "${THEMIS_MODELS_SOURCE_DIR}"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        COMMENT "Download and deploy tinyllama model for local develop workflow"
+        VERBATIM
+    )
 endif()
 
 # ============================================================================
@@ -479,7 +720,7 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
             # Step 6: Installation (optional component)
             install(
                 DIRECTORY ${LEGAL_DB_OUTPUT}
-                DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+                DESTINATION data
                 COMPONENT legal_training
                 OPTIONAL
             )
@@ -534,24 +775,136 @@ endif()
 
 # ============================================================================
 # CPACK DISTRIBUTION
+# All CPACK_* variables must be set BEFORE include(CPack) so that
+# the generated CPackConfig.cmake / CPackSourceConfig.cmake picks them up.
+#
+# Deployment folder structure (defined in cmake/CMakeLists.txt install() rules):
+#   bin/         — all runtime binaries (themis_server, themisctl, themis-export, themis-model, …)
+#   lib/         — shared/static libraries (themis_core, *.so / *.dll / *.a)
+#   include/     — public SDK headers
+#   data/        — optional: docs.db, legal training data
+#   models/      — optional: LLM runtime models
+#   bin/benchmarks/ — optional: benchmark binaries (THEMIS_BUILD_BENCHMARKS)
+#
+# Build-time binaries land in <build-dir>/bin/ via RUNTIME_OUTPUT_DIRECTORY
+# (search for "themis_server RUNTIME_OUTPUT_DIRECTORY" in cmake/CMakeLists.txt).
+# GNUInstallDirs is included below so cmake/CMakeLists.txt install() rules and
+# this CPack block use the same standard variables (CMAKE_INSTALL_BINDIR = bin).
 # ============================================================================
 
-include(CPack)
+set(_themis_runtime_layout_file "${CMAKE_SOURCE_DIR}/cmake/packaging/RuntimeLayout.cmake")
+if(EXISTS "${_themis_runtime_layout_file}")
+    include("${_themis_runtime_layout_file}")
+endif()
 
-set(CPACK_PACKAGE_NAME "themisdb")
-set(CPACK_PACKAGE_VENDOR "VCC")
-set(CPACK_PACKAGE_VERSION "${THEMIS_VERSION_STRING}")
+include(GNUInstallDirs)
+
+# Linux DEB/RPM packages follow the /usr prefix convention so installed files
+# land in /usr/bin, /usr/lib, /usr/include — not /usr/local/*.
+# ZIP/TGZ archives use the default (no prefix, relative paths).
+if(NOT WIN32 AND NOT APPLE)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
+endif()
+
+# --- Common metadata ---
+set(CPACK_PACKAGE_NAME        "themisdb")
+set(CPACK_PACKAGE_VENDOR      "ThemisDB Group GmbH")
+set(CPACK_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ThemisDB - Enterprise Distributed Database")
+set(CPACK_PACKAGE_DESCRIPTION
+    "ThemisDB is an enterprise-grade distributed database with built-in AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/makr-code/ThemisDB")
+set(CPACK_PACKAGE_CONTACT      "ThemisDB Maintainers <themisdb@vcc.example.com>")
+
+# CPack WIX requires a license file extension like .txt/.rtf.
+set(_themis_cpack_license_txt "${CMAKE_BINARY_DIR}/CPACK-LICENSE.txt")
+configure_file("${CMAKE_SOURCE_DIR}/LICENSE" "${_themis_cpack_license_txt}" COPYONLY)
+set(CPACK_RESOURCE_FILE_LICENSE "${_themis_cpack_license_txt}")
+
+# Source archive (works on all platforms)
+set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
+set(CPACK_SOURCE_IGNORE_FILES
+    "\\.git/"
+    "\\.github/"
+    "build/"
+    "vcpkg/"
+    "\\.vs/"
+    "node_modules/"
+    "\.gitmodules"
+)
 
 if(WIN32)
-    set(CPACK_GENERATOR "ZIP;WIX")
+    # ---- Windows: ZIP + WiX/MSI (+ NSIS as optional fallback installer) ----
+    # WIX requires WiX Toolset v3 (candle.exe/light.exe) on PATH.
+    # NSIS requires NSIS installed (makensis on PATH) — add it only when available.
+    find_program(_NSIS_MAKE makensis)
+    if(_NSIS_MAKE)
+        set(CPACK_GENERATOR "ZIP;WIX;NSIS")
+    else()
+        set(CPACK_GENERATOR "ZIP;WIX")
+    endif()
     set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}-Windows-x64")
+    # WiX Product/@Version must be numeric (x.y.z.w); prerelease labels are invalid here.
+    set(CPACK_PACKAGE_VERSION "${_ver_numeric}")
+
+    # WiX / MSI specific
+    # A stable upgrade GUID ensures "upgrade in place" behaviour across versions.
+    # Do NOT change this GUID once the product has been released.
+    set(CPACK_WIX_UPGRADE_GUID     "E2A3B4C5-D6E7-4F80-91A2-B3C4D5E6F7A8")
+    set(CPACK_WIX_PRODUCT_GUID     "*")   # auto-generated per build is fine for ProductCode
+    set(CPACK_WIX_PRODUCT_NAME     "ThemisDB ${THEMIS_VERSION_STRING}")
+    set(CPACK_WIX_PROGRAM_MENU_FOLDER "ThemisDB")
+    set(CPACK_WIX_PROPERTY_ARPURLINFOABOUT  "https://github.com/makr-code/ThemisDB")
+    set(CPACK_WIX_PROPERTY_ARPHELPLINK      "https://github.com/makr-code/ThemisDB/issues")
+    set(CPACK_WIX_PROPERTY_ARPCONTACT       "ThemisDB Maintainers")
+
+elseif(APPLE)
+    # ---- macOS: TGZ + ZIP ----
+    set(CPACK_GENERATOR "TGZ;ZIP")
+    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_VERSION_STRING}-macOS-${CMAKE_SYSTEM_PROCESSOR}")
+
 else()
+    # ---- Linux: TGZ + DEB + RPM ----
     set(CPACK_GENERATOR "TGZ;DEB;RPM")
-    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "librocksdb-dev, libgrpc-dev, libgrpc++-dev, libssl-dev, libboost-all-dev")
-    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-    set(CPACK_RPM_PACKAGE_REQUIRES "rocksdb-devel, grpc-devel, openssl-devel, boost-devel")
+    set(CPACK_PACKAGE_FILE_NAME
+        "themisdb-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+
+    # DEB metadata
+    set(CPACK_DEBIAN_PACKAGE_NAME        "themisdb")
+    set(CPACK_DEBIAN_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER  "ThemisDB Maintainers <themisdb@vcc.example.com>")
+    set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
+        "ThemisDB Enterprise Distributed Database\n Enterprise-grade distributed database with AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
+    set(CPACK_DEBIAN_PACKAGE_SECTION     "database")
+    set(CPACK_DEBIAN_PACKAGE_PRIORITY    "optional")
+    set(CPACK_DEBIAN_PACKAGE_HOMEPAGE    "https://github.com/makr-code/ThemisDB")
+    # Let CPack derive the file name following Debian conventions (name_version_arch.deb)
+    set(CPACK_DEBIAN_FILE_NAME           "DEB-DEFAULT")
+    # Runtime library dependencies (not -dev packages — those are for compilation only).
+    # dpkg-shlibdeps (SHLIBDEPS ON below) will auto-resolve most shared-library deps;
+    # these explicit entries act as a conservative fallback for static/mixed builds.
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS
+        "librocksdb8.9 | librocksdb-dev, libgrpc++1.51 | libgrpc++-dev, libssl3, libboost-filesystem1.83.0 | libboost-filesystem-dev")
+    # SHLIBDEPS resolves shared-library deps automatically when dpkg-shlibdeps is available.
+    # Falls back gracefully when the tool is absent (local builds without full dpkg stack).
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS   ON)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/debian/themisdb.postinst" AND EXISTS "${CMAKE_SOURCE_DIR}/debian/themisdb.postrm")
+        set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+            "${CMAKE_SOURCE_DIR}/debian/themisdb.postinst;${CMAKE_SOURCE_DIR}/debian/themisdb.postrm")
+    endif()
+
+    # RPM metadata
+    set(CPACK_RPM_PACKAGE_NAME       "themisdb")
+    set(CPACK_RPM_PACKAGE_VERSION    "${THEMIS_VERSION_STRING}")
+    set(CPACK_RPM_PACKAGE_LICENSE    "Proprietary")
+    set(CPACK_RPM_PACKAGE_GROUP      "Applications/Databases")
+    set(CPACK_RPM_PACKAGE_URL        "https://github.com/makr-code/ThemisDB")
+    set(CPACK_RPM_PACKAGE_REQUIRES
+        "rocksdb, grpc, openssl-libs, boost-filesystem")
 endif()
+
+# include(CPack) must come AFTER all CPACK_* variables are set.
+include(CPack)
 
 message(STATUS "==========================================")
 message(STATUS "ThemisDB ${THEMIS_VERSION} (${THEMIS_VERSION_STRING})")

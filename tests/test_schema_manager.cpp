@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_schema_manager.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:06:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1012                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 86d72db21  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_schema_manager.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -33,6 +18,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
+#include "index/secondary_index_metadata_cache.h"
 
 using namespace themis;
 
@@ -48,6 +34,8 @@ static std::string makeTempDbPath(const std::string& name) {
 class SchemaManagerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        SecondaryIndexMetadataCache::instance().clear();
+
         // Create temporary database
         RocksDBWrapper::Config cfg;
         cfg.db_path = makeTempDbPath("test_schema_mgr_");
@@ -64,6 +52,8 @@ protected:
         if (db_) {
             db_->close();
         }
+
+        SecondaryIndexMetadataCache::instance().clear();
         
         // Clean up temporary files
         // (filesystem cleanup is automatic on temp directory)
@@ -131,6 +121,25 @@ TEST_F(SchemaManagerTest, DiscoverSingleTable) {
     EXPECT_TRUE(found_name) << "Should find 'name' property";
     EXPECT_TRUE(found_age) << "Should find 'age' property";
     EXPECT_TRUE(found_active) << "Should find 'active' property";
+}
+
+TEST_F(SchemaManagerTest, InternalBinaryKeyspacesDoNotCrashSchemaExport) {
+    // Simulate internal security keyspaces that store opaque binary payloads,
+    // not BaseEntity-serialized records.
+    std::vector<uint8_t> opaque_kek = {0x00, 0xFF, 0x13, 0x37, 0x42, 0x10};
+    std::vector<uint8_t> opaque_dek = {0xAB, 0xCD, 0xEF, 0x01, 0x02, 0x03};
+
+    db_->put("kek:active", opaque_kek);
+    db_->put("dek:v1", opaque_dek);
+
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    json exported;
+    EXPECT_NO_THROW(exported = schema_mgr.toJSON())
+        << "Schema export must ignore internal binary keyspaces instead of crashing";
+
+    ASSERT_TRUE(exported.contains("status"));
+    EXPECT_EQ(exported["status"], "success");
 }
 
 TEST_F(SchemaManagerTest, DiscoverMultipleTables) {
@@ -835,7 +844,6 @@ TEST_F(SchemaManagerTest, CustomSchemaOverridesDiscovered) {
     // Get discovered schema
     auto discovered = schema_mgr.getTable("users");
     ASSERT_TRUE(discovered.has_value());
-    auto discovered_prop_count = discovered->properties.size();
     
     // Create custom schema with different properties
     SchemaManager::TableSchema custom_schema;

@@ -1,25 +1,21 @@
+/**
+ * @file unified_memory.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            unified_memory.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     320                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0262b492b  2026-02-26  fix(gpu): resolve 3 bugs and 1 doc issue found in code audit ║
-    • c9cd31c32  2026-02-26  feat(gpu): implement unified memory support (CPU+GPU shar... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: unified_memory.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 338
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=2, L=0
+ * PR History (last 5): #3009 feat(gpu): Unified memory s... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -38,11 +34,11 @@
 #include <cstdlib>
 
 #ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
+#include <cuda_runtime.h>
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
-#  include <hip/hip_runtime.h>
+#include <hip/hip_runtime.h>
 #endif
 
 namespace themis {
@@ -84,12 +80,12 @@ bool GPUUnifiedMemoryAllocator::isSupported() noexcept {
 // allocate
 // ============================================================================
 
-void* GPUUnifiedMemoryAllocator::allocate(size_t             bytes,
-                                           const std::string& tag,
-                                           const std::string& tenant_id) {
-    if (bytes == 0) return nullptr;
+void *GPUUnifiedMemoryAllocator::allocate(size_t bytes, const std::string &tag, const std::string &tenant_id) {
+    if (bytes == 0) {
+        return nullptr;
+    }
 
-    void* ptr = nullptr;
+    void *ptr = nullptr;
 
 #ifdef THEMIS_ENABLE_CUDA
     if (cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal) != cudaSuccess) {
@@ -103,7 +99,9 @@ void* GPUUnifiedMemoryAllocator::allocate(size_t             bytes,
     ptr = std::malloc(bytes);
 #endif
 
-    if (!ptr) return nullptr;
+    if (!ptr) {
+        return nullptr;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
     AllocationRecord rec;
@@ -128,18 +126,22 @@ void* GPUUnifiedMemoryAllocator::allocate(size_t             bytes,
 // free
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::free(void* ptr) {
-    if (!ptr) return false;
+bool GPUUnifiedMemoryAllocator::free(void *ptr) {
+    if (!ptr) {
+        return false;
+    }
 
-    size_t      bytes     = 0;
+    size_t bytes = 0;
     std::string tenant_id;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
-        auto it = std::find_if(active_.begin(), active_.end(),
-                               [ptr](const AllocationRecord& r) { return r.ptr == ptr; });
-        if (it == active_.end()) return false;
+        auto it
+            = std::find_if(active_.begin(), active_.end(), [ptr](const AllocationRecord &r) { return r.ptr == ptr; });
+        if (it == active_.end()) {
+            return false;
+        }
 
         bytes     = it->bytes;
         tenant_id = it->tenant_id;
@@ -178,9 +180,10 @@ bool GPUUnifiedMemoryAllocator::free(void* ptr) {
 // prefetch
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::prefetch(const void* ptr, size_t bytes,
-                                          int device_id) {
-    if (!ptr || bytes == 0) return false;
+bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, [[maybe_unused]] int device_id) {
+    if (!ptr || bytes == 0) {
+        return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
     ++prefetch_calls_;
@@ -190,7 +193,7 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void* ptr, size_t bytes,
 #elif defined(THEMIS_ENABLE_HIP)
     return hipMemPrefetchAsync(ptr, bytes, device_id, nullptr) == hipSuccess;
 #else
-    (void)device_id;
+    static_cast<void>(device_id);
     return true;
 #endif
 }
@@ -199,9 +202,10 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void* ptr, size_t bytes,
 // advise
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::advise(const void* ptr, size_t bytes,
-                                        MemAdvice advice, int device_id) {
-    if (!ptr || bytes == 0) return false;
+bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_unused]] MemAdvice advice, [[maybe_unused]] int device_id) {
+    if (!ptr || bytes == 0) {
+        return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
     ++advise_calls_;
@@ -209,30 +213,56 @@ bool GPUUnifiedMemoryAllocator::advise(const void* ptr, size_t bytes,
 #ifdef THEMIS_ENABLE_CUDA
     cudaMemoryAdvise cuda_advice;
     switch (advice) {
-        case MemAdvice::SET_PREFERRED_LOCATION:   cuda_advice = cudaMemAdviseSetPreferredLocation; break;
-        case MemAdvice::SET_ACCESSED_BY:          cuda_advice = cudaMemAdviseSetAccessedBy;        break;
-        case MemAdvice::SET_READ_MOSTLY:          cuda_advice = cudaMemAdviseSetReadMostly;        break;
-        case MemAdvice::UNSET_PREFERRED_LOCATION: cuda_advice = cudaMemAdviseUnsetPreferredLocation; break;
-        case MemAdvice::UNSET_ACCESSED_BY:        cuda_advice = cudaMemAdviseUnsetAccessedBy;     break;
-        case MemAdvice::UNSET_READ_MOSTLY:        cuda_advice = cudaMemAdviseUnsetReadMostly;     break;
-        default:                                  return false;
+        case MemAdvice::SET_PREFERRED_LOCATION:
+            cuda_advice = cudaMemAdviseSetPreferredLocation;
+            break;
+        case MemAdvice::SET_ACCESSED_BY:
+            cuda_advice = cudaMemAdviseSetAccessedBy;
+            break;
+        case MemAdvice::SET_READ_MOSTLY:
+            cuda_advice = cudaMemAdviseSetReadMostly;
+            break;
+        case MemAdvice::UNSET_PREFERRED_LOCATION:
+            cuda_advice = cudaMemAdviseUnsetPreferredLocation;
+            break;
+        case MemAdvice::UNSET_ACCESSED_BY:
+            cuda_advice = cudaMemAdviseUnsetAccessedBy;
+            break;
+        case MemAdvice::UNSET_READ_MOSTLY:
+            cuda_advice = cudaMemAdviseUnsetReadMostly;
+            break;
+        default:
+            return false;
     }
     return cudaMemAdvise(ptr, bytes, cuda_advice, device_id) == cudaSuccess;
 #elif defined(THEMIS_ENABLE_HIP)
     hipMemoryAdvise hip_advice;
     switch (advice) {
-        case MemAdvice::SET_PREFERRED_LOCATION:   hip_advice = hipMemAdviseSetPreferredLocation; break;
-        case MemAdvice::SET_ACCESSED_BY:          hip_advice = hipMemAdviseSetAccessedBy;        break;
-        case MemAdvice::SET_READ_MOSTLY:          hip_advice = hipMemAdviseSetReadMostly;        break;
-        case MemAdvice::UNSET_PREFERRED_LOCATION: hip_advice = hipMemAdviseUnsetPreferredLocation; break;
-        case MemAdvice::UNSET_ACCESSED_BY:        hip_advice = hipMemAdviseUnsetAccessedBy;     break;
-        case MemAdvice::UNSET_READ_MOSTLY:        hip_advice = hipMemAdviseUnsetReadMostly;     break;
-        default:                                  return false;
+        case MemAdvice::SET_PREFERRED_LOCATION:
+            hip_advice = hipMemAdviseSetPreferredLocation;
+            break;
+        case MemAdvice::SET_ACCESSED_BY:
+            hip_advice = hipMemAdviseSetAccessedBy;
+            break;
+        case MemAdvice::SET_READ_MOSTLY:
+            hip_advice = hipMemAdviseSetReadMostly;
+            break;
+        case MemAdvice::UNSET_PREFERRED_LOCATION:
+            hip_advice = hipMemAdviseUnsetPreferredLocation;
+            break;
+        case MemAdvice::UNSET_ACCESSED_BY:
+            hip_advice = hipMemAdviseUnsetAccessedBy;
+            break;
+        case MemAdvice::UNSET_READ_MOSTLY:
+            hip_advice = hipMemAdviseUnsetReadMostly;
+            break;
+        default:
+            return false;
     }
     return hipMemAdvise(ptr, bytes, hip_advice, device_id) == hipSuccess;
 #else
-    (void)advice;
-    (void)device_id;
+    static_cast<void>(advice);
+    static_cast<void>(device_id);
     return true;
 #endif
 }
@@ -251,9 +281,9 @@ GPUUnifiedMemoryAllocator::Stats GPUUnifiedMemoryAllocator::getStats() const {
     s.prefetch_calls    = prefetch_calls_;
     s.advise_calls      = advise_calls_;
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
-    s.hardware_unified  = isSupported();
+    s.hardware_unified = isSupported();
 #else
-    s.hardware_unified  = false;
+    s.hardware_unified = false;
 #endif
     return s;
 }
@@ -262,8 +292,7 @@ GPUUnifiedMemoryAllocator::Stats GPUUnifiedMemoryAllocator::getStats() const {
 // getActiveAllocations
 // ============================================================================
 
-std::vector<GPUUnifiedMemoryAllocator::AllocationRecord>
-GPUUnifiedMemoryAllocator::getActiveAllocations() const {
+std::vector<GPUUnifiedMemoryAllocator::AllocationRecord> GPUUnifiedMemoryAllocator::getActiveAllocations() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return active_;
 }
@@ -272,8 +301,7 @@ GPUUnifiedMemoryAllocator::getActiveAllocations() const {
 // getTenantBytes
 // ============================================================================
 
-uint64_t GPUUnifiedMemoryAllocator::getTenantBytes(
-    const std::string& tenant_id) const {
+uint64_t GPUUnifiedMemoryAllocator::getTenantBytes(const std::string &tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenant_bytes_.find(tenant_id);
     return (it != tenant_bytes_.end()) ? it->second : 0u;
@@ -287,7 +315,7 @@ void GPUUnifiedMemoryAllocator::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Free all tracked pointers.
-    for (auto& rec : active_) {
+    for (auto &rec : active_) {
 #ifdef THEMIS_ENABLE_CUDA
         cudaFree(rec.ptr);
 #elif defined(THEMIS_ENABLE_HIP)

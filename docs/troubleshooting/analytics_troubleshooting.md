@@ -307,6 +307,6 @@ analytics:
 ## Related Documentation
 
 - [Analytics Module ROADMAP](../../src/analytics/ROADMAP.md)
-- [Automatic Full-Text Index](../AUTOMATIC_FULLTEXT_INDEX.md)
-- [Dynamic Batch Size Adaptation](../DYNAMIC_BATCH_SIZE_ADAPTATION.md)
-- [Performance Regression Detection](../PERFORMANCE_REGRESSION_DETECTION.md)
+- [Automatic Full-Text Index](../de/aql/AUTOMATIC_FULLTEXT_INDEX.md)
+- [Dynamic Batch Size Adaptation](../llm_orchestration/DYNAMIC_BATCH_SIZE_ADAPTATION.md)
+- [Performance Regression Detection](../performance/PERFORMANCE_REGRESSION_DETECTION.md)

@@ -2,6 +2,7 @@
 
 #include "llm/lora_framework/cuda_kernels.h"
 #include "security/vram_secure_clear.h"
+#include <spdlog/spdlog.h>
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <device_launch_parameters.h>
@@ -413,7 +414,7 @@ cudaError_t launch_check_inf_nan_kernel(
     size_t size,
     bool* has_overflow_host
 ) {
-    // TODO: For better performance, consider reusing a pre-allocated device buffer
+    // Note: For better performance, consider reusing a pre-allocated device buffer
     // or using unified memory instead of allocating on every call. Currently acceptable
     // as this is called once per training step, not in a tight loop.
     
@@ -428,7 +429,11 @@ cudaError_t launch_check_inf_nan_kernel(
     err = cudaMemset(d_overflow, 0, sizeof(int));
     if (err != cudaSuccess) {
         security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-        cudaFree(d_overflow);
+        const cudaError_t free_err = cudaFree(d_overflow);
+        if (free_err != cudaSuccess) {
+            spdlog::error("checkInfNanCUDA cleanup cudaFree failed after cudaMemset error: {}",
+                          cudaGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -440,7 +445,11 @@ cudaError_t launch_check_inf_nan_kernel(
     err = cudaGetLastError();
     if (err != cudaSuccess) {
         security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-        cudaFree(d_overflow);
+        const cudaError_t free_err = cudaFree(d_overflow);
+        if (free_err != cudaSuccess) {
+            spdlog::error("checkInfNanCUDA cleanup cudaFree failed after kernel launch error: {}",
+                          cudaGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -450,7 +459,14 @@ cudaError_t launch_check_inf_nan_kernel(
     
     // Securely clear before freeing
     security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-    cudaFree(d_overflow);
+    const cudaError_t free_err = cudaFree(d_overflow);
+    if (free_err != cudaSuccess) {
+        spdlog::error("checkInfNanCUDA cleanup cudaFree failed after result copy: {}",
+                      cudaGetErrorString(free_err));
+        if (err == cudaSuccess) {
+            return free_err;
+        }
+    }
     
     if (err != cudaSuccess) {
         return err;
@@ -580,7 +596,13 @@ cudaError_t launch_mse_gradient_kernel(
 // ============================================================================
 
 CublasHandle::CublasHandle() {
-    cublasCreate(&handle_);
+    // REL-85: check cublasCreate return value; leave handle_ null on failure so
+    // callers can detect the condition via is_valid() and avoid UB.
+    cublasStatus_t status = cublasCreate(&handle_);
+    if (status != CUBLAS_STATUS_SUCCESS) {
+        spdlog::error("CublasHandle: cublasCreate failed (status={})", static_cast<int>(status));
+        handle_ = nullptr;
+    }
 }
 
 CublasHandle::~CublasHandle() {

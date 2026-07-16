@@ -1,865 +1,153 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            database_adapter.hpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     864                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • be096cd97  2026-02-28  audit: update stale banner metadata in database_adapter.h... ║
-    • 176df4359  2026-02-28  feat(chimera): implement AdapterCapabilityMatrix for cros... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file database_adapter.hpp
- * @brief CHIMERA Suite: Vendor-Neutral Database Adapter Architecture
- * 
- * @details
- * This header defines a strictly vendor-neutral, scientific interface for 
- * integrating arbitrary hybrid database systems into the CHIMERA Benchmark Suite.
- * 
- * The architecture follows IEEE software engineering standards and provides
- * system-agnostic abstractions for:
- * - Relational data operations
- * - Vector/embedding search
- * - Graph traversal and analytics
- * - Document storage
- * - Transaction management
- * - System information and metrics
- * 
- * @note All interfaces, structures, and return types are completely generic
- *       and contain no vendor-specific names, colors, or concepts.
- * 
- * @standard IEEE Std 730-2014 - Software Quality Assurance Processes
- * @standard IEEE Std 1012-2016 - System, Software, and Hardware V&V
- * @standard ISO/IEC 9126 - Software Quality Characteristics
- * 
- * @copyright MIT License
- * @version 1.0.0
- * @date 2025-01-20
- * 
- * @see docs/chimera/ARCHITECTURE_INTERFACE.md for detailed documentation
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.43
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef CHIMERA_DATABASE_ADAPTER_HPP
-#define CHIMERA_DATABASE_ADAPTER_HPP
+/*
+ * ThemisDB | File: database_adapter.hpp | Version: 0.0.43 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 142
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=4, L=0
+ * PR History (last 5): #4478 feat(chimera): Streaming re... (2026-04-11) | #4129 feat(chimera): Multi-Databa... (2026-03-12) | #4123 feat(chimera): AdapterConfi... (2026-03-12) | #4122 feat(chimera): async/promis... (2026-03-12) | #4098 feat(chimera): Batch Operat... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
 
-#include <cstdint>
-#include <memory>
-#include <string>
-#include <vector>
-#include <map>
+#pragma once
+
+#include "../../external/chimera/include/chimera/database_adapter.hpp"
+
+// ---------------------------------------------------------------------------
+// Extended interfaces: Streaming and Prepared Statements
+// These were added after the external submodule was frozen at v0.0.37.
+// They are defined here in the main-repo shim so that ThemisDBAdapter and
+// the CHIMERA test suite can use them without requiring a submodule update.
+// ---------------------------------------------------------------------------
+
+#ifndef CHIMERA_STREAMING_PREPARED_INTERFACES_HPP
+#define CHIMERA_STREAMING_PREPARED_INTERFACES_HPP
+
 #include <optional>
-#include <variant>
-#include <chrono>
-#include <functional>
 
-/**
- * @namespace chimera
- * @brief CHIMERA Benchmark Suite namespace
- */
 namespace chimera {
 
 /**
- * @enum ErrorCode
- * @brief Standard error codes for database operations
- * 
- * @details Error codes follow IEEE Std 1003.1 (POSIX) conventions
- *          for interoperability and standardization.
+ * @struct StreamConfig
+ * @brief Configuration hints for server-side cursor / streaming execution.
  */
-enum class ErrorCode {
-    SUCCESS = 0,              ///< Operation completed successfully
-    NOT_IMPLEMENTED = 1,      ///< Feature not implemented by adapter
-    INVALID_ARGUMENT = 2,     ///< Invalid input parameter
-    NOT_FOUND = 3,            ///< Resource not found
-    ALREADY_EXISTS = 4,       ///< Resource already exists
-    PERMISSION_DENIED = 5,    ///< Insufficient permissions
-    CONNECTION_ERROR = 6,     ///< Network or connection failure
-    TIMEOUT = 7,              ///< Operation timeout
-    RESOURCE_EXHAUSTED = 8,   ///< Out of resources (memory, disk, etc.)
-    INTERNAL_ERROR = 9,       ///< Internal system error
-    UNSUPPORTED = 10,         ///< Operation not supported
-    TRANSACTION_ABORTED = 11, ///< Transaction was aborted
-    CONSTRAINT_VIOLATION = 12 ///< Data integrity constraint violated
+struct StreamConfig {
+    size_t default_batch_size = 1000; ///< Rows fetched per network round-trip
+    size_t prefetch           = 2;    ///< Number of batches to prefetch
+    uint32_t timeout_ms       = 30000;///< Per-batch fetch timeout (milliseconds)
 };
 
 /**
- * @struct Result
- * @brief Generic result type for operations that may fail
- * @tparam T The success value type
- * 
- * @details Follows Rust/C++ Expected pattern for error handling without exceptions
+ * @class IResultStream
+ * @brief Cursor interface for streaming large result sets row-by-row.
  */
-template<typename T>
-struct Result {
-    std::optional<T> value;          ///< Result value if successful
-    ErrorCode error_code;             ///< Error code if failed
-    std::string error_message;        ///< Human-readable error description
-    
-    /**
-     * @brief Check if operation was successful
-     * @return true if operation succeeded
-     */
-    bool is_ok() const { return error_code == ErrorCode::SUCCESS; }
-    
-    /**
-     * @brief Check if operation failed
-     * @return true if operation failed
-     */
-    bool is_err() const { return error_code != ErrorCode::SUCCESS; }
-    
-    /**
-     * @brief Create a successful result
-     * @param val The success value
-     * @return Result containing the value
-     */
-    static Result<T> ok(T val) {
-        return Result<T>{std::move(val), ErrorCode::SUCCESS, ""};
-    }
-    
-    /**
-     * @brief Create an error result
-     * @param code Error code
-     * @param message Error message
-     * @return Result containing the error
-     */
-    static Result<T> err(ErrorCode code, std::string message) {
-        return Result<T>{std::nullopt, code, std::move(message)};
-    }
-};
-
-/**
- * @typedef Scalar
- * @brief Generic scalar value type for database operations
- * 
- * @details Supports common database types in a type-safe manner
- */
-using Scalar = std::variant<
-    std::monostate,        // NULL/None
-    bool,                  // Boolean
-    int64_t,               // Integer
-    double,                // Floating point
-    std::string,           // Text/String
-    std::vector<uint8_t>   // Binary/Blob
->;
-
-/**
- * @struct Vector
- * @brief Generic vector/embedding representation
- * 
- * @details Used for vector similarity search, embeddings, and ML features
- */
-struct Vector {
-    std::vector<float> data;          ///< Vector components
-    std::map<std::string, Scalar> metadata; ///< Optional metadata
-    
-    /**
-     * @brief Get dimensionality of vector
-     * @return Number of dimensions
-     */
-    size_t dimensions() const { return data.size(); }
-};
-
-/**
- * @struct Document
- * @brief Generic document representation for document stores
- * 
- * @details Represents a schema-flexible document with key-value pairs
- */
-struct Document {
-    std::string id;                              ///< Unique document identifier
-    std::map<std::string, Scalar> fields;        ///< Document fields
-    std::optional<int64_t> version;              ///< Optional document version
-    std::optional<std::chrono::system_clock::time_point> timestamp; ///< Optional timestamp
-};
-
-/**
- * @struct GraphNode
- * @brief Generic graph node/vertex representation
- */
-struct GraphNode {
-    std::string id;                              ///< Unique node identifier
-    std::string label;                           ///< Node type/label
-    std::map<std::string, Scalar> properties;    ///< Node properties
-};
-
-/**
- * @struct GraphEdge
- * @brief Generic graph edge representation
- */
-struct GraphEdge {
-    std::string id;                              ///< Unique edge identifier
-    std::string source_id;                       ///< Source node ID
-    std::string target_id;                       ///< Target node ID
-    std::string label;                           ///< Edge type/label
-    std::map<std::string, Scalar> properties;    ///< Edge properties
-    std::optional<double> weight;                ///< Optional edge weight
-};
-
-/**
- * @struct GraphPath
- * @brief Represents a path through a graph
- */
-struct GraphPath {
-    std::vector<GraphNode> nodes;                ///< Nodes in path
-    std::vector<GraphEdge> edges;                ///< Edges in path
-    double total_weight;                         ///< Total path weight
-};
-
-/**
- * @struct RelationalRow
- * @brief Generic relational database row
- */
-struct RelationalRow {
-    std::map<std::string, Scalar> columns;       ///< Column name to value mapping
-};
-
-/**
- * @struct RelationalTable
- * @brief Generic relational table result
- */
-struct RelationalTable {
-    std::vector<std::string> column_names;       ///< Column names in order
-    std::vector<RelationalRow> rows;             ///< Table rows
-};
-
-/**
- * @struct TransactionOptions
- * @brief Configuration for database transactions
- */
-struct TransactionOptions {
-    enum class IsolationLevel {
-        READ_UNCOMMITTED,    ///< Lowest isolation, highest concurrency
-        READ_COMMITTED,      ///< Prevent dirty reads
-        REPEATABLE_READ,     ///< Prevent dirty and non-repeatable reads
-        SERIALIZABLE         ///< Highest isolation, lowest concurrency
-    };
-    
-    IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED;
-    std::optional<std::chrono::milliseconds> timeout; ///< Transaction timeout
-    bool read_only = false;                      ///< Read-only transaction
-};
-
-/**
- * @struct QueryStatistics
- * @brief Generic query execution statistics
- */
-struct QueryStatistics {
-    std::chrono::microseconds execution_time;    ///< Query execution time
-    size_t rows_read;                            ///< Rows scanned
-    size_t rows_returned;                        ///< Rows returned
-    size_t bytes_read;                           ///< Bytes read from storage
-    std::map<std::string, Scalar> additional_metrics; ///< System-specific metrics
-};
-
-/**
- * @struct SystemInfo
- * @brief Generic system information
- */
-struct SystemInfo {
-    std::string system_name;                     ///< System name (e.g., "PostgreSQL", "ThemisDB")
-    std::string version;                         ///< Version string
-    std::map<std::string, std::string> build_info; ///< Build information
-    std::map<std::string, Scalar> configuration; ///< Configuration parameters
-};
-
-/**
- * @struct SystemMetrics
- * @brief Runtime performance metrics
- */
-struct SystemMetrics {
-    struct MemoryMetrics {
-        size_t total_bytes;                      ///< Total memory
-        size_t used_bytes;                       ///< Used memory
-        size_t available_bytes;                  ///< Available memory
-    };
-    
-    struct StorageMetrics {
-        size_t total_bytes;                      ///< Total storage
-        size_t used_bytes;                       ///< Used storage
-        size_t available_bytes;                  ///< Available storage
-    };
-    
-    struct CPUMetrics {
-        double utilization_percent;              ///< CPU utilization (0-100)
-        size_t thread_count;                     ///< Active thread count
-    };
-    
-    MemoryMetrics memory;
-    StorageMetrics storage;
-    CPUMetrics cpu;
-    std::map<std::string, Scalar> custom_metrics; ///< System-specific metrics
-};
-
-/**
- * @enum Capability
- * @brief Database capabilities that can be queried
- * 
- * @details Allows benchmarks to determine which features are supported
- */
-enum class Capability {
-    RELATIONAL_QUERIES,        ///< SQL/Relational query support
-    VECTOR_SEARCH,             ///< Vector similarity search
-    GRAPH_TRAVERSAL,           ///< Graph algorithms and traversal
-    DOCUMENT_STORE,            ///< Document storage and queries
-    FULL_TEXT_SEARCH,          ///< Full-text search capabilities
-    TRANSACTIONS,              ///< ACID transaction support
-    DISTRIBUTED_QUERIES,       ///< Distributed query execution
-    GEOSPATIAL_QUERIES,        ///< Geographic/spatial queries
-    TIME_SERIES,               ///< Time-series data handling
-    STREAM_PROCESSING,         ///< Real-time stream processing
-    BATCH_OPERATIONS,          ///< Bulk insert/update operations
-    SECONDARY_INDEXES,         ///< Secondary index support
-    MATERIALIZED_VIEWS,        ///< Materialized view support
-    REPLICATION,               ///< Data replication
-    SHARDING                   ///< Horizontal sharding/partitioning
-};
-
-/**
- * @class IRelationalAdapter
- * @brief Interface for relational database operations
- * 
- * @details Provides SQL-like operations in a vendor-neutral manner
- */
-class IRelationalAdapter {
+class IResultStream {
 public:
-    virtual ~IRelationalAdapter() = default;
-    
-    /**
-     * @brief Execute a query and return results
-     * @param query Query string (SQL or equivalent)
-     * @param params Query parameters for prepared statements
-     * @return Query results or error
-     */
-    virtual Result<RelationalTable> execute_query(
+    virtual ~IResultStream() = default;
+
+    /// Returns true while there are more rows to fetch.
+    virtual bool has_more() const = 0;
+
+    /// Fetch the next batch of rows (up to @p batch_size).
+    virtual Result<std::vector<RelationalRow>> next_batch(
+        size_t batch_size = 0
+    ) = 0;
+
+    /// Zero-based index of the next row that will be returned.
+    virtual size_t position() const = 0;
+
+    /// Total number of rows if known, nullopt otherwise.
+    virtual std::optional<size_t> total_size() const = 0;
+
+    /// Release server-side cursor resources.
+    virtual Result<bool> close() = 0;
+};
+
+/**
+ * @class IStreamingAdapter
+ * @brief Mixin that adds streaming query execution to an adapter.
+ */
+class IStreamingAdapter {
+public:
+    virtual ~IStreamingAdapter() = default;
+
+    /// Execute a query and return a streaming cursor.
+    virtual Result<std::unique_ptr<IResultStream>> execute_query_stream(
         const std::string& query,
         const std::vector<Scalar>& params = {}
     ) = 0;
-    
-    /**
-     * @brief Insert a row into a table
-     * @param table_name Table name
-     * @param row Row data
-     * @return Number of rows inserted or error
-     */
-    virtual Result<size_t> insert_row(
-        const std::string& table_name,
-        const RelationalRow& row
-    ) = 0;
-    
-    /**
-     * @brief Batch insert multiple rows
-     * @param table_name Table name
-     * @param rows Rows to insert
-     * @return Number of rows inserted or error
-     */
-    virtual Result<size_t> batch_insert(
-        const std::string& table_name,
-        const std::vector<RelationalRow>& rows
-    ) = 0;
-    
-    /**
-     * @brief Get query execution statistics
-     * @return Query statistics or error
-     */
-    virtual Result<QueryStatistics> get_query_statistics() const = 0;
+
+    /// Update the stream configuration for subsequent stream queries.
+    virtual Result<bool> set_stream_config(const StreamConfig& config) = 0;
 };
 
 /**
- * @class IVectorAdapter
- * @brief Interface for vector similarity search
- * 
- * @details Supports embedding-based similarity search for ML/AI workloads
+ * @class IPreparedStatement
+ * @brief Handle for a server-side prepared (pre-parsed) statement.
  */
-class IVectorAdapter {
+class IPreparedStatement {
 public:
-    virtual ~IVectorAdapter() = default;
-    
-    /**
-     * @brief Insert a vector into the index
-     * @param collection Collection/index name
-     * @param vector Vector to insert
-     * @return Inserted vector ID or error
-     */
-    virtual Result<std::string> insert_vector(
-        const std::string& collection,
-        const Vector& vector
+    virtual ~IPreparedStatement() = default;
+
+    /// Opaque server-side statement identifier (UUID).
+    virtual std::string get_id() const = 0;
+
+    /// Original query text passed to prepare().
+    virtual std::string get_query() const = 0;
+
+    /// Bind a named parameter (e.g. @name tokens).
+    virtual Result<bool> bind(const std::string& name, const Scalar& value) = 0;
+
+    /// Bind a positional parameter (1-based index).
+    virtual Result<bool> bind(size_t position, const Scalar& value) = 0;
+
+    /// Bind all named parameters at once.
+    virtual Result<bool> bind_all(
+        const std::map<std::string, Scalar>& params
     ) = 0;
-    
-    /**
-     * @brief Batch insert vectors
-     * @param collection Collection/index name
-     * @param vectors Vectors to insert
-     * @return Number of vectors inserted or error
-     */
-    virtual Result<size_t> batch_insert_vectors(
-        const std::string& collection,
-        const std::vector<Vector>& vectors
-    ) = 0;
-    
-    /**
-     * @brief Search for similar vectors
-     * @param collection Collection/index name
-     * @param query_vector Query vector
-     * @param k Number of nearest neighbors
-     * @param filters Optional metadata filters
-     * @return Similar vectors with distances or error
-     */
-    virtual Result<std::vector<std::pair<Vector, double>>> search_vectors(
-        const std::string& collection,
-        const Vector& query_vector,
-        size_t k,
-        const std::map<std::string, Scalar>& filters = {}
-    ) = 0;
-    
-    /**
-     * @brief Create a vector index
-     * @param collection Collection name
-     * @param dimensions Vector dimensions
-     * @param index_params Index-specific parameters
-     * @return Success or error
-     */
-    virtual Result<bool> create_index(
-        const std::string& collection,
-        size_t dimensions,
-        const std::map<std::string, Scalar>& index_params = {}
-    ) = 0;
+
+    /// Execute with currently bound parameters and return the result table.
+    virtual Result<RelationalTable> execute() = 0;
+
+    /// Asynchronous variant of execute().
+    virtual std::future<Result<RelationalTable>> execute_async() = 0;
+
+    /// Clear all bound parameters for re-use with different values.
+    virtual Result<bool> reset() = 0;
+
+    /// Accumulated execution statistics for this statement.
+    virtual Result<QueryStatistics> get_statistics() const = 0;
 };
 
 /**
- * @class IGraphAdapter
- * @brief Interface for graph database operations
- * 
- * @details Provides graph traversal, pattern matching, and analytics
+ * @class IPreparedStatementAdapter
+ * @brief Mixin that adds prepared-statement support to an adapter.
  */
-class IGraphAdapter {
+class IPreparedStatementAdapter {
 public:
-    virtual ~IGraphAdapter() = default;
-    
-    /**
-     * @brief Insert a node into the graph
-     * @param node Node to insert
-     * @return Inserted node ID or error
-     */
-    virtual Result<std::string> insert_node(const GraphNode& node) = 0;
-    
-    /**
-     * @brief Insert an edge into the graph
-     * @param edge Edge to insert
-     * @return Inserted edge ID or error
-     */
-    virtual Result<std::string> insert_edge(const GraphEdge& edge) = 0;
-    
-    /**
-     * @brief Find shortest path between two nodes
-     * @param source_id Source node ID
-     * @param target_id Target node ID
-     * @param max_depth Maximum path depth
-     * @return Shortest path or error
-     */
-    virtual Result<GraphPath> shortest_path(
-        const std::string& source_id,
-        const std::string& target_id,
-        size_t max_depth = 10
+    virtual ~IPreparedStatementAdapter() = default;
+
+    /// Parse and cache a query; return a statement handle.
+    virtual Result<std::unique_ptr<IPreparedStatement>> prepare(
+        const std::string& query
     ) = 0;
-    
-    /**
-     * @brief Traverse graph from a starting node
-     * @param start_id Starting node ID
-     * @param max_depth Maximum traversal depth
-     * @param edge_labels Optional edge label filters
-     * @return Traversed nodes or error
-     */
-    virtual Result<std::vector<GraphNode>> traverse(
-        const std::string& start_id,
-        size_t max_depth,
-        const std::vector<std::string>& edge_labels = {}
-    ) = 0;
-    
-    /**
-     * @brief Execute a graph query
-     * @param query Query string (Cypher, Gremlin, or equivalent)
-     * @param params Query parameters
-     * @return Query results or error
-     */
-    virtual Result<std::vector<GraphPath>> execute_graph_query(
-        const std::string& query,
-        const std::map<std::string, Scalar>& params = {}
-    ) = 0;
-};
 
-/**
- * @class IDocumentAdapter
- * @brief Interface for document database operations
- * 
- * @details Provides schema-flexible document storage and querying
- */
-class IDocumentAdapter {
-public:
-    virtual ~IDocumentAdapter() = default;
-    
-    /**
-     * @brief Insert a document
-     * @param collection Collection name
-     * @param doc Document to insert
-     * @return Inserted document ID or error
-     */
-    virtual Result<std::string> insert_document(
-        const std::string& collection,
-        const Document& doc
-    ) = 0;
-    
-    /**
-     * @brief Batch insert documents
-     * @param collection Collection name
-     * @param docs Documents to insert
-     * @return Number of documents inserted or error
-     */
-    virtual Result<size_t> batch_insert_documents(
-        const std::string& collection,
-        const std::vector<Document>& docs
-    ) = 0;
-    
-    /**
-     * @brief Find documents matching criteria
-     * @param collection Collection name
-     * @param filter Filter criteria
-     * @param limit Maximum results
-     * @return Matching documents or error
-     */
-    virtual Result<std::vector<Document>> find_documents(
-        const std::string& collection,
-        const std::map<std::string, Scalar>& filter,
-        size_t limit = 100
-    ) = 0;
-    
-    /**
-     * @brief Update documents matching criteria
-     * @param collection Collection name
-     * @param filter Filter criteria
-     * @param updates Field updates
-     * @return Number of documents updated or error
-     */
-    virtual Result<size_t> update_documents(
-        const std::string& collection,
-        const std::map<std::string, Scalar>& filter,
-        const std::map<std::string, Scalar>& updates
-    ) = 0;
-};
+    /// Release a cached prepared statement by its ID.
+    virtual Result<bool> unprepare(const std::string& statement_id) = 0;
 
-/**
- * @class ITransactionAdapter
- * @brief Interface for transaction management
- * 
- * @details Provides ACID transaction support
- */
-class ITransactionAdapter {
-public:
-    virtual ~ITransactionAdapter() = default;
-    
-    /**
-     * @brief Begin a new transaction
-     * @param options Transaction options
-     * @return Transaction ID or error
-     */
-    virtual Result<std::string> begin_transaction(
-        const TransactionOptions& options = {}
-    ) = 0;
-    
-    /**
-     * @brief Commit a transaction
-     * @param transaction_id Transaction ID
-     * @return Success or error
-     */
-    virtual Result<bool> commit_transaction(const std::string& transaction_id) = 0;
-    
-    /**
-     * @brief Rollback a transaction
-     * @param transaction_id Transaction ID
-     * @return Success or error
-     */
-    virtual Result<bool> rollback_transaction(const std::string& transaction_id) = 0;
-};
-
-/**
- * @class ISystemInfoAdapter
- * @brief Interface for system information and metrics
- * 
- * @details Provides system metadata and runtime metrics
- */
-class ISystemInfoAdapter {
-public:
-    virtual ~ISystemInfoAdapter() = default;
-    
-    /**
-     * @brief Get system information
-     * @return System info or error
-     */
-    virtual Result<SystemInfo> get_system_info() const = 0;
-    
-    /**
-     * @brief Get runtime metrics
-     * @return System metrics or error
-     */
-    virtual Result<SystemMetrics> get_metrics() const = 0;
-    
-    /**
-     * @brief Check if a capability is supported
-     * @param cap Capability to check
-     * @return true if supported, false otherwise
-     */
-    virtual bool has_capability(Capability cap) const = 0;
-    
-    /**
-     * @brief Get all supported capabilities
-     * @return List of supported capabilities
-     */
-    virtual std::vector<Capability> get_capabilities() const = 0;
-};
-
-/**
- * @class IDatabaseAdapter
- * @brief Complete database adapter interface
- * 
- * @details Combines all adapter interfaces into a unified interface.
- *          Implementations may return NOT_IMPLEMENTED for unsupported operations.
- */
-class IDatabaseAdapter : public IRelationalAdapter,
-                         public IVectorAdapter,
-                         public IGraphAdapter,
-                         public IDocumentAdapter,
-                         public ITransactionAdapter,
-                         public ISystemInfoAdapter {
-public:
-    virtual ~IDatabaseAdapter() = default;
-    
-    /**
-     * @brief Connect to the database
-     * @param connection_string Connection string/URI
-     * @param options Connection options
-     * @return Success or error
-     */
-    virtual Result<bool> connect(
-        const std::string& connection_string,
-        const std::map<std::string, std::string>& options = {}
-    ) = 0;
-    
-    /**
-     * @brief Disconnect from the database
-     * @return Success or error
-     */
-    virtual Result<bool> disconnect() = 0;
-    
-    /**
-     * @brief Check if connected
-     * @return true if connected
-     */
-    virtual bool is_connected() const = 0;
-};
-
-/**
- * @class AdapterFactory
- * @brief Factory for creating database adapters
- * 
- * @details Implements the Factory Pattern for extensible adapter creation.
- *          New adapters can be registered at runtime.
- * 
- * @example
- * @code
- * // Register a custom adapter
- * AdapterFactory::register_adapter("CustomDB", 
- *     [](){ return std::make_unique<CustomDBAdapter>(); });
- * 
- * // Create adapter instance
- * auto adapter = AdapterFactory::create("CustomDB");
- * if (!adapter) {
- *     // Handle error
- * }
- * @endcode
- */
-class AdapterFactory {
-public:
-    /**
-     * @typedef AdapterCreator
-     * @brief Function type for creating adapter instances
-     */
-    using AdapterCreator = std::function<std::unique_ptr<IDatabaseAdapter>()>;
-    
-    /**
-     * @brief Create a database adapter
-     * @param system_name System name (e.g., "PostgreSQL", "ThemisDB")
-     * @return Adapter instance or nullptr if not found
-     */
-    static std::unique_ptr<IDatabaseAdapter> create(const std::string& system_name);
-    
-    /**
-     * @brief Register a new adapter
-     * @param system_name System name
-     * @param creator Creator function
-     * @return true if registered successfully, false if already exists
-     */
-    static bool register_adapter(const std::string& system_name, AdapterCreator creator);
-    
-    /**
-     * @brief Get list of supported systems
-     * @return Vector of system names
-     */
-    static std::vector<std::string> get_supported_systems();
-    
-    /**
-     * @brief Check if a system is supported
-     * @param system_name System name
-     * @return true if supported
-     */
-    static bool is_supported(const std::string& system_name);
-
-private:
-    static std::map<std::string, AdapterCreator>& get_registry();
-};
-
-/**
- * @class AdapterCapabilityMatrix
- * @brief Cross-system adapter capability comparison matrix
- *
- * @details
- * Aggregates per-adapter capability information into a queryable matrix that
- * allows benchmark harnesses and reporting tools to determine:
- *   - Which capabilities a given adapter supports
- *   - Which adapters support a given capability
- *   - A complete cross-system comparison view
- *
- * The matrix is populated either manually via add_entry() / add_adapter(), or
- * automatically from all adapters registered in AdapterFactory via
- * build_from_factory().
- *
- * @example
- * @code
- * // Build from all registered adapters
- * auto matrix = AdapterCapabilityMatrix::build_from_factory();
- *
- * // Check a single cell
- * bool pg_has_vector = matrix.supports("PostgreSQL", Capability::VECTOR_SEARCH);
- *
- * // Find all adapters that support graph traversal
- * auto graph_adapters = matrix.adapters_supporting(Capability::GRAPH_TRAVERSAL);
- *
- * // Get the full capability list for one adapter
- * auto caps = matrix.capabilities_of("MongoDB");
- * @endcode
- */
-class AdapterCapabilityMatrix {
-public:
-    /// One row in the matrix: maps every Capability enum value to true/false.
-    using CapabilityRow = std::map<Capability, bool>;
-
-    /// The full matrix: system name → capability row.
-    using MatrixData = std::map<std::string, CapabilityRow>;
-
-    // -----------------------------------------------------------------------
-    // Population
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Add an entry using an explicit capability list.
-     * @param system_name Adapter/system name (e.g. "PostgreSQL")
-     * @param capabilities List of capabilities the system supports
-     */
-    void add_entry(const std::string& system_name,
-                   const std::vector<Capability>& capabilities);
-
-    /**
-     * @brief Add an entry by querying a live adapter instance.
-     * @param system_name Adapter/system name
-     * @param adapter     Adapter instance whose get_capabilities() is called
-     */
-    void add_adapter(const std::string& system_name,
-                     const ISystemInfoAdapter& adapter);
-
-    // -----------------------------------------------------------------------
-    // Factory integration
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Build the matrix from all adapters registered in AdapterFactory.
-     *
-     * @details Instantiates each registered adapter (no connection required)
-     *          and calls get_capabilities() to populate the matrix.
-     * @return Populated AdapterCapabilityMatrix
-     */
-    static AdapterCapabilityMatrix build_from_factory();
-
-    // -----------------------------------------------------------------------
-    // Queries
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Check whether a system supports a capability.
-     * @param system_name Adapter/system name
-     * @param cap         Capability to check
-     * @return true if supported; false if not supported or system not found
-     */
-    bool supports(const std::string& system_name, Capability cap) const;
-
-    /**
-     * @brief Get all system names whose entries support the given capability.
-     * @param cap Capability to query
-     * @return Alphabetically sorted list of supporting system names
-     */
-    std::vector<std::string> adapters_supporting(Capability cap) const;
-
-    /**
-     * @brief Get the capabilities supported by a system.
-     * @param system_name Adapter/system name
-     * @return List of supported capabilities (empty if system not found)
-     */
-    std::vector<Capability> capabilities_of(const std::string& system_name) const;
-
-    /**
-     * @brief Get all system names present in the matrix.
-     * @return Alphabetically sorted list of system names
-     */
-    std::vector<std::string> system_names() const;
-
-    // -----------------------------------------------------------------------
-    // Utilities
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Return all defined Capability enum values in declaration order.
-     * @return Complete list of Capability values
-     */
-    static std::vector<Capability> all_capabilities();
-
-    /**
-     * @brief Convert a Capability enum value to its canonical string label.
-     * @param cap Capability value
-     * @return String label (e.g. "RELATIONAL_QUERIES")
-     */
-    static std::string capability_to_string(Capability cap);
-
-    /**
-     * @brief Direct read-only access to the underlying matrix data.
-     * @return Const reference to the MatrixData map
-     */
-    const MatrixData& data() const { return matrix_; }
-
-private:
-    MatrixData matrix_;
+    /// List all currently prepared statement IDs.
+    virtual Result<std::vector<std::string>> list_prepared() = 0;
 };
 
 } // namespace chimera
 
-#endif // CHIMERA_DATABASE_ADAPTER_HPP
+#endif // CHIMERA_STREAMING_PREPARED_INTERFACES_HPP

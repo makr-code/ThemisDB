@@ -1,25 +1,21 @@
+/**
+ * @file per_query_cost_model.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            per_query_cost_model.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     327                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0a4c84047  2026-02-25  fix(performance): code audit fixes for per-query cost model ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: per_query_cost_model.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 373
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * PR History (last 5): #3426 feat(performance/phase3): W... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Per-Query Cost Model – implementation
@@ -132,7 +128,8 @@ PerQueryCostModel::getRecentRecords(size_t limit) const {
 // -----------------------------------------------------------------
 
 std::unordered_map<std::string, double>
-PerQueryCostModel::getCalibrationFactors() const {
+PerQueryCostModel::getCalibrationFactors(
+    const OptimizerCostModel::CostConstants* current) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::unordered_map<std::string, double> factors;
@@ -184,11 +181,70 @@ PerQueryCostModel::getCalibrationFactors() const {
         factors["pageReadCost"] = calibrated;
     }
 
+    // ---- GPU threshold calibration from serialization feedback ----
+    //
+    // When records using the GPU_VRAM path show that serialization overhead is
+    // disproportionately high (> 50 % of total execution time), the GPU breakeven
+    // threshold should be raised so the advisor graduates to GPU only for larger
+    // batches.  Conversely, when CPU_SINGLE records show negligible overhead, the
+    // msgpack threshold may be safely lowered.
+
+    using ExecutionPath = OptimizerCostModel::SerializationAdvice::ExecutionPath;
+
+    double gpu_serial_ratio_sum    = 0.0;
+    size_t gpu_serial_samples      = 0;
+    double cpu_single_serial_ratio = 0.0;
+    size_t cpu_single_samples      = 0;
+
+    for (const auto& r : records_) {
+        if (r.execution_time_ms <= 0.0) { continue; }
+        const double ratio = r.serialization_time_ms / r.execution_time_ms;
+        if (r.exec_path_used == ExecutionPath::GPU_VRAM) {
+            gpu_serial_ratio_sum += ratio;
+            ++gpu_serial_samples;
+        } else if (r.exec_path_used == ExecutionPath::CPU_SINGLE) {
+            cpu_single_serial_ratio += ratio;
+            ++cpu_single_samples;
+        }
+    }
+
+    if (gpu_serial_samples >= 5) {
+        const double avg_gpu_ratio =
+            gpu_serial_ratio_sum / static_cast<double>(gpu_serial_samples);
+        if (avg_gpu_ratio > 0.5) {
+            // GPU serialisation dominates: raise the low threshold by 25 %
+            // (capped between 10k and 2M rows so the advisor stays reasonable).
+            // Use the currently configured threshold (if provided) as the base so
+            // repeated calibration calls converge instead of oscillating.
+            const double base_low = current
+                ? static_cast<double>(current->gpu_row_threshold_low)
+                : 50'000.0;
+            const double raised = std::min(2'000'000.0, base_low * 1.25);
+            factors["gpu_row_threshold_low"] = raised;
+        }
+    }
+
+    if (cpu_single_samples >= 5) {
+        const double avg_cpu_ratio =
+            cpu_single_serial_ratio / static_cast<double>(cpu_single_samples);
+        // If CPU_SINGLE serialisation is very cheap, the binary threshold can be
+        // pushed down slightly so binary format kicks in sooner.
+        if (avg_cpu_ratio < 0.05) {
+            const double base_msgpack = current
+                ? static_cast<double>(current->msgpack_row_threshold)
+                : 1'000.0;
+            const double lowered = std::max(100.0, base_msgpack * 0.8);
+            factors["msgpack_row_threshold"] = lowered;
+        }
+    }
+
     return factors;
 }
 
 void PerQueryCostModel::calibrate(OptimizerCostModel& model) const {
-    auto factors = getCalibrationFactors();
+    // Pass the model's current constants so threshold adjustments compound
+    // correctly across successive calibration calls.
+    auto factors = getCalibrationFactors(&model.getConstants());
     if (!factors.empty()) {
         // calibrateCosts expects std::map; convert from unordered_map
         std::map<std::string, double> ordered_factors(factors.begin(), factors.end());

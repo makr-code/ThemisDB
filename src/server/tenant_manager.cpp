@@ -1,27 +1,21 @@
+/**
+ * @file tenant_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tenant_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     723                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1a678b1ff  2026-03-01  refactor(server): optimize normaliseDomain port check and... ║
-    • 20db61010  2026-03-01  feat(server): add per-tenant custom domain routing ║
-    • aa48b6bd3  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tenant_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 706
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=6, L=0
+ * PR History (last 5): #44 Implement GPU Acceleration,... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/tenant_manager.h"
@@ -33,11 +27,13 @@
 
 namespace themis {
 
+/** @brief Return process-global TenantManager singleton. */
 TenantManager& TenantManager::instance() {
     static TenantManager instance;
     return instance;
 }
 
+/** @brief Construct manager with secure defaults and optional default tenant bootstrap. */
 TenantManager::TenantManager() {
     // Create default configuration - SECURE BY DEFAULT
     config_.default_tenant_id = "default";
@@ -52,6 +48,10 @@ TenantManager::TenantManager() {
     ensureDefaultTenant();
 }
 
+/**
+ * @brief Apply manager configuration and rebuild derived indexes.
+ * @param config New configuration snapshot.
+ */
 void TenantManager::configure(const Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -61,6 +61,7 @@ void TenantManager::configure(const Config& config) {
                 config_.tenant_header, config_.default_tenant_id);
 }
 
+/** @brief Ensure default tenant exists when default-tenant mode is enabled. */
 void TenantManager::ensureDefaultTenant() {
     if (config_.allow_default_tenant && tenants_.find(config_.default_tenant_id) == tenants_.end()) {
         TenantConfig defaultTenant;
@@ -76,6 +77,11 @@ void TenantManager::ensureDefaultTenant() {
 }
 
 // static
+/**
+ * @brief Normalize host/domain for case-insensitive lookup.
+ * @param host Host header value (may include port suffix).
+ * @return Lower-case hostname without optional numeric port.
+ */
 std::string TenantManager::normaliseDomain(std::string_view host) {
     // Strip optional port suffix (":NNN")
     // A valid port is at most 5 digits (1-65535), so only strip when the
@@ -99,6 +105,7 @@ std::string TenantManager::normaliseDomain(std::string_view host) {
     return result;
 }
 
+/** @brief Rebuild domain-to-tenant reverse index from current tenant configs. */
 void TenantManager::rebuildDomainIndex() {
     domain_to_tenant_.clear();
     for (const auto& [tid, cfg] : tenants_) {
@@ -111,6 +118,11 @@ void TenantManager::rebuildDomainIndex() {
     }
 }
 
+/**
+ * @brief Create tenant and initialize usage tracking state.
+ * @param config Tenant configuration.
+ * @return Create result code with validation/quota outcome.
+ */
 TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -164,6 +176,11 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
     return CreateResult::Success;
 }
 
+/**
+ * @brief Update existing tenant config and refresh domain mappings.
+ * @param config Updated tenant configuration.
+ * @return true on success.
+ */
 bool TenantManager::updateTenant(const TenantConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -211,6 +228,11 @@ bool TenantManager::updateTenant(const TenantConfig& config) {
     return true;
 }
 
+/**
+ * @brief Delete tenant and associated usage/domain state.
+ * @param tenant_id Tenant identifier.
+ * @return true on success.
+ */
 bool TenantManager::deleteTenant(std::string_view tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -246,6 +268,12 @@ bool TenantManager::deleteTenant(std::string_view tenant_id) {
     return true;
 }
 
+/**
+ * @brief Toggle tenant enabled state.
+ * @param tenant_id Tenant identifier.
+ * @param enabled Desired enabled state.
+ * @return true when tenant exists and state was updated.
+ */
 bool TenantManager::setTenantEnabled(std::string_view tenant_id, bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -261,6 +289,7 @@ bool TenantManager::setTenantEnabled(std::string_view tenant_id, bool enabled) {
     return true;
 }
 
+/** @brief Get tenant configuration snapshot by id. */
 std::optional<TenantConfig> TenantManager::getTenant(std::string_view tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -271,6 +300,7 @@ std::optional<TenantConfig> TenantManager::getTenant(std::string_view tenant_id)
     return std::nullopt;
 }
 
+/** @brief Return snapshot list of all tenants. */
 std::vector<TenantConfig> TenantManager::listTenants() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -282,16 +312,24 @@ std::vector<TenantConfig> TenantManager::listTenants() const {
     return result;
 }
 
+/** @brief Check whether tenant exists. */
 bool TenantManager::tenantExists(std::string_view tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return tenants_.find(std::string(tenant_id)) != tenants_.end();
 }
 
+/** @brief Return number of configured tenants. */
 size_t TenantManager::getTenantCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return tenants_.size();
 }
 
+/**
+ * @brief Extract tenant id from headers, domain mapping, path prefix, or default tenant.
+ * @param headers Request headers.
+ * @param path Request path.
+ * @return Tenant id when found, otherwise std::nullopt.
+ */
 std::optional<std::string> TenantManager::extractTenantId(
     const std::unordered_map<std::string, std::string>& headers,
     std::string_view path
@@ -342,6 +380,11 @@ std::optional<std::string> TenantManager::extractTenantId(
     return std::nullopt;
 }
 
+/**
+ * @brief Strip tenant prefix from path when present.
+ * @param path Input request path.
+ * @return Path without /tenants/{id} prefix, or original path.
+ */
 std::string TenantManager::stripTenantPath(std::string_view path) const {
     const std::string pathStr(path);
     if (pathStr.rfind(config_.tenant_path_prefix, 0) != 0) {
@@ -356,6 +399,11 @@ std::string TenantManager::stripTenantPath(std::string_view path) const {
     return "/";
 }
 
+/**
+ * @brief Rewrite tenant-prefixed path and expose extracted tenant id.
+ * @param path Input request path.
+ * @return Rewrite result containing effective path and optional tenant id.
+ */
 TenantManager::PathRewriteResult TenantManager::rewriteTenantPath(
     std::string_view path) const {
     const std::string pathStr(path);
@@ -375,6 +423,11 @@ TenantManager::PathRewriteResult TenantManager::rewriteTenantPath(
     return {effective_path, tenant_id, true};
 }
 
+/**
+ * @brief Resolve tenant via host/domain mapping.
+ * @param host Host header value (may include port).
+ * @return Tenant id when mapping exists.
+ */
 std::optional<std::string> TenantManager::resolveTenantByDomain(std::string_view host) const {
     // Strip port suffix if present
     std::string h(host);
@@ -391,6 +444,14 @@ std::optional<std::string> TenantManager::resolveTenantByDomain(std::string_view
     return std::nullopt;
 }
 
+/**
+ * @brief Resolve request context for enabled tenant.
+ * @param headers Request headers.
+ * @param path Request path.
+ * @param user_id Optional user id.
+ * @param roles Optional role list.
+ * @return Tenant context when resolution succeeds and tenant is enabled.
+ */
 std::optional<TenantContext> TenantManager::resolveContext(
     const std::unordered_map<std::string, std::string>& headers,
     std::string_view path,
@@ -410,6 +471,13 @@ std::optional<TenantContext> TenantManager::resolveContext(
     return TenantContext::fromConfig(*config, user_id, roles);
 }
 
+/**
+ * @brief Validate tenant quota request.
+ * @param tenant_id Tenant identifier.
+ * @param resource_type Resource kind name.
+ * @param requested_amount Requested increment.
+ * @return Quota decision with optional reason.
+ */
 TenantManager::QuotaCheckResult TenantManager::checkQuota(
     std::string_view tenant_id,
     std::string_view resource_type,
@@ -470,12 +538,14 @@ TenantManager::QuotaCheckResult TenantManager::checkQuota(
     return {true, ""};
 }
 
+/** @brief Return mutable usage counters for tenant. */
 TenantUsage* TenantManager::getUsage(std::string_view tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = usage_.find(std::string(tenant_id));
     return it != usage_.end() ? it->second.get() : nullptr;
 }
 
+/** @brief Return immutable usage counters for tenant. */
 const TenantUsage* TenantManager::getUsage(std::string_view tenant_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = usage_.find(std::string(tenant_id));
@@ -593,6 +663,7 @@ std::string TenantManager::getTenantKeyId(std::string_view tenant_id) const {
     return "tenant:" + std::string(tenant_id) + ":master";
 }
 
+/** @brief Register custom domain mapping to tenant. */
 bool TenantManager::registerCustomDomain(std::string_view tenant_id, std::string_view domain) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -631,6 +702,7 @@ bool TenantManager::registerCustomDomain(std::string_view tenant_id, std::string
     return true;
 }
 
+/** @brief Remove custom domain mapping. */
 bool TenantManager::unregisterCustomDomain(std::string_view domain) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -656,6 +728,7 @@ bool TenantManager::unregisterCustomDomain(std::string_view domain) {
     return true;
 }
 
+/** @brief Lookup tenant id by host/domain value. */
 std::optional<std::string> TenantManager::lookupTenantByDomain(std::string_view host) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -667,6 +740,7 @@ std::optional<std::string> TenantManager::lookupTenantByDomain(std::string_view 
     return std::nullopt;
 }
 
+/** @brief Export current tenant metrics in Prometheus exposition format. */
 std::string TenantManager::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::ostringstream oss;

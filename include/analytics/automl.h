@@ -1,24 +1,21 @@
+/**
+ * @file automl.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            automl.h                                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f5db1202d  2026-02-23  feat(analytics): implement AutoML integration for automat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: automl.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 408
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2939 fix(analytics): AutoML inte... (2026-03-12) | #2725 feat(analytics): AutoML int... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -284,6 +281,24 @@ public:
     // ---- Serialisation ----
     std::string   serialize()   const;
     static AutoMLModel deserialize(const std::string& data);
+
+    /**
+     * Export the trained model to an ONNX-compatible text representation.
+     *
+     * Serialises the model weights, algorithm type, and feature schema into a
+     * JSON-ONNX text file at @p path.  The output is loadable by
+     * `MLServingClient` when the `THEMIS_HAS_ONNX_RUNTIME` flag is set; on
+     * platforms without ONNX Runtime the file can be used for offline tooling.
+     *
+     * Supported algorithms (all others return Status::UNSUPPORTED_OPERATION):
+     *   LinearRegression, LogisticRegression, DecisionTree, RandomForest,
+     *   GradientBoosting, KNN (all exported as ONNX-JSON text format v0.1).
+     *
+     * @param path  Absolute or relative file-system path for the output file.
+     * @return      Empty string on success; error message on failure.
+     * @throws      std::invalid_argument if the model is not fitted.
+     */
+    std::string exportONNX(const std::string& path) const;
 
 private:
     struct Impl;

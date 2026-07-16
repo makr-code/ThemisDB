@@ -1,31 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_engineering_metrics.h                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     244                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file prompt_engineering_metrics.h
- * @brief Prometheus metrics for prompt engineering system
- * 
- * Tracks optimization operations, A/B tests, performance metrics,
- * feedback collection, and version control operations.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -127,6 +108,44 @@ public:
     void recordBackgroundWorkerCycle();
     void recordBackgroundWorkerDuration(double duration_ms);
 
+    // -------------------------------------------------------------------------
+    // Reflection Tuning metrics
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Record the start of one reflection cycle for @p prompt_id.
+     *
+     * Called by `PromptEngineeringIntegration` when an optional reflection
+     * pass begins (i.e., `ReflectionTuner::tune()` is invoked).
+     */
+    void recordReflectionCycleStart(const std::string& prompt_id);
+
+    /**
+     * @brief Record the completion of a reflection cycle.
+     *
+     * @param prompt_id   The prompt being improved.
+     * @param iterations  Number of generate→critique→revise iterations run.
+     * @param improved    `true` when `final_quality > initial_quality`.
+     */
+    void recordReflectionCycleComplete(const std::string& prompt_id,
+                                        size_t iterations,
+                                        bool   improved);
+
+    /**
+     * @brief Record that the `ReflectionHallucinationGuard` fired and halted
+     *        the reflection cycle early.
+     */
+    void recordReflectionGuardFired(const std::string& prompt_id);
+
+    /**
+     * @brief Record the net quality change produced by a reflection cycle.
+     *
+     * @p delta may be negative when the guard fires and the best-response
+     * was the initial one.
+     */
+    void recordReflectionQualityDelta(const std::string& prompt_id,
+                                       double delta);
+
     /**
      * @brief Export all metrics in Prometheus text format
      * @return Metrics as string in Prometheus format
@@ -225,6 +244,14 @@ private:
     std::atomic<int64_t> background_worker_cycles_{0};
     std::atomic<double> background_worker_total_duration_ms_{0.0};
 
+    // Reflection Tuning counters
+    std::atomic<int64_t> reflection_cycle_starts_{0};
+    std::atomic<int64_t> reflection_cycle_completions_{0};
+    std::atomic<int64_t> reflection_iterations_total_{0};
+    std::atomic<int64_t> reflection_improvements_{0};
+    std::atomic<int64_t> reflection_guard_fires_{0};
+    std::atomic<double>  reflection_quality_delta_sum_{0.0};
+
     // Per-prompt metrics (protected by mutex)
     mutable std::mutex metrics_mutex_;
     std::map<std::string, double> prompt_success_rates_;
@@ -240,8 +267,23 @@ private:
         double value,
         const std::map<std::string, std::string>& labels = {}) const;
 
+    std::string formatMetric(
+      const std::string& name,
+      const std::string& help,
+      const std::string& type,
+      int64_t value,
+      const std::map<std::string, std::string>& labels = {}) const;
+
+    std::string formatMetric(
+      const std::string& name,
+      const std::string& help,
+      const std::string& type,
+      int value,
+      const std::map<std::string, std::string>& labels = {}) const;
+
     std::string formatLabels(const std::map<std::string, std::string>& labels) const;
 };
 
 } // namespace prompt_engineering
 } // namespace themis
+

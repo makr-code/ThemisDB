@@ -1,27 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            concerns_context.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     371                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f0410cbb0  2026-02-27  audit(core): wire Jaeger/Zipkin adapters into ConcernsCon... ║
-    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
-    • 6dc891cbd  2026-02-24  feat(core): feature flag interface for runtime enable/dis... ║
-    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file concerns_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=17; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -37,7 +22,9 @@
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
+#include <mutex>
 #include <string>
+#include <map>
 #include <unordered_map>
 
 namespace themis {
@@ -97,8 +84,14 @@ public:
         // Cache config
         size_t cacheMaxSize = 10000;
         uint64_t cacheDefaultTTL = 0; // 0 = no TTL
-        /// Which cache adapter to use: "inmemory" (default) or "noop".
+        /// Which cache adapter to use: "inmemory" (default), "redis", or "noop".
+        /// Set to "redis" and provide cacheRedisUrl to use the Redis-backed
+        /// distributed cache with consistent hashing and pub/sub invalidation.
         std::string cacheAdapter = "inmemory";
+        /// Redis URL used when cacheAdapter == "redis".
+        /// Format: redis://[:<password>@]host:port[,host2:port2,...]
+        /// Example: redis://cache-cluster:6379
+        std::string cacheRedisUrl;
 
         // Circuit breaker config
         /// Which circuit breaker adapter to use: "default" or "noop".
@@ -119,6 +112,22 @@ public:
         /// Ignored when featureFlagsAdapter is "noop".
         std::unordered_map<std::string, bool> initialFeatureFlags;
 
+        // Secrets config
+        /// Which secrets adapter to use: "noop" (default), "inmemory", or "env".
+        /// "noop"     — NoOpSecrets; always returns nullopt (testing/minimal builds).
+        /// "inmemory" — InMemorySecrets; map-backed; pre-populate via initialSecrets.
+        /// "env"      — EnvSecretsProvider; reads from environment variables using
+        ///              secretsEnvPrefix as the variable prefix.
+        std::string secretsAdapter = "noop";
+        /// Pre-populated key-value pairs for the "inmemory" secrets provider.
+        /// Ignored when secretsAdapter is not "inmemory".
+        std::map<std::string, std::string> initialSecrets;
+        /// Environment-variable prefix used by the "env" secrets provider.
+        /// Default: "THEMIS_SECRET_".  The secret name is upper-cased and
+        /// dots/dashes are replaced with underscores before appending to this prefix.
+        /// Ignored when secretsAdapter is not "env".
+        std::string secretsEnvPrefix = "THEMIS_SECRET_";
+
         // Audit log config
         /// Which audit log adapter to use: "noop" (default) or "inmemory".
         /// In production deployments replace with a persistent adapter.
@@ -127,17 +136,43 @@ public:
 
     /**
      * @brief Create a default context with production implementations.
+     *
+     * Uses the default config values from Config and applies the repository's
+     * fail-closed adapter selection rules. If production mode is enabled, the
+     * resulting context is required to use production-capable adapters.
+     *
+     * @return Shared context configured from default settings.
      */
     static std::shared_ptr<ConcernsContext> create();
+
+    /**
+     * @brief Create a context from an explicit configuration object.
+     *
+     * The configuration is validated before any adapter objects are created.
+     * Invalid log, tracing, cache, or adapter settings raise
+     * std::runtime_error and do not yield a partially constructed context.
+     *
+     * @param config Runtime configuration for concern adapters and limits.
+     * @return Shared context configured from @p config.
+     * @throws std::runtime_error if validation fails or a production-only
+     *         adapter requirement is not satisfied.
+     */
     static std::shared_ptr<ConcernsContext> create(const Config& config);
 
     /**
      * @brief Create a context with custom implementations (for testing).
      *
-     * The @p secrets parameter is optional; when nullptr a no-op provider is
-     * used so that existing call-sites do not need to be updated.
-     * The 4-argument overload automatically installs a NoOpFeatureFlags so
-     * that existing call-sites do not need to be updated.
+    * The @p circuit_breaker parameter is optional; when nullptr a no-op
+    * provider is used so that existing call-sites do not need to be updated.
+    * The 4-argument overload automatically installs a NoOpFeatureFlags so
+    * that existing call-sites do not need to be updated.
+     *
+     * @param logger           Logger implementation to install.
+     * @param tracer           Tracer implementation to install.
+     * @param metrics          Metrics implementation to install.
+     * @param cache            Cache implementation to install.
+     * @param circuit_breaker  Optional circuit-breaker implementation.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -150,7 +185,15 @@ public:
     /**
      * @brief Create a context with custom secrets implementation.
      *
-     * @p featureFlags is optional; nullptr installs a NoOpFeatureFlags.
+    * @p featureFlags is optional; nullptr installs a NoOpFeatureFlags.
+     *
+     * @param logger        Logger implementation to install.
+     * @param tracer        Tracer implementation to install.
+     * @param metrics       Metrics implementation to install.
+     * @param cache         Cache implementation to install.
+     * @param secrets       Secrets implementation to install.
+     * @param featureFlags  Optional feature-flag implementation.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -163,6 +206,13 @@ public:
 
     /**
      * @brief Create a context with custom feature-flag implementation.
+     *
+     * @param logger        Logger implementation to install.
+     * @param tracer        Tracer implementation to install.
+     * @param metrics       Metrics implementation to install.
+     * @param cache         Cache implementation to install.
+     * @param featureFlags  Feature-flag implementation to install.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -173,11 +223,20 @@ public:
     );
 
     /**
-     * @brief Create a context with a custom audit log implementation.
+    * @brief Create a context with a custom audit log implementation.
      *
      * All other concerns default to no-op.  Use in tests that need to
      * verify audit records, or in deployments with a custom audit backend.
      * @p auditLog is optional; nullptr installs a NoOpAuditLog.
+     *
+     * @param logger        Logger implementation to install.
+     * @param tracer        Tracer implementation to install.
+     * @param metrics       Metrics implementation to install.
+     * @param cache         Cache implementation to install.
+     * @param secrets       Secrets implementation to install.
+     * @param featureFlags  Feature-flag implementation to install.
+     * @param auditLog      Audit-log implementation to install.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -189,9 +248,14 @@ public:
         std::unique_ptr<IAuditLog> auditLog
     );
 
-    /**
-     * @brief Create a no-op context (all concerns disabled).
-     */
+     /**
+      * @brief Create a no-op context (all concerns disabled).
+      *
+      * The returned context is suitable for tests that only need the wiring
+      * surface but not actual side effects.
+      *
+      * @return Shared context using only no-op adapters.
+      */
     static std::shared_ptr<ConcernsContext> createNoOp();
 
     // Accessor methods
@@ -226,7 +290,8 @@ public:
      * that the minimum severity threshold can be changed without restarting
      * the database process (Issue #1412).
      *
-     * @param level New minimum severity level.
+        * @param level New minimum severity level.
+        * @throws std::runtime_error if the logger adapter is unavailable.
      */
     void setLogLevel(ILogger::Level level) { logger_->setLevel(level); }
 
@@ -236,13 +301,101 @@ public:
      */
     ILogger::Level getLogLevel() const { return logger_->getLevel(); }
 
+    // -------------------------------------------------------------------------
+    // Dynamic Adapter Reconfiguration (Issue #1412 / core/FUTURE_ENHANCEMENTS.md)
+    //
+    // These methods replace an active concern adapter at runtime without
+    // restarting the database process.  The old adapter is flushed before the
+    // swap so that no buffered data is lost.  All replace* calls are
+    // thread-safe: a brief exclusive lock is taken only to swap the pointer;
+    // in-flight calls on the old adapter complete before the old object is
+    // destroyed (the caller retains a shared_ptr reference until the return).
+    //
+    // Passing nullptr is rejected (throws std::invalid_argument).
+    // -------------------------------------------------------------------------
+
+    /**
+    * @brief Swap the active logger adapter.
+     *
+    * Flushes the current adapter before installing @p new_logger. After
+    * this call, `logger()` returns a reference to the new adapter. Callers
+    * should expect a brief synchronization point while the swap occurs.
+     *
+     * Thread-safety: safe to call while other threads are logging.
+     *
+     * @param new_logger Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_logger is nullptr.
+     */
+    void replaceLogger(std::unique_ptr<ILogger> new_logger);
+
+    /**
+     * @brief Swap the active tracer adapter.
+     *
+     * Flushes and shuts down the current adapter before installing
+     * @p new_tracer.
+     *
+     * @param new_tracer Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_tracer is nullptr.
+     */
+    void replaceTracer(std::unique_ptr<ITracer> new_tracer);
+
+    /**
+     * @brief Swap the active metrics adapter.
+     *
+     * Flushes the current adapter before installing @p new_metrics.
+     *
+     * @param new_metrics Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_metrics is nullptr.
+     */
+    void replaceMetrics(std::unique_ptr<IMetrics> new_metrics);
+
+    /**
+     * @brief Swap the active cache adapter.
+     *
+     * Flushes the current adapter before installing @p new_cache.
+     *
+     * @param new_cache Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_cache is nullptr.
+     */
+    void replaceCache(std::unique_ptr<ICache> new_cache);
+
+    /**
+     * @brief Swap the active secrets adapter.
+     *
+     * Flushes the current adapter before installing @p new_secrets.
+     *
+     * @param new_secrets Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_secrets is nullptr.
+     */
+    void replaceSecrets(std::unique_ptr<ISecrets> new_secrets);
+
+    /**
+     * @brief Swap the active feature-flags adapter.
+     *
+     * Flushes the current adapter before installing @p new_ff.
+     *
+     * @param new_ff Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_ff is nullptr.
+     */
+    void replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff);
+
+    /**
+     * @brief Swap the active audit-log adapter.
+     *
+     * Flushes the current adapter before installing @p new_audit.
+     *
+     * @param new_audit Replacement adapter; must not be nullptr.
+     * @throws std::invalid_argument if @p new_audit is nullptr.
+     */
+    void replaceAuditLog(std::unique_ptr<IAuditLog> new_audit);
+
     std::unique_ptr<ITracer::ISpan> startSpan(const std::string& name) {
         return tracer_->startSpan(name);
     }
 
     /**
-     * @brief Extract W3C TraceContext from inbound headers and start a linked
-     *        span via the active tracer.
+    * @brief Extract W3C TraceContext from inbound headers and start a linked
+    *        span via the active tracer.
      *
      * Delegates to ITracer::startSpanFromHeaders().
      */
@@ -267,8 +420,8 @@ public:
     }
 
     /**
-     * @brief Emit a structured log record with the active trace/span IDs
-     *        automatically injected.
+    * @brief Emit a structured log record with the active trace/span IDs
+    *        automatically injected.
      *
      * Fetches the current thread's OpenTelemetry trace-id and span-id via
      * `Tracer::getCurrentTraceId()` / `Tracer::getCurrentSpanId()` and
@@ -281,6 +434,8 @@ public:
      * @param level   Severity level.
      * @param message Human-readable log text.
      * @param fields  Optional additional structured key/value fields.
+    * @throws std::runtime_error if the logger adapter cannot accept a
+    *         structured event.
      */
     void logWithTrace(ILogger::Level level,
                       const std::string& message,
@@ -291,11 +446,13 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Flush all buffered data in every concern.
+    * @brief Flush all buffered data in every concern.
      *
      * Call this when you want to ensure pending log records, spans, and
      * metric observations have been forwarded to their respective sinks
      * without fully shutting down.  Safe to call multiple times.
+      * Any individual adapter failure should be handled by the adapter's own
+      * implementation contract; the context does not swallow adapter errors.
      */
     void flush() {
         logger_->flush();
@@ -309,11 +466,13 @@ public:
     }
 
     /**
-     * @brief Gracefully shut down all concerns and release resources.
+    * @brief Gracefully shut down all concerns and release resources.
      *
      * Flushes pending data before tearing down each concern.  After this
      * call the context must not be used; any further accessor calls have
      * undefined behaviour.
+      * Shutdown is idempotent from the caller's perspective, but adapters may
+      * still reject repeated teardown if they enforce their own lifecycle.
      *
      * Recommended usage:
      * @code
@@ -413,6 +572,8 @@ private:
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
     std::unique_ptr<IAuditLog> auditLog_;
+    /// Guards all replaceX() adapter swaps.
+    mutable std::mutex adapters_mutex_;
 };
 
 } // namespace concerns

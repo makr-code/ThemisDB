@@ -1,8 +1,11 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # 🎯 ThemisDB Benchmarks - Master Index
 
 **Version:** 1.0.1  
 **Status:** ✅ Complete & Unified  
-**Last Updated:** 2025-12-09  
+**Last Updated:** 2026-04-06  
 **Integration Level:** 100%
 
 ---
@@ -17,7 +20,7 @@
 - Troubleshooting
 
 ### 🎯 Unified Orchestrator
-→ [`docker_benchmarks_unified.py`](docker_benchmarks_unified.py)
+→ [`docker_benchmarks_unified.py`](../docker_benchmarks_unified.py)
 - Single CLI interface
 - All workloads (relational, vector, graph, geo, document, hybrid)
 - Automatic Docker orchestration
@@ -38,18 +41,18 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - CI/CD integration
 
 ### 🔥 Hotspot Microbenchmarks (NEW)
-→ [`bench_hotspots_micro.cpp`](bench_hotspots_micro.cpp)
+→ [`bench_hotspots_micro.cpp`](../bench_hotspots_micro.cpp)
 - Raw RocksDB put throughput (WAL on/off)
 - Hybrid-tuning A/B (enable_high_parallel_tuning)
 - Mixed read/write and SecondaryIndex write stress
 
 ### 🧪 Lock Contention (NEW)
-→ [`bench_lock_contention.cpp`](bench_lock_contention.cpp)
+→ [`bench_lock_contention.cpp`](../bench_lock_contention.cpp)
 - TransactionDB lock contention: overlapping vs disjoint keys
 - Highlights effects of 16 lock stripes under high concurrency
 
 ### 📄 WAL Stress (NEW)
-→ [`bench_wal_stress.cpp`](bench_wal_stress.cpp)
+→ [`bench_wal_stress.cpp`](../bench_wal_stress.cpp)
 - WAL sync vs no-sync across thread counts and batch sizes
 - Observes write stall behavior and fsync overhead
 
@@ -62,10 +65,12 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - Advanced configuration
 
 ### 🔍 Gap Analysis
-→ [`gap_analysis/`](gap_analysis/)
+→ [`gap_analysis/`](../results_analysis_reports/gap_analysis/)
 - **`historical_gaps.json`** - Detailed v1.0.0 gaps (36 total)
+<!-- TODO: verify against current version -->
 - **`historical_gaps.md`** - Gap analysis report
 - **`v1.0.1_closure_targets.json`** - v1.0.1 optimization targets
+<!-- TODO: verify against current version -->
 
 ### 📋 Status Reports
 → [`DOCKER_BENCHMARKS_STATUS_REPORT.md`](DOCKER_BENCHMARKS_STATUS_REPORT.md)
@@ -200,6 +205,7 @@ python3 docker_benchmarks_unified.py \
 ### v1.0.1 Gap-Closure Goals
 
 | Category | v1.0.0 Gaps | v1.0.1 Target | Status |
+<!-- TODO: verify against current version -->
 |----------|-----------|---------------|--------|
 | Critical | 6 | <2 (66%+) | 🔄 Pending |
 | High | 23 | <8 (65%+) | 🔄 Pending |
@@ -362,6 +368,7 @@ python3 --version   # Should be 3.8+
 - [ ] Check gap-closure rate (target: >85%)
 - [ ] Commit results to Git
 - [ ] Ready for v1.0.1 release
+<!-- TODO: verify against current version -->
 
 ---
 
@@ -371,6 +378,7 @@ python3 --version   # Should be 3.8+
 ✅ **Unified Python Orchestrator** - All benchmarks via single script  
 ✅ **Consolidated Documentation** - Complete master index (this file)  
 ✅ **Integrated Gap Analysis** - Automatic comparison vs v1.0.0  
+<!-- TODO: verify against current version -->
 ✅ **Multi-Format Reports** - JSON, CSV, HTML, Markdown  
 ✅ **Docker Automation** - Complete lifecycle management  
 
@@ -419,6 +427,7 @@ python3 --version   # Should be 3.8+
    ```
 
 5. **Release v1.0.1**
+<!-- TODO: verify against current version -->
    ```bash
    git tag -s v1.0.1 -m "v1.0.1: Gap-closure validated"
    git push origin v1.0.1
@@ -434,9 +443,9 @@ python3 --version   # Should be 3.8+
 | **Quick Setup** | `DOCKER_QUICKSTART.md` |
 | **Architecture** | `DOCKER_BENCHMARKS_UNIFIED_INTEGRATION.md` |
 | **Detailed Docs** | `DOCKER_COMPARATIVE_BENCHMARKS_README.md` |
-| **Gap Analysis** | `gap_analysis/historical_gaps.md` |
-| **Release Plan** | `../V1.0.1_EXECUTION_PLAYBOOK.md` |
-| **Session Summary** | `../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md` |
+| **Gap Analysis** | `gap_analysis/historical_gaps.md` <!-- TODO: verify path --> |
+| **Release Plan** | `../V1.0.1_EXECUTION_PLAYBOOK.md` <!-- TODO: verify --> |
+| **Session Summary** | `../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md` <!-- TODO: verify --> |
 
 ---
 
@@ -445,5 +454,5 @@ python3 --version   # Should be 3.8+
 **Integration:** 100%  
 **Ready for Production:** YES
 
-**Last Updated:** 2025-12-09  
+**Last Updated:** 2026-04-06  
 **By:** ThemisDB Team

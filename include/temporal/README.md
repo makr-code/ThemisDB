@@ -1,6 +1,15 @@
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
 # Temporal Module - Public API
 
 Public interface definitions for ThemisDB temporal functionality.
+
+## Module Navigation
+
+- Internal implementation overview: [`../../src/temporal/README.md`](../../src/temporal/README.md)
+- Module roadmap: [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
+- Future enhancements: [`../../src/temporal/FUTURE_ENHANCEMENTS.md`](../../src/temporal/FUTURE_ENHANCEMENTS.md)
+- German overview: [`../../docs/de/temporal/README.md`](../../docs/de/temporal/README.md)
 
 ## Headers
 
@@ -41,6 +50,81 @@ std::cout << "Total conflicts: " << stats.total_conflicts << std::endl;
 
 ---
 
+### bi_temporal.h
+**Purpose:** Bi-temporal table support (system-time + application-time)
+
+---
+
+### bitemporal_join.h
+**Purpose:** Temporal join operations across bi-temporal tables
+
+---
+
+### interval_tree_index.h
+**Purpose:** Interval tree index for efficient temporal range queries
+
+---
+
+### retention_manager.h
+**Purpose:** Retention policy enforcement and background cleanup scheduling
+
+---
+
+### snapshot_manager.h
+**Purpose:** Multi-table snapshot isolation and consistent read views
+
+---
+
+### system_versioned_table.h
+**Purpose:** System-versioned tables with automatic history tracking
+
+---
+
+### temporal_aggregator.h
+**Purpose:** Windowed temporal aggregations (tumbling, sliding, session)
+
+---
+
+### temporal_cdc.h
+**Purpose:** Change data capture for temporal tables with replay support
+
+---
+
+### temporal_cold_store.h
+**Purpose:** Cold-tier offloading of historical temporal data
+
+---
+
+### temporal_compressor.h
+**Purpose:** Compression of historical temporal versions
+
+---
+
+### temporal_index.h
+**Purpose:** General-purpose temporal index over (entity, time-interval) pairs
+
+---
+
+### temporal_migrator.h
+**Purpose:** Schema and data migration for temporal tables
+
+---
+
+### temporal_query_engine.h
+**Purpose:** AS-OF, FROM-TO, and temporal join query execution
+
+---
+
+### temporal_tier_manager.h
+**Purpose:** Hot/warm/cold tiering lifecycle for temporal data
+
+---
+
+### temporal_types.h
+**Purpose:** Core temporal type definitions (HLC, time intervals, version records)
+
+---
+
 ## API Conventions
 
 ### Namespace Structure
@@ -70,6 +154,15 @@ if (!result.is_ok()) {
     std::cerr << "Error: " << result.error_message() << std::endl;
 }
 ```
+
+---
+
+## Runtime Behavior and Operational Limits
+
+- **History retention is explicit:** historical versions remain available until retention policies remove/archive them.
+- **DDL parser gap:** SQL syntax (`PERIOD FOR`, `FOR SYSTEM_TIME`) is not yet generally available in AQL parser; use C++ APIs from this directory.
+- **Consistency expectation:** APIs assume monotonically progressing temporal metadata (HLC/system timestamps) and may reject malformed time ranges.
+- **Capacity planning:** without retention/compression, versioned history can grow unbounded; configure retention + compression for long-running deployments.
 
 ---
 
@@ -123,7 +216,7 @@ Records conflict resolution for auditing and monitoring.
 // Get unresolved conflicts
 auto conflicts = resolver.getUnresolvedConflicts();
 for (const auto& conflict : conflicts) {
-    std::cout << "Conflict on entity: " << conflict.entity_id 
+    std::cout << "Conflict on entity: " << conflict.entity_id
               << " detected at: " << format_time(conflict.detected_at)
               << std::endl;
 }
@@ -310,13 +403,24 @@ target_link_libraries(your_target PRIVATE themisdb_temporal)
 # Headers are automatically included via public interface
 ```
 
-### Include Paths
+## Include Paths
 ```cpp
 #include "temporal/temporal_conflict_resolver.h"
-// Future headers:
-// #include "temporal/system_versioned_table.h"
-// #include "temporal/temporal_query_engine.h"
-// #include "temporal/retention_manager.h"
+#include "temporal/system_versioned_table.h"
+#include "temporal/temporal_query_engine.h"
+#include "temporal/retention_manager.h"
+#include "temporal/bi_temporal.h"
+#include "temporal/bitemporal_join.h"
+#include "temporal/interval_tree_index.h"
+#include "temporal/snapshot_manager.h"
+#include "temporal/temporal_aggregator.h"
+#include "temporal/temporal_cdc.h"
+#include "temporal/temporal_cold_store.h"
+#include "temporal/temporal_compressor.h"
+#include "temporal/temporal_index.h"
+#include "temporal/temporal_migrator.h"
+#include "temporal/temporal_tier_manager.h"
+#include "temporal/temporal_types.h"
 ```
 
 ---
@@ -359,28 +463,28 @@ target_link_libraries(your_target PRIVATE themisdb_temporal)
 
 int main() {
     using namespace themisdb::temporal;
-    
+
     // Create resolver
     TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
-    
+
     // Create conflicting snapshots
     TemporalSnapshot local;
     local.snapshot_id = "local_123";
     local.hlc = {1000, 0, "node1"};
     local.data = {{"value", 100}};
-    
+
     TemporalSnapshot remote;
     remote.snapshot_id = "remote_456";
     remote.hlc = {1001, 0, "node2"};  // Newer
     remote.data = {{"value", 200}};
-    
+
     // Resolve
     auto winner = resolver.resolve(local, remote);
-    
+
     std::cout << "Winner: " << winner.snapshot_id << std::endl;
     std::cout << "Value: " << winner.data["value"] << std::endl;
     // Output: Winner: remote_456, Value: 200
-    
+
     return 0;
 }
 ```
@@ -391,15 +495,15 @@ int main() {
 
 void handleConflicts() {
     using namespace themisdb::temporal;
-    
+
     TemporalConflictResolver resolver(ConflictPolicy::MANUAL);
-    
+
     // Resolve - will queue for manual resolution
     auto result = resolver.resolve(local, remote);
-    
+
     // Later, get queued conflicts
     auto conflicts = resolver.getUnresolvedConflicts();
-    
+
     for (auto& conflict : conflicts) {
         // Manual decision logic
         if (shouldPickLocal(conflict)) {
@@ -422,10 +526,10 @@ void handleConflicts() {
 
 TEST(TemporalTest, LastWriteWins) {
     TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
-    
+
     TemporalSnapshot older{/* ... */};
     TemporalSnapshot newer{/* ... */};
-    
+
     auto winner = resolver.resolve(older, newer);
     EXPECT_EQ(winner.snapshot_id, newer.snapshot_id);
 }
@@ -476,13 +580,13 @@ Existing conflict-resolution code is fully compatible; new features are opt-in.
 
 ### Common Issues
 
-**Issue:** Conflict resolution always picks same node  
+**Issue:** Conflict resolution always picks same node
 **Solution:** Check HLC clock synchronization across nodes
 
-**Issue:** High memory usage from conflict records  
+**Issue:** High memory usage from conflict records
 **Solution:** Call `resolver.clearResolvedConflicts()` periodically
 
-**Issue:** Checksum mismatches  
+**Issue:** Checksum mismatches
 **Solution:** Ensure consistent JSON serialization order
 
 ---
@@ -490,12 +594,21 @@ Existing conflict-resolution code is fully compatible; new features are opt-in.
 ## See Also
 
 - [Implementation Documentation](../../src/temporal/README.md) - Internal implementation details
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [Future Enhancements](../../src/temporal/FUTURE_ENHANCEMENTS.md) - Planned features
+- [ROADMAP](../../src/temporal/ROADMAP.md) - Delivery status and next milestones
 - [Replication Module](../replication/README.md) - HLC and distributed coordination
 - [Architecture Guide](../../ARCHITECTURE.md) - System architecture
 
 ---
 
-*Last Updated: February 2026*  
-*API Version: v1.1.0*  
+*Last Updated: April 2026*
+*API Version: v1.1.0*
 *ABI Version: 1.1*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -1,27 +1,21 @@
+/**
+ * @file filesystem_ingester.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            filesystem_ingester.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     764                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • 81a0f7896  2026-02-23  Security fix: add isConverterSafe() to guard popen() agai... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: filesystem_ingester.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 748
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=14, L=0
+ * PR History (last 5): #4489 feat(ingestion): extend bin... (2026-04-09) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/filesystem_ingester.h"
@@ -157,7 +151,7 @@ static void collectTextNodes(const pugi::xml_node& node, std::ostringstream& out
 /// Extract plain text from an XML/HTML buffer using pugixml.
 /// Falls back to returning an empty string when pugixml is not available.
 static std::string extractXmlText(const std::string& raw,
-                                   bool is_html) {
+                                   [[maybe_unused]] bool is_html) {
 #ifdef THEMIS_HAS_PUGIXML
     pugi::xml_document doc;
     unsigned int parse_flags = is_html
@@ -177,7 +171,6 @@ static std::string extractXmlText(const std::string& raw,
     return out.str();
 #else
     // pugixml not available: return raw content as-is (best effort)
-    (void)is_html;
     return raw;
 #endif
 }
@@ -418,7 +411,7 @@ public:
                     }
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore errors during counting
         }
         
@@ -427,6 +420,7 @@ public:
     
     IngestionStats ingest(const std::string& target_collection,
                          ProgressCallback progress_callback) {
+        (void)target_collection;
         IngestionStats stats;
         auto start_time = std::chrono::steady_clock::now();
         
@@ -490,7 +484,25 @@ public:
                     if (!content.empty()) {
                         // Validate against schema if a validator is set
                         if (document_validator_) {
-                            auto vr = document_validator_(content);
+                            std::string validation_payload = content;
+
+                            // Field-level schema rules expect JSON object keys.
+                            // For .json files validate against raw JSON bytes rather than
+                            // the extracted text-only representation.
+                            auto ext = file_path.extension().string();
+                            for (auto& ch : ext) {
+                                ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+                            }
+                            if (ext == ".json") {
+                                std::ifstream raw_file(file_path, std::ios::binary);
+                                if (raw_file) {
+                                    validation_payload.assign(
+                                        std::istreambuf_iterator<char>(raw_file),
+                                        std::istreambuf_iterator<char>());
+                                }
+                            }
+
+                            auto vr = document_validator_(validation_payload);
                             if (!vr.is_valid) {
                                 stats.documents_failed++;
                                 ++stats.metrics.schema_violations;
@@ -503,7 +515,9 @@ public:
                                     config_.source_id,
                                     file_path.string());
                                 ++processed;
-                                if (progress_callback && processed % 10 == 0) {
+                                if (progress_callback &&
+                                    (processed % 10 == 0 ||
+                                     processed == files_to_process.size())) {
                                     progress_callback(config_.source_id, processed,
                                                       files_to_process.size(),
                                                       "Validation failed: " +
@@ -531,7 +545,9 @@ public:
                     processed++;
                     
                     // Report progress
-                    if (progress_callback && processed % 10 == 0) {
+                    if (progress_callback &&
+                        (processed % 10 == 0 ||
+                         processed == files_to_process.size())) {
                         progress_callback(config_.source_id, processed, 
                                         files_to_process.size(),
                                         "Processing: " + file_path.filename().string());
@@ -687,7 +703,7 @@ private:
             if (filter_.max_size_bytes > 0 && size > filter_.max_size_bytes) {
                 return false;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
         
@@ -762,3 +778,5 @@ void FileSystemIngester::setDocumentValidator(DocumentValidatorFn validator) {
 
 } // namespace ingestion
 } // namespace themis
+
+

@@ -1,97 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multimodal_rag.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     445                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 269156cae  2026-03-01  feat(rag): add MultiModalRAG for image and text retrieval... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file multimodal_rag.h
- * @brief Multi-modal RAG for image and text retrieval (RAG Phase 4)
- *
- * Extends standard text-only RAG to handle multiple data modalities:
- * text passages, images (via CLIP-style embeddings), and table data.
- *
- * Architecture:
- * @code
- *   MultiModalQuery (text + image_embedding)
- *     ↓
- *   MultiModalRAG::query()
- *     ├── TextRetrievalFn  ──► text sources
- *     └── ImageRetrievalFn ──► image sources (+ captions via ImageCaptionFn)
- *     ↓
- *   RRF score fusion (weighted by modality)
- *     ↓
- *   buildContext() ──► formatted LLM prompt context
- *     ↓
- *   MultiModalRAGResult { sources, context, elapsed_ms }
- * @endcode
- *
- * Design goals:
- * - Bring-your-own retrieval: callers supply TextRetrievalFn and
- *   ImageRetrievalFn lambdas so the module is decoupled from any specific
- *   embedding model or vector store.
- * - Bring-your-own captioning: callers optionally supply an ImageCaptionFn
- *   to generate natural-language captions for retrieved images.
- * - Score fusion via RRF (Reciprocal Rank Fusion) consistent with
- *   search/multi_modal_search.h.
- * - TABLE and OCR modalities are configuration-ready (enable_table_qa,
- *   enable_ocr) but retrieval is delegated to caller-supplied functions.
- * - Thread-compatible: one MultiModalRAG instance per concurrent request.
- *
- * Integration example:
- * @code
- *   #include "rag/multimodal_rag.h"
- *   using namespace themis::rag::multimodal;
- *
- *   MultiModalRAGConfig config;
- *   config.enable_image_retrieval = true;
- *   config.top_k = 5;
- *
- *   MultiModalRAG mm_rag(config);
- *
- *   // Wire up retrieval backends
- *   mm_rag.setTextRetriever([&](const std::string& q, size_t k) {
- *       return my_vector_store.searchText(q, k);
- *   });
- *   mm_rag.setImageRetriever([&](const std::vector<float>& emb, size_t k) {
- *       return my_image_index.searchImage(emb, k);
- *   });
- *   mm_rag.setImageCaptioner([&](const ImageDocument& img) {
- *       return my_vlm.caption(img.image_path);
- *   });
- *
- *   MultiModalQuery query;
- *   query.text = "What were the quarterly revenue trends in 2023?";
- *   query.image_embedding = clip_model.encode(query_image);
- *   query.modalities = {Modality::TEXT, Modality::IMAGE};
- *
- *   auto result = mm_rag.query(query);
- *
- *   // Feed result.context to your LLM
- *   for (const auto& src : result.sources) {
- *       if (src.modality == Modality::IMAGE)
- *           std::cout << "Image caption: " << src.caption << "\n";
- *       else
- *           std::cout << "Text: " << src.content << "\n";
- *   }
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

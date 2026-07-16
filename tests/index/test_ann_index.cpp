@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_ann_index.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     399                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
-    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
-    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • ade1fdc2e  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_ann_index.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit and integration tests for the ScaNN / DiskANN alternative ANN backends
@@ -263,9 +245,41 @@ TEST_F(ScaNNTest, Build_Empty_Returns_False) {
     EXPECT_FALSE(idx.build(nullptr, nullptr, 0, DIM));
 }
 
+TEST_F(ScaNNTest, Build_RejectsZeroLeaves) {
+    ScaNNConfig cfg;
+    cfg.num_leaves = 0;
+    ScaNN idx(cfg);
+
+    EXPECT_FALSE(idx.build(flat_db_.data(), ids_.data(), N, DIM));
+}
+
+TEST_F(ScaNNTest, Build_RejectsZeroPQSubspacesWhenAHEnabled) {
+    ScaNNConfig cfg;
+    cfg.enable_ah = true;
+    cfg.pq_num_subspaces = 0;
+    ScaNN idx(cfg);
+
+    EXPECT_FALSE(idx.build(flat_db_.data(), ids_.data(), N, DIM));
+}
+
 TEST_F(ScaNNTest, Search_Empty_Index_Returns_Empty) {
     ScaNN idx;
     auto results = idx.search(query_.data(), DIM, K);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(ScaNNTest, Add_RejectsDimensionMismatch) {
+    ScaNN idx;
+    ASSERT_TRUE(idx.add(1, query_.data(), DIM));
+
+    EXPECT_FALSE(idx.add(2, query_.data(), DIM + 1));
+}
+
+TEST_F(ScaNNTest, Search_NullQuery_Returns_Empty) {
+    ScaNN idx;
+    ASSERT_TRUE(idx.build(flat_db_.data(), ids_.data(), N, DIM));
+
+    auto results = idx.search(nullptr, DIM, K);
     EXPECT_TRUE(results.empty());
 }
 
@@ -363,7 +377,7 @@ TEST_F(DiskAnnAdapterTest, Save_And_Load_Metadata_Roundtrip) {
 // IAnnIndex polymorphism via unique_ptr
 // ---------------------------------------------------------------------------
 
-TEST(IAnnIndexPolymorphismTest, UniquePtr_ScaNN) {
+TEST(IAnnIndexPolymorphismStandaloneTest, UniquePtr_ScaNN) {
     constexpr size_t N = 500, DIM = 16;
     auto vecs = make_random_vectors(N, DIM);
     auto flat = flatten(vecs);

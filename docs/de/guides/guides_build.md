@@ -32,7 +32,7 @@ ThemisDB bietet flexible Build-Optionen für alle Plattformen:
 - 🐳 **Docker** - Multi-arch builds
 - 🦾 **ARM** - Raspberry Pi, Graviton
 
-**Stand:** 23. Januar 2026  
+**Stand:** 23. April 2026  
 **Version:** v1.4.0  
 
 ---
@@ -291,7 +291,7 @@ cmake -B build -S . -DCMAKE_C_COMPILER_LAUNCHER=ccache
 
 ---
 
-**Letzte Aktualisierung:** 23. Januar 2026  
+**Letzte Aktualisierung:** 23. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🔨 Build/Deployment  
 **Kontakt:** service@themisdb.org

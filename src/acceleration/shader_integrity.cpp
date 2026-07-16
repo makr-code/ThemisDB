@@ -1,35 +1,70 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shader_integrity.cpp                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-03-09 03:56:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 326c1184f  2026-02-21  feat(acceleration): Phase 4.1 — ShaderIntegrityVerifier S... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file shader_integrity.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.24
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
+/*
+ * ThemisDB | File: shader_integrity.cpp | Version: 0.0.24 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 225
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #3609 feat(acceleration): wire mi... (2026-03-12) | #3555 docs(acceleration): ROADMAP... (2026-03-12) | #3551 docs(chimera + acceleration... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/*
+ * Acceleration module — GPU Shader Binary Integrity Verification
+ * ==============================================================
+ * Verifies the SHA-256 hash of SPIR-V / GLSL shader binaries against a
+ * pre-registered expected-hash manifest before any GPU pipeline is created.
+ * This prevents tampered or corrupted shaders from reaching the GPU driver.
+ *
+ * Dispatch chain position
+ * -----------------------
+ *   VulkanVectorBackend::initialize()           (graphics_backends.cpp)
+ *       └─► ShaderIntegrityVerifier::verifyShader(name, bytes)   ← this file
+ *               ├─ compute SHA-256 of binary blob (OpenSSL EVP_DigestUpdate)
+ *               ├─ compare against expectedHashes_[name]
+ *               └─ return Verified / HashMismatch / NotRegistered
+ *
+ *   OpenGLVectorBackend::compileShader()         (graphics_backends.cpp)
+ *       └─► ShaderIntegrityVerifier::verifyShader(name, glsl_source)
+ *
+ * Manifest loading
+ * ----------------
+ *   ShaderIntegrityVerifier::loadManifest(path)  — parses "<name> <sha256>" lines
+ *   ShaderIntegrityVerifier::registerExpectedHash(name, hex)  — register individual hash
+ *
+ * Key interfaces implemented / exposed
+ * -------------------------------------
+ *   ShaderIntegrityVerifier::instance()          — singleton access
+ *   ShaderIntegrityVerifier::verifyShader()      — verify bytes against registered hash
+ *   ShaderIntegrityVerifier::loadManifest()      — load hash manifest file
+ *   ShaderIntegrityVerifier::registerExpectedHash() — register a single hash entry
+ *
+ * Related files
+ * -------------
+ *   include/acceleration/shader_integrity.h     — ShaderIntegrityVerifier declaration + VerifyResult
+ *   src/acceleration/graphics_backends.cpp      — Vulkan / OpenGL backends that call verifyShader()
+ *   src/acceleration/vulkan_backend_full.cpp    — additional Vulkan shader consumers
+ *   src/acceleration/SECURITY.md               — "Untrusted kernel code execution" threat entry
+ *   src/acceleration/ARCHITECTURE.md           — Section 8 (Security Considerations)
+ */
+
+// Public interface
 #include "acceleration/shader_integrity.h"
 
+// SHA-256 via OpenSSL (consistent with plugin_security.cpp)
 #include <fstream>
 #include <iomanip>
-#include <sstream>
-#include <stdexcept>
-
-// SHA-256 via OpenSSL (consistent with plugin_security.cpp)
 #include <openssl/evp.h>
+#include <sstream>
 
 namespace themis {
 namespace acceleration {
@@ -38,7 +73,7 @@ namespace acceleration {
 // Singleton
 // ============================================================================
 
-ShaderIntegrityVerifier& ShaderIntegrityVerifier::instance() {
+ShaderIntegrityVerifier &ShaderIntegrityVerifier::instance() {
     static ShaderIntegrityVerifier inst;
     return inst;
 }
@@ -47,28 +82,35 @@ ShaderIntegrityVerifier& ShaderIntegrityVerifier::instance() {
 // Registration
 // ============================================================================
 
-void ShaderIntegrityVerifier::registerExpectedHash(const std::string& name,
-                                                    const std::string& hexHash) {
+void ShaderIntegrityVerifier::registerExpectedHash(const std::string &name, const std::string &hexHash) {
     std::lock_guard<std::mutex> lk(mutex_);
     // Normalise to lower-case
     std::string lower = hexHash;
-    for (char& c : lower) {
-        if (c >= 'A' && c <= 'F') c = static_cast<char>(c - 'A' + 'a');
+    for (char &c : lower) {
+        if (c >= 'A' && c <= 'F') {
+            c = static_cast<char>(c - 'A' + 'a');
+        }
     }
     expectedHashes_[name] = std::move(lower);
 }
 
-size_t ShaderIntegrityVerifier::loadManifest(const std::string& manifestPath) {
+size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
     std::ifstream f(manifestPath);
-    if (!f.is_open()) return 0;
+    if (!f.is_open()) {
+        return 0;
+    }
 
     size_t count = 0;
     std::string line;
     while (std::getline(f, line)) {
         // Strip comments and whitespace
         auto comment_pos = line.find('#');
-        if (comment_pos != std::string::npos) line = line.substr(0, comment_pos);
-        if (line.empty()) continue;
+        if (comment_pos != std::string::npos) {
+            line = line.substr(0, comment_pos);
+        }
+        if (line.empty()) {
+            continue;
+        }
 
         std::istringstream ss(line);
         std::string name, hash;
@@ -89,18 +131,13 @@ void ShaderIntegrityVerifier::clearRegistry() {
 // Verification
 // ============================================================================
 
-ShaderIntegrityVerifier::VerifyResult
-ShaderIntegrityVerifier::verify(const std::string& name,
-                                 const std::vector<uint32_t>& spvWords) const {
-    return verify(name,
-                  reinterpret_cast<const uint8_t*>(spvWords.data()),
-                  spvWords.size() * sizeof(uint32_t));
+ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name,
+                                                                      const std::vector<uint32_t> &spvWords) const {
+    return verify(name, reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
 }
 
-ShaderIntegrityVerifier::VerifyResult
-ShaderIntegrityVerifier::verify(const std::string& name,
-                                 const uint8_t* data,
-                                 size_t byteLen) const {
+ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name, const uint8_t *data,
+                                                                      size_t byteLen) const {
     VerifyResult result;
     result.name       = name;
     result.actualHash = sha256Hex(data, byteLen);
@@ -112,12 +149,14 @@ ShaderIntegrityVerifier::verify(const std::string& name,
         // No hash registered for this shader
         if (strict_) {
             result.passed  = false;
-            result.message = "Shader '" + name + "' has no registered expected hash "
-                             "(strict mode enabled)";
+            result.message = "Shader '" + name
+                             + "' has no registered expected hash "
+                               "(strict mode enabled)";
         } else {
             result.passed  = true;
-            result.message = "Shader '" + name + "' not in integrity registry "
-                             "(no-op in non-strict mode)";
+            result.message = "Shader '" + name
+                             + "' not in integrity registry "
+                               "(no-op in non-strict mode)";
         }
         return result;
     }
@@ -128,9 +167,10 @@ ShaderIntegrityVerifier::verify(const std::string& name,
         result.message = "Shader '" + name + "' integrity OK";
     } else {
         result.passed  = false;
-        result.message = "Shader '" + name + "' integrity FAILED: "
-                         "expected " + result.expectedHash +
-                         " got " + result.actualHash;
+        result.message = "Shader '" + name
+                         + "' integrity FAILED: "
+                           "expected "
+                         + result.expectedHash + " got " + result.actualHash;
     }
     return result;
 }
@@ -139,9 +179,11 @@ ShaderIntegrityVerifier::verify(const std::string& name,
 // SHA-256 utility
 // ============================================================================
 
-std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) {
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return "";
+std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) {
+    EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        return "";
+    }
 
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
         EVP_MD_CTX_free(ctx);
@@ -153,7 +195,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) 
     }
 
     unsigned char hash[EVP_MAX_MD_SIZE];
-    unsigned int  hashLen = 0;
+    unsigned int hashLen = 0;
     if (EVP_DigestFinal_ex(ctx, hash, &hashLen) != 1) {
         EVP_MD_CTX_free(ctx);
         return "";
@@ -161,14 +203,14 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t* data, size_t len) 
     EVP_MD_CTX_free(ctx);
 
     std::ostringstream ss;
-    for (unsigned int i = 0; i < hashLen; ++i)
+    for (unsigned int i = 0; i < hashLen; ++i) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
     return ss.str();
 }
 
-std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t>& spvWords) {
-    return sha256Hex(reinterpret_cast<const uint8_t*>(spvWords.data()),
-                     spvWords.size() * sizeof(uint32_t));
+std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
+    return sha256Hex(reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
 }
 
 // ============================================================================
@@ -185,7 +227,7 @@ bool ShaderIntegrityVerifier::strictMode() const {
     return strict_;
 }
 
-bool ShaderIntegrityVerifier::isRegistered(const std::string& name) const {
+bool ShaderIntegrityVerifier::isRegistered(const std::string &name) const {
     std::lock_guard<std::mutex> lk(mutex_);
     return expectedHashes_.count(name) > 0;
 }

@@ -1,26 +1,25 @@
+/**
+ * @file mock_key_provider.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mock_key_provider.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     308                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mock_key_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 312
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=13, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/mock_key_provider.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <sstream>
 #include <stdexcept>
@@ -31,6 +30,19 @@ MockKeyProvider::MockKeyProvider() {
     // Seed random number generator
     std::random_device rd;
     rng_.seed(rd());
+
+    THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
+    THEMIS_WARN("║  ⚠️  INSECURE CONFIGURATION: MockKeyProvider ACTIVE!  ⚠️      ║");
+    THEMIS_WARN("╠═══════════════════════════════════════════════════════════════╣");
+    THEMIS_WARN("║  Encryption keys are stored in PROCESS MEMORY only.          ║");
+    THEMIS_WARN("║  Keys are NOT persisted and will be lost on restart.          ║");
+    THEMIS_WARN("║  This configuration is for DEVELOPMENT / TESTING ONLY.       ║");
+    THEMIS_WARN("║                                                               ║");
+    THEMIS_WARN("║  Production deployments MUST use a real KeyProvider:          ║");
+    THEMIS_WARN("║  - PKIKeyProvider (TLS-backed PKI)                            ║");
+    THEMIS_WARN("║  - HSMKeyProvider (hardware security module)                  ║");
+    THEMIS_WARN("║  - VaultKeyProvider (HashiCorp Vault / cloud KMS)             ║");
+    THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
 }
 
 void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {

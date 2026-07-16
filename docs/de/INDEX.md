@@ -1,26 +1,26 @@
 # ThemisDB Documentation
 
-**Version:** 1.4.0-alpha  
-**Last Updated:** January 5, 2026
+**Version:** 1.8.0-rc1  
+**Last Updated:** April 2026
 
 Welcome to the ThemisDB documentation! This guide will help you find the information you need.
 
 ---
 
-## 🚀 NEU in v1.4.0-alpha: Erweiterte LLM-Funktionen
+## 🚀 Aktuell: v1.8.0-rc1
 
-**Dokumentation verfügbar:**
-- [Release Notes v1.4.0-alpha](../../RELEASE_NOTES_V1.4.0_ALPHA.md) - Umfassende Release-Zusammenfassung
-- [Changelog v1.4.0-alpha](../../CHANGELOG.md#v140-alpha) - Vollständige Änderungsliste
-- [Kompendium Update-Notizen](../../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md) - Deutsche Integrationsanleitung
+**Vollständige Informationen:**
+- [Changelog](../../CHANGELOG.md) - Vollständige Änderungsliste
+- [Release Notes v1.8.0](../releases/RELEASE_NOTES_v1.8.0.md) - Feature Release
+- [Roadmap](../../ROADMAP.md) - Aggregierte Roadmap über alle 46 Module
 
-**Neue Features:**
-- 📝 **Grammatik-gesteuerte Generierung** - EBNF/GBNF für garantiert valide JSON/XML/CSV-Ausgaben
-- 🔭 **RoPE Scaling** - Erweitertes Kontextfenster 4K → 32K Tokens (8x Vergrößerung)
-- 🖼️ **Vision Support** - Multi-modale LLMs mit CLIP-Bildcodierung
-- ⚡ **Flash Attention** - 15-25% Geschwindigkeitssteigerung, 30% Speicherreduktion
-- 🎯 **Speculative Decoding** - 2-3x schnellere Inferenz
-- 🔄 **Continuous Batching** - 2x+ Durchsatz
+**Highlights in v1.8.0-rc1:**
+- 🌍 **Geo-Modul**: Vollständiges GeoJSON RFC 7946 Parsing + In-Memory R-Tree Spatial Index
+- 🔐 **Auth**: German eID Online-Ausweisfunktion (BSI TR-03130/eIDAS) — v1.9.0
+- 🔍 **Query**: ShardKey-Routing — point-lookup → 1 Shard statt scatter-gather — v1.9.0
+- 🧠 **Analytics**: Forecasting Batch Prediction + Streaming Update + Parallel Auto-Tune — v1.9.0
+- 🕸️ **Scraper Plugin**: v1.1.0 — Provenance-Felder auf allen Records; 56-Quellen-Katalog
+- 🇩🇪 **German E-Gov**: OZG, XÖV, XDOMEA, eID Integrationen (v2.2.0/v1.9.0)
 
 ---
 
@@ -171,8 +171,11 @@ All source code modules now have corresponding documentation directories for Ger
 | Document | Description |
 |----------|-------------|
 | [Changelog](releases/CHANGELOG.md) | Version history and changes |
-| [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
-| [v1.3.0 Release](releases/RELEASE_NOTES_v1.3.0.md) | Latest release notes |
+| [Roadmap](roadmap/roadmap_overview.md) | Future plans and features |
+| [v1.8.0 Release](releases/RELEASE_NOTES_v1.8.0.md) | Latest release notes |
+| [v1.7.0 Release](releases/RELEASE_NOTES_v1.7.0.md) | Previous release |
+| [v1.5.0 Release](releases/RELEASE_NOTES_v1.5.0.md) | Previous release |
+| [v1.3.0 Release](releases/RELEASE_NOTES_v1.3.0.md) | Previous release |
 | [v1.2.0 Release](releases/v1.2.0.md) | Previous release |
 | [v1.1.0 Release](releases/v1.1.0.md) | Previous release |
 | [Migration Guides](guides/MIGRATION.md) | Upgrade between versions |
@@ -265,5 +268,5 @@ All source code modules now have corresponding documentation directories for Ger
 ---
 
 **Documentation Version:** 1.2.0  
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Next Review:** March 15, 2026

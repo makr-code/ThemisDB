@@ -1,27 +1,25 @@
+/**
+ * @file rbac.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rbac.cpp                                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     606                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rbac.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 631
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=26, L=0
+ * PR History (last 5): #1010 Add comprehensive-code-audi... (2026-03-11) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/rbac.h"
+#include <stdexcept>
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -158,6 +156,11 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
     
     // Load custom roles from config file
     if (!config_.config_path.empty()) {
+        // RB-3: loadConfig() → loadFromJson() acquires mutex_ internally.
+        // This is intentional: the constructor is the sole owner of *this at
+        // this point (the object has not yet been shared with other threads),
+        // so the lock is logically redundant but harmless — it keeps the
+        // locking discipline consistent with all other RBAC mutating paths.
         if (loadConfig(config_.config_path)) {
             THEMIS_INFO("Loaded RBAC configuration from {}", config_.config_path);
         } else {
@@ -168,7 +171,9 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
     
     // Validate role hierarchy
     if (!validateRoleHierarchy()) {
-        THEMIS_ERROR("RBAC role hierarchy validation failed (cyclic dependencies detected)");
+        THEMIS_ERROR("[SECURITY] RBAC: cyclic role hierarchy detected. "
+                     "RBAC system marked invalid — all permission checks will be DENIED.");
+        hierarchy_valid_ = false;
     }
 }
 
@@ -231,8 +236,8 @@ bool RBAC::loadFromJson(const nlohmann::json& j) {
     return true;
 }
 
-bool RBAC::loadFromYaml(const std::string& content) {
-    (void)content; // unused parameter
+bool RBAC::loadFromYaml([[maybe_unused]] const std::string& content) {
+    // unused parameter
     // Simple YAML-to-JSON conversion (limited parser)
     // For production, use a real YAML library (yaml-cpp)
     THEMIS_WARN("YAML support not fully implemented, falling back to JSON");
@@ -306,11 +311,38 @@ bool RBAC::checkPermission(
     const std::string& resource,
     const std::string& action
 ) const {
+    // Fail-closed: if the role hierarchy is invalid (cycle detected), deny all access.
+    if (!hierarchy_valid_) {
+        THEMIS_WARN("[SECURITY] RBAC: checkPermission called but hierarchy is invalid "
+                    "(cyclic dependency detected). Denying access to resource='{}' action='{}'.",
+                    resource, action);
+        return false;
+    }
+
     // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
+    // [RB-1] Grace period: a transient license server outage must not immediately
+    // lock out all users. If the last successful check is within the grace window,
+    // allow access and log a warning. Update the timestamp on every success.
     std::string license_error;
     if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
-        THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
-        return false;
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        const int64_t last_success = last_license_success_ms_.load(std::memory_order_relaxed);
+        if (last_success > 0 && (now_ms - last_success) < LICENSE_GRACE_PERIOD_MS) {
+            THEMIS_WARN("RBAC::checkPermission: license check failed ({}) — "
+                        "operating within grace period ({} s remaining)",
+                        license_error,
+                        (LICENSE_GRACE_PERIOD_MS - (now_ms - last_success)) / 1000);
+            // Fall through to normal permission evaluation
+        } else {
+            THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
+            return false;
+        }
+    } else {
+        // Record successful license check timestamp
+        const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        last_license_success_ms_.store(now_ms, std::memory_order_relaxed);
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
@@ -608,3 +640,4 @@ void UserRoleStore::setUser(const User& user) {
 
 } // namespace security
 } // namespace themis
+

@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # Task Completion Report: Ethics Evaluation Metrics Module
 
 ## Task Summary

@@ -1,25 +1,21 @@
+/**
+ * @file canary_rollout.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            canary_rollout.cpp                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 04:00:44                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     363                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
-    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: canary_rollout.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 759
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * PR History (last 5): #4235 feat(updates): CanaryDeploy... (2026-03-14) | #3661 feat(updates): build system... (2026-03-12) | #2587 Canary rollout mode for par... (2026-03-12) | #2569 feat(updates): Canary rollo... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/canary_rollout.h"
@@ -360,5 +356,416 @@ void CanaryRollout::setRollbackCallback(RollbackCallback cb) {
     rollback_cb_ = std::move(cb);
 }
 
+// ===========================================================================
+// CanaryDeployment
+// ===========================================================================
+
+CanaryDeployment::CanaryDeployment() = default;
+
+CanaryDeployment::CanaryDeployment(CanaryDeployment&& other) noexcept {
+    std::lock_guard<std::mutex> lock(other.mutex_);
+    version_ = std::move(other.version_);
+    node_id_ = std::move(other.node_id_);
+    stages_ = std::move(other.stages_);
+    error_rate_threshold_ = other.error_rate_threshold_;
+    latency_threshold_us_ = other.latency_threshold_us_;
+    engine_ = std::move(other.engine_);
+    rollout_ = std::move(other.rollout_);
+    stage_complete_cb_ = std::move(other.stage_complete_cb_);
+    rollback_cb_ = std::move(other.rollback_cb_);
+    latency_samples_us_ = std::move(other.latency_samples_us_);
+    memory_bytes_ = other.memory_bytes_;
+    cpu_fraction_ = other.cpu_fraction_;
+    disk_io_bytes_per_sec_ = other.disk_io_bytes_per_sec_;
+    custom_metrics_ = std::move(other.custom_metrics_);
+    ab_testing_enabled_ = other.ab_testing_enabled_;
+    ab_config_ = std::move(other.ab_config_);
+}
+
+CanaryDeployment& CanaryDeployment::operator=(CanaryDeployment&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    std::scoped_lock lock(mutex_, other.mutex_);
+    version_ = std::move(other.version_);
+    node_id_ = std::move(other.node_id_);
+    stages_ = std::move(other.stages_);
+    error_rate_threshold_ = other.error_rate_threshold_;
+    latency_threshold_us_ = other.latency_threshold_us_;
+    engine_ = std::move(other.engine_);
+    rollout_ = std::move(other.rollout_);
+    stage_complete_cb_ = std::move(other.stage_complete_cb_);
+    rollback_cb_ = std::move(other.rollback_cb_);
+    latency_samples_us_ = std::move(other.latency_samples_us_);
+    memory_bytes_ = other.memory_bytes_;
+    cpu_fraction_ = other.cpu_fraction_;
+    disk_io_bytes_per_sec_ = other.disk_io_bytes_per_sec_;
+    custom_metrics_ = std::move(other.custom_metrics_);
+    ab_testing_enabled_ = other.ab_testing_enabled_;
+    ab_config_ = std::move(other.ab_config_);
+
+    return *this;
+}
+
+// ---------------------------------------------------------------------------
+// Builder API
+// ---------------------------------------------------------------------------
+
+void CanaryDeployment::setVersion(const std::string& version) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    version_ = version;
+}
+
+void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (size_t i = 0; i < stages.size(); ++i) {
+        stages[i].stage_number = i;
+    }
+    stages_ = std::move(stages);
+}
+
+void CanaryDeployment::setErrorRateThreshold(double threshold) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    error_rate_threshold_ = threshold;
+}
+
+void CanaryDeployment::setLatencyThreshold(std::chrono::milliseconds p99_limit) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    latency_threshold_us_ =
+        std::chrono::duration_cast<std::chrono::microseconds>(p99_limit);
+}
+
+void CanaryDeployment::setEngine(std::shared_ptr<HotReloadEngine> engine) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    engine_ = std::move(engine);
+}
+
+void CanaryDeployment::setNodeId(const std::string& node_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    node_id_ = node_id;
+}
+
+// ---------------------------------------------------------------------------
+// Deployment
+// ---------------------------------------------------------------------------
+
+ReloadResult CanaryDeployment::deploy() {
+    std::unique_ptr<CanaryRollout> rollout;
+    std::vector<CanaryDeploymentStage> stages_copy;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        if (version_.empty()) {
+            throw std::invalid_argument("CanaryDeployment: version must be set before deploy()");
+        }
+        if (node_id_.empty()) {
+            throw std::invalid_argument("CanaryDeployment: node_id must be set before deploy()");
+        }
+        if (!engine_) {
+            throw std::invalid_argument("CanaryDeployment: engine must be set before deploy()");
+        }
+        if (stages_.empty()) {
+            throw std::invalid_argument("CanaryDeployment: stages must be set before deploy()");
+        }
+
+        // Convert CanaryDeploymentStage → CanaryConfig::stages
+        CanaryConfig cfg;
+        cfg.version = version_;
+        cfg.node_id = node_id_;
+        cfg.error_rate_threshold = error_rate_threshold_;
+        cfg.min_sample_count = 20;
+        for (const auto& s : stages_) {
+            CanaryStage cs;
+            cs.percentage = static_cast<double>(s.percentage) / 100.0;
+            cs.observation_duration = s.duration;
+            cfg.stages.push_back(cs);
+        }
+
+        auto new_rollout = std::make_unique<CanaryRollout>(engine_, cfg);
+        stages_copy = stages_;
+
+        // Wire stage-complete callback: always reads the current CanaryDeployment
+        // callback so callbacks registered after deploy() also fire.
+        // Note: CanaryRollout calls these callbacks OUTSIDE its own lock, so it
+        // is safe to acquire mutex_ here.
+        new_rollout->setStageCompleteCallback(
+            [this](size_t completed_stage, double /*pct*/) {
+                StageCompleteCallback cb;
+                CanaryDeploymentStage stage_info;
+                {
+                    std::lock_guard<std::mutex> lock(mutex_);
+                    cb = stage_complete_cb_;
+                    if (completed_stage < stages_.size()) {
+                        stage_info = stages_[completed_stage];
+                    }
+                }
+                if (cb) {
+                    try { cb(stage_info); } catch (...) {}
+                }
+            });
+
+        // Wire rollback callback: same dynamic-read approach.
+        new_rollout->setRollbackCallback(
+            [this](const std::string& reason) {
+                RollbackCallback cb;
+                {
+                    std::lock_guard<std::mutex> lock(mutex_);
+                    cb = rollback_cb_;
+                }
+                if (cb) {
+                    try { cb(reason); } catch (...) {}
+                }
+            });
+
+        rollout_.reset();
+        rollout = std::move(new_rollout);
+    }
+
+    // Apply outside the lock so callbacks can call back into this object.
+    ReloadResult result = rollout->applyIfIncluded();
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        rollout_ = std::move(rollout);
+    }
+
+    return result;
+}
+
+// ---------------------------------------------------------------------------
+// Callbacks
+// ---------------------------------------------------------------------------
+
+void CanaryDeployment::onStageComplete(StageCompleteCallback cb) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    stage_complete_cb_ = std::move(cb);
+}
+
+void CanaryDeployment::onRollback(RollbackCallback cb) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    rollback_cb_ = std::move(cb);
+}
+
+// ---------------------------------------------------------------------------
+// Health / metric reporting
+// ---------------------------------------------------------------------------
+
+void CanaryDeployment::reportSuccess() {
+    // Read rollout pointer without holding the lock during the call, since
+    // CanaryRollout callbacks acquire mutex_ (deadlock risk if held here).
+    CanaryRollout* r = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        r = rollout_.get();
+    }
+    if (r) r->reportSuccess();
+}
+
+void CanaryDeployment::reportError() {
+    // Same rationale: release mutex_ before calling into CanaryRollout, which
+    // may auto-rollback and invoke a callback that acquires mutex_.
+    CanaryRollout* r = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        r = rollout_.get();
+    }
+    if (r) r->reportError();
+}
+
+void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (latency_samples_us_.size() >= kMaxLatencySamples) {
+            latency_samples_us_.pop_front();  // O(1) for deque
+        }
+        latency_samples_us_.push_back(latency.count());
+    }
+    // Check threshold outside the lock.
+    checkLatencyThreshold();
+}
+
+void CanaryDeployment::reportMemoryUsage(double bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    memory_bytes_ = bytes;
+}
+
+void CanaryDeployment::reportCpuUsage(double fraction) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cpu_fraction_ = fraction;
+}
+
+void CanaryDeployment::reportDiskIO(double bytes_per_sec) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    disk_io_bytes_per_sec_ = bytes_per_sec;
+}
+
+void CanaryDeployment::recordCustomMetric(const std::string& name, double value) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    custom_metrics_[name] = value;
+}
+
+// ---------------------------------------------------------------------------
+// A/B testing and traffic splitting
+// ---------------------------------------------------------------------------
+
+void CanaryDeployment::enableABTesting(const ABTestConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    ab_testing_enabled_ = true;
+    ab_config_ = config;
+}
+
+bool CanaryDeployment::isCanaryRequest(const std::string& request_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!ab_testing_enabled_) {
+        return false;
+    }
+    const std::string key = request_id + ab_config_.experiment_id;
+    const std::size_t h = std::hash<std::string>{}(key);
+    const double frac = static_cast<double>(h % 100000u) / 100000.0;
+    return frac < ab_config_.canary_fraction;
+}
+
+bool CanaryDeployment::isControlRequest(const std::string& request_id) const {
+    return !isCanaryRequest(request_id);
+}
+
+bool CanaryDeployment::isNodeInCanaryGroup() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!rollout_) {
+        return false;
+    }
+    return rollout_->isNodeInCurrentStage();
+}
+
+// ---------------------------------------------------------------------------
+// Status and metrics
+// ---------------------------------------------------------------------------
+
+LatencyStats CanaryDeployment::computeLatencyStats() const {
+    // Caller must hold mutex_.
+    LatencyStats stats;
+    if (latency_samples_us_.empty()) {
+        return stats;
+    }
+
+    // Sort a copy of the deque to compute percentiles.
+    std::vector<int64_t> sorted(latency_samples_us_.begin(), latency_samples_us_.end());
+    std::sort(sorted.begin(), sorted.end());
+
+    stats.sample_count = sorted.size();
+    const size_t n = sorted.size();
+
+    auto percentile = [&](double p) -> std::chrono::microseconds {
+        // Nearest-rank method: index = ceil(p/100 * n) - 1 (0-based).
+        // Guard against underflow from size_t subtraction: ensure n >= 1 (checked above).
+        const auto rank = static_cast<size_t>(
+            std::ceil(p / 100.0 * static_cast<double>(n)));
+        // rank is in [1, n]; convert to 0-based and clamp.
+        const size_t idx = (rank > 0 ? rank - 1 : 0);
+        const size_t clamped = std::min(idx, n - 1);
+        return std::chrono::microseconds{sorted[clamped]};
+    };
+
+    stats.p50 = percentile(50.0);
+    stats.p95 = percentile(95.0);
+    stats.p99 = percentile(99.0);
+    return stats;
+}
+
+CanaryMetricsSnapshot CanaryDeployment::getMetricsSnapshot() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    CanaryMetricsSnapshot snap;
+    snap.latency = computeLatencyStats();
+    snap.memory_bytes = memory_bytes_;
+    snap.cpu_fraction = cpu_fraction_;
+    snap.disk_io_bytes_per_sec = disk_io_bytes_per_sec_;
+    snap.custom_metrics = custom_metrics_;
+
+    if (rollout_) {
+        auto s = rollout_->status();
+        snap.error_rate    = s.observed_error_rate;
+        snap.error_count   = static_cast<size_t>(
+            static_cast<double>(s.sample_count) * s.observed_error_rate + 0.5);
+        snap.success_count = s.sample_count > snap.error_count
+                             ? s.sample_count - snap.error_count
+                             : 0;
+    }
+
+    if (latency_threshold_us_.count() > 0 && snap.latency.sample_count > 0) {
+        snap.latency_threshold_exceeded =
+            snap.latency.p99 > latency_threshold_us_;
+    }
+
+    return snap;
+}
+
+CanaryStatus CanaryDeployment::status() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!rollout_) {
+        CanaryStatus s;
+        s.version = version_;
+        return s;
+    }
+    return rollout_->status();
+}
+
+bool CanaryDeployment::advanceStage() {
+    CanaryRollout* r = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        r = rollout_.get();
+    }
+    if (!r) return false;
+    return r->advanceStage();
+}
+
+bool CanaryDeployment::rollback(const std::string& reason) {
+    CanaryRollout* r = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        r = rollout_.get();
+    }
+    if (!r) return false;
+    return r->rollback(reason);
+}
+
+// ---------------------------------------------------------------------------
+// Private helpers
+// ---------------------------------------------------------------------------
+
+void CanaryDeployment::checkLatencyThreshold() {
+    LatencyStats stats;
+    std::chrono::microseconds threshold{0};
+    bool should_rollback = false;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (latency_threshold_us_.count() == 0 || !rollout_) {
+            return;
+        }
+        stats = computeLatencyStats();
+        threshold = latency_threshold_us_;
+        if (stats.sample_count > 0 && stats.p99 > threshold) {
+            should_rollback = !rollout_->status().is_rolled_back &&
+                              !rollout_->status().is_complete;
+        }
+    }
+
+    if (should_rollback) {
+        const std::string reason =
+            "p99 latency " +
+            std::to_string(stats.p99.count()) +
+            "us exceeds threshold " +
+            std::to_string(threshold.count()) + "us";
+        LOG_WARN("CanaryDeployment: auto-rollback on latency – {}", reason);
+        rollback(reason);
+    }
+}
+
 } // namespace updates
 } // namespace themis
+
+

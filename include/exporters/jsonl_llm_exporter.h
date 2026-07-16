@@ -1,27 +1,21 @@
+/**
+ * @file jsonl_llm_exporter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            jsonl_llm_exporter.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d1800e174  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
-    • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
-    • 0da3ceaf6  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
-    • fb579790b  2026-02-28  Audit: fix stale Stubs annotations, ROADMAP, and P2 place... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: jsonl_llm_exporter.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 291
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5044 [Docs][exporters] Refresh m... (2026-05-12) | #3220 feat(exporters): Alpaca, Sh... (2026-03-12) | #3110 [exporters] Implement ZSTD ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -204,6 +198,17 @@ public:
         format_template_ = makeFormatTemplate(config.format_template_type);
     }
     
+    /// Validate that all entities in \p sample satisfy the configured format
+    /// template's required fields.  Returns immediately with a valid result
+    /// when no template is active (format_template_type == NONE).
+    ///
+    /// Intended for use as a CI/preflight dry-run before a full export.
+    /// The returned TemplateValidationResult::missing_fields list is sorted
+    /// and deduplicated so automated comparisons are deterministic.
+    TemplateValidationResult validateTemplate(
+        const std::vector<BaseEntity>& sample
+    ) const;
+
     /// Get current configuration
     const JSONLLLMConfig& getConfig() const { return config_; }
     
@@ -278,8 +283,7 @@ public:
     ::themis::plugins::PluginType getType() const override { return ::themis::plugins::PluginType::EXPORTER; }
     ::themis::plugins::PluginCapabilities getCapabilities() const override { return {}; }
 
-    bool initialize(const char* config_json) override {
-        (void)config_json;
+    bool initialize([[maybe_unused]] const char* config_json) override {
         exporter_ = std::make_unique<JSONLLLMExporter>();
         return true;
     }

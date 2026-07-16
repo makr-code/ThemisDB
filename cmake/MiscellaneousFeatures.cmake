@@ -5,7 +5,11 @@
 list(APPEND THEMIS_CORE_SOURCES
     ../src/index/graph_auto_buffer.cpp
     ../src/server/http_type_adapter.cpp
-    ../src/base/module_loader.cpp
+    # Module loader – migrated to src/themis/ (v1.7.0)
+    ../src/themis/module_loader.cpp
+    ../src/themis/module_loader_win32.cpp
+    ../src/themis/module_loader_linux.cpp
+    ../src/themis/module_security.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     ../src/base/ab_test_manager.cpp

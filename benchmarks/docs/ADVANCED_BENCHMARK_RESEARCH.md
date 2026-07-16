@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../README.md) verwenden.
+
 # Advanced Benchmark Research & Implementation Guide
 ## Scientific and Industrial Standards for Modern Database & AI Systems
 
@@ -849,6 +852,6 @@ Before running any benchmark, ensure:
 ---
 
 **Document Version:** 2.0  
-**Last Updated:** 2025-12-23  
+**Last Updated:** 2026-04-06  
 **Status:** ✅ Ready for Implementation
 

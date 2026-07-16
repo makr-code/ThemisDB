@@ -1,23 +1,20 @@
+/**
+ * @file security_evidence_collector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            security_evidence_collector.h                      ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 19:54:40                                ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • initial  2026-03-09  feat(security): implement SOC 2 Type II evidence collector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: security_evidence_collector.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -120,6 +117,35 @@ struct AccessControlReport {
  * The bundle includes a retention verification flag that indicates whether the
  * collected evidence falls within the configured 12-month retention window.
  */
+/**
+ * @brief Evidence of network control configuration for SOC 2 audit.
+ *
+ * Captures TLS cipher suites, mTLS-enabled shard count, and rate-limiter
+ * configuration snapshot.
+ */
+struct NetworkControlsEvidence {
+    std::vector<std::string> tls_cipher_suites;       ///< Configured TLS 1.3 cipher suite names
+    int mtls_enabled_shard_count = 0;                 ///< Number of shards with mTLS enabled
+    std::string rate_limiter_config_snapshot;         ///< JSON snapshot of rate limiter config
+
+    nlohmann::json toJson() const;
+};
+
+/**
+ * @brief Evidence of change management events for SOC 2 audit.
+ *
+ * Captures configuration audit trail entries and key rotation records
+ * within a specified time window.
+ */
+struct ChangeManagementEvidence {
+    std::vector<nlohmann::json> config_audit_trail;   ///< Config changes (last 30 days)
+    std::vector<KeyRotationRecord> key_rotation_log;  ///< Key rotation events in window
+    int64_t from_ms = 0;                              ///< Window start (Unix epoch ms)
+    int64_t to_ms   = 0;                              ///< Window end   (Unix epoch ms)
+
+    nlohmann::json toJson() const;
+};
+
 struct SecurityEvidenceBundle {
     std::string bundle_id;                   ///< Unique bundle identifier
     int64_t collected_at_ms = 0;             ///< Bundle collection timestamp
@@ -130,6 +156,8 @@ struct SecurityEvidenceBundle {
     SecurityMetricsSnapshot  metrics;        ///< Point-in-time metrics
     std::vector<KeyRotationRecord> key_rotations; ///< Key-rotation history
     AccessControlReport      access_control; ///< RBAC configuration snapshot
+    NetworkControlsEvidence  network_controls;    ///< Network & TLS configuration evidence
+    ChangeManagementEvidence change_management;   ///< Change management evidence
 
     nlohmann::json toJson() const;
 };
@@ -261,6 +289,12 @@ private:
         std::chrono::system_clock::time_point to) const;
 
     AccessControlReport collectAccessControl() const;
+
+    NetworkControlsEvidence collectNetworkControls() const;
+
+    ChangeManagementEvidence collectChangeManagement(
+        std::chrono::system_clock::time_point from,
+        std::chrono::system_clock::time_point to) const;
 
     static std::string generateBundleId();
     static int64_t toMs(std::chrono::system_clock::time_point tp) noexcept;

@@ -1,24 +1,21 @@
+/**
+ * @file tensor_core_matmul.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_core_matmul.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     141                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_core_matmul.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 137
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
+ * PR History (last 5): #4610 feat(acceleration): Add INT... (2026-04-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // =============================================================================
@@ -28,11 +25,15 @@
 // =============================================================================
 
 #include "acceleration/tensor_core_matmul.h"
+
+#include <algorithm>
+#include <cmath>
 #include <cstring>
+#include <iostream>
 
 #ifdef THEMIS_ENABLE_CUDA
-#include <cuda_fp16.h>
 #include <cuda_bf16.h>
+#include <cuda_fp16.h>
 #endif
 
 namespace themis {
@@ -43,18 +44,10 @@ namespace tensor_core {
 // CPU fallback — naive triple-loop FP32 GEMM (always compiled)
 // =============================================================================
 
-int launchCPUMatmulKernel(
-    const float* A,
-    const float* B,
-    float*       C,
-    int          M,
-    int          K,
-    int          N,
-    float        alpha,
-    float        beta
-)
-{
-    if (!A || !B || !C || M <= 0 || K <= 0 || N <= 0) return 1;
+int launchCPUMatmulKernel(const float *A, const float *B, float *C, int M, int K, int N, float alpha, float beta) {
+    if (!A || !B || !C || M <= 0 || K <= 0 || N <= 0) {
+        return 1;
+    }
 
     // Scale existing C by beta first
     if (beta == 0.0f) {
@@ -83,10 +76,16 @@ int launchCPUMatmulKernel(
 // Unified dispatcher
 // =============================================================================
 
-int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
-{
-    if (!params.A || !params.B || !params.C) return 1;
-    if (params.M == 0 || params.K == 0 || params.N == 0) return 1;
+int dispatchMatmul(const MatrixKernelParams &params, void *opaque_stream) {
+#ifndef THEMIS_ENABLE_CUDA
+    (void)opaque_stream;
+#endif
+    if (!params.A || !params.B || !params.C) {
+        return 1;
+    }
+    if (params.M == 0 || params.K == 0 || params.N == 0) {
+        return 1;
+    }
 
     const int M = static_cast<int>(params.M);
     const int K = static_cast<int>(params.K);
@@ -97,44 +96,51 @@ int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream)
 
     switch (params.precision) {
         case MatrixPrecision::FP16:
-            return launchFP16MatmulKernel(
-                static_cast<const __half*>(params.A),
-                static_cast<const __half*>(params.B),
-                static_cast<__half*>(params.C),
-                M, K, N,
-                params.alpha, params.beta,
-                stream
-            );
+            return launchFP16MatmulKernel(static_cast<const __half *>(params.A), static_cast<const __half *>(params.B),
+                                          static_cast<__half *>(params.C), M, K, N, params.alpha, params.beta, stream);
         case MatrixPrecision::BF16:
             return launchBF16MatmulKernel(
-                static_cast<const __nv_bfloat16*>(params.A),
-                static_cast<const __nv_bfloat16*>(params.B),
-                static_cast<__nv_bfloat16*>(params.C),
-                M, K, N,
-                params.alpha, params.beta,
-                stream
-            );
+                static_cast<const __nv_bfloat16 *>(params.A), static_cast<const __nv_bfloat16 *>(params.B),
+                static_cast<__nv_bfloat16 *>(params.C), M, K, N, params.alpha, params.beta, stream);
+        case MatrixPrecision::INT8:
+            return launchINT8MatmulKernel(static_cast<const int8_t *>(params.A), static_cast<const int8_t *>(params.B),
+                                          static_cast<int32_t *>(params.C), M, K, N, params.alpha, params.beta, stream);
         case MatrixPrecision::FP32:
         default:
-            return launchFP32MatmulKernel(
-                static_cast<const float*>(params.A),
-                static_cast<const float*>(params.B),
-                static_cast<float*>(params.C),
-                M, K, N,
-                params.alpha, params.beta,
-                stream
-            );
+            return launchFP32MatmulKernel(static_cast<const float *>(params.A), static_cast<const float *>(params.B),
+                                          static_cast<float *>(params.C), M, K, N, params.alpha, params.beta, stream);
     }
 #else
     // No CUDA: always use the CPU FP32 path regardless of requested precision
-    return launchCPUMatmulKernel(
-        static_cast<const float*>(params.A),
-        static_cast<const float*>(params.B),
-        static_cast<float*>(params.C),
-        M, K, N,
-        params.alpha, params.beta
-    );
+    return launchCPUMatmulKernel(static_cast<const float *>(params.A), static_cast<const float *>(params.B),
+                                 static_cast<float *>(params.C), M, K, N, params.alpha, params.beta);
 #endif
+}
+
+// =============================================================================
+// FP32 ↔ INT8 quantisation helpers
+// =============================================================================
+
+void quantize(const float *src, int8_t *dst, size_t n, float scale) {
+    if (!src || !dst || n == 0 || scale <= 0.0f) {
+        return;
+    }
+    const float inv_scale = 1.0f / scale;
+    for (size_t i = 0; i < n; ++i) {
+        float val = std::round(src[i] * inv_scale);
+        val       = std::max(val, -128.0f);
+        val       = std::min(val, 127.0f);
+        dst[i]    = static_cast<int8_t>(val);
+    }
+}
+
+void dequantize(const int8_t *src, float *dst, size_t n, float scale) {
+    if (!src || !dst || n == 0) {
+        return;
+    }
+    for (size_t i = 0; i < n; ++i) {
+        dst[i] = static_cast<float>(src[i]) * scale;
+    }
 }
 
 } // namespace tensor_core

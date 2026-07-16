@@ -1,23 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gguf_loader.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     750                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file gguf_loader.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=1, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/gguf_loader.h"
@@ -276,7 +265,7 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
                     return false;
                 }
             }
-            out = "[array]";
+            out = "[array:" + std::to_string(arr_len) + "]";
             return true;
         }
         default:
@@ -602,27 +591,57 @@ void* GGUFLoader::mmapTensor(const std::string& tensor_name) {
     return nullptr;
 }
 
-void GGUFLoader::unmapTensor(void* ptr) {
+void GGUFLoader::unmapTensor(void* /*ptr*/) {
     // No-op for now since we keep entire file mapped
     // Individual tensor unmapping not needed with full file mmap
 }
 
 std::vector<uint8_t> GGUFLoader::getTensorData(const std::string& tensor_name) {
-    void* ptr = mmapTensor(tensor_name);
-    if (ptr == nullptr) {
-        return {};
-    }
-    
-    // Find tensor size
-    for (const auto& tensor : metadata_.tensors) {
-        if (tensor.name == tensor_name) {
-            std::vector<uint8_t> data(tensor.size);
-            std::memcpy(data.data(), ptr, tensor.size);
-            return data;
+    const TensorMetadata* tensor = nullptr;
+    for (const auto& candidate : metadata_.tensors) {
+        if (candidate.name == tensor_name) {
+            tensor = &candidate;
+            break;
         }
     }
-    
-    return {};
+
+    if (tensor == nullptr || mmap_base_ == nullptr || mmap_size_ == 0) {
+        return {};
+    }
+
+    // IVB-04: Re-validate bounds immediately before copying raw bytes.
+    // This protects against malformed metadata that may have slipped through
+    // earlier parsing/validation phases.
+    if (metadata_.data_offset > mmap_size_ ||
+        tensor->offset > mmap_size_ - metadata_.data_offset) {
+        spdlog::error("getTensorData('{}') rejected: invalid tensor offset (data_offset={}, tensor_offset={}, mmap_size={})",
+                      tensor_name, metadata_.data_offset, tensor->offset, mmap_size_);
+        return {};
+    }
+    const size_t tensor_start = metadata_.data_offset + tensor->offset;
+    if (tensor->size > mmap_size_ - tensor_start) {
+        spdlog::error("getTensorData('{}') rejected: tensor size {} exceeds mmap bounds (start={}, mmap_size={})",
+                      tensor_name, tensor->size, tensor_start, mmap_size_);
+        return {};
+    }
+    if (tensor->size > metadata_.total_size ||
+        tensor_start > metadata_.total_size - tensor->size) {
+        spdlog::error("getTensorData('{}') rejected: tensor range exceeds parsed file bounds (start={}, size={}, total_size={})",
+                      tensor_name, tensor_start, tensor->size, metadata_.total_size);
+        return {};
+    }
+
+    try {
+        std::vector<uint8_t> data(tensor->size);
+        if (!data.empty()) {
+            const auto* src = static_cast<const uint8_t*>(mmap_base_) + tensor_start;
+            std::memcpy(data.data(), src, tensor->size);
+        }
+        return data;
+    } catch (const std::exception& ex) {
+        spdlog::error("getTensorData('{}') failed while copying tensor bytes: {}", tensor_name, ex.what());
+        return {};
+    }
 }
 
 bool GGUFLoader::validateQuantizationMetadata(const std::string& tensor_name) const {

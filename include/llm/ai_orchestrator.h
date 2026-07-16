@@ -1,44 +1,20 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_orchestrator.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     562                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39e499706  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
-    • e2cf1a07c  2026-02-22  feat: MCP ↔ AIOrchestrator bidirectional integration (MCP... ║
-    • 847458a5a  2026-02-22  feat: Add YAML-configurable LLM Orchestration Modes (ask,... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file ai_orchestrator.h
- * @brief LLM Orchestration Pipeline – Mode Spec types, Tool Registry and
- *        Orchestrator runtime for ThemisDB.
- *
- * This header defines a YAML-configurable orchestration layer that supports
- * multiple LLM request modes: ask, edit, rag, agentic, multi_agent and ethics.
- *
- * Schema version: themis.ai/v1
- *
- * @see config/ai_ml/llm/modes/ for example YAML files.
- * @see docs/llm_orchestration/README.md for architecture documentation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/themis_tool_interface.h"
+#include "plugins/plugin_manager.h"
+#include "utils/expected.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <functional>
@@ -183,6 +159,7 @@ struct ModeSpec {
  * @brief Model entry in a ModePack.
  */
 struct ModelEntry {
+    virtual ~ModelEntry() = default;
     std::string id;
     std::string path;
     int         gpu_layers = 0;
@@ -275,11 +252,89 @@ using ToolHandler = std::function<json(const json& args, const ModeSpec& mode)>;
  *
  * Tools are registered globally; each ModeSpec's tools_allowed/tools_denied
  * lists are consulted before dispatch.
+ *
+ * ## Dynamic tool loading (DLL/SO)
+ *
+ * Tool plugins are shared libraries that export the standard
+ * `createPlugin()`/`destroyPlugin()` C ABI and contain a class derived from
+ * IThemisTool.  The plugin.json manifest must set `"type": "agentic_tool"`.
+ *
+ * Example workflow:
+ * @code
+ * ToolRegistry registry;
+ * registry.loadToolsFromDirectory("plugins/tools");   // bulk load
+ * registry.loadToolPlugin("plugins/tools/libtool_search.so"); // single load
+ * registry.reloadTool("search_vector");               // hot-reload
+ * registry.unloadTool("search_vector");               // unload + deregister
+ * @endcode
+ *
+ * Statically registered tools (via registerTool()) and dynamically loaded
+ * tools coexist in the same registry and are dispatched through the same
+ * invokeTool() path.
  */
 class ToolRegistry {
 public:
-    /** @brief Register a tool handler. Overwrites any existing registration. */
+    ToolRegistry();
+    ~ToolRegistry();
+
+    // ── Static / built-in tool registration ──────────────────────────────────
+
+    /** @brief Register a tool handler. Overwrites any existing static registration. */
     void registerTool(const ToolSpec& spec, ToolHandler handler);
+
+    // ── Dynamic tool loading via PluginManager ────────────────────────────────
+
+    /**
+     * @brief Load a single tool plugin from a shared library path.
+     *
+     * The library must export `createPlugin()`/`destroyPlugin()` and the
+     * returned instance must implement IThemisTool.  On success the tool is
+     * automatically registered in the registry using the name reported by
+     * IThemisPlugin::getName().
+     *
+     * @param path    Absolute path to the .so / .dll.
+     * @param config  Optional JSON configuration string passed to initialize().
+     * @return Ok(void) on success, Err(ERR_TOOL_PLUGIN_NOT_A_TOOL) if the
+     *         plugin does not implement IThemisTool, or a plugin-layer error
+     *         from PluginManager on load failure.
+     */
+    Result<void> loadToolPlugin(const std::string& path,
+                                const std::string& config = "{}");
+
+    /**
+     * @brief Scan a directory for tool plugins and load all AGENTIC_TOOL ones.
+     *
+     * Delegates directory scanning to PluginManager::scanPluginDirectory()
+     * followed by loading every plugin with type == AGENTIC_TOOL.
+     *
+     * @param directory  Path to directory containing .so/.dll files.
+     * @return Ok(n) where n is the number of tools successfully loaded.
+     */
+    Result<size_t> loadToolsFromDirectory(const std::string& directory);
+
+    /**
+     * @brief Hot-reload a named tool plugin without stopping the registry.
+     *
+     * Delegates to PluginManager::reloadPlugin() (atomic swap with rollback).
+     * After the reload the tool handler is re-registered with the new instance.
+     * Statically registered tools cannot be reloaded via this method.
+     *
+     * @param name  Tool name as reported by IThemisPlugin::getName().
+     * @return Ok(void) on success, Err(ERR_TOOL_NOT_FOUND) if not a plugin tool.
+     */
+    Result<void> reloadTool(const std::string& name);
+
+    /**
+     * @brief Unload a dynamically loaded tool plugin and deregister it.
+     *
+     * Has no effect on statically registered tools.
+     *
+     * @param name  Tool name.
+     * @return Ok(void) on success, or a plugin-layer error on unload failure.
+     */
+    Result<void> unloadTool(const std::string& name);
+
+    // ── Dispatch ──────────────────────────────────────────────────────────────
 
     /** @brief Invoke a tool if permitted by mode's allowlist/denylist. */
     json invokeTool(const std::string& tool_name,
@@ -290,19 +345,28 @@ public:
     bool isAllowed(const std::string& tool_name,
                    const ModeSpec&    mode) const;
 
-    /** @brief List all registered tool names. */
+    /** @brief List all registered tool names (static + dynamic). */
     std::vector<std::string> listTools() const;
 
     /** @brief Get spec for a named tool; nullopt if not found. */
     std::optional<ToolSpec> getSpec(const std::string& tool_name) const;
 
+    /** @brief Returns true if the named tool was loaded from a plugin DLL. */
+    bool isPluginTool(const std::string& name) const;
+
 private:
     struct Entry {
         ToolSpec    spec;
         ToolHandler handler;
+        bool        is_plugin = false;  ///< true when backed by a DLL plugin
     };
-    std::unordered_map<std::string, Entry> tools_;
-    mutable std::shared_mutex              tools_mutex_; ///< guards tools_ for thread safety
+
+    /// Register a plugin-backed IThemisTool instance into tools_.
+    void registerPluginTool(IThemisTool* tool);
+
+    std::unordered_map<std::string, Entry>      tools_;
+    mutable std::shared_mutex                   tools_mutex_;   ///< guards tools_
+    std::unique_ptr<plugins::PluginManager>     plugin_manager_; ///< DLL lifecycle
 };
 
 // ============================================================================
@@ -313,6 +377,7 @@ private:
  * @brief Latency breakdown for a single orchestrator run.
  */
 struct RunLatency {
+    virtual ~RunLatency() = default;
     int64_t retrieval_ms    = 0;
     int64_t llm_ms          = 0;
     int64_t tool_calls_ms   = 0;
@@ -323,6 +388,7 @@ struct RunLatency {
  * @brief Run metadata emitted for every orchestrator execution.
  */
 struct RunMetadata {
+    virtual ~RunMetadata() = default;
     std::string mode_id;
     std::string model_id;
     std::string request_id;
@@ -330,6 +396,11 @@ struct RunMetadata {
     // Retrieval stats
     int   retrieved_docs   = 0;
     float avg_relevance    = 0.0f;
+
+    // Adapter candidate selection stats (optional PR-1 path)
+    int   adapter_candidates = 0;
+    std::optional<std::string> selected_adapter_id;
+    std::optional<std::string> adapter_selection_reason;
 
     // Tool usage
     std::vector<std::string> tool_calls_made;
@@ -386,6 +457,149 @@ struct OrchestratorContext {
 };
 
 // ============================================================================
+// Optional adapter candidate selection (PR-1)
+// ============================================================================
+
+/**
+ * @brief One adapter candidate returned by the selection provider.
+ */
+struct AdapterCandidate {
+    std::string adapter_id;
+    float       similarity = 0.0f;
+    std::string source_layer;
+    std::string tenant;
+};
+
+/**
+ * @brief Input for adapter candidate selection.
+ */
+struct AdapterSelectionInput {
+    std::string session_id;
+    std::string tenant;
+    std::vector<float> query_embedding;
+    std::size_t top_k = 0;
+    std::string domain_hint;
+};
+
+/**
+ * @brief Output of adapter candidate selection.
+ */
+struct AdapterSelectionResult {
+    std::optional<std::string> selected_adapter_id;
+    std::vector<AdapterCandidate> candidates;
+    std::string reason;
+};
+
+/**
+ * @brief Policy guardrails for runtime adapter switching.
+ */
+struct AdapterSwitchPolicy {
+    int   min_switch_interval_ms = 500;
+    float min_similarity_gain = 0.0f;
+    int   max_switches_per_request = 1;
+    int   max_retry_attempts = 0;   ///< Additional retries after first apply attempt.
+    int   retry_backoff_ms = 0;     ///< Backoff between retries for retryable failures.
+    bool  enable_cost_budget_gate = false; ///< Enable pre-apply cost budget guard.
+    double max_total_cost = 0.0;           ///< Max projected total RAG cost.
+    bool  enable_cost_top_k_adaptation = false; ///< Adapt retrieval top_k to fit budget.
+    int   min_top_k_under_budget = 1;           ///< Lower bound for budget-driven top_k reduction.
+};
+
+/**
+ * @brief Resolve adapter id + tenant to a concrete LoRA artifact path.
+ *
+ * Return std::nullopt or an empty string to signal that the adapter cannot
+ * be resolved for the current request context.
+ */
+using AdapterPathResolverFn = std::function<std::optional<std::string>(
+    const std::string& adapter_id,
+    const std::string& tenant)>;
+
+/**
+ * @brief Optional runtime provider for adapter candidate selection.
+ */
+class IAdapterCandidateProvider {
+public:
+    virtual ~IAdapterCandidateProvider() = default;
+
+    /**
+     * @brief Select adapter candidates for the current request context.
+     */
+    [[nodiscard]] virtual AdapterSelectionResult
+    selectCandidates(const AdapterSelectionInput& input) const = 0;
+};
+
+/**
+ * @brief Optional runtime service to apply adapters before generation.
+ */
+class IAdapterApplyService {
+public:
+    virtual ~IAdapterApplyService() = default;
+
+    /**
+     * @brief Apply an adapter for the current runtime context.
+     */
+    [[nodiscard]] virtual bool applyAdapter(const std::string& adapter_id,
+                                            const std::string& tenant,
+                                            float              scale) = 0;
+
+    /**
+     * @brief Return current adapter id, or empty string if none is active.
+     */
+    [[nodiscard]] virtual std::string currentAdapter() const = 0;
+
+    /**
+     * @brief Whether switching is currently allowed.
+     */
+    [[nodiscard]] virtual bool canSwitch() const = 0;
+};
+
+/**
+ * @brief Cost model input for one RAG orchestration run.
+ */
+struct RagCostModelInput {
+    std::size_t retrieved_docs = 0;
+    int64_t retrieval_latency_ms = 0;
+    int64_t llm_latency_ms = 0;
+    int tokens_prompt = 0;
+    int tokens_generated = 0;
+    bool adapter_apply_attempted = false;
+    bool adapter_apply_success = false;
+    int adapter_apply_attempts = 0;
+    int64_t adapter_apply_latency_ms = 0;
+    std::string tenant;
+    json extra;
+};
+
+/**
+ * @brief Cost model output for one RAG orchestration run.
+ */
+struct RagCostEstimate {
+    double total_cost = 0.0;
+    double retrieval_cost = 0.0;
+    double inference_cost = 0.0;
+    double adapter_cost = 0.0;
+    std::string model = "";
+    std::string unit = "cost_units";
+    json extra;
+};
+
+/**
+ * @brief Optional runtime service to estimate end-to-end RAG cost.
+ */
+class IRagCostModelService {
+public:
+    virtual ~IRagCostModelService() = default;
+
+    /**
+     * @brief Estimate total RAG cost for a single run.
+     * @return Cost estimate, or nullopt when no estimate can be produced.
+     */
+    [[nodiscard]] virtual std::optional<RagCostEstimate>
+    estimate(const RagCostModelInput& input) const = 0;
+};
+
+// ============================================================================
 // AIOrchestrator
 // ============================================================================
 
@@ -423,6 +637,27 @@ public:
 
     /** @brief Set (or replace) the LLM plugin used for inference. */
     void setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin);
+
+    /** @brief Set (or clear) the optional adapter candidate provider. */
+    void setAdapterCandidateProvider(std::shared_ptr<IAdapterCandidateProvider> provider);
+
+    /** @brief Set (or clear) the optional adapter apply service. */
+    void setAdapterApplyService(std::shared_ptr<IAdapterApplyService> service);
+
+    /** @brief Configure adapter switch policy guardrails. */
+    void setAdapterSwitchPolicy(const AdapterSwitchPolicy& policy);
+
+    /**
+     * @brief Set (or clear) adapter path resolver used by the default apply bridge.
+     *
+     * @param resolver Resolver callback. Pass empty function to clear resolver.
+     *        If resolver is set and returns empty/nullopt, adapter apply fails
+     *        with metadata error code "resolver_empty_path".
+     */
+    void setAdapterPathResolver(AdapterPathResolverFn resolver);
+
+    /** @brief Set (or clear) RAG cost model service. */
+    void setRagCostModelService(std::shared_ptr<IRagCostModelService> service);
 
     /** @brief Expose the internal tool registry for external registrations. */
     ToolRegistry& toolRegistry();
@@ -561,3 +796,4 @@ public:
 #endif // THEMIS_ENABLE_MCP
 
 } // namespace themis::llm
+

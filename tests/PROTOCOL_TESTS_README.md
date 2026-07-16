@@ -1,3 +1,5 @@
+> **Build + Test:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release && ctest --preset linux-ninja-release`
+
 # Network Protocol Test Suite
 
 This directory contains basic smoke tests for ThemisDB's network protocols.

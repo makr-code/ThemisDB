@@ -1,33 +1,41 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_loader.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   83.0/100                                       ║
-    • Total Lines:     1655                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 20d74ea0c  2026-03-01  feat(themis): integrate Zone.Identifier quarantine detect... ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
-    • 84e913c55  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file module_loader.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+/*
+ * ThemisDB | File: module_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1979
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=19, M=12, L=0
+ * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #4143 feat(base): implement cross... (2026-03-13) | #4114 O(1) Module Lookup â€” Repl... (2026-03-12) | #4109 feat(maintenance): Explicit... (2026-03-12) | #3832 feat(themis): Module Loader... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+// ============================================================
+// DEPRECATED: This file (src/base/module_loader.cpp) is a legacy copy that
+// was superseded by src/themis/module_loader.cpp in v1.7.0 as part of the
+// modular build architecture migration.
+//
+// DO NOT add new code here.  All changes must be made in:
+//   src/themis/module_loader.cpp  (canonical, v0.0.5+)
+//
+// This file is retained only to avoid breaking build targets that include it
+// directly.  It will be removed in a future release once all CMake targets have
+// been migrated to the src/themis/ build tree.
+// ============================================================
 
 // Module loader implementation with DLL signature verification
 // This prevents corrupted or malicious DLL loading in modular ThemisDB
 
 #include "themis/base/module_loader.h"
+#include <stdexcept>
 #include "acceleration/plugin_security.h"
 #include <filesystem>
 #include <fstream>
@@ -39,6 +47,8 @@
 #include <map>
 #include <queue>
 #include <set>
+#include <shared_mutex>
+#include <unordered_map>
 #include <spdlog/spdlog.h>
 
 #ifdef _WIN32
@@ -55,6 +65,10 @@
 #ifdef __linux__
     #include <sys/xattr.h>
     #include <elf.h>
+    #include <unistd.h>
+    #include <sys/wait.h>
+    #include <cerrno>
+    #include <cstring>
 #endif
 
 namespace themis {
@@ -177,6 +191,7 @@ ModuleLoader::ModuleLoader()
 }
 
 ModuleLoader::~ModuleLoader() {
+    stopWatchdog();
     unloadAllModules();
 }
 
@@ -482,7 +497,10 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     module.fullyActivated = true;
     
-    loadedModules_.push_back(module);
+    {
+        std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+        loadedModules_.insert_or_assign(module.name, module);
+    }
     ModuleRegistry::instance().registerModule(module);
     
     // Log successful load to per-plugin audit trail
@@ -561,8 +579,8 @@ size_t ModuleLoader::loadAllModules(const std::string& moduleDirectory) {
 }
 
 void ModuleLoader::unloadModule(const std::string& moduleName) {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it != loadedModules_.end()) {
         spdlog::info("Unloading module: {}", moduleName);
@@ -571,25 +589,26 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
         auto& auditor = PluginSecurityAuditor::instance();
         auditor.logEvent({
             PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
-            it->path,
-            it->fileHash,
+            it->second.path,
+            it->second.fileHash,
             "Module unloaded: " + moduleName,
             now,
             "INFO"
         });
-        unloadLibrary(it->handle);
-        ModuleRegistry::instance().unregisterModule(moduleName);
+        unloadLibrary(it->second.handle);
         loadedModules_.erase(it);
+        ModuleRegistry::instance().unregisterModule(moduleName);
         metrics_.totalUnloads++;
     }
 }
 
 void ModuleLoader::unloadAllModules() {
+    std::unique_lock<std::shared_mutex> lk(modulesMutex_);
     spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
     
     auto& auditor = PluginSecurityAuditor::instance();
     uint64_t now = static_cast<uint64_t>(std::time(nullptr));
-    for (auto& module : loadedModules_) {
+    for (auto& [name, module] : loadedModules_) {
         auditor.logEvent({
             PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
             module.path,
@@ -607,24 +626,33 @@ void ModuleLoader::unloadAllModules() {
 }
 
 bool ModuleLoader::isModuleLoaded(const std::string& moduleName) const {
-    return std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                       [&moduleName](const LoadedModule& m) { return m.name == moduleName; })
-           != loadedModules_.end();
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    return loadedModules_.count(moduleName) > 0;
 }
 
 std::optional<LoadedModule> ModuleLoader::getModuleInfo(const std::string& moduleName) const {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it != loadedModules_.end()) {
-        return *it;
+        return it->second;
     }
     
     return std::nullopt;
 }
 
 std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
-    return loadedModules_;
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    std::vector<LoadedModule> result;
+    result.reserve(loadedModules_.size());
+    for (const auto& [name, module] : loadedModules_) {
+        result.push_back(module);
+    }
+    std::sort(result.begin(), result.end(),
+              [](const LoadedModule& a, const LoadedModule& b) {
+                  return a.name < b.name;
+              });
+    return result;
 }
 
 void ModuleLoader::setRequireSignature(bool require) {
@@ -1115,36 +1143,36 @@ void ModuleLoader::setStagedLoadingEnabled(bool enable) {
 }
 
 std::optional<LoadStage> ModuleLoader::queryModuleStage(const std::string& moduleName) const {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
         return std::nullopt;
     }
     
-    return it->currentStage;
+    return it->second.currentStage;
 }
 
 std::vector<HealthCheckResult> ModuleLoader::getHealthCheckResults(const std::string& moduleName) const {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
         return {};
     }
     
-    return it->healthChecks;
+    return it->second.healthChecks;
 }
 
 bool ModuleLoader::updateModuleStage(const std::string& moduleName, LoadStage newStage) {
-    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
-                          [&moduleName](LoadedModule& m) { return m.name == moduleName; });
+    std::unique_lock<std::shared_mutex> lk(modulesMutex_);
+    auto it = loadedModules_.find(moduleName);
     
     if (it == loadedModules_.end()) {
         return false;
     }
     
-    it->currentStage = newStage;
+    it->second.currentStage = newStage;
     spdlog::debug("Module {} stage updated to {}", moduleName, static_cast<int>(newStage));
     return true;
 }
@@ -1246,310 +1274,6 @@ void ModuleRegistry::clear() {
 }
 
 // ============================================================================
-// ModuleDependencyResolver Implementation
-// ============================================================================
-
-void ModuleDependencyResolver::registerModule(const std::string& name,
-                                               const std::string& version,
-                                               const std::vector<ModuleDependency>& deps) {
-    modules_[name] = {version, deps};
-}
-
-void ModuleDependencyResolver::registerModule(const std::string& name,
-                                               const std::vector<ModuleDependency>& deps) {
-    registerModule(name, "", deps);
-}
-
-void ModuleDependencyResolver::clear() {
-    modules_.clear();
-}
-
-std::vector<ModuleDependencyResolver::RegisteredModuleInfo>
-ModuleDependencyResolver::getRegisteredModules() const {
-    std::vector<RegisteredModuleInfo> result;
-    result.reserve(modules_.size());
-    for (const auto& kv : modules_) {
-        result.push_back({kv.first, kv.second.version, kv.second.deps});
-    }
-    return result;
-}
-
-bool ModuleDependencyResolver::isVersionCompatible(const std::string& version,
-                                                    const std::string& minVersion,
-                                                    const std::string& maxVersion) {
-    // Parse a semver string "major.minor.patch" into a comparable tuple.
-    // Partial version strings (e.g. "1.2") are accepted; missing components
-    // default to 0.  An empty version string returns {0,0,0}.
-    auto parse = [](const std::string& v) -> std::tuple<int, int, int> {
-        int maj = 0, min = 0, pat = 0;
-        if (v.empty()) return {0, 0, 0};
-        try {
-            std::size_t pos1 = 0;
-            maj = std::stoi(v, &pos1);
-            if (pos1 < v.size() && v[pos1] == '.') {
-                try {
-                    std::size_t pos2 = 0;
-                    min = std::stoi(v.substr(pos1 + 1), &pos2);
-                    std::size_t dot2 = pos1 + 1 + pos2;
-                    if (dot2 < v.size() && v[dot2] == '.') {
-                        try {
-                            pat = std::stoi(v.substr(dot2 + 1));
-                        } catch (...) {
-                            pat = 0;
-                        }
-                    }
-                } catch (...) {
-                    min = pat = 0;
-                }
-            }
-        } catch (...) {
-            maj = min = pat = 0;
-        }
-        return {maj, min, pat};
-    };
-
-    // Empty version satisfies only fully unconstrained deps.
-    if (version.empty()) {
-        return minVersion.empty() && maxVersion.empty();
-    }
-
-    auto vt = parse(version);
-
-    if (!minVersion.empty()) {
-        if (vt < parse(minVersion)) {
-            return false;
-        }
-    }
-    if (!maxVersion.empty()) {
-        if (vt > parse(maxVersion)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-DependencyResolutionResult ModuleDependencyResolver::resolve() const {
-    std::vector<std::string> allNodes;
-    allNodes.reserve(modules_.size());
-    for (const auto& kv : modules_) {
-        allNodes.push_back(kv.first);
-    }
-    return topologicalSort(allNodes);
-}
-
-DependencyResolutionResult ModuleDependencyResolver::resolveFor(
-    const std::vector<std::string>& moduleNames) const {
-    // Collect all transitive dependencies starting from the requested modules.
-    std::set<std::string> needed;
-    std::queue<std::string> toVisit;
-    for (const auto& name : moduleNames) {
-        if (modules_.count(name)) {
-            toVisit.push(name);
-        } else {
-            // Caller requested a module that is not registered; surface as
-            // a missing required dependency so the caller can diagnose.
-            DependencyResolutionResult earlyFail;
-            earlyFail.success = false;
-            earlyFail.missingRequired.push_back(name);
-            earlyFail.errorMessage =
-                "Requested module '" + name + "' is not registered";
-            return earlyFail;
-        }
-    }
-
-    while (!toVisit.empty()) {
-        std::string cur = toVisit.front();
-        toVisit.pop();
-        if (needed.count(cur)) {
-            continue;
-        }
-        needed.insert(cur);
-
-        auto it = modules_.find(cur);
-        if (it != modules_.end()) {
-            for (const auto& dep : it->second.deps) {
-                // Only follow registered deps; unregistered ones are left out of
-                // `needed` so that topologicalSort() correctly detects them as
-                // missing required dependencies.
-                if (!needed.count(dep.name) && modules_.count(dep.name)) {
-                    toVisit.push(dep.name);
-                }
-            }
-        }
-    }
-
-    std::vector<std::string> nodes(needed.begin(), needed.end());
-    return topologicalSort(nodes);
-}
-
-DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
-    const std::vector<std::string>& nodes) const {
-    DependencyResolutionResult result;
-
-    std::set<std::string> nodeSet(nodes.begin(), nodes.end());
-
-    // ── Step 1: validate dependencies (missing required, version mismatches) ──
-    for (const auto& name : nodes) {
-        auto it = modules_.find(name);
-        if (it == modules_.end()) {
-            continue;
-        }
-        for (const auto& dep : it->second.deps) {
-            if (!nodeSet.count(dep.name)) {
-                // Dependency is outside the resolved set.
-                if (dep.required) {
-                    result.missingRequired.push_back(dep.name);
-                }
-                continue;
-            }
-            // Check version constraint if both bounds are provided.
-            if (!dep.minVersion.empty() || !dep.maxVersion.empty()) {
-                auto depIt = modules_.find(dep.name);
-                const std::string& depVer =
-                    (depIt != modules_.end()) ? depIt->second.version : "";
-                if (!isVersionCompatible(depVer, dep.minVersion, dep.maxVersion)) {
-                    result.versionMismatches.push_back(
-                        name + "→" + dep.name +
-                        " (got " + depVer +
-                        ", need >=" + dep.minVersion +
-                        " <=" + dep.maxVersion + ")");
-                }
-            }
-        }
-    }
-
-    if (!result.missingRequired.empty() || !result.versionMismatches.empty()) {
-        result.success = false;
-        result.errorMessage = "Dependency resolution failed: missing or incompatible dependencies";
-        return result;
-    }
-
-    // ── Step 2: Kahn's algorithm (topological sort, deps-first ordering) ──
-    //
-    // Edge direction: dep.name → name ("dep must be loaded before name").
-    // adj[dep] = list of modules that directly depend on dep.
-    // inDegree[name] = number of (in-scope) dependencies of name.
-    std::map<std::string, std::vector<std::string>> adj;
-    std::map<std::string, int> inDegree;
-
-    for (const auto& name : nodes) {
-        inDegree[name] = 0;
-    }
-    for (const auto& name : nodes) {
-        auto it = modules_.find(name);
-        if (it == modules_.end()) {
-            continue;
-        }
-        for (const auto& dep : it->second.deps) {
-            if (!nodeSet.count(dep.name)) {
-                continue; // skip deps outside the resolved set
-            }
-            adj[dep.name].push_back(name);
-            inDegree[name]++;
-        }
-    }
-
-    // Seed the ready queue with modules that have no in-scope dependencies.
-    // Use a sorted list for deterministic (alphabetical) tie-breaking.
-    // We track a cursor (readyIdx) to avoid O(n) erase-from-front operations.
-    std::vector<std::string> ready;
-    for (const auto& name : nodes) {
-        if (inDegree[name] == 0) {
-            ready.push_back(name);
-        }
-    }
-    std::sort(ready.begin(), ready.end());
-
-    std::vector<std::string> order;
-    order.reserve(nodes.size());
-
-    std::size_t readyIdx = 0;
-    while (readyIdx < ready.size()) {
-        std::string cur = ready[readyIdx++];
-        order.push_back(cur);
-
-        auto it = adj.find(cur);
-        if (it != adj.end()) {
-            for (const auto& dependent : it->second) {
-                if (--inDegree[dependent] == 0) {
-                    // Insert in sorted position to keep the queue deterministic.
-                    auto pos = std::lower_bound(
-                        ready.begin() + static_cast<std::ptrdiff_t>(readyIdx),
-                        ready.end(), dependent);
-                    ready.insert(pos, dependent);
-                }
-            }
-        }
-    }
-
-    // ── Step 3: detect cycles (if Kahn's didn't visit all nodes) ──
-    if (order.size() != nodes.size()) {
-        // Identify the nodes that were not processed (they are in a cycle).
-        std::set<std::string> processed(order.begin(), order.end());
-        std::set<std::string> inCycle;
-        for (const auto& n : nodes) {
-            if (!processed.count(n)) {
-                inCycle.insert(n);
-            }
-        }
-
-        // DFS over the unprocessed subgraph to collect individual cycles.
-        std::map<std::string, int> color;
-        for (const auto& n : inCycle) {
-            color[n] = 0; // white = unvisited
-        }
-
-        std::function<void(const std::string&, std::vector<std::string>&)> dfs =
-            [&](const std::string& node, std::vector<std::string>& path) {
-                color[node] = 1; // grey = in stack
-                path.push_back(node);
-
-                auto it = adj.find(node);
-                if (it != adj.end()) {
-                    for (const auto& next : it->second) {
-                        if (!inCycle.count(next)) {
-                            continue;
-                        }
-                        if (color[next] == 0) {
-                            dfs(next, path);
-                        } else if (color[next] == 1) {
-                            // Close the cycle: collect path from `next` to current.
-                            std::vector<std::string> cycle;
-                            auto cycleStart =
-                                std::find(path.begin(), path.end(), next);
-                            if (cycleStart != path.end()) {
-                                cycle.assign(cycleStart, path.end());
-                                cycle.push_back(next); // close loop
-                            }
-                            if (!cycle.empty()) {
-                                result.cycles.push_back(std::move(cycle));
-                            }
-                        }
-                    }
-                }
-
-                path.pop_back();
-                color[node] = 2; // black = done
-            };
-
-        for (const auto& n : inCycle) {
-            if (color[n] == 0) {
-                std::vector<std::string> path;
-                dfs(n, path);
-            }
-        }
-
-        result.success = false;
-        result.errorMessage = "Circular dependency detected among modules";
-        return result;
-    }
-
-    result.success = true;
-    result.loadOrder = std::move(order);
-    return result;
-}
-
-// ============================================================================
 // Platform-Specific Signature Verification (Phase 4)
 // ============================================================================
 
@@ -1582,7 +1306,9 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     }
     try {
         return std::stoi(content.substr(pos + zoneIdKey.size()));
-    } catch (...) {
+    } catch (const std::invalid_argument &) {
+        return -1;
+    } catch (const std::out_of_range &) {
         return -1;
     }
 }
@@ -1595,7 +1321,7 @@ bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
     }
     DWORD err = GetLastError();
     if (err == ERROR_FILE_NOT_FOUND) {
-        // Already absent – treat as success
+        // Already absent - treat as success
         return true;
     }
     spdlog::warn("Failed to remove Zone.Identifier from {}: error {}", modulePath, err);
@@ -1687,18 +1413,8 @@ static constexpr uint64_t kMaxCommentSectionSize = 4096;
 
 bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
                                       const std::string& signaturePath) const {
-    // Reject paths with shell-unsafe characters to prevent injection.
-    // Single quote is the primary risk (breaks out of '-quoted argument),
-    // but backslash, parentheses, and tab can also be exploited.
-    static const std::string kForbidden = "'\";&|`$\n\r\\()\t";
-    for (char c : modulePath) {
-        if (kForbidden.find(c) != std::string::npos) {
-            spdlog::error("verifyGPGSignature: invalid characters in module path: {}", modulePath);
-            return false;
-        }
-    }
-
-    // Locate the detached signature file
+    // Locate the detached signature file first (no character checks needed for
+    // the filesystem lookup itself — the paths are not passed to a shell).
     std::string sigFile = signaturePath;
     if (sigFile.empty()) {
         for (const auto& ext : {".asc", ".sig", ".gpg"}) {
@@ -1715,34 +1431,72 @@ bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
         return false;
     }
 
-    for (char c : sigFile) {
-        if (kForbidden.find(c) != std::string::npos) {
-            spdlog::error("verifyGPGSignature: invalid characters in signature path: {}", sigFile);
-            return false;
-        }
-    }
-
-    // Use gpg --verify with explicit paths (no shell expansion)
-    std::string command = "gpg --verify '" + sigFile + "' '" + modulePath + "' 2>&1";
-    FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe) {
-        spdlog::error("verifyGPGSignature: failed to run gpg for: {}", modulePath);
+    // GAP-014: Replace popen()/shell-string with fork()+execvp() so that gpg
+    // arguments are passed as individual array elements — the shell is never
+    // invoked, eliminating command injection even if the paths contain special
+    // characters such as spaces, quotes, or semicolons.
+    //
+    // Pipe layout: child writes gpg stderr+stdout → parent reads from pipe[0].
+    int pipe_fds[2];
+    if (::pipe(pipe_fds) != 0) {
+        spdlog::error("verifyGPGSignature: pipe() failed ({}): {}", errno, std::strerror(errno));
         return false;
     }
 
+    const pid_t child = ::fork();
+    if (child < 0) {
+        ::close(pipe_fds[0]);
+        ::close(pipe_fds[1]);
+        spdlog::error("verifyGPGSignature: fork() failed ({}): {}", errno, std::strerror(errno));
+        return false;
+    }
+
+    if (child == 0) {
+        // ── child ──
+        // Redirect stdout + stderr into the write-end of the pipe.
+        ::close(pipe_fds[0]);
+        ::dup2(pipe_fds[1], STDOUT_FILENO);
+        ::dup2(pipe_fds[1], STDERR_FILENO);
+        ::close(pipe_fds[1]);
+
+        // execvp takes a non-const argv — cast is safe because execvp does not
+        // modify the strings (POSIX guarantees this).
+        const char* argv[] = {
+            "gpg",
+            "--verify",
+            sigFile.c_str(),
+            modulePath.c_str(),
+            nullptr
+        };
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        ::execvp("gpg", const_cast<char* const*>(argv));
+        // execvp only returns on error.
+        ::_exit(127);
+    }
+
+    // ── parent ──
+    ::close(pipe_fds[1]);
+
     char buf[kGpgOutputBufferSize];
     std::string output;
-    while (fgets(buf, sizeof(buf), pipe) != nullptr) {
+    ssize_t n;
+    while ((n = ::read(pipe_fds[0], buf, sizeof(buf) - 1)) > 0) {
+        buf[n] = '\0';
         output += buf;
     }
-    int exitCode = pclose(pipe);
+    ::close(pipe_fds[0]);
+
+    int status = 0;
+    ::waitpid(child, &status, 0);
+    const int exitCode = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
 
     if (exitCode == 0 && output.find("Good signature") != std::string::npos) {
         spdlog::info("GPG signature verification PASSED for: {}", modulePath);
         return true;
     }
 
-    spdlog::warn("GPG signature verification FAILED for: {} - {}", modulePath, output);
+    spdlog::warn("GPG signature verification FAILED for: {} (exit={}) - {}",
+                 modulePath, exitCode, output);
     return false;
 }
 
@@ -1959,5 +1713,278 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
 }
 #endif // __linux__
 
+// ============================================================================
+// Plugin Watchdog Implementation (Issue #2373)
+// ============================================================================
+
+uint64_t ModuleLoader::nowMs() {
+    return static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count());
+}
+
+void ModuleLoader::configureWatchdog(const WatchdogConfig& config) {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    watchdogConfig_ = config;
+    spdlog::info("Watchdog configured: interval={}ms, max_restarts={}, initial_backoff={}ms",
+                 config.check_interval_ms, config.max_restart_attempts, config.initial_backoff_ms);
+}
+
+void ModuleLoader::startWatchdog() {
+    if (watchdogRunning_.exchange(true)) {
+        return;  // Already running
+    }
+    watchdogThread_ = std::thread([this]() { watchdogLoop(); });
+    spdlog::info("Plugin watchdog started");
+}
+
+void ModuleLoader::stopWatchdog() {
+    if (!watchdogRunning_.exchange(false)) {
+        return;  // Not running
+    }
+    watchdogCv_.notify_all();
+    if (watchdogThread_.joinable()) {
+        watchdogThread_.join();
+    }
+    spdlog::info("Plugin watchdog stopped");
+}
+
+bool ModuleLoader::isWatchdogRunning() const {
+    return watchdogRunning_.load();
+}
+
+std::optional<WatchdogModuleStats> ModuleLoader::getWatchdogStats(const std::string& moduleName) const {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    auto it = watchdogStats_.find(moduleName);
+    if (it == watchdogStats_.end()) {
+        return std::nullopt;
+    }
+    return it->second;
+}
+
+std::map<std::string, WatchdogModuleStats> ModuleLoader::getAllWatchdogStats() const {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    return watchdogStats_;
+}
+
+void ModuleLoader::resetWatchdogStats() {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    watchdogStats_.clear();
+    spdlog::info("Watchdog stats reset");
+}
+
+// ---- private helpers -------------------------------------------------------
+
+void ModuleLoader::watchdogLoop() {
+    spdlog::debug("Watchdog loop started");
+
+    while (watchdogRunning_.load()) {
+        {
+            std::unique_lock<std::mutex> lk(watchdogMutex_);
+            uint64_t interval_ms = watchdogConfig_.check_interval_ms;
+            watchdogCv_.wait_for(lk,
+                std::chrono::milliseconds(interval_ms),
+                [this]() { return !watchdogRunning_.load(); });
+        }
+
+        if (!watchdogRunning_.load()) {
+            break;
+        }
+
+        {
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            if (!watchdogConfig_.enabled) {
+                continue;
+            }
+        }
+
+        watchdogCheckAllModules();
+    }
+
+    spdlog::debug("Watchdog loop exited");
+}
+
+void ModuleLoader::watchdogCheckAllModules() {
+    // Take a snapshot of currently loaded, fully-activated modules under a
+    // shared_lock so that concurrent load/unload operations do not race with
+    // this iteration.
+    std::vector<std::pair<std::string, std::string>> snapshot;  // name → path
+    {
+        std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+        for (const auto& [name, mod] : loadedModules_) {
+            if (mod.fullyActivated) {
+                snapshot.emplace_back(mod.name, mod.path);
+            }
+        }
+    }
+
+    for (auto& [name, path] : snapshot) {
+        if (!watchdogRunning_.load()) {
+            break;
+        }
+
+        // Verify module is still loaded (may have been unloaded between snapshot and now)
+        LoadedModule modCopy;
+        {
+            std::shared_lock<std::shared_mutex> lk(modulesMutex_);
+            auto it = loadedModules_.find(name);
+            if (it == loadedModules_.end()) {
+                continue;  // Module was unloaded since snapshot
+            }
+            modCopy = it->second;
+        }
+
+        if (healthChecks_.empty()) {
+            continue;  // Nothing to check
+        }
+
+        std::string errorMsg;
+        bool healthy = watchdogRunHealthChecks(modCopy, errorMsg);
+
+        uint64_t now = nowMs();
+
+        // Determine whether a restart is needed, updating watchdog stats under
+        // the watchdogMutex_ lock.  The actual unload/reload is deferred to
+        // after the lock is released to avoid a potential deadlock with
+        // loadModule()/unloadModule() (which may acquire their own resources).
+        bool shouldRestart = false;
+        WatchdogModuleStats statsCopy;
+        {
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            auto& stats = watchdogStats_[name];
+            stats.moduleName = name;
+            stats.modulePath = path;
+            stats.last_health_check_ms = now;
+
+            if (healthy) {
+                if (stats.consecutive_failures > 0) {
+                    spdlog::info("Watchdog: module '{}' recovered (was {} consecutive failures)",
+                                 name, stats.consecutive_failures);
+                }
+                stats.consecutive_failures = 0;
+                stats.last_error.clear();
+                // healthy — no restart needed; move to next module
+            } else {
+                // Health check failed
+                stats.consecutive_failures++;
+                stats.last_failure_ms = now;
+                stats.last_error = errorMsg;
+
+                spdlog::warn("Watchdog: health check FAILED for '{}' (consecutive: {}): {}",
+                             name, stats.consecutive_failures, errorMsg);
+
+                if (stats.permanently_failed) {
+                    spdlog::warn("Watchdog: module '{}' is permanently failed; skipping restart",
+                                 name);
+                } else {
+                    uint32_t maxAttempts = watchdogConfig_.max_restart_attempts;
+                    if (maxAttempts > 0 && stats.restart_count >= maxAttempts) {
+                        stats.permanently_failed = true;
+                        spdlog::error("Watchdog: module '{}' exceeded max_restart_attempts ({}); "
+                                      "marking as permanently failed",
+                                      name, maxAttempts);
+                    } else if (now < stats.next_retry_ms) {
+                        uint64_t wait = stats.next_retry_ms - now;
+                        spdlog::debug("Watchdog: module '{}' in backoff; {}ms remaining",
+                                      name, wait);
+                    } else {
+                        shouldRestart = true;
+                        statsCopy = stats;  // take a safe copy while holding the lock
+                    }
+                }
+            }
+        } // lock released here
+
+        if (shouldRestart) {
+            // Perform unload/reload without holding watchdogMutex_ to avoid
+            // locking ordering issues with the auditor and OS loader.
+            // statsCopy is a local snapshot; the map entry is not touched until
+            // we write the results back under a fresh lock below.
+            watchdogRestartModule(statsCopy, path);
+
+            // Write the updated stats back to the map (if it still exists — it
+            // may have been removed by a concurrent resetWatchdogStats() call).
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            auto it = watchdogStats_.find(name);
+            if (it != watchdogStats_.end()) {
+                it->second = statsCopy;
+            }
+        }
+    }
+}
+
+bool ModuleLoader::watchdogRunHealthChecks(LoadedModule& module, std::string& errorMessage) {
+    if (healthChecks_.empty()) {
+        return true;
+    }
+
+    for (const auto& [checkName, checkFunc] : healthChecks_) {
+        try {
+            auto result = checkFunc(module.handle, module.name);
+            if (!result.passed) {
+                errorMessage = checkName + ": " + result.message;
+                return false;
+            }
+        } catch (const std::exception& e) {
+            errorMessage = checkName + " threw exception: " + e.what();
+            return false;
+        }
+    }
+    return true;
+}
+
+bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,
+                                         const std::string& modulePath) {
+    // Called without watchdogMutex_ held so that unloadModule()/loadModule()
+    // can proceed without a locking ordering issue.  Stats are updated after
+    // the OS-level operations complete, which is safe because only the watchdog
+    // thread modifies stats for a given module.
+    const std::string name = stats.moduleName;  // copy name (stats ref may alias)
+    spdlog::info("Watchdog: attempting restart of module '{}' (attempt #{}) from '{}'",
+                 name, stats.restart_count + 1, modulePath);
+
+    // Unload the failed module
+    unloadModule(name);
+
+    // Attempt to reload
+    auto loadResult = loadModule(modulePath, name);
+
+    uint64_t now = nowMs();
+    if (loadResult.success) {
+        stats.restart_count++;
+        stats.consecutive_failures = 0;
+        stats.last_restart_ms = now;
+        stats.next_retry_ms = 0;
+        spdlog::info("Watchdog: module '{}' restarted successfully (total restarts: {})",
+                     name, stats.restart_count);
+        return true;
+    }
+
+    // Reload failed — update backoff for next attempt
+    stats.consecutive_failures++;
+    uint64_t backoff = watchdogCalculateBackoff(stats.consecutive_failures);
+    stats.next_retry_ms = now + backoff;
+    spdlog::error("Watchdog: restart of '{}' failed ({}); next retry in {}ms",
+                  name, loadResult.errorMessage, backoff);
+    return false;
+}
+
+uint64_t ModuleLoader::watchdogCalculateBackoff(uint32_t consecutiveFailures) const {
+    if (consecutiveFailures == 0) {
+        return 0;
+    }
+    // Cap at 60 to prevent floating-point overflow in std::pow():
+    // 2^60 ≈ 1.15e18 ms, far beyond any realistic max_backoff_ms.
+    if (consecutiveFailures > 60) {
+        return watchdogConfig_.max_backoff_ms;
+    }
+    double backoff = watchdogConfig_.initial_backoff_ms *
+                     std::pow(watchdogConfig_.backoff_multiplier,
+                              static_cast<double>(consecutiveFailures - 1));
+    return static_cast<uint64_t>(
+        std::min(backoff, static_cast<double>(watchdogConfig_.max_backoff_ms)));
+}
+
 } // namespace modules
 } // namespace themis
+

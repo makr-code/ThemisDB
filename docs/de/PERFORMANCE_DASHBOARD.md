@@ -392,7 +392,7 @@ topk(10, abs(
 Füge diese Badge zu README.md hinzu:
 
 ```markdown
-![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml/badge.svg)
+![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_build_cross-module-performance-regression-ci.yml/badge.svg)
 ```
 
 ### Shields.io Custom Badge

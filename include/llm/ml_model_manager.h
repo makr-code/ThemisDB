@@ -1,23 +1,21 @@
+/**
+ * @file ml_model_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ml_model_manager.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     504                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ml_model_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 536
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #813 Implement machine learning ... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +24,7 @@
 #include "llm/model_loader.h"
 #include "llm/inference_engine_enhanced.h"
 #include "utils/expected.h"
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -131,6 +130,7 @@ struct MLModelConfig {
  * @brief ML Model instance information
  */
 struct MLModelInstance {
+    virtual ~MLModelInstance() = default;
     std::string instance_id;
     std::string model_id;
     MLModelStatus status;
@@ -188,6 +188,7 @@ struct MLModelInstance {
  * @brief ML Model inference request
  */
 struct MLInferenceRequest {
+    virtual ~MLInferenceRequest() = default;
     std::string model_id;
     std::string model_version;          // Optional: specific version, or "latest"
     json input_data;                    // Model-specific input format
@@ -200,7 +201,7 @@ struct MLInferenceRequest {
  * @brief ML Model inference response
  */
 struct MLInferenceResponse {
-    bool success;
+    bool success = false;
     json output_data;                   // Model-specific output format
     std::string error_message;
     
@@ -377,6 +378,37 @@ public:
      * @return Inference response
      */
     Result<MLInferenceResponse> infer(const MLInferenceRequest& request);
+
+    // ─── Inference dispatch injection ────────────────────────────────────────
+    /**
+     * @brief Type alias for an injectable inference dispatch function.
+     *
+     * When set via @c setInferenceDispatchFn(), @c infer() calls this function
+     * instead of the built-in simulated path.  The function receives the
+     * original request and a reference to the selected instance and returns
+     * the raw output payload (or an empty json on error).
+     *
+     * Example (test / staging injection):
+     * @code
+     *   manager.setInferenceDispatchFn(
+     *       [](const MLInferenceRequest& req, MLModelInstance&) -> json {
+     *           return json{{"result", "real-output-for-" + req.model_id}};
+     *       });
+     * @endcode
+     */
+    using InferenceDispatchFn =
+        std::function<json(const MLInferenceRequest&, MLModelInstance&)>;
+
+    /**
+     * @brief Inject a real inference dispatch function.
+     *
+     * Replaces the built-in simulated backend with @p fn.  Calling with
+     * @c nullptr resets to the simulated fallback.  Thread-safe: guarded by
+     * the internal dispatch mutex.
+     *
+     * @param fn Callable that performs the actual model inference.
+     */
+    void setInferenceDispatchFn(InferenceDispatchFn fn);
     
     /**
      * @brief Run inference on a model (asynchronous)
@@ -490,6 +522,9 @@ private:
     bool shutdownInstance(const std::string& instance_id);
     
     MLModelInstance* selectInstance(const std::string& model_id);
+    /// Selects the least-busy DEPLOYED instance from an already-locked ModelEntry.
+    /// Caller MUST hold models_mutex_.  Returns nullptr when no DEPLOYED instance exists.
+    [[nodiscard]] MLModelInstance* selectLeastBusy_(const ModelEntry& entry) const noexcept;
     void updateInstanceMetrics(MLModelInstance* instance, float latency_ms, bool success);
     
     std::string generateInstanceId(const std::string& model_id);
@@ -501,7 +536,12 @@ private:
     // In-flight request cancellation tracking
     std::unordered_set<std::string> cancelled_requests_;
     std::mutex cancel_mutex_;
+
+    // Injection slot for real inference dispatch (stub #250)
+    InferenceDispatchFn inference_dispatch_fn_;
+    mutable std::mutex dispatch_fn_mutex_;
 };
 
 } // namespace llm
 } // namespace themis
+

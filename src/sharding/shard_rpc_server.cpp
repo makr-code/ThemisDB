@@ -1,23 +1,21 @@
+/**
+ * @file shard_rpc_server.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_rpc_server.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     352                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_rpc_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 385
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=3, L=0
+ * PR History (last 5): #4259 feat(sharding): Wire Orphan... (2026-03-15) | #213 Implement gRPC multi-node s... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -65,7 +63,7 @@ public:
     }
     
     grpc::Status PrepareTransaction(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::PrepareRequest* request,
         themis::sharding::proto::PrepareResponse* response
     ) override {
@@ -95,7 +93,7 @@ public:
     }
     
     grpc::Status CommitTransaction(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::CommitRequest* request,
         themis::sharding::proto::CommitResponse* response
     ) override {
@@ -120,7 +118,7 @@ public:
     }
     
     grpc::Status AbortTransaction(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::AbortRequest* request,
         themis::sharding::proto::AbortResponse* response
     ) override {
@@ -144,8 +142,8 @@ public:
     }
     
     grpc::Status HealthCheck(
-        grpc::ServerContext* context,
-        const themis::sharding::proto::HealthRequest* request,
+        [[maybe_unused]] grpc::ServerContext* context,
+        [[maybe_unused]] const themis::sharding::proto::HealthRequest* request,
         themis::sharding::proto::HealthResponse* response
     ) override {
         THEMIS_DEBUG("gRPC HealthCheck");
@@ -168,9 +166,36 @@ public:
         
         return grpc::Status::OK;
     }
+
+    grpc::Status CollectWaitForEdges(
+        [[maybe_unused]] grpc::ServerContext* context,
+        [[maybe_unused]] const themis::sharding::proto::CollectWaitForEdgesRequest* request,
+        themis::sharding::proto::CollectWaitForEdgesResponse* response
+    ) override {
+        THEMIS_DEBUG("gRPC CollectWaitForEdges");
+
+        response->set_shard_id(listen_address_);
+
+        if (handler_) {
+            try {
+                const auto edges = handler_->onCollectWaitForEdges();
+                for (const auto& edge : edges) {
+                    auto* proto_edge = response->add_edges();
+                    proto_edge->set_waiting_transaction_id(edge.waiting_transaction_id);
+                    proto_edge->set_blocking_transaction_id(edge.blocking_transaction_id);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("CollectWaitForEdges: onCollectWaitForEdges threw: {}", e.what());
+                return grpc::Status(grpc::StatusCode::INTERNAL, e.what());
+            }
+        }
+        // No handler: return an empty edge list (fail-open — no deadlock assumed).
+
+        return grpc::Status::OK;
+    }
     
     grpc::Status GetShardStatus(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::StatusRequest* request,
         themis::sharding::proto::StatusResponse* response
     ) override {
@@ -228,26 +253,40 @@ struct ShardRPCServer::Impl {
     explicit Impl(const ShardRPCServer::Config& cfg) : listen_address(cfg.listen_address), config(cfg) {}
 };
 
+/**
+ * @brief Construct shard RPC server with listen address convenience API.
+ * @param listen_address Server bind address.
+ */
 ShardRPCServer::ShardRPCServer(const std::string& listen_address)
     : impl_(std::make_unique<Impl>(listen_address))
 {
     THEMIS_INFO("ShardRPCServer created on: {}", listen_address);
 }
 
+/**
+ * @brief Construct shard RPC server with explicit TLS/runtime configuration.
+ * @param config Server configuration.
+ */
 ShardRPCServer::ShardRPCServer(const Config& config)
     : impl_(std::make_unique<Impl>(config))
 {
     THEMIS_INFO("ShardRPCServer created on: {} (mTLS: {})", config.listen_address, config.enable_mtls);
 }
 
+/** @brief Destroy server instance and ensure shutdown of active gRPC server. */
 ShardRPCServer::~ShardRPCServer() {
     stop();
 }
 
+/** @brief Install application request handler used by incoming RPC methods. */
 void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
     impl_->handler = handler;
 }
 
+/**
+ * @brief Start gRPC server and bind to configured endpoint.
+ * @return True when server starts successfully; false otherwise.
+ */
 bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
     try {
@@ -291,10 +330,26 @@ bool ShardRPCServer::start() {
                 THEMIS_INFO("mTLS enabled for shard RPC server");
                 
             } catch (const std::exception& e) {
-                THEMIS_ERROR("Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                // GAP-016: mTLS cert load failure silently fell back to insecure.
+                // Log at ERROR so operators see the degradation (CWE-295).
+                THEMIS_ERROR("[SECURITY] ShardRPCServer: Failed to load mTLS certificates: {}. "
+                             "Falling back to INSECURE connection (GAP-016/CWE-295).", e.what());
                 credentials = grpc::InsecureServerCredentials();
             }
         } else {
+            // mTLS not enabled - check production mode enforcement
+            if (const char* prod = getenv("THEMIS_PRODUCTION_MODE"); prod && std::string(prod) == "1") {
+                if (const char* override_flag = getenv("THEMIS_SHARD_MTLS_DISABLED");
+                    override_flag && std::string(override_flag) == "1") {
+                    THEMIS_WARN("ShardRPCServer: mTLS disabled in production mode via "
+                                "THEMIS_SHARD_MTLS_DISABLED=1 — this is INSECURE and for dev/test only.");
+                } else {
+                    throw std::runtime_error(
+                        "ShardRPCServer: mTLS must be enabled in production mode "
+                        "(THEMIS_PRODUCTION_MODE=1). Set enable_mtls=true or set "
+                        "THEMIS_SHARD_MTLS_DISABLED=1 to explicitly override (insecure, dev only).");
+                }
+            }
             // mTLS not enabled - use insecure credentials (development only)
             credentials = grpc::InsecureServerCredentials();
             THEMIS_WARN("mTLS is disabled for shard RPC server. This is insecure and should only be used in development.");
@@ -333,6 +388,7 @@ bool ShardRPCServer::start() {
 #endif
 }
 
+/** @brief Stop gRPC server and release registered service instance. */
 void ShardRPCServer::stop() {
 #if THEMIS_HAS_SHARD_GRPC
     if (impl_->server) {
@@ -344,6 +400,7 @@ void ShardRPCServer::stop() {
 #endif
 }
 
+/** @brief Block until server shutdown completes. */
 void ShardRPCServer::wait() {
 #if THEMIS_HAS_SHARD_GRPC
     if (impl_->server) {

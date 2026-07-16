@@ -1,23 +1,21 @@
+/**
+ * @file gpu_utilization_monitor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=8; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_utilization_monitor.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     421                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_utilization_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 422
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_utilization_monitor.h"
@@ -352,22 +350,25 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryVulkan() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_VULKAN
-    // Vulkan provides memory usage but not GPU utilization percentage
-    // We estimate utilization based on memory usage patterns
-    
-    // Try to get memory budget info if VK_EXT_memory_budget is available
-    // For now, we use an improved fallback that at least queries actual memory
-    
-    // TODO: Implement VK_EXT_memory_budget query when available
-    // vkGetPhysicalDeviceMemoryProperties2KHR with VkPhysicalDeviceMemoryBudgetPropertiesEXT
-    
-    // For now, estimate GPU utilization based on activity
-    // This is more accurate than a static 75% but still an estimation
-    metrics.gpu_utilization_pct = 70.0f + (std::rand() % 20);  // 70-90% range
-    metrics.memory_utilization_pct = 65.0f + (std::rand() % 25);  // 65-90% range
-    
-    spdlog::debug("Vulkan metrics (estimated): GPU={:.1f}%, Memory={:.1f}%",
-                 metrics.gpu_utilization_pct, metrics.memory_utilization_pct);
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a safe default return value while VK_EXT_memory_budget
+    //          and GPU-occupancy queries are not yet implemented.
+    // Activation: `THEMIS_ENABLE_VULKAN` is defined AND VK_EXT_memory_budget
+    //             query is NOT yet implemented.
+    // Production Delta: Returns zero utilisation (0 %, 0 %) instead of real
+    //             values.  Callers should treat zero as "metrics unavailable"
+    //             and fall back to conservative resource-management decisions.
+    //             Previous approach returned non-deterministic std::rand() values
+    //             which caused dashboards to make incorrect scaling decisions.
+    // Removal Plan: Implement VkPhysicalDeviceMemoryBudgetPropertiesEXT query
+    //             via vkGetPhysicalDeviceMemoryProperties2KHR; pair with a
+    //             GPU-utilisation source (NVML / ROCm SMI / VK_AMD_device_coherent).
+    //             See src/llm/FUTURE_ENHANCEMENTS.md §GPUUtilizationMonitor VulkanMetrics.
+    metrics.gpu_utilization_pct    = 0.0f;   // unavailable — VK_EXT_memory_budget not queried
+    metrics.memory_utilization_pct = 0.0f;
+
+    spdlog::debug("Vulkan metrics unavailable (VK_EXT_memory_budget not implemented); "
+                  "returning zero utilisation");
 #endif
     
     return metrics;
@@ -394,18 +395,25 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryDirectX() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_DIRECTX
-    // DirectX provides memory info via DXGI but not direct GPU utilization
-    // We can query DXGI_QUERY_VIDEO_MEMORY_INFO for memory usage
-    
-    // TODO: Implement DXGI adapter memory query
-    // IDXGIAdapter3::QueryVideoMemoryInfo() can provide memory budget/usage
-    
-    // For now, use improved estimation based on memory pressure
-    metrics.gpu_utilization_pct = 72.0f + (std::rand() % 18);  // 72-90% range
-    metrics.memory_utilization_pct = 68.0f + (std::rand() % 22);  // 68-90% range
-    
-    spdlog::debug("DirectX metrics (estimated): GPU={:.1f}%, Memory={:.1f}%",
-                 metrics.gpu_utilization_pct, metrics.memory_utilization_pct);
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a safe default return value while IDXGIAdapter3::QueryVideoMemoryInfo()
+    //          and D3D12 GPU-occupancy queries are not yet implemented.
+    // Activation: `THEMIS_ENABLE_DIRECTX` is defined AND QueryVideoMemoryInfo is NOT
+    //             yet wired.
+    // Production Delta: Returns zero utilisation (0 %, 0 %) instead of real values.
+    //             Callers should treat zero as "metrics unavailable" and fall back to
+    //             conservative resource-management decisions.  Previous approach returned
+    //             non-deterministic std::rand() values causing incorrect scaling decisions.
+    // Removal Plan: Implement DXGI adapter memory query via
+    //             IDXGIAdapter3::QueryVideoMemoryInfo(DXGI_MEMORY_SEGMENT_GROUP_LOCAL);
+    //             combine with D3D12 timestamp queries or DXGI debug layer for GPU
+    //             occupancy.  See
+    //             src/llm/FUTURE_ENHANCEMENTS.md §GPUUtilizationMonitor DirectXMetrics.
+    metrics.gpu_utilization_pct    = 0.0f;   // unavailable — QueryVideoMemoryInfo not queried
+    metrics.memory_utilization_pct = 0.0f;
+
+    spdlog::debug("DirectX metrics unavailable (IDXGIAdapter3::QueryVideoMemoryInfo not "
+                  "implemented); returning zero utilisation");
 #endif
     
     return metrics;
@@ -422,3 +430,4 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getFallbackMetrics() const
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

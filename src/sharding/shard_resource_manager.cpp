@@ -1,26 +1,26 @@
+/**
+ * @file shard_resource_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=4, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_resource_manager.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     593                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_resource_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 669
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=3, M=7, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #964 Fix /proc/stat parsing vali... (2026-03-11) | #722 Implement YARN-Inspired Sha... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/shard_resource_manager.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <thread>
 #include <algorithm>
 #include <numeric>
@@ -37,6 +37,13 @@
 #include <sys/statvfs.h>
 #include <fstream>
 #include <sstream>
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+#include <cuda_runtime.h>
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include <hip/hip_runtime.h>
 #endif
 
 namespace themis::sharding {
@@ -58,6 +65,7 @@ namespace {
 // ResourceSnapshot Serialization
 // ============================================================================
 
+/** @brief Serialize resource snapshot into JSON document. */
 nlohmann::json ShardResourceManager::ResourceSnapshot::toJson() const {
     nlohmann::json j;
     j["cpu_usage_percent"] = cpu_usage_percent;
@@ -83,6 +91,7 @@ nlohmann::json ShardResourceManager::ResourceSnapshot::toJson() const {
     return j;
 }
 
+/** @brief Deserialize resource snapshot from JSON document. */
 ShardResourceManager::ResourceSnapshot ShardResourceManager::ResourceSnapshot::fromJson(const nlohmann::json& j) {
     ResourceSnapshot snapshot;
     
@@ -118,6 +127,12 @@ ShardResourceManager::ResourceSnapshot ShardResourceManager::ResourceSnapshot::f
 // Constructor / Destructor
 // ============================================================================
 
+/**
+ * @brief Construct resource manager with explicit runtime configuration.
+ * @param local_shard_id Local shard identifier.
+ * @param gossip_manager Gossip manager dependency (optional).
+ * @param config Sampling/throttling/gossip configuration.
+ */
 ShardResourceManager::ShardResourceManager(
     const std::string& local_shard_id,
     std::shared_ptr<GossipConfigManager> gossip_manager,
@@ -133,8 +148,23 @@ ShardResourceManager::ShardResourceManager(
     // Initialize local snapshot
     local_snapshot_.timestamp = std::chrono::system_clock::now();
     local_snapshot_.health_score = 100.0f;
+
+    // Initialise repair I/O token-bucket rate limiter.
+    // Rate  = peak_node_iops * (repair_iops_budget_percent / 100)
+    // Burst = same value (1-second burst window)
+    if (config_.enable_repair_iops_throttle && config_.peak_node_iops > 0) {
+        double rate = static_cast<double>(config_.peak_node_iops) *
+                      (config_.repair_iops_budget_percent / 100.0f);
+        rate = std::max(rate, 1.0);  // floor at 1 token/s
+        repair_io_limiter_ = std::make_unique<themis::utils::RateLimiter>(rate, rate);
+    }
 }
 
+/**
+ * @brief Construct resource manager with default configuration.
+ * @param local_shard_id Local shard identifier.
+ * @param gossip_manager Gossip manager dependency (optional).
+ */
 ShardResourceManager::ShardResourceManager(
     const std::string& local_shard_id,
     std::shared_ptr<GossipConfigManager> gossip_manager)
@@ -142,6 +172,7 @@ ShardResourceManager::ShardResourceManager(
 {
 }
 
+/** @brief Stop manager and release platform monitoring resources. */
 ShardResourceManager::~ShardResourceManager() {
     stop();
     
@@ -159,6 +190,7 @@ ShardResourceManager::~ShardResourceManager() {
 // Lifecycle
 // ============================================================================
 
+/** @brief Start background monitoring loop when not already running. */
 void ShardResourceManager::start() {
     if (running_.exchange(true)) {
         return; // Already running
@@ -169,13 +201,15 @@ void ShardResourceManager::start() {
     });
 }
 
+/** @brief Stop background monitoring loop and join worker thread. */
 void ShardResourceManager::stop() {
     if (!running_.exchange(false)) {
         return; // Not running
     }
     
-    if (monitoring_thread_.joinable()) {
-        monitoring_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(monitoring_thread_)) {
+        THEMIS_WARN("[ShardResourceManager] monitoring thread did not finish within shutdown deadline; detaching.");
     }
 }
 
@@ -183,11 +217,13 @@ void ShardResourceManager::stop() {
 // Local Resource Management
 // ============================================================================
 
+/** @brief Return latest locally cached resource snapshot. */
 ShardResourceManager::ResourceSnapshot ShardResourceManager::getCurrentSnapshot() const {
     std::shared_lock lock(local_mutex_);
     return local_snapshot_;
 }
 
+/** @brief Evaluate admission for query based on local CPU/RAM headroom and thresholds. */
 bool ShardResourceManager::canAcceptQuery(const QuerySpec& spec) const {
     if (!config_.enable_auto_throttling) {
         return true;
@@ -217,6 +253,7 @@ bool ShardResourceManager::canAcceptQuery(const QuerySpec& spec) const {
     return max_load < config_.throttle_threshold;
 }
 
+/** @brief Update active/pending query counters and average latency metric. */
 void ShardResourceManager::updateQueryMetrics(uint32_t active, uint32_t pending, float avg_latency_ms) {
     std::unique_lock lock(local_mutex_);
     local_snapshot_.active_queries = active;
@@ -224,6 +261,7 @@ void ShardResourceManager::updateQueryMetrics(uint32_t active, uint32_t pending,
     local_snapshot_.avg_query_latency_ms = avg_latency_ms;
 }
 
+/** @brief Apply emergency health downgrade when critical utilization threshold is reached. */
 void ShardResourceManager::throttleIfNeeded() {
     float cpu_ratio, ram_ratio, max_load;
     
@@ -243,10 +281,48 @@ void ShardResourceManager::throttleIfNeeded() {
     }
 }
 
+/** @brief Try to consume repair I/O tokens with optional bounded wait. */
+bool ShardResourceManager::acquireRepairIOToken(double io_ops,
+                                                std::chrono::milliseconds wait_timeout) {
+    if (!config_.enable_repair_iops_throttle || !repair_io_limiter_) {
+        return true;
+    }
+    if (repair_io_limiter_->try_acquire(io_ops)) {
+        return true;
+    }
+
+    if (wait_timeout <= std::chrono::milliseconds::zero()) {
+        return false;
+    }
+
+    const auto deadline = std::chrono::steady_clock::now() + wait_timeout;
+    while (std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        if (repair_io_limiter_->try_acquire(io_ops)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/** @brief Return whether GPU erasure coding can be used under current build/config. */
+bool ShardResourceManager::isGPUErasureCodingEnabled() const {
+    if (!config_.enable_gpu_erasure_coding) {
+        return false;
+    }
+#ifdef THEMIS_ENABLE_CUDA
+    return true;
+#else
+    return false;
+#endif
+}
+
 // ============================================================================
 // Gossip Integration
 // ============================================================================
 
+/** @brief Publish local resource snapshot to gossip subsystem. */
 void ShardResourceManager::broadcastResourceUpdate() {
     if (!config_.enable_gossip_broadcast || !gossip_manager_) {
         return;
@@ -266,8 +342,8 @@ void ShardResourceManager::broadcastResourceUpdate() {
     );
     gossip_snapshot.available_memory_bytes = snapshot.ram_total_bytes - snapshot.ram_usage_bytes;
     gossip_snapshot.total_memory_bytes = snapshot.ram_total_bytes;
-    // TODO: Implement platform-specific CPU core detection (sysconf on Linux, WMI on Windows)
-    // For now, use std::thread::hardware_concurrency() as a fallback
+    // std::thread::hardware_concurrency() is the correct cross-platform approach
+    // (maps to sysconf(_SC_NPROCESSORS_ONLN) on Linux, GetSystemInfo on Windows).
     gossip_snapshot.total_cpu_cores = std::thread::hardware_concurrency();
     gossip_snapshot.available_cpu_cores = std::max(0U, 
         gossip_snapshot.total_cpu_cores - static_cast<uint32_t>(snapshot.cpu_usage_percent / 100.0f * gossip_snapshot.total_cpu_cores)
@@ -288,6 +364,7 @@ void ShardResourceManager::broadcastResourceUpdate() {
     gossip_manager_->publishResourceSnapshot(gossip_snapshot);
 }
 
+/** @brief Store received peer resource snapshot into cache. */
 void ShardResourceManager::receiveResourceUpdate(const std::string& shard_id, 
                                                    const ResourceSnapshot& snapshot) {
     std::unique_lock lock(peer_mutex_);
@@ -314,6 +391,7 @@ ShardResourceManager::getPeerResource(const std::string& shard_id) const {
     return std::nullopt;
 }
 
+/** @brief Return peer ids with health score above healthy threshold. */
 std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> healthy_peers;
@@ -327,6 +405,7 @@ std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
     return healthy_peers;
 }
 
+/** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
 std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshold) const {
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> overloaded_peers;
@@ -350,11 +429,13 @@ std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshol
 // Health Scoring
 // ============================================================================
 
+/** @brief Compute current local health score from cached snapshot signals. */
 float ShardResourceManager::calculateHealthScore() const {
     std::shared_lock lock(local_mutex_);
     return calculateHealthScoreInternal(local_snapshot_);
 }
 
+/** @brief Compute health score from supplied snapshot without additional locking. */
 float ShardResourceManager::calculateHealthScoreInternal(const ResourceSnapshot& snapshot) const {
     float score = 100.0f;
     
@@ -404,6 +485,7 @@ float ShardResourceManager::calculateHealthScoreInternal(const ResourceSnapshot&
 // Monitoring Loop
 // ============================================================================
 
+/** @brief Periodic monitoring worker loop for sampling and peer upkeep. */
 void ShardResourceManager::monitoringLoop() {
     while (running_.load()) {
         collectSystemMetrics();
@@ -419,6 +501,7 @@ void ShardResourceManager::monitoringLoop() {
     }
 }
 
+/** @brief Collect current host metrics and refresh local snapshot fields. */
 void ShardResourceManager::collectSystemMetrics() {
     std::unique_lock lock(local_mutex_);
     
@@ -448,6 +531,7 @@ void ShardResourceManager::collectSystemMetrics() {
     local_snapshot_.health_score = health_score;
 }
 
+/** @brief Drop peer snapshots older than configured cache TTL. */
 void ShardResourceManager::cleanupStaleSnapshots() {
     std::unique_lock lock(peer_mutex_);
     
@@ -472,6 +556,7 @@ void ShardResourceManager::cleanupStaleSnapshots() {
 // Platform-Specific Resource Collection
 // ============================================================================
 
+/** @brief Sample current CPU utilization percentage via platform-specific APIs. */
 float ShardResourceManager::getCpuUsage() const {
 #ifdef _WIN32
     // Windows: Use PDH (Performance Data Helper)
@@ -534,6 +619,7 @@ float ShardResourceManager::getCpuUsage() const {
 #endif
 }
 
+/** @brief Sample RAM usage as pair {used,total} bytes. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 #ifdef _WIN32
     MEMORYSTATUSEX mem_info;
@@ -558,12 +644,40 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 #endif
 }
 
+/** @brief Sample VRAM usage as pair {used,total} bytes, or zeros when unavailable. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
-    // VRAM detection would require GPU-specific APIs (CUDA, HIP, Vulkan, etc.)
-    // For now, return zeros
+#if defined(THEMIS_ENABLE_CUDA)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (cudaMemGetInfo(&free_bytes, &total_bytes) == cudaSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
     return {0, 0};
+#elif defined(THEMIS_ENABLE_HIP)
+    size_t free_bytes  = 0;
+    size_t total_bytes = 0;
+    if (hipMemGetInfo(&free_bytes, &total_bytes) == hipSuccess) {
+        uint64_t used = static_cast<uint64_t>(total_bytes - free_bytes);
+        return {used, static_cast<uint64_t>(total_bytes)};
+    }
+    return {0, 0};
+#else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Satisfies the VRAM usage query API on platforms without a GPU
+    //          runtime (no CUDA / HIP available at link time).
+    // Activation: Neither THEMIS_ENABLE_CUDA nor THEMIS_ENABLE_HIP defined.
+    // Production Delta: Returns (0, 0); resource-aware shard scheduling decisions
+    //                   that rely on VRAM headroom will not account for actual GPU
+    //                   memory consumption.
+    // Removal Plan: Enable CUDA or HIP via cmake; the appropriate block above will
+    //               activate.  Vulkan (VK_EXT_memory_budget) path deferred.
+    //               See src/sharding/FUTURE_ENHANCEMENTS.md §VRAM Usage Monitoring.
+    return {0, 0};
+#endif
 }
 
+/** @brief Sample disk usage as pair {used,available} bytes. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 #ifdef _WIN32
     ULARGE_INTEGER free_bytes, total_bytes, total_free_bytes;
@@ -586,11 +700,37 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 #endif
 }
 
+/** @brief Sample network counters/rates as pair {in,out}. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
-    // Network I/O measurement would require platform-specific APIs
-    // Linux: /proc/net/dev, Windows: Performance Counters
-    // For now, return zeros
+#ifdef _WIN32
+    // Windows: GetIfTable2 / Performance Counter integration deferred.
+    // Returns (0, 0) on Windows until iphlpapi-based counters are wired in.
     return {0, 0};
+#else
+    // Linux: aggregate rx_bytes and tx_bytes across all interfaces from
+    // /proc/net/dev.  Format (after two header lines):
+    //   <iface>: rx_bytes rx_pkts rx_errs rx_drop … tx_bytes tx_pkts …
+    std::ifstream net_dev("/proc/net/dev");
+    if (!net_dev.is_open()) {
+        return {0, 0};
+    }
+    uint64_t total_rx = 0, total_tx = 0;
+    std::string line;
+    int line_num = 0;
+    while (std::getline(net_dev, line)) {
+        if (++line_num <= 2) continue; // skip the two header lines
+        const auto colon = line.find(':');
+        if (colon == std::string::npos) continue;
+        std::istringstream iss(line.substr(colon + 1));
+        uint64_t rx = 0, pkts = 0, errs = 0, drop = 0,
+                 fifo = 0, frame = 0, comp = 0, mcast = 0, tx = 0;
+        if (iss >> rx >> pkts >> errs >> drop >> fifo >> frame >> comp >> mcast >> tx) {
+            total_rx += rx;
+            total_tx += tx;
+        }
+    }
+    return {total_rx, total_tx};
+#endif
 }
 
 } // namespace themis::sharding

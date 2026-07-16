@@ -1,26 +1,26 @@
+/**
+ * @file graph_auto_buffer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_auto_buffer.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     395                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_auto_buffer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 386
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=3, M=1, L=0
+ * PR History (last 5): #769 Refactor RPC Service Archit... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "index/graph_auto_buffer.h"
+#include <stdexcept>
+#include "utils/thread_join_utils.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -82,8 +82,9 @@ void GraphAutoBuffer::stop() {
     flush_cv_.notify_all();
     
     // Wait for flush thread to finish
-    if (flush_thread_.joinable()) {
-        flush_thread_.join();
+    if (flush_thread_.joinable() &&
+        !utils::joinThreadWithin(flush_thread_)) {
+        THEMIS_WARN("GraphAutoBuffer: flush thread exceeded shutdown timeout");
     }
     
     // Final flush of remaining operations
@@ -102,7 +103,7 @@ PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node,
     }
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -110,10 +111,13 @@ PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node,
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("GraphAutoBuffer::addNode: timeout re-acquiring buffers_mutex_");
+                return PropertyGraphManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
@@ -158,7 +162,7 @@ PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge,
     }
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::timed_mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -166,10 +170,13 @@ PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge,
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Flush without lock (will re-acquire with timeout)
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            if (!lock.try_lock_for(std::chrono::seconds(30))) {
+                THEMIS_ERROR("GraphAutoBuffer::addEdge: timeout re-acquiring buffers_mutex_");
+                return PropertyGraphManager::Status::Error("Buffer lock timeout");
+            }
         }
         
         // Add to buffer
@@ -208,7 +215,7 @@ size_t GraphAutoBuffer::flush() {
 }
 
 size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     auto it = buffers_.find(graph_id);
     if (it == buffers_.end() || it->second.operations.empty()) {
@@ -221,9 +228,12 @@ size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
 size_t GraphAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("GraphAutoBuffer.flush");
     
-    std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
+    std::unique_lock<std::timed_mutex> lock(buffers_mutex_, std::defer_lock);
     if (!lock_held) {
-        lock.lock();
+        if (!lock.try_lock_for(std::chrono::seconds(30))) {
+            THEMIS_WARN("GraphAutoBuffer::flushInternal: timeout acquiring buffers_mutex_");
+            return 0;
+        }
     }
     
     if (buffers_.empty()) {
@@ -365,7 +375,7 @@ void GraphAutoBuffer::flushThread() {
 }
 
 GraphAutoBufferStats GraphAutoBuffer::getStats() const {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     GraphAutoBufferStats stats;
     stats.nodes_buffered = stats_.nodes_buffered.load();
@@ -386,7 +396,7 @@ GraphAutoBufferStats GraphAutoBuffer::getStats() const {
 }
 
 void GraphAutoBuffer::setConfig(const GraphAutoBufferConfig& config) {
-    std::lock_guard<std::mutex> lock(buffers_mutex_);
+    std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;
     
     THEMIS_INFO("GraphAutoBuffer config updated: max_nodes={}, max_edges={}, flush_interval={}ms",

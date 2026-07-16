@@ -1,26 +1,21 @@
+/**
+ * @file adapter_registry.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adapter_registry.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 011803ade  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adapter_registry.h | Version: 0.0.47 | Last Modified: 2026-06-01 08:11:44
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 392
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3270 [llm] Implement LoRA adapte... (2026-03-12) | #1297 RAG module: replace all stu... (2026-03-11) | #114 Add complete PEFT training ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -33,6 +28,7 @@
 #include <map>
 #include <memory>
 #include <functional>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -40,6 +36,7 @@ namespace llm {
 
 /// Semantic versioning for adapters
 struct AdapterVersion {
+    virtual ~AdapterVersion() = default;
     int major = 1;
     int minor = 0;
     int patch = 0;
@@ -99,6 +96,7 @@ struct AdapterProvenance {
 
 /// Training configuration
 struct TrainingConfig {
+    virtual ~TrainingConfig() = default;
     std::string dataset_name;
     size_t num_samples = 0;
     int epochs = 3;
@@ -120,6 +118,7 @@ struct TrainingConfig {
 
 /// Quality metrics from training
 struct QualityMetrics {
+    virtual ~QualityMetrics() = default;
     double final_loss = 0.0;
     double perplexity = 0.0;
     double accuracy = 0.0;
@@ -132,14 +131,32 @@ struct QualityMetrics {
     static QualityMetrics fromJson(const nlohmann::json& j);
 };
 
+/// Adapter role within the inference pipeline.
+///
+/// GENERAL  – standard task/domain fine-tuning adapter (default).
+/// DRAFT    – small speculative-decoding draft model registered alongside a
+///            larger target model.  Registered with a quantized (INT4) weight
+///            set; @see AdaptiveVRAMAllocator::calculateDualModelAllocation().
+enum class AdapterRole {
+    GENERAL,  ///< Default: task/domain LoRA adapter.
+    DRAFT,    ///< Speculative-decoding draft model adapter.
+};
+
 /// Adapter metadata - Complete information about a LoRA adapter
 struct AdapterMetadata {
+    virtual ~AdapterMetadata() = default;
     // Identification
     std::string adapter_id;          // Unique identifier (includes base_model)
     AdapterVersion version;
     std::string task_type;           // e.g., "question-answering", "summarization"
     std::string domain;              // e.g., "legal", "medical", "general"
     std::string language = "en";
+
+    /// Role of this adapter in the inference pipeline.
+    /// Set to AdapterRole::DRAFT when registering a speculative-decoding draft
+    /// model so that InferenceEngineEnhanced can auto-discover it via
+    /// AdapterRegistry::findDraftAdapterForFamily().
+    AdapterRole role = AdapterRole::GENERAL;
     
     // Model compatibility
     std::string base_model_name;     // e.g., "mistral-7b", "llama-3-8b"
@@ -212,6 +229,27 @@ public:
     
     /// List adapters for a specific domain
     std::vector<AdapterMetadata> listAdaptersByDomain(const std::string& domain);
+
+    /// List all adapters with a specific role.
+    ///
+    /// Useful for discovering registered DRAFT adapters:
+    /// @code
+    ///   auto drafts = registry.listAdaptersByRole(AdapterRole::DRAFT);
+    /// @endcode
+    std::vector<AdapterMetadata> listAdaptersByRole(AdapterRole role);
+
+    /// Find the best DRAFT adapter for a given model family (architecture).
+    ///
+    /// Searches adapters whose role == DRAFT and whose `architecture` field
+    /// contains @p model_family (case-insensitive substring match).  Among
+    /// multiple candidates the adapter in DEPLOYED status is preferred; ties
+    /// are broken by the highest version number.
+    ///
+    /// @param model_family  Model family string, e.g. "llama", "mistral".
+    /// @return              Matching DRAFT adapter metadata, or std::nullopt
+    ///                      when no DRAFT adapter for the family is registered.
+    std::optional<AdapterMetadata> findDraftAdapterForFamily(
+        const std::string& model_family);
     
     // Compatibility Validation
     

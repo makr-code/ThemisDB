@@ -1,23 +1,21 @@
+/**
+ * @file gpu_embedding_layer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_embedding_layer.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     340                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_embedding_layer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 331
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=3, M=0, L=0
+ * PR History (last 5): #604 Implement Real Embedding Lo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_embedding_layer.h"
@@ -135,8 +133,8 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
         for (size_t j = 0; j < seq_len; ++j) {
             size_t token_idx = i * seq_len + j;
             // Note: Token IDs stored as floats in GPUTensor (architecture limitation - no int32 tensor support yet)
-            // Using round() to handle potential floating point imprecision
-            // TODO: Add integer tensor support to GPUTensor to avoid this conversion
+            // Using round() to handle potential floating point imprecision.
+            // Consider adding integer tensor support to GPUTensor to avoid this conversion.
             int token_id = static_cast<int>(std::round(token_data[token_idx]));
             
             // Bounds check
@@ -262,7 +260,7 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     
     // Launch Vulkan compute shader
     try {
-        vulkan::launch_embedding_lookup_shader(
+        ::themis::lora::vulkan::launch_embedding_lookup_shader(
             embeddings_data.data(),
             token_data.data(),
             weights_data.data(),
@@ -341,3 +339,4 @@ GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
+

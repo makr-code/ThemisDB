@@ -1,24 +1,21 @@
+/**
+ * @file hardware_migration_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.14
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hardware_migration_manager.cpp                     ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 04:00:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6d2b1af70  2026-03-01  feat(sharding): hardware migration support - NodeIdentity... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hardware_migration_manager.cpp | Version: 0.0.14 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 380
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=5, L=0
+ * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3464 feat(sharding): Hardware mi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/hardware_migration_manager.h"
@@ -307,6 +304,88 @@ bool HardwareMigrationManager::validateRingStability(
         }
     }
     return true;
+}
+
+// ============================================================================
+// Drain-period enforcement
+// ============================================================================
+
+HardwareMigrationManager::DrainGuard::DrainGuard(HardwareMigrationManager* mgr,
+                                                   std::string shard_id)
+    : mgr_(mgr), shard_id_(std::move(shard_id)), active_(true) {
+    mgr_->addInFlightRequest(shard_id_);
+}
+
+HardwareMigrationManager::DrainGuard::~DrainGuard() {
+    if (active_ && mgr_) {
+        mgr_->releaseInFlightRequest(shard_id_);
+    }
+}
+
+HardwareMigrationManager::DrainGuard::DrainGuard(DrainGuard&& other) noexcept
+    : mgr_(other.mgr_)
+    , shard_id_(std::move(other.shard_id_))
+    , active_(other.active_) {
+    other.mgr_    = nullptr;
+    other.active_ = false;
+}
+
+HardwareMigrationManager::DrainGuard&
+HardwareMigrationManager::DrainGuard::operator=(DrainGuard&& other) noexcept {
+    if (this != &other) {
+        if (active_ && mgr_) {
+            mgr_->releaseInFlightRequest(shard_id_);
+        }
+        mgr_      = other.mgr_;
+        shard_id_ = std::move(other.shard_id_);
+        active_   = other.active_;
+        other.mgr_    = nullptr;
+        other.active_ = false;
+    }
+    return *this;
+}
+
+void HardwareMigrationManager::addInFlightRequest(const std::string& shard_id) {
+    std::lock_guard<std::mutex> lock(drain_mutex_);
+    ++in_flight_counts_[shard_id];
+}
+
+void HardwareMigrationManager::releaseInFlightRequest(const std::string& shard_id) {
+    {
+        std::lock_guard<std::mutex> lock(drain_mutex_);
+        auto it = in_flight_counts_.find(shard_id);
+        if (it == in_flight_counts_.end() || it->second == 0) {
+            return; // Defensive: no-op on underflow.
+        }
+        if (--it->second == 0) {
+            in_flight_counts_.erase(it);
+        }
+    }
+    drain_cv_.notify_all();
+}
+
+size_t HardwareMigrationManager::inFlightCount(const std::string& shard_id) const {
+    std::lock_guard<std::mutex> lock(drain_mutex_);
+    auto it = in_flight_counts_.find(shard_id);
+    return (it != in_flight_counts_.end()) ? it->second : 0;
+}
+
+HardwareMigrationManager::DrainGuard
+HardwareMigrationManager::makeRequestGuard(const std::string& shard_id) {
+    return DrainGuard(this, shard_id);
+}
+
+bool HardwareMigrationManager::waitForDrain(const std::string& shard_id,
+                                              std::chrono::seconds timeout) const {
+    if (timeout.count() == 0) {
+        return true; // Caller explicitly requests no wait.
+    }
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    std::unique_lock<std::mutex> lock(drain_mutex_);
+    return drain_cv_.wait_until(lock, deadline, [&] {
+        auto it = in_flight_counts_.find(shard_id);
+        return (it == in_flight_counts_.end() || it->second == 0);
+    });
 }
 
 } // namespace themis::sharding

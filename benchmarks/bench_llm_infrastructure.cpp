@@ -1,30 +1,15 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_llm_infrastructure.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   77.0/100                                       ║
-    • Total Lines:     197                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 5                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_llm_infrastructure.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <benchmark/benchmark.h>
 #include "llm/llama_resource_manager.h"
 #include "llm/sampling_strategy.h"
-#include "acceleration/backend_registry.h"
+#include "acceleration/compute_backend.h"
 
 using namespace themis::llm;
 using namespace themis::acceleration;

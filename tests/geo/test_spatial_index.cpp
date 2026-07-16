@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_spatial_index.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:01:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     486                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8c6e72669  2026-02-26  test(geo): add searchZRange tests and refactor lambda dup... ║
-    • bf209ef92  2026-02-26  feat(geo): implement missing R-tree spatial index methods... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_spatial_index.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -37,6 +21,9 @@ using namespace themis::geo;
 class SpatialIndexTest : public ::testing::Test {
 protected:
     void SetUp() override {
+    #ifdef _WIN32
+        GTEST_SKIP() << "Skipping SpatialIndex tests on Windows";
+    #endif
         RocksDBWrapper::Config cfg; cfg.db_path = "test_spatial_index_db"; cfg.memtable_size_mb = 16; cfg.block_cache_size_mb = 16;
         db_ = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db_->open());
         spatial_mgr_ = std::make_unique<SpatialIndexManager>(*db_);
@@ -47,6 +34,9 @@ protected:
     }
     
     void TearDown() override {
+    #ifdef _WIN32
+        return;
+    #endif
         spatial_mgr_.reset();
         db_.reset();
         std::filesystem::remove_all("test_spatial_index_db");

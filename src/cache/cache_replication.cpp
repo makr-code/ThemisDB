@@ -1,25 +1,21 @@
+/**
+ * @file cache_replication.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_replication.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e2215810b  2026-02-24  refactor(cache): simplify event construction and fix cons... ║
-    • 25fabc47d  2026-02-24  feat(cache): add cache replication for high-availability ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cache_replication.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 314
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=6, L=0
+ * PR History (last 5): #3473 docs(cache): sync src/cache... (2026-03-12) | #2911 feat(cache): implement Redi... (2026-03-12) | #2816 feat(cache): Cache replicat... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -30,10 +26,13 @@
  */
 
 #include "cache/cache_replication.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace cache {
@@ -43,16 +42,18 @@ namespace cache {
 // ---------------------------------------------------------------------------
 
 static int64_t nowMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-               std::chrono::system_clock::now().time_since_epoch())
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
 }
 
-const char* CacheReplicationManager::healthToString(CacheReplicaHealth h) {
+const char *CacheReplicationManager::healthToString(CacheReplicaHealth h) {
     switch (h) {
-        case CacheReplicaHealth::HEALTHY:   return "HEALTHY";
-        case CacheReplicaHealth::DEGRADED:  return "DEGRADED";
-        case CacheReplicaHealth::UNHEALTHY: return "UNHEALTHY";
+        case CacheReplicaHealth::HEALTHY:
+            return "HEALTHY";
+        case CacheReplicaHealth::DEGRADED:
+            return "DEGRADED";
+        case CacheReplicaHealth::UNHEALTHY:
+            return "UNHEALTHY";
     }
     return "UNKNOWN";
 }
@@ -61,17 +62,14 @@ const char* CacheReplicationManager::healthToString(CacheReplicaHealth h) {
 // CacheReplicationManager – constructor
 // ---------------------------------------------------------------------------
 
-CacheReplicationManager::CacheReplicationManager(const CacheReplicationConfig& config)
-    : config_(config) {}
+CacheReplicationManager::CacheReplicationManager(const CacheReplicationConfig &config) : config_(config) {}
 
 // ---------------------------------------------------------------------------
 // Replica registration
 // ---------------------------------------------------------------------------
 
-void CacheReplicationManager::addReplica(
-        std::shared_ptr<ICacheReplicationListener> listener,
-        const std::string& snapshot_ndjson) {
-
+void CacheReplicationManager::addReplica(std::shared_ptr<ICacheReplicationListener> listener,
+                                         const std::string &snapshot_ndjson) {
     if (!listener) {
         THEMIS_WARN("CacheReplicationManager::addReplica: null listener ignored");
         return;
@@ -86,14 +84,12 @@ void CacheReplicationManager::addReplica(
         // idempotent.
         replicas_.erase(
             std::remove_if(replicas_.begin(), replicas_.end(),
-                [&id](const CacheReplicaState& s) {
-                    return s.listener && s.listener->replicaId() == id;
-                }),
+                           [&id](const CacheReplicaState &s) { return s.listener && s.listener->replicaId() == id; }),
             replicas_.end());
 
         CacheReplicaState state;
-        state.listener = std::move(listener);
-        state.health = CacheReplicaHealth::HEALTHY;
+        state.listener     = std::move(listener);
+        state.health       = CacheReplicaHealth::HEALTHY;
         state.last_success = std::chrono::steady_clock::now();
         replicas_.push_back(std::move(state));
     }
@@ -103,21 +99,20 @@ void CacheReplicationManager::addReplica(
     // Bootstrap with a snapshot if provided.
     if (!snapshot_ndjson.empty()) {
         CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::SNAPSHOT);
-        ev.payload = snapshot_ndjson;
+        ev.payload               = snapshot_ndjson;
         dispatch(ev);
         stats_.snapshots_sent++;
         THEMIS_INFO("CacheReplicationManager: sent bootstrap snapshot to '{}'", id);
     }
 }
 
-void CacheReplicationManager::removeReplica(const std::string& replica_id) {
+void CacheReplicationManager::removeReplica(const std::string &replica_id) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
-    replicas_.erase(
-        std::remove_if(replicas_.begin(), replicas_.end(),
-            [&replica_id](const CacheReplicaState& s) {
-                return s.listener && s.listener->replicaId() == replica_id;
-            }),
-        replicas_.end());
+    replicas_.erase(std::remove_if(replicas_.begin(), replicas_.end(),
+                                   [&replica_id](const CacheReplicaState &s) {
+                                       return s.listener && s.listener->replicaId() == replica_id;
+                                   }),
+                    replicas_.end());
     THEMIS_INFO("CacheReplicationManager: removed replica '{}'", replica_id);
 }
 
@@ -134,21 +129,30 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     uint64_t unhealthy_count = 0;
 
-    for (auto& state : replicas_) {
+    for (auto &state : replicas_) {
         if (state.health == CacheReplicaHealth::UNHEALTHY) {
             bool alive = false;
             try {
                 alive = state.listener->ping();
-            } catch (...) {
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("CacheReplicationManager: ping exception from replica '{}': {}",
+                            state.listener->replicaId(), ex.what());
+                alive = false;
+            } catch (const std::string& ex) {
+                THEMIS_WARN("CacheReplicationManager: ping exception from replica '{}': {}",
+                            state.listener->replicaId(), ex);
+                alive = false;
+            } catch (const char* ex) {
+                THEMIS_WARN("CacheReplicationManager: ping exception from replica '{}': {}",
+                            state.listener->replicaId(), (ex ? ex : "<null>"));
                 alive = false;
             }
 
             if (alive) {
-                state.health = CacheReplicaHealth::HEALTHY;
+                state.health               = CacheReplicaHealth::HEALTHY;
                 state.consecutive_failures = 0;
-                state.last_success = std::chrono::steady_clock::now();
-                THEMIS_INFO("CacheReplicationManager: replica '{}' recovered",
-                            state.listener->replicaId());
+                state.last_success         = std::chrono::steady_clock::now();
+                THEMIS_INFO("CacheReplicationManager: replica '{}' recovered", state.listener->replicaId());
             } else {
                 ++unhealthy_count;
             }
@@ -164,8 +168,10 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
 // ICacheReplicationListener – fan-out implementation
 // ---------------------------------------------------------------------------
 
-bool CacheReplicationManager::onReplicationEvent(const CacheReplicationEvent& event) {
-    if (!config_.enabled) return true;
+bool CacheReplicationManager::onReplicationEvent(const CacheReplicationEvent &event) {
+    if (!config_.enabled) {
+        return true;
+    }
     dispatch(event);
     return true;
 }
@@ -178,33 +184,37 @@ bool CacheReplicationManager::ping() {
 // Convenience helpers
 // ---------------------------------------------------------------------------
 
-void CacheReplicationManager::notifyWrite(const std::string& key,
-                                           const std::string& payload,
-                                           const std::string& tenant_id,
-                                           int ttl_seconds) {
-    if (!config_.enabled) return;
+void CacheReplicationManager::notifyWrite(const std::string &key, const std::string &payload,
+                                          const std::string &tenant_id, int ttl_seconds) {
+    if (!config_.enabled) {
+        return;
+    }
 
     CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::WRITE);
-    ev.key = key;
-    ev.payload = payload;
-    ev.tenant_id = tenant_id;
-    ev.ttl_seconds = ttl_seconds;
+    ev.key                   = key;
+    ev.payload               = payload;
+    ev.tenant_id             = tenant_id;
+    ev.ttl_seconds           = ttl_seconds;
     dispatch(ev);
 }
 
-void CacheReplicationManager::notifyInvalidate(const std::string& pattern) {
-    if (!config_.enabled) return;
+void CacheReplicationManager::notifyInvalidate(const std::string &pattern) {
+    if (!config_.enabled) {
+        return;
+    }
 
     CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::INVALIDATE);
-    ev.pattern = pattern;
+    ev.pattern               = pattern;
     dispatch(ev);
 }
 
-void CacheReplicationManager::notifyInvalidateTenant(const std::string& tenant_id) {
-    if (!config_.enabled) return;
+void CacheReplicationManager::notifyInvalidateTenant(const std::string &tenant_id) {
+    if (!config_.enabled) {
+        return;
+    }
 
     CacheReplicationEvent ev = makeEvent(CacheReplicationEventType::INVALIDATE_TENANT);
-    ev.tenant_id = tenant_id;
+    ev.tenant_id             = tenant_id;
     dispatch(ev);
 }
 
@@ -213,9 +223,9 @@ void CacheReplicationManager::notifyInvalidateTenant(const std::string& tenant_i
 // ---------------------------------------------------------------------------
 
 nlohmann::json CacheReplicationManager::getStats() const {
-    auto j = stats_.toJson();
-    j["enabled"] = config_.enabled;
-    j["semi_sync"] = config_.semi_sync;
+    auto j             = stats_.toJson();
+    j["enabled"]       = config_.enabled;
+    j["semi_sync"]     = config_.semi_sync;
     j["replica_count"] = replicaCount();
     return j;
 }
@@ -223,7 +233,7 @@ nlohmann::json CacheReplicationManager::getStats() const {
 nlohmann::json CacheReplicationManager::getReplicaHealth() const {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     nlohmann::json arr = nlohmann::json::array();
-    for (const auto& state : replicas_) {
+    for (const auto &state : replicas_) {
         nlohmann::json r;
         r["replica_id"]           = state.listener ? state.listener->replicaId() : "(null)";
         r["health"]               = healthToString(state.health);
@@ -239,33 +249,39 @@ nlohmann::json CacheReplicationManager::getReplicaHealth() const {
 // Internal dispatch
 // ---------------------------------------------------------------------------
 
-void CacheReplicationManager::dispatch(const CacheReplicationEvent& event) {
+void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
 
-    bool any_success = false;
+    bool any_success         = false;
     uint64_t unhealthy_count = 0;
 
-    for (auto& state : replicas_) {
+    for (auto &state : replicas_) {
         if (state.health == CacheReplicaHealth::UNHEALTHY) {
             ++unhealthy_count;
-            continue;  // Skip until probed healthy again
+            continue; // Skip until probed healthy again
         }
 
         bool ok = false;
         try {
             ok = state.listener->onReplicationEvent(event);
-        } catch (const std::exception& ex) {
-            THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}",
-                        state.listener->replicaId(), ex.what());
+        } catch (const std::exception &ex) {
+            THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}", state.listener->replicaId(),
+                        ex.what());
             ok = false;
-        } catch (...) {
+        } catch (const std::string &ex) {
+            THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}",
+                        state.listener->replicaId(), ex);
+            ok = false;
+        } catch (const char *ex) {
+            THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}",
+                        state.listener->replicaId(), (ex ? ex : "<null>"));
             ok = false;
         }
 
         if (ok) {
             state.consecutive_failures = 0;
-            state.last_success = std::chrono::steady_clock::now();
-            state.health = CacheReplicaHealth::HEALTHY;
+            state.last_success         = std::chrono::steady_clock::now();
+            state.health               = CacheReplicaHealth::HEALTHY;
             state.events_sent++;
             any_success = true;
         } else {
@@ -277,11 +293,9 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent& event) {
             if (state.consecutive_failures >= config_.max_consecutive_failures) {
                 if (state.health != CacheReplicaHealth::UNHEALTHY) {
                     state.health = CacheReplicaHealth::UNHEALTHY;
-                    THEMIS_WARN(
-                        "CacheReplicationManager: replica '{}' marked UNHEALTHY "
-                        "after {} consecutive failures",
-                        state.listener->replicaId(),
-                        state.consecutive_failures);
+                    THEMIS_WARN("CacheReplicationManager: replica '{}' marked UNHEALTHY "
+                                "after {} consecutive failures",
+                                state.listener->replicaId(), state.consecutive_failures);
                 }
                 ++unhealthy_count;
             } else {
@@ -295,16 +309,15 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent& event) {
 
     // In semi-sync mode, warn if no replica acknowledged.
     if (config_.semi_sync && !replicas_.empty() && !any_success) {
-        THEMIS_WARN("CacheReplicationManager: semi-sync: no replica acknowledged event seq={}",
-                    event.sequence);
+        THEMIS_WARN("CacheReplicationManager: semi-sync: no replica acknowledged event seq={}", event.sequence);
     }
 }
 
 CacheReplicationEvent CacheReplicationManager::makeEvent(CacheReplicationEventType type) const {
     CacheReplicationEvent ev;
-    ev.type = type;
+    ev.type         = type;
     ev.timestamp_ms = nowMs();
-    ev.sequence = ++sequence_;
+    ev.sequence     = ++sequence_;
     return ev;
 }
 

@@ -1,0 +1,212 @@
+school_id: arendt
+name: Arendtsche Politische Philosophie
+description: "Politische Philosophie mit Fokus auf menschliche Pluralität, Handeln im öffentlichen Raum \nund Analyse totalitärer\
+  \ Herrschaft. Kritik der Tradition und neue Konzeption des Politischen.\n"
+main_theses:
+- thesis_id: vita_activa
+  name: Vita Activa - Arbeiten, Herstellen, Handeln
+  description: "Drei Grundtätigkeiten menschlicher Existenz: Arbeiten (labor - Lebensnotwendigkeiten), \nHerstellen (work\
+    \ - dauerhafte Welt), Handeln (action - Freiheit und Pluralität).\n"
+  key_concepts:
+  - 'Arbeiten: Lebensprozess, Notwendigkeit'
+  - 'Herstellen: Verdinglichung, Haltbarkeit'
+  - 'Handeln: Pluralität, Freiheit, Öffentlichkeit'
+  - Handeln ist die politische Tätigkeit par excellence
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: plurality
+  name: Pluralität (Plurality)
+  description: "Menschen sind gleich und doch verschieden - das ist die Bedingung der Politik. \nPluralität bedeutet, dass\
+    \ jeder Mensch einzigartig ist und mit anderen zusammenleben muss.\n"
+  key_concepts:
+  - Gleichheit und Verschiedenheit
+  - Bedingung der Politik
+  - Keine Identität, sondern Vielfalt
+  - Zusammenleben der Verschiedenen
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: public_private
+  name: Öffentlicher und Privater Raum
+  description: "Der öffentliche Raum ist der Raum der Erscheinung, wo Menschen handelnd und sprechend \nin Erscheinung treten.\
+    \ Der private Raum ist der Bereich der Notwendigkeit und Intimität.\n"
+  key_concepts:
+  - 'Öffentlicher Raum: Erscheinen, Ruhm, Politik'
+  - 'Privater Raum: Notwendigkeit, Verborgenheit'
+  - Erosion des Öffentlichen in Moderne
+  - Politisches Handeln braucht Öffentlichkeit
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: banality_of_evil
+  name: Banalität des Bösen
+  description: "Am Beispiel Eichmann: Das Böse ist oft nicht radikal, sondern banal - Gedankenlosigkeit, \nUnfähigkeit zu\
+    \ urteilen, bürokratisches Funktionieren ohne Reflexion.\n"
+  key_concepts:
+  - Gedankenlosigkeit als Quelle des Bösen
+  - Eichmann als Bürokrat, nicht als Monster
+  - Verlust der Urteilskraft
+  - Böses durch Nicht-Denken
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: natality
+  name: Natalität (Gebürtlichkeit)
+  description: "Menschen können immer neu anfangen - das ist die Grundlage der Freiheit. \nJede Geburt ist ein neuer Anfang,\
+    \ jedes Handeln ein Neuanfang.\n"
+  key_concepts:
+  - Fähigkeit zum Neuanfang
+  - Geburt als Paradigma der Freiheit
+  - Handeln initiiert Neues
+  - Gegen Determinismus
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+  totalitarianism:
+    title: Totalitarismus
+    description: "Totalitäre Herrschaft (Nationalsozialismus, Stalinismus) ist eine neue, radikale \nForm der Herrschaft,\
+      \ die alle Bereiche durchdringt und Pluralität vernichtet.\n"
+  judgment:
+    title: Urteilskraft
+    description: "Nach Kant: Die Fähigkeit, vom Standpunkt anderer zu denken (erweitertes Denken). \nPolitisches Urteil ist\
+      \ Geschmacksurteil - ohne universelle Regeln.\n"
+  action_and_speech:
+    title: Handeln und Sprechen
+    description: "Im politischen Raum sind Handeln und Sprechen untrennbar. Durch Sprechen offenbaren \nwir, wer (nicht was)\
+      \ wir sind.\n"
+  social_vs_political:
+    title: Das Soziale vs. das Politische
+    description: "Die Moderne verwechselt das Soziale (Verwaltung, Ökonomie) mit dem Politischen \n(Freiheit, Handeln). Das\
+      \ Aufkommen des Sozialen bedroht das Politische.\n"
+  pariah_parvenu:
+    title: Paria und Parvenu
+    description: "Der bewusste Paria (Außenseiter) bewahrt seine Authentizität. Der Parvenu \n(Emporkömmling) assimiliert\
+      \ sich und verliert seine Identität.\n"
+strengths:
+- Neues Verständnis des Politischen jenseits von Herrschaft
+- Betonung der Pluralität und Verschiedenheit
+- Tiefe Analyse des Totalitarismus
+- Anerkennung menschlicher Spontaneität und Freiheit
+- Verbindung von philosophischer Reflexion und politischer Wirklichkeit
+weaknesses:
+- Idealisierung der griechischen Polis
+- Scharfe Trennung öffentlich/privat problematisch
+- Unterschätzung sozialer Gerechtigkeit ('das Soziale')
+- Elitäre Konzeption von Politik?
+- Verhältnis von Handeln und Notwendigkeit unklar
+example_application: "Digitaler Öffentlicher Raum: Soziale Medien versprechen Öffentlichkeit, aber fehlt ihnen \ndie Haltbarkeit\
+  \ und das gemeinsame Erscheinen des öffentlichen Raums? Wenn jeder anonym \nund flüchtig agiert, gibt es keine wirkliche\
+  \ Pluralität. Die Banalität des Bösen zeigt \nsich in Shitstorms - Menschen handeln gedankenlos, ohne zu urteilen, folgen\
+  \ der Masse. \nEchter politischer Raum erfordert verantwortliches Erscheinen vor anderen.\n"
+decision_framework: "Handle im öffentlichen Raum mit anderen, anerkenne ihre Pluralität. Denke vom Standpunkt \nanderer (erweiterte\
+  \ Denkungsart). Übernimm Verantwortung für die gemeinsame Welt. \nÜbe Urteilskraft statt gedankenloser Befolgung von Regeln.\
+  \ Beginne Neues.\n"
+core_principles:
+- Vita Activa - Arbeiten, Herstellen, Handeln
+- Pluralität als Bedingung der Politik
+- Öffentlicher Raum als Raum der Erscheinung
+- Banalität des Bösen - Gedankenlosigkeit
+- Natalität - Fähigkeit zum Neuanfang
+- Urteilskraft - Denken vom Standpunkt anderer
+- Politik vs. Verwaltung des Sozialen
+- Handeln und Sprechen als politische Tätigkeit
+key_works:
+- title: Elemente und Ursprünge totaler Herrschaft
+  year: 1951
+  description: Analyse des Totalitarismus
+- title: Vita activa oder Vom tätigen Leben
+  year: 1958
+  description: Hauptwerk zur politischen Philosophie
+- title: Eichmann in Jerusalem
+  year: 1963
+  description: Banalität des Bösen
+- title: Über die Revolution
+  year: 1963
+  description: Politische Freiheit und Revolution
+- title: Vom Leben des Geistes
+  year: 1978
+  description: Denken, Wollen, Urteilen
+relevant_dimensions:
+- political
+- ethical
+- social
+- phenomenological
+- historical
+name_de: Arendtianische Politische Philosophie
+taxonomy_class: non_mainstream
+tags:
+- arendt
+- politische_philosophie
+- pluralitaet
+- vita_activa
+- banalitaet_des_boesen
+- oeffentlichkeit
+applicable_domains:
+- social_justice
+- ai_governance
+- political_philosophy
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält totalitarianism ODER public_space ODER plurality
+  effect: boost_weight
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Keine bindenden regulatorischen Entsprechungen
+domain_overrides:
+  ai_governance:
+    weight_boost: 0.15
+    note: 'KI und Öffentlichkeit: Arendts Konzept des öffentlichen Raums'
+cross_school_tensions:
+- own_thesis: plurality
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: plurality_vs_aggregate_maximization
+  rebuttal_cite_weight: 0.8
+- own_thesis: vita_activa
+  opposing_school: kant
+  opposing_thesis: pflicht_neigung
+  tension_type: action_in_world_vs_inner_duty
+  rebuttal_cite_weight: 0.6

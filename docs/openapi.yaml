@@ -1,14 +1,24 @@
 openapi: 3.0.3
 info:
-  title: VCCDB REST API
+  title: ThemisDB REST API
   description: |
     Multi-model database with vector search, graph traversal, and secondary indexes.
     Supports document storage, graph relationships, vector embeddings, and complex queries.
   version: 0.1.0
   contact:
-    name: VCCDB Team
+    name: ThemisDB API Maintainers
+    url: https://github.com/makr-code/ThemisDB/issues
   license:
     name: MIT
+  x-api-governance:
+    source_of_truth: docs/openapi.yaml
+    owner: themisdb-api-maintainers
+    maintainers_reference: .github/CODEOWNERS
+    reference_docs:
+      - docs/api/README.md
+      - docs/apis/README.md
+    generator_config: openapitools.json
+    breaking_change_process: docs/api/API_VERSIONING.md
 
 servers:
   - url: http://localhost:8080
@@ -672,10 +682,13 @@ paths:
                 isolation_level:
                   type: string
                   enum: [snapshot_isolation, serializable]
-                  default: snapshot_isolation
+                  default: serializable
                   description: |
-                    snapshot_isolation - MVCC snapshot reads, no read locks (default).
-                    serializable - Full serializability, read-set validated on PREPARE.
+                    serializable - Full serializability, read-set validated on PREPARE (default, recommended for strict invariants).
+                    snapshot_isolation - MVCC snapshot reads, no read locks.
+                    WARNING: can permit write-skew and phantom-read anomalies in distributed workflows.
+                    When omitted, the server default may be overridden by environment variable
+                    THEMIS_DTXN_DEFAULT_ISOLATION ("snapshot_isolation" or "serializable").
       responses:
         '200':
           description: Transaction started
@@ -689,6 +702,11 @@ paths:
                   isolation_level:
                     type: string
                     enum: [snapshot_isolation, serializable]
+                  isolation_warning:
+                    type: string
+                    description: |
+                      Present when isolation_level is snapshot_isolation.
+                      Indicates potential write-skew/phantom-read anomalies and recommends serializable for strict ACID invariants.
                   shards:
                     type: array
                     items: { type: string }

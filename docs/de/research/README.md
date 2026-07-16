@@ -1,6 +1,6 @@
 # Research Documentation
 
-**Stand:** 10. Februar 2026  
+**Stand:** 6. April 2026  
 **Version:** 1.1  
 **Kategorie:** 🔬 Research & Scientific Findings
 
@@ -36,6 +36,12 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 | [**ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md**](ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md) | 🇩🇪 DE | **Adaptive Learning Core:** Mechanismen für Selbstoptimierung & Kernanalyse, autonomes Self-Tuning, Performance-Metriken-Erfassung, Rollback-Strategien | ✅ Complete |
 | [**HYBRID_KONZEPT_THEMISDB.md**](HYBRID_KONZEPT_THEMISDB.md) | 🇩🇪 DE | **Hybrid-Konzept:** Kombination von regelbasierten und ML-basierten Ansätzen für ThemisDB, Architektur, Implementierung, Phasen-Rollout | ✅ Complete |
 
+### Query Languages & API Design
+
+| Dokument | Sprache | Beschreibung | Status |
+|----------|---------|--------------|--------|
+| [**GRAPHQL_AQL_RESEARCH.md**](../../../research/GRAPHQL_AQL_RESEARCH.md) | 🇩🇪 DE | **GraphQL und AQL in ThemisDB:** Architekturvergleich, gemeinsame Query-Pipeline, Resolver-Pushdown, Schema-Mapping und Forschungsfragen | ✅ Complete |
+
 **Inhalt:**
 - 25+ Research Papers aus SIGMOD, VLDB, OSDI, NeurIPS
 - 10 Optimierungsbereiche (LSM-Trees, Vector Search, Graph Processing, etc.)
@@ -54,6 +60,7 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 - **NEU (Feb 2026):** Hybrid-Konzept für ThemisDB - Kombination von Regel- und ML-basierten Ansätzen
 - **NEU (Feb 2026):** Vollständige Hybrid-Architektur mit ThemisDB-spezifischer Implementierung
 - **NEU (Feb 2026):** Phasenweise Rollout-Strategie (Shadow → Conservative → Balanced → Aggressive)
+- **NEU (Mai 2026):** GraphQL/AQL-Forschungsartikel im Root-Research-Verzeichnis mit Query-Pipeline- und Pushdown-Perspektive
 - Vollständige Referenzen und Zitationen
 
 ---

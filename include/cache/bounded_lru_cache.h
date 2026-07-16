@@ -1,31 +1,27 @@
+/**
+ * @file bounded_lru_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bounded_lru_cache.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     187                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bounded_lru_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 183
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1031 Implement comprehensive res... (2026-03-11) | #1034 Implement BoundedLRUCache t... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_CACHE_BOUNDED_LRU_CACHE_H
-#define THEMISDB_CACHE_BOUNDED_LRU_CACHE_H
+#pragma once
 
 #include <chrono>
 #include <memory>
@@ -35,6 +31,7 @@
 #include <unordered_map>
 #include <atomic>
 #include <nlohmann/json.hpp>
+#include "cache/cache_interfaces.h"
 
 namespace themis {
 namespace cache {
@@ -48,7 +45,7 @@ namespace cache {
  * - TTL-based expiration
  * - Hit/miss statistics for monitoring
  */
-class BoundedLRUCache {
+class BoundedLRUCache : public ICacheBackend<std::string, nlohmann::json> {
 public:
     /**
      * @brief Configuration for the cache
@@ -75,28 +72,44 @@ public:
      * @param key Key to retrieve
      * @return Value if present and not expired, nullopt otherwise
      */
-    std::optional<nlohmann::json> get(const std::string& key);
+    std::optional<nlohmann::json> get(const std::string& key) override;
     
     /**
-     * @brief Put value with TTL
-     * @param key Key to store
-     * @param value Value to store
+     * @brief Put value with optional per-entry TTL
+     * @param key        Cache key
+     * @param value      Value to store
+     * @param ttl_seconds Per-entry TTL in seconds; 0 = use Config::ttl
      */
-    void put(const std::string& key, const nlohmann::json& value);
+    void put(const std::string& key, nlohmann::json value, uint32_t ttl_seconds = 0) override;
     
     /**
      * @brief Remove entry from cache
      * @param key Key to remove
      * @return true if entry was found and removed
      */
-    bool remove(const std::string& key);
-    
+    bool remove(const std::string& key) override;
+
+    /**
+     * @brief Check whether @p key is present (and not expired) without touching LRU order.
+     */
+    bool contains(const std::string& key) const override;
+
+    /**
+     * @brief Clear all entries
+     */
+    void clear() override;
+
+    /**
+     * @brief Return the number of entries currently in the cache.
+     */
+    std::size_t size() const override;
+
     /**
      * @brief Evict LRU entry if at capacity
      * @return true if an entry was evicted
      */
     bool evictLRUIfNeeded();
-    
+
     /**
      * @brief Cache statistics
      */
@@ -117,11 +130,6 @@ public:
      * @return Current statistics
      */
     Statistics getStatistics() const;
-    
-    /**
-     * @brief Clear all entries
-     */
-    void clear();
     
 private:
     /**
@@ -184,5 +192,3 @@ private:
 
 } // namespace cache
 } // namespace themis
-
-#endif // THEMISDB_CACHE_BOUNDED_LRU_CACHE_H

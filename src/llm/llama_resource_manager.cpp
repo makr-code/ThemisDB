@@ -1,30 +1,32 @@
+/**
+ * @file llama_resource_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_resource_manager.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     478                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_resource_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 473
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=6, L=0
+ * PR History (last 5): #522 Implement llama.cpp resourc... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #1025 Fix llama.cpp integration: ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llama_resource_manager.h"
-// #include "acceleration/backend_registry.h"  // TODO: Missing file
+// BackendRegistry is declared in acceleration/compute_backend.h.
+// The original source had a commented-out include for the nonexistent
+// "acceleration/backend_registry.h" — fixed to use the correct header.
+#include "acceleration/compute_backend.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <filesystem>
+#include <llama.h>
 
 namespace themis {
 namespace llm {
@@ -479,3 +481,4 @@ bool BackendAwareLlamaModelHandle::prefetchToGPU() {
 
 } // namespace llm
 } // namespace themis
+

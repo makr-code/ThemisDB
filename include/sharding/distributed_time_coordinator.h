@@ -1,30 +1,26 @@
+/**
+ * @file distributed_time_coordinator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_time_coordinator.h                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     141                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_time_coordinator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H
-#define THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include <memory>
@@ -52,20 +48,17 @@ public:
      * @brief Time interval with logical timestamp and uncertainty
      */
     struct TimeInterval {
-        int64_t logical_timestamp;  // Log index-based timestamp
-        int64_t uncertainty_ns;      // Uncertainty in nanoseconds
-        int64_t system_time_ns;      // Local system time (for reference)
+        int64_t logical_timestamp;  ///< Consensus-log-based logical timestamp.
+        int64_t uncertainty_ns;     ///< Uncertainty bound in nanoseconds.
+        int64_t system_time_ns;     ///< Local wall-clock time for diagnostics/reference.
     };
     
     /**
      * @brief Configuration for DistributedTimeCoordinator
      */
     struct Config {
-        // Uncertainty added to each timestamp (default: 1ms = 1e6 ns)
-        int64_t base_uncertainty_ns = 1000000;
-        
-        // Enable sync-free mode (all timestamps from log index)
-        bool use_log_index_only = true;
+        int64_t base_uncertainty_ns = 1000000;  ///< Added uncertainty (default 1 ms).
+        bool use_log_index_only = true;         ///< Use consensus log index as sole ordering source.
     };
     
     /**
@@ -78,6 +71,10 @@ public:
         const Config& config
     );
 
+    /**
+     * @brief Construct coordinator with default configuration.
+     * @param consensus Shared consensus module instance.
+     */
     explicit DistributedTimeCoordinator(
         std::shared_ptr<ConsensusModule> consensus
     );
@@ -135,10 +132,8 @@ public:
     uint64_t getCurrentLogIndex() const;
 
 private:
-    std::shared_ptr<ConsensusModule> consensus_;
-    Config config_;
+    std::shared_ptr<ConsensusModule> consensus_;  ///< Consensus backend used for log-index timestamps.
+    Config config_;                               ///< Runtime time-coordination configuration.
 };
 
 } // namespace themisdb::sharding
-
-#endif // THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H

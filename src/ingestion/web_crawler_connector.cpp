@@ -1,25 +1,21 @@
+/**
+ * @file web_crawler_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=2, H=2, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            web_crawler_connector.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     664                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fa57b59d1  2026-02-28  audit(ingestion): fix SSRF security gap, add missing docs... ║
-    • 70c88bde2  2026-02-28  feat(ingestion): implement web crawler and sitemap ingest... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: web_crawler_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 650
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=2, H=4, M=9, L=0
+ * PR History (last 5): #3137 feat(ingestion): WebCrawler... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_CURL is defined the full libcurl-backed implementation
@@ -123,7 +119,7 @@ static std::string normaliseUrl(const std::string& url) {
 }
 
 /// Extracts plain text from an HTML body by stripping tags.
-/// Handles basic entity decoding for &amp; &lt; &gt; &quot; &apos;
+/// Handles basic entity decoding for &amp; < > &quot; &apos;
 static std::string htmlToText(const std::string& html) {
     std::string text;
     text.reserve(html.size() / 2);
@@ -166,8 +162,8 @@ static std::string htmlToText(const std::string& html) {
         // Basic entity decoding
         if (c == '&') {
             if (i + 4 < html.size() && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == "&lt;")   { text += '<'; i += 3; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == "&gt;")   { text += '>'; i += 3; continue; }
+            if (i + 3 < html.size() && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
+            if (i + 3 < html.size() && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
             if (i + 5 < html.size() && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
             if (i + 5 < html.size() && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
         }
@@ -364,7 +360,7 @@ static bool isDisallowedByRobots(const std::string& url,
 
 #ifdef THEMIS_ENABLE_CURL
 // libcurl write callback
-static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+static size_t webCrawlerWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(ptr, size * nmemb);
     return size * nmemb;
@@ -590,7 +586,7 @@ private:
         std::string response_body;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_USERAGENT, user_agent_.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, webCrawlerWriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
                          static_cast<long>(retry_config_.timeout_ms));
@@ -609,7 +605,6 @@ private:
         if (res != CURLE_OK) return {0, {}};
         return {static_cast<int>(http_code), std::move(response_body)};
 #else
-        (void)url;
         return {0, {}};
 #endif
     }
@@ -663,3 +658,5 @@ void WebCrawlerConnector::setHttpFetchForTesting(HttpFetchFn fn) {
 
 } // namespace ingestion
 } // namespace themis
+
+

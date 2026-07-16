@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_temporal_aggregator.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     368                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_temporal_aggregator.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -45,7 +31,10 @@ static void insertAt(SystemVersionedTable& t,
                      double value,
                      int extra_sleep_ms = 1) {
     std::this_thread::sleep_for(std::chrono::milliseconds(extra_sleep_ms));
-    t.insert(key, {{"value", value}});
+    if (!t.insert(key, {{"value", value}})) {
+        // Key already exists as current row; create a new version.
+        t.update(key, {{"value", value}});
+    }
 }
 
 class TemporalAggregatorTest : public ::testing::Test {
@@ -368,4 +357,359 @@ TEST_F(TemporalAggregatorTest, AggregateResult_ToJson) {
     EXPECT_EQ(j["window_end"],   2000);
     EXPECT_DOUBLE_EQ(j["value"].get<double>(), 42.0);
     EXPECT_EQ(j["record_count"], 5);
+}
+
+TEST_F(TemporalAggregatorTest, AggregateResult_ToJson_WithGroupValues) {
+    AggregateResult r;
+    r.window_start  = 1000;
+    r.window_end    = 2000;
+    r.value         = 7.0;
+    r.record_count  = 1;
+    r.group_values  = {{"region", "us-east"}, {"product", "widget"}};
+
+    auto j = r.toJson();
+    EXPECT_TRUE(j.contains("group_values"));
+    EXPECT_EQ(j["group_values"]["region"], "us-east");
+    EXPECT_EQ(j["group_values"]["product"], "widget");
+}
+
+// ============================================================================
+// GROUP BY aggregations
+// ============================================================================
+
+TEST_F(TemporalAggregatorTest, GroupBy_COUNT_TwoGroups) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"region", "us"}, {"value", 10}});
+    t.insert("k2", {{"region", "eu"}, {"value", 20}});
+    t.insert("k3", {{"region", "us"}, {"value", 30}});
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 10'000;
+    spec.func           = AggregateFunc::COUNT;
+    spec.group_by_fields = {"region"};
+
+    auto groups = agg.aggregateByGroup(t, spec, base, after);
+
+    // Expect exactly two groups
+    ASSERT_EQ(groups.size(), 2u);
+
+    size_t us_count = 0, eu_count = 0;
+    for (auto& [key, windows] : groups) {
+        for (const auto& w : windows) {
+            if (w.group_values.count("region") &&
+                w.group_values.at("region") == "us") {
+                us_count += w.record_count;
+            } else if (w.group_values.count("region") &&
+                       w.group_values.at("region") == "eu") {
+                eu_count += w.record_count;
+            }
+        }
+    }
+    EXPECT_EQ(us_count, 2u);
+    EXPECT_EQ(eu_count, 1u);
+}
+
+TEST_F(TemporalAggregatorTest, GroupBy_SUM_GroupValuesPopulated) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"cat", "A"}, {"price", 5.0}});
+    t.insert("k2", {{"cat", "B"}, {"price", 15.0}});
+    t.insert("k3", {{"cat", "A"}, {"price", 25.0}});
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type     = WindowType::TUMBLING;
+    spec.window_size_ms  = 10'000;
+    spec.func            = AggregateFunc::SUM;
+    spec.measure_field   = "price";
+    spec.group_by_fields = {"cat"};
+
+    auto groups = agg.aggregateByGroup(t, spec, base, after);
+    ASSERT_EQ(groups.size(), 2u);
+
+    double sum_a = 0.0;
+    for (auto& [key, windows] : groups) {
+        if (!windows.empty() &&
+            windows[0].group_values.count("cat") &&
+            windows[0].group_values.at("cat") == "A") {
+            for (const auto& w : windows) sum_a += w.value;
+        }
+    }
+    EXPECT_DOUBLE_EQ(sum_a, 30.0);
+}
+
+TEST_F(TemporalAggregatorTest, GroupBy_EmptyGroupByFields_ReturnsUnnamedGroup) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"value", 1}});
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 10'000;
+    spec.func           = AggregateFunc::COUNT;
+    // group_by_fields intentionally empty
+
+    auto groups = agg.aggregateByGroup(t, spec, base, after);
+    ASSERT_EQ(groups.size(), 1u);
+    // The single group key is the empty string
+    EXPECT_TRUE(groups.count(""));
+}
+
+TEST_F(TemporalAggregatorTest, GroupBy_InvalidRange_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"region", "us"}});
+
+    AggregationSpec spec;
+    spec.window_type     = WindowType::TUMBLING;
+    spec.window_size_ms  = 1000;
+    spec.func            = AggregateFunc::COUNT;
+    spec.group_by_fields = {"region"};
+
+    Timestamp ts = now();
+    auto groups = agg.aggregateByGroup(t, spec, ts, ts); // from == to
+    EXPECT_TRUE(groups.empty());
+
+    groups = agg.aggregateByGroup(t, spec, ts + 1000, ts); // from > to (1000ms = spec.window_size_ms)
+    EXPECT_TRUE(groups.empty());
+}
+
+// ============================================================================
+// Snapshot aggregations
+// ============================================================================
+
+TEST_F(TemporalAggregatorTest, Snapshots_COUNT_StableRow) {
+    // Insert a single row that is current across the whole query range.
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"value", 1}});
+
+    // Query 5 snapshots of 1-second intervals far in the future
+    // so the row is still current at every tick.
+    Timestamp from = now() + 100'000; // 100 seconds in the future
+    Timestamp to   = from + 5000;     // 5 seconds range
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 1000;
+    spec.func           = AggregateFunc::COUNT;
+
+    auto results = agg.aggregateSnapshots(t, spec, from, to);
+    ASSERT_EQ(results.size(), 5u);
+    for (const auto& r : results) {
+        EXPECT_EQ(r.record_count, 1u); // row visible at every snapshot
+    }
+}
+
+TEST_F(TemporalAggregatorTest, Snapshots_SUM_VisibleAtSnapshotTime) {
+    SystemVersionedTable t{"tbl", "n"};
+    // Insert a row with sys_start < from so it is visible throughout
+    Timestamp now_ts = now();
+    t.insert("k1", {{"value", 7.0}});
+
+    Timestamp from = now_ts + 100'000;
+    Timestamp to   = from + 3000;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 1000;
+    spec.func           = AggregateFunc::SUM;
+    spec.measure_field  = "value";
+
+    auto results = agg.aggregateSnapshots(t, spec, from, to);
+    ASSERT_EQ(results.size(), 3u);
+    for (const auto& r : results) {
+        EXPECT_DOUBLE_EQ(r.value, 7.0);
+    }
+}
+
+TEST_F(TemporalAggregatorTest, Snapshots_EmptyTable_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 1000;
+    spec.func           = AggregateFunc::COUNT;
+
+    Timestamp from = now();
+    Timestamp to   = from + 3000;
+
+    auto results = agg.aggregateSnapshots(t, spec, from, to);
+    // No versions in the table → empty result vector.
+    EXPECT_TRUE(results.empty());
+}
+
+// ============================================================================
+// Trend analysis
+// ============================================================================
+
+TEST_F(TemporalAggregatorTest, AnalyzeTrend_IncreasingValues) {
+    // Insert rows with monotonically increasing values spread over time
+    // so the trend slope should be positive.
+    // Sleep between inserts to guarantee distinct millisecond sys_start values
+    // (matching the convention used by Session window tests in this file).
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"v", 10.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    t.insert("k2", {{"v", 20.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    t.insert("k3", {{"v", 30.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    t.insert("k4", {{"v", 40.0}});
+    Timestamp after = now() + 1;
+
+    auto trend = agg.analyzeTrend(t, "v", base, after);
+
+    EXPECT_GT(trend.slope, 0.0);  // increasing values → positive slope
+    EXPECT_GE(trend.sample_count, 1u);
+    EXPECT_GE(trend.r_squared, 0.0);
+    EXPECT_LE(trend.r_squared, 1.0);
+    EXPECT_EQ(trend.period_start, base);
+    EXPECT_EQ(trend.period_end,   after);
+}
+
+TEST_F(TemporalAggregatorTest, AnalyzeTrend_EmptyTable_ReturnsZeroTrend) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    auto trend = agg.analyzeTrend(t, "v", base, base + 1000);
+
+    EXPECT_EQ(trend.slope,        0.0);
+    EXPECT_EQ(trend.intercept,    0.0);
+    EXPECT_EQ(trend.r_squared,    0.0);
+    EXPECT_EQ(trend.sample_count, 0u);
+}
+
+TEST_F(TemporalAggregatorTest, AnalyzeTrend_ToJson) {
+    // Only checks that the returned JSON object contains the required keys;
+    // no timing-dependent assertions needed here.
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"v", 5.0}});
+    t.insert("k2", {{"v", 10.0}});
+    Timestamp after = now() + 1;
+
+    auto trend = agg.analyzeTrend(t, "v", base, after);
+    auto j = trend.toJson();
+
+    EXPECT_TRUE(j.contains("slope"));
+    EXPECT_TRUE(j.contains("intercept"));
+    EXPECT_TRUE(j.contains("r_squared"));
+    EXPECT_TRUE(j.contains("sample_count"));
+    EXPECT_TRUE(j.contains("period_start"));
+    EXPECT_TRUE(j.contains("period_end"));
+}
+
+// ── FIRST_VALUE / LAST_VALUE tests (FLV-01..05) ──────────────────────────────
+
+// Inserts rows in a known order using wall-clock time (1 ms sleep between
+// each insert so that sys_start timestamps are strictly increasing).
+
+TEST_F(TemporalAggregatorTest, FLV_01_FirstValue_Tumbling_ReturnsEarliestInWindow) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+
+    // Insert in ascending sys_start order: 10.0 first, 20.0, 30.0 last.
+    insertAt(t, "k1", 10.0);  // earliest
+    insertAt(t, "k1", 20.0);
+    insertAt(t, "k1", 30.0);  // latest
+
+    Timestamp end = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = end - base + 10;
+    spec.func           = AggregateFunc::FIRST_VALUE;
+    spec.measure_field  = "value";
+
+    auto results = agg.aggregate(t, spec, base, end);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_DOUBLE_EQ(results[0].value, 10.0);
+}
+
+TEST_F(TemporalAggregatorTest, FLV_02_LastValue_Tumbling_ReturnsLatestInWindow) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+
+    insertAt(t, "k1", 10.0);
+    insertAt(t, "k1", 20.0);
+    insertAt(t, "k1", 30.0);  // latest
+
+    Timestamp end = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = end - base + 10;
+    spec.func           = AggregateFunc::LAST_VALUE;
+    spec.measure_field  = "value";
+
+    auto results = agg.aggregate(t, spec, base, end);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_DOUBLE_EQ(results[0].value, 30.0);
+}
+
+TEST_F(TemporalAggregatorTest, FLV_03_FirstLast_SingleRow_ReturnSameValue) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("solo", {{"value", 42.0}});
+    Timestamp end = now() + 1;
+
+    for (auto func : {AggregateFunc::FIRST_VALUE, AggregateFunc::LAST_VALUE}) {
+        AggregationSpec spec;
+        spec.window_type    = WindowType::TUMBLING;
+        spec.window_size_ms = end - base + 10;
+        spec.func           = func;
+        spec.measure_field  = "value";
+
+        auto results = agg.aggregate(t, spec, base, end);
+        ASSERT_GE(results.size(), 1u);
+        EXPECT_DOUBLE_EQ(results[0].value, 42.0);
+    }
+}
+
+TEST_F(TemporalAggregatorTest, FLV_04_FirstValue_EmptyWindow_ResultIsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp future_base = now() + 100000;  // far in the future — no rows
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 100;
+    spec.func           = AggregateFunc::FIRST_VALUE;
+    spec.measure_field  = "value";
+
+    auto results = agg.aggregate(t, spec, future_base, future_base + 100);
+    // No rows → either empty result list or value=0.0
+    for (const auto& r : results) {
+        EXPECT_DOUBLE_EQ(r.value, 0.0);
+    }
+}
+
+TEST_F(TemporalAggregatorTest, FLV_05_FirstValue_Differs_From_LastValue) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+
+    insertAt(t, "k1", 100.0);  // earliest
+    insertAt(t, "k1", 200.0);  // latest
+
+    Timestamp end = now() + 1;
+    int64_t win = end - base + 10;
+
+    AggregationSpec spec_first;
+    spec_first.window_type    = WindowType::TUMBLING;
+    spec_first.window_size_ms = win;
+    spec_first.func           = AggregateFunc::FIRST_VALUE;
+    spec_first.measure_field  = "value";
+
+    AggregationSpec spec_last = spec_first;
+    spec_last.func = AggregateFunc::LAST_VALUE;
+
+    auto first_res = agg.aggregate(t, spec_first, base, end);
+    auto last_res  = agg.aggregate(t, spec_last,  base, end);
+
+    ASSERT_EQ(first_res.size(), 1u);
+    ASSERT_EQ(last_res.size(),  1u);
+    EXPECT_DOUBLE_EQ(first_res[0].value, 100.0);
+    EXPECT_DOUBLE_EQ(last_res[0].value,  200.0);
 }

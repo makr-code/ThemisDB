@@ -1,0 +1,42 @@
+[
+  {
+    "product_id": "P001",
+    "name": "Solar Panel 400W",
+    "description": "High-efficiency monocrystalline solar panel with 400W peak power. Perfect for residential installations.",
+    "price": 249.99,
+    "category": "Solar Energy",
+    "stock": 150
+  },
+  {
+    "product_id": "P002",
+    "name": "Wind Turbine Compact",
+    "description": "Portable 1kW wind turbine for small renewable energy generation. Ideal for rural areas.",
+    "price": 899.99,
+    "category": "Wind Energy",
+    "stock": 25
+  },
+  {
+    "product_id": "P003",
+    "name": "Battery Storage 10kWh",
+    "description": "Lithium-ion battery storage 10kWh with BMS. Enables energy independence and backup power.",
+    "price": 4999.00,
+    "category": "Energy Storage",
+    "stock": 40
+  },
+  {
+    "product_id": "P004",
+    "name": "Smart Energy Monitor",
+    "description": "Real-time energy monitoring device. Track consumption, optimize usage, reduce bills with ML insights.",
+    "price": 199.00,
+    "category": "Smart Grid",
+    "stock": 300
+  },
+  {
+    "product_id": "P005",
+    "name": "EV Charging Station DC",
+    "description": "Fast DC charging station for electric vehicles. Supports CHAdeMO and CCS protocols.",
+    "price": 5499.00,
+    "category": "EV Charging",
+    "stock": 15
+  }
+]

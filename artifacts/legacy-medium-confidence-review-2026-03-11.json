@@ -1,0 +1,437 @@
+{
+  "total": 41,
+  "note": "Medium-confidence: issue createdAt im Legacy-Zeitraum, aber kein verlinkter PR mit mergedAt. Manuell pruefen.",
+  "proposals": [
+    {
+      "number": 391,
+      "title": "[RPC-P1] Implement Infrastructure & Basic CRUD Operations",
+      "current_milestone": "v1.6.0",
+      "suggested_legacy_milestone": "v1.4.0",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-12",
+      "module": "rpc-p1",
+      "linked_prs": []
+    },
+    {
+      "number": 392,
+      "title": "[RPC-P2] Implement Query Execution (AQL, Vector, Graph, Geo, TimeSeries)",
+      "current_milestone": "v1.7.0",
+      "suggested_legacy_milestone": "v1.4.0",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-12",
+      "module": "rpc-p2",
+      "linked_prs": []
+    },
+    {
+      "number": 393,
+      "title": "[RPC-P3] Implement Transaction Support (Begin/Commit/Abort with 2PC)",
+      "current_milestone": "v1.8.0",
+      "suggested_legacy_milestone": "v1.4.0",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-12",
+      "module": "rpc-p3",
+      "linked_prs": []
+    },
+    {
+      "number": 394,
+      "title": "[RPC-P4] Implement Advanced Features & Production Polish",
+      "current_milestone": "v1.9.0",
+      "suggested_legacy_milestone": "v1.4.0",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-12",
+      "module": "rpc-p4",
+      "linked_prs": []
+    },
+    {
+      "number": 396,
+      "title": "[DOCS] Create Tools Documentation Hub and Usage Guides",
+      "current_milestone": "v2.1.0",
+      "suggested_legacy_milestone": "v1.4.0",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-12",
+      "module": "docs",
+      "linked_prs": []
+    },
+    {
+      "number": 398,
+      "title": "[DOCS] Plugin System: Clarify Development Status and Document Architecture",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.0",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-12",
+      "module": "docs",
+      "linked_prs": []
+    },
+    {
+      "number": 478,
+      "title": "[Chapter 27 CP2] Debugging Techniques, Log Analysis, Performance Issues, Cluster Problems, Recovery Procedures",
+      "current_milestone": "v1.9.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-14",
+      "module": "chapter 27 cp2",
+      "linked_prs": []
+    },
+    {
+      "number": 480,
+      "title": "[Chapter 29 CP2] OLAP Analytics, Process Mining, Event Logs, BI Integration, Performance Analysis",
+      "current_milestone": "v2.1.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-14",
+      "module": "chapter 29 cp2",
+      "linked_prs": []
+    },
+    {
+      "number": 482,
+      "title": "[Chapter 31 CP2] API Protocols, REST/gRPC/GraphQL, HTTP/2, WebSocket, Gateway Integration",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-14",
+      "module": "chapter 31 cp2",
+      "linked_prs": []
+    },
+    {
+      "number": 537,
+      "title": "[LoRa] Complete LoRa Storage Backend for ThemisDB and S3",
+      "current_milestone": "v1.5.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-15",
+      "module": "lora",
+      "linked_prs": []
+    },
+    {
+      "number": 538,
+      "title": "[LoRa] Implement Training Control (Stop, Checkpoint, Resume)",
+      "current_milestone": "v1.6.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-15",
+      "module": "lora",
+      "linked_prs": []
+    },
+    {
+      "number": 559,
+      "title": "[QLoRA] Paged Optimizers Implementation",
+      "current_milestone": "v1.6.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-16",
+      "module": "qlora",
+      "linked_prs": []
+    },
+    {
+      "number": 561,
+      "title": "[QLoRA] GGUF Format Support",
+      "current_milestone": "v1.8.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-16",
+      "module": "qlora",
+      "linked_prs": []
+    },
+    {
+      "number": 565,
+      "title": "[LoRA Phase 10.5] Implement Multi-GPU Training Support",
+      "current_milestone": "v2.2.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-16",
+      "module": "lora phase 10.5",
+      "linked_prs": []
+    },
+    {
+      "number": 579,
+      "title": "[Security] Complete Cryptographic Verification for LoRA Adapters",
+      "current_milestone": "v1.5.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-16",
+      "module": "security",
+      "linked_prs": []
+    },
+    {
+      "number": 580,
+      "title": "[Performance] Implement Async Model Loading (v1.3.0)",
+      "current_milestone": "v1.6.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-16",
+      "module": "performance",
+      "linked_prs": []
+    },
+    {
+      "number": 581,
+      "title": "ZÃ¤hlung der C++ Codezeilen im ThemisDB Projekt",
+      "current_milestone": "v1.7.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-16",
+      "module": null,
+      "linked_prs": []
+    },
+    {
+      "number": 586,
+      "title": "[LoRa] Refactor lora_storage_service_themisdb.cpp - Remove Code Duplication",
+      "current_milestone": "v2.2.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-17",
+      "module": "lora",
+      "linked_prs": []
+    },
+    {
+      "number": 587,
+      "title": "[LoRa] Implement LoRa Adapter Application to Loaded Models",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-17",
+      "module": "lora",
+      "linked_prs": []
+    },
+    {
+      "number": 600,
+      "title": "[GPU Training] Implement Gradient Checkpointing for Large Model Training",
+      "current_milestone": "v1.5.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-17",
+      "module": "gpu training",
+      "linked_prs": []
+    },
+    {
+      "number": 602,
+      "title": "[GPU Training] Dynamic Batch Size Adaptation for Optimal GPU Utilization",
+      "current_milestone": "v1.7.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-17",
+      "module": "gpu training",
+      "linked_prs": []
+    },
+    {
+      "number": 603,
+      "title": "[GPU Training] FlashAttention-Style Memory-Efficient LoRA Computation",
+      "current_milestone": "v1.8.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-17",
+      "module": "gpu training",
+      "linked_prs": []
+    },
+    {
+      "number": 670,
+      "title": "Review und Aktualisierung der Link-Validierung & Diagramm-Konvertierung im Kompendium-Build",
+      "current_milestone": "v2.2.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-19",
+      "module": null,
+      "linked_prs": []
+    },
+    {
+      "number": 671,
+      "title": "LLM- und Security-Dokumentation aus ./docs/ vollstÃ¤ndig ins Kompendium integrieren",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-19",
+      "module": null,
+      "linked_prs": []
+    },
+    {
+      "number": 692,
+      "title": "[Error Handling] Phase 4: Complete Full Migration",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-19",
+      "module": "error handling",
+      "linked_prs": [
+        711
+      ]
+    },
+    {
+      "number": 728,
+      "title": "[Distributed Training] Implement Byzantine Fault Detection for Gradient Validation",
+      "current_milestone": "v1.7.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-20",
+      "module": "distributed training",
+      "linked_prs": []
+    },
+    {
+      "number": 730,
+      "title": "[Distributed Training] Integrate ShardRouter and ShardTopology for Inter-Shard Communication",
+      "current_milestone": "v1.9.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-20",
+      "module": "distributed training",
+      "linked_prs": []
+    },
+    {
+      "number": 731,
+      "title": "[Error Handling] Meta: Complete Migration to tl::expected",
+      "current_milestone": "v2.0.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-20",
+      "module": "error handling",
+      "linked_prs": []
+    },
+    {
+      "number": 734,
+      "title": "[Phase 4] LLM/LoRA Migration",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-20",
+      "module": "phase 4",
+      "linked_prs": []
+    },
+    {
+      "number": 833,
+      "title": "Dokumentation: Struktur, Navigation, Use Cases, Tutorials, KB",
+      "current_milestone": "v1.7.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-22",
+      "module": null,
+      "linked_prs": [
+        972
+      ]
+    },
+    {
+      "number": 880,
+      "title": "Test Report Publishing fÃ¼r alle CI-Workflows implementieren",
+      "current_milestone": "v2.2.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-25",
+      "module": null,
+      "linked_prs": [
+        1000
+      ]
+    },
+    {
+      "number": 881,
+      "title": "Zentralisiertes Benchmark-Dokumentation & Test-Runbook erstellen",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-25",
+      "module": null,
+      "linked_prs": [
+        1001
+      ]
+    },
+    {
+      "number": 902,
+      "title": "RegelmÃ¤ÃŸiges C++ Audit: Suche nach Speicherlecks, Race Conditions, Alignment-Fehlern, Strict Aliasing, Type Punning & Best Practices",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-25",
+      "module": null,
+      "linked_prs": [
+        998
+      ]
+    },
+    {
+      "number": 916,
+      "title": "[RoPE] GPU-Accelerated Rotation with CUDA/HIP Kernels",
+      "current_milestone": "v1.6.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-27",
+      "module": "rope",
+      "linked_prs": []
+    },
+    {
+      "number": 919,
+      "title": "[RoPE] REST API Endpoints for Configuration and Operations",
+      "current_milestone": "v1.9.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-27",
+      "module": "rope",
+      "linked_prs": []
+    },
+    {
+      "number": 922,
+      "title": "[RESEARCH]",
+      "current_milestone": "v2.2.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-27",
+      "module": "research",
+      "linked_prs": []
+    },
+    {
+      "number": 923,
+      "title": "[PQ RESEARCH]",
+      "current_milestone": "v2.3.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-27",
+      "module": "pq research",
+      "linked_prs": [
+        985
+      ]
+    },
+    {
+      "number": 938,
+      "title": "[P1] BlobTransferHandler: Checkpoint Resume-Logik ergÃ¤nzen",
+      "current_milestone": "v1.7.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-28",
+      "module": "p1",
+      "linked_prs": [
+        970
+      ]
+    },
+    {
+      "number": 939,
+      "title": "[P1] PluginSecurity: Platform Code-Signing & ZertifikatsprÃ¼fung vollstÃ¤ndig umsetzen",
+      "current_milestone": "v1.8.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-28",
+      "module": "p1",
+      "linked_prs": [
+        969
+      ]
+    },
+    {
+      "number": 940,
+      "title": "[P1] WiscKey: Garbage Collection/Log Compaction implementieren",
+      "current_milestone": "v1.9.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-28",
+      "module": "p1",
+      "linked_prs": [
+        967
+      ]
+    },
+    {
+      "number": 943,
+      "title": "[FEATURE] Ausbau moralischer/ethischer KI-Module & Best-Practice-Integration LoRa-Training in ThemisDB",
+      "current_milestone": "v2.2.0",
+      "suggested_legacy_milestone": "v1.4.1",
+      "confidence": "medium",
+      "reason": "issue createdAt 2026-01-28",
+      "module": "feature",
+      "linked_prs": [
+        966
+      ]
+    }
+  ],
+  "generated": "2026-03-11"
+}

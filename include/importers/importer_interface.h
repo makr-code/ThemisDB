@@ -1,30 +1,28 @@
+/**
+ * @file importer_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            importer_interface.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     730                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8638d7889  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
-    • 001179174  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
-    • 47845c7e2  2026-02-27  audit: add S3 HTTP route, fix stub annotations, add API t... ║
-    • aeea5e199  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: importer_interface.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 891
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3081 feat(importers): S3-compati... (2026-03-12) | #3014 [importers] Add SQLite impo... (2026-03-12) | #2813 [importers] Implement confl... (2026-03-12) | #2594 [importers] Streaming impor... (2026-03-12) | #3774 feat(importers): PostgreSQL... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 #include <string>
 #include <vector>
@@ -36,6 +34,8 @@
 #include <mutex>
 #include <future>
 #include <chrono>
+#include <optional>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -153,6 +153,82 @@ enum class ConflictStrategy {
     ERROR       ///< Abort the batch on the first conflict
 };
 
+// ============================================================================
+// Entity Linking / MDM configuration (used by ImportOptions)
+// ============================================================================
+
+/**
+ * @brief Per-collection semantic matching settings for the MDM pipeline.
+ */
+struct CollectionMatchingConfig {
+    /// Field names to use for deterministic (exact-key) matching.
+    std::vector<std::string> primary_key_fields;
+
+    /// Field names with unique constraints (secondary deterministic matching).
+    std::vector<std::string> unique_fields;
+
+    /// Semantic matching algorithm per field: "jaro_winkler", "levenshtein",
+    /// "soundex", "email", "phone".
+    std::map<std::string, std::string> field_algorithms;
+
+    /// Per-field weight for the semantic matching score (0.0–1.0).
+    std::map<std::string, double> field_weights;
+
+    /// Minimum overall semantic confidence to accept a match (default: 0.85).
+    double semantic_threshold = 0.85;
+};
+
+/**
+ * @brief Configuration for the MDM entity-linking phase of an import.
+ *
+ * When @c enabled is true, the importer runs an MDM workflow after the
+ * standard import phase to match, link, and deduplicate incoming entities
+ * against existing ones in ThemisDB.
+ *
+ * The strategy and thresholds can be overridden per collection via
+ * @c collection_configs.
+ */
+struct EntityLinkingConfig {
+    /// When false the MDM workflow is completely bypassed (default).
+    bool enabled = false;
+
+    /// Matching strategy: 0 = DETERMINISTIC_FIRST, 1 = SEMANTIC_FIRST,
+    /// 2 = WEIGHTED_ENSEMBLE.  Stored as int to avoid pulling in
+    /// entity_matcher.h from this header.
+    int strategy = 0; // DETERMINISTIC_FIRST
+
+    double deterministic_threshold = 1.0;
+    double semantic_threshold      = 0.85;
+
+    /// Resolution policy: 0–5 maps to ResolutionPolicy enum values.
+    int resolution_policy = 4; // RICHEST_MERGE
+
+    /// Automatically resolve conflicts without queuing for manual review.
+    bool auto_resolve_conflicts = false;
+
+    /// Create reverse links (target → source) in addition to forward links.
+    bool create_reverse_links = true;
+
+    /// Fields that are never overwritten during golden-record creation.
+    std::vector<std::string> protected_fields;
+
+    /// Per-collection overrides for matching algorithm and thresholds.
+    std::map<std::string, CollectionMatchingConfig> collection_configs;
+
+    json toJson() const {
+        return json{
+            {"enabled",                  enabled},
+            {"strategy",                 strategy},
+            {"deterministic_threshold",  deterministic_threshold},
+            {"semantic_threshold",       semantic_threshold},
+            {"resolution_policy",        resolution_policy},
+            {"auto_resolve_conflicts",   auto_resolve_conflicts},
+            {"create_reverse_links",     create_reverse_links},
+            {"protected_fields",         protected_fields}
+        };
+    }
+};
+
 /**
  * @brief Import Statistics
  */
@@ -171,6 +247,9 @@ struct ImportStats {
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
     size_t custom_types_processed = 0;  ///< CREATE TYPE statements parsed (enum / composite)
+    size_t foreign_keys_preserved = 0;  ///< Foreign key constraints extracted and preserved (v2.0)
+    size_t relationships_processed = 0; ///< Foreign key constraints mapped to graph relationships
+    size_t indexes_processed = 0;       ///< CREATE INDEX statements parsed
     
     double elapsed_seconds = 0.0;
 
@@ -181,6 +260,16 @@ struct ImportStats {
     std::vector<std::string> warnings;
     std::vector<std::string> errors;
     std::vector<ImportError> structured_errors;  ///< Machine-readable error list
+
+    // MDM / Entity-linking counters (populated when entity_linking is enabled)
+    size_t entities_linked    = 0;  ///< Entity links created by the MDM phase
+    size_t golden_records     = 0;  ///< Golden records produced by the MDM phase
+    size_t mdm_reviews_needed = 0;  ///< Entities queued for manual review
+
+    /// Optional sample of imported entities (used by MDM post-processing).
+    /// Populated by the importer when entity_linking.enabled is true and
+    /// the batch fits within the configured sample limit.
+    json sample_entities = json::array();
     
     json toJson() const {
         json err_arr = json::array();
@@ -199,12 +288,18 @@ struct ImportStats {
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
             {"custom_types_processed", custom_types_processed},
+            {"foreign_keys_preserved", foreign_keys_preserved},
+            {"relationships_processed", relationships_processed},
+            {"indexes_processed", indexes_processed},
             {"elapsed_seconds", elapsed_seconds},
             {"is_schema_only", is_schema_only},
             {"is_data_only", is_data_only},
             {"warnings", warnings},
             {"errors", errors},
-            {"structured_errors", err_arr}
+            {"structured_errors", err_arr},
+            {"entities_linked",    entities_linked},
+            {"golden_records",     golden_records},
+            {"mdm_reviews_needed", mdm_reviews_needed}
         };
     }
 };
@@ -445,6 +540,42 @@ struct ImportOptions {
     /// sampled → no schema is built → per-row validation is skipped).
     size_t schema_sample_rows = 100;
 
+    // -------------------------------------------------------------------------
+    // v2.0: Foreign Key Preservation
+    // -------------------------------------------------------------------------
+
+    /// When true (default), the importer parses and preserves FOREIGN KEY
+    /// constraints from the dump.  Extracted FK metadata is:
+    ///   - stored in the per-table schema (getSourceSchema returns "foreign_keys")
+    ///   - counted in ImportStats::foreign_keys_preserved
+    ///   - embedded in entity JSON as "_foreign_keys" array when present
+    ///
+    /// Setting this to false restores v1.x behaviour (FKs silently skipped).
+    bool preserve_foreign_keys = true;
+    // Foreign Key / Relationship preservation (v2.0)
+    // -------------------------------------------------------------------------
+
+    /// When true, Foreign Key constraints are extracted and preserved as
+    /// ThemisDB graph relationships during import.  Default: true.
+    bool preserve_relationships = true;
+
+    /// When true, all FK references are validated before data import starts.
+    /// Missing target tables produce structured UNKNOWN_TABLE errors.  Default: false.
+    bool validate_references = false;
+
+    /// How FK constraints are mapped to graph edges.
+    ///   "auto"   – detect cardinality automatically (default)
+    ///   "manual" – no automatic mapping; user configures via API
+    ///   "skip"   – do not create graph edges for FKs
+    std::string relationship_mapping_mode = "auto";
+    // Entity linking / Master Data Management (MDM)
+    // -------------------------------------------------------------------------
+
+    /// When entity_linking.enabled is true, a post-import MDM workflow
+    /// matches, links, and deduplicates the imported entities against
+    /// existing ThemisDB records using the configured strategy.
+    EntityLinkingConfig entity_linking;
+
     json toJson() const {
         return json{
             {"dry_run", dry_run},
@@ -470,7 +601,12 @@ struct ImportOptions {
             {"protected_fields", protected_fields},
             {"merge_depth", merge_depth},
             {"validate_schema", validate_schema},
-            {"schema_sample_rows", schema_sample_rows}
+            {"schema_sample_rows", schema_sample_rows},
+            {"preserve_foreign_keys", preserve_foreign_keys},
+            {"preserve_relationships", preserve_relationships},
+            {"validate_references", validate_references},
+            {"relationship_mapping_mode", relationship_mapping_mode},
+            {"entity_linking", entity_linking.toJson()}
         };
     }
 };
@@ -499,6 +635,7 @@ enum class ImportStatus {
  */
 struct ImportHandle {
     std::string id;           ///< Unique job ID (UUID-like string)
+    std::string source_path;  ///< Source file path used for this job (v2.0)
 
     // Live progress – updated by the worker thread
     std::atomic<size_t> current_records{0};    ///< Records processed so far
@@ -596,6 +733,41 @@ public:
         return out;
     }
 
+    std::optional<json> getJsonSnapshot(const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return handle->toJson();
+    }
+
+    std::optional<std::pair<bool, json>> getRunningAndJsonSnapshot(
+        const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return std::make_pair(handle->running.load(), handle->toJson());
+    }
+
+    std::optional<std::string> getSourcePathSnapshot(const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return handle->source_path;
+    }
+
+    std::vector<json> allJsonSnapshots() const {
+        auto handles = all();
+        std::vector<json> out;
+        out.reserve(handles.size());
+        for (const auto& handle : handles) {
+            out.push_back(handle->toJson());
+        }
+        return out;
+    }
+
     void remove(const std::string& id) {
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_.erase(id);
@@ -618,20 +790,20 @@ public:
     /**
      * @brief Get importer name
      */
-    virtual const char* getName() const = 0;
+    [[nodiscard]] virtual const char* getName() const = 0;
     
     /**
      * @brief Get supported source types
      * @return List of supported types (e.g., "postgresql", "mysql", "csv")
      */
-    virtual std::vector<std::string> getSupportedTypes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> getSupportedTypes() const = 0;
     
     /**
      * @brief Initialize importer with configuration
      * @param config Configuration JSON
      * @return true if initialized successfully
      */
-    virtual bool initialize(const std::string& config) = 0;
+    [[nodiscard]] virtual bool initialize(const std::string& config) = 0;
     
     /**
      * @brief Validate source before import
@@ -639,7 +811,7 @@ public:
      * @param errors Output: validation errors
      * @return true if source is valid
      */
-    virtual bool validateSource(const std::string& source_path, std::vector<std::string>& errors) = 0;
+    [[nodiscard]] virtual bool validateSource(const std::string& source_path, std::vector<std::string>& errors) = 0;
     
     /**
      * @brief Import data from source (synchronous)
@@ -648,7 +820,7 @@ public:
      * @param progress_callback Optional progress callback
      * @return Import statistics
      */
-    virtual ImportStats importData(
+    [[nodiscard]] virtual ImportStats importData(
         const std::string& source_path,
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
@@ -708,7 +880,7 @@ public:
      * @param options Import options
      * @return Shared handle; call `cancel()` then inspect `future` when done.
      */
-    virtual std::shared_ptr<ImportHandle> importDataAsync(
+    [[nodiscard]] virtual std::shared_ptr<ImportHandle> importDataAsync(
         const std::string& source_path,
         const ImportOptions& options
     ) = 0;
@@ -723,7 +895,7 @@ public:
      * @param source_path Path to source
      * @return Schema as JSON
      */
-    virtual json getSourceSchema(const std::string& source_path) = 0;
+    [[nodiscard]] virtual json getSourceSchema(const std::string& source_path) = 0;
 };
 
 } // namespace importers

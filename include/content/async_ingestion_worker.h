@@ -1,25 +1,21 @@
+/**
+ * @file async_ingestion_worker.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_ingestion_worker.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     418                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b01dffc8f  2026-02-26  feat(content): Implement chunked streaming ingestion for ... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_ingestion_worker.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 450
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4296 feat(content): YAML config ... (2026-03-16) | #1052 Implement GAP-005: Content ... (2026-03-11) | #1220 Add HuggingFace Dataset Ing... (2026-03-11) | #1221 feat: Plugin-based multi-so... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +28,7 @@
 #include <atomic>
 #include <memory>
 #include <functional>
+#include <future>
 #include <map>
 #include <sstream>
 #include <nlohmann/json.hpp>
@@ -85,13 +82,14 @@ struct IngestionJob {
     json config;       // Job-specific configuration
     std::string user_context;
     
-    // Progress tracking
-    int64_t created_at;
-    int64_t started_at;
-    int64_t completed_at;
-    int total_items;     // Total files to process
-    int processed_items; // Files processed so far
-    float progress;      // 0.0 to 1.0
+    // Progress tracking — explicit zero defaults prevent undefined behaviour when a
+    // creation path sets only a subset of these fields (CON-014).
+    int64_t created_at = 0;      ///< Unix-ms timestamp when the job was enqueued
+    int64_t started_at = 0;      ///< Unix-ms timestamp when a worker picked up the job (0 = not started)
+    int64_t completed_at = 0;    ///< Unix-ms timestamp when the job finished (0 = not completed)
+    int total_items = 0;         ///< Total files to process (−1 = unknown until extracted)
+    int processed_items = 0;     ///< Files processed so far
+    float progress = 0.0f;       ///< Normalised progress in [0.0, 1.0]
     
     // Result
     std::string error_message;
@@ -100,6 +98,9 @@ struct IngestionJob {
     
     // Callback (optional)
     std::function<void(const IngestionJob&)> on_complete;
+
+    // Promise for ingestStream() callers (optional)
+    std::shared_ptr<std::promise<std::string>> completion_promise;
 };
 
 /**
@@ -107,10 +108,13 @@ struct IngestionJob {
  */
 struct AsyncIngestionConfig {
     size_t worker_thread_count = 2;       // Number of parallel workers
-    size_t max_queue_size = 1000;         // Max jobs in queue
+    size_t max_queue_size = 1000;         // Absolute queue capacity (hard limit)
+    size_t max_queue_depth = 1000;        // Back-pressure threshold: callers block when exceeded
     bool enable_auto_cleanup = true;      // Auto-cleanup completed jobs
     int64_t job_retention_ms = 3600000;   // Keep completed jobs for 1 hour
     bool verbose_logging = false;
+    size_t batch_size = 64;              // Number of items processed per batch
+    int retry_attempts = 3;              // Max retries on transient failures
 };
 
 /**
@@ -135,7 +139,7 @@ public:
         AsyncIngestionConfig config = AsyncIngestionConfig{}
     );
     
-    ~AsyncIngestionWorker();
+    ~AsyncIngestionWorker() noexcept;
     
     /**
      * @brief Start the worker threads
@@ -181,6 +185,9 @@ public:
      * wait_for_completion = true; for async jobs the caller is
      * responsible for the stream lifetime.
      *
+     * Blocks the calling thread when the queue depth reaches
+     * config_.max_queue_depth until a worker dequeues a job.
+     *
      * @param stream       Input stream positioned at the start of the content
      * @param filename     Original filename (for MIME detection and metadata)
      * @param mime_type    Optional MIME type override
@@ -189,6 +196,31 @@ public:
      * @return Job ID for tracking
      */
     std::string submitStream(
+        std::istream& stream,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
+    /**
+     * @brief Submit a stream for async ingestion with back-pressure
+     *
+     * Blocks the calling thread when the queue depth reaches
+     * config_.max_queue_depth until a worker dequeues a job.
+     * Returns a future that resolves to the primary ContentId
+     * (std::string) once the ingestion job completes.
+     *
+     * The stream must remain valid until the returned future is ready.
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename (for MIME detection and metadata)
+     * @param mime_type    Optional MIME type override
+     * @param user_context User context for auth/encryption
+     * @param config       Optional job configuration (chunk_size_bytes, etc.)
+     * @return std::future<std::string> resolving to the primary ContentId
+     */
+    std::future<std::string> ingestStream(
         std::istream& stream,
         const std::string& filename,
         const std::string& mime_type = "",
@@ -338,11 +370,13 @@ public:
      * 
      * @param source Source configuration
      * @param additional_config Optional additional configuration
+     * @param user_context Optional user context for audit attribution
      * @return Job ID for tracking
      */
     std::string submitSourceJob(
         const IngestionSource& source,
-        const json& additional_config = json::object()
+        const json& additional_config = json::object(),
+        const std::string& user_context = ""
     );
     
     /**
@@ -374,7 +408,8 @@ private:
     // Job queue
     std::queue<IngestionJob> job_queue_;
     std::mutex queue_mutex_;
-    std::condition_variable queue_cv_;
+    std::condition_variable queue_cv_;        // Signals workers when jobs are available
+    std::condition_variable backpressure_cv_; // Signals callers when queue has space
     
     // Job tracking
     std::map<std::string, IngestionJob> job_history_;
@@ -384,10 +419,17 @@ private:
     std::map<IngestionJobType, std::function<void(IngestionJob&)>> job_handlers_;
     std::mutex handlers_mutex_;
     
-    // Statistics
-    std::atomic<uint64_t> total_jobs_processed_;
-    std::atomic<uint64_t> total_jobs_failed_;
-    std::atomic<uint64_t> total_items_processed_;
+    // Statistics — initialised to 0 here for clarity; the constructor's member-
+    // initializer list duplicates these, but in-class defaults guard against any
+    // future delegating constructor that omits the initializer-list entry (CON-016).
+    std::atomic<uint64_t> total_jobs_processed_{0};
+    std::atomic<uint64_t> total_jobs_failed_{0};
+    std::atomic<uint64_t> total_items_processed_{0};
+
+    // Back-pressure metrics
+    std::atomic<uint64_t> total_backpressure_events_{0};  ///< Number of times a caller was blocked by back-pressure
+    std::atomic<uint64_t> queue_depth_high_watermark_{0}; ///< Peak queue depth observed since start
+    std::atomic<size_t>   inflight_count_{0};              ///< Jobs currently being processed (dequeued but not completed)
     
     // Plugin registry (NEW)
     std::map<std::string, std::shared_ptr<IngestionPlugin>> plugins_;

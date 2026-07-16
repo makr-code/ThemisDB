@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Report** – Verbesserungen für v1.3.0 beschreiben den Stand zu diesem Release.
+
 # ThemisDB v1.3.0 - Verbesserungsoptionen: ThemisDB-Spezifische Features
 
 **Erstellt:** 22. Dezember 2025  

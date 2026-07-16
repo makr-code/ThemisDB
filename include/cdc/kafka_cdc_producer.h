@@ -1,27 +1,21 @@
+/**
+ * @file kafka_cdc_producer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            kafka_cdc_producer.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a3f88599c  2026-02-27  Add Debezium-compatible change event envelope format with... ║
-    • 4c5109651  2026-02-26  Implement ICDCTransport interface; KafkaCDCProducer now i... ║
-    • a992f7ece  2026-02-25  Code audit: fix 6 gaps in KafkaCDCProducer implementation ║
-    • f5b8ef62f  2026-02-25  Implement Kafka-compatible CDC producer interface (KafkaC... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: kafka_cdc_producer.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 333
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4607 feat(cdc): register CDCKafk... (2026-04-13) | #3056 [cdc] Add Debezium-compatib... (2026-03-12) | #3045 [cdc] Implement ICDCTranspo... (2026-03-12) | #2849 [cdc] Kafka-compatible prod... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -273,6 +267,13 @@ private:
  *
  * All methods are inline no-ops so the rest of the codebase can reference
  * KafkaCDCProducer without introducing a Kafka dependency.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Preserve compile-time API compatibility without linking librdkafka.
+ * Activation: Compiled when THEMIS_ENABLE_KAFKA is not defined.
+ * Production Delta: start()/publish() delegate to injected fns when set;
+ *   otherwise return false and no CDC events are emitted to Kafka.
+ * Removal Plan: Keep as optional-build fallback; remove only if Kafka becomes a mandatory runtime dependency.
  */
 class KafkaCDCProducer : public ICDCTransport {
 public:
@@ -284,12 +285,57 @@ public:
     KafkaCDCProducer(const KafkaCDCProducer&) = delete;
     KafkaCDCProducer& operator=(const KafkaCDCProducer&) = delete;
 
-    bool start() override { return false; }  ///< No-op; returns false (Kafka not available).
-    void stop()  override {}
+    bool start() override {
+        StartFn fn;
+        { std::lock_guard<std::mutex> lk(s_start_fn_mutex_()); fn = s_start_fn_(); }
+        if (fn) { try { return fn(); } catch (...) { return false; } }
+        return false;
+    }
 
-    bool publish(const Changefeed::ChangeEvent& /*event*/) override { return false; }
+    void stop() override {}
+
+    bool publish(const Changefeed::ChangeEvent& event) override {
+        PublishFn fn;
+        { std::lock_guard<std::mutex> lk(s_publish_fn_mutex_()); fn = s_publish_fn_(); }
+        if (fn) { try { return fn(event); } catch (...) { return false; } }
+        return false;
+    }
 
     KafkaProducerStats getStats() const { return {}; }
+
+    // -----------------------------------------------------------------------
+    // Injectable bridge (STUB #98)
+    // -----------------------------------------------------------------------
+    /// Callback type for start(): return true when the Kafka producer has
+    /// started successfully.
+    using StartFn   = std::function<bool()>;
+    /// Callback type for publish(): return true when the event was accepted
+    /// by the Kafka producer.
+    using PublishFn = std::function<bool(const Changefeed::ChangeEvent&)>;
+
+    /// Register a start callback used by `start()` in non-Kafka builds.
+    /// Pass an empty `std::function` to revert to the always-false fallback.
+    /// Thread-safe.
+    static void setStartFn(StartFn fn) {
+        std::lock_guard<std::mutex> lk(s_start_fn_mutex_());
+        s_start_fn_() = std::move(fn);
+    }
+
+    /// Register a publish callback used by `publish()` in non-Kafka builds.
+    /// Pass an empty `std::function` to revert to the always-false fallback.
+    /// Thread-safe.
+    static void setPublishFn(PublishFn fn) {
+        std::lock_guard<std::mutex> lk(s_publish_fn_mutex_());
+        s_publish_fn_() = std::move(fn);
+    }
+
+private:
+    // Static storage via function-local statics so they are lazily initialised
+    // and avoid static-initialisation-order issues.
+    static std::mutex&   s_start_fn_mutex_()   { static std::mutex m; return m; }
+    static StartFn&      s_start_fn_()          { static StartFn f; return f; }
+    static std::mutex&   s_publish_fn_mutex_()  { static std::mutex m; return m; }
+    static PublishFn&    s_publish_fn_()         { static PublishFn f; return f; }
 };
 
 #endif // THEMIS_ENABLE_KAFKA

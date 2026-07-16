@@ -1,24 +1,21 @@
+/**
+ * @file module_signature_verifier.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_signature_verifier.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99408f61e  2026-03-01  feat: add standalone ModuleSignatureVerifier for Authenti... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_signature_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 282
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=5, L=0
+ * PR History (last 5): #3646 fix(themis): complete build... (2026-03-12) | #3407 feat(themis): standalone Au... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Authenticode (Windows) and GPG (Linux) signature verification for ThemisDB modules.
@@ -55,12 +52,12 @@ namespace modules {
 
 ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
     const std::string& modulePath,
-    const std::string& signaturePath)
+    [[maybe_unused]] const std::string& signaturePath)
 {
     ModuleSignatureVerificationResult result;
 
 #ifdef _WIN32
-    (void)signaturePath; // unused on Windows
+    // unused on Windows
     result.platform = "windows_authenticode";
     result.success  = verifyAuthenticodeSignature(modulePath, result.signerInfo);
     if (!result.success && result.signerInfo.empty()) {
@@ -293,3 +290,4 @@ bool ModuleSignatureVerifier::verifyGPGSignature(
 
 } // namespace modules
 } // namespace themis
+

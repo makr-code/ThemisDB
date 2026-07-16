@@ -10,6 +10,25 @@
 [submodule "llama.cpp"]
 	path = llama.cpp
 	url = https://github.com/ggerganov/llama.cpp.git
+[submodule "whisper.cpp"]
+	path = whisper.cpp
+	url = https://github.com/ggerganov/whisper.cpp.git
+[submodule "stable-diffusion.cpp"]
+	path = stable-diffusion.cpp
+	url = https://github.com/leejet/stable-diffusion.cpp.git
 [submodule "ffmpeg"]
 	path = ffmpeg
 	url = https://github.com/FFmpeg/FFmpeg.git
+[submodule "external/GIUF"]
+	path = external/GIUF
+	url = https://github.com/makr-code/GIUF.git
+
+[submodule "tools/semgrep"]
+	path = tools/semgrep
+	url = https://github.com/semgrep/semgrep.git
+	shallow = true
+
+[submodule "tools/codeql"]
+	path = tools/codeql
+	url = https://github.com/github/codeql-cli-binaries.git
+	shallow = true

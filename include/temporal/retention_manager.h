@@ -1,23 +1,20 @@
+/**
+ * @file retention_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            retention_manager.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     227                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: retention_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -42,6 +39,7 @@
 #include <optional>
 #include <string>
 #include <thread>
+#include <tuple>
 #include <vector>
 
 namespace themisdb {
@@ -51,7 +49,62 @@ namespace temporal {
 enum class RetentionType {
     TIME_BASED,          ///< Keep history younger than a given duration
     VERSION_COUNT_BASED, ///< Keep only the N most-recent versions per key
+    STORAGE_BASED,       ///< Keep historical data up to a maximum total size
     CUSTOM               ///< User-supplied predicate
+};
+
+/**
+ * @brief Minimal, comparable representation of a single retention rule.
+ *
+ * `RetentionPolicy` is the full configuration object.  `RetentionRule`
+ * distils a policy down to its essential discriminant so that rules can be
+ * stored in ordered containers (`std::set`, `std::map`) and compared for
+ * equality without dragging in the non-comparable `should_keep` predicate.
+ *
+ * Field semantics per `RetentionType`:
+ *   - `TIME_BASED`:           only `period` is relevant.
+ *   - `VERSION_COUNT_BASED`:  only `max_versions` is relevant.
+ *   - `STORAGE_BASED`:        only `max_bytes` is relevant.
+ *   - `CUSTOM`:               only `tag` is relevant (predicate is not stored).
+ *
+ * Ordering (for `std::map` / `std::set`):
+ *   Lexicographic on `(type, period.count(), max_versions, max_bytes, tag)`.
+ */
+struct RetentionRule {
+    RetentionType             type{RetentionType::TIME_BASED};
+    std::chrono::milliseconds period{0};       ///< TIME_BASED: retention window
+    size_t                    max_versions{0}; ///< VERSION_COUNT_BASED: history depth
+    uint64_t                  max_bytes{0};    ///< STORAGE_BASED: max historical bytes
+    std::string               tag;            ///< Compliance / identifier label
+
+    /**
+     * @brief Convenience factory: create a TIME_BASED rule.
+     */
+    static RetentionRule timeBased(std::chrono::milliseconds p,
+                                   std::string compliance_tag = {}) noexcept {
+        return {RetentionType::TIME_BASED, p, 0, 0, std::move(compliance_tag)};
+    }
+
+    /**
+     * @brief Convenience factory: create a VERSION_COUNT_BASED rule.
+     */
+    static RetentionRule versionCount(size_t n,
+                                      std::string compliance_tag = {}) noexcept {
+        return {RetentionType::VERSION_COUNT_BASED, std::chrono::milliseconds{0},
+                n, 0, std::move(compliance_tag)};
+    }
+
+    /**
+     * @brief Convenience factory: create a STORAGE_BASED rule.
+     */
+    static RetentionRule storageBased(uint64_t max_b,
+                                      std::string compliance_tag = {}) noexcept {
+        return {RetentionType::STORAGE_BASED, std::chrono::milliseconds{0},
+                0, max_b, std::move(compliance_tag)};
+    }
+
+    bool operator==(const RetentionRule& rhs) const noexcept;
+    bool operator<(const RetentionRule& rhs)  const noexcept;
 };
 
 /**
@@ -67,9 +120,37 @@ struct RetentionPolicy {
     // --- VERSION_COUNT_BASED ---
     size_t max_versions_per_key{10};
 
+    // --- STORAGE_BASED ---
+    /// Maximum total bytes of historical (non-current) versions for the table.
+    /// When total historical storage exceeds this limit the oldest versions are
+    /// removed first.  0 means unlimited (no storage-based enforcement).
+    uint64_t max_storage_bytes{0};
+
     // --- CUSTOM ---
     /// Return true to keep the version, false to delete it.
     std::function<bool(const VersionedDocument&)> should_keep;
+
+    // --- Compliance ---
+    /// Regulatory label for this policy (e.g. "GDPR", "HIPAA").
+    /// Used as the archive_tag fallback (prefixed with the table name so that
+    /// getArchivedRecords("<table>") can still locate the records) and
+    /// propagated to ArchivedRecord::archive_tag when archive_before_delete is set.
+    std::string compliance_tag;
+
+    /// Minimum age a version must reach before it may be deleted by this
+    /// policy.  Versions younger than this are always kept regardless of the
+    /// primary retention type.  Zero means no minimum (default).
+    std::chrono::milliseconds minimum_retention_period{0};
+
+    // --- Incremental enforcement ---
+    /// Maximum number of versions deleted in a single enforcement run.
+    /// 0 means unlimited (delete all eligible versions in one pass).
+    size_t incremental_batch_size{0};
+
+    // --- Retry ---
+    /// How many times to retry enforcement when errors are encountered.
+    /// 0 means no retry (single attempt only).
+    int max_retries{0};
 
     // --- Archiving ---
     bool archive_before_delete{false};
@@ -83,6 +164,7 @@ struct RetentionStats {
     size_t versions_examined{0};
     size_t versions_deleted{0};
     size_t versions_archived{0};
+    uint64_t space_freed_bytes{0};        ///< Estimated bytes freed by deletions
     std::chrono::milliseconds execution_time{0};
     std::vector<std::string> errors;
 
@@ -90,6 +172,7 @@ struct RetentionStats {
         return {{"versions_examined", versions_examined},
                 {"versions_deleted", versions_deleted},
                 {"versions_archived", versions_archived},
+                {"space_freed_bytes", space_freed_bytes},
                 {"execution_time_ms", execution_time.count()},
                 {"errors", errors}};
     }
@@ -205,6 +288,7 @@ private:
     // Cumulative counters
     size_t total_deleted_{0};
     size_t total_archived_{0};
+    uint64_t total_space_freed_bytes_{0};
 
     mutable std::mutex mutex_;
 

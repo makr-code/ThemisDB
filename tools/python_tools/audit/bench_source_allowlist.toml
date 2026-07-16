@@ -1,0 +1,109 @@
+# ThemisDB Bench-Source Allowlist
+# =================================
+#
+# This file lists bench_*.cpp source files that are explicitly permitted to
+# be absent from a given build profile without causing CI to fail.
+#
+# Format
+# ------
+# Each entry is a line with the benchmark stem followed by an optional reason:
+#
+#   bench_<name>  # <reason>
+#
+# TOML key=value syntax is also accepted:
+#
+#   bench_<name> = "<reason>"
+#
+# Rules for adding an entry
+# -------------------------
+# Only add a benchmark to this allowlist when at least one of the following
+# conditions is met:
+#
+#   GPU_ONLY        The benchmark requires specialised GPU hardware
+#                   (CUDA, HIP, Vulkan compute) that is not available on
+#                   standard CI runners.  The CMake gate is controlled by
+#                   THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP / THEMIS_ENABLE_VULKAN.
+#
+#   PLATFORM        The benchmark is platform-specific (e.g. ARM SIMD, DPDK,
+#                   Windows-only, Linux-only) and cannot be built on all
+#                   operating systems used by the CI matrix.
+#
+#   EXPERIMENTAL    The benchmark is a work-in-progress that is not yet wired
+#                   into the CMake build.  It MUST be removed from this list
+#                   once the corresponding add_executable() entry is added.
+#
+#   THIRD_PARTY     The benchmark requires a third-party library that is
+#                   intentionally not installed in the standard CI environment
+#                   (e.g. llama.cpp model weights, Whisper weights, RAID
+#                   hardware).
+#
+#   DEPRECATED      The source exists for historical reference but is no longer
+#                   built.  Schedule removal from the repository within one
+#                   minor release cycle.
+#
+# Reviewing entries
+# -----------------
+# Every entry SHOULD be reviewed when a new release milestone is cut.
+# Entries with reason EXPERIMENTAL must be actioned (wired or deleted) before
+# the corresponding feature is marked as PRODUCTION-READY.
+#
+# CI integration
+# --------------
+# The guard script reads this file automatically when it is present at
+# tools/bench_source_allowlist.toml.  Pass a different path with:
+#
+#   python3 tools/check_bench_targets.py --allowlist path/to/allowlist.toml
+#
+# To temporarily disable allowlist filtering and see ALL gaps, run:
+#
+#   python3 tools/check_bench_targets.py --allowlist /dev/null
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# GPU_ONLY – require CUDA / HIP hardware not available on standard CI runners
+# ────────────────────────────────────────────────────────────────────────────
+
+bench_cuda_vs_cpu = "GPU_ONLY: requires CUDA device; built only in gpu-enabled profile"
+bench_gpu_vector_index = "GPU_ONLY: requires CUDA/HIP; built only in gpu-enabled profile"
+bench_active_vram_allocator = "GPU_ONLY: VRAM allocation benchmarks require physical GPU"
+bench_acceleration_dispatch = "GPU_ONLY: multi-backend dispatch requires at least one GPU backend"
+
+# CMake gate: THEMIS_ENABLE_CUDA and/or THEMIS_ENABLE_HIP
+bench_fused_kernels = "GPU_ONLY: fused CUDA/HIP compute kernels; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_gpu_backends = "GPU_ONLY: CUDA/HIP/Vulkan backend comparison; requires at least one GPU backend"
+bench_gpu_training_cycle = "GPU_ONLY: GPU training-cycle throughput; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_mixed_precision_perf = "GPU_ONLY: FP16/BF16 mixed-precision; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_multi_gpu_scaling = "GPU_ONLY: multi-GPU scale-out; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_lora_gpu = "GPU_ONLY: LoRA GPU inference; requires THEMIS_ENABLE_GPU"
+bench_vulkan_lora = "GPU_ONLY: Vulkan LoRA compute; requires THEMIS_ENABLE_GPU and THEMIS_ENABLE_VULKAN"
+bench_fused_lora_kernels = "GPU_ONLY: fused LoRA CUDA/HIP kernels; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# PLATFORM – platform-specific; cannot build on all CI OS targets
+# ────────────────────────────────────────────────────────────────────────────
+
+bench_arm_simd = "PLATFORM: ARM SIMD intrinsics; only built on AArch64 runners"
+bench_arm_memory = "PLATFORM: ARM memory bandwidth; only built on AArch64 runners"
+bench_docker_raid = "PLATFORM: requires Docker + RAID block devices; not in standard CI"
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# THIRD_PARTY – require external model weights / hardware not in CI
+# ────────────────────────────────────────────────────────────────────────────
+
+bench_llama_cpp_inference = "THIRD_PARTY: requires llama.cpp model weights (THEMIS_BENCH_LLAMA_MODEL_PATH)"
+bench_whisper_transcription = "THIRD_PARTY: requires Whisper model weights"
+bench_voice_assistant = "THIRD_PARTY: requires voice assistant model + audio hardware"
+bench_image_analysis = "THIRD_PARTY: requires image-analysis model artefacts"
+bench_image_analysis_latency = "THIRD_PARTY: requires image-analysis model artefacts"
+bench_video_embedding = "THIRD_PARTY: requires video codec libraries not in CI environment"
+
+# CMake gate: THEMIS_ENABLE_LLM (requires llama.cpp runtime / model weights)
+bench_backend_comparison = "THIRD_PARTY: LLM+GPU inference backend comparison; requires THEMIS_ENABLE_LLM and GPU"
+bench_data_transfer = "THIRD_PARTY: LLM data-transfer pipeline; requires THEMIS_ENABLE_LLM"
+bench_gpu_vram_allocation = "THIRD_PARTY: LLM VRAM allocation patterns; requires THEMIS_ENABLE_LLM"
+bench_llm_inference_performance = "THIRD_PARTY: LLM inference throughput; requires THEMIS_ENABLE_LLM and model weights"
+bench_lora_auto_binding = "THIRD_PARTY: LoRA auto-binding; requires THEMIS_ENABLE_LLM"
+bench_multi_gpu_lora_advanced = "THIRD_PARTY: multi-GPU LoRA advanced; requires THEMIS_ENABLE_LLM and GPU"
+bench_multi_lora_fusion = "THIRD_PARTY: multi-LoRA fusion; requires THEMIS_ENABLE_LLM"

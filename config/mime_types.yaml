@@ -49,14 +49,54 @@ policies:
       max_size: 10485760  # 10 MB
     - mime_type: image/svg+xml
       max_size: 5242880  # 5 MB
+    - mime_type: image/tiff
+      max_size: 52428800  # 50 MB
+      description: TIFF (high-res scans, medical, satellite)
+    - mime_type: image/bmp
+      max_size: 20971520  # 20 MB
+    - mime_type: image/gif
+      max_size: 10485760  # 10 MB
+    - mime_type: image/heic
+      max_size: 20971520  # 20 MB
+      description: HEIC (Apple high-efficiency image)
+    - mime_type: image/heif
+      max_size: 20971520  # 20 MB
+    - mime_type: image/avif
+      max_size: 20971520  # 20 MB
+      description: AVIF (next-gen compressed image)
     
     # Documents
     - mime_type: application/pdf
       max_size: 52428800  # 50 MB
+    - mime_type: application/msword
+      max_size: 20971520  # 20 MB
+      description: Legacy Word .doc
     - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
       max_size: 20971520  # 20 MB
     - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
       max_size: 104857600  # 100 MB
+    - mime_type: application/vnd.ms-excel
+      max_size: 104857600  # 100 MB
+      description: Legacy Excel .xls
+    - mime_type: application/vnd.ms-powerpoint
+      max_size: 52428800  # 50 MB
+      description: Legacy PowerPoint .ppt
+    - mime_type: application/vnd.openxmlformats-officedocument.presentationml.presentation
+      max_size: 52428800  # 50 MB
+      description: PowerPoint .pptx
+    - mime_type: application/vnd.oasis.opendocument.text
+      max_size: 20971520  # 20 MB
+      description: OpenDocument Text .odt
+    - mime_type: application/vnd.oasis.opendocument.spreadsheet
+      max_size: 104857600  # 100 MB
+      description: OpenDocument Spreadsheet .ods
+    - mime_type: application/vnd.oasis.opendocument.presentation
+      max_size: 52428800  # 50 MB
+      description: OpenDocument Presentation .odp
+    - mime_type: application/rtf
+      max_size: 10485760  # 10 MB
+    - mime_type: application/epub+zip
+      max_size: 52428800  # 50 MB
     
     # Binary data formats
     - mime_type: application/x-parquet
@@ -74,6 +114,34 @@ policies:
       max_size: 524288000  # 500 MB
     - mime_type: application/x-tar
       max_size: 2147483648  # 2 GB
+    - mime_type: application/x-bzip2
+      max_size: 1073741824  # 1 GB
+    - mime_type: application/x-xz
+      max_size: 1073741824  # 1 GB
+    - mime_type: application/x-7z-compressed
+      max_size: 2147483648  # 2 GB
+    - mime_type: application/vnd.rar
+      max_size: 1073741824  # 1 GB
+
+    # Audio (for STT ingestion via THEMIS_ENABLE_VOICE_ASSISTANT)
+    - mime_type: audio/mpeg
+      max_size: 209715200  # 200 MB (MP3)
+      description: MP3 audio
+    - mime_type: audio/wav
+      max_size: 524288000  # 500 MB (uncompressed WAV can be large)
+      description: WAV audio
+    - mime_type: audio/ogg
+      max_size: 209715200  # 200 MB
+    - mime_type: audio/flac
+      max_size: 524288000  # 500 MB (lossless)
+    - mime_type: audio/mp4
+      max_size: 209715200  # 200 MB (M4A)
+    - mime_type: audio/aac
+      max_size: 209715200  # 200 MB
+    - mime_type: audio/opus
+      max_size: 104857600  # 100 MB (highly compressed)
+    - mime_type: audio/x-ms-wma
+      max_size: 209715200  # 200 MB
   
   # Blacklist: Explicitly denied MIME types (security risk)
   denied:
@@ -333,6 +401,31 @@ magic_signatures:
     mime_type: audio/wav
     offset: 0
     
+  # OGG
+  - signature: [0x4F, 0x67, 0x67, 0x53]  # OggS
+    mime_type: audio/ogg
+    offset: 0
+    
+  # FLAC
+  - signature: [0x66, 0x4C, 0x61, 0x43]  # fLaC
+    mime_type: audio/flac
+    offset: 0
+    
+  # MP4 / M4A (ftyp box at offset 4)
+  - signature: [0x66, 0x74, 0x79, 0x70]  # ftyp
+    mime_type: video/mp4
+    offset: 4
+    
+  # BZ2
+  - signature: [0x42, 0x5A, 0x68]  # BZh
+    mime_type: application/x-bzip2
+    offset: 0
+    
+  # XZ
+  - signature: [0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00]
+    mime_type: application/x-xz
+    offset: 0
+    
   # 7z
   - signature: [0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C]
     mime_type: application/x-7z-compressed
@@ -424,14 +517,21 @@ categories:
     - audio/ogg
     - audio/flac
     - audio/mp4
+    - audio/aac
+    - audio/opus
+    - audio/x-ms-wma
     
   document:
     - application/pdf
     - application/msword
     - application/vnd.openxmlformats-officedocument.wordprocessingml.document
-    - application/vnd.ms-excel
     - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - application/vnd.openxmlformats-officedocument.presentationml.presentation
+    - application/vnd.ms-excel
+    - application/vnd.ms-powerpoint
     - application/vnd.oasis.opendocument.text
+    - application/vnd.oasis.opendocument.spreadsheet
+    - application/vnd.oasis.opendocument.presentation
     - application/rtf
     - application/epub+zip
     
@@ -440,6 +540,7 @@ categories:
     - application/x-tar
     - application/gzip
     - application/x-bzip2
+    - application/x-xz
     - application/x-7z-compressed
     - application/vnd.rar
     

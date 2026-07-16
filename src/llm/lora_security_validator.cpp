@@ -1,26 +1,25 @@
+/**
+ * @file lora_security_validator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=1, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_security_validator.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1131                                           ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_security_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1200
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=5, M=16, L=0
+ * PR History (last 5): #4243 feat(llm): LoRACertificateS... (2026-03-15) | #3266 feat(llm): GGUF/AWQ/GPTQ qu... (2026-03-12) | #527 Implement RSA-SHA256 signat... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #782 Implement cryptographic ver... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_security_validator.h"
+#include "llm/lora_certificate_store.h"
 #include "llm/security/signature_verifier.h"
 #include "llm/llm_model_audit_logger.h"
 #include <spdlog/spdlog.h>
@@ -160,6 +159,8 @@ static bool validate_signature_format(
 
 LoRASecurityValidator::LoRASecurityValidator(const LoRASecurityConfig& config)
     : config_(config) {
+    cert_store_ = std::make_shared<LoRACertificateStore>(
+        config_.cert_store_path, config_.system_cert_store_path);
     spdlog::info("LoRASecurityValidator initialized with {} trusted signers", 
              config_.trusted_signers.size());
 }
@@ -244,9 +245,22 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     // Note: For full certificate chain validation, the certificate PEM needs to be provided
     // For now, we perform basic RSA-SHA256 verification if a certificate is available
     
-    // Check if we have a certificate PEM for the signer
-    // In a production system, this would be retrieved from a certificate store
-    std::string cert_pem;  // TODO: Retrieve from certificate store by fingerprint
+    // Retrieve certificate PEM from the certificate store by fingerprint.
+    // Fail closed: if the certificate is not found, the signature cannot be
+    // verified and we must not silently accept it.
+    std::string cert_pem;
+    {
+        auto found = cert_store_->lookupByFingerprint(cert_fingerprint);
+        if (found.has_value()) {
+            cert_pem = std::move(*found);
+        } else {
+            result.is_valid = false;
+            result.error_message = "SIGNATURE_UNVERIFIABLE: certificate not found in store for fingerprint " + cert_fingerprint;
+            spdlog::error("LoRa signature verification failed for {}: certificate not found for fingerprint {}",
+                         lora_path, cert_fingerprint);
+            return result;
+        }
+    }
     
     if (!cert_pem.empty()) {
         // Create signature verifier
@@ -275,19 +289,6 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
         
         spdlog::info("LoRa signature cryptographically verified for {}: signer={}", 
                  lora_path, result.signer_identity);
-    } else {
-        // Certificate not available - fall back to format validation only
-        // This provides basic security but not full cryptographic verification
-        spdlog::warn("LoRa signature: Certificate not available for {}, using format validation only", 
-                 cert_fingerprint);
-        
-        result.is_valid = true;
-        result.signer_identity = cert_fingerprint;
-        result.signature_algorithm = "RSA-SHA256 (format validation only)";
-        result.error_message = "Certificate not available - format validated only";
-        
-        spdlog::info("LoRa signature format validated for {}: signer={} (full verification requires certificate)", 
-                 lora_path, cert_fingerprint);
     }
     
     return result;
@@ -359,21 +360,41 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
         return result;
     }
     
-    // Perform cryptographic signature verification
-    // Check if we have a certificate PEM for the signer
-    // In a production system, this would be retrieved from a certificate store
-    // TODO: Implement certificate store integration for production deployments:
-    //       - Support X.509 certificate lookup by fingerprint
-    //       - Integrate with system certificate stores (e.g., /etc/ssl/certs)
-    //       - Consider HashiCorp Vault or HSM integration for enterprise deployments
+    // Perform cryptographic signature verification.
+    // Retrieve the certificate PEM from the certificate store (local or system).
+    // Priority: inline certificate in metadata > certificate store lookup.
+    // Fail closed: if no certificate is found, the signature cannot be verified.
     std::string cert_pem;
-    
+
     // Check if certificate is embedded in metadata
     if (metadata.contains("certificate")) {
         cert_pem = metadata["certificate"];
         spdlog::debug("Using embedded certificate for verification");
     }
-    
+
+    // If no inline certificate, look up from the certificate store
+    if (cert_pem.empty()) {
+        auto found = cert_store_->lookupByFingerprint(signer);
+        if (found.has_value()) {
+            cert_pem = std::move(*found);
+            spdlog::debug("Retrieved certificate from store for signer {}", signer);
+        } else {
+            result.is_valid = false;
+            result.error_message = "SIGNATURE_UNVERIFIABLE: certificate not found in store for fingerprint " + signer;
+            spdlog::error("Embedded LoRa signature verification failed for {}: certificate not found for signer {}",
+                         lora_path, signer);
+            if (audit_logger_) {
+                audit_logger_->logEvent(
+                    LLMModelAuditEventType::SIGNATURE_FAILED,
+                    lora_path,
+                    {{"error", result.error_message},
+                     {"signer_identity", signer}}
+                );
+            }
+            return result;
+        }
+    }
+
     if (!cert_pem.empty()) {
         // Create signature verifier
         themis::llm::security::RSA_SHA256_Verifier verifier;
@@ -423,19 +444,6 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
                  {"algorithm", result.signature_algorithm}}
             );
         }
-    } else {
-        // Certificate not available - fall back to format validation only
-        // This provides basic security but not full cryptographic verification
-        spdlog::warn("Embedded LoRa signature: Certificate not available for {}, using format validation only", 
-                 signer);
-        
-        result.is_valid = true;
-        result.signer_identity = signer;
-        result.signature_algorithm = "RSA-SHA256 (format validation only)";
-        result.error_message = "Certificate not available - format validated only";
-        
-        spdlog::info("Embedded LoRa signature format validated for {}: signer={} (full verification requires certificate)", 
-                 lora_path, signer);
     }
     
     return result;
@@ -530,7 +538,7 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
     
     // Calculate statistics
     float mean = calculateMean(weights);
-    float stddev = calculateStdDev(weights, mean);
+    calculateStdDev(weights, mean);
     
     // Find outliers
     auto outlier_indices = findOutliers(weights, config_.anomaly_threshold);
@@ -569,6 +577,7 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
 std::string LoRASecurityValidator::calculateChecksum(
     const std::string& lora_path,
     const std::string& algorithm) {
+    static_cast<void>(algorithm);
     
     std::vector<uint8_t> data;
     if (!loadLoRAFile(lora_path, data)) {
@@ -582,7 +591,7 @@ std::string LoRASecurityValidator::calculateChecksum(
     // Convert to hex string
     std::stringstream ss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
     }
     
     return ss.str();
@@ -619,6 +628,16 @@ void LoRASecurityValidator::setAuditLogger(const std::shared_ptr<LLMModelAuditLo
     spdlog::debug("LoRASecurityValidator: audit logger {}", audit_logger_ ? "attached" : "detached");
 }
 
+void LoRASecurityValidator::setCertificateStore(
+    std::shared_ptr<LoRACertificateStore> store) {
+    cert_store_ = std::move(store);
+    spdlog::debug("LoRASecurityValidator: certificate store replaced");
+}
+
+std::shared_ptr<LoRACertificateStore> LoRASecurityValidator::getCertificateStore() const {
+    return cert_store_;
+}
+
 // Helper methods
 bool LoRASecurityValidator::loadLoRAFile(const std::string& path, 
                                         std::vector<uint8_t>& data) {
@@ -635,13 +654,70 @@ bool LoRASecurityValidator::loadLoRAFile(const std::string& path,
 
 bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
                                              json& metadata) {
-    // TODO: Implement actual LoRa format parsing
-    // For now, assume JSON metadata at beginning
+    // ── Size guard: reject files that exceed max_adapter_size_bytes BEFORE
+    //    any heap allocation that processes file content, to prevent
+    //    integer-overflow-driven heap exhaustion (Phase 1.4 hardening).
+    const size_t max_bytes = config_.max_adapter_size_mb * 1024ULL * 1024ULL;
+    if (data.size() > max_bytes) {
+        spdlog::error("LoRASecurityValidator: file too large ({} bytes, max {})",
+                      data.size(), max_bytes);
+        return false;
+    }
+    if (data.empty()) {
+        spdlog::error("LoRASecurityValidator: empty file");
+        return false;
+    }
+
+    // ── Attempt 1: SafeTensors binary format ──────────────────────────────
+    // Magic bytes: SafeTensors starts with an 8-byte little-endian uint64
+    // that encodes the JSON header length.  The JSON header must contain at
+    // least one key and fit within the file.
+    if (data.size() >= 8) {
+        uint64_t header_size = 0;
+        for (int i = 0; i < 8; ++i) {
+            header_size |= (static_cast<uint64_t>(data[i]) << (i * 8));
+        }
+        // Sanity: header_size must be non-zero, not overflow the buffer, and
+        // not be implausibly large (reject files claiming a > 100 MiB header).
+        constexpr uint64_t kMaxHeaderSize = 100ULL * 1024 * 1024;
+        if (header_size > 0 && header_size <= kMaxHeaderSize &&
+            8 + header_size <= static_cast<uint64_t>(data.size())) {
+            try {
+                std::string hdr_str(data.begin() + 8,
+                                    data.begin() + 8 + static_cast<size_t>(header_size));
+                metadata = json::parse(hdr_str);
+                // Validate: must be a JSON object with at least one tensor entry
+                if (!metadata.empty() && metadata.is_object()) {
+                    spdlog::debug("LoRASecurityValidator: parsed SafeTensors metadata "
+                                  "({} tensors)", metadata.size());
+                    return true;
+                }
+            } catch (const json::exception&) {
+                // Not a valid SafeTensors header — fall through to JSON path
+            }
+        }
+    }
+
+    // ── Attempt 2: Pure JSON format (legacy / lightweight adapters) ───────
+    // Reject if the very first byte is not '{' to avoid expensive parsing of
+    // arbitrary binary data.
+    if (data[0] != '{') {
+        spdlog::error("LoRASecurityValidator: unrecognised file format "
+                      "(first byte 0x{:02x})", static_cast<unsigned>(data[0]));
+        return false;
+    }
     try {
-        std::string data_str(data.begin(), data.end());
-        metadata = json::parse(data_str);
+        // Parse only up to max_bytes bytes even for JSON to avoid quadratic
+        // blow-up from deeply nested or extremely long strings.
+        metadata = json::parse(data.begin(), data.end());
+        if (!metadata.is_object()) {
+            spdlog::error("LoRASecurityValidator: JSON root is not an object");
+            return false;
+        }
+        spdlog::debug("LoRASecurityValidator: parsed JSON LoRA metadata");
         return true;
-    } catch (...) {
+    } catch (const json::exception& e) {
+        spdlog::error("LoRASecurityValidator: JSON parse error: {}", e.what());
         return false;
     }
 }
@@ -839,9 +915,9 @@ bool LoRASecurityValidator::detectDistributionShift(
     float kurtosis = 0.0f;
     for (float w : weights) {
         float z = (w - mean) / stddev;
-        kurtosis += std::pow(z, 4);
+        kurtosis += static_cast<float>(std::pow(z, 4));
     }
-    kurtosis /= weights.size();
+    kurtosis /= static_cast<float>(weights.size());
     
     // Normal distribution has kurtosis ≈ 3
     // Significant deviation suggests anomaly
@@ -1023,7 +1099,7 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
     }
     
     // Calculate distance from baseline
-    float euclidean_dist = calculateEuclideanDistance(embedding, mean_embedding_);
+    calculateEuclideanDistance(embedding, mean_embedding_);
     float cosine_sim = calculateCosineSimilarity(embedding, mean_embedding_);
     
     // Normalize to 0-1 score
@@ -1132,3 +1208,4 @@ bool EmbeddingAnomalyDetector::isOutlier(const std::vector<float>& embedding) {
 
 } // namespace llm
 } // namespace themis
+

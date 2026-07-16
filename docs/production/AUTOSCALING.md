@@ -1,7 +1,7 @@
 # Auto-Scaling Guide for ThemisDB
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Target Audience:** DevOps Engineers, SREs, Platform Engineers
 
 ## Table of Contents
@@ -690,5 +690,5 @@ kubectl get events --sort-by='.lastTimestamp' | grep themisdb-hpa
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** April 2026  
 **Next Review:** April 2026

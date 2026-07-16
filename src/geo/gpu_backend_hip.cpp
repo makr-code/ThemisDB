@@ -1,27 +1,21 @@
+/**
+ * @file gpu_backend_hip.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_backend_hip.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     230                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d19a8878  2026-02-25  feat(geo): implement ROCm/HIP GPU backend for AMD hardwar... ║
-    • 7443ae323  2026-02-25  fix(geo): audit fixes - check device-to-host cudaMemcpy r... ║
-    • fd0e4c21c  2026-02-24  fix(geo): address code review - check cudaMemcpy return v... ║
-    • c1a4fe568  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_backend_hip.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 215
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=1, M=0, L=0
+ * PR History (last 5): #3622 feat(geo): Build system aud... (2026-03-12) | #2861 feat(geo): ROCm/HIP GPU bac... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // gpu_backend_hip.cpp — HIP implementation of GpuKernelDispatcher
@@ -229,3 +223,4 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
 
 } // namespace geo
 } // namespace themis
+

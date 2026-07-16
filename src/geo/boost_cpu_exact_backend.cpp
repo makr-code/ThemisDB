@@ -1,27 +1,21 @@
+/**
+ * @file boost_cpu_exact_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            boost_cpu_exact_backend.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     419                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e8e316290  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
-    • d7367e665  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
-    • c2e120dd0  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
-    • 3485a6c39  2026-02-22  fix(geo): replace M_PI with portable constant in boost ba... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: boost_cpu_exact_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 403
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=15, L=0
+ * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #4139 feat(geo): Implement CUDA a... (2026-03-12) | #2860 feat(geo): WGS-84 spherical... (2026-03-12) | #2855 feat(geo): ST_UNION and ST_... (2026-03-12) | #2853 [geo] Complete GeoJSON spec... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "geo/spatial_backend.h"
@@ -417,3 +411,5 @@ ISpatialComputeBackend* getBoostCpuBackend() {
 #endif // THEMIS_GEO_BOOST_BACKEND
 
 } } // namespace themis::geo
+
+

@@ -1,32 +1,27 @@
+/**
+ * @file secondary_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            secondary_index.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     486                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
-    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
-    • 03b4fb783  2026-02-25  feat(index): implement online index rebuild with minimal ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: secondary_index.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 507
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4587 feat(index): add IndexManag... (2026-04-13) | #4226 feat(index): Index Compress... (2026-03-15) | #3585 docs(scheduler): sync modul... (2026-03-12) | #2945 feat(index): Online index r... (2026-03-12) | #2943 feat(index): Partial/filter... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "storage/rocksdb_wrapper.h"
+#include "index/index_compression.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -37,6 +32,7 @@
 #include <unordered_map>
 #include <atomic>
 #include <cstdint>
+#include <memory>
 
 namespace themis {
 
@@ -63,7 +59,24 @@ public:
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
+    /// Index compression configuration (v1.7.0).
+    struct Config {
+        bool enable_compression = false;
+        index::CompressionAlgorithm compression_algorithm = index::CompressionAlgorithm::NONE;
+        int  compression_level  = 3; ///< Algorithm-specific level (e.g. 1–22 for ZSTD)
+        size_t transactional_put_batch_size = 64; ///< Default chunk size for putBatch() transactions.
+
+        // Fine-grained technique flags.  When enable_compression is true and
+        // these flags are not explicitly set to false, all techniques are active.
+        bool enable_prefix_compression = true;
+        bool enable_delta_encoding     = true;
+        bool enable_rle                = true;
+        bool enable_dict_encoding      = true;
+        bool enable_bloom_filter       = true;
+    };
+
     explicit SecondaryIndexManager(RocksDBWrapper& db);
+    explicit SecondaryIndexManager(RocksDBWrapper& db, const Config& config);
     
     // Phase 4: Set optional expression evaluator for advanced filtering
     void setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator);
@@ -232,9 +245,11 @@ public:
     Status put(std::string_view table, const BaseEntity& entity);
     Status erase(std::string_view table, std::string_view pk);
 
-    // v1.3.4: Batch Insert API - reduces commit overhead by batching multiple inserts into one WriteBatch
-    // Expected performance: 10-100x faster for bulk inserts (single commit for all entities)
+    // v1.3.4+: Batch Insert API - reduces commit overhead by batching inserts into configurable transaction chunks.
     Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities);
+    Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size);
+    void setTransactionalPutBatchSize(size_t batch_size);
+    size_t getTransactionalPutBatchSize() const { return transactional_put_batch_size_; }
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
@@ -356,6 +371,12 @@ public:
     QueryMetrics& getQueryMetrics() { return query_metrics_; }
     const QueryMetrics& getQueryMetrics() const { return query_metrics_; }
 
+    // Index compression (v1.7.0)
+    const Config& getCompressionConfig() const { return compression_config_; }
+    index::IndexCompressionCodec& getCompressionCodec() { return *compression_codec_; }
+    const index::IndexCompressionCodec& getCompressionCodec() const { return *compression_codec_; }
+    bool isCompressionEnabled() const { return compression_config_.enable_compression; }
+
 private:
     RocksDBWrapper& db_;
     RebuildMetrics rebuild_metrics_;
@@ -366,6 +387,11 @@ private:
     
     // Phase 2: Optional SpatialIndexManager for atomic geo index updates
     index::SpatialIndexManager* spatial_index_mgr_ = nullptr;
+
+    // Index compression (v1.7.0)
+    Config compression_config_;
+    std::unique_ptr<index::IndexCompressionCodec> compression_codec_;
+    size_t transactional_put_batch_size_ = 64;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3
@@ -394,6 +420,12 @@ private:
     static std::string makeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
     static std::string makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk);
     static std::string makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
+
+    // Unique-Index sentinel key used for GetForUpdate locking (Concurrent-Unique-Lücke fix).
+    // Single-column: "uidx:table:col:encodedVal"
+    // Composite:     "uidx:table:col1+col2:encVal1:encVal2"
+    static std::string makeUniqueSentinelKey_(std::string_view table, std::string_view col, std::string_view encodedVal);
+    static std::string makeCompositeUniqueSentinelKey_(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values);
 
     // Range-Index-Key-Builder: ridx:table:column:value:PK und Prefix ridx:table:column:value:
     static std::string makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);

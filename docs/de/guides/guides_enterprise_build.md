@@ -26,7 +26,7 @@ Guide for building and deploying ThemisDB at enterprise scale.
 
 Build and deployment guidance for enterprise environments with special focus on scalability features.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🔨 Build/Deployment
 
@@ -442,5 +442,5 @@ k6 run tests/load/enterprise_load_test.js
 ---
 
 **Status:** ✅ Implementation Complete - Ready for VS Environment Build  
-**Last Updated:** 2025-11-30  
+**Last Updated:** 2026-04-06  
 **Version:** 1.0

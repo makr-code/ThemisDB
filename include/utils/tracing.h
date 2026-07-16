@@ -1,25 +1,20 @@
+/**
+ * @file tracing.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tracing.h                                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     445                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 95fb262d5  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
-    • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tracing.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -83,8 +78,8 @@ public:
     explicit SamplingStrategy(Type type = Type::ALWAYS_ON, double probability = 1.0)
         : type_(type), probability_(probability) {}
 
-    static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON);  }
-    static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF); }
+    static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON, 1.0);  }
+    static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF, 0.0); }
     static SamplingStrategy probability(double p) {
         return SamplingStrategy(Type::PROBABILITY, p);
     }
@@ -95,7 +90,8 @@ public:
     /// Adaptive sampler: automatically adjusts the sample probability based on
     /// the current span creation rate to keep throughput near @p config.max_spans_per_second.
     /// Copies of this strategy share the same rate-measurement state.
-    static SamplingStrategy adaptive(const AdaptiveConfig& config = {});
+    static SamplingStrategy adaptive();
+    static SamplingStrategy adaptive(AdaptiveConfig config);
 
     /// Returns true if a new span with the given parent-sampled flag should be recorded.
     bool shouldSample(bool parent_sampled = true) const;

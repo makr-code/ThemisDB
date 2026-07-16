@@ -1,23 +1,20 @@
+/**
+ * @file remote_executor.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            remote_executor.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     181                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: remote_executor.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -132,6 +129,29 @@ public:
      * @return Result with query results
      */
     Result executeQuery(const ShardInfo& shard_info, const std::string& query);
+
+    /**
+     * Transfer a raw binary payload to a remote shard via HTTP POST.
+     *
+     * Intended for KV-state transfer (Phase 5 KV-Prefix Cross-Shard sharing):
+     * the serialised KV cache for a shared system-prompt prefix is POSTed to
+     * the target shard so that it can warm its local KV cache and reduce
+     * time-to-first-token (TTFT) for requests that share the same prefix.
+     *
+     * Content-Type is set to "application/octet-stream".  The response body
+     * is returned in @c Result::response (base64-encoded by the mTLS layer if
+     * non-printable characters are present).
+     *
+     * @param shard_info   Target shard.
+     * @param path         Request path (e.g., "/api/v1/kv-prefix/ingest").
+     * @param data         Pointer to binary payload bytes.
+     * @param size         Payload size in bytes.
+     * @return Result with success flag, shard_id, and optional error message.
+     */
+    Result postBinary(const ShardInfo& shard_info,
+                      const std::string& path,
+                      const uint8_t* data,
+                      std::size_t size);
     
     /**
      * Check if remote executor is ready

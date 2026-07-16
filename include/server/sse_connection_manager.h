@@ -1,24 +1,20 @@
+/**
+ * @file sse_connection_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            sse_connection_manager.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     173                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b006db51f  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: sse_connection_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +22,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <unordered_map>
 #include <set>
 #include <chrono>
@@ -53,6 +50,9 @@ namespace net = boost::asio;
  */
 class SseConnectionManager {
 public:
+    /**
+     * @brief Runtime policy for SSE connection behavior.
+     */
     struct ConnectionConfig {
         uint32_t heartbeat_interval_ms = 15000;  // Send heartbeat every 15s
         uint32_t max_buffered_events = 1000;     // Max events per connection buffer
@@ -62,6 +62,9 @@ public:
         bool drop_oldest_on_overflow = true;     // Backpressure policy: drop oldest if buffer full
     };
 
+    /**
+     * @brief Aggregated runtime counters for all managed SSE connections.
+     */
     struct ConnectionStats {
         size_t active_connections = 0;
         uint64_t total_events_sent = 0;
@@ -74,6 +77,13 @@ public:
         std::shared_ptr<Changefeed> changefeed,
         boost::asio::io_context& ioc
     );
+
+    /**
+     * @brief Construct SSE manager with explicit runtime configuration.
+     * @param changefeed Shared changefeed source used for polling events.
+     * @param ioc io_context used for timer scheduling.
+     * @param config Connection and backpressure policy.
+     */
     explicit SseConnectionManager(
         std::shared_ptr<Changefeed> changefeed,
         boost::asio::io_context& ioc,
@@ -96,10 +106,27 @@ public:
     );
 
     /**
-     * @brief Unregister connection (called on client disconnect)
+    * @brief Unregister connection (called on client disconnect).
      * @param conn_id Connection ID
      */
     void unregisterConnection(uint64_t conn_id);
+
+    /**
+     * @brief Get pending raw events for a connection (for at-least-once delivery tracking).
+     *
+     * Returns up to `max_events` raw `ChangeEvent` objects that have been
+     * buffered since the last call.  This API is intended for handlers that
+     * need to feed events through a `DeliveryTracker` before formatting them
+     * as SSE lines; callers should not mix calls to `pollEvents()` and
+     * `pollRawEvents()` on the same connection.
+     *
+     * Rate-limiting (if configured) is applied the same way as in `pollEvents()`.
+     *
+     * @param conn_id    Connection ID.
+     * @param max_events Maximum number of raw events to return.
+     * @return           Raw change events in ascending sequence order.
+     */
+    std::vector<Changefeed::ChangeEvent> pollRawEvents(uint64_t conn_id, size_t max_events = 100);
 
     /**
      * @brief Get pending events for a connection
@@ -123,24 +150,31 @@ public:
     void recordHeartbeat(uint64_t conn_id);
 
     /**
-     * @brief Get current stats
+    * @brief Get current connection manager statistics.
+    * @return Snapshot of cumulative manager counters.
      */
     ConnectionStats getStats() const;
 
     /**
-     * @brief Shutdown all connections gracefully
+    * @brief Shutdown all connections gracefully.
+    *
+    * Marks all connections inactive, clears registries, and cancels the
+    * background poll timer.
      */
     void shutdown();
 
 private:
     struct Connection {
         uint64_t id;
-        uint64_t current_sequence;
+        std::atomic<uint64_t> current_sequence{0};
         std::string key_prefix;
         std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
+        /// Formatted SSE lines ("id: N\ndata: {...}\n\n") — drained by pollEvents().
         std::vector<std::string> buffered_events;
+        /// Raw ChangeEvent objects — drained by pollRawEvents() for at-least-once tracking.
+        std::vector<Changefeed::ChangeEvent> raw_buffered_events;
         std::atomic<bool> active{true};
         // Backpressure accounting
         uint64_t dropped_events{0};
@@ -155,12 +189,13 @@ private:
     boost::asio::io_context& ioc_;
     ConnectionConfig config_;
 
-    mutable std::mutex connections_mutex_;
+    mutable std::shared_mutex connections_mutex_;
     std::unordered_map<uint64_t, std::shared_ptr<Connection>> connections_;
     std::atomic<uint64_t> next_conn_id_{1};
 
     // Background polling
     std::unique_ptr<boost::asio::steady_timer> poll_timer_;
+    mutable std::mutex poll_timer_mutex_;
     std::atomic<bool> running_{false};
 
     // Stats

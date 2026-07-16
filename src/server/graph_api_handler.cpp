@@ -1,30 +1,25 @@
+/**
+ * @file graph_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=19, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_api_handler.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     788                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bc547c433  2026-02-28  feat(graph): expose cost model calibration via HTTP API ║
-    • efa84641f  2026-02-27  fix(graph): update stale file-header metadata after incre... ║
-    • 0ba7cfc69  2026-02-27  feat(graph): implement incremental graph query HTTP API (... ║
-    • 93959e4d5  2026-02-25  feat(graph): implement plan cache eviction with LRU size ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1114
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=19, L=0
+ * PR History (last 5): #450 [REFACTOR] Extract GraphApi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/graph_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -72,7 +67,15 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         }
 
         std::string start_vertex = body_json["start_vertex"];
+        // GAP-010 fixed: cap max_depth to prevent BFS-induced CPU saturation / OOM.
+        static constexpr size_t kMaxBfsDepth = 50;
         size_t max_depth = body_json["max_depth"];
+        if (max_depth > kMaxBfsDepth) {
+            span.setAttribute("error", "max_depth_exceeded");
+            span.setStatus(false, "max_depth exceeds server limit");
+            return makeErrorResponse(http::status::bad_request,
+                "max_depth exceeds server limit of " + std::to_string(kMaxBfsDepth), req);
+        }
         
         span.setAttribute("graph.start_vertex", start_vertex);
         span.setAttribute("graph.max_depth", static_cast<int64_t>(max_depth));
@@ -371,7 +374,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
             "Plan-cache entries evicted by LRU or TTL policy",
             m.plan_cache_evictions.load(std::memory_order_relaxed));
     gauge("themis_graph_query_error_rate",
-          "Fraction of graph queries that failed (0.0–1.0)",
+          "Fraction of graph queries that failed (0.0-1.0)",
           m.errorRate());
     gauge("themis_graph_query_avg_duration_ms",
           "Average graph query execution time in milliseconds",
@@ -620,6 +623,7 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
         return makeErrorResponse(http::status::service_unavailable,
             "Graph optimizer not available", req);
     }
+    auto& optimizer = *optimizer_;
 
     try {
         json body_json = json::parse(req.body());
@@ -631,7 +635,7 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
         }
 
         auto cs = parseChangeSet(body_json["changes"]);
-        const size_t reexecuted = optimizer_->onGraphChange(cs);
+        const size_t reexecuted = optimizer.onGraphChange(cs);
 
         span.setAttribute("graph.changes_count",    static_cast<int64_t>(cs.size()));
         span.setAttribute("graph.queries_reexecuted", static_cast<int64_t>(reexecuted));
@@ -733,6 +737,12 @@ http::response<http::string_body> GraphApiHandler::handleCostModelExport(
     }
 
     std::string model_json = optimizer_->exportCostModel();
+    // Normalize legacy/empty exports to an object JSON so clients can round-trip
+    // the payload without special-casing "null".
+    auto parsed = json::parse(model_json, nullptr, false);
+    if (parsed.is_discarded() || parsed.is_null() || !parsed.is_object()) {
+        model_json = json::object().dump();
+    }
     span.setStatus(true);
     return makeResponse(http::status::ok, model_json, req);
 }
@@ -749,8 +759,24 @@ http::response<http::string_body> GraphApiHandler::handleCostModelImport(
         return makeErrorResponse(http::status::service_unavailable,
             "Graph optimizer not available", req);
     }
+    auto& optimizer = *optimizer_;
 
-    if (!optimizer_->importCostModel(req.body())) {
+    auto parsed = json::parse(req.body(), nullptr, false);
+    if (parsed.is_discarded()) {
+        span.setStatus(false, "invalid cost model JSON");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid cost model JSON", req);
+    }
+    if (parsed.is_null()) {
+        parsed = json::object();
+    }
+    if (!parsed.is_object()) {
+        span.setStatus(false, "invalid cost model JSON type");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid cost model JSON", req);
+    }
+
+    if (!optimizer.importCostModel(parsed.dump())) {
         span.setStatus(false, "invalid cost model JSON");
         return makeErrorResponse(http::status::bad_request,
             "Invalid cost model JSON", req);
@@ -924,9 +950,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             }
 
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -953,9 +979,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             auto result = optimizer_->optimizeKHopNeighborhood(sv, k, qc);
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -988,9 +1014,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             auto result = optimizer_->optimizePatternMatch(pverts, pedges, qc);
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -1045,9 +1071,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             auto result = optimizer_->explainConstrainedPath(sv, ev, pc);
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -1096,3 +1122,5 @@ http::response<http::string_body> GraphApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+
+

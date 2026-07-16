@@ -1,23 +1,21 @@
+/**
+ * @file pki_shard_certificate.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=8, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pki_shard_certificate.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     360                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pki_shard_certificate.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 395
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=20, M=5, L=0
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #901 Refactor OpenSSL memory man... (2026-03-11) | #1029 Implement custom OID parsin... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/pki_shard_certificate.h"
@@ -25,7 +23,10 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <cstdio>
+#include <cstring>
 #include <ctime>
+#include <map>
 
 // OpenSSL headers
 #include <openssl/x509.h>
@@ -86,13 +87,83 @@ namespace {
         
         return std::string(reinterpret_cast<const char*>(p), len);
     }
+
+    std::optional<time_t> parseAsn1PrintedTime(const std::string& value) {
+        std::istringstream input(value);
+        std::string month;
+        std::string time_of_day;
+        std::string timezone;
+        int day = 0;
+        int year = 0;
+
+        if (!(input >> month >> day >> time_of_day >> year >> timezone) ||
+            timezone != "GMT") {
+            return std::nullopt;
+        }
+
+        static const std::map<std::string, int> months = {
+            {"Jan", 0}, {"Feb", 1}, {"Mar", 2}, {"Apr", 3},
+            {"May", 4}, {"Jun", 5}, {"Jul", 6}, {"Aug", 7},
+            {"Sep", 8}, {"Oct", 9}, {"Nov", 10}, {"Dec", 11}
+        };
+
+        auto month_it = months.find(month);
+        if (month_it == months.end()) {
+            return std::nullopt;
+        }
+
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        char first_colon = '\0';
+        char second_colon = '\0';
+        std::istringstream time_input(time_of_day);
+        if (!(time_input >> hour >> first_colon >> minute >> second_colon >> second) ||
+            first_colon != ':' || second_colon != ':') {
+            return std::nullopt;
+        }
+
+        if (day < 1 || day > 31 || hour < 0 || hour > 23 ||
+            minute < 0 || minute > 59 || second < 0 || second > 60 ||
+            year < 1900) {
+            return std::nullopt;
+        }
+
+        std::tm time_info{};
+        time_info.tm_year = year - 1900;
+        time_info.tm_mon = month_it->second;
+        time_info.tm_mday = day;
+        time_info.tm_hour = hour;
+        time_info.tm_min = minute;
+        time_info.tm_sec = second;
+        time_info.tm_isdst = 0;
+#if defined(_WIN32)
+        const time_t parsed = _mkgmtime(&time_info);
+#else
+        const time_t parsed = timegm(&time_info);
+#endif
+        if (parsed == static_cast<time_t>(-1)) {
+            return std::nullopt;
+        }
+
+        return parsed;
+    }
 }
 
 bool ShardCertificateInfo::isValidNow() const {
-    // For Phase 2, we'll implement a simple check
-    // In production, this should parse not_before/not_after and compare with current time
-    // For now, return true if both dates are set
-    return !not_before.empty() && !not_after.empty();
+    if (not_before.empty() || not_after.empty()) {
+        return false;
+    }
+
+    const auto t_before = parseAsn1PrintedTime(not_before);
+    const auto t_after = parseAsn1PrintedTime(not_after);
+
+    if (!t_before || !t_after) {
+        return false;
+    }
+
+    const time_t now = std::time(nullptr);
+    return now >= *t_before && now <= *t_after;
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const std::string& cert_path) {
@@ -285,8 +356,8 @@ bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& i
 }
 
 bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertificateInfo& info) {
-    X509* cert = static_cast<X509*>(x509_cert_ptr);
-    (void)cert; // Future: parse custom X.509 extensions
+    [[maybe_unused]] X509* cert = static_cast<X509*>(x509_cert_ptr);
+    // Future: parse custom X.509 extensions
     
     // Note: In Phase 2, we're providing the structure for custom extension parsing
     // In production, this would parse actual custom OIDs (e.g., 1.3.6.1.4.1.XXXXX)

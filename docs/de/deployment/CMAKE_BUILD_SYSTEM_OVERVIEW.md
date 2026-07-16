@@ -1,6 +1,6 @@
 # CMake Build System Architektur
 
-**Stand:** 23. Januar 2026  
+**Stand:** 23. April 2026  
 **Version:** v1.4.0  
 **Kategorie:** 🏗️ Build System  
 **Status:** Production-Ready
@@ -658,5 +658,5 @@ cmake --build build --parallel 4
 
 ---
 
-**Letzte Aktualisierung:** 23. Januar 2026  
+**Letzte Aktualisierung:** 23. April 2026  
 **Version:** v1.4.0

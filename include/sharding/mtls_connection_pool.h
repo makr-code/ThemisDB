@@ -1,23 +1,20 @@
+/**
+ * @file mtls_connection_pool.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mtls_connection_pool.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mtls_connection_pool.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +24,7 @@
 #include <optional>
 #include <chrono>
 #include <atomic>
+#include <functional>
 #include <queue>
 #include <set>
 #include <map>
@@ -82,6 +80,30 @@ public:
         double utilization_percent;     // (active / max) * 100
     };
     
+    /**
+     * @brief Callback type for creating new mTLS connections.
+     *
+     * Receives the target endpoint string and returns a fully established
+     * SSL connection, or `nullopt` on failure.  Callers inject a factory
+     * that performs TCP connect + TLS handshake; unit tests inject a mock.
+     */
+    using ConnectionFactory =
+        std::function<std::optional<std::unique_ptr<SSL, SSLDeleter>>(
+            const std::string& endpoint)>;
+
+    /**
+     * @brief Inject a connection factory for createNewConnection().
+     *
+     * When set, createNewConnection() delegates to @p factory instead of
+     * returning nullopt (the stub path).  Enables full connection-lifecycle
+     * ownership inside the pool.
+     *
+     * @param factory  Callable(endpoint) → optional<unique_ptr<SSL>>.
+     */
+    void setConnectionFactory(ConnectionFactory factory) {
+        connection_factory_ = std::move(factory);
+    }
+
     /**
      * @brief Construct endpoint connection pool
      * @param endpoint Target endpoint (e.g., "localhost:50051")
@@ -161,6 +183,7 @@ private:
     
     std::string endpoint_;
     Config config_;
+    ConnectionFactory connection_factory_;  ///< Optional; null = stub returns nullopt.
     
     // Thread-safe queue for idle connections
     std::queue<PooledConnection> idle_pool_;
@@ -262,6 +285,23 @@ public:
      * @brief Close all connections and clear pools
      */
     void shutdown();
+
+    /**
+     * @brief Graceful connection drain triggered by a certificate rotation event.
+     *
+     * Closes all idle connections immediately (they will be re-established with
+     * the new certificate on the next request).  In-flight connections are
+     * allowed to complete; each endpoint pool stops issuing new connections
+     * from its current TLS context until the drain completes.
+     *
+     * This method is non-blocking: it schedules the drain and returns.  Callers
+     * that need to await completion should poll getStatistics() or wait for the
+     * idle-connection count to return to its expected level.
+     *
+     * Wire-up: call this from the PKI client's certificate-rotation callback so
+     * that stale TLS sessions are not reused after a cert rotation.
+     */
+    void onCertificateRotated();
     
 private:
     std::map<std::string, std::shared_ptr<EndpointConnectionPool>> pools_;

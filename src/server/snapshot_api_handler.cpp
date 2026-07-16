@@ -1,28 +1,28 @@
+/**
+ * @file snapshot_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            snapshot_api_handler.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: snapshot_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 198
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #385 Phase 1 & 2: Implement Name... (2026-03-11) | #384 [WIP] Add Named Snapshots f... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/snapshot_api_handler.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -62,6 +62,7 @@ void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
 
 void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleCreateTag");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -94,6 +95,7 @@ void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::R
 
 void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleListTags");
         // Parse query parameters
         size_t limit = 0;
         if (req.has_param("limit")) {
@@ -134,6 +136,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
 
 void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetTag");
         // Extract tag name from URL
         std::string tag_name = req.matches[1];
         
@@ -154,6 +157,7 @@ void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Resp
 
 void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleDeleteTag");
         // Extract tag name from URL
         std::string tag_name = req.matches[1];
         
@@ -175,8 +179,9 @@ void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::R
     }
 }
 
-void SnapshotApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
+void SnapshotApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetStats");
         auto stats = snapshot_manager_.getStats();
         sendJson(res, stats.toJson());
     } catch (const std::exception& e) {
@@ -202,3 +207,4 @@ void SnapshotApiHandler::sendJson(httplib::Response& res, const json& data, int 
 
 } // namespace server
 } // namespace themis
+

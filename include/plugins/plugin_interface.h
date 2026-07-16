@@ -1,30 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_interface.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     819                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1184e5e03  2026-02-26  audit: fix schema/validator inconsistencies and add integ... ║
-    • 2e0314156  2026-02-26  feat(plugins): plugin marketplace manifest format (JSON s... ║
-    • 80fedea39  2026-02-24  audit(base): fix stale quality metrics in plugin_interfac... ║
-    • 61acfaabb  2026-02-24  feat(base): implement runtime plugin capability negotiati... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file plugin_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#pragma once
+/*
+ * ThemisDB | File: plugin_interface.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#ifndef THEMISDB_PLUGIN_INTERFACE_H
+#define THEMISDB_PLUGIN_INTERFACE_H
 
 #include <string>
 #include <memory>
@@ -75,7 +69,9 @@ namespace plugins {
  * - BLOB_STORAGE -> New blob storage backends
  * - IMPORTER -> New data importers
  * - HSM_PROVIDER -> security::HSMProvider (PKCS#11)
- * - LLM_BACKEND -> llm::ILLMPlugin (v1.5.0+)
+ * - LLM_BACKEND      -> llm::ILLMPlugin (v1.5.0+)
+ * - AUDIO_PROCESSING -> whisper::WhisperPlugin (v2.0.0+)
+ * - IMAGE_GENERATION -> stable_diffusion::SDPlugin (v2.0.0+)
  */
 enum class PluginType {
     COMPUTE_BACKEND,   // Vector/Graph/Geo acceleration (existing)
@@ -85,6 +81,10 @@ enum class PluginType {
     HSM_PROVIDER,      // Hardware Security Modules (PKCS#11)
     EMBEDDING,         // Embedding providers (Sentence-BERT, OpenAI)
     LLM_BACKEND,       // LLM backends (llama.cpp, vLLM, etc.) - v1.5.0+
+    AUDIO_PROCESSING,  // Audio transcription/processing (whisper.cpp, etc.) - v2.0.0
+    IMAGE_GENERATION,  // Image generation (stable-diffusion.cpp, etc.) - v2.0.0
+    AGENTIC_TOOL,      // Agentic tool plugins loaded by ToolRegistry (JSON in/out) - v2.1.0
+    INGESTION_STEP,    // Ingestion workflow step plugins (IIngestionStep) - v2.0.0
     CUSTOM             // Custom plugins
 };
 
@@ -154,29 +154,29 @@ public:
     /**
      * @brief Get plugin name
      */
-    virtual const char* getName() const = 0;
+    [[nodiscard]] virtual const char* getName() const = 0;
     
     /**
      * @brief Get plugin version (semantic versioning)
      */
-    virtual const char* getVersion() const = 0;
+    [[nodiscard]] virtual const char* getVersion() const = 0;
     
     /**
      * @brief Get plugin type
      */
-    virtual PluginType getType() const = 0;
+    [[nodiscard]] virtual PluginType getType() const = 0;
     
     /**
      * @brief Get plugin capabilities
      */
-    virtual PluginCapabilities getCapabilities() const = 0;
+    [[nodiscard]] virtual PluginCapabilities getCapabilities() const = 0;
     
     /**
      * @brief Initialize plugin with configuration JSON
      * @param config_json Configuration as JSON string
      * @return true if initialized successfully
      */
-    virtual bool initialize(const char* config_json) = 0;
+    [[nodiscard]] virtual bool initialize(const char* config_json) = 0;
     
     /**
      * @brief Shutdown plugin and release resources
@@ -191,7 +191,7 @@ public:
      * For BLOB_STORAGE: Cast to storage::IBlobStorageBackend*
      * For IMPORTER: Cast to importers::IImporter*
      */
-    virtual void* getInstance() = 0;
+    [[nodiscard]] virtual void* getInstance() = 0;
 };
 
 /**
@@ -216,7 +216,7 @@ public:
      * @return Serialized state as JSON string, or empty string if no state
      * @throws std::exception on serialization error (will be logged, not fatal)
      */
-    virtual std::string saveState() = 0;
+    [[nodiscard]] virtual std::string saveState() = 0;
     
     /**
      * @brief Restore plugin state after reload
@@ -228,7 +228,7 @@ public:
      * @return true if state restored successfully, false otherwise
      * @note If restoration fails, plugin remains loaded with default state
      */
-    virtual bool restoreState(const std::string& state) = 0;
+    [[nodiscard]] virtual bool restoreState(const std::string& state) = 0;
 };
 
 /**
@@ -700,6 +700,8 @@ public:
         else if (type_str == "hsm_provider")    m.type = PluginType::HSM_PROVIDER;
         else if (type_str == "embedding")       m.type = PluginType::EMBEDDING;
         else if (type_str == "llm_backend")     m.type = PluginType::LLM_BACKEND;
+        else if (type_str == "agentic_tool")    m.type = PluginType::AGENTIC_TOOL;
+        else if (type_str == "ingestion_step")  m.type = PluginType::INGESTION_STEP;
         else                                    m.type = PluginType::CUSTOM;
 
         if (j.contains("binary") && j["binary"].is_object()) {
@@ -818,3 +820,6 @@ private:
             delete plugin; \
         } \
     }
+
+#endif  // THEMISDB_PLUGIN_INTERFACE_H
+

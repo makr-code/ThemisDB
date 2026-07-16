@@ -1,0 +1,1 @@
+C:\Projects\ThemisDB\build-msvc-windows-release\CMakeFiles\_CMakeLTOTest-CXX\bin\foo.lib

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_graphql_variables.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:04:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     464                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 85fe20c2b  2026-02-26  Add unit tests for Schema::introspect(), variable parsing... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_graphql_variables.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
@@ -126,9 +111,141 @@ TEST(GraphQLVariables, VariableUsedAsFieldArgument) {
 
     auto idIt = userField.arguments.find("id");
     ASSERT_NE(idIt, userField.arguments.end());
-    // Variable references are stored as string values starting with "$"
-    ASSERT_TRUE(idIt->second->isString());
-    EXPECT_EQ(idIt->second->asString(), "$id");
+    // Variable references are stored as VariableRef values (not plain strings)
+    ASSERT_TRUE(idIt->second->isVariableRef());
+    EXPECT_EQ(idIt->second->asVariableRef(), "id");
+}
+
+// ============================================================================
+// Variable substitution at execution time
+// ============================================================================
+
+TEST(GraphQLVariables, ExecutorSubstitutesStringVariable) {
+    auto parseResult = Parser::parse(
+        R"(query GetUser($id: String) { user(id: $id) { name } })");
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;
+    ctx.variables["id"] = Value::string("user-42");
+    ctx.resolvers["user"] = [](const Field& f,
+                                const std::shared_ptr<Value>&,
+                                const ExecutionContext&) {
+        auto idIt = f.arguments.find("id");
+        if (idIt == f.arguments.end() || !idIt->second->isString()) {
+            return Value::null();
+        }
+        return Value::object({{"name", Value::string("user:" + idIt->second->asString())}});
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+
+    EXPECT_FALSE(result.hasErrors());
+    ASSERT_NE(result.data, nullptr);
+    auto userIt = result.data->asObject().find("user");
+    ASSERT_NE(userIt, result.data->asObject().end());
+    ASSERT_TRUE(userIt->second->isObject());
+    auto nameIt = userIt->second->asObject().find("name");
+    ASSERT_NE(nameIt, userIt->second->asObject().end());
+    EXPECT_EQ(nameIt->second->asString(), "user:user-42");
+}
+
+TEST(GraphQLVariables, ExecutorSubstitutesIntVariable) {
+    auto parseResult = Parser::parse(
+        R"(query GetPage($limit: Int) { items(limit: $limit) { id } })");
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;
+    ctx.variables["limit"] = Value::int_(10LL);
+    int64_t capturedLimit = -1;
+    ctx.resolvers["items"] = [&capturedLimit](const Field& f,
+                                               const std::shared_ptr<Value>&,
+                                               const ExecutionContext&) {
+        auto it = f.arguments.find("limit");
+        if (it != f.arguments.end() && it->second->isInt()) {
+            capturedLimit = it->second->asInt();
+        }
+        return Value::list({});
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+
+    EXPECT_FALSE(result.hasErrors());
+    EXPECT_EQ(capturedLimit, 10LL);
+}
+
+TEST(GraphQLVariables, ExecutorUsesDefaultValueWhenVariableNotSupplied) {
+    auto parseResult = Parser::parse(
+        R"(query GetUser($id: String = "default-id") { user(id: $id) { name } })");
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;  // No variables supplied at runtime
+    std::string capturedId;
+    ctx.resolvers["user"] = [&capturedId](const Field& f,
+                                           const std::shared_ptr<Value>&,
+                                           const ExecutionContext&) {
+        auto it = f.arguments.find("id");
+        if (it != f.arguments.end() && it->second->isString()) {
+            capturedId = it->second->asString();
+        }
+        return Value::null();
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+
+    EXPECT_FALSE(result.hasErrors());
+    EXPECT_EQ(capturedId, "default-id");
+}
+
+TEST(GraphQLVariables, ExecutorRuntimeVariableOverridesDefault) {
+    auto parseResult = Parser::parse(
+        R"(query GetUser($id: String = "default-id") { user(id: $id) { name } })");
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;
+    ctx.variables["id"] = Value::string("runtime-id");
+    std::string capturedId;
+    ctx.resolvers["user"] = [&capturedId](const Field& f,
+                                           const std::shared_ptr<Value>&,
+                                           const ExecutionContext&) {
+        auto it = f.arguments.find("id");
+        if (it != f.arguments.end() && it->second->isString()) {
+            capturedId = it->second->asString();
+        }
+        return Value::null();
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+
+    EXPECT_FALSE(result.hasErrors());
+    EXPECT_EQ(capturedId, "runtime-id");
+}
+
+TEST(GraphQLVariables, ExecutorReturnsNullForUnboundVariable) {
+    auto parseResult = Parser::parse(
+        R"(query GetUser($id: String) { user(id: $id) { name } })");
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;  // No variable bound → resolver sees null
+    bool sawNull = false;
+    ctx.resolvers["user"] = [&sawNull](const Field& f,
+                                        const std::shared_ptr<Value>&,
+                                        const ExecutionContext&) {
+        auto it = f.arguments.find("id");
+        if (it != f.arguments.end() && it->second->isNull()) {
+            sawNull = true;
+        }
+        return Value::null();
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+
+    EXPECT_FALSE(result.hasErrors());
+    EXPECT_TRUE(sawNull);
 }
 
 TEST(GraphQLVariables, VariableWithDefaultStringValue) {

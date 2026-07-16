@@ -1,23 +1,21 @@
+/**
+ * @file ligra.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=2, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ligra.cpp                                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     279                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ligra.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 270
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=7, M=10, L=0
+ * PR History (last 5): #1122 Eliminate lock overlapping ... (2026-03-11) | #160 Implement Phase 2 and Phase... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/ligra.h"
@@ -72,6 +70,8 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
         it = chunk_end;
     }
     
+    // Threads process fixed frontier chunks with no blocking I/O or nested
+    // waits, so each worker completes bounded work and joins promptly here.
     for (auto& thread : threads) {
         thread.join();
     }
@@ -95,6 +95,8 @@ void LigraProcessor::process_dense(const Frontier& frontier, const VertexFunc& f
         });
     }
     
+    // Threads process fixed vertex ranges with no blocking I/O or nested
+    // waits, so each worker completes bounded work and joins promptly here.
     for (auto& thread : threads) {
         thread.join();
     }
@@ -168,6 +170,8 @@ Frontier LigraProcessor::process_edges(
             it = chunk_end;
         }
         
+        // Threads only walk their assigned adjacency-list slices and append to
+        // thread-local buffers, so join waits on bounded CPU work only.
         for (auto& thread : threads) {
             thread.join();
         }
@@ -280,3 +284,4 @@ bool WorkStealingQueue::empty() const {
 
 } // namespace performance
 } // namespace themis
+

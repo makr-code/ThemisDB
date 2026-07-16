@@ -4,6 +4,91 @@ This directory contains automation scripts for operational tasks addressing audi
 
 ## Scripts
 
+### Invoke-LocalProductionReadiness.ps1
+
+**Purpose:** Execute production-readiness gates locally without CI integration  
+**Addresses:** System-wide readiness gates in `ROADMAP.md` (chaos/fault-injection, SLA validation proxy, penetration-test evidence)  
+**Schedule:** On-demand before release cut
+
+**Usage:**
+```powershell
+# Local gate run (no CI)
+pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
+	-BuildPreset windows-release \
+	-RepeatCount 20
+
+# Optional pentest execution
+pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
+	-BuildPreset windows-release \
+	-RepeatCount 20 \
+	-RunPentest \
+	-PentestTarget "127.0.0.1:8080"
+```
+
+**Outputs:**
+- `artifacts/production-readiness/<timestamp>/openapi-completeness.json`
+- `artifacts/production-readiness/<timestamp>/content_focused_ctest.log`
+- `artifacts/production-readiness/<timestamp>/content_focused_ctest.junit.xml`
+- `artifacts/production-readiness/<timestamp>/content_processor_coverage.json`
+- `artifacts/production-readiness/<timestamp>/content_bench_build.log`
+- `artifacts/production-readiness/<timestamp>/content_bench_run.log`
+- `artifacts/production-readiness/<timestamp>/content_bench_content_versioning.json`
+- `artifacts/production-readiness/<timestamp>/content_bench_text_run.log`
+- `artifacts/production-readiness/<timestamp>/content_bench_text_extraction.json`
+- `artifacts/production-readiness/<timestamp>/content_bench_processor_run.log`
+- `artifacts/production-readiness/<timestamp>/content_bench_processor_paths.json`
+- `artifacts/production-readiness/<timestamp>/geo_bench_build.log`
+- `artifacts/production-readiness/<timestamp>/geo_bench_run.log`
+- `artifacts/production-readiness/<timestamp>/geo_cpu_gpu_parity.json`
+- `artifacts/production-readiness/<timestamp>/phase4_ctest.log`
+- `artifacts/production-readiness/<timestamp>/phase4_ctest.junit.xml`
+- `artifacts/production-readiness/<timestamp>/beta_modules.txt`
+- `artifacts/production-readiness/<timestamp>/readiness-summary.json`
+- `artifacts/production-readiness/<timestamp>/readiness-summary.md`
+
+Optional flags:
+- `-SkipOpenApiGate` to skip OpenAPI completeness check
+- `-SkipContentFocusedTests` to skip focused content evidence gate
+- `-SkipContentCoverage` to skip content processor coverage gate
+- `-SkipContentBenchmarks` to skip local content benchmark gate
+- `-SkipGeoGate` to skip geo readiness/parity gate
+- `-SkipPhase4Tests` to skip phase4 stress gate
+- `-SkipPentest` to skip penetration-report gate
+
+Optional content benchmark thresholds:
+- `-ContentProcessorCoverageMinPercent` minimum processor coverage percentage based on dedicated test files (default: `80.0`)
+- `-ContentBenchmarkMinCount` minimum benchmark entry count in JSON (default: `18`)
+- `-ContentFormatBenchmarkMinCount` minimum benchmark entry count for text extraction JSON (default: `20`)
+- `-ContentVersionCreationMaxMs` max `BM_VersionCreation/1048576` real time in ms (default: `50.0`)
+- `-ContentDiffComputationMaxMs` max `BM_DiffComputation/1048576` real time in ms (default: `50.0`)
+- `-ContentVersionRetrievalMaxUs` max `BM_VersionRetrieval` real time in microseconds (default: `5.0`)
+- `-ContentPdfExtractionMaxMs` max `BM_PDFExtraction/1048576` real time in ms (default: `500.0`)
+- `-ContentDocxExtractionMaxMs` max `BM_DOCXExtraction/1048576` real time in ms (default: `500.0`)
+- `-ContentHtmlExtractionMaxMs` max `BM_HTMLExtraction/1048576` real time in ms (default: `500.0`)
+- `-ContentPlainTextExtractionMaxMs` max `BM_PlainTextExtraction/1048576` real time in ms (default: `500.0`)
+- `-ContentProcessorBenchmarkMinCount` minimum benchmark entry count for processor-path JSON (default: `12`)
+- `-ContentOfficeProcessorPathMaxMs` max `BM_OfficeProcessorPath/1048576` real time in ms (default: `750.0`)
+- `-ContentOcrProcessorPathMaxMs` max `BM_OcrProcessorPath/1048576` real time in ms (default: `750.0`)
+- `-ContentArchiveProcessorPathMaxMs` max `BM_ArchiveProcessorPath/1048576` real time in ms (default: `750.0`)
+
+Optional geo benchmark thresholds:
+- `-GeoBenchmarkMinCount` minimum benchmark entry count for geo parity JSON (default: `25`)
+
+### check_openapi_completeness.py
+
+**Purpose:** Compares route hints (`// GET /...`) in `src/server/**/*.cpp` against documented paths in `openapi/openapi.yaml`  
+**Usage:** Called by `Invoke-LocalProductionReadiness.ps1` and writes `openapi-completeness.json`
+
+### PRODUCTION_READINESS_TODO.md
+
+**Purpose:** Release-manager checklist for local (non-CI) production-readiness sign-off  
+**Usage:** `scripts/operations/PRODUCTION_READINESS_TODO.md` as execution board + artifact checklist
+
+### BETA_MODULE_GRADUATION_TODO.md
+
+**Purpose:** Source-based exit checklist to graduate currently beta-marked modules to production-ready  
+**Usage:** `scripts/operations/BETA_MODULE_GRADUATION_TODO.md` as per-module release gate board
+
 ### access-review.sh
 
 **Purpose:** Automate access reviews and generate compliance reports  

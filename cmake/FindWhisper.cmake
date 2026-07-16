@@ -11,6 +11,8 @@ find_path(WHISPER_INCLUDE_DIR
     NAMES whisper.h
     PATHS
         ${WHISPER_ROOT}/include
+        ${CMAKE_SOURCE_DIR}/whisper.cpp/include
+        ${CMAKE_SOURCE_DIR}/whisper.cpp
         ${CMAKE_SOURCE_DIR}/external/whisper.cpp
         ${CMAKE_SOURCE_DIR}/third_party/whisper.cpp
         /usr/local/include
@@ -22,6 +24,8 @@ find_library(WHISPER_LIBRARY
     NAMES whisper libwhisper
     PATHS
         ${WHISPER_ROOT}/lib
+    ${CMAKE_SOURCE_DIR}/whisper.cpp/build/src
+    ${CMAKE_SOURCE_DIR}/whisper.cpp/build
         ${CMAKE_SOURCE_DIR}/external/whisper.cpp/build
         ${CMAKE_SOURCE_DIR}/third_party/whisper.cpp/build
         /usr/local/lib

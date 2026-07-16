@@ -1,23 +1,21 @@
+/**
+ * @file main.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            main.cpp                                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     434                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: main.cpp | Version: 0.0.47 | Last Modified: 2026-06-02 11:49:05
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 444
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
@@ -26,6 +24,7 @@
     #include <mimalloc-new-delete.h>
 #endif
 
+#include "utils/cli_parser_utils.h"
 #include "utils/logger.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -36,6 +35,8 @@
 #include "transaction/transaction_manager.h"
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
+#include <nlohmann/json.hpp>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <optional>
@@ -49,45 +50,42 @@ int main(int argc, char* argv[]) {
                   << "Options:\n"
                   << "  --db PATH         Database path (default: ./data/themis_test)\n"
                   << "  --db-path PATH    Alias for --db\n"
-                  << "  --config FILE     Configuration file (not yet implemented)\n"
+                  << "  --config FILE     Configuration file (JSON, supports 'db_path' key)\n"
                   << "  --version, -v     Show version information and exit\n"
                   << "  --help, -h        Show this help message\n";
     };
 
     // Parse command-line arguments
     std::string db_path = "./data/themis_test";
-    // TODO: Implement configuration file loading logic
-    [[maybe_unused]] std::optional<std::string> config_path;
+    std::optional<std::string> config_path;
     
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg == "--version" || arg == "-v") {
+        if (themis::cli::is_version_flag(arg)) {
 #ifdef THEMIS_VERSION_STRING
             std::cout << THEMIS_VERSION_STRING << std::endl;
 #else
             std::cout << "unknown" << std::endl;
 #endif
             return 0;
-        } else if (arg == "--help" || arg == "-h") {
+        } else if (themis::cli::is_help_flag(arg)) {
             print_usage(argv[0]);
             return 0;
         } else if (arg == "--db" || arg == "--db-path") {
-            if (i + 1 < argc) {
-                db_path = argv[++i];
-            } else {
-                std::cerr << "Error: " << arg << " requires a value" << std::endl;
+            std::string err;
+            if (!themis::cli::consume_next_value(argc, argv, i, arg.c_str(), db_path, err)) {
+                std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
                 return 1;
             }
         } else if (arg == "--config") {
-            if (i + 1 < argc) {
-                config_path = argv[++i];
-                std::cerr << "Warning: Configuration file support is not yet implemented. The provided path will be ignored." << std::endl;
-            } else {
-                std::cerr << "Error: --config requires a value" << std::endl;
+            std::string val, err;
+            if (!themis::cli::consume_next_value(argc, argv, i, "--config", val, err)) {
+                std::cerr << "Error: " << err << std::endl;
                 print_usage(argv[0]);
                 return 1;
             }
+            config_path = val;
         } else {
             std::cerr << "Error: Unknown option: " << arg << std::endl;
             print_usage(argv[0]);
@@ -97,6 +95,26 @@ int main(int argc, char* argv[]) {
     
     // Initialize logger AFTER flag checks
     utils::Logger::init("vccdb.log", utils::Logger::Level::INFO);
+
+    // Load configuration file if provided
+    if (config_path) {
+        std::ifstream cfg_stream(*config_path);
+        if (!cfg_stream.is_open()) {
+            std::cerr << "Error: Cannot open config file: " << *config_path << std::endl;
+            return 1;
+        }
+        try {
+            nlohmann::json cfg = nlohmann::json::parse(cfg_stream);
+            if (cfg.contains("db_path") && cfg["db_path"].is_string()) {
+                db_path = cfg["db_path"].get<std::string>();
+            }
+            THEMIS_INFO("Loaded configuration from: {}", *config_path);
+        } catch (const nlohmann::json::exception& ex) {
+            std::cerr << "Error: Failed to parse config file " << *config_path
+                      << ": " << ex.what() << std::endl;
+            return 1;
+        }
+    }
     
     THEMIS_INFO("=== Themis Multi-Model Database System ===");
 #ifdef THEMIS_VERSION_STRING
@@ -318,8 +336,8 @@ int main(int argc, char* argv[]) {
         {
             THEMIS_INFO("--- Test 10: Parallel Query AND(users.age=30 AND users.active=true) ---");
             SecondaryIndexManager idxm(db);
-            QueryEngine qe(db, idxm);
-            ConjunctiveQuery q{ "users", { {"age", "30"}, {"active", "true"} } };
+            themis::query::QueryEngine qe(db, idxm);
+            themis::query::ConjunctiveQuery q{ "users", { {"age", "30"}, {"active", "true"} } };
             auto result = qe.executeAndEntities(q);
             if (!result) {
                 THEMIS_ERROR("Parallel query failed: {}", result.error().message());
@@ -330,7 +348,7 @@ int main(int argc, char* argv[]) {
             }
 
             // Optimierter Plan: Reihenfolge nach geschätzter Selektivität
-            QueryOptimizer opt(idxm);
+            themis::query::QueryOptimizer opt(idxm);
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
             std::string orderStr;
             for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {

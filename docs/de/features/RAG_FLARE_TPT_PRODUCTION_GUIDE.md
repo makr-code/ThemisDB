@@ -82,6 +82,6 @@ auto detector = KnowledgeGapDetectorFactory::createLegacy();
 
 ## Weiterführende Dokumente
 
-- [Migration v1.3 → v1.4](../../MIGRATION_v1.3_to_v1.4.md)
+- [Migration v1.3 → v1.4](../../migration/MIGRATION_v1.3_to_v1.4.md)
 - [Knowledge Gap Detector Usage](../llm/RAG_KNOWLEDGE_GAP_DETECTOR_USAGE.md)
 - [Phase-2-Implementierungshistorie](../../implementation-history/KNOWLEDGE_GAP_DETECTOR_PHASE2_COMPLETE.md)

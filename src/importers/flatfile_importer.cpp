@@ -1,30 +1,25 @@
+/**
+ * @file flatfile_importer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=9, M=19, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            flatfile_importer.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1468                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • de551b3f1  2026-02-28  feat(importers): Add Parquet support to flat-file importe... ║
-    • 8638d7889  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
-    • 001179174  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
-    • bcf86b908  2026-02-27  Add CSV/TSV/JSONL flat-file importer with unit tests and ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: flatfile_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1463
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=27, L=0
+ * PR History (last 5): #3229 feat(importers): Add Parque... (2026-03-12) | #3065 Add CSV/TSV/JSONL flat-file... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/flatfile_importer.h"
+#include <stdexcept>
 #include "importers/schema_validator.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -56,7 +51,7 @@ namespace importers {
  * remaining bytes of the current line are discarded and @p truncated is set
  * to true.  Returns false only when EOF is reached before any bytes are read.
  */
-static bool streamReadLine(std::istream& file,
+static bool streamReadLineFlat(std::istream& file,
                             std::string& line,
                             size_t max_bytes,
                             bool& truncated) {
@@ -207,21 +202,23 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
         }
 #ifdef ARROW_ENABLED
         // Open with Arrow Parquet reader to validate the full file footer.
-        std::shared_ptr<arrow::io::ReadableFile> infile;
-        auto open_status = arrow::io::ReadableFile::Open(source_path, &infile);
-        if (!open_status.ok()) {
+        auto open_result = arrow::io::ReadableFile::Open(source_path);
+        if (!open_result.ok()) {
             errors.push_back("Cannot open Parquet file via Arrow: " +
-                             open_status.ToString());
+                             open_result.status().ToString());
             return false;
         }
-        std::unique_ptr<parquet::arrow::FileReader> reader;
-        auto reader_status = parquet::arrow::OpenFile(
-            infile, arrow::default_memory_pool(), &reader);
-        if (!reader_status.ok()) {
+        std::shared_ptr<arrow::io::ReadableFile> infile = open_result.ValueOrDie();
+
+        auto reader_result = parquet::arrow::OpenFile(
+            infile, arrow::default_memory_pool());
+        if (!reader_result.ok()) {
             errors.push_back("Invalid Parquet file (Arrow): " +
-                             reader_status.ToString());
+                             reader_result.status().ToString());
             return false;
         }
+        std::unique_ptr<parquet::arrow::FileReader> reader =
+            std::move(reader_result).ValueOrDie();
         std::shared_ptr<arrow::Schema> schema;
         auto schema_status = reader->GetSchema(&schema);
         if (!schema_status.ok() || !schema) {
@@ -430,6 +427,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         if (!has_header_) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
+            cols_vec.reserve(fields.size());
             for (size_t i = 0; i < fields.size(); ++i)
                 cols_vec.push_back("col_" + std::to_string(i));
             // Re-wind: treat the first "header" line as a data row too
@@ -486,6 +484,8 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
 
                 std::vector<std::string> cols;
                 std::vector<std::string> vals;
+                cols.reserve(obj.size());
+                vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
                     if (val.is_null())               vals.emplace_back();
@@ -510,20 +510,24 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         }
     } else if (fmt == FlatFileFormat::PARQUET) {
 #ifdef ARROW_ENABLED
-        std::shared_ptr<arrow::io::ReadableFile> infile;
-        if (!arrow::io::ReadableFile::Open(source_path, &infile).ok())
+        auto open_result = arrow::io::ReadableFile::Open(source_path);
+        if (!open_result.ok())
             return result;
+        std::shared_ptr<arrow::io::ReadableFile> infile = open_result.ValueOrDie();
 
-        std::unique_ptr<parquet::arrow::FileReader> reader;
-        if (!parquet::arrow::OpenFile(
-                infile, arrow::default_memory_pool(), &reader).ok())
+        auto reader_result = parquet::arrow::OpenFile(
+            infile, arrow::default_memory_pool());
+        if (!reader_result.ok())
             return result;
+        std::unique_ptr<parquet::arrow::FileReader> reader =
+            std::move(reader_result).ValueOrDie();
 
         std::shared_ptr<arrow::Schema> schema;
         if (!reader->GetSchema(&schema).ok() || !schema) return result;
 
         DetectedSchema detected;
         detected.table_name = table;
+        detected.columns.reserve(static_cast<size_t>(schema->num_fields()));
         for (int i = 0; i < schema->num_fields(); ++i) {
             const auto& field = schema->field(i);
             detected.columns.push_back(field->name());
@@ -655,7 +659,7 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
     bool sample_truncated = false;
 
     while (sampled < sample_limit &&
-           streamReadLine(file, sample_line, line_limit, sample_truncated)) {
+           streamReadLineFlat(file, sample_line, line_limit, sample_truncated)) {
         if (sample_truncated || sample_line.empty()) continue;
         if (!sample_line.empty() && sample_line.back() == '\r')
             sample_line.pop_back();
@@ -714,7 +718,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     if (has_header_) {
         std::string header_line;
         bool truncated = false;
-        if (!streamReadLine(file, header_line, line_limit, truncated)) {
+        if (!streamReadLineFlat(file, header_line, line_limit, truncated)) {
             addError(stats, ImportErrorCode::FILE_READ_FAILED,
                      ImportErrorSeverity::CRITICAL,
                      "Empty file (expected header row): " + path);
@@ -763,7 +767,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     bool line_truncated = false;
     size_t row_index    = 0;
 
-    while (streamReadLine(file, line, line_limit, line_truncated) &&
+    while (streamReadLineFlat(file, line, line_limit, line_truncated) &&
            !cancelled_) {
         ++line_number;
         ++row_index;
@@ -922,7 +926,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         std::string sline;
         bool strunc = false;
         while (sampled < options.schema_sample_rows &&
-               streamReadLine(file, sline, line_limit, strunc)) {
+               streamReadLineFlat(file, sline, line_limit, strunc)) {
             if (strunc || sline.empty()) continue;
             if (!sline.empty() && sline.back() == '\r') sline.pop_back();
             if (sline.empty()) continue;
@@ -930,6 +934,8 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                 auto obj = json::parse(sline);
                 if (!obj.is_object()) continue;
                 std::vector<std::string> cols, vals;
+                cols.reserve(obj.size());
+                vals.reserve(obj.size());
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
                     if (val.is_null())               vals.emplace_back();
@@ -965,7 +971,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     size_t line_number  = 0;
     size_t row_index    = 0;
 
-    while (streamReadLine(file, line, line_limit, line_truncated) &&
+    while (streamReadLineFlat(file, line, line_limit, line_truncated) &&
            !cancelled_) {
         ++line_number;
 
@@ -1042,6 +1048,8 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         // Schema validation (type-mismatch warnings for JSONL)
         if (schema_validation_active && !jsonl_schema.columns.empty()) {
             std::vector<std::string> cols, vals;
+            cols.reserve(entity.size());
+            vals.reserve(entity.size());
             for (auto& [key, val] : entity.items()) {
                 cols.push_back(key);
                 if (val.is_null())               vals.emplace_back();
@@ -1118,25 +1126,26 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
     }
 
     // ---- Open file ----
-    std::shared_ptr<arrow::io::ReadableFile> infile;
-    auto open_status = arrow::io::ReadableFile::Open(path, &infile);
-    if (!open_status.ok()) {
+    auto open_result = arrow::io::ReadableFile::Open(path);
+    if (!open_result.ok()) {
         addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
                  ImportErrorSeverity::CRITICAL,
-                 "Cannot open Parquet file: " + open_status.ToString());
+                 "Cannot open Parquet file: " + open_result.status().ToString());
         return false;
     }
+    std::shared_ptr<arrow::io::ReadableFile> infile = open_result.ValueOrDie();
 
     // ---- Open Parquet reader ----
-    std::unique_ptr<parquet::arrow::FileReader> reader;
-    auto reader_status = parquet::arrow::OpenFile(
-        infile, arrow::default_memory_pool(), &reader);
-    if (!reader_status.ok()) {
+    auto reader_result = parquet::arrow::OpenFile(
+        infile, arrow::default_memory_pool());
+    if (!reader_result.ok()) {
         addError(stats, ImportErrorCode::FILE_READ_FAILED,
                  ImportErrorSeverity::CRITICAL,
-                 "Failed to open Parquet reader: " + reader_status.ToString());
+                 "Failed to open Parquet reader: " + reader_result.status().ToString());
         return false;
     }
+    std::unique_ptr<parquet::arrow::FileReader> reader =
+        std::move(reader_result).ValueOrDie();
 
     // ---- Read full table ----
     std::shared_ptr<arrow::Table> arrow_table;
@@ -1337,7 +1346,10 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
 
     return true;
 #else
-    (void)path; (void)table; (void)options; (void)cb;
+    (void)path;
+    (void)table;
+    (void)options;
+    (void)cb;
     addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
              ImportErrorSeverity::CRITICAL,
              "Parquet import requires Apache Arrow "
@@ -1467,3 +1479,4 @@ void FlatFileImporterPlugin::shutdown() {
 // ============================================================================
 // Plugin Entry Points
 // ============================================================================
+

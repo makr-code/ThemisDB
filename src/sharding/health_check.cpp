@@ -1,27 +1,27 @@
+/**
+ * @file health_check.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            health_check.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     400                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: health_check.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 392
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=8, M=10, L=0
+ * PR History (last 5): #25 Implement URN-based horizon... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/health_check.h"
+#include <stdexcept>
 #include "sharding/mtls_client.h"
+#include "utils/thread_join_utils.h"
 #include <openssl/x509.h>
 #include <openssl/pem.h>
 #include <openssl/asn1.h>
@@ -32,10 +32,17 @@
 namespace themis {
 namespace sharding {
 
+/** @brief Construct health-check system with immutable runtime config. */
 HealthCheckSystem::HealthCheckSystem(const Config& config)
     : config_(config) {
 }
 
+/** @brief Destructor stops periodic checks and joins worker if needed. */
+HealthCheckSystem::~HealthCheckSystem() {
+    stopPeriodicChecks();
+}
+
+/** @brief Perform complete shard health assessment (cert/storage/network). */
 ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id, 
                                                      const std::string& endpoint,
                                                      const std::string& cert_path) {
@@ -85,6 +92,7 @@ ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id,
     return info;
 }
 
+/** @brief Execute health checks over all shards and aggregate cluster status. */
 ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::string, std::string>& shard_endpoints) {
     ClusterHealthInfo cluster_info;
     cluster_info.total_shards = static_cast<int>(shard_endpoints.size());
@@ -127,35 +135,89 @@ ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::stri
     return cluster_info;
 }
 
+/** @brief Register callback for periodic cluster-health updates. */
 void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     callback_ = callback;
 }
 
+/** @brief Start periodic cluster-health monitoring loop. */
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
-    running_ = true;
-    
-    std::thread([this, shard_endpoints]() {
-        while (running_) {
-            auto health = checkClusterHealth(shard_endpoints);
-            current_health_ = health;
-            
-            if (callback_) {
-                callback_(health);
-            }
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(config_.check_interval_ms));
+    std::thread stale_thread;
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        if (running_.load()) {
+            return;
         }
-    }).detach();
+        running_.store(true);
+
+        if (periodic_thread_.joinable()) {
+            if (periodic_thread_.get_id() == std::this_thread::get_id()) {
+                running_.store(false);
+                return;
+            }
+            stale_thread = std::move(periodic_thread_);
+        }
+    }
+
+    if (stale_thread.joinable()) {
+        themis::utils::joinThreadWithin(stale_thread);
+    }
+
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+    if (!running_.load()) {
+        return;
+    }
+    periodic_thread_ = std::thread([this, shard_endpoints]() {
+        while (running_.load()) {
+            auto health = checkClusterHealth(shard_endpoints);
+
+            HealthCheckCallback callback_copy;
+            {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                current_health_ = health;
+                callback_copy = callback_;
+            }
+
+            if (callback_copy) {
+                callback_copy(health);
+            }
+
+            std::unique_lock<std::mutex> lock(cv_mutex_);
+            cv_.wait_for(lock,
+                         std::chrono::milliseconds(config_.check_interval_ms),
+                         [this] { return !running_.load(); });
+        }
+    });
 }
 
+/** @brief Stop periodic monitoring loop and join worker thread safely. */
 void HealthCheckSystem::stopPeriodicChecks() {
-    running_ = false;
+    std::thread thread_to_join;
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        running_.store(false);
+        cv_.notify_all();
+
+        if (!periodic_thread_.joinable()) {
+            return;
+        }
+        if (periodic_thread_.get_id() == std::this_thread::get_id()) {
+            return;
+        }
+        thread_to_join = std::move(periodic_thread_);
+    }
+
+    themis::utils::joinThreadWithin(thread_to_join);
 }
 
+/** @brief Return latest cached cluster-health snapshot. */
 ClusterHealthInfo HealthCheckSystem::getCurrentHealth() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     return current_health_;
 }
 
+/** @brief Validate X509 certificate and return remaining lifetime in seconds. */
 bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, int64_t& seconds_until_expiry) {
     FILE* fp = fopen(cert_path.c_str(), "r");
     if (!fp) {
@@ -179,87 +241,15 @@ bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, i
         return false;
     }
     
-    // Use OpenSSL's ASN1_TIME_diff for safe and portable time comparison
-    // This is preferred over manual parsing as it handles all ASN1 time formats
+    // Use OpenSSL's ASN1_TIME_diff for safe and portable time comparison.
     int day_diff = 0;
     int sec_diff = 0;
     
-    // ASN1_TIME_diff calculates (to - from) and stores days and seconds separately
-    // We pass nullptr for 'from' which defaults to current time
+    // ASN1_TIME_diff calculates (to - from) and stores days and seconds separately.
     if (ASN1_TIME_diff(&day_diff, &sec_diff, nullptr, not_after) != 1) {
-        // Fallback: try manual parsing if ASN1_TIME_diff fails
-        // This handles edge cases on older OpenSSL versions
-        
-        struct tm tm_expiry;
-        memset(&tm_expiry, 0, sizeof(tm_expiry));
-        
-        // Parse the ASN1_TIME string with input validation
-        const unsigned char* data = not_after->data;
-        int len = not_after->length;
-        
-        // Validate minimum length and digit characters
-        auto isDigit = [](unsigned char c) { return c >= '0' && c <= '9'; };
-        
-        if (not_after->type == V_ASN1_UTCTIME && len >= 12) {
-            // YYMMDDHHMMSSZ format - validate first 12 chars are digits
-            bool valid = true;
-            for (int i = 0; i < 12 && valid; i++) {
-                valid = isDigit(data[i]);
-            }
-            
-            if (valid) {
-                int year = (data[0] - '0') * 10 + (data[1] - '0');
-                tm_expiry.tm_year = (year >= 50) ? year : (100 + year);  // 1950-2049
-                tm_expiry.tm_mon = (data[2] - '0') * 10 + (data[3] - '0') - 1;
-                tm_expiry.tm_mday = (data[4] - '0') * 10 + (data[5] - '0');
-                tm_expiry.tm_hour = (data[6] - '0') * 10 + (data[7] - '0');
-                tm_expiry.tm_min = (data[8] - '0') * 10 + (data[9] - '0');
-                tm_expiry.tm_sec = (data[10] - '0') * 10 + (data[11] - '0');
-            } else {
-                X509_free(cert);
-                seconds_until_expiry = 30 * 86400;  // Default: assume 30 days
-                return true;
-            }
-        } else if (not_after->type == V_ASN1_GENERALIZEDTIME && len >= 14) {
-            // YYYYMMDDHHMMSSZ format - validate first 14 chars are digits
-            bool valid = true;
-            for (int i = 0; i < 14 && valid; i++) {
-                valid = isDigit(data[i]);
-            }
-            
-            if (valid) {
-                tm_expiry.tm_year = (data[0] - '0') * 1000 + (data[1] - '0') * 100 + 
-                                   (data[2] - '0') * 10 + (data[3] - '0') - 1900;
-                tm_expiry.tm_mon = (data[4] - '0') * 10 + (data[5] - '0') - 1;
-                tm_expiry.tm_mday = (data[6] - '0') * 10 + (data[7] - '0');
-                tm_expiry.tm_hour = (data[8] - '0') * 10 + (data[9] - '0');
-                tm_expiry.tm_min = (data[10] - '0') * 10 + (data[11] - '0');
-                tm_expiry.tm_sec = (data[12] - '0') * 10 + (data[13] - '0');
-            } else {
-                X509_free(cert);
-                seconds_until_expiry = 30 * 86400;  // Default: assume 30 days
-                return true;
-            }
-        } else {
-            X509_free(cert);
-            seconds_until_expiry = 30 * 86400;  // Default: assume 30 days if parsing fails
-            return true;
-        }
-        
-        // Convert to time_t (using mktime and adjusting for UTC)
-        // Note: mktime interprets as local time, so we adjust
-        tm_expiry.tm_isdst = 0;
-        time_t expiry_local = mktime(&tm_expiry);
-        
-        // Get timezone offset to convert local to UTC
-        struct tm* utc_tm = gmtime(&expiry_local);
-        time_t expiry_utc = mktime(utc_tm);
-        time_t tz_offset = expiry_local - expiry_utc;
-        
-        time_t expiry_time = expiry_local + tz_offset;
-        time_t now = time(nullptr);
-        
-        seconds_until_expiry = static_cast<int64_t>(expiry_time - now);
+        X509_free(cert);
+        seconds_until_expiry = 0;
+        return false;
     } else {
         // ASN1_TIME_diff succeeded - convert days and seconds to total seconds
         seconds_until_expiry = static_cast<int64_t>(day_diff) * 86400 + sec_diff;
@@ -271,6 +261,7 @@ bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, i
     return seconds_until_expiry > 0;
 }
 
+/** @brief Probe shard storage metrics endpoint and derive usage percentage. */
 bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double& usage_percent) {
     // Make HTTP request to shard to get storage metrics
     // Uses the /metrics or /health endpoint on the shard
@@ -319,12 +310,13 @@ bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double
         
         return true;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         usage_percent = 0.0;
         return false;
     }
 }
 
+/** @brief Probe shard health endpoint and measure network response latency. */
 bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, double& response_time_ms) {
     // Measure actual network latency to the shard endpoint
     
@@ -355,12 +347,13 @@ bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, do
         
         return true;
         
-    } catch (const std::exception& e) {
+    } catch (...) {
         response_time_ms = 0.0;
         return false;
     }
 }
 
+/** @brief Reduce per-shard health statuses to one cluster severity level. */
 HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInfo>& shard_health) {
     int critical_count = 0;
     int unhealthy_count = 0;
@@ -394,6 +387,7 @@ HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInf
     return HealthStatus::HEALTHY;
 }
 
+/** @brief Return true when healthy shards form strict majority quorum. */
 bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
     if (total_shards == 0) return false;
     return healthy_shards > total_shards / 2;
@@ -401,3 +395,4 @@ bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
 
 } // namespace sharding
 } // namespace themis
+

@@ -1,26 +1,21 @@
+/**
+ * @file prompt_engineering_integration.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_engineering_integration.cpp                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     594                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4e4752b78  2026-03-01  fix(prompt_engineering): wire buildMultiModalPrompt into ... ║
-    • f07f34efb  2026-02-22  Audit fixes: correct Stubs counter and strengthen injecti... ║
-    • b5b22125a  2026-02-22  Wire PromptInjectionDetector into PromptEngineeringIntegr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_engineering_integration.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 655
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=5, L=0
+ * PR History (last 5): #4410 feat(prompt_engineering): P... (2026-03-24) | #3344 fix(prompt_engineering): wi... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "prompt_engineering/prompt_engineering_integration.h"
@@ -45,6 +40,8 @@ nlohmann::json IntegrationConfig::toJson() const {
         {"enable_performance_tracking", enable_performance_tracking},
         {"enable_feedback_collection", enable_feedback_collection},
         {"enable_injection_detection", enable_injection_detection},
+        {"enable_reflection_tuning", enable_reflection_tuning},
+        {"reflection_max_iterations", reflection_max_iterations},
         {"min_executions_before_optimization", min_executions_before_optimization},
         {"min_success_rate_for_optimization", min_success_rate_for_optimization},
         {"background_worker_enabled", background_worker_enabled},
@@ -62,6 +59,8 @@ IntegrationConfig IntegrationConfig::fromJson(const nlohmann::json& j) {
     config.enable_performance_tracking = j.value("enable_performance_tracking", true);
     config.enable_feedback_collection = j.value("enable_feedback_collection", true);
     config.enable_injection_detection = j.value("enable_injection_detection", true);
+    config.enable_reflection_tuning = j.value("enable_reflection_tuning", false);
+    config.reflection_max_iterations = j.value("reflection_max_iterations", size_t{3});
     config.min_executions_before_optimization = j.value("min_executions_before_optimization", 100);
     config.min_success_rate_for_optimization = j.value("min_success_rate_for_optimization", 0.7);
     config.background_worker_enabled = j.value("background_worker_enabled", true);
@@ -438,6 +437,65 @@ void PromptEngineeringIntegration::afterExecution(
             }
         }
     }
+
+    // Snapshot reflection-tuning state under lock to prevent data races with
+    // updateConfig() / setReflectionTuner() / setMetrics() on other threads.
+    IntegrationConfig                        snap_config;
+    std::shared_ptr<ReflectionTuner>         snap_tuner;
+    std::shared_ptr<PromptEngineeringMetrics> snap_metrics;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        snap_config  = config_;
+        snap_tuner   = reflection_tuner_;
+        snap_metrics = metrics_;
+    }
+
+    // Optional reflection tuning pass — refine the response if a tuner is attached
+    // and the execution succeeded (no point refining failed/empty responses).
+    if (snap_config.enable_reflection_tuning && snap_tuner && success && !response.empty()) {
+        // Apply reflection_max_iterations from IntegrationConfig to the tuner so
+        // that callers who set config_.reflection_max_iterations actually see the
+        // change take effect on the next tune() call.  We intentionally operate on
+        // the snapshotted tuner pointer: if setReflectionTuner() is called concurrently,
+        // the replacement takes effect on the *next* invocation, not mid-flight.
+        auto tuner_cfg = snap_tuner->getConfig();
+        tuner_cfg.max_iterations = snap_config.reflection_max_iterations;
+        snap_tuner->setConfig(tuner_cfg);
+
+        if (snap_metrics) {
+            snap_metrics->recordReflectionCycleStart(ctx.prompt_id);
+        }
+
+        auto reflection_result = snap_tuner->tune(ctx.enhanced_prompt, response);
+
+        if (snap_metrics) {
+            const bool improved = reflection_result.quality_improvement > 0.0;
+            snap_metrics->recordReflectionCycleComplete(
+                ctx.prompt_id,
+                reflection_result.total_iterations,
+                improved);
+            snap_metrics->recordReflectionQualityDelta(
+                ctx.prompt_id,
+                reflection_result.quality_improvement);
+            if (reflection_result.halted_by_hallucination_guard) {
+                snap_metrics->recordReflectionGuardFired(ctx.prompt_id);
+            }
+        }
+
+        // Store reflection result as positive feedback when quality improved.
+        if (snap_config.enable_feedback_collection && feedback_collector_ &&
+            reflection_result.quality_improvement > 0.0) {
+            feedback_collector_->recordFeedback(
+                ctx.prompt_id,
+                ctx.enhanced_prompt,
+                reflection_result.final_response,
+                FeedbackType::USER_POSITIVE,
+                "Reflection tuning improved quality by " +
+                    std::to_string(static_cast<int>(
+                        reflection_result.quality_improvement * 100)) + "%",
+                static_cast<float>(reflection_result.quality_improvement));
+        }
+    }
 }
 
 void PromptEngineeringIntegration::startBackgroundOptimization() {
@@ -503,6 +561,18 @@ void PromptEngineeringIntegration::updateConfig(const IntegrationConfig& config)
         );
         background_worker_->start();
     }
+}
+
+void PromptEngineeringIntegration::setReflectionTuner(
+    std::shared_ptr<ReflectionTuner> tuner) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    reflection_tuner_ = std::move(tuner);
+}
+
+void PromptEngineeringIntegration::setMetrics(
+    std::shared_ptr<PromptEngineeringMetrics> metrics) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metrics_ = std::move(metrics);
 }
 
 void PromptEngineeringIntegration::checkAndTriggerOptimization(const std::string& prompt_id) {
@@ -593,3 +663,4 @@ std::string PromptEngineeringIntegration::generateExecutionId() {
 
 } // namespace prompt_engineering
 } // namespace themis
+

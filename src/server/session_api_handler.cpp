@@ -1,34 +1,33 @@
+/**
+ * @file session_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            session_api_handler.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     248                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5a1680095  2026-02-24  feat(auth): implement session management and revocation e... ║
-    • 125b23d98  2026-02-24  feat(auth): implement session management and revocation e... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: session_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 294
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=1, M=1, L=0
+ * PR History (last 5): #2811 [auth] Wire session revocat... (2026-03-12) | #2770 [auth] Implement session ma... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/session_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
+#include "utils/audit_logger.h"
 
 #include <chrono>
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -36,6 +35,27 @@ namespace server {
 // ---------------------------------------------------------------------------
 // Static helpers
 // ---------------------------------------------------------------------------
+
+namespace {
+
+constexpr size_t MAX_SESSION_IDENTIFIER_LEN = 256;
+constexpr size_t MAX_DEVICE_FINGERPRINT_LEN = 512;
+constexpr size_t MAX_USER_AGENT_LEN = 1024;
+
+bool isSafeSessionIdentifier(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), MAX_SESSION_IDENTIFIER_LEN) &&
+           validator.validatePathSegment(std::string(value));
+}
+
+bool isSafeHeaderLikeValue(std::string_view value, size_t max_len) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), max_len) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+} // namespace
 
 static std::string timePointToISO8601(std::chrono::system_clock::time_point tp) {
     // Guard against max() sentinel used for "no absolute timeout"
@@ -55,10 +75,12 @@ static std::string timePointToISO8601(std::chrono::system_clock::time_point tp) 
 
 SessionApiHandler::SessionApiHandler(
     std::shared_ptr<AuthMiddleware> auth,
-    std::shared_ptr<auth::SessionManager> manager
+    std::shared_ptr<auth::SessionManager> manager,
+    std::shared_ptr<utils::AuditLogger> audit_logger
 )
     : auth_(std::move(auth))
     , manager_(std::move(manager))
+    , audit_logger_(std::move(audit_logger))
 {
     if (!auth_)    { throw std::invalid_argument("SessionApiHandler: auth must not be null"); }
     if (!manager_) { throw std::invalid_argument("SessionApiHandler: manager must not be null"); }
@@ -91,6 +113,38 @@ nlohmann::json SessionApiHandler::sessionToJson(const auth::SessionManager::Sess
     return j;
 }
 
+void SessionApiHandler::auditAuthorizationDecision(
+    const std::string& scope,
+    const std::string& endpoint,
+    const AuthMiddleware::AuthResult& auth_result
+) {
+    if (!audit_logger_) {
+        return;
+    }
+
+    const auto event_type = auth_result.authorized
+        ? utils::SecurityEventType::CUSTOM_EVENT
+        : utils::SecurityEventType::PERMISSION_DENIED;
+
+    nlohmann::json details = {
+        {"component", "session_api_handler"},
+        {"scope", scope},
+        {"endpoint", endpoint},
+        {"decision", auth_result.authorized ? "allowed" : "denied"}
+    };
+    if (!auth_result.reason.empty()) {
+        details["reason"] = auth_result.reason;
+    }
+
+    const std::string actor = auth_result.user_id.empty() ? "anonymous" : auth_result.user_id;
+
+    try {
+        audit_logger_->logSecurityEvent(event_type, actor, endpoint, details);
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("SessionApiHandler audit logging failed: {}", ex.what());
+    }
+}
+
 // ---------------------------------------------------------------------------
 // createSession
 // ---------------------------------------------------------------------------
@@ -100,7 +154,16 @@ nlohmann::json SessionApiHandler::createSession(
     const nlohmann::json& body,
     const std::string& client_ip
 ) {
+    auto span = Tracer::startSpan("createSession");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
+    if (!client_ip.empty() && !isSafeHeaderLikeValue(client_ip, 128)) {
+        return makeError(400, "Invalid client_ip format");
+    }
+
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
+    auditAuthorizationDecision("auth:sessions", "POST /auth/sessions", auth_result);
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::createSession – unauthorized: {}", auth_result.reason);
         return makeError(401, "Unauthorized: " + auth_result.reason);
@@ -114,9 +177,15 @@ nlohmann::json SessionApiHandler::createSession(
     if (body.is_object()) {
         if (body.contains("device_fingerprint") && body["device_fingerprint"].is_string()) {
             device_fingerprint = body["device_fingerprint"].get<std::string>();
+            if (!isSafeHeaderLikeValue(device_fingerprint, MAX_DEVICE_FINGERPRINT_LEN)) {
+                return makeError(400, "Invalid device_fingerprint format");
+            }
         }
         if (body.contains("user_agent") && body["user_agent"].is_string()) {
             user_agent = body["user_agent"].get<std::string>();
+            if (!isSafeHeaderLikeValue(user_agent, MAX_USER_AGENT_LEN)) {
+                return makeError(400, "Invalid user_agent format");
+            }
         }
     }
 
@@ -148,7 +217,16 @@ nlohmann::json SessionApiHandler::listSessions(
     const std::string& bearer_token,
     const std::string& current_session
 ) {
+    auto span = Tracer::startSpan("listSessions");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
+    if (!current_session.empty() && !isSafeSessionIdentifier(current_session)) {
+        return makeError(400, "current_session contains invalid characters or length");
+    }
+
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
+    auditAuthorizationDecision("auth:sessions", "GET /auth/sessions", auth_result);
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::listSessions – unauthorized: {}", auth_result.reason);
         return makeError(401, "Unauthorized: " + auth_result.reason);
@@ -178,11 +256,19 @@ nlohmann::json SessionApiHandler::revokeSession(
     const std::string& bearer_token,
     const std::string& session_id
 ) {
+    auto span = Tracer::startSpan("revokeSession");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
     if (session_id.empty()) {
         return makeError(400, "session_id must not be empty");
     }
+    if (!isSafeSessionIdentifier(session_id)) {
+        return makeError(400, "session_id contains invalid characters or length");
+    }
 
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
+    auditAuthorizationDecision("auth:sessions", "DELETE /auth/sessions/{session_id}", auth_result);
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::revokeSession – unauthorized: {}", auth_result.reason);
         return makeError(401, "Unauthorized: " + auth_result.reason);
@@ -191,7 +277,9 @@ nlohmann::json SessionApiHandler::revokeSession(
     const std::string& caller_id = auth_result.user_id;
 
     // Admins may revoke any session; regular users only their own
-    bool is_admin = auth_->authorize(bearer_token, "admin:all").authorized;
+    auto admin_result = auth_->authorize(bearer_token, "admin:all");
+    auditAuthorizationDecision("admin:all", "DELETE /auth/sessions/{session_id}", admin_result);
+    bool is_admin = admin_result.authorized;
 
     auto result = manager_->validateSession(session_id);
     if (!result.valid || !result.session.has_value()) {
@@ -225,7 +313,16 @@ nlohmann::json SessionApiHandler::revokeAllOtherSessions(
     const std::string& bearer_token,
     const std::string& current_session
 ) {
+    auto span = Tracer::startSpan("revokeAllOtherSessions");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
+    if (!current_session.empty() && !isSafeSessionIdentifier(current_session)) {
+        return makeError(400, "current_session contains invalid characters or length");
+    }
+
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
+    auditAuthorizationDecision("auth:sessions", "DELETE /auth/sessions", auth_result);
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::revokeAllOtherSessions – unauthorized: {}",
                     auth_result.reason);

@@ -1,32 +1,28 @@
+/**
+ * @file llm_deployment_plugin.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_deployment_plugin.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:07                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     353                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 43c682e67  2026-02-07  feat: Add LLM deployment plugin with Ollama integration, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_deployment_plugin.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 362
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4308 fix(llm): merge develop, re... (2026-03-19) | #4304 [LLM-DEP-123] Implement Roc... (2026-03-17) | #1101 feat: Add LLM deployment pl... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "llm/model_downloader.h"
 #include "llm/llm_plugin_interface.h"
-// NOTE: LLMModelStorage is forward-declared to avoid link dependency until implementation exists
-// #include "llm/llm_model_storage.h"
+#include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include <string>
@@ -41,10 +37,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-// Forward declaration to avoid linker errors until llm_model_storage.cpp is implemented
-class LLMModelStorage;
-struct LLMModelMetadata;
-
 /**
  * @brief Deployment mode for LLM models
  */
@@ -58,6 +50,7 @@ enum class DeploymentMode {
  * @brief Source configuration for model deployment
  */
 struct ModelSource {
+    virtual ~ModelSource() = default;
     std::string type;              // "local", "ollama", "http", "https"
     std::string location;          // Path or URL
     std::string checksum_type;     // "sha256", "md5", etc.
@@ -81,7 +74,12 @@ struct DeploymentConfig {
     // BaseEntity storage (RocksDB integration)
     bool use_base_entity_storage = true;  // Store models in RocksDB as BaseEntity
     std::shared_ptr<RocksDBWrapper> db;   // RocksDB instance
-    std::string collection_name = "llm_models";  // Collection name in RocksDB
+    // Key prefix for RocksDB entries. Keys are constructed as: key_prefix + model_id
+    // (e.g. default "llm_model::" + "my-model" → "llm_model::my-model").
+    std::string key_prefix = "llm_model::";
+    // Set to true only when a BlobStorageManager is configured; otherwise only
+    // metadata is persisted and model weights remain on the local filesystem.
+    bool store_weights_in_rocksdb = false;
     
     // Model sources (checked in priority order)
     std::vector<ModelSource> sources;
@@ -116,6 +114,7 @@ struct DeploymentConfig {
  * @brief Status of a deployed model
  */
 struct ModelStatus {
+    virtual ~ModelStatus() = default;
     std::string model_id;
     std::string model_path;
     std::string version;
@@ -170,10 +169,27 @@ public:
     explicit LLMDeploymentPlugin(const DeploymentConfig& config);
     
     ~LLMDeploymentPlugin() = default;
-    
+
     // ═══════════════════════════════════════════════════════════
-    // Core Deployment Operations
+    // Thread-local request context (JWT user propagation)
     // ═══════════════════════════════════════════════════════════
+
+    /// Authentication context set by HTTP handlers before invoking deployment operations.
+    struct RequestContext {
+        std::string user_id;    ///< Authenticated user / service account
+        std::string client_ip;  ///< Originating client IP address (may be empty)
+    };
+
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any method that performs audit logging.
+    static void setRequestContext(const RequestContext& ctx) noexcept;
+
+    /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user_id from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
     
     /**
      * @brief Deploy a model (download if needed, verify, make available)
@@ -339,6 +355,9 @@ private:
     void loadModelRegistry();
     std::optional<ModelSource> findBestSource(const std::string& model_id);
     std::string getModelPath(const std::string& model_id) const;
+    /// Converts a model_id into a sanitised filename (colons/slashes → '_', '.gguf' appended
+    /// when no recognised extension is present). Shared by getModelPath() and findBestSource().
+    static std::string modelIdToFilename(const std::string& model_id);
     bool verifyChecksum(const std::string& file_path, 
                         const std::string& expected_checksum,
                         const std::string& checksum_type);

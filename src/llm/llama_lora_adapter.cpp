@@ -1,23 +1,21 @@
+/**
+ * @file llama_lora_adapter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_lora_adapter.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     470                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_lora_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 542
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=7, M=0, L=0
+ * PR History (last 5): #905 Replace LoRA adapter stub w... (2026-03-11) | #1149 Implement grammar-constrain... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <llama.h>
@@ -51,6 +49,36 @@
 // - llama.cpp b1000+ (with LoRA adapter API)
 // - Older llama.cpp versions (graceful fallback)
 //
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a graceful runtime fallback when llama.cpp is built
+//   without LoRA support.  At first call, `initializeLoRAAPI()` attempts to
+//   locate `llama_lora_adapter_init` and `llama_lora_adapter_set` via
+//   `dlsym`/`GetProcAddress`.  If either is absent, `g_lora_api_available` is
+//   set to false and all LoRA operations (init, set, remove, clear, free) log
+//   an error and return -1 / nullptr.  Additionally, the legacy
+//   `llama_lora_adapter_set_path(ctx, path)` signature always returns -1
+//   because the required `llama_model*` pointer is unavailable at that call site.
+// Activation: llama.cpp linked without LoRA support (pre-b1000 builds or builds
+//   without `LLAMA_LORA=ON`); or `llama_lora_adapter_init` not exported from
+//   the linked llama.cpp shared/static library.  When `themis_lora_inject_api_functions()`
+//   has been called with non-null init and set pointers, the override path is
+//   active and the dlsym-detected path is bypassed entirely.
+// Production Delta: LoRA fine-tuned adapter hot-swapping is disabled.
+//   All inference requests run the base model at full weight; per-client or
+//   per-jurisdiction LoRA personalisation is silently skipped.
+//   MultiLoRAManager will report all adapters as inactive.
+// Removal Plan: Rebuild llama.cpp with `-DLLAMA_LORA=ON` (≥ b1000) and ensure
+//   the shared library exports `llama_lora_adapter_init` / `llama_lora_adapter_set`.
+//   Verify by re-running ThemisDB — the log line
+//   "✓ llama.cpp LoRA API detected and loaded successfully" confirms activation.
+//   The override path (themis_lora_inject_api_functions) is retained for testing.
+// Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp LoRA Adapter Runtime Activation"
+// RESOLVED 2026-05-06 — `themis_lora_inject_api_functions(init, set, remove, clear, free)`
+//   extern "C" API added; when called with non-null init+set, the override path
+//   bypasses dlsym detection so tests can exercise all LoRA code paths without a
+//   real llama.cpp LoRA build; null arguments revert to detected path; tests
+//   LORA-INJ-01..03 added in test_gpu_lora_integration.cpp.
+//
 // ═══════════════════════════════════════════════════════════
 
 namespace {
@@ -70,6 +98,17 @@ namespace {
     
     std::once_flag g_lora_api_init_flag;
     bool g_lora_api_available = false;
+
+    // Override function pointers for testing (set via themis_lora_inject_api_functions()
+    // before any LoRA call).  When g_lora_api_override_active is true, these take
+    // precedence over the dlsym-detected pointers so tests can run without a real
+    // llama.cpp LoRA build.
+    llama_lora_adapter_init_fn   g_override_lora_init   = nullptr;
+    llama_lora_adapter_set_fn    g_override_lora_set    = nullptr;
+    llama_lora_adapter_remove_fn g_override_lora_remove = nullptr;
+    llama_lora_adapter_clear_fn  g_override_lora_clear  = nullptr;
+    llama_lora_adapter_free_fn   g_override_lora_free   = nullptr;
+    bool g_lora_api_override_active = false;
     
     /**
      * @brief Initialize LoRA API function pointers via dynamic lookup
@@ -225,9 +264,11 @@ int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_p
  * @return Adapter handle on success, nullptr on error
  */
 void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) {
-    ensureAPIInitialized();
-    
-    if (!g_lora_api_available || !g_llama_lora_adapter_init) {
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    auto* fn        = g_lora_api_override_active ? g_override_lora_init : g_llama_lora_adapter_init;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_init != nullptr) : g_lora_api_available;
+
+    if (!avail || !fn) {
         spdlog::error("llama_lora_adapter_init: LoRA API not available");
         return nullptr;
     }
@@ -244,8 +285,8 @@ void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) 
     
     spdlog::info("Loading LoRA adapter from: {}", path_lora);
     
-    // Call real llama.cpp function
-    void* adapter = g_llama_lora_adapter_init(model, path_lora);
+    // Call real (or injected) llama.cpp function
+    void* adapter = fn(model, path_lora);
     
     if (adapter) {
         spdlog::info("✓ LoRA adapter loaded successfully");
@@ -265,9 +306,11 @@ void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) 
  * @return 0 on success, non-zero on error
  */
 int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale) {
-    ensureAPIInitialized();
-    
-    if (!g_lora_api_available || !g_llama_lora_adapter_set) {
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    auto* fn        = g_lora_api_override_active ? g_override_lora_set : g_llama_lora_adapter_set;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_set != nullptr) : g_lora_api_available;
+
+    if (!avail || !fn) {
         spdlog::error("llama_lora_adapter_set_with_scale: LoRA API not available");
         return -1;
     }
@@ -279,8 +322,8 @@ int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, 
     
     spdlog::debug("Applying LoRA adapter with scale: {}", scale);
     
-    // Call real llama.cpp function
-    int result = g_llama_lora_adapter_set(ctx, adapter, scale);
+    // Call real (or injected) llama.cpp function
+    int result = fn(ctx, adapter, scale);
     
     if (result == 0) {
         spdlog::debug("✓ LoRA adapter applied successfully");
@@ -299,12 +342,16 @@ int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, 
  * @return 0 on success, non-zero on error
  */
 int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
-    ensureAPIInitialized();
-    
-    if (!g_lora_api_available || !g_llama_lora_adapter_remove) {
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    auto* fn        = g_lora_api_override_active ? g_override_lora_remove : g_llama_lora_adapter_remove;
+    auto* set_fn    = g_lora_api_override_active ? g_override_lora_set    : g_llama_lora_adapter_set;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_remove != nullptr || g_override_lora_set != nullptr)
+                                                   : g_lora_api_available;
+
+    if (!avail || !fn) {
         // If remove is not available, try setting scale to 0
-        if (g_llama_lora_adapter_set) {
-            return g_llama_lora_adapter_set(ctx, adapter, 0.0f);
+        if (set_fn) {
+            return set_fn(ctx, adapter, 0.0f);
         }
         spdlog::error("llama_lora_adapter_remove: LoRA API not available");
         return -1;
@@ -317,8 +364,8 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
     
     spdlog::debug("Removing LoRA adapter from context");
     
-    // Call real llama.cpp function
-    int result = g_llama_lora_adapter_remove(ctx, adapter);
+    // Call real (or injected) llama.cpp function
+    int result = fn(ctx, adapter);
     
     if (result == 0) {
         spdlog::debug("✓ LoRA adapter removed successfully");
@@ -336,9 +383,11 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
  * @return 0 on success, non-zero on error
  */
 int llama_lora_adapter_clear(struct llama_context* ctx) {
-    ensureAPIInitialized();
-    
-    if (!g_lora_api_available || !g_llama_lora_adapter_clear) {
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    auto* fn        = g_lora_api_override_active ? g_override_lora_clear : g_llama_lora_adapter_clear;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_clear != nullptr) : g_lora_api_available;
+
+    if (!avail || !fn) {
         spdlog::warn("llama_lora_adapter_clear: LoRA API not available");
         return -1;
     }
@@ -350,8 +399,8 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
     
     spdlog::debug("Clearing all LoRA adapters from context");
     
-    // Call real llama.cpp function
-    int result = g_llama_lora_adapter_clear(ctx);
+    // Call real (or injected) llama.cpp function
+    int result = fn(ctx);
     
     if (result == 0) {
         spdlog::debug("✓ All LoRA adapters cleared successfully");
@@ -368,9 +417,11 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
  * @param adapter Adapter handle to free
  */
 void llama_lora_adapter_free(void* adapter) {
-    ensureAPIInitialized();
-    
-    if (!g_lora_api_available || !g_llama_lora_adapter_free) {
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    auto* fn        = g_lora_api_override_active ? g_override_lora_free : g_llama_lora_adapter_free;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_free != nullptr) : g_lora_api_available;
+
+    if (!avail || !fn) {
         spdlog::warn("llama_lora_adapter_free: LoRA API not available, handle not freed");
         return;
     }
@@ -382,8 +433,8 @@ void llama_lora_adapter_free(void* adapter) {
     
     spdlog::debug("Freeing LoRA adapter handle");
     
-    // Call real llama.cpp function
-    g_llama_lora_adapter_free(adapter);
+    // Call real (or injected) llama.cpp function
+    fn(adapter);
     
     spdlog::debug("✓ LoRA adapter handle freed");
 }
@@ -394,8 +445,9 @@ void llama_lora_adapter_free(void* adapter) {
  * @return true if LoRA functions are available, false otherwise
  */
 bool themis_llama_lora_available() {
-    ensureAPIInitialized();
-    return g_lora_api_available;
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    return g_lora_api_override_active ? (g_override_lora_init != nullptr && g_override_lora_set != nullptr)
+                                      : g_lora_api_available;
 }
 
 /**
@@ -413,7 +465,9 @@ bool themis_llama_lora_available() {
  *       Invalid adapter indices will be detected by llama.cpp and return an error.
  */
 int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale) {
-    ensureAPIInitialized();
+    if (!g_lora_api_override_active) ensureAPIInitialized();
+    auto* fn        = g_lora_api_override_active ? g_override_lora_set : g_llama_lora_adapter_set;
+    const bool avail = g_lora_api_override_active ? (g_override_lora_set != nullptr) : g_lora_api_available;
     
     if (!ctx) {
         spdlog::error("llama_lora_adapter_set: null context provided");
@@ -428,34 +482,25 @@ int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float s
         return -1;
     }
     
-    if (!g_lora_api_available) {
+    if (!avail) {
         spdlog::error("llama_lora_adapter_set: LoRA API not available in this llama.cpp build");
         spdlog::error("  Rebuild llama.cpp with LLAMA_LORA=ON to enable LoRA support");
         return -1;
     }
     
     // Convert integer handle back to pointer
-    // IMPORTANT: This assumes adapter_index was originally obtained from a valid
-    // llama_lora_adapter_init() call and stored as an integer by MultiLoRAManager.
-    // We cannot validate the pointer's validity here - that's done by llama.cpp
-    // when we call g_llama_lora_adapter_set(). Invalid pointers will be detected
-    // and the function will return an error code.
-    //
-    // Design rationale: MultiLoRAManager stores adapter handles as uintptr_t cast to int
-    // to avoid carrying around void* pointers in the slot structure. This is a common
-    // pattern in C++ code that interfaces with C APIs.
     void* adapter = reinterpret_cast<void*>(static_cast<uintptr_t>(adapter_index));
     
     spdlog::debug("Applying LoRA adapter (handle: 0x{:x}) with scale: {}", 
                   static_cast<uintptr_t>(adapter_index), scale);
     
-    // Call the real llama.cpp function
-    if (!g_llama_lora_adapter_set) {
+    // Call the real (or injected) llama.cpp function
+    if (!fn) {
         spdlog::error("llama_lora_adapter_set function pointer not initialized");
         return -1;
     }
     
-    int result = g_llama_lora_adapter_set(ctx, adapter, scale);
+    int result = fn(ctx, adapter, scale);
     
     if (result == 0) {
         spdlog::debug("✓ LoRA adapter applied successfully");
@@ -468,6 +513,41 @@ int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float s
     }
     
     return result;
+}
+
+/**
+ * @brief Inject LoRA API function pointers for testing.
+ *
+ * Overrides the runtime-detected (dlsym) function pointers so that unit tests
+ * can exercise all LoRA code paths without a real llama.cpp build that exports
+ * the LoRA API.  Pass nullptr for all parameters to revert to the detected path.
+ *
+ * @note Call before any other LoRA function.  Not thread-safe — intended for
+ *       test set-up only.
+ * @note Parameters are passed as void* to avoid a llama.h dependency in callers.
+ *       Internally they are reinterpret_cast to the correct function pointer types.
+ */
+void themis_lora_inject_api_functions(
+    void* init_fn,
+    void* set_fn,
+    void* remove_fn,
+    void* clear_fn,
+    void* free_fn)
+{
+    g_override_lora_init   = reinterpret_cast<llama_lora_adapter_init_fn>(init_fn);
+    g_override_lora_set    = reinterpret_cast<llama_lora_adapter_set_fn>(set_fn);
+    g_override_lora_remove = reinterpret_cast<llama_lora_adapter_remove_fn>(remove_fn);
+    g_override_lora_clear  = reinterpret_cast<llama_lora_adapter_clear_fn>(clear_fn);
+    g_override_lora_free   = reinterpret_cast<llama_lora_adapter_free_fn>(free_fn);
+    g_lora_api_override_active = (init_fn != nullptr && set_fn != nullptr);
+    if (g_lora_api_override_active) {
+        g_lora_api_available = true;
+        spdlog::debug("LoRA API injected for testing (init={}, set={})",
+                      init_fn != nullptr, set_fn != nullptr);
+    } else {
+        g_lora_api_available = false;
+        spdlog::debug("LoRA API injection cleared; reverted to dlsym-detected path");
+    }
 }
 
 } // extern "C"

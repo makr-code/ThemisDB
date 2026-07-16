@@ -1,43 +1,27 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_processor.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     920                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file geo_processor.cpp
- * @brief Geospatial Content Processor Implementation
- * 
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 
 #include "content/geo_processor.h"
+#include <exception>
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <sstream>
 #include <chrono>
 #include <fstream>
 #include <filesystem>
+#include <stdexcept>
 
 #ifdef THEMIS_ENABLE_GDAL
 #include <gdal/gdal.h>
@@ -268,8 +252,8 @@ ContentExtractionResult GeoProcessor::extract(
 
 std::vector<ContentChunk> GeoProcessor::chunk(
     const ContentExtractionResult& result,
-    int max_tokens,
-    int overlap
+    int /*max_tokens*/,
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -407,7 +391,7 @@ static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     }
 }
 
-GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& /*blob*/) {
     GeoExtractionData data;
     data.crs = "EPSG:4326";  // KML is always WGS84
     data.geometry_type = "Mixed";
@@ -418,7 +402,7 @@ GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& /*blob*/) {
     GeoExtractionData data;
     data.crs = "EPSG:4326";  // GPX is always WGS84
     data.geometry_type = "Track";
@@ -428,7 +412,7 @@ GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -607,7 +591,7 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob,
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -702,7 +686,7 @@ GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob
 }
 
 // Helper function for GeoTIFF processing
-GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<uint8_t>& blob) {
     GeoExtractionData data;
     data.crs = default_crs_;
     data.geometry_type = "Raster";
@@ -921,3 +905,4 @@ THEMIS_CONTENT_PLUGIN(GeoProcessor)
 
 } // namespace content
 } // namespace themis
+

@@ -1,52 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            task_scheduler.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     673                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 53b4dd4b5  2026-03-01  feat(scheduler): alert on task failure or SLA breach ║
-    • e290e7611  2026-03-01  feat(scheduler): add FIBONACCI_BACKOFF retry strategy ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file task_scheduler.h
- * @brief Generic task scheduler for ThemisDB with AQL query execution support
- * 
- * ⚠️ SECURITY RISK: This implementation allows arbitrary AQL query execution
- * and custom function calls on a schedule. It requires careful security controls:
- * - Authentication and authorization for task registration/modification
- * - Query validation and sanitization to prevent injection attacks
- * - Resource limits (CPU, memory, I/O) to prevent DoS
- * - Audit logging for all task operations
- * - Encrypted storage of task definitions containing sensitive data
- * - Isolation and sandboxing of task execution contexts
- * 
- * Provides a cron-like task scheduling system that can execute AQL queries
- * and functions on a schedule. Designed for post-processing operations such as:
- * - Data compression and batch optimization after RocksDB storage
- * - Periodic data aggregation and rollups
- * - Data cleanup and maintenance tasks
- * - Custom post-processing workflows
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 90/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_TASK_SCHEDULER_H
-#define THEMIS_TASK_SCHEDULER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -55,11 +18,13 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <functional>
 #include <optional>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"
 #include "scheduler/task_audit_event.h"
@@ -69,7 +34,8 @@
 namespace themis {
 
 // Forward declarations
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 class EventTriggerManager;
 class CronExpression;
 class RocksDBWrapper;
@@ -141,6 +107,16 @@ struct ScheduledTask {
     // Task state
     bool enabled = true;
     bool running = false;  // Currently executing
+
+    // ── Starvation prevention via aging ──────────────────────────────────
+    /// How many consecutive scheduler ticks this task was ready-but-skipped
+    /// (due to the concurrency limit being reached).  When this counter
+    /// reaches the configured `aging_threshold` the scheduler temporarily
+    /// treats the task as having NORMAL priority (LOW→NORMAL) or HIGH
+    /// priority (NORMAL→HIGH) so that it cannot be starved indefinitely by
+    /// higher-priority tasks.  The counter is reset to 0 when the task is
+    /// dispatched or when the task is disabled.
+    uint32_t consecutive_skips = 0;
 
     // ── Error categorization ──────────────────────────────────────────────
     /**
@@ -218,6 +194,55 @@ struct ScheduledTask {
     };
 
     std::optional<RetryPolicy> retry_policy;  // Advanced retry configuration (optional)
+
+    /**
+     * @brief SLO-based adaptive retry configuration (Phase 5, v1.9.0).
+     *
+     * When set together with @c sla_deadline, the scheduler adapts retry behaviour
+     * to avoid spending the full SLA budget on retries and prevent cascading SLO
+     * violations.
+     *
+     * Adaptive rules applied before each retry delay:
+     *  1. If elapsed task time + computed retry delay > sla_deadline *
+     *     slo_budget_fraction, the retry delay is clamped to the remaining SLA
+     *     budget fraction (minimum 0 ms — i.e. retry immediately).
+     *  2. If the remaining SLA budget (sla_deadline − elapsed) ≤ 0, all further
+     *     retries are skipped immediately — the task has already exceeded its SLO.
+     *  3. When the rolling SLO compliance rate (over the last @c slo_history_window
+     *     executions) drops below @c slo_compliance_threshold, the effective
+     *     max_retries is clamped to @c min_retries_under_pressure.
+     *
+     * Requires @c sla_deadline to be set; ignored (no-op) otherwise.
+     */
+    struct SloRetryConfig {
+        /// Enable SLO-based retry adaptation.
+        bool slo_aware = true;
+
+        /// Maximum fraction of @c sla_deadline that may be consumed by retry
+        /// delays.  E.g. 0.5 means retries can use at most 50 % of the SLA
+        /// budget, leaving the rest for actual task execution.
+        double slo_budget_fraction = 0.5;
+
+        /// When the rolling SLO compliance rate drops below this threshold,
+        /// max_retries is clamped to @c min_retries_under_pressure.
+        double slo_compliance_threshold = 0.8;
+
+        /// Minimum number of retries always allowed, even under SLO pressure.
+        size_t min_retries_under_pressure = 1;
+
+        /// Rolling window size (number of recent executions) used for compliance
+        /// tracking.  Set to 0 to disable history-based retry reduction.
+        size_t slo_history_window = 20;
+    };
+
+    /// Optional SLO-aware adaptive retry configuration.
+    /// Requires @c sla_deadline to be set; silently ignored otherwise.
+    std::optional<SloRetryConfig> slo_retry_config;
+
+    // SLO compliance tracking (updated atomically after each execution; protected
+    // by tasks_mutex_ in the scheduler).
+    size_t slo_violations       = 0;  ///< Cumulative SLO violations in current window
+    size_t slo_window_count     = 0;  ///< Total executions tracked in current window
 
     // Task dependency configuration
     std::vector<std::string> dependencies;  // IDs of tasks that must complete before this task runs
@@ -320,6 +345,8 @@ public:
         bool enable_audit_logging = true;      // Enable comprehensive audit logging
         bool enable_anomaly_detection = true;  // Enable anomaly detection
         bool enable_gdpr_mode = false;         // Enable GDPR-compliant data masking
+        /// Path for the audit log JSONL file. Empty string = use TaskAuditManager default.
+        std::string audit_log_path;
 
         // Result store configuration
         bool   enable_result_store = false;         // Store task output in ThemisDB after each run
@@ -335,7 +362,50 @@ public:
         size_t max_concurrent_tasks_ceil   = 16;    ///< Maximum worker slots (ceiling for scaling)
         size_t scale_up_queue_depth        = 2;     ///< Pending tasks threshold to trigger scale-up
         size_t scale_down_idle_ticks       = 3;     ///< Consecutive idle ticks before scale-down
+
+        // Sandboxed execution
+        bool sandbox_execution = false; ///< When true, wrap user-provided task functions in ModuleSandbox
+
+        // Starvation prevention via aging (Issue #1928 / scheduler/FUTURE_ENHANCEMENTS.md)
+        // When a task is ready-but-skipped (concurrency limit reached) for
+        // `aging_threshold` consecutive ticks its effective priority is boosted
+        // by one level (LOW→NORMAL, NORMAL→HIGH) until it is dispatched.
+        // Set to 0 to disable aging.
+        uint32_t aging_threshold = 5; ///< Ticks before a skipped task's priority is boosted
     };
+
+    /**
+     * @brief Per-request authentication context propagated via thread-local storage.
+     *
+     * HTTP handler code sets this on the handler thread before calling scheduler
+     * operations. The scheduler reads it when constructing audit events so that
+     * audit trails correctly attribute operations to the requesting operator rather
+     * than the system account.
+     */
+    struct RequestContext {
+        std::string user_id;    ///< Authenticated user / service account
+        std::string client_ip;  ///< Originating client IP address (may be empty)
+        std::unordered_set<std::string> granted_permissions; ///< Effective permissions/scopes for this request
+        std::unordered_set<std::string> roles;               ///< Effective roles/groups for this request
+        std::string authorization_justification;             ///< Why access was granted (policy/scope decision)
+    };
+
+    /// Set the authentication context for the calling thread.
+    /// Must be called before any scheduler method that performs audit logging.
+    /// Thread-safe (each thread owns its own context slot).
+    static void setRequestContext(const RequestContext& ctx) noexcept;
+
+    /// Clear the authentication context for the calling thread.
+    static void clearRequestContext() noexcept;
+
+    /// Return the user ID from the thread-local request context, or @p fallback.
+    static std::string currentUserId(const char* fallback = "system") noexcept;
+
+    /// Return the client IP from the thread-local request context (empty if not set).
+    static std::string currentClientIp() noexcept;
+    static bool hasPermission(const std::string& permission) noexcept;
+    static bool hasRole(const std::string& role) noexcept;
+    static std::string currentAuthorizationJustification(const char* fallback = "") noexcept;
     
     /**
      * @brief Construct a task scheduler
@@ -610,7 +680,7 @@ private:
 
     // Alertmanager for task failure and SLA breach alerts (optional)
     std::shared_ptr<observability::Alertmanager> alertmanager_;
-    mutable std::mutex alert_mutex_;
+    mutable std::shared_mutex alert_mutex_;
     // Tracks active failure alert IDs per task: task_id -> alert_id
     std::map<std::string, std::string> active_failure_alert_ids_;
 
@@ -708,4 +778,3 @@ private:
 
 } // namespace themis
 
-#endif // THEMIS_TASK_SCHEDULER_H

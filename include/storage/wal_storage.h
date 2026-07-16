@@ -1,23 +1,21 @@
+/**
+ * @file wal_storage.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.46
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_storage.h                                      ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-09 03:55:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     188                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_storage.h | Version: 0.0.46 | Last Modified: 2026-06-02 07:42:46
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 211
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4596 perf(storage): fix ~79x sus... (2026-04-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -85,7 +83,19 @@ public:
     struct Config {
         std::string dir;                              ///< Directory for WAL segment files
         uint64_t    rotation_threshold_bytes = 64 * 1024 * 1024; ///< Rotate at 64 MiB
-        bool        fsync_on_write = true;            ///< fsync every entry (max durability)
+        bool        fsync_on_write = true;            ///< fsync every individual entry (max durability)
+    };
+
+    /**
+     * @brief A batch entry passed to appendBatch().
+     *
+     * Using a dedicated BatchEntry (rather than Entry) avoids confusion with
+     * the sequence-bearing Entry returned during recovery replay.
+     */
+    struct BatchEntry {
+        EntryType        type;
+        std::string_view key;
+        std::string_view value;   ///< empty for DEL
     };
 
     /**
@@ -134,6 +144,22 @@ public:
     Result<uint64_t> appendDelete(std::string_view key);
 
     /**
+     * @brief Group-commit: write multiple entries with a single fsync.
+     *
+     * All entries in @p entries are serialised and written in sequence, then
+     * the WAL file is fsynced exactly once (when Config::fsync_on_write is true).
+     * This amortises fsync overhead across many writes, allowing sustained
+     * throughput in the 100k+ ops/s range while retaining ACID durability.
+     *
+     * If the batch spans a segment boundary, a rotation is performed between
+     * segments and each segment is individually fsynced before rotation.
+     *
+     * @param entries  Non-empty span of entries to write atomically.
+     * @return The sequence number of the *last* entry in the batch, or an error.
+     */
+    Result<uint64_t> appendBatch(std::vector<BatchEntry> entries);
+
+    /**
      * @brief Write a CHECKPOINT entry and optionally delete old segments.
      *
      * After a successful checkpoint the primary store is guaranteed to
@@ -171,11 +197,16 @@ private:
     Result<void> openOrCreate(RecoveryCallback& on_recover);
     Result<void> replaySegment(const std::string& path, RecoveryCallback& cb);
     Result<void> rotateIfNeeded();
-    Result<void> openNewSegment();
+    Result<void> openNewSegment(uint64_t segment_id);
     Result<uint64_t> appendEntry(EntryType type,
                                   std::string_view key,
                                   std::string_view value);
-    void syncIfRequired();
+    // Write one entry to fd_ without taking the mutex or calling syncIfRequired().
+    // Caller must hold mutex_ and handle rotation/fsync externally.
+    Result<uint64_t> appendEntryLocked(EntryType type,
+                                        std::string_view key,
+                                        std::string_view value);
+    Result<void> syncIfRequired();
 
     Config                config_;
     mutable std::mutex    mutex_;

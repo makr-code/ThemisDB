@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_adapter_application.cpp                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:01:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     347                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_adapter_application.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -65,7 +51,7 @@ protected:
         MultiLoRAManager::Config config;
         config.max_lora_slots = 10;
         config.max_lora_vram_mb = 1024;
-        config.lora_ttl = std::chrono::seconds(3600);
+        config.lora_ttl = std::chrono::seconds(0);  // Disable TTL-based eviction for tests
         config.enable_adapter_fusion = true;
         config.multi_gpu.enabled = false;  // Single GPU for tests
         config.quantization.enabled = false;  // Test without quantization first
@@ -181,10 +167,20 @@ TEST_F(LoraAdapterApplicationTest, PinAndUnpinLoRA) {
 
 TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContext) {
     ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
-    
-    // Apply with null context (mock mode for testing)
+    manager_->setApplyAdapterFn([](const LoRASlot& slot) {
+        return slot.lora_id == "adapter1";
+    });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
+    auto* slot = manager_->getLoRA("adapter1");
+    ASSERT_NE(slot, nullptr);
+    EXPECT_TRUE(slot->is_active);
+}
+
+TEST_F(LoraAdapterApplicationTest, ApplyLoRAWithNullContextBridgeFailure) {
+    ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
+    manager_->setApplyAdapterFn([](const LoRASlot&) { return false; });
+    EXPECT_FALSE(manager_->applyLoRA("adapter1", nullptr));
 }
 
 TEST_F(LoraAdapterApplicationTest, ApplyNonexistentLoRA) {
@@ -197,7 +193,8 @@ TEST_F(LoraAdapterApplicationTest, ApplyNonexistentLoRA) {
 
 TEST_F(LoraAdapterApplicationTest, RemoveLoRA) {
     ASSERT_TRUE(manager_->loadLoRA("adapter1", adapter_paths_["adapter1"], "model", false, GPUPlacement::SINGLE_GPU, 1.0f));
-    
+    manager_->setApplyAdapterFn([](const LoRASlot&) { return true; });
+    manager_->setRemoveAdapterFn([](const LoRASlot&) { return true; });
     bool applied = manager_->applyLoRA("adapter1", nullptr);
     EXPECT_TRUE(applied);
     

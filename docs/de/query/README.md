@@ -1,9 +1,9 @@
 # Query Module
 
-**Stand:** 9. März 2026
-**Version:** 1.5.0
+**Stand:** 6. April 2026
+**Version:** 1.9.0
 **Kategorie:** Query
-**Validated:** 2026-03-09 (ab3b22a)
+**Validated:** 2026-04-06
 **Status:** current
 
 ---
@@ -14,10 +14,10 @@ Das Query-Modul implementiert den vollständigen AQL-Abfrage-Stack von ThemisDB:
 Optimizer, Execution-Engine und Caching-Infrastruktur. AQL unterstützt relationale,
 Dokument-, Graph-, Vektor-, Geo- und Zeitreihen-Modelle sowie SQL- und SPARQL-Kompatibilität.
 
-**Primäre Dokumentation:** [`src/query/README.md`](../../src/query/README.md)  
-**Architektur:** [`src/query/ARCHITECTURE.md`](../../src/query/ARCHITECTURE.md)  
-**Roadmap:** [`src/query/ROADMAP.md`](../../src/query/ROADMAP.md)  
-**Geplante Erweiterungen:** [`src/query/FUTURE_ENHANCEMENTS.md`](../../src/query/FUTURE_ENHANCEMENTS.md)
+- **Primäre Dokumentation:** [Query-Modul README](../../../src/query/README.md)
+- **Architektur:** [Query-Modul Architektur](../../../src/query/ARCHITECTURE.md)
+- **Roadmap:** [Query-Modul Roadmap](../../../src/query/ROADMAP.md)
+- **Geplante Erweiterungen:** [Query Future Enhancements](../../../src/query/FUTURE_ENHANCEMENTS.md)
 
 ---
 
@@ -43,6 +43,7 @@ Dokument-, Graph-, Vektor-, Geo- und Zeitreihen-Modelle sowie SQL- und SPARQL-Ko
 | ParallelScan | `parallel_scan.h` | *(header-only)* | Paralleler Collection-Scan |
 | CrossClusterFederator | `cross_cluster_federation.h` | `cross_cluster_federation.cpp` | Verteilte Query-Federation über Cluster-Endpoints |
 | QueryFederation | `query_federation.h` | `query_federation.cpp` | Interne Shard-Level-Federation |
+| ShardingManager | `sharding_manager.h` | `sharding_manager_edition.cpp` | Consistent-Hash-Ring für Shard-Key-Routing (GetShardForKey, GetShardsForKeyRange) |
 | QueryCache | `query_cache.h` | `query_cache.cpp` | Exakter Query-Result-Cache |
 | QueryCacheManager | `query_cache_manager.h` | `query_cache_manager.cpp` | Cache-Verwaltung und -Metriken |
 | SemanticCache | `semantic_cache.h` | `semantic_cache.cpp` | Embedding-basierter Ähnlichkeits-Cache |
@@ -165,15 +166,55 @@ Result<std::string>    explainAqlText(const std::string& aql, QueryEngine& engin
 Result<std::string>    explainAqlDot(const std::string& aql, QueryEngine& engine);
 ```
 
+## Usage
+
+- **AQL ausführen:** `executeAql(...)` als Standard-Entry-Point für Query-Pipeline (Parse → Optimize → Execute)
+- **Ressourcen begrenzen:** `executeAqlWithLimits(...)` für `max_rows`, `max_memory_bytes`, `timeout_ms`
+- **Kooperativer Abbruch:** `executeAqlCancellable(...)` + `QueryCanceller::cancel(request_id)`
+- **Fehleranalyse:** `explainAql(...)`, `explainAqlText(...)`, `explainAqlDot(...)` für Plan-Diagnostik
+
+## Installation
+
+Das Query-Modul wird als Teil von ThemisDB gebaut:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```
+
+Siehe [`SETUP.md`](../../../SETUP.md) für vollständige Abhängigkeiten und Build-Umgebung.
+
+## Troubleshooting
+
+- Parser-/Syntaxprobleme: [`../../troubleshooting/aql_troubleshooting.md`](../../troubleshooting/aql_troubleshooting.md)
+- Laufzeit-, Timeout- und Federation-Probleme: [`../../troubleshooting/query_troubleshooting.md`](../../troubleshooting/query_troubleshooting.md)
+- Hybrid-Query-spezifische Performance: [`query_hybrid_benchmarks.md`](query_hybrid_benchmarks.md)
+
 ## Verwandte Dokumentation
 
-- [Primary Source Docs](../../src/query/README.md) — vollständige API-Referenz
-- [Architecture](../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
-- [ROADMAP](../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
+- [Primäre Quelldokumentation](../../../src/query/README.md) — vollständige API-Referenz
+- [Architektur](../../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
+- [Roadmap](../../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
+- [Geplante Erweiterungen](../../../src/query/FUTURE_ENHANCEMENTS.md) — geplante APIs, Grenzen, Backlog
 - [AQL Syntax](../aql/aql_syntax.md) — AQL-Sprachreferenz
 - [Hybrid Search](query_vector_hybrid.md) — Vector + Filter Hybridabfragen
 - [Filtered Vector Queries](query_filtered_vector.md) — Gefilterte Vektorsuche
 - [Hybrid Overview](query_hybrid_overview.md) — Übersicht Hybrid-Queries
 - [Query Benchmarks](query_hybrid_benchmarks.md) — Performance-Messungen
-- [Missing Implementations](missing-implementations.md) — Bekannte Lücken und geplante Arbeiten
+- [Missing Implementations](MISSING_IMPLEMENTATIONS.md) — Bekannte Lücken und geplante Arbeiten
 
+---
+
+## Shard-Key-Routing (v1.9.0)
+
+`QueryFederation` nutzt jetzt den `ShardingManager` für präzises Shard-Key-Routing:
+
+- **Prädikat-Extraktion**: `._key==` / `._key>=` / `._key<=` Prädikate werden aus der AQL-Where-Klausel extrahiert
+- **Routing-Strategien**: `PARTITION_PRUNING` (direktes Shard-Key-Routing) vs. `SCATTER_GATHER` (Broadcast bei fehlendem Schlüssel)
+- **Warnung bei >10 Shards**: `SCATTER_GATHER`-Abfragen über mehr als 10 Shards erzeugen eine Warnung
+
+**Konstruktoren:**
+```cpp
+QueryFederation(ShardRouter, ShardingManager&, Config)  // Shard-Key-Routing
+QueryFederation(ShardRouter, Config)                     // Einfaches Routing
+```

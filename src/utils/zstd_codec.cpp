@@ -1,23 +1,21 @@
+/**
+ * @file zstd_codec.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zstd_codec.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     248                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: zstd_codec.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 415
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=0, L=0
+ * PR History (last 5): #4522 feat(utils): UUID v7, LZ4 c... (2026-04-13) | #4147 feat(sharding): Raft Snapsh... (2026-03-13) | #408 docs: Complete SYSTEMATISCH... (2026-03-11) | #896 Fix CWE-400 buffer overflow... (2026-03-11) | #1052 Implement GAP-005: Content ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/zstd_codec.h"
@@ -111,11 +109,52 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
     
     return Ok(std::move(output));
 #else
-    (void)data; (void)size; (void)level;
-    return Err<std::vector<uint8_t>>(
-        errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
-        "ZSTD support not compiled in (THEMIS_HAS_ZSTD not defined)"
-    );
+    (void)level;
+    if (!data || size == 0) {
+        return Ok(std::vector<uint8_t>());
+    }
+    if (size > compression::MAX_INPUT_SIZE) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            fmt::format("Input size {} exceeds maximum {}", size, compression::MAX_INPUT_SIZE)
+        );
+    }
+
+    // Lightweight fallback when ZSTD is unavailable:
+    // byte-oriented RLE framing: ['T','R','L','E',mode,payload...]
+    // mode=1: RLE pairs [count,value], mode=0: raw payload passthrough.
+    std::vector<uint8_t> rle;
+    rle.reserve(size + 5);
+    rle.push_back(static_cast<uint8_t>('T'));
+    rle.push_back(static_cast<uint8_t>('R'));
+    rle.push_back(static_cast<uint8_t>('L'));
+    rle.push_back(static_cast<uint8_t>('E'));
+    rle.push_back(1u);
+
+    for (size_t i = 0; i < size;) {
+        const uint8_t value = data[i];
+        size_t run = 1;
+        while (i + run < size && data[i + run] == value && run < 255) {
+            ++run;
+        }
+        rle.push_back(static_cast<uint8_t>(run));
+        rle.push_back(value);
+        i += run;
+    }
+
+    if (rle.size() >= size + 5) {
+        std::vector<uint8_t> raw;
+        raw.reserve(size + 5);
+        raw.push_back(static_cast<uint8_t>('T'));
+        raw.push_back(static_cast<uint8_t>('R'));
+        raw.push_back(static_cast<uint8_t>('L'));
+        raw.push_back(static_cast<uint8_t>('E'));
+        raw.push_back(0u);
+        raw.insert(raw.end(), data, data + size);
+        return Ok(std::move(raw));
+    }
+
+    return Ok(std::move(rle));
 #endif
 }
 
@@ -220,11 +259,58 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     
     return Ok(std::move(output));
 #else
-    (void)compressed;
-    return Err<std::vector<uint8_t>>(
-        errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
-        "ZSTD support not compiled in (THEMIS_HAS_ZSTD not defined)"
-    );
+    if (compressed.empty()) {
+        return Ok(std::vector<uint8_t>());
+    }
+    if (compressed.size() < 5
+        || compressed[0] != static_cast<uint8_t>('T')
+        || compressed[1] != static_cast<uint8_t>('R')
+        || compressed[2] != static_cast<uint8_t>('L')
+        || compressed[3] != static_cast<uint8_t>('E')) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Fallback RLE frame header missing"
+        );
+    }
+
+    const uint8_t mode = compressed[4];
+    if (mode == 0u) {
+        return Ok(std::vector<uint8_t>(compressed.begin() + 5, compressed.end()));
+    }
+    if (mode != 1u) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Fallback RLE frame mode invalid"
+        );
+    }
+    if (((compressed.size() - 5) % 2) != 0) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Fallback RLE payload malformed"
+        );
+    }
+
+    std::vector<uint8_t> output;
+    for (size_t i = 5; i + 1 < compressed.size(); i += 2) {
+        const uint8_t count = compressed[i];
+        const uint8_t value = compressed[i + 1];
+        if (count == 0) {
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                "Fallback RLE count must be > 0"
+            );
+        }
+        output.insert(output.end(), static_cast<size_t>(count), value);
+        if (output.size() > compression::MAX_DECOMPRESSED_SIZE) {
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                fmt::format("Decompressed size {} exceeds maximum {}",
+                            output.size(), compression::MAX_DECOMPRESSED_SIZE)
+            );
+        }
+    }
+
+    return Ok(std::move(output));
 #endif
 }
 
@@ -245,6 +331,181 @@ std::vector<uint8_t> zstd_decompress(const std::vector<uint8_t>& compressed) {
     }
     // On error, return empty vector (backward compatible behavior)
     return {};
+}
+
+// ---------------------------------------------------------------------------
+// Streaming compressor
+// ---------------------------------------------------------------------------
+
+struct ZstdStreamCompressor::Impl {
+#ifdef THEMIS_HAS_ZSTD
+    ZSTD_CStream* cstream = nullptr;
+    int           level   = 3;
+
+    explicit Impl(int lvl) : level(lvl) {
+        cstream = ZSTD_createCStream();
+        if (cstream) ZSTD_initCStream(cstream, level);
+    }
+    ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
+
+    void reinit(int new_level) {
+        level = (new_level > 0) ? new_level : level;
+        if (cstream) ZSTD_initCStream(cstream, level);
+    }
+#else
+    explicit Impl(int) {}
+#endif
+};
+
+ZstdStreamCompressor::ZstdStreamCompressor(int level)
+    : impl_(std::make_unique<Impl>(level)) {}
+
+ZstdStreamCompressor::~ZstdStreamCompressor() = default;
+
+Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t* data, size_t size) {
+#ifdef THEMIS_HAS_ZSTD
+    if (!impl_->cstream) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                          "ZSTD stream not initialised");
+    }
+    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+
+    const size_t out_buf_size = ZSTD_CStreamOutSize();
+    std::vector<uint8_t> output;
+    output.reserve(out_buf_size);
+
+    ZSTD_inBuffer  in  = { data, size, 0 };
+    while (in.pos < in.size) {
+        std::vector<uint8_t> chunk(out_buf_size);
+        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        const size_t rc = ZSTD_compressStream(impl_->cstream, &out, &in);
+        if (ZSTD_isError(rc)) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                              ZSTD_getErrorName(rc));
+        }
+        output.insert(output.end(), chunk.begin(), chunk.begin() + static_cast<ptrdiff_t>(out.pos));
+    }
+    return Ok(std::move(output));
+#else
+    (void)data;
+    (void)size;
+    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                      "ZSTD support not compiled in");
+#endif
+}
+
+Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
+#ifdef THEMIS_HAS_ZSTD
+    if (!impl_->cstream) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                          "ZSTD stream not initialised");
+    }
+    const size_t out_buf_size = ZSTD_CStreamOutSize();
+    std::vector<uint8_t> output;
+
+    // Flush then end-frame loop.
+    for (bool done = false; !done; ) {
+        std::vector<uint8_t> chunk(out_buf_size);
+        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        const size_t remaining = ZSTD_endStream(impl_->cstream, &out);
+        if (ZSTD_isError(remaining)) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                              ZSTD_getErrorName(remaining));
+        }
+        output.insert(output.end(), chunk.begin(), chunk.begin() + static_cast<ptrdiff_t>(out.pos));
+        done = (remaining == 0);
+    }
+    // Reset so the compressor can be reused.
+    ZSTD_initCStream(impl_->cstream, impl_->level);
+    return Ok(std::move(output));
+#else
+    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                      "ZSTD support not compiled in");
+#endif
+}
+
+void ZstdStreamCompressor::reset(int level) {
+#ifdef THEMIS_HAS_ZSTD
+    if (impl_->cstream) impl_->reinit(level);
+#else
+    (void)level;
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// Streaming decompressor
+// ---------------------------------------------------------------------------
+
+struct ZstdStreamDecompressor::Impl {
+#ifdef THEMIS_HAS_ZSTD
+    ZSTD_DStream* dstream = nullptr;
+    bool          done    = false;
+
+    Impl() {
+        dstream = ZSTD_createDStream();
+        if (dstream) ZSTD_initDStream(dstream);
+    }
+    ~Impl() { if (dstream) ZSTD_freeDStream(dstream); }
+
+    void reinit() {
+        done = false;
+        if (dstream) ZSTD_initDStream(dstream);
+    }
+#else
+    bool done = false;
+    Impl() {}
+#endif
+};
+
+ZstdStreamDecompressor::ZstdStreamDecompressor()
+    : impl_(std::make_unique<Impl>()) {}
+
+ZstdStreamDecompressor::~ZstdStreamDecompressor() = default;
+
+Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint8_t* data, size_t size) {
+#ifdef THEMIS_HAS_ZSTD
+    if (!impl_->dstream) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                          "ZSTD decompression stream not initialised");
+    }
+    if (!data || size == 0) return Ok(std::vector<uint8_t>());
+
+    const size_t out_buf_size = ZSTD_DStreamOutSize();
+    std::vector<uint8_t> output;
+    output.reserve(out_buf_size);
+
+    ZSTD_inBuffer in = { data, size, 0 };
+    while (in.pos < in.size) {
+        std::vector<uint8_t> chunk(out_buf_size);
+        ZSTD_outBuffer out = { chunk.data(), chunk.size(), 0 };
+        const size_t rc = ZSTD_decompressStream(impl_->dstream, &out, &in);
+        if (ZSTD_isError(rc)) {
+            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                              ZSTD_getErrorName(rc));
+        }
+        output.insert(output.end(), chunk.begin(), chunk.begin() + static_cast<ptrdiff_t>(out.pos));
+        if (rc == 0) {
+            impl_->done = true;
+            break; // Frame complete.
+        }
+    }
+    return Ok(std::move(output));
+#else
+    (void)data;
+    (void)size;
+    return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                                      "ZSTD support not compiled in");
+#endif
+}
+
+bool ZstdStreamDecompressor::is_done() const {
+    return impl_->done;
+}
+
+void ZstdStreamDecompressor::reset() {
+#ifdef THEMIS_HAS_ZSTD
+    if (impl_->dstream) impl_->reinit();
+#endif
 }
 
 } // namespace utils

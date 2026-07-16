@@ -1,32 +1,27 @@
+/**
+ * @file feature_flags.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feature_flags.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     83                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1973a06f2  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
-    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
-    • da9b09bcc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
-    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feature_flags.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 66
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * PR History (last 5): #3292 feat(performance): Adaptive... (2026-03-12) | #2918 feat(performance): Memory p... (2026-03-12) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase3/feature_flags.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -73,7 +68,7 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
                 set_adaptive_batch_tuner_enabled(phase3["adaptive_batch_tuner_enabled"]);
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ignore JSON parsing errors, use defaults
     }
 }
@@ -81,3 +76,4 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
 } // namespace phase3
 } // namespace performance
 } // namespace themis
+

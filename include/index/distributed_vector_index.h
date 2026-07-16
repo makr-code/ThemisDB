@@ -1,26 +1,21 @@
+/**
+ * @file distributed_vector_index.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_vector_index.h                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     212                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1ec732da1  2026-02-26  fix(index): Code audit fixes for DistributedVectorIndex –... ║
-    • 6af3fad50  2026-02-26  feat(index): Distributed vector index across shards (Issu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_vector_index.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 198
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3034 feat(index): Distributed ve... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -187,9 +182,11 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, std::pair<size_t, int64_t>> pk_to_shard_;
     std::unordered_map<std::string, int64_t> pk_to_global_id_;
+    std::unordered_map<int64_t, uint64_t> global_versions_;
 
     // Per-shard mapping: local ANN ID -> stable global ID returned by search().
     std::vector<std::unordered_map<int64_t, int64_t>> local_to_global_id_;
+    std::vector<std::unordered_map<int64_t, uint64_t>> local_to_global_version_;
 
     // Per-shard next-ID counters (monotonically increasing; IDs are never reused)
     std::vector<int64_t> next_id_;

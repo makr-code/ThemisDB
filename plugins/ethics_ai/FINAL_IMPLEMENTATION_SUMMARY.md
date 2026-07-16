@@ -42,15 +42,15 @@ The Ethics AI Plugin has been successfully implemented as a **native C++ plugin*
 ### Core Implementation (43 files, ~7,000 LOC)
 
 #### Plugin Components (15 files)
-- `ethics_ai_plugin.cpp` - Main plugin implementation
-- `ethics_ai_types.{h,cpp}` - Core data structures
-- `argument_store.{h,cpp}` - BaseEntity storage integration
-- `rag_context_engine.{h,cpp}` - AQL-based context retrieval
-- `discourse_engine.{h,cpp}` - Debate orchestration
-- `ethics_evaluator.{h,cpp}` - 5-dimension evaluation
-- `philosophy_loader.{h,cpp}` - YAML profile loader
-- `ethics_aql_queries.h` - 26 AQL query templates ✨ NEW
-- `ethics_base_entity_adapter.h` - BaseEntity conversions ✨ NEW
+- `src/ethics_ai/ethics_ai_plugin.cpp` - Main plugin implementation
+- `src/ethics_ai/ethics_ai_types.{h,cpp}` - Core data structures
+- `src/ethics_ai/argument_store.{h,cpp}` - BaseEntity storage integration
+- `src/ethics_ai/rag_context_engine.{h,cpp}` - AQL-based context retrieval
+- `src/ethics_ai/discourse_engine.{h,cpp}` - Debate orchestration
+- `src/ethics_ai/ethics_evaluator.{h,cpp}` - 5-dimension evaluation
+- `src/ethics_ai/philosophy_loader.{h,cpp}` - YAML profile loader
+- `include/plugins/ethics_ai/ethics_aql_queries.h` - 26 AQL query templates ✨ NEW
+- `include/plugins/ethics_ai/ethics_base_entity_adapter.h` - BaseEntity conversions ✨ NEW
 
 #### Philosophy Profiles (11 files, ~120KB)
 - `kant.yaml`, `utilitarianism.yaml`, `contractualism.yaml`
@@ -84,7 +84,7 @@ The Ethics AI Plugin has been successfully implemented as a **native C++ plugin*
 - `examples/README.md` - Example docs
 
 #### Build System (2 files)
-- `CMakeLists.txt` - Plugin build configuration
+- `CMakeLists.txt` - Compatibility shim / legacy entry point
 - `ethics_ai_plugin.json.in` - Plugin metadata
 
 ---

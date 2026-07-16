@@ -1,24 +1,21 @@
+/**
+ * @file opencl_backend.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            opencl_backend.h                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     143                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 78597cb45  2026-02-23  feat(acceleration): add OpenCL backend header and registr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: opencl_backend.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 143
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2708 feat(acceleration): OpenCL ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -26,6 +23,8 @@
 #include "acceleration/compute_backend.h"
 #include <vector>
 #include <memory>
+#include <functional>
+#include <mutex>
 
 #ifdef THEMIS_ENABLE_OPENCL
 #ifdef __APPLE__
@@ -132,6 +131,17 @@ public:
         size_t k,
         bool useL2 = true
     ) override;
+
+    // -----------------------------------------------------------------------
+    // Stub-path injection — active only when THEMIS_ENABLE_OPENCL is not defined.
+    // -----------------------------------------------------------------------
+    using ComputeDistancesFn = std::function<std::vector<float>(
+        const float* query, size_t query_count, size_t dim,
+        const float* db, size_t db_count, bool use_l2)>;
+
+    /// Inject a computeDistances implementation for the non-OpenCL stub path.
+    /// Pass empty fn to restore fail-closed stub default (returns {}).
+    static void setComputeDistancesFn(ComputeDistancesFn fn);
 };
 
 #endif // THEMIS_ENABLE_OPENCL

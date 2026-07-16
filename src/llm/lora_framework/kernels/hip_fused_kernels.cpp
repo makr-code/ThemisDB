@@ -1,23 +1,21 @@
+/**
+ * @file hip_fused_kernels.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=13, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hip_fused_kernels.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     448                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hip_fused_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 478
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=31, H=32, M=0, L=0
+ * PR History (last 5): #3629 [MODULE] llm â€“ build-syst... (2026-03-12) | #573 Implement kernel fusion opt... (2026-03-11) | #605 Implement GPU kernels for M... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_HIP
@@ -25,6 +23,7 @@
 #include "llm/lora_framework/hip_fused_kernels.h"
 #include <hip/hip_runtime.h>
 #include <algorithm>
+#include <limits>
 
 namespace themis {
 namespace llm {
@@ -110,7 +109,7 @@ __global__ void fused_lora_forward_kernel(
             // Accumulate contribution to output
             if (out_idx < out_dim) {
                 float partial_result = 0.0f;
-                int tile_size = min(TILE_SIZE, (int)(rank - tile_start));
+                int tile_size = min(TILE_SIZE, static_cast<int>(rank - tile_start));
                 for (int i = 0; i < tile_size; i++) {
                     int r = tile_start + i;
                     partial_result += shared_h[i] * A[r * out_dim + out_idx];
@@ -345,6 +344,17 @@ hipError_t launch_fused_lora_forward(
     float scaling,
     hipStream_t stream
 ) {
+    if (input == nullptr || B == nullptr || A == nullptr || output == nullptr) {
+        return hipErrorInvalidValue;
+    }
+    if (batch_size == 0 || in_dim == 0 || rank == 0 || out_dim == 0) {
+        return hipErrorInvalidValue;
+    }
+    if (batch_size > static_cast<size_t>(std::numeric_limits<unsigned int>::max()) ||
+        out_dim > static_cast<size_t>(std::numeric_limits<unsigned int>::max())) {
+        return hipErrorInvalidValue;
+    }
+
     const int TILE_SIZE = 16;
     dim3 blockDim(TILE_SIZE, 1);
     dim3 gridDim((out_dim + TILE_SIZE - 1) / TILE_SIZE, batch_size);
@@ -375,6 +385,20 @@ hipError_t launch_fused_lora_backward(
     float scaling,
     hipStream_t stream
 ) {
+    if (input == nullptr || B == nullptr || A == nullptr || grad_output == nullptr ||
+        grad_A == nullptr || grad_B == nullptr || grad_input == nullptr) {
+        return hipErrorInvalidValue;
+    }
+    if (batch_size == 0 || in_dim == 0 || rank == 0 || out_dim == 0) {
+        return hipErrorInvalidValue;
+    }
+    if (batch_size > static_cast<size_t>(std::numeric_limits<unsigned int>::max()) ||
+        in_dim > static_cast<size_t>(std::numeric_limits<unsigned int>::max()) ||
+        rank > static_cast<size_t>(std::numeric_limits<unsigned int>::max()) ||
+        out_dim > static_cast<size_t>(std::numeric_limits<unsigned int>::max())) {
+        return hipErrorInvalidValue;
+    }
+
     dim3 blockDim(16, 16);
     
     // Launch with 3D grid for different gradient types
@@ -405,6 +429,13 @@ hipError_t launch_fused_sgd_step(
     float weight_decay,
     hipStream_t stream
 ) {
+    if (params == nullptr || grads == nullptr || size == 0) {
+        return hipErrorInvalidValue;
+    }
+    if (size > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        return hipErrorInvalidValue;
+    }
+
     int blockSize = 256;
     int gridSize = (size + blockSize - 1) / blockSize;
     
@@ -428,6 +459,13 @@ hipError_t launch_fused_mse_loss_gradient(
     int num_blocks,
     hipStream_t stream
 ) {
+    if (grad_output == nullptr || partial_loss == nullptr || predictions == nullptr || targets == nullptr) {
+        return hipErrorInvalidValue;
+    }
+    if (n <= 0 || num_blocks <= 0) {
+        return hipErrorInvalidValue;
+    }
+
     int threads = 256;
     int blocks = num_blocks;
     

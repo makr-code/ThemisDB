@@ -1,54 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_cache_coordinator.h                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e0b252ddc  2026-02-25  feat(cache): implement Redis-compatible distributed cache... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
-#pragma once
-
 /**
  * @file distributed_cache_coordinator.h
- * @brief Redis-compatible distributed cache coordination protocol.
- *
- * Implements ICacheCoordinator using the Redis pub/sub protocol over a plain
- * TCP socket (RESP wire format).  Two persistent connections are maintained:
- *   - publisher connection: sends PUBLISH commands for new entries and
- *     invalidation events.
- *   - subscriber connection: listens for messages from peer nodes and invokes
- *     the registered entry/invalidation callbacks.
- *
- * Graceful degradation: if the Redis server is unreachable or the connection
- * drops, the coordinator logs a warning and continues operating in disconnected
- * mode.  Local cache operations are never blocked.  A background reconnect
- * loop re-establishes connections at configurable intervals.
- *
- * Message encoding: JSON objects sent as the Redis message payload.
- *   Entry PUT:   {"type":"ENTRY_PUT","key":"<fp>","tenant_id":"<id>",
- *                 "ttl_seconds":<n>,"result":{...}}
- *   Invalidate:  {"type":"INVALIDATE","key":"<pattern>","tenant_id":"<id>"}
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "cache/cache_replication_coordinator.h"
@@ -256,7 +214,7 @@ private:
     // Publisher connection
     mutable std::mutex pub_mutex_;
     SocketFd           pub_fd_   = kInvalidSocket;
-    bool               pub_ok_   = false;
+    std::atomic<bool>  pub_ok_{false};  // D-3: atomic for lock-free reads in isConnected()
 
     // Subscriber thread
     std::thread        sub_thread_;
@@ -274,7 +232,24 @@ private:
     uint64_t messages_received_   = 0;
     uint64_t publish_errors_      = 0;
     uint64_t reconnect_count_     = 0;
+
+public:
+    // -----------------------------------------------------------------------
+    // Injectable publish bridge (STUB #61)
+    // -----------------------------------------------------------------------
+    /// Callback type: given a channel name and a serialised JSON payload,
+    /// publish the message and return true on success.  Used as a transport
+    /// replacement when THEMIS_POSIX_SOCKETS is not defined (non-POSIX builds).
+    using RedisPublishBridgeFn = std::function<bool(const std::string& channel,
+                                                    const std::string& payload)>;
+
+    /// Register a publish bridge used by `publishEntry()` and
+    /// `publishInvalidation()` on non-POSIX builds.
+    /// Pass an empty `std::function` to clear and revert to the no-op fallback.
+    /// Thread-safe (guarded by a static mutex).
+    static void setRedisPublishBridgeFn(RedisPublishBridgeFn fn);
 };
 
 } // namespace cache
 } // namespace themis
+

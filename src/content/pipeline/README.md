@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Content Pipeline Module
 
 ## Overview
@@ -71,13 +73,9 @@ auto reassembled = chunker.reassemble(chunks);
 
 ### BulkUploadInterface
 
-Simplified interface for batch content upload.
+Simplified base interface for batch content upload (namespace `themis::content::pipeline`).
 
-**Integration**: For production use, consider `AsyncIngestionWorker` which provides:
-- Multi-threaded processing with worker pools
-- Job queue management with priority
-- Integration with ContentManager::ingest()
-- Advanced progress tracking and cancellation
+**Integration**: For production async uploads, use `AsyncBulkUploader` (see below) which wraps this interface and integrates with `ContentManager::ingest()`.
 
 **Use Cases**:
 - Simple batch upload scenarios
@@ -109,6 +107,22 @@ std::vector<std::vector<uint8_t>> contents = {...};
 std::vector<BulkUploadInterface::ContentMetadata> metadata_list = {...};
 auto results = uploader.bulk_upload(contents, metadata_list);
 ```
+
+### AsyncBulkUploader
+
+Production async uploader (`class AsyncBulkUploader : public BulkUploadInterface`) that wraps `ContentManager::ingest()` with a configurable worker thread pool (namespace `themis::content::pipeline`, header `content/pipeline/async_bulk_uploader.h`).
+
+**Use Cases**:
+- High-throughput production batch ingestion
+- Concurrent multi-file upload with back-pressure
+
+### MultiModalChunker
+
+Multi-modal chunk assembler supporting text, image, and metadata content types (`class MultiModalChunker`, namespace `themis::content::pipeline`, header `content/pipeline/multimodal_chunker.h`).
+
+**Use Cases**:
+- Mixed-modality content (text + images + structured metadata)
+- RAG pipeline document assembly
 
 ## Integration with ThemisDB
 
@@ -191,5 +205,9 @@ When extending this module:
 
 ## License
 
-Copyright (c) 2024 ThemisDB  
+Copyright (c) 2024 ThemisDB
 SPDX-License-Identifier: MIT
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

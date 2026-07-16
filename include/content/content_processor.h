@@ -1,30 +1,26 @@
+/**
+ * @file content_processor.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_processor.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     302                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_processor.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 312
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
+#include <functional>
 #include <string>
 #include <vector>
 #include <memory>
@@ -43,7 +39,7 @@ using json = nlohmann::json;
  * Result of extracting structured data from content.
  */
 struct ExtractionResult {
-    bool ok;
+    bool ok = false;
     std::string text;              // Extracted plain text (for TEXT types)
     json metadata;                 // Structured metadata (EXIF, ID3, CAD properties, etc.)
     std::vector<float> embedding;  // Optional: Pre-computed embedding
@@ -63,10 +59,11 @@ struct ExtractionResult {
     std::optional<GeoData> geo_data;
     
     struct MediaData {
-        int duration_seconds;      // For audio/video
-        int width, height;         // For images/video
+        int duration_seconds = 0;  ///< Duration in seconds (CON-017)
+        int width = 0;             ///< Frame width in pixels (CON-017)
+        int height = 0;            ///< Frame height in pixels (CON-017)
         std::string codec;
-        int bitrate;
+        int bitrate = 0;           ///< Bit-rate in kbps (CON-017)
     };
     std::optional<MediaData> media_data;
     
@@ -95,7 +92,7 @@ public:
      * @param content_type Content type info
      * @return Extracted data (text, metadata, embeddings)
      */
-    virtual ExtractionResult extract(
+    [[nodiscard]] virtual ExtractionResult extract(
         const std::string& blob,
         const ContentType& content_type
     ) = 0;
@@ -108,7 +105,7 @@ public:
      * @param overlap Overlap between chunks
      * @return Vector of chunks with metadata
      */
-    virtual std::vector<json> chunk(
+    [[nodiscard]] virtual std::vector<json> chunk(
         const ExtractionResult& extraction_result,
         int chunk_size,
         int overlap
@@ -120,17 +117,17 @@ public:
      * @param chunk_data Chunk data (text or other representation)
      * @return Embedding vector
      */
-    virtual std::vector<float> generateEmbedding(const std::string& chunk_data) = 0;
+    [[nodiscard]] virtual std::vector<float> generateEmbedding(const std::string& chunk_data) = 0;
     
     /**
      * @brief Get processor name
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Get supported categories
      */
-    virtual std::vector<ContentCategory> getSupportedCategories() const = 0;
+    [[nodiscard]] virtual std::vector<ContentCategory> getSupportedCategories() const = 0;
 };
 
 /**
@@ -147,6 +144,26 @@ public:
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::TEXT};
     }
+
+    /**
+     * @brief Callback type for a real embedding backend.
+     *
+     * Receives the chunk text and returns the embedding vector (e.g.
+     * all-mpnet-base-v2 / ONNXClipPlugin / Sentence-BERT).  The returned
+     * vector must be L2-normalised and non-empty.
+     */
+    using EmbeddingFn = std::function<std::vector<float>(const std::string&)>;
+
+    /**
+     * @brief Inject a real semantic embedding backend.
+     *
+     * When set, `generateEmbedding()` delegates to @p fn instead of the
+     * built-in hash-projection fallback.  Pass `nullptr` to revert to the
+     * hash-projection path.
+     *
+     * Roadmap ref: src/content/ROADMAP.md §Phase 5; src/content/FUTURE_ENHANCEMENTS.md
+     */
+    void setEmbeddingBackend(EmbeddingFn fn);
 
     /**
      * @brief Compute a MinHash signature for near-duplicate text detection.
@@ -170,6 +187,9 @@ private:
     std::string normalizeText(const std::string& text);
     int countTokens(const std::string& text); // Simple whitespace-based tokenizer
     std::vector<std::string> splitIntoSentences(const std::string& text);
+
+    /// Injected real embedding backend (null → hash-projection fallback).
+    EmbeddingFn embedding_fn_;
 };
 
 /**
@@ -179,12 +199,12 @@ private:
  * Extracts EXIF metadata, generates image embeddings (e.g., CLIP).
  */
 #ifndef THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED
-class ImageProcessor : public IContentProcessor {
+class LegacyImageProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "ImageProcessor"; }
+    std::string getName() const override { return "LegacyImageProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::IMAGE};
     }
@@ -201,12 +221,12 @@ private:
  * Handles GeoJSON, GPX, Shapefiles, GeoTIFF.
  * Extracts coordinates, creates spatial indices.
  */
-class GeoProcessor : public IContentProcessor {
+class LegacyGeoProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "GeoProcessor"; }
+    std::string getName() const override { return "LegacyGeoProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::GEO};
     }
@@ -222,12 +242,12 @@ private:
  * Handles STEP, IGES, STL, DXF.
  * Extracts geometry, assemblies, bill of materials.
  */
-class CADProcessor : public IContentProcessor {
+class LegacyCADProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "CADProcessor"; }
+    std::string getName() const override { return "LegacyCADProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::CAD};
     }
@@ -243,12 +263,12 @@ private:
  * Handles MP3, WAV, FLAC.
  * Extracts ID3 tags, transcribes speech (optional), generates audio embeddings.
  */
-class AudioProcessor : public IContentProcessor {
+class LegacyAudioProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "AudioProcessor"; }
+    std::string getName() const override { return "LegacyAudioProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::AUDIO};
     }

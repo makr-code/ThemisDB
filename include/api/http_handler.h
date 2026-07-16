@@ -1,3 +1,23 @@
+/**
+ * @file http_handler.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: http_handler.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 301
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3611 feat(api): Complete API mod... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include <string>
@@ -192,7 +212,7 @@ public:
      * @return `Result<HttpResponse>` — an `HttpResponse` on success or an
      *         `HttpError` on failure (the framework serializes errors).
      */
-    virtual themis::Result<HttpResponse> handle(const HttpRequest& request) = 0;
+    [[nodiscard]] virtual themis::Result<HttpResponse> handle(const HttpRequest& request) = 0;
 
     /**
      * @brief Return `true` if this handler requires a valid JWT/API-key before
@@ -205,7 +225,7 @@ public:
     virtual bool requiresAuthentication() const noexcept { return true; }
 
     /// Human-readable handler name used in logs and metrics labels.
-    virtual std::string_view handlerName() const noexcept = 0;
+    [[nodiscard]] virtual std::string_view handlerName() const noexcept = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -270,7 +290,9 @@ public:
 private:
     themis::Result<HttpResponse> invokeAt(const HttpRequest& request, std::size_t idx) {
         if (idx >= links_.size()) {
-            return tl::unexpected(HttpError{500, "MiddlewareChain: no terminal handler"});
+            return tl::unexpected(themis::Error(
+                themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+                "MiddlewareChain: no terminal handler"));
         }
         auto result = links_[idx]->handle(request);
         if (!result.has_value()) {

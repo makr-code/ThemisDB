@@ -1,24 +1,21 @@
+/**
+ * @file error_registry.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=26, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            error_registry.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1617                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1b5d8a188  2026-02-23  feat(query): implement per-query resource limits (max row... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: error_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1774
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=33, L=1
+ * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #4662 feat(document): IDocumentSt... (2026-04-15) | #2718 feat(query): Per-query reso... (2026-03-12) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #751 Phase 4 Error Handling: Sto... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/error_registry.h"
@@ -55,8 +52,11 @@ ErrorRegistry::ErrorRegistry() {
         // Avoid throwing from constructor during static initialization
         // Log to stderr directly to avoid logger initialization issues
         std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex.what() << std::endl;
-    } catch (...) {
-        std::cerr << "ERROR: ErrorRegistry initialization failed with unknown exception" << std::endl;
+    } catch (const std::string& ex) {
+        std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex << std::endl;
+    } catch (const char* ex) {
+        std::cerr << "ERROR: ErrorRegistry initialization failed: "
+                  << (ex ? ex : "<null>") << std::endl;
     }
 }
 
@@ -688,7 +688,7 @@ void ErrorRegistry::registerDefaultErrors() {
         "2. Replace MCP stub implementations\n"
         "3. Enable schema caching\n"
         "4. Verify database is initialized",
-        {"/docs/research/DETAILED_IMPLEMENTATION_GUIDE.md"},
+        {"/research/DETAILED_IMPLEMENTATION_GUIDE.md"},
         {"mcp", "schema", "unavailable", "stub"}
     });
     
@@ -1542,6 +1542,159 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/graph_roadmap.md"},
         {"graph", "rate", "limit", "qps", "throttle"}
     });
+
+    // ── Document Errors (9400-9499) ───────────────────────────────────────────
+
+    registerError({
+        ErrorCode::ERR_DOC_NOT_FOUND,
+        "Document",
+        "Error",
+        "Document not found: {}",
+        "The requested document ID does not exist in the specified collection.",
+        "1. Verify the document ID is correct\n"
+        "2. Confirm the collection name is correct\n"
+        "3. Check if the document was deleted",
+        {"/docs/document_module.md"},
+        {"document", "not_found", "missing", "id"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_ALREADY_EXISTS,
+        "Document",
+        "Error",
+        "Document already exists: {}",
+        "A document with the given ID already exists in the collection.",
+        "1. Use a unique document ID\n"
+        "2. Use update() to modify an existing document\n"
+        "3. Remove the existing document first if replacement is intended",
+        {"/docs/document_module.md"},
+        {"document", "duplicate", "exists", "id"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_INVALID_ID,
+        "Document",
+        "Error",
+        "Invalid document ID: {}",
+        "The document ID is empty or contains invalid characters.",
+        "1. Provide a non-empty document identifier (UUID recommended)\n"
+        "2. Ensure the ID contains only printable characters",
+        {"/docs/document_module.md"},
+        {"document", "id", "invalid", "empty"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_SCHEMA_SEALED,
+        "Document",
+        "Error",
+        "Schema registry is sealed; cannot register new versions",
+        "The IDocumentSchemaEvolution instance has been sealed via seal(); "
+        "no further schema versions can be registered.",
+        "1. Register all required schema versions before calling seal()\n"
+        "2. Create a new IDocumentSchemaEvolution instance if schema changes are required",
+        {"/docs/document_schema_evolution.md"},
+        {"document", "schema", "sealed", "version", "evolution"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_SCHEMA_VERSION_NOT_FOUND,
+        "Document",
+        "Error",
+        "Schema version not found: {}",
+        "The requested schema version has not been registered.",
+        "1. Call registerVersion() for the required schema version first\n"
+        "2. List registered versions to confirm availability",
+        {"/docs/document_schema_evolution.md"},
+        {"document", "schema", "version", "missing"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_SCHEMA_VERSION_EXISTS,
+        "Document",
+        "Error",
+        "Schema version already registered: {}",
+        "Attempting to register a schema version that already exists.",
+        "1. Use a different version number\n"
+        "2. Schema versions are immutable after registration",
+        {"/docs/document_schema_evolution.md"},
+        {"document", "schema", "version", "duplicate"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_DIFF_NOT_FOUND,
+        "Document",
+        "Error",
+        "One or both documents for diff/merge not found: {}",
+        "The document IDs provided to diff() or merge() do not exist in the store.",
+        "1. Verify that all document IDs exist before calling diff() or merge()\n"
+        "2. Check the collection name is correct",
+        {"/docs/document_diff_merge.md"},
+        {"document", "diff", "merge", "not_found"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_MERGE_CONFLICT,
+        "Document",
+        "Warning",
+        "Three-way merge produced unresolvable conflicts for document: {}",
+        "Both branches modified the same fields with different values; "
+        "conflicts are listed in MergeResult::conflicts.",
+        "1. Inspect MergeResult::conflicts to identify conflicting fields\n"
+        "2. Resolve conflicts manually and apply the merged result\n"
+        "3. Consider using a conflict-resolution strategy",
+        {"/docs/document_diff_merge.md"},
+        {"document", "merge", "conflict", "three-way"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_ACCESS_DENIED,
+        "Document",
+        "Error",
+        "Document access denied for collection: {}",
+        "The collection-level ACL denied the requested operation.",
+        "1. Verify the actor identity is authorised for this collection\n"
+        "2. Check the collection access-control configuration",
+        {"/docs/document_module.md"},
+        {"document", "access", "denied", "acl", "permission"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_COLLECTION_NOT_FOUND,
+        "Document",
+        "Error",
+        "Collection not found: {}",
+        "The specified collection does not exist.",
+        "1. Check the collection name\n"
+        "2. Create the collection before inserting documents",
+        {"/docs/document_module.md"},
+        {"document", "collection", "not_found"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_ENCRYPT_FAILED,
+        "Document",
+        "Error",
+        "Encrypted entity operation failed: {}",
+        "An operation on an IEncryptedDocumentEntity failed "
+        "(e.g. key rotation, re-encryption).",
+        "1. Check the key rotation descriptor for valid key IDs\n"
+        "2. Verify the key provider is accessible\n"
+        "3. Inspect logs for underlying cryptographic errors",
+        {"/docs/document_manager.md"},
+        {"document", "encrypt", "key_rotation", "encrypted_entity"}
+    });
+
+    registerError({
+        ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+        "Document",
+        "Error",
+        "Invalid argument: {}",
+        "A required argument passed to a document API method is invalid or missing.",
+        "1. Check that required fields are non-empty\n"
+        "2. Consult the method documentation for valid argument ranges",
+        {"/docs/document_module.md"},
+        {"document", "argument", "invalid", "null", "empty"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
@@ -1629,3 +1782,4 @@ std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
 
 } // namespace errors
 } // namespace themis
+

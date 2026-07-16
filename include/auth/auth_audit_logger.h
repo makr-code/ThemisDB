@@ -1,27 +1,21 @@
+/**
+ * @file auth_audit_logger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_audit_logger.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     197                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c65f5b1f7  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
-    • 79129146f  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
-    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
-    • e8e02c9ec  2026-02-24  feat(auth): implement zero-trust continuous verification ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_audit_logger.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 200
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4141 feat(auth): Zero-Trust Asyn... (2026-03-13) | #4120 feat(auth): TOTP/MFA config... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +23,7 @@
 #include <string>
 #include <optional>
 #include <memory>
+#include <chrono>
 
 #include "utils/audit_logger.h"
 
@@ -101,6 +96,16 @@ public:
     /** TOTP code was rejected. */
     void logTOTPFailure(const std::string& user_id);
 
+    /** TOTP code validated with a non-zero time step offset (clock drift indicator).
+     *
+     *  Large or sustained offsets indicate a misconfigured device clock and should
+     *  be investigated. The audit entry records the subject, step offset, and the
+     *  Unix timestamp of the validation so that operations teams can track trends.
+     */
+    void logTOTPDrift(const std::string& user_id,
+                      int step_offset,
+                      std::chrono::system_clock::time_point timestamp);
+
     /** Recovery code was used (single-use codes only). */
     void logRecoveryCodeUsed(const std::string& user_id);
 
@@ -165,6 +170,15 @@ public:
                             const std::string& resource,
                             const std::string& reason,
                             const std::string& request_id = "");
+
+    /**
+     * @brief Emitted when background async re-evaluation revokes an active session.
+     *
+     * Resource path: "zero_trust/re_evaluation_failed"
+     */
+    void logZeroTrustReEvaluationFailed(const std::string& user_id,
+                                        const std::string& session_id,
+                                        const std::string& reason);
 
     // -----------------------------------------------------------------------
     // Anomaly detection events (brute-force, credential stuffing)

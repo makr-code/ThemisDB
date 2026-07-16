@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_phase1_kv_cache_reuse.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:05:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     529                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_phase1_kv_cache_reuse.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -38,6 +24,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <thread>
+#include <sstream>
 
 using namespace themis::llm;
 using namespace themis::utils;
@@ -65,6 +52,29 @@ std::string getTestModelPath() {
     return "";
 }
 
+std::string compiledBackendSummary() {
+    std::ostringstream oss;
+    oss << "cuda=";
+#ifdef THEMIS_ENABLE_CUDA
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    oss << ",hip=";
+#ifdef THEMIS_ENABLE_HIP
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    oss << ",vulkan=";
+#ifdef THEMIS_ENABLE_VULKAN
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    return oss.str();
+}
+
 } // anonymous namespace
 
 class KVCacheReuseTest : public ::testing::Test {
@@ -73,7 +83,8 @@ protected:
         model_path_ = getTestModelPath();
         
         if (model_path_.empty()) {
-            GTEST_SKIP() << "No test model found. Set THEMIS_TEST_MODEL_PATH or place model in ./models/";
+            GTEST_SKIP() << "capability:model_available=false;reason=no_test_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
+                         << compiledBackendSummary();
         }
         
         // Create mock clock for deterministic testing

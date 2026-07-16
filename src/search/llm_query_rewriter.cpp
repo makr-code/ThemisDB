@@ -1,27 +1,21 @@
+/**
+ * @file llm_query_rewriter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_query_rewriter.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:59:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8b78c9c56  2026-02-28  Fix temperature stub in LlmQueryRewriter and add temperat... ║
-    • aebcdeacb  2026-02-22  Improve LLM query rewriting for better recall: diversifie... ║
-    • f3592ccbe  2026-02-22  Audit fixes: restore test in MINIMAL builds, clean up unu... ║
-    • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_query_rewriter.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 285
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=4, L=0
+ * PR History (last 5): #3590 feat(search): implement Sea... (2026-03-12) | #2582 [search] LLM query rewritin... (2026-03-12) | #2559 [search] LLM-based query re... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "search/llm_query_rewriter.h"
@@ -29,6 +23,7 @@
 #include <cctype>
 #include <sstream>
 #include <stdexcept>
+#include <unordered_set>
 #include <utility>
 
 namespace themis {
@@ -85,6 +80,25 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         result.llm_used = true;
 
         auto parsed = parseRewrites(llm_output, query);
+
+        // Semantic output validator (Gap 2 — search/FUTURE_ENHANCEMENTS.md §Gap 2):
+        // discard rewrites whose Jaccard token-overlap with the original query
+        // falls below Config::min_token_overlap_ratio.
+        if (config_.min_token_overlap_ratio > 0.0f && !parsed.empty()) {
+            const bool any_survived = applyOverlapFilter(parsed, query);
+            if (!any_survived) {
+                THEMIS_WARN("LlmQueryRewriter: all {} rewrite(s) failed overlap "
+                            "threshold ({:.2f}) — falling back to original query",
+                            result.rewrites.size(),
+                            static_cast<double>(config_.min_token_overlap_ratio));
+                result.quality = RewriteQuality::FALLBACK;
+                parsed.clear();
+                if (config_.fallback_to_original) {
+                    parsed.push_back(query);
+                }
+            }
+        }
+
         result.rewrites = std::move(parsed);
 
         THEMIS_DEBUG("LlmQueryRewriter::rewrite('{}') -> {} rewrites",
@@ -219,4 +233,65 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     return rewrites;
 }
 
+// ============================================================================
+// Semantic output validator helpers (Gap 2)
+// ============================================================================
+
+float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
+                                             const std::string& b)
+{
+    // Tokenise by splitting on whitespace; normalise to lower-case.
+    auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {
+        std::unordered_set<std::string> tokens;
+        std::istringstream iss(s);
+        std::string tok;
+        while (iss >> tok) {
+            std::string lc;
+            lc.reserve(tok.size());
+            for (char c : tok) {
+                lc += static_cast<char>(
+                    std::tolower(static_cast<unsigned char>(c)));
+            }
+            tokens.insert(std::move(lc));
+        }
+        return tokens;
+    };
+
+    const auto ta = tokenise(a);
+    const auto tb = tokenise(b);
+
+    if (ta.empty() && tb.empty()) return 1.0f;
+    if (ta.empty() || tb.empty()) return 0.0f;
+
+    size_t intersection = 0;
+    for (const auto& tok : ta) {
+        if (tb.count(tok)) ++intersection;
+    }
+    // |A ∪ B| = |A| + |B| - |A ∩ B|
+    const size_t union_size = ta.size() + tb.size() - intersection;
+    return static_cast<float>(intersection) / static_cast<float>(union_size);
+}
+
+bool LlmQueryRewriter::applyOverlapFilter(std::vector<std::string>& rewrites,
+                                           const std::string& original) const
+{
+    std::vector<std::string> kept;
+    kept.reserve(rewrites.size());
+    for (auto& r : rewrites) {
+        const float overlap = jaccardTokenOverlap(r, original);
+        if (overlap >= config_.min_token_overlap_ratio) {
+            kept.push_back(std::move(r));
+        } else {
+            THEMIS_DEBUG("LlmQueryRewriter: discarding rewrite (overlap={:.3f} < {:.3f}): '{}'",
+                         static_cast<double>(overlap),
+                         static_cast<double>(config_.min_token_overlap_ratio),
+                         r);
+        }
+    }
+    rewrites = std::move(kept);
+    return !rewrites.empty();
+}
+
 }  // namespace themis
+
+

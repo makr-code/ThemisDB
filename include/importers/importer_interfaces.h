@@ -1,47 +1,15 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            importer_interfaces.h                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     480                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file importer_interfaces.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-/**
- * @file importer_interfaces.h
- * @brief Abstract interface contracts for the importers module.
- *
- * This header defines the pure-virtual interface types required by the
- * import pipeline, schema validation layer, and plugin registry.
- * Concrete implementations are provided by the respective .cpp files;
- * callers depend only on these interfaces.
- *
- * Interfaces defined here:
- *   - `IImportConflictResolver`   – stateless per-record conflict resolution
- *   - `IFlatFileSchemaDetector`   – advisory schema detection for flat files
- *   - `IKafkaConsumerSource`      – async Kafka consumer source
- *   - `IIncrementalImportCursor`  – pull-based resumable import cursor
- *   - `IImporterPlugin`           – URI-scheme-based plugin entry point
- *   - `IImporterPluginRegistry`   – plugin discovery by source URI
- *
- * @see importers/importer_interface.h  – IImporter base interface
- * @see importers/importer_plugin_api.h – runtime shared-library plugin loader
- * @see importers/conflict_resolver.h   – stateful ImportConflictResolver
- * @see importers/schema_validator.h    – SchemaAutoDetector
- * @see importers/kafka_importer.h      – KafkaImporter
- */
 
 #include "importers/importer_interface.h"
 
@@ -140,7 +108,7 @@ public:
      * @param incoming  The record from the current import source that conflicts.
      * @return          Resolution decision (outcome + optional merge spec).
      */
-    virtual ConflictResolutionResult resolve(
+    [[nodiscard]] virtual ConflictResolutionResult resolve(
         const json& existing,
         const json& incoming) const = 0;
 };
@@ -221,7 +189,7 @@ public:
      * @return             Detection result; confidence reflects how well the
      *                     sampled rows fit the inferred types.
      */
-    virtual SchemaDetectionResult detect(
+    [[nodiscard]] virtual SchemaDetectionResult detect(
         const std::string& file_path,
         size_t sample_rows = 0) const = 0;
 };
@@ -318,7 +286,7 @@ public:
      * @param[out] err Set to `KafkaError::OK` on success; error code on failure.
      * @return         Batch of records (may be empty on timeout).
      */
-    virtual KafkaBatch poll(
+    [[nodiscard]] virtual KafkaBatch poll(
         std::chrono::milliseconds timeout,
         KafkaError& err) = 0;
 
@@ -331,7 +299,7 @@ public:
      * @param offset  Offset to commit.
      * @return        `KafkaError::OK` on success; error code otherwise.
      */
-    virtual KafkaError commitOffset(const KafkaOffset& offset) = 0;
+    [[nodiscard]] virtual KafkaError commitOffset(const KafkaOffset& offset) = 0;
 
     /**
      * @brief Return the current lag (messages not yet consumed) for the
@@ -339,7 +307,7 @@ public:
      *
      * @return Estimated number of unconsumed messages; -1 if unknown.
      */
-    virtual int64_t lag() const = 0;
+    [[nodiscard]] virtual int64_t lag() const = 0;
 
     /**
      * @brief Close the consumer and release all broker connections.
@@ -446,7 +414,7 @@ public:
      *                    Empty on `END_OF_STREAM`, `CHECKPOINT_REQUIRED`, or `ERROR`.
      * @return            Status of the operation.
      */
-    virtual CursorStatus next(ImportBatch& batch) = 0;
+    [[nodiscard]] virtual CursorStatus next(ImportBatch& batch) = 0;
 
     /**
      * @brief Capture the current cursor position as a serializable token.
@@ -456,7 +424,7 @@ public:
      *
      * @return  Serializable checkpoint token.
      */
-    virtual CheckpointToken checkpoint() const = 0;
+    [[nodiscard]] virtual CheckpointToken checkpoint() const = 0;
 
     /**
      * @brief Estimated number of records remaining, or -1 if unknown.
@@ -464,7 +432,7 @@ public:
      * Streaming sources (e.g., Kafka) typically return -1.  File-backed
      * sources may return an estimate based on remaining file size.
      */
-    virtual int64_t estimatedRemainingRows() const = 0;
+    [[nodiscard]] virtual int64_t estimatedRemainingRows() const = 0;
 
     /**
      * @brief Close the cursor and release any held resources.
@@ -480,6 +448,12 @@ public:
 
 /**
  * @brief Configuration bundle passed to `IImporterPlugin::createImporter()`.
+ *
+ * In addition to the source location and JSON initialisation string, callers
+ * may pre-configure the per-import-job conflict resolution policy here.  When
+ * a plugin's `createImporter()` implementation propagates these fields into
+ * the `ImportOptions` that it passes to each `IImporter::importData()` call,
+ * operators can control conflict behaviour from a single configuration point.
  */
 struct ImportConfig {
     /// Source URI, e.g. "mysql://host:3306/dbname" or "s3://bucket/key".
@@ -487,6 +461,30 @@ struct ImportConfig {
 
     /// JSON configuration string forwarded verbatim to `IImporter::initialize()`.
     std::string json_config;
+
+    // -------------------------------------------------------------------------
+    // Conflict resolution policy
+    // -------------------------------------------------------------------------
+
+    /// Strategy to apply when the same conflict key is encountered more than
+    /// once during an import session.
+    /// Default is OVERWRITE for backward compatibility.
+    ConflictStrategy conflict_strategy = ConflictStrategy::OVERWRITE;
+
+    /// Columns whose values form the conflict detection key.
+    /// If empty, no in-session conflict detection is performed.
+    /// Example: {"id"} or {"tenant_id", "user_id"}
+    std::vector<std::string> conflict_key_columns;
+
+    /// Fields that the MERGE strategy must not overwrite with incoming values.
+    /// Ignored by SKIP, OVERWRITE, and ERROR strategies.
+    std::vector<std::string> protected_fields;
+
+    /// Recursion depth for the MERGE strategy.
+    ///  1  = top-level fields only (default; nested objects replaced entirely).
+    /// -1  = deep recursive merge for all nested JSON objects.
+    ///  N  = merge up to N levels deep.
+    int merge_depth = 1;
 };
 
 /**
@@ -531,7 +529,7 @@ public:
     virtual ~IImporterPlugin() = default;
 
     /// Unique identifier for this plugin (snake_case recommended).
-    virtual const char* pluginId() const = 0;
+    [[nodiscard]] virtual const char* pluginId() const = 0;
 
     /**
      * @brief URI schemes handled by this plugin.
@@ -539,7 +537,7 @@ public:
      * The scheme is the part before "://" in a source URI.
      * Example: { "mysql", "mariadb" } for a MySQL/MariaDB plugin.
      */
-    virtual std::vector<std::string> supportedSchemes() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> supportedSchemes() const = 0;
 
     /**
      * @brief Create a new, initialised importer for the given configuration.
@@ -548,7 +546,7 @@ public:
      * @return        Initialised `IImporter` instance, or `nullptr` on failure.
      *                Must **not** throw.
      */
-    virtual std::unique_ptr<IImporter> createImporter(
+    [[nodiscard]] virtual std::unique_ptr<IImporter> createImporter(
         const ImportConfig& config) const = 0;
 };
 
@@ -597,12 +595,12 @@ public:
      * @return            Matching plugin, or `nullptr` if none registered.
      *                    Never throws.
      */
-    virtual IImporterPlugin* resolve(const std::string& source_uri) const = 0;
+    [[nodiscard]] virtual IImporterPlugin* resolve(const std::string& source_uri) const = 0;
 
     /**
      * @brief List all registered plugin IDs.
      */
-    virtual std::vector<std::string> listPluginIds() const = 0;
+    [[nodiscard]] virtual std::vector<std::string> listPluginIds() const = 0;
 };
 
 // ============================================================================

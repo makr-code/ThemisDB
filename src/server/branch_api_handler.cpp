@@ -1,28 +1,26 @@
+/**
+ * @file branch_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            branch_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     379                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: branch_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 376
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
+ * PR History (last 5): #5158 Review and rewrite Git-like... (2026-05-18)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/branch_api_handler.h"
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -86,6 +84,7 @@ void BranchApiHandler::registerRoutes(httplib::Server& server) {
 void BranchApiHandler::handleCreateBranch(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handleCreateBranch");
         return;
     }
     
@@ -136,6 +135,7 @@ void BranchApiHandler::handleListBranches(const httplib::Request& req, httplib::
     // Parse query parameters
     size_t limit = 0;
     if (req.has_param("limit")) {
+    auto span = Tracer::startSpan("handleListBranches");
         limit = std::stoull(req.get_param_value("limit"));
     }
     
@@ -166,6 +166,7 @@ void BranchApiHandler::handleGetBranch(const httplib::Request& req, httplib::Res
     
     auto branch = branch_manager_.getBranch(branch_name);
     if (!branch.has_value()) {
+    auto span = Tracer::startSpan("handleGetBranch");
         sendError(res, 404, "Branch not found");
         return;
     }
@@ -178,6 +179,7 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
     
     bool success = branch_manager_.switchBranch(branch_name);
     if (!success) {
+    auto span = Tracer::startSpan("handleSwitchBranch");
         sendError(res, 400, "Failed to switch branch. Branch may not exist.");
         return;
     }
@@ -193,6 +195,7 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
 void BranchApiHandler::handleMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handleMergeBranches");
         return;
     }
     
@@ -228,6 +231,7 @@ void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::
     // Check for force flag
     bool force = false;
     if (req.has_param("force")) {
+    auto span = Tracer::startSpan("handleDeleteBranch");
         force = req.get_param_value("force") == "true";
     }
     
@@ -244,12 +248,13 @@ void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::
     sendJson(res, result);
 }
 
-void BranchApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
+void BranchApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     auto stats = branch_manager_.getStats();
     sendJson(res, stats.toJson());
 }
 
-void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httplib::Response& res) {
+void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetActiveBranch");
     std::string active_branch = branch_manager_.getActiveBranch();
     
     json result = {
@@ -261,6 +266,7 @@ void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httpli
 void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handlePreviewMergeBranches");
         return;
     }
 
@@ -300,6 +306,7 @@ void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, h
 void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handleResolveMergeBranches");
         return;
     }
 

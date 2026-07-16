@@ -1,23 +1,21 @@
+/**
+ * @file snapshot_transfer_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            snapshot_transfer_handler.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     727                                            ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: snapshot_transfer_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 833
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=4, L=0
+ * PR History (last 5): #895 Fix critical path traversal... (2026-03-11) | #896 Fix CWE-400 buffer overflow... (2026-03-11) | #104 RPC Framework with gRPC Plu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rpc/snapshot_transfer_handler.h"
@@ -30,11 +28,13 @@
 #include <lz4.h>
 #include <snappy.h>
 #include <crc32c/crc32c.h>
+#include <xxhash.h>
 #include <openssl/sha.h>
 #include <fstream>
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <cstdlib>
 #include <filesystem>
 #include <spdlog/spdlog.h>
 
@@ -42,6 +42,41 @@ namespace themis {
 namespace rpc {
 
 namespace fs = std::filesystem;
+
+namespace {
+
+fs::path resolveSnapshotRootDir() {
+    std::error_code ec;
+    auto base_dir = fs::temp_directory_path(ec);
+    if (ec || base_dir.empty()) {
+        ec.clear();
+        base_dir = fs::current_path(ec);
+        if (ec || base_dir.empty()) {
+            base_dir = fs::path(".");
+        }
+    }
+
+    auto snapshot_root = base_dir / "themis_snapshots";
+    ec.clear();
+    fs::create_directories(snapshot_root, ec);
+    return snapshot_root;
+}
+
+fs::path resolveDefaultDbDataDir() {
+    if (const char* env_path = std::getenv("THEMIS_DB_PATH");
+        env_path != nullptr && env_path[0] != '\0') {
+        return fs::path(env_path);
+    }
+
+    std::error_code ec;
+    auto cwd = fs::current_path(ec);
+    if (ec || cwd.empty()) {
+        return fs::path("data") / "rocksdb";
+    }
+    return cwd / "data" / "rocksdb";
+}
+
+} // namespace
 
 // Implementation class (PIMPL pattern)
 class SnapshotTransferHandler::Impl {
@@ -70,16 +105,13 @@ public:
             return SnapshotStatus::ERROR_INVALID_CONFIG;
         }
         
-        // TODO: Get RocksDB instance from ThemisDB
-        // For now, this is a placeholder
-        // db_ = themis::storage::GetShardDB(config_.shard_id);
-        
         if (!db_) {
+            spdlog::error("CreateSnapshot: no RocksDB instance – call SetDB() first");
             return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
         
         // Create checkpoint directory
-        snapshot_dir_ = "/tmp/themis_snapshots/" + config_.snapshot_id;
+        snapshot_dir_ = (resolveSnapshotRootDir() / config_.snapshot_id).string();
         fs::create_directories(snapshot_dir_);
         
         // Create RocksDB checkpoint
@@ -232,7 +264,7 @@ public:
                 spdlog::error("Cannot initialize snapshot directory: snapshot_id is empty");
                 return SnapshotStatus::ERROR_INVALID_CONFIG;
             }
-            snapshot_dir_ = "/tmp/themis_snapshots/" + chunk.snapshot_id();
+            snapshot_dir_ = (resolveSnapshotRootDir() / chunk.snapshot_id()).string();
             
             // Create the snapshot directory if it doesn't exist
             try {
@@ -361,10 +393,76 @@ public:
     }
     
     SnapshotStatus FinalizeSnapshot() {
-        // TODO: Restore RocksDB from checkpoint directory
-        // This would involve copying files to RocksDB data directory
-        // and opening the database
-        
+        if (snapshot_dir_.empty()) {
+            spdlog::error("FinalizeSnapshot: no snapshot directory set");
+            return SnapshotStatus::ERROR_SNAPSHOT_NOT_FOUND;
+        }
+
+        // Determine the RocksDB data directory from the db_ handle when available,
+        // otherwise fall back to the well-known ThemisDB data path.
+        std::string db_data_dir;
+        if (db_) {
+            db_data_dir = db_->GetName();
+        } else {
+            // Best-effort default; callers should inject db_ via SetDB() before calling.
+            db_data_dir = resolveDefaultDbDataDir().string();
+            spdlog::warn("FinalizeSnapshot: no RocksDB instance injected, "
+                         "using default data dir '{}'", db_data_dir);
+        }
+
+        fs::path dest_dir(db_data_dir);
+        if (!fs::exists(dest_dir)) {
+            std::error_code ec;
+            fs::create_directories(dest_dir, ec);
+            if (ec) {
+                spdlog::error("FinalizeSnapshot: cannot create destination dir '{}': {}",
+                              dest_dir.string(), ec.message());
+                return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+            }
+        }
+
+        // Copy every file from the checkpoint directory into the RocksDB data dir.
+        // Existing files with the same name are overwritten (restore semantics).
+        // Note: callers should ensure the database is closed before calling
+        // FinalizeSnapshot() to avoid partial read-write overlap.
+        bool any_error = false;
+        try {
+        for (const auto& entry : fs::recursive_directory_iterator(snapshot_dir_)) {
+            if (!entry.is_regular_file()) continue;
+
+            fs::path rel    = fs::relative(entry.path(), snapshot_dir_);
+            fs::path target = dest_dir / rel;
+
+            std::error_code ec;
+            fs::create_directories(target.parent_path(), ec);
+            if (ec) {
+                spdlog::error("FinalizeSnapshot: mkdir '{}': {}", target.parent_path().string(), ec.message());
+                any_error = true;
+                continue;
+            }
+
+            fs::copy_file(entry.path(), target, fs::copy_options::overwrite_existing, ec);
+            if (ec) {
+                spdlog::error("FinalizeSnapshot: copy '{}' -> '{}': {}",
+                              entry.path().string(), target.string(), ec.message());
+                any_error = true;
+            } else {
+                spdlog::debug("FinalizeSnapshot: restored '{}'", rel.string());
+            }
+        }
+        } catch (const fs::filesystem_error& fse) {
+            spdlog::error("FinalizeSnapshot: filesystem error iterating '{}': {}",
+                          snapshot_dir_, fse.what());
+            return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+        }
+
+        if (any_error) {
+            spdlog::error("FinalizeSnapshot: one or more files could not be restored");
+            return SnapshotStatus::ERROR_ROCKSDB_ERROR;
+        }
+
+        spdlog::info("FinalizeSnapshot: checkpoint '{}' restored to '{}'",
+                     snapshot_dir_, db_data_dir);
         return SnapshotStatus::OK;
     }
     
@@ -624,8 +722,10 @@ private:
             }
             
             case themis::sharding::CHECKSUM_XXH64: {
-                // TODO: Implement XXH64
-                return "";
+                XXH64_hash_t h = XXH64(data.data(), data.size(), 0);
+                std::ostringstream ss;
+                ss << std::hex << std::setw(16) << std::setfill('0') << h;
+                return ss.str();
             }
             
             default:
@@ -680,6 +780,15 @@ private:
     rocksdb::DB* db_;
     rocksdb::Checkpoint* checkpoint_;
     std::string snapshot_dir_;
+
+    // Allow external injection of the RocksDB instance (e.g. from the shard server).
+    void SetDB(rocksdb::DB* db) {
+        if (!db) {
+            spdlog::error("SetDB: null pointer rejected");
+            return;
+        }
+        db_ = db;
+    }
     uint64_t snapshot_timestamp_ns_;
     uint64_t snapshot_sequence_;
     
@@ -726,5 +835,10 @@ void SnapshotTransferHandler::Cancel() {
     impl_->Cancel();
 }
 
+void SnapshotTransferHandler::SetDB(rocksdb::DB* db) {
+    impl_->SetDB(db);
+}
+
 } // namespace rpc
 } // namespace themis
+

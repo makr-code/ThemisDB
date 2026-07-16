@@ -1,33 +1,32 @@
+/**
+ * @file mfa_authenticator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mfa_authenticator.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     351                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 9e2379475  2026-02-24  audit: resolve Stubs:1 metadata in mfa_authenticator.h/.c... ║
-    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mfa_authenticator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 388
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=3, L=0
+ * PR History (last 5): #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4094 fix(auth): constant-time co... (2026-03-12) | #3474 docs(auth): align src/auth ... (2026-03-12) | #2779 feat(auth): Implement WebAu... (2026-03-12) | #982 Initial triage: Empty authe... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/mfa_authenticator.h"
+#include "auth/auth_audit_logger.h"
+#include "auth/auth_metrics.h"
 #include "utils/audit_logger.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <openssl/crypto.h>
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
@@ -84,6 +83,23 @@ MFAAuthenticator::MFAAuthenticator(const Config& config)
         config_.code_length = 6;
     }
     
+    // Log a soft warning only when time_window is above the recommended soft limit
+    // (max_window_steps) but still within the absolute hard limit of 2.
+    // Values above 2 are rejected below, so warn only in the range (max_window_steps, 2].
+    if (config_.time_window > config_.max_window_steps && config_.time_window <= 2) {
+        spdlog::warn("TOTP time_window ({}) exceeds max_window_steps ({}); "
+                     "consider reducing to limit replay exposure",
+                     config_.time_window, config_.max_window_steps);
+    }
+    // Absolute hard limit: a window wider than ±2 steps (e.g., ±60 s when
+    // time_step_seconds=30) substantially weakens replay resistance beyond
+    // totp_replay_cache mitigations.
+    if (config_.time_window > 2) {
+        throw std::invalid_argument(
+            "TOTP time_window must not exceed 2 steps; "
+            "larger windows substantially weaken replay resistance");
+    }
+    
     spdlog::info("MFA Authenticator initialized:");
     spdlog::info("  Time step: {}s", config_.time_step_seconds);
     spdlog::info("  Code length: {}", config_.code_length);
@@ -120,7 +136,8 @@ std::string MFAAuthenticator::generateProvisioningURI(const EnrollmentData& enro
 bool MFAAuthenticator::validateTOTP(
     const std::string& secret_base32,
     const std::string& code,
-    std::optional<std::chrono::system_clock::time_point> timestamp
+    std::optional<std::chrono::system_clock::time_point> timestamp,
+    const std::string& subject
 ) const {
     if (code.length() != static_cast<size_t>(config_.code_length)) {
         return false;
@@ -150,6 +167,15 @@ bool MFAAuthenticator::validateTOTP(
                 audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_TOTP_SUCCESS,
                     "", "mfa/totp", {});
             }
+            if (offset != 0) {
+                spdlog::warn("TOTP validated with non-zero time drift (offset: {} steps)", offset);
+                if (auth_audit_logger_) {
+                    auth_audit_logger_->logTOTPDrift(subject, offset, ts);
+                }
+                if (metrics_) {
+                    metrics_->recordTOTPDrift(offset);
+                }
+            }
             return true;
         }
     }
@@ -166,13 +192,33 @@ bool MFAAuthenticator::validateRecoveryCode(
     EnrollmentData& enrollment,
     const std::string& recovery_code
 ) {
-    auto it = std::find(enrollment.recovery_codes.begin(), 
-                       enrollment.recovery_codes.end(), 
-                       recovery_code);
-    
-    if (it != enrollment.recovery_codes.end()) {
-        // Remove used recovery code
-        enrollment.recovery_codes.erase(it);
+    // Constant-time linear scan: always traverse every code regardless of match
+    // to prevent an attacker from inferring the match position through timing
+    // differences (early-exit prevention). CRYPTO_memcmp() is used for the
+    // per-code comparison to avoid compiler-optimised short-circuit evaluation.
+    bool found = false;
+    size_t found_idx = 0;
+    const size_t incoming_len = recovery_code.size();
+
+    for (size_t i = 0; i < enrollment.recovery_codes.size(); ++i) {
+        const auto& stored = enrollment.recovery_codes[i];
+        // Length mismatch cannot be a match; the branch does not leak the
+        // match position because it depends only on the (fixed) stored length,
+        // not on which index matched.
+        bool len_match = (stored.size() == incoming_len);
+        int diff = len_match
+            ? CRYPTO_memcmp(stored.data(), recovery_code.data(), incoming_len)
+            : 1;
+        if (diff == 0 && !found) {
+            found = true;
+            found_idx = i;
+        }
+    }
+
+    if (found) {
+        // Remove the used recovery code so it cannot be replayed.
+        enrollment.recovery_codes.erase(
+            enrollment.recovery_codes.begin() + static_cast<ptrdiff_t>(found_idx));
         spdlog::info("Recovery code validated for user: {}", enrollment.user_id);
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_RECOVERY_CODE_USED,
@@ -180,7 +226,7 @@ bool MFAAuthenticator::validateRecoveryCode(
         }
         return true;
     }
-    
+
     spdlog::debug("Recovery code validation failed");
     return false;
 }
@@ -289,7 +335,7 @@ std::vector<uint8_t> MFAAuthenticator::base32Decode(const std::string& input) co
             throw std::invalid_argument("Invalid base32 character");
         }
         
-        int value = pos - BASE32_ALPHABET;
+        int value = static_cast<int>(pos - BASE32_ALPHABET);
         buffer = (buffer << 5) | value;
         bits_left += 5;
         
@@ -334,8 +380,8 @@ std::vector<uint8_t> MFAAuthenticator::hmacSHA1(
     unsigned int hash_len = 0;
     
     HMAC(EVP_sha1(), 
-         key.data(), key.size(),
-         message.data(), message.size(),
+         key.data(), static_cast<int>(key.size()),
+         message.data(), static_cast<int>(message.size()),
          hash, &hash_len);
     
     return std::vector<uint8_t>(hash, hash + hash_len);
@@ -350,3 +396,4 @@ uint64_t MFAAuthenticator::getTimeCounter(std::chrono::system_clock::time_point 
 
 } // namespace auth
 } // namespace themis
+

@@ -1,0 +1,28 @@
+graph TD
+    subgraph "Today's AI Infrastructure: 7 Separate Systems"
+        DB[("PostgreSQL")]
+        Graph[("Neo4j<br/>Knowledge Graph")]
+        Vector[("Pinecone/Weaviate<br/>Vector Search")]
+        TimeSeries[("InfluxDB<br/>Time-Series")]
+        Search[("Elasticsearch<br/>Full-Text")]
+        LLM[("LLM Backend<br/>Inference")]
+        Queue[("Kafka/RabbitMQ<br/>Messaging")]
+    end
+    
+    style DB fill:#d4a5a5
+    style Graph fill:#d4a5a5
+    style Vector fill:#d4a5a5
+    style TimeSeries fill:#d4a5a5
+    style Search fill:#d4a5a5
+    style LLM fill:#d4a5a5
+    style Queue fill:#d4a5a5
+    
+    DB -.-> Queue
+    Graph -.-> Queue
+    Vector -.-> Queue
+    TimeSeries -.-> Queue
+    Search -.-> Queue
+    LLM -.-> Queue
+    
+    Ops["⚠️ 7 Operations Teams | 7 Points of Failure | €15k+/month Cloud Costs | ACID Breaks at System Boundaries"]
+    Queue -.-> Ops

@@ -1,58 +1,20 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            streaming_handler.h                                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:54:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a19560004  2026-02-22  fix(llm): audit fixes for streaming_handler — RFC 8259 co... ║
-    • b4b1483a9  2026-02-22  feat(llm): streaming token output via SSE/chunked responses ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include <functional>
-#include <string>
-#include <cstddef>
 
 /**
  * @file streaming_handler.h
- * @brief SSE / chunked-response streaming handler for LLM token output
- *
- * Provides stateless helpers to format individual tokens produced by the
- * inference engine as either:
- *   - Server-Sent Events (SSE) — for HTTP/1.1 and HTTP/2 event streams
- *   - HTTP chunked-transfer encoding — for generic chunked responses
- *
- * Usage (SSE mode):
- * @code
- *   InferenceRequest req;
- *   req.prompt = "Hello";
- *   req.stream_callback = StreamingHandler::makeStreamCallback(
- *       [](const std::string& chunk) { writeToHttpSocket(chunk); },
- *       req.request_id);
- *
- *   auto response = plugin->generate(req);
- *
- *   // Send terminal event
- *   writeToHttpSocket(StreamingHandler::formatDoneEvent(req.request_id));
- * @endcode
- *
- * Thread safety: all public methods are reentrant (no shared mutable state).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <atomic>
+#include <functional>
+#include <memory>
+#include <string>
 
 namespace themis {
 namespace llm {
@@ -147,3 +109,4 @@ public:
 
 } // namespace llm
 } // namespace themis
+

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_multi_lora_fusion.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     445                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_multi_lora_fusion.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -35,6 +20,7 @@
 #include <benchmark/benchmark.h>
 #include "llm/multi_lora_manager.h"
 #include "llm/llm_plugin_interface.h"
+#include "benchmark_artifact_preflight.h"
 #include <vector>
 #include <random>
 
@@ -47,27 +33,52 @@ using namespace themis::llm;
 class MultiLoRAFusionFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
+        (void)state;
         config_.max_lora_vram_mb = 2048;
         config_.max_lora_slots = 32;
         config_.lora_ttl = std::chrono::seconds(3600);
         config_.enable_multi_lora_batch = true;
         config_.enable_adapter_fusion = true;
-        
+
+        // Resolve LoRA adapter path via the standardised preflight utility
+        // (Maßnahme #6).  Falls back to the stub adapter created by
+        // scripts/download_models.sh --stub-only.
+        lora_path_ = themis::bench::resolveLoraPath();
+        if (lora_path_.empty()) {
+            preflight_error_ =
+                "LLM artefact preflight FAILED: no LoRA adapter found. "
+                "Run 'scripts/download_models.sh --stub-only' or set "
+                "THEMIS_MODEL_DIR. "
+                "See docs/BENCHMARK_RUNBOOK.md §\"LLM/LoRA Model Setup\".";
+            return;
+        }
+
         manager_ = std::make_unique<MultiLoRAManager>(config_);
-        
-        // Load base LoRAs for benchmarking
-        manager_->loadLoRA("bench-lora-1", "/path/to/bench1.bin", "base-model", 1.0f);
-        manager_->loadLoRA("bench-lora-2", "/path/to/bench2.bin", "base-model", 1.0f);
-        manager_->loadLoRA("bench-lora-3", "/path/to/bench3.bin", "base-model", 1.0f);
+
+        // Use the resolved path for all three logical LoRA slots.
+        manager_->loadLoRA("bench-lora-1", lora_path_, "base-model", 1.0f);
+        manager_->loadLoRA("bench-lora-2", lora_path_, "base-model", 1.0f);
+        manager_->loadLoRA("bench-lora-3", lora_path_, "base-model", 1.0f);
     }
-    
+
     void TearDown(const ::benchmark::State& state) override {
+        (void)state;
         manager_.reset();
     }
-    
+
 protected:
+    bool ensureReady(benchmark::State& state) const {
+        if (!preflight_error_.empty()) {
+            state.SkipWithError(preflight_error_.c_str());
+            return false;
+        }
+        return true;
+    }
+
     MultiLoRAManager::Config config_;
     std::unique_ptr<MultiLoRAManager> manager_;
+    std::string lora_path_;
+    std::string preflight_error_;
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -75,6 +86,7 @@ protected:
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, FusionTwoAdapters)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     FusionConfig config;
     config.strategy = FusionStrategy::STATIC;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2"};
@@ -93,6 +105,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, FusionTwoAdapters)(benchmark::State& state) 
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, FusionThreeAdapters)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     FusionConfig config;
     config.strategy = FusionStrategy::STATIC;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2", "bench-lora-3"};
@@ -111,6 +124,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, FusionThreeAdapters)(benchmark::State& state
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, FusionWithCache)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     FusionConfig config;
     config.strategy = FusionStrategy::STATIC;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2"};
@@ -138,6 +152,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, FusionWithCache)(benchmark::State& state) {
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, DynamicFusionWeightUpdate)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     // Setup initial fusion
     FusionConfig config;
     config.strategy = FusionStrategy::DYNAMIC;
@@ -169,6 +184,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, DynamicFusionWeightUpdate)(benchmark::State&
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, CacheInvalidation)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     // Create multiple fusion entries
     for (int i = 0; i < 10; ++i) {
         FusionConfig config;
@@ -192,6 +208,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, CacheInvalidation)(benchmark::State& state) 
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, ListFusionCache)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     // Create fusion entries
     for (int i = 0; i < 20; ++i) {
         FusionConfig config;
@@ -218,6 +235,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, ListFusionCache)(benchmark::State& state) {
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, CompatibilityCheck)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     FusionConfig config;
     config.source_lora_ids = {"bench-lora-1", "bench-lora-2", "bench-lora-3"};
     config.enforce_quantization_match = true;
@@ -240,6 +258,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, CompatibilityCheck)(benchmark::State& state)
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, ScheduledWeightsComputation)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     // Setup scheduled fusion
     FusionConfig config;
     config.strategy = FusionStrategy::SCHEDULED;
@@ -268,6 +287,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, ScheduledWeightsComputation)(benchmark::Stat
 }
 
 BENCHMARK_F(MultiLoRAFusionFixture, ScheduledCustomFunction)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     // Setup scheduled fusion with custom function
     FusionConfig config;
     config.strategy = FusionStrategy::SCHEDULED;
@@ -304,6 +324,7 @@ BENCHMARK_F(MultiLoRAFusionFixture, ScheduledCustomFunction)(benchmark::State& s
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, GetFusionMetrics)(benchmark::State& state) {
+    if (!ensureReady(state)) return;
     // Create some fusion activity
     for (int i = 0; i < 5; ++i) {
         FusionConfig config;
@@ -328,16 +349,19 @@ BENCHMARK_F(MultiLoRAFusionFixture, GetFusionMetrics)(benchmark::State& state) {
 // ═══════════════════════════════════════════════════════════
 
 static void BM_FusionStrategy(benchmark::State& state, FusionStrategy strategy) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(
+        state, themis::bench::resolveLoraPath(), "LoRA adapter");
+
     MultiLoRAManager::Config config;
     config.max_lora_vram_mb = 2048;
     config.max_lora_slots = 32;
     config.enable_adapter_fusion = true;
-    
+
     MultiLoRAManager manager(config);
-    
-    // Load LoRAs
-    manager.loadLoRA("strat-1", "/path/to/1.bin", "base", 1.0f);
-    manager.loadLoRA("strat-2", "/path/to/2.bin", "base", 1.0f);
+
+    const std::string lora_path = themis::bench::resolveLoraPath();
+    manager.loadLoRA("strat-1", lora_path, "base", 1.0f);
+    manager.loadLoRA("strat-2", lora_path, "base", 1.0f);
     
     FusionConfig fusion_config;
     fusion_config.strategy = strategy;

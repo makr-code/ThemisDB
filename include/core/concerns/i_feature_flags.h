@@ -1,24 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_feature_flags.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1579feab7  2026-02-23  feat(core): add IFeatureFlags interface as a first-class ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file i_feature_flags.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -47,7 +35,8 @@ namespace concerns {
  * threads.
  *
  * Lifecycle: implementations should honour flush() and shutdown() so that
- * any pending writes (e.g. audit records) are flushed before the process exits.
+ * any pending writes (e.g. audit records or remote-sync state) are flushed
+ * before the process exits. shutdown() should be idempotent.
  */
 class IFeatureFlags {
 public:
@@ -60,10 +49,14 @@ public:
     /**
      * @brief Return whether the named feature flag is currently enabled.
      *
+    * Unknown flags are treated as disabled by the default in-memory provider.
+    * Remote providers should document whether they fall back to disabled or
+    * report a backend error via isHealthy().
+    *
      * @param name Flag name (UTF-8, not required to be NUL-terminated).
      * @return true when the flag is enabled, false when disabled or unknown.
      */
-    virtual bool isEnabled(std::string_view name) const = 0;
+    [[nodiscard]] virtual bool isEnabled(std::string_view name) const = 0;
 
     // -----------------------------------------------------------------------
     // Mutation
@@ -73,6 +66,9 @@ public:
      * @brief Enable or disable a named feature flag.
      *
      * Creates the flag entry if it does not yet exist.
+    * Providers that persist state remotely should treat this as a durable
+    * update request and surface replication or write failures through health
+    * checks rather than by throwing.
      *
      * @param name  Flag name.
      * @param value true = enable, false = disable.
@@ -87,8 +83,10 @@ public:
      * @brief Return a snapshot of all currently defined flag values.
      *
      * The returned map is a copy; modifications do not affect the provider.
+    * The snapshot reflects a moment-in-time view and may already be stale by
+    * the time the caller inspects it.
      */
-    virtual std::unordered_map<std::string, bool> getAllFlags() const = 0;
+    [[nodiscard]] virtual std::unordered_map<std::string, bool> getAllFlags() const = 0;
 
     // -----------------------------------------------------------------------
     // Lifecycle hooks
@@ -97,14 +95,16 @@ public:
     /**
      * @brief Flush any pending state (e.g. audit records, remote syncs).
      *
-     * No-op for in-memory providers.
+    * No-op for in-memory providers. Implementations that batch changes should
+    * use this as the durability boundary for best-effort persistence.
      */
     virtual void flush() noexcept {}
 
     /**
      * @brief Shut down the provider and release resources.
      *
-     * After shutdown() any further calls have undefined behaviour.
+    * After shutdown() any further calls have undefined behaviour unless the
+    * implementation explicitly documents idempotent post-shutdown access.
      */
     virtual void shutdown() noexcept {}
 

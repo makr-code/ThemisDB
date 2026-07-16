@@ -1,23 +1,21 @@
+/**
+ * @file lora_feedback_storage.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_feedback_storage.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     477                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_feedback_storage.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 490
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=1, M=0, L=0
+ * PR History (last 5): #367 Add LoRA feedback system wi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_feedback_storage.h"
@@ -97,7 +95,8 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
         }
         
         // Create graph link to adapter
-        if (config_.enable_graph_links && config_.graph_index) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.create_graph_link_fn)) {
             createGraphLink(feedback.id, feedback.adapter_id);
         }
         
@@ -227,7 +226,9 @@ bool FeedbackStorageService::deleteFeedback(const std::string& id) {
         }
         
         // Remove graph link
-        if (config_.enable_graph_links && config_.graph_index && feedback) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.remove_graph_link_fn) &&
+            feedback) {
             removeGraphLink(id, feedback->adapter_id);
         }
         
@@ -408,23 +409,54 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !create_graph_link_fn_) {
+        spdlog::warn("No graph index or callback available for creating graph link");
         return false;
     }
     
     try {
-        // Create edge: feedback --[belongs_to_adapter]--> adapter
         std::string from = makeFeedbackKey(feedback_id);
         std::string to = "lora_adapters:" + adapter_id;
-        std::string edge_type = "belongs_to_adapter";
+        const std::string edge_type = "belongs_to_adapter";
         
-        // Note: GraphIndex API may vary - adapt as needed
-        // This is a placeholder for the actual graph link creation
-        spdlog::debug("Created graph link: {} --[{}]--> {}", from, edge_type, to);
-        return true;
+        // Try callback first if available (Stub #304 remediation)
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (create_graph_link_fn_) {
+                if (create_graph_link_fn_(from, to, edge_type)) {
+                    spdlog::debug("Created graph link via callback: {} -> {}", from, to);
+                    return true;
+                } else {
+                    spdlog::error("Callback failed to create graph link {} -> {}", from, to);
+                    return false;
+                }
+            }
+        }
+        
+        // Fall back to direct graph index if no callback (backward compatibility)
+        if (config_.graph_index) {
+            const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
+            
+            BaseEntity edge;
+            edge.setPrimaryKey(edge_id);
+            edge.setField("id", Value(edge_id));
+            edge.setField("_from", Value(from));
+            edge.setField("_to", Value(to));
+            edge.setField("_type", Value(edge_type));
+
+            auto status = config_.graph_index->addEdge(edge);
+            if (!status.ok) {
+                spdlog::error("Failed to create graph link {} -> {}: {}", from, to, status.message);
+                return false;
+            }
+            spdlog::debug("Created graph link via graph index: {} -> {}", from, to);
+            return true;
+        }
+        
+        return false;
         
     } catch (const std::exception& e) {
-        spdlog::error("Failed to create graph link: {}", e.what());
+        spdlog::error("Exception creating graph link: {}", e.what());
         return false;
     }
 }
@@ -433,23 +465,58 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !remove_graph_link_fn_) {
+        spdlog::warn("No graph index or callback available for removing graph link");
         return false;
     }
     
     try {
-        // Remove edge: feedback --[belongs_to_adapter]--> adapter
         std::string from = makeFeedbackKey(feedback_id);
         std::string to = "lora_adapters:" + adapter_id;
-        std::string edge_type = "belongs_to_adapter";
+        const std::string edge_type = "belongs_to_adapter";
         
-        spdlog::debug("Removed graph link: {} --[{}]--> {}", from, edge_type, to);
-        return true;
+        // Try callback first if available (Stub #304 remediation)
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (remove_graph_link_fn_) {
+                if (remove_graph_link_fn_(from, to, edge_type)) {
+                    spdlog::debug("Removed graph link via callback: {} -> {}", from, to);
+                    return true;
+                } else {
+                    spdlog::error("Callback failed to remove graph link {} -> {}", from, to);
+                    return false;
+                }
+            }
+        }
+        
+        // Fall back to direct graph index if no callback (backward compatibility)
+        if (config_.graph_index) {
+            const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
+            auto status = config_.graph_index->deleteEdge(edge_id);
+            if (!status.ok) {
+                spdlog::error("Failed to remove graph link {}: {}", edge_id, status.message);
+                return false;
+            }
+            spdlog::debug("Removed graph link via graph index: {}", edge_id);
+            return true;
+        }
+        
+        return false;
         
     } catch (const std::exception& e) {
-        spdlog::error("Failed to remove graph link: {}", e.what());
+        spdlog::error("Exception removing graph link: {}", e.what());
         return false;
     }
+}
+
+void FeedbackStorageService::setCreateGraphLinkFn(CreateGraphLinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    create_graph_link_fn_ = std::move(fn);
+}
+
+void FeedbackStorageService::setRemoveGraphLinkFn(RemoveGraphLinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    remove_graph_link_fn_ = std::move(fn);
 }
 
 bool FeedbackStorageService::runValidation(const Feedback& feedback) const {

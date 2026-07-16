@@ -1,25 +1,20 @@
+/**
+ * @file rocksdb_wrapper.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     645                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • eb5e037bc  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rocksdb_wrapper.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -35,6 +30,7 @@
 #include <condition_variable>
 #include <string>
 #include "utils/expected.h"
+#include "storage/nvme_manager.h"
 
 // RocksDB forward declarations
 // Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
@@ -53,6 +49,7 @@ namespace rocksdb {
     class Snapshot;
     class DB;
     class ColumnFamilyHandle;
+    class EventListener;
 }
 
 namespace themis {
@@ -62,7 +59,7 @@ class BaseEntity;
 /// High-level wrapper around RocksDB TransactionDB for MVCC support
 /// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
 /// 
-/// @thread_safety
+/// Thread-safety:
 /// - **Read-safe**: Multiple threads can call read operations (get, scan, etc) concurrently
 /// - **Write-safe**: Write operations (put, delete) are thread-safe (use internal locking)
 /// - **NOT move-safe**: Move constructor and assignment should NOT be called during concurrent access
@@ -155,6 +152,23 @@ public:
         bool use_direct_reads = false;
         bool use_direct_io_for_flush_and_compaction = false;
 
+        // v1.6.0 NVMe Optimizations
+        // Enable NVMe-specific I/O features via NVMeManager.  When enabled,
+        // RocksDBWrapper constructs an NVMeManager, calls initialize(), and
+        // applies its recommended Direct I/O flags and background-thread counts.
+        // All sub-features (io_uring, ZNS, multi-queue) are controlled via the
+        // nvme_enable_* and nvme_* fields below.
+        bool enable_nvme_optimizations = false;
+        // Block-device path forwarded to NVMeManager for capability detection
+        // (e.g. "/dev/nvme0n1").  Leave empty to skip sysfs probing.
+        std::string nvme_device_path;
+        // io_uring queue depth (entries per ring); ignored when enable_nvme_optimizations=false.
+        uint32_t nvme_io_uring_queue_depth = 128;
+        // Enable io_uring Linux async I/O (requires THEMIS_ENABLE_IO_URING and Linux ≥ 5.1).
+        bool nvme_enable_io_uring = false;
+        // Enable ZNS zone-namespace placement (requires a ZNS NVMe device).
+        bool nvme_enable_zns = false;
+
         // v1.3.0 Phase 2: Async I/O with Prefetching (Enhanced v1.5.0)
         // Async I/O improves scan performance by 2-5x through prefetching
         // Enable for workloads with sequential scans, range queries
@@ -200,9 +214,17 @@ public:
         bool paranoid_checks = true;                // Verify all data on read (catches corruption early)
         bool verify_checksums_on_read = true;       // Verify block checksums on every read
         bool verify_checksums_in_compaction = true; // Background verification during compaction
-        bool force_sync_on_write = false;           // Force fsync on every write (30% overhead, max durability)
+        bool force_sync_on_write = false;           // Force fsync on every write (max durability, ~30% overhead)
         bool disable_mmap_reads = true;             // Prevent mmap from hiding I/O errors
         bool disable_mmap_writes = true;            // Prevent mmap write errors
+
+        // WAL periodic background flush (v1.9+)
+        // When > 0, RocksDB calls fdatasync on the WAL every wal_bytes_per_sync bytes
+        // (in the background write thread), providing a durability window without the
+        // per-write fsync overhead of force_sync_on_write.
+        // Recommended value: 1 MiB (1048576) for balanced durability/throughput.
+        // 0 = disabled (OS decides when to flush; default for backward compat).
+        uint64_t wal_bytes_per_sync = 0;
         
         // Checksum algorithm (v1.4.1+)
         enum class ChecksumType {
@@ -210,6 +232,33 @@ public:
             XXH3        // Fastest (3x faster than CRC32, recommended)
         };
         ChecksumType checksum_type = ChecksumType::XXH3;
+
+        // Optional built-in RocksDB MergeOperator presets.
+        // Use SequenceU64Increment for CDC Changefeed sequence persistence
+        // when components call DB::Merge on an uint64 LE counter key.
+        enum class MergeOperatorPreset {
+            None,
+            SequenceU64Increment
+        };
+        MergeOperatorPreset merge_operator_preset =
+            MergeOperatorPreset::None;
+
+        // v2.0.0: Streaming blob write path (PERF-D5)
+        // Blobs >= blob_streaming_threshold_bytes are split into 128KB chunks and
+        // written in parallel using a WriteBatch (bypasses per-write transaction
+        // overhead) and a compact thread pool for encoding.  The manifest key +
+        // all chunk keys are committed atomically in one WriteBatch.Write().
+        // putBlob() / getBlob() expose the streaming API; putBlob() falls back to
+        // put() for small values so callers need no size checks.
+        bool enable_blob_streaming = true;
+        // Minimum blob size that triggers the chunked streaming path (bytes).
+        // Blobs smaller than this threshold are stored via the regular put() path.
+        size_t blob_streaming_threshold_bytes = 65536;  // 64 KB
+        // Size of each chunk when splitting a large blob (bytes).
+        size_t blob_chunk_size_bytes = 131072;           // 128 KB
+        // Number of threads used for parallel chunk encoding.
+        // Each thread encodes (and optionally compresses) one chunk concurrently.
+        int blob_streaming_threads = 4;
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -230,6 +279,10 @@ public:
     /// Check if database is open
     bool isOpen() const;
 
+    /// Register a RocksDB EventListener that will receive compaction/flush/deletion
+    /// events once the database is opened.  Must be called before open().
+    void addEventListener(std::shared_ptr<rocksdb::EventListener> listener);
+
     // ===== CRUD Operations =====
     
     /// Get value by key
@@ -246,6 +299,61 @@ public:
     
     /// Delete key
     bool del(std::string_view key);
+
+    /// Struct for a key-value pair used in batch writes.
+    struct KeyValuePair {
+        std::string key;
+        std::vector<uint8_t> value;
+    };
+
+    /// Write multiple key-value pairs atomically in a single WriteBatch commit.
+    ///
+    /// All writes succeed or fail together.  This is significantly faster than
+    /// N individual put() calls for OLTP workloads with many small writes because
+    /// it opens only one MVCC transaction instead of N.
+    ///
+    /// @param pairs  Key-value pairs to write.
+    /// @return true if all writes were committed successfully.
+    bool putBatch(const std::vector<KeyValuePair>& pairs);
+
+    // ===== Streaming Blob API (v2.0.0, PERF-D5) =====
+
+    /// Store a blob using the high-throughput streaming write path.
+    ///
+    /// For blobs >= Config::blob_streaming_threshold_bytes the data is split
+    /// into Config::blob_chunk_size_bytes chunks.  Chunks are encoded in
+    /// parallel by a compact thread pool (Config::blob_streaming_threads) and
+    /// then committed atomically via a single WriteBatch, bypassing per-write
+    /// transaction overhead.  A manifest key records chunk metadata so that
+    /// getBlob() can reassemble the blob transparently.
+    ///
+    /// Small blobs (< threshold) fall back to the regular put() path, so
+    /// callers need no size checks and the API is backward compatible.
+    ///
+    /// Key scheme (internal, not part of public contract):
+    ///   manifest : "__tmbs_m__:<key>"
+    ///   chunk N  : "__tmbs_c__:<key>:<6-digit-index>"
+    ///
+    /// @param key  Logical blob key (visible to getBlob() / delBlob()).
+    /// @param data Blob bytes.
+    /// @return true on success.
+    bool putBlob(std::string_view key, const std::vector<uint8_t>& data);
+
+    /// Read a blob previously stored by putBlob() or put().
+    ///
+    /// Automatically detects whether the key was stored as a chunked blob
+    /// (reads manifest + all chunks via MultiGet and reassembles) or as a
+    /// regular value (single get()).
+    ///
+    /// @param key Logical blob key.
+    /// @return Blob bytes, or std::nullopt if not found.
+    std::optional<std::vector<uint8_t>> getBlob(std::string_view key);
+
+    /// Delete a blob stored by putBlob() (removes manifest + all chunk keys).
+    /// Falls back to del() for blobs stored via the regular path.
+    /// @param key Logical blob key.
+    /// @return true if at least one key was deleted.
+    bool delBlob(std::string_view key);
     
     /// Multi-get (batch read)
     std::vector<std::optional<std::vector<uint8_t>>> multiGet(
@@ -336,6 +444,21 @@ public:
         /// Snapshot: reads from transaction snapshot
         std::optional<std::vector<uint8_t>> get(std::string_view key);
         
+        /// Acquire an exclusive write lock on a key for this transaction.
+        ///
+        /// Uses RocksDB GetForUpdate internally. The exclusive lock is held until the
+        /// transaction commits or rolls back, preventing any other concurrent transaction
+        /// from acquiring a conflicting lock on the same key.
+        ///
+        /// Primary use-case: serializing unique-constraint checks in the secondary-index
+        /// write path so that two concurrent transactions cannot both pass the check and
+        /// then both commit with the same unique value (the "Concurrent-Unique-Lücke").
+        ///
+        /// Returns true  – lock acquired (key may or may not exist in the DB).
+        /// Returns false – lock acquisition failed (e.g. write-write conflict, timeout).
+        ///                 Caller should roll back and return an error.
+        bool getForUpdate(std::string_view key);
+
         /// Put key-value pair (visible only after commit)
         bool put(std::string_view key, const std::vector<uint8_t>& value);
         
@@ -475,9 +598,23 @@ public:
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
     void scanPrefix(std::string_view prefix, ScanCallback callback);
     
+    /// Create a prefix iterator for enumeration
+    /// Returns a SafeIterator positioned at the first key with the given prefix.
+    /// The caller can iterate through all keys with that prefix by calling Valid()
+    /// and Next() on the returned iterator.
+    /// 
+    /// @param prefix Prefix to search for
+    /// @return Result<SafeIterator> positioned at prefix start, or error if iterator creation fails
+    Result<SafeIterator> prefixIterator(std::string_view prefix);
+    
     /// Scan range [start_key, end_key)
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
-    
+
+    /// Iterate over a key range [start_key, end_key) using a rocksdb::Iterator.
+    /// The callback receives each (key, value) pair in order; returning false
+    /// from the callback stops iteration early.
+    void iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
+
     /// Full scan (use sparingly!)
     void scanAll(ScanCallback callback);
     
@@ -573,9 +710,22 @@ public:
     
     /// Create or open a column family
     /// @return Result containing column family handle (owned by DB, don't delete) or error
-    /// @error ERR_INDEX_NOT_INITIALIZED if database is not open
-    /// @error ERR_INDEX_CREATION_FAILED if column family creation fails
+    /// Error: ERR_INDEX_NOT_INITIALIZED if database is not open
+    /// Error: ERR_INDEX_CREATION_FAILED if column family creation fails
     Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
+
+    /// Lightweight metadata snapshot for one column family
+    struct CFInfo {
+        std::string name;             ///< Column family name
+        uint64_t estimated_keys = 0;  ///< rocksdb.estimate-num-keys
+        uint64_t approx_size_bytes = 0; ///< rocksdb.total-sst-files-size
+    };
+
+    /// Enumerate all open column families with lightweight statistics.
+    /// The returned snapshot is consistent under cf_handles_mutex_ but the
+    /// statistics are approximate and may lag by one compaction cycle.
+    /// @return Vector of CFInfo (empty if DB not open)
+    std::vector<CFInfo> listColumnFamilies() const;
     
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
@@ -592,7 +742,11 @@ private:
             : wrapper_(wrapper), db_(nullptr) {
             if (wrapper_) {
                 std::lock_guard<std::mutex> lock(wrapper_->db_lifecycle_mutex_);
-                if (wrapper_->db_) {
+                // Refuse to start a new operation once close() has begun (R-1 fix):
+                // closing_ is set under db_lifecycle_mutex_ before db_.reset(), so
+                // checking it here (while holding the same lock) makes the check
+                // and the db_.reset() in close() mutually exclusive and race-free.
+                if (wrapper_->db_ && !wrapper_->closing_.load(std::memory_order_relaxed)) {
                     wrapper_->active_operations_.fetch_add(1, std::memory_order_acquire);
                     db_ = wrapper_->db_.get();
                 }
@@ -624,6 +778,7 @@ private:
     std::unique_ptr<rocksdb::TransactionOptions> txn_options_;
     std::unique_ptr<rocksdb::ReadOptions> read_options_;
     std::unique_ptr<rocksdb::WriteOptions> write_options_;
+    mutable std::mutex options_mutex_;
     // Track created column family handles so they can be destroyed before DB close
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles_;
     // Mutex to protect cf_handles_ from concurrent access (race condition fix #1)
@@ -632,6 +787,11 @@ private:
     mutable std::mutex db_lifecycle_mutex_;
     // Active operations counter for safe close (race condition fix #3)
     mutable std::atomic<int> active_operations_{0};
+    // Set to true inside db_lifecycle_mutex_ when close() starts so that new
+    // OperationGuards see it under the same lock and refuse to start (R-1 fix).
+    mutable std::atomic<bool> closing_{false};
+    // NVMe optimizations manager (null when enable_nvme_optimizations=false)
+    std::unique_ptr<storage::NVMeManager> nvme_manager_;
     
     #ifdef THEMIS_DEBUG_THREADING
     // Track if object is being moved (debug only)
@@ -644,3 +804,4 @@ private:
 };
 
 } // namespace themis
+

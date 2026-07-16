@@ -1,6 +1,6 @@
 # LLM CI Badge
 
-[![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/llm-cpu-fallback-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/llm-cpu-fallback-ci.yml)
+[![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml/badge.svg?branch=develop)](https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml)
 
 ## What it shows
 
@@ -15,8 +15,8 @@ The result of the most recent run of the **LLM CPU Fallback CI** workflow. This 
 
 | Source | URL |
 |--------|-----|
-| Workflow file | [`.github/workflows/llm-cpu-fallback-ci.yml`](../../../.github/workflows/llm-cpu-fallback-ci.yml) |
-| All workflow runs | <https://github.com/makr-code/ThemisDB/actions/workflows/llm-cpu-fallback-ci.yml> |
+| Workflow file | [`.github/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml`](../../../.github/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml) |
+| All workflow runs | <https://github.com/makr-code/ThemisDB/actions/workflows/02-feature-modules_llm_llm-cpu-fallback-ci.yml> |
 
 ## How contributors can verify
 

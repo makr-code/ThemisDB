@@ -1,34 +1,33 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_backend_production.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     481                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 252b3f2e9  2026-02-07  Implement production GPU backend, cloud backup infrastruc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file gpu_backend_production.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=30, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+/*
+ * ThemisDB | File: gpu_backend_production.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1010
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=17, H=38, M=10, L=0
+ * PR History (last 5): #4139 feat(geo): Implement CUDA a... (2026-03-12) | #3622 feat(geo): Build system aud... (2026-03-12) | #1102 Implement production GPU ba... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#include <algorithm>
+#include <cmath>
+#include <memory>
+#include <mutex>
+#include <thread>
+#include <vector>
 
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
-#include <vector>
-#include <memory>
-#include <thread>
-#include <algorithm>
-#include <cmath>
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -39,66 +38,75 @@
 #include <CL/cl.h>
 #endif
 
-namespace themis { namespace geo {
+namespace themis {
+namespace geo {
 
 // CPU-parallel backend using threading for batch spatial operations
 class CpuParallelBackend final : public ISpatialComputeBackend {
-public:
+  public:
     CpuParallelBackend() {
         thread_count_ = std::max(1u, std::thread::hardware_concurrency());
     }
-    
-    const char* name() const noexcept override { 
-        return "cpu_parallel"; 
+
+    const char *name() const noexcept override {
+        return "cpu_parallel";
     }
-    
-    bool isAvailable() const noexcept override { 
-        return true; 
+
+    bool isAvailable() const noexcept override {
+        return true;
     }
-    
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         SpatialBatchResults out;
-        out.mask.resize(in.count);
-        
-        // Parallel processing using multiple threads
+        out.mask.resize(in.count, 0u);
+
+        if (in.count == 0) {
+            return out;
+        }
+
+        // When no geometry data is provided return zero mask immediately.
+        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+            return out;
+        }
+
+        // Parallel processing using multiple threads; each thread owns a disjoint
+        // index range of `out.mask` so no synchronisation is required on writes.
         const size_t batch_size = (in.count + thread_count_ - 1) / thread_count_;
         std::vector<std::thread> threads;
         threads.reserve(thread_count_);
-        
+
         for (size_t t = 0; t < thread_count_; ++t) {
-            size_t start_idx = t * batch_size;
-            size_t end_idx = std::min(start_idx + batch_size, in.count);
-            
-            if (start_idx >= in.count) break;
-            
-            threads.emplace_back([&out, start_idx, end_idx]() {
+            const size_t start_idx = t * batch_size;
+            const size_t end_idx   = std::min(start_idx + batch_size, in.count);
+
+            if (start_idx >= in.count) {
+                break;
+            }
+
+            threads.emplace_back([this, &in, &out, start_idx, end_idx]() {
                 for (size_t i = start_idx; i < end_idx; ++i) {
-                    // Perform spatial intersection check
-                    // In a real implementation, this would use the actual geometry data
-                    // from the SpatialBatchInputs structure
-                    out.mask[i] = 0; // Placeholder: would perform actual check
+                    out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
                 }
             });
         }
-        
-        for (auto& thread : threads) {
+
+        for (auto &thread : threads) {
             thread.join();
         }
-        
+
         return out;
     }
-    
-    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         // Use MBR as fast pre-check
         auto mbr1 = geom1.computeMBR();
         auto mbr2 = geom2.computeMBR();
-        
+
         if (!mbr1.intersects(mbr2)) {
             return false;
         }
-        
+
         // For exact check, perform detailed geometry intersection
-        // This is a simplified version - production would use more sophisticated algorithms
         if (geom1.isPoint() && geom2.isPolygon()) {
             return pointInPolygon(geom1.coords[0], geom2);
         } else if (geom1.isPolygon() && geom2.isPoint()) {
@@ -106,57 +114,81 @@ public:
         } else if (geom1.isPolygon() && geom2.isPolygon()) {
             return polygonIntersectsPolygon(geom1, geom2);
         }
-        
+
         // Fallback to MBR check for unsupported types
         return true;
     }
-    
-private:
+
+    // Delegate geometry-manipulation operations to the CPU exact backend.
+    // Previously the default base-class implementations returned an empty
+    // GeometryInfo; now they are properly wired to the CPU exact path.
+
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+        auto *b = getCpuExactBackend();
+        return b ? b->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
+    }
+
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        auto *b = getCpuExactBackend();
+        return b ? b->stUnion(g1, g2) : GeometryInfo{};
+    }
+
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        auto *b = getCpuExactBackend();
+        return b ? b->stDifference(g1, g2) : GeometryInfo{};
+    }
+
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+        auto *b = getCpuExactBackend();
+        return b ? b->geodesicDistance(lat1, lon1, lat2, lon2) : 0.0;
+    }
+
+  private:
     unsigned int thread_count_;
-    
+
     // Point-in-polygon test using ray-casting algorithm
-    bool pointInPolygon(const Coordinate& point, const GeometryInfo& polygon) const {
-        const auto& ring = polygon.rings.empty() ? polygon.coords : polygon.rings[0];
-        if (ring.size() < 3) return false;
-        
+    bool pointInPolygon(const Coordinate &point, const GeometryInfo &polygon) const {
+        const auto &ring = polygon.rings.empty() ? polygon.coords : polygon.rings[0];
+        if (ring.size() < 3) {
+            return false;
+        }
+
         bool inside = false;
-        size_t j = ring.size() - 1;
-        
+        size_t j    = ring.size() - 1;
+
         for (size_t i = 0; i < ring.size(); j = i++) {
-            if (((ring[i].y > point.y) != (ring[j].y > point.y)) &&
-                (point.x < (ring[j].x - ring[i].x) * (point.y - ring[i].y) / 
-                          (ring[j].y - ring[i].y) + ring[i].x)) {
+            if (((ring[i].y > point.y) != (ring[j].y > point.y))
+                && (point.x < (ring[j].x - ring[i].x) * (point.y - ring[i].y) / (ring[j].y - ring[i].y) + ring[i].x)) {
                 inside = !inside;
             }
         }
-        
+
         return inside;
     }
-    
+
     // Simplified polygon-polygon intersection check
-    bool polygonIntersectsPolygon(const GeometryInfo& poly1, const GeometryInfo& poly2) const {
+    bool polygonIntersectsPolygon(const GeometryInfo &poly1, const GeometryInfo &poly2) const {
         // Check if any vertex of poly1 is inside poly2
-        const auto& ring1 = poly1.rings.empty() ? poly1.coords : poly1.rings[0];
-        for (const auto& coord : ring1) {
+        const auto &ring1 = poly1.rings.empty() ? poly1.coords : poly1.rings[0];
+        for (const auto &coord : ring1) {
             if (pointInPolygon(coord, poly2)) {
                 return true;
             }
         }
-        
+
         // Check if any vertex of poly2 is inside poly1
-        const auto& ring2 = poly2.rings.empty() ? poly2.coords : poly2.rings[0];
-        for (const auto& coord : ring2) {
+        const auto &ring2 = poly2.rings.empty() ? poly2.coords : poly2.rings[0];
+        for (const auto &coord : ring2) {
             if (pointInPolygon(coord, poly1)) {
                 return true;
             }
         }
-        
+
         // Check for edge-edge intersections
         return checkEdgeIntersections(ring1, ring2);
     }
-    
-    bool checkEdgeIntersections(const std::vector<Coordinate>& ring1, 
-                               const std::vector<Coordinate>& ring2) const {
+
+    bool checkEdgeIntersections(const std::vector<Coordinate> &ring1, const std::vector<Coordinate> &ring2) const {
         for (size_t i = 0, j = ring1.size() - 1; i < ring1.size(); j = i++) {
             for (size_t k = 0, l = ring2.size() - 1; k < ring2.size(); l = k++) {
                 if (segmentsIntersect(ring1[j], ring1[i], ring2[l], ring2[k])) {
@@ -166,13 +198,13 @@ private:
         }
         return false;
     }
-    
-    bool segmentsIntersect(const Coordinate& p1, const Coordinate& p2,
-                          const Coordinate& p3, const Coordinate& p4) const {
-        auto ccw = [](const Coordinate& A, const Coordinate& B, const Coordinate& C) {
+
+    bool segmentsIntersect(const Coordinate &p1, const Coordinate &p2, const Coordinate &p3,
+                           const Coordinate &p4) const {
+        auto ccw = [](const Coordinate &A, const Coordinate &B, const Coordinate &C) {
             return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x);
         };
-        
+
         return ccw(p1, p3, p4) != ccw(p2, p3, p4) && ccw(p1, p2, p3) != ccw(p1, p2, p4);
     }
 };
@@ -180,57 +212,99 @@ private:
 #ifdef THEMIS_ENABLE_CUDA
 
 // CUDA kernels for GPU-accelerated spatial operations
-__device__ bool cuda_point_in_polygon(double px, double py, 
-                                     const double* ring_x, const double* ring_y, 
-                                     int ring_size) {
+__device__ bool cuda_point_in_polygon(double px, double py, const double *ring_x, const double *ring_y, int ring_size) {
     bool inside = false;
-    int j = ring_size - 1;
-    
+    int j       = ring_size - 1;
+
     for (int i = 0; i < ring_size; j = i++) {
-        if (((ring_y[i] > py) != (ring_y[j] > py)) &&
-            (px < (ring_x[j] - ring_x[i]) * (py - ring_y[i]) / 
-                  (ring_y[j] - ring_y[i]) + ring_x[i])) {
+        if (((ring_y[i] > py) != (ring_y[j] > py))
+            && (px < (ring_x[j] - ring_x[i]) * (py - ring_y[i]) / (ring_y[j] - ring_y[i]) + ring_x[i])) {
             inside = !inside;
         }
     }
-    
+
     return inside;
 }
 
-__global__ void cuda_batch_intersects_kernel(const double* query_mbr,
-                                             const double* candidate_mbrs,
-                                             uint8_t* results,
+__global__ void cuda_batch_intersects_kernel(const double *query_mbr, const double *candidate_mbrs, uint8_t *results,
                                              int count) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx >= count) return;
-    
+    if (idx >= count)
+        return;
+
     // Load query MBR (minx, miny, maxx, maxy)
     double q_minx = query_mbr[0];
     double q_miny = query_mbr[1];
     double q_maxx = query_mbr[2];
     double q_maxy = query_mbr[3];
-    
+
     // Load candidate MBR
-    int offset = idx * 4;
+    int offset    = idx * 4;
     double c_minx = candidate_mbrs[offset + 0];
     double c_miny = candidate_mbrs[offset + 1];
     double c_maxx = candidate_mbrs[offset + 2];
     double c_maxy = candidate_mbrs[offset + 3];
-    
+
     // MBR intersection test
-    bool intersects = !(q_minx > c_maxx || q_maxx < c_minx ||
-                       q_miny > c_maxy || q_maxy < c_miny);
-    
+    bool intersects = !(q_minx > c_maxx || q_maxx < c_minx || q_miny > c_maxy || q_maxy < c_miny);
+
     results[idx] = intersects ? 1 : 0;
 }
 
+/// Pairwise MBR intersection: each thread tests one geometry pair (a[idx], b[idx]).
+/// mbrs_a and mbrs_b are flat arrays: [minx, miny, maxx, maxy] per entry.
+__global__ void cuda_pairwise_intersects_kernel(const double *mbrs_a, const double *mbrs_b, uint8_t *results,
+                                                int count) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx >= count)
+        return;
+
+    const int off       = idx * 4;
+    const double a_minx = mbrs_a[off];
+    const double a_miny = mbrs_a[off + 1];
+    const double a_maxx = mbrs_a[off + 2];
+    const double a_maxy = mbrs_a[off + 3];
+
+    const double b_minx = mbrs_b[off];
+    const double b_miny = mbrs_b[off + 1];
+    const double b_maxx = mbrs_b[off + 2];
+    const double b_maxy = mbrs_b[off + 3];
+
+    results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx && a_miny <= b_maxy && a_maxy >= b_miny) ? 1u : 0u;
+}
+
+/// Batch ST_BUFFER kernel for Point geometries.
+/// Each thread computes one vertex of one buffer polygon.
+/// Layout: gridDim.x = n, blockDim.x = arc_points+1 (clamped to 1024).
+/// ring_x/ring_y are flat [n * (arc_points+1)] arrays.
+__global__ void cuda_batch_point_buffer_kernel(const double *lons, ///< [n] centre longitudes
+                                               const double *lats, ///< [n] centre latitudes
+                                               double *ring_x,     ///< [n * (arc_points+1)] output longitudes
+                                               double *ring_y,     ///< [n * (arc_points+1)] output latitudes
+                                               int arc_points,
+                                               double d_lat, ///< angular radius in degrees (latitude)
+                                               double d_lon, ///< angular radius in degrees (longitude)
+                                               int n) {
+    const int pt  = blockIdx.x;  // point index
+    const int vtx = threadIdx.x; // vertex index within the polygon
+    if (pt >= n || vtx > arc_points)
+        return;
+
+    const double lon   = lons[pt];
+    const double lat   = lats[pt];
+    const double angle = 2.0 * 3.14159265358979323846 * vtx / arc_points;
+    const int base     = pt * (arc_points + 1);
+    ring_x[base + vtx] = lon + d_lon * cos(angle);
+    ring_y[base + vtx] = lat + d_lat * sin(angle);
+}
+
 class CudaBackend final : public ISpatialComputeBackend {
-public:
+  public:
     CudaBackend() : device_id_(0) {
         int device_count = 0;
         cudaGetDeviceCount(&device_count);
         is_available_ = (device_count > 0);
-        
+
         if (is_available_) {
             cudaSetDevice(device_id_);
             cudaDeviceProp props;
@@ -238,66 +312,300 @@ public:
             THEMIS_INFO("CUDA backend initialized on device: {}", props.name);
         }
     }
-    
+
     ~CudaBackend() {
+        freeCachedBuffers();
         cudaDeviceReset();
     }
-    
-    const char* name() const noexcept override { 
-        return "cuda_gpu"; 
+
+    const char *name() const noexcept override {
+        return "cuda_gpu";
     }
-    
-    bool isAvailable() const noexcept override { 
-        return is_available_; 
+
+    bool isAvailable() const noexcept override {
+        return is_available_;
     }
-    
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+
+    // Two-phase exact batch intersection:
+    //   Phase 1 — GPU MBR filter (conservative, no false negatives).
+    //   Phase 2 — CPU exact verification for MBR-positive candidates only.
+    // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
-        
+
         if (!is_available_ || in.count == 0) {
             return out;
         }
-        
-        // TODO v1.4.0: Complete CUDA implementation with geometry data processing
-        // The full implementation requires:
-        // 1. Upload query geometry and candidate MBRs to GPU device memory
-        // 2. Launch CUDA kernel for parallel intersection tests
-        // 3. Download results back to CPU host memory
-        // 4. Handle memory allocation failures and device errors
-        //
-        // Current status: CUDA infrastructure is ready, but geometry processing
-        // is not yet implemented. For production use until v1.4.0, this backend
-        // falls back to CPU-parallel processing which provides good performance.
-        
-        THEMIS_WARN("CUDA batch operations not yet complete - falling back to CPU-parallel");
-        
-        // Fall back to CPU-parallel backend for actual computation
-        CpuParallelBackend cpu_fallback;
-        return cpu_fallback.batchIntersects(in);
+
+        // When no geometry data is provided, return zero-filled mask.
+        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+            return out;
+        }
+
+        const int n = static_cast<int>(in.count);
+
+        // Build flat MBR arrays: [minx, miny, maxx, maxy] per geometry.
+        std::vector<double> mbrs_a(static_cast<size_t>(n) * 4);
+        std::vector<double> mbrs_b(static_cast<size_t>(n) * 4);
+        for (int i = 0; i < n; ++i) {
+            auto ma           = in.geoms_a[i].computeMBR();
+            mbrs_a[i * 4 + 0] = ma.minx;
+            mbrs_a[i * 4 + 1] = ma.miny;
+            mbrs_a[i * 4 + 2] = ma.maxx;
+            mbrs_a[i * 4 + 3] = ma.maxy;
+            auto mb           = in.geoms_b[i].computeMBR();
+            mbrs_b[i * 4 + 0] = mb.minx;
+            mbrs_b[i * 4 + 1] = mb.miny;
+            mbrs_b[i * 4 + 2] = mb.maxx;
+            mbrs_b[i * 4 + 3] = mb.maxy;
+        }
+
+        // Grow cached device buffers if needed (amortises alloc cost).
+        const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);
+        const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);
+
+        if (!ensureCachedBuffers(n, mbr_sz, res_sz)) {
+            THEMIS_WARN("CUDA buffer cache failed, falling back to CPU-parallel");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        // Upload geometry MBRs to device memory.
+        cudaError_t e;
+        if ((e = cudaMemcpy(d_cached_mbrs_a_, mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
+            || (e = cudaMemcpy(d_cached_mbrs_b_, mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess
+            || (e = cudaMemset(d_cached_results_, 0, res_sz)) != cudaSuccess) {
+            THEMIS_WARN("CUDA upload failed ({}), falling back to CPU-parallel", static_cast<int>(e));
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        // Phase 1: dispatch pairwise MBR intersection kernel.
+        const int blockSize = 256;
+        const int gridSize  = (n + blockSize - 1) / blockSize;
+        cuda_pairwise_intersects_kernel<<<gridSize, blockSize>>>(d_cached_mbrs_a_, d_cached_mbrs_b_, d_cached_results_,
+                                                                 n);
+
+        e = cudaDeviceSynchronize();
+        if (e == cudaSuccess) {
+            e = cudaMemcpy(out.mask.data(), d_cached_results_, res_sz, cudaMemcpyDeviceToHost);
+        }
+
+        if (e != cudaSuccess) {
+            THEMIS_WARN("CUDA execution failed ({}), falling back to CPU-parallel", static_cast<int>(e));
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        // Phase 2: CPU exact verification for MBR-positive candidates.
+        // Eliminates false positives from the conservative MBR filter.
+        // Build a sub-batch of only the candidates to leverage parallel threading.
+        SpatialBatchInputs candidates;
+        std::vector<size_t> candidate_indices;
+        for (int i = 0; i < n; ++i) {
+            if (out.mask[i]) {
+                candidate_indices.push_back(static_cast<size_t>(i));
+                candidates.geoms_a.push_back(in.geoms_a[i]);
+                candidates.geoms_b.push_back(in.geoms_b[i]);
+            }
+        }
+        if (!candidate_indices.empty()) {
+            candidates.count   = candidate_indices.size();
+            auto exact_results = cpu_exact_.batchIntersects(candidates);
+            for (size_t j = 0; j < candidate_indices.size(); ++j) {
+                out.mask[candidate_indices[j]] = (j < exact_results.mask.size()) ? exact_results.mask[j] : 0u;
+            }
+        }
+
+        return out;
     }
-    
-    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         // For single geometry checks, CPU is often faster due to transfer overhead
-        // Fall back to CPU-based check
-        CpuParallelBackend cpu_backend;
-        return cpu_backend.exactIntersects(geom1, geom2);
+        return cpu_exact_.exactIntersects(geom1, geom2);
     }
-    
-private:
+
+    /// GPU-accelerated ST_BUFFER for Point geometries using the batch kernel.
+    /// Falls back to cpu_exact_ for non-Point types or on any CUDA error.
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+        if (!is_available_ || !geom.isPoint() || geom.coords.empty() || distance_m <= 0.0 || arc_points < 3) {
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        }
+
+        const double lon          = geom.coords[0].x;
+        const double lat          = geom.coords[0].y;
+        constexpr double kPiLocal = 3.14159265358979323846;
+        const double lat_rad      = lat * kPiLocal / 180.0;
+        const double cos_lat      = std::cos(lat_rad);
+        const double d_lat        = distance_m / 111320.0;
+        const double d_lon        = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+
+        const int n_verts   = arc_points + 1; // +1 to close the ring
+        const size_t buf_sz = static_cast<size_t>(n_verts) * sizeof(double);
+
+        double *d_lon_in = nullptr, *d_lat_in = nullptr;
+        double *d_ring_x = nullptr, *d_ring_y = nullptr;
+        cudaError_t e;
+
+        double h_lon = lon, h_lat = lat;
+        e = cudaMalloc(&d_lon_in, sizeof(double));
+        if (e != cudaSuccess)
+            goto fallback;
+        e = cudaMalloc(&d_lat_in, sizeof(double));
+        if (e != cudaSuccess) {
+            cudaFree(d_lon_in);
+            goto fallback;
+        }
+        e = cudaMalloc(&d_ring_x, buf_sz);
+        if (e != cudaSuccess) {
+            cudaFree(d_lon_in);
+            cudaFree(d_lat_in);
+            goto fallback;
+        }
+        e = cudaMalloc(&d_ring_y, buf_sz);
+        if (e != cudaSuccess) {
+            cudaFree(d_lon_in);
+            cudaFree(d_lat_in);
+            cudaFree(d_ring_x);
+            goto fallback;
+        }
+
+        cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_lat_in, &h_lat, sizeof(double), cudaMemcpyHostToDevice);
+
+        cuda_batch_point_buffer_kernel<<<1, n_verts>>>(d_lon_in, d_lat_in, d_ring_x, d_ring_y, arc_points, d_lat, d_lon,
+                                                       1);
+
+        {
+            cudaError_t ke = cudaDeviceSynchronize();
+            if (ke != cudaSuccess) {
+                cudaFree(d_lon_in);
+                cudaFree(d_lat_in);
+                cudaFree(d_ring_x);
+                cudaFree(d_ring_y);
+                goto fallback;
+            }
+        }
+
+        {
+            std::vector<double> h_ring_x(static_cast<size_t>(n_verts));
+            std::vector<double> h_ring_y(static_cast<size_t>(n_verts));
+            cudaMemcpy(h_ring_x.data(), d_ring_x, buf_sz, cudaMemcpyDeviceToHost);
+            cudaMemcpy(h_ring_y.data(), d_ring_y, buf_sz, cudaMemcpyDeviceToHost);
+            cudaFree(d_lon_in);
+            cudaFree(d_lat_in);
+            cudaFree(d_ring_x);
+            cudaFree(d_ring_y);
+
+            GeometryInfo result(GeometryType::Polygon);
+            std::vector<Coordinate> ring;
+            ring.reserve(static_cast<size_t>(n_verts));
+            for (int i = 0; i < n_verts; ++i) {
+                ring.emplace_back(h_ring_x[static_cast<size_t>(i)], h_ring_y[static_cast<size_t>(i)]);
+            }
+            result.rings.push_back(std::move(ring));
+            return result;
+        }
+
+    fallback:
+        return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+    }
+
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        return cpu_exact_.stUnion(g1, g2);
+    }
+
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        return cpu_exact_.stDifference(g1, g2);
+    }
+
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+        return cpu_exact_.geodesicDistance(lat1, lon1, lat2, lon2);
+    }
+
+  private:
     int device_id_;
     bool is_available_;
+    CpuParallelBackend cpu_exact_; // reused across calls for Phase 2 verification
+
+    // Cached device buffers — grown on demand, freed in destructor.
+    int cached_n_              = 0;
+    double *d_cached_mbrs_a_   = nullptr;
+    double *d_cached_mbrs_b_   = nullptr;
+    uint8_t *d_cached_results_ = nullptr;
+
+    void freeCachedBuffers() noexcept {
+        if (d_cached_mbrs_a_) {
+            cudaFree(d_cached_mbrs_a_);
+            d_cached_mbrs_a_ = nullptr;
+        }
+        if (d_cached_mbrs_b_) {
+            cudaFree(d_cached_mbrs_b_);
+            d_cached_mbrs_b_ = nullptr;
+        }
+        if (d_cached_results_) {
+            cudaFree(d_cached_results_);
+            d_cached_results_ = nullptr;
+        }
+        cached_n_ = 0;
+    }
+
+    /// Ensure the cached device buffers are large enough for `n` pairs.
+    /// Returns false on allocation failure (caller falls back to CPU).
+    bool ensureCachedBuffers(int n, size_t mbr_sz, size_t res_sz) {
+        if (n <= cached_n_)
+            return true; // already large enough
+        freeCachedBuffers();
+        cudaError_t e;
+        if ((e = cudaMalloc(&d_cached_mbrs_a_, mbr_sz)) != cudaSuccess
+            || (e = cudaMalloc(&d_cached_mbrs_b_, mbr_sz)) != cudaSuccess
+            || (e = cudaMalloc(&d_cached_results_, res_sz)) != cudaSuccess) {
+            freeCachedBuffers();
+            THEMIS_WARN("CUDA cudaMalloc failed ({})", static_cast<int>(e));
+            return false;
+        }
+        cached_n_ = n;
+        return true;
+    }
 };
 
 #endif // THEMIS_ENABLE_CUDA
 
 #ifdef THEMIS_ENABLE_OPENCL
 
+/// OpenCL kernel source for pairwise MBR intersection.
+/// Requires cl_khr_fp64 for double-precision coordinates.
+static const char *kOpenCLGeoIntersectsKernelSrc = R"(
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
+
+__kernel void pairwise_mbr_intersects(
+    __global const double* mbrs_a,
+    __global const double* mbrs_b,
+    __global uchar* results,
+    const int count)
+{
+    int idx = get_global_id(0);
+    if (idx >= count) return;
+    int off = idx * 4;
+    double a_minx = mbrs_a[off];
+    double a_miny = mbrs_a[off + 1];
+    double a_maxx = mbrs_a[off + 2];
+    double a_maxy = mbrs_a[off + 3];
+    double b_minx = mbrs_b[off];
+    double b_miny = mbrs_b[off + 1];
+    double b_maxx = mbrs_b[off + 2];
+    double b_maxy = mbrs_b[off + 3];
+    results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx &&
+                    a_miny <= b_maxy && a_maxy >= b_miny) ? 1 : 0;
+}
+)";
+
 class OpenCLBackend final : public ISpatialComputeBackend {
-public:
+  public:
     OpenCLBackend() : context_(nullptr), queue_(nullptr), program_(nullptr) {
         cl_int err;
-        
+
         // Get platform
         cl_platform_id platform;
         err = clGetPlatformIDs(1, &platform, nullptr);
@@ -305,7 +613,7 @@ public:
             THEMIS_WARN("OpenCL platform not available");
             return;
         }
-        
+
         // Get device (prefer GPU)
         err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device_, nullptr);
         if (err != CL_SUCCESS) {
@@ -316,14 +624,14 @@ public:
                 return;
             }
         }
-        
+
         // Create context
         context_ = clCreateContext(nullptr, 1, &device_, nullptr, nullptr, &err);
         if (err != CL_SUCCESS) {
             THEMIS_WARN("OpenCL context creation failed");
             return;
         }
-        
+
         // Create command queue
         queue_ = clCreateCommandQueue(context_, device_, 0, &err);
         if (err != CL_SUCCESS) {
@@ -332,151 +640,382 @@ public:
             context_ = nullptr;
             return;
         }
-        
+
+        // Compile geo intersection kernels at startup.
+        if (!compileKernels()) {
+            THEMIS_WARN("OpenCL kernel compilation failed — OpenCL backend disabled");
+            clReleaseCommandQueue(queue_);
+            queue_ = nullptr;
+            clReleaseContext(context_);
+            context_ = nullptr;
+            return;
+        }
+
         is_available_ = true;
         THEMIS_INFO("OpenCL backend initialized");
     }
-    
+
     ~OpenCLBackend() {
-        if (program_) clReleaseProgram(program_);
-        if (queue_) clReleaseCommandQueue(queue_);
-        if (context_) clReleaseContext(context_);
+        if (program_)
+            clReleaseProgram(program_);
+        if (queue_)
+            clReleaseCommandQueue(queue_);
+        if (context_)
+            clReleaseContext(context_);
     }
-    
-    const char* name() const noexcept override { 
-        return "opencl_gpu"; 
+
+    const char *name() const noexcept override {
+        return "opencl_gpu";
     }
-    
-    bool isAvailable() const noexcept override { 
-        return is_available_; 
+
+    bool isAvailable() const noexcept override {
+        return is_available_;
     }
-    
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
-        
+
         if (!is_available_ || in.count == 0) {
             return out;
         }
-        
-        // TODO v1.4.0: Complete OpenCL implementation
-        // This is a placeholder implementation. Full OpenCL backend requires:
-        // 1. Compile OpenCL kernel source for spatial operations
-        // 2. Create device buffers for input geometry and output results
-        // 3. Execute kernel with proper work group sizing
-        // 4. Read back results from device to host
-        // 5. Handle OpenCL errors and device limitations
-        //
-        // Roadmap: Full implementation planned for v1.4.0
-        // Current fallback: CPU-parallel backend provides working alternative
-        
-        THEMIS_WARN("OpenCL batch operations not yet implemented - falling back to CPU-parallel");
-        
-        // Fall back to CPU-parallel backend for actual computation
-        CpuParallelBackend cpu_fallback;
-        return cpu_fallback.batchIntersects(in);
+
+        // When no geometry data is provided, return zero-filled mask.
+        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+            return out;
+        }
+
+        const int n = static_cast<int>(in.count);
+
+        // Build flat MBR arrays: [minx, miny, maxx, maxy] per geometry.
+        std::vector<double> mbrs_a(static_cast<size_t>(n) * 4);
+        std::vector<double> mbrs_b(static_cast<size_t>(n) * 4);
+        for (int i = 0; i < n; ++i) {
+            auto ma           = in.geoms_a[i].computeMBR();
+            mbrs_a[i * 4 + 0] = ma.minx;
+            mbrs_a[i * 4 + 1] = ma.miny;
+            mbrs_a[i * 4 + 2] = ma.maxx;
+            mbrs_a[i * 4 + 3] = ma.maxy;
+            auto mb           = in.geoms_b[i].computeMBR();
+            mbrs_b[i * 4 + 0] = mb.minx;
+            mbrs_b[i * 4 + 1] = mb.miny;
+            mbrs_b[i * 4 + 2] = mb.maxx;
+            mbrs_b[i * 4 + 3] = mb.maxy;
+        }
+
+        const size_t mbr_sz = static_cast<size_t>(n) * 4 * sizeof(double);
+        const size_t res_sz = static_cast<size_t>(n) * sizeof(uint8_t);
+
+        // Create device buffers and upload host data.
+        cl_int err;
+        cl_mem d_mbrs_a
+            = clCreateBuffer(context_, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, mbr_sz, mbrs_a.data(), &err);
+        if (err != CL_SUCCESS) {
+            THEMIS_WARN("OpenCL buffer creation failed (mbrs_a), falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        cl_mem d_mbrs_b
+            = clCreateBuffer(context_, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, mbr_sz, mbrs_b.data(), &err);
+        if (err != CL_SUCCESS) {
+            clReleaseMemObject(d_mbrs_a);
+            THEMIS_WARN("OpenCL buffer creation failed (mbrs_b), falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        cl_mem d_results = clCreateBuffer(context_, CL_MEM_WRITE_ONLY, res_sz, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            clReleaseMemObject(d_mbrs_a);
+            clReleaseMemObject(d_mbrs_b);
+            THEMIS_WARN("OpenCL buffer creation failed (results), falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        // Create and configure kernel instance.
+        cl_kernel kernel = clCreateKernel(program_, "pairwise_mbr_intersects", &err);
+        if (err != CL_SUCCESS) {
+            clReleaseMemObject(d_mbrs_a);
+            clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL kernel creation failed, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_mbrs_a);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a);
+            clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 0, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        err = clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_mbrs_b);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a);
+            clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 1, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        err = clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_results);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a);
+            clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 2, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+        err = clSetKernelArg(kernel, 3, sizeof(cl_int), &n);
+        if (err != CL_SUCCESS) {
+            clReleaseKernel(kernel);
+            clReleaseMemObject(d_mbrs_a);
+            clReleaseMemObject(d_mbrs_b);
+            clReleaseMemObject(d_results);
+            THEMIS_WARN("OpenCL clSetKernelArg failed for arg 3, falling back to CPU");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        // Phase 1: enqueue NDRange kernel — one work-item per geometry pair.
+        const size_t global_work_size = static_cast<size_t>(n);
+        err     = clEnqueueNDRangeKernel(queue_, kernel, 1, nullptr, &global_work_size, nullptr, 0, nullptr, nullptr);
+        bool ok = (err == CL_SUCCESS);
+        if (ok) {
+            clFinish(queue_);
+            err = clEnqueueReadBuffer(queue_, d_results, CL_TRUE, 0, res_sz, out.mask.data(), 0, nullptr, nullptr);
+            ok  = (err == CL_SUCCESS);
+        }
+
+        clReleaseKernel(kernel);
+        clReleaseMemObject(d_mbrs_a);
+        clReleaseMemObject(d_mbrs_b);
+        clReleaseMemObject(d_results);
+
+        if (!ok) {
+            THEMIS_WARN("OpenCL execution failed, falling back to CPU-parallel");
+            CpuParallelBackend cpu_fallback;
+            return cpu_fallback.batchIntersects(in);
+        }
+
+        // Phase 2: CPU exact verification for MBR-positive candidates.
+        // Eliminates false positives from the conservative MBR filter.
+        // Build a sub-batch of only the candidates to leverage parallel threading.
+        SpatialBatchInputs candidates;
+        std::vector<size_t> candidate_indices;
+        for (int i = 0; i < n; ++i) {
+            if (out.mask[i]) {
+                candidate_indices.push_back(static_cast<size_t>(i));
+                candidates.geoms_a.push_back(in.geoms_a[i]);
+                candidates.geoms_b.push_back(in.geoms_b[i]);
+            }
+        }
+        if (!candidate_indices.empty()) {
+            candidates.count   = candidate_indices.size();
+            auto exact_results = cpu_exact_.batchIntersects(candidates);
+            for (size_t j = 0; j < candidate_indices.size(); ++j) {
+                out.mask[candidate_indices[j]] = (j < exact_results.mask.size()) ? exact_results.mask[j] : 0u;
+            }
+        }
+
+        return out;
     }
-    
-    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
-        // For single geometry checks, use CPU backend
-        CpuParallelBackend cpu_backend;
-        return cpu_backend.exactIntersects(geom1, geom2);
+
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+        return cpu_exact_.exactIntersects(geom1, geom2);
     }
-    
-private:
+
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+        return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+    }
+
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        return cpu_exact_.stUnion(g1, g2);
+    }
+
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        return cpu_exact_.stDifference(g1, g2);
+    }
+
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+        return cpu_exact_.geodesicDistance(lat1, lon1, lat2, lon2);
+    }
+
+  private:
     cl_device_id device_;
     cl_context context_;
     cl_command_queue queue_;
     cl_program program_;
     bool is_available_ = false;
+    CpuParallelBackend cpu_exact_; // reused across calls for Phase 2 verification
+
+    /// Compile geo intersection kernels from source; called once in the constructor.
+    bool compileKernels() {
+        cl_int err;
+        program_ = clCreateProgramWithSource(context_, 1, &kOpenCLGeoIntersectsKernelSrc, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            THEMIS_WARN("OpenCL clCreateProgramWithSource failed ({})", static_cast<int>(err));
+            return false;
+        }
+        err = clBuildProgram(program_, 1, &device_, nullptr, nullptr, nullptr);
+        if (err != CL_SUCCESS) {
+            size_t log_sz = 0;
+            clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &log_sz);
+            std::string log;
+            if (log_sz > 0) {
+                log.assign(log_sz, '\0');
+                clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, log_sz, &log[0], nullptr);
+            }
+            THEMIS_WARN("OpenCL kernel build failed: {}", log);
+            clReleaseProgram(program_);
+            program_ = nullptr;
+            return false;
+        }
+        return true;
+    }
 };
 
 #endif // THEMIS_ENABLE_OPENCL
 
 // Production GPU backend with automatic fallback
 class ProductionGpuBackend final : public ISpatialComputeBackend {
-public:
+  public:
     ProductionGpuBackend() {
-        // Try to initialize backends in order of preference
-        #ifdef THEMIS_ENABLE_CUDA
+// Try to initialize backends in order of preference
+#ifdef THEMIS_ENABLE_CUDA
         cuda_backend_ = std::make_unique<CudaBackend>();
         if (cuda_backend_->isAvailable()) {
             active_backend_ = cuda_backend_.get();
             THEMIS_INFO("Using CUDA backend for GPU acceleration");
             return;
         }
-        #endif
-        
-        #ifdef THEMIS_ENABLE_OPENCL
+#endif
+
+#ifdef THEMIS_ENABLE_OPENCL
         opencl_backend_ = std::make_unique<OpenCLBackend>();
         if (opencl_backend_->isAvailable()) {
             active_backend_ = opencl_backend_.get();
             THEMIS_INFO("Using OpenCL backend for GPU acceleration");
             return;
         }
-        #endif
-        
+#endif
+
         // Fall back to CPU-parallel
-        cpu_backend_ = std::make_unique<CpuParallelBackend>();
+        cpu_backend_    = std::make_unique<CpuParallelBackend>();
         active_backend_ = cpu_backend_.get();
         THEMIS_INFO("Using CPU-parallel backend (GPU not available)");
     }
-    
-    const char* name() const noexcept override {
+
+    const char *name() const noexcept override {
         return active_backend_ ? active_backend_->name() : "none";
     }
-    
+
     bool isAvailable() const noexcept override {
         return active_backend_ != nullptr;
     }
-    
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
         if (active_backend_) {
             return active_backend_->batchIntersects(in);
         }
-        
+
         SpatialBatchResults out;
         out.mask.assign(in.count, 0u);
         return out;
     }
-    
-    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+
+    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
         if (active_backend_) {
             return active_backend_->exactIntersects(geom1, geom2);
         }
-        
-        // Fallback to MBR check
         auto mbr1 = geom1.computeMBR();
         auto mbr2 = geom2.computeMBR();
         return mbr1.intersects(mbr2);
     }
-    
-private:
-    #ifdef THEMIS_ENABLE_CUDA
+
+    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+        return active_backend_ ? active_backend_->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
+    }
+
+    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        return active_backend_ ? active_backend_->stUnion(g1, g2) : GeometryInfo{};
+    }
+
+    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        return active_backend_ ? active_backend_->stDifference(g1, g2) : GeometryInfo{};
+    }
+
+    double geodesicDistance(double lat1, double lon1, double lat2, double lon2) const override {
+        return active_backend_ ? active_backend_->geodesicDistance(lat1, lon1, lat2, lon2) : 0.0;
+    }
+
+  private:
+#ifdef THEMIS_ENABLE_CUDA
     std::unique_ptr<CudaBackend> cuda_backend_;
-    #endif
-    
-    #ifdef THEMIS_ENABLE_OPENCL
+#endif
+
+#ifdef THEMIS_ENABLE_OPENCL
     std::unique_ptr<OpenCLBackend> opencl_backend_;
-    #endif
-    
+#endif
+
     std::unique_ptr<CpuParallelBackend> cpu_backend_;
-    ISpatialComputeBackend* active_backend_ = nullptr;
+    ISpatialComputeBackend *active_backend_ = nullptr;
 };
 
 // Global production backend instance
 static std::unique_ptr<ProductionGpuBackend> g_production_backend;
 
+/// Lightweight proxy registered in the GeoBackendRegistry so the production
+/// GPU backend is discoverable at runtime without creating a second GPU instance.
+class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
+  public:
+    const char *name() const noexcept override {
+        return "production_gpu";
+    }
+    bool isAvailable() const noexcept override {
+        auto *b = getProductionGpuBackend();
+        return b && b->isAvailable();
+    }
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+        auto *b = getProductionGpuBackend();
+        if (b) {
+            return b->batchIntersects(in);
+        }
+        SpatialBatchResults out;
+        out.mask.assign(in.count, 0u);
+        return out;
+    }
+    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
+        auto *b = getProductionGpuBackend();
+        return b ? b->exactIntersects(g1, g2) : false;
+    }
+};
+
 static void register_production_backend() {
-    g_production_backend = std::make_unique<ProductionGpuBackend>();
+    static std::once_flag s_once;
+    std::call_once(s_once, []() {
+        g_production_backend = std::make_unique<ProductionGpuBackend>();
+        // Register in the global geo backend registry for runtime discoverability.
+        if (auto *reg = getGeoBackendRegistry()) {
+            reg->registerBackend(std::make_unique<ProductionGpuRegistryProxy>());
+        }
+    });
 }
 
 // Auto-register on module load
 static int s_production_backend_anchor = (register_production_backend(), 0);
 
 // Public API to get the production backend
-ISpatialComputeBackend* getProductionGpuBackend() {
+ISpatialComputeBackend *getProductionGpuBackend() {
     return g_production_backend.get();
 }
 
-} } // namespace themis::geo
+} // namespace geo
+} // namespace themis

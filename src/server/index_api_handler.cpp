@@ -1,25 +1,21 @@
+/**
+ * @file index_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            index_api_handler.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     560                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 03b4fb783  2026-02-25  feat(index): implement online index rebuild with minimal ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: index_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 547
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=12, L=0
+ * PR History (last 5): #2945 feat(index): Online index r... (2026-03-12) | #451 refactor: Extract IndexApiH... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/index_api_handler.h"
@@ -29,6 +25,7 @@
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 #include <sstream>
 
 using json = nlohmann::json;
@@ -58,6 +55,17 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
             return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
         }
         std::string table = body["table"].get<std::string>();
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleCreate; only alphanumeric, underscore, and hyphen allowed");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         bool unique = false;
         if (body.contains("unique")) {
             unique = body["unique"].get<bool>();
@@ -166,6 +174,17 @@ http::response<http::string_body> IndexApiHandler::handleDrop(
             return makeErrorResponse(http::status::bad_request, "Missing 'table' or 'column'", req);
         }
         std::string table = body["table"].get<std::string>();
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleDrop; only alphanumeric, underscore, and hyphen allowed");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
+        }
+        
         std::string column = body["column"].get<std::string>();
 
         // Optional type for dropping range indexes
@@ -234,6 +253,16 @@ http::response<http::string_body> IndexApiHandler::handleStats(
 
         if (table.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing 'table' parameter", req);
+        }
+        
+        // QW-46 Guard: Fail-closed collection name validation
+        {
+            utils::InputValidator validator;
+            if (!validator.validateStringLength(table, 256) || !validator.validatePathSegment(table)) {
+                THEMIS_ERROR("QW-46 Guard: Invalid table name in handleStats; only alphanumeric, underscore, and hyphen allowed");
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid table name: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
+            }
         }
 
         // If column specified, get single index stats
@@ -559,3 +588,4 @@ http::response<http::string_body> IndexApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

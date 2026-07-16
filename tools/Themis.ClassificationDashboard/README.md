@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Themis Classification Dashboard
 
 Desktop application for managing data classification and labeling in ThemisDB.

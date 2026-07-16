@@ -1,94 +1,63 @@
-# Importers Module - Future Header Enhancements
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-06-01 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/importers/FUTURE_ENHANCEMENTS.md -->
+
+# Importers Module — Public Header Future Enhancements
+
+**Module Path:** `include/importers/`  
+**Canonical implementation enhancements:** [`../../src/importers/FUTURE_ENHANCEMENTS.md`](../../src/importers/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Scope
 
-- `IImporter` interface extensions for multi-source import dispatch
-- Conflict resolver hook API exposed via `IImportConflictResolver` header
-- Flat-file schema auto-detection interface for CSV, Parquet, and JSON Lines
-- Apache Kafka consumer source interface for streaming import
-- Plugin-based importer registry for third-party importer discovery
-- Incremental import cursor for resumable and checkpoint-based import
+Planned enhancements to the **public header contract** in `include/importers/`. Runtime, algorithm, and benchmark work remains tracked in:
+
+→ [`../../src/importers/FUTURE_ENHANCEMENTS.md`](../../src/importers/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Design Constraints
 
-- [x] All importers must implement `IImporter`; no direct instantiation of concrete importer types across module boundaries
-- [x] Conflict resolver is stateless; it receives both the existing and incoming record and returns a resolution decision, without retaining any state
-- [x] Flat-file schema detection is advisory and non-blocking; callers may proceed with a manual schema if detection returns `SchemaConfidence::LOW`
-- [x] Kafka consumer source is asynchronous; offset commits are decoupled from record delivery via an explicit `commitOffset()` call
-- [x] Importer plugin registry is read-only after module initialization; plugins register at static-init time via `REGISTER_IMPORTER_PLUGIN`
-- [x] Incremental import cursor exposes checkpoint tokens; cursor must be resumable from the last committed checkpoint after a process restart
+- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
+- `[x]` Breaking changes to types in `include/importers/` require a MAJOR version bump per `VERSIONING.md`.
+- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
+- `[x]` Layer association (**ANN/Tensor**) must be preserved in all header expansions.
 
-## Required Interfaces
+---
 
-| Interface | Consumer | Notes |
-|---|---|---|
-| `IImporter` | Import pipeline, REST import endpoint, CLI import command | Base interface; all importers derive from this |
-| `IImportConflictResolver` | Import pipeline, upsert handler, merge engine | Stateless; receives existing + incoming record, returns `ConflictResolution` |
-| `IFlatFileSchemaDetector` | CSV importer, Parquet importer, JSON Lines importer | Advisory; returns detected schema with confidence score |
-| `IKafkaConsumerSource` | Kafka importer, streaming ingestion pipeline | Async; offset commit is explicit via `commitOffset()` |
-| `IImporterPlugin` | Plugin registry, third-party importer loader | Plugin entry point; provides `IImporter` factory function |
-| `IIncrementalImportCursor` | Resumable import, CDC consumer, checkpoint-based ETL | Pull-based; yields `ImportBatch` per `next()` call |
+## Required Interfaces (Header Contract)
 
-## Planned Features
+Current public surfaces cover: multi-source data import (PostgreSQL, MySQL, Oracle, MongoDB, Kafka, S3, flat files, CRDT, MDM), schema inference, entity matching, federated learning, and e-government standards.
 
-### Flat-File Schema Auto-Detection Interface
+Planned extensions follow the same namespace (`themis::importers`) and include-guard conventions.
 
-- [x] Define `IFlatFileSchemaDetector` with `detect(FileHandle, SampleRows) -> SchemaDetectionResult`
-- [x] `SchemaDetectionResult` carries detected column names, inferred types, and a `SchemaConfidence` enum (`HIGH`, `MEDIUM`, `LOW`)
-- [x] Detection samples up to a configurable number of rows (default: 1,000); caller controls sample size
-- [x] Detector must handle BOM-prefixed UTF-8, Latin-1, and UTF-16 encoded files; encoding detection is part of the result
+---
 
-### Conflict Resolution Hook API
+## Planned Enhancements
 
-- [x] Define `IImportConflictResolver` with `resolve(existing: Record, incoming: Record) -> ConflictResolution`
-- [x] `ConflictResolution` variants: `KEEP_EXISTING`, `REPLACE_WITH_INCOMING`, `MERGE_FIELDS`, `REJECT`
-- [x] `MERGE_FIELDS` resolution carries a `FieldMergeSpec` listing which fields to take from each source
-- [x] Resolver is stateless and must be safe to call concurrently from multiple import worker threads
+### Short-Term (Q3 2026)
 
-### Kafka Consumer Source Interface
+- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
+- [ ] Add explicit `noexcept` specifications to query/read paths where safe
+- [ ] Add structured diagnostic types for all thrown exceptions
 
-- [x] Define `IKafkaConsumerSource` with `poll(timeout) -> KafkaBatch` and `commitOffset(KafkaOffset)`
-- [x] `KafkaBatch` contains a list of `KafkaRecord` with topic, partition, offset, key, and value
-- [x] SASL authentication parameters injected at construction via `KafkaSourceConfig`; credentials never stored in the interface type
-- [x] Consumer group ID is mandatory; `IKafkaConsumerSource` construction fails with `KafkaError::MISSING_GROUP_ID` if absent
+### Medium-Term (Q4 2026)
 
-### Incremental Import Cursor
+- [ ] Expand public surface with convenience factory functions for common usage patterns
+- [ ] Add Concepts (C++20) constraints to template parameters in public headers
+- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
 
-- [x] Define `IIncrementalImportCursor` with `next(ImportBatch&) -> CursorStatus` and `checkpoint() -> CheckpointToken`
-- [x] `CheckpointToken` is an opaque, serializable value type; cursor can be resumed by passing the token to `IImporter::openCursor(token)`
-- [x] Cursor exposes `estimatedRemainingRows()` for progress reporting; may return `UNKNOWN` for streaming sources
-- [x] `CursorStatus::CHECKPOINT_REQUIRED` returned when the source requires an explicit commit before proceeding
+### Long-Term (2027+)
 
-### Plugin-Based Importer Registry
+- [ ] Module-interface (C++20 modules) wrapper for `include/importers/` entry points
+- [ ] Header-only usage path for embedding scenarios (where feasible)
+- [ ] Extended layer-mapping documentation for ANN/Tensor integration patterns
 
-- [x] Define `IImporterPlugin` with `pluginId()`, `supportedSchemes()`, and `createImporter(ImportConfig) -> std::unique_ptr<IImporter>`
-- [x] Registry keyed by URI scheme (e.g., `mysql://`, `mongodb://`, `s3://`)
-- [x] Plugins registered at static-init time via `REGISTER_IMPORTER_PLUGIN(PluginClass)` macro
-- [x] `IImporterPluginRegistry::resolve(uri)` returns `nullptr` for unknown schemes without throwing
+---
 
-## Test Strategy
+## Alignment with Strategic Plan
 
-- Unit-test `IImportConflictResolver` with all four `ConflictResolution` variants; verify `MERGE_FIELDS` produces the correct field selection
-- Test `IFlatFileSchemaDetector` against CSV, Parquet, and JSON Lines samples with known schemas; assert `HIGH` confidence for well-formed files
-- Integration-test `IKafkaConsumerSource` against an embedded Kafka broker; verify offset commit decoupling and SASL authentication
-- Test `IIncrementalImportCursor` checkpoint round-trip: run to mid-stream, serialize token, reopen cursor, verify no records are duplicated or skipped
-- Plugin registry test: register a mock plugin, resolve by URI scheme, assert factory produces a valid `IImporter`
-- Concurrency test: invoke `IImportConflictResolver::resolve()` from 16 threads simultaneously; assert no data races under TSan
-
-## Performance Targets
-
-- Import batch dispatch (`IImporter::importBatch()`) ≤ 10 ms per 1,000 rows on a 4-core reference machine
-- Conflict resolution (`IImportConflictResolver::resolve()`) ≤ 1 ms per conflict for records up to 64 fields
-- Flat-file schema detection (`IFlatFileSchemaDetector::detect()`) ≤ 50 ms for a 1,000-row sample from a 100 MB file
-- Kafka source offset commit (`IKafkaConsumerSource::commitOffset()`) round-trip ≤ 5 ms p95 under normal broker load
-- Incremental cursor `next()` ≤ 2 ms per batch of 1,000 records for file-backed sources
-- Plugin registry `resolve()` lookup ≤ 1 µs (hash-map backed, lock-free read path after init)
-
-## Security / Reliability
-
-- Importer credentials (passwords, tokens, connection strings) are never stored in header-visible types; they are injected via opaque `ImportConfig` and handled by the implementation
-- Conflict resolver cannot modify the source record; the `incoming` parameter is passed as `const Record&` and the interface enforces this
-- Import file paths and URIs are validated against a configurable allow-list before `IImporter::open()` proceeds; relative paths and symlinks are rejected
-- Kafka consumer source requires SASL authentication in production; plaintext auth is compile-time disabled when `THEMIS_KAFKA_PLAINTEXT_AUTH=0`
-- Checkpoint tokens are signed to prevent injection of forged resume positions; signature verified in `IImporter::openCursor(token)`
-- `IImporterPlugin` factory functions are isolated; a plugin that throws during `createImporter()` surfaces `PluginError::FACTORY_EXCEPTION` without propagating to the caller
+Enhancements align with `FUTURE_PLAN.md` layer **ANN/Tensor**. For cross-layer integration planning see:
+→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)

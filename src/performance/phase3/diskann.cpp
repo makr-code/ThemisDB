@@ -1,26 +1,21 @@
+/**
+ * @file diskann.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=2, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            diskann.cpp                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     528                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
-    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: diskann.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 510
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=12, M=12, L=0
+ * PR History (last 5): #2946 feat(index): DiskANN/ScaNN ... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase3/diskann.h"
@@ -79,9 +74,6 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     // For simplicity, we'll build a k-NN graph (k=64 neighbors per node)
     const int R = 64;  // Max degree (from DiskANN paper)
     
-    std::mt19937 rng(42);
-    std::uniform_int_distribution<size_t> dist(0, vectors.size() - 1);
-    
     // Create nodes with initial empty neighbor lists
     std::vector<DiskANNNode> nodes;
     nodes.reserve(vectors.size());
@@ -102,13 +94,13 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
         for (size_t j = 0; j < nodes.size(); j++) {
             if (i == j) continue;
             
-            float dist = compute_distance(nodes[i].vector, nodes[j].vector);
+            const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
             
             if (nearest.size() < R) {
-                nearest.push({dist, j});
-            } else if (dist < nearest.top().first) {
+                nearest.push({distance, j});
+            } else if (distance < nearest.top().first) {
                 nearest.pop();
-                nearest.push({dist, j});
+                nearest.push({distance, j});
             }
         }
         

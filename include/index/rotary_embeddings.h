@@ -1,24 +1,21 @@
+/**
+ * @file rotary_embeddings.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rotary_embeddings.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     140                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rotary_embeddings.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 146
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #909 Integrate Rotary Position E... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +26,8 @@
 #include <cmath>
 #include <stdexcept>
 #include <unordered_map>
+#include <cstdint>
+#include <mutex>
 
 namespace themis {
 
@@ -66,12 +65,18 @@ struct RotationConfig {
 /// - Temporal encoding for time-series data
 /// - Multi-relational vector search
 ///
-/// @sources
+/// Sources:
 /// - RoFormer Paper: Su, J., et al. (2021). arXiv:2104.09864
 /// - Original Concept: Rotary Position Embedding (RoPE)
 /// - ThemisDB Integration: ThemisDB Core Team
 class RotaryEmbedding {
 public:
+    struct RotationStats {
+        uint64_t total_rotated_entities = 0;
+        uint64_t total_relational_rotations = 0;
+        double avg_rotation_time_us = 0.0;
+    };
+
     explicit RotaryEmbedding(const RotationConfig& config);
     
     // ===== Core rotation operations =====
@@ -111,12 +116,17 @@ public:
     // ===== Configuration =====
     
     const RotationConfig& getConfig() const { return config_; }
+    RotationStats getStats() const;
     
 private:
     RotationConfig config_;
     
     // Cached relation type to rotation index mapping
     mutable std::unordered_map<std::string, size_t> relation_cache_;
+    mutable std::mutex stats_mutex_;
+    mutable uint64_t total_rotated_entities_ = 0;
+    mutable uint64_t total_relational_rotations_ = 0;
+    mutable double total_rotation_time_us_ = 0.0;
     
     // ===== Internal helpers =====
     
@@ -136,6 +146,12 @@ private:
     
     /// Normalize vector to unit length (L2 normalization)
     void normalizeL2(std::vector<float>& vec) const;
+
+    std::vector<float> rotateImpl(
+        const std::vector<float>& embedding,
+        size_t position,
+        bool is_relational
+    ) const;
 };
 
 } // namespace themis

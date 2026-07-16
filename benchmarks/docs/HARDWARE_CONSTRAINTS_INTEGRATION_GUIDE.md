@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Hardware Constraints Integration in ThemisDB Benchmarking
 ## How Hardware Limits Affect Database Performance
 
@@ -522,5 +524,5 @@ likwid-perfctr -g MEM ./benchmark
 ---
 
 **Version:** 1.0  
-**Last Updated:** 2025-12-04  
+**Last Updated:** 2026-04-06  
 **Status:** Production Ready

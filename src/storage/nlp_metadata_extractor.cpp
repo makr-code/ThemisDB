@@ -1,33 +1,16 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            nlp_metadata_extractor.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     380                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file nlp_metadata_extractor.cpp
- * @brief Implementation of NLP-based metadata extraction
- * 
- * Part of PR #317 Phase 2: Ingestion Integration
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "storage/nlp_metadata_extractor.h"
+#include <stdexcept>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <algorithm>
@@ -83,6 +66,7 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
         }
 
         size_t n = std::min(config_.max_keywords, keywords.size());
+        meta.keywords.reserve(n);  // upper bound; filtered items may be fewer
         for (size_t i = 0; i < n; ++i) {
             if (keywords[i].text.length() >= config_.min_keyword_length) {
                 meta.keywords.push_back(keywords[i].text);
@@ -93,6 +77,10 @@ NlpMetadataExtractor::extractMetadata(const std::string& text) const {
     // 2. Extract named entities
     if (config_.extract_entities) {
         auto entities = nlp_.extractEntities(text);
+        // missing_vector_reserve scanner alert: entities are dispatched by type
+        // into four separate vectors; the per-type count is unknown before the
+        // single pass, so a meaningful reserve() is not possible without a
+        // second O(n) count pass. This single-pass dispatch is intentional.
         for (const auto& entity : entities) {
             if (entity.type == "EMAIL") {
                 meta.emails.push_back(entity.text);
@@ -381,3 +369,4 @@ NlpMetadataExtractor::ExtractedMetadata::fromJson(const std::string& json_str) {
 
 } // namespace storage
 } // namespace themis
+

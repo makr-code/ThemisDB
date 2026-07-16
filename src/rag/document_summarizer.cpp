@@ -1,37 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            document_summarizer.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     488                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7b7b5e67d  2026-02-24  fix(rag): audit fixes – remove dead code, finalize ROADMA... ║
-    • 03b20d394  2026-02-24  feat(rag): implement multi-document summarization before ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file document_summarizer.cpp
- * @brief Multi-document summarization before context injection (RAG Phase 3)
- *
- * Extractive path: scores each sentence by query-term overlap (TF-IDF-inspired
- * unigram matching) and selects the top-k sentences per document.
- *
- * Abstractive path: builds a single multi-document prompt and calls
- * LLMIntegration::generate() so that the LLM produces a fluent, compressed
- * cross-document summary.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=7, M=9, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/document_summarizer.h"
@@ -96,7 +71,7 @@ double scoreSentence(const std::string& sentence,
 }
 
 /// Split @p text into sentences (split on '.', '!', '?').
-std::vector<std::string> splitSentences(const std::string& text) {
+std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
     std::string current;
     for (size_t i = 0; i < text.size(); ++i) {
@@ -135,7 +110,7 @@ std::string extractiveSummary(
     size_t min_sentence_chars,
     size_t budget_chars)
 {
-    const auto all_sentences = splitSentences(content);
+    const auto all_sentences = splitSentencesSimple(content);
 
     // Score each sentence
     std::vector<std::pair<double, size_t>> scored; // (score, index)
@@ -280,8 +255,8 @@ struct DocumentSummarizer::Impl {
         }
 
         // coverage_score: distinct sentences in summary / total sentences
-        const auto total_sents   = splitSentences(content).size();
-        const auto summary_sents = splitSentences(ds.summary).size();
+        const auto total_sents   = splitSentencesSimple(content).size();
+        const auto summary_sents = splitSentencesSimple(ds.summary).size();
         ds.coverage_score = total_sents > 0
             ? std::min(1.0, static_cast<double>(summary_sents) /
                             static_cast<double>(total_sents))
@@ -386,8 +361,8 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
                 impl_->config.max_sentences_per_doc,
                 impl_->config.min_sentence_chars,
                 per_doc_budget);
-            const auto total_sents   = splitSentences(d.content).size();
-            const auto summary_sents = splitSentences(ds.summary).size();
+            const auto total_sents   = splitSentencesSimple(d.content).size();
+            const auto summary_sents = splitSentencesSimple(ds.summary).size();
             ds.coverage_score = total_sents > 0
                 ? std::min(1.0, static_cast<double>(summary_sents) /
                                 static_cast<double>(total_sents))

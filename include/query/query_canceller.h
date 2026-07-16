@@ -1,55 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_canceller.h                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file query_canceller.h
- * @brief Query cancellation via request ID for the AQL execution pipeline.
- *
- * Provides cooperative cancellation of in-flight AQL queries.  A caller
- * registers a query with a unique request ID and receives a shared
- * QueryCancellationToken.  Any thread that holds the same request ID can
- * cancel the token via QueryCanceller::cancel(); the executing query checks
- * the token at cancellation checkpoints and returns ERR_QUERY_CANCELLED.
- *
- * ## Usage – canceller side
- * @code
- *   auto token = QueryCanceller::instance().registerQuery("req-42");
- *   // … hand token to the execution thread …
- *   // Later, from a different thread (e.g. HTTP cancel handler):
- *   QueryCanceller::instance().cancel("req-42");
- * @endcode
- *
- * ## Usage – execution side
- * @code
- *   auto token = QueryCanceller::instance().registerQuery(request_id);
- *   auto guard = QueryCanceller::ScopedRegistration(request_id);
- *   if (token->isCancelled()) { ... }
- * @endcode
- *
- * Thread safety:
- *   QueryCancellationToken – individual operations are atomic; safe to call
- *   isCancelled() and cancel() from different threads concurrently.
- *
- *   QueryCanceller – all public methods are protected by an internal mutex.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1535,7 +1535,7 @@ ThemisDB ist unter den Bedingungen der [LICENSE](https://github.com/makr-code/Th
 # ThemisDB Documentation
 
 **Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+**Last Updated:** April 2026
 
 Welcome to the ThemisDB documentation! This guide will help you find the information you need.
 
@@ -1754,7 +1754,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ---
 
 **Documentation Version:** 1.2.0  
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Next Review:** March 15, 2026
 
 
@@ -2141,7 +2141,7 @@ docs/
 ### Status & Planning
 - [DEVELOPMENT_AUDITLOG.md](../development/DEVELOPMENT_SUMMARY.md) - Development Audit
 - [development/implementation_status.md](../development/implementation_status.md) - Status
-- [development/roadmap.md](../development/roadmap.md) - Roadmap
+- [development/ROADMAP.md](../development/ROADMAP.md) - Roadmap
 - [development/priorities.md](../development/priorities.md) - Prioritäten
 
 ### API Implementations
@@ -3816,7 +3816,7 @@ Datenvolumen reduzieren bevor gruppiert wird.
 # ThemisDB - Vollständige Features Liste
 
 **Version:** 1.0.0  
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Status-Legende:** ✅ Production-Ready | 🔧 Beta | 📋 Geplant
 
 ---
@@ -4582,7 +4582,7 @@ themis_server --config /etc/themis/config.yaml
 ```bash
 docker run -p 8765:8765 \
   -v /data:/data \
-  ghcr.io/makr-code/themis:latest
+  ghcr.io/makr-code/themisdb:latest
 ```
 
 **Docker Compose:**
@@ -4599,8 +4599,8 @@ docker compose up --build
 **Status:** Production-Ready
 
 **Registries:**
-- ✅ **GHCR:** `ghcr.io/makr-code/themis`
-- ✅ **Docker Hub:** `themisdb/themis` (optional)
+- ✅ **GHCR:** `ghcr.io/makr-code/themisdb`
+- ✅ **Docker Hub:** `themisdb/themisdb` (optional)
 
 **Tags:**
 - `latest` - Latest stable
@@ -4920,7 +4920,7 @@ docker compose up --build
 
 ---
 
-**Stand:** Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Letzte Aktualisierung:** 5. Dezember 2025
 
@@ -4932,7 +4932,7 @@ docker compose up --build
 # ThemisDB Docker Deployment Guide
 
 **Version:** 1.3.0  
-**Last Updated:** 17. Dezember 2025  
+**Last Updated:** April 2026  
 **Status:** Production-Ready
 
 ## Quick Start

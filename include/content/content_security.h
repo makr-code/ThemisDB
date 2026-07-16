@@ -1,31 +1,30 @@
+/**
+ * @file content_security.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_security.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     225                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_security.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 273
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4287 fix(content): wire abuse_de... (2026-03-16) | #1275 Production hardening: error... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "content/content_errors.h"
+#include "content/abuse_detector.h"
 #include "security/malware_scanner.h"
 #include "utils/pii_detector.h"
+#include "utils/audit_logger.h"
 #include <string>
 #include <memory>
 #include <atomic>
@@ -51,13 +50,18 @@ struct ContentSecurityConfig {
     bool redact_pii_in_logs = true;     // Redact PII from log output
     
     // Abuse detection
-    bool enable_abuse_detection = false;  // Stub for future implementation
+    bool enable_abuse_detection = false;  ///< Enable abuse detection via registered IAbuseDetector instances
     bool block_on_abuse = false;
     
     // Error sanitization
     bool sanitize_error_messages = true;
     bool hide_internal_paths = true;
     bool hide_system_info = true;
+    
+    // Zip-bomb protection for archive ingestion
+    bool enable_zip_bomb_check = true;
+    uint64_t max_zip_bomb_ratio = 100;   // Max decompressed/compressed ratio (100×)
+    size_t max_zip_file_count = 1000;    // Max number of files per archive
     
     json toJson() const;
     static ContentSecurityConfig fromJson(const json& j);
@@ -80,6 +84,12 @@ struct SecurityCheckResult {
     
     bool abuse_checked = false;
     bool abuse_detected = false;
+    std::string abuse_action;        ///< "ALLOW", "FLAG", or "BLOCK"
+    std::string abuse_detector_type; ///< which detector matched (e.g. "PhotoDNA", "Text")
+    std::string abuse_pattern_name;  ///< name of the matched pattern/hash (empty if ALLOW)
+    
+    bool zip_bomb_checked = false;
+    bool zip_bomb_detected = false;
     
     json toJson() const;
 };
@@ -91,13 +101,16 @@ struct SecurityCheckResult {
  * Integrates:
  * - Malware scanning (via MalwareFilterManager)
  * - PII detection (via PIIDetector)
- * - Content abuse detection (stub)
+ * - Content abuse detection (PhotoDNA + text pattern detectors)
  * - Error sanitization
  * 
  * Usage:
  *   ContentSecurityManager security(config);
  *   security.setMalwareFilter(malware_filter);
  *   security.setPiiDetector(pii_detector);
+ *   security.setPhotoAbuseDetector(photo_detector);
+ *   security.setTextAbuseDetector(text_detector);
+ *   security.setAuditLogger(audit_logger);  // optional; non-owning
  *   
  *   auto result = security.checkContent(data, mime_type, content_id);
  *   if (result.error.failed()) {
@@ -121,6 +134,24 @@ public:
     void setPiiDetector(std::shared_ptr<utils::PIIDetector> detector);
     
     /**
+     * @brief Set perceptual-hash abuse detector for image content (PhotoDNA)
+     */
+    void setPhotoAbuseDetector(std::shared_ptr<IAbuseDetector> detector);
+    
+    /**
+     * @brief Set text pattern abuse detector
+     */
+    void setTextAbuseDetector(std::shared_ptr<IAbuseDetector> detector);
+    
+    /**
+     * @brief Attach an audit logger for abuse detection events.
+     *
+     * Non-owning; the caller is responsible for keeping the logger alive.
+     * Pass nullptr to detach.
+     */
+    void setAuditLogger(utils::AuditLogger* logger);
+    
+    /**
      * @brief Check content security
      * 
      * Runs configured security checks on content.
@@ -136,6 +167,26 @@ public:
         const std::string& mime_type,
         const std::string& content_id,
         const std::string& filename = ""
+    );
+    
+    /**
+     * @brief Check archive for zip-bomb patterns
+     * 
+     * Validates that the archive's decompressed/compressed size ratio does not
+     * exceed max_zip_bomb_ratio (default 100×) and that the file count does not
+     * exceed max_zip_file_count (default 1,000). Must be called before extraction.
+     * 
+     * @param compressed_size   Total compressed size of the archive in bytes
+     * @param uncompressed_size Total uncompressed size reported in archive headers
+     * @param file_count        Number of file entries in the archive
+     * @param content_id        Content identifier for logging
+     * @return SecurityCheckResult with error set if a zip-bomb pattern is detected
+     */
+    SecurityCheckResult checkZipBomb(
+        uint64_t compressed_size,
+        uint64_t uncompressed_size,
+        size_t file_count,
+        const std::string& content_id
     );
     
     /**
@@ -187,7 +238,10 @@ public:
         std::atomic<uint64_t> pii_blocked{0};
         std::atomic<uint64_t> abuse_scans{0};
         std::atomic<uint64_t> abuse_detected{0};
+        std::atomic<uint64_t> abuse_blocked{0};
         std::atomic<uint64_t> errors_sanitized{0};
+        std::atomic<uint64_t> zip_bomb_scans{0};
+        std::atomic<uint64_t> zip_bomb_blocked{0};
         
         json toJson() const;
     };
@@ -198,6 +252,9 @@ private:
     ContentSecurityConfig config_;
     std::shared_ptr<security::MalwareFilterManager> malware_filter_;
     std::shared_ptr<utils::PIIDetector> pii_detector_;
+    std::shared_ptr<IAbuseDetector> photo_abuse_detector_;
+    std::shared_ptr<IAbuseDetector> text_abuse_detector_;
+    utils::AuditLogger* audit_logger_ = nullptr;
     mutable Metrics metrics_;
     
     // Helper methods
@@ -214,7 +271,8 @@ private:
     );
     
     SecurityCheckResult checkAbuse(
-        const std::string& text,
+        const std::string& data,
+        const std::string& mime_type,
         const std::string& content_id
     );
     

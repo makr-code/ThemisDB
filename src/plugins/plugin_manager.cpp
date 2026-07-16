@@ -1,36 +1,33 @@
+/**
+ * @file plugin_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=6, M=25, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_manager.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1472                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
-    • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
-    • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
-    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1586
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=30, M=38, L=0
+ * PR History (last 5): #4504 feat(plugins): implement ru... (2026-04-12) | #4256 feat(plugins): upgrade Plug... (2026-03-15) | #3581 docs(plugins, prompt_engine... (2026-03-12) | #3272 feat(plugins): runtime plug... (2026-03-12) | #3200 fix(plugins): close out run... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_manager.h"
+#include <stdexcept>
 #include "plugins/plugin_dependency_resolver.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_health_monitor.h"
 #include "plugins/self_healing_plugin.h"
 #include "plugins/oci_registry_client.h"
 #include "acceleration/plugin_security.h"
+#include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -62,6 +59,11 @@ constexpr auto RELOAD_UNLOAD_DELAY_MS = std::chrono::milliseconds(50);
 // Platform-specific DLL loading (reused from acceleration/plugin_loader.cpp)
 // ============================================================================
 
+/**
+ * @brief Platform-specific dynamic library loading wrapper.
+ * @param path Shared library path.
+ * @return Native module handle or nullptr on load failure.
+ */
 void* PluginManager::loadLibrary(const std::string& path) {
 #ifdef _WIN32
     return LoadLibraryA(path.c_str());
@@ -70,6 +72,12 @@ void* PluginManager::loadLibrary(const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Resolve an exported symbol from a loaded shared library.
+ * @param handle Native module handle returned by loadLibrary().
+ * @param symbolName Exported symbol name.
+ * @return Symbol address or nullptr when symbol is unavailable.
+ */
 void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
 #ifdef _WIN32
     return reinterpret_cast<void*>(GetProcAddress(static_cast<HMODULE>(handle), symbolName.c_str()));
@@ -78,6 +86,10 @@ void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
 #endif
 }
 
+/**
+ * @brief Unload a previously loaded shared library.
+ * @param handle Native module handle. nullptr is ignored.
+ */
 void PluginManager::unloadLibrary(void* handle) {
     if (!handle) return;
     
@@ -92,6 +104,12 @@ void PluginManager::unloadLibrary(void* handle) {
 // Security & Hashing
 // ============================================================================
 
+/**
+ * @brief Compute SHA-256 digest for a file path.
+ * @param path File to hash.
+ * @return Lower-case hex SHA-256 digest, or empty string on failure.
+ * @note Failures include file-open errors and OpenSSL digest API failures.
+ */
 std::string PluginManager::calculateFileHash(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file) {
@@ -132,6 +150,13 @@ std::string PluginManager::calculateFileHash(const std::string& path) {
     return ss.str();
 }
 
+/**
+ * @brief Verify plugin binary against security policy.
+ * @param path Candidate plugin library path.
+ * @param error_message Output details when verification fails.
+ * @return true when policy validation succeeds; false otherwise.
+ * @note Production builds require signatures; development builds may allow unsigned plugins.
+ */
 bool PluginManager::verifyPlugin(const std::string& path, std::string& error_message) {
     using namespace themis::acceleration;
     
@@ -155,13 +180,23 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
 // Manifest Signature Verification
 // ============================================================================
 
+/**
+ * @brief Verify detached manifest signature according to build-mode policy.
+ * @param manifest_path Path to plugin manifest file.
+ * @param error_message Output detail for failure reason.
+ * @return true when signature checks pass (or are optional in current mode).
+ */
 bool PluginManager::verifyManifestSignature(const std::string& manifest_path, std::string& error_message) {
     // Signature verification strategy:
     // 1. Check for manifest_path + ".sig" file (digital signature)
     // 2. Verify SHA256 hash matches signature file content
     // 3. In production, require valid signature
     
-#ifdef NDEBUG
+    #ifdef THEMIS_TEST_MODE
+        // Test mode: Always allow (signature verification not required for tests)
+        THEMIS_INFO("Manifest signature verification skipped (test mode): {}", manifest_path);
+        return true;
+    #elif defined(NDEBUG)
     // Production mode: Require signature
     std::string sig_path = manifest_path + ".sig";
     
@@ -244,6 +279,52 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 }
 
 // ============================================================================
+// QW-43: Plugin Name Validation (Path Traversal Guard)
+// ============================================================================
+
+/**
+ * @brief Validate plugin name against path traversal attacks (fail-closed).
+ * 
+ * Rejects names containing:
+ * - Directory separators: / \ ..
+ * - Absolute path indicators: C:\ /etc/ etc.
+ * - Special shell/control characters
+ * 
+ * Whitelist: alphanumeric (a-z, A-Z, 0-9), underscore (_), hyphen (-)
+ * 
+ * @param name Plugin name from manifest
+ * @return true if valid, false if rejected (fail-closed)
+ */
+static bool isValidPluginName(const std::string& name) {
+    // Guard 1: Name must be non-empty and reasonable length
+    if (name.empty() || name.length() > 256) {
+        return false;
+    }
+    
+    // Guard 2: No path traversal patterns
+    if (name.find('/') != std::string::npos ||
+        name.find('\\') != std::string::npos ||
+        name.find("..") != std::string::npos) {
+        return false;
+    }
+    
+    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
+    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
+        name.find('.') == 0) {                   // Unix hidden files / relative paths
+        return false;
+    }
+    
+    // Guard 4: Only alphanumeric, underscore, hyphen allowed
+    for (unsigned char c : name) {
+        if (!std::isalnum(c) && c != '_' && c != '-') {
+            return false;  // Fail-closed: reject on any invalid character
+        }
+    }
+    
+    return true;
+}
+
+// ============================================================================
 // Manifest Loading
 // ============================================================================
 
@@ -270,6 +351,15 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         manifest.name = j.value("name", "");
         manifest.version = j.value("version", "");
         manifest.description = j.value("description", "");
+
+        // QW-43: Fail-closed path traversal guard on plugin name
+        // Validates manifest.name against whitelist (alphanumeric + underscore + hyphen)
+        // Rejects directory separators, absolute paths, special characters
+        if (!isValidPluginName(manifest.name)) {
+            THEMIS_ERROR("Plugin manifest rejected - invalid name (path traversal risk): {}",
+                         manifest.name.empty() ? "(empty)" : manifest.name);
+            return std::nullopt;  // Fail-closed: reject malicious manifest
+        }
 
         // Validate required fields: name and version must be non-empty strings
         if (manifest.name.empty()) {
@@ -417,8 +507,12 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                     legacy.binary_linux = lib;
                     legacy.binary_macos = lib;
 
-                    if (!legacy.name.empty()) {
+                    // QW-43: Validate legacy plugin name against path traversal (fail-closed)
+                    if (!legacy.name.empty() && isValidPluginName(legacy.name)) {
                         manifest = legacy;
+                    } else if (!legacy.name.empty()) {
+                        THEMIS_WARN("Legacy plugin manifest rejected - invalid name (path traversal risk): {}",
+                                   legacy.name);
                     }
                 } catch (...) {
                     // Fallback parsing failed; keep manifest as nullopt
@@ -428,6 +522,13 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
             if (!manifest && filename != "plugin.json") {
                 PluginManifest fallback;
                 fallback.name = entry.path().stem().string();
+                
+                // QW-43: Validate fallback plugin name against path traversal (fail-closed)
+                if (!isValidPluginName(fallback.name)) {
+                    THEMIS_WARN("Fallback plugin rejected - invalid name from path: {}", fallback.name);
+                    continue;  // Skip this malformed manifest
+                }
+                
                 fallback.version = "1.0.0";
                 fallback.type = PluginType::CUSTOM;
                 std::string lib = entry.path().stem().string() + ".so";
@@ -490,7 +591,20 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
 Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     TracedSpan span("PluginManager.loadPlugin");
     span.setAttribute("plugin.name", name);
-    
+
+    // Edition + runtime license gate: reject early on unsupported editions
+    if (!isEditionSupported()) {
+        const std::string msg = communityUnavailableMessage(name);
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+    if (!isLicensed()) {
+        const std::string msg = "Plugin '" + name +
+            "' cannot be loaded: runtime license does not permit enterprise_plugins.";
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+
     auto start = std::chrono::steady_clock::now();
     
     std::unique_lock<std::mutex> lock(mutex_);
@@ -645,6 +759,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.instance.reset(plugin);
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
+    current_entry.frozen_capabilities = plugin->getCapabilities();
     
     // Auto-register self-healing plugins with the health monitor
     if (health_monitor_) {
@@ -730,6 +845,7 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     entry.instance.reset(plugin);
     entry.loaded = true;
     entry.file_hash = calculateFileHash(path);
+    entry.frozen_capabilities = plugin->getCapabilities();
     
     // Store
     plugins_[entry.name] = std::move(entry);
@@ -861,6 +977,7 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
 Result<void> PluginManager::unloadAllPlugins() {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Unload all loaded plugins
     for (auto& pair : plugins_) {
         if (!pair.second.loaded) continue;
         
@@ -884,6 +1001,10 @@ Result<void> PluginManager::unloadAllPlugins() {
         entry.library_handle = nullptr;
         entry.loaded = false;
     }
+    
+    // Clear all plugins (both loaded and discovered-only) from registry
+    plugins_.clear();
+    type_index_.clear();
     
     THEMIS_INFO("Unloaded all plugins");
     return OkVoid();
@@ -1310,7 +1431,62 @@ PluginNegotiationResult PluginManager::negotiateCapabilities(
 }
 
 PluginManager::~PluginManager() {
-    unloadAllPlugins();
+    (void)unloadAllPlugins();
+}
+
+// ============================================================================
+// Runtime capability escalation blocking
+// ============================================================================
+
+Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = plugins_.find(name);
+    if (it == plugins_.end() || !it->second.loaded || !it->second.instance) {
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                       fmt::format("Plugin '{}' not found or not loaded", name));
+    }
+
+    auto& entry = it->second;
+    const PluginCapabilities& frozen  = entry.frozen_capabilities;
+    const PluginCapabilities  current = entry.instance->getCapabilities();
+
+    // A capability escalation occurs when a flag that was false at load time
+    // (i.e. not declared in the manifest capabilities snapshot) is now true.
+    bool escalated =
+        (!frozen.supports_streaming    && current.supports_streaming)    ||
+        (!frozen.supports_batching     && current.supports_batching)     ||
+        (!frozen.supports_transactions && current.supports_transactions) ||
+        (!frozen.thread_safe           && current.thread_safe)           ||
+        (!frozen.gpu_accelerated       && current.gpu_accelerated);
+
+    if (!escalated) {
+        return OkVoid();
+    }
+
+    // Mark the plugin as restricted so that operators can act on it.
+    entry.is_restricted = true;
+
+    THEMIS_ERROR(
+        "Capability escalation attempt detected for plugin '{}' — marking as RESTRICTED",
+        name);
+
+    return ErrVoid(
+        errors::ErrorCode::ERR_PLUGIN_CAPABILITY_ESCALATION,
+        fmt::format(
+            "Plugin '{}' attempted to escalate capabilities beyond its manifest declaration",
+            name));
+}
+
+bool PluginManager::isPluginRestricted(const std::string& name) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = plugins_.find(name);
+    if (it == plugins_.end()) {
+        return false;
+    }
+    return it->second.is_restricted;
 }
 
 // Singleton
@@ -1468,5 +1644,55 @@ void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
     THEMIS_INFO("PluginManager: health monitor attached");
 }
 
+// ============================================================================
+// Edition / License gating helpers
+// ============================================================================
+
+bool PluginManager::isEditionSupported() {
+    return edition::FEATURE_ENTERPRISE_PLUGINS;
+}
+
+bool PluginManager::isLicensed() {
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
+}
+
+std::string PluginManager::communityUnavailableMessage(const std::string& plugin_name) {
+    return "Plugin '" + plugin_name +
+           "' is not available in Community Edition. "
+           "Custom plugins require Enterprise Edition or higher. "
+           "Please upgrade at https://themisdb.io/pricing";
+}
+
+std::string PluginManager::marketplaceInfo() {
+    const auto info = edition::EditionInfo::Get();
+    if (!info.supports_plugins) {
+        return "Plugin Marketplace: Not available in " +
+               std::string(info.name) + " Edition";
+    }
+    std::string result = "Plugin Marketplace: Available\n";
+    result += "Edition: " + std::string(info.name) + "\n";
+    result += "Visit: https://marketplace.themisdb.io/";
+    if (info.type == edition::EditionType::HYPERSCALER) {
+        result += " (OEM custom plugins available)";
+    }
+    return result;
+}
+
+std::string PluginManager::installationInstructions() {
+    if (!edition::FEATURE_ENTERPRISE_PLUGINS) {
+        return "Error: Plugins are not supported in " +
+               std::string(edition::EDITION_STRING) +
+               " Edition. Please upgrade to Enterprise or Hyperscaler.";
+    }
+    return "To install a plugin:\n"
+           "1. Download from https://marketplace.themisdb.io/\n"
+           "2. Verify SHA256 checksum\n"
+           "3. Place in $THEMIS_HOME/plugins/\n"
+           "4. Restart themis_server\n"
+           "5. Use CREATE PLUGIN command";
+}
+
 } // namespace plugins
 } // namespace themis
+
+

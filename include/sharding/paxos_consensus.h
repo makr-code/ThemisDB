@@ -1,36 +1,33 @@
+/**
+ * @file paxos_consensus.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_consensus.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paxos_consensus.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_PAXOS_CONSENSUS_H
-#define THEMISDB_SHARDING_PAXOS_CONSENSUS_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include "sharding/wal_manager.h"
 #include <map>
 #include <set>
 #include <atomic>
+#include <functional>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
@@ -101,7 +98,7 @@ struct PaxosInstance {
  * - Quorum-based agreement
  * - Persistent state management
  * 
- * @sources
+ * Sources:
  * - Lamport, L. (1998). "The Part-Time Parliament"
  * - Lamport, L. (2001). "Paxos Made Simple"
  * - van Renesse, R. & Altinbuken, D. (2015). "Paxos Made Moderately Complex"
@@ -170,7 +167,82 @@ public:
     void onLeaderChange(
         std::function<void(const std::string&, const std::string&)> callback
     ) override;
-    
+
+    // -----------------------------------------------------------------
+    // RPC peer callbacks for multi-node operation
+    //
+    // These callbacks are invoked by the Paxos engine when it needs to
+    // send Prepare or Accept RPCs to remote nodes.  In single-node mode
+    // (or in tests) they may be left unset; the engine will then only
+    // count the local self-promise/self-accept and will therefore be
+    // unable to reach quorum in a cluster with N > 1.
+    //
+    // Signature for prepare callback:
+    //   bool prepare_fn(const std::string& peer_node_id,
+    //                   uint64_t slot,
+    //                   uint64_t round,
+    //                   const std::string& proposer_id)
+    //   Returns true if the peer promised (granted the prepare).
+    //
+    // Signature for accept callback:
+    //   bool accept_fn(const std::string& peer_node_id,
+    //                  uint64_t slot,
+    //                  uint64_t round,
+    //                  const ConsensusLogEntry& value)
+    //   Returns true if the peer acknowledged the accept.
+    // -----------------------------------------------------------------
+    using PaxosPrepareCallback =
+        std::function<bool(const std::string& peer,
+                           uint64_t slot,
+                           uint64_t round,
+                           const std::string& proposer_id)>;
+
+    /// Extended prepare callback that, on success, returns the acceptor's
+    /// highest-ballot accepted value (Paxos Phase-1b safe-value propagation).
+    /// When the acceptor has never accepted a value, the optional is empty.
+    /// If this callback is registered it takes priority over PaxosPrepareCallback.
+    struct PreparePromiseResult {
+        bool promised = false;                           ///< true = acceptor promised
+        uint64_t accepted_round = 0;                     ///< ballot of the last accepted proposal
+        std::optional<ConsensusLogEntry> accepted_value; ///< value accepted at that ballot
+    };
+    using PaxosPrepareFullCallback =
+        std::function<PreparePromiseResult(const std::string& peer,
+                                           uint64_t slot,
+                                           uint64_t round,
+                                           const std::string& proposer_id)>;
+
+    using PaxosAcceptCallback =
+        std::function<bool(const std::string& peer,
+                           uint64_t slot,
+                           uint64_t round,
+                           const ConsensusLogEntry& value)>;
+
+    /**
+     * @brief Inject the RPC callback used to send Phase-1 Prepare messages.
+     *
+     * Must be called before start() in multi-node deployments.
+     * Not required for single-node operation.
+     */
+    void setPrepareRPCCallback(PaxosPrepareCallback cb);
+
+    /**
+     * @brief Inject the extended Phase-1 Prepare RPC callback.
+     *
+     * When registered this callback supersedes the basic PaxosPrepareCallback and
+     * enables correct highest-accepted-value propagation (Paxos Phase-1b safety).
+     * Prefer this over setPrepareRPCCallback in multi-node deployments.
+     */
+    void setPrepareFullRPCCallback(PaxosPrepareFullCallback cb);
+
+    /**
+     * @brief Inject the RPC callback used to send Phase-2 Accept messages.
+     *
+     * Must be called before start() in multi-node deployments.
+     * Not required for single-node operation.
+     */
+    void setAcceptRPCCallback(PaxosAcceptCallback cb);
+
     /**
      * @brief Handle prepare request from proposer
      */
@@ -222,8 +294,9 @@ private:
     
     /**
      * @brief Broadcast commit to all nodes
+     * @return false if WAL COMMIT log fails (phase must be aborted to preserve durability)
      */
-    void broadcastCommit(uint64_t slot, const ConsensusLogEntry& value);
+    bool broadcastCommit(uint64_t slot, const ConsensusLogEntry& value);
     
     /**
      * @brief Calculate quorum size
@@ -274,7 +347,9 @@ private:
     std::atomic<ConsensusState> state_;
     std::atomic<bool> running_;
     std::string current_leader_;
-    uint64_t current_round_;
+    // PAX-5: current_round_ is incremented by the proposer thread and read by
+    // the learner, election, and snapshot threads — make it atomic.
+    std::atomic<uint64_t> current_round_;
     
     // Paxos instances (one per log slot)
     std::map<uint64_t, PaxosInstance> instances_;
@@ -282,8 +357,8 @@ private:
     std::atomic<uint64_t> commit_index_;
     
     // Proposal queue
-    std::mutex proposal_mutex_;
-    std::condition_variable proposal_cv_;
+    std::timed_mutex proposal_mutex_;
+    std::condition_variable_any proposal_cv_;
     std::map<uint64_t, ConsensusLogEntry> pending_proposals_;
     
     // Committed log
@@ -294,6 +369,11 @@ private:
     std::function<void(const ConsensusLogEntry&)> on_commit_callback_;
     std::function<void(ConsensusState, ConsensusState)> on_state_change_callback_;
     std::function<void(const std::string&, const std::string&)> on_leader_change_callback_;
+
+    // RPC peer callbacks (optional; nil → single-node / test mode)
+    PaxosPrepareCallback     rpc_prepare_cb_;
+    PaxosPrepareFullCallback rpc_prepare_full_cb_; ///< Extended callback with safe-value return
+    PaxosAcceptCallback      rpc_accept_cb_;
     
     // Background threads
     std::thread proposer_thread_;
@@ -321,5 +401,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_PAXOS_CONSENSUS_H

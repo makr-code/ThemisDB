@@ -1,28 +1,25 @@
+/**
+ * @file runtime_reoptimizer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            runtime_reoptimizer.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     204                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e3c5254ad  2026-03-01  fix(query): use historical average rows as fallback estim... ║
-    • 4f86bf5cd  2026-03-01  feat(query): implement RuntimeReoptimizer for adaptive qu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: runtime_reoptimizer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 180
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3347 feat(query): Adaptive query... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/runtime_reoptimizer.h"
+#include "utils/hash_util.h"
 #include <spdlog/spdlog.h>
 #include <iomanip>
 #include <sstream>
@@ -33,18 +30,7 @@ namespace themis {
 // FNV-1a 64-bit hash (public domain)
 // ---------------------------------------------------------------------------
 static std::string fnv1a_hex(const std::string& text) {
-    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME        = 1099511628211ULL;
-
-    uint64_t hash = FNV_OFFSET_BASIS;
-    for (unsigned char c : text) {
-        hash ^= c;
-        hash *= FNV_PRIME;
-    }
-
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0') << std::setw(16) << hash;
-    return oss.str();
+    return themis::hash::fnv1a64_hex(text);
 }
 
 // ---------------------------------------------------------------------------
@@ -134,7 +120,7 @@ RuntimeReoptimizer::beginExecutionGuard(const std::string& query_hash,
     return ExecutionGuard(*this, beginExecution(query_hash, estimated_rows));
 }
 
-bool RuntimeReoptimizer::shouldReoptimize(const std::string& query_hash,
+bool RuntimeReoptimizer::shouldReoptimize([[maybe_unused]] const std::string& query_hash,
                                            size_t rows_so_far,
                                            size_t estimated_total,
                                            double progress,

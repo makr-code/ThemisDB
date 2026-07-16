@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Zeitreihen-Monitor - Echtzeitdaten-Visualisierung
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)

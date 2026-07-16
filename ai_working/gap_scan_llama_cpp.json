@@ -1,0 +1,112 @@
+{
+  "module": "llama_cpp",
+  "summary": {
+    "total": 10,
+    "critical": 4,
+    "high": 6,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+      "line_num": 280,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+      "line_num": 289,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "//             stub echo string, making the failure invisible to callers.",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+      "line_num": 380,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!model_loaded_) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+      "line_num": 405,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+      "line_num": 503,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\llama_cpp_registrar.cpp",
+      "line_num": 78,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+      "line_num": 432,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub mode: no model_path in config \u2192 plugin not loaded",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+      "line_num": 535,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "plugin.loadModel(\"\", {});  // stub mode",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+      "line_num": 672,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // empty \u2192 trigger stub fallback",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "benchmarks\\bench_llama_cpp_inference.cpp",
+      "line_num": 88,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}

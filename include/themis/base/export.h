@@ -1,23 +1,20 @@
+/**
+ * @file export.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            export.h                                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     149                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: export.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Export macros for modular ThemisDB libraries
@@ -39,80 +36,102 @@
 #endif
 
 // themis_base module exports
+#ifndef THEMIS_BASE_API
 #ifdef THEMIS_BASE_EXPORTS
     #define THEMIS_BASE_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_BASE_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_storage module exports
+#ifndef THEMIS_STORAGE_API
 #ifdef THEMIS_STORAGE_EXPORTS
     #define THEMIS_STORAGE_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_STORAGE_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_query module exports
+#ifndef THEMIS_QUERY_API
 #ifdef THEMIS_QUERY_EXPORTS
     #define THEMIS_QUERY_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_QUERY_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_security module exports
+#ifndef THEMIS_SECURITY_API
 #ifdef THEMIS_SECURITY_EXPORTS
     #define THEMIS_SECURITY_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_SECURITY_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_sharding module exports
+#ifndef THEMIS_SHARDING_API
 #ifdef THEMIS_SHARDING_EXPORTS
     #define THEMIS_SHARDING_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_SHARDING_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_llm module exports
+#ifndef THEMIS_LLM_API
 #ifdef THEMIS_LLM_EXPORTS
     #define THEMIS_LLM_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_LLM_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_content module exports
+#ifndef THEMIS_CONTENT_API
 #ifdef THEMIS_CONTENT_EXPORTS
     #define THEMIS_CONTENT_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_CONTENT_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_timeseries module exports
+#ifndef THEMIS_TIMESERIES_API
 #ifdef THEMIS_TIMESERIES_EXPORTS
     #define THEMIS_TIMESERIES_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_TIMESERIES_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_network module exports
+#ifndef THEMIS_NETWORK_API
 #ifdef THEMIS_NETWORK_EXPORTS
     #define THEMIS_NETWORK_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_NETWORK_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_geo module exports
+#ifndef THEMIS_GEO_API
 #ifdef THEMIS_GEO_EXPORTS
     #define THEMIS_GEO_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_GEO_API THEMIS_IMPORT_HELPER_DLL
 #endif
+#endif
 
 // themis_graph module exports
+#ifndef THEMIS_GRAPH_API
 #ifdef THEMIS_GRAPH_EXPORTS
     #define THEMIS_GRAPH_API THEMIS_EXPORT_HELPER_DLL
 #else
     #define THEMIS_GRAPH_API THEMIS_IMPORT_HELPER_DLL
+#endif
 #endif
 
 // Legacy compatibility: When building monolithic core (pre-v1.3.0)

@@ -1,24 +1,21 @@
+/**
+ * @file streaming_exporter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            streaming_exporter.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 384a0bfa5  2026-02-26  Implement streaming export for large collections with pro... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: streaming_exporter.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 135
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3222 [exporters] Implement strea... (2026-03-12) | #2997 [exporters] Streaming expor... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -39,19 +36,19 @@ public:
     virtual ~ExportCursor() = default;
 
     /// Returns true if more pages are available.
-    virtual bool hasNext() const = 0;
+    [[nodiscard]] virtual bool hasNext() const = 0;
 
     /// Fetches the next page of entities. Must only be called when hasNext() is true.
-    virtual std::vector<BaseEntity> nextPage() = 0;
+    [[nodiscard]] virtual std::vector<BaseEntity> nextPage() = 0;
 
     /// Total number of entities in the collection (0 if unknown).
     virtual size_t totalCount() const { return 0; }
 
     /// Number of entities already consumed from the cursor.
-    virtual size_t currentOffset() const = 0;
+    [[nodiscard]] virtual size_t currentOffset() const = 0;
 
     /// Seek to a specific offset (for checkpoint resume). Returns false if unsupported.
-    virtual bool seekTo(size_t offset) { (void)offset; return false; }
+    virtual bool seekTo([[maybe_unused]] size_t offset) { return false; }
 };
 
 /// Concrete cursor that pages over an in-memory std::vector<BaseEntity>.

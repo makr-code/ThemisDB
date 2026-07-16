@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_knowledge_gap_detector.cpp                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:04:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_knowledge_gap_detector.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -210,3 +195,78 @@ TEST(KnowledgeGapDetectorFactory, FlareWithSemanticSearchIntegration) {
     EXPECT_LE(result.confidence_score, 1.0);
 }
 
+
+// ── KGD-LLM-01: injected LlmSampleFn is called for self-consistency check
+TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_01_InjectedFnCalled) {
+    using namespace themis::rag;
+    KnowledgeGapConfig cfg;
+    cfg.enable_self_consistency_check = true;
+    cfg.min_documents  = 1;
+    cfg.similarity_threshold = 0.0;
+    KnowledgeGapDetector detector(cfg);
+
+    bool fn_called = false;
+    detector.setLlmSampleFn([&fn_called](const std::string& /*query*/, size_t n) {
+        fn_called = true;
+        // Return consistent samples to avoid triggering a gap
+        return std::vector<std::string>(n, "The capital of France is Paris.");
+    });
+
+    RetrievedDocument doc;
+    doc.content        = "Paris is the capital of France.";
+    doc.similarity_score = 0.9;
+    std::string answer = "Paris is the capital of France.";
+    auto result = detector.detectPostGeneration("What is the capital of France?", {doc}, answer);
+    EXPECT_TRUE(fn_called);
+    EXPECT_GE(result.confidence_score, 0.0);
+    EXPECT_LE(result.confidence_score, 1.0);
+}
+
+// ── KGD-LLM-02: clearing the fn reverts to heuristic path
+TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_02_ClearFnRevertsToHeuristic) {
+    using namespace themis::rag;
+    KnowledgeGapConfig cfg;
+    cfg.enable_self_consistency_check = true;
+    cfg.min_documents  = 1;
+    cfg.similarity_threshold = 0.0;
+    KnowledgeGapDetector detector(cfg);
+
+    bool fn_called = false;
+    detector.setLlmSampleFn([&fn_called](const std::string&, size_t n) {
+        fn_called = true;
+        return std::vector<std::string>(n, "sample");
+    });
+    // Clear fn
+    detector.setLlmSampleFn({});
+
+    RetrievedDocument doc;
+    doc.content        = "Paris is the capital of France.  France is in Europe.";
+    doc.similarity_score = 0.9;
+    auto result = detector.detectPostGeneration("What is the capital?", {doc}, "Paris.");
+    EXPECT_FALSE(fn_called);
+    // Result must still be structurally valid
+    EXPECT_GE(result.confidence_score, 0.0);
+    EXPECT_LE(result.confidence_score, 1.0);
+}
+
+// ── KGD-LLM-03: fn returning empty vector falls back to heuristic path (no crash)
+TEST(KnowledgeGapDetectorLlmSampleFn, KGD_LLM_03_EmptyReturnFallsBackToHeuristic) {
+    using namespace themis::rag;
+    KnowledgeGapConfig cfg;
+    cfg.enable_self_consistency_check = true;
+    cfg.min_documents  = 1;
+    cfg.similarity_threshold = 0.0;
+    KnowledgeGapDetector detector(cfg);
+
+    detector.setLlmSampleFn([](const std::string&, size_t) {
+        return std::vector<std::string>{};  // intentionally empty
+    });
+
+    RetrievedDocument doc;
+    doc.content        = "Rome is the capital of Italy.  Italy is in Europe.";
+    doc.similarity_score = 0.85;
+    auto result = detector.detectPostGeneration("Capital of Italy?", {doc}, "Rome.");
+    // Must not crash; result is structurally valid regardless of outcome
+    EXPECT_GE(result.confidence_score, 0.0);
+    EXPECT_LE(result.confidence_score, 1.0);
+}

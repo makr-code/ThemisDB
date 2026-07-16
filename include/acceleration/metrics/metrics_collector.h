@@ -1,24 +1,21 @@
+/**
+ * @file metrics_collector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            metrics_collector.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: metrics_collector.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 390
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3328 [WIP] Add SLO/SLA complianc... (2026-03-12) | #3289 [WIP] Add exemplars on Prom... (2026-03-12) | #2873 feat(governance): OPA polic... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -61,7 +58,7 @@ public:
     const std::string& description() const { return description_; }
     MetricType type() const { return type_; }
     
-    virtual std::string serialize() const = 0;
+    [[nodiscard]] virtual std::string serialize() const = 0;
     
 protected:
     std::string name_;
@@ -106,23 +103,24 @@ public:
         : Metric(name, description, MetricType::GAUGE), value_(0.0) {}
     
     void set(double value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        value_ = value;
+        value_.store(value, std::memory_order_relaxed);
     }
     
     void increment(double delta = 1.0) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        value_ += delta;
+        // fetch_add is not available for double; use compare_exchange loop.
+        double expected = value_.load(std::memory_order_relaxed);
+        while (!value_.compare_exchange_weak(expected, expected + delta,
+                                             std::memory_order_relaxed)) {}
     }
     
     void decrement(double delta = 1.0) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        value_ -= delta;
+        double expected = value_.load(std::memory_order_relaxed);
+        while (!value_.compare_exchange_weak(expected, expected - delta,
+                                             std::memory_order_relaxed)) {}
     }
     
     double value() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return value_;
+        return value_.load(std::memory_order_relaxed);
     }
     
     std::string serialize() const override {
@@ -130,8 +128,7 @@ public:
     }
     
 private:
-    mutable std::mutex mutex_;
-    double value_;
+    std::atomic<double> value_;
 };
 
 /**

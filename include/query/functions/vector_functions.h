@@ -1,32 +1,31 @@
+/**
+ * @file vector_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_functions.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1058                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "function_registry.h"
+#include <cstddef>
 #include <cmath>
 #include <algorithm>
 #include <numeric>
 #include <random>
+#include <limits>
 
 
 
@@ -132,6 +131,7 @@ inline double dotProduct(const std::vector<double>& v1, const std::vector<double
  */
 class CosineSimilarityFunction : public IFunction {
 public:
+    ~CosineSimilarityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "COSINE_SIMILARITY",
@@ -174,6 +174,7 @@ public:
  */
 class EuclideanDistanceFunction : public IFunction {
 public:
+    ~EuclideanDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EUCLIDEAN_DISTANCE",
@@ -214,6 +215,7 @@ public:
  */
 class DotProductFunction : public IFunction {
 public:
+    ~DotProductFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "DOT_PRODUCT",
@@ -248,6 +250,7 @@ public:
  */
 class ManhattanDistanceFunction : public IFunction {
 public:
+    ~ManhattanDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MANHATTAN_DISTANCE",
@@ -287,6 +290,7 @@ public:
  */
 class ChebyshevDistanceFunction : public IFunction {
 public:
+    ~ChebyshevDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CHEBYSHEV_DISTANCE",
@@ -327,6 +331,7 @@ public:
  */
 class SimilarityFunction : public IFunction {
 public:
+    ~SimilarityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SIMILARITY",
@@ -376,6 +381,7 @@ public:
  */
 class L2NormalizeFunction : public IFunction {
 public:
+    ~L2NormalizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "L2_NORMALIZE",
@@ -415,6 +421,7 @@ public:
  */
 class MinMaxNormalizeFunction : public IFunction {
 public:
+    ~MinMaxNormalizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "MIN_MAX_NORMALIZE",
@@ -469,6 +476,7 @@ public:
  */
 class VectorAddFunction : public IFunction {
 public:
+    ~VectorAddFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_ADD",
@@ -507,6 +515,7 @@ public:
  */
 class VectorSubFunction : public IFunction {
 public:
+    ~VectorSubFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SUB",
@@ -545,6 +554,7 @@ public:
  */
 class VectorMulFunction : public IFunction {
 public:
+    ~VectorMulFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_MUL",
@@ -583,6 +593,7 @@ public:
  */
 class VectorScaleFunction : public IFunction {
 public:
+    ~VectorScaleFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SCALE",
@@ -623,6 +634,7 @@ public:
  */
 class VectorSumFunction : public IFunction {
 public:
+    ~VectorSumFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SUM",
@@ -652,6 +664,7 @@ public:
  */
 class VectorAvgFunction : public IFunction {
 public:
+    ~VectorAvgFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_AVG",
@@ -686,6 +699,7 @@ public:
  */
 class VectorNormFunction : public IFunction {
 public:
+    ~VectorNormFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_NORM",
@@ -731,6 +745,7 @@ public:
  */
 class VectorDimFunction : public IFunction {
 public:
+    ~VectorDimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_DIM",
@@ -758,6 +773,7 @@ public:
  */
 class VectorMinFunction : public IFunction {
 public:
+    ~VectorMinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_MIN",
@@ -791,6 +807,7 @@ public:
  */
 class VectorMaxFunction : public IFunction {
 public:
+    ~VectorMaxFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_MAX",
@@ -828,6 +845,7 @@ public:
  */
 class VectorZerosFunction : public IFunction {
 public:
+    ~VectorZerosFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_ZEROS",
@@ -860,6 +878,7 @@ public:
  */
 class VectorOnesFunction : public IFunction {
 public:
+    ~VectorOnesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_ONES",
@@ -892,6 +911,7 @@ public:
  */
 class VectorRandomFunction : public IFunction {
 public:
+    ~VectorRandomFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_RANDOM",
@@ -937,6 +957,7 @@ public:
  */
 class VectorSliceFunction : public IFunction {
 public:
+    ~VectorSliceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_SLICE",
@@ -959,14 +980,20 @@ public:
         vector_helpers::validateVector(args[0], "VECTOR_SLICE");
         
         auto vec = vector_helpers::toVector(args[0]);
-        int start = args[1].get<int>();
-        int end = args.size() > 2 && !args[2].is_null() ? args[2].get<int>() : static_cast<int>(vec.size());
-        
+        const int64_t vec_size_i64 = static_cast<int64_t>(
+            std::min(vec.size(), static_cast<size_t>(std::numeric_limits<int64_t>::max())));
+        int64_t start = args[1].get<int64_t>();
+        int64_t end = args.size() > 2 && !args[2].is_null() ? args[2].get<int64_t>() : vec_size_i64;
+
         if (start < 0) start = 0;
-        if (end > static_cast<int>(vec.size())) end = static_cast<int>(vec.size());
+        if (end < 0) end = 0;
+        if (start > vec_size_i64) start = vec_size_i64;
+        if (end > vec_size_i64) end = vec_size_i64;
         if (start >= end) return nlohmann::json::array();
         
-        std::vector<double> result(vec.begin() + start, vec.begin() + end);
+        std::vector<double> result(
+            vec.begin() + static_cast<std::ptrdiff_t>(start),
+            vec.begin() + static_cast<std::ptrdiff_t>(end));
         return vector_helpers::fromVector(result);
     }
 };
@@ -976,6 +1003,7 @@ public:
  */
 class VectorConcatFunction : public IFunction {
 public:
+    ~VectorConcatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VECTOR_CONCAT",
@@ -1058,4 +1086,3 @@ inline void registerVectorFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-

@@ -1,25 +1,21 @@
+/**
+ * @file qos_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            qos_manager.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     602                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b437bbe00  2026-02-25  fix(network): audit – 3 bugs fixed in per-tenant bandwidt... ║
-    • a57c9c42c  2026-02-25  feat(network): implement per-tenant network bandwidth quotas ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: qos_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1081
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=14, M=3, L=0
+ * PR History (last 5): #4273 feat(network): Bandwidth Ma... (2026-03-15) | #1333 Network module: QoS manager... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Network QoS Manager – Implementation
@@ -28,7 +24,16 @@
 #include "network/qos_manager.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <cinttypes>
+#include <cstdio>
+#include <cstring>
 #include <thread>
+
+#if defined(__linux__)
+#include <unistd.h>
+#endif
 
 namespace themis {
 namespace network {
@@ -140,6 +145,159 @@ uint64_t TokenBucket::burstBytes() const {
 }
 
 // =============================================================================
+// LeakyBucket
+// =============================================================================
+
+LeakyBucket::LeakyBucket(uint64_t drain_rate_bps, uint64_t capacity_bytes)
+    : fill_(0.0)
+    , drain_rate_bps_(drain_rate_bps)
+    , capacity_bytes_(capacity_bytes)
+    , last_drain_(std::chrono::steady_clock::now())
+{}
+
+void LeakyBucket::drain() {
+    auto now     = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration<double>(now - last_drain_).count();
+    last_drain_  = now;
+
+    if (drain_rate_bps_ > 0) {
+        double drain_bytes_per_sec = static_cast<double>(drain_rate_bps_) / 8.0;
+        fill_ -= elapsed * drain_bytes_per_sec;
+        if (fill_ < 0.0) {
+            fill_ = 0.0;
+        }
+    }
+}
+
+bool LeakyBucket::add(uint64_t bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    drain();
+
+    double new_fill = fill_ + static_cast<double>(bytes);
+    if (new_fill > static_cast<double>(capacity_bytes_)) {
+        // Overflow: accept but report non-conformant
+        fill_ = static_cast<double>(capacity_bytes_);
+        return false;
+    }
+    fill_ = new_fill;
+    return true;
+}
+
+bool LeakyBucket::tryConform(uint64_t bytes) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    // Estimate fill after draining elapsed time
+    auto now     = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration<double>(now - last_drain_).count();
+
+    double estimated_fill = fill_;
+    if (drain_rate_bps_ > 0) {
+        double drain_bytes_per_sec = static_cast<double>(drain_rate_bps_) / 8.0;
+        estimated_fill -= elapsed * drain_bytes_per_sec;
+        if (estimated_fill < 0.0) {
+            estimated_fill = 0.0;
+        }
+    }
+
+    return (estimated_fill + static_cast<double>(bytes)) <=
+           static_cast<double>(capacity_bytes_);
+}
+
+void LeakyBucket::reconfigure(uint64_t drain_rate_bps, uint64_t capacity_bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    drain_rate_bps_ = drain_rate_bps;
+    capacity_bytes_ = capacity_bytes;
+    if (fill_ > static_cast<double>(capacity_bytes_)) {
+        fill_ = static_cast<double>(capacity_bytes_);
+    }
+}
+
+double LeakyBucket::currentFill() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return fill_;
+}
+
+uint64_t LeakyBucket::capacityBytes() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return capacity_bytes_;
+}
+
+uint64_t LeakyBucket::drainRateBps() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return drain_rate_bps_;
+}
+
+// =============================================================================
+// CongestionController
+// =============================================================================
+
+CongestionController::CongestionController()
+    : cwnd_(kDefaultInitialCwnd)
+    , ssthresh_(kMaxCwnd)
+    , srtt_(std::chrono::microseconds(0))
+    , in_slow_start_(true)
+{}
+
+void CongestionController::recordAck(uint64_t bytes_acked,
+                                      std::chrono::microseconds rtt) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Update smoothed RTT (Jacobson/Karels algorithm, alpha = 0.125)
+    if (srtt_.count() == 0) {
+        srtt_ = rtt;
+    } else {
+        // SRTT = (1 - alpha) * SRTT + alpha * RTT  (alpha = 1/8)
+        auto new_srtt = srtt_.count() - (srtt_.count() >> 3) + (rtt.count() >> 3);
+        srtt_ = std::chrono::microseconds(new_srtt);
+    }
+
+    if (in_slow_start_) {
+        // Slow start: increase cwnd by bytes_acked (doubles each RTT)
+        cwnd_ += bytes_acked;
+        if (cwnd_ >= ssthresh_) {
+            in_slow_start_ = false;
+        }
+    } else {
+        // Congestion avoidance: increase by MSS^2 / cwnd (approximately 1 MSS/RTT)
+        uint64_t increase = (kDefaultMss * kDefaultMss) / std::max(cwnd_, kDefaultMss);
+        cwnd_ += std::max(increase, uint64_t{1});
+    }
+
+    if (cwnd_ > kMaxCwnd) {
+        cwnd_ = kMaxCwnd;
+    }
+}
+
+void CongestionController::recordLoss() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    ssthresh_      = std::max(cwnd_ / 2, kDefaultMss * 2);
+    cwnd_          = ssthresh_;
+    in_slow_start_ = false;
+}
+
+uint64_t CongestionController::cwnd() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return cwnd_;
+}
+
+uint64_t CongestionController::ssthresh() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return ssthresh_;
+}
+
+std::chrono::microseconds CongestionController::smoothedRtt() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return srtt_;
+}
+
+void CongestionController::reset() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cwnd_          = kDefaultInitialCwnd;
+    ssthresh_      = kMaxCwnd;
+    srtt_          = std::chrono::microseconds(0);
+    in_slow_start_ = true;
+}
+
+// =============================================================================
 // QoSManager
 // =============================================================================
 
@@ -182,11 +340,12 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     state->connection_id  = connection_id;
     state->priority.store(static_cast<uint8_t>(priority), std::memory_order_relaxed);
 
-    if (config_.default_rate_bps > 0) {
+    uint64_t effective_rate = effectiveDefaultRateBps();
+    if (effective_rate > 0) {
         uint64_t burst = config_.default_burst_bytes > 0
                              ? config_.default_burst_bytes
-                             : config_.default_rate_bps / 8;  // 1 s worth of data
-        state->token_bucket = std::make_shared<TokenBucket>(config_.default_rate_bps, burst);
+                             : effective_rate / 8;  // 1 s worth of data
+        state->token_bucket = std::make_shared<TokenBucket>(effective_rate, burst);
     }
 
     std::lock_guard<std::mutex> lock(connections_mutex_);
@@ -255,6 +414,291 @@ void QoSManager::clearTokenBucket(uint64_t connection_id) {
     }
     std::lock_guard<std::mutex> lock(state->token_bucket_mutex);
     state->token_bucket.reset();
+}
+
+// -------------------------------------------------------------------------
+// Helper: resolve effective bandwidth values from config
+// -------------------------------------------------------------------------
+
+uint64_t QoSManager::effectiveMaxBandwidthBps() const {
+    if (config_.max_bandwidth_mbps > 0) {
+        return config_.max_bandwidth_mbps * 1'000'000ULL;
+    }
+    return config_.max_bandwidth_bps;
+}
+
+uint64_t QoSManager::effectiveDefaultRateBps() const {
+    if (config_.per_connection_limit_mbps > 0) {
+        return config_.per_connection_limit_mbps * 1'000'000ULL;
+    }
+    return config_.default_rate_bps;
+}
+
+// -------------------------------------------------------------------------
+// Snake-case API
+// -------------------------------------------------------------------------
+
+void QoSManager::set_bandwidth_limit(uint64_t connection_id,
+                                      uint64_t bytes_per_second) {
+    // Convert bytes/sec → bits/sec; burst = 1 second of sustained throughput
+    uint64_t rate_bps    = bytes_per_second * 8;
+    uint64_t burst_bytes = bytes_per_second;  // 1 second worth
+    setTokenBucket(connection_id, rate_bps, burst_bytes);
+}
+
+// -------------------------------------------------------------------------
+// Leaky bucket shaping
+// -------------------------------------------------------------------------
+
+void QoSManager::setLeakyBucket(uint64_t connection_id,
+                                  uint64_t drain_rate_bps,
+                                  uint64_t capacity_bytes) {
+    auto state = findConnection(connection_id);
+    if (!state) {
+        return;
+    }
+    std::lock_guard<std::mutex> lock(state->leaky_bucket_mutex);
+    if (state->leaky_bucket) {
+        state->leaky_bucket->reconfigure(drain_rate_bps, capacity_bytes);
+    } else {
+        state->leaky_bucket = std::make_shared<LeakyBucket>(drain_rate_bps, capacity_bytes);
+    }
+}
+
+void QoSManager::clearLeakyBucket(uint64_t connection_id) {
+    auto state = findConnection(connection_id);
+    if (!state) {
+        return;
+    }
+    std::lock_guard<std::mutex> lock(state->leaky_bucket_mutex);
+    state->leaky_bucket.reset();
+}
+
+// -------------------------------------------------------------------------
+// Priority queue scheduling
+// -------------------------------------------------------------------------
+
+bool QoSManager::enqueueSend(uint64_t connection_id, uint64_t bytes) {
+    auto state = findConnection(connection_id);
+    if (!state) {
+        return false;
+    }
+
+    Priority prio = static_cast<Priority>(
+        state->priority.load(std::memory_order_relaxed));
+
+    PendingSend ps;
+    ps.connection_id = connection_id;
+    ps.bytes         = bytes;
+    ps.priority      = prio;
+
+    std::lock_guard<std::mutex> lock(pq_mutex_);
+    switch (prio) {
+        case Priority::CRITICAL: pq_critical_.push_back(ps); break;
+        case Priority::HIGH:     pq_high_.push_back(ps);     break;
+        case Priority::MEDIUM:   pq_medium_.push_back(ps);   break;
+        case Priority::LOW:      pq_low_.push_back(ps);      break;
+    }
+    return true;
+}
+
+std::optional<QoSManager::PendingSend> QoSManager::dequeueForSend() {
+    std::lock_guard<std::mutex> lock(pq_mutex_);
+
+    bool pq_enabled = config_.enable_priority_queuing ||
+                      config_.enable_priority_scheduling;
+
+    if (!pq_enabled) {
+        // No priority scheduling: simple round-robin across all queues
+        for (auto* q : {&pq_critical_, &pq_high_, &pq_medium_, &pq_low_}) {
+            if (!q->empty()) {
+                auto item = q->front();
+                q->pop_front();
+                return item;
+            }
+        }
+        return std::nullopt;
+    }
+
+    // Starvation guard: if we've served too many high-priority sends
+    // consecutively, force a lower-priority send to prevent starvation.
+    bool force_low = config_.enable_fair_queuing &&
+                     pq_consecutive_high_serves_ >= config_.starvation_guard_threshold;
+
+    if (force_low) {
+        // Serve the lowest non-empty queue
+        for (auto* q : {&pq_low_, &pq_medium_, &pq_high_, &pq_critical_}) {
+            if (!q->empty()) {
+                auto item = q->front();
+                q->pop_front();
+                pq_consecutive_high_serves_ = 0;
+                return item;
+            }
+        }
+    }
+
+    // Strict priority: CRITICAL > HIGH > MEDIUM > LOW
+    std::array<std::deque<PendingSend>*, 4> queues = {
+        &pq_critical_, &pq_high_, &pq_medium_, &pq_low_
+    };
+    for (std::deque<PendingSend>* q : queues) {
+        if (!q->empty()) {
+            auto item = q->front();
+            q->pop_front();
+            // Only count CRITICAL/HIGH serves for starvation guard
+            if (item.priority == Priority::CRITICAL ||
+                item.priority == Priority::HIGH) {
+                ++pq_consecutive_high_serves_;
+            } else {
+                pq_consecutive_high_serves_ = 0;
+            }
+            return item;
+        }
+    }
+    return std::nullopt;
+}
+
+size_t QoSManager::getPendingQueueDepth(Priority priority) const {
+    std::lock_guard<std::mutex> lock(pq_mutex_);
+    switch (priority) {
+        case Priority::CRITICAL: return pq_critical_.size();
+        case Priority::HIGH:     return pq_high_.size();
+        case Priority::MEDIUM:   return pq_medium_.size();
+        case Priority::LOW:      return pq_low_.size();
+    }
+    return 0;
+}
+
+// -------------------------------------------------------------------------
+// Congestion control
+// -------------------------------------------------------------------------
+
+void QoSManager::recordAck(uint64_t connection_id,
+                             uint64_t bytes_acked,
+                             std::chrono::microseconds rtt) {
+    auto state = findConnection(connection_id);
+    if (!state) {
+        return;
+    }
+    std::shared_ptr<CongestionController> cc;
+    {
+        std::lock_guard<std::mutex> lock(state->congestion_mutex);
+        if (!state->congestion_ctrl) {
+            state->congestion_ctrl = std::make_shared<CongestionController>();
+        }
+        cc = state->congestion_ctrl;
+    }
+    cc->recordAck(bytes_acked, rtt);
+}
+
+void QoSManager::recordLoss(uint64_t connection_id) {
+    auto state = findConnection(connection_id);
+    if (!state) {
+        return;
+    }
+    std::shared_ptr<CongestionController> cc;
+    {
+        std::lock_guard<std::mutex> lock(state->congestion_mutex);
+        if (!state->congestion_ctrl) {
+            state->congestion_ctrl = std::make_shared<CongestionController>();
+        }
+        cc = state->congestion_ctrl;
+    }
+    cc->recordLoss();
+}
+
+uint64_t QoSManager::getCongestionWindow(uint64_t connection_id) const {
+    auto state = findConnection(connection_id);
+    if (!state) {
+        return UINT64_MAX;
+    }
+    std::lock_guard<std::mutex> lock(state->congestion_mutex);
+    if (!state->congestion_ctrl) {
+        return UINT64_MAX;
+    }
+    return state->congestion_ctrl->cwnd();
+}
+
+// -------------------------------------------------------------------------
+// Linux tc integration
+// -------------------------------------------------------------------------
+
+bool QoSManager::configureTc(const TcConfig& tc_config) {
+    if (!tc_config.enabled || tc_config.interface_name.empty()) {
+        return false;
+    }
+
+#if defined(__linux__)
+    // Validate interface name:
+    //  1. Must not start with '-' to prevent argument injection (tc parses
+    //     flags if the interface name looks like "-h" or "--help").
+    //  2. Must contain only alphanumeric, '-', '_', or '.' characters to
+    //     prevent shell metacharacter injection via snprintf.
+    if (tc_config.interface_name.front() == '-') {
+        return false;
+    }
+    for (char c : tc_config.interface_name) {
+        if (!std::isalnum(static_cast<unsigned char>(c)) &&
+            c != '-' && c != '_' && c != '.') {
+            return false;
+        }
+    }
+
+    // Locate tc binary
+    const char* tc_paths[] = {"/sbin/tc", "/usr/sbin/tc", "/usr/bin/tc"};
+    const char* tc_bin     = nullptr;
+    for (const char* p : tc_paths) {
+        if (::access(p, X_OK) == 0) {
+            tc_bin = p;
+            break;
+        }
+    }
+    if (tc_bin == nullptr) {
+        return false;  // tc not available
+    }
+
+    const std::string& iface = tc_config.interface_name;
+    uint64_t rate_bps        = tc_config.total_rate_bps > 0
+                                   ? tc_config.total_rate_bps
+                                   : effectiveMaxBandwidthBps();
+
+    // Remove any existing root qdisc (ignore failure)
+    {
+        char cmd[256];
+        std::snprintf(cmd, sizeof(cmd),
+                      "%s qdisc del dev %s root 2>/dev/null",
+                      tc_bin, iface.c_str());
+        std::system(cmd);  // NOLINT(cert-env33-c)
+    }
+
+    // Add HTB root qdisc
+    {
+        char cmd[256];
+        std::snprintf(cmd, sizeof(cmd),
+                      "%s qdisc add dev %s root handle 1: htb default 10",
+                      tc_bin, iface.c_str());
+        if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)
+            return false;
+        }
+    }
+
+    // Add root class with total rate limit (if configured)
+    if (rate_bps > 0) {
+        char cmd[512];
+        uint64_t rate_kbps = std::max(rate_bps / 1000, uint64_t{1});
+        std::snprintf(cmd, sizeof(cmd),
+                      "%s class add dev %s parent 1: classid 1:1 htb"
+                      " rate %" PRIu64 "kbit ceil %" PRIu64 "kbit",
+                      tc_bin, iface.c_str(), rate_kbps, rate_kbps);
+        if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)
+            return false;
+        }
+    }
+
+    return true;
+#else
+    return false;  // Not supported on non-Linux platforms
+#endif
 }
 
 // -------------------------------------------------------------------------
@@ -338,6 +782,42 @@ bool QoSManager::allowSend(uint64_t connection_id,
             state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
             total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
             return false;
+        }
+    }
+
+    // --- Leaky bucket conformance check (per-connection) ---
+    std::shared_ptr<LeakyBucket> leaky;
+    {
+        std::lock_guard<std::mutex> lb_lock(state->leaky_bucket_mutex);
+        leaky = state->leaky_bucket;
+    }
+    if (leaky) {
+        bool ok = leaky->add(bytes);
+        if (!ok) {
+            state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+            total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+            return false;
+        }
+    }
+
+    // --- Congestion window check ---
+    // If a CongestionController is active, gate sends so that in-flight bytes
+    // never exceed the current congestion window.  This provides the
+    // "congestion control integration" called for by the issue AC.
+    {
+        std::shared_ptr<CongestionController> cc;
+        {
+            std::lock_guard<std::mutex> cc_lock(state->congestion_mutex);
+            cc = state->congestion_ctrl;
+        }
+        if (cc) {
+            uint64_t cwnd      = cc->cwnd();
+            uint64_t in_flight = state->queue_depth.load(std::memory_order_relaxed);
+            if (in_flight + bytes > cwnd) {
+                state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+                total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+                return false;
+            }
         }
     }
 
@@ -442,6 +922,15 @@ QoSManager::getConnectionStats(uint64_t connection_id) const {
         if (cs.has_token_bucket) {
             cs.token_bucket_rate_bps    = state->token_bucket->rateBps();
             cs.token_bucket_burst_bytes = state->token_bucket->burstBytes();
+        }
+    }
+    {
+        std::lock_guard<std::mutex> cc_lock(state->congestion_mutex);
+        if (state->congestion_ctrl) {
+            cs.congestion_window        = state->congestion_ctrl->cwnd();
+            cs.congestion_ssthresh_bytes = state->congestion_ctrl->ssthresh();
+            cs.smoothed_rtt_us          = static_cast<uint64_t>(
+                state->congestion_ctrl->smoothedRtt().count());
         }
     }
     return cs;

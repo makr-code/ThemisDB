@@ -1,24 +1,20 @@
+/**
+ * @file plugin_registry.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_registry.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c3452af1e  2026-02-26  feat(plugins): implement SignedPluginRepository with Ed25... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_registry.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -32,6 +28,7 @@
 #include <typeinfo>
 #include <stdexcept>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace plugins {
@@ -74,7 +71,7 @@ public:
         const std::string& plugin_name,
         std::function<std::unique_ptr<PluginInterface>()> factory
     ) {
-        std::lock_guard<std::mutex> lock(getMutex());
+        std::unique_lock<std::shared_mutex> lock(getMutex());
         
         // Store the factory with type erasure in type-specific registry
         // This avoids data duplication and ensures consistency
@@ -112,10 +109,20 @@ public:
      */
     template<typename PluginInterface>
     static std::unique_ptr<PluginInterface> create(const std::string& plugin_name) {
-        std::lock_guard<std::mutex> lock(getMutex());
+        std::shared_lock<std::shared_mutex> lock(getMutex());
         
-        // Look up in type-specific registry
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
+        // Look up in type-specific registry (read-only: no creation of missing entries)
+        const auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto trIt = type_registries.find(type_hash);
+        if (trIt == type_registries.end()) {
+            throw std::runtime_error(
+                "No plugins registered for interface type '" +
+                std::string(typeid(PluginInterface).name()) +
+                "' (requested plugin: " + plugin_name + ")"
+            );
+        }
+        const auto& type_registry = trIt->second;
         auto it = type_registry.find(plugin_name);
         
         if (it == type_registry.end()) {
@@ -179,8 +186,14 @@ public:
      */
     template<typename PluginInterface>
     static std::vector<std::string> listPlugins() {
-        std::lock_guard<std::mutex> lock(getMutex());
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
+        std::shared_lock<std::shared_mutex> lock(getMutex());
+        const auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto it = type_registries.find(type_hash);
+        if (it == type_registries.end()) {
+            return {};
+        }
+        const auto& type_registry = it->second;
         
         std::vector<std::string> names;
         for (const auto& [name, _] : type_registry) {
@@ -198,10 +211,39 @@ public:
      */
     template<typename PluginInterface>
     static bool hasPlugin(const std::string& plugin_name) {
-        std::lock_guard<std::mutex> lock(getMutex());
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
-        
-        return type_registry.count(plugin_name) > 0;
+        std::shared_lock<std::shared_mutex> lock(getMutex());
+        const auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto it = type_registries.find(type_hash);
+        if (it == type_registries.end()) {
+            return false;
+        }
+        return it->second.count(plugin_name) > 0;
+    }
+
+    /**
+     * @brief Unregister a previously registered plugin factory
+     * 
+     * @tparam PluginInterface  Interface type
+     * @param plugin_name       Plugin identifier to remove
+     * @return true if the factory was found and removed, false otherwise
+     */
+    template<typename PluginInterface>
+    static bool unregisterFactory(const std::string& plugin_name) {
+        std::unique_lock<std::shared_mutex> lock(getMutex());
+        auto& type_registries = getTypeRegistries();
+        size_t type_hash = typeid(PluginInterface).hash_code();
+        auto trIt = type_registries.find(type_hash);
+        if (trIt == type_registries.end()) {
+            return false;
+        }
+        auto& type_registry = trIt->second;
+        auto it = type_registry.find(plugin_name);
+        if (it == type_registry.end()) {
+            return false;
+        }
+        type_registry.erase(it);
+        return true;
     }
 
     /**
@@ -222,7 +264,7 @@ private:
 
     static TypeRegistries& getTypeRegistries();
     static Registry& getTypeRegistry(const std::type_info& type);
-    static std::mutex& getMutex();
+    static std::shared_mutex& getMutex();
 };
 
 /**

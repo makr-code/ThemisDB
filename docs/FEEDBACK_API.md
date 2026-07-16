@@ -446,5 +446,5 @@ The feedback system supports **optional** plugin-based validation. By default, b
 }
 ```
 
-For details, see [Feedback Plugin Interface Documentation](FEEDBACK_PLUGIN_INTERFACE.md).
+For details, see [Feedback Plugin Interface Documentation](ARCHIVED/implementation-summaries/FEEDBACK_PLUGIN_INTERFACE.md).
 

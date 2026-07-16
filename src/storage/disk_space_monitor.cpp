@@ -1,31 +1,31 @@
+/**
+ * @file disk_space_monitor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            disk_space_monitor.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     553                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: disk_space_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 628
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=1, L=0
+ * PR History (last 5): #4274 feat(storage): RocksDBWrapp... (2026-03-15)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/disk_space_monitor.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
 #include <sstream>
 #include <iomanip>
+#include <filesystem>
 
 // Platform-specific includes for disk space
 #ifdef _WIN32
@@ -102,8 +102,9 @@ void DiskSpaceMonitor::stopMonitoring() {
     
     should_stop_ = true;
     
-    if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+    if (monitor_thread_.joinable() &&
+        !themis::utils::joinThreadWithin(monitor_thread_)) {
+        spdlog::warn("DiskSpaceMonitor: monitor thread exceeded shutdown timeout");
     }
     
     monitoring_active_ = false;
@@ -113,27 +114,75 @@ void DiskSpaceMonitor::stopMonitoring() {
 
 DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     auto info = queryDiskSpace();
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    SpaceLevel old_level = current_level_.load();
-    current_info_ = info;
-    
-    updateSpaceLevel(info);
-    recordUsage(info);
-    
-    stats_.total_checks++;
-    stats_.last_check = std::chrono::system_clock::now();
-    
-    SpaceLevel new_level = current_level_.load();
-    if (old_level != new_level) {
-        handleSpaceLevelChange(old_level, new_level);
+    bool should_send_alert = false;
+    bool should_trigger_gc = false;
+    std::string alert_message;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        SpaceLevel old_level = current_level_.load();
+        // Preserve the RocksDB size that was set via setRocksDBSize() — it is
+        // managed independently from OS disk-space queries.
+        info.rocksdb_size_bytes = current_info_.rocksdb_size_bytes;
+        current_info_ = info;
+
+        updateSpaceLevel(info);
+        recordUsage(info);
+
+        stats_.total_checks++;
+        stats_.last_check = std::chrono::system_clock::now();
+
+        SpaceLevel new_level = current_level_.load();
+        if (old_level != new_level) {
+            spdlog::warn("Disk space level changed from {} to {}",
+                        static_cast<int>(old_level), static_cast<int>(new_level));
+
+            switch (new_level) {
+                case SpaceLevel::WARNING:
+                    stats_.warning_triggers++;
+                    break;
+                case SpaceLevel::CRITICAL:
+                    stats_.critical_triggers++;
+                    break;
+                case SpaceLevel::EMERGENCY:
+                    stats_.emergency_triggers++;
+                    break;
+                default:
+                    break;
+            }
+
+            if (config_.enable_alerts && shouldSendAlert()) {
+                std::ostringstream msg;
+                msg << "Disk space " << static_cast<int>(new_level) << ": "
+                    << disk_utils::formatBytes(info.free_bytes) << " free ("
+                    << std::fixed << std::setprecision(1) << (info.free_percent * 100) << "%)";
+
+                should_send_alert = true;
+                alert_message = msg.str();
+            }
+
+            should_trigger_gc = config_.enable_auto_gc &&
+                (new_level == SpaceLevel::CRITICAL || new_level == SpaceLevel::EMERGENCY);
+        }
     }
-    
+
+    if (should_send_alert) {
+        sendAlert(info, alert_message);
+    }
+
+    if (should_trigger_gc) {
+        triggerGC();
+    }
+
     return info;
 }
 
 bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
+    // A zero-byte write does not consume disk capacity.
+    if (bytes_to_write == 0) {
+        return true;
+    }
+
     // Check if writes are globally blocked
     if (writes_blocked_.load()) {
         spdlog::warn("Write blocked: disk space critical");
@@ -146,7 +195,7 @@ bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
         spdlog::warn("Write blocked: system in read-only mode");
         return false;
     }
-    
+
     // Pre-flight check
     auto info = getSpaceInfo();
     
@@ -207,6 +256,10 @@ void DiskSpaceMonitor::setGCCallback(GCCallback callback) {
 }
 
 void DiskSpaceMonitor::triggerGC() {
+    // deadlock_risk scanner alerts (lines 228, 233): the GC callback is copied
+    // inside a short-lived scoped lock; the callback is then invoked OUTSIDE the
+    // lock.  There is no nested or concurrent lock acquisition — the lock guard
+    // is released before gc_cb() is called — false positive.
     GCCallback gc_cb;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -227,6 +280,11 @@ void DiskSpaceMonitor::triggerGC() {
 void DiskSpaceMonitor::setReadOnlyOverride(bool read_only) {
     read_only_override_ = read_only;
     spdlog::warn("Read-only override set to: {}", read_only);
+}
+
+void DiskSpaceMonitor::setRocksDBSize(uint64_t size_bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    current_info_.rocksdb_size_bytes = size_bytes;
 }
 
 std::string DiskSpaceMonitor::getRecommendedAction() const {
@@ -481,14 +539,43 @@ bool getDiskSpace(
     size_t& free_bytes,
     size_t& available_bytes
 ) {
+    namespace fs = std::filesystem;
+
+    // Query the nearest existing ancestor so callers may pass non-existing
+    // file/dir targets (e.g., planned output paths) and still obtain volume stats.
+    std::error_code ec;
+    auto probe = fs::absolute(fs::path(path), ec);
+    if (ec || probe.empty()) {
+        probe = fs::current_path(ec);
+        if (ec) {
+            return false;
+        }
+    }
+
+    while (!probe.empty() && !fs::exists(probe, ec)) {
+        if (ec) {
+            return false;
+        }
+        const auto parent = probe.parent_path();
+        if (parent == probe) {
+            break;
+        }
+        probe = parent;
+    }
+
+    if (probe.empty() || !fs::exists(probe, ec) || ec) {
+        return false;
+    }
+
 #ifdef _WIN32
     // Windows implementation
     ULARGE_INTEGER free_bytes_available;
     ULARGE_INTEGER total_number_of_bytes;
     ULARGE_INTEGER total_number_of_free_bytes;
     
-    if (!GetDiskFreeSpaceExA(
-        path.c_str(),
+    const auto probe_w = probe.wstring();
+    if (!GetDiskFreeSpaceExW(
+        probe_w.c_str(),
         &free_bytes_available,
         &total_number_of_bytes,
         &total_number_of_free_bytes
@@ -504,7 +591,8 @@ bool getDiskSpace(
     // Unix/Linux implementation
     struct statvfs stat;
     
-    if (statvfs(path.c_str(), &stat) != 0) {
+    const auto probe_str = probe.string();
+    if (statvfs(probe_str.c_str(), &stat) != 0) {
         return false;
     }
     

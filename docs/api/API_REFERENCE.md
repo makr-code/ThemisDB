@@ -1,7 +1,7 @@
 # ThemisDB LoRA Framework API Reference
 
 **Version:** 1.5.0-dev  
-**Last Updated:** 2026-02-15
+**Last Updated:** 2026-04-06
 
 Complete REST API reference for the LoRA (Low-Rank Adaptation) framework in ThemisDB.
 
@@ -640,4 +640,5 @@ Sunset: Sat, 31 Dec 2027 23:59:59 GMT
 For issues or questions:
 - GitHub Issues: https://github.com/makr-code/ThemisDB/issues
 - Documentation: https://github.com/makr-code/ThemisDB/blob/main/README.md
-- OpenAPI Spec: `/openapi/lora_api.yaml`
+- OpenAPI Spec (Source of Truth): `/docs/openapi.yaml`
+- Generator Config: `openapitools.json`

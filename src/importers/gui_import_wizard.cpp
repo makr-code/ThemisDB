@@ -1,22 +1,21 @@
+/**
+ * @file gui_import_wizard.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gui_import_wizard.cpp                              ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-09                                         ║
-  Author:          ThemisDB Team                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • v1.0.0  2026-03-09  feat(importers): GUI-based import wizard    ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gui_import_wizard.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 377
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=1, M=5, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/gui_import_wizard.h"
@@ -149,6 +148,9 @@ ImportWizardState ImportWizardState::fromJSON(const json& j) {
 // ImportWizard
 // ─────────────────────────────────────────────────────────────────────────────
 
+ImportWizard::ImportWizard()
+    : ImportWizard(Config{}) {}
+
 ImportWizard::ImportWizard(Config config)
     : config_(std::move(config)) {}
 
@@ -214,10 +216,13 @@ ImportWizard::connect(const std::string& session_id,
             // Build a synthetic preview schema from the importer
             s.preview_schema = json::array();
             s.preview_rows   = json::array();
-            // Populate up to preview_max_rows via the importer's streaming API
-            // (The importer's importData callback fills preview_rows)
+            // Populate up to preview_max_rows using importDataStreaming with
+            // dry_run=true so no data is written to storage during preview.
+            ImportOptions preview_opts;
+            preview_opts.dry_run = true;
             size_t row_count = 0;
-            importer->importData(cfg, [&](const json& row) -> bool {
+            importer->importDataStreaming(cfg, preview_opts,
+                    [&](const std::string& /*table*/, const json& row) -> bool {
                 if (row_count == 0) {
                     // Infer schema from first row
                     for (const auto& [key, val] : row.items()) {
@@ -301,11 +306,17 @@ void ImportWizard::runImport(const std::string& session_id,
     }
 
     std::string cfg = s.connection_params.dump();
-    importer->initialize(cfg);
+    static_cast<void>(importer->initialize(cfg));
 
     size_t batch_counter = 0;
 
-    importer->importData(cfg, [&](const json& row) -> bool {
+    // Pass dry_run to the importer via ImportOptions so the importer itself
+    // can skip any side-effecting writes (e.g. writing to external systems).
+    ImportOptions import_opts;
+    import_opts.dry_run = s.dry_run;
+
+    static_cast<void>(importer->importDataStreaming(cfg, import_opts,
+            [&](const std::string& /*table*/, const json& /*row*/) -> bool {
         ++s.rows_processed;
         if (!s.dry_run) {
             // In a real implementation this calls the storage layer.
@@ -321,7 +332,7 @@ void ImportWizard::runImport(const std::string& session_id,
             if (on_progress) on_progress(s);
         }
         return true;  // continue
-    });
+    }));
 
     s.progress_pct = 100.0;
     s.current_step = WizardStep::DONE;

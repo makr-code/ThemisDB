@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_perspective_generator.cpp                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     934                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file multi_perspective_generator.cpp
- * @brief Implementation of multi-perspective generation for ethical queries
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=1, M=18, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/multi_perspective_generator.h"
@@ -33,6 +17,7 @@
 #include <unordered_set>
 #include <cmath>
 #include <chrono>
+#include <limits>
 
 namespace themis {
 namespace llm {
@@ -42,14 +27,20 @@ namespace llm {
 // ═══════════════════════════════════════════════════════════
 
 namespace {
+int clampSizeToInt(const size_t value) {
+    const size_t int_max = static_cast<size_t>(std::numeric_limits<int>::max());
+    return static_cast<int>(std::min(value, int_max));
+}
+
 // Extract unique words from text (words longer than 3 characters)
 std::unordered_set<std::string> extractWords(const std::string& text) {
     std::unordered_set<std::string> words;
     std::string current;
     
     for (char c : text) {
-        if (std::isalpha(c)) {
-            current += std::tolower(c);
+        const auto uc = static_cast<unsigned char>(c);
+        if (std::isalpha(uc) != 0) {
+            current.push_back(static_cast<char>(std::tolower(uc)));
         } else if (!current.empty()) {
             if (current.length() > 3) {
                 words.insert(current);
@@ -127,7 +118,7 @@ MultiPerspectiveGenerator::~MultiPerspectiveGenerator() = default;
 MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     const std::string& query,
     void* llm_wrapper,
-    const std::vector<std::string>& context
+    const std::vector<std::string>& /*context*/
 ) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->stats.total_generations++;
@@ -165,7 +156,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     }
     
     // Calculate diversity metrics
-    result.unique_perspectives_count = result.perspectives.size();
+    result.unique_perspectives_count = clampSizeToInt(result.perspectives.size());
     result.perspective_diversity_score = calculateDiversityScore(result.perspectives);
     
     // Check if diversity requirements are met
@@ -232,7 +223,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
 PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     const std::string& query,
     const EthicalPerspective& perspective,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     PerspectiveResponse response;
     response.perspective = perspective;
@@ -357,7 +348,7 @@ bool MultiPerspectiveGenerator::requiresMultiPerspective(const std::string& quer
 }
 
 std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
-    const std::string& query
+    const std::string& /*query*/
 ) {
     std::vector<EthicalPerspective> selected;
     
@@ -648,7 +639,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     }
     
     // Find themes that appear in multiple perspectives
-    int threshold = perspectives.size() >= 3 ? 2 : perspectives.size();
+    const int threshold = (perspectives.size() >= 3) ? 2 : static_cast<int>(perspectives.size());
     
     for (const auto& [theme, count] : theme_counts) {
         if (count >= threshold) {
@@ -922,8 +913,8 @@ std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::cre
     MultiPerspectiveConfig config;
     config.required_perspectives = required_perspectives;
     config.auto_select_perspectives = false;
-    config.min_perspectives = required_perspectives.size();
-    config.max_perspectives = required_perspectives.size();
+    config.min_perspectives = clampSizeToInt(required_perspectives.size());
+    config.max_perspectives = clampSizeToInt(required_perspectives.size());
     return std::make_unique<MultiPerspectiveGenerator>(config);
 }
 

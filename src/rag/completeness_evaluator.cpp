@@ -1,28 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            completeness_evaluator.cpp                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     394                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file completeness_evaluator.cpp
- * @brief Implementation of completeness evaluation
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/completeness_evaluator.h"
@@ -172,6 +156,15 @@ Aspects:)";
                 }
             }
         }
+
+        if (aspects.empty()) {
+            QueryAspect aspect;
+            aspect.aspect_text = query;
+            aspect.is_required = true;
+            aspect.is_covered = false;
+            aspect.coverage_score = 0.0;
+            aspects.push_back(aspect);
+        }
     } catch (const std::exception& e) {
         THEMIS_WARN("Aspect extraction failed: {}", e.what());
         
@@ -190,8 +183,9 @@ Aspects:)";
 
 std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     const std::string& answer,
-    const std::vector<QueryAspect>& aspects
+    [[maybe_unused]] const std::vector<QueryAspect>& aspects
 ) {
+    static_cast<void>(aspects);
     if (answer.empty()) {
         return {DepthLevel::SHALLOW, 0.0};
     }
@@ -256,11 +250,13 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
 }
 
 std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
-    const std::string& answer,
-    const std::string& query,
+    [[maybe_unused]] const std::string& answer,
+    [[maybe_unused]] const std::string& query,
     const std::vector<QueryAspect>& aspects
 ) {
     std::vector<std::string> missing_info;
+    static_cast<void>(answer);
+    static_cast<void>(query);
     
     if (!impl_->config.enable_gap_detection) {
         return missing_info;
@@ -395,3 +391,4 @@ CompletenessResult CompletenessEvaluator::evaluate(
 }
 
 } // namespace themis::rag::judge
+

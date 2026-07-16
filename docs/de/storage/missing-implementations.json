@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "generated_at": "2026-03-10T20:57:00Z",
+    "module": "storage",
+    "source_paths": [
+      "src/storage/",
+      "include/storage/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-module-documentation-3fbaac3a (2026-03-10)."
+  },
+  "missing_implementations": [
+    {
+      "id": "STORAGE-MISSING-001",
+      "title": "BackupManager — scheduleBackup, uploadBackupToCloud, restoreFromCloud not implemented",
+      "claim_source": "src/storage/backup_manager.cpp",
+      "claim_section": "BackupManager public API (method signatures and header)",
+      "expected": "scheduleBackup(), cancelScheduledBackup(), uploadBackupToCloud(), restoreFromCloud() usable as production methods",
+      "observed": "All four methods return ERR_UNKNOWN with message 'not implemented'. Comments reference compile-time flags (THEMIS_ENABLE_K8S_SCHEDULER, THEMIS_ENABLE_S3, etc.) that are not evaluated.",
+      "evidence": {
+        "files_present": ["src/storage/backup_manager.cpp"],
+        "stub_lines": "backup_manager.cpp lines 1429-1510: all paths end in tl::unexpected(Error(ERR_UNKNOWN, '...not implemented...'))",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_listed",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[storage] Implement BackupManager::scheduleBackup, uploadBackupToCloud, restoreFromCloud",
+      "suggested_labels": ["type:feature", "priority:medium", "area:storage", "status:open"]
+    },
+    {
+      "id": "STORAGE-MISSING-002",
+      "title": "BlobRedundancyManager — RocksDB EventListener integration not implemented",
+      "claim_source": "src/storage/blob_redundancy_manager.cpp",
+      "claim_section": "BlobRedundancyManager::createRocksDBListener()",
+      "expected": "Returns a rocksdb::EventListener that automatically triggers blob replication on SSTable flush/compaction events",
+      "observed": "createRocksDBListener() immediately returns ERR_STORAGE_REDUNDANCY_FAILED with 'RocksDB listener not implemented'. No EventListener implementation present.",
+      "evidence": {
+        "files_present": ["src/storage/blob_redundancy_manager.cpp"],
+        "stub_lines": "blob_redundancy_manager.cpp line 768",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_listed",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[storage] Implement BlobRedundancyManager RocksDB EventListener integration",
+      "suggested_labels": ["type:feature", "priority:low", "area:storage", "status:open"]
+    },
+    {
+      "id": "STORAGE-MISSING-003",
+      "title": "RocksDBWrapper::getApproximateSize() always returns 0",
+      "claim_source": "src/storage/rocksdb_wrapper.cpp",
+      "claim_section": "RocksDBWrapper::getApproximateSize() (line 1445 TODO comment)",
+      "expected": "getApproximateSize() returns a meaningful estimate of the RocksDB database size for monitoring and quota enforcement",
+      "observed": "Method always returns 0; contains '// TODO: Implement proper size calculation'",
+      "evidence": {
+        "files_present": ["src/storage/rocksdb_wrapper.cpp"],
+        "stub_lines": "rocksdb_wrapper.cpp lines 1443-1450",
+        "file_header_todos": 1,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_listed",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[storage] Implement RocksDBWrapper::getApproximateSize using RocksDB SizeApproximation API",
+      "suggested_labels": ["type:bug", "priority:low", "area:storage", "status:open"]
+    },
+    {
+      "id": "STORAGE-MISSING-004",
+      "title": "SecuritySignatureManager — RocksDB-wide iteration falls back to in-memory only",
+      "claim_source": "src/storage/security_signature_manager.cpp",
+      "claim_section": "Signature listing/iteration (line 110 TODO comment)",
+      "expected": "SecuritySignatureManager iterates over all RocksDB entries to verify/list signatures",
+      "observed": "RocksDB iteration not implemented; current path ends at TODO comment 'Implement proper RocksDB iteration when RocksDBWrapper supports it' and returns empty results",
+      "evidence": {
+        "files_present": ["src/storage/security_signature_manager.cpp"],
+        "stub_lines": "security_signature_manager.cpp lines 105-115",
+        "file_header_todos": 1,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_listed",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[storage] Implement SecuritySignatureManager RocksDB-wide signature iteration",
+      "suggested_labels": ["type:bug", "priority:medium", "area:storage", "area:security", "status:open"]
+    },
+    {
+      "id": "STORAGE-MISSING-005",
+      "title": "Erasure Coding in BlobRedundancyManager not implemented (ROADMAP v1.7.0)",
+      "claim_source": "src/storage/ROADMAP.md",
+      "claim_section": "Planned Features – Short-term: Erasure coding redundancy mode",
+      "expected": "RedundancyMode::ERASURE_CODING with Reed-Solomon(k,m); k=4, m=2 default (1.5x space overhead vs 3x for RAID-1)",
+      "observed": "Only RAID-1 mirror implemented (BlobRedundancyManager); no erasure_coding.cpp, no RS encode/decode, no ERASURE_CODING enum value",
+      "evidence": {
+        "files_present": ["src/storage/blob_redundancy_manager.cpp", "include/storage/blob_redundancy_manager.h"],
+        "files_absent": ["src/storage/erasure_coding.cpp", "include/storage/erasure_coding.h"],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[ ]",
+      "target_version": "v1.7.0",
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[storage] Implement Reed-Solomon erasure coding in BlobRedundancyManager (v1.7.0)",
+      "suggested_labels": ["type:feature", "priority:medium", "area:storage", "milestone:v1.7.0"]
+    },
+    {
+      "id": "STORAGE-MISSING-006",
+      "title": "Distributed 2PC transactions not implemented (ROADMAP v1.7.0)",
+      "claim_source": "src/storage/ROADMAP.md",
+      "claim_section": "Planned Features – Long-term: Distributed transactions across shards via 2PC",
+      "expected": "DistributedTransactionManager with Two-Phase-Commit (2PC) and Raft coordination for cross-shard atomicity",
+      "observed": "No distributed_transaction_manager.cpp present; TransactionRetryManager only covers local retry logic",
+      "evidence": {
+        "files_present": ["src/storage/transaction_retry_manager.cpp"],
+        "files_absent": ["src/storage/distributed_transaction_manager.cpp", "include/storage/distributed_transaction_manager.h"],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[ ]",
+      "target_version": "v1.7.0",
+      "issue_number": null,
+      "criticality": "high",
+      "suggested_issue_title": "[storage] Implement DistributedTransactionManager with 2PC and Raft coordination (v1.7.0)",
+      "suggested_labels": ["type:feature", "priority:high", "area:storage", "area:transaction", "milestone:v1.7.0"]
+    },
+    {
+      "id": "STORAGE-MISSING-007",
+      "title": "ColumnarFormat — native Parquet export not implemented (ROADMAP v2.0.0)",
+      "claim_source": "src/storage/ROADMAP.md",
+      "claim_section": "Planned Features – Long-term: Native Parquet export from columnar format",
+      "expected": "parquet_exporter.cpp – export ColumnarFormat tables as Apache Parquet files (Spark/DuckDB/Pandas compatible)",
+      "observed": "No parquet_exporter.cpp or header; ColumnarFormat has no Parquet export methods",
+      "evidence": {
+        "files_present": ["src/storage/columnar_format.cpp"],
+        "files_absent": ["src/storage/parquet_exporter.cpp", "include/storage/parquet_exporter.h"],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[ ]",
+      "target_version": "v2.0.0",
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[storage] Implement native Parquet export from ColumnarFormat (v2.0.0)",
+      "suggested_labels": ["type:feature", "priority:low", "area:storage", "area:analytics", "milestone:v2.0.0"]
+    },
+    {
+      "id": "STORAGE-MISSING-008",
+      "title": "ColumnarFormat — AVX2 SIMD vectorized execution not implemented (ROADMAP v2.0.0)",
+      "claim_source": "src/storage/ROADMAP.md",
+      "claim_section": "Planned Features – Long-term: Vectorized execution support in ColumnarFormat",
+      "expected": "simd_filter.cpp with AVX2 SIMD batch processing in ColumnarFormat for ≥4x scan throughput vs scalar baseline",
+      "observed": "No simd_filter.cpp; ColumnarFormat performs only scalar processing",
+      "evidence": {
+        "files_present": ["src/storage/columnar_format.cpp"],
+        "files_absent": ["src/storage/simd_filter.cpp", "include/storage/simd_filter.h"],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[ ]",
+      "target_version": "v2.0.0",
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[storage] Implement AVX2 SIMD vectorized execution in ColumnarFormat (v2.0.0)",
+      "suggested_labels": ["type:feature", "priority:low", "area:storage", "area:performance", "milestone:v2.0.0"]
+    },
+    {
+      "id": "STORAGE-MISSING-009",
+      "title": "Build system: 9 storage source files missing from cmake/CMakeLists.txt and cmake/ModularBuild.cmake",
+      "claim_source": "src/storage/README.md, src/storage/ARCHITECTURE.md",
+      "claim_section": "Component tables listing all storage source files as part of the module",
+      "expected": "All src/storage/*.cpp files registered in cmake/CMakeLists.txt (THEMIS_CORE_SOURCES) and cmake/ModularBuild.cmake (THEMIS_STORAGE_SOURCES)",
+      "observed": "9 files absent from both build definitions: blob_backend_azure.cpp, blob_backend_filesystem.cpp, blob_backend_gcs.cpp, blob_backend_s3.cpp, blob_backend_webdav.cpp, compressed_storage.cpp, compression_strategy.cpp, index_maintenance.cpp, storage_engine.cpp",
+      "evidence": {
+        "files_absent_from_cmake": [
+          "src/storage/blob_backend_azure.cpp",
+          "src/storage/blob_backend_filesystem.cpp",
+          "src/storage/blob_backend_gcs.cpp",
+          "src/storage/blob_backend_s3.cpp",
+          "src/storage/blob_backend_webdav.cpp",
+          "src/storage/compressed_storage.cpp",
+          "src/storage/compression_strategy.cpp",
+          "src/storage/index_maintenance.cpp",
+          "src/storage/storage_engine.cpp"
+        ],
+        "cmake_file": "cmake/CMakeLists.txt lines 1431-1443 (before fix)",
+        "modular_file": "cmake/ModularBuild.cmake lines 212-238 (before fix)",
+        "pr_evidence": "Fixed in this PR: copilot/update-module-documentation-3fbaac3a-205e-4104-afaf-d58f753257c2"
+      },
+      "roadmap_status": "resolved",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "high",
+      "resolution_status": "fixed",
+      "suggested_issue_title": "[storage] Register all blob backends, compressed_storage, compression_strategy, index_maintenance, storage_engine in cmake build",
+      "suggested_labels": ["type:bug", "priority:high", "area:storage", "area:build", "status:resolved"]
+    }
+  ]
+}

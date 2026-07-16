@@ -1,25 +1,20 @@
+/**
+ * @file replication_coordinator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_coordinator.h                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     165                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
-    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_coordinator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -31,19 +26,20 @@
 #include <condition_variable>
 #include <mutex>
 #include <unordered_map>
+#include <vector>
 
 namespace themis::sharding {
 
 /**
- * Replication Coordinator
- * 
- * Manages write concern enforcement and tracks replica acknowledgments.
- * Used by write API to ensure writes meet quorum requirements.
+ * @brief Coordinates replica acknowledgments for write-concern enforcement.
+ *
+ * The coordinator tracks pending writes by LSN and blocks callers until the
+ * requested write concern is satisfied or times out.
  */
 class ReplicationCoordinator {
 public:
     /**
-     * Result of a replication wait operation
+     * @brief Result of waitForReplication.
      */
     struct ReplicationResult {
         bool success = false;                       // Whether write succeeded
@@ -53,15 +49,20 @@ public:
         std::string error_message;                 // Error details if failed
     };
 
+    /**
+     * @brief Construct coordinator.
+     * @param shipper WAL shipper used for replica topology and replication signals.
+     */
     explicit ReplicationCoordinator(std::shared_ptr<WALShipper> shipper);
+
+    /** @brief Destructor; wakes waiting threads during shutdown. */
     ~ReplicationCoordinator();
 
     /**
-     * Wait for replicas to acknowledge a write
-     * @param entry_lsn LSN of the written entry
-     * @param concern Write concern level
-     * @param timeout Max time to wait for acknowledgments
-     * @return ReplicationResult with success status and replica count
+     * Wait for replicas to acknowledge a write.
+     * @param entry_lsn LSN of the written entry.
+     * @param concern Write concern level.
+     * @return ReplicationResult with success status and replica count.
      */
     ReplicationResult waitForReplication(
         const LSN& entry_lsn,
@@ -70,13 +71,15 @@ public:
 
     /**
      * Record replica acknowledgment (called by shipper or apply endpoint)
-     * @param replica_id Replica that acknowledged
+     * @param replica_id Replica that acknowledged (non-empty required)
      * @param lsn LSN that was acknowledged
+     * @note Rejects acknowledgments with empty replica_id (fail-closed guard)
      */
     void recordAcknowledgment(const std::string& replica_id, const LSN& lsn);
 
     /**
-     * Get current replica count (for quorum calculation)
+     * @brief Return current replica count excluding primary.
+     * @return Number of replicas known by WAL shipper.
      */
     size_t getReplicaCount() const;
 
@@ -87,14 +90,18 @@ public:
     std::vector<ReplicaInfo> getReplicaInfo() const;
 
     /**
-     * Get WAL shipper statistics (delegates to WALShipper)
+     * @brief Return current WAL shipper statistics.
+     * @return WAL shipper stats snapshot, or default-initialized stats when unavailable.
      */
     WALShipperStats getShipperStats() const;
 
     /**
-     * Enable/disable coordinator (useful for testing)
+     * @brief Enable or disable write-concern waiting.
+     * @param enabled New enabled state.
      */
     void setEnabled(bool enabled);
+
+    /** @brief Check whether coordinator is enabled. */
     bool isEnabled() const;
 
 private:
@@ -107,7 +114,7 @@ private:
         WriteConcernConfig concern;
         std::atomic<size_t> ack_count{0};
         std::chrono::steady_clock::time_point start_time;
-        bool completed{false};
+        std::atomic<bool> completed{false};
 
         PendingWrite() = default;
         
@@ -120,7 +127,7 @@ private:
         PendingWrite(const PendingWrite& other)
             : lsn(other.lsn), concern(other.concern),
               ack_count(other.ack_count.load()),
-              start_time(other.start_time), completed(other.completed) {}
+              start_time(other.start_time), completed(other.completed.load()) {}
 
         PendingWrite& operator=(const PendingWrite& other) {
             if (this == &other) return *this;
@@ -128,14 +135,14 @@ private:
             concern = other.concern;
             ack_count.store(other.ack_count.load());
             start_time = other.start_time;
-            completed = other.completed;
+            completed.store(other.completed.load());
             return *this;
         }
 
         PendingWrite(PendingWrite&& other) noexcept
             : lsn(std::move(other.lsn)), concern(std::move(other.concern)),
               ack_count(other.ack_count.load()),
-              start_time(other.start_time), completed(other.completed) {}
+              start_time(other.start_time), completed(other.completed.load()) {}
 
         PendingWrite& operator=(PendingWrite&& other) noexcept {
             if (this == &other) return *this;
@@ -143,7 +150,7 @@ private:
             concern = std::move(other.concern);
             ack_count.store(other.ack_count.load());
             start_time = other.start_time;
-            completed = other.completed;
+            completed.store(other.completed.load());
             return *this;
         }
     };
@@ -153,13 +160,14 @@ private:
     std::condition_variable pending_cv_;
 
     /**
-     * Check if write has met its concern requirement
+     * @brief Check whether current acknowledgment count satisfies write concern.
+     * @param write Pending write state.
+     * @param total_replicas Total participants including primary.
+     * @return true when required acknowledgments are reached.
      */
     bool hasMetConcern(const PendingWrite& write, size_t total_replicas) const;
 
-    /**
-     * Cleanup old pending writes (timed out or completed)
-     */
+    /** @brief Remove stale or completed pending-write records. */
     void cleanupPendingWrites();
 };
 

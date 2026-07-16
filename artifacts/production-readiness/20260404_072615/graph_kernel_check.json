@@ -1,0 +1,7 @@
+{
+  "dfs_kernel_present": true,
+  "non_fallback_path_present": true,
+  "checked_at": "2026-04-04T07:26:15.8712518+02:00",
+  "cuda_dispatch_present": true,
+  "bfs_kernel_present": true
+}

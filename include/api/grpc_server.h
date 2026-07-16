@@ -1,24 +1,21 @@
+/**
+ * @file grpc_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            grpc_server.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     160                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8f4f0c9ea  2026-02-23  Implement gRPC API server alongside REST (src/api/grpc_se... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: grpc_server.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 147
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2730 [api] gRPC API surface alon... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -101,6 +98,13 @@ public:
      * @brief Configure the server.  Must be called before start().
      * @param config  Server configuration.
      * @return true on success, false on invalid configuration.
+     * 
+     * @note Fail-closed guards (QW-42): Validates all configuration parameters:
+     *   - port: must be in range [1, 65535] (fail-closed: rejects 0 and > 65535)
+     *   - host: must be non-empty and <= 256 characters (prevents resource exhaustion)
+     *   - TLS: if enabled, cert_path and key_path must be non-empty
+     *   - max_message_size_bytes: must be in range (0, 1 GB], clamped to 100 MB default
+     * Returns false (fail-closed) if any guard fails; server remains uninitialized.
      */
     bool initialize(const GrpcServerConfig& config);
 

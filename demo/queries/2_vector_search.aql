@@ -1,0 +1,17 @@
+-- Schritt 1: Text-Anfrage in Embedding-Vektor umwandeln
+LET queryVec = LLM EMBED 'renewable energy battery storage'
+  USING MODEL 'e5-base'
+  RETURN VECTOR
+
+-- Schritt 2: Semantische Vektorsuche mit HNSW
+FOR doc IN products
+  FILTER SIMILARITY(doc.embedding, queryVec, 5)
+  FILTER doc._similarity >= 0.6
+  SORT doc._similarity DESC
+  RETURN {
+    product_id:       doc.product_id,
+    name:             doc.name,
+    description:      doc.description,
+    price:            doc.price,
+    similarity_score: doc._similarity
+  }

@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_system_versioned_table.cpp                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:02:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     258                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_system_versioned_table.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -258,4 +244,194 @@ TEST_F(SystemVersionedTableTest, PurgeHistorical_AllKeys_GlobalPurge) {
 
     EXPECT_EQ(removed, 2u);
     EXPECT_EQ(table.versionCount(), 2u);
+}
+
+// ── Config / createVersionedTable ────────────────────────────────────────────
+
+TEST(SystemVersionedTableConfigTest, DefaultConfig_HistoryTableNameDerived) {
+    SystemVersionedTable tbl("orders");
+    EXPECT_EQ(tbl.getConfig().history_table_name, "orders_history");
+    EXPECT_TRUE(tbl.getConfig().compress_history);
+    EXPECT_TRUE(tbl.getConfig().track_user_id);
+    EXPECT_GT(tbl.getConfig().retention_period.count(), 0);
+}
+
+TEST(SystemVersionedTableConfigTest, ExplicitConfig_Stored) {
+    SystemVersionedTable::Config cfg;
+    cfg.history_table_name = "orders_hist";
+    cfg.compress_history   = false;
+    cfg.retention_period   = std::chrono::seconds{90 * 24 * 3600};
+    cfg.track_user_id      = false;
+
+    SystemVersionedTable tbl("orders", cfg, "node_x");
+    EXPECT_EQ(tbl.getConfig().history_table_name, "orders_hist");
+    EXPECT_FALSE(tbl.getConfig().compress_history);
+    EXPECT_FALSE(tbl.getConfig().track_user_id);
+    EXPECT_EQ(tbl.getConfig().retention_period, std::chrono::seconds{90 * 24 * 3600});
+}
+
+TEST(SystemVersionedTableConfigTest, CreateVersionedTable_SetsSchemaInStats) {
+    Document schema = {
+        {"columns", {
+            {{"name", "id"},     {"type", "INTEGER"}, {"primary_key", true}},
+            {{"name", "name"},   {"type", "VARCHAR"}},
+            {{"name", "salary"}, {"type", "DECIMAL"}}
+        }},
+        {"system_time", {{"start", "sys_start"}, {"end", "sys_end"}}}
+    };
+
+    auto tbl = SystemVersionedTable::createVersionedTable(
+        "employees", schema, {}, "node_a");
+
+    auto stats = tbl.getStatistics();
+    EXPECT_EQ(stats["table_name"], "employees");
+    EXPECT_EQ(stats["history_table"], "employees_history");
+    ASSERT_TRUE(stats.contains("schema"));
+    EXPECT_EQ(stats["schema"]["columns"].size(), 3u);
+}
+
+TEST(SystemVersionedTableConfigTest, CreateVersionedTable_CustomConfig) {
+    SystemVersionedTable::Config cfg;
+    cfg.history_table_name = "emp_hist";
+
+    auto tbl = SystemVersionedTable::createVersionedTable(
+        "employees", {}, cfg, "node_b");
+
+    EXPECT_EQ(tbl.getConfig().history_table_name, "emp_hist");
+}
+
+// ── Upsert ───────────────────────────────────────────────────────────────────
+
+TEST(SystemVersionedTableUpsertTest, Upsert_NewKey_ActsAsInsert) {
+    SystemVersionedTable tbl{"products"};
+    bool was_insert = tbl.upsert("p1", {{"price", 9.99}});
+    EXPECT_TRUE(was_insert);
+    EXPECT_EQ(tbl.versionCount(), 1u);
+    auto current = tbl.getCurrent("p1");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_DOUBLE_EQ(current->data["price"].get<double>(), 9.99);
+}
+
+TEST(SystemVersionedTableUpsertTest, Upsert_ExistingKey_ActsAsUpdate) {
+    SystemVersionedTable tbl{"products"};
+    tbl.insert("p1", {{"price", 9.99}, {"stock", 100}});
+
+    bool was_insert = tbl.upsert("p1", {{"price", 12.50}});
+    EXPECT_FALSE(was_insert); // update, not insert
+    EXPECT_EQ(tbl.versionCount(), 2u);
+
+    auto current = tbl.getCurrent("p1");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_DOUBLE_EQ(current->data["price"].get<double>(), 12.50);
+    EXPECT_EQ(current->data["stock"], 100); // unchanged field preserved
+}
+
+TEST(SystemVersionedTableUpsertTest, Upsert_AfterDelete_ActsAsInsert) {
+    SystemVersionedTable tbl{"products"};
+    tbl.insert("p1", {{"price", 9.99}});
+    tbl.deleteRow("p1");
+
+    bool was_insert = tbl.upsert("p1", {{"price", 15.00}});
+    EXPECT_TRUE(was_insert);
+
+    auto current = tbl.getCurrent("p1");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_DOUBLE_EQ(current->data["price"].get<double>(), 15.00);
+}
+
+// ── track_user_id ─────────────────────────────────────────────────────────────
+
+TEST(SystemVersionedTableConfigTest, TrackUserIdTrue_SetsModifiedBy) {
+    SystemVersionedTable::Config cfg;
+    cfg.track_user_id = true;
+    SystemVersionedTable tbl("t", cfg, "admin_node");
+
+    tbl.insert("k1", {{"v", 1}});
+    auto doc = tbl.getCurrent("k1");
+    ASSERT_TRUE(doc.has_value());
+    EXPECT_EQ(doc->modified_by, "admin_node");
+}
+
+TEST(SystemVersionedTableConfigTest, TrackUserIdFalse_ModifiedByEmpty) {
+    SystemVersionedTable::Config cfg;
+    cfg.track_user_id = false;
+    SystemVersionedTable tbl("t", cfg, "admin_node");
+
+    tbl.insert("k1", {{"v", 1}});
+    auto doc = tbl.getCurrent("k1");
+    ASSERT_TRUE(doc.has_value());
+    EXPECT_TRUE(doc->modified_by.empty());
+}
+
+// ── enforceRetentionPolicy ───────────────────────────────────────────────────
+
+TEST(SystemVersionedTableRetentionTest, EnforceRetention_YoungVersionsNotPurged) {
+    // Use a non-zero retention period to exercise the retention logic.
+    // Without advancing time, recently closed versions are "young" and must
+    // not be removed.
+    SystemVersionedTable::Config cfg;
+    cfg.retention_period = std::chrono::milliseconds{50};
+    SystemVersionedTable tbl("t", cfg, "node");
+
+    tbl.insert("k1", {{"v", 1}});
+    tbl.update("k1", {{"v", 2}});  // closes old version
+    tbl.update("k1", {{"v", 3}});  // closes second version
+
+    // 3 total versions; 2 are historical, but they are too "young" to match
+    // the retention window when we enforce immediately.
+    EXPECT_EQ(tbl.versionCount(), 3u);
+
+    size_t removed = tbl.enforceRetentionPolicy();
+    // Without advancing time, no versions should be removed yet.
+    EXPECT_EQ(removed, 0u);
+    EXPECT_EQ(tbl.versionCount(), 3u);
+}
+
+TEST(SystemVersionedTableRetentionTest, EnforceRetention_ZeroPeriod_IsNoop) {
+    SystemVersionedTable::Config cfg;
+    cfg.retention_period = std::chrono::milliseconds{0};
+    SystemVersionedTable tbl("t", cfg, "node");
+
+    tbl.insert("k1", {{"v", 1}});
+    tbl.update("k1", {{"v", 2}});
+    EXPECT_EQ(tbl.versionCount(), 2u);
+
+    size_t removed = tbl.enforceRetentionPolicy();
+    EXPECT_EQ(removed, 0u);
+    EXPECT_EQ(tbl.versionCount(), 2u);
+}
+
+TEST(SystemVersionedTableRetentionTest, EnforceRetention_CurrentNeverPurged) {
+    // The current (open-ended) version must survive even when a large
+    // retention window is configured: sys_end == kMaxTimestamp is always
+    // ≥ any finite cutoff, so the predicate never matches it.
+    SystemVersionedTable::Config cfg;
+    cfg.retention_period = std::chrono::milliseconds{50};
+    SystemVersionedTable tbl("t", cfg, "node");
+
+    tbl.insert("k1", {{"v", 1}});
+    // Only one version exists (current); enforcing retention must be a no-op.
+    size_t removed = tbl.enforceRetentionPolicy();
+    EXPECT_EQ(removed, 0u);
+    EXPECT_TRUE(tbl.getCurrent("k1").has_value());
+}
+
+// ── Statistics includes config ────────────────────────────────────────────────
+
+TEST(SystemVersionedTableConfigTest, Statistics_IncludesConfigFields) {
+    SystemVersionedTable::Config cfg;
+    cfg.history_table_name = "emp_hist";
+    cfg.compress_history   = false;
+    cfg.track_user_id      = true;
+    cfg.retention_period   = std::chrono::milliseconds{60000}; // 60 seconds in ms
+
+    SystemVersionedTable tbl("emp", cfg);
+    tbl.insert("e1", {{"name", "Alice"}});
+
+    auto stats = tbl.getStatistics();
+    EXPECT_EQ(stats["table_name"],   "emp");
+    EXPECT_EQ(stats["history_table"], "emp_hist");
+    EXPECT_EQ(stats["compress_history"], false);
+    EXPECT_EQ(stats["track_user_id"],    true);
+    EXPECT_EQ(stats["retention_period_ms"], 60000);
 }

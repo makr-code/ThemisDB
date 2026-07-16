@@ -1,25 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_tracer.h                                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d78d1008b  2026-02-23  feat(core): OpenTelemetry trace and span propagation ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file i_tracer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 89/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -39,6 +26,8 @@ namespace concerns {
  * Provides a unified interface for distributed tracing that can be
  * implemented by various tracing backends (OpenTelemetry, Jaeger, no-op, etc.).
  * Enables testing with mock tracers and runtime switching of implementations.
+ * Implementations should document how they handle context propagation,
+ * exporter failures, and shutdown ordering.
  */
 class ITracer {
 public:
@@ -48,6 +37,9 @@ public:
      * Obtain a span via ITracer::startSpan() or ITracer::startChildSpan().
      * Spans are automatically ended when the unique_ptr is destroyed; call
      * end() explicitly if you need to finish the span before destruction.
+     *
+     * Span methods are expected to be safe only while the span remains valid
+     * and before end() has been called.
      */
     class ISpan {
     public:
@@ -59,6 +51,20 @@ public:
          * @param value String value.
          */
         virtual void setAttribute(const std::string& key, const std::string& value) = 0;
+
+        /**
+         * @brief Set a string attribute from a C string literal or buffer.
+         *
+         * This overload prevents C string arguments from binding to the bool
+         * overload through implicit pointer-to-bool conversion.
+         * A null pointer is normalised to the empty string.
+         *
+         * @param key   Attribute name (OpenTelemetry semantic convention recommended).
+         * @param value Null-terminated string value, or null for empty.
+         */
+        void setAttribute(const std::string& key, const char* value) {
+            setAttribute(key, std::string(value != nullptr ? value : ""));
+        }
 
         /**
          * @brief Set an integer attribute on the span.
@@ -86,6 +92,8 @@ public:
          *
          * Sets the span status to ERROR and attaches @p errorMessage as an
          * event attribute so the trace backend can display it.
+         * Implementations may map this to backend-specific error semantics,
+         * but they should preserve the message verbatim when possible.
          *
          * @param errorMessage Human-readable description of the error.
          */
@@ -103,6 +111,8 @@ public:
          *
          * Must be called at most once.  After end() no other methods should
          * be called on the span.
+         * Repeated calls are an error in the implementation contract and may
+         * be ignored or reported depending on backend behavior.
          */
         virtual void end() = 0;
 
@@ -112,7 +122,7 @@ public:
          * No-op spans (from NoOpTracer) return false.
          * @return true for real spans, false for no-op spans.
          */
-        virtual bool isValid() const = 0;
+        [[nodiscard]] virtual bool isValid() const = 0;
     };
 
     virtual ~ITracer() = default;
@@ -126,20 +136,24 @@ public:
      *
      * The returned span becomes the active span and should be ended (via
      * ISpan::end() or by destroying the unique_ptr) when the operation completes.
+      * Root spans start a new trace when no current parent context exists.
      *
      * @param name Span name (e.g. "database.query").
      * @return Unique ownership of the new span; never null.
      */
-    virtual std::unique_ptr<ISpan> startSpan(const std::string& name) = 0;
+    [[nodiscard]] virtual std::unique_ptr<ISpan> startSpan(const std::string& name) = 0;
 
     /**
      * @brief Start a child span that continues a parent span's trace.
      *
+      * The child span inherits trace identity from @p parent and should be
+      * reported as part of the same distributed trace tree.
+      *
      * @param name   Child span name.
      * @param parent Parent span whose trace context is propagated.
      * @return Unique ownership of the new child span; never null.
      */
-    virtual std::unique_ptr<ISpan> startChildSpan(const std::string& name, const ISpan& parent) = 0;
+    [[nodiscard]] virtual std::unique_ptr<ISpan> startChildSpan(const std::string& name, const ISpan& parent) = 0;
 
     /**
      * @brief Extract W3C TraceContext from inbound HTTP headers and start a
@@ -160,6 +174,8 @@ public:
      *
      * Default implementation falls back to startSpan() so existing
      * implementations remain valid without change.
+    * Implementations that do not support header propagation should preserve
+    * this fallback rather than silently discarding the request.
      *
      * @param name    Span name.
      * @param headers Incoming HTTP headers (case-insensitive key lookup).
@@ -181,6 +197,8 @@ public:
      * are set on the current thread.
      *
      * If no span is active or tracing is disabled, headers are left unchanged.
+    * Callers should treat the map as an output parameter and should not
+    * assume any ordering guarantee beyond std::map's key ordering.
      *
      * Default implementation is a no-op so existing implementations remain
      * valid without change.
@@ -200,25 +218,27 @@ public:
      *
      * Must be called before any span creation.  Calling it more than once
      * is implementation-defined but typically a no-op if already initialized.
+      * Failures should leave the tracer in a safe uninitialized state.
      *
      * @param serviceName Logical service name embedded in every span.
      * @param endpoint    Exporter URL (e.g. "http://localhost:4318" for OTLP/HTTP).
      * @return true on success, false if initialization failed.
      */
-    virtual bool initialize(const std::string& serviceName, const std::string& endpoint) = 0;
+    [[nodiscard]] virtual bool initialize(const std::string& serviceName, const std::string& endpoint) = 0;
 
     /**
      * @brief Shut down the tracer and flush any pending spans.
      *
-     * After shutdown() no new spans should be created.
+      * After shutdown() no new spans should be created. Implementations may
+      * perform a final export attempt before releasing resources.
      */
     virtual void shutdown() = 0;
 
     /**
      * @brief Return true if the tracer has been successfully initialized.
-     * @return true after a successful initialize() call.
+      * @return true after a successful initialize() call, false otherwise.
      */
-    virtual bool isInitialized() const = 0;
+    [[nodiscard]] virtual bool isInitialized() const = 0;
 
     // -----------------------------------------------------------------------
     // Lifecycle hooks
@@ -228,7 +248,8 @@ public:
      * @brief Flush any pending spans to the exporter.
      *
      * Should be called before shutdown() to ensure all in-flight spans
-     * are exported.  Default is a no-op.
+      * are exported.  Default is a no-op. Implementations may treat flush as
+      * best-effort if the exporter is temporarily unavailable.
      */
     virtual void flush() noexcept {}
 
@@ -246,6 +267,8 @@ public:
  *
  * Wraps an ISpan unique_ptr and delegates all ISpan methods.  The span is
  * automatically ended when the ScopedSpan object is destroyed.
+ * If the wrapped span is null, all operations become no-ops so callers can
+ * keep the same control flow in tests or no-op tracer configurations.
  *
  * Example:
  * @code

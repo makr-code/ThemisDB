@@ -1,27 +1,23 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            admin_api.h                                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     128                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file admin_api.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_SHARDING_ADMIN_API_H
-#define THEMIS_SHARDING_ADMIN_API_H
+/*
+ * ThemisDB | File: admin_api.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <map>
@@ -33,6 +29,7 @@ namespace themis {
 namespace sharding {
 
 class ShardRepairEngine;  // forward declaration
+class HardwareMigrationManager;  // forward declaration
 
 /**
  * Admin API for cluster management operations.
@@ -107,7 +104,33 @@ public:
         static constexpr const char* REPAIR_SCAN = "/admin/repair/scan";
         /// GET  /admin/repair/{job_id} – query repair job status
         static constexpr const char* REPAIR_STATUS = "/admin/repair/";  // + {job_id}
+
+        // Hardware migration endpoint (Phase 5)
+        /// POST /api/v1/shards/{id}/migrate-hardware
+        ///   Body: {"new_endpoint": "host:port"}
+        ///   Response: {"success": bool, "shard_id": "...", "old_endpoint": "...", "new_endpoint": "..."}
+        static constexpr const char* MIGRATE_HARDWARE_PREFIX = "/api/v1/shards/";  // + {id}/migrate-hardware
+        static constexpr const char* MIGRATE_HARDWARE_SUFFIX = "/migrate-hardware";
     };
+
+    /**
+     * @brief Attach a HardwareMigrationManager so that
+     *        `POST /api/v1/shards/{id}/migrate-hardware` is handled natively.
+     *
+     * Without a manager set, the endpoint returns 501 Not Implemented.
+     * The manager must outlive this AdminAPI instance (or be kept alive via
+     * the shared_ptr).
+     */
+    void setMigrationManager(std::shared_ptr<HardwareMigrationManager> mgr);
+
+    /**
+     * @brief Register a custom handler for migrate-hardware requests.
+     *
+     * Used for testing / custom integration.  Overrides the built-in
+     * `HardwareMigrationManager` path when set.  The body will contain at
+     * minimum `{"shard_id": "...", "new_endpoint": "..."}`.
+     */
+    void registerMigrateHardwareHandler(RequestHandler handler);
 
 private:
     Config config_;
@@ -116,16 +139,18 @@ private:
     RequestHandler health_handler_;
     RequestHandler stats_handler_;
     RequestHandler repair_handler_;
+    RequestHandler migrate_hardware_handler_;
     std::shared_ptr<ShardRepairEngine> repair_engine_;
+    std::shared_ptr<HardwareMigrationManager> migration_manager_;
 
     bool authorizeRequest(const std::string& operator_cert);
     void auditLog(const std::string& method, const std::string& path, const std::string& operator_cert);
     nlohmann::json createErrorResponse(int code, const std::string& message);
     /// Build the repair health section for GET /admin/health.
     nlohmann::json buildRepairHealthJson() const;
+    nlohmann::json handleMigrateHardware(const std::string& shard_id,
+                                          const nlohmann::json& body);
 };
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_ADMIN_API_H

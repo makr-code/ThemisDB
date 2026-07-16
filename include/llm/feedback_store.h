@@ -1,28 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_store.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file feedback_store.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_LLM_FEEDBACK_STORE_H
-#define THEMIS_LLM_FEEDBACK_STORE_H
+/*
+ * ThemisDB | File: feedback_store.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 340
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #368 [REFACTOR] Simplified feedb... (2026-03-11) | #365 Implement feedback collecti... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <vector>
@@ -30,6 +26,7 @@
 #include <memory>
 #include <cstdint>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 #include "llm/i_feedback_plugin.h"
 
@@ -88,6 +85,8 @@ enum class ValidationStatus {
  */
 class FeedbackStore {
 public:
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
     /**
      * @brief Feedback entry structure
      */
@@ -100,13 +99,13 @@ public:
         std::string answer;                    // System answer
         std::string correction;                // User's correction (for negative feedback)
         std::string comment;                   // Optional user comment
-        int64_t timestamp_ms;                  // Creation timestamp
+        int64_t timestamp_ms = 0;              // Creation timestamp
         ValidationStatus validation_status;    // Validation state
         std::string model_version;             // Model version that generated the answer
         std::string adapter_id;                // LoRA adapter ID (if used)
         std::string adapter_version;           // LoRA adapter version
-        bool used_for_training;                // Whether used in training
-        int training_batch_id;                 // Training batch ID (0 = not trained)
+        bool used_for_training = false;        // Whether used in training
+        int training_batch_id = 0;             // Training batch ID (0 = not trained)
         nlohmann::json metadata;               // Additional fields
 
         // Serialization
@@ -132,15 +131,15 @@ public:
      * @brief Feedback statistics
      */
     struct Stats {
-        size_t total_feedback;
-        size_t positive_count;
-        size_t negative_count;
-        size_t pending_validation;
-        size_t approved_count;
-        size_t rejected_count;
-        size_t unused_for_training;
-        size_t used_for_training;
-        double positive_ratio;
+        size_t total_feedback = 0;
+        size_t positive_count = 0;
+        size_t negative_count = 0;
+        size_t pending_validation = 0;
+        size_t approved_count = 0;
+        size_t rejected_count = 0;
+        size_t unused_for_training = 0;
+        size_t used_for_training = 0;
+        double positive_ratio = 0.0;
     };
 
     /**
@@ -168,6 +167,22 @@ public:
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
+     * @brief Set spam-keyword provider callback for runtime-configurable spam detection.
+     *
+     * When set, the provider is queried during validation and its returned keyword list
+     * is used for substring-based spam matching. If the provider is not set, throws, or
+     * returns an empty list, FeedbackStore falls back to the built-in default keywords.
+     *
+     * @param provider Callback returning the current spam keywords.
+     */
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
+
+    /**
+     * @brief Remove installed spam-keyword provider (fallback to defaults).
+     */
+    static void clearSpamKeywordsProvider();
+
+    /**
      * @brief Store a new feedback entry
      * @param feedback Feedback to store (id will be generated if empty)
      * @return Stored feedback with generated ID
@@ -182,11 +197,15 @@ public:
     std::optional<FeedbackEntry> getFeedback(const std::string& id) const;
 
     /**
-     * @brief List feedback entries with optional filters
-     * @param options List options (pagination, filters)
-     * @return Vector of feedback entries
+     * @brief List feedback entries with default options.
+     * @return Vector of feedback entries.
      */
     std::vector<FeedbackEntry> listFeedback() const;
+    /**
+     * @brief List feedback entries with optional filters.
+     * @param options List options (pagination, filters).
+     * @return Vector of feedback entries.
+     */
     std::vector<FeedbackEntry> listFeedback(const ListOptions& options) const;
 
     /**
@@ -228,6 +247,20 @@ public:
      * @return ValidationStatus result
      */
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
+
+    /**
+     * @brief Install a runtime spam keywords provider.
+     *
+     * When set, getSpamKeywords() returns the result of this callable instead
+     * of the built-in static list, enabling runtime keyword updates.
+     * @param fn Callable returning a vector of lowercase spam keyword strings.
+     */
+    static void setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn);
+
+    /**
+     * @brief Remove the spam keywords provider bridge (reverts to static list).
+     */
+    static void clearSpamKeywordsProviderFn();
 
     /**
      * @brief Clear all feedback entries
@@ -284,6 +317,16 @@ public:
         const std::string& feedback_id,
         const std::string& adapter_id) const;
 
+    /**
+     * @brief Get the active spam-keyword list.
+     *
+     * Returns the injected provider output when one is configured and
+     * produces a non-empty list; otherwise returns the built-in static list.
+     *
+     * @return Active spam-keyword list used by feedback validation.
+     */
+    static std::vector<std::string> getSpamKeywords();
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_; // nullptr = default CF
@@ -298,14 +341,11 @@ private:
     std::string generateId() const;
     
     // Spam detection configuration (deprecated, use plugin instead)
-    static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
     
     // Helper: Apply plugin validation if available
-    ValidationStatus applyPluginValidation(const FeedbackEntry& feedback);
+    ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 
 } // namespace llm
 } // namespace themis
-
-#endif // THEMIS_LLM_FEEDBACK_STORE_H

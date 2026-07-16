@@ -1,7 +1,7 @@
 # ThemisDB Security Posture Guide
 
 **Version:** 1.4.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Target Audience:** Security Engineers, Integration Teams, Platform Engineers
 
 > [!IMPORTANT]
@@ -90,6 +90,14 @@ Use this checklist before go-live. Every item must be marked ✅.
 - [ ] `THEMIS_DISABLE_AUTO_DOWNLOAD=1` is set
 - [ ] Audit logging is configured to a persistent external sink (SIEM / S3 / Syslog)
 - [ ] Health endpoints are bound to an internal-only address if possible
+
+### Docker Image
+
+- [ ] Community image pulled from `themisdb/themisdb` on Docker Hub (do **not** use `makr-code/themisdb`)
+- [ ] Image built **without** `THEMIS_ENABLE_ENCRYPTED_STORAGE=ON` unless gocryptfs at-rest encryption is explicitly required
+- [ ] No CRITICAL or HIGH CVEs in the deployed image (verify with `docker scout cves <image>` before go-live)
+- [ ] Container runs as non-root user (`themisdb`, UID 999) — confirm with `docker run --rm <image> id`
+- [ ] Known accepted CVEs (no upstream fix) tracked in `docs/audit-reports/cve-waivers.md`
 
 ---
 
@@ -330,7 +338,7 @@ For integrators embedding ThemisDB into a larger platform, the following items a
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** February 2026  
+**Last Updated:** April 2026  
 **Next Review:** May 2026  
 **Related Documents:**
 - [CORE_MODULE_RUNBOOK.md](RUNBOOKS/CORE_MODULE_RUNBOOK.md)

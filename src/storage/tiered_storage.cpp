@@ -1,5 +1,26 @@
+/**
+ * @file tiered_storage.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: tiered_storage.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 436
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=7, L=0
+ * PR History (last 5): #4213 feat(storage): DistributedT... (2026-03-14) | #4150 feat(storage): implement si... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "storage/tiered_storage.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <filesystem>
 #include <fstream>
@@ -17,12 +38,14 @@ namespace storage {
 // AccessTracker
 // ─────────────────────────────────────────────────────────────────────────────
 
-void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier) {
+void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier,
+                                uint64_t value_size) {
     std::unique_lock lock(mutex_);
     auto& e = entries_[key];
-    e.written_at  = std::chrono::system_clock::now();
+    e.written_at   = std::chrono::system_clock::now();
     e.last_read_at = e.written_at;
-    e.tier = tier;
+    e.tier         = tier;
+    e.value_size   = value_size;
 }
 
 void AccessTracker::recordRead(const std::string& key) {
@@ -35,6 +58,9 @@ void AccessTracker::recordRead(const std::string& key) {
 
 void AccessTracker::setTier(const std::string& key, StorageTierLevel tier) {
     std::unique_lock lock(mutex_);
+    // iterator_invalidation scanner alert: the iterator is used only to update
+    // it->second.tier (a field assignment); no element is inserted or erased from
+    // entries_ between find() and the assignment, so the iterator remains valid.
     auto it = entries_.find(key);
     if (it != entries_.end()) {
         it->second.tier = tier;
@@ -67,6 +93,9 @@ std::string sanitizeKey(const std::string& key) {
     if (key.empty()) return "_empty_";
 
     // Reject keys that could escape tier directories
+    // uncaught_exception scanner alerts (lines 85, 94): sanitizeKey throws
+    // std::invalid_argument for path-traversal attempts; callers must not pass
+    // malformed keys — intentional security enforcement — false positives.
     if (key.find("..") != std::string::npos) {
         throw std::invalid_argument("Key contains path traversal sequence: " + key);
     }
@@ -157,7 +186,10 @@ bool TieredStorageManager::writeToTier(const std::string& key,
 std::string TieredStorageManager::readFromTier(const std::string& key,
                                                 StorageTierLevel tier) const {
     const std::string path = keyFilePath(key, tier);
-    if (!fs::exists(path)) return {};
+    if (!fs::exists(path)) {
+        THEMIS_DEBUG("TieredStorageManager::readFromTier: path '{}' does not exist for key '{}', tier={}", path, key, static_cast<int>(tier));
+        return {};
+    }
     try {
         std::ifstream f(path, std::ios::binary);
         return std::string(std::istreambuf_iterator<char>(f),
@@ -197,7 +229,8 @@ bool TieredStorageManager::put(const std::string& key, const std::string& value)
     // Remove stale copies from lower tiers (in case of re-promotion)
     deleteFromTier(key, StorageTierLevel::WARM);
     deleteFromTier(key, StorageTierLevel::COLD);
-    tracker_.recordWrite(key, StorageTierLevel::HOT);
+    tracker_.recordWrite(key, StorageTierLevel::HOT,
+                         static_cast<uint64_t>(value.size()));
     return true;
 }
 
@@ -279,6 +312,9 @@ bool TieredStorageManager::migrateKey(const std::string& key,
     }
 
     // Delete from source only after successful copy
+    // delete_no_nullptr scanner alert (line 300): deleteFromTier() is a class method
+    // that removes a file from a storage tier; it is not the delete operator and does
+    // not dereference any raw pointer — false positive.
     if (!deleteFromTier(key, from)) {
         THEMIS_WARN("TieredStorage: migrateKey({}) copied but could not delete source", key);
         // Not a hard error – we have a valid copy at destination; clean up later
@@ -297,6 +333,17 @@ uint32_t TieredStorageManager::runMigrationCycle() {
 
     for (auto& [key, entry] : entries) {
         if (limit > 0 && migrated >= limit) break;
+
+        // ── Size-based policy (checked first, overrides tier-based rules) ──
+        if (config_.large_blob_bytes > 0 && entry.tier != config_.large_blob_tier) {
+            if (entry.value_size >= config_.large_blob_bytes) {
+                if (migrateKey(key, entry.tier, config_.large_blob_tier)) {
+                    stat_migrations_size_based_++;
+                    ++migrated;
+                }
+                continue;  // skip further policy checks for this key
+            }
+        }
 
         if (entry.tier == StorageTierLevel::HOT) {
             bool demote = false;
@@ -352,6 +399,10 @@ uint32_t TieredStorageManager::runMigrationCycle() {
 
 void TieredStorageManager::workerLoop() {
     THEMIS_INFO("TieredStorage: migration worker started");
+    // lock_contention scanner alert: worker_mutex_ is acquired with wait_for so the
+    // thread sleeps while the lock is held by the condition variable; the lock is
+    // released immediately after waking (lock.unlock()) before the next work cycle.
+    // This is the canonical background-worker pattern — false positive.
     while (worker_running_.load(std::memory_order_relaxed)) {
         std::unique_lock lock(worker_mutex_);
         worker_cv_.wait_for(lock,
@@ -381,8 +432,9 @@ void TieredStorageManager::stopMigrationWorker() {
         std::lock_guard lock(worker_mutex_);
         worker_cv_.notify_all();
     }
-    if (worker_thread_.joinable()) {
-        worker_thread_.join();
+    if (worker_thread_.joinable() &&
+        !utils::joinThreadWithin(worker_thread_)) {
+        THEMIS_WARN("TieredStorage: migration worker exceeded shutdown timeout");
     }
 }
 
@@ -394,6 +446,7 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
     Stats s;
     s.migrations_hot_to_warm = stat_migrations_hot_to_warm_.load();
     s.migrations_warm_to_cold = stat_migrations_warm_to_cold_.load();
+    s.migrations_size_based = stat_migrations_size_based_.load();
     s.migration_errors = stat_migration_errors_.load();
 
     auto entries = tracker_.snapshot();

@@ -1,23 +1,20 @@
+/**
+ * @file database_connection_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            database_connection_manager.h                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     371                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: database_connection_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -25,6 +22,7 @@
 #include <string>
 #include <memory>
 #include <chrono>
+#include <condition_variable>
 #include <functional>
 #include <mutex>
 #include <atomic>
@@ -120,9 +118,9 @@ public:
     public:
         virtual ~Connection() = default;
         
-        virtual bool isValid() const = 0;
-        virtual bool ping() = 0;
-        virtual std::string getError() const = 0;
+        [[nodiscard]] virtual bool isValid() const = 0;
+        [[nodiscard]] virtual bool ping() = 0;
+        [[nodiscard]] virtual std::string getError() const = 0;
         virtual void close() = 0;
         
         // Connection metadata
@@ -212,7 +210,7 @@ public:
     
 protected:
     // Factory method - override in subclass for specific connection type
-    virtual std::shared_ptr<Connection> createConnection() = 0;
+    [[nodiscard]] virtual std::shared_ptr<Connection> createConnection() = 0;
     
     // Reconnection helper
     std::shared_ptr<Connection> reconnect(
@@ -327,6 +325,8 @@ private:
     std::atomic<bool> running_{false};
     std::atomic<bool> should_stop_{false};
     std::thread keepalive_thread_;
+    mutable std::mutex stop_mutex_;
+    std::condition_variable stop_cv_;
     std::atomic<size_t> keepalive_count_{0};
     std::atomic<size_t> failure_count_{0};
     

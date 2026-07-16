@@ -1,27 +1,26 @@
+/**
+ * @file cte_cache.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cte_cache.cpp                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cte_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 364
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Phase 4.3: CTE Memory Management Implementation
 #include "query/cte_cache.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstring>
@@ -59,6 +58,17 @@ CTECache::~CTECache() {
 }
 
 bool CTECache::store(const std::string& name, std::vector<nlohmann::json> results) {
+    if (name.empty()) {
+        THEMIS_WARN("CTECache::store rejected empty CTE name");
+        return false;
+    }
+
+    // Overwrite semantics: remove the previous entry first so memory/disk
+    // accounting remains consistent.
+    if (contains(name)) {
+        remove(name);
+    }
+
     // Estimate size of results
     size_t estimated_size = estimateSize(results);
     
@@ -198,12 +208,15 @@ size_t CTECache::estimateSize(const std::vector<nlohmann::json>& data) const {
         sample_bytes += serialized.size();
     }
     
-    // Extrapolate to full dataset
+    // Extrapolate to full dataset. Apply a conservative overhead factor because
+    // dump() underestimates in-memory representation (allocators, node/object
+    // metadata, small-string buffers, etc.).
     size_t avg_bytes_per_element = sample_bytes / sample_count;
     size_t total_estimate = avg_bytes_per_element * data.size();
-    
-    // Add overhead for vector structure (rough estimate)
-    total_estimate += sizeof(nlohmann::json) * data.size();
+    total_estimate *= 2;
+
+    // Add overhead for vector/object bookkeeping.
+    total_estimate += (sizeof(nlohmann::json) + 64) * data.size();
     
     return total_estimate;
 }
@@ -360,3 +373,4 @@ void CTECache::ensureSpillDirectory() {
 
 } // namespace query
 } // namespace themis
+

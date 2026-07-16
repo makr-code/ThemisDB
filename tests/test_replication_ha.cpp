@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_replication_ha.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:06:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     3836                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
-    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
-    • 42947304a  2026-03-01  Fix witness node quorum counting and leader exclusion in ... ║
-    • 2e7a5d0c7  2026-02-28  feat(replication): witness node support for quorum in 2-n... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_replication_ha.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
+ * Gap Summary: total=38; TODO=1, Stub=3, Unimpl=0, Mock=17, Sim=17, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -42,14 +24,20 @@
 #include <gtest/gtest.h>
 #include "replication/replication_manager.h"
 #include "replication/multi_master_replication.h"
+#include "replication/multi_tier_replication.h"
 
+#include <algorithm>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <unordered_map>
 #include <zstd.h>
+#include <lz4.h>
+#include <snappy.h>
 
 using namespace themisdb::replication;
 
@@ -71,17 +59,40 @@ static ReplicationConfig makeConfig(const std::string& wal_dir = "/tmp/themis_re
     cfg.degraded_lag_threshold_ms    = 5000;
     cfg.min_sync_replicas            = 1;
     cfg.wal_sync_on_commit           = false;
+    // Keep generic helper configs valid for short election timeouts used by
+    // many focused tests. Lease-specific tests use makeLeaseConfig().
+    cfg.enable_leader_lease          = false;
+    cfg.leader_lease_duration_ms     = 0;
     return cfg;
 }
 
 // RAII helper that removes the WAL directory on destruction.
 struct TempWALDir {
     std::string path;
-    explicit TempWALDir(const std::string& p) : path(p) {
-        std::filesystem::remove_all(path);
-        std::filesystem::create_directories(path);
+    explicit TempWALDir(const std::string& p) {
+        const auto ticks = std::chrono::high_resolution_clock::now()
+                               .time_since_epoch()
+                               .count();
+        const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        const std::string base = std::filesystem::path(p).filename().string();
+        path = (std::filesystem::temp_directory_path() /
+                (base + "_" + std::to_string(ticks) + "_" + std::to_string(tid_hash)))
+                   .string();
+
+        std::error_code ec;
+        std::filesystem::remove_all(path, ec);
+        std::filesystem::create_directories(path, ec);
     }
-    ~TempWALDir() { std::filesystem::remove_all(path); }
+    ~TempWALDir() {
+        for (int i = 0; i < 5; ++i) {
+            std::error_code ec;
+            std::filesystem::remove_all(path, ec);
+            if (!ec) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
+    }
 };
 
 // ============================================================================
@@ -132,6 +143,7 @@ TEST_F(ReplicationConfigTest, LeaseDurationGEElectionTimeoutFails) {
     ReplicationConfig cfg = makeConfig(wd.path);
     cfg.enable_leader_lease       = true;
     cfg.election_timeout_min_ms   = 3000;
+    cfg.election_timeout_max_ms   = 5000;
     cfg.leader_lease_duration_ms  = 3000;  // equal → invalid (must be strictly less)
 
     ReplicationManager mgr(cfg);
@@ -143,6 +155,7 @@ TEST_F(ReplicationConfigTest, LeaseDurationLTElectionTimeoutSucceeds) {
     ReplicationConfig cfg = makeConfig(wd.path);
     cfg.enable_leader_lease       = true;
     cfg.election_timeout_min_ms   = 3000;
+    cfg.election_timeout_max_ms   = 5000;
     cfg.leader_lease_duration_ms  = 2999;  // strictly less → valid
 
     ReplicationManager mgr(cfg);
@@ -155,6 +168,7 @@ TEST_F(ReplicationConfigTest, LeaseDisabledIgnoresLeaseDuration) {
     ReplicationConfig cfg = makeConfig(wd.path);
     cfg.enable_leader_lease       = false;
     cfg.election_timeout_min_ms   = 500;
+    cfg.election_timeout_max_ms   = 1000;
     // duration >= election_timeout but lease is disabled → should still succeed
     cfg.leader_lease_duration_ms  = 5000;
 
@@ -245,9 +259,12 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
         std::fstream fs(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(fs.is_open());
         // Seek close to end and flip a byte to corrupt the checksum field
-        fs.seekp(-4, std::ios::end);
-        char dummy = 0xFF;
-        fs.write(&dummy, 1);
+        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
+        std::uint8_t dummy{};
+        fs.read(reinterpret_cast<char*>(&dummy), 1);
+        dummy ^= static_cast<std::uint8_t>(0x1u);
+        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
+        fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 
     // readFrom should skip the corrupted entry
@@ -567,6 +584,49 @@ TEST(ReplicationManagerErrorHandling, ReplicateAsFollowerFails) {
     // Node starts as FOLLOWER (cluster_size=2) and has not won an election
     EXPECT_FALSE(mgr.replicate(entry))
         << "Follower must not accept writes";
+
+    mgr.shutdown();
+}
+
+TEST(ReplicationManagerErrorHandling, SyncModeWithoutReplicaStreamsFailsClosed) {
+    TempWALDir wd("/tmp/themis_err_sync_no_streams");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.mode = ReplicationMode::SYNC;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    ASSERT_TRUE(mgr.promoteToLeader());
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "test";
+    entry.document_id = "doc_sync_no_stream";
+    entry.data        = "{}";
+
+    EXPECT_FALSE(mgr.replicate(entry))
+        << "SYNC replication must fail closed when no replica stream can acknowledge";
+
+    mgr.shutdown();
+}
+
+TEST(ReplicationManagerErrorHandling, SemiSyncImpossibleQuorumFailsClosed) {
+    TempWALDir wd("/tmp/themis_err_semisync_quorum");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.mode = ReplicationMode::SEMI_SYNC;
+    cfg.min_sync_replicas = 2;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    ASSERT_TRUE(mgr.promoteToLeader());
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "test";
+    entry.document_id = "doc_semisync_quorum";
+    entry.data        = "{}";
+
+    EXPECT_FALSE(mgr.replicate(entry))
+        << "SEMI_SYNC replication must fail closed when required acks exceed active streams";
 
     mgr.shutdown();
 }
@@ -1453,6 +1513,30 @@ TEST(MMReplicationManagerTest, TriggerSyncDoesNotCrash) {
     mgr.stop();
 }
 
+TEST(MMReplicationManagerTest, WriteSyncFailsClosedWhenQuorumZeroWithActivePeer) {
+    auto cfg = makeMMConfig();
+    cfg.write_quorum = 0;
+
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    MMPeerInfo peer;
+    peer.node_id = "mm-node-peer";
+    peer.endpoint = "127.0.0.1:9101";
+    peer.state = MMNodeState::ACTIVE;
+    peer.datacenter = "dc1";
+    peer.region = "eu-west";
+    peer.is_local_datacenter = true;
+    peer.priority = 10;
+    mgr.addPeer(peer);
+
+    const bool ok = mgr.writeSync("orders", "order-q0", "INSERT", "{}",
+                                  std::chrono::milliseconds(400));
+    EXPECT_FALSE(ok);
+
+    mgr.stop();
+}
+
 TEST(MMReplicationManagerTest, WriteCallbackInvokedAfterReplication) {
     MultiMasterReplicationManager mgr(makeMMConfig());
     mgr.start();
@@ -1803,15 +1887,329 @@ TEST(QuorumReadManagerTest, SetReplicasUpdatesTopology) {
     EXPECT_TRUE(result.success);
 }
 
+// Session consistency: a successful read always returns a non-empty session token.
+TEST(QuorumReadManagerTest, SessionToken_ReturnedOnSuccessfulRead) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.session_token.empty())
+        << "A session token must be returned on every successful quorum read";
+    // Token must contain the expected key–value pairs.
+    EXPECT_NE(result.session_token.find("seq="), std::string::npos)
+        << "Session token must contain 'seq=' field";
+    EXPECT_NE(result.session_token.find("exp="), std::string::npos)
+        << "Session token must contain 'exp=' expiry field";
+}
+
+// Session consistency: using the token from a previous read in a subsequent read
+// must succeed when replicas are at the same or higher version.
+TEST(QuorumReadManagerTest, SessionConsistency_TokenFromReadUsedInNextRead) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // First read – obtain a session token embedding version 100.
+    auto first = qrm.read("col", "doc-1");
+    ASSERT_TRUE(first.success);
+    EXPECT_FALSE(first.session_token.empty());
+
+    // Second read using the session token – replicas are still at version 100,
+    // so the read must succeed with monotonic guarantees.
+    auto second = qrm.read("col", "doc-1", 0, first.session_token);
+    EXPECT_TRUE(second.success)
+        << "Session read must succeed when replicas satisfy the required version";
+    EXPECT_GE(second.version, first.version)
+        << "Monotonic read: version must not decrease across reads in the same session";
+}
+
+// Session consistency: when the session token requires a version higher than
+// what any replica can provide, the read must fail.
+TEST(QuorumReadManagerTest, SessionConsistency_FailsWhenReplicasBelowRequiredVersion) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // All replicas are at version 10 – far below any realistic session requirement.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),
+        makeReplica("r2:9000", 10),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Craft a token that demands version 9999 (above what replicas have).
+    // Format: "seq=<N>;exp=<far-future-epoch-ms>"
+    constexpr uint64_t far_future_exp =
+        9999999999999ull;  // well beyond any real current timestamp
+    std::string high_version_token = "seq=9999;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, high_version_token);
+    EXPECT_FALSE(result.success)
+        << "Session read must fail when no quorum of replicas satisfies the required version";
+}
+
+// Session consistency: at least one but fewer than quorum replicas satisfy the
+// version requirement – must fail.
+TEST(QuorumReadManagerTest, SessionConsistency_PartialVersionSatisfactionFails) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale; r2 and r3 are up-to-date.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),   // stale
+        makeReplica("r2:9000", 100),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Token requires version 100; only r2 qualifies (1 < quorum=2).
+    constexpr uint64_t far_future_exp = 9999999999999ull;
+    std::string token = "seq=100;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_FALSE(result.success)
+        << "One qualifying replica is below quorum=2; session read must fail";
+}
+
+// Session consistency: a majority of replicas satisfy the version requirement.
+TEST(QuorumReadManagerTest, SessionConsistency_QuorumSatisfiedByFreshReplicas) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),   // stale – must not count toward quorum
+        makeReplica("r2:9000", 100),  // fresh
+        makeReplica("r3:9000", 100),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Token requires version 100; r2 and r3 satisfy it (2 == quorum).
+    constexpr uint64_t far_future_exp = 9999999999999ull;
+    std::string token = "seq=100;exp=" + std::to_string(far_future_exp);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two qualifying replicas at version 100 satisfy quorum=2";
+    EXPECT_EQ(result.version, 100u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the qualifying replicas should appear in sources";
+}
+
+// repair_on_read: diverging replicas are flagged; had_conflicts is set.
+TEST(QuorumReadManagerTest, RepairOnRead_ConflictsDetectedAndFlagged) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+    cfg.repair_on_read  = true;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),   // stale replica
+        makeReplica("r2:9000", 100),  // authoritative replica
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.had_conflicts)
+        << "Diverging versions must be flagged so repair-on-read can proceed";
+    EXPECT_EQ(result.version, 100u)
+        << "Authoritative (highest) version must win the reconciliation";
+}
+
+// Single-node mode: session token is still returned.
+TEST(QuorumReadManagerTest, SingleNodeMode_ReturnsSessionToken) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});  // no replicas = single-node mode
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.session_token.empty())
+        << "Session token must be returned even in single-node mode";
+}
+
+// ── QRM-SN: setLocalDocumentFetchFn injection (Stub #248) ────────────────────
+
+// QRM-SN-01: injected fn is called and its data/version propagated
+TEST(QuorumReadManagerTest, SingleNodeLocalFetch_InjectedFnCalled) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+
+    bool called = false;
+    qrm.setLocalDocumentFetchFn(
+        [&](const std::string& collection, const std::string& document_id)
+            -> std::pair<std::string, uint64_t> {
+            called = true;
+            EXPECT_EQ(collection,  "my_col");
+            EXPECT_EQ(document_id, "doc-42");
+            return {R"({"id":"doc-42","val":7})", 99u};
+        });
+
+    auto result = qrm.read("my_col", "doc-42");
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(called) << "setLocalDocumentFetchFn callback must be invoked";
+    EXPECT_EQ(result.data,    R"({"id":"doc-42","val":7})");
+    EXPECT_EQ(result.version, 99u);
+}
+
+// QRM-SN-02: clearing fn reverts to empty-data stub
+TEST(QuorumReadManagerTest, SingleNodeLocalFetch_ClearingRevertsToStub) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+    qrm.setLocalDocumentFetchFn(
+        [](const std::string&, const std::string&) -> std::pair<std::string, uint64_t> {
+            return {"some_data", 5u};
+        });
+
+    // Verify injection is active
+    ASSERT_EQ(qrm.read("c", "d").version, 5u);
+
+    // Clear the fn
+    qrm.setLocalDocumentFetchFn(nullptr);
+
+    auto result = qrm.read("c", "d");
+    EXPECT_TRUE(result.success)         << "single-node always succeeds";
+    EXPECT_TRUE(result.data.empty())    << "without fn, data must be empty";
+    EXPECT_EQ(result.version, 0u)       << "without fn, version must be 0";
+}
+
+// QRM-SN-03: throwing fn leaves success=true but data empty (degraded mode)
+TEST(QuorumReadManagerTest, SingleNodeLocalFetch_ThrowingFnDegradesGracefully) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+    qrm.setLocalDocumentFetchFn(
+        [](const std::string&, const std::string&) -> std::pair<std::string, uint64_t> {
+            throw std::runtime_error("storage unavailable");
+        });
+
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success)      << "degraded mode must still return success=true";
+    EXPECT_TRUE(result.data.empty()) << "exception must leave data empty";
+}
+
+// Session consistency: a malformed (non-empty) token is treated as version 0,
+// so all replicas qualify and the read succeeds normally.
+TEST(QuorumReadManagerTest, SessionConsistency_MalformedTokenTreatedAsNoRequirement) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 75),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    // Garbage token: parseSessionToken must return 0 (no version requirement).
+    auto result = qrm.read("col", "doc-1", 0, "not-a-valid-token");
+    EXPECT_TRUE(result.success)
+        << "Malformed session token must not block a read that would otherwise succeed";
+    // The highest version across all three replicas is 100.
+    EXPECT_EQ(result.version, 100u);
+}
+
+// Session consistency: fresh replicas that arrive last in iteration order
+// (stale replica first) must still be counted toward the version quorum.
+// This exercises the fix that prevents early loop exit when session_token != "".
+TEST(QuorumReadManagerTest, SessionConsistency_FreshReplicasLateInIterationOrder) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    // r1 is stale and will be the first future to resolve; r2 and r3 are fresh.
+    // Without the fix the loop would have stopped at {r1, r2}, counted only
+    // one qualifying replica (r2) and returned failure.
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000",  5),   // stale
+        makeReplica("r2:9000", 200),  // fresh
+        makeReplica("r3:9000", 200),  // fresh
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+
+    constexpr uint64_t far_future = 9999999999999ull;
+    std::string token = "seq=200;exp=" + std::to_string(far_future);
+
+    auto result = qrm.read("col", "doc-1", 0, token);
+    EXPECT_TRUE(result.success)
+        << "Two fresh replicas at version 200 satisfy quorum=2 even when a "
+           "stale replica is iterated first";
+    EXPECT_EQ(result.version, 200u);
+    EXPECT_EQ(result.sources.size(), 2u)
+        << "Only the two qualifying replicas must appear in sources";
+}
+
+
+
 // ============================================================================
 // 17. PersistentReplicationState
 // ============================================================================
 
 class PersistentStateTest : public ::testing::Test {
 protected:
-    std::string path_{"/tmp/themis_repl_state_test.dat"};
-    void SetUp()    override { std::filesystem::remove(path_); }
-    void TearDown() override { std::filesystem::remove(path_); }
+    std::string path_;
+
+    void SetUp() override {
+        const auto ticks = std::chrono::high_resolution_clock::now()
+                               .time_since_epoch()
+                               .count();
+        const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        path_ = (std::filesystem::temp_directory_path() /
+                 ("themis_repl_state_test_" + std::to_string(ticks) + "_" +
+                  std::to_string(tid_hash) + ".dat"))
+                    .string();
+        cleanupPath();
+    }
+
+    void TearDown() override { cleanupPath(); }
+
+private:
+    void cleanupPath() {
+        for (int i = 0; i < 5; ++i) {
+            std::error_code ec;
+            std::filesystem::remove(path_, ec);
+            if (!ec || !std::filesystem::exists(path_)) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
+    }
 };
 
 TEST_F(PersistentStateTest, FileDoesNotExistInitially) {
@@ -2075,6 +2473,142 @@ TEST(CompressedStreamTest, EmptyBatchReturnsTrue) {
     EXPECT_TRUE(stream.sendBatch({}));
 }
 
+// AC: "JSON documents: 5-10x with Zstd"
+TEST(CompressedStreamTest, ZstdAchievesHighRatioOnJsonLikeData) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm         = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 6;
+    cfg.min_batch_size    = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    // Simulate a batch of JSON-like documents (highly repetitive structure).
+    // 20 entries each with a ~200-byte JSON payload → ~4 KB total before framing.
+    std::string json_template =
+        R"({"id":"doc00000","collection":"users","op":"INSERT",)"
+        R"("data":{"name":"Alice Smith","email":"alice@example.com","role":"admin","active":true}})";
+    std::vector<WALEntry> entries;
+    for (int i = 0; i < 20; ++i) {
+        WALEntry e;
+        e.sequence_number = static_cast<uint64_t>(i + 1);
+        e.collection      = "users";
+        e.document_id     = "doc" + std::to_string(10000 + i);
+        e.operation       = "INSERT";
+        e.data            = json_template;
+        entries.push_back(e);
+    }
+    EXPECT_TRUE(stream.sendBatch(entries));
+
+    auto stats = stream.getStats();
+    // JSON documents should compress >= 5x with ZSTD level 6 (AC requirement).
+    EXPECT_GE(stats.compression_ratio, 5.0)
+        << "ZSTD level 6 on JSON-like data must achieve >= 5x ratio (AC: JSON 5-10x)";
+    EXPECT_EQ(stats.algorithm_used, "ZSTD");
+}
+
+// AC: "Already compressed data: ~1x (minimal benefit)"
+TEST(CompressedStreamTest, AlreadyCompressedDataHasMinimalBenefit) {
+    // Create already-compressed content by ZSTD-compressing a payload first,
+    // then feed that compressed blob as WALEntry data through the stream again.
+    std::string original(8192, '\0');
+    for (size_t i = 0; i < original.size(); ++i) {
+        // Pseudo-random bytes via a simple LCG (Knuth multiplicative + additive
+        // constants) to simulate already-compressed / high-entropy binary data.
+        original[i] = static_cast<char>((i * 6364136223846793005ULL + 1442695040888963407ULL) & 0xFF);
+    }
+    // Pre-compress once to get a "compressed blob".
+    size_t bound = ZSTD_compressBound(original.size());
+    std::vector<char> pre_compressed(bound);
+    size_t csz = ZSTD_compress(pre_compressed.data(), bound,
+                                original.data(), original.size(), 3);
+    ASSERT_FALSE(ZSTD_isError(csz));
+    pre_compressed.resize(csz);
+
+    // Now send that pre-compressed blob through the stream; ZSTD on already-
+    // compressed data should achieve minimal additional compression (~1x).
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm         = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 3;
+    cfg.min_batch_size    = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1;
+    e.collection      = "c";
+    e.document_id     = "d";
+    e.operation       = "INSERT";
+    e.data            = std::string(pre_compressed.begin(), pre_compressed.end());
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    // Already-compressed data must not expand significantly (ratio should stay <= 1.2x).
+    EXPECT_LT(stats.compression_ratio, 1.2)
+        << "ZSTD on already-compressed data must yield ~1x (AC: already compressed ~1x)";
+}
+
+// AC: LZ4 round-trip correctness
+TEST(CompressedStreamTest, LZ4RoundTrip) {
+    std::string payload = "ThemisDB LZ4 round-trip test! " + std::string(300, 'Y');
+    std::vector<uint8_t> raw(payload.begin(), payload.end());
+
+    // Compress with LZ4 directly via public C API.
+    int bound = LZ4_compressBound(static_cast<int>(raw.size()));
+    std::vector<uint8_t> compressed(static_cast<size_t>(bound));
+    int csz = LZ4_compress_default(
+        reinterpret_cast<const char*>(raw.data()),
+        reinterpret_cast<char*>(compressed.data()),
+        static_cast<int>(raw.size()), bound);
+    ASSERT_GT(csz, 0);
+    compressed.resize(static_cast<size_t>(csz));
+
+    // Decompress via CompressedReplicationStream::decompress() and verify.
+    CompressedReplicationStream stream("localhost:9001");
+    auto decompressed = stream.decompress(
+        compressed, CompressedReplicationStream::CompressionAlgorithm::LZ4);
+    ASSERT_EQ(decompressed.size(), raw.size());
+    EXPECT_EQ(std::string(decompressed.begin(), decompressed.end()), payload)
+        << "LZ4 round-trip must recover original data";
+}
+
+// AC: Snappy round-trip correctness
+TEST(CompressedStreamTest, SnappyRoundTrip) {
+    std::string payload = "ThemisDB Snappy round-trip! " + std::string(300, 'S');
+    std::vector<uint8_t> raw(payload.begin(), payload.end());
+
+    // Compress with Snappy directly.
+    std::string snappy_out;
+    snappy::Compress(reinterpret_cast<const char*>(raw.data()), raw.size(), &snappy_out);
+    std::vector<uint8_t> compressed(snappy_out.begin(), snappy_out.end());
+
+    // Decompress via CompressedReplicationStream::decompress() and verify.
+    CompressedReplicationStream stream("localhost:9001");
+    auto decompressed = stream.decompress(
+        compressed, CompressedReplicationStream::CompressionAlgorithm::SNAPPY);
+    ASSERT_EQ(decompressed.size(), raw.size());
+    EXPECT_EQ(std::string(decompressed.begin(), decompressed.end()), payload)
+        << "Snappy round-trip must recover original data";
+}
+
+// AC: "Adaptive compression based on data characteristics" — adaptive=false
+// must bypass the min_batch_size threshold and always compress (AUTO mode).
+TEST(CompressedStreamTest, AdaptiveFalseAlwaysCompressesInAutoMode) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::AUTO;
+    cfg.min_batch_size = 1024 * 1024;  // Very large threshold
+    cfg.adaptive       = false;         // Disable adaptive skip
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    // Tiny but compressible payload — should still be compressed because adaptive=false.
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "INSERT"; e.data = std::string(64, 'A');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    // Must use ZSTD (not NONE) even though payload < min_batch_size.
+    EXPECT_EQ(stats.algorithm_used, "ZSTD")
+        << "AUTO with adaptive=false must compress regardless of batch size";
+}
+
 // ============================================================================
 // 19b. ReplicationStream WAL compression integration
 // ============================================================================
@@ -2082,12 +2616,27 @@ TEST(CompressedStreamTest, EmptyBatchReturnsTrue) {
 class ReplicationStreamCompressionTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        wal_dir_ = "/tmp/themis_rs_compress_test";
-        std::filesystem::remove_all(wal_dir_);
-        std::filesystem::create_directories(wal_dir_);
+        const auto ticks = std::chrono::high_resolution_clock::now()
+                               .time_since_epoch()
+                               .count();
+        const auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        wal_dir_ = (std::filesystem::temp_directory_path() /
+                    ("themis_rs_compress_test_" + std::to_string(ticks) + "_" +
+                     std::to_string(tid_hash)))
+                       .string();
+        std::error_code ec;
+        std::filesystem::remove_all(wal_dir_, ec);
+        std::filesystem::create_directories(wal_dir_, ec);
     }
     void TearDown() override {
-        std::filesystem::remove_all(wal_dir_);
+        for (int i = 0; i < 5; ++i) {
+            std::error_code ec;
+            std::filesystem::remove_all(wal_dir_, ec);
+            if (!ec || !std::filesystem::exists(wal_dir_)) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        }
     }
     std::string wal_dir_;
 };
@@ -2354,46 +2903,60 @@ TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
 
 TEST(ReplicationBenchmarkTest, RunProducesPositiveThroughput) {
     ReplicationConfig config;
-    config.wal_directory        = "/tmp/themis_bench_wal_test";
+    config.wal_directory        = (std::filesystem::temp_directory_path() /
+                                   ("themis_bench_wal_test_" +
+                                    std::to_string(std::chrono::high_resolution_clock::now()
+                                                       .time_since_epoch().count())))
+                                      .string();
     config.heartbeat_interval_ms = 100;
     config.batch_size            = 64;
     std::filesystem::create_directories(config.wal_directory);
-    auto wal = std::make_shared<WALManager>(config);
+    {
+        auto wal = std::make_shared<WALManager>(config);
 
-    ReplicationBenchmark::BenchmarkConfig bcfg;
-    bcfg.num_entries      = 100;
-    bcfg.entry_size_bytes = 128;
-    bcfg.warmup_entries   = 10;
-    bcfg.collection       = "bench_col";
+        ReplicationBenchmark::BenchmarkConfig bcfg;
+        bcfg.num_entries      = 100;
+        bcfg.entry_size_bytes = 128;
+        bcfg.warmup_entries   = 10;
+        bcfg.collection       = "bench_col";
 
-    ReplicationBenchmark bench(wal, bcfg);
-    auto result = bench.run();
+        ReplicationBenchmark bench(wal, bcfg);
+        auto result = bench.run();
 
-    EXPECT_EQ(result.total_entries, 100u);
-    EXPECT_GT(result.writes_per_second, 0.0);
-    EXPECT_GT(result.bytes_written, 0u);
-    EXPECT_GE(result.latency_p50_us, 0);
-    EXPECT_GE(result.latency_p95_us, result.latency_p50_us);
-    EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
+        EXPECT_EQ(result.total_entries, 100u);
+        EXPECT_GT(result.writes_per_second, 0.0);
+        EXPECT_GT(result.bytes_written, 0u);
+        EXPECT_GE(result.latency_p50_us, 0);
+        EXPECT_GE(result.latency_p95_us, result.latency_p50_us);
+        EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
+    }
 
-    std::filesystem::remove_all(config.wal_directory);
+    std::error_code ec;
+    std::filesystem::remove_all(config.wal_directory, ec);
 }
 
 TEST(ReplicationBenchmarkTest, DefaultConstructorWorks) {
     ReplicationConfig config;
-    config.wal_directory         = "/tmp/themis_bench_default_test";
+    config.wal_directory         = (std::filesystem::temp_directory_path() /
+                                    ("themis_bench_default_test_" +
+                                     std::to_string(std::chrono::high_resolution_clock::now()
+                                                        .time_since_epoch().count())))
+                                       .string();
     config.heartbeat_interval_ms = 100;
     config.batch_size            = 64;
     std::filesystem::create_directories(config.wal_directory);
-    auto wal = std::make_shared<WALManager>(config);
+    {
+        auto wal = std::make_shared<WALManager>(config);
 
-    ReplicationBenchmark bench(wal);
-    // Just check it runs without crashing (full benchmark is slow – use small override)
-    // We only call format here to avoid 10K entries in tests
-    auto result = bench.run();
-    EXPECT_GT(result.writes_per_second, 0.0);
+        ReplicationBenchmark bench(wal);
+        // Just check it runs without crashing (full benchmark is slow – use small override)
+        // We only call format here to avoid 10K entries in tests
+        auto result = bench.run();
+        EXPECT_GT(result.writes_per_second, 0.0);
+    }
 
-    std::filesystem::remove_all(config.wal_directory);
+    std::error_code ec;
+    std::filesystem::remove_all(config.wal_directory, ec);
 }
 
 TEST(ReplicationBenchmarkTest, FormatContainsKeyFields) {
@@ -2416,23 +2979,30 @@ TEST(ReplicationBenchmarkTest, FormatContainsKeyFields) {
 
 TEST(ReplicationBenchmarkTest, LatencyPercentilesAreSorted) {
     ReplicationConfig config;
-    config.wal_directory         = "/tmp/themis_bench_pct_test";
+    config.wal_directory         = (std::filesystem::temp_directory_path() /
+                                    ("themis_bench_pct_test_" +
+                                     std::to_string(std::chrono::high_resolution_clock::now()
+                                                        .time_since_epoch().count())))
+                                       .string();
     config.heartbeat_interval_ms = 100;
     config.batch_size            = 64;
     std::filesystem::create_directories(config.wal_directory);
-    auto wal = std::make_shared<WALManager>(config);
+    {
+        auto wal = std::make_shared<WALManager>(config);
 
-    ReplicationBenchmark::BenchmarkConfig bcfg;
-    bcfg.num_entries    = 200;
-    bcfg.warmup_entries = 20;
-    ReplicationBenchmark bench(wal, bcfg);
-    auto r = bench.run();
+        ReplicationBenchmark::BenchmarkConfig bcfg;
+        bcfg.num_entries    = 200;
+        bcfg.warmup_entries = 20;
+        ReplicationBenchmark bench(wal, bcfg);
+        auto r = bench.run();
 
-    EXPECT_LE(r.latency_p50_us, r.latency_p95_us);
-    EXPECT_LE(r.latency_p95_us, r.latency_p99_us);
-    EXPECT_LE(r.latency_p99_us, r.latency_max_us);
+        EXPECT_LE(r.latency_p50_us, r.latency_p95_us);
+        EXPECT_LE(r.latency_p95_us, r.latency_p99_us);
+        EXPECT_LE(r.latency_p99_us, r.latency_max_us);
+    }
 
-    std::filesystem::remove_all(config.wal_directory);
+    std::error_code ec;
+    std::filesystem::remove_all(config.wal_directory, ec);
 }
 
 // ============================================================================
@@ -2541,6 +3111,8 @@ TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
     // itself as leader quickly.
     cfg.election_timeout_min_ms = 50;
     cfg.election_timeout_max_ms = 100;
+    // This test validates CDC delivery, not lease semantics.
+    cfg.enable_leader_lease = false;
 
     ReplicationManager mgr(cfg);
     ASSERT_TRUE(mgr.initialize());
@@ -2743,11 +3315,468 @@ TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
 }
 
 // ============================================================================
-// Raft Leader Lease Read Tests
+// WALArchivalManager Tests (v1.6.0) – Object Storage / Encryption / Lifecycle
 // ============================================================================
 
-// Helper: build a ReplicationConfig with short timings so that tests do not
-// have to wait several seconds for elections.
+// A fixed 32-byte AES-256 key expressed as 64 hex characters.
+// TEST USE ONLY — production keys must be securely generated (e.g. via a KMS)
+// and never hard-coded in source.
+static const char* kTestKeyHex =
+    "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
+
+TEST(WALArchivalTest, EncryptionAtRest_RoundTrip) {
+    const std::string wal_dir = "/tmp/themis_enc_wal";
+    const std::string arc_dir = "/tmp/themis_enc_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000100.wal", "SECRET WAL CONTENT");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    {
+        WALArchivalManager mgr(cfg);
+        uint32_t n = mgr.archiveSegments({"seg_000100.wal"});
+        ASSERT_EQ(n, 1u);
+
+        auto list = mgr.listArchived();
+        ASSERT_EQ(list.size(), 1u);
+        EXPECT_TRUE(list[0].encrypted);
+        EXPECT_FALSE(list[0].compressed);
+
+        // Archived file on disk must NOT contain plaintext
+        {
+            std::ifstream raw_file(list[0].archive_path, std::ios::binary);
+            ASSERT_TRUE(raw_file.good());
+            std::string disk_content(std::istreambuf_iterator<char>(raw_file), {});
+            EXPECT_EQ(disk_content.find("SECRET"), std::string::npos)
+                << "Encrypted archive must not contain plaintext";
+        }
+
+        // Retrieve and decrypt – must recover original content
+        auto data = mgr.retrieveSegment(list[0].segment_id);
+        ASSERT_TRUE(data.has_value());
+        std::string recovered(data->begin(), data->end());
+        EXPECT_EQ(recovered, "SECRET WAL CONTENT");
+    }
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_WithCompression_RoundTrip) {
+    const std::string wal_dir = "/tmp/themis_enc_cmp_wal";
+    const std::string arc_dir = "/tmp/themis_enc_cmp_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    // A larger payload benefits more from compression
+    std::string payload(512, 'A');
+    payload += std::string(512, 'B');
+    writeSegmentFile(wal_dir, "seg_000200.wal", payload);
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = true;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    WALArchivalManager mgr(cfg);
+    ASSERT_EQ(mgr.archiveSegments({"seg_000200.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_TRUE(list[0].compressed);
+
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, payload);
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_InvalidKey_RejectsArchival) {
+    const std::string wal_dir = "/tmp/themis_enc_badkey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_badkey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000300.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "tooshort";  // invalid: not 64 hex chars
+
+    WALArchivalManager mgr(cfg);
+    // With an invalid key, archival is rejected to prevent unencrypted storage
+    uint32_t n = mgr.archiveSegments({"seg_000300.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encryption key is invalid";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, StorageTier_DefaultIsStandard) {
+    const std::string wal_dir = "/tmp/themis_tier_wal";
+    const std::string arc_dir = "/tmp/themis_tier_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000400.wal", "TIER TEST DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg);
+    ASSERT_EQ(mgr.archiveSegments({"seg_000400.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_DisabledWhenZero) {
+    const std::string wal_dir = "/tmp/themis_lifecycle_dis_wal";
+    const std::string arc_dir = "/tmp/themis_lifecycle_dis_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000500.wal", "LIFECYCLE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = wal_dir;
+    cfg.archive_directory             = arc_dir;
+    cfg.compress_before_archive       = false;
+    cfg.transition_to_cold_after_days = 0;  // disabled
+
+    WALArchivalManager mgr(cfg);
+    mgr.archiveSegments({"seg_000500.wal"});
+
+    // With lifecycle disabled, transitionStorageTiers() is a no-op
+    EXPECT_EQ(mgr.transitionStorageTiers(), 0u);
+    EXPECT_EQ(mgr.listArchived()[0].storage_tier, "standard");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_MovesToCold) {
+    const std::string arc_dir = "/tmp/themis_lifecycle_cold_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    // Write a fake archive file (content doesn't matter for tier testing)
+    const std::string fake_path = arc_dir + "/seg_00000000000000000600.wal";
+    { std::ofstream f(fake_path); f << "OLD_SEGMENT_DATA"; }
+
+    // Write an index.txt with archived_at 200 days ago and "standard" tier
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 200);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "600 0 0 16 0 " << old_ts << " " << fake_path
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/lifecycle_cold_wal";
+    cfg.archive_directory             = arc_dir;
+    cfg.transition_to_cold_after_days = 90;  // threshold; segment is 200 days old
+
+    WALArchivalManager mgr(cfg);  // loadIndex() reads the old index
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+    list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    // 200 days > 90 days cold threshold but < 270 days glacier threshold
+    EXPECT_EQ(list[0].storage_tier, "cold");
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, TransitionStorageTiers_MovesToGlacier) {
+    const std::string arc_dir = "/tmp/themis_lifecycle_glacier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    const std::string fake_path = arc_dir + "/seg_00000000000000000700.wal";
+    { std::ofstream f(fake_path); f << "VERY_OLD_SEGMENT"; }
+
+    // 400 days ago; threshold is 90 days cold, 270 days glacier -> glacier
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "700 0 0 16 0 " << old_ts << " " << fake_path
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/lifecycle_glacier_wal";
+    cfg.archive_directory             = arc_dir;
+    cfg.transition_to_cold_after_days = 90;
+
+    WALArchivalManager mgr(cfg);
+
+    EXPECT_EQ(mgr.transitionStorageTiers(), 1u);
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, IndexPersistence_TierAndEncryptionFields) {
+    // Verify that storage_tier and encrypted are correctly round-tripped
+    // through saveIndex/loadIndex (by creating a second WALArchivalManager
+    // over the same archive directory).
+    const std::string wal_dir = "/tmp/themis_idx_persist_wal";
+    const std::string arc_dir = "/tmp/themis_idx_persist_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000800.wal", "PERSIST TEST DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = kTestKeyHex;
+
+    {
+        WALArchivalManager mgr(cfg);
+        ASSERT_EQ(mgr.archiveSegments({"seg_000800.wal"}), 1u);
+        auto list = mgr.listArchived();
+        ASSERT_EQ(list.size(), 1u);
+        EXPECT_TRUE(list[0].encrypted);
+        EXPECT_EQ(list[0].storage_tier, "standard");
+    }  // ~WALArchivalManager saves index
+
+    // Reload from the same archive directory
+    WALArchivalManager mgr2(cfg);
+    auto list = mgr2.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].encrypted);
+    EXPECT_EQ(list[0].storage_tier, "standard");
+
+    // Data must still be retrievable after reload
+    auto data = mgr2.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "PERSIST TEST DATA");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, EncryptionAtRest_EmptyKey_RejectsArchival) {
+    // encrypt_at_rest=true with an empty key must reject archival, just like an
+    // invalid key – it must not silently store the segment unencrypted.
+    const std::string wal_dir = "/tmp/themis_enc_emptykey_wal";
+    const std::string arc_dir = "/tmp/themis_enc_emptykey_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000900.wal", "SENSITIVE DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.encrypt_at_rest         = true;
+    cfg.encryption_key_hex      = "";  // empty – must be rejected
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000900.wal"});
+    EXPECT_EQ(n, 0u) << "Archival must be rejected when encrypt_at_rest=true and key is empty";
+    EXPECT_TRUE(mgr.listArchived().empty());
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+// ============================================================================
+// IArchivalBackend injection test – mock backend
+// ============================================================================
+
+namespace {
+
+// Minimal in-memory mock backend for unit testing IArchivalBackend injection.
+struct MockArchivalBackend : public IArchivalBackend {
+    std::unordered_map<std::string, std::vector<uint8_t>> store;
+    std::unordered_map<std::string, std::string> tiers;
+    std::vector<std::string> deleted_keys;
+
+    bool putObject(const std::string& key,
+                   const std::vector<uint8_t>& data) override {
+        store[key] = data;
+        tiers[key] = "standard";
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> getObject(
+        const std::string& key) const override {
+        auto it = store.find(key);
+        if (it == store.end()) return std::nullopt;
+        return it->second;
+    }
+
+    bool deleteObject(const std::string& key) override {
+        deleted_keys.push_back(key);
+        store.erase(key);
+        tiers.erase(key);
+        return true;
+    }
+
+    void setStorageTier(const std::string& key,
+                        const std::string& tier) override {
+        tiers[key] = tier;
+    }
+};
+
+}  // namespace
+
+TEST(WALArchivalTest, BackendInjection_ArchiveAndRetrieveViaBackend) {
+    // Verify that when a custom IArchivalBackend is injected, archiveSegments()
+    // routes writes through it and retrieveSegment() reads from it.
+    const std::string wal_dir = "/tmp/themis_backend_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001000.wal", "BACKEND ROUTED DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";  // not used when backend is set
+    cfg.prefix                  = "test-cluster/wal/";
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t n = mgr.archiveSegments({"seg_001000.wal"});
+    ASSERT_EQ(n, 1u);
+
+    // Backend store must contain the segment
+    EXPECT_EQ(mock->store.size(), 1u);
+    auto stored_key = mock->store.begin()->first;
+    EXPECT_EQ(stored_key.find("test-cluster/wal/seg_"), 0u)
+        << "Object key must start with configured prefix, got: " << stored_key;
+
+    // listArchived() shows the segment with the cloud key as archive_path
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].archive_path, stored_key);
+
+    // retrieveSegment() reads from the backend
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "BACKEND ROUTED DATA");
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_PurgeDeletesViaBackend) {
+    // purgeExpired() with delete_after_days=0 must call backend->deleteObject().
+    const std::string wal_dir = "/tmp/themis_backend_purge_wal";
+    std::filesystem::remove_all(wal_dir);
+
+    writeSegmentFile(wal_dir, "seg_001100.wal", "OLD DATA");
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = "";
+    cfg.prefix                  = "prod/";
+    cfg.compress_before_archive = false;
+    cfg.delete_after_days       = 0;  // purge everything immediately
+
+    WALArchivalManager mgr(cfg, mock);
+    ASSERT_EQ(mgr.archiveSegments({"seg_001100.wal"}), 1u);
+    ASSERT_EQ(mock->store.size(), 1u);
+
+    uint32_t purged = mgr.purgeExpired();
+    EXPECT_EQ(purged, 1u);
+    EXPECT_TRUE(mgr.listArchived().empty());
+    // Backend deleteObject() must have been called
+    EXPECT_EQ(mock->deleted_keys.size(), 1u);
+    EXPECT_TRUE(mock->store.empty());
+
+    std::filesystem::remove_all(wal_dir);
+}
+
+TEST(WALArchivalTest, BackendInjection_TransitionTierNotifiesBackend) {
+    // transitionStorageTiers() must call backend->setStorageTier() for aged segments.
+    const std::string arc_dir = "/tmp/themis_backend_tier_arc";
+    std::filesystem::remove_all(arc_dir);
+    std::filesystem::create_directories(arc_dir);
+
+    auto mock = std::make_shared<MockArchivalBackend>();
+    const std::string fake_key = "prod/seg_00000000000000001200.wal";
+    mock->store[fake_key] = {'X', 'X'};
+    mock->tiers[fake_key] = "standard";
+
+    // Build an index.txt with archived_at 400 days ago
+    auto old_time = std::chrono::system_clock::now()
+                    - std::chrono::hours(24 * 400);
+    auto old_ts = std::chrono::duration_cast<std::chrono::seconds>(
+        old_time.time_since_epoch()).count();
+    {
+        std::ofstream idx(arc_dir + "/index.txt");
+        idx << "1200 0 0 2 0 " << old_ts << " " << fake_key
+            << " standard 0\n";
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory                 = "/tmp/backend_tier_wal";
+    cfg.archive_directory             = arc_dir;  // for index.txt loading
+    cfg.prefix                        = "prod/";
+    cfg.transition_to_cold_after_days = 90;       // 400d > 270d glacier threshold
+
+    WALArchivalManager mgr(cfg, mock);
+
+    uint32_t transitioned = mgr.transitionStorageTiers();
+    EXPECT_EQ(transitioned, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].storage_tier, "glacier");
+
+    // Backend must have been notified about the tier change
+    EXPECT_EQ(mock->tiers[fake_key], "glacier");
+
+    std::filesystem::remove_all(arc_dir);
+}
 static ReplicationConfig makeLeaseConfig(const std::string& wal_dir) {
     ReplicationConfig cfg = makeConfig(wal_dir);
     cfg.election_timeout_min_ms   = 80;
@@ -3383,12 +4412,22 @@ TEST(CrossClusterIntegrationTest, PublicationReceivesEntriesViaReplicationManage
     // Wait for single-node leader election
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
+    auto replicate_with_retry = [&](const WALEntry& entry) {
+        for (int i = 0; i < 20; ++i) {
+            if (mgr.replicate(entry)) {
+                return true;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        return false;
+    };
+
     WALEntry entry;
     entry.operation   = "INSERT";
     entry.collection  = "docs";
     entry.document_id = "doc-001";
     entry.data        = R"({"v":1})";
-    bool ok = mgr.replicate(entry);
+    bool ok = replicate_with_retry(entry);
 
     mgr.shutdown();
     ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
@@ -3423,20 +4462,32 @@ TEST(CrossClusterIntegrationTest, FilterDropsNonMatchingEntriesViaReplicationMan
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
+    auto replicate_with_retry = [&](const WALEntry& entry) {
+        for (int i = 0; i < 20; ++i) {
+            if (mgr.replicate(entry)) {
+                return true;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        return false;
+    };
+
     // Replicate two entries: one passes the filter, one doesn't
     WALEntry e_orders;
     e_orders.operation   = "INSERT";
     e_orders.collection  = "orders";
     e_orders.document_id = "ord-1";
     e_orders.data        = R"({"v":1})";
-    mgr.replicate(e_orders);
+    ASSERT_TRUE(replicate_with_retry(e_orders))
+        << "replicate(orders) failed - node may not be leader yet";
 
     WALEntry e_users;
     e_users.operation   = "INSERT";
     e_users.collection  = "users";
     e_users.document_id = "usr-1";
     e_users.data        = R"({"v":1})";
-    mgr.replicate(e_users);
+    ASSERT_TRUE(replicate_with_retry(e_users))
+        << "replicate(users) failed - node may not be leader yet";
 
     mgr.shutdown();
 
@@ -3492,7 +4543,7 @@ TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
     auto pub = std::make_shared<CrossClusterPublication>("prom_pub3");
 
     int calls = 0;
-    CrossClusterSubscription sub("err_sub", pub, [&](const WALEntry& e) {
+    CrossClusterSubscription sub("err_sub", pub, [&]([[maybe_unused]] const WALEntry& e) {
         ++calls;
         if (calls == 1) throw std::runtime_error("simulated error");
     });
@@ -3878,4 +4929,1041 @@ TEST_F(WitnessNodeTest, WitnessNotSelectedAsLeaderCandidate) {
     EXPECT_EQ(replicas[0].role, ReplicationRole::WITNESS);
 
     mgr.shutdown();
+}
+
+// ============================================================================
+// BidirectionalReplicationTest  (v1.7.0)
+// ============================================================================
+// Covers all acceptance criteria from the Bidirectional Replication roadmap
+// item:
+//   AC-1  Symmetric replication (both nodes are primary)
+//   AC-2  Conflict detection using timestamps and sequence numbers
+//   AC-3  Configurable conflict resolution per table/collection
+//   AC-4  Origin tracking to prevent replication loops
+//   AC-5  DDL replication with conflict detection
+//   AC-6  Active-active high-availability semantics
+//   AC-7  Manual conflict resolution API
+//   AC-8  SyncStatus reflects running, sequence numbers, and lag
+// ============================================================================
+
+static BidirectionalReplicationManager::BidiConfig makeBidiConfig(
+    const std::string& local  = "node-west",
+    const std::string& remote = "node-east")
+{
+    BidirectionalReplicationManager::BidiConfig cfg;
+    cfg.local_node_id   = local;
+    cfg.remote_node_id  = remote;
+    cfg.remote_endpoint = "10.0.0.2:7000";
+    cfg.sync_interval_ms = 100;
+    cfg.track_origin     = true;
+    cfg.replicate_foreign_changes = false;
+    cfg.bidirectional_sync = true;
+    return cfg;
+}
+
+// ── AC-1: Both nodes can be primary (start / stop lifecycle) ─────────────────
+
+TEST(BidirectionalReplicationTest, StartSucceedsWithValidConfig) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    EXPECT_TRUE(mgr.start());
+    EXPECT_TRUE(mgr.getSyncStatus().is_running);
+    mgr.stop();
+    EXPECT_FALSE(mgr.getSyncStatus().is_running);
+}
+
+TEST(BidirectionalReplicationTest, StartFailsWhenLocalEqualsRemote) {
+    auto cfg = makeBidiConfig("same-node", "same-node");
+    BidirectionalReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.start());
+}
+
+TEST(BidirectionalReplicationTest, StartFailsWhenNodeIdEmpty) {
+    BidirectionalReplicationManager::BidiConfig cfg;
+    cfg.local_node_id  = "";
+    cfg.remote_node_id = "node-east";
+    BidirectionalReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.start());
+}
+
+TEST(BidirectionalReplicationTest, DoubleStartIsIdempotent) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    EXPECT_TRUE(mgr.start());
+    // Second start while already running must return false.
+    EXPECT_FALSE(mgr.start());
+    mgr.stop();
+}
+
+// ── AC-1 / AC-6: submitWrite advances local sequence ─────────────────────────
+
+TEST(BidirectionalReplicationTest, SubmitWriteAdvancesLocalSequence) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    mgr.start();
+
+    uint64_t seq1 = mgr.submitWrite("doc1", "orders", "INSERT", R"({"id":1})");
+    uint64_t seq2 = mgr.submitWrite("doc2", "orders", "INSERT", R"({"id":2})");
+
+    EXPECT_EQ(seq1, 1u);
+    EXPECT_EQ(seq2, 2u);
+    EXPECT_EQ(mgr.getSyncStatus().local_sequence, 2u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, SubmitWriteReturnsZeroWhenStopped) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    // Do not call start().
+    uint64_t seq = mgr.submitWrite("doc1", "orders", "INSERT", "{}");
+    EXPECT_EQ(seq, 0u);
+}
+
+// ── AC-4: Origin tracking prevents replication loops ─────────────────────────
+
+TEST(BidirectionalReplicationTest, OriginTrackingRejectsOwnChangeBouncing) {
+    auto cfg = makeBidiConfig();
+    cfg.replicate_foreign_changes = false;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Simulate a write that came from the LOCAL node being echoed back.
+    BidirectionalReplicationManager::BidiWriteEntry entry;
+    entry.document_id  = "doc1";
+    entry.collection   = "orders";
+    entry.operation    = "UPDATE";
+    entry.data         = R"({"v":2})";
+    entry.origin_node  = "node-west";  // same as local_node_id
+    entry.origin_seq   = 1;
+    entry.timestamp_ms = 1000;
+
+    // applyRemoteWrite must reject this because it originated locally.
+    EXPECT_FALSE(mgr.applyRemoteWrite(entry));
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, OriginTrackingAcceptsPeerChanges) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry entry;
+    entry.document_id  = "doc2";
+    entry.collection   = "orders";
+    entry.operation    = "INSERT";
+    entry.data         = R"({"v":1})";
+    entry.origin_node  = "node-east";  // remote_node_id
+    entry.origin_seq   = 5;
+    entry.timestamp_ms = 2000;
+
+    EXPECT_TRUE(mgr.applyRemoteWrite(entry));
+    EXPECT_EQ(mgr.getSyncStatus().remote_sequence, 5u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, OriginTrackingRejectsStaleOrDuplicateRemoteSequence) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry first;
+    first.document_id  = "doc-stale";
+    first.collection   = "orders";
+    first.operation    = "UPDATE";
+    first.data         = R"({"v":1})";
+    first.origin_node  = "node-east";
+    first.origin_seq   = 5;
+    first.timestamp_ms = 2000;
+    ASSERT_TRUE(mgr.applyRemoteWrite(first));
+
+    auto stale = first;
+    stale.origin_seq = 4;
+    stale.data = R"({"v":0})";
+    EXPECT_FALSE(mgr.applyRemoteWrite(stale));
+
+    auto duplicate = first;
+    duplicate.data = R"({"v":1})";
+    EXPECT_FALSE(mgr.applyRemoteWrite(duplicate));
+
+    auto newer = first;
+    newer.origin_seq = 6;
+    newer.data = R"({"v":2})";
+    EXPECT_TRUE(mgr.applyRemoteWrite(newer));
+
+    mgr.stop();
+}
+
+// ── AC-2: Conflict detection ──────────────────────────────────────────────────
+
+TEST(BidirectionalReplicationTest, ConcurrentWritesDetectedAsConflict) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Local write for "doc5" in "users" collection.
+    mgr.submitWrite("doc5", "users", "UPDATE", R"({"name":"Alice","ts":100})");
+
+    // Now inject a conflicting remote write for the same document.
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "doc5";
+    remote.collection   = "users";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"name":"Bob","ts":200})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 10;
+    remote.timestamp_ms = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 1000;
+    // Remote timestamp is guaranteed newer than the local submitWrite() wall clock.
+
+    mgr.applyRemoteWrite(remote);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].document_id, "doc5");
+    EXPECT_EQ(history[0].collection, "users");
+    EXPECT_EQ(history[0].strategy_used, ConflictResolution::LAST_WRITE_WINS);
+    // The remote (higher ts=200) should be the winner.
+    EXPECT_EQ(history[0].resolved_write.data, R"({"name":"Bob","ts":200})");
+    EXPECT_EQ(mgr.getSyncStatus().conflicts_detected, 1u);
+    EXPECT_EQ(mgr.getSyncStatus().conflicts_resolved, 1u);
+
+    mgr.stop();
+}
+
+// ── AC-3: Configurable conflict resolution per collection ─────────────────────
+
+TEST(BidirectionalReplicationTest, CollectionStrategyOverridesDefault) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+
+    // Override the strategy for "critical" collection.
+    mgr.setCollectionStrategy("critical", ConflictResolution::FIRST_WRITE_WINS);
+
+    EXPECT_EQ(mgr.getEffectiveStrategy("orders"),   ConflictResolution::LAST_WRITE_WINS);
+    EXPECT_EQ(mgr.getEffectiveStrategy("critical"), ConflictResolution::FIRST_WRITE_WINS);
+
+    mgr.start();
+
+    mgr.submitWrite("rec1", "critical", "INSERT", R"({"v":"first"})");
+    // The local write timestamp is set to the current wall clock by submitWrite.
+    // The remote write has a later timestamp (900ms epoch) but since FIRST_WRITE_WINS
+    // is configured, the local write (earlier timestamp) should win.
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "rec1";
+    remote.collection   = "critical";
+    remote.operation    = "INSERT";
+    remote.data         = R"({"v":"second"})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 2;
+    remote.timestamp_ms = 900;  // later timestamp
+
+    mgr.applyRemoteWrite(remote);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_GE(history.size(), 1u);
+    auto& rec = history.back();
+    EXPECT_EQ(rec.strategy_used, ConflictResolution::FIRST_WRITE_WINS);
+
+    mgr.stop();
+}
+
+// ── AC-3: CUSTOM strategy defers to manual resolution ────────────────────────
+
+TEST(BidirectionalReplicationTest, CustomStrategyProducesPendingConflict) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::CUSTOM;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.submitWrite("docC", "finance", "UPDATE", R"({"amount":100})");
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docC";
+    remote.collection   = "finance";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"amount":200})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 7;
+    remote.timestamp_ms = 5000;
+
+    mgr.applyRemoteWrite(remote);
+
+    auto pending = mgr.getPendingConflicts();
+    ASSERT_EQ(pending.size(), 1u);
+    EXPECT_EQ(pending[0].document_id, "docC");
+
+    mgr.stop();
+}
+
+// ── AC-7: Manual conflict resolution ─────────────────────────────────────────
+
+TEST(BidirectionalReplicationTest, ManualResolveConflictPicksWinner) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::CUSTOM;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.submitWrite("docM", "audit", "UPDATE", R"({"val":"local"})");
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docM";
+    remote.collection   = "audit";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"val":"remote"})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 11;
+    remote.timestamp_ms = 8000;
+
+    mgr.applyRemoteWrite(remote);
+
+    // Manually nominate the remote node as winner.
+    bool resolved = mgr.resolveConflict("docM", "node-east");
+    EXPECT_TRUE(resolved);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_GE(history.size(), 1u);
+    EXPECT_EQ(history.back().resolved_write.data, R"({"val":"remote"})");
+    EXPECT_EQ(mgr.getSyncStatus().conflicts_resolved, 1u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, ManualResolveReturnsFalseForUnknownNode) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::CUSTOM;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.submitWrite("docX", "misc", "UPDATE", R"({})");
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docX";
+    remote.collection   = "misc";
+    remote.operation    = "UPDATE";
+    remote.data         = R"({"x":1})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 3;
+    remote.timestamp_ms = 100;
+
+    mgr.applyRemoteWrite(remote);
+
+    // "unknown-node" is neither local nor remote → must return false.
+    EXPECT_FALSE(mgr.resolveConflict("docX", "unknown-node"));
+
+    mgr.stop();
+}
+
+// ── AC-5: DDL replication with conflict detection ─────────────────────────────
+
+TEST(BidirectionalReplicationTest, DDLReplicationAcceptedAndTracked) {
+    auto cfg = makeBidiConfig();
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    bool ok = mgr.applyRemoteDDL(
+        "ALTER TABLE orders ADD COLUMN notes TEXT",
+        "v42",
+        100);
+    EXPECT_TRUE(ok);
+    EXPECT_EQ(mgr.getSyncStatus().remote_sequence, 100u);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, DDLConflictIsRecordedAsDDLConflict) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Simulate a local DDL write.
+    mgr.submitWrite("__ddl__v10", "__schema__", "DDL",
+                    "ALTER TABLE t ADD COLUMN a INT", /*is_ddl=*/true);
+
+    // Remote DDL for the same schema version → conflict.
+    BidirectionalReplicationManager::BidiWriteEntry remote_ddl;
+    remote_ddl.document_id  = "__ddl__v10";
+    remote_ddl.collection   = "__schema__";
+    remote_ddl.operation    = "DDL";
+    remote_ddl.data         = "ALTER TABLE t ADD COLUMN b TEXT";
+    remote_ddl.origin_node  = "node-east";
+    remote_ddl.origin_seq   = 20;
+    remote_ddl.timestamp_ms = 9999;
+    remote_ddl.is_ddl       = true;
+
+    mgr.applyRemoteWrite(remote_ddl);
+
+    auto history = mgr.getConflictHistory();
+    ASSERT_GE(history.size(), 1u);
+    EXPECT_TRUE(history.back().is_ddl_conflict);
+
+    mgr.stop();
+}
+
+// ── AC-8: SyncStatus reflects lag and synchronisation state ──────────────────
+
+TEST(BidirectionalReplicationTest, SyncStatusReflectsLagFromUpdateRemoteSequence) {
+    BidirectionalReplicationManager mgr(makeBidiConfig());
+    mgr.start();
+
+    mgr.updateRemoteSequence(50, 300);
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.remote_sequence, 50u);
+    EXPECT_EQ(s.lag_ms, 300);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, SyncStatusIsSynchronizedWhenNoPendingAndLowLag) {
+    auto cfg = makeBidiConfig();
+    cfg.sync_interval_ms = 1000;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // No pending writes, lag within interval.
+    mgr.updateRemoteSequence(0, 50);
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_TRUE(s.is_synchronized);
+    EXPECT_TRUE(s.is_running);
+
+    mgr.stop();
+}
+
+TEST(BidirectionalReplicationTest, SyncStatusNotSynchronizedWhenHighLag) {
+    auto cfg = makeBidiConfig();
+    cfg.sync_interval_ms = 100;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    mgr.updateRemoteSequence(0, 5000);  // lag > sync_interval_ms
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_FALSE(s.is_synchronized);
+
+    mgr.stop();
+}
+
+// ── Config flag: bidirectional_sync = false blocks inbound writes ─────────────
+
+TEST(BidirectionalReplicationTest, BidirectionalSyncFalseBlocksIncomingWrites) {
+    auto cfg = makeBidiConfig();
+    cfg.bidirectional_sync = false;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    BidirectionalReplicationManager::BidiWriteEntry remote;
+    remote.document_id  = "docA";
+    remote.collection   = "orders";
+    remote.operation    = "INSERT";
+    remote.data         = R"({"x":1})";
+    remote.origin_node  = "node-east";
+    remote.origin_seq   = 1;
+    remote.timestamp_ms = 1000;
+
+    // bidirectional_sync = false → incoming remote write must be rejected.
+    EXPECT_FALSE(mgr.applyRemoteWrite(remote));
+
+    // No conflict detected and remote_sequence unchanged.
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.conflicts_detected, 0u);
+    EXPECT_EQ(s.remote_sequence, 0u);
+
+    mgr.stop();
+}
+
+// ── Config flag: replicate_ddl = false suppresses DDL ────────────────────────
+
+TEST(BidirectionalReplicationTest, ReplicateDDLFalseBlocksDDLApply) {
+    auto cfg = makeBidiConfig();
+    cfg.replicate_ddl = false;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // With replicate_ddl=false, applyRemoteDDL() must return false.
+    bool ok = mgr.applyRemoteDDL(
+        "ALTER TABLE t ADD COLUMN x INT",
+        "v99",
+        50);
+    EXPECT_FALSE(ok);
+
+    // Remote sequence must not advance, no conflict recorded.
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.remote_sequence, 0u);
+    EXPECT_EQ(s.conflicts_detected, 0u);
+
+    mgr.stop();
+}
+
+// ── conflicts_last_hour rolling window ────────────────────────────────────────
+
+TEST(BidirectionalReplicationTest, ConflictsLastHourCountedInSyncStatus) {
+    auto cfg = makeBidiConfig();
+    cfg.default_strategy = ConflictResolution::LAST_WRITE_WINS;
+    BidirectionalReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Generate two conflicts by submitting a local write then injecting
+    // a conflicting remote write for the same document twice.
+    for (int i = 0; i < 2; ++i) {
+        const std::string doc = "doc-lh-" + std::to_string(i);
+        mgr.submitWrite(doc, "metrics", "UPDATE", R"({"v":1})");
+
+        BidirectionalReplicationManager::BidiWriteEntry remote;
+        remote.document_id  = doc;
+        remote.collection   = "metrics";
+        remote.operation    = "UPDATE";
+        remote.data         = R"({"v":2})";
+        remote.origin_node  = "node-east";
+        remote.origin_seq   = static_cast<uint64_t>(i + 1);
+        remote.timestamp_ms = 9000 + i;  // always newer → remote wins under LWW
+
+        mgr.applyRemoteWrite(remote);
+    }
+
+    auto s = mgr.getSyncStatus();
+    EXPECT_EQ(s.conflicts_detected, 2u);
+    // Both conflicts just happened → they fall within the last hour.
+    EXPECT_EQ(s.conflicts_last_hour, 2u);
+
+    mgr.stop();
+}
+
+// ============================================================================
+// MultiTierReplicationTest  (v1.8.0)
+// ============================================================================
+//
+// Validates all acceptance criteria for Multi-Tier Replication:
+//   AC-1  Tier 1: Strong consistency, high durability (3+ replicas, sync, <10ms)
+//   AC-2  Tier 2: Eventual consistency, moderate durability (2 replicas, semi-sync)
+//   AC-3  Tier 3: Best-effort, low durability (1 replica, async)
+//   AC-4  Per-collection tier assignment
+//   AC-5  Automatic tier promotion/demotion based on access patterns
+// ============================================================================
+
+// ── AC-1: Tier 1 default config ──────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, Tier1DefaultConfigHasStrongConsistency) {
+    MultiTierReplicationManager mgr;
+    TierConfig cfg = mgr.getDefaultTierConfig(ReplicationTier::TIER_1_CRITICAL);
+
+    EXPECT_EQ(cfg.tier,          ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_GE(cfg.replica_count, 3u);
+    EXPECT_EQ(cfg.mode,          ReplicationMode::SYNC);
+    EXPECT_LE(cfg.max_latency_ms, 10u);
+}
+
+// ── AC-2: Tier 2 default config ──────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, Tier2DefaultConfigHasModerateConsistency) {
+    MultiTierReplicationManager mgr;
+    TierConfig cfg = mgr.getDefaultTierConfig(ReplicationTier::TIER_2_STANDARD);
+
+    EXPECT_EQ(cfg.tier,          ReplicationTier::TIER_2_STANDARD);
+    EXPECT_EQ(cfg.replica_count, 2u);
+    EXPECT_EQ(cfg.mode,          ReplicationMode::SEMI_SYNC);
+    EXPECT_LE(cfg.max_latency_ms, 50u);
+}
+
+// ── AC-3: Tier 3 default config ──────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, Tier3DefaultConfigHasAsyncBestEffort) {
+    MultiTierReplicationManager mgr;
+    TierConfig cfg = mgr.getDefaultTierConfig(ReplicationTier::TIER_3_ARCHIVAL);
+
+    EXPECT_EQ(cfg.tier,          ReplicationTier::TIER_3_ARCHIVAL);
+    EXPECT_EQ(cfg.replica_count, 1u);
+    EXPECT_EQ(cfg.mode,          ReplicationMode::ASYNC);
+}
+
+// ── AC-4: Per-collection tier assignment ─────────────────────────────────────
+
+TEST(MultiTierReplicationTest, AssignTierPersistsAndIsRetrievable) {
+    MultiTierReplicationManager mgr;
+
+    mgr.assignTier("financial_transactions", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("user_profiles",          ReplicationTier::TIER_2_STANDARD);
+    mgr.assignTier("audit_logs",             ReplicationTier::TIER_3_ARCHIVAL);
+
+    EXPECT_EQ(mgr.getTier("financial_transactions"), ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("user_profiles"),          ReplicationTier::TIER_2_STANDARD);
+    EXPECT_EQ(mgr.getTier("audit_logs"),             ReplicationTier::TIER_3_ARCHIVAL);
+}
+
+TEST(MultiTierReplicationTest, UnassignedCollectionReturnsDefaultTier) {
+    MultiTierConfig config;
+    config.default_tier = ReplicationTier::TIER_2_STANDARD;
+    MultiTierReplicationManager mgr(config);
+
+    EXPECT_EQ(mgr.getTier("unknown_collection"), ReplicationTier::TIER_2_STANDARD);
+}
+
+TEST(MultiTierReplicationTest, AssignTierOverridesExistingAssignment) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("orders", ReplicationTier::TIER_3_ARCHIVAL);
+    EXPECT_EQ(mgr.getTier("orders"), ReplicationTier::TIER_3_ARCHIVAL);
+
+    mgr.assignTier("orders", ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("orders"), ReplicationTier::TIER_1_CRITICAL);
+}
+
+TEST(MultiTierReplicationTest, RemoveTierFallsBackToDefault) {
+    MultiTierConfig config;
+    config.default_tier = ReplicationTier::TIER_2_STANDARD;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("events", ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("events"), ReplicationTier::TIER_1_CRITICAL);
+
+    mgr.removeTier("events");
+    EXPECT_EQ(mgr.getTier("events"), ReplicationTier::TIER_2_STANDARD);
+}
+
+TEST(MultiTierReplicationTest, GetTierConfigReflectsAssignedTier) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("transactions", ReplicationTier::TIER_1_CRITICAL);
+
+    TierConfig cfg = mgr.getTierConfig("transactions");
+    EXPECT_EQ(cfg.tier,   ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(cfg.mode,   ReplicationMode::SYNC);
+    EXPECT_GE(cfg.replica_count, 3u);
+}
+
+TEST(MultiTierReplicationTest, GetCollectionsForTierReturnsCorrectSubset) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("col_a", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("col_b", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("col_c", ReplicationTier::TIER_3_ARCHIVAL);
+
+    auto tier1 = mgr.getCollectionsForTier(ReplicationTier::TIER_1_CRITICAL);
+    ASSERT_EQ(tier1.size(), 2u);
+
+    auto tier3 = mgr.getCollectionsForTier(ReplicationTier::TIER_3_ARCHIVAL);
+    ASSERT_EQ(tier3.size(), 1u);
+    EXPECT_EQ(tier3[0], "col_c");
+
+    auto tier2 = mgr.getCollectionsForTier(ReplicationTier::TIER_2_STANDARD);
+    EXPECT_TRUE(tier2.empty());
+}
+
+// ── Tier config override ──────────────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, CustomTierConfigOverridesBuiltinDefaults) {
+    MultiTierConfig config;
+    TierConfig custom;
+    custom.tier                = ReplicationTier::TIER_1_CRITICAL;
+    custom.replica_count       = 5;
+    custom.mode                = ReplicationMode::SYNC;
+    custom.max_latency_ms      = 5;
+    custom.min_availability_pct = 99;
+    config.tier1_config        = custom;
+
+    MultiTierReplicationManager mgr(config);
+    TierConfig got = mgr.getDefaultTierConfig(ReplicationTier::TIER_1_CRITICAL);
+
+    EXPECT_EQ(got.replica_count, 5u);
+    EXPECT_EQ(got.max_latency_ms, 5u);
+}
+
+// ── AC-5: Auto-tiering promotion ─────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, AutoTieringDisabledByDefault) {
+    MultiTierReplicationManager mgr;
+    EXPECT_FALSE(mgr.isAutoTieringEnabled());
+}
+
+TEST(MultiTierReplicationTest, EnableAutoTieringToggleWorks) {
+    MultiTierReplicationManager mgr;
+    mgr.enableAutoTiering(true);
+    EXPECT_TRUE(mgr.isAutoTieringEnabled());
+    mgr.enableAutoTiering(false);
+    EXPECT_FALSE(mgr.isAutoTieringEnabled());
+}
+
+TEST(MultiTierReplicationTest, RecordAccessHasNoEffectWhenAutoTieringDisabled) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("metrics", ReplicationTier::TIER_2_STANDARD);
+
+    // Auto-tiering is OFF: accesses should not be tracked
+    for (int i = 0; i < 200; ++i) {
+        mgr.recordAccess("metrics");
+    }
+    auto stats = mgr.getCollectionStats();
+    // Either no stats entry or zero total_accesses
+    bool found = false;
+    for (const auto& s : stats) {
+        if (s.collection == "metrics") {
+            found = true;
+            EXPECT_EQ(s.total_accesses, 0u);
+        }
+    }
+    // If no entry at all that is also acceptable
+    (void)found;
+}
+
+TEST(MultiTierReplicationTest, HotCollectionPromotedToTier1ByAutoTiering) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 50;   // 50 accesses/min → Tier 1
+    config.cold_access_threshold = 5;
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("hot_collection", ReplicationTier::TIER_2_STANDARD);
+
+    // Record 60 accesses (rate = 60/min > 50 threshold)
+    for (int i = 0; i < 60; ++i) {
+        mgr.recordAccess("hot_collection");
+    }
+
+    ReplicationTier new_tier = mgr.evaluateTierPromotion("hot_collection");
+    EXPECT_EQ(new_tier, ReplicationTier::TIER_1_CRITICAL);
+    EXPECT_EQ(mgr.getTier("hot_collection"), ReplicationTier::TIER_1_CRITICAL);
+}
+
+TEST(MultiTierReplicationTest, ColdCollectionDemotedToTier3ByAutoTiering) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 100;
+    config.cold_access_threshold = 10;   // < 10/min → Tier 3
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("cold_collection", ReplicationTier::TIER_2_STANDARD);
+
+    // Record only 3 accesses (rate = 3/min < 10 threshold)
+    for (int i = 0; i < 3; ++i) {
+        mgr.recordAccess("cold_collection");
+    }
+
+    ReplicationTier new_tier = mgr.evaluateTierPromotion("cold_collection");
+    EXPECT_EQ(new_tier, ReplicationTier::TIER_3_ARCHIVAL);
+    EXPECT_EQ(mgr.getTier("cold_collection"), ReplicationTier::TIER_3_ARCHIVAL);
+}
+
+TEST(MultiTierReplicationTest, ModerateAccessCollectionNormalisedToTier2) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 100;
+    config.cold_access_threshold = 5;
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("normal_col", ReplicationTier::TIER_1_CRITICAL);
+
+    // Record moderate accesses: 30/min → between 5 and 100 → Tier 2
+    for (int i = 0; i < 30; ++i) {
+        mgr.recordAccess("normal_col");
+    }
+
+    ReplicationTier new_tier = mgr.evaluateTierPromotion("normal_col");
+    EXPECT_EQ(new_tier, ReplicationTier::TIER_2_STANDARD);
+}
+
+TEST(MultiTierReplicationTest, EvaluateTierNoChangeWhenAutoTieringDisabled) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("locked_col", ReplicationTier::TIER_1_CRITICAL);
+
+    // Auto-tiering disabled: evaluateTierPromotion should not move the tier
+    ReplicationTier result = mgr.evaluateTierPromotion("locked_col");
+    EXPECT_EQ(result, ReplicationTier::TIER_1_CRITICAL);
+}
+
+// ── Statistics ────────────────────────────────────────────────────────────────
+
+TEST(MultiTierReplicationTest, GetStatsReflectsAssignments) {
+    MultiTierReplicationManager mgr;
+    mgr.assignTier("t1a", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("t1b", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("t2a", ReplicationTier::TIER_2_STANDARD);
+    mgr.assignTier("t3a", ReplicationTier::TIER_3_ARCHIVAL);
+
+    MultiTierStats stats = mgr.getStats();
+    EXPECT_EQ(stats.collections_tier1, 2u);
+    EXPECT_EQ(stats.collections_tier2, 1u);
+    EXPECT_EQ(stats.collections_tier3, 1u);
+    EXPECT_FALSE(stats.auto_tiering_active);
+}
+
+TEST(MultiTierReplicationTest, GetStatsCountsPromotionsAndDemotions) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled  = true;
+    config.hot_access_threshold  = 10;
+    config.cold_access_threshold = 2;
+    config.auto_tier_window_seconds = 60;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("p_col", ReplicationTier::TIER_2_STANDARD);
+    mgr.assignTier("d_col", ReplicationTier::TIER_2_STANDARD);
+
+    // Promote p_col
+    for (int i = 0; i < 15; ++i) mgr.recordAccess("p_col");
+    mgr.evaluateTierPromotion("p_col");
+
+    // Demote d_col
+    mgr.recordAccess("d_col"); // 1 access → < 2 threshold
+    mgr.evaluateTierPromotion("d_col");
+
+    MultiTierStats stats = mgr.getStats();
+    EXPECT_EQ(stats.total_promotions, 1u);
+    EXPECT_EQ(stats.total_demotions,  1u);
+}
+
+TEST(MultiTierReplicationTest, GetCollectionStatsIncludesAllTrackedCollections) {
+    MultiTierConfig config;
+    config.auto_tiering_enabled = true;
+    MultiTierReplicationManager mgr(config);
+
+    mgr.assignTier("col1", ReplicationTier::TIER_1_CRITICAL);
+    mgr.assignTier("col2", ReplicationTier::TIER_3_ARCHIVAL);
+    mgr.recordAccess("col1");
+    mgr.recordAccess("col1");
+
+    auto cs = mgr.getCollectionStats();
+    ASSERT_GE(cs.size(), 2u);
+
+    bool found_col1 = false;
+    for (const auto& s : cs) {
+        if (s.collection == "col1") {
+            found_col1 = true;
+            EXPECT_EQ(s.total_accesses, 2u);
+            EXPECT_EQ(s.current_tier, ReplicationTier::TIER_1_CRITICAL);
+        }
+    }
+    EXPECT_TRUE(found_col1);
+}
+
+// ============================================================================
+// Performance Tests (opt-in: set THEMIS_RUN_PERF_TESTS=1)
+//
+// These tests validate the design constraints from
+// src/replication/FUTURE_ENHANCEMENTS.md §Design Constraints:
+//
+//   #4  Vector clock comparison and HLC conflict detection must add
+//       < 5 µs per write operation.
+//
+// Additional local-component benchmarks validate prerequisites for:
+//   #1  Replication lag p99 ≤ 50 ms (WAL append throughput > 50 k/s).
+//   #2  WAL shipping ≥ 500 MB/s compressed (Zstd throughput proxy).
+// ============================================================================
+
+/**
+ * @brief VectorClock increment + compare combined latency < 5 µs.
+ *
+ * Design Constraint #4 (FUTURE_ENHANCEMENTS.md): "Vector clock comparison
+ * and HLC conflict detection must add < 5 µs per write operation."
+ *
+ * This test measures the median cost of one VectorClock::increment() followed
+ * by one VectorClock::compare() — i.e. the overhead added to every write
+ * on the multi-master write path.
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(VectorClockPerfTest, IncrementAndCompareSingleOpUnder5us) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping VectorClock perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Design Constraint #4: increment+compare < 5 µs.";
+    }
+
+    VectorClock vc_local("local");
+    VectorClock vc_remote("remote");
+    vc_remote.increment("remote");
+
+    const int kWarmup = 100;
+    const int kIterations = 2000;
+    std::vector<int64_t> durations_ns;
+    durations_ns.reserve(kIterations);
+
+    // Warm up
+    volatile int sink_warmup = 0;
+    for (int i = 0; i < kWarmup; ++i) {
+        vc_local.increment("local");
+        sink_warmup += vc_local.compare(vc_remote);
+    }
+    (void)sink_warmup;
+
+    volatile int sink = 0;
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        vc_local.increment("local");
+        int cmp = vc_local.compare(vc_remote);
+        auto t1 = std::chrono::steady_clock::now();
+        sink += cmp;
+        durations_ns.push_back(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
+    }
+
+    std::sort(durations_ns.begin(), durations_ns.end());
+    int64_t median_ns = durations_ns[kIterations / 2];
+    int64_t p99_ns    = durations_ns[static_cast<size_t>(kIterations * 0.99)];
+
+    EXPECT_LT(median_ns, 5000) << "VectorClock increment+compare median must be < 5 us;"
+        " median=" << median_ns << " ns p99=" << p99_ns << " ns";
+}
+
+/**
+ * @brief HybridLogicalClock::now() latency < 5 µs per call.
+ *
+ * Design Constraint #4 (FUTURE_ENHANCEMENTS.md): "Vector clock comparison
+ * and HLC conflict detection must add < 5 µs per write operation."
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(HLCPerfTest, NowCallUnder5us) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping HLC::now() perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Design Constraint #4: HLC::now() < 5 µs.";
+    }
+
+    HybridLogicalClock hlc("perf-node");
+
+    const int kWarmup     = 200;
+    const int kIterations = 2000;
+    std::vector<int64_t> durations_ns;
+    durations_ns.reserve(kIterations);
+
+    volatile uint64_t sink_warmup = 0;
+    for (int i = 0; i < kWarmup; ++i) {
+        auto ts = hlc.now();
+        sink_warmup += ts.logical;
+    }
+    (void)sink_warmup;
+
+    volatile uint64_t sink = 0;
+    for (int i = 0; i < kIterations; ++i) {
+        auto t0 = std::chrono::steady_clock::now();
+        auto ts = hlc.now();
+        auto t1 = std::chrono::steady_clock::now();
+        sink += ts.logical;
+        durations_ns.push_back(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count());
+    }
+    (void)sink;
+
+    std::sort(durations_ns.begin(), durations_ns.end());
+    int64_t median_ns = durations_ns[kIterations / 2];
+    int64_t p99_ns    = durations_ns[static_cast<size_t>(kIterations * 0.99)];
+
+    EXPECT_LT(median_ns, 5000) << "HLC::now() median must be < 5 us;"
+        " median=" << median_ns << " ns p99=" << p99_ns << " ns";
+}
+
+/**
+ * @brief WAL append throughput > 50,000 entries/s (prerequisite for Design
+ *        Constraint #1: replication lag p99 ≤ 50 ms at 10,000 write/s).
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(WALAppendThroughputPerfTest, Over50kEntriesPerSecond) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping WAL append throughput perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Target: > 50,000 entries/s.";
+    }
+
+    TempWALDir wal_dir("/tmp/themis_perf_wal_append");
+    ReplicationConfig cfg = makeConfig(wal_dir.path);
+    cfg.wal_sync_on_commit = false;
+    WALManager wal(cfg);
+
+    const int kEntries = 20000;
+    std::atomic<uint64_t> seq{1};
+
+    auto t0 = std::chrono::steady_clock::now();
+    for (int i = 0; i < kEntries; ++i) {
+        WALEntry e;
+        e.sequence_number = seq.fetch_add(1, std::memory_order_relaxed);
+        e.term            = 1;
+        e.timestamp       = std::chrono::system_clock::now();
+        e.operation       = "INSERT";
+        e.collection      = "perf_col";
+        e.document_id     = "doc_" + std::to_string(e.sequence_number);
+        e.data            = R"({"k":"v","seq":)" + std::to_string(e.sequence_number) + "}";
+        volatile uint64_t written  = wal.append(e);
+        (void)written;
+    }
+    auto t1 = std::chrono::steady_clock::now();
+
+    double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    double entries_per_s = static_cast<double>(kEntries) / elapsed_s;
+
+    EXPECT_GT(entries_per_s, 50000.0) << "WAL append throughput must exceed 50,000 entries/s;"
+        " measured " << static_cast<int64_t>(entries_per_s) << " entries/s"
+        " (" << kEntries << " entries in " << elapsed_s * 1000.0 << " ms)";
+}
+
+/**
+ * @brief CompressedReplicationStream Zstd throughput proxy.
+ *
+ * Validates that the in-process Zstd compression path can sustain the
+ * serialise+compress throughput needed for the 500 MB/s WAL shipping goal
+ * (Design Constraint #2).  Each batch of 1,000 × 512-byte WAL entries
+ * amounts to ~512 KB; the test asserts the round-trip completes within
+ * 50 ms (≥ 10 MB/s — conservative floor that rules out algorithmic regressions
+ * without requiring network infrastructure).
+ *
+ * Set THEMIS_RUN_PERF_TESTS=1 to enable.
+ */
+TEST(CompressedStreamThroughputPerfTest, ZstdBatchUnder50ms) {
+    const char* run_perf = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!run_perf || std::string(run_perf) != "1") {
+        GTEST_SKIP() << "Skipping compressed stream throughput perf test "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to enable). "
+                        "Target: Zstd batch of 1,000 × 512-byte entries < 50 ms.";
+    }
+
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm        = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 3;
+    cfg.adaptive         = false;
+    cfg.min_batch_size   = 0;
+
+    CompressedReplicationStream stream("bench-endpoint:7000", cfg);
+
+    const int kEntries = 1000;
+    const std::string payload(480, 'x');  // ~480 B data field → ~512 B per entry
+    std::vector<WALEntry> batch;
+    batch.reserve(kEntries);
+    for (int i = 0; i < kEntries; ++i) {
+        WALEntry e;
+        e.sequence_number = static_cast<uint64_t>(i + 1);
+        e.term            = 1;
+        e.timestamp       = std::chrono::system_clock::now();
+        e.operation       = "INSERT";
+        e.collection      = "perf_col";
+        e.document_id     = "doc_" + std::to_string(i);
+        e.data            = "{\"v\":\"" + payload + "\"}";
+        batch.push_back(std::move(e));
+    }
+
+    // Warm up
+    stream.sendBatch(batch);
+    stream.resetStats();
+
+    const int kRounds = 5;
+    auto t0 = std::chrono::steady_clock::now();
+    for (int r = 0; r < kRounds; ++r) {
+        bool ok = stream.sendBatch(batch);
+        ASSERT_TRUE(ok) << "sendBatch() must succeed in the perf test";
+    }
+    auto t1 = std::chrono::steady_clock::now();
+
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    double per_round_ms = static_cast<double>(elapsed_ms) / kRounds;
+
+    EXPECT_LT(per_round_ms, 50.0) << "Zstd compress of 1,000 x ~512-byte entries must"
+        " complete in < 50 ms; measured " << per_round_ms << " ms/round";
+
+    auto stats = stream.getStats();
+    EXPECT_GT(stats.bytes_uncompressed, 0u) << "Stats must report processed bytes";
+    EXPECT_GT(stats.compression_ratio, 1.0)  << "Zstd must achieve some compression";
 }

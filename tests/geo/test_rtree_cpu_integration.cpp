@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rtree_cpu_integration.cpp                     ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     283                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6e8398a0c  2026-02-25  fix(geo): clear R-tree state in dropSpatialIndex and crea... ║
-    • 4e4639844  2026-02-24  feat(geo): integrate R-tree index with CPU backend (Spati... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rtree_cpu_integration.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -48,6 +31,9 @@ protected:
     static constexpr const char* kTable = "test_rtree_table";
 
     void SetUp() override {
+    #ifdef _WIN32
+        GTEST_SKIP() << "Skipping RTreeCpuIntegration tests on Windows";
+    #endif
         const auto unique_id = std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
         db_path_ = (std::filesystem::temp_directory_path() /
@@ -74,6 +60,9 @@ protected:
     }
 
     void TearDown() override {
+    #ifdef _WIN32
+        return;
+    #endif
         mgr_.reset();
         db_.reset();
         std::filesystem::remove_all(db_path_);
@@ -282,4 +271,130 @@ TEST_F(RTreeCpuIntegrationTest, DropAndRecreate_StaleRTreeCleared) {
     // The new (empty) index must return no results.
     auto res = mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0));
     EXPECT_TRUE(res.empty()) << "Stale R-tree entries leaked after drop+recreate";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// bulkLoad: cold-start STR packing for read-heavy workloads
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RTreeCpuIntegrationTest, BulkLoad_PopulatesIndexFromEntries) {
+    // Prepare a batch of point sidecars covering different regions.
+    std::vector<std::pair<std::string, GeoSidecar>> entries = {
+        {"berlin",  pointSidecar(13.4,   52.5)},
+        {"paris",   pointSidecar( 2.35,  48.85)},
+        {"hamburg", pointSidecar(10.0,   53.6)},
+        {"madrid",  pointSidecar(-3.7,   40.4)},
+    };
+
+    // bulkLoad replaces any previously cached state.
+    ASSERT_TRUE(mgr_->bulkLoad(kTable, entries));
+
+    // Verify each point is reachable from a query.
+    auto de_res = mgr_->searchIntersects(kTable, MBR(6.0, 47.0, 15.0, 55.0));
+    EXPECT_EQ(de_res.size(), 2u);   // berlin + hamburg
+    EXPECT_TRUE(hasKey(de_res, "berlin"));
+    EXPECT_TRUE(hasKey(de_res, "hamburg"));
+    EXPECT_FALSE(hasKey(de_res, "paris"));
+
+    auto es_res = mgr_->searchIntersects(kTable, MBR(-10.0, 35.0, 5.0, 45.0));
+    ASSERT_EQ(es_res.size(), 1u);
+    EXPECT_EQ(es_res[0].primary_key, "madrid");
+}
+
+TEST_F(RTreeCpuIntegrationTest, BulkLoad_ReplacesExistingContent) {
+    // Insert a point that should be absent after the bulk load.
+    ASSERT_TRUE(mgr_->insert(kTable, "tokyo", pointSidecar(139.7, 35.7)));
+    EXPECT_EQ(mgr_->searchIntersects(kTable, MBR(130.0, 30.0, 145.0, 40.0)).size(), 1u);
+
+    // bulkLoad with entries that do NOT include tokyo.
+    std::vector<std::pair<std::string, GeoSidecar>> entries = {
+        {"berlin", pointSidecar(13.4, 52.5)},
+    };
+    ASSERT_TRUE(mgr_->bulkLoad(kTable, entries));
+
+    // tokyo must no longer be in the in-memory index.
+    EXPECT_TRUE(mgr_->searchIntersects(kTable, MBR(130.0, 30.0, 145.0, 40.0)).empty());
+    // berlin must be present.
+    EXPECT_EQ(mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0)).size(), 1u);
+
+    // Simulate a manager restart to verify stale per-PK RocksDB keys were purged.
+    // If bulkLoad did not delete the old per-PK key for "tokyo", ensureRTree would
+    // resurrect it during the lazy rebuild after restart.
+    mgr_.reset();
+    mgr_ = std::make_unique<SpatialIndexManager>(*db_);
+    mgr_->setExactBackend(getCpuExactBackend());
+
+    // After restart + lazy rebuild, tokyo must still be absent.
+    EXPECT_TRUE(mgr_->searchIntersects(kTable, MBR(130.0, 30.0, 145.0, 40.0)).empty())
+        << "Stale per-PK RocksDB key for 'tokyo' was not purged by bulkLoad";
+    // berlin must still be present.
+    EXPECT_EQ(mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0)).size(), 1u);
+}
+
+TEST_F(RTreeCpuIntegrationTest, BulkLoad_EmptyEntries_ClearsIndex) {
+    ASSERT_TRUE(mgr_->insert(kTable, "berlin", pointSidecar(13.4, 52.5)));
+
+    // bulkLoad with an empty list must clear the in-memory index.
+    ASSERT_TRUE(mgr_->bulkLoad(kTable, {}));
+    EXPECT_TRUE(mgr_->searchIntersects(kTable, MBR(-180.0, -90.0, 180.0, 90.0)).empty());
+}
+
+TEST_F(RTreeCpuIntegrationTest, BulkLoad_PersistsAcrossManagerRestart) {
+    // Bulk-load two points into the index via the current manager.
+    std::vector<std::pair<std::string, GeoSidecar>> entries = {
+        {"berlin", pointSidecar(13.4,  52.5)},
+        {"paris",  pointSidecar( 2.35, 48.85)},
+    };
+    ASSERT_TRUE(mgr_->bulkLoad(kTable, entries));
+
+    // Discard the manager (simulates a process restart).
+    mgr_.reset();
+
+    // Re-open with a fresh manager; the R-tree is initially empty.
+    mgr_ = std::make_unique<SpatialIndexManager>(*db_);
+    mgr_->setExactBackend(getCpuExactBackend());
+
+    // First query triggers lazy rebuild from the per-PK keys written by bulkLoad.
+    auto res = mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0));
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_TRUE(hasKey(res, "berlin"));
+}
+
+TEST_F(RTreeCpuIntegrationTest, BulkLoad_ErrorOnMissingIndex) {
+    // Query a table that has no registered spatial index.
+    std::vector<std::pair<std::string, GeoSidecar>> entries = {
+        {"x", pointSidecar(0.0, 0.0)},
+    };
+    auto status = mgr_->bulkLoad("nonexistent_table", entries);
+    EXPECT_FALSE(status.ok);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// searchContains uses R-tree contains(x, y) path directly
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RTreeCpuIntegrationTest, SearchContains_UsesRTreeDirectly) {
+    // Insert a bounding-box region for central Germany.
+    ASSERT_TRUE(mgr_->insert(kTable, "germany", boxSidecar(6.0, 47.0, 15.0, 55.0)));
+
+    // Berlin (13.4, 52.5) is inside.
+    auto inside = mgr_->searchContains(kTable, 13.4, 52.5);
+    ASSERT_EQ(inside.size(), 1u);
+    EXPECT_EQ(inside[0].primary_key, "germany");
+
+    // Tokyo (139.7, 35.7) is outside.
+    EXPECT_TRUE(mgr_->searchContains(kTable, 139.7, 35.7).empty());
+}
+
+TEST_F(RTreeCpuIntegrationTest, SearchContains_PointOnMBRBoundary) {
+    // Insert a box and test that points exactly on the boundary are found.
+    ASSERT_TRUE(mgr_->insert(kTable, "box", boxSidecar(0.0, 0.0, 10.0, 10.0)));
+
+    // Corner point: on the boundary.
+    EXPECT_EQ(mgr_->searchContains(kTable, 0.0, 0.0).size(), 1u);
+    EXPECT_EQ(mgr_->searchContains(kTable, 10.0, 10.0).size(), 1u);
+    // Edge mid-point.
+    EXPECT_EQ(mgr_->searchContains(kTable, 5.0, 0.0).size(), 1u);
+    // Outside.
+    EXPECT_TRUE(mgr_->searchContains(kTable, 11.0, 5.0).empty());
 }

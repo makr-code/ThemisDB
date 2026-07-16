@@ -1,0 +1,100 @@
+[
+  {
+    "number": 2618,
+    "title": "Epic: Dokumentations-Audit & Konsolidierung ÔÇô CI, AQL, MVCC, Struktur-Alignments",
+    "module": null,
+    "labels": "area:docs,priority:medium",
+    "review_note": "Manuell prüfen"
+  },
+  {
+    "number": 2619,
+    "title": "Sub-Issue: CI-Integration/Workflow-Check (Docs Ôåö Workflows, Validierungs-Status)",
+    "module": null,
+    "labels": "area:docs,priority:medium",
+    "review_note": "Manuell prüfen"
+  },
+  {
+    "number": 2509,
+    "title": "[Research] Literatur- und Quellenrecherche f├╝r Modul: acceleration (GPU, SIMD, Hardware Acceleration)",
+    "module": "research",
+    "labels": "priority:medium",
+    "review_note": "Kein Modul-Roadmap-Ziel, manuell prüfen"
+  },
+  {
+    "number": 1624,
+    "title": "[cdc] Improve performance benchmarks for event throughput and latency",
+    "module": "cdc",
+    "labels": "enhancement,priority:medium,cdc",
+    "review_note": "Modul-Historie uneindeutig (Top v1.6.0 = 11/24), manuell prüfen"
+  },
+  {
+    "number": 1618,
+    "title": "[cdc] Change stream compression for high-volume feeds",
+    "module": "cdc",
+    "labels": "enhancement,priority:medium,cdc,copilot/delegated",
+    "review_note": "Modul-Historie uneindeutig (Top v1.6.0 = 11/24), manuell prüfen"
+  },
+  {
+    "number": 1613,
+    "title": "[cdc] Kafka-compatible producer interface for enterprise integration",
+    "module": "cdc",
+    "labels": "enhancement,priority:medium,cdc",
+    "review_note": "Modul-Historie uneindeutig (Top v1.6.0 = 11/24), manuell prüfen"
+  },
+  {
+    "number": 1612,
+    "title": "[cdc] Outbox pattern support for transactional change publishing",
+    "module": "cdc",
+    "labels": "enhancement,priority:medium,cdc",
+    "review_note": "Modul-Historie uneindeutig (Top v1.6.0 = 11/24), manuell prüfen"
+  },
+  {
+    "number": 1592,
+    "title": "[cache] Implement Redis-compatible distributed cache coordination protocol",
+    "module": "cache",
+    "labels": "enhancement,priority:medium,cache",
+    "review_note": "Zu wenig Historie (1/2), manuell prüfen"
+  },
+  {
+    "number": 1580,
+    "title": "[cache] Health checks and cache diagnostics endpoint",
+    "module": "cache",
+    "labels": "enhancement,priority:medium,cache",
+    "review_note": "Zu wenig Historie (1/2), manuell prüfen"
+  },
+  {
+    "number": 1578,
+    "title": "[cache] Cache warmup with bulk operations",
+    "module": "cache",
+    "labels": "enhancement,priority:medium,cache",
+    "review_note": "Zu wenig Historie (1/2), manuell prüfen"
+  },
+  {
+    "number": 1512,
+    "title": "[api] Implement security audit for API endpoints",
+    "module": "api",
+    "labels": "enhancement,priority:medium,api,copilot/delegated",
+    "review_note": "Keine belastbare Modul-Historie im Auto-Mapping, manuell prüfen"
+  },
+  {
+    "number": 1509,
+    "title": "[api] Improve API unit test coverage threshold",
+    "module": "api",
+    "labels": "enhancement,priority:medium,api",
+    "review_note": "Keine belastbare Modul-Historie im Auto-Mapping, manuell prüfen"
+  },
+  {
+    "number": 1507,
+    "title": "[api] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go",
+    "module": "api",
+    "labels": "enhancement,priority:medium,api",
+    "review_note": "Keine belastbare Modul-Historie im Auto-Mapping, manuell prüfen"
+  },
+  {
+    "number": 1296,
+    "title": "RAG-Modul: Production Readiness sichern ÔÇô Stubs ersetzen, NLI/Semantik, Unit-Tests, Roadmap",
+    "module": null,
+    "labels": "type:feature,priority:medium,status:open",
+    "review_note": "Manuell prüfen"
+  }
+]

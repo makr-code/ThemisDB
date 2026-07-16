@@ -1,29 +1,27 @@
+/**
+ * @file metrics_collector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            metrics_collector.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     410                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c64d550cf  2026-02-21  feat(core): implement Prometheus metrics adapter for Kube... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: metrics_collector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 447
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=6, L=0
+ * PR History (last 5): #4272 feat(observability): upgrad... (2026-03-15) | #3328 [WIP] Add SLO/SLA complianc... (2026-03-12) | #3318 [WIP] Add ML-based anomaly ... (2026-03-12) | #3100 feat(observability): adapti... (2026-03-12) | #2573 feat(observability): wire c... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "observability/metrics_collector.h"
 #include "security/pii_redaction_policy.h"
 #include <algorithm>
+#include <shared_mutex>
 #include <sstream>
 #include <iomanip>
 #include <numeric>
@@ -71,12 +69,12 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
     setGauge("query_result_count", static_cast<double>(result_count), {{"type", query_type}});
 }
 
-void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
+void MetricsCollector::recordIndexScan(const std::string& index_type, [[maybe_unused]] size_t keys_scanned) {
     incrementCounter("index_scans_total", {{"type", index_type}});
     incrementCounter("index_keys_scanned", {{"type", index_type}});
 }
 
-void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
+void MetricsCollector::recordFullScan(const std::string& table, [[maybe_unused]] size_t keys_scanned) {
     incrementCounter("full_scans_total", {{"table", table}});
     incrementCounter("full_scan_keys", {{"table", table}});
 }
@@ -112,16 +110,16 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
 
 // ===== Content Processing Metrics =====
 
-void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
+void MetricsCollector::recordContentImport(const std::string& mime_type, [[maybe_unused]] size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
     incrementCounter("content_bytes_imported", {{"mime_type", mime_type}});
 }
 
-void MetricsCollector::recordChunkCreation(size_t chunk_count) {
+void MetricsCollector::recordChunkCreation([[maybe_unused]] size_t chunk_count) {
     incrementCounter("chunks_created_total", {});
 }
 
-void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms) {
+void MetricsCollector::recordEmbeddingGeneration([[maybe_unused]] size_t count, double latency_ms) {
     incrementCounter("embeddings_generated_total", {});
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
@@ -152,7 +150,7 @@ void MetricsCollector::recordCPUUsage(double percent) {
     setGauge("cpu_usage_percent", percent, {});
 }
 
-void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
+void MetricsCollector::recordDiskIOps([[maybe_unused]] size_t read_ops, [[maybe_unused]] size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
 }
@@ -175,7 +173,7 @@ void MetricsCollector::recordTotalSpans(int64_t count) {
 // ===== Prometheus Text Format Export =====
 
 std::string MetricsCollector::getPrometheusMetrics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     std::ostringstream oss;
     
     // Header
@@ -237,10 +235,11 @@ std::string MetricsCollector::getPrometheusMetrics() const {
 }
 
 void MetricsCollector::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     counters_.clear();
     gauges_.clear();
     histograms_.clear();
+    cardinality_limit_ = 0;
     series_count_per_metric_.clear();
     dropped_series_.store(0);
 }
@@ -248,12 +247,12 @@ void MetricsCollector::reset() {
 // ===== Cardinality control =====
 
 void MetricsCollector::setCardinalityLimit(size_t limit) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     cardinality_limit_ = limit;
 }
 
 size_t MetricsCollector::getCardinalityLimit() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return cardinality_limit_;
 }
 
@@ -298,7 +297,7 @@ void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) 
 void MetricsCollector::addCounter(const std::string& name, int64_t delta,
                                    const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     counters_[key] += delta;
 }
@@ -306,7 +305,7 @@ void MetricsCollector::addCounter(const std::string& name, int64_t delta,
 void MetricsCollector::modifyGauge(const std::string& name, double delta,
                                     const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     // Read current value (treat as 0 if the gauge doesn't exist yet) then add delta.
     auto it = gauges_.find(key);
@@ -316,20 +315,20 @@ void MetricsCollector::modifyGauge(const std::string& name, double delta,
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     counters_[key]++;
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
     gauges_[key].store(value);
 }
 
 void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) return;
     
@@ -343,7 +342,7 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
 void MetricsCollector::observeHistogramWithExemplar(const std::string& name, double value,
                                                     const Exemplar& exemplar,
                                                     const std::map<std::string, std::string>& labels) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) return;
 
@@ -457,3 +456,4 @@ double LatencyTracker::elapsedMs() const {
 
 } // namespace observability
 } // namespace themis
+

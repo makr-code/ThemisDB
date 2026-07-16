@@ -1,28 +1,27 @@
+/**
+ * @file differential_update_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            differential_update_engine.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     284                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: differential_update_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 323
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=13, L=0
+ * PR History (last 5): #104 RPC Framework with gRPC Plu... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rpc/differential_update_engine.h"
 #include <openssl/sha.h>
 #include <fstream>
+#include <unordered_map>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -166,10 +165,57 @@ public:
         const std::vector<uint32_t>& chunk_indices
     ) {
         std::map<uint32_t, std::string> chunks;
-        
-        // TODO: Extract specific chunks from blob
-        // For now, placeholder implementation
-        
+
+        if (chunk_indices.empty()) { return chunks; }
+
+        // Read the entire blob (manifest is already held by the caller; we
+        // re-derive boundaries from the default CDC mode so we can seek to the
+        // right offsets without requiring the caller to pass a manifest).
+        std::ifstream file(blob_path, std::ios::binary);
+        if (!file) { return chunks; }
+
+        std::string data((std::istreambuf_iterator<char>(file)),
+                         std::istreambuf_iterator<char>());
+        file.close();
+
+        // Build a full manifest (CDC for non-trivial blobs, whole-file otherwise)
+        // so we can map chunk_index → (offset, size).
+        auto boundaries = rabin_->FindChunkBoundaries(data);
+        std::vector<ChunkInfo> manifest;
+        if (boundaries.size() >= 2) {
+            for (size_t i = 0; i < boundaries.size() - 1; i++) {
+                uint64_t start = boundaries[i];
+                uint64_t end   = boundaries[i + 1];
+                uint32_t sz    = static_cast<uint32_t>(end - start);
+                ChunkInfo info;
+                info.offset = start;
+                info.size   = sz;
+                info.index  = static_cast<uint32_t>(i);
+                info.hash   = CalculateHash(data.substr(start, sz));
+                manifest.push_back(info);
+            }
+        } else {
+            // Trivial: whole blob is one chunk
+            ChunkInfo info;
+            info.offset = 0;
+            info.size   = static_cast<uint32_t>(data.size());
+            info.index  = 0;
+            info.hash   = CalculateHash(data);
+            manifest.push_back(info);
+        }
+
+        // Build index → ChunkInfo lookup
+        std::unordered_map<uint32_t, const ChunkInfo*> by_index;
+        for (const auto& c : manifest) { by_index[c.index] = &c; }
+
+        for (uint32_t idx : chunk_indices) {
+            auto it = by_index.find(idx);
+            if (it == by_index.end()) { continue; }
+            const ChunkInfo& ci = *it->second;
+            if (ci.offset + ci.size > data.size()) { continue; }
+            chunks[idx] = data.substr(ci.offset, ci.size);
+        }
+
         return chunks;
     }
 
@@ -183,12 +229,12 @@ private:
         for (size_t i = 0; i < boundaries.size() - 1; i++) {
             uint64_t start = boundaries[i];
             uint64_t end = boundaries[i + 1];
-            uint32_t size = end - start;
+            uint32_t size = static_cast<uint32_t>(end - start);
             
             ChunkInfo info;
             info.offset = start;
             info.size = size;
-            info.index = i;
+            info.index = static_cast<uint32_t>(i);
             info.hash = CalculateHash(data.substr(start, size));
             
             manifest.push_back(info);
@@ -206,7 +252,7 @@ private:
         uint32_t index = 0;
         
         for (uint64_t offset = 0; offset < data.size(); offset += chunk_size) {
-            uint32_t size = std::min(chunk_size, data.size() - offset);
+            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(data.size() - offset)));
             
             ChunkInfo info;
             info.offset = offset;
@@ -225,7 +271,7 @@ private:
         
         ChunkInfo info;
         info.offset = 0;
-        info.size = data.size();
+        info.size = static_cast<uint32_t>(data.size());
         info.index = 0;
         info.hash = CalculateHash(data);
         
@@ -285,3 +331,4 @@ std::map<uint32_t, std::string> DifferentialUpdateEngine::ExtractChunks(
 
 } // namespace rpc
 } // namespace themis
+

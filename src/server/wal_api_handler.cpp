@@ -1,23 +1,21 @@
+/**
+ * @file wal_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_api_handler.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     228                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=2, L=0
+ * PR History (last 5): #460 Refactor: Extract WAL repli... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/wal_api_handler.h"
@@ -60,6 +58,7 @@ WALApiHandler::WALApiHandler(
 http::response<http::string_body> WALApiHandler::handleApply(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleApply");
     // HMAC/shared-secret auth (optional)
     if (!wal_shared_secret_.empty()) {
         auto hdr = req.find("X-WAL-Auth");
@@ -84,6 +83,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
     if (!wal_applier_) {
         return makeErrorResponse(http::status::service_unavailable, "WAL applier not configured", req);
     }
+    auto& wal_applier = *wal_applier_;
 
     nlohmann::json payload;
     try {
@@ -134,7 +134,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
             std::string("Invalid WAL entry: ") + e.what(), req);
     }
 
-    auto result = wal_applier_->applyBatch(entries);
+    auto result = wal_applier.applyBatch(entries);
     auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - apply_start).count();
     recordLatency(elapsed_us);
@@ -152,7 +152,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
 
     wal_apply_success_.fetch_add(1, std::memory_order_relaxed);
     {
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        std::unique_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         wal_last_applied_lsn_ = result.last_applied_lsn.toString();
     }
 

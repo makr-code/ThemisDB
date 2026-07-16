@@ -6,7 +6,12 @@ This directory contains documentation and tools related to the GitHub Actions CI
 
 ### Documentation
 
-- **[workflows-inventory.md](workflows-inventory.md)** - Complete inventory of all 53 GitHub Actions workflows
+- **[workflows/](workflows/README.md)** - Per-Workflow-Dokumentation (217 Workflows)
+  - Aufgabe und Funktionsweise jedes Workflows
+  - Auslöser, Eingaben, Jobs und Schritte
+  - Automatisch generiert aus den Workflow-YAML-Dateien
+
+- **[workflows-inventory.md](workflows-inventory.md)** - Complete inventory of all GitHub Actions workflows
   - Workflow metadata and configuration
   - Categorization by purpose
   - Common patterns analysis
@@ -19,6 +24,14 @@ This directory contains documentation and tools related to the GitHub Actions CI
   - Reusable workflows and composite actions
   - Phased migration plan
   - Risk assessment and mitigation strategies
+
+- **WordPress plugin release/operations docs** - currently maintained outside this folder
+  - Manual release workflow inputs and validation
+  - Flat/nested repository layout support
+  - Tag/asset conventions for plugin-specific releases
+  - Local dry-run and batch release scripts
+  - End-to-end release operating procedure
+  - Verification commands and failure recovery
 
 - **[../ci/NIGHTLY_BUILD.md](../ci/NIGHTLY_BUILD.md)** - Nightly Build System with automatic issue tracking
   - Automated builds across multiple platforms, compilers, and build types
@@ -42,47 +55,70 @@ This script:
 - Generates the inventory markdown document
 - Requires only Python 3.7+ and PyYAML
 
-## Workflow Structure
+## Workflow Architecture (Current State)
 
-### Current State (53 workflows)
+The CI/CD pipeline was consolidated in February 2026 and documented in April 2026. The current architecture consists of **20 workflows** organized in a three-tier hierarchy:
 
-The repository currently has 53 workflow files organized by purpose:
+```
+Entry Workflows (12)      ← triggered by GitHub events
+  ├── Reusable Workflows (7)   ← workflow_call, parameterized
+  │    └── Composite Actions (8) ← shared step sequences
+  └── Composite Actions (8)
+```
 
-- **PR CI** (6) - Pull request validation workflows
-- **SDK Testing** (9) - Language-specific SDK test workflows  
-- **Security & Compliance** (4) - Security scanning and compliance checks
-- **Documentation** (4) - Documentation build and deployment
-- **Release** (5) - Release automation workflows
-- **Testing** (5) - Extended test suites
-- **Performance** (3) - Benchmarking workflows
-- **Other** (17) - Various specialized workflows
+### Entry Workflow Categories
 
-### Target State (15-20 workflows)
+| Category | Workflow | Purpose |
+|----------|----------|---------|
+| PR Validation | `ci-pull-request.yml` | Fast validation, build, security scan on all PRs |
+| Main Branch | `ci-main-branch.yml` | Comprehensive build for main/develop branches |
+| Nightly | `ci-nightly.yml` | Nightly builds, extended tests, benchmarks |
+| Release | `ci-release.yml` | Release build, sign, publish, changelog |
+| Security | `security-scan.yml` | CodeQL, dependency scan, SAST |
+| Docs | `docs-build.yml` | Documentation build and GitHub Pages deploy |
+| Performance | `perf-benchmark.yml` | GPU benchmarking and regression detection |
+| Operations | `ops-automation.yml` | Monthly operational tasks and reviews |
 
-The consolidation plan proposes a streamlined structure:
+→ Full architecture details: [ci-architecture.md](ci-architecture.md)
 
-- **8-12 Entry Workflows** - Main user-facing workflows
-- **5-8 Reusable Workflows** - Parameterized, reusable components
-- **6-10 Composite Actions** - Shared step sequences
+## Release Process
 
-Key improvements:
-- 60-70% reduction in workflow files
-- Centralized maintenance of common patterns
-- Consistent standards and conventions
-- Better caching and performance
+### Standard Release Workflow
+
+1. **Prepare release branch** from `develop` or `main`
+2. **CI runs automatically**: build, test, security scan
+3. **Tag with semver**: `git tag v1.X.Y`
+4. **Release workflow triggers** automatically on tag push:
+   - Builds release artifacts for all platforms
+   - Signs artifacts and generates checksums
+   - Creates GitHub Release with CHANGELOG excerpt
+   - Publishes container images to registry
+5. **Post-release validation**: automated smoke tests against release artifacts
+
+### Hotfix Workflow
+
+1. Branch from `main`: `hotfix/vX.Y.Z`
+2. Apply fix, update `CHANGELOG.md`
+3. PR to `main` (triggers CI)
+4. Tag and release (same as standard)
+5. Merge back to `develop`
+
+→ Full branching strategy: [ci-architecture.md](ci-architecture.md)  
+→ Git Flow guide: [GIT_FLOW_QUICK_REFERENCE.md](GIT_FLOW_QUICK_REFERENCE.md)
 
 ## Related Documentation
 
 The ThemisDB repository contains additional CI/CD related documentation:
 
 - **[CI_CD_WORKFLOWS.md](../CI_CD_WORKFLOWS.md)** - Git Flow CI/CD pipeline documentation
-- **[COMPLETE_CICD_STRATEGY.md](../COMPLETE_CICD_STRATEGY.md)** - Complete automated CI/CD strategy (German)
-- **[CI_CD_REVIEW_BRANCHING_STRATEGY.md](../CI_CD_REVIEW_BRANCHING_STRATEGY.md)** - Branching strategy review
-- **[CI_TEST_REPORTING.md](../CI_TEST_REPORTING.md)** - Test reporting setup
+- **[COMPLETE_CICD_STRATEGY.md](COMPLETE_CICD_STRATEGY.md)** - Complete automated CI/CD strategy
+- **[CI_TEST_REPORTING.md](CI_TEST_REPORTING.md)** - Test reporting setup
+- **[../OPERATIONS.md](../OPERATIONS.md)** - Main Operations Hub (includes CI/CD links)
+- **[../production/RUNBOOKS/UPGRADE_RUNBOOK.md](../production/RUNBOOKS/UPGRADE_RUNBOOK.md)** - Upgrade procedures
 
-This inventory and consolidation plan complements the existing documentation by providing:
-- Complete analysis of all 53 workflow files
-- Consolidation opportunities and migration strategy
+This documentation complements the existing docs by providing:
+- Complete architecture overview of the consolidated 20 workflows
+- Release and hotfix process documentation
 - Automated inventory generation tool
 
 ## Quick Links
@@ -122,10 +158,10 @@ When adding or modifying workflows:
 
 ## Migration Status
 
-🟡 **Planning Phase** - Consolidation plan is complete, implementation pending
+🟢 **Complete** - Consolidation from 53 → 20 workflows completed in February 2026.
 
-See [consolidation-plan.md](consolidation-plan.md) for the detailed migration roadmap.
+See [consolidation-plan.md](consolidation-plan.md) for the migration history.
 
 ---
 
-*Last updated: 2026-02-10*
+*Last updated: May 2026*

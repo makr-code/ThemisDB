@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_model_serving.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     515                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90cdb41ff  2026-02-24  feat(analytics): implement model serving and online infer... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_model_serving.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -42,7 +27,10 @@
 #include <gtest/gtest.h>
 #include "analytics/model_serving.h"
 
+#include <atomic>
+#include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <string>
 #include <thread>
 #include <vector>
@@ -269,7 +257,7 @@ TEST(ModelServingEngine, PredictRegressionReturnsNumericString) {
     dp.set("x2", 0.3);
 
     auto val_str = engine.predict("reg", "v1", dp);
-    EXPECT_NO_THROW(std::stod(val_str));
+    EXPECT_NO_THROW((void)std::stod(val_str));
 }
 
 TEST(ModelServingEngine, PredictMissingModelThrows) {
@@ -513,4 +501,114 @@ TEST(ModelServingEngine, ConcurrentReadsAreThreadSafe) {
     auto h = engine.healthMetrics("cls", "v1");
     ASSERT_TRUE(h.has_value());
     EXPECT_EQ(h->total_batch_calls, static_cast<uint64_t>(kThreads * 10));
+}
+
+// ============================================================================
+// predict() does not hold registry lock during inference
+// (concurrent unregisterModel must not deadlock or crash)
+// ============================================================================
+
+TEST(ModelServingEngine, PredictReleasesRegistryLockBeforeInference) {
+    // Register a model, start many concurrent predict() callers, then
+    // concurrently call unregisterModel().  With the old implementation this
+    // would have held the shared lock across inference, preventing the
+    // exclusive lock in unregisterModel() from making progress.  With the new
+    // shared_ptr-capture pattern both sides proceed independently.
+    ModelServingEngine engine;
+    engine.registerModel("cls", "v1", trainClassifier(100));
+
+    DataPoint dp;
+    dp.set("x1", 0.5);
+    dp.set("x2", 0.3);
+
+    constexpr int kReaders = 8;
+    constexpr int kIter    = 20;
+
+    std::vector<std::thread> readers;
+    readers.reserve(kReaders);
+    for (int t = 0; t < kReaders; ++t) {
+        readers.emplace_back([&] {
+            for (int i = 0; i < kIter; ++i) {
+                // After unregister the call may throw out_of_range — that is
+                // the expected behaviour; what must NOT happen is a crash or
+                // deadlock.
+                try { engine.predict("cls", "v1", dp); } catch (...) {}
+            }
+        });
+    }
+
+    // Give readers a head-start then unregister concurrently.
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    engine.unregisterModel("cls", "v1");
+
+    for (auto& th : readers) th.join();
+    // Engine must still be usable after the concurrent unregister.
+    EXPECT_FALSE(engine.isRegistered("cls", "v1"));
+}
+
+// ============================================================================
+// Throughput benchmark: 16 concurrent predict() callers (opt-in)
+// ============================================================================
+
+TEST(ModelServingEngine, ConcurrentPredictThroughputBenchmark) {
+    const char* env = std::getenv("THEMIS_RUN_PERF_TESTS");
+    if (!env || std::string(env) != "1") {
+        GTEST_SKIP() << "Skipping performance benchmark "
+                        "(set THEMIS_RUN_PERF_TESTS=1 to run)";
+    }
+
+    // Disable per-call latency tracking: recordLatency() holds health_mu
+    // while sorting a 1000-element window — that O(N log N) operation under
+    // a shared mutex would dominate the measurement and hide the registry-lock
+    // improvement this benchmark is designed to verify.
+    ModelServingConfig cfg;
+    cfg.track_latency = false;
+    ModelServingEngine engine(cfg);
+    engine.registerModel("bench", "v1", trainClassifier(200));
+
+    DataPoint dp;
+    dp.set("x1", 0.5);
+    dp.set("x2", 0.3);
+
+    constexpr int    kThreads    = 16;
+    constexpr double kDurationS  = 1.0;
+
+    std::atomic<uint64_t> total_preds{0};
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    auto wall_start = std::chrono::steady_clock::now();
+
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&] {
+            auto t_end = wall_start +
+                         std::chrono::duration<double>(kDurationS);
+            uint64_t local = 0;
+            while (std::chrono::steady_clock::now() < t_end) {
+                engine.predict("bench", "v1", dp);
+                ++local;
+            }
+            total_preds.fetch_add(local, std::memory_order_relaxed);
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    double elapsed_s = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - wall_start).count();
+    double preds_per_sec_per_core =
+        static_cast<double>(total_preds.load()) / elapsed_s /
+        static_cast<double>(kThreads);
+
+    // Requirement: ≥ 10 000 predictions/s per core (easily met by any
+    // in-process decision-tree model once the registry lock is released
+    // before inference; only fails if the registry lock is still held
+    // during inference, causing 16-way serialisation).
+    EXPECT_GE(preds_per_sec_per_core, 10'000.0)
+        << "Throughput: " << preds_per_sec_per_core
+        << " predictions/s/core (required ≥ 10 000)";
+
+    // Report for informational purposes even on pass.
+    std::cout << "[Benchmark] ConcurrentPredictThroughput: "
+              << static_cast<uint64_t>(preds_per_sec_per_core)
+              << " predictions/s/core across " << kThreads << " threads\n";
 }

@@ -1,37 +1,34 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            edge_types.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     440                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file edge_types.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-// Edge Type Registry Implementation
+/*
+ * ThemisDB | File: edge_types.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 430
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=1, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 
 #include "index/edge_types.h"
 #include "storage/base_entity.h"
 
 #include <mutex>
 
-namespace themis {
-
 namespace {
     std::once_flag init_flag;
 }
+
+namespace themis {
 
 EdgeTypeRegistry& EdgeTypeRegistry::instance() {
     static EdgeTypeRegistry registry;
@@ -317,7 +314,9 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info
     if (info.type_name.empty()) {
         return Status::Error("Edge type name cannot be empty");
     }
-    
+
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
+
     if (types_.count(info.type_name)) {
         return Status::Error("Edge type '" + info.type_name + "' is already registered");
     }
@@ -329,18 +328,29 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info
 }
 
 EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info, ValidationFunc validator) {
-    auto st = registerType(info);
-    if (!st.ok) return st;
-    
+    if (info.type_name.empty()) {
+        return Status::Error("Edge type name cannot be empty");
+    }
+
+    std::unique_lock<std::shared_mutex> lock(registry_mutex_);
+
+    if (types_.count(info.type_name)) {
+        return Status::Error("Edge type '" + info.type_name + "' is already registered");
+    }
+
+    types_[info.type_name] = info;
+    category_index_[info.category].insert(info.type_name);
     validators_[info.type_name] = std::move(validator);
     return Status::OK();
 }
 
 bool EdgeTypeRegistry::isRegistered(std::string_view type_name) const {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     return types_.count(std::string(type_name)) > 0;
 }
 
 std::optional<EdgeTypeInfo> EdgeTypeRegistry::getTypeInfo(std::string_view type_name) const {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     auto it = types_.find(std::string(type_name));
     if (it != types_.end()) {
         return it->second;
@@ -349,6 +359,7 @@ std::optional<EdgeTypeInfo> EdgeTypeRegistry::getTypeInfo(std::string_view type_
 }
 
 std::vector<std::string> EdgeTypeRegistry::getTypesByCategory(EdgeCategory category) const {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     std::vector<std::string> result;
     auto it = category_index_.find(category);
     if (it != category_index_.end()) {
@@ -358,22 +369,25 @@ std::vector<std::string> EdgeTypeRegistry::getTypesByCategory(EdgeCategory categ
 }
 
 std::optional<EdgeCategory> EdgeTypeRegistry::getCategoryForType(std::string_view type_name) const {
-    auto info = getTypeInfo(type_name);
-    if (info.has_value()) {
-        return info->category;
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
+    auto it = types_.find(std::string(type_name));
+    if (it != types_.end()) {
+        return it->second.category;
     }
     return std::nullopt;
 }
 
 EdgeTypeRegistry::Status EdgeTypeRegistry::validateEdge(std::string_view type_name, const BaseEntity& edge) const {
-    auto info = getTypeInfo(type_name);
-    if (!info.has_value()) {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
+    auto it = types_.find(std::string(type_name));
+    if (it == types_.end()) {
         // Unregistered types are allowed (CUSTOM category assumed)
         return Status::OK();
     }
+    const EdgeTypeInfo& info = it->second;
 
     // Check temporal requirements
-    if (info->requires_temporal) {
+    if (info.requires_temporal) {
         if (!edge.hasField("valid_from") && !edge.hasField("valid_to")) {
             return Status::Error("Edge type '" + std::string(type_name) + 
                 "' requires temporal fields (valid_from or valid_to)");
@@ -381,10 +395,9 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::validateEdge(std::string_view type_na
     }
 
     // Check weight requirements
-    if (info->is_weighted) {
+    if (info.is_weighted) {
         if (!edge.hasField("_weight")) {
             // Weight is recommended but not strictly required
-            // Could log a warning here
         }
     }
 
@@ -400,14 +413,16 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::validateEdge(std::string_view type_na
 }
 
 std::optional<std::string> EdgeTypeRegistry::getInverseType(std::string_view type_name) const {
-    auto info = getTypeInfo(type_name);
-    if (info.has_value()) {
-        return info->inverse_type;
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
+    auto it = types_.find(std::string(type_name));
+    if (it != types_.end()) {
+        return it->second.inverse_type;
     }
     return std::nullopt;
 }
 
 std::vector<std::string> EdgeTypeRegistry::listAllTypes() const {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     std::vector<std::string> result;
     result.reserve(types_.size());
     for (const auto& [name, _] : types_) {

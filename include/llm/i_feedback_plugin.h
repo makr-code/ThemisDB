@@ -1,52 +1,22 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            i_feedback_plugin.h                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     263                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
-
-#include <string>
-#include <memory>
-#include <optional>
-#include <nlohmann/json.hpp>
 
 /**
  * @file i_feedback_plugin.h
- * @brief Plugin interface for feedback validation and preprocessing
- * 
- * This interface enables optional custom validation, preprocessing, and filtering
- * logic for user feedback in the LoRA continuous learning system.
- * 
- * The simplified feedback system stores all feedback in the relational collection
- * with graph links to adapters. Validation and filtering are optional and can be
- * implemented via plugins for:
- * - Spam detection
- * - Content filtering
- * - Privacy checks (PII detection)
- * - Quality scoring
- * - Custom analytics
- * - Pre-training data transformations
- * 
- * This design separates concerns and allows customization without modifying core code.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <nlohmann/json.hpp>
+
+#include <cstddef>
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -113,24 +83,24 @@ public:
     /**
      * @brief Get plugin name
      */
-    virtual std::string getName() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
     
     /**
      * @brief Get plugin version
      */
-    virtual std::string getVersion() const = 0;
+    [[nodiscard]] virtual std::string getVersion() const = 0;
     
     /**
      * @brief Get plugin description
      */
-    virtual std::string getDescription() const = 0;
+    [[nodiscard]] virtual std::string getDescription() const = 0;
     
     /**
      * @brief Initialize plugin with configuration
      * @param config Plugin-specific configuration
      * @return true if initialization successful
      */
-    virtual bool initialize(const json& config) = 0;
+    [[nodiscard]] virtual bool initialize(const json& config) = 0;
     
     /**
      * @brief Validate and optionally preprocess feedback
@@ -144,7 +114,7 @@ public:
      * @param feedback Feedback data to validate
      * @return ValidationResponse with result and optional modifications
      */
-    virtual ValidationResponse validate(const FeedbackData& feedback) = 0;
+    [[nodiscard]] virtual ValidationResponse validate(const FeedbackData& feedback) = 0;
     
     /**
      * @brief Post-storage hook (optional)
@@ -159,11 +129,9 @@ public:
      * @param feedback Original feedback data
      */
     virtual void onFeedbackStored(
-        const std::string& feedback_id,
-        const FeedbackData& feedback) {
+        [[maybe_unused]] const std::string& feedback_id,
+        [[maybe_unused]] const FeedbackData& feedback) {
         // Default: no-op
-        (void)feedback_id;
-        (void)feedback;
     }
     
     /**
@@ -197,6 +165,8 @@ public:
  */
 class NoOpFeedbackPlugin : public IFeedbackPlugin {
 public:
+    ~NoOpFeedbackPlugin() override = default;
+
     std::string getName() const override {
         return "noop";
     }
@@ -209,13 +179,11 @@ public:
         return "No-op feedback plugin - accepts all feedback";
     }
     
-    bool initialize(const json& config) override {
-        (void)config;
+    bool initialize([[maybe_unused]] const json& config) override {
         return true;
     }
     
-    ValidationResponse validate(const FeedbackData& feedback) override {
-        (void)feedback;
+    ValidationResponse validate([[maybe_unused]] const FeedbackData& feedback) override {
         ValidationResponse response;
         response.result = FeedbackValidationResult::ACCEPT;
         return response;
@@ -234,6 +202,8 @@ public:
  */
 class BasicSpamDetectionPlugin : public IFeedbackPlugin {
 public:
+    ~BasicSpamDetectionPlugin() override = default;
+
     std::string getName() const override {
         return "basic_spam_detection";
     }

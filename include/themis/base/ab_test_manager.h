@@ -1,25 +1,20 @@
+/**
+ * @file ab_test_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ab_test_manager.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b378728e1  2026-02-28  fix(base/ab_test_manager): code audit - TOCTOU fix, mutex... ║
-    • 09a1190be  2026-02-28  feat(base): implement A/B testing framework with module s... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ab_test_manager.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // A/B testing framework with module swapping for ThemisDB base module.
@@ -69,6 +64,10 @@
 #include <unordered_map>
 #include <vector>
 
+// Forward declarations to avoid heavy transitive includes.
+namespace themis { class IStorageEngine; }
+namespace themis { namespace observability { class MetricsCollector; } }
+
 namespace themis {
 namespace modules {
 
@@ -103,6 +102,10 @@ struct ABModuleTestConfig {
     double      significance_level = 0.05; ///< p-value threshold
     double      min_improvement    = 0.02; ///< Minimum improvement to consider promoting
     std::chrono::hours max_duration{72};   ///< Maximum test duration
+    /// Bayesian Thompson Sampling auto-stop threshold.
+    /// When P(treatment beats control) exceeds this value the test is auto-concluded.
+    /// Set to 0.0 to disable auto-stop.
+    double      thompson_stop_threshold = 0.95;
 };
 
 // =============================================================================
@@ -141,6 +144,26 @@ struct ABModuleTestResult {
 };
 
 // =============================================================================
+// ABTestMetricRow
+// =============================================================================
+
+/**
+ * @brief A flat metric snapshot for one variant of one A/B test.
+ *
+ * Returned by ABTestManager::exportMetricsSnapshot() for admin API consumption.
+ */
+struct ABTestMetricRow {
+    std::string  test_id;
+    std::string  variant;          ///< "control" or "treatment"
+    size_t       requests    = 0;  ///< Total requests routed to this variant
+    size_t       conversions = 0;  ///< Successful outcomes
+    double       success_rate    = 0.0; ///< conversions / requests
+    double       mean_latency_ms = 0.0; ///< Running mean latency
+    double       latency_p99_ms  = 0.0; ///< Estimated p99 (mean + 2.33 σ)
+    ABTestStatus status          = ABTestStatus::ACTIVE;
+};
+
+// =============================================================================
 // ABTestManager
 // =============================================================================
 
@@ -171,6 +194,45 @@ public:
 
     ABTestManager(const ABTestManager&)            = delete;
     ABTestManager& operator=(const ABTestManager&) = delete;
+
+    // -------------------------------------------------------------------------
+    // Observability & persistence wiring
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach a storage engine for RocksDB persistence (optional).
+     *
+     * When set, test configs and metrics are persisted under the key prefix
+     * @c "ab_test::" so they survive server restarts.  Call before start().
+     *
+     * @param engine  Non-owning pointer to an IStorageEngine implementation.
+     *                Pass nullptr to disable persistence.
+     */
+    void setStorageEngine(IStorageEngine* engine);
+
+    /**
+     * @brief Attach a MetricsCollector for observability export (optional).
+     *
+     * When set, recordOutcome() emits per-variant counters and gauges to the
+     * collector *outside* the internal mutex so the hot-path is not blocked.
+     *
+     * @param metrics  Non-owning pointer to a MetricsCollector instance.
+     *                 Pass nullptr to disable metrics emission.
+     */
+    void setMetricsCollector(observability::MetricsCollector* metrics);
+
+    /**
+     * @brief Load previously persisted test entries from storage.
+     *
+     * Scans the @c "ab_test::" key prefix in the attached storage engine and
+     * restores config and accumulated metrics for each entry.  Active tests are
+     * restored with @c treatment_loaded = false; callers should re-call
+     * startTest() with the same test_id to re-attach a module loader and reload
+     * the treatment binary while preserving the accumulated metrics.
+     *
+     * No-op when no storage engine has been set.
+     */
+    void start();
 
     // -------------------------------------------------------------------------
     // Test lifecycle
@@ -297,6 +359,17 @@ public:
     ABVariantMetrics         getControlMetrics(const std::string& test_id) const;
     ABVariantMetrics         getTreatmentMetrics(const std::string& test_id) const;
 
+    /**
+     * @brief Export a flat metric snapshot for all known tests.
+     *
+     * Returns two rows per test (control + treatment) with request/conversion
+     * counts, success rates, mean latency and estimated p99.  Intended for the
+     * admin API.
+     *
+     * @return One ABTestMetricRow per variant per test.
+     */
+    std::vector<ABTestMetricRow> exportMetricsSnapshot() const;
+
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
@@ -328,15 +401,19 @@ private:
         ABModuleTestConfig config;
         ABTestStatus       status            = ABTestStatus::ACTIVE;
         bool               treatment_loaded  = false;
+        bool               persisted_only    = false; ///< Restored from storage; not yet re-activated
         std::chrono::system_clock::time_point start_time;
         ModuleLoader*      loader_ptr        = nullptr; ///< Non-owning
         VariantData        control;
         VariantData        treatment;
+        size_t             outcome_count     = 0; ///< Number of recordOutcome() calls (for periodic persist)
     };
 
     mutable std::mutex mutex_;
     std::unordered_map<std::string, TestEntry> tests_;
-    HotReloadManager* reload_manager_ = nullptr; ///< Optional, non-owning
+    HotReloadManager*                reload_manager_    = nullptr; ///< Optional, non-owning
+    IStorageEngine*                  storage_engine_    = nullptr; ///< Optional, non-owning
+    observability::MetricsCollector* metrics_collector_ = nullptr; ///< Optional, non-owning
 
     // -------------------------------------------------------------------------
     // Statistics helpers
@@ -354,6 +431,32 @@ private:
 
     /// Unload the treatment binary for a test entry (caller must hold mutex_).
     void unloadTreatment(TestEntry& entry);
+
+    // -------------------------------------------------------------------------
+    // Persistence helpers
+    // -------------------------------------------------------------------------
+
+    /// Serialize and write @p entry to storage under key @c "ab_test::<test_id>".
+    /// No-op when storage_engine_ is null.  Must NOT be called while holding mutex_.
+    void persistTestEntry(const std::string& test_id, const TestEntry& entry) const;
+
+    // -------------------------------------------------------------------------
+    // Bayesian helpers
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Estimate P(treatment_success_rate > control_success_rate) via the
+     *        normal approximation of the Beta-Binomial posterior.
+     *
+     * Uses uniform Beta(1,1) priors.  Returns a value in [0, 1].
+     *
+     * @param ctrl_success  Control successes.
+     * @param ctrl_failure  Control failures.
+     * @param trt_success   Treatment successes.
+     * @param trt_failure   Treatment failures.
+     */
+    static double thompsonProbTreatmentWins(size_t ctrl_success, size_t ctrl_failure,
+                                            size_t trt_success,  size_t trt_failure);
 };
 
 } // namespace modules

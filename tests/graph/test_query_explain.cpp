@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_query_explain.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_query_explain.cpp
  * @brief Focused unit tests for the graph query EXPLAIN API (Issue #1816).
@@ -209,19 +217,20 @@ TEST_F(GraphQueryExplainTest, ExplainConstrainedPath_ReturnsPlan) {
 
 TEST_F(GraphQueryExplainTest, ExplainConstrainedPath_NoExecutionSideEffect) {
     // Record query count before
-    const auto metrics_before = optimizer_->getQueryMetrics();
+    const auto& metrics_before = optimizer_->getQueryMetrics();
     const uint64_t queries_before = metrics_before.total_queries.load();
 
     themis::graph::PathConstraints pc(graph_mgr_.get());
     pc.addMaxLength(3);
-    optimizer_->explainConstrainedPath("A", "D", pc);
+    auto explain_result = optimizer_->explainConstrainedPath("A", "D", pc);
+    static_cast<void>(explain_result);
 
     // Only the execution counter is checked here: explainConstrainedPath is a
     // pure dry-run wrapper around optimizeConstrainedPath, which generates a
     // cost plan without traversing the graph.  Verifying total_queries=0 is the
     // canonical side-effect guard; cache population that may occur as a result
     // of plan caching is intentional and not considered a "execution" side-effect.
-    const auto metrics_after = optimizer_->getQueryMetrics();
+    const auto& metrics_after = optimizer_->getQueryMetrics();
     EXPECT_EQ(metrics_after.total_queries.load(), queries_before)
         << "explainConstrainedPath must not increment total_queries";
 }

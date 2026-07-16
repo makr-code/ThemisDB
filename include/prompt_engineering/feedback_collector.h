@@ -1,32 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_collector.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     359                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file feedback_collector.h
- * @brief Feedback collection system for prompt quality improvement
- * 
- * Collects and analyzes user feedback, system errors, and quality issues
- * to drive autonomous prompt optimization. Integrates with the self-improvement
- * orchestration system.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -37,12 +17,17 @@
 #include <chrono>
 #include <mutex>
 #include <optional>
+#include <functional>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace rocksdb { class ColumnFamilyHandle; }
 
 namespace themis {
 class RocksDBWrapper;
+
+// Forward declaration — full header included in .cpp only.
+namespace distributed_knowledge { class CrossShardFeedbackSync; }
 
 namespace prompt_engineering {
 
@@ -262,6 +247,17 @@ public:
      * @return Number of entries deleted
      */
     size_t clearFeedback(const std::string& prompt_id);
+
+    /**
+     * @brief Return the total number of feedback entries recorded since last clear.
+     *
+     * Used by Loop 4 (RLAIF) in ContinuousLearningOrchestrator to decide
+     * whether sufficient preference-pair data has accumulated to trigger a
+     * training round (threshold: >= 100 entries).
+     *
+     * @return Total number of entries across all prompt IDs.
+     */
+    [[nodiscard]] size_t newEntryCount() const;
     
     /**
      * @brief Get feedback entries for a specific prompt (paginated)
@@ -302,6 +298,39 @@ public:
      */
     nlohmann::json getSummary() const;
 
+    // ── DK-5: Cross-shard feedback propagation ────────────────────────────────
+
+    /**
+     * @brief Minimal embedding model interface for cross-shard feedback.
+     *
+     * Implement this (or inject a lambda via `setEmbeddingModel`) to provide
+     * the 384-dimensional float embedding that is broadcast — in place of the
+     * raw query text — when cross-shard sync is enabled.
+     */
+    struct IEmbeddingModel {
+        [[nodiscard]] virtual std::vector<float> embed(const std::string& text) const = 0;
+        virtual ~IEmbeddingModel() = default;
+    };
+
+    /**
+     * @brief Inject a `CrossShardFeedbackSync` hook (DK-5 DI-setter).
+     *
+     * When set together with an embedding model, `recordFeedback()` will
+     * publish an anonymised `FeedbackSummary` (embedding only, no raw text)
+     * to all peer shards via the sync component.
+     */
+    void setCrossShardSync(
+        std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> sync);
+
+    /**
+     * @brief Inject an embedding model for cross-shard summary generation.
+     *
+     * Required alongside `setCrossShardSync()` for the cross-shard publish
+     * path.  When absent, cross-shard publish is silently skipped and a
+     * warning is logged.
+     */
+    void setEmbeddingModel(std::shared_ptr<IEmbeddingModel> model);
+
 private:
     mutable std::mutex mutex_;
     
@@ -311,6 +340,10 @@ private:
     // Optional persistence
     RocksDBWrapper* db_ = nullptr;
     rocksdb::ColumnFamilyHandle* cf_ = nullptr;
+
+    // DK-5: Cross-shard feedback propagation (both must be set to enable)
+    std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> cross_shard_sync_;
+    std::shared_ptr<IEmbeddingModel>                               embedding_model_;
     
     static constexpr const char* KEY_PREFIX = "feedback:";
     /// Secondary time-based index prefix: "idx:time:{prompt_id}:{ts_us}:{id}" → entry_key

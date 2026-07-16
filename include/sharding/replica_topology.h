@@ -1,23 +1,20 @@
+/**
+ * @file replica_topology.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replica_topology.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     188                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replica_topology.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -42,26 +39,32 @@ namespace themis::sharding {
  * Maps shard IDs to replica sets for mirror and stripe-mirror replication.
  */
 
-/**
- * Shard replica set (e.g., [primary, replica1, replica2])
- */
+/** @brief Replica-set definition for one shard primary and its replicas. */
 struct ShardReplicaSet {
+    /** @brief Logical shard identifier. */
     std::string shard_id;
+    /** @brief Primary node identifier for this shard. */
     std::string primary_id;
+    /** @brief Replica node identifiers (excluding primary). */
     std::vector<std::string> replicas;  // replica_ids (excludes primary)
+    /** @brief Redundancy mode currently applied to this shard set. */
     RedundancyMode redundancy = RedundancyMode::MIRROR;
+    /** @brief Stripe-group identifier (used by STRIPE_MIRROR layouts). */
     uint64_t stripe_key = 0;            // For STRIPE_MIRROR: stripe group identifier
+    /** @brief Aggregate health flag for this shard set. */
     bool is_healthy = true;
 
     // Geo placement metadata (used for GEO_MIRROR and Raft placement)
     std::string region;   // e.g. "us-east", "eu-west"
     std::string zone;     // e.g. "us-east-1a", "eu-west-1b"
     
+    /** @brief Return majority quorum size over primary + replicas. */
     size_t quorum_size() const {
         // Quorum = majority of all members (primary + replicas)
         return (1 + replicas.size()) / 2 + 1;
     }
     
+    /** @brief Return true when replica_id is primary or one of replica members. */
     bool contains_replica(const std::string& replica_id) const {
         return replica_id == primary_id || 
                std::find(replicas.begin(), replicas.end(), replica_id) != replicas.end();
@@ -75,19 +78,16 @@ struct ShardReplicaSet {
  */
 class ReplicaTopology {
 public:
+    /** @brief Construct empty replica-topology manager. */
     ReplicaTopology() = default;
     
-    /**
-     * Define a shard replica set
-     */
+    /** @brief Insert or replace replica-set mapping for one shard id. */
     void defineReplicaSet(const ShardReplicaSet& replica_set) {
         std::lock_guard<std::mutex> lock(mutex_);
         replica_sets_[replica_set.shard_id] = replica_set;
     }
     
-    /**
-     * Get replica set for a shard
-     */
+    /** @brief Return replica-set snapshot for shard id, or nullptr if unknown. */
     std::shared_ptr<const ShardReplicaSet> getReplicaSet(const std::string& shard_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = replica_sets_.find(shard_id);
@@ -97,9 +97,7 @@ public:
         return nullptr;
     }
     
-    /**
-     * Find shard by replica ID
-     */
+    /** @brief Return all shard ids containing the provided replica id. */
     std::vector<std::string> findShardsByReplica(const std::string& replica_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> shards;
@@ -111,9 +109,7 @@ public:
         return shards;
     }
     
-    /**
-     * Get all shard IDs
-     */
+    /** @brief Return all known shard identifiers. */
     std::vector<std::string> getAllShards() const {
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> shards;
@@ -124,7 +120,8 @@ public:
     }
     
     /**
-     * Update replica health status
+     * @brief Update health state for replica membership.
+     * @note Current implementation marks shard health only when primary status changes.
      */
     void setReplicaHealth(const std::string& shard_id, const std::string& replica_id, bool is_healthy) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -137,9 +134,7 @@ public:
         }
     }
     
-    /**
-     * Get number of shards
-     */
+    /** @brief Return number of shard mappings currently tracked. */
     size_t getShardCount() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return replica_sets_.size();
@@ -179,7 +174,9 @@ public:
     }
     
     /**
-     * Load replica topology from JSON config (example)
+     * @brief Load replica topology mappings from JSON array configuration.
+     * @param config JSON array of objects containing shard_id/primary_id/replicas fields.
+     * @return true when at least one valid replica set was loaded.
      */
     bool loadFromJson(const nlohmann::json& config);
     

@@ -1,26 +1,21 @@
+/**
+ * @file graph_cache.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_cache.cpp                                    ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     159                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 2379d3536  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
-    • 70833d647  2026-02-25  feat(gpu): implement CUDA graph capture for recurring que... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_cache.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 148
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2927 feat(gpu): CUDA graph captu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "themis/gpu/graph_cache.h"
@@ -32,7 +27,7 @@ namespace gpu {
 // lookup
 // ============================================================================
 
-const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
+const GraphEntry *GPUGraphCache::lookup(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(shape);
@@ -42,7 +37,7 @@ const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
         return nullptr;
     }
 
-    GraphEntry& e = it->second;
+    GraphEntry &e = it->second;
     e.last_access = ++access_counter_;
     ++e.replay_count;
     ++stats_.hits;
@@ -54,7 +49,7 @@ const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
 // capture
 // ============================================================================
 
-void GPUGraphCache::capture(const QueryShape& shape) {
+void GPUGraphCache::capture(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(shape);
@@ -91,10 +86,12 @@ void GPUGraphCache::capture(const QueryShape& shape) {
 // invalidate
 // ============================================================================
 
-void GPUGraphCache::invalidate(const QueryShape& shape) {
+void GPUGraphCache::invalidate(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = entries_.find(shape);
-    if (it == entries_.end()) return;
+    if (it == entries_.end()) {
+        return;
+    }
 
     // Production CUDA notes:
     //   if (it->second.exec)  cudaGraphExecDestroy(it->second.exec);
@@ -127,8 +124,8 @@ size_t GPUGraphCache::size() const {
 
 GPUGraphCache::Stats GPUGraphCache::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    Stats s      = stats_;
-    s.entries    = entries_.size();
+    Stats s   = stats_;
+    s.entries = entries_.size();
     return s;
 }
 
@@ -138,7 +135,9 @@ GPUGraphCache::Stats GPUGraphCache::getStats() const {
 
 void GPUGraphCache::evictLRU() {
     // Called with mutex_ already held.  O(n) scan is acceptable since n ≤ 32.
-    if (entries_.empty()) return;
+    if (entries_.empty()) {
+        return;
+    }
 
     auto oldest = entries_.begin();
     for (auto it = entries_.begin(); it != entries_.end(); ++it) {

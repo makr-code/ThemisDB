@@ -1,94 +1,203 @@
-# API Module - Future Header Enhancements
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-05-11 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/api/FUTURE_ENHANCEMENTS.md -->
+
+# API Module — Public Header Future Enhancements
+
+**Module Path:** `include/api/`
+**Canonical implementation enhancements:** [`../../src/api/FUTURE_ENHANCEMENTS.md`](../../src/api/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Scope
 
-- `IHttpHandler` interface extensions for versioned routing and middleware chaining
-- GraphQL schema builder interface (`IGraphQLSchemaBuilder`) for runtime schema composition
-- WebSocket upgrade API (`IWebSocketHandler`) for real-time streaming endpoints
-- gRPC bridge interface (`IGRPCBridge`) mapping HTTP/2 RPC calls to internal handler contracts
-- API version router interface (`IAPIVersionRouter`) enforcing backward-compatible `/v2/` routing
-- Correlation ID propagation API for end-to-end request tracing across handler boundaries
+This document covers planned enhancements to the **public header contract** in `include/api/` — new types, interface additions, deprecation removals, and header-level API improvements. Enhancements that touch both headers and implementation files are tracked primarily in the canonical source-level document:
+
+→ [`../../src/api/FUTURE_ENHANCEMENTS.md`](../../src/api/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Design Constraints
 
-- `[x]` All request handlers must implement `IHttpHandler`; no ad-hoc handler registration bypassing the interface. (**Implemented** — `IHttpHandler` pure-virtual interface defined in `include/api/http_handler.h`.)
-- `[x]` GraphQL schema is generated exactly once at server initialization; post-init schema mutation is not permitted. (**Enforced** — `IGraphQLSchemaBuilder::build()` returns error on second call; `isBuilt()` guards all `add*()` methods.)
-- `[x]` WebSocket upgrade is non-blocking; `IWebSocketHandler::upgrade()` returns immediately and delivers frames via callback. (**Enforced** — `IWebSocketHandler::upgrade()` returns a `WebSocketSession*` immediately; frames arrive via `IWebSocketFrameCallback::onFrame()`.)
-- `[x]` API version selection must be backward-compatible; a `/v2/` handler must not remove endpoints present in `/v1/`. (**Documented** — `IAPIVersionRouter` contract in `include/api/api_version_router.h` mandates superset registration.)
-- `[x]` Correlation IDs are generated at the interface boundary; downstream handlers receive IDs as opaque `CorrelationId` values. (**Implemented** — `CorrelationId` 16-byte value type in `include/api/correlation_id.h`; `ICorrelationIDProvider::extract()` returns opaque IDs.)
-- `[x]` All public header types are header-only value types or pure-virtual interfaces; no implementation in headers. (**Enforced** — all six new interface headers contain only `= 0` declarations, inline value types, and inline trivial helpers.)
+- `[x]` Headers must remain backward-compatible within a major version; new capabilities are added via new methods or versioned types, not by modifying existing signatures.
+- `[x]` `#pragma once` guard required on every header; no include-guard macros.
+- `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
+- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
+- `[x]` Build-conditional headers (`THEMIS_ENABLE_GRPC`, `THEMIS_ENABLE_WEBSOCKET`, `THEMIS_ENABLE_OTEL`) must not be included unconditionally by other headers.
 
-## Required Interfaces
+---
 
-| Interface | Consumer | Notes |
-|---|---|---|
-| `IHttpHandler` | `APIRouter`, `MiddlewareChain`, `gRPCBridge` | Base interface for all HTTP request handlers; `handle()` returns `HttpResponse` via `Result<T>` |
-| `IGraphQLSchemaBuilder` | `GraphQLEndpoint`, `SchemaRegistry` | Builds and validates GraphQL schema at init time; immutable after `build()` is called |
-| `IWebSocketHandler` | `RealtimeStreamEndpoint`, `SubscriptionManager` | Manages WebSocket lifecycle; frame callbacks are `noexcept` |
-| `IAPIVersionRouter` | `APIGateway`, `VersionNegotiator` | Routes requests to versioned handler sets; enforces backward-compatibility contract |
-| `IGRPCBridge` | `gRPCServer`, `APIGateway` | Maps gRPC service methods to `IHttpHandler` implementations |
-| `ICorrelationIDProvider` | `MiddlewareChain`, `ObservabilityLayer` | Generates and propagates `CorrelationId` across handler invocations |
+## Required Interfaces (Header Contract)
 
-## Planned Features
+| Interface | Declared In | Consumer | Status |
+|-----------|------------|----------|--------|
+| `graphql::Parser::parse()` | `graphql.h` | GraphQL HTTP handler, tests | ✅ Stable |
+| `graphql::Executor::execute()` | `graphql.h` | GraphQL HTTP handler, tests | ✅ Stable |
+| `api::GrpcApiServer::initialize() / start() / stop()` | `grpc_server.h` | gRPC bootstrap | ✅ Stable |
+| `api::ThemisDBServiceFactory::build()` | `themisdb_grpc_service_factory.h` | gRPC wiring | ✅ Stable |
+| `api::WsChangeHandler::validate()` | `ws_handler.h` | WebSocket upgrade path | ✅ Stable |
+| `api::TracingMiddleware::processRequest()` | `tracing_middleware.h` | HTTP middleware pipeline | ✅ Stable |
+| `api::RateLimiter::allow()` | `rate_limiter.h` | All request handlers | ✅ Stable |
+| `api::AuditLogger::log()` | `audit_logger.h` | Security event path | ✅ Stable |
+| `api::OtlpExporter::enqueue()` | `otlp_exporter.h` | Tracing middleware | ✅ Stable |
+| `api::IGRPCBridge::registerService()` | `grpc_bridge.h` | gRPC service registry | ⚠️ Interface only — no concrete impl |
+| `api::QueryAllowList::isAllowed()` | `persisted_queries.h` | Query validation path | ⚠️ `enabled_=false` by default |
 
-### GraphQL Schema Extension API
+---
 
-- `[x]` Define `IGraphQLSchemaBuilder` with `addType()`, `addQuery()`, `addMutation()`, and `build()` methods. (**Implemented** in `include/api/graphql_schema_builder.h`.)
-- `[x]` Expose `GraphQLTypeDescriptor` as a plain-data struct usable without a schema library dependency. (**Implemented** — `GraphQLTypeDescriptor` + `GraphQLFieldDescriptor` plain-data structs in `include/api/graphql_schema_builder.h`.)
-- `[x]` Add `SchemaValidationResult` value type returned by `build()`; carries structured error list on failure. (**Implemented** — `SchemaValidationResult` + `SchemaValidationError` in `include/api/graphql_schema_builder.h`.)
-- `[x]` Document that `build()` is callable exactly once; subsequent calls return `Result::error(SchemaAlreadyBuilt)`. (**Documented** — contract in `IGraphQLSchemaBuilder::build()` docstring in `include/api/graphql_schema_builder.h`.)
+## Planned Header Enhancements
 
-### WebSocket Endpoint Interface
+### 1. `graphql.h` — Fragment and Directive Support
 
-- `[x]` Define `IWebSocketHandler` with `upgrade(HttpRequest&) -> Result<WebSocketSession>`. (**Implemented** — `IWebSocketHandler::upgrade()` returns `Result<WebSocketSession*>` in `include/api/websocket_handler.h`.)
-- `[x]` Expose `WebSocketSession` as an opaque handle with `send(Frame)` and `close(CloseCode)` methods. (**Implemented** — `WebSocketSession` pure-virtual class with `send()` and `close()` in `include/api/websocket_handler.h`.)
-- `[x]` Add `IWebSocketFrameCallback` pure-virtual interface for incoming frame dispatch; callbacks must be `noexcept`. (**Implemented** — `IWebSocketFrameCallback::onFrame()` and `onClose()` are `noexcept` in `include/api/websocket_handler.h`.)
-- `[x]` Define `WebSocketCloseCode` as a strongly-typed enum class aligned with RFC 6455 close codes. (**Implemented** — `enum class WebSocketCloseCode : uint16_t` with all RFC 6455 codes in `include/api/websocket_handler.h`.)
+**Priority:** Medium
+**Target Version:** v2.1.0
+**Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — GraphQL Schema Completion section
 
-### API Version Router
+The `Parser` class documents "Not yet supported: Fragments, Directives, Inline fragments." Adding these requires new public types:
 
-- `[x]` Define `IAPIVersionRouter::route(HttpRequest&) -> IHttpHandler&` with version extracted from URL path. (**Implemented** — `IAPIVersionRouter::route(method, path, out_deprecation_headers)` in `include/api/api_version_router.h`.)
-- `[x]` Add `VersionDescriptor` value type carrying major/minor version and deprecation date fields. (**Implemented** — `VersionDescriptor` with `major_version`, `minor_version`, `deprecation_date`, `sunset_date`, `successor_url` in `include/api/api_version_router.h`.)
-- `[x]` Expose `registerVersion(VersionDescriptor, HandlerSet)` to allow multi-version registration at init time. (**Implemented** — `IAPIVersionRouter::registerVersion()` in `include/api/api_version_router.h`.)
-- `[x]` Guarantee that `route()` never returns a null handler; unknown versions resolve to an error handler. (**Documented** — `route()` contract in `include/api/api_version_router.h` mandates non-null return.)
+```cpp
+// New types in graphql.h
+struct FragmentDefinition {
+    std::string name;
+    std::string on_type;
+    SelectionSet selection_set;
+};
 
-### gRPC Bridge Interface
+struct InlineFragment {
+    std::string on_type;           // empty = applies to any type
+    SelectionSet selection_set;
+    std::vector<std::string> directives;
+};
+```
 
-- `[x]` Define `IGRPCBridge` with `registerService(ServiceDescriptor, IHttpHandler&)` and `dispatch(GRPCRequest&)`. (**Implemented** in `include/api/grpc_bridge.h`.)
-- `[x]` Expose `ServiceDescriptor` as a plain-data struct (service name, method names, serialization format). (**Implemented** — `ServiceDescriptor` plain-data struct in `include/api/grpc_bridge.h`.)
-- `[x]` Add `GRPCMetadata` value type for propagating gRPC headers into the `IHttpHandler` invocation context. (**Implemented** — `GRPCMetadata` value type with `authority`, `method_path`, `content_type`, `deadline`, `user_metadata` in `include/api/grpc_bridge.h`.)
-- `[x]` Document serialization contract: bridge converts Protobuf wire format to internal `RequestBody` before dispatch. (**Documented** — `IGRPCBridge::dispatch()` contract in `include/api/grpc_bridge.h` states conversion from Protobuf to `HttpRequest::body`.)
+**Acceptance criteria:**
+- `Parser::parse()` no longer rejects queries containing `fragment Foo on Bar { ... }` or `... on Bar { ... }`.
+- `Document` carries a `fragments` map; inline fragments are embedded in `SelectionSet`.
+- Existing callers that do not use fragments are unaffected.
 
-### Request Correlation ID API
+---
 
-- `[x]` Define `ICorrelationIDProvider::generate() -> CorrelationId` as a factory method. (**Implemented** — `ICorrelationIDProvider::generate()` pure-virtual method in `include/api/correlation_id.h`.)
-- `[x]` Expose `CorrelationId` as a fixed-width (16-byte UUID) value type with string serialization support. (**Implemented** — `CorrelationId` 16-byte value type with `parse()`, `toString()`, `bytes()`, `isNil()`, `std::hash` in `include/api/correlation_id.h`.)
-- `[x]` Add `ICorrelationIDProvider::extract(HttpRequest&) -> CorrelationId` to parse incoming `X-Correlation-ID` headers. (**Implemented** — `ICorrelationIDProvider::extract(const std::unordered_map<string,string>&)` in `include/api/correlation_id.h`.)
-- `[x]` Document that `CorrelationId` serialization never includes PII; format is opaque UUID only. (**Documented** — `CorrelationId` and `ICorrelationIDProvider` contracts in `include/api/correlation_id.h` explicitly prohibit PII.)
+### 2. `graphql.h` — Remove Deprecated `Parser::error()`
+
+**Priority:** Low
+**Target Version:** v2.1.0
+**Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — GraphQL Schema Completion section
+
+`Parser::error()` is marked `@deprecated` in favour of `Result<T>` return types. Once all internal call sites in `graphql.cpp` are migrated, the method will be removed from the public header.
+
+**Migration path for consumers:**
+```cpp
+// Before (deprecated path)
+auto doc = parser.parse(query, limits);
+if (!parser.error().empty()) { /* handle */ }
+
+// After (Result<T> path)
+auto result = parser.parse(query, limits);
+if (!result) { auto err = result.error(); /* handle */ }
+```
+
+---
+
+### 3. `grpc_bridge.h` — Concrete `GrpcBridgeImpl`
+
+**Priority:** Low
+**Target Version:** v2.1.0
+**Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — gRPC Bridge Interface section
+
+`IGRPCBridge` is a pure-virtual interface with no concrete implementation in the current codebase. A `GrpcBridgeImpl` class will be added with:
+
+```cpp
+// New class in grpc_bridge.h (or a new grpc_bridge_impl.h)
+class GrpcBridgeImpl : public IGRPCBridge {
+public:
+    bool registerService(ServiceDescriptor desc) override;
+    bool route(const std::string& method, GRPCRequest& req) override;
+    GRPCMetadata getMetadata(const std::string& service_name) const override;
+    std::vector<ServiceDescriptor> listServices() const override;
+
+private:
+    mutable std::shared_mutex mutex_;
+    std::unordered_map<std::string, ServiceDescriptor> services_;
+};
+```
+
+---
+
+### 4. `persisted_queries.h` — Production `QueryAllowList` Activation
+
+**Priority:** Medium
+**Target Version:** v2.1.0
+**Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — Security/Reliability section
+
+`QueryAllowList` defaults to `enabled_ = false`. A startup warning must be emitted when the allow-list is disabled in a production build.
+
+**Header change:**
+```cpp
+// In QueryAllowList:
+/// Enable or disable allow-list enforcement.
+/// @warning Production builds should call setEnabled(true) to prevent ad-hoc query injection.
+///          A THEMIS_WARN is emitted at startup if disabled in a NDEBUG build.
+void setEnabled(bool enabled);
+[[nodiscard]] bool isEnabled() const noexcept;
+```
+
+---
+
+### 5. `grpc_server.h` — `GrpcServerConfig::max_message_size_bytes` Runtime Knob
+
+**Priority:** Low
+**Target Version:** v2.1.0
+**Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — gRPC API Surface section
+
+`GrpcServerConfig::max_message_size_bytes` is currently a compile-time constant. Exposing it as a runtime configuration field allows operators to tune without recompilation.
+
+**Header change:**
+```cpp
+struct GrpcServerConfig {
+    // ...existing fields...
+    /// Maximum gRPC message size in bytes. Default: 4 MiB. Set via config key grpc.max_message_size_mb.
+    int max_message_size_bytes = 4 * 1024 * 1024;
+};
+```
+
+---
 
 ## Test Strategy
 
-- Compile-time tests verify that all handler types implement `IHttpHandler` using `static_assert` traits
-- Unit tests mock `IHttpHandler` and verify that `IAPIVersionRouter` dispatches to the correct version for `/v1/` and `/v2/` prefixes
-- WebSocket upgrade tests use a loopback transport to assert non-blocking behavior of `upgrade()` under concurrent load
-- GraphQL schema builder tests verify that duplicate type registration returns a structured `SchemaValidationResult` error
-- Correlation ID tests assert that `extract()` returns a deterministic ID for a given `X-Correlation-ID` header value
-- Integration tests exercise the full `IGRPCBridge` dispatch path with a mock Protobuf service descriptor
+| Test Type | Target | Notes |
+|-----------|--------|-------|
+| Compile-time | All headers compile in isolation with each build-conditional combination | CMake `check_headers` target |
+| Unit | `graphql::Parser` fragment/directive parsing | `tests/test_graphql_fragments.cpp` (planned) |
+| Unit | `GrpcBridgeImpl` registration and routing | `tests/test_grpc_bridge.cpp` (planned) |
+| Unit | `QueryAllowList` production startup warning | `tests/test_persisted_queries.cpp` extension |
+| ABI | No unexpected virtual table changes between patch releases | ABI checker in CI |
+
+---
 
 ## Performance Targets
 
-- `IHttpHandler::handle()` dispatch overhead (router lookup + handler invocation) ≤ 5 µs per request at 10k RPS
-- `IGraphQLSchemaBuilder` type-lookup during query planning ≤ 1 µs per field resolution
-- WebSocket frame dispatch overhead per frame via `IWebSocketFrameCallback` ≤ 10 µs
-- `IAPIVersionRouter::route()` version extraction and handler resolution ≤ 2 µs
-- `ICorrelationIDProvider::generate()` UUID generation ≤ 500 ns per call
-- `IGRPCBridge::dispatch()` Protobuf-to-internal-body conversion overhead ≤ 20 µs per RPC call
+| Enhancement | Overhead Budget | Measurement |
+|-------------|----------------|-------------|
+| Fragment parsing in `Parser::parse()` | ≤ 10% additional parse time vs. flat query | `BM_GraphQL_Parse_Complex_Uncached` |
+| `GrpcBridgeImpl::route()` | ≤ 500 ns per call (hash map lookup under shared lock) | Dedicated microbenchmark |
+| `QueryAllowList::isAllowed()` (enabled) | ≤ 200 ns per call (hash map lookup) | `BM_PersistedQuery_AllowList` |
+
+---
 
 ## Security / Reliability
 
-- All endpoints registered via `IHttpHandler` require authentication by default; opt-out must be explicit and documented in the handler declaration
-- CORS policy is enforced at the `IHttpHandler` interface boundary; handlers cannot bypass CORS headers
-- `CorrelationId` values are opaque UUIDs; the interface contract explicitly prohibits embedding PII, IP addresses, or user identifiers
-- `IGraphQLSchemaBuilder::build()` validates schema for injection-vulnerable field name patterns before accepting registration
-- `IWebSocketHandler::upgrade()` validates the `Origin` header against a configured allow-list before returning a `WebSocketSession`
-- gRPC bridge rejects requests with unknown service names at `IGRPCBridge::dispatch()` rather than forwarding to an unregistered handler
+- `[ ]` `QueryAllowList::enabled_ = false` by default; see enhancement #4 above for the production activation plan.
+- `[x]` `RateLimiter::allow()` uses `std::shared_mutex` (shared for reads, exclusive for writes) — no nested lock contention.
+- `[x]` `AuditLogger::log()` copies handlers under lock and invokes them outside the critical section.
+- `[x]` `GrpcApiServer::start()` releases mutex before `BuildAndStart()`; `stop()` applies a 30-second deadline.
+
+---
+
+## References
+
+- Canonical implementation enhancements: [`../../src/api/FUTURE_ENHANCEMENTS.md`](../../src/api/FUTURE_ENHANCEMENTS.md)
+- Architecture: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Security: [`SECURITY.md`](SECURITY.md)
+- Module overview: [`README.md`](README.md)

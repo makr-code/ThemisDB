@@ -1,4 +1,8 @@
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+
 # ThemisDB Server Module Headers
+
+**Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
 
 ## Module Purpose
 
@@ -86,6 +90,30 @@ Central entry point for request routing, load balancing, and federation.
 
 ---
 
+#### distributed_gateway.h
+**Distributed API Gateway with Raft-based configuration synchronisation**
+
+Multi-node gateway cluster (3 or 5 nodes) where routing rules and rate-limit
+configuration are replicated through Raft log entries.
+
+**Key Classes:**
+- `DistributedGateway` - Multi-node gateway wrapping `APIGateway`
+- `DistributedGateway::Config` - Distributed gateway configuration
+- `ConsistentHashRing` - Consistent-hash ring for WebSocket/SSE session affinity
+- `ClusterGatewayConfig` - Cluster-wide replicated routing configuration
+- `GatewayRouteConfig` - A single replicated routing rule
+- `GatewayNode` - Peer node descriptor
+
+**Features:**
+- Raft-based config replication across all gateway nodes
+- Automatic leader failover (target ≤ 500 ms)
+- Session affinity for WebSocket/SSE via consistent-hash ring
+- Quorum-aware config mutation (writes rejected when not leader)
+- Graceful degradation: last-known config used on quorum loss with `CRITICAL` alert
+- Split-brain safety: config mutations refused when node is not Raft leader
+
+---
+
 #### api_version.h
 **API versioning support**
 
@@ -123,6 +151,53 @@ Comprehensive authentication supporting JWT, API tokens, Kerberos, and USB admin
 - Tenant isolation
 - Token rotation
 - Group/role authorization
+
+---
+
+#### oauth2_provider.h
+**OAuth2/OIDC Provider (server-side)**
+
+Server-layer bridge between the HTTP router and the auth-layer `OIDCProvider` /
+`OAuthPKCEFlow`.  Implements the OAuth 2.0 Authorization Code Grant with PKCE
+(RFC 7636 / RFC 6749) and a JWT token introspection endpoint (RFC 7662).
+
+**Key Classes:**
+- `OAuth2Provider` - Main OAuth2/OIDC server provider
+- `OAuth2Provider::Config` - Configuration (OIDC settings, redirect URI, state TTL)
+
+**Endpoints:**
+- `GET  /api/v1/auth/oauth2/authorize` – PKCE challenge generation, state storage
+- `GET  /api/v1/auth/oauth2/callback` – Authorization code callback, token exchange
+- `POST /api/v1/auth/oauth2/token` – Explicit code exchange (server-side / CLI)
+- `POST /api/v1/auth/oauth2/refresh` – Refresh token rotation (RFC 6749 §6)
+- `POST /api/v1/auth/token/introspect` – JWT introspection (RFC 7662)
+- `POST /api/v1/auth/oauth2/logout` – End-session / best-effort token revocation
+
+**Features:**
+- Full RFC 6749 Authorization Code + PKCE flow
+- OIDC Discovery via `/.well-known/openid-configuration`
+- Refresh token rotation
+- RFC 7662 JWT introspection (local, JWKS-based, no network round-trip for cached keys)
+- Thread-safe CSRF state map with configurable TTL
+- Dependency injection hooks for unit testing
+
+---
+
+#### saml_auth_provider.h
+**SAML 2.0 Service Provider (server-side)**
+
+Server-layer bridge for SAML 2.0 SP-initiated SSO, Assertion Consumer Service,
+Single Logout, and SP metadata generation.
+
+**Key Classes:**
+- `SamlAuthProvider` - Main SAML SP handler
+- `SamlAuthProvider::Config` - Configuration (SAMLConfig, IdP SLO URL, token factory)
+
+**Endpoints:**
+- `GET  /api/v1/auth/saml/login` – SP-initiated SSO redirect
+- `POST /api/v1/auth/saml/acs` – Assertion Consumer Service
+- `POST /api/v1/auth/saml/slo` – Single Logout
+- `GET  /api/v1/auth/saml/metadata` – SP metadata XML
 
 ---
 
@@ -184,22 +259,36 @@ Token bucket algorithm for API rate limiting.
 ---
 
 #### rate_limiter_v2.h
-**Advanced rate limiting (v2)**
+**Advanced rate limiting (v2) – lokal und verteilt via Redis**
 
-Enhanced rate limiting with distributed coordination and multiple algorithms.
+Enhanced rate limiting with priority lanes, per-client tracking, and optional Redis backend for cluster-wide distributed limiting.
 
 **Key Classes:**
-- `RateLimiterV2` - Enhanced rate limiter
-- `RateLimiterV2::Config` - Configuration with backend selection
+- `TokenBucketRateLimiter` – Token-bucket limiter with HIGH/NORMAL/LOW priority lanes
+- `TokenBucketRateLimiter::Config` – Configuration including `backend`, `redis`, and `bucket_id`
+- `TokenBucketRateLimiter::Backend` – `LOCAL` (default, in-process) or `REDIS` (distributed)
+- `RedisRateLimiterConfig` – Redis connection settings (host, port, auth, key_prefix, timeout_ms, max_errors, key_ttl_seconds)
+- `PerClientRateLimiter` – Per-client wrapper; creates one `TokenBucketRateLimiter` per client key
 
 **Algorithms:**
-- Token bucket
-- Sliding window counter
-- Leaky bucket
+- Token bucket (local and Redis-backed)
 
 **Backends:**
-- In-memory (single node)
-- Redis (distributed)
+- `Backend::LOCAL` – In-process token bucket (default, backward-compatible)
+- `Backend::REDIS` – Cluster-wide atomic token bucket via Redis `EVALSHA`; automatic fallback to local on Redis error
+
+**Usage example (distributed):**
+```cpp
+TokenBucketRateLimiter::Config cfg;
+cfg.capacity    = 1000;
+cfg.refill_rate = 100;
+cfg.backend     = TokenBucketRateLimiter::Backend::REDIS;
+cfg.redis.host  = "redis.internal";
+cfg.bucket_id   = "api:v1";
+TokenBucketRateLimiter limiter(cfg);
+bool allowed = limiter.tryAcquire();
+bool healthy = limiter.isRedisHealthy(); // false → running in local-fallback mode
+```
 
 ---
 
@@ -418,6 +507,43 @@ Real-time change streaming for data synchronization.
 - **graphql_api_handler.h** - GraphQL schema-driven queries
 - **async_job_api_handler.h** - Async job polling (`/v2/jobs`)
 - **udf_api_handler.h** - User-defined functions
+- **adaptive_rate_limiter.h** - Adaptive concurrency-based rate limiting
+- **api_auth_config.h** - API authentication configuration
+- **api_key_mgmt_handler.h** - API key lifecycle management
+- **api_security_audit.h** - API-layer security audit log
+- **api_version_config.h** - Per-version API configuration
+- **auth_scope_mapper.h** - OAuth2/JWT scope-to-permission mapping
+- **buffer_binary_protocol.h** - Binary framing for buffer operations
+- **cache_admin_api_handler.h** - Cache administrative controls
+- **chunked_response_writer.h** - HTTP chunked transfer-encoding writer
+- **cost_based_rate_limiter.h** - Cost-weighted request rate limiter
+- **distributed_txn_api_handler.h** - Distributed transaction REST API
+- **error_api_handler.h** - Structured error response handler
+- **geo_topology_api_handler.h** - Geo-topology and region routing API
+- **http3_datagram.h** - HTTP/3 QUIC datagram support
+- **http3_production_config.h** - Production-tuned HTTP/3 configuration
+- **import_api_handler.h** - Bulk data import API
+- **import_wizard_builder.h** - Import wizard pipeline builder
+- **maintenance_api_handler.h** - Maintenance mode and operations API
+- **mqtt_client_service.h** - MQTT outbound client service
+- **mvcc_api_handler.h** - MVCC snapshot and version API
+- **opa_adapter.h** - Open Policy Agent (OPA) integration adapter
+- **openapi_route_registry.h** - OpenAPI schema-driven route registration
+- **prompt_engineering_api_handler.h** - Prompt engineering REST API
+- **prompt_engineering_grpc_service.h** - Prompt engineering gRPC service
+- **rate_limiting_middleware.h** - Rate limiting middleware layer
+- **replication_topology_api_handler.h** - Replication topology REST API
+- **request_coalescing.h** - In-flight request deduplication/coalescing
+- **request_validation_middleware.h** - Request payload validation middleware
+- **response_transformer.h** - Response transformation pipeline
+- **route_version_router.h** - API version-based route dispatch
+- **rpc_service_impl.h** - gRPC service implementation base
+- **session_api_handler.h** - Session management API
+- **shard_repair_api_handler.h** - Shard repair trigger and status API
+- **smart_routing.h** - ML-informed smart request routing <!-- TODO: verify -->
+- **task_scheduler_api_handler.h** - Background task scheduler API
+- **wasm_handler_registry.h** - WebAssembly handler plugin registry
+- **workload_fingerprint_engine.h** - Workload fingerprinting for adaptive tuning
 
 ---
 
@@ -635,29 +761,29 @@ public:
     CustomAPIHandler(std::shared_ptr<StorageEngine> storage,
                      std::shared_ptr<ConcernsContext> concerns)
         : storage_(storage), concerns_(concerns) {}
-    
+
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
         const AuthMiddleware::AuthContext& auth_ctx) override {
-        
-        concerns_->logger()->info("Processing custom request for user: {}", 
+
+        concerns_->logger()->info("Processing custom request for user: {}",
                                   auth_ctx.user_id);
-        
+
         // Custom logic here
-        
+
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/json");
         res.body() = R"({"status":"ok"})";
         res.prepare_payload();
         return res;
     }
-    
+
     std::string getPath() const override { return "/api/v1/custom"; }
-    
+
     std::vector<http::verb> getSupportedMethods() const override {
         return {http::verb::get, http::verb::post};
     }
-    
+
     std::vector<std::string> getRequiredScopes() const override {
         return {"custom:access"};
     }
@@ -667,6 +793,14 @@ private:
     std::shared_ptr<ConcernsContext> concerns_;
 };
 ```
+
+---
+
+## Troubleshooting
+
+- **Header wird nicht gefunden (`server/...`)**: Sicherstellen, dass das Projekt `${CMAKE_SOURCE_DIR}/include` im Include-Path führt.
+- **Typkonflikte zwischen Handlern und Middleware**: Für Handler-Signaturen ausschließlich die in `http_handler.h`/`auth_middleware.h` definierten Request-/Auth-Typen verwenden.
+- **Rate-Limit-Konfiguration greift nicht clusterweit**: In `rate_limiter_v2.h` `Backend::REDIS` plus gültige Redis-Verbindungsdaten setzen.
 
 ---
 
@@ -734,7 +868,7 @@ target_include_directories(my_app PRIVATE
 target_link_libraries(my_app themis-server)
 ```
 
-### Conditional Compilation
+## Conditional Compilation
 
 Some headers use preprocessor flags for optional features:
 
@@ -786,7 +920,10 @@ For implementation details, see:
 ## Related Documentation
 
 - [Server Module Implementation](../../src/server/README.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Server Architektur](../../src/server/ARCHITECTURE.md)
+- [Server Roadmap](../../src/server/ROADMAP.md)
+- [Server Future Enhancements](../../src/server/FUTURE_ENHANCEMENTS.md)
+- [Server Modulübersicht (de)](../../docs/de/server/README.md)
 - [Architecture Overview](../../ARCHITECTURE.md)
 - [API Documentation](../../docs/api/)
 - [Core Module Headers](../core/README.md)
@@ -811,7 +948,16 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
+- [ROADMAP.md](../../src/server/ROADMAP.md) - Geplanter Ausbau des Server-Moduls
+- [FUTURE_ENHANCEMENTS.md](../../src/server/FUTURE_ENHANCEMENTS.md) - Geplante Interface-Verbesserungen
 - [Implementation README](../../src/server/README.md) - Server implementation guide
 - [Core Headers](../core/README.md) - Core module interfaces
 - [Storage Headers](../storage/README.md) - Storage module interfaces
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -1,27 +1,25 @@
+/**
+ * @file gpu_module.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_module.cpp                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     251                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5961062fe  2026-03-01  Integrate MIGManager into GPUModule facade and GPUAdminAPI ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_module.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 231
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=0, L=0
+ * PR History (last 5): #3624 feat(gpu): Register all src... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "themis/gpu/gpu_module.h"
+
 #include "themis/gpu/feature_flags.h"
 
 namespace themis {
@@ -31,8 +29,7 @@ namespace gpu {
 // Lifecycle
 // ============================================================================
 
-GPUModule::InitResult GPUModule::initialize(const GPUConfig& config,
-                                             GPULauncher::BackendFn backend) {
+GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher::BackendFn backend) {
     auto vr = config.validate();
     if (!vr.ok) {
         InitResult r;
@@ -41,8 +38,8 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig& config,
         return r;
     }
 
-    config_    = config;
-    safe_fail_ = GPUSafeFail([&]() {
+    config_ = config;
+    safe_fail_.reset([&]() {
         GPUSafeFail::Config c;
         c.failure_threshold     = static_cast<size_t>(config.circuit_failure_threshold);
         c.success_threshold     = static_cast<size_t>(config.circuit_success_threshold);
@@ -58,9 +55,7 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig& config,
         } else {
             // Default no-op backend: always succeeds (placeholder until real
             // CUDA/ROCm backend is wired up).
-            launcher_ = std::make_unique<GPULauncher>([](const GPULauncher::WorkItem&) {
-                return true;
-            });
+            launcher_ = std::make_unique<GPULauncher>([](const GPULauncher::WorkItem &) { return true; });
         }
     }
 
@@ -72,11 +67,8 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig& config,
 // Work submission
 // ============================================================================
 
-GPUModule::SubmitResult GPUModule::submitWork(
-    const std::string&           caller_id,
-    const std::string&           tenant_id,
-    const GPULauncher::WorkItem& item)
-{
+GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, const std::string &tenant_id,
+                                              const GPULauncher::WorkItem &item) {
     if (!initialized_) {
         return {false, false, "GPUModule not initialized"};
     }
@@ -86,8 +78,7 @@ GPUModule::SubmitResult GPUModule::submitWork(
         auto decision = policy_.check(caller_id, GPUPolicy::Capability::GPU_ALLOCATE);
         if (!decision.allowed) {
             if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
-                audit_log_.record(GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT,
-                                  0, caller_id, tenant_id,
+                audit_log_.record(GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT, 0, caller_id, tenant_id,
                                   "policy denied: " + decision.reason);
             }
             if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
@@ -102,7 +93,9 @@ GPUModule::SubmitResult GPUModule::submitWork(
     bool success  = false;
 
     auto gpu_op = [&]() -> bool {
-        if (!launcher_) return false;
+        if (!launcher_) {
+            return false;
+        }
         auto fut = launcher_->submit(item);
         auto res = fut.get();
         used_gpu = res.success;
@@ -117,7 +110,7 @@ GPUModule::SubmitResult GPUModule::submitWork(
         if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
             GPUMetrics::GetInstance().recordFallback("circuit_open_or_gpu_failure");
         }
-        return true;  // CPU fallback always "succeeds"
+        return true; // CPU fallback always "succeeds"
     };
 
     success = safe_fail_.executeWithFallback(gpu_op, cpu_fallback, item.kernel_id);
@@ -135,8 +128,7 @@ GPUModule::SubmitResult GPUModule::submitWork(
     if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
         auto etype = (success && used_gpu) ? GPUAuditLog::EventType::ALLOC_SUCCESS
                                            : GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT;
-        audit_log_.record(etype, 0, caller_id, tenant_id,
-                          used_gpu ? "gpu_launch" : "cpu_fallback");
+        audit_log_.record(etype, 0, caller_id, tenant_id, used_gpu ? "gpu_launch" : "cpu_fallback");
     }
 
     return {success, used_gpu, success ? "" : "operation failed"};
@@ -146,33 +138,30 @@ GPUModule::SubmitResult GPUModule::submitWork(
 // Inline VRAM management
 // ============================================================================
 
-bool GPUModule::allocate(const std::string& caller_id,
-                          const std::string& tenant_id,
-                          uint64_t           bytes,
-                          const std::string& tag)
-{
-    if (!initialized_) return false;
+bool GPUModule::allocate(const std::string &caller_id, const std::string &tenant_id, uint64_t bytes,
+                         const std::string &tag) {
+    if (!initialized_) {
+        return false;
+    }
 
     // Policy check.
     if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::POLICY_GATE)) {
         if (!policy_.isAllowed(caller_id, GPUPolicy::Capability::GPU_ALLOCATE)) {
             if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::AUDIT_LOG)) {
-                audit_log_.record(GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT,
-                                  bytes, tag, tenant_id, "policy denied");
+                audit_log_.record(GPUAuditLog::EventType::ALLOC_FAIL_GLOBAL_LIMIT, bytes, tag, tenant_id,
+                                  "policy denied");
             }
             return false;
         }
     }
 
     // VRAM allocation.
-    auto& mgr = GPUMemoryManager::GetInstance();
-    const bool granted = tenant_id.empty()
-                         ? mgr.TryAllocateGPU(bytes, tag)
-                         : mgr.TryAllocateGPU(bytes, tag, tenant_id);
+    auto &mgr          = GPUMemoryManager::GetInstance();
+    const bool granted = tenant_id.empty() ? mgr.TryAllocateGPU(bytes, tag) : mgr.TryAllocateGPU(bytes, tag, tenant_id);
 
     // Metrics.
     if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
-        auto& met = GPUMetrics::GetInstance();
+        auto &met = GPUMetrics::GetInstance();
         if (granted) {
             met.recordAllocSuccess(bytes, tenant_id);
             met.setVRAMAllocated(mgr.GetGPUMemoryUsed(), tenant_id);
@@ -194,10 +183,12 @@ bool GPUModule::allocate(const std::string& caller_id,
     return granted;
 }
 
-void GPUModule::deallocate(const std::string& tenant_id, uint64_t bytes) {
-    if (!initialized_) return;
+void GPUModule::deallocate(const std::string &tenant_id, uint64_t bytes) {
+    if (!initialized_) {
+        return;
+    }
 
-    auto& mgr = GPUMemoryManager::GetInstance();
+    auto &mgr = GPUMemoryManager::GetInstance();
     if (tenant_id.empty()) {
         mgr.DeallocateGPU(bytes);
     } else {
@@ -205,7 +196,7 @@ void GPUModule::deallocate(const std::string& tenant_id, uint64_t bytes) {
     }
 
     if (GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::METRICS)) {
-        auto& met = GPUMetrics::GetInstance();
+        auto &met = GPUMetrics::GetInstance();
         met.recordDealloc(bytes, tenant_id);
         met.setVRAMAllocated(mgr.GetGPUMemoryUsed(), tenant_id);
     }
@@ -219,12 +210,11 @@ void GPUModule::deallocate(const std::string& tenant_id, uint64_t bytes) {
 // Policy delegation
 // ============================================================================
 
-void GPUModule::grantCaller(const std::string& caller_id,
-                              GPUPolicy::Capability cap) {
+void GPUModule::grantCaller(const std::string &caller_id, GPUPolicy::Capability cap) {
     policy_.grant(caller_id, cap);
 }
 
-void GPUModule::revokeCaller(const std::string& caller_id) {
+void GPUModule::revokeCaller(const std::string &caller_id) {
     policy_.revokeAll(caller_id);
 }
 

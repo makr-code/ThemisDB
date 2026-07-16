@@ -1,26 +1,21 @@
+/**
+ * @file cache_replication.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cache_replication.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     341                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d34e194e5  2026-02-24  audit(cache): move replication notifications outside tier... ║
-    • e2215810b  2026-02-24  refactor(cache): simplify event construction and fix cons... ║
-    • 25fabc47d  2026-02-24  feat(cache): add cache replication for high-availability ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cache_replication.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 326
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #2816 feat(cache): Cache replicat... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -129,7 +124,7 @@ public:
      * @param event  Structured replication event.
      * @return true on success; false signals a transient failure.
      */
-    virtual bool onReplicationEvent(const CacheReplicationEvent& event) = 0;
+    [[nodiscard]] virtual bool onReplicationEvent(const CacheReplicationEvent& event) = 0;
 
     /**
      * @brief Called periodically so the listener can report its liveness.
@@ -140,7 +135,7 @@ public:
     /**
      * @brief Human-readable replica identifier (host:port, node ID, …).
      */
-    virtual std::string replicaId() const = 0;
+    [[nodiscard]] virtual std::string replicaId() const = 0;
 };
 
 // ---------------------------------------------------------------------------

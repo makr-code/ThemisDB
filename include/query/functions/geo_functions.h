@@ -1,27 +1,20 @@
+/**
+ * @file geo_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_functions.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1341                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
-    • 584c8a7ea  2026-02-26  feat(geo): add StBufferFunction to function registry in g... ║
-    • 0608dd49e  2026-02-25  feat(geo): complete ST_UNION/ST_DIFFERENCE – AQL function... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: geo_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -50,7 +43,7 @@ namespace functions {
  * 
  * Provides OGC-compatible spatial functions using GeoJSON format.
  * 
- * @sources
+ * Sources:
  * - Standards: OGC Simple Features Specification
  *   URL: https://www.ogc.org/standards/sfa
  * - GeoJSON: RFC 7946
@@ -96,7 +89,8 @@ constexpr double EARTH_RADIUS_M = 6371000.0;
 
 // Minimum Bounding Rectangle
 struct MBR {
-    double minx, miny, maxx, maxy;
+    // UNINIT-21: add NSDMI so default-constructed MBR has defined values.
+    double minx = 0.0, miny = 0.0, maxx = 0.0, maxy = 0.0;
     
     bool contains(double x, double y) const {
         return x >= minx && x <= maxx && y >= miny && y <= maxy;
@@ -223,6 +217,7 @@ inline bool looksLikeDegrees(double lon, double lat) {
  */
 class StPointFunction : public IFunction {
 public:
+    ~StPointFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_POINT",
@@ -264,6 +259,7 @@ public:
  */
 class StLinestringFunction : public IFunction {
 public:
+    ~StLinestringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_LINESTRING",
@@ -293,6 +289,7 @@ public:
  */
 class StPolygonFunction : public IFunction {
 public:
+    ~StPolygonFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_POLYGON",
@@ -322,6 +319,7 @@ public:
  */
 class StGeomFromTextFunction : public IFunction {
 public:
+    ~StGeomFromTextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_GEOMFROMTEXT",
@@ -443,6 +441,7 @@ public:
  */
 class StGeomFromGeoJSONFunction : public IFunction {
 public:
+    ~StGeomFromGeoJSONFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_GEOMFROMGEOJSON",
@@ -489,6 +488,7 @@ public:
  */
 class StDistanceFunction : public IFunction {
 public:
+    ~StDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_DISTANCE",
@@ -533,6 +533,7 @@ public:
  */
 class GeoDistanceFunction : public IFunction {
 public:
+    ~GeoDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GEO_DISTANCE",
@@ -562,6 +563,7 @@ public:
  */
 class StLengthFunction : public IFunction {
 public:
+    ~StLengthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_LENGTH",
@@ -609,6 +611,7 @@ public:
  */
 class StAreaFunction : public IFunction {
 public:
+    ~StAreaFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_AREA",
@@ -658,6 +661,7 @@ public:
  */
 class StIntersectsFunction : public IFunction {
 public:
+    ~StIntersectsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_INTERSECTS",
@@ -687,6 +691,7 @@ public:
  */
 class StContainsFunction : public IFunction {
 public:
+    ~StContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_CONTAINS",
@@ -716,6 +721,7 @@ public:
  */
 class StWithinFunction : public IFunction {
 public:
+    ~StWithinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_WITHIN",
@@ -745,6 +751,7 @@ public:
  */
 class StDWithinFunction : public IFunction {
 public:
+    ~StDWithinFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_DWITHIN",
@@ -791,6 +798,7 @@ public:
  */
 class GeoContainsFunction : public IFunction {
 public:
+    ~GeoContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GEO_CONTAINS",
@@ -824,6 +832,7 @@ public:
  */
 class StXFunction : public IFunction {
 public:
+    ~StXFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_X",
@@ -851,6 +860,7 @@ public:
  */
 class StYFunction : public IFunction {
 public:
+    ~StYFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_Y",
@@ -878,6 +888,7 @@ public:
  */
 class StZFunction : public IFunction {
 public:
+    ~StZFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_Z",
@@ -909,6 +920,7 @@ public:
  */
 class StHasZFunction : public IFunction {
 public:
+    ~StHasZFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_HASZ",
@@ -953,6 +965,7 @@ public:
  */
 class StAsGeoJSONFunction : public IFunction {
 public:
+    ~StAsGeoJSONFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_ASGEOJSON",
@@ -979,6 +992,7 @@ public:
  */
 class StAsTextFunction : public IFunction {
 public:
+    ~StAsTextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_ASTEXT",
@@ -1046,6 +1060,7 @@ public:
  */
 class StCentroidFunction : public IFunction {
 public:
+    ~StCentroidFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_CENTROID",
@@ -1113,6 +1128,7 @@ public:
  */
 class StEnvelopeFunction : public IFunction {
 public:
+    ~StEnvelopeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_ENVELOPE",
@@ -1168,6 +1184,7 @@ public:
  */
 class StBufferFunction : public IFunction {
 public:
+    ~StBufferFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_BUFFER",
@@ -1190,9 +1207,9 @@ public:
         using namespace themis::geo;
         const GeometryInfo geom = EWKBParser::parseGeoJSON(args[0].dump());
         const double distance_m = args[1].get<double>();
-        // Truncation is intentional: arc_points must be a whole number of vertices.
+        // Clamp before narrowing to avoid undefined behaviour on extreme doubles.
         const int arc_points = (args.size() >= 3 && args[2].is_number())
-                               ? static_cast<int>(args[2].get<double>())
+                               ? static_cast<int>(std::clamp(args[2].get<double>(), 3.0, 360.0))
                                : 36;
         const GeometryInfo result = getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
         const std::string json_str = EWKBParser::toGeoJSON(result);
@@ -1219,6 +1236,7 @@ public:
  */
 class StUnionFunction : public IFunction {
 public:
+    ~StUnionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_UNION",
@@ -1261,6 +1279,7 @@ public:
  */
 class StDifferenceFunction : public IFunction {
 public:
+    ~StDifferenceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ST_DIFFERENCE",

@@ -1,14 +1,48 @@
+/**
+ * @file otlp_exporter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: otlp_exporter.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 214
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4208 feat(api/otlp): exponential... (2026-03-15) | #4219 feat(api): wire TracingMidd... (2026-03-14)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #pragma once
 
 #include <string>
 #include <string_view>
+#include <deque>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
 #include <cstdint>
+
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
+#include <curl/curl.h>
+
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/counter.h>
+#include <prometheus/registry.h>
+#endif
 
 namespace themis {
 namespace api {
@@ -42,6 +76,14 @@ struct OtlpExporterConfig {
 
     // Extra static HTTP headers sent with every export request.
     std::unordered_map<std::string, std::string> extra_headers;
+
+    // Retry configuration for transient export failures.
+    // On a retriable error (HTTP 429/503 or a curl transport error), the
+    // exporter retries up to `max_export_retries` times before dropping the
+    // batch.  The wait before retry i (1-based) is:
+    //   delay = retry_initial_delay_ms * 2^(i-1)   (100 ms, 200 ms, 400 ms …)
+    int max_export_retries     = 3;   ///< Number of retry attempts after initial failure (0 = no retries).
+    int retry_initial_delay_ms = 100; ///< Initial retry back-off delay in milliseconds (>= 1); doubled each attempt.
 };
 
 /**
@@ -139,6 +181,21 @@ public:
     /// Return the current configuration.
     const OtlpExporterConfig& config() const noexcept { return config_; }
 
+#ifdef THEMIS_HAS_PROMETHEUS
+    /**
+     * @brief Register OTLP span counters in a Prometheus registry.
+     *
+     * Must be called before start().  Registers:
+     *  - `otlp_spans_exported_total`
+     *  - `otlp_spans_dropped_total`
+     *
+     * No-op when Prometheus support is not compiled in.
+     *
+     * @param registry  Shared Prometheus registry instance.
+     */
+    void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry);
+#endif
+
 private:
     void flushLoop();
     void flushBatch(std::vector<SpanData>& batch);
@@ -148,7 +205,7 @@ private:
 
     OtlpExporterConfig      config_;
 
-    std::vector<SpanData>   queue_;
+    std::deque<SpanData>    queue_;
     mutable std::mutex      queue_mutex_;
     std::condition_variable queue_cv_;
 
@@ -156,7 +213,18 @@ private:
     std::atomic<bool>       stop_{false};
     std::atomic<uint64_t>   exported_count_{0};
     std::atomic<uint64_t>   dropped_count_{0};
+
+    // Persistent libcurl handle — created once in start(), reused per flush batch.
+    CURL*              curl_handle_  = nullptr;
+    struct curl_slist* curl_headers_ = nullptr;
+
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::shared_ptr<prometheus::Registry> prom_registry_;
+    prometheus::Counter* prom_exported_{nullptr};
+    prometheus::Counter* prom_dropped_{nullptr};
+#endif
 };
 
 } // namespace api
 } // namespace themis
+

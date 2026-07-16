@@ -1,26 +1,21 @@
+/**
+ * @file alertmanager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=1, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            alertmanager.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     694                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 59fa44599  2026-03-01  fix(observability): code-audit fixes for AlertRuleManager ║
-    • 1bf08ad70  2026-02-28  feat(observability): implement custom user-defined alert ... ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: alertmanager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 676
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=7, M=8, L=0
+ * PR History (last 5): #2573 feat(observability): wire c... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "observability/alertmanager.h"
@@ -87,22 +82,18 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
     return {};
 }
 
-Result<void> Alertmanager::sendAlert(const Alert& alert) {
+Result<void> Alertmanager::sendAlert([[maybe_unused]] const Alert& alert) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert;
     return {};
 }
 
-Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
+Result<void> Alertmanager::resolveAlert([[maybe_unused]] const std::string& alert_id) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert_id;
     return {};
 }
 
-Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duration_minutes) {
+Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, [[maybe_unused]] int duration_minutes) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert_id;
-    (void)duration_minutes;
     return {};
 }
 
@@ -693,3 +684,4 @@ size_t AlertRuleManager::ruleCount() const {
 
 } // namespace observability
 } // namespace themis
+

@@ -1,24 +1,21 @@
+/**
+ * @file nccl_vector_backend.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            nccl_vector_backend.h                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:24                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: nccl_vector_backend.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 263
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #1113 Implement Multi-GPU Vector ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +25,8 @@
 #include <vector>
 #include <string>
 #include <cstdint>
+#include <functional>
+#include <mutex>
 
 // Forward declarations - defined differently based on NCCL availability
 #ifdef THEMIS_ENABLE_NCCL
@@ -59,7 +58,7 @@ namespace acceleration {
  * - P2P transfers for direct GPU-to-GPU communication
  * - Multi-GPU top-k result merging
  * 
- * @sources
+ * Sources:
  * - Library: NCCL (NVIDIA Collective Communications Library)
  * - Repository: https://github.com/NVIDIA/nccl
  * - License: BSD 3-Clause
@@ -216,15 +215,17 @@ public:
 
     // Multi-GPU vector operations
     /**
-     * Distributed top-k merge across GPUs
-     * Each GPU has local top-k results, merge to global top-k
+     * Distributed top-k merge across GPUs.
+     * Each GPU has local top-k results, merged into a global top-k set.
      * 
-     * @param localTopK Local top-k results (indices and distances)
-     * @param localK Number of local results
-     * @param globalTopK Output buffer for global top-k (only valid on root)
-     * @param k Final number of results to return
-     * @param root Rank where final results are gathered
-     * @param stream CUDA stream for async operation
+     * @param localIndices Local result indices.
+     * @param localDistances Local result distances.
+     * @param localK Number of local results.
+     * @param globalIndices Output buffer for global result indices (only valid on root).
+     * @param globalDistances Output buffer for global result distances (only valid on root).
+     * @param k Final number of results to return.
+     * @param root Rank where final results are gathered.
+     * @param stream CUDA stream for async operation.
      */
     bool mergeTopK(const uint32_t* localIndices, const float* localDistances,
                    size_t localK, uint32_t* globalIndices, float* globalDistances,
@@ -251,6 +252,18 @@ public:
     static std::string getNCCLVersionString();
     static bool checkNVLinkSupport(const std::vector<int>& deviceIds);
 
+#ifndef THEMIS_ENABLE_NCCL
+    // -----------------------------------------------------------------------
+    // Stub-path injection — active only when THEMIS_ENABLE_NCCL is not defined.
+    // -----------------------------------------------------------------------
+    using AllReduceFn = std::function<bool(
+        const float* send, float* recv, size_t count, ReductionOp op, void* stream)>;
+
+    /// Inject an allReduce implementation for the non-NCCL stub path.
+    /// Pass empty fn to restore fail-closed stub default.
+    static void setAllReduceFn(AllReduceFn fn);
+#endif // !THEMIS_ENABLE_NCCL
+
 private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
@@ -258,3 +271,4 @@ private:
 
 } // namespace acceleration
 } // namespace themis
+

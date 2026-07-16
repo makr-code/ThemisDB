@@ -1,6 +1,6 @@
 # vLLM Multi-LoRA Integration for VCC-Clara
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Exporters
 
@@ -505,7 +505,7 @@ version: '3.8'
 
 services:
   themisdb:
-    image: themisdb/themis:latest
+    image: themisdb/themisdb:latest
     ports:
       - "8765:8765"
     volumes:

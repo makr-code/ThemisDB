@@ -1,28 +1,29 @@
+/**
+ * @file mixed_precision_inference.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=13, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mixed_precision_inference.cpp                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     262                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mixed_precision_inference.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 279
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=20, M=0, L=0
+ * PR History (last 5): #993 Implement vLLM-inspired GPU... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/mixed_precision_inference.h"
 #include <algorithm>
 #include <stdexcept>
+#if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
+#  include <cuda_runtime.h>
+#endif
 
 namespace themis {
 namespace llm {
@@ -236,29 +237,53 @@ std::string MixedPrecisionInference::toString(PrecisionMode precision) {
 }
 
 bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
-    // Stub implementation - would check hardware capabilities
-    // In production, would check CUDA compute capability, tensor cores, etc.
-    
-    switch (precision) {
-        case PrecisionMode::FP32:
-        case PrecisionMode::FP16:
-        case PrecisionMode::INT8:
-        case PrecisionMode::Q4:
-            return true;  // Widely supported
-            
-        case PrecisionMode::BFLOAT16:
-            // Requires Ampere or newer (SM 8.0+)
-            return true;  // Assume supported
-            
-        case PrecisionMode::Q3:
-            return false;  // Experimental
-            
-        case PrecisionMode::AUTO:
-            return true;
-            
-        default:
-            return false;
+#if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
+    // Query CUDA device compute capability to determine which precision formats
+    // are natively accelerated.  Falls back to CPU-safe modes if no device is present.
+    int dev = 0;
+    if (cudaGetDevice(&dev) != cudaSuccess) {
+        // No CUDA device accessible at runtime even though the CUDA runtime is
+        // linked.  Report no modes supported — the non-CUDA branch handles the
+        // CPU-only case and is not reached here.
+        return false;
     }
+    int major = 0, minor_ver = 0;
+    cudaError_t attr_err = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
+    if (attr_err != cudaSuccess) {
+        return false;
+    }
+    attr_err = cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    if (attr_err != cudaSuccess) {
+        return false;
+    }
+    const int sm = major * 10 + minor_ver;
+
+    switch (precision) {
+        case PrecisionMode::FP32:     return true;
+        case PrecisionMode::FP16:     return sm >= 60;   // Pascal+ (SM 6.0)
+        case PrecisionMode::BFLOAT16: return sm >= 80;   // Ampere+ (SM 8.0)
+        case PrecisionMode::INT8:     return sm >= 72;   // Turing+ (SM 7.2) for Tensor Core INT8
+        case PrecisionMode::Q4:       return sm >= 70;   // Volta+ (SM 7.0) for Tensor Cores
+        case PrecisionMode::AUTO:     return true;
+        case PrecisionMode::Q3:       return false;       // Experimental — not production-safe
+        default:                      return false;
+    }
+#else
+    // No CUDA runtime available.  Only report modes that have software/CPU fallbacks.
+    // BFLOAT16 is explicitly excluded: it requires Ampere hardware (SM >= 8.0) and
+    // claiming support without a GPU runtime check would cause an illegal instruction
+    // at the first BF16 kernel launch.
+    switch (precision) {
+        case PrecisionMode::FP32:     return true;
+        case PrecisionMode::FP16:     return true;   // Wide CPU library support
+        case PrecisionMode::INT8:     return true;   // CPU INT8 inference (ONNX Runtime etc.)
+        case PrecisionMode::Q4:       return true;   // CPU Q4 inference (llama.cpp style)
+        case PrecisionMode::AUTO:     return true;
+        case PrecisionMode::BFLOAT16: return false;  // Ampere GPU required
+        case PrecisionMode::Q3:       return false;  // Experimental
+        default:                      return false;
+    }
+#endif
 }
 
 } // namespace llm

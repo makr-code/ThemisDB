@@ -1,34 +1,35 @@
+/**
+ * @file semantic_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            semantic_cache.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     171                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: semantic_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 181
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #894 Add null pointer checks for... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
-#include <string>
-#include <optional>
+#include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -78,12 +79,17 @@ public:
     * @param db RocksDB TransactionDB instance
      * @param cf_handle Column family handle for semantic_cache
      * @param default_ttl_seconds Default TTL for cache entries (0 = no expiry)
+     * @param bg_expiry_interval_s  Seconds between automatic background expiry sweeps.
+     *                              0 disables the background thread (call clearExpired() manually).
      */
     SemanticCache(
     rocksdb::TransactionDB* db,
         rocksdb::ColumnFamilyHandle* cf_handle,
-        int default_ttl_seconds = 3600
+        int default_ttl_seconds = 3600,
+        int bg_expiry_interval_s = 300
     );
+
+    ~SemanticCache();
 
     /**
      * @brief Put a response into the cache
@@ -163,10 +169,24 @@ private:
     rocksdb::ColumnFamilyHandle* cf_handle_;
     int default_ttl_seconds_;
 
-    // Metrics (thread-safe via atomic or mutex)
-    mutable uint64_t hit_count_ = 0;
-    mutable uint64_t miss_count_ = 0;
-    mutable double total_query_latency_ms_ = 0.0;
+    // Metrics — all updated from concurrent threads; must be atomic.
+    // memory_order_relaxed is sufficient: exact ordering between individual
+    // hit/miss increments and latency accumulation is not required for
+    // statistical aggregation (no happens-before dependency across counters).
+    mutable std::atomic<uint64_t> hit_count_{0};
+    mutable std::atomic<uint64_t> miss_count_{0};
+    // Accumulated in microseconds (integer) to allow lock-free fetch_add.
+    mutable std::atomic<uint64_t> total_query_latency_us_{0};
+    // Maintained in put() / clearExpired() / clear() to avoid full RocksDB scans in getStats().
+    mutable std::atomic<uint64_t> entry_count_{0};
+    mutable std::atomic<uint64_t> total_bytes_{0};
+
+    // F-014: Background expiry thread — periodically sweeps expired entries so
+    // callers don't need to invoke clearExpired() manually.
+    std::thread            bg_expiry_thread_;
+    std::atomic<bool>      bg_stop_{false};
+    std::mutex             bg_cv_mutex_;
+    std::condition_variable bg_cv_;
 };
 
 } // namespace themis

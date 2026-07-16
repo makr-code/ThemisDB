@@ -1,26 +1,21 @@
+/**
+ * @file ingestion_coordinator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_coordinator.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:54:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     590                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 088d46b92  2026-02-28  feat(ingestion): add WorkStealingPool to IngestionCoordin... ║
-    • c86a6ac5d  2026-02-28  fix(ingestion): code-audit fixes for IngestionCoordinator... ║
-    • 6c2926d03  2026-02-28  feat(ingestion): add distributed ingestion coordinator (w... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ingestion_coordinator.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 706
+ * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4309 Add distributed ingestion c... (2026-03-19)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -42,6 +37,101 @@
 
 namespace themis {
 namespace ingestion {
+
+// ============================================================================
+// ISharedCheckpointStore — pluggable shared-backend checkpoint interface
+// ============================================================================
+
+/**
+ * @brief Strategy interface for a cluster-wide checkpoint store.
+ *
+ * All worker nodes in a distributed ingestion run share a single
+ * `ISharedCheckpointStore` so that incremental progress is visible across
+ * nodes and a failover worker can resume from the last committed offset.
+ *
+ * In production this is backed by Redis or the ThemisDB checkpoint
+ * collection.  For single-process deployments the default
+ * `InMemorySharedCheckpointStore` keeps state in a mutex-protected map
+ * so that multiple in-process workers see each other's checkpoints.
+ */
+class ISharedCheckpointStore {
+public:
+    virtual ~ISharedCheckpointStore() = default;
+
+    /**
+     * @brief Atomically write (or overwrite) a checkpoint.
+     * @return true on success
+     */
+    [[nodiscard]] virtual bool write(const IngestionCheckpoint& cp) = 0;
+
+    /**
+     * @brief Read the checkpoint for a source.
+     * @param source_id  Source whose checkpoint to retrieve
+     * @param out        Populated on success
+     * @return true if a checkpoint was found and read successfully
+     */
+    [[nodiscard]] virtual bool read(const std::string& source_id,
+                      IngestionCheckpoint& out) const = 0;
+
+    /**
+     * @brief Remove the checkpoint for a source.
+     * @return true if the checkpoint existed and was deleted
+     */
+    [[nodiscard]] virtual bool clear(const std::string& source_id) = 0;
+
+    /**
+     * @brief Check whether a checkpoint exists for a source.
+     */
+    [[nodiscard]] virtual bool exists(const std::string& source_id) const = 0;
+};
+
+// ============================================================================
+// InMemorySharedCheckpointStore — thread-safe in-process implementation
+// ============================================================================
+
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a fully functional ISharedCheckpointStore without requiring
+//   an external store (Redis, DB) so that single-process and test scenarios
+//   work out of the box.
+// Activation: Default implementation used by IngestionCoordinator when no
+//   external ISharedCheckpointStore is injected (e.g. via
+//   setSharedCheckpointStore()).  Also the default in InProcessWorkerNode.
+// Production Delta: State is process-local and is lost on restart.  No
+//   cross-process coordination, no durable persistence, no TTL/expiry logic.
+// Removal Plan: Not removed — retained for single-process deployments and
+//   tests.  Multi-process / HA deployments must inject a Redis- or DB-backed
+//   implementation via IngestionCoordinator::setSharedCheckpointStore().
+// RESOLVED 2026-05-06 — public injection API `setSharedCheckpointStore(store)`
+//   confirmed on IngestionCoordinator (throws std::logic_error when called while
+//   running); getSharedCheckpointStore() accessor added; tests
+//   IngestionCoordinatorCheckpointStoreTest::InjectedStoreIsUsed and
+//   SetStoreWhileRunningThrows confirm injection semantics are correct.
+
+/**
+ * @brief `ISharedCheckpointStore` backed by a mutex-protected in-memory map.
+ *
+ * Suitable for single-process multi-worker deployments (e.g. tests and the
+ * default `InProcessWorkerNode` mode).  Production deployments inject a Redis-
+ * or database-backed implementation via
+ * `IngestionCoordinator::setSharedCheckpointStoreForTesting()`.
+ *
+ * Thread-safety: fully thread-safe.
+ */
+class InMemorySharedCheckpointStore : public ISharedCheckpointStore {
+public:
+    bool write(const IngestionCheckpoint& cp) override;
+    bool read(const std::string& source_id,
+              IngestionCheckpoint& out) const override;
+    bool clear(const std::string& source_id) override;
+    bool exists(const std::string& source_id) const override;
+
+    /** @return Number of checkpoints currently held in memory. */
+    size_t size() const;
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, IngestionCheckpoint> store_;
+};
 
 // ============================================================================
 // NodeInfo — lightweight description of a coordinator-managed worker node
@@ -75,7 +165,7 @@ public:
     virtual ~IIngestionWorkerNode() = default;
 
     /// Return this node's unique identifier.
-    virtual const std::string& nodeId() const = 0;
+    [[nodiscard]] virtual const std::string& nodeId() const = 0;
 
     /**
      * @brief Ingest the assigned set of sources and return a partial report.
@@ -86,13 +176,13 @@ public:
      *                           underlying IngestionManager
      * @return Partial IngestionReport that will be aggregated by the coordinator
      */
-    virtual IngestionReport ingest(
+    [[nodiscard]] virtual IngestionReport ingest(
         const std::vector<SourceConfig>& sources,
         const std::string& target_collection,
         ProgressCallback progress_callback) = 0;
 
     /// Returns true when the node is idle and ready to accept work.
-    virtual bool isAvailable() const = 0;
+    [[nodiscard]] virtual bool isAvailable() const = 0;
 };
 
 // ============================================================================
@@ -142,11 +232,11 @@ public:
      * @param ttl      Lease duration; must be renewed before expiry
      * @return true if this node is now the leader
      */
-    virtual bool tryAcquireLease(const std::string& node_id,
+    [[nodiscard]] virtual bool tryAcquireLease(const std::string& node_id,
                                   std::chrono::milliseconds ttl) = 0;
 
     /// Return the current lease snapshot.
-    virtual LeaderLease getCurrentLease() const = 0;
+    [[nodiscard]] virtual LeaderLease getCurrentLease() const = 0;
 
     /**
      * @brief Voluntarily release the lease held by `node_id`.
@@ -550,6 +640,28 @@ public:
     /** @return Snapshot of coordinator runtime metrics. */
     CoordinatorMetrics getMetrics() const;
 
+    // ── Checkpoint store configuration ──────────────────────────────────────
+
+    /**
+     * @brief Replace the shared checkpoint store.
+     *
+     * Must be called before `start()`.  The default store is an
+     * `InMemorySharedCheckpointStore`, which is sufficient for single-process
+     * deployments.  Multi-host deployments should provide a Redis- or
+     * database-backed implementation before starting the coordinator.
+     *
+     * @throws std::logic_error if called while the coordinator is running.
+     */
+    void setSharedCheckpointStore(std::shared_ptr<ISharedCheckpointStore> store);
+
+    /**
+     * @brief Return the shared checkpoint store currently in use.
+     *
+     * Useful for test assertions (e.g. verifying a checkpoint was written
+     * after ingestion).
+     */
+    std::shared_ptr<ISharedCheckpointStore> getSharedCheckpointStore() const;
+
     // ── Testing hooks ────────────────────────────────────────────────────────
 
     /**
@@ -558,6 +670,17 @@ public:
      * Must be called before `start()`.
      */
     void setLeaderElectionForTesting(std::shared_ptr<ILeaderElection> election);
+
+    /**
+     * @brief Alias for `setSharedCheckpointStore()` — test code only.
+     *
+     * Prefer `setSharedCheckpointStore()` in production.  This alias is kept
+     * so that existing test code continues to compile.
+     *
+     * @throws std::logic_error if called while the coordinator is running.
+     */
+    void setSharedCheckpointStoreForTesting(
+        std::shared_ptr<ISharedCheckpointStore> store);
 
 private:
     Config config_;
@@ -571,6 +694,9 @@ private:
 
     // Leader election
     std::shared_ptr<ILeaderElection> leader_election_;
+
+    // Shared checkpoint store (visible to all worker nodes)
+    std::shared_ptr<ISharedCheckpointStore> checkpoint_store_;
 
     // Metrics
     mutable std::mutex metrics_mutex_;

@@ -1,35 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_ml_functions.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     326                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file ai_ml_functions.h
- * @brief AI/ML Functions for ThemisDB AQL
- * 
- * Provides AI and machine learning capabilities:
- * - Hybrid search (vector + keyword)
- * - Text embeddings (via external models)
- * - Result reranking
- * - Text classification
- * - Named entity recognition
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -44,12 +21,22 @@ namespace themisdb {
 namespace query {
 namespace functions {
 
+namespace {
+inline int clampPositiveIntFromDouble(double raw, int fallback, int maxValue = 1'000'000) {
+    if (!std::isfinite(raw)) {
+        return fallback;
+    }
+    return static_cast<int>(std::clamp(raw, 1.0, static_cast<double>(maxValue)));
+}
+} // namespace
+
 // ============================================================================
 // HYBRID_SEARCH - Combined vector and keyword search
 // ============================================================================
 
 class HybridSearchFunction : public IFunction {
 public:
+    ~HybridSearchFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "HYBRID_SEARCH",
@@ -79,7 +66,9 @@ public:
             auto opts = args[4].as_object();
             if (opts.count("vectorWeight")) vectorWeight = opts["vectorWeight"].as_number();
             if (opts.count("textWeight")) textWeight = opts["textWeight"].as_number();
-            if (opts.count("limit")) limit = static_cast<int>(opts["limit"].as_number());
+            if (opts.count("limit")) {
+                limit = clampPositiveIntFromDouble(opts["limit"].as_number(), limit);
+            }
         }
         
         // Normalize weights
@@ -105,6 +94,7 @@ public:
 
 class EmbedFunction : public IFunction {
 public:
+    ~EmbedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EMBED",
@@ -138,6 +128,7 @@ public:
 
 class RerankFunction : public IFunction {
 public:
+    ~RerankFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "RERANK",
@@ -171,6 +162,7 @@ public:
 
 class ClassifyFunction : public IFunction {
 public:
+    ~ClassifyFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CLASSIFY",
@@ -225,6 +217,7 @@ public:
 
 class ExtractEntitiesFunction : public IFunction {
 public:
+    ~ExtractEntitiesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EXTRACT_ENTITIES",
@@ -283,6 +276,7 @@ public:
 
 class SummarizeFunction : public IFunction {
 public:
+    ~SummarizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SUMMARIZE",
@@ -298,7 +292,9 @@ public:
         if (args.empty()) return JsonValue("");
         
         std::string text = args[0].as_string();
-        int maxLength = args.size() > 1 ? static_cast<int>(args[1].as_number()) : 100;
+        int maxLength = args.size() > 1
+            ? clampPositiveIntFromDouble(args[1].as_number(), 100)
+            : 100;
         
         // Placeholder: return first N characters
         // In production, this uses a summarization model

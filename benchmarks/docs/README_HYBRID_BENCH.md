@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Hybrid AQL Benchmark Suite
 
 Benchmark-Vergleich zwischen AQL Syntax-Zucker und direkter C++ API für Hybrid Queries.

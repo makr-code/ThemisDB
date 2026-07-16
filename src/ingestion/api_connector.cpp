@@ -1,27 +1,21 @@
+/**
+ * @file api_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            api_connector.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     643                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: api_connector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 651
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=9, L=0
+ * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #3694 feat(ingestion): configurab... (2026-03-12) | #3287 security(ingestion): path t... (2026-03-12) | #3285 feat(ingestion): Plugin API... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "ingestion/api_connector.h"
@@ -31,6 +25,7 @@
 #include <chrono>
 #include <thread>
 #include <functional>
+#include <fstream>
 
 #ifdef ERROR
 #undef ERROR
@@ -56,8 +51,8 @@ struct ApiHttpResponse {
 };
 
 // libcurl write callback – appends received data to a std::string.
-static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
-                                void* userdata) {
+static size_t apiCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                   void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -66,7 +61,8 @@ static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
 // Production HTTP GET using libcurl.
 static ApiHttpResponse apiHttpGet(const std::string& url,
                                    const std::string& auth,
-                                   int timeout_ms) {
+                                   int timeout_ms,
+                                   const std::string& ca_bundle_path = {}) {
     ApiHttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -84,10 +80,19 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, apiCurlWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -107,7 +112,8 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
 // Production HTTP POST using libcurl (used for OAuth 2.0 token refresh).
 static ApiHttpResponse apiHttpPost(const std::string& url,
                                     const std::string& body,
-                                    int timeout_ms) {
+                                    int timeout_ms,
+                                    const std::string& ca_bundle_path = {}) {
     ApiHttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -125,10 +131,19 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, apiCurlWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -289,6 +304,9 @@ public:
         oauth_config_.refresh_token  = opt("oauth_refresh_token",  "");
         oauth_config_.access_token   = opt("oauth_access_token",   "");
 
+        // TLS configuration: optional custom CA bundle path
+        retry_config_.ca_bundle_path = opt("ca_bundle_path", "");
+
         return !endpoint_.empty();
     }
 
@@ -302,7 +320,7 @@ public:
             r.body        = std::move(body);
             return r;
         }
-        return apiHttpGet(url, auth, timeout_ms);
+        return apiHttpGet(url, auth, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     // Wrapper for HTTP POST: delegates to test hook or real libcurl.
@@ -315,7 +333,7 @@ public:
             r.body        = std::move(resp_body);
             return r;
         }
-        return apiHttpPost(url, body, timeout_ms);
+        return apiHttpPost(url, body, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     bool isAvailable() const {
@@ -478,9 +496,10 @@ public:
                                                             cursor_response_field_);
                     if (current_cursor.empty()) break;
                 } else {
-                    // Advance offset; stop if fewer docs than requested (last page)
+                    // Advance offset; keep paging until the API returns an empty
+                    // page or an explicit total has been reached.
                     offset += docs.size();
-                    if (docs.size() < page_size_) break;
+                    if (total_hint > 0 && offset >= total_hint) break;
                 }
             }
         } catch (const std::exception& e) {
@@ -641,3 +660,5 @@ void GenericApiConnector::setDocumentValidator(DocumentValidatorFn validator) {
 
 } // namespace ingestion
 } // namespace themis
+
+

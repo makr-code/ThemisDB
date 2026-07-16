@@ -1,24 +1,20 @@
+/**
+ * @file ts_auto_buffer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ts_auto_buffer.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     313                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ts_auto_buffer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -80,6 +76,12 @@ struct TSAutoBufferConfig {
     bool async_flush = true;                  // Flush in background thread
     size_t flush_batch_size = 500;           // Points per flush operation
     
+    // Gorilla single-point insert buffering
+    size_t gorilla_batch_size = 128;          // Accumulate this many points before Gorilla-encoding
+    // Non-blocking backpressure threshold for push(): returns BUFFER_FULL when total
+    // in-memory buffer bytes exceed this value. 0 = disabled (push() never returns BUFFER_FULL).
+    size_t max_buffer_bytes = 0;
+
     // Compression (inherited from TSStore)
     TSStore::CompressionType compression = TSStore::CompressionType::Gorilla;
     int chunk_size_hours = 24;
@@ -196,6 +198,15 @@ struct TSAutoBufferStats {
 class TSAutoBuffer {
 public:
     /**
+     * @brief Status returned by push() for non-blocking single-point inserts.
+     */
+    enum class PushStatus {
+        OK,           ///< Point accepted and buffered successfully
+        BUFFER_FULL,  ///< Total in-memory buffer bytes exceed config_.max_buffer_bytes; caller should back off
+        INVALID_INPUT ///< Point has empty metric or entity; permanent error, do not retry
+    };
+
+    /**
      * @brief Construct auto-batching buffer
      * @param tsstore TSStore instance (not owned)
      * @param config Buffer configuration
@@ -220,6 +231,22 @@ public:
      */
     void stop();
     
+    /**
+     * @brief Non-blocking single-point push for Gorilla single-point insert buffering.
+     *
+     * Routes single data points through the auto-buffer rather than writing directly
+     * to RocksDB.  Points accumulate until gorilla_batch_size is reached, at which
+     * point they are encoded with Gorilla and written as a single compressed chunk.
+     *
+     * Unlike add(), this method never blocks producers.  When the total in-memory
+     * buffer size exceeds config_.max_buffer_bytes it returns BUFFER_FULL so the
+     * caller can apply its own backpressure strategy.
+     *
+     * @param point Data point to buffer
+     * @return PushStatus::OK on success, PushStatus::BUFFER_FULL when buffer is saturated
+     */
+    PushStatus push(const TSStore::DataPoint& point);
+
     /**
      * @brief Add a data point (will be buffered)
      * @param point Data point to buffer

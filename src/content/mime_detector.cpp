@@ -1,23 +1,21 @@
+/**
+ * @file mime_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=24, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mime_detector.cpp                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     557                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mime_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 571
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=27, L=0
+ * PR History (last 5): #3700 feat(content): add ContentP... (2026-03-12) | #1223 Reorganize config architect... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "content/mime_detector.h"
@@ -29,6 +27,7 @@
 #include <cctype>
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -229,7 +228,7 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
         
     } catch (const YAML::Exception&) {
         return false;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -494,6 +493,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         
         result.allowed = true;
         result.reason = "Allowed by whitelist";
+        result.ocr_recommended = shouldTriggerOcr(result.mime_type);
         return result;
     }
     
@@ -528,6 +528,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
                 
                 result.allowed = true;
                 result.reason = "Allowed by category '" + category + "'";
+                result.ocr_recommended = shouldTriggerOcr(result.mime_type);
                 return result;
             }
         }
@@ -546,6 +547,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         
         result.allowed = true;
         result.reason = "Allowed by default policy";
+        result.ocr_recommended = shouldTriggerOcr(result.mime_type);
         return result;
     } else {
         result.allowed = false;
@@ -555,6 +557,28 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
     }
 }
 
+bool MimeDetector::shouldTriggerOcr(std::string_view mime_type) const {
+    if (!policy_.ocrEnabled()) {
+        return false;
+    }
+    // OCR is supported for PNG, JPEG, and TIFF image formats
+    return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
+}
+
+bool MimeDetector::shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept {
+    if (!ocr_enabled) {
+        return false;
+    }
+    // OCR is supported for PNG, JPEG, and TIFF image formats
+    return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
+}
+
+void MimeDetector::enableOcr(bool enable) {
+    policy_.ocr_enabled = enable;
+}
+
 } // namespace content
 } // namespace themis
+
+
 

@@ -1,34 +1,32 @@
+/**
+ * @file outbox.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            outbox.cpp                                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     417                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d73e2cd2  2026-02-25  audit(cdc): fix stale ROADMAP Known Issues, document outb... ║
-    • 822f29a02  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: outbox.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 414
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=10, M=6, L=0
+ * PR History (last 5): #3616 fix(cdc): build system audi... (2026-03-12) | #3472 docs(cdc): align README.md ... (2026-03-12) | #2850 feat(cdc): Transactional ou... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "cdc/outbox.h"
-#include "utils/logger.h"
-#include <rocksdb/utilities/transaction_db.h>
-#include <rocksdb/utilities/transaction.h>
+
 #include <chrono>
 #include <cstdio>
+#include <rocksdb/utilities/transaction.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <stdexcept>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace cdc {
@@ -39,33 +37,50 @@ namespace cdc {
 
 static std::string outboxStateToString(OutboxState s) {
     switch (s) {
-        case OutboxState::PENDING:   return "PENDING";
-        case OutboxState::PUBLISHED: return "PUBLISHED";
-        case OutboxState::FAILED:    return "FAILED";
+        case OutboxState::PENDING:
+            return "PENDING";
+        case OutboxState::PUBLISHED:
+            return "PUBLISHED";
+        case OutboxState::FAILED:
+            return "FAILED";
     }
     return "PENDING";
 }
 
-static OutboxState outboxStateFromString(const std::string& s) {
-    if (s == "PUBLISHED") return OutboxState::PUBLISHED;
-    if (s == "FAILED")    return OutboxState::FAILED;
+static OutboxState outboxStateFromString(const std::string &s) {
+    if (s == "PUBLISHED") {
+        return OutboxState::PUBLISHED;
+    }
+    if (s == "FAILED") {
+        return OutboxState::FAILED;
+    }
     return OutboxState::PENDING;
 }
 
 static std::string changeEventTypeToString(Changefeed::ChangeEventType t) {
     switch (t) {
-        case Changefeed::ChangeEventType::EVENT_PUT:                  return "PUT";
-        case Changefeed::ChangeEventType::EVENT_DELETE:               return "DELETE";
-        case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:   return "TRANSACTION_COMMIT";
-        case Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK: return "TRANSACTION_ROLLBACK";
+        case Changefeed::ChangeEventType::EVENT_PUT:
+            return "PUT";
+        case Changefeed::ChangeEventType::EVENT_DELETE:
+            return "DELETE";
+        case Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT:
+            return "TRANSACTION_COMMIT";
+        case Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK:
+            return "TRANSACTION_ROLLBACK";
     }
     return "PUT";
 }
 
-static Changefeed::ChangeEventType changeEventTypeFromString(const std::string& s) {
-    if (s == "DELETE")               return Changefeed::ChangeEventType::EVENT_DELETE;
-    if (s == "TRANSACTION_COMMIT")   return Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT;
-    if (s == "TRANSACTION_ROLLBACK") return Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK;
+static Changefeed::ChangeEventType changeEventTypeFromString(const std::string &s) {
+    if (s == "DELETE") {
+        return Changefeed::ChangeEventType::EVENT_DELETE;
+    }
+    if (s == "TRANSACTION_COMMIT") {
+        return Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT;
+    }
+    if (s == "TRANSACTION_ROLLBACK") {
+        return Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK;
+    }
     return Changefeed::ChangeEventType::EVENT_PUT;
 }
 
@@ -89,20 +104,20 @@ nlohmann::json OutboxRecord::toJson() const {
     return j;
 }
 
-OutboxRecord OutboxRecord::fromJson(const nlohmann::json& j) {
+OutboxRecord OutboxRecord::fromJson(const nlohmann::json &j) {
     OutboxRecord r;
-    r.outbox_sequence  = j.value("outbox_sequence",  uint64_t{0});
-    r.collection       = j.value("collection",       std::string{});
-    r.key              = j.value("key",               std::string{});
+    r.outbox_sequence = j.value("outbox_sequence", uint64_t{0});
+    r.collection      = j.value("collection", std::string{});
+    r.key             = j.value("key", std::string{});
     if (j.contains("value") && !j["value"].is_null()) {
         r.value = j["value"].get<std::string>();
     }
-    r.event_type       = changeEventTypeFromString(j.value("event_type", std::string{"PUT"}));
-    r.state            = outboxStateFromString(j.value("state", std::string{"PENDING"}));
-    r.created_at_ms    = j.value("created_at_ms",    int64_t{0});
-    r.published_at_ms  = j.value("published_at_ms",  int64_t{0});
-    r.relay_attempts   = j.value("relay_attempts",   0);
-    r.failure_reason   = j.value("failure_reason",   std::string{});
+    r.event_type      = changeEventTypeFromString(j.value("event_type", std::string{"PUT"}));
+    r.state           = outboxStateFromString(j.value("state", std::string{"PENDING"}));
+    r.created_at_ms   = j.value("created_at_ms", int64_t{0});
+    r.published_at_ms = j.value("published_at_ms", int64_t{0});
+    r.relay_attempts  = j.value("relay_attempts", 0);
+    r.failure_reason  = j.value("failure_reason", std::string{});
     if (j.contains("metadata")) {
         r.metadata = j["metadata"];
     }
@@ -113,9 +128,7 @@ OutboxRecord OutboxRecord::fromJson(const nlohmann::json& j) {
 // OutboxWriter helpers
 // ============================================================
 
-OutboxWriter::OutboxWriter(rocksdb::TransactionDB* db,
-                           rocksdb::ColumnFamilyHandle* cf)
-    : db_(db), cf_(cf) {
+OutboxWriter::OutboxWriter(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf) : db_(db), cf_(cf) {
     if (!db_) {
         throw error::invalidArgument("OutboxWriter: db cannot be null");
     }
@@ -123,8 +136,7 @@ OutboxWriter::OutboxWriter(rocksdb::TransactionDB* db,
 
 std::string OutboxWriter::makeKey(uint64_t seq) const {
     char buf[64];
-    std::snprintf(buf, sizeof(buf), "%s%020llu",
-                  KEY_PREFIX, static_cast<unsigned long long>(seq));
+    std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
     return std::string(buf);
 }
 
@@ -143,7 +155,15 @@ uint64_t OutboxWriter::nextSequence() {
 
     uint64_t next = 1;
     if (s.ok()) {
-        try { next = std::stoull(seq_value) + 1; } catch (...) { next = 1; }
+        try {
+            next = std::stoull(seq_value) + 1;
+        } catch (const std::string&) {
+            next = 1;
+        } catch (const char*) {
+            next = 1;
+        } catch (...) {
+            next = 1;
+        }
     }
 
     rocksdb::WriteOptions write_opts;
@@ -156,8 +176,7 @@ uint64_t OutboxWriter::nextSequence() {
     }
     if (!ws.ok()) {
         throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::CRITICAL,
-                           "OutboxWriter: failed to persist sequence counter",
-                           ws.ToString());
+                           "OutboxWriter: failed to persist sequence counter", ws.ToString());
     }
     return next;
 }
@@ -166,7 +185,7 @@ uint64_t OutboxWriter::nextSequence() {
 // OutboxWriter::writeToOutbox
 // ============================================================
 
-OutboxRecord& OutboxWriter::writeToOutbox(rocksdb::Transaction* txn, OutboxRecord& rec) {
+OutboxRecord &OutboxWriter::writeToOutbox(rocksdb::Transaction *txn, OutboxRecord &rec) {
     if (!txn) {
         throw error::invalidArgument("OutboxWriter::writeToOutbox: txn cannot be null");
     }
@@ -180,9 +199,8 @@ OutboxRecord& OutboxWriter::writeToOutbox(rocksdb::Transaction* txn, OutboxRecor
     rec.published_at_ms = 0;
 
     auto now = std::chrono::system_clock::now();
-    rec.created_at_ms = static_cast<int64_t>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            now.time_since_epoch()).count());
+    rec.created_at_ms
+        = static_cast<int64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());
 
     std::string serialised = rec.toJson().dump();
     std::string db_key     = makeKey(rec.outbox_sequence);
@@ -196,8 +214,7 @@ OutboxRecord& OutboxWriter::writeToOutbox(rocksdb::Transaction* txn, OutboxRecor
 
     if (!s.ok()) {
         throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR,
-                           "OutboxWriter: failed to write outbox record",
-                           s.ToString());
+                           "OutboxWriter: failed to write outbox record", s.ToString());
     }
 
     THEMIS_DEBUG("OutboxWriter: enqueued record seq={} key={}", rec.outbox_sequence, rec.key);
@@ -208,9 +225,7 @@ OutboxRecord& OutboxWriter::writeToOutbox(rocksdb::Transaction* txn, OutboxRecor
 // OutboxRelay helpers
 // ============================================================
 
-OutboxRelay::OutboxRelay(rocksdb::TransactionDB* db,
-                         rocksdb::ColumnFamilyHandle* cf,
-                         Changefeed& changefeed,
+OutboxRelay::OutboxRelay(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf, Changefeed &changefeed,
                          OutboxRelayConfig config)
     : db_(db), cf_(cf), changefeed_(changefeed), config_(std::move(config)) {
     if (!db_) {
@@ -224,13 +239,12 @@ OutboxRelay::~OutboxRelay() {
 
 std::string OutboxRelay::makeKey(uint64_t seq) const {
     char buf[64];
-    std::snprintf(buf, sizeof(buf), "%s%020llu",
-                  KEY_PREFIX, static_cast<unsigned long long>(seq));
+    std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
     return std::string(buf);
 }
 
-void OutboxRelay::updateRecord(const OutboxRecord& rec) {
-    std::string db_key    = makeKey(rec.outbox_sequence);
+void OutboxRelay::updateRecord(const OutboxRecord &rec) {
+    std::string db_key     = makeKey(rec.outbox_sequence);
     std::string serialised = rec.toJson().dump();
 
     rocksdb::WriteOptions write_opts;
@@ -245,30 +259,29 @@ void OutboxRelay::updateRecord(const OutboxRecord& rec) {
     }
 }
 
-std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit,
-                                                    OutboxState filter_state,
-                                                    bool all_states) const {
+std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit, OutboxState filter_state, bool all_states) const {
     std::vector<OutboxRecord> result;
 
     rocksdb::ReadOptions read_opts;
-    std::unique_ptr<rocksdb::Iterator> it(
-        cf_ ? db_->NewIterator(read_opts, cf_)
-            : db_->NewIterator(read_opts));
+    std::unique_ptr<rocksdb::Iterator> it(cf_ ? db_->NewIterator(read_opts, cf_) : db_->NewIterator(read_opts));
 
     it->Seek(KEY_PREFIX);
     for (; it->Valid(); it->Next()) {
         rocksdb::Slice k = it->key();
-        if (!k.starts_with(KEY_PREFIX)) break;
+        if (!k.starts_with(KEY_PREFIX)) {
+            break;
+        }
 
         try {
-            OutboxRecord rec = OutboxRecord::fromJson(
-                nlohmann::json::parse(it->value().ToString()));
+            OutboxRecord rec = OutboxRecord::fromJson(nlohmann::json::parse(it->value().ToString()));
 
             if (all_states || rec.state == filter_state) {
                 result.push_back(std::move(rec));
-                if (limit > 0 && result.size() >= limit) break;
+                if (limit > 0 && result.size() >= limit) {
+                    break;
+                }
             }
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             THEMIS_WARN("OutboxRelay: failed to parse outbox record at key={}: {}", k.ToString(), e.what());
         }
     }
@@ -281,19 +294,18 @@ std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit,
 // ============================================================
 
 size_t OutboxRelay::relayOnce() {
-    std::vector<OutboxRecord> pending = scanRecords(
-        config_.batch_size, OutboxState::PENDING, /*all_states=*/false);
+    std::vector<OutboxRecord> pending = scanRecords(config_.batch_size, OutboxState::PENDING, /*all_states=*/false);
 
     size_t published = 0;
-    for (OutboxRecord& rec : pending) {
+    for (OutboxRecord &rec : pending) {
         rec.relay_attempts++;
 
         try {
             Changefeed::ChangeEvent event;
-            event.type         = rec.event_type;
-            event.key          = rec.key;
-            event.value        = rec.value;
-            event.metadata     = rec.metadata;
+            event.type     = rec.event_type;
+            event.key      = rec.key;
+            event.value    = rec.value;
+            event.metadata = rec.metadata;
             if (!rec.collection.empty()) {
                 event.metadata["collection"] = rec.collection;
             }
@@ -301,11 +313,10 @@ size_t OutboxRelay::relayOnce() {
 
             changefeed_.recordEvent(event);
 
-            rec.state = OutboxState::PUBLISHED;
-            auto now  = std::chrono::system_clock::now();
+            rec.state           = OutboxState::PUBLISHED;
+            auto now            = std::chrono::system_clock::now();
             rec.published_at_ms = static_cast<int64_t>(
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    now.time_since_epoch()).count());
+                std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());
 
             updateRecord(rec);
             ++published;
@@ -313,19 +324,18 @@ size_t OutboxRelay::relayOnce() {
 
             THEMIS_DEBUG("OutboxRelay: published record seq={} key={}", rec.outbox_sequence, rec.key);
 
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             rec.failure_reason = e.what();
 
-            bool exhausted = (config_.max_relay_attempts > 0 &&
-                              rec.relay_attempts >= config_.max_relay_attempts);
+            bool exhausted = (config_.max_relay_attempts > 0 && rec.relay_attempts >= config_.max_relay_attempts);
             if (exhausted) {
                 rec.state = OutboxState::FAILED;
                 total_failed_.fetch_add(1, std::memory_order_relaxed);
-                THEMIS_WARN("OutboxRelay: record seq={} failed permanently after {} attempts: {}",
-                            rec.outbox_sequence, rec.relay_attempts, e.what());
+                THEMIS_WARN("OutboxRelay: record seq={} failed permanently after {} attempts: {}", rec.outbox_sequence,
+                            rec.relay_attempts, e.what());
             } else {
-                THEMIS_WARN("OutboxRelay: record seq={} relay attempt {} failed (will retry): {}",
-                            rec.outbox_sequence, rec.relay_attempts, e.what());
+                THEMIS_WARN("OutboxRelay: record seq={} relay attempt {} failed (will retry): {}", rec.outbox_sequence,
+                            rec.relay_attempts, e.what());
             }
 
             updateRecord(rec);
@@ -344,15 +354,13 @@ void OutboxRelay::relayThreadFunc() {
         relayOnce();
 
         std::unique_lock<std::mutex> lock(cv_mutex_);
-        cv_.wait_for(lock, config_.poll_interval,
-                     [this]{ return !running_.load(std::memory_order_acquire); });
+        cv_.wait_for(lock, config_.poll_interval, [this] { return !running_.load(std::memory_order_acquire); });
     }
 }
 
 void OutboxRelay::start() {
     bool expected = false;
-    if (!running_.compare_exchange_strong(expected, true,
-                                          std::memory_order_acq_rel)) {
+    if (!running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         return; // already running
     }
     relay_thread_ = std::thread(&OutboxRelay::relayThreadFunc, this);
@@ -374,8 +382,7 @@ void OutboxRelay::stop() {
 // OutboxRelay query / maintenance helpers
 // ============================================================
 
-std::vector<OutboxRecord> OutboxRelay::listRecords(OutboxState state,
-                                                    size_t limit) const {
+std::vector<OutboxRecord> OutboxRelay::listRecords(OutboxState state, size_t limit) const {
     return scanRecords(limit, state, /*all_states=*/false);
 }
 
@@ -398,7 +405,7 @@ bool OutboxRelay::removeRecord(uint64_t outbox_sequence) {
 size_t OutboxRelay::purgePublished() {
     auto published = scanRecords(0, OutboxState::PUBLISHED, /*all_states=*/false);
     size_t removed = 0;
-    for (const auto& rec : published) {
+    for (const auto &rec : published) {
         if (removeRecord(rec.outbox_sequence)) {
             ++removed;
         }
@@ -416,3 +423,4 @@ uint64_t OutboxRelay::totalFailed() const {
 
 } // namespace cdc
 } // namespace themis
+

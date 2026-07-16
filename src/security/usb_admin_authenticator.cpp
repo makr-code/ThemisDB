@@ -1,26 +1,25 @@
+/**
+ * @file usb_admin_authenticator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=10; TODO=1, Stub=5, Unimpl=1, Mock=1, Sim=2, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            usb_admin_authenticator.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     603                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: usb_admin_authenticator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 753
+ * Gap Summary: total=10; TODO=1, Stub=5, Unimpl=1, Mock=1, Sim=2, Debt=0, C=0, H=4, M=5, L=0
+ * PR History (last 5): #401 Replace Security Stubs with... (2026-03-11) | #1100 [WIP] Fix missing and stub ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/usb_admin_authenticator.h"
+#include "security/usb_volume_hardening.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -32,6 +31,7 @@
 #include <openssl/err.h>
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
+#include <memory>
 
 #if defined(__linux__)
 #include <sys/stat.h>
@@ -44,10 +44,46 @@
 namespace themis {
 namespace security {
 
+namespace {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free_all(p); }
+};
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
+};
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+using BIO_ptr        = std::unique_ptr<BIO, BIO_Deleter>;
+using EVP_PKEY_ptr   = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
+
 // Implementation class
 class USBAdminAuthenticator::Impl {
 public:
-    // Placeholder for any platform-specific state
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide an Impl class shell so USBAdminAuthenticator compiles on
+    //          all platforms while the platform-specific USB enumeration and
+    //          license-key cryptography are not yet implemented.
+    // Activation: Built-in RSA path always active when license_verifier_fn is
+    //             null (no LicenseVerifierFn injected).  The embedded RSA public
+    //             key is a PLACEHOLDER — it will reject all real signatures.
+    // Production Delta: Without a real LicenseVerifierFn injected:
+    //   (a) matchesHardware() is called with the system hardware ID, and
+    //   (b) validateLicenseSignature() uses the fake embedded RSA public key
+    //       (returns false for all real signatures).
+    //   When a LicenseVerifierFn is injected it replaces both (a) and (b).
+    // Removal Plan: Inject a production-grade LicenseVerifierFn that performs
+    //   real RSA/HMAC verification against a provisioned public key, OR replace
+    //   the embedded placeholder key with a real one when the key-management
+    //   workflow is established.
+    //   See src/security/FUTURE_ENHANCEMENTS.md §USBAdminAuthenticator Impl.
+    LicenseVerifierFn license_verifier_fn;
 };
 
 // USBAdminLicense methods
@@ -242,22 +278,80 @@ bool USBAdminAuthenticator::refreshUSBStatus() {
         return false;
     }
     
-    // Check hardware binding
-    std::string hw_id = getSystemHardwareID();
-    if (!license->matchesHardware(hw_id)) {
-        THEMIS_WARN("USBAdminAuthenticator: license hardware mismatch (expected={}, current={})", 
-                    license->hardware_id, hw_id);
-        current_license_.reset();
-        return false;
+    // Validate hardware binding and license signature.
+    // When a LicenseVerifierFn has been injected it replaces both checks
+    // (hardware ID matching and RSA signature verification).
+    if (impl_->license_verifier_fn) {
+        std::string hw_id = getSystemHardwareID();
+        if (!impl_->license_verifier_fn(*license, hw_id)) {
+            THEMIS_WARN("USBAdminAuthenticator: injected license verifier rejected the license");
+            current_license_.reset();
+            return false;
+        }
+    } else {
+        // Check hardware binding
+        std::string hw_id = getSystemHardwareID();
+        if (!license->matchesHardware(hw_id)) {
+            THEMIS_WARN("USBAdminAuthenticator: license hardware mismatch (expected={}, current={})", 
+                        license->hardware_id, hw_id);
+            current_license_.reset();
+            return false;
+        }
+        
+        // Validate signature
+        if (!validateLicenseSignature(*license)) {
+            THEMIS_WARN("USBAdminAuthenticator: license signature validation failed");
+            current_license_.reset();
+            return false;
+        }
     }
     
-    // Validate signature
-    if (!validateLicenseSignature(*license)) {
-        THEMIS_WARN("USBAdminAuthenticator: license signature validation failed");
-        current_license_.reset();
-        return false;
+    // ── USB Volume Hardening checks ───────────────────────────────────────────
+    // These checks run after the license is loaded and signature is validated.
+    // They defend against FAT-level manipulation, cloned USB sticks, and live
+    // writes to the stick during authentication.
+
+    // 1. Read-only mount enforcement
+    if (config_.require_readonly_mount) {
+        if (!USBVolumeHardening::isMountedReadOnly(config_.mount_path)) {
+            THEMIS_WARN("USBAdminAuthenticator: USB filesystem is not mounted read-only — rejecting");
+            metrics_.usb_denied_not_readonly++;
+            auditLog("USB_DENIED_NOT_READONLY",
+                     "USB filesystem is not mounted read-only at " + config_.mount_path,
+                     "");
+            current_license_.reset();
+            return false;
+        }
     }
-    
+
+    // 2. Volume integrity hash (FAT-manipulation detection)
+    if (!config_.expected_volume_hash.empty()) {
+        if (!USBVolumeHardening::verifyVolumeHash(
+                config_.mount_path, config_.license_file, config_.expected_volume_hash)) {
+            THEMIS_WARN("USBAdminAuthenticator: volume hash mismatch — FAT manipulation suspected");
+            metrics_.usb_denied_volume_hash_mismatch++;
+            auditLog("USB_DENIED_VOLUME_HASH_MISMATCH",
+                     "License file hash does not match pinned value — FAT manipulation suspected",
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
+    // 3. USB device serial binding (anti-cloning)
+    if (!config_.expected_usb_serial.empty()) {
+        if (!USBVolumeHardening::verifyUSBSerial(
+                config_.mount_path, config_.expected_usb_serial)) {
+            THEMIS_WARN("USBAdminAuthenticator: USB serial mismatch — possible cloned device");
+            metrics_.usb_denied_serial_mismatch++;
+            auditLog("USB_DENIED_SERIAL_MISMATCH",
+                     "USB device serial does not match provisioned value — cloned device suspected",
+                     "");
+            current_license_.reset();
+            return false;
+        }
+    }
+
     // All checks passed
     current_license_ = license;
     metrics_.usb_mount_detected++;
@@ -275,6 +369,11 @@ bool USBAdminAuthenticator::isLockedOut() const {
 USBAdminAuthenticator::Metrics USBAdminAuthenticator::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_;
+}
+
+void USBAdminAuthenticator::setLicenseVerifierFn(LicenseVerifierFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    impl_->license_verifier_fn = std::move(fn);
 }
 
 // Private helper methods
@@ -370,6 +469,7 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
         
         // Parse admin scopes
         if (j.contains("admin_scopes") && j["admin_scopes"].is_array()) {
+            license.admin_scopes.reserve(j["admin_scopes"].size());
             for (const auto& scope : j["admin_scopes"]) {
                 license.admin_scopes.push_back(scope.get<std::string>());
             }
@@ -385,14 +485,14 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
-    bmem = BIO_push(b64, bmem);
-    BIO_set_flags(bmem, BIO_FLAGS_BASE64_NO_NL);
+    BIO_ptr b64(BIO_new(BIO_f_base64()));
+    BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
+    BIO* result = BIO_push(b64.release(), bmem.release());
+    BIO_set_flags(result, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bmem, output.data(), static_cast<int>(output.size()));
-    BIO_free_all(bmem);
+    int decoded_size = BIO_read(result, output.data(), static_cast<int>(output.size()));
+    BIO_free_all(result);
     
     if (decoded_size < 0) {
         return {};
@@ -437,14 +537,13 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::string data_to_verify = data_stream.str();
     
     // Load the embedded public key
-    BIO* key_bio = BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1);
+    BIO_ptr key_bio(BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1));
     if (!key_bio) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create BIO for public key");
         return false;
     }
     
-    EVP_PKEY* public_key = PEM_read_bio_PUBKEY(key_bio, nullptr, nullptr, nullptr);
-    BIO_free(key_bio);
+    EVP_PKEY_ptr public_key(PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr));
     
     if (!public_key) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to load public key");
@@ -455,22 +554,20 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::vector<uint8_t> signature_bytes = base64Decode(license.signature);
     if (signature_bytes.empty()) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to decode signature");
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     // Verify the signature using SHA-256
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create EVP context");
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     bool valid = false;
-    if (EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, public_key) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx, data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size());
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
             valid = (verify_result == 1);
             
             if (!valid) {
@@ -482,9 +579,6 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     } else {
         THEMIS_ERROR("USBAdminAuthenticator: EVP_DigestVerifyInit failed");
     }
-    
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(public_key);
     
     return valid;
 }
@@ -682,3 +776,4 @@ void USBAdminAuthenticator::auditLog(const std::string& event, const std::string
 
 } // namespace security
 } // namespace themis
+

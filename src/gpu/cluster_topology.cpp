@@ -1,27 +1,21 @@
+/**
+ * @file cluster_topology.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cluster_topology.cpp                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b71915237  2026-03-01  feat(gpu): mark multi-node cluster coordination as produc... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • d09f11d78  2026-02-25  fix(gpu): code-audit fixes for cluster topology and strea... ║
-    • 6f8423a3e  2026-02-25  feat(gpu): implement multi-node GPU cluster with NVLink/I... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cluster_topology.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 301
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * PR History (last 5): #4485 feat(gpu): fix NVLink topol... (2026-04-09) | #3425 [gpu] Mark multi-node GPU c... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -40,7 +34,7 @@
 #include <cstring>
 
 #ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
+#include <cuda_runtime.h>
 #endif
 
 namespace themis {
@@ -50,15 +44,22 @@ namespace gpu {
 // Free helpers
 // ---------------------------------------------------------------------------
 
-const char* interconnectTypeName(InterconnectType t) noexcept {
+const char *interconnectTypeName(InterconnectType t) noexcept {
     switch (t) {
-        case InterconnectType::NVLINK:      return "NVLink";
-        case InterconnectType::XGMI:        return "XGMI";
-        case InterconnectType::PCIE_P2P:    return "PCIe_P2P";
-        case InterconnectType::INFINIBAND:  return "InfiniBand";
-        case InterconnectType::ETHERNET:    return "Ethernet";
-        case InterconnectType::CPU:         return "CPU";
-        default:                            return "Unknown";
+        case InterconnectType::NVLINK:
+            return "NVLink";
+        case InterconnectType::XGMI:
+            return "XGMI";
+        case InterconnectType::PCIE_P2P:
+            return "PCIe_P2P";
+        case InterconnectType::INFINIBAND:
+            return "InfiniBand";
+        case InterconnectType::ETHERNET:
+            return "Ethernet";
+        case InterconnectType::CPU:
+            return "CPU";
+        default:
+            return "Unknown";
     }
 }
 
@@ -66,9 +67,7 @@ const char* interconnectTypeName(InterconnectType t) noexcept {
 // GPUClusterTopology::detect
 // ---------------------------------------------------------------------------
 
-GPUClusterTopology GPUClusterTopology::detect(
-    const std::vector<DeviceInfo>& devices)
-{
+GPUClusterTopology GPUClusterTopology::detect(const std::vector<DeviceInfo> &devices) {
     GPUClusterTopology topo;
     topo.num_gpus = static_cast<int>(devices.size());
 
@@ -77,9 +76,7 @@ GPUClusterTopology GPUClusterTopology::detect(
     }
 
     // Initialise bandwidth matrix to 0.
-    topo.bandwidth_matrix.assign(
-        topo.num_gpus,
-        std::vector<float>(topo.num_gpus, 0.0f));
+    topo.bandwidth_matrix.assign(topo.num_gpus, std::vector<float>(topo.num_gpus, 0.0f));
 
 #ifdef THEMIS_ENABLE_CUDA
     // -----------------------------------------------------------------------
@@ -90,13 +87,11 @@ GPUClusterTopology GPUClusterTopology::detect(
     // -----------------------------------------------------------------------
     for (int i = 0; i < topo.num_gpus; ++i) {
         for (int j = 0; j < topo.num_gpus; ++j) {
-            if (i == j) continue;
+            if (i == j)
+                continue;
 
-            int can_access = 0;
-            cudaError_t err = cudaDeviceCanAccessPeer(
-                &can_access,
-                devices[i].device_index,
-                devices[j].device_index);
+            int can_access  = 0;
+            cudaError_t err = cudaDeviceCanAccessPeer(&can_access, devices[i].device_index, devices[j].device_index);
 
             if (err != cudaSuccess || !can_access) {
                 // No direct path; route via CPU host memory.
@@ -124,7 +119,7 @@ GPUClusterTopology GPUClusterTopology::detect(
             // capable when peer access is available.
             if (devices[i].compute_major >= 7) {
                 lnk.type           = InterconnectType::NVLINK;
-                lnk.bandwidth_gbps = 300.0f;  // NVLink 3.0 / 4.0 estimate
+                lnk.bandwidth_gbps = 300.0f; // NVLink 3.0 / 4.0 estimate
                 lnk.latency_us     = 1.0f;
                 topo.has_nvlink    = true;
             } else {
@@ -145,7 +140,9 @@ GPUClusterTopology GPUClusterTopology::detect(
     // -----------------------------------------------------------------------
     for (int i = 0; i < topo.num_gpus; ++i) {
         for (int j = 0; j < topo.num_gpus; ++j) {
-            if (i == j) continue;
+            if (i == j) {
+                continue;
+            }
 
             TopologyLink lnk;
             lnk.src_device_index = i;
@@ -154,8 +151,8 @@ GPUClusterTopology GPUClusterTopology::detect(
             // If multiple CUDA or ROCm devices are present and their indices
             // differ, assume at least PCIe P2P is available as a best-effort
             // estimate (real detection requires hardware).
-            if ((devices[i].backend == "CUDA" && devices[j].backend == "CUDA") ||
-                (devices[i].backend == "ROCm" && devices[j].backend == "ROCm")) {
+            if ((devices[i].backend == "CUDA" && devices[j].backend == "CUDA")
+                || (devices[i].backend == "ROCm" && devices[j].backend == "ROCm")) {
                 lnk.type           = InterconnectType::PCIE_P2P;
                 lnk.bandwidth_gbps = 16.0f;
                 lnk.latency_us     = 2.5f;
@@ -179,37 +176,42 @@ GPUClusterTopology GPUClusterTopology::detect(
 // Cluster node management
 // ---------------------------------------------------------------------------
 
-void GPUClusterTopology::addNode(const ClusterNode& node) {
-    if (node.node_id.empty()) return;
+void GPUClusterTopology::addNode(const ClusterNode &node) {
+    if (node.node_id.empty()) {
+        return;
+    }
     node_map_.emplace(node.node_id, node);
 
     // Keep nodes list in sync with the map.
-    for (const auto& n : nodes) {
-        if (n.node_id == node.node_id) return;
+    for (const auto &n : nodes) {
+        if (n.node_id == node.node_id) {
+            return;
+        }
     }
     nodes.push_back(node);
 }
 
-void GPUClusterTopology::removeNode(const std::string& node_id) {
+void GPUClusterTopology::removeNode(const std::string &node_id) {
     node_map_.erase(node_id);
 
     nodes.erase(
-        std::remove_if(nodes.begin(), nodes.end(),
-            [&node_id](const ClusterNode& n) { return n.node_id == node_id; }),
+        std::remove_if(nodes.begin(), nodes.end(), [&node_id](const ClusterNode &n) { return n.node_id == node_id; }),
         nodes.end());
 
-    links.erase(
-        std::remove_if(links.begin(), links.end(),
-            [&node_id](const TopologyLink& l) {
-                return l.src_node_id == node_id || l.dst_node_id == node_id;
-            }),
-        links.end());
+    links.erase(std::remove_if(
+                    links.begin(), links.end(),
+                    [&node_id](const TopologyLink &l) { return l.src_node_id == node_id || l.dst_node_id == node_id; }),
+                links.end());
 }
 
-void GPUClusterTopology::addLink(const TopologyLink& link) {
+void GPUClusterTopology::addLink(const TopologyLink &link) {
     if (link.is_inter_node()) {
-        if (node_map_.find(link.src_node_id) == node_map_.end()) return;
-        if (node_map_.find(link.dst_node_id) == node_map_.end()) return;
+        if (node_map_.find(link.src_node_id) == node_map_.end()) {
+            return;
+        }
+        if (node_map_.find(link.dst_node_id) == node_map_.end()) {
+            return;
+        }
         if (link.type == InterconnectType::INFINIBAND) {
             has_infiniband = true;
         }
@@ -219,10 +221,8 @@ void GPUClusterTopology::addLink(const TopologyLink& link) {
         const int si = link.src_device_index;
         const int di = link.dst_device_index;
         if (si >= 0 && di >= 0 && si < num_gpus && di < num_gpus) {
-            if (link.bandwidth_gbps > bandwidth_matrix
-                    [static_cast<size_t>(si)][static_cast<size_t>(di)]) {
-                bandwidth_matrix[static_cast<size_t>(si)]
-                                [static_cast<size_t>(di)] = link.bandwidth_gbps;
+            if (link.bandwidth_gbps > bandwidth_matrix[static_cast<size_t>(si)][static_cast<size_t>(di)]) {
+                bandwidth_matrix[static_cast<size_t>(si)][static_cast<size_t>(di)] = link.bandwidth_gbps;
             }
         }
     }
@@ -237,10 +237,8 @@ std::pair<int, int> GPUClusterTopology::bestNVLinkPair() const {
     float best_bw = -1.0f;
     std::pair<int, int> best{-1, -1};
 
-    for (const auto& lnk : links) {
-        if (lnk.type == InterconnectType::NVLINK &&
-            !lnk.is_inter_node() &&
-            lnk.bandwidth_gbps > best_bw) {
+    for (const auto &lnk : links) {
+        if (lnk.type == InterconnectType::NVLINK && !lnk.is_inter_node() && lnk.bandwidth_gbps > best_bw) {
             best_bw = lnk.bandwidth_gbps;
             best    = {lnk.src_device_index, lnk.dst_device_index};
         }
@@ -248,15 +246,12 @@ std::pair<int, int> GPUClusterTopology::bestNVLinkPair() const {
     return best;
 }
 
-std::pair<std::string, std::string>
-GPUClusterTopology::bestInfiniBandPair() const {
+std::pair<std::string, std::string> GPUClusterTopology::bestInfiniBandPair() const {
     float best_bw = -1.0f;
     std::pair<std::string, std::string> best{"", ""};
 
-    for (const auto& lnk : links) {
-        if (lnk.type == InterconnectType::INFINIBAND &&
-            lnk.is_inter_node() &&
-            lnk.bandwidth_gbps > best_bw) {
+    for (const auto &lnk : links) {
+        if (lnk.type == InterconnectType::INFINIBAND && lnk.is_inter_node() && lnk.bandwidth_gbps > best_bw) {
             best_bw = lnk.bandwidth_gbps;
             best    = {lnk.src_node_id, lnk.dst_node_id};
         }
@@ -265,31 +260,30 @@ GPUClusterTopology::bestInfiniBandPair() const {
 }
 
 float GPUClusterTopology::bandwidthBetween(int device_a, int device_b) const {
-    if (device_a < 0 || device_b < 0) return 0.0f;
-    if (device_a >= num_gpus || device_b >= num_gpus) return 0.0f;
-    if (device_a == device_b) return 0.0f;
-    return bandwidth_matrix[static_cast<size_t>(device_a)]
-                           [static_cast<size_t>(device_b)];
+    if (device_a < 0 || device_b < 0) {
+        return 0.0f;
+    }
+    if (device_a >= num_gpus || device_b >= num_gpus) {
+        return 0.0f;
+    }
+    if (device_a == device_b) {
+        return 0.0f;
+    }
+    return bandwidth_matrix[static_cast<size_t>(device_a)][static_cast<size_t>(device_b)];
 }
 
-InterconnectType GPUClusterTopology::preferredInterconnect(
-    int device_a, int device_b) const
-{
-    if (device_a < 0 || device_b < 0 ||
-        device_a >= num_gpus || device_b >= num_gpus ||
-        device_a == device_b) {
+InterconnectType GPUClusterTopology::preferredInterconnect(int device_a, int device_b) const {
+    if (device_a < 0 || device_b < 0 || device_a >= num_gpus || device_b >= num_gpus || device_a == device_b) {
         return InterconnectType::UNKNOWN;
     }
 
     // Find the highest-bandwidth intra-node link from a to b.
-    float best_bw = -1.0f;
+    float best_bw              = -1.0f;
     InterconnectType best_type = InterconnectType::CPU;
 
-    for (const auto& lnk : links) {
-        if (!lnk.is_inter_node() &&
-            lnk.src_device_index == device_a &&
-            lnk.dst_device_index == device_b &&
-            lnk.bandwidth_gbps > best_bw) {
+    for (const auto &lnk : links) {
+        if (!lnk.is_inter_node() && lnk.src_device_index == device_a && lnk.dst_device_index == device_b
+            && lnk.bandwidth_gbps > best_bw) {
             best_bw   = lnk.bandwidth_gbps;
             best_type = lnk.type;
         }
@@ -300,13 +294,13 @@ InterconnectType GPUClusterTopology::preferredInterconnect(
 std::vector<std::string> GPUClusterTopology::nodeIds() const {
     std::vector<std::string> ids;
     ids.reserve(nodes.size());
-    for (const auto& n : nodes) {
+    for (const auto &n : nodes) {
         ids.push_back(n.node_id);
     }
     return ids;
 }
 
-ClusterNode GPUClusterTopology::getNode(const std::string& node_id) const {
+ClusterNode GPUClusterTopology::getNode(const std::string &node_id) const {
     auto it = node_map_.find(node_id);
     if (it == node_map_.end()) {
         return ClusterNode{};

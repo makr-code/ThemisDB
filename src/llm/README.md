@@ -1,172 +1,94 @@
-# LLM Module
+# ThemisDB LLM Module
 
-<!-- Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
-
-LLM interaction storage and chain-of-thought feature implementation for ThemisDB.
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-Implements LLM interaction storage and chain-of-thought features for ThemisDB. Provides two inference engines: AsyncInferenceEngine (lightweight async wrapper for single LLM plugin) and InferenceEngineEnhanced (enterprise multi-model engine with context caching, batch processing, and load balancing).
-
-## Subsystem Scope
-
-**In scope:** Async inference request management, priority queue, context caching (KV-cache reuse), dynamic batching, multi-model load balancing, InferenceHandle for request tracking.
-
-**Out of scope:** LLM model weights and serving (external), prompt template management (handled by prompt_engineering module), RAG pipeline orchestration (handled by rag module).
+The LLM module provides inference runtime, routing, model/adapter lifecycle management, and LLM-oriented orchestration surfaces used by ThemisDB AI features.
 
 ## Relevant Interfaces
 
-- `async_inference_engine.cpp` — lightweight async inference wrapper
-- `inference_engine_enhanced.cpp` — enterprise multi-model engine
-- `include/llm/inference_handle.h` — async request handle
-- `llm_api_handler.cpp` (server) — API integration point
+| Interface / File | Role |
+|---|---|
+| async_inference_engine.cpp | asynchronous inference submission and completion handling |
+| inference_engine_enhanced.cpp | multi-model orchestration and enhanced runtime controls |
+| shared_worker_pool.cpp | shared worker scheduling for LLM execution paths |
+| model_router.cpp | rule-based model routing and selection |
+| llm_plugin_manager.cpp | plugin/backend lifecycle control |
+| multi_lora_manager.cpp | LoRA adapter load/switch/unload lifecycle |
+| streaming_handler.cpp | streaming token framing and callback paths |
+| prompt_policy.cpp | prompt safety/policy enforcement helpers |
+| token_quota_manager.cpp | per-model/per-request quota enforcement |
+| production_validator.cpp | runtime validation and production-safety checks |
 
-## Current Delivery Status
+## Scope
 
-**Maturity:** 🟢 Production-ready (v1.16.0) — Both inference engines operational; streaming SSE output, OpenAI-compatible adapter, speculative decoding, LoRA hot-loading, model quantization pipeline, and request deduplication cache are all complete.
+In scope:
+- inference runtime and orchestration
+- model and adapter lifecycle operations
+- routing and scheduling for LLM execution
+- streaming output and prompt/policy controls
+- runtime safety, quota, and observability helpers
 
-<!-- Status: current | validated: 2026-03-09 | commit: 04e9e7d -->
+Out of scope:
+- persistence internals and storage engine behavior
+- HTTP gateway implementation details outside LLM runtime adapters
+- non-LLM domain modules unrelated to inference/orchestration
 
-## Architecture Overview
+## Known Limitations
 
-ThemisDB provides **two distinct inference engines** serving different purposes:
+- Some advanced distributed/federated paths require deployment wiring and are not universally default-enabled.
+- Runtime behavior can vary by selected backend and available acceleration stack.
+- Benchmark coverage is broad but still evolving for all cross-node production scenarios.
 
-### 1. AsyncInferenceEngine (Simple Async Wrapper)
-- **Purpose**: Lightweight async wrapper for **single** LLM plugin
-- **Use Case**: Simple API endpoints, background inference tasks
-- **Features**:
-  - Non-blocking request submission
-  - Priority queue management
-  - Worker thread pool
-  - Backpressure handling
-- **Location**: `src/llm/async_inference_engine.cpp`
-- **Usage**: Server API handlers (`src/server/llm_api_handler.cpp`)
+## Gap Status (L0.5 Verified - 2026-06-25)
 
-### 2. InferenceEngineEnhanced (Enterprise Features)
-- **Purpose**: Advanced multi-model engine with optimization features
-- **Use Case**: RAG systems, production deployments, high-throughput scenarios
-- **Features**:
-  - **Context Caching**: KV-cache reuse for faster inference
-  - **Batch Processing**: Dynamic batching for improved throughput
-  - **Load Balancing**: Multi-model request distribution
-  - **Request Queuing**: Priority scheduling with timeouts
-- **Location**: `src/llm/inference_engine_enhanced.cpp`
-- **Usage**: RAG integration (`src/rag/llm_integration.cpp`)
+**Gap Summary**: 3,821 verified gaps across 146 source files
+- **CRITICAL**: 1,029 gaps (26.9%) - Require immediate attention for production safety
+- **HIGH**: 1,937 gaps (50.7%) - High-priority fixes for stability and performance
+- **MEDIUM**: 854 gaps (22.4%) - Medium-priority improvements
+- **LOW**: 1 gap (0.0%)
 
-### Shared Components
+**Top Issue Categories**:
+- LLM AI Safety: 1,910 findings (model integrity, prompt injection, LLM output validation)
+- Performance: 391 findings (query optimization, inefficient algorithms, copy overhead)
+- Data Races & Concurrency: 321 findings (synchronization issues, thread safety)
+- Resource Management: 125 findings (leaks, manual cleanup, GPU memory)
+- Observability: 93 findings (missing instrumentation, hardcoded values)
 
-#### InferenceHandle
-- **Purpose**: Common handle for tracking async inference requests
-- **Location**: `include/llm/inference_handle.h`
-- **Features**:
-  - Blocking wait for results (`get()`)
-  - Non-blocking status check (`ready()`)
-  - Best-effort cancellation (`cancel()`)
+**Remediation Status**:
+- [ ] Review CRITICAL gaps by module component
+- [ ] Correlate with test coverage analysis
+- [ ] Open GitHub issues for tracking
+- [ ] Target: Q3 2026 remediation sprint
 
-## Architecture Decision: Why Two Engines?
+For detailed breakdown, see [MODULE_GAPS.md](MODULE_GAPS.md) and root [ROADMAP.md](../../ROADMAP.md).
 
-Initially, this appeared to be code duplication. Investigation revealed:
+## Sourcecode Verification (Module: llm/readme)
 
-1. **Different Abstraction Levels**:
-   - AsyncInferenceEngine: Simple async wrapper (single model)
-   - InferenceEngineEnhanced: Enterprise orchestrator (multi-model)
+- Verified files:
+  - src/llm/async_inference_engine.cpp
+  - src/llm/inference_engine_enhanced.cpp
+  - src/llm/shared_worker_pool.cpp
+  - src/llm/model_router.cpp
+  - src/llm/llm_plugin_manager.cpp
+  - src/llm/multi_lora_manager.cpp
+  - src/llm/streaming_handler.cpp
+  - src/llm/prompt_policy.cpp
+  - src/llm/token_quota_manager.cpp
+  - src/llm/production_validator.cpp
+- Verified behavior surfaces:
+  - request submission, scheduling, routing, and streaming
+  - plugin/adapter lifecycle behavior
+  - policy/quota/validation control surfaces
+- Note:
+  - Forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md.
+  - Historical implementation record remains in CHANGELOG.md.
+  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
+  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
+  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
 
-2. **Different Use Cases**:
-   - Simple API calls → AsyncInferenceEngine
-   - Complex RAG pipelines → InferenceEngineEnhanced
+## Installation
 
-3. **Minimal Overlap**:
-   - Both implement worker threads (necessary for each)
-   - Different queue strategies (priority vs. batch)
-   - Different statistics tracking (basic vs. advanced)
-
-## Refactoring (v1.15.0)
-
-**Problem**: InferenceEngineEnhanced included `async_inference_engine.h` but only used `InferenceHandle`
-
-**Solution**: Extracted `InferenceHandle` to separate header
-- Created: `include/llm/inference_handle.h`
-- Created: `src/llm/inference_handle.cpp`
-- Removed unnecessary cross-dependency
-- Both engines now depend only on shared handle
-
-This clarifies that both engines are independent implementations serving different needs.
-
-## Components
-
-- LLM interaction storage
-- Prompt and response tracking
-- Chain-of-thought storage
-- Conversation history management
-
-### Grammar-Constrained Generation ✅ IMPLEMENTED
-
-**Status:** Fully implemented with runtime API detection
-
-The LLM module includes complete implementation for grammar-constrained generation (EBNF/GBNF format), which guarantees valid structured outputs. This feature uses **runtime API detection** similar to LoRA adapters.
-
-**How It Works:**
-1. On first use, the system detects if llama.cpp has grammar APIs available
-2. If available: Full grammar-constrained generation is enabled
-3. If not available: System falls back gracefully to unconstrained generation
-
-**Implementation Details:**
-```
-"Grammar support is unavailable (llama grammar API not present)"
-```
-
-**Location:** `Grammar::compile()` in `src/llm/grammar.cpp`
-
-**Dynamic API Loading:** `src/llm/llama_grammar_adapter.cpp`
-
-**Required APIs from llama.cpp:**
-- `llama_grammar_init()` - Compile EBNF to grammar
-- `llama_grammar_free()` - Free grammar resources
-- `llama_grammar_sample()` - Filter tokens by grammar rules
-- `llama_grammar_accept()` - Update grammar state after token generation
-
-**Runtime Detection:**
-- Uses `themis_llama_grammar_available()` to check API availability
-- Automatically activates when llama.cpp has grammar support
-- Graceful fallback with informative logging if not available
-- No rebuild needed when llama.cpp is updated
-
-**Usage:**
-```cpp
-// Grammar support is automatically detected and used
-Grammar grammar(ebnf_text, "root");
-if (grammar.isValid()) {
-    // Grammar APIs are available and working
-} else {
-    // APIs not available, will use unconstrained generation
-}
-```
-
-**See Also:**
-- `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` - Full grammar documentation
-- `docs/LLM_IMPLEMENTATION_COMPLETE.md` - LLM implementation status (100%)
-- `docs/LLM_CORE_STATUS_MASTER.md` - Master status document
-
-## Features
-
-- Store LLM interactions and conversations
-- Track reasoning chains and intermediate steps
-- Support for multi-turn conversations
-- Integration with vector search for semantic retrieval
-
-## Documentation
-
-For LLM documentation, see:
-- [LLM Interaction Store](../../docs/src/llm/llm_interaction_store.cpp.md)
-- [Chain of Thought Storage](../../docs/chain_of_thought_storage.md)
-
-## Scientific References
-
-1. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., … Polosukhin, I. (2017). **Attention Is All You Need**. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 5998–6008. https://arxiv.org/abs/1706.03762
-
-2. Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., … Amodei, D. (2020). **Language Models are Few-Shot Learners**. *Advances in Neural Information Processing Systems (NeurIPS)*, 33, 1877–1901. https://arxiv.org/abs/2005.14165
-
-3. Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., … Zhou, D. (2022). **Chain-of-Thought Prompting Elicits Reasoning in Large Language Models**. *Advances in Neural Information Processing Systems (NeurIPS)*, 35. https://arxiv.org/abs/2201.11903
-
-4. Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). **BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding**. *Proceedings of NAACL-HLT 2019*, 4171–4186. https://doi.org/10.18653/v1/N19-1423
+This module is built as part of ThemisDB. See the root CMakeLists.txt for build configuration.

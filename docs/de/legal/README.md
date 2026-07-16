@@ -1,6 +1,6 @@
 # ThemisDB Vertragsvorlagen - Übersicht
 
-**Stand:** Januar 2026  
+**Stand:** April 2026  
 **Version:** 1.0  
 **Kategorie:** 📋 Legal Documentation
 
@@ -478,7 +478,7 @@ Diese Vertragsvorlagen müssen angepasst werden für:
 ### Technische Dokumentation
 - [Edition Comparison](../EDITION_COMPARISON.md)
 - [Enterprise Features](../de/enterprise/README.md)
-- [Minimal Edition](../MINIMAL_EDITION.md)
+- [Minimal Edition](../features/MINIMAL_EDITION.md)
 
 ### Compliance & Security
 - [ATTRIBUTIONS.md](ATTRIBUTIONS.md) - Third-Party Licenses

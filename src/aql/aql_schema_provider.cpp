@@ -1,36 +1,34 @@
+/**
+ * @file aql_schema_provider.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_schema_provider.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     63                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2e58fd3cd  2026-02-23  feat(aql): schema-aware query generation using live colle... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_schema_provider.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 55
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "aql/aql_schema_provider.h"
+
 #include <sstream>
 
 namespace themis {
 namespace aql {
 
-std::string formatSchemaContext(const std::vector<CollectionMetadata>& schema) {
+std::string formatSchemaContext(const std::vector<CollectionMetadata> &schema) {
     if (schema.empty()) {
         return {};
     }
@@ -38,7 +36,7 @@ std::string formatSchemaContext(const std::vector<CollectionMetadata>& schema) {
     std::ostringstream oss;
     oss << "Available collections:\n";
 
-    for (const auto& col : schema) {
+    for (const auto &col : schema) {
         oss << "- " << col.name;
         if (!col.type.empty()) {
             oss << " (" << col.type << ")";
@@ -48,10 +46,14 @@ std::string formatSchemaContext(const std::vector<CollectionMetadata>& schema) {
         }
         if (!col.fields.empty()) {
             oss << "\n  Fields:";
-            for (const auto& f : col.fields) {
+            for (const auto &f : col.fields) {
                 oss << "\n    - " << f.name << " [" << f.type << "]";
-                if (f.indexed)   oss << " (indexed)";
-                if (!f.nullable) oss << " (required)";
+                if (f.indexed) {
+                    oss << " (indexed)";
+                }
+                if (!f.nullable) {
+                    oss << " (required)";
+                }
             }
         }
         oss << "\n";

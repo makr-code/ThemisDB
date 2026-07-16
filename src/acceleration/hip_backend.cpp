@@ -1,27 +1,21 @@
+/**
+ * @file hip_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=12, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hip_backend.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1030                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • edaecffe6  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
-    • fedef6263  2026-02-23  feat(acceleration): publish backend capability matrix and... ║
-    • 33de0a38c  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
-    • 32123c014  2026-02-23  feat(acceleration): add ROCm/HIP ANN and geo kernel files... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hip_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1137
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=16, M=3, L=0
+ * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4470 feat(acceleration): FAISS I... (2026-04-09) | #3574 fix: clear all remaining st... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #2712 [acceleration] Publish back... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // HIP Backend Implementation for AMD GPUs
@@ -38,6 +32,7 @@
 #include "acceleration/raii/hip_raii.h"
 #endif
 
+#include <cfloat>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -50,6 +45,12 @@
 
 namespace themis {
 namespace acceleration {
+
+// Forward declarations for block-size setters defined in hip/ann_kernels.hip
+// and hip/geo_kernels.hip.  Called during initialize() with the occupancy-tuned
+// block size so that kernel launchers use the optimal thread count.
+extern "C" void hipSetTopKBlockSize(int blockSize);
+extern "C" void hipSetGeoKernelBlockSize(int blockSize);
 
 // ============================================================================
 // HIP Helper Macros
@@ -175,9 +176,86 @@ __global__ void computeInnerProductDistanceKernel(
     distances[qIdx * numVectors + vIdx] = fmaxf(0.0f, -dotProduct);
 }
 
+// ============================================================================
+// Device-side max-heap helpers for top-K selection
+//
+// The heap is stored as two parallel arrays (distances + indices) of capacity
+// `cap`.  heap[0] always holds the maximum distance (max-heap invariant), so
+// we can cheaply check whether a new candidate improves the result set and
+// evict the worst element in O(log cap).
+// ============================================================================
+
+__device__ __forceinline__ void hipHeapSiftDown(
+    float* __restrict__    dists,
+    uint32_t* __restrict__ ids,
+    int top, int size)
+{
+    while (true) {
+        int largest = top;
+        int left    = 2 * top + 1;
+        int right   = 2 * top + 2;
+        if (left  < size && dists[left]  > dists[largest]) largest = left;
+        if (right < size && dists[right] > dists[largest]) largest = right;
+        if (largest == top) break;
+        float    td = dists[top]; dists[top]  = dists[largest]; dists[largest]  = td;
+        uint32_t ti = ids[top];   ids[top]    = ids[largest];   ids[largest]    = ti;
+        top = largest;
+    }
+}
+
+// Insert (d, id) into a max-heap of capacity cap.
+// If the heap has room it grows; otherwise, if d < heap[0] (the current max),
+// replace the root and sift down.
+__device__ __forceinline__ void hipHeapPushCapped(
+    float* __restrict__    dists,
+    uint32_t* __restrict__ ids,
+    int* __restrict__      size_ptr,
+    int cap,
+    float d,
+    uint32_t id)
+{
+    if (*size_ptr < cap) {
+        int pos = *size_ptr;
+        dists[pos] = d;
+        ids[pos]   = id;
+        ++(*size_ptr);
+        // Sift up to maintain max-heap invariant
+        while (pos > 0) {
+            int parent = (pos - 1) / 2;
+            if (dists[parent] < dists[pos]) {
+                float    td = dists[parent]; dists[parent] = dists[pos]; dists[pos] = td;
+                uint32_t ti = ids[parent];   ids[parent]   = ids[pos];   ids[pos]   = ti;
+                pos = parent;
+            } else {
+                break;
+            }
+        }
+    } else if (d < dists[0]) {
+        dists[0] = d;
+        ids[0]   = id;
+        hipHeapSiftDown(dists, ids, 0, cap);
+    }
+}
+
+// Sort a max-heap in ascending order (heap-sort descending then reverse).
+__device__ __forceinline__ void hipHeapSort(
+    float* __restrict__    dists,
+    uint32_t* __restrict__ ids,
+    int size)
+{
+    for (int end = size - 1; end > 0; --end) {
+        float    td = dists[0]; dists[0] = dists[end]; dists[end] = td;
+        uint32_t ti = ids[0];   ids[0]   = ids[end];   ids[end]   = ti;
+        hipHeapSiftDown(dists, ids, 0, end);
+    }
+}
+
 // Top-K selection kernel using parallel reduction
-// Selects k nearest neighbors for each query
-// Note: Uses bubble sort for simplicity. For k > 32, consider heap-based or radix select.
+// Selects k nearest neighbors for each query.
+//
+// Algorithm selection:
+//   k <= 32  — insertion-sort style (O(k²) init + O(n·k) sweep); low overhead for tiny k.
+//   k >  32  — max-heap selection (O(k log k) build + O(n log k) sweep); efficient for large k.
 __global__ void topKSelectionKernel(
     const float* __restrict__ distances,
     uint32_t* __restrict__ indices,
@@ -193,51 +271,58 @@ __global__ void topKSelectionKernel(
     const float* queryDistances = distances + qIdx * numVectors;
     uint32_t* queryIndices = indices + qIdx * k;
     float* queryTopK = topKDistances + qIdx * k;
-    
-    // Initialize with first k elements
-    for (int i = 0; i < k && i < numVectors; i++) {
-        queryIndices[i] = i;
-        queryTopK[i] = queryDistances[i];
-    }
-    
-        // Sort initial k elements (bubble sort for small k < 32)
-        // For larger k, a heap-based selection or radix sort should be preferred.
-    for (int i = 0; i < k - 1; i++) {
-        for (int j = 0; j < k - i - 1; j++) {
-            if (queryTopK[j] > queryTopK[j + 1]) {
-                float tmpDist = queryTopK[j];
-                queryTopK[j] = queryTopK[j + 1];
-                queryTopK[j + 1] = tmpDist;
-                
-                uint32_t tmpIdx = queryIndices[j];
-                queryIndices[j] = queryIndices[j + 1];
-                queryIndices[j + 1] = tmpIdx;
+
+    const int effectiveN = (numVectors < k) ? numVectors : k;
+
+    if (k <= 32) {
+        // ── Insertion-sort path (efficient for very small k) ─────────────────
+        // Initialize with first k elements
+        for (int i = 0; i < effectiveN; i++) {
+            queryIndices[i] = static_cast<uint32_t>(i);
+            queryTopK[i] = queryDistances[i];
+        }
+        // Bubble-sort the initial k elements into ascending order
+        for (int i = 0; i < effectiveN - 1; i++) {
+            for (int j = 0; j < effectiveN - i - 1; j++) {
+                if (queryTopK[j] > queryTopK[j + 1]) {
+                    float    td = queryTopK[j];   queryTopK[j]   = queryTopK[j + 1]; queryTopK[j + 1]   = td;
+                    uint32_t ti = queryIndices[j]; queryIndices[j] = queryIndices[j + 1]; queryIndices[j + 1] = ti;
+                }
             }
         }
-    }
-    
-    // Process remaining elements
-    for (int i = k; i < numVectors; i++) {
-        float dist = queryDistances[i];
-        
-        // If this distance is smaller than largest in top-k, insert it
-        if (dist < queryTopK[k - 1]) {
-            int insertPos = k - 1;
-            
-            // Find insertion position
-            while (insertPos > 0 && dist < queryTopK[insertPos - 1]) {
-                insertPos--;
+        // Sweep remaining elements via insertion into sorted prefix
+        for (int i = k; i < numVectors; i++) {
+            float dist = queryDistances[i];
+            if (dist < queryTopK[k - 1]) {
+                int pos = k - 1;
+                while (pos > 0 && dist < queryTopK[pos - 1]) pos--;
+                for (int j = k - 1; j > pos; j--) {
+                    queryTopK[j]   = queryTopK[j - 1];
+                    queryIndices[j] = queryIndices[j - 1];
+                }
+                queryTopK[pos]   = dist;
+                queryIndices[pos] = static_cast<uint32_t>(i);
             }
-            
-            // Shift elements
-            for (int j = k - 1; j > insertPos; j--) {
-                queryTopK[j] = queryTopK[j - 1];
-                queryIndices[j] = queryIndices[j - 1];
-            }
-            
-            // Insert new element
-            queryTopK[insertPos] = dist;
-            queryIndices[insertPos] = i;
+        }
+    } else {
+        // ── Max-heap path (O(k log k + n log k)) — efficient for large k ─────
+        int heapSize = 0;
+        // Build initial max-heap from first min(k, numVectors) elements
+        for (int i = 0; i < effectiveN; i++) {
+            hipHeapPushCapped(queryTopK, queryIndices, &heapSize, k,
+                              queryDistances[i], static_cast<uint32_t>(i));
+        }
+        // Sweep remaining elements: replace heap root when we find a closer vector
+        for (int i = k; i < numVectors; i++) {
+            hipHeapPushCapped(queryTopK, queryIndices, &heapSize, k,
+                              queryDistances[i], static_cast<uint32_t>(i));
+        }
+        // Sort the heap into ascending distance order
+        hipHeapSort(queryTopK, queryIndices, heapSize);
+        // Zero-fill trailing slots when numVectors < k
+        for (int i = heapSize; i < k; i++) {
+            queryTopK[i]   = FLT_MAX;
+            queryIndices[i] = static_cast<uint32_t>(-1);
         }
     }
 }
@@ -251,7 +336,13 @@ struct HIPBackendImpl {
     int deviceId = 0;
     raii::HipStream stream;  // RAII-managed stream (automatic cleanup)
     HIPVectorBackend::HIPConfig config;
-    
+
+    // Occupancy-tuned block size for 1-D kernels (top-K selection, etc.).
+    // Set during initialize() via hipOccupancyMaxPotentialBlockSize(); falls
+    // back to 256 (safe for all ROCm-supported devices) if the query fails.
+    // AMD GCN devices with 64-thread wavefronts use 64 as their baseline.
+    int occupancyTunedBlockSize = 256;
+
     // Device properties
     hipDeviceProp_t deviceProps;
     
@@ -417,6 +508,32 @@ bool HIPVectorBackend::initialize() {
         std::cerr << lastError_.format() << std::endl;
         return false;
     }
+
+    // ── Occupancy-based block size tuning ─────────────────────────────────────
+    // Start with a wave-size-aware baseline: AMD GCN devices have 64-thread
+    // wavefronts, so using 256 threads per block would leave half the wavefront
+    // slots idle.  Use 64 as the starting point for those devices.
+    int baseBlockSize = (impl_->deviceProps.warpSize == 64) ? 64 : 256;
+
+    // Query the HIP occupancy API for the top-K selection kernel.
+    int minGridSize   = 0;
+    int tunedBlockSize = baseBlockSize;
+    hipError_t occErr = hipOccupancyMaxPotentialBlockSize(
+        &minGridSize, &tunedBlockSize, topKSelectionKernel, 0, 0);
+    if (occErr == hipSuccess && tunedBlockSize > 0) {
+        // Round down to the nearest multiple of warpSize (never go below it).
+        const int warpSize = impl_->deviceProps.warpSize;
+        tunedBlockSize = (tunedBlockSize / warpSize) * warpSize;
+        if (tunedBlockSize < warpSize) tunedBlockSize = warpSize;
+        impl_->occupancyTunedBlockSize = tunedBlockSize;
+    } else {
+        impl_->occupancyTunedBlockSize = baseBlockSize;
+    }
+    std::cout << "  Occupancy-tuned block size: " << impl_->occupancyTunedBlockSize << std::endl;
+
+    // Propagate the tuned block size to the external HIP kernel launchers.
+    hipSetTopKBlockSize(impl_->occupancyTunedBlockSize);
+    hipSetGeoKernelBlockSize(impl_->occupancyTunedBlockSize);
     
     // Clear error on success
     clearError();
@@ -598,8 +715,8 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
                 break;
         }
         
-        // Launch top-k selection kernel
-        int threadsPerBlock = 256;
+        // Launch top-k selection kernel using the occupancy-tuned block size
+        int threadsPerBlock = impl_->occupancyTunedBlockSize;
         int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
         hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream.get(),
@@ -1028,3 +1145,4 @@ GeoKernelDispatch HIPGeoBackend::populateGeoDispatch() const {
 } // namespace themis
 
 #endif // !THEMIS_ENABLE_HIP
+

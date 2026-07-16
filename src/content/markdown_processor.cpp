@@ -1,38 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            markdown_processor.cpp                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     672                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 056a3b57f  2026-02-27  Fix missing json spec declaration and unused variable; up... ║
-    • 9865e7b64  2026-02-26  Implement Markdown processing and frontmatter parsing (is... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
-// Copyright (c) 2024 ThemisDB
-// SPDX-License-Identifier: MIT
-
 /**
  * @file markdown_processor.cpp
- * @brief Markdown Content Processor Implementation
- *
- * Parses YAML frontmatter and extracts plain text from Markdown documents.
- * Pure C++ — no external Markdown parsing library required.
- *
- * @author ThemisDB Team
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/markdown_processor.h"
@@ -671,3 +645,4 @@ std::unique_ptr<IContentProcessor> createMarkdownProcessor(MarkdownProcessor::Co
 
 } // namespace content
 } // namespace themis
+

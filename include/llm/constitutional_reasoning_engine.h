@@ -1,44 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            constitutional_reasoning_engine.h                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file constitutional_reasoning_engine.h
- * @brief Constitutional AI-style self-critique and revision engine
- * 
- * Implements self-critique and revision pattern inspired by Anthropic's
- * Constitutional AI (Bai et al., 2022). Uses universal ethical principles
- * to critique and revise LLM outputs without domain-specific rules.
- * 
- * Key features:
- * - Self-critique prompts based on universal principles
- * - Self-revision based on detected issues
- * - Principle tracking and application logging
- * - Domain-agnostic ethical reasoning
- * 
- * Scientific foundation:
- * - Bai et al. (2022): Constitutional AI - Harmlessness from AI Feedback
- * - UN Human Rights (1948): Universal ethical foundation
- * - Asimov (1942): Three Laws of Robotics (adapted)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -57,22 +25,24 @@ namespace llm {
  * @brief Constitutional principle for self-critique
  */
 struct ConstitutionalPrinciple {
+    virtual ~ConstitutionalPrinciple() = default;
     std::string id;
     std::string name;
     std::string description;
-    int priority;                      ///< Higher = more important
+    int priority = 0;                  ///< Higher = more important
     std::string critique_prompt;       ///< Prompt for self-critique
     std::string revision_prompt;       ///< Prompt for self-revision
     
     // Metadata
     std::string source;                ///< e.g., "UN Human Rights Art. 1"
-    bool domain_agnostic;              ///< true if universal principle
+    bool domain_agnostic = false;              ///< true if universal principle
 };
 
 /**
  * @brief Result of constitutional reasoning
  */
 struct ConstitutionalReasoningResult {
+    virtual ~ConstitutionalReasoningResult() = default;
     // Original response
     std::string original_response;
     
@@ -83,18 +53,18 @@ struct ConstitutionalReasoningResult {
     
     // Revision results
     std::string revised_response;                 ///< Revised output
-    bool was_revised;                             ///< true if revision occurred
+    bool was_revised = false;                             ///< true if revision occurred
     std::string revision_reasoning;               ///< Explanation of revision
     
     // Quality metrics
-    float original_score;                         ///< Score before revision (0-1)
-    float revised_score;                          ///< Score after revision (0-1)
-    float improvement;                            ///< Improvement delta
+    float original_score = 0.0f;                         ///< Score before revision (0-1)
+    float revised_score = 0.0f;                          ///< Score after revision (0-1)
+    float improvement = 0.0f;                            ///< Improvement delta
     
     // Metadata
     std::chrono::milliseconds critique_time;
     std::chrono::milliseconds revision_time;
-    int iterations;                               ///< Number of critique-revision cycles
+    int iterations = 0;                               ///< Number of critique-revision cycles
 };
 
 /**
@@ -131,6 +101,8 @@ struct ConstitutionalReasoningConfig {
  */
 class ConstitutionalReasoningEngine {
 public:
+    using PromptRunner = std::function<std::string(const std::string&)>;
+
     /**
      * @brief Constructor with configuration
      * @param config Configuration for reasoning
@@ -152,7 +124,9 @@ public:
      * @brief Apply constitutional reasoning to critique and revise response
      * @param response Original LLM response
      * @param query Original user query (for context)
-     * @param llm_wrapper LLM wrapper for generating critiques/revisions
+     * @param llm_wrapper Optional pointer to a PromptRunner used for
+     *        critique/revision completions; nullptr falls back to the
+     *        deterministic rule-based path.
      * @return Reasoning result with critiques and revised response
      */
     ConstitutionalReasoningResult reason(
@@ -166,7 +140,7 @@ public:
      * @param response Response to critique
      * @param query Original query
      * @param principle Principle to apply
-     * @param llm_wrapper LLM wrapper for critique generation
+     * @param llm_wrapper Optional pointer to a PromptRunner for critique generation
      * @return Critique text
      */
     std::string generateCritique(
@@ -181,7 +155,7 @@ public:
      * @param response Original response
      * @param critiques Generated critiques
      * @param query Original query
-     * @param llm_wrapper LLM wrapper for revision generation
+     * @param llm_wrapper Optional pointer to a PromptRunner for revision generation
      * @return Revised response
      */
     std::string generateRevision(

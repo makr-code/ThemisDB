@@ -1,40 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ingestion_coordinator.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     639                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 088d46b92  2026-02-28  feat(ingestion): add WorkStealingPool to IngestionCoordin... ║
-    • c86a6ac5d  2026-02-28  fix(ingestion): code-audit fixes for IngestionCoordinator... ║
-    • 6c2926d03  2026-02-28  feat(ingestion): add distributed ingestion coordinator (w... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file ingestion_coordinator.cpp
- * @brief Distributed ingestion coordinator implementation.
- *
- * Implements:
- *   - InProcessLeaderElection  — TTL-based in-process leader lease
- *   - ConsistentHashRing       — FNV-1a virtual-node hash ring
- *   - InProcessWorkerNode      — local worker backed by IngestionManager
- *   - IngestionCoordinator     — orchestrator: partitions, dispatches, aggregates
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=3, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_coordinator.h"
@@ -53,6 +25,15 @@
 
 namespace themis {
 namespace ingestion {
+
+// ============================================================================
+// Internal constants
+// ============================================================================
+
+/// Cursor value written to the shared checkpoint store when a source has been
+/// fully ingested by a worker.  Failover workers can use this to skip sources
+/// that have already been completed.
+static constexpr const char* kCompletedCursor = "completed";
 
 // ============================================================================
 // Internal helpers
@@ -76,6 +57,42 @@ inline std::string vnodeKey(const std::string& node_id, size_t replica) {
 }
 
 } // anonymous namespace
+
+// ============================================================================
+// InMemorySharedCheckpointStore
+// ============================================================================
+
+bool InMemorySharedCheckpointStore::write(const IngestionCheckpoint& cp) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    store_[cp.source_id] = cp;
+    return true;
+}
+
+bool InMemorySharedCheckpointStore::read(const std::string& source_id,
+                                          IngestionCheckpoint& out) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = store_.find(source_id);
+    if (it == store_.end()) {
+        return false;
+    }
+    out = it->second;
+    return true;
+}
+
+bool InMemorySharedCheckpointStore::clear(const std::string& source_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.erase(source_id) > 0;
+}
+
+bool InMemorySharedCheckpointStore::exists(const std::string& source_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.count(source_id) > 0;
+}
+
+size_t InMemorySharedCheckpointStore::size() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.size();
+}
 
 // ============================================================================
 // InProcessLeaderElection
@@ -271,7 +288,7 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
             std::this_thread::yield();
             got = tryPopOwn(my_idx, src);
             if (!got) got = trySteal(my_idx, src);
-            if (!got) break;
+            if (!got) continue;
         }
 
         // We own `src` — decrement the global remaining count.
@@ -342,6 +359,7 @@ IngestionCoordinator::IngestionCoordinator(const Config& config)
     : config_(config)
     , my_node_id_(makeCoordinatorNodeId())
     , leader_election_(std::make_shared<InProcessLeaderElection>())
+    , checkpoint_store_(std::make_shared<InMemorySharedCheckpointStore>())
 {
     // Default num_nodes = hardware_concurrency / 2, min 1.
     if (config_.num_nodes == 0) {
@@ -542,6 +560,39 @@ IngestionReport IngestionCoordinator::ingestAll(
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);
 
+    // Step 6 — Commit a checkpoint for every successfully ingested source so
+    //           that workers (or a failover coordinator) can resume from the
+    //           last committed offset without re-processing already-done work.
+    //           We write a checkpoint for all error-free sources (even those
+    //           that produced 0 documents, e.g. an empty or dry-run source).
+    if (checkpoint_store_) {
+        for (const auto& src : sources) {
+            auto it = final_report.source_stats.find(src.source_id);
+            if (it == final_report.source_stats.end() ||
+                !it->second.errors.empty()) {
+                // Source has errors — do NOT write a completion checkpoint.
+                continue;
+            }
+            IngestionCheckpoint cp;
+            cp.source_id       = src.source_id;
+            cp.cursor          = kCompletedCursor;
+            cp.processed_count = it->second.documents_processed;
+
+            if (!checkpoint_store_->write(cp)) {
+                // Checkpoint write failed (e.g. Redis outage, disk full, or
+                // network partition to shared backend).  Record a WARNING so
+                // callers and observability tooling see the failure without
+                // aborting the run.  Investigate backend connectivity and
+                // storage capacity to resolve persistent failures.
+                it->second.addError(
+                    IngestionErrorCode::INTERNAL_ERROR,
+                    IngestionErrorSeverity::WARNING,
+                    "Failed to persist completion checkpoint for source '" +
+                        src.source_id + "': shared backend write returned false");
+            }
+        }
+    }
+
     double elapsed = std::chrono::duration<double>(
                          std::chrono::steady_clock::now() - run_start)
                          .count();
@@ -568,13 +619,41 @@ IngestionCoordinator::CoordinatorMetrics IngestionCoordinator::getMetrics() cons
 }
 
 // ============================================================================
-// IngestionCoordinator — testing hook
+// IngestionCoordinator — checkpoint store
+// ============================================================================
+
+void IngestionCoordinator::setSharedCheckpointStore(
+    std::shared_ptr<ISharedCheckpointStore> store)
+{
+    if (running_.load()) {
+        throw std::logic_error(
+            "setSharedCheckpointStore() must be called before start(); "
+            "the coordinator is already running.");
+    }
+    checkpoint_store_ = std::move(store);
+}
+
+std::shared_ptr<ISharedCheckpointStore>
+IngestionCoordinator::getSharedCheckpointStore() const
+{
+    return checkpoint_store_;
+}
+
+// ============================================================================
+// IngestionCoordinator — testing hooks
 // ============================================================================
 
 void IngestionCoordinator::setLeaderElectionForTesting(
     std::shared_ptr<ILeaderElection> election)
 {
     leader_election_ = std::move(election);
+}
+
+void IngestionCoordinator::setSharedCheckpointStoreForTesting(
+    std::shared_ptr<ISharedCheckpointStore> store)
+{
+    // Delegate to the production API so the running-guard is enforced here too.
+    setSharedCheckpointStore(std::move(store));
 }
 
 // ============================================================================
@@ -602,7 +681,7 @@ void IngestionCoordinator::leaseRenewalLoop() {
         // Only renew if we currently hold the lease.
         auto lease = leader_election_->getCurrentLease();
         if (lease.isValid() && lease.owner_node_id == my_node_id_) {
-            leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl);
+            static_cast<void>(leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl));
         }
     }
 }

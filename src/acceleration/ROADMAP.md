@@ -1,85 +1,71 @@
 # Acceleration Module Roadmap
-<!-- Status: current | validated: 2026-03-09 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
 
-## Completed ✅
-- [x] Directory structure for CUDA and Vulkan backends
-- [x] Vector similarity search acceleration stubs
-- [x] Geospatial query acceleration stubs
-- [x] Parallel graph algorithm stubs
-- [x] Matrix operations for embeddings (scaffolding)
-- [x] Documentation cross-references (CUDA_BACKEND.md, VULKAN_BACKEND.md)
-- [x] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) — `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`
-- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373) — `vulkan_backend_full.cpp` (0 stubs, quality score 94) + SPIR-V compute shaders in `vulkan/shaders/` (l2_distance.comp, cosine_distance.comp, inner_product_distance.comp, batch_search.comp, topk_selection.comp, haversine_distance.comp, point_in_polygon.comp) fully implemented
-- [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
-- [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
-- [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
+Production-grade acceleration runtime with backend selection, fallback orchestration, plugin/security guards, and multi-device integration.
 
-## In Progress 🚧
-- [x] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu` implemented; issue closed 2026-02-23
-- [x] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367) — Vulkan compute shaders in `src/acceleration/vulkan/shaders/` (L2, cosine, inner-product, Haversine, PiP, top-K); wired in `graphics_backends.cpp`; issue closed 2026-02-21
-- [x] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368) — `GeoAccelerationBridge` implemented in `src/acceleration/geo_acceleration_bridge.cpp` and `include/acceleration/geo_acceleration_bridge.h`; issue closed 2026-02-23
+## In Progress
 
-## Planned Features 📋
+- [~] Runtime capability hardening for fail-closed behavior under partial backend availability (Target: Q3 2026)
+- [~] Multi-device and resource-management reliability tuning under sustained load (Target: Q3 2026)
+- [~] Benchmark and regression gate consolidation for acceleration-critical release profiles (Target: Q3 2026)
 
-### Short-term (Next 3-6 months)
-- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; **end-to-end ANN search still falls through to CPU pending HNSW graph traversal wiring** (see Known Issues); issue closed 2026-02-23
-- [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` implemented in `src/acceleration/device_manager.cpp` / `include/acceleration/device_manager.h`; 60-second TTL cache; issue closed 2026-02-23
-- [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` with JSON output; baselines in `benchmarks/baselines/acceleration/baseline.json`; issue closed 2026-02-23
-### Long-term (6-12 months)
-- [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `CUDAMatrixBackend` with FP16/BF16 Tensor Core support in `src/acceleration/cuda/tensor_core_matmul.cu` and `src/acceleration/tensor_core_matmul.cpp`; requires SM 7.0+ (FP16) or SM 8.0+ (BF16); issue closed 2026-02-23
-- [x] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379) — `src/acceleration/opencl_backend.cpp` implemented; issue closed 2026-02-23
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] Expand deterministic regressions for backend-selection and fallback edge cases (Target: Q4 2026)
+- [ ] Strengthen diagnostics for plugin/security deny paths and degraded runtime states (Target: Q4 2026)
+- [ ] Harden distributed merge/resource behavior under partial device failures (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] Re-baseline acceleration latency/throughput envelopes across representative hardware profiles (Target: Q1 2027)
+- [ ] Extend capability-matrix coverage for optional backend combinations (Target: Q1 2027)
+- [ ] Improve operator-facing observability for backend health and dispatch routing decisions (Target: Q1 2027)
+
 ## Implementation Phases
 
-### Phase 1: Design / API-Vertrag
-- [x] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380) — `BackendCapability` struct and feature matrix defined in `include/acceleration/compute_backend.h`; `BACKEND_CONTRACT_VERSION = 100`; issue closed 2026-02-21
-- [x] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381) — `ANNKernelDispatch` and `GeoKernelDispatch` interfaces frozen in `include/acceleration/kernel_invocation.h`; `INTERFACE_VERSION = 100`; issue closed 2026-02-21
-- [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `AccelerationError` codes defined in `include/acceleration/error_codes.h` and `include/acceleration/error_context.h`; issue closed 2026-02-21
+### Phase 1: Design / API Contract
+- [ ] Freeze backend capability/selection contract and fallback semantics for active major lines (Target: Q3 2026)
+- [ ] Define explicit failure contracts for unavailable backend, invalid input, and integrity-check failure states (Target: Q3 2026)
 
-### Phase 2: Core-Implementierung
-- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`; ANN vector kernels (L2, cosine, inner-product, top-K) present in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; **Note:** HNSW integration pending — ANN queries currently fall through to CPU until HNSW graph traversal is wired (see Known Issues)
-- [x] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — Vulkan compute shaders for L2 distance, cosine distance, inner-product distance, Haversine distance, point-in-polygon, and top-K selection in `src/acceleration/vulkan/shaders/`; wired in `src/acceleration/graphics_backends.cpp`; issue closed 2026-02-23
-- [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
+### Phase 2: Core Implementation
+- [ ] Complete hardening for capability-driven dispatch and deterministic fallback selection paths (Target: Q4 2026)
+- [ ] Align multi-device and resource manager behavior to shared bounded execution contracts (Target: Q4 2026)
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [x] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to all active backends: `CUDAVectorBackend`, `CPUVectorBackend`, `CPUVectorBackendMT`, `CPUVectorBackendTBB`, `HIPVectorBackend`; geo and graph CPU backends also guarded via `BatchValidator` utility (`include/acceleration/batch_validator.h`)
-- [x] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387) — `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` with retry logic in `include/acceleration/kernel_fallback_dispatcher.h`; issue closed 2026-02-23
-- [x] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388) — deterministic tie-breaking and partial-failure guards in `include/acceleration/batch_validator.h`; issue closed 2026-02-23
+### Phase 3: Error Handling and Edge Cases
+- [ ] Enforce fail-closed behavior for malformed workload input, plugin/signature failure, and partial device outages (Target: Q4 2026)
+- [ ] Standardize fallback semantics when optional acceleration features are unavailable (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [x] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_backend_selection_matrix.cpp` added (65 tests: full fallback order, CPUMatrixBackend capabilities, capability negotiation matrix, precision/metric requirement matrix, `selectMatrixBackendFor`/`getBestMatrixBackend`, `getAvailableBackends`, `BackendHealthStatus` helpers)
-- [x] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`
-- [x] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
+- [ ] Expand focused regressions for backend matrix, plugin security, and fallback correctness (Target: Q4 2026)
+- [ ] Extend multi-device failure-injection regressions for merge and resource paths (Target: Q4 2026)
 
-### Phase 5: Performance/Hardening
-- [x] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
-- [x] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
-- [x] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394) — `RTLD_NOW` replaces `RTLD_LAZY` in `loadLibrary` for fail-fast symbol binding; file permission check rejects group/world-writable plugins; file size cap (128 MB) guards against resource exhaustion; `verifyGPGSignature` (Linux) replaced `popen`+shell with `posix_spawn`+`execv` to eliminate shell-injection surface; `verifyMacOSCodeSignature` (macOS) replaced shell invocation with direct `SecStaticCodeCheckValidity` Security-framework call; tests in `tests/test_plugin_security_audit.cpp`
+### Phase 5: Performance and Hardening
+- [ ] Lock benchmark-backed release gates for dispatch, backend throughput, and fallback overhead (Target: Q4 2026)
+- [ ] Validate sustained-load behavior for capability probing, queueing, and memory/resource paths (Target: Q4 2026)
 
-### Phase 6: Dokumentation & Abnahme
-- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)
-- [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
-- [x] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397) — review completed by maintainer; `BACKEND_CONTRACT_VERSION = 100` guarantees API stability; issue closed 2026-02-24
+### Phase 6: Documentation and Acceptance
+- [ ] Keep acceleration docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Issue: #1398) — coverage threshold confirmed by maintainer; issue closed 2026-02-23
-- [x] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` covers CUDA + Vulkan ANN and Geo parity; tests are skipped gracefully when hardware is absent
-- [x] Performance benchmarks with regression thresholds in CI (Issue: #1400) — `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`
-- [x] Security audit for backend plugin loading and runtime probes (Issue: #1401) — permission/size hardening added to `PluginLoader::loadPlugin`; shell-invocation surface removed from platform signature verifiers; audit-log coverage confirmed in `tests/test_plugin_security_audit.cpp`
-- [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
-- [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
-## Known Issues & Limitations
-- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
-- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
-- DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
-- Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
-- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
-- HIP top-K selection for k > 1024: heap-based/radix path not yet implemented (TODO in `hip_backend.cpp` line 204)
+- [ ] API and behavior contracts verified by focused acceleration regressions
+- [ ] Security and integrity checks verified on plugin and shader execution paths
+- [ ] Performance expectations validated through mapped release-profile benchmarks
+- [ ] Failure handling validated for timeout, degraded backend, and partial device modes
+- [ ] Audit and changelog documentation synchronized with implementation deltas
+
+## Known Issues and Limitations
+
+- Hardware and driver differences can alter runtime behavior and performance envelopes.
+- Some optional backend combinations remain environment dependent.
+- Distributed and plugin-heavy scenarios need continuous hardening evidence.
 
 ## Breaking Changes
-- GPU kernel APIs are not yet stable; function signatures may change before v1.0
+
+- No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.

@@ -1,26 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            key_provider.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     347                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file key_provider.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#pragma once
+/*
+ * ThemisDB | File: key_provider.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#ifndef THEMIS_SECURITY_KEY_PROVIDER_H
+#define THEMIS_SECURITY_KEY_PROVIDER_H
 
 #include <cstdint>
 #include <map>
@@ -28,6 +26,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <vector>
 #include "themis/base/interfaces/security_interface.h"
 
@@ -36,7 +35,7 @@ namespace themis {
 /**
  * @brief Status of an encryption key
  */
-enum class KeyStatus {
+enum class KeyStatus : std::uint8_t {
     ACTIVE,      // Key is active and can be used for encryption/decryption
     ROTATING,    // Key rotation in progress (dual-write mode)
     DEPRECATED,  // Key can decrypt old data but not encrypt new data
@@ -48,18 +47,11 @@ enum class KeyStatus {
  */
 struct KeyMetadata {
     std::string key_id;      // Logical key identifier (e.g., "user_pii")
-    uint32_t version;        // Key version for rotation (1, 2, 3, ...)
+    uint32_t version = 0;        // Key version for rotation (1, 2, 3, ...)
     std::string algorithm;   // Encryption algorithm (e.g., "AES-256-GCM")
-    int64_t created_at_ms;   // Timestamp when key was created
-    int64_t expires_at_ms;   // Expiry timestamp (0 = never expires)
-    KeyStatus status;        // Current status of the key
-    
-    KeyMetadata() 
-        : version(0)
-        , created_at_ms(0)
-        , expires_at_ms(0)
-        , status(KeyStatus::ACTIVE) 
-    {}
+    int64_t created_at_ms = 0;   // Timestamp when key was created
+    int64_t expires_at_ms = 0;   // Expiry timestamp (0 = never expires)
+    KeyStatus status = KeyStatus::ACTIVE;        // Current status of the key
 };
 
 /**
@@ -73,8 +65,8 @@ public:
         , version_(version)
     {}
     
-    const std::string& getKeyId() const { return key_id_; }
-    uint32_t getVersion() const { return version_; }
+    [[nodiscard]] const std::string& getKeyId() const { return key_id_; }
+    [[nodiscard]] uint32_t getVersion() const { return version_; }
     
 private:
     std::string key_id_;
@@ -92,16 +84,16 @@ public:
         , transient_(false)
     {}
 
-    KeyOperationException(const std::string& message, int http_code, const std::string& vault_message, bool transient)
-        : std::runtime_error(message)
+    KeyOperationException(std::string message, int http_code, std::string vault_message, bool transient)
+        : std::runtime_error(std::move(message))
         , http_code_(http_code)
-        , vault_message_(vault_message)
+        , vault_message_(std::move(vault_message))
         , transient_(transient)
     {}
 
-    int httpCode() const { return http_code_; }
-    const std::string& vaultMessage() const { return vault_message_; }
-    bool transient() const { return transient_; }
+    [[nodiscard]] int httpCode() const { return http_code_; }
+    [[nodiscard]] const std::string& vaultMessage() const { return vault_message_; }
+    [[nodiscard]] bool transient() const { return transient_; }
 private:
     int http_code_;
     std::string vault_message_;
@@ -144,16 +136,23 @@ private:
  */
 class KeyProvider : public virtual IKeyProvider {
 public:
-    virtual ~KeyProvider() = default;
+    KeyProvider() = default;
+    KeyProvider(const KeyProvider&) = default;
+    KeyProvider(KeyProvider&&) noexcept = default;
+    KeyProvider& operator=(const KeyProvider&) = default;
+    KeyProvider& operator=(KeyProvider&&) noexcept = default;
+    ~KeyProvider() override = default;
     
     // IKeyProvider interface implementation (with defaults)
     std::vector<uint8_t> get_key(const std::string& key_id) override {
-        return getKey(key_id);
+        auto key = getKey(key_id);
+        return key;
     }
     
     std::vector<uint8_t> rotate_key(const std::string& key_id) override {
-        rotateKey(key_id);
-        return getKey(key_id);
+        [[maybe_unused]] const uint32_t rotated_version = rotateKey(key_id);
+        auto key = getKey(key_id);
+        return key;
     }
     
     /**
@@ -217,6 +216,42 @@ public:
      */
     virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
     
+    /**
+     * @brief Return the current (latest active) version number for a key.
+     *
+     * Default implementation uses a probe heuristic: attempts @c getKey(key_id, v)
+     * for increasing @c v until it throws, then returns the last successful version.
+     * Concrete subclasses with access to a version registry should override this for
+     * O(1) lookup and to eliminate the probe's TOCTOU window.
+     *
+     * @param key_id  Logical key identifier
+     * @return        Current active version number (≥ 1), or 0 if no version is found
+     * @throws        KeyNotFoundException if the key does not exist at all
+     */
+    virtual uint32_t getCurrentVersion(const std::string& key_id) {
+        // Default probe: walk up from version 1 until getKey(v+1) throws.
+        uint32_t ver = 0;
+        try {
+            // Verify at least version 1 exists (throws KeyNotFoundException if key absent).
+            [[maybe_unused]] const auto probe = getKey(key_id, 1);
+            ver = 1;
+        } catch (...) {
+            return 0;
+        }
+        // Walk higher until the version is not found.
+        for (uint32_t v = 2; v <= 0xFFFFu; ++v) {
+            try {
+                [[maybe_unused]] const auto probe = getKey(key_id, v);
+                ver = v;
+            } catch (...) {
+                break;
+            }
+            ver = v;
+        }
+
+        return ver;
+    }
+
     /**
      * @brief Mark a deprecated key for deletion
      * 
@@ -348,3 +383,5 @@ private:
 };
 
 }  // namespace themis
+
+#endif // THEMIS_SECURITY_KEY_PROVIDER_H

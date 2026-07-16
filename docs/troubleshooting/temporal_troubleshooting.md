@@ -280,6 +280,6 @@ temporal:
 ## Related Documentation
 
 - [Temporal Module ROADMAP](../../src/temporal/ROADMAP.md)
-- [PITR Implementation Complete](../PITR_IMPLEMENTATION_COMPLETE.md)
+- [PITR Implementation Complete](../ARCHIVED/implementation-summaries/PITR_IMPLEMENTATION_COMPLETE.md)
 - [Branching Docs Index](../BRANCHING_DOCS_INDEX.md)
 - [Distributed Transactions](../DISTRIBUTED_TRANSACTIONS.md)

@@ -26,7 +26,7 @@ Guide to automatic version checking and update notifications.
 
 ThemisDB supports automatic version checking to notify administrators when new updates are available.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** ⚙️ Operations/Admin
 

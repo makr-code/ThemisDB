@@ -1,26 +1,21 @@
+/**
+ * @file in_place_schema_migrator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            in_place_schema_migrator.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     251                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4801e2151  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
-    • f7fdc80f2  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
-    • 4ce167b67  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: in_place_schema_migrator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 241
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=18, L=0
+ * PR History (last 5): #4347 docs(updates): reality-chec... (2026-03-20) | #3661 feat(updates): build system... (2026-03-12) | #3417 feat(updates): Migration dr... (2026-03-12) | #3314 Verify: In-place schema mig... (2026-03-12) | #2656 feat(updates): In-place sch... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -40,6 +35,11 @@ namespace updates {
 // ============================================================================
 // InPlaceSchemaMigrator
 // ============================================================================
+
+InPlaceSchemaMigrator::InPlaceSchemaMigrator()
+    : InPlaceSchemaMigrator(Config{})
+{
+}
 
 InPlaceSchemaMigrator::InPlaceSchemaMigrator(const Config& config)
     : config_(config) {}

@@ -1,6 +1,6 @@
 # Admin Tools Documentation
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Admin Tools
 
@@ -11,6 +11,7 @@ Documentation for ThemisDB administrative tools and dashboards.
 
 ## Contents
 
+- **[qts-inline-admin.md](./qts-inline-admin.md)** — QTS Inline Admin UI: Sidecar-Container-Setup für QNAP Container Station
 - **admin_guide.md** - Administrator's guide for admin tools
 - **user_guide.md** - User guide for admin tools
 - **feature_matrix.md** - Feature comparison matrix

@@ -1,29 +1,27 @@
+/**
+ * @file aql_confidence_scorer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.39
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_confidence_scorer.h                            ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-03-09 03:52:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     114                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_confidence_scorer.h | Version: 0.0.39 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 174
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4161 feat(aql): Runtime-configur... (2026-03-13) | #1427 [aql] Confidence scoring fo... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -64,10 +62,56 @@ struct AQLConfidenceScore {
  *  - structural  (50 %): presence and ordering of FOR / IN / RETURN
  *  - completeness (30 %): optional keywords (FILTER, SORT, LIMIT, …)
  *  - schema match (20 %): collection names from schema_context appear in query
+ *
+ * All weights and bonuses are runtime-configurable via @ref Config.
  */
 class AQLConfidenceScorer {
 public:
+    /**
+     * @brief Runtime-configurable scoring weights and constants.
+     *
+     * Default values replicate the original hard-coded behaviour so that
+     * existing code using the default constructor is unaffected.
+     */
+    struct Config {
+        /// Weight of the structural dimension (default 0.50)
+        float structural_weight   = 0.50f;
+        /// Weight of the completeness dimension (default 0.30)
+        float completeness_weight = 0.30f;
+        /// Weight of the schema-match dimension (default 0.20)
+        float schema_match_weight = 0.20f;
+
+        /**
+         * @brief Per-keyword completeness bonuses.
+         *
+         * Maps lowercase AQL keyword (whole-word) to bonus score added
+         * when the keyword appears in the query.  Default entries replicate
+         * the original static table.
+         */
+        std::unordered_map<std::string, float> keyword_bonuses = {
+            {"filter",  0.20f},
+            {"sort",    0.15f},
+            {"limit",   0.15f},
+            {"let",     0.10f},
+            {"collect", 0.10f},
+            {"insert",  0.10f},
+            {"update",  0.10f},
+            {"remove",  0.10f},
+            {"upsert",  0.10f},
+            {"graph",   0.10f},
+        };
+
+        /// Schema-match score returned when no schema context is provided (default 0.5)
+        float no_schema_neutral = 0.5f;
+        /// Schema-match score returned when none of the schema collections match (default 0.1)
+        float zero_match_floor  = 0.1f;
+    };
+
+    /// Default constructor – uses default @ref Config (backward-compatible behaviour)
     AQLConfidenceScorer() = default;
+
+    /// Construct with a custom configuration
+    explicit AQLConfidenceScorer(Config config) : config_(std::move(config)) {}
 
     /**
      * @brief Score a generated AQL query
@@ -85,11 +129,34 @@ public:
         const std::string& schema_context = ""
     ) const;
 
+    /**
+     * @brief Fit the three top-level scoring weights via least-squares regression.
+     *
+     * Given a set of (query, ground-truth-confidence) labelled pairs, this
+     * method adjusts @c structural_weight, @c completeness_weight, and
+     * @c schema_match_weight so that the predicted overall confidence
+     * best matches the supplied ground-truth values in a least-squares sense.
+     *
+     * The three weights are normalised to sum to 1.0 and clamped to [0, 1]
+     * after fitting.  All other @ref Config fields remain unchanged.
+     *
+     * @param labelled_pairs  Vector of (aql_query, ground_truth_confidence) pairs.
+     *                        Pairs with empty query strings are ignored.
+     *                        At least three non-degenerate samples are required;
+     *                        if fewer are available the weights are left unchanged.
+     */
+    void calibrate(const std::vector<std::pair<std::string, float>>& labelled_pairs);
+
+    /// Read-only access to the current configuration
+    const Config& config() const { return config_; }
+
 private:
+    Config config_;
+
     /// Evaluate structural validity (FOR + IN + RETURN keywords)
     float scoreStructure(const std::string& aql_lower) const;
 
-    /// Evaluate optional keyword completeness (FILTER, SORT, LIMIT, …)
+    /// Evaluate optional keyword completeness using config_.keyword_bonuses
     float scoreCompleteness(const std::string& aql_lower) const;
 
     /// Evaluate schema alignment by matching extracted collection names
@@ -106,6 +173,9 @@ private:
     /// Return true when the lowercase AQL text contains a FOR keyword
     /// (i.e. "for" followed by whitespace or a parenthesis)
     static bool containsFOR(const std::string& aql_lower);
+
+    /// Return true when @p keyword appears as a whole word in @p aql_lower
+    static bool containsKeyword(const std::string& aql_lower, const std::string& keyword);
 
     /// Return a lowercase copy of text
     static std::string toLower(const std::string& text);

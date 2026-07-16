@@ -1,24 +1,21 @@
+/**
+ * @file vector_auto_buffer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_auto_buffer.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_auto_buffer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 323
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #1119 Optimize batch write operat... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -81,9 +78,19 @@ struct VectorAutoBufferConfig {
         ProductQuantization    // PQ for HNSW (10-32x reduction, configurable accuracy)
     };
     Compression compression = Compression::None;
-    
+
+    // Product Quantization parameters (used when compression == ProductQuantization)
+    int pq_num_subvectors = 8;    // Number of PQ sub-spaces (M); must divide vector dim
+    int pq_num_centroids  = 256;  // Number of centroids per sub-space (k); ≤ 256 for uint8 codes
+
     // Vector field name (default: "embedding")
     std::string vector_field = "embedding";
+
+    // Fallback embedding dimension used when extractVector() throws or returns
+    // nullopt (instead of the old hardcoded constant 768).
+    // Set this to the model's actual output dimension for accurate memory
+    // accounting in VectorAutoBuffer.
+    size_t fallback_dim = 768;
 };
 
 /**
@@ -260,13 +267,20 @@ private:
             memory_bytes = sizeof(BaseEntity) + entity.getPrimaryKey().size() + 
                           estimateVectorSize(entity);
         }
+
+        BufferedOp(OpType t, const BaseEntity& e, size_t fallback_dim)
+            : type(t), entity(e), timestamp(std::chrono::steady_clock::now()) {
+            memory_bytes = sizeof(BaseEntity) + entity.getPrimaryKey().size() +
+                          estimateVectorSize(entity, fallback_dim);
+        }
         
         BufferedOp(OpType t, const std::string& p)
             : type(t), pk(p), timestamp(std::chrono::steady_clock::now()) {
             memory_bytes = sizeof(std::string) + pk.size();
         }
         
-        static size_t estimateVectorSize(const BaseEntity& entity);
+        static size_t estimateVectorSize(const BaseEntity& entity,
+                                         size_t fallback_dim = 768);
     };
     
     // Per-namespace buffer
@@ -294,7 +308,7 @@ private:
     
     // Buffer storage: map[namespace -> buffer]
     std::map<std::string, NamespaceBuffer> buffers_;
-    mutable std::mutex buffers_mutex_;
+    mutable std::timed_mutex buffers_mutex_;
     
     // Background flush thread
     std::atomic<bool> running_{false};

@@ -1,23 +1,20 @@
+/**
+ * @file string_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            string_functions.h                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     630                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: string_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -41,6 +38,7 @@ namespace functions {
  */
 class LengthFunction : public IFunction {
 public:
+    ~LengthFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LENGTH",
@@ -74,6 +72,7 @@ public:
  */
 class ConcatFunction : public IFunction {
 public:
+    ~ConcatFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CONCAT",
@@ -109,6 +108,7 @@ public:
  */
 class SubstringFunction : public IFunction {
 public:
+    ~SubstringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SUBSTRING",
@@ -131,12 +131,15 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         std::string str = args[0].get<std::string>();
-        size_t start = static_cast<size_t>(args[1].get<int64_t>());
+        // Guard against negative start: clamp to 0 before cast to size_t.
+        const int64_t rawStart = args[1].get<int64_t>();
+        size_t start = (rawStart <= 0) ? 0 : static_cast<size_t>(rawStart);
         
         if (start >= str.length()) return "";
         
         if (args.size() > 2) {
-            size_t len = static_cast<size_t>(args[2].get<int64_t>());
+            const int64_t rawLen = args[2].get<int64_t>();
+            size_t len = (rawLen <= 0) ? 0 : static_cast<size_t>(rawLen);
             return str.substr(start, len);
         }
         return str.substr(start);
@@ -148,6 +151,7 @@ public:
  */
 class UpperFunction : public IFunction {
 public:
+    ~UpperFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UPPER",
@@ -175,6 +179,7 @@ public:
  */
 class LowerFunction : public IFunction {
 public:
+    ~LowerFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LOWER",
@@ -202,6 +207,7 @@ public:
  */
 class TrimFunction : public IFunction {
 public:
+    ~TrimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TRIM",
@@ -238,6 +244,7 @@ public:
  */
 class LTrimFunction : public IFunction {
 public:
+    ~LTrimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LTRIM",
@@ -269,6 +276,7 @@ public:
  */
 class RTrimFunction : public IFunction {
 public:
+    ~RTrimFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RTRIM",
@@ -300,6 +308,7 @@ public:
  */
 class SplitFunction : public IFunction {
 public:
+    ~SplitFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SPLIT",
@@ -344,6 +353,7 @@ public:
  */
 class ContainsFunction : public IFunction {
 public:
+    ~ContainsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CONTAINS",
@@ -372,6 +382,7 @@ public:
  */
 class StartsWithFunction : public IFunction {
 public:
+    ~StartsWithFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "STARTS_WITH",
@@ -400,6 +411,7 @@ public:
  */
 class EndsWithFunction : public IFunction {
 public:
+    ~EndsWithFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ENDS_WITH",
@@ -429,6 +441,7 @@ public:
  */
 class ReplaceFunction : public IFunction {
 public:
+    ~ReplaceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REPLACE",
@@ -467,6 +480,7 @@ public:
  */
 class ReverseStringFunction : public IFunction {
 public:
+    ~ReverseStringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REVERSE",
@@ -494,6 +508,7 @@ public:
  */
 class RegexTestFunction : public IFunction {
 public:
+    ~RegexTestFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REGEX_TEST",
@@ -523,6 +538,7 @@ public:
  */
 class RegexReplaceFunction : public IFunction {
 public:
+    ~RegexReplaceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "REGEX_REPLACE",
@@ -554,6 +570,7 @@ public:
  */
 class LevenshteinDistanceFunction : public IFunction {
 public:
+    ~LevenshteinDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LEVENSHTEIN_DISTANCE",

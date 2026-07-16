@@ -1,0 +1,68 @@
+# =============================================================================
+# Ethics AI — Router Configuration
+# Version: 1.0.0
+# =============================================================================
+#
+# This file controls ethics school selection behaviour for EthicsSelectionRouter.
+# It is loaded from the path specified by `ai.ethics_ai_config_path` in the
+# ThemisDB core configuration (config/core/config.yaml).
+#
+# Changes here take effect on the next ThemisDB or ethics-ai service restart.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Per-school bias weights (school_bias)
+# ---------------------------------------------------------------------------
+# Multipliers applied to the aggregated final_score of each school during
+# the routing Stage-3 → aggregation step.
+#
+# Effect:
+#   value > 1.0  — favour this school (selected more often)
+#   value = 1.0  — neutral; school is ranked purely on semantic/precedent fit
+#   value < 1.0  — penalise this school (selected less often)
+#   value = 0.0  — effectively exclude the school from all results
+#
+# Schools not listed here default to 1.0 (neutral, no bias).
+#
+# Use-case examples:
+#   - Boost compliance schools in regulated deployment contexts.
+#   - Reduce weight of non-mainstream schools for conservative deployments.
+#   - Ensure foundational normative schools remain competitive by default.
+#
+# All bias values are clamped to [0.0, ∞) at runtime; negative values are
+# treated as 0.0.
+# ---------------------------------------------------------------------------
+school_bias:
+
+  # ── Classical normative ethics ────────────────────────────────────────────
+  # These foundational schools are boosted slightly to ensure they remain
+  # competitive as defaults in a standard "themisdb" deployment context.
+  kant:             1.1   # Deontological — universally applicable baseline
+  utilitarianism:   1.05  # Consequentialist — broad applicability
+  aristotelian:     1.05  # Virtue ethics — general decision quality
+  rawls:            1.05  # Contractualist — fairness baseline
+  habermas_diskursethik: 1.1  # Discourse ethics — dialogue-centred, suits ThemisDB
+
+  # ── Compliance & Regulatory ───────────────────────────────────────────────
+  # Compliance schools are neutral by default; they are already force-included
+  # when regulatory_context=true is passed to route().
+  gdpr:       1.0
+  iso_42001:  1.0
+  eu_ai_act:  1.0
+  ieee_7000:  1.0
+
+  # ── Cultural & Religious ──────────────────────────────────────────────────
+  # Neutral; included on relevance only.
+  islamische_ethik:       1.0
+  buddhistische_ethik:    1.0
+  juedische_bioethik:     1.0
+  konfuzianismus:         1.0
+  christliche_sozialethik: 1.0
+
+  # ── Non-Mainstream / Critical ─────────────────────────────────────────────
+  # Slightly reduced default weight; included when dilemma context calls for
+  # critical perspectives (e.g. power structures, systemic critique).
+  marx:         0.9
+  arendt:       0.95
+  nietzsche:    0.85
+  schopenhauer: 0.85

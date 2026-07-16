@@ -1,39 +1,44 @@
+/**
+ * @file provenance_tracker.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=1, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            provenance_tracker.cpp                             ║
-  Version:         0.9.0                                              ║
-  Last Modified:   2026-03-09 21:30:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     280                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 Beta                                                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: provenance_tracker.cpp | Version: 0.0.13 | Last Modified: 2026-06-01 19:36:06
+ * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 416
+ * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=1, M=14, L=0
+ * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3648 audit(training): complete m... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "training/provenance_tracker.h"
+#include "query/aql_runner.h"
+#include "utils/logger.h"
 
+#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
 #include <sstream>
 #include <stdexcept>
+#include <map>
 #include <unordered_map>
 
 namespace themis {
 namespace training {
 
 // ============================================================================
-// AQL template stubs (production: bind against live ArangoDB connection)
+// AQL query templates for provenance persistence and lineage traversal
 // ============================================================================
 namespace provenance_aql {
     // Insert a TrainingSample vertex
@@ -72,9 +77,12 @@ namespace provenance_aql {
 // ============================================================================
 class ProvenanceTracker::Impl {
 public:
-    explicit Impl(const ProvenanceTrackerConfig& config, const std::string& db_connection)
+    explicit Impl(const ProvenanceTrackerConfig& config,
+                  const std::string& db_connection,
+                  query::QueryEngine* engine)
         : config_(config)
-        , db_connection_(db_connection) {
+        , db_connection_(db_connection)
+        , query_engine_(engine) {
     }
 
     // -------------------------------------------------------------------------
@@ -82,8 +90,26 @@ public:
         ProvenanceWriteStats stats;
         auto t0 = std::chrono::steady_clock::now();
 
+        // Compute optional write deadline (0 = no limit).
+        const bool has_timeout = config_.write_timeout_ms > 0;
+        const auto deadline = t0 + std::chrono::milliseconds(config_.write_timeout_ms);
+
+        // Per-record helper: returns false when the write deadline has passed.
+        // Checked before every individual executeAql() call so that a single
+        // slow network write cannot block indefinitely beyond the configured
+        // per-operation window (gap-scanner finding: no_timeout on file I/O).
+        auto shouldContinue = [&]() -> bool {
+            return !has_timeout || std::chrono::steady_clock::now() < deadline;
+        };
+
         size_t batch_start = 0;
         while (batch_start < records.size()) {
+            // Enforce write deadline before starting each batch.
+            if (has_timeout && std::chrono::steady_clock::now() >= deadline) {
+                stats.records_rejected += records.size() - batch_start;
+                break;
+            }
+
             size_t batch_end = std::min(batch_start + config_.batch_write_size,
                                         records.size());
 
@@ -100,9 +126,67 @@ public:
                     continue;
                 }
 
-                // In production: execute INSERT_SAMPLE_VERTEX via AQL binding
-                // here we store in-process for testability:
+                // Always maintain the in-process store for offline/test access
                 store_[rec.sample_id] = rec;
+
+                // When a live AQL engine is injected, persist to the graph store
+                if (query_engine_) {
+                    // Serialize enrichment_query_fingerprints as a JSON array using
+                    // nlohmann::json to avoid manual quoting/escaping errors.
+                    nlohmann::json fingerprints_arr(rec.enrichment_query_fingerprints);
+                    std::string fingerprints_json = fingerprints_arr.dump();
+
+                    // Build and execute the vertex INSERT; bail out early when
+                    // the write deadline has already elapsed (per-AQL timeout guard).
+                    if (!shouldContinue()) {
+                        stats.records_rejected += (batch_end - i);
+                        batch_start = batch_end;
+                        break;
+                    }
+                    std::string vertex_query = buildQuery(
+                        provenance_aql::INSERT_SAMPLE_VERTEX,
+                        {
+                            {"@collection",          config_.graph_collection},
+                            {"sample_id",            "\"" + escapedStr(rec.sample_id) + "\""},
+                            {"source_doc_urn",       "\"" + escapedStr(rec.source_doc_urn) + "\""},
+                            {"extraction_ts",        std::to_string(rec.extraction_timestamp)},
+                            {"labeler_version",      "\"" + escapedStr(rec.labeler_version) + "\""},
+                            {"modality",             "\"" + escapedStr(rec.modality) + "\""},
+                            {"fingerprints",         fingerprints_json},
+                        });
+                    auto vertex_result = executeAql(vertex_query, *query_engine_);
+                    if (!vertex_result) {
+                        THEMIS_WARN("ProvenanceTracker: AQL vertex INSERT failed for sample '{}' – "
+                                    "in-process store updated but graph database may be inconsistent.",
+                                    rec.sample_id);
+                    }
+
+                    // Insert the DerivedFrom edge only when a source URN is available
+                    if (!rec.source_doc_urn.empty()) {
+                        // Check deadline again before the second AQL call
+                        if (!shouldContinue()) {
+                            stats.records_rejected += (batch_end - i);
+                            batch_start = batch_end;
+                            break;
+                        }
+                        std::string edge_query = buildQuery(
+                            provenance_aql::INSERT_DERIVED_FROM_EDGE,
+                            {
+                                {"@sample_collection", config_.graph_collection},
+                                {"@doc_collection",    config_.graph_collection},
+                                {"@edge_collection",   config_.edge_collection},
+                                {"sample_id",          "\"" + escapedStr(rec.sample_id) + "\""},
+                                {"doc_id",             "\"" + escapedStr(rec.source_doc_urn) + "\""},
+                                {"derived_at",         std::to_string(rec.extraction_timestamp)},
+                            });
+                        auto edge_result = executeAql(edge_query, *query_engine_);
+                        if (!edge_result) {
+                            THEMIS_WARN("ProvenanceTracker: AQL edge INSERT failed for sample '{}' → '{}' – "
+                                        "provenance graph may be missing the DerivedFrom edge.",
+                                        rec.sample_id, rec.source_doc_urn);
+                        }
+                    }
+                }
 
                 ++stats.records_written;
             }
@@ -137,16 +221,77 @@ public:
 
     // -------------------------------------------------------------------------
     LineageNode queryLineage(const std::string& model_id, size_t max_hops) const {
-        // In production: execute LINEAGE_TRAVERSAL AQL query.
-        // In simulation: build a stub tree from in-process store.
         LineageNode root;
         root.node_type = "model";
         root.node_id   = model_id;
         root.label     = "LoRA adapter " + model_id;
 
-        (void)max_hops; // respected by the AQL TRAVERSAL in production
+        // When a live AQL engine is wired, execute the graph traversal query
+        if (query_engine_) {
+            std::string query = buildQuery(
+                provenance_aql::LINEAGE_TRAVERSAL,
+                {
+                    {"@sample_collection", config_.graph_collection},
+                    {"@edge_collection",   config_.edge_collection},
+                    {"root_id",            "\"" + escapedStr(model_id) + "\""},
+                    {"max_hops",           std::to_string(max_hops)},
+                });
+            auto result = executeAql(query, *query_engine_);
+            if (result) {
+                const auto& json = *result;
+                // Parse the traversal result into a flat list; build a two-level
+                // tree (model → samples → documents) from the returned nodes.
+                auto parseNodes = [&](const nlohmann::json& arr) {
+                    for (const auto& item : arr) {
+                        if (!item.is_object()) continue;
+                        LineageNode node;
+                        if (item.contains("node_id") && item["node_id"].is_string())
+                            node.node_id = item["node_id"].get<std::string>();
+                        if (item.contains("node_type") && item["node_type"].is_string())
+                            node.node_type = item["node_type"].get<std::string>();
+                        if (item.contains("label") && item["label"].is_string())
+                            node.label = item["label"].get<std::string>();
+                        if (node.node_id.empty()) continue;
+                        root.parents.push_back(std::move(node));
+                    }
+                };
 
-        // Collect samples that reference this model (via adapter_version or model_id match)
+                if (json.is_object() && json.contains("results") &&
+                    json["results"].is_array()) {
+                    parseNodes(json["results"]);
+                } else if (json.is_array()) {
+                    parseNodes(json);
+                }
+
+                if (!root.parents.empty()) {
+                    return root;
+                }
+                // Fall through to in-process store if traversal returned nothing
+            }
+        }
+
+        // STUB/SIMULATION NOTE:
+        // Purpose: Build a lineage tree entirely from the in-process
+        //   `store_` map when no AQL traversal result is available (offline
+        //   mode, disconnected from the graph DB, or empty AQL result set).
+        //   This allows training provenance to be tracked in single-process
+        //   test runs without a live ThemisDB instance.
+        // Activation: Reached when `query_engine_` is null or when AQL traversal
+        //   returns an empty result set for the given sample_id.
+        // Production Delta: The in-process store only contains samples that
+        //   were registered in the current process lifetime; cross-process or
+        //   cross-restart lineage is not captured.  Graph relationships between
+        //   samples (sibling nodes, model checkpoints) are approximated as
+        //   flat parent–child pairs rather than a true provenance DAG.
+        // Removal Plan: Call setQueryEngine() to wire a live QueryEngine
+        //   before first use; the in-process fallback is then only reached
+        //   when AQL traversal returns no results (e.g. empty graph).
+        //   RESOLVED 2026-05-06: setQueryEngine() injection API added.
+        //   Tracking: src/training/FUTURE_ENHANCEMENTS.md §"Provenance Graph Integration"
+        // Roadmap ref: src/ROADMAP.md §Stub Lifecycle
+        // In-process fallback: build a stub tree from the in-process store.
+        // Used in offline / test mode and as a fallback when the AQL traversal
+        // returns an empty result set.
         for (const auto& [sample_id, rec] : store_) {
             LineageNode sample_node;
             sample_node.node_type = "sample";
@@ -169,11 +314,52 @@ public:
 
     // -------------------------------------------------------------------------
     ProvenanceRecord getRecord(const std::string& sample_id) const {
+        // Check in-process store first (covers offline/test mode and cached writes)
         auto it = store_.find(sample_id);
         if (it != store_.end()) {
             return it->second;
         }
+
+        // When a live engine is available, attempt an AQL fetch
+        if (query_engine_) {
+            std::string query = buildQuery(
+                provenance_aql::FETCH_RECORD,
+                {
+                    {"@collection", config_.graph_collection},
+                    {"sample_id",   "\"" + escapedStr(sample_id) + "\""},
+                });
+            auto result = executeAql(query, *query_engine_);
+            if (result) {
+                const auto& json = *result;
+                const nlohmann::json* doc_ptr = nullptr;
+                if (json.is_object() && json.contains("results") &&
+                    json["results"].is_array() && !json["results"].empty()) {
+                    doc_ptr = &json["results"][0];
+                } else if (json.is_array() && !json.empty()) {
+                    doc_ptr = &json[0];
+                }
+                if (doc_ptr && doc_ptr->is_object()) {
+                    ProvenanceRecord rec;
+                    const auto& d = *doc_ptr;
+                    if (d.contains("_key") && d["_key"].is_string())
+                        rec.sample_id = d["_key"].get<std::string>();
+                    if (d.contains("source_doc_urn") && d["source_doc_urn"].is_string())
+                        rec.source_doc_urn = d["source_doc_urn"].get<std::string>();
+                    if (d.contains("labeler_version") && d["labeler_version"].is_string())
+                        rec.labeler_version = d["labeler_version"].get<std::string>();
+                    if (d.contains("modality") && d["modality"].is_string())
+                        rec.modality = d["modality"].get<std::string>();
+                    return rec;
+                }
+            }
+        }
+
         return {};
+    }
+
+    // -------------------------------------------------------------------------
+    void setQueryEngine(query::QueryEngine* engine) {
+        query_engine_ = engine;
     }
 
     // -------------------------------------------------------------------------
@@ -182,18 +368,55 @@ public:
     }
 
 private:
-    ProvenanceTrackerConfig                          config_;
-    std::string                                      db_connection_;
-    std::unordered_map<std::string, ProvenanceRecord> store_;
-    std::vector<std::string>                         audit_log_;
+    ProvenanceTrackerConfig                           config_;
+    std::string                                       db_connection_;
+    query::QueryEngine*                               query_engine_;   ///< non-owning; nullptr = offline/test
+    std::map<std::string, ProvenanceRecord>               store_;
+    std::vector<std::string>                          audit_log_;
+
+    // Build an AQL query string from a template by substituting @placeholder tokens.
+    // Matches the pattern used in auto_labeler.cpp::buildQuery().
+    static std::string buildQuery(
+        const std::string& tmpl,
+        const std::vector<std::pair<std::string, std::string>>& bindings)
+    {
+        std::string query = tmpl;
+        for (const auto& [placeholder, value] : bindings) {
+            std::string token = "@" + placeholder;
+            size_t pos = 0;
+            while ((pos = query.find(token, pos)) != std::string::npos) {
+                query.replace(pos, token.size(), value);
+                pos += value.size();
+            }
+        }
+        return query;
+    }
+
+    // Escape characters that would break an AQL inline string literal.
+    static std::string escapedStr(const std::string& raw) {
+        std::string out;
+        out.reserve(raw.size());
+        for (char c : raw) {
+            switch (c) {
+                case '\\': out += "\\\\"; break;
+                case '"':  out += "\\\""; break;
+                case '\n': out += "\\n";  break;
+                case '\r': out += "\\r";  break;
+                case '\t': out += "\\t";  break;
+                default:   out += c;      break;
+            }
+        }
+        return out;
+    }
 };
 
 // ============================================================================
 // Public API
 // ============================================================================
 ProvenanceTracker::ProvenanceTracker(const ProvenanceTrackerConfig& config,
-                                     const std::string& db_connection)
-    : impl_(std::make_unique<Impl>(config, db_connection)) {}
+                                     const std::string& db_connection,
+                                     query::QueryEngine* engine)
+    : impl_(std::make_unique<Impl>(config, db_connection, engine)) {}
 
 ProvenanceTracker::~ProvenanceTracker() = default;
 
@@ -215,6 +438,10 @@ LineageNode ProvenanceTracker::queryLineage(const std::string& model_id,
 
 ProvenanceRecord ProvenanceTracker::getRecord(const std::string& sample_id) const {
     return impl_->getRecord(sample_id);
+}
+
+void ProvenanceTracker::setQueryEngine(query::QueryEngine* engine) {
+    impl_->setQueryEngine(engine);
 }
 
 } // namespace training

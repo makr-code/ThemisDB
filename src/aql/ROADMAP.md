@@ -1,107 +1,89 @@
 # AQL Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-Production-ready for LLM-assisted AQL query generation, natural language to AQL translation, and documentation assistance. Core AQL parsing and execution are handled by the query module. Phase 4 adds a generic `AQLTokenStream` streaming interface and a `ReActAgent` multi-step reasoning framework with tool calling.
 
-## Completed ✅
-- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing
-- [x] Natural language to AQL translation via LLM integration
-- [x] AQL documentation assistant for function lookup and explanation
-- [x] Query explanation and profiling assistance
-- [x] LLM command handler infrastructure (request routing, response parsing)
-- [x] Support for multi-paradigm AQL (documents, graphs, vectors, geospatial, timeseries)
-- [x] Integration with OpenAI, Anthropic, Azure OpenAI, and llama.cpp providers
-- [x] AQL syntax highlighting and error annotation in LLM responses (`AQLSyntaxHighlighter`) (Issue: #1353)
-- [x] Confidence scoring for generated AQL queries (`LLMAQLHandler::translateNLToAQLWithConfidence`, `AQLConfidenceScorer`) (Issue: #1357)
-- [x] Multi-turn conversation context for iterative query refinement (`LLMAQLHandler::executeChat`) (Issue: #1358)
-- [x] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
-- [x] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
-- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
-- [x] AQL function documentation auto-generation from C++ headers (Issue: #1362)
-- [x] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
-- [x] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
-- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
-- [x] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #1950) — `POST /api/v1/llm/aql/explain/stream` SSE endpoint exposing `LLMAQLHandler::streamExplainAQLAsSSE()`
-- [x] AQL query validation and linting before LLM submission (`src/aql/aql_query_validator.cpp`) (Issue: #1525)
-- [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
-- [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
-- [x] LLM inference metrics collection (`src/aql/llm_metrics_collector.cpp`)
-- [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (`include/aql/aql_token_stream.h`) (Phase 4)
-- [x] ReActAgent multi-step reasoning framework with tool calling (`src/aql/aql_agent.cpp`) (Phase 4)
+Production AQL-assistance surfaces exist across translation, validation, tooling, context, and scoring support paths.
 
-## In Progress 🚧
-*(no items currently in progress)*
+## In Progress
 
-## Planned Features 📋
+- [x] hardening of generated-query safety and degraded-mode behaviors (Target: Q3 2026) **COMPLETED v1.6.0**
+- [~] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
+- [~] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
+- [~] **AQL Parser Integration Consolidation** — Phase 1-2 (coordinated with src/query/, 2026-06-18 → ongoing)
+  - Formalize dependency contract between LLM layer (this module) and Query Engine (src/query/)
+  - [x] Phase 1: Define integration boundary (12 hrs) ✅ 2026-06-18
+    - Created `src/query/AQL_LLM_INTEGRATION_CONTRACT.md` (canonical specification)
+    - Updated architecture docs in both src/query/ and src/aql/
+  - [~] Phase 2: Wire parser validation + metrics (20 hrs) 🔄 IN PROGRESS
+    - ✅ validateAQLWithParser() already implemented in llm_aql_handler.cpp
+    - ✅ translateNLToAQL() calls validation with retry-on-error logic
+    - ✅ Prometheus metrics instrumentation added to validation pipeline
+    - ✅ Created integration test suite (16 test cases)
+  - [ ] Phase 3: Consolidate documentation (12 hrs) 📋 PLANNED
+    - Unify duplicate content across AQL roadmaps
+  - [ ] Phase 4: Unify testing and performance SLA (20 hrs) 📋 PLANNED
+  - Full details: [src/query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md](../query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
 
-### Short-term (Next 3-6 months)
-- [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (Target: v1.7.0)
-  - Files: `include/aql/aql_token_stream.h` (header-only), `tests/test_aql_token_stream.cpp`
-  - Behavior: thread-safe queue with `push(token)` / `close()` from producer thread; `nextToken()` blocking pop and range-based for-loop from consumer thread; `cancel()` with cooperative cancellation flag (`isCancelled()`)
-  - Errors: push after cancel is silently discarded; `nextToken()` after cancel/close returns `std::nullopt`; destructor calls `close()` to unblock any waiting consumer
-  - Tests: unit (single-threaded push+drain, ordering, empty stream, cancel, idempotent close, concurrent producer/consumer 100 tokens, range-based for loop, cancel-mid-stream)
-  - Perf: `push()` and `nextToken()` overhead ≤ 500 ns excluding model generation time; no busy-wait (condition variable)
-  - Compat: header-only, C++17; no external dependencies beyond STL
+## Planned Features
 
-- [x] AQL Agent Framework – ReAct (Reasoning + Acting) multi-step agent with tool calling (Target: v1.7.0)
-  - Files: `include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, `tests/test_aql_agent.cpp`
-  - Types: `AgentTool` (name, description, JSON Schema, executor), `AgentConfig` (model, max_iterations, temperature), `ReasoningStep` (thought, tool_name, tool_input, tool_output, observation), `AgentResult` (final_answer, reasoning_trace, iterations_used, succeeded), `IAgent` (abstract), `ReActAgent` (Pimpl concrete implementation)
-  - Behavior: iterates Thought→Action→Observation cycles up to `max_iterations`; stops when LLM emits "Final Answer:" prefix; tool executor errors are captured as JSON and fed back as observations (never propagate to caller)
-  - Errors: duplicate tool registration → `std::invalid_argument`; unknown tool removal → `std::invalid_argument`; LLM failure → `LLMException(INFERENCE_FAILED)`; max iterations reached → `AgentResult.succeeded = false` with descriptive message
-  - Tests: unit (register/remove/duplicate tools, config, execute with no model, execute with max iterations, execute with tool invocation, move semantics)
-  - Perf: tool dispatch overhead ≤ 1 ms per step excluding tool execution; no heap allocation in reasoning-step parsing hot path
+### Short-term (3-6 months)
+- [ ] tighten validation and policy enforcement for complex generated-query patterns (Target: Q4 2026)
+- [ ] expand deterministic integration tests for provider and bridge variability (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for translation confidence and failure classes (Target: Q4 2026)
 
-### Long-term (6-12 months)
-- [ ] Multi-modal AQL agent inputs (image/audio/video via `MultiModalInferRequest`) (Target: v1.8.0)
-- [ ] `IAsyncLLMBackend` – non-blocking `std::future<Result<T>>` inference interface (Target: v1.8.0)
+### Mid-term (6-12 months)
+- [ ] reduce remaining proxy-like benchmark coverage via dedicated assistance benchmarks (Target: Q1 2027)
+- [ ] re-baseline latency and throughput envelopes for high-volume assistance usage (Target: Q1 2027)
+- [ ] harden multi-step orchestration reliability under concurrent load (Target: Q1 2027)
 
 ## Implementation Phases
-### Phase 1: LLM-Assisted AQL Foundation (Status: Completed ✅)
-- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing (`src/aql/llm_aql_handler.cpp`)
-- [x] Natural language to AQL translation via LLM integration
-- [x] AQL documentation assistant for function lookup and explanation
-- [x] Query explanation and profiling assistance
-- [x] LLM command handler infrastructure (request routing, response parsing)
-- [x] Multi-paradigm AQL support: documents, graphs, vectors, geospatial, timeseries
-- [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
 
-### Phase 2: Validation & Developer Experience (Status: Completed ✅)
-- [x] AQL query validation and linting (`src/aql/aql_query_validator.cpp`)
-- [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
-- [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
-- [x] Token-level autocompletion / LSP-compatible suggestions (`src/aql/aql_autocomplete.cpp`)
-- [x] Multi-turn conversation context (`src/aql/aql_conversation_context.cpp`)
+### Phase 1: Design / API Contract
+- [ ] freeze assistance contract semantics for translation/validation outputs (Target: Q3 2026)
+- [ ] define explicit failure contracts for unsupported provider/capability modes (Target: Q3 2026)
 
-### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
-- [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
+### Phase 2: Core Implementation
+- [x] complete remaining hardening in translation and bridge execution paths (Target: Q4 2026) **COMPLETED v1.6.0**
+  - [x] Post-generation AQL validation with injection detection
+  - [x] Thread leak elimination in LLMTimeoutManager
+  - [x] Per-operation-type circuit breakers
+  - [x] Bounded conversation history with token budget
+- [~] align helper components to shared bounded runtime contracts (Target: Q4 2026)
 
-### Phase 4: Streaming & Agent Framework (Status: Completed ✅)
-- [x] Generic `TokenStream` iterator API for all LLM inference calls (Target: v1.7.0)
-  - `include/aql/aql_token_stream.h` – header-only, thread-safe push/pop/cancel/range-for
-  - `tests/test_aql_token_stream.cpp` – 14 unit tests covering single-threaded, concurrent, cancel, and range-for scenarios
-- [x] AQL Agent Framework – ReAct multi-step agent with tool calling (Target: v1.7.0)
-  - `include/aql/aql_agent.h` – `AgentTool`, `AgentConfig`, `ReasoningStep`, `AgentResult`, `IAgent`, `ReActAgent`
-  - `src/aql/aql_agent.cpp` – Pimpl ReActAgent implementation
-  - `tests/test_aql_agent.cpp` – 17 unit tests covering registration, config, execute, move semantics
-- [ ] Multi-modal agent inputs (image/audio/video) (Target: v1.8.0)
-- [ ] `IAsyncLLMBackend` async interface (Target: v1.8.0)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for malformed/generated query edge cases (Target: Q4 2026)
+- [ ] unify error taxonomy and diagnostics across assistance components (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for concurrency, degraded-mode, and policy-edge behavior (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for provider and schema-context variability (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for translation/highlighter/scorer/few-shot paths (Target: Q4 2026)
+- [ ] validate p95/p99 behavior against release baselines under representative workloads (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 14 token-stream tests + 17 agent tests)
-- [x] Integration tests (handler ↔ highlighter path covered)
-- [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)  
-- [x] Documentation complete (README.md and ROADMAP.md updated; FUTURE_ENHANCEMENTS.md Implementation Notes added)
-- [x] API stability guaranteed (Issue: #1524)
 
-## Known Issues & Limitations
-- NL-to-AQL accuracy depends on LLM provider quality and prompt engineering
-- No offline fallback when no LLM provider is configured
-- Prompt injection in `translateNLToAQL()` is mitigated by pattern-based input sanitization; advanced adversarial inputs not covered by the current pattern set may still bypass detection
-- Schema-aware generation is supported: attach a metadata snapshot via `AQLQueryBuilder::setSchema()` (`include/aql/aql_query_builder.h`); schema context is injected automatically into LLM prompts and unknown collection names are flagged as validation warnings
+- [x] core assistance surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening items closed across translation/bridge edges
+- [ ] release-gate benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- behavior remains partially capability-dependent on configured providers and integrations.
+- some benchmark coverage still relies on broader assistance benchmarks rather than fully isolated micro-paths.
+- continued hardening remains required for adversarial and concurrency edge profiles.
 
 ## Breaking Changes
-- LLM command handler API is stable; new command types will be additive
-- Confidence scoring API was introduced as an optional field (non-breaking)
+
+No breaking module contract planned. Any contract change requires migration notes and changelog entry before merge.

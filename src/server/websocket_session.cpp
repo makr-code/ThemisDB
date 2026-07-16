@@ -1,27 +1,21 @@
+/**
+ * @file websocket_session.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.48
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            websocket_session.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     827                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
-    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
-    • 22ffc8614  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
-    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: websocket_session.cpp | Version: 0.0.48 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 864
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=24, M=9, L=0
+ * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #3316 [WIP] Add WebSocket audio s... (2026-03-12) | #2807 feat(api/ws): Implement Web... (2026-03-12) | #2719 [api] SSE/WebSocket streami... (2026-03-12) | #111 Add comprehensive network p... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -88,7 +82,14 @@ void WebSocketSession::run(http::request<http::string_body> req) {
     // Initialise the CdcWebSocketHandler for the /v2/cdc/stream endpoint so
     // that processMessage() can delegate named-subscription frames to it.
     if (request_path_ == "/v2/cdc/stream") {
-        cdc_stream_handler_ = std::make_unique<cdc::CdcWebSocketHandler>();
+        // Pass the ConsumerGroupManager (if available) so that group-protocol
+        // subscriptions get durable offset tracking and partition filtering.
+        cdc::ConsumerGroupManager* cgm =
+            (server_ && server_->consumer_group_manager_)
+                ? server_->consumer_group_manager_.get()
+                : nullptr;
+        cdc_stream_handler_ = std::make_unique<cdc::CdcWebSocketHandler>(
+            cdc::CdcWebSocketHandler::kMaxPendingAck, cgm);
     }
 
     // Set suggested timeout settings for the websocket
@@ -127,7 +128,7 @@ void WebSocketSession::onAccept(beast::error_code ec) {
         return;
     }
     
-    active_ = true;
+    active_.store(true, std::memory_order_release);
     THEMIS_INFO("WebSocket connection accepted: {}", session_id_);
     
     // Send welcome message
@@ -163,13 +164,13 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
     
     if (ec == websocket::error::closed) {
         THEMIS_INFO("WebSocket connection closed by client: {}", session_id_);
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         return;
     }
     
     if (ec) {
         THEMIS_ERROR("WebSocket read error ({}): {}", session_id_, ec.message());
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         return;
     }
     
@@ -406,77 +407,123 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
 }
 
 void WebSocketSession::send(const std::string& message) {
-    std::lock_guard<std::mutex> lock(write_mutex_);
-
-    // Back-pressure: close with code 1011 (Internal Error) when the outbound
-    // queue is saturated to avoid unbounded memory growth.
-    constexpr size_t kMaxQueueSize = 1000;
-    if (write_queue_.size() >= kMaxQueueSize) {
-        THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
-                    session_id_, write_queue_.size());
-        active_ = false;
-        beast::error_code ec;
-        if (is_tls_) {
-            ws_tls_->close(websocket::close_code::internal_error, ec);
-        } else {
-            ws_plain_->close(websocket::close_code::internal_error, ec);
-        }
-        return;
-    }
-
-    write_queue_.push({message, /*is_binary=*/false});
-    
-    if (!writing_) {
-        writing_ = true;
-        
-        if (is_tls_) {
-            ws_tls_->text(true);
-            ws_tls_->async_write(
-                net::buffer(write_queue_.front().data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        } else {
-            ws_plain_->text(true);
-            ws_plain_->async_write(
-                net::buffer(write_queue_.front().data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        }
+    auto self = shared_from_this();
+    if (is_tls_) {
+        net::dispatch(ws_tls_->get_executor(), [self, message]() mutable {
+            self->sendOnExecutor(std::move(message));
+        });
+    } else {
+        net::dispatch(ws_plain_->get_executor(), [self, message]() mutable {
+            self->sendOnExecutor(std::move(message));
+        });
     }
 }
 
 void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
-    std::lock_guard<std::mutex> lock(write_mutex_);
-    
-    // Back-pressure: same limit as send()
-    if (write_queue_.size() >= kMaxQueueDepth) {
-        THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
-                    session_id_, write_queue_.size(), kMaxQueueDepth);
-        active_ = false;
-        close_due_to_backpressure_ = true;
+    auto self = shared_from_this();
+    if (is_tls_) {
+        net::dispatch(ws_tls_->get_executor(), [self, data]() mutable {
+            self->sendBinaryOnExecutor(std::move(data));
+        });
+    } else {
+        net::dispatch(ws_plain_->get_executor(), [self, data]() mutable {
+            self->sendBinaryOnExecutor(std::move(data));
+        });
+    }
+}
+
+void WebSocketSession::sendOnExecutor(std::string message) {
+    bool close_now = false;
+    {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+
+        // Back-pressure: close with code 1011 (Internal Error) when the outbound
+        // queue is saturated to avoid unbounded memory growth.
+        constexpr size_t kMaxQueueSize = 1000;
+        if (write_queue_.size() >= kMaxQueueSize) {
+            THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
+                        session_id_, write_queue_.size());
+            active_.store(false, std::memory_order_release);
+            // Signal the in-flight write (if any) to issue a 1011 close frame once
+            // the current write drains.  The close frame will be sent via onWrite.
+            close_due_to_backpressure_ = true;
+            // If there is no in-flight write, onWrite will never run; close now.
+            close_now = !writing_;
+        } else {
+            write_queue_.push({std::move(message), /*is_binary=*/false});
+            
+            if (!writing_) {
+                writing_ = true;
+                startWriteLocked();
+            }
+        }
+    }
+
+    if (close_now) {
+        closeInternalErrorOnExecutor();
+    }
+}
+
+void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
+    bool close_now = false;
+    {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        
+        // Back-pressure: same limit as send()
+        if (write_queue_.size() >= kMaxQueueDepth) {
+            THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
+                        session_id_, write_queue_.size(), kMaxQueueDepth);
+            active_.store(false, std::memory_order_release);
+            close_due_to_backpressure_ = true;
+            // If no write is active, force close immediately.
+            close_now = !writing_;
+        } else {
+            // Store as binary entry so onWrite uses the correct frame type
+            write_queue_.push({std::string(data.begin(), data.end()), /*is_binary=*/true});
+            
+            if (!writing_) {
+                writing_ = true;
+                startWriteLocked();
+            }
+        }
+    }
+
+    if (close_now) {
+        closeInternalErrorOnExecutor();
+    }
+}
+
+void WebSocketSession::startWriteLocked() {
+    if (write_queue_.empty()) {
         return;
     }
 
-    // Store as binary entry so onWrite uses the correct frame type
-    write_queue_.push({std::string(data.begin(), data.end()), /*is_binary=*/true});
-    
-    if (!writing_) {
-        writing_ = true;
-        
-        if (is_tls_) {
-            ws_tls_->binary(true);
-            ws_tls_->async_write(
-                net::buffer(write_queue_.front().data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        } else {
-            ws_plain_->binary(true);
-            ws_plain_->async_write(
-                net::buffer(write_queue_.front().data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        }
+    auto& front = write_queue_.front();
+    if (is_tls_) {
+        ws_tls_->text(!front.is_binary);
+        ws_tls_->async_write(
+            net::buffer(front.data),
+            beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
+        );
+    } else {
+        ws_plain_->text(!front.is_binary);
+        ws_plain_->async_write(
+            net::buffer(front.data),
+            beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
+        );
     }
+}
+
+void WebSocketSession::closeInternalErrorOnExecutor() {
+    beast::error_code close_ec;
+    if (is_tls_) {
+        ws_tls_->close(websocket::close_code::internal_error, close_ec);
+    } else {
+        ws_plain_->close(websocket::close_code::internal_error, close_ec);
+    }
+
+    std::lock_guard<std::mutex> lock(write_mutex_);
+    close_due_to_backpressure_ = false;
 }
 
 void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferred) {
@@ -486,7 +533,7 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     
     if (ec) {
         THEMIS_ERROR("WebSocket write error ({}): {}", session_id_, ec.message());
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         writing_ = false;
         return;
     }
@@ -496,20 +543,7 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     
     // Check if there are more messages to send
     if (!write_queue_.empty()) {
-        const auto& next = write_queue_.front();
-        if (is_tls_) {
-            ws_tls_->text(!next.is_binary);
-            ws_tls_->async_write(
-                net::buffer(next.data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        } else {
-            ws_plain_->text(!next.is_binary);
-            ws_plain_->async_write(
-                net::buffer(next.data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        }
+        startWriteLocked();
     } else {
         writing_ = false;
 
@@ -530,13 +564,27 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
 }
 
 void WebSocketSession::close() {
-    if (!active_) {
-        return;
+    // Use exchange so only one caller wins and actually issues the close.
+    // The atomic exchange ensures that concurrent calls (e.g. from
+    // WebSocketManager::closeAll and the io_context read loop) are idempotent.
+    if (!active_.exchange(false, std::memory_order_acq_rel)) {
+        return;  // already inactive — nothing to do
     }
-    
-    active_ = false;
-    unsubscribeFromCDC(); // Clean up CDC subscription
-    doClose();
+
+    unsubscribeFromCDC();
+
+    // Dispatch doClose() onto the io_context executor that owns the stream.
+    // Beast WebSocket streams are NOT thread-safe; calling close() from a
+    // thread other than the executor thread (e.g. from the destructor thread
+    // via WebSocketManager::closeAll) while an async_read is pending causes
+    // undefined behaviour.  Dispatching ensures the close is serialised with
+    // any pending async operations.
+    auto self = shared_from_this();
+    if (is_tls_) {
+        net::dispatch(ws_tls_->get_executor(), [self]() { self->doClose(); });
+    } else {
+        net::dispatch(ws_plain_->get_executor(), [self]() { self->doClose(); });
+    }
 }
 
 void WebSocketSession::doClose() {

@@ -1,23 +1,21 @@
+/**
+ * @file remote_executor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=5, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            remote_executor.cpp                                ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: remote_executor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 251
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=2, L=0
+ * PR History (last 5): #69 Sharding complexity analysi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/remote_executor.h"
@@ -91,6 +89,41 @@ RemoteExecutor::Result RemoteExecutor::executeQuery(const ShardInfo& shard_info,
     };
     
     return post(shard_info, "/api/v1/query", body);
+}
+
+RemoteExecutor::Result RemoteExecutor::postBinary(const ShardInfo& shard_info,
+                                                   const std::string& path,
+                                                   const uint8_t* data,
+                                                   std::size_t size) {
+    // Base64-encode the binary payload so it can be embedded in a JSON body
+    // and sent via the existing MTLSClient::post() interface.
+    //
+    // Trade-off: encoding adds ~33 % overhead; a future optimisation could
+    // add a raw-octet-stream path in MTLSClient, but that requires protocol
+    // changes outside the current scope.
+    static constexpr char kBase64Chars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    std::string encoded;
+    encoded.reserve(((size + 2u) / 3u) * 4u);
+
+    for (std::size_t i = 0; i < size; i += 3) {
+        const auto b0 = data[i];
+        const auto b1 = (i + 1 < size) ? data[i + 1] : std::uint8_t{0};
+        const auto b2 = (i + 2 < size) ? data[i + 2] : std::uint8_t{0};
+
+        encoded += kBase64Chars[(b0 >> 2) & 0x3F];
+        encoded += kBase64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
+        encoded += (i + 1 < size) ? kBase64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
+        encoded += (i + 2 < size) ? kBase64Chars[b2 & 0x3F] : '=';
+    }
+
+    nlohmann::json body = {
+        {"kv_state_b64", std::move(encoded)},
+        {"size",         static_cast<std::uint64_t>(size)}
+    };
+
+    return post(shard_info, path, body);
 }
 
 bool RemoteExecutor::isReady() const {

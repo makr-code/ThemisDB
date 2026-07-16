@@ -1,23 +1,21 @@
+/**
+ * @file geo_topology_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            geo_topology_api_handler.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     551                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: geo_topology_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 585
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=7, L=0
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -29,13 +27,30 @@
 
 #include "server/geo_topology_api_handler.h"
 
+#include "utils/input_validator.h"
+
 #include <algorithm>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxGeoTopologyIdentifierLength = 256;
+
+bool isValidGeoTopologyIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxGeoTopologyIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction
@@ -58,6 +73,7 @@ GeoTopologyApiHandler::GeoTopologyApiHandler(
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -104,6 +120,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleRegionsGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -156,6 +173,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleHealthGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -227,6 +245,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyShardPost");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -244,6 +263,10 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
         if (shard_id.empty()) {
             return makeErrorResponse(http::status::bad_request,
                                      "Field 'shard_id' must not be empty", req);
+        }
+        if (!isValidGeoTopologyIdentifier(shard_id)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Invalid shard_id", req);
         }
 
         // Load existing shard info or create new entry
@@ -297,10 +320,12 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDelete(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyShardDelete");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
     }
+    auto& shard_topology = *shard_topology_;
 
     const std::string target   = std::string(req.target());
     const std::string shard_id = extractTrailingSegment(target,
@@ -309,14 +334,18 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
         return makeErrorResponse(http::status::bad_request,
                                  "Missing shard_id in path", req);
     }
+    if (!isValidGeoTopologyIdentifier(shard_id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid shard_id in path", req);
+    }
 
-    const auto existing = shard_topology_->getShard(shard_id);
+    const auto existing = shard_topology.getShard(shard_id);
     if (!existing) {
         return makeErrorResponse(http::status::not_found,
                                  "Shard not found: " + shard_id, req);
     }
 
-    shard_topology_->removeShard(shard_id);
+    shard_topology.removeShard(shard_id);
 
     json response_body = {
         {"ok",       true},
@@ -333,10 +362,12 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
 http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleConfigGet");
     if (!redundancy_manager_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Redundancy manager not available", req);
     }
+    auto& redundancy_manager = *redundancy_manager_;
 
     const std::string target = std::string(req.target());
     const std::string collection = extractTrailingSegment(target, "/api/v1/geo/config/");
@@ -344,9 +375,13 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
         return makeErrorResponse(http::status::bad_request,
                                  "Missing collection name in path", req);
     }
+    if (!isValidGeoTopologyIdentifier(collection)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid collection name in path", req);
+    }
 
     try {
-        const auto config = redundancy_manager_->getConfig(collection);
+        const auto config = redundancy_manager.getConfig(collection);
         const auto& geo   = config.geo_replication;
 
         // Replication mode string
@@ -411,10 +446,12 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleConfigPut");
     if (!redundancy_manager_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Redundancy manager not available", req);
     }
+    auto& redundancy_manager = *redundancy_manager_;
 
     const std::string target     = std::string(req.target());
     const std::string collection = extractTrailingSegment(target, "/api/v1/geo/config/");
@@ -422,12 +459,16 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
         return makeErrorResponse(http::status::bad_request,
                                  "Missing collection name in path", req);
     }
+    if (!isValidGeoTopologyIdentifier(collection)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid collection name in path", req);
+    }
 
     try {
         auto j = json::parse(req.body());
 
         // Start from the existing config so partial updates are respected
-        auto config = redundancy_manager_->getConfig(collection);
+        auto config = redundancy_manager.getConfig(collection);
         config.mode = sharding::RedundancyMode::GEO_MIRROR;
         auto& geo   = config.geo_replication;
 
@@ -488,7 +529,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
                                      "region_failure_threshold", req);
         }
 
-        redundancy_manager_->setCollectionConfig(collection, config);
+        redundancy_manager.setCollectionConfig(collection, config);
 
         json response_body = {
             {"ok",         true},
@@ -552,3 +593,4 @@ http::response<http::string_body> GeoTopologyApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
+

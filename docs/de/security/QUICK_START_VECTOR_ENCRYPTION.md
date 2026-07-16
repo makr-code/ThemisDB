@@ -393,6 +393,6 @@ std::pair<Status, std::vector<Result>> searchKnn(const std::vector<float>& query
 
 ---
 
-**Last Updated:** December 15, 2025  
+**Last Updated:** April 2026  
 **Version:** 2.0  
 **Status:** Production Ready ✅

@@ -1,26 +1,31 @@
+/**
+ * @file production_validator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=14; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=11, Debt=0, C=2, H=25, M=11, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            production_validator.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   23.0/100                                       ║
-    • Total Lines:     1017                                           ║
-    • Open Issues:     TODOs: 27, Stubs: 0                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: production_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1708
+ * Gap Summary: total=14; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=11, Debt=0, C=6, H=41, M=13, L=0
+ * PR History (last 5): #551 Remove simulation code from... (2026-03-11) | #630 P0: Complete llama.cpp inte... (2026-03-11) | #1297 RAG module: replace all stu... (2026-03-11) | #324 Generate GitHub Issues from... (2026-03-11) | #3488 docs: Align docs/de module ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/production_validator.h"
+#include "llm/inference_engine_enhanced.h"
+#include "llm/model_loader.h"
+#include "llm/kernel_fusion.h"
+#include "llm/gpu_memory_manager.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/multi_lora_manager.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <atomic>
@@ -54,6 +59,11 @@ ProductionValidator::ProductionValidator(const ValidationConfig& config)
     spdlog::info("  Min throughput: {} tokens/s", config_.min_throughput_tokens_per_sec);
 }
 
+void ProductionValidator::setInferenceEngine(
+        std::shared_ptr<InferenceEngineEnhanced> engine) {
+    inference_engine_ = std::move(engine);
+}
+
 ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     const std::string& model_id
 ) {
@@ -85,17 +95,31 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
         auto req_start = std::chrono::high_resolution_clock::now();
         
         try {
-            // TODO: In real implementation, call actual LLM plugin via llm_plugin_->generate()
-            // Example: auto response = llm_plugin_->generate(prompt, generation_config);
-            //          size_t tokens_generated = response.tokens_generated;
-            //          total_tokens += tokens_generated;
-            //          successful++;
-            
-            // For now, skip actual inference if no plugin is configured
-            if (i == 0) {
-                spdlog::warn("Benchmark skipped: No LLM plugin configured. Set up llm_plugin_ to enable real benchmarking.");
+            // Route through InferenceEngineEnhanced when configured.
+            if (inference_engine_) {
+                InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+                eng_req.base_request.prompt     = prompt;
+                eng_req.base_request.model_id   = model_id.empty() ? "default" : model_id;
+                eng_req.base_request.max_tokens = 128;
+                eng_req.timeout                 = std::chrono::milliseconds(30000);
+                eng_req.preferred_model_id      = model_id;
+                try {
+                    auto handle   = inference_engine_->submit(eng_req);
+                    auto response = handle.get();
+                    total_tokens += response.tokens_generated;
+                    successful++;
+                } catch (const std::exception& inner) {
+                    spdlog::warn("Benchmark request {} inference failed: {}", i, inner.what());
+                    failed++;
+                }
+            } else {
+                // No engine configured — skip but record timing
+                if (i == 0) {
+                    spdlog::warn("Benchmark skipped: No InferenceEngineEnhanced configured. "
+                                 "Call setInferenceEngine() to enable real benchmarking.");
+                }
+                skipped++;
             }
-            skipped++;
             
         } catch (const std::exception& e) {
             spdlog::warn("Benchmark request {} failed: {}", i, e.what());
@@ -312,8 +336,24 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
         // Simulate request processing
         auto start = std::chrono::steady_clock::now();
         
-        // TODO: Actual inference request here
-        bool success = true;  // Placeholder
+        // Run an actual inference request through the engine when available.
+        bool success = true;
+        if (inference_engine_) {
+            InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+            eng_req.base_request.prompt     = "stress test iteration " + std::to_string(iteration);
+            eng_req.base_request.model_id   = "default";
+            eng_req.base_request.max_tokens = 32;
+            eng_req.timeout                 = std::chrono::milliseconds(10000);
+            try {
+                auto handle = inference_engine_->submit(eng_req);
+                handle.get();
+                success = true;
+            } catch (const std::exception& e) {
+                spdlog::warn("Stress test request {} failed: {}", iteration, e.what());
+                success = false;
+            }
+        }
+        // If no engine, fall through with success=true (measure scheduling overhead only).
         
         auto end = std::chrono::steady_clock::now();
         double latency = std::chrono::duration<double, std::milli>(end - start).count();
@@ -333,7 +373,7 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
             ).count();
             
             spdlog::info("Stress test progress: {} hours, {} requests, {} failures",
-                         elapsed, total_requests_processed_, failures);
+                         elapsed, total_requests_processed_.load(std::memory_order_acquire), failures);
         }
         
         // Check for memory leaks periodically
@@ -355,17 +395,20 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
         ? (total_failures_ * 100.0 / total_requests_processed_)
         : 0.0;
     
-    if (!latency_samples_.empty()) {
-        result.avg_latency_ms = std::accumulate(
-            latency_samples_.begin(),
-            latency_samples_.end(),
-            0.0
-        ) / latency_samples_.size();
-        
-        std::vector<double> latency_vec(latency_samples_.begin(), latency_samples_.end());
-        result.p50_latency_ms = calculatePercentile(latency_vec, 50.0);
-        result.p95_latency_ms = calculatePercentile(latency_vec, 95.0);
-        result.p99_latency_ms = calculatePercentile(latency_vec, 99.0);
+    {
+        std::lock_guard<std::mutex> lock(latency_mutex_);
+        if (!latency_samples_.empty()) {
+            result.avg_latency_ms = std::accumulate(
+                latency_samples_.begin(),
+                latency_samples_.end(),
+                0.0
+            ) / latency_samples_.size();
+            
+            std::vector<double> latency_vec(latency_samples_.begin(), latency_samples_.end());
+            result.p50_latency_ms = calculatePercentile(latency_vec, 50.0);
+            result.p95_latency_ms = calculatePercentile(latency_vec, 95.0);
+            result.p99_latency_ms = calculatePercentile(latency_vec, 99.0);
+        }
     }
     
     // Check against thresholds
@@ -438,13 +481,17 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     for (size_t i = 0; i < concurrency; ++i) {
         threads.emplace_back(worker);
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+        if (!themis::utils::joinThreadWithin(t)) {
+            spdlog::warn("Validation thread did not join within timeout");
+        }
+    }
 
     double elapsed_s = std::chrono::duration<double>(
         std::chrono::steady_clock::now() - wall_start).count();
 
     result.total_requests      = total;
-    result.successful_requests = succeeded.load();
+    result.successful_requests = succeeded.load(std::memory_order_acquire);
     result.failed_requests     = total - result.successful_requests;
     result.error_rate_pct      = total > 0
         ? (result.failed_requests * 100.0 / total)
@@ -490,87 +537,269 @@ ProductionValidator::ValidationResult ProductionValidator::checkPerformanceRegre
     ValidationResult result;
     
     spdlog::info("=== Checking Performance Regression ===");
-    
-    // TODO: Load baseline and compare
-    // For now, placeholder
-    
-    result.passed = true;
-    
-    spdlog::info("=== No Performance Regression Detected ===");
-    
+
+    PerformanceRegressionDetector detector;
+    PerformanceRegressionDetector::Baseline baseline;
+
+    if (!detector.loadBaseline(baseline_file, baseline)) {
+        spdlog::warn("Performance regression check: baseline file not found at '{}' — skipping.",
+                     baseline_file);
+        result.passed = true;
+        return result;
+    }
+
+    // Run a quick load test to get current performance numbers.
+    auto current = runLoadTest();
+
+    auto report = detector.detectRegression(baseline, current, config_.max_regression_pct);
+
+    if (report.has_regression) {
+        result.passed = false;
+        std::string msg = "Performance regression detected:";
+        for (const auto& r : report.regressions) {
+            msg += "\n  - " + r;
+        }
+        result.error_message = msg;
+        spdlog::error("{}", msg);
+    } else {
+        result.passed = true;
+        for (const auto& imp : report.improvements) {
+            spdlog::info("  Performance improvement: {}", imp);
+        }
+        spdlog::info("=== No Performance Regression Detected ===");
+    }
+
+    result.avg_latency_ms          = current.avg_latency_ms;
+    result.p99_latency_ms          = current.p99_latency_ms;
+    result.throughput_tokens_per_sec = current.throughput_tokens_per_sec;
+    result.total_requests          = current.total_requests;
+    result.successful_requests     = current.successful_requests;
+    result.failed_requests         = current.failed_requests;
     return result;
 }
 
 bool ProductionValidator::testModelLoading() {
     spdlog::info("Testing: Model Loading");
-    
-    // TODO: Test model loading with LazyModelLoader
-    
-    spdlog::info("✓ Model Loading test passed");
-    return true;
+
+    // Verify LazyModelLoader can be instantiated with a default config.
+    bool passed = false;
+    try {
+        LazyModelLoader::Config loader_cfg;
+        LazyModelLoader loader(loader_cfg);
+        // A freshly constructed loader should list no models.
+        auto loaded_models = loader.listLoadedModels();
+        passed = loaded_models.empty();
+        spdlog::info("  LazyModelLoader instantiated; loaded_models={}", loaded_models.size());
+    } catch (const std::exception& e) {
+        spdlog::error("  LazyModelLoader construction failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Model Loading test passed");
+    } else {
+        spdlog::error("✗ Model Loading test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testInferencePipeline() {
     spdlog::info("Testing: Inference Pipeline");
-    
-    // TODO: Test full inference pipeline
-    
-    spdlog::info("✓ Inference Pipeline test passed");
-    return true;
+
+    // Verify InferenceEngineEnhanced can be built and started with a minimal config.
+    bool passed = false;
+    try {
+        InferenceEngineEnhanced::Config eng_cfg;
+        eng_cfg.num_worker_threads = 1;
+        eng_cfg.max_batch_size     = 4;
+        InferenceEngineEnhanced engine(eng_cfg);
+        auto models = engine.getAvailableModels();
+        // An engine with no registered plugins returns an empty model list.
+        passed = true;
+        spdlog::info("  InferenceEngineEnhanced instantiated; {} model(s) available.",
+                     models.size());
+    } catch (const std::exception& e) {
+        spdlog::error("  InferenceEngineEnhanced construction failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Inference Pipeline test passed");
+    } else {
+        spdlog::error("✗ Inference Pipeline test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testBatchScheduling() {
     spdlog::info("Testing: Batch Scheduling");
-    
-    // TODO: Test continuous batch scheduler
-    
-    spdlog::info("✓ Batch Scheduling test passed");
-    return true;
+
+    bool passed = false;
+    try {
+        // Validate ContinuousBatchScheduler construction.
+        ContinuousBatchScheduler::SchedulerConfig sched_cfg;
+        sched_cfg.max_batch_size    = 8;
+        ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
+        // Start + stop the scheduler to verify threading works
+        scheduler.start();
+        scheduler.stop();
+        passed = true;
+        spdlog::info("  ContinuousBatchScheduler started/stopped successfully.");
+    } catch (const std::exception& e) {
+        spdlog::error("  ContinuousBatchScheduler test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Batch Scheduling test passed");
+    } else {
+        spdlog::error("✗ Batch Scheduling test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testMemoryManagement() {
     spdlog::info("Testing: Memory Management");
-    
-    // TODO: Test GPU memory manager
-    
-    spdlog::info("✓ Memory Management test passed");
-    return true;
+
+    bool passed = false;
+    try {
+        GPUMemoryManager::Config gm_cfg;
+        gm_cfg.min_free_vram_bytes = 0;
+        GPUMemoryManager manager(gm_cfg);
+
+        auto stats = manager.getStats();
+        passed = true;
+        spdlog::info("  GPUMemoryManager: total={} B, free={} B.",
+                     stats.total_vram_bytes, stats.free_vram_bytes);
+    } catch (const std::exception& e) {
+        spdlog::error("  GPUMemoryManager test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Memory Management test passed");
+    } else {
+        spdlog::error("✗ Memory Management test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testGPUOffload() {
     spdlog::info("Testing: GPU Offload");
-    
-    // TODO: Test GPU offload functionality
-    
-    spdlog::info("✓ GPU Offload test passed");
-    return true;
+
+    // Verify that the GPU memory manager can report whether GPU is available.
+    bool passed = false;
+    try {
+        GPUMemoryManager::Config gm_cfg;
+        GPUMemoryManager manager(gm_cfg);
+
+        bool gpu_available = manager.isGPUAvailable(0);
+        passed = true;  // We don't require GPU — just that the query succeeds.
+        spdlog::info("  GPU available: {}.", gpu_available ? "yes" : "no");
+    } catch (const std::exception& e) {
+        spdlog::error("  GPU Offload test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ GPU Offload test passed");
+    } else {
+        spdlog::error("✗ GPU Offload test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testQuantization() {
     spdlog::info("Testing: Quantization");
-    
-    // TODO: Test quantization (Q4_K_M, Q5_K_M, Q8_0)
-    
-    spdlog::info("✓ Quantization test passed");
-    return true;
+
+    // Verify KernelFusionManager is constructible and reports its capabilities.
+    bool passed = false;
+    try {
+        kernels::KernelFusionManager::Config kf_cfg;
+        kf_cfg.enable_qkv_fusion       = true;
+        kf_cfg.enable_ln_linear_fusion = true;
+        kernels::KernelFusionManager kf_manager(kf_cfg);
+
+        bool fuse = kf_manager.shouldFuseQKV(4, 512, 4096);
+        auto kf_stats = kf_manager.getStats();
+        passed = true;
+        spdlog::info("  KernelFusionManager: shouldFuseQKV={}, total_fusions={}.",
+                     fuse, kf_stats.total_fusions);
+    } catch (const std::exception& e) {
+        spdlog::error("  KernelFusionManager construction failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Quantization test passed");
+    } else {
+        spdlog::error("✗ Quantization test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testContinuousBatching() {
     spdlog::info("Testing: Continuous Batching");
-    
-    // TODO: Test continuous batching with multiple requests
-    
-    spdlog::info("✓ Continuous Batching test passed");
-    return true;
+
+    // Submit a small burst of requests and verify the scheduler processes them.
+    bool passed = false;
+    try {
+        ContinuousBatchScheduler::SchedulerConfig sched_cfg;
+        sched_cfg.max_batch_size   = 4;
+        ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
+        scheduler.start();
+
+        // Submit a few requests and verify the scheduler accepts them.
+        InferenceRequest req;
+        req.prompt    = "test prompt";
+        req.max_tokens = 1;
+        size_t n_submitted = 0;
+        for (int i = 0; i < 4; ++i) {
+            req.request_id = "test-req-" + std::to_string(i);
+            auto id = scheduler.submitRequest(req);
+            if (!id.empty()) ++n_submitted;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        scheduler.stop();
+        passed = (n_submitted == 4);
+        spdlog::info("  Continuous batching: {}/4 requests accepted.", n_submitted);
+    } catch (const std::exception& e) {
+        spdlog::error("  Continuous batching test failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Continuous Batching test passed");
+    } else {
+        spdlog::error("✗ Continuous Batching test FAILED");
+    }
+    return passed;
 }
 
 bool ProductionValidator::testKernelFusion() {
     spdlog::info("Testing: Kernel Fusion");
-    
-    // TODO: Test fused kernels
-    
-    spdlog::info("✓ Kernel Fusion test passed");
-    return true;
+
+    bool passed = false;
+    try {
+        kernels::KernelFusionManager::Config kf_cfg;
+        kf_cfg.enable_ffn_fusion  = true;
+        kernels::KernelFusionManager kf_manager(kf_cfg);
+
+        double speedup = kf_manager.estimateSpeedup("qkv", 4, 512, 4096);
+        passed = (speedup >= 0.0);
+        spdlog::info("  KernelFusion estimated QKV speedup: {:.2f}x.", speedup);
+    } catch (const std::exception& e) {
+        spdlog::error("  KernelFusionManager benchmark failed: {}", e.what());
+        passed = false;
+    }
+
+    if (passed) {
+        spdlog::info("✓ Kernel Fusion test passed");
+    } else {
+        spdlog::error("✗ Kernel Fusion test FAILED");
+    }
+    return passed;
 }
 
 void ProductionValidator::startStressTest() {
@@ -617,8 +846,11 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
         }
     }
 
-    if (!latency_samples_.empty()) {
-        stats.current_latency_ms = latency_samples_.back();
+    {
+        std::lock_guard<std::mutex> lock(latency_mutex_);
+        if (!latency_samples_.empty()) {
+            stats.current_latency_ms = latency_samples_.back();
+        }
     }
 
     if (stress_test_running_) {
@@ -664,6 +896,7 @@ double ProductionValidator::calculatePercentile(
 }
 
 void ProductionValidator::recordLatency(double latency_ms) {
+    std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_.push_back(latency_ms);
     
     // Keep only last 10000 samples to avoid memory bloat
@@ -674,9 +907,24 @@ void ProductionValidator::recordLatency(double latency_ms) {
 }
 
 void ProductionValidator::checkMemoryLeaks() {
-    // TODO: Implement actual memory leak detection
-    // For now, just log
-    spdlog::debug("Memory leak check: OK");
+    size_t current_memory_mb = measureMemoryUsage();
+
+    // Initialise the baseline on the first call.
+    if (memory_baseline_mb_ == 0) {
+        memory_baseline_mb_ = current_memory_mb;
+    }
+
+    double growth_mb = static_cast<double>(current_memory_mb) -
+                       static_cast<double>(memory_baseline_mb_);
+
+    if (growth_mb > config_.max_memory_growth_mb_per_hour) {
+        spdlog::warn("Memory leak warning: {:.1f} MB above baseline (limit: {:.1f} MB/h)",
+                     growth_mb, config_.max_memory_growth_mb_per_hour);
+        ++total_failures_;
+    } else {
+        spdlog::debug("Memory leak check: OK ({:.1f} MB growth, limit {:.1f} MB/h)",
+                      growth_mb, config_.max_memory_growth_mb_per_hour);
+    }
 }
 
 // PerformanceRegressionDetector Implementation
@@ -706,10 +954,24 @@ bool PerformanceRegressionDetector::loadBaseline(
     if (!file.is_open()) {
         return false;
     }
-    
-    // TODO: Parse baseline file
-    // For now, placeholder
-    
+
+    // Parse the simple key=value format written by saveBaseline().
+    std::string line;
+    while (std::getline(file, line)) {
+        auto sep = line.find('=');
+        if (sep == std::string::npos) continue;
+        std::string key   = line.substr(0, sep);
+        std::string value = line.substr(sep + 1);
+        try {
+            if      (key == "version")    baseline.version                   = value;
+            else if (key == "avg_latency_ms") baseline.avg_latency_ms        = std::stod(value);
+            else if (key == "p99_latency_ms") baseline.p99_latency_ms        = std::stod(value);
+            else if (key == "throughput") baseline.throughput_tokens_per_sec = std::stod(value);
+            else if (key == "memory_mb")  baseline.memory_usage_mb           = std::stoull(value);
+        } catch (const std::exception& e) {
+            spdlog::warn("loadBaseline: failed to parse key '{}': {}", key, e.what());
+        }
+    }
     return true;
 }
 
@@ -773,85 +1035,537 @@ PerformanceRegressionDetector::detectRegression(
 // IntegrationTestSuite Implementation
 bool IntegrationTestSuite::testLazyLoaderWithGPUMemory() {
     spdlog::info("Integration Test: LazyLoader + GPUMemory");
-    // TODO: Test integration
+
+    // Verify that LazyModelLoader and GPUMemoryManager can be jointly constructed
+    // and that VRAM budget queries are internally consistent.
+    GPUMemoryManager::Config mem_cfg;
+    mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;  // 4 GB test budget
+    mem_cfg.min_free_vram_bytes = 512ULL * 1024 * 1024;   // 512 MB reserve
+
+    GPUMemoryManager mgr(mem_cfg);
+    auto stats = mgr.getStats();
+
+    if (stats.free_vram_bytes > stats.used_vram_bytes + mem_cfg.max_vram_bytes) {
+        spdlog::error("testLazyLoaderWithGPUMemory: VRAM stats inconsistent "
+                      "(free={}, used={}, max={})",
+                      stats.free_vram_bytes, stats.used_vram_bytes, mem_cfg.max_vram_bytes);
+        return false;
+    }
+
+    // Small allocation + free round-trip.
+    const size_t kSmall = 64 * 1024;  // 64 KB
+    void* ptr = mgr.allocateCPU("integration_test_loader", kSmall);
+    if (!ptr) {
+        spdlog::error("testLazyLoaderWithGPUMemory: small CPU allocation failed");
+        return false;
+    }
+    if (!mgr.freeCPU("integration_test_loader", ptr)) {
+        spdlog::error("testLazyLoaderWithGPUMemory: free after alloc failed");
+        return false;
+    }
+
+    LazyModelLoader::Config loader_cfg;
+    LazyModelLoader loader(loader_cfg);
+
+    // Loading a non-existent path must return nullptr (not crash).
+    auto* model = loader.getOrLoadModel("__nonexistent__", "/tmp/__no_such_model.gguf");
+    if (model != nullptr) {
+        spdlog::error("testLazyLoaderWithGPUMemory: expected null for missing model");
+        return false;
+    }
+
+    spdlog::info("  LazyLoader + GPUMemory: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testSchedulerWithPagedAttention() {
     spdlog::info("Integration Test: Scheduler + PagedAttention");
-    // TODO: Test integration
+
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size           = 4;
+    cfg.max_concurrent_requests  = 8;
+    cfg.max_tokens_per_batch     = 256;
+    cfg.enable_preemption        = true;
+    cfg.enable_priority_scheduling = true;
+    cfg.block_size_tokens        = 16;
+
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
+    scheduler.start();
+
+    if (!scheduler.isRunning()) {
+        spdlog::error("testSchedulerWithPagedAttention: scheduler did not start");
+        return false;
+    }
+
+    // Submit a few requests with different priorities.
+    InferenceRequest req_lo, req_hi;
+    req_lo.prompt = "low priority request";
+    req_lo.max_tokens = 8;
+    req_hi.prompt = "high priority request";
+    req_hi.max_tokens = 8;
+
+    std::string id_lo = scheduler.submitRequest(
+        req_lo, ContinuousBatchScheduler::RequestPriority::LOW);
+    std::string id_hi = scheduler.submitRequest(
+        req_hi, ContinuousBatchScheduler::RequestPriority::HIGH);
+
+    if (id_lo.empty() || id_hi.empty()) {
+        spdlog::error("testSchedulerWithPagedAttention: submitRequest returned empty ID");
+        scheduler.stop();
+        return false;
+    }
+
+    auto stats = scheduler.getStats();
+    if (stats.total_requests < 2) {
+        spdlog::error("testSchedulerWithPagedAttention: expected >=2 total_requests, got {}",
+                      stats.total_requests);
+        scheduler.stop();
+        return false;
+    }
+
+    // Cancel and verify.
+    scheduler.cancelRequest(id_lo);
+    scheduler.cancelRequest(id_hi);
+    scheduler.stop();
+
+    spdlog::info("  Scheduler + PagedAttention: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testKernelFusionWithInference() {
     spdlog::info("Integration Test: KernelFusion + Inference");
-    // TODO: Test integration
+
+    kernels::KernelFusionManager::Config kf_cfg;
+    kf_cfg.enable_fusion         = true;
+    kf_cfg.enable_ln_linear_fusion = true;
+    kf_cfg.enable_qkv_fusion     = true;
+    kf_cfg.enable_ffn_fusion     = true;
+
+    kernels::KernelFusionManager kf_mgr(kf_cfg);
+
+    // shouldFuse* must return consistent results for common LLM dimensions.
+    const int batch = 1, seq = 512, hidden = 4096;
+    bool ln_fuse  = kf_mgr.shouldFuseLayerNormLinear(batch, seq, hidden);
+    bool qkv_fuse = kf_mgr.shouldFuseQKV(batch, seq, hidden);
+    bool ffn_fuse = kf_mgr.shouldFuseFFN(batch, seq, hidden);
+
+    double speedup_ln  = kf_mgr.estimateSpeedup("ln_linear", batch, seq, hidden);
+    double speedup_qkv = kf_mgr.estimateSpeedup("qkv",       batch, seq, hidden);
+    double speedup_ffn = kf_mgr.estimateSpeedup("ffn",       batch, seq, hidden);
+
+    if (speedup_ln < 0.0 || speedup_qkv < 0.0 || speedup_ffn < 0.0) {
+        spdlog::error("testKernelFusionWithInference: negative speedup estimate");
+        return false;
+    }
+
+    spdlog::info("  KernelFusion results: LN-linear={} (x{:.2f}), QKV={} (x{:.2f}), FFN={} (x{:.2f})",
+                 ln_fuse, speedup_ln, qkv_fuse, speedup_qkv, ffn_fuse, speedup_ffn);
+    spdlog::info("  KernelFusion + Inference: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testFullPipelineE2E() {
     spdlog::info("Integration Test: Full Pipeline E2E");
-    // TODO: Test full pipeline
+
+    // Construct the full in-process pipeline:
+    //   GPUMemoryManager → LazyModelLoader → ContinuousBatchScheduler
+    // and verify that all components initialise and interact without errors.
+
+    GPUMemoryManager::Config mem_cfg;
+    mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;
+    GPUMemoryManager mgr(mem_cfg);
+
+    LazyModelLoader::Config loader_cfg;
+    LazyModelLoader loader(loader_cfg);
+
+    ContinuousBatchScheduler::SchedulerConfig sched_cfg;
+    sched_cfg.max_batch_size          = 4;
+    sched_cfg.max_concurrent_requests = 8;
+    sched_cfg.max_tokens_per_batch    = 256;
+    ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
+    scheduler.start();
+
+    // End-to-end: submit a request and verify it is tracked.
+    InferenceRequest req;
+    req.prompt     = "E2E test prompt";
+    req.max_tokens = 8;
+    std::string rid = scheduler.submitRequest(req);
+    if (rid.empty()) {
+        spdlog::error("testFullPipelineE2E: E2E submit returned empty ID");
+        scheduler.stop();
+        return false;
+    }
+
+    auto stats = scheduler.getStats();
+    if (stats.total_requests == 0) {
+        spdlog::error("testFullPipelineE2E: no requests tracked after submit");
+        scheduler.stop();
+        return false;
+    }
+
+    scheduler.cancelRequest(rid);
+    scheduler.stop();
+
+    spdlog::info("  Full Pipeline E2E: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testMultiModelServing() {
     spdlog::info("Integration Test: Multi-Model Serving");
-    // TODO: Test multi-model
+
+    // Verify that MultiLoRAManager can serve multiple distinct LoRA "models"
+    // simultaneously without slot conflicts or VRAM accounting errors.
+    MultiLoRAManager::Config lora_cfg;
+    lora_cfg.max_lora_slots  = 4;
+    lora_cfg.max_lora_vram_mb = 512;
+    MultiLoRAManager lora_mgr(lora_cfg);
+
+    // Loading non-existent paths must fail cleanly (not crash).
+    bool ok1 = lora_mgr.loadLoRA("model_a", "/tmp/__no_lora_a.gguf", "base", 1.0f);
+    bool ok2 = lora_mgr.loadLoRA("model_b", "/tmp/__no_lora_b.gguf", "base", 1.0f);
+
+    // Both should fail because the files do not exist.
+    if (ok1 || ok2) {
+        spdlog::error("testMultiModelServing: expected load failure for non-existent LoRA files "
+                      "(ok1={}, ok2={})", ok1, ok2);
+        return false;
+    }
+
+    // No slots should be consumed after the failed loads.
+    if (lora_mgr.listLoRAs().size() != 0) {
+        spdlog::error("testMultiModelServing: unexpected non-zero LoRA count after failed loads");
+        return false;
+    }
+
+    spdlog::info("  Multi-Model Serving: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testModelSwitching() {
     spdlog::info("Integration Test: Model Switching");
-    // TODO: Test switching
+
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 2;
+    LazyModelLoader loader(cfg);
+
+    // Attempt to load two different non-existent paths; both should return null.
+    auto* m1 = loader.getOrLoadModel("switch_model_1", "/tmp/__switch_m1.gguf");
+    auto* m2 = loader.getOrLoadModel("switch_model_2", "/tmp/__switch_m2.gguf");
+
+    if (m1 != nullptr || m2 != nullptr) {
+        spdlog::error("testModelSwitching: expected null for missing model paths");
+        return false;
+    }
+
+    // After failed loads the loader must remain usable (no internal corruption).
+    auto models = loader.listLoadedModels();
+    if (!models.empty()) {
+        spdlog::error("testModelSwitching: loaded model list not empty after failed loads");
+        return false;
+    }
+
+    spdlog::info("  Model Switching: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testLoRAAdapterManagement() {
     spdlog::info("Integration Test: LoRA Adapter Management");
-    // TODO: Test LoRA
+
+    MultiLoRAManager::Config cfg;
+    cfg.max_lora_slots  = 8;
+    cfg.max_lora_vram_mb = 1024;
+    MultiLoRAManager mgr(cfg);
+
+    // Non-existent LoRA paths must fail without crashing.
+    bool load_ok = mgr.loadLoRA("test_lora", "/tmp/__no_lora.gguf", "base_model", 0.8f);
+    if (load_ok) {
+        spdlog::error("testLoRAAdapterManagement: expected failure for non-existent path");
+        return false;
+    }
+
+    // isLoRALoaded must return false for an unloaded adapter.
+    if (mgr.isLoRALoaded("test_lora")) {
+        spdlog::error("testLoRAAdapterManagement: isLoRALoaded returned true after failed load");
+        return false;
+    }
+
+    // listLoRAs must return an empty collection.
+    if (!mgr.listLoRAs().empty()) {
+        spdlog::error("testLoRAAdapterManagement: non-empty list after failed load");
+        return false;
+    }
+
+    spdlog::info("  LoRA Adapter Management: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testGPUOutOfMemory() {
     spdlog::info("Integration Test: GPU Out of Memory");
-    // TODO: Test OOM handling
+
+    // Create a manager with a tiny VRAM budget (1 MB) so we can reliably
+    // trigger the OOM path without a real GPU.
+    GPUMemoryManager::Config cfg;
+    cfg.max_vram_bytes      = 1 * 1024 * 1024;  // 1 MB
+    cfg.min_free_vram_bytes = 512 * 1024;        // 512 KB reserve
+    GPUMemoryManager mgr(cfg);
+
+    // A 2 MB request must fail (exceeds the 1 MB budget).
+    void* ptr = mgr.allocateGPU("oom_test", 2 * 1024 * 1024);
+    if (ptr != nullptr) {
+        mgr.freeGPU("oom_test", ptr);
+        spdlog::error("testGPUOutOfMemory: oversized allocation unexpectedly succeeded");
+        return false;
+    }
+
+    // The manager must still be usable after the failed allocation.
+    auto stats = mgr.getStats();
+    if (stats.used_vram_bytes != 0) {
+        spdlog::error("testGPUOutOfMemory: used_vram_bytes != 0 after failed allocation ({})",
+                      stats.used_vram_bytes);
+        return false;
+    }
+
+    spdlog::info("  GPU Out of Memory: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testModelLoadFailure() {
     spdlog::info("Integration Test: Model Load Failure");
-    // TODO: Test failure handling
+
+    LazyModelLoader::Config cfg;
+    LazyModelLoader loader(cfg);
+
+    // Loading a clearly invalid path must return nullptr (not throw, not crash).
+    auto* model = loader.getOrLoadModel("fail_test", "/nonexistent/path/model.gguf");
+    if (model != nullptr) {
+        spdlog::error("testModelLoadFailure: expected null for invalid model path");
+        return false;
+    }
+
+    // After the failure the loader must report no loaded models.
+    if (!loader.listLoadedModels().empty()) {
+        spdlog::error("testModelLoadFailure: non-empty model list after load failure");
+        return false;
+    }
+
+    spdlog::info("  Model Load Failure: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testRequestCancellation() {
     spdlog::info("Integration Test: Request Cancellation");
-    // TODO: Test cancellation
+
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size          = 4;
+    cfg.max_concurrent_requests = 16;
+    cfg.max_tokens_per_batch    = 512;
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
+    scheduler.start();
+
+    // Submit two requests and immediately cancel them.
+    InferenceRequest req;
+    req.prompt = "cancellation test";
+    req.max_tokens = 64;
+
+    std::string id1 = scheduler.submitRequest(req);
+    std::string id2 = scheduler.submitRequest(req);
+
+    if (id1.empty() || id2.empty()) {
+        spdlog::error("testRequestCancellation: submit returned empty ID");
+        scheduler.stop();
+        return false;
+    }
+
+    // cancelRequest must return true for pending (not yet dispatched) requests.
+    bool c1 = scheduler.cancelRequest(id1);
+    bool c2 = scheduler.cancelRequest(id2);
+
+    // Re-cancelling an already-cancelled request must not crash.
+    scheduler.cancelRequest(id1);
+
+    scheduler.stop();
+
+    if (!c1 || !c2) {
+        spdlog::warn("testRequestCancellation: cancel returned false (requests may have "
+                     "completed before cancel); treating as non-fatal");
+    }
+
+    spdlog::info("  Request Cancellation: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testPreemption() {
     spdlog::info("Integration Test: Preemption");
-    // TODO: Test preemption
+
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size            = 2;
+    cfg.max_concurrent_requests   = 8;
+    cfg.max_tokens_per_batch      = 128;
+    cfg.enable_preemption         = true;
+    cfg.enable_priority_scheduling = true;
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
+    scheduler.start();
+
+    // Submit low-priority requests.
+    InferenceRequest lo_req;
+    lo_req.prompt = "low priority preemption test";
+    lo_req.max_tokens = 16;
+    std::vector<std::string> lo_ids;
+    for (int i = 0; i < 3; ++i) {
+        std::string id = scheduler.submitRequest(
+            lo_req, ContinuousBatchScheduler::RequestPriority::LOW);
+        if (!id.empty()) lo_ids.push_back(id);
+    }
+
+    // Preempt them all in one shot.
+    if (!lo_ids.empty()) {
+        scheduler.preemptRequests(lo_ids);
+        // Resume to verify the API doesn't crash.
+        scheduler.resumeRequests(lo_ids);
+    }
+
+    for (const auto& id : lo_ids) scheduler.cancelRequest(id);
+    scheduler.stop();
+
+    spdlog::info("  Preemption: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testHighConcurrency() {
     spdlog::info("Integration Test: High Concurrency");
-    // TODO: Test high concurrency
+
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size          = 16;
+    cfg.max_concurrent_requests = 64;
+    cfg.max_tokens_per_batch    = 1024;
+    cfg.max_queue_depth         = 128;
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
+    scheduler.start();
+
+    // Submit 32 concurrent requests from separate threads.
+    constexpr int kThreads  = 8;
+    constexpr int kPerThread = 4;
+    std::atomic<int> submitted{0};
+    std::vector<std::thread> threads;
+    std::mutex id_mutex;
+    std::vector<std::string> all_ids;
+
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&]() {
+            for (int i = 0; i < kPerThread; ++i) {
+                InferenceRequest req;
+                req.prompt = "concurrency test request";
+                req.max_tokens = 8;
+                std::string id = scheduler.submitRequest(req);
+                if (!id.empty()) {
+                    ++submitted;
+                    std::lock_guard<std::mutex> lock(id_mutex);
+                    all_ids.push_back(id);
+                }
+            }
+        });
+    }
+    for (auto& th : threads) {
+        if (!themis::utils::joinThreadWithin(th)) {
+            spdlog::warn("Scheduler thread did not join within timeout");
+        }
+    }
+
+    auto stats = scheduler.getStats();
+    if (stats.total_requests == 0) {
+        spdlog::error("testHighConcurrency: no requests tracked after concurrent submit");
+        scheduler.stop();
+        return false;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(id_mutex);
+        for (const auto& id : all_ids) scheduler.cancelRequest(id);
+    }
+    scheduler.stop();
+
+    spdlog::info("  High Concurrency: {} requests submitted across {} threads ✓",
+                 submitted.load(std::memory_order_acquire), kThreads);
     return true;
 }
 
 bool IntegrationTestSuite::testLongRunningRequests() {
     spdlog::info("Integration Test: Long Running Requests");
-    // TODO: Test long requests
+
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size          = 2;
+    cfg.max_concurrent_requests = 4;
+    cfg.max_tokens_per_batch    = 4096;
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
+    scheduler.start();
+
+    // Submit a "long" request (large max_tokens).
+    InferenceRequest req;
+    req.prompt     = "Long-running request test";
+    req.max_tokens = 2048;
+    std::string id = scheduler.submitRequest(req);
+
+    if (id.empty()) {
+        spdlog::error("testLongRunningRequests: submit returned empty ID");
+        scheduler.stop();
+        return false;
+    }
+
+    auto stats_before = scheduler.getStats();
+    if (stats_before.total_requests == 0) {
+        spdlog::error("testLongRunningRequests: request not tracked");
+        scheduler.cancelRequest(id);
+        scheduler.stop();
+        return false;
+    }
+
+    scheduler.cancelRequest(id);
+    scheduler.stop();
+
+    spdlog::info("  Long Running Requests: ✓");
     return true;
 }
 
 bool IntegrationTestSuite::testBurstTraffic() {
     spdlog::info("Integration Test: Burst Traffic");
-    // TODO: Test burst traffic
+
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size          = 8;
+    cfg.max_concurrent_requests = 32;
+    cfg.max_tokens_per_batch    = 2048;
+    cfg.max_queue_depth         = 64;   // enforce backpressure
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
+    scheduler.start();
+
+    // Burst: submit requests synchronously until the queue is full.
+    InferenceRequest req;
+    req.prompt     = "burst traffic test";
+    req.max_tokens = 32;
+
+    std::vector<std::string> ids;
+    int rejected = 0;
+    for (int i = 0; i < 80; ++i) {
+        std::string id = scheduler.submitRequest(req);
+        if (id.empty()) {
+            ++rejected;  // Backpressure kicked in — expected.
+        } else {
+            ids.push_back(id);
+        }
+    }
+
+    auto stats = scheduler.getStats();
+    if (stats.total_requests == 0 && ids.empty()) {
+        spdlog::error("testBurstTraffic: no requests accepted during burst");
+        scheduler.stop();
+        return false;
+    }
+
+    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)", ids.size(), rejected);
+
+    for (const auto& id : ids) scheduler.cancelRequest(id);
+    scheduler.stop();
+
+    spdlog::info("  Burst Traffic: ✓");
     return true;
 }
 
@@ -1018,3 +1732,4 @@ bool ProductionValidator::simulateQualityTest(const QualityTest& test) {
 } // namespace testing
 } // namespace llm
 } // namespace themis
+

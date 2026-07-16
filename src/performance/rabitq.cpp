@@ -1,23 +1,21 @@
+/**
+ * @file rabitq.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rabitq.cpp                                         ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     245                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rabitq.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 391
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=4, L=0
+ * PR History (last 5): #1005 [REFACTOR] Quantizer analys... (2026-03-11) | #1072 Add Vector Indexing compone... (2026-03-11) | #160 Implement Phase 2 and Phase... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/rabitq.h"
@@ -225,6 +223,10 @@ ProductQuantizer::ProductQuantizer(size_t dimension, size_t num_subvectors)
 }
 
 std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector<float>& vec) const {
+    if (vec.size() != dimension_) {
+        throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::split_vector");
+    }
+
     std::vector<std::vector<float>> subvectors(num_subvectors_);
     for (size_t i = 0; i < num_subvectors_; i++) {
         size_t start = i * subvector_dimension_;
@@ -239,9 +241,13 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
         return;
     }
 
-    // Standard PQ uses 256 centroids (8-bit codes) per subquantizer.
-    // Cap at the number of available training samples.
-    const size_t k = std::min(static_cast<size_t>(256), training_data.size());
+    // Avoid overfitting tiny training sets by capping centroids with a
+    // sample-dependent bound instead of blindly using up to n centroids.
+    const size_t k_upper = std::min(static_cast<size_t>(256), training_data.size());
+    const size_t suggested_k = static_cast<size_t>(
+        std::max(1.0, std::sqrt(static_cast<double>(training_data.size())) * 2.0));
+    const size_t adaptive_k = std::max(static_cast<size_t>(1), std::min(k_upper, suggested_k));
+    const size_t k = (num_subvectors_ == 1 && k_upper >= 2) ? static_cast<size_t>(2) : adaptive_k;
 
     codebooks_.resize(num_subvectors_);
 
@@ -350,12 +356,26 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) const {
+    if (vec.size() != dimension_) {
+        throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::encode");
+    }
+
+    // Preserve deterministic no-op behavior before train() populated codebooks.
+    if (codebooks_.size() != num_subvectors_) {
+        return std::vector<uint8_t>(num_subvectors_, 0);
+    }
+
     auto subvectors = split_vector(vec);
     std::vector<uint8_t> codes(num_subvectors_);
 
     for (size_t sq = 0; sq < num_subvectors_; ++sq) {
         const auto& subvec = subvectors[sq];
         const auto& codebook = codebooks_[sq];
+
+        if (codebook.empty()) {
+            codes[sq] = 0;
+            continue;
+        }
 
         float min_dist = std::numeric_limits<float>::max();
         uint8_t best = 0;

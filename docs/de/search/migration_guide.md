@@ -482,7 +482,7 @@ alerts:
 **Support Channels:**
 - Internal Docs: `docs/search/`
 - Monitoring: `/metrics` endpoint
-- Logs: `themis_server.log`
+- Logs: `logs/themis_server.log`
 
 ---
 

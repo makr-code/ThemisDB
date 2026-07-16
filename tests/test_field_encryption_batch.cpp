@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_field_encryption_batch.cpp                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:03:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     50                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_field_encryption_batch.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -51,3 +37,48 @@ TEST(FieldEncryptionBatch, RoundtripEncryptDecrypt) {
         EXPECT_EQ(decrypted, items[i].second);
     }
 }
+
+// ============================================================================
+// needsReEncryption via KeyProvider::getCurrentVersion (#145)
+// ============================================================================
+
+TEST(FieldEncryptionBatch, NeedsReEncryptionFalseForLatestVersion) {
+    auto provider = std::make_shared<MockKeyProvider>();
+    std::vector<uint8_t> key_bytes(32, 0xAB);
+    provider->createKeyFromBytes("re_enc_key", key_bytes);  // version 1
+
+    FieldEncryption enc(provider);
+
+    // Encrypt produces blob at current version (1).
+    auto blob = enc.encrypt("secret", "re_enc_key");
+    EXPECT_FALSE(enc.needsReEncryption(blob, "re_enc_key"));
+}
+
+TEST(FieldEncryptionBatch, NeedsReEncryptionTrueAfterRotation) {
+    auto provider = std::make_shared<MockKeyProvider>();
+    std::vector<uint8_t> key_bytes(32, 0xCD);
+    provider->createKeyFromBytes("rotate_key", key_bytes);   // version 1
+
+    FieldEncryption enc(provider);
+
+    // Encrypt at version 1.
+    auto blob = enc.encrypt("secret", "rotate_key");
+    ASSERT_EQ(blob.key_version, static_cast<uint32_t>(1));
+
+    // Rotate to version 2.
+    provider->rotateKey("rotate_key");
+
+    // Now the blob is outdated.
+    EXPECT_TRUE(enc.needsReEncryption(blob, "rotate_key"));
+}
+
+TEST(FieldEncryptionBatch, GetCurrentVersionReturnsProbeResult) {
+    auto provider = std::make_shared<MockKeyProvider>();
+    std::vector<uint8_t> key_bytes(32, 0xEF);
+    provider->createKeyFromBytes("ver_key", key_bytes);   // version 1
+    provider->rotateKey("ver_key");                        // version 2
+
+    // Default probe implementation must find version 2.
+    EXPECT_EQ(provider->getCurrentVersion("ver_key"), static_cast<uint32_t>(2));
+}
+

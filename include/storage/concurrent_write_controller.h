@@ -1,0 +1,225 @@
+/**
+ * @file concurrent_write_controller.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+#pragma once
+
+#include <atomic>
+#include <cassert>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <future>
+#include <mutex>
+#include <optional>
+#include <deque>
+#include <memory>
+#include <stdexcept>
+#include <string>
+
+namespace themis {
+namespace storage {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Configuration
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct ConcurrentWriteControllerConfig {
+    /// Maximum number of write operations that may proceed in parallel.
+    /// Set to 0 to use `std::thread::hardware_concurrency() / 2` (min 1).
+    size_t max_concurrent_writes = 0;
+
+    /// Maximum number of callers that may queue waiting for a slot.
+    /// Callers that arrive when the queue is full receive `AcquireError::QUEUE_FULL`.
+    /// Set to 0 for unlimited queue depth.
+    size_t max_queue_depth = 0;
+
+    /// Maximum time a caller will wait for a slot.
+    /// Set to 0 for unlimited wait (block forever).
+    std::chrono::milliseconds acquire_timeout{0};
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Errors
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum class ConcurrentWriteAcquireError {
+    QUEUE_FULL,   ///< The wait queue is at capacity
+    TIMEOUT,      ///< Waited longer than acquire_timeout
+    SHUTDOWN,     ///< The controller has been shut down
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Stats
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct ConcurrentWriteStats {
+    size_t   active_writes   = 0;   ///< Current in-flight write slots in use
+    size_t   queue_depth     = 0;   ///< Current number of waiters in the FIFO queue
+    size_t   total_acquired  = 0;   ///< Lifetime acquire successes
+    size_t   total_rejected  = 0;   ///< Lifetime acquire failures (queue full or timeout)
+    int64_t  avg_wait_us     = 0;   ///< Exponentially-weighted moving average wait (µs)
+    int64_t  p99_wait_us     = 0;   ///< Approximate P99 wait (µs) from sliding window
+    int64_t  max_wait_us     = 0;   ///< Lifetime maximum observed wait (µs)
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WriteGuard  (RAII slot holder)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class ConcurrentWriteController;
+
+/**
+ * @brief RAII guard that holds a write slot.
+ *
+ * The slot is released (and the next FIFO waiter woken) when the guard
+ * goes out of scope.  Guards are move-only.
+ */
+class WriteGuard {
+public:
+    WriteGuard() = default;
+    ~WriteGuard();
+
+    WriteGuard(WriteGuard&& other) noexcept;
+    WriteGuard& operator=(WriteGuard&& other) noexcept;
+
+    WriteGuard(const WriteGuard&)            = delete;
+    WriteGuard& operator=(const WriteGuard&) = delete;
+
+    /// Returns true when the guard actually holds a slot (not default-constructed).
+    explicit operator bool() const noexcept { return controller_ != nullptr; }
+
+    /// Manually release the slot before the guard is destroyed.
+    void release() noexcept;
+
+private:
+    friend class ConcurrentWriteController;
+    explicit WriteGuard(ConcurrentWriteController* ctrl) noexcept;
+
+    ConcurrentWriteController* controller_ = nullptr;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ConcurrentWriteController
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Bounded FIFO counting semaphore for storage write operations.
+ *
+ * Limits concurrent writers to `config.max_concurrent_writes`.  Excess
+ * callers wait in FIFO order, removing the thundering-herd pattern that
+ * causes high latency variance under concurrent HTTP clients.
+ *
+ * Lifecycle
+ * ---------
+ * - Default-constructed and ready to use.
+ * - `shutdown()` unblocks all waiters and prevents new acquires.
+ * - The destructor calls `shutdown()`.
+ *
+ * Acquiring a slot
+ * ----------------
+ * - `acquire()` → blocks until a slot is available; returns a `WriteGuard`.
+ * - `tryAcquire()` → non-blocking; returns `std::nullopt` if no slot.
+ * - Both raise `ConcurrentWriteAcquireError` on queue-full / timeout / shutdown.
+ */
+class ConcurrentWriteController {
+public:
+    explicit ConcurrentWriteController(
+        ConcurrentWriteControllerConfig config = {});
+    ~ConcurrentWriteController();
+
+    // Not copyable or movable after construction (threads hold pointers to this).
+    ConcurrentWriteController(const ConcurrentWriteController&) = delete;
+    ConcurrentWriteController& operator=(const ConcurrentWriteController&) = delete;
+    ConcurrentWriteController(ConcurrentWriteController&&)       = delete;
+    ConcurrentWriteController& operator=(ConcurrentWriteController&&) = delete;
+
+    // ── Slot Acquisition ─────────────────────────────────────────────────────
+
+    /**
+     * @brief Acquire a write slot, waiting in FIFO order if necessary.
+     *
+     * @return A RAII `WriteGuard`; the slot is released when the guard is
+     *         destroyed or `release()` is called.
+     *
+     * @throws std::runtime_error wrapping `ConcurrentWriteAcquireError` if the
+     *         queue is full, the timeout fires, or the controller is shut down.
+     */
+    [[nodiscard]] WriteGuard acquire();
+
+    /**
+     * @brief Try to acquire a slot without blocking.
+     *
+     * @return A `WriteGuard` on success; `std::nullopt` if no slot is
+     *         immediately available.
+     */
+    [[nodiscard]] std::optional<WriteGuard> tryAcquire();
+
+    // ── Lifecycle ────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Shut down the controller.
+     *
+     * Unblocks all current waiters (they receive `SHUTDOWN` error) and
+     * prevents future `acquire()` calls from succeeding.
+     */
+    void shutdown() noexcept;
+
+    // ── Diagnostics ──────────────────────────────────────────────────────────
+
+    ConcurrentWriteStats getStats() const noexcept;
+
+    size_t maxConcurrentWrites() const noexcept { return max_slots_; }
+
+private:
+    friend class WriteGuard;
+
+    struct Waiter {
+        std::promise<void> promise;
+    };
+
+    /// Called by WriteGuard destructor / release() to return a slot.
+    void releaseSlot() noexcept;
+
+    /// Record a successful acquire wait time and update EWMA / sliding window.
+    void recordWait(int64_t wait_us) noexcept;
+
+    /// Remove a still-queued waiter after timeout/cancellation.
+    bool removeWaiterLocked(const std::shared_ptr<Waiter>& waiter);
+
+    // ── Configuration ────────────────────────────────────────────────────────
+    const size_t                          max_slots_;
+    const size_t                          max_queue_depth_;
+    const std::chrono::milliseconds       acquire_timeout_;
+
+    // ── State (protected by mutex_) ──────────────────────────────────────────
+    mutable std::mutex                    mutex_;
+    size_t                                active_{0};
+    std::deque<std::shared_ptr<Waiter>>   waiters_;
+    bool                                  shutdown_{false};
+
+    // ── Statistics (lock-free) ───────────────────────────────────────────────
+    std::atomic<uint64_t>                 total_acquired_{0};
+    std::atomic<uint64_t>                 total_rejected_{0};
+    // EWMA: int64 scaled by 1024 to avoid floating-point in the hot path
+    std::atomic<int64_t>                  ewma_wait_us_scaled_{0};
+
+    // Sliding window for P99: circular buffer of last 128 wait times (µs)
+    static constexpr size_t               kWindowSize = 128;
+    mutable std::mutex                    window_mutex_;
+    int64_t                               wait_window_[kWindowSize]{};
+    size_t                                window_pos_{0};
+    size_t                                window_count_{0};
+
+    std::atomic<int64_t>                  max_wait_us_{0};
+};
+
+} // namespace storage
+} // namespace themis

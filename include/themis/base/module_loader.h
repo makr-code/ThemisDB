@@ -1,27 +1,20 @@
+/**
+ * @file module_loader.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_loader.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     865                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 20d74ea0c  2026-03-01  feat(themis): integrate Zone.Identifier quarantine detect... ║
-    • 445546674  2026-02-27  Add plugin dependency graph visualization for base module ║
-    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
-    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_loader.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Module loader with DLL signature verification for modular ThemisDB
@@ -38,7 +31,15 @@
 #include <memory>
 #include <optional>
 #include <map>
+#include <unordered_map>
 #include <functional>
+#include <thread>
+#include <mutex>
+#include <shared_mutex>
+#include <atomic>
+#include <condition_variable>
+#include <chrono>
+#include <cstdint>
 
 namespace themis {
 namespace modules {
@@ -155,6 +156,7 @@ enum class ModuleErrorCode {
  * @brief Error category for error handling strategy
  */
 enum class ErrorCategory {
+    NONE,           // No error (operation succeeded)
     TRANSIENT,      // Temporary failure, retry may succeed
     PERMANENT,      // Persistent failure, retry unlikely to help
     RECOVERABLE,    // Can be fixed by user action
@@ -257,12 +259,58 @@ struct ModuleMetrics {
 };
 
 /**
+ * @brief Configuration for the plugin watchdog monitor.
+ *
+ * All time fields are in milliseconds for easy unit-testing.
+ */
+struct WatchdogConfig {
+    /// Interval between successive health-check sweeps (default: 30 s).
+    uint64_t check_interval_ms = 30'000;
+
+    /// Maximum number of restart attempts before a module is declared permanently failed
+    /// (0 = unlimited).
+    uint32_t max_restart_attempts = 5;
+
+    /// Initial backoff delay after the first restart attempt (default: 5 s).
+    uint64_t initial_backoff_ms = 5'000;
+
+    /// Multiplicative factor applied to backoff after each consecutive failure (default: 2×).
+    double backoff_multiplier = 2.0;
+
+    /// Upper bound on calculated backoff (default: 5 min).
+    uint64_t max_backoff_ms = 300'000;
+
+    /// When false the watchdog thread is started but performs no work until re-enabled.
+    bool enabled = true;
+};
+
+/**
+ * @brief Per-module runtime statistics maintained by the plugin watchdog.
+ */
+struct WatchdogModuleStats {
+    std::string moduleName;
+    std::string modulePath;
+
+    uint32_t restart_count = 0;         ///< Total successful restart count
+    uint32_t consecutive_failures = 0;  ///< Failures since last successful health-check
+    uint64_t last_health_check_ms = 0;  ///< Wall-clock time of last check (epoch ms)
+    uint64_t last_failure_ms = 0;       ///< Wall-clock time of last failure (epoch ms)
+    uint64_t last_restart_ms = 0;       ///< Wall-clock time of last restart (epoch ms)
+    uint64_t next_retry_ms = 0;         ///< Earliest time for next restart attempt (epoch ms)
+
+    bool permanently_failed = false;    ///< True when max_restart_attempts exhausted
+
+    /// Human-readable last error message from the failing health check.
+    std::string last_error;
+};
+
+/**
  * @brief Module verification result
  */
 struct ModuleVerificationResult {
     bool success = false;
     ModuleErrorCode errorCode = ModuleErrorCode::SUCCESS;
-    ErrorCategory errorCategory = ErrorCategory::PERMANENT;
+    ErrorCategory errorCategory = ErrorCategory::NONE;
     std::string errorMessage;
     std::string moduleHash;
     std::string modulePath;
@@ -511,6 +559,67 @@ public:
      */
     std::vector<themis::acceleration::PluginSecurityEvent>
     getPluginAuditTrail(const std::string& modulePath) const;
+
+    // =========================================================================
+    // Plugin Watchdog — automatic health monitoring and restart (Issue #2373)
+    // =========================================================================
+
+    /**
+     * @brief Configure the watchdog before starting it.
+     *
+     * May be called before or after startWatchdog(); if called while the
+     * watchdog is running the new settings take effect on the next sweep.
+     *
+     * @param config Watchdog configuration parameters.
+     */
+    void configureWatchdog(const WatchdogConfig& config);
+
+    /**
+     * @brief Start the watchdog background thread.
+     *
+     * The thread performs periodic health checks on all loaded modules and
+     * automatically restarts any module that fails its checks, applying
+     * exponential backoff between successive restart attempts.
+     *
+     * Calling startWatchdog() while it is already running is a no-op.
+     */
+    void startWatchdog();
+
+    /**
+     * @brief Stop the watchdog background thread.
+     *
+     * Blocks until the background thread has exited.  Calling stopWatchdog()
+     * when the watchdog is not running is a no-op.
+     */
+    void stopWatchdog();
+
+    /**
+     * @brief Return true if the watchdog background thread is running.
+     */
+    bool isWatchdogRunning() const;
+
+    /**
+     * @brief Get watchdog statistics for a specific module.
+     *
+     * @param moduleName Name of the module.
+     * @return Optional stats (nullopt if module not tracked).
+     */
+    std::optional<WatchdogModuleStats> getWatchdogStats(const std::string& moduleName) const;
+
+    /**
+     * @brief Get watchdog statistics for all tracked modules.
+     *
+     * @return Map from module name to watchdog stats.
+     */
+    std::map<std::string, WatchdogModuleStats> getAllWatchdogStats() const;
+
+    /**
+     * @brief Reset watchdog statistics for all modules.
+     *
+     * Clears restart counts, failure counters, and permanently_failed flags.
+     * Does not stop the watchdog if it is running.
+     */
+    void resetWatchdogStats();
     
 #ifdef _WIN32
     /**
@@ -582,7 +691,8 @@ public:
 #endif
     
 private:
-    std::vector<LoadedModule> loadedModules_;
+    std::unordered_map<std::string, LoadedModule> loadedModules_;
+    mutable std::shared_mutex modulesMutex_;
     std::unique_ptr<ModuleSecurityVerifier> verifier_;
     
     // SHA-256 hash manifest for integrity verification (Issue #2471)
@@ -604,6 +714,16 @@ private:
     bool stagedLoadingEnabled_ = true;     // Default: use staged loading
     std::map<std::string, HealthCheckFunction> healthChecks_;
     std::map<std::string, ModuleMetadata> metadataCache_;  // Cache to avoid double-loading
+
+    // -------------------------------------------------------------------------
+    // Watchdog state (Issue #2373)
+    // -------------------------------------------------------------------------
+    WatchdogConfig watchdogConfig_;
+    std::map<std::string, WatchdogModuleStats> watchdogStats_;  // keyed by module name
+    std::thread watchdogThread_;
+    mutable std::mutex watchdogMutex_;
+    std::condition_variable watchdogCv_;
+    std::atomic<bool> watchdogRunning_{false};
     
     // Platform-specific loading functions
     void* loadLibrary(const std::string& path);
@@ -636,6 +756,14 @@ private:
     bool runHealthChecks(LoadedModule& module, ModuleVerificationResult& result);
     ModuleMetadata extractMetadataFromHandle(void* handle);
     ModuleMetadata getCachedMetadata(const std::string& modulePath);
+
+    // Watchdog helpers (Issue #2373)
+    void watchdogLoop();
+    void watchdogCheckAllModules();
+    bool watchdogRunHealthChecks(LoadedModule& module, std::string& errorMessage);
+    bool watchdogRestartModule(WatchdogModuleStats& stats, const std::string& modulePath);
+    uint64_t watchdogCalculateBackoff(uint32_t consecutiveFailures) const;
+    static uint64_t nowMs();
 };
 
 /**
@@ -859,6 +987,190 @@ private:
     /// Topological sort (Kahn's algorithm) over the supplied node set.
     DependencyResolutionResult topologicalSort(
         const std::vector<std::string>& nodes) const;
+};
+
+// ============================================================================
+// CROSS-PLATFORM PLUGIN BUNDLE FORMAT  (v1.4.0)
+// ============================================================================
+
+/**
+ * @brief Parsed contents of the manifest.json file inside a PluginBundle.
+ *
+ * A PluginBundle is a ZIP archive (conventionally using the .tdb extension)
+ * that packages native libraries for multiple platforms together with an
+ * optional WASM fallback and an Ed25519 signature of the manifest.
+ *
+ * Archive layout:
+ * @code
+ *   plugin.tdb
+ *   ├── manifest.json       – this structure, serialised as JSON
+ *   ├── plugin.sig          – Ed25519 signature of manifest.json (raw bytes)
+ *   ├── linux-x86_64/
+ *   │   └── libplugin.so
+ *   ├── windows-x86_64/
+ *   │   └── plugin.dll
+ *   ├── macos-arm64/
+ *   │   └── libplugin.dylib
+ *   └── plugin.wasm         – optional portable WASM fallback
+ * @endcode
+ *
+ * The platform token format is "<os>-<arch>" where os ∈ {linux, windows, macos}
+ * and arch ∈ {x86_64, arm64, arm, x86}.
+ */
+struct PluginBundleManifest {
+    std::string name;           ///< Plugin name (e.g., "themis_my_backend")
+    std::string version;        ///< Semantic version (e.g., "1.0.0")
+    std::string description;    ///< Human-readable description (may be empty)
+    std::string author;         ///< Plugin author / organisation (may be empty)
+
+    /// Maps the canonical platform token to the in-archive path of the
+    /// corresponding native library.
+    /// Example: { "linux-x86_64" → "linux-x86_64/libplugin.so" }
+    std::map<std::string, std::string> nativeLibraries;
+
+    /// In-archive path of the optional WASM fallback ("" = none present).
+    std::string wasmFallback;
+
+    /// In-archive path of the Ed25519 signature file (default: "plugin.sig").
+    std::string signatureFile = "plugin.sig";
+
+    /// Returns true when the mandatory fields (name, version) are non-empty.
+    bool isValid() const {
+        return !name.empty() && !version.empty();
+    }
+};
+
+/**
+ * @brief Result returned by PluginBundleLoader::loadBundle().
+ */
+struct PluginBundleLoadResult {
+    bool success = false;
+    std::string errorMessage;
+
+    /// Full filesystem path to the binary (native .so/.dll/.dylib or .wasm)
+    /// that was selected and passed to the ModuleLoader.  Populated on both
+    /// success and the WASM-fallback path.
+    std::string resolvedBinaryPath;
+
+    /// True when no native library was found for the current platform and the
+    /// WASM fallback was used instead.
+    bool usedWasmFallback = false;
+
+    /// The parsed manifest from the bundle.  Populated on success.
+    PluginBundleManifest manifest;
+
+    /// Path to the temporary directory where the bundle was unpacked.
+    /// The directory persists until the loaded native library is unloaded
+    /// (dlopen/LoadLibrary hold a reference to files inside it).
+    std::string tempDirectory;
+};
+
+/**
+ * @brief Loader for cross-platform PluginBundle ZIP archives.
+ *
+ * loadBundle() orchestrates the following steps:
+ *  1. Unpack the ZIP archive to a unique temporary directory.
+ *  2. Parse manifest.json.
+ *  3. Verify the Ed25519 signature of manifest.json (skipped when no public key
+ *     has been configured — development/test mode only).
+ *  4. Select the native library for the running platform (currentPlatform()).
+ *     Falls back to the WASM entry if no native library is present.
+ *  5. Delegate the actual binary load to the supplied ModuleLoader instance.
+ *
+ * Thread-Safety: An individual PluginBundleLoader instance is NOT thread-safe.
+ * Create one instance per loading thread or serialise access externally.
+ */
+class PluginBundleLoader {
+public:
+    PluginBundleLoader();
+    ~PluginBundleLoader();
+
+    PluginBundleLoader(const PluginBundleLoader&) = delete;
+    PluginBundleLoader& operator=(const PluginBundleLoader&) = delete;
+
+    /**
+     * @brief Set the PEM-encoded Ed25519 public key used to verify bundle
+     *        signatures.
+     *
+     * When no key is set (the default) signature verification is skipped,
+     * which is only suitable for development / unit-testing.  In production,
+     * always set a public key before calling loadBundle().
+     *
+     * @param publicKeyPem  PEM-encoded Ed25519 public key.
+     */
+    void setPublicKey(const std::string& publicKeyPem);
+
+    /**
+     * @brief Explicitly allow loading bundles without a signature.
+     *
+     * By default (allow = false) loadBundle() fails when no public key has
+     * been configured, so that unsigned bundles are never silently accepted.
+     * Pass allow = true only in development / testing environments where you
+     * intentionally want to skip signature verification.
+     *
+     * @param allow  If true, unsigned bundles are accepted when no public key
+     *               is set.  If false (default), missing public key is an error.
+     */
+    void setAllowUnsignedBundles(bool allow);
+
+    /**
+     * @brief Return the canonical platform token for the current build.
+     *
+     * Examples: "linux-x86_64", "linux-arm64", "windows-x86_64",
+     *           "macos-arm64", "macos-x86_64".
+     */
+    static std::string currentPlatform();
+
+    /**
+     * @brief Load a PluginBundle archive and delegate to a ModuleLoader.
+     *
+     * @param bundlePath  Path to the .tdb (ZIP) bundle file.
+     * @param loader      ModuleLoader instance used for the final native-
+     *                    library load step.
+     * @return PluginBundleLoadResult indicating success/failure and details.
+     */
+    PluginBundleLoadResult loadBundle(const std::string& bundlePath,
+                                      ModuleLoader& loader);
+
+    /**
+     * @brief Parse a PluginBundleManifest from raw JSON text.
+     *
+     * Exposed as a public static helper to facilitate unit testing without
+     * requiring a real ZIP archive.
+     *
+     * @param jsonText  Contents of manifest.json.
+     * @param manifest  Output: populated on success.
+     * @param error     Output: human-readable error message on failure.
+     * @return true if parsing succeeded and the manifest is valid.
+     */
+    static bool parseManifest(const std::string& jsonText,
+                               PluginBundleManifest& manifest,
+                               std::string& error);
+
+    /**
+     * @brief Verify an Ed25519 signature over a message.
+     *
+     * @param message       Pointer to the data that was signed.
+     * @param messageLen    Length of the data in bytes.
+     * @param signatureBytes Raw 64-byte Ed25519 signature.
+     * @param publicKeyPem  PEM-encoded Ed25519 public key.
+     * @param error         Output: error description on failure.
+     * @return true if the signature is valid; false otherwise.
+     */
+    static bool verifyEd25519Signature(const uint8_t* message,
+                                       size_t messageLen,
+                                       const std::vector<uint8_t>& signatureBytes,
+                                       const std::string& publicKeyPem,
+                                       std::string& error);
+
+private:
+    std::string publicKeyPem_;
+    bool allowUnsignedBundles_ = false;  ///< Must be explicitly opted in; never true by default.
+
+    /// Unpack the ZIP at bundlePath into a new temporary subdirectory.
+    /// Returns the path to the temp dir on success or an empty string + error.
+    static std::string extractToTempDir(const std::string& bundlePath,
+                                        std::string& error);
 };
 
 } // namespace modules

@@ -1,0 +1,129 @@
+name: Supply Chain — SBOM Generation & Signing
+
+# Phase 6.1: SBOM generation and signing for each release and Docker image.
+# Generates CycloneDX SBOM using syft, verifies against vcpkg.json,
+# and attaches the signed SBOM as a release asset.
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'vcpkg.json'
+      - 'CMakeLists.txt'
+      - 'Dockerfile'
+      - '.github/workflows/sbom-ci.yml'
+  release:
+    types: [published]
+  schedule:
+    # Weekly on Saturday 01:00 UTC
+    - cron: '0 1 * * 6'
+  workflow_dispatch: {}
+
+concurrency:
+  group: sbom-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  security-events: write
+  id-token: write
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # SBOM generation, verification, and signing
+  # ──────────────────────────────────────────────────────────────────────────
+  sbom:
+    name: SBOM Generation & Verification
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+
+    permissions:
+      contents: write
+      security-events: write
+      id-token: write  # For sigstore/cosign signing
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Install syft ──────────────────────────────────────────────────────
+      - name: Install syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      # ── Generate source-level SBOM ────────────────────────────────────────
+      - name: Generate source SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          format: cyclonedx-json
+          output-file: sbom-source.cyclonedx.json
+          path: '.'
+
+      # ── Generate source SBOM (SPDX) ───────────────────────────────────────
+      - name: Generate source SBOM (SPDX)
+        uses: anchore/sbom-action@v0
+        with:
+          format: spdx-json
+          output-file: sbom-source.spdx.json
+          path: '.'
+
+      # ── Verify SBOM against vcpkg.json ────────────────────────────────────
+      - name: Verify SBOM against vcpkg.json
+        run: |
+          chmod +x scripts/verify-sbom.sh 2>/dev/null || true
+          if [ -f scripts/verify-sbom.sh ]; then
+            bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
+          else
+            echo "verify-sbom.sh not found — skipping dependency cross-check"
+          fi
+
+      # ── Trivy scan with SBOM output ───────────────────────────────────────
+      - name: Run Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'cyclonedx'
+          output: 'sbom-trivy.cyclonedx.json'
+          exit-code: '0'  # Non-blocking for SBOM generation; separate Trivy gate handles failures
+
+      # ── Sign SBOM with cosign ─────────────────────────────────────────────
+      - name: Sign SBOM artifacts
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: sigstore/cosign-installer@v3
+      - name: Cosign sign SBOM
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          cosign sign-blob --yes \
+            --output-signature sbom-source.cyclonedx.json.sig \
+            --output-certificate sbom-source.cyclonedx.json.pem \
+            sbom-source.cyclonedx.json
+
+      # ── Upload artifacts ──────────────────────────────────────────────────
+      - name: Upload SBOM artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-${{ github.run_id }}
+          path: |
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-trivy.cyclonedx.json
+            sbom-source.cyclonedx.json.sig
+            sbom-source.cyclonedx.json.pem
+          retention-days: 365
+
+      # ── Attach to release ─────────────────────────────────────────────────
+      - name: Attach SBOM to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-source.cyclonedx.json.sig

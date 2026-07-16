@@ -1,27 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_aql_explain.cpp                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-03-09 04:02:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 984af17f2  2026-02-26  audit: fix misleading GraphTraversal_DeepPath_UsesBidirec... ║
-    • b1216f45a  2026-02-26  audit: fix stale file headers (Stubs: 0) and add ANALYZE-... ║
-    • 9a1cb143d  2026-02-25  feat(graph): implement EXPLAIN AQL output for graph query... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_aql_explain.cpp | Version: 0.0.25
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Tests for the explainAql / explainAqlText / explainAqlDot pipeline
@@ -105,7 +87,7 @@ protected:
 
     std::shared_ptr<ExplainMockStorage>      storage_;
     std::shared_ptr<ExplainMockIndexManager> index_mgr_;
-    std::shared_ptr<QueryEngine>             engine_;
+    std::shared_ptr<query::QueryEngine>      engine_;
 };
 
 // ============================================================================

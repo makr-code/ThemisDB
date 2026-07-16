@@ -1,30 +1,26 @@
+/**
+ * @file paxos_snapshot.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_snapshot.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paxos_snapshot.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMIS_SHARDING_PAXOS_SNAPSHOT_H
-#define THEMIS_SHARDING_PAXOS_SNAPSHOT_H
+#pragma once
 
 #include "sharding/wal_manager.h"
 #include "sharding/consensus_module.h"
@@ -87,6 +83,27 @@ struct PaxosSnapshot {
      * Verify checksum
      */
     bool verifyChecksum() const;
+
+    /**
+     * @brief Compress the JSON-serialised snapshot with ZSTD (level 3)
+     *
+     * Returns the compressed bytes.  The caller is responsible for storing
+     * the result alongside the snapshot metadata so that it can be
+     * decompressed on load.
+     *
+     * @param level  ZSTD compression level (default 3)
+     * @return Compressed bytes, or empty on failure
+     */
+    std::vector<uint8_t> compress(int level = 3) const;
+
+    /**
+     * @brief Decompress a previously compressed snapshot and reconstruct it
+     *
+     * @param compressed  Bytes produced by compress()
+     * @return Reconstructed snapshot on success, nullopt on failure
+     */
+    static std::optional<PaxosSnapshot> decompress(
+        const std::vector<uint8_t>& compressed);
 };
 
 /**
@@ -96,14 +113,15 @@ struct PaxosSnapshot {
  * 
  * Features:
  * - Periodic snapshot creation
- * - Snapshot compression (future)
+ * - ZSTD snapshot compression (compression_level 3, target >3× ratio)
  * - Snapshot transfer to new replicas
  * - Automatic old snapshot cleanup
  */
 class PaxosSnapshotManager {
 public:
     explicit PaxosSnapshotManager(const std::string& snapshot_directory,
-                                   size_t max_snapshots = 10);
+                                   size_t max_snapshots = 10,
+                                   int compression_level = 3);
     ~PaxosSnapshotManager() = default;
     
     /**
@@ -160,7 +178,9 @@ public:
 private:
     std::string snapshot_directory_;
     size_t max_snapshots_;
+    int compression_level_;
     mutable std::mutex mutex_;
+    mutable uint64_t last_snapshot_id_{0};
     
     // Generate unique snapshot ID (timestamp-based)
     uint64_t generateSnapshotId() const;
@@ -168,5 +188,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_PAXOS_SNAPSHOT_H

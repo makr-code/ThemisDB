@@ -1,34 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            openai_compat_adapter.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:59:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     427                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b19342f43  2026-02-27  fix(llm): remove unused json_schema_converter include; up... ║
-    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file openai_compat_adapter.cpp
- * @brief OpenAI-compatible /v1/chat/completions passthrough adapter
- *
- * Implementation of OpenAICompatAdapter.  All public methods are stateless;
- * state that flows between calls (e.g. completion ID, created timestamp) is
- * either generated fresh per call or supplied by the HTTP layer.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/openai_compat_adapter.h"
@@ -426,3 +404,4 @@ std::string OpenAICompatAdapter::extractPrompts(
 
 } // namespace llm
 } // namespace themis
+

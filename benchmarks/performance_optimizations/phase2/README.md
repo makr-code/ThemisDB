@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Phase 2 Performance Benchmarks
 
 Comprehensive benchmarks for Phase 2 optimizations based on scientific research.
@@ -200,5 +202,5 @@ echo 1 | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo
 
 ---
 
-**Last Updated:** December 24, 2025  
+**Last Updated:** April 2026  
 **Status:** ✅ Complete

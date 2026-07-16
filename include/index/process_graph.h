@@ -1,24 +1,21 @@
+/**
+ * @file process_graph.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            process_graph.h                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     879                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: process_graph.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 966
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4254 feat(network/process-graph)... (2026-03-15) | #1138 Document future enhancement... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -316,6 +313,20 @@ struct ProcessNodeInfo {
     std::optional<std::string> location_constraint;   ///< WKT geofence where task can be executed
     std::optional<double> max_distance_km;            ///< Max distance from location
     std::optional<std::string> region;                ///< Geographic region code
+
+    // ===== Layout / Diagram Interchange =====
+    /// Optional graphical layout hints populated from BPMNDI (BPMNShape) on import.
+    /// Schema: { "x": float, "y": float, "width": float, "height": float }
+    nlohmann::json metadata;  ///< Extended key-value metadata (e.g. layout)
+
+    // ===== BPMN-S DSGVO Security Annotations =====
+    struct DsgvoAnnotation {
+        std::string data_category;       ///< "personal", "sensitive", "anonymised"
+        std::string legal_basis;         ///< e.g. "Art. 6(1)(e) DSGVO"
+        std::optional<int> retention_days;
+        bool requires_consent{false};
+    };
+    std::optional<DsgvoAnnotation> dsgvo_annotation; ///< BPMN-S DSGVO annotation (null if not annotated)
 };
 
 /**
@@ -406,6 +417,14 @@ struct Hyperedge {
 // ============================================================================
 
 /**
+ * @brief ProcessGraphVisitLog: Maps a node ID to its most recent visit timestamp.
+ *
+ * Used to record when a process token visited each node during traversal,
+ * enabling temporal ordering of multi-hop graph paths.
+ */
+using ProcessGraphVisitLog = std::unordered_map<std::string, std::chrono::system_clock::time_point>;
+
+/**
  * @brief Token: Represents execution state at a node
  * 
  * Based on Petri Net semantics used in BPMN execution.
@@ -437,6 +456,9 @@ struct ProcessToken {
     // History (for audit/replay)
     std::vector<std::string> visited_nodes;
     std::vector<std::string> traversed_edges;
+
+    // Per-node visit timestamps: records when each node was last visited
+    ProcessGraphVisitLog visit_timestamps;
 };
 
 /**
@@ -499,6 +521,19 @@ public:
     };
 
     explicit ProcessGraphManager(RocksDBWrapper& db);
+
+    /**
+     * @brief Wire a text-embedding function for auto-generating process embeddings.
+     *
+     * When set, registerProcess() automatically computes and persists an embedding
+     * for the process name (and BPMN description if available) so that
+     * findSimilarProcesses() / semanticSearchProcesses() work without manual
+     * pre-computation.
+     *
+     * @param embedder  `(std::string_view text) → std::vector<float>`.
+     *                  Pass an empty function to disable.
+     */
+    void setEmbedder(std::function<std::vector<float>(std::string_view)> embedder);
 
     // ===== Process Model Management =====
     
@@ -579,12 +614,43 @@ public:
     // ===== Process Queries =====
     
     /**
+     * @brief Resolve a token-only task_id to its (instance_id, current_node) pair.
+     *
+     * Scans all stored tokens and returns the instance_id and current_node for
+     * the first READY or ACTIVE token whose token_id matches @p token_id.
+     * Used by WireProtocolServer to accept task_ids without the
+     * "instance_id:node_id" colon format.  Stub #138 resolution.
+     *
+     * @param token_id  The token identifier (without instance prefix).
+     * @return A pair {instance_id, current_node} if a matching active token is
+     *         found; std::nullopt otherwise.
+     */
+    [[nodiscard]] std::optional<std::pair<std::string, std::string>>
+    findTokenByTokenId(std::string_view token_id) const;
+
+    /**
      * @brief Find all active tasks for a user/role
      */
     std::pair<Status, std::vector<ProcessToken>> findActiveTasks(
         std::string_view assignee_or_role
     ) const;
     
+    /**
+     * @brief Get the visit timestamp for a node within a process instance.
+     *
+     * Returns the most recent time_point at which any token in the given
+     * instance visited @p node_id, or std::nullopt if the node has not
+     * been visited or the instance does not exist.
+     *
+     * When multiple tokens have visited the same node (e.g. in parallel
+     * gateway scenarios), the most recent timestamp across all tokens is
+     * returned.
+     */
+    std::optional<std::chrono::system_clock::time_point> getVisitTimestamp(
+        std::string_view instance_id,
+        std::string_view node_id
+    ) const;
+
     /**
      * @brief Get process history (all tokens that passed through a node)
      */
@@ -632,7 +698,35 @@ public:
     // =========================================================================
     // Multi-Model Queries
     // =========================================================================
-    
+
+    /**
+     * @brief AQL query executor injection function type.
+     *
+     * When set via setAqlQueryExecutor(), the multi-model query methods
+     * (queryTasksByFormData, joinWithCollection, aggregateByField) delegate to
+     * this function instead of running O(n) in-process RocksDB scans.
+     *
+     * @param aql        AQL query string with bind variable placeholders.
+     * @param bind_vars  Bind variable values keyed by name (without leading "@").
+     * @return           Result rows as JSON objects (one per document).
+     */
+    using AqlQueryExecutorFn =
+        std::function<std::vector<nlohmann::json>(std::string_view aql,
+                                                  const nlohmann::json& bind_vars)>;
+
+    /**
+     * @brief Inject an AQL query executor for index-backed multi-model queries.
+     *
+     * When a non-null executor is provided the three multi-model query methods
+     * will build an AQL statement, invoke the executor, and map the results back
+     * to their typed return values.  The in-process O(n) scan fallbacks are
+     * retained and used when no executor is set.
+     *
+     * Thread safety: call before any concurrent query; the function object is
+     * read under a shared lock from query methods.
+     */
+    void setAqlQueryExecutor(AqlQueryExecutorFn fn);
+
     // ----- RELATIONAL Queries -----
     
     /**
@@ -840,6 +934,8 @@ public:
 
 private:
     RocksDBWrapper& db_;
+    std::function<std::vector<float>(std::string_view)> embedder_;
+    AqlQueryExecutorFn aql_query_executor_;
     
     // Internal helpers
     std::string makeProcessKey_(std::string_view process_id) const;
@@ -878,3 +974,4 @@ private:
 void registerProcessEdgeTypes();
 
 } // namespace themis
+

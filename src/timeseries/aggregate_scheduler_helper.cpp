@@ -1,23 +1,21 @@
+/**
+ * @file aggregate_scheduler_helper.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aggregate_scheduler_helper.cpp                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     51                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aggregate_scheduler_helper.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 79
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4160 feat(timeseries): Increment... (2026-03-13)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "timeseries/aggregate_scheduler.h"
@@ -40,6 +38,7 @@ std::string AggregateScheduler::registerAggregate(const AggConfig& config, std::
     agg.refresh_interval = refresh_interval;
     agg.last_refresh_ms = 0;
     agg.enabled = true;
+    agg.use_incremental_refresh = true;
     agg.total_refreshes = 0;
     agg.failed_refreshes = 0;
     agg.avg_refresh_time_ms = 0.0;
@@ -49,6 +48,43 @@ std::string AggregateScheduler::registerAggregate(const AggConfig& config, std::
     THEMIS_INFO("Registered aggregate '{}' with refresh interval {}ms", id, refresh_interval.count());
     
     return id;
+}
+
+void AggregateScheduler::backfill_range(const std::string& agg_id, int64_t start_ms, int64_t end_ms) {
+    if (start_ms >= end_ms) {
+        THEMIS_WARN("backfill_range: invalid range [{}, {}) for aggregate '{}' – start must be < end",
+                    start_ms, end_ms, agg_id);
+        return;
+    }
+
+    auto span = Tracer::startSpan("AggregateScheduler.backfill_range");
+    span.setAttribute("aggregate_id", agg_id);
+    span.setAttribute("start_ms", start_ms);
+    span.setAttribute("end_ms", end_ms);
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = aggregates_.find(agg_id);
+    if (it == aggregates_.end()) {
+        THEMIS_WARN("backfill_range: unknown aggregate '{}'", agg_id);
+        span.recordError("Unknown aggregate");
+        return;
+    }
+
+    const AggConfig& cfg = it->second.config;
+
+    THEMIS_INFO("backfill_range: running backfill for '{}' over [{}, {})", agg_id, start_ms, end_ms);
+
+    try {
+        // Backfill uses the standard full-range refresh so the watermark is NOT
+        // advanced — callers can then decide whether to reset the watermark manually
+        // or let the next scheduled incremental refresh carry on from where it left off.
+        agg_manager_->refresh(cfg, start_ms, end_ms - 1);
+        THEMIS_INFO("backfill_range: completed for '{}' over [{}, {})", agg_id, start_ms, end_ms);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        THEMIS_ERROR("backfill_range: failed for '{}': {}", agg_id, e.what());
+    }
 }
 
 } // namespace themis

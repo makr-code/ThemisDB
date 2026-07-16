@@ -2,7 +2,7 @@
 
 **Version:** v1.7.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 
 ---
 
@@ -108,7 +108,7 @@ for (const auto& dev : conformance.deviations)
 
 - [Analytics Docs Hub](./README.md)
 - [PROCESS_MINING_AQL_EXAMPLES](./PROCESS_MINING_AQL_EXAMPLES.md)
-- [BPMN Future Enhancements](./bpmn_future_enhancements.md)
+- [BPMN Future Enhancements](./BPMN_FUTURE_ENHANCEMENTS.md)
 - [OLAP Guide](./olap_guide.md)
 - [Forecasting Guide](./forecasting_guide.md)
 - [API Reference](../../../include/analytics/README.md)
@@ -116,6 +116,6 @@ for (const auto& dev : conformance.deviations)
 
 ---
 
-**Last Updated:** 2026-03-09
+**Last Updated:** 2026-04-06
 **Version:** v1.7.0
 **Status:** 🟢 Production-Ready

@@ -1,24 +1,21 @@
+/**
+ * @file jit_aggregation.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            jit_aggregation.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:52:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ebb5b620e  2026-02-26  feat(analytics): implement JIT aggregation compiler for h... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: jit_aggregation.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 213
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3020 [analytics] LLVM JIT compil... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -98,7 +95,7 @@ namespace analytics {
  *   // Calls >= hot_threshold: specialised path (jit_hits++)
  *   ColumnBatch result = jit.aggregate(batch, specs);
  *
- *   auto& s = jit.stats();
+ *   auto s = jit.stats();
  *   std::cout << "JIT hits: " << s.jit_hits << "\n";
  * @endcode
  */
@@ -207,7 +204,7 @@ public:
     };
 
     /** @brief Return a snapshot of the current statistics. */
-    const Stats& stats() const noexcept;
+    Stats stats() const noexcept;
 
     /** @brief Reset statistics counters (does not invalidate compiled code). */
     void resetStats() noexcept;

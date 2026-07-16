@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_gpu_erasure.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_gpu_erasure.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -32,6 +17,21 @@
 #include "sharding/redundancy_strategy.h"
 #include <vector>
 #include <random>
+
+#ifndef THEMIS_ENABLE_GPU
+
+static void BM_GPUErasure_GPUDisabled(benchmark::State& state) {
+    for (auto _ : state) {
+        state.SkipWithError("GPU erasure benchmarks are disabled in this build");
+        break;
+    }
+}
+// Disabled: GPU erasure coding requires CUDA/HIP runner | Deadline: v1.9.0 | Issue: #5
+BENCHMARK(BM_GPUErasure_GPUDisabled);
+
+BENCHMARK_MAIN();
+
+#else
 
 using namespace themis::sharding;
 
@@ -309,3 +309,5 @@ BENCHMARK(BM_GPU_Encode_HighRedundancy);
 
 // Main function
 BENCHMARK_MAIN();
+
+#endif  // THEMIS_ENABLE_GPU

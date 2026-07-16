@@ -1,23 +1,21 @@
+/**
+ * @file window_evaluator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            window_evaluator.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     557                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: window_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 549
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=9, L=0
+ * PR History (last 5): #751 Phase 4 Error Handling: Sto... (2026-03-11) | #1208 Establish compiler warning ... (2026-03-11) | #1209 Remove unused variable warn... (2026-03-11) | #29 SDK Roadmap Analysis, Imple... (2026-03-11) | #68 Correct AQL language scope ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/window_evaluator.h"
@@ -35,7 +33,7 @@ namespace query {
 // WindowSpec/WindowFunctionCall JSON Serialization
 // ============================================================================
 
-nlohmann::json WindowSpec::toJSON() const {
+nlohmann::json WindowEvalSpec::toJSON() const {
     nlohmann::json j;
     j["name"] = name;
     
@@ -84,75 +82,61 @@ nlohmann::json WindowFunctionCall::toJSON() const {
 
 std::vector<nlohmann::json> WindowEvaluator::evaluate(
     const std::vector<nlohmann::json>& rows,
-    const WindowSpec& windowSpec,
+    const WindowEvalSpec& windowSpec,
     const WindowFunctionCall& windowFunc,
     [[maybe_unused]] const std::string& forVariable
 ) {
     if (rows.empty()) {
         return {};
     }
-    
-    // 1. Partitionierung
+
     auto partitions = partitionRows(rows, windowSpec.partitionBy, forVariable);
-    
-    // 2. Initialisiere Result-Vector mit null-Werten
     std::vector<nlohmann::json> results(rows.size(), nullptr);
-    
-    // 3. Evaluiere jede Partition
+
     for (const auto& partition : partitions) {
-        if (partition.empty()) continue;
-        
-        // 3.1 Sortiere Partition
+        if (partition.empty()) {
+            continue;
+        }
+
         auto sortedIndices = sortPartition(rows, partition, windowSpec.orderBy, forVariable);
-        
-        // 3.2 Evaluiere Window Function
         std::vector<nlohmann::json> partitionResults;
-        
+
         switch (windowFunc.funcType) {
             case WindowFunctionType::ROW_NUMBER:
                 partitionResults = evaluateRowNumber(sortedIndices.size());
                 break;
-            
             case WindowFunctionType::RANK:
                 partitionResults = evaluateRank(rows, sortedIndices, windowSpec.orderBy, forVariable);
                 break;
-            
             case WindowFunctionType::DENSE_RANK:
                 partitionResults = evaluateDenseRank(rows, sortedIndices, windowSpec.orderBy, forVariable);
                 break;
-            
             case WindowFunctionType::LAG:
-                partitionResults = evaluateLag(rows, sortedIndices, windowFunc.argument, 
-                                                windowFunc.offset, windowFunc.defaultValue, forVariable);
+                partitionResults = evaluateLag(rows, sortedIndices, windowFunc.argument,
+                                               windowFunc.offset, windowFunc.defaultValue, forVariable);
                 break;
-            
             case WindowFunctionType::LEAD:
                 partitionResults = evaluateLead(rows, sortedIndices, windowFunc.argument,
-                                                 windowFunc.offset, windowFunc.defaultValue, forVariable);
+                                                windowFunc.offset, windowFunc.defaultValue, forVariable);
                 break;
-            
             case WindowFunctionType::FIRST_VALUE:
                 partitionResults = evaluateFirstValue(rows, sortedIndices, windowFunc.argument, forVariable);
                 break;
-            
             case WindowFunctionType::LAST_VALUE:
                 partitionResults = evaluateLastValue(rows, sortedIndices, windowFunc.argument,
-                                                       windowSpec.frame, forVariable);
+                                                     windowSpec.frame, forVariable);
                 break;
-            
             default:
-                // Fallback: nulls
                 partitionResults.resize(sortedIndices.size(), nullptr);
                 break;
         }
-        
-        // 3.3 Mapping zurück zu Original-Indizes
+
         for (size_t i = 0; i < sortedIndices.size(); ++i) {
-            size_t originalIdx = sortedIndices[i];
+            const size_t originalIdx = sortedIndices[i];
             results[originalIdx] = partitionResults[i];
         }
     }
-    
+
     return results;
 }
 
@@ -434,7 +418,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     for (size_t i = 0; i < sortedIndices.size(); ++i) {
         int64_t leadIdx = static_cast<int64_t>(i) + offset;
         
-        if (leadIdx >= static_cast<int64_t>(sortedIndices.size())) {
+        if (leadIdx < 0 || leadIdx >= static_cast<int64_t>(sortedIndices.size())) {
             // Out of bounds → default
             results.push_back(defaultVal);
         } else {
@@ -511,7 +495,9 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
         } else if (frame.end.type == WindowFrameBound::BoundType::FOLLOWING) {
             // N FOLLOWING
             int64_t followIdx = static_cast<int64_t>(i) + frame.end.offset;
-            if (followIdx >= static_cast<int64_t>(sortedIndices.size())) {
+            if (followIdx < 0) {
+                followIdx = 0;
+            } else if (followIdx >= static_cast<int64_t>(sortedIndices.size())) {
                 followIdx = static_cast<int64_t>(sortedIndices.size()) - 1;
             }
             lastRowIdx = sortedIndices[static_cast<size_t>(followIdx)];
@@ -550,7 +536,7 @@ nlohmann::json WindowEvaluator::evaluateExpression(
     
     try {
         return evaluator.evaluateExpression(expr, row);
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         // Fallback: null
         return nullptr;
     }

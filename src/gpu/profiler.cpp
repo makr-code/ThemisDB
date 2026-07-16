@@ -1,25 +1,21 @@
+/**
+ * @file profiler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            profiler.cpp                                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4966e1aa6  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
-    • c110763ce  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: profiler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 179
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=6, L=0
+ * PR History (last 5): #2933 feat(gpu): GPU profiling in... (2026-03-12) | #817 Implement performance profi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -46,32 +42,28 @@ namespace gpu {
 
 uint64_t GPUProfiler::nowNs() {
     using namespace std::chrono;
-    return static_cast<uint64_t>(
-        duration_cast<nanoseconds>(
-            steady_clock::now().time_since_epoch()).count());
+    return static_cast<uint64_t>(duration_cast<nanoseconds>(steady_clock::now().time_since_epoch()).count());
 }
 
 // ============================================================================
 // Range markers
 // ============================================================================
 
-void GPUProfiler::beginRange(const std::string& name, uint32_t argb_color) {
+void GPUProfiler::beginRange(const std::string &name, uint32_t argb_color) {
     std::lock_guard<std::mutex> lock(mutex_);
 
 #ifdef THEMIS_ENABLE_CUDA
-    nvtxEventAttributes_t attrs  = {};
-    attrs.version                = NVTX_VERSION;
-    attrs.size                   = NVTX_EVENT_ATTRIB_STRUCT_SIZE;
-    attrs.colorType              = NVTX_COLOR_ARGB;
-    attrs.color                  = argb_color;
-    attrs.messageType            = NVTX_MESSAGE_TYPE_ASCII;
-    attrs.message.ascii          = name.c_str();
+    nvtxEventAttributes_t attrs = {};
+    attrs.version               = NVTX_VERSION;
+    attrs.size                  = NVTX_EVENT_ATTRIB_STRUCT_SIZE;
+    attrs.colorType             = NVTX_COLOR_ARGB;
+    attrs.color                 = argb_color;
+    attrs.messageType           = NVTX_MESSAGE_TYPE_ASCII;
+    attrs.message.ascii         = name.c_str();
     nvtxRangePushEx(&attrs);
 #elif defined(THEMIS_ENABLE_HIP)
-    (void)argb_color;
     roctxRangePushA(name.c_str());
 #else
-    (void)argb_color;
 #endif
 
     range_stack_.push_back({name, nowNs(), argb_color});
@@ -79,7 +71,9 @@ void GPUProfiler::beginRange(const std::string& name, uint32_t argb_color) {
 
 void GPUProfiler::endRange() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (range_stack_.empty()) return;
+    if (range_stack_.empty()) {
+        return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     nvtxRangePop();
@@ -87,8 +81,8 @@ void GPUProfiler::endRange() {
     roctxRangePop();
 #endif
 
-    const uint64_t now    = nowNs();
-    const auto&    active = range_stack_.back();
+    const uint64_t now = nowNs();
+    const auto &active = range_stack_.back();
 
     Range completed;
     completed.name     = active.name;
@@ -99,7 +93,7 @@ void GPUProfiler::endRange() {
     range_stack_.pop_back();
 }
 
-void GPUProfiler::markEvent(const std::string& name) {
+void GPUProfiler::markEvent(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -112,7 +106,7 @@ void GPUProfiler::markEvent(const std::string& name) {
     Range ev;
     ev.name     = name;
     ev.start_ns = now;
-    ev.end_ns   = now;   // zero duration marks a point event
+    ev.end_ns   = now; // zero duration marks a point event
     completed_ranges_.push_back(std::move(ev));
 }
 
@@ -142,8 +136,8 @@ std::string GPUProfiler::rocm_profiler_export() const {
     oss << "{\n  \"traceEvents\": [\n";
 
     for (std::size_t i = 0; i < completed_ranges_.size(); ++i) {
-        const Range& r = completed_ranges_[i];
-        const bool   is_instant = (r.start_ns == r.end_ns);
+        const Range &r        = completed_ranges_[i];
+        const bool is_instant = (r.start_ns == r.end_ns);
 
         if (is_instant) {
             oss << "    {\"name\": \"" << r.name << "\", \"ph\": \"i\", "
@@ -155,7 +149,9 @@ std::string GPUProfiler::rocm_profiler_export() const {
                 << "\"dur\": " << ((r.end_ns - r.start_ns) / 1000) << ", "
                 << "\"pid\": 0, \"tid\": " << r.device_id << "}";
         }
-        if (i + 1 < completed_ranges_.size()) oss << ',';
+        if (i + 1 < completed_ranges_.size()) {
+            oss << ',';
+        }
         oss << '\n';
     }
 
@@ -182,9 +178,7 @@ void GPUProfiler::reset() {
 // ScopedGPURange
 // ============================================================================
 
-ScopedGPURange::ScopedGPURange(const std::string& name, uint32_t argb_color)
-    : profiler_(GPUProfiler::GetInstance())
-{
+ScopedGPURange::ScopedGPURange(const std::string &name, uint32_t argb_color) : profiler_(GPUProfiler::GetInstance()) {
     profiler_.beginRange(name, argb_color);
 }
 

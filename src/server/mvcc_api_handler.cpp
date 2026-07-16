@@ -1,35 +1,50 @@
+/**
+ * @file mvcc_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mvcc_api_handler.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     377                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mvcc_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 394
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * PR History (last 5): #3483 docs: consolidate MVCC docu... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #1320 Integrate MVCC and HLC time... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "server/mvcc_api_handler.h"
+#include <stdexcept>
+#include "utils/input_validator.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <chrono>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxMvccKeyLength = 256;
+
+bool isValidMvccKey(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxMvccKeyLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constructor
@@ -97,6 +112,7 @@ void MvccApiHandler::registerRoutes(httplib::Server& server) {
 
 void MvccApiHandler::handleGetKey(const httplib::Request& req,
                                    httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetKey");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -168,6 +184,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
 
 void MvccApiHandler::handlePutKey(const httplib::Request& req,
                                    httplib::Response& res) {
+    auto span = Tracer::startSpan("handlePutKey");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -214,6 +231,7 @@ void MvccApiHandler::handlePutKey(const httplib::Request& req,
 
 void MvccApiHandler::handleListVersions(const httplib::Request& req,
                                          httplib::Response& res) {
+    auto span = Tracer::startSpan("handleListVersions");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -246,6 +264,7 @@ void MvccApiHandler::handleListVersions(const httplib::Request& req,
 
 void MvccApiHandler::handleGcVersions(const httplib::Request& req,
                                        httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGcVersions");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -302,6 +321,7 @@ void MvccApiHandler::handleGcVersions(const httplib::Request& req,
 
 void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,
                                      httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetClock");
     try {
         HLCTimestamp ts = store_->currentTimestamp();
 
@@ -322,6 +342,7 @@ void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,
 
 void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
                                      httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetStats");
     try {
         HLCTimestamp current_ts = store_->currentTimestamp();
 
@@ -347,7 +368,11 @@ void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
 
 std::string MvccApiHandler::extractKey(const httplib::Request& req) {
     if (req.matches.size() < 2) return {};
-    return req.matches[1];
+    std::string key = req.matches[1];
+    if (!isValidMvccKey(key)) {
+        return {};
+    }
+    return key;
 }
 
 std::string MvccApiHandler::valueToString(const std::vector<uint8_t>& v) {
@@ -378,3 +403,4 @@ void MvccApiHandler::sendJson(httplib::Response& res,
 
 } // namespace server
 } // namespace themis
+

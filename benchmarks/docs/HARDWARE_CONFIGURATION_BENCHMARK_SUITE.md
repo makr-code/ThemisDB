@@ -1,3 +1,5 @@
+> ⚠️ **Historische Konfiguration** – Hardware-Parameter beschreiben einen bestimmten Teststand.
+
 # Hardware Configuration Benchmark Suite
 ## Testing ThemisDB Across Diverse Hardware Configurations
 
@@ -1122,5 +1124,5 @@ if __name__ == "__main__":
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** 2025-12-23  
+**Last Updated:** 2026-04-06  
 **Status:** ✅ Ready for Implementation

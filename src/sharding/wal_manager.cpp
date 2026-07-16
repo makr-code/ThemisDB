@@ -1,23 +1,21 @@
+/**
+ * @file wal_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_manager.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     478                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 473
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=18, L=0
+ * PR History (last 5): #762 Perf: Scale to 10B records ... (2026-03-11) | #1031 Implement comprehensive res... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/wal_manager.h"
@@ -26,6 +24,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include <stdexcept>
 
 namespace themis::sharding {
 
@@ -33,6 +32,12 @@ namespace themis::sharding {
 // LSN Implementation
 // ============================================================================
 
+/**
+ * @brief Parse LSN from "segment/offset" textual form.
+ * @param str Input LSN text.
+ * @return Parsed LSN.
+ * @throws std::invalid_argument on malformed input.
+ */
 LSN LSN::fromString(const std::string& str) {
     size_t pos = str.find('/');
     if (pos == std::string::npos) {
@@ -49,6 +54,7 @@ LSN LSN::fromString(const std::string& str) {
 // WALEntry Implementation
 // ============================================================================
 
+/** @brief Serialize WAL entry into compact binary format. */
 std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result;
     
@@ -95,6 +101,12 @@ std::vector<uint8_t> WALEntry::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize WAL entry from binary bytes.
+ * @param bytes Serialized entry bytes.
+ * @return Parsed WAL entry.
+ * @throws std::runtime_error on truncated/corrupt payload.
+ */
 WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     if (bytes.size() < 29) {  // Minimum size
         throw std::runtime_error("WAL entry too small");
@@ -131,22 +143,32 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     }
     
     // Transaction ID
+    if (pos + tx_id_len > bytes.size()) {
+        throw std::runtime_error("WAL entry truncated: transaction_id overruns buffer");
+    }
     entry.transaction_id = std::string(bytes.begin() + pos, bytes.begin() + pos + tx_id_len);
     pos += tx_id_len;
     
     // Data length
+    if (pos + 4 > bytes.size()) {
+        throw std::runtime_error("WAL entry truncated: missing data_len field");
+    }
     uint32_t data_len = 0;
     for (int i = 0; i < 4; ++i) {
         data_len = (data_len << 8) | bytes[pos++];
     }
     
     // Data
+    if (pos + data_len > bytes.size()) {
+        throw std::runtime_error("WAL entry truncated: data overruns buffer");
+    }
     std::string data_str(bytes.begin() + pos, bytes.begin() + pos + data_len);
     entry.data = nlohmann::json::parse(data_str);
     
     return entry;
 }
 
+/** @brief Return serialized byte size of this WAL entry. */
 size_t WALEntry::size() const {
     return 1 + 8 + 8 + 8 + 4 + transaction_id.size() + 4 + data.dump().size();
 }
@@ -155,6 +177,10 @@ size_t WALEntry::size() const {
 // WALManager Implementation
 // ============================================================================
 
+/**
+ * @brief Construct WAL manager and recover on-disk segment state.
+ * @param config WAL configuration.
+ */
 WALManager::WALManager(const WALManagerConfig& config)
     : config_(config), current_lsn_(0, 0), oldest_lsn_(0, 0) {
     
@@ -171,12 +197,18 @@ WALManager::WALManager(const WALManagerConfig& config)
     openSegment(current_lsn_.segment);
 }
 
+/** @brief Flush buffered writes and close active segment. */
 WALManager::~WALManager() {
     std::lock_guard<std::mutex> lock(mutex_);
     flush();
     closeSegment();
 }
 
+/**
+ * @brief Append entry to WAL and return assigned LSN.
+ * @param entry Entry payload.
+ * @return Assigned LSN.
+ */
 LSN WALManager::append(const WALEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -215,6 +247,7 @@ LSN WALManager::append(const WALEntry& entry) {
     return result_lsn;
 }
 
+/** @brief Read single WAL entry by exact LSN. */
 std::optional<WALEntry> WALManager::read(const LSN& lsn) {
     auto entries = readRange(lsn, LSN(lsn.segment, lsn.offset + 1));
     if (entries.empty()) {
@@ -223,9 +256,18 @@ std::optional<WALEntry> WALManager::read(const LSN& lsn) {
     return entries[0];
 }
 
+/**
+ * @brief Read WAL entries in [start_lsn, end_lsn) range.
+ * @param start_lsn Inclusive start LSN.
+ * @param end_lsn Optional exclusive end LSN.
+ * @return Ordered WAL entries in requested range.
+ */
 std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn, 
                                             const std::optional<LSN>& end_lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    // Make in-memory buffered writes visible to readers.
+    flush();
     
     std::vector<WALEntry> result;
     
@@ -273,7 +315,7 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
                 result.push_back(entry);
                 pos += entry.size();
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 break;  // Corrupted entry or end of valid data
             }
         }
@@ -282,16 +324,19 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
     return result;
 }
 
+/** @brief Return current append position. */
 LSN WALManager::getCurrentLSN() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lsn_;
 }
 
+/** @brief Return oldest retained LSN. */
 LSN WALManager::getOldestLSN() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return oldest_lsn_;
 }
 
+/** @brief Flush buffered WAL bytes to active segment stream. */
 void WALManager::flush() {
     // Must be called with mutex held
     if (write_buffer_.empty()) {
@@ -306,14 +351,17 @@ void WALManager::flush() {
     current_segment_->write(reinterpret_cast<const char*>(write_buffer_.data()), 
                            write_buffer_.size());
     
+    // Always flush the C++ stream buffer so same-process readers can observe
+    // recently appended entries. sync_on_write controls fsync-level durability.
+    current_segment_->flush();
     if (config_.sync_on_write) {
-        current_segment_->flush();
         // Note: fsync() would be called here for true durability
     }
     
     write_buffer_.clear();
 }
 
+/** @brief Append checkpoint marker and return its LSN. */
 LSN WALManager::checkpoint() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -327,6 +375,10 @@ LSN WALManager::checkpoint() {
     return append(checkpoint_entry);
 }
 
+/**
+ * @brief Truncate WAL retention before target LSN (segment-granularity).
+ * @param lsn Lower retention bound.
+ */
 void WALManager::truncate(const LSN& lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -343,6 +395,7 @@ void WALManager::truncate(const LSN& lsn) {
     oldest_lsn_ = lsn;
 }
 
+/** @brief Return WAL statistics snapshot. */
 WALManager::Statistics WALManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -363,6 +416,7 @@ WALManager::Statistics WALManager::getStatistics() const {
     return stats;
 }
 
+/** @brief Open/create active WAL segment file for given segment number. */
 void WALManager::openSegment(uint64_t segment_number) {
     std::string seg_path = getSegmentPath(segment_number);
     
@@ -376,12 +430,14 @@ void WALManager::openSegment(uint64_t segment_number) {
     }
 }
 
+/** @brief Close active WAL segment file when open. */
 void WALManager::closeSegment() {
     if (current_segment_ && current_segment_->is_open()) {
         current_segment_->close();
     }
 }
 
+/** @brief Rotate to next segment and enforce segment retention policy. */
 void WALManager::rotateSegment() {
     // Must be called with mutex held
     closeSegment();
@@ -393,6 +449,7 @@ void WALManager::rotateSegment() {
     cleanupOldSegments();
 }
 
+/** @brief Build filesystem path for WAL segment number. */
 std::string WALManager::getSegmentPath(uint64_t segment_number) const {
     std::ostringstream oss;
     oss << config_.wal_directory << "/wal_" 
@@ -401,6 +458,7 @@ std::string WALManager::getSegmentPath(uint64_t segment_number) const {
     return oss.str();
 }
 
+/** @brief Scan WAL directory and recover oldest/current LSN boundaries. */
 void WALManager::loadExistingSegments() {
     namespace fs = std::filesystem;
     
@@ -443,6 +501,7 @@ void WALManager::loadExistingSegments() {
     }
 }
 
+/** @brief Remove oldest segments exceeding configured max segment count. */
 void WALManager::cleanupOldSegments() {
     // Keep only max_segments
     namespace fs = std::filesystem;
@@ -479,3 +538,4 @@ void WALManager::cleanupOldSegments() {
 }
 
 } // namespace themis::sharding
+

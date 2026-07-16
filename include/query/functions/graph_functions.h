@@ -1,23 +1,20 @@
+/**
+ * @file graph_functions.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_functions.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1325                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_functions.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -28,6 +25,7 @@
 #include <queue>
 #include <stack>
 #include <algorithm>
+#include <cstdint>
 #include <limits>
 
 
@@ -46,7 +44,7 @@ namespace functions {
  * - Process mining
  * - Dependency analysis
  * 
- * @sources
+ * Sources:
  * - Query Language Inspiration: ArangoDB AQL (Arango Query Language)
  * - Repository: https://github.com/arangodb/arangodb
  * - License: Apache 2.0
@@ -221,6 +219,7 @@ inline SimpleGraph buildGraph(const nlohmann::json& edges) {
  */
 class IsEdgeFunction : public IFunction {
 public:
+    ~IsEdgeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_EDGE",
@@ -247,6 +246,7 @@ public:
  */
 class IsVertexFunction : public IFunction {
 public:
+    ~IsVertexFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_VERTEX",
@@ -273,6 +273,7 @@ public:
  */
 class ParseIdentifierFunction : public IFunction {
 public:
+    ~ParseIdentifierFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PARSE_IDENTIFIER",
@@ -309,6 +310,7 @@ public:
  */
 class GraphDegreeFunction : public IFunction {
 public:
+    ~GraphDegreeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_DEGREE",
@@ -355,6 +357,7 @@ public:
  */
 class GraphNeighborsFunction : public IFunction {
 public:
+    ~GraphNeighborsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_NEIGHBORS",
@@ -432,6 +435,7 @@ public:
  */
 class ShortestPathFunction : public IFunction {
 public:
+    ~ShortestPathFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SHORTEST_PATH",
@@ -530,7 +534,10 @@ public:
         return nlohmann::json{
             {"vertices", vertices},
             {"edges", nlohmann::json::array()}, // Edge details would require more context
-            {"distance", static_cast<int>(path.size() - 1)}
+            {"distance",
+             path.size() > static_cast<size_t>(std::numeric_limits<int64_t>::max())
+                 ? std::numeric_limits<int64_t>::max()
+                 : static_cast<int64_t>(path.size() - 1)}
         };
     }
 };
@@ -540,6 +547,7 @@ public:
  */
 class GraphDistanceFunction : public IFunction {
 public:
+    ~GraphDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_DISTANCE",
@@ -572,6 +580,7 @@ public:
  */
 class GraphConnectedFunction : public IFunction {
 public:
+    ~GraphConnectedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_CONNECTED",
@@ -607,6 +616,7 @@ public:
  */
 class DegreeCentralityFunction : public IFunction {
 public:
+    ~DegreeCentralityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "DEGREE_CENTRALITY",
@@ -666,6 +676,7 @@ public:
  */
 class PageRankFunction : public IFunction {
 public:
+    ~PageRankFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PAGERANK",
@@ -807,6 +818,7 @@ public:
  */
 class ConnectedComponentsFunction : public IFunction {
 public:
+    ~ConnectedComponentsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CONNECTED_COMPONENTS",
@@ -871,6 +883,7 @@ public:
  */
 class ClusteringCoefficientFunction : public IFunction {
 public:
+    ~ClusteringCoefficientFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CLUSTERING_COEFFICIENT",
@@ -928,6 +941,7 @@ public:
  */
 class EdgesFunction : public IFunction {
 public:
+    ~EdgesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EDGES",
@@ -982,6 +996,7 @@ public:
  */
 class VerticesFunction : public IFunction {
 public:
+    ~VerticesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VERTICES",
@@ -1032,7 +1047,7 @@ public:
  * real-time AQL queries. For strict modularity optimization, consider using the
  * GraphAnalytics::louvainCommunities method directly with full graph indexing.
  * 
- * @sources
+ * Sources:
  * - Algorithm: "Fast unfolding of communities in large networks" (Blondel et al., 2008)
  * - Implementation adapted from ThemisDB's GraphAnalytics::louvainCommunities
  * - Repository: https://github.com/makr-code/ThemisDB
@@ -1043,6 +1058,7 @@ private:
     static constexpr int MAX_LOUVAIN_ITERATIONS = 100;  // Prevent infinite loops
 
 public:
+    ~LouvainCommunitiesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LOUVAIN_COMMUNITIES",
@@ -1178,7 +1194,7 @@ public:
  * Fast community detection using label propagation algorithm.
  * Each node iteratively adopts the most frequent label among its neighbors.
  * 
- * @sources
+ * Sources:
  * - Algorithm: "Near linear time algorithm to detect community structures" (Raghavan et al., 2007)
  * - Implementation adapted from ThemisDB's GraphAnalytics::labelPropagationCommunities
  * - Repository: https://github.com/makr-code/ThemisDB
@@ -1186,6 +1202,7 @@ public:
  */
 class LabelPropagationCommunitiesFunction : public IFunction {
 public:
+    ~LabelPropagationCommunitiesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LABEL_PROPAGATION_COMMUNITIES",
@@ -1325,4 +1342,3 @@ inline void registerGraphFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-

@@ -1,0 +1,445 @@
+<Window x:Class="Themis.USBAdminTool.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="ThemisDB – USB Admin Tool"
+        Height="780" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <!-- Loading overlay style -->
+        <Style x:Key="LoadingOverlay" TargetType="Border">
+            <Setter Property="Background" Value="#80000000"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <!-- Section-header TextBlock style -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="FontSize"   Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="Margin"     Value="0,0,0,6"/>
+        </Style>
+
+        <!-- Field label -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin"   Value="0,0,8,0"/>
+            <Setter Property="MinWidth" Value="140"/>
+        </Style>
+
+        <!-- Result TextBox -->
+        <Style x:Key="ResultBox" TargetType="TextBox">
+            <Setter Property="IsReadOnly"       Value="True"/>
+            <Setter Property="FontFamily"       Value="Consolas"/>
+            <Setter Property="FontSize"         Value="12"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Background"       Value="#F8F8F8"/>
+            <Setter Property="BorderBrush"      Value="#BDC3C7"/>
+            <Setter Property="Padding"          Value="6"/>
+            <Setter Property="AcceptsReturn"    Value="True"/>
+        </Style>
+
+        <!-- Primary action button -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background"  Value="#27AE60"/>
+            <Setter Property="Foreground"  Value="White"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Padding"     Value="14,6"/>
+            <Setter Property="Margin"      Value="0,0,6,0"/>
+            <Setter Property="MinWidth"    Value="130"/>
+            <Setter Property="Cursor"      Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- ── Main content ─────────────────────────────────────────────── -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>   <!-- Header -->
+                <RowDefinition Height="*"/>      <!-- Tabs -->
+                <RowDefinition Height="Auto"/>   <!-- Status bar -->
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="{StaticResource HeaderBrush}" Padding="15,10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="🔐" FontSize="28" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="ThemisDB – USB Admin Tool"
+                                   FontSize="22" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Provision · Verify · Transfer · Repair sicherer Admin-USB-Sticks"
+                                   FontSize="11" Foreground="#BDC3C7" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Tab Control -->
+            <TabControl Grid.Row="1" Margin="6" Background="White">
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- Tab 1: Laufwerke                                         -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <TabItem Header="💾  Laufwerke">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource SectionHeader}"
+                                   Text="Erkannte Wechseldatenträger"/>
+
+                        <!-- Drive list -->
+                        <DataGrid Grid.Row="1"
+                                  ItemsSource="{Binding Drives}"
+                                  SelectedItem="{Binding SelectedDrive}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="Horizontal"
+                                  AlternatingRowBackground="#F7F7F7"
+                                  RowHeaderWidth="0"
+                                  CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Laufwerk"    Binding="{Binding DisplayName}"    Width="160"/>
+                                <DataGridTextColumn Header="Dateisystem" Binding="{Binding FileSystem}"     Width="80"/>
+                                <DataGridTextColumn Header="Kapazität"   Binding="{Binding CapacityDisplay}" Width="180"/>
+                                <DataGridTextColumn Header="Vol. Serial" Binding="{Binding VolumeSerial}"   Width="100"/>
+                                <DataGridTextColumn Header="HW Serial"   Binding="{Binding HardwareSerial}" Width="160"/>
+                                <DataGridTextColumn Header="Lizenz"      Binding="{Binding LicenseStatus}"  Width="120"/>
+                                <DataGridTextColumn Header="Hash (SHA-256)" Binding="{Binding LicenseFileHash}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <!-- Selected drive detail -->
+                        <GroupBox Grid.Row="2" Header="Details" Margin="0,8,0,0"
+                                  Visibility="{Binding SelectedDrive, Converter={StaticResource BoolToVis}}">
+                            <Grid Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock>
+                                        <Run FontWeight="Bold">Pfad: </Run>
+                                        <Run Text="{Binding SelectedDrive.RootPath, FallbackValue='–'}"/>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run FontWeight="Bold">Lizenzschlüssel: </Run>
+                                        <Run Text="{Binding SelectedDrive.License.LicenseKey, FallbackValue='–'}"/>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run FontWeight="Bold">Organisation: </Run>
+                                        <Run Text="{Binding SelectedDrive.License.Organization, FallbackValue='–'}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock>
+                                        <Run FontWeight="Bold">Ablauf: </Run>
+                                        <Run Text="{Binding SelectedDrive.License.ExpiryDate, FallbackValue='–'}"/>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run FontWeight="Bold">Status: </Run>
+                                        <Run Text="{Binding SelectedDrive.License.StatusLabel, FallbackValue='–'}"/>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run FontWeight="Bold">Scopes: </Run>
+                                        <Run Text="{Binding SelectedDrive.License.AdminScopes.Count, FallbackValue='–'}"/>
+                                        <Run Text=" Scopes"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <Button Grid.Row="3"
+                                Content="🔄  Laufwerke aktualisieren"
+                                Style="{StaticResource PrimaryButton}"
+                                Command="{Binding RefreshDrivesCommand}"
+                                HorizontalAlignment="Left"
+                                Margin="0,8,0,0"/>
+                    </Grid>
+                </TabItem>
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- Tab 2: Provisionieren                                    -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <TabItem Header="✍️  Provisionieren">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource SectionHeader}"
+                            Text="Neuen ThemisDB Admin-USB-Stick provisionieren"/>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left column -->
+                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Laufwerk (z.B. E:\)" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox Text="{Binding ProvDrivePath, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="120" Margin="0,0,4,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Organisation *" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox Text="{Binding ProvOrganization, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Hardware-ID (Server) *" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox Text="{Binding ProvHardwareId, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Ablaufdatum *" Style="{StaticResource FieldLabel}"/>
+                                    <DatePicker SelectedDate="{Binding ProvExpiryDate}" Width="140"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Right column -->
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Scopes (kommagetrennt)" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox Text="{Binding ProvScopes, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Privat-Schlüssel (PEM)" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox Text="{Binding ProvPrivateKeyPath, UpdateSourceTrigger=PropertyChanged}" Width="220" Margin="0,0,4,0"/>
+                                    <Button Content="…" Width="30" Padding="2,0"
+                                            Command="{Binding BrowseProvPrivateKeyCommand}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Hardening-Record schreiben" Style="{StaticResource FieldLabel}"/>
+                                    <CheckBox IsChecked="{Binding ProvWriteHardening}" VerticalAlignment="Center"
+                                              ToolTip="Schreibt .themis_hardening.json mit Hash und Seriennummer auf den Stick"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0"
+                                    Content="▶  Jetzt provisionieren"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding ProvisionCommand}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,8,0,4"/>
+                            <TextBox Grid.Row="1"
+                                     Text="{Binding ProvResult, Mode=OneWay}"
+                                     Style="{StaticResource ResultBox}"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- Tab 3: Verifizieren                                      -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <TabItem Header="🔍  Verifizieren">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource SectionHeader}"
+                            Text="Integrität eines Admin-USB-Sticks prüfen"/>
+
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="#555">
+                            Prüft: (1) Lizenzdatei vorhanden + gültiges JSON + nicht abgelaufen,
+                            (2) SHA-256 gegen gepinnten Hash aus .themis_hardening.json (FAT-Manipulation),
+                            (3) Volume-Seriennummer gegen gepinnten Wert (geklonter Stick).
+                        </TextBlock>
+
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="Laufwerkspfad" Style="{StaticResource FieldLabel}" MinWidth="120"/>
+                            <TextBox Text="{Binding VerifyDrivePath, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="160" Margin="0,0,8,0"/>
+                            <Button Content="🔍  Prüfen"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding VerifyCommand}"/>
+                        </StackPanel>
+
+                        <TextBox Grid.Row="3"
+                                 Text="{Binding VerifyResult, Mode=OneWay}"
+                                 Style="{StaticResource ResultBox}"/>
+                    </Grid>
+                </TabItem>
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- Tab 4: Übertragen                                        -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <TabItem Header="📋  Übertragen">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource SectionHeader}"
+                            Text="Lizenz von einem USB-Stick auf einen anderen übertragen"/>
+
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="#555">
+                            Kopiert und signiert die Lizenz neu für den Ziel-Stick.
+                            Der Hardening-Record auf dem Ziel wird mit Hash + Seriennummer des neuen Sticks aktualisiert.
+                        </TextBlock>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Quelle (z.B. E:\)" Style="{StaticResource FieldLabel}" MinWidth="150"/>
+                                    <TextBox Text="{Binding TransferSource, UpdateSourceTrigger=PropertyChanged}" Width="120"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Ziel (z.B. F:\)"   Style="{StaticResource FieldLabel}" MinWidth="150"/>
+                                    <TextBox Text="{Binding TransferTarget, UpdateSourceTrigger=PropertyChanged}" Width="120"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Privat-Schlüssel (PEM)" Style="{StaticResource FieldLabel}" MinWidth="160"/>
+                                    <TextBox Text="{Binding TransferKeyPath, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,4,0"/>
+                                    <Button Content="…" Width="30" Padding="2,0"
+                                            Command="{Binding BrowseTransferKeyCommand}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0"
+                                    Content="📋  Übertragen"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding TransferCommand}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,8,0,4"/>
+                            <TextBox Grid.Row="1"
+                                     Text="{Binding TransferResult, Mode=OneWay}"
+                                     Style="{StaticResource ResultBox}"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <!-- ════════════════════════════════════════════════════════ -->
+                <!-- Tab 5: Reparieren                                        -->
+                <!-- ════════════════════════════════════════════════════════ -->
+                <TabItem Header="🔧  Reparieren">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource SectionHeader}"
+                            Text="Beschädigten oder abgelaufenen USB-Stick reparieren"/>
+
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="#555">
+                            Re-provisioniert den Stick: Organisation, Hardware-ID und Scopes werden aus der
+                            vorhandenen Lizenz übernommen, falls noch lesbar.  Der Hardening-Record wird
+                            mit dem neuen Hash aktualisiert.
+                        </TextBlock>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Laufwerkspfad" Style="{StaticResource FieldLabel}" MinWidth="150"/>
+                                    <TextBox Text="{Binding RepairDrivePath, UpdateSourceTrigger=PropertyChanged}" Width="120"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Neues Ablaufdatum" Style="{StaticResource FieldLabel}" MinWidth="150"/>
+                                    <DatePicker SelectedDate="{Binding RepairExpiryDate}" Width="140"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock Text="Privat-Schlüssel (PEM)" Style="{StaticResource FieldLabel}" MinWidth="160"/>
+                                    <TextBox Text="{Binding RepairKeyPath, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,4,0"/>
+                                    <Button Content="…" Width="30" Padding="2,0"
+                                            Command="{Binding BrowseRepairKeyCommand}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0"
+                                    Content="🔧  Reparieren"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Background="#E67E22"
+                                    Command="{Binding RepairCommand}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,8,0,4"/>
+                            <TextBox Grid.Row="1"
+                                     Text="{Binding RepairResult, Mode=OneWay}"
+                                     Style="{StaticResource ResultBox}"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+
+            <!-- Status bar -->
+            <Border Grid.Row="2" Background="#2C3E50" Padding="10,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding StatusMessage}"
+                               Foreground="White" VerticalAlignment="Center"/>
+                    <ProgressBar Grid.Column="1"
+                                 Width="120" Height="8"
+                                 IsIndeterminate="{Binding IsLoading}"
+                                 Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}"
+                                 Foreground="#27AE60"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Loading overlay -->
+        <Border Background="#70000000"
+                Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Bitte warten…" Foreground="White" FontSize="18"
+                           HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <ProgressBar IsIndeterminate="True" Width="200" Height="12" Foreground="#27AE60"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

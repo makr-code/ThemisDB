@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_aql_autocomplete.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:02:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     525                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 687871f13  2026-02-23  audit: fix COLLECT variable binding, unused includes, mul... ║
-    • 76634c39c  2026-02-23  feat(aql): implement LSP-compatible AQL auto-complete API... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_aql_autocomplete.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -314,7 +298,7 @@ TEST_F(AQLAutoCompleteDotTest, DotWithNoSchema_ReturnsEmpty) {
     // No schema → no attribute suggestions (and variable "u" may appear)
     auto items = ac.complete(makeCtx(q));
     // Should not crash; result may be empty or contain variable names
-    EXPECT_NO_FATAL_FAILURE();
+    SUCCEED();
     // No field-kind items without schema
     bool has_field = std::any_of(items.begin(), items.end(), [](const CompletionItem& i){
         return i.kind == CompletionItemKind::Field;

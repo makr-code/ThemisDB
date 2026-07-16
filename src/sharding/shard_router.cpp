@@ -1,29 +1,28 @@
+/**
+ * @file shard_router.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=23, H=31, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            shard_router.cpp                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     837                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1049
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=32, H=42, M=29, L=0
+ * PR History (last 5): #67 Implement Phase 6: Promethe... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/shard_router.h"
 #include "sharding/urn.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/tracing.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <regex>
 #include <chrono>
@@ -33,6 +32,7 @@
 #include <future>
 #include <thread>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 
@@ -43,7 +43,53 @@ static constexpr const char* API_MIGRATE_FETCH = "/api/v1/data/migrate/fetch";
 static constexpr const char* API_MIGRATE_WRITE = "/api/v1/data/migrate/write";
 static constexpr const char* API_QUERY = "/api/v1/query";
 
-// Helper function to parse query parameters from URL path
+namespace {
+
+uint64_t makeMergeVersionToken() {
+    return static_cast<uint64_t>(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+}
+
+uint64_t extractVersionToken(const nlohmann::json& payload) {
+    if (payload.is_object()) {
+        for (const char* key : {"mergeVersion", "version_token", "versionToken", "version"}) {
+            auto it = payload.find(key);
+            if (it != payload.end() && it->is_number_unsigned()) {
+                return it->get<uint64_t>();
+            }
+            if (it != payload.end() && it->is_number_integer()) {
+                const auto value = it->get<int64_t>();
+                if (value >= 0) {
+                    return static_cast<uint64_t>(value);
+                }
+            }
+        }
+
+        uint64_t nested_version = 0;
+        for (const auto& [_, value] : payload.items()) {
+            nested_version = std::max(nested_version, extractVersionToken(value));
+        }
+        return nested_version;
+    }
+
+    if (payload.is_array()) {
+        uint64_t nested_version = 0;
+        for (const auto& item : payload) {
+            nested_version = std::max(nested_version, extractVersionToken(item));
+        }
+        return nested_version;
+    }
+
+    return 0;
+}
+
+uint64_t resolveShardResultVersion(const ShardResult& result) {
+    return std::max(result.version_token, extractVersionToken(result.data));
+}
+
+} // namespace
+
+/** @brief Parse URL query string (`?a=b&c=d`) into key/value map. */
 static std::map<std::string, std::string> parseQueryParams(const std::string& path) {
     std::map<std::string, std::string> params;
     
@@ -68,7 +114,7 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     return params;
 }
 
-// Helper function to extract URN string from API data path
+/** @brief Extract URN suffix from `/api/v1/data/<urn>` style path. */
 static std::string extractUrnFromPath(const std::string& path) {
     size_t data_pos = path.find(API_DATA_PREFIX);
     if (data_pos == std::string::npos) {
@@ -86,6 +132,14 @@ static std::string extractUrnFromPath(const std::string& path) {
     return urn_str;
 }
 
+/**
+ * @brief Construct shard router facade and optional transaction coordinator.
+ * @param resolver Shard mapping resolver.
+ * @param executor Remote execution adapter.
+ * @param config Routing configuration.
+ * @param metrics Optional metrics collector.
+ * @param truetime Optional TrueTime source enabling distributed transactions.
+ */
 ShardRouter::ShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
@@ -105,6 +159,7 @@ ShardRouter::ShardRouter(
     }
 }
 
+/** @brief Replace TrueTime source and (re)create distributed txn coordinator if available. */
 void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     truetime_ = truetime;
     if (truetime_) {
@@ -113,10 +168,28 @@ void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     }
 }
 
+/** @brief Return current distributed transaction coordinator instance. */
 std::shared_ptr<DistributedTransactionCoordinator> ShardRouter::getTransactionCoordinator() {
     return txn_coordinator_;
 }
 
+/**
+ * @brief Route point read request by URN and return document payload on success.
+ *
+ * This method routes a GET request for a specific entity identified by its URN to the appropriate shard.
+ * It supports snapshot reads when a timestamp is provided, enabling MVCC (Multi-Version Concurrency Control).
+ *
+ * @param urn The unique resource identifier (URN) of the entity to retrieve.
+ * @param snapshot_timestamp Optional timestamp for reading from a specific point-in-time snapshot.
+ *                           If provided, the read will be consistent with that snapshot.
+ * @return std::optional<nlohmann::json> The retrieved document payload if successful, or std::nullopt on failure.
+ *
+ * @note This method is part of the single-shard routing strategy.
+ * @note W2-S07: Read consistency model
+ *       - Default: Read from primary shard (eventual consistency)
+ *       - With snapshot_timestamp: Read from specified snapshot (MVCC)
+ *       - No quorum checking: Primary shard is source of truth for consistency
+ */
 std::optional<nlohmann::json> ShardRouter::get(
     const URN& urn,
     std::optional<std::chrono::nanoseconds> snapshot_timestamp) {
@@ -124,6 +197,11 @@ std::optional<nlohmann::json> ShardRouter::get(
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
+    
+    // W2-S07: Read consistency model
+    // - Default: Read from primary shard (eventual consistency)
+    // - With snapshot_timestamp: Read from specified snapshot (MVCC)
+    // - No quorum checking: Primary shard is source of truth for consistency
     
     // If snapshot timestamp provided, add it to the request
     std::string path = "/api/v1/data/" + urn.toString();
@@ -147,11 +225,34 @@ std::optional<nlohmann::json> ShardRouter::get(
     return std::nullopt;
 }
 
+/**
+ * @brief Route point write request by URN to owning shard.
+ *
+ * This method routes a PUT request for a specific entity identified by its URN to the appropriate shard.
+ * The write is forwarded to the primary shard of the entity's partition.
+ *
+ * @param urn The unique resource identifier (URN) of the entity to update.
+ * @param data The JSON payload containing the new data for the entity.
+ * @return bool True if the write was successful, false otherwise.
+ *
+ * @note This method is part of the single-shard routing strategy.
+ * @note W2-S07: Write consistency model
+ *       - Primary shard: Write forwarded to primary after hashing
+ *       - Replication: Async replication to replicas (not part of this call)
+ *       - Durability: Write-through to primary's WAL
+ *       - Atomicity: Single shard write is atomic; multi-shard requires 2PC
+ */
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
+    
+    // W2-S07: Write consistency model
+    // - Primary shard: Write forwarded to primary after hashing
+    // - Replication: Async replication to replicas (not part of this call)
+    // - Durability: Write-through to primary's WAL
+    // - Atomicity: Single shard write is atomic; multi-shard requires 2PC
     
     auto result = routeRequest(urn, "PUT", "/api/v1/data/" + urn.toString(), std::optional<nlohmann::json>(data));
     
@@ -167,6 +268,17 @@ bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     return result.success;
 }
 
+/**
+ * @brief Route point delete request by URN to owning shard.
+ *
+ * This method routes a DELETE request for a specific entity identified by its URN to the appropriate shard.
+ * The deletion is forwarded to the primary shard of the entity's partition.
+ *
+ * @param urn The unique resource identifier (URN) of the entity to delete.
+ * @return bool True if the deletion was successful, false otherwise.
+ *
+ * @note This method is part of the single-shard routing strategy.
+ */
 bool ShardRouter::del(const URN& urn) {
     total_requests_++;
     
@@ -179,6 +291,22 @@ bool ShardRouter::del(const URN& urn) {
     return result.success;
 }
 
+/**
+ * @brief Execute query using selected routing strategy.
+ *
+ * This method routes a query to the appropriate shards based on its content.
+ * It determines the routing strategy (single-shard, scatter-gather, namespace-local, or cross-shard join)
+ * and executes the query accordingly.
+ *
+ * @param query Query text (e.g., AQL query string).
+ * @return nlohmann::json JSON payload merged from one or more shard responses.
+ *
+ * @note The routing strategy is determined by analyzing the query content:
+ *       - SINGLE_SHARD: Queries containing URN identifiers
+ *       - SCATTER_GATHER: Full table scans or queries without specific shard hints
+ *       - NAMESPACE_LOCAL: Queries scoped to a specific namespace
+ *       - CROSS_SHARD_JOIN: Queries with JOIN operations across shards
+ */
 nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     auto span = Tracer::startSpan("ShardRouter.executeQuery");
     span.setAttribute("query_length", static_cast<int64_t>(query.length()));
@@ -241,6 +369,7 @@ nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     return nlohmann::json{};
 }
 
+/** @brief Classify query into single-shard, scatter, namespace-local, or join strategy. */
 RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     // Simple query analysis
     // In production, would parse AQL/SQL and analyze
@@ -265,6 +394,19 @@ RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     return RoutingStrategy::SCATTER_GATHER;
 }
 
+/**
+ * @brief Execute scatter-gather request across current healthy shard set.
+ *
+ * This method sends a query to all shards in the cluster and merges the results.
+ * It is used for queries that span multiple shards, such as full table scans or namespace-local queries.
+ *
+ * @param query Query text sent to each selected shard.
+ * @return std::vector<ShardResult> Per-shard execution records including failures/timeouts.
+ *
+ * @note This method implements the scatter-gather routing strategy.
+ * @note The number of concurrent requests is limited by the configuration parameter `max_concurrent_shards`.
+ * @note Results from each shard are merged into a single response using the `mergeResults` method.
+ */
 std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::vector<ShardResult> results;
     scatter_gather_requests_++;
@@ -329,13 +471,17 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
                             std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
                         result.shard_id = shard.shard_id;  // Ensure shard_id is preserved
                     } else {
-                        remote_count++;
-                        auto exec_result = executor_->executeQuery(shard, query);
-                        
-                        result.success = exec_result.success;
-                        result.data = exec_result.data;
-                        result.error_msg = exec_result.error;
-                        result.execution_time_ms = exec_result.execution_time_ms;
+                        if (!executor_) {
+                            result.success = false;
+                            result.error_msg = "remote_executor_not_configured";
+                        } else {
+                            remote_count++;
+                            auto exec_result = executor_->executeQuery(shard, query);
+                            result.success = exec_result.success;
+                            result.data = exec_result.data;
+                            result.error_msg = exec_result.error;
+                            result.execution_time_ms = exec_result.execution_time_ms;
+                        }
                     }
                 } catch (const std::exception& e) {
                     result.success = false;
@@ -398,6 +544,148 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     return results;
 }
 
+/**
+ * @brief Execute query on explicit subset of shard ids.
+ * @param query Query text.
+ * @param shard_ids Target shard identifiers.
+ * @return Per-shard execution records for targeted subset.
+ */
+std::vector<ShardResult> ShardRouter::executeOnShards(
+    const std::string& query,
+    const std::vector<std::string>& shard_ids
+) {
+    std::vector<ShardResult> results;
+
+    if (shard_ids.empty()) {
+        return results;
+    }
+
+    // Build a fast lookup: shard_id → ShardInfo for the requested shards only.
+    auto all_shards = resolver_->getHealthyShards();
+    std::unordered_map<std::string, ShardInfo> shard_map;
+    shard_map.reserve(all_shards.size());
+    for (const auto& s : all_shards) {
+        shard_map[s.shard_id] = s;
+    }
+
+    // Collect the ShardInfo for each requested ID, skipping unknown ones.
+    std::vector<ShardInfo> target_shards;
+    target_shards.reserve(shard_ids.size());
+    for (const auto& id : shard_ids) {
+        // W2-S07: Use safe map access with at() instead of find() + iterator
+        try {
+            target_shards.push_back(shard_map.at(id));
+        } catch (const std::out_of_range&) {
+            spdlog::warn("executeOnShards: unknown or unhealthy shard '{}', skipping", id);
+        }
+    }
+
+    if (target_shards.empty()) {
+        return results;
+    }
+
+    const size_t max_concurrent = std::min(
+        static_cast<size_t>(config_.max_concurrent_shards),
+        target_shards.size()
+    );
+
+    std::atomic<uint64_t> local_count{0};
+    std::atomic<uint64_t> remote_count{0};
+
+    for (size_t batch_start = 0; batch_start < target_shards.size(); batch_start += max_concurrent) {
+        size_t batch_end = std::min(batch_start + max_concurrent, target_shards.size());
+
+        std::vector<std::future<ShardResult>> futures;
+        futures.reserve(batch_end - batch_start);
+        std::vector<std::string> batch_shard_ids;
+        batch_shard_ids.reserve(batch_end - batch_start);
+
+        for (size_t i = batch_start; i < batch_end; ++i) {
+            const auto& shard = target_shards[i];
+            batch_shard_ids.push_back(shard.shard_id);
+
+            futures.push_back(std::async(std::launch::async,
+                [this, shard, &query, &local_count, &remote_count]() -> ShardResult {
+                ShardResult result;
+                result.shard_id = shard.shard_id;
+                auto t0 = std::chrono::steady_clock::now();
+                try {
+                    if (shard.shard_id == config_.local_shard_id) {
+                        local_count++;
+                        result = executeLocal("POST", "/api/v1/query",
+                            std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
+                        result.shard_id = shard.shard_id;
+                    } else {
+                        if (!executor_) {
+                            result.success = false;
+                            result.error_msg = "remote_executor_not_configured";
+                        } else {
+                            remote_count++;
+                            auto exec_result = executor_->executeQuery(shard, query);
+                            result.success = exec_result.success;
+                            result.data    = exec_result.data;
+                            result.error_msg = exec_result.error;
+                            result.execution_time_ms = exec_result.execution_time_ms;
+                        }
+                    }
+                } catch (const std::exception& e) {
+                    result.success   = false;
+                    result.error_msg = std::string("executeOnShards exception: ") + e.what();
+                }
+                if (result.execution_time_ms == 0) {
+                    result.execution_time_ms =
+                        static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - t0).count());
+                }
+                return result;
+            }));
+        }
+
+        const auto timeout = std::chrono::milliseconds(config_.scatter_timeout_ms);
+        for (size_t i = 0; i < futures.size(); ++i) {
+            try {
+                if (futures[i].wait_for(timeout) == std::future_status::ready) {
+                    results.push_back(futures[i].get());
+                } else {
+                    ShardResult tr;
+                    tr.shard_id         = batch_shard_ids[i];
+                    tr.success          = false;
+                    tr.error_msg        = "executeOnShards request timed out";
+                    tr.execution_time_ms = config_.scatter_timeout_ms;
+                    results.push_back(tr);
+                }
+            } catch (const std::exception& e) {
+                ShardResult er;
+                er.shard_id  = batch_shard_ids[i];
+                er.success   = false;
+                er.error_msg = std::string("executeOnShards future exception: ") + e.what();
+                results.push_back(er);
+            }
+        }
+    }
+
+    local_requests_  += local_count.load();
+    remote_requests_ += remote_count.load();
+
+    return results;
+}
+
+/**
+ * @brief Execute cross-shard join operation.
+ *
+ * This method performs a join operation across multiple shards.
+ * It supports two strategies: co-located join (when the join field is the partition key) and broadcast hash join.
+ *
+ * @param query Query string containing the join operation.
+ * @param join_field The field used for joining records across shards.
+ * @return nlohmann::json Joined results with monotonic mergeVersion/version_token metadata so
+ *         callers can detect stale merged snapshots across shards.
+ *
+ * @note This method implements the cross-shard join routing strategy.
+ * @note The join strategy is determined by analyzing the join_field:
+ *       - If the field matches the partition key pattern, a co-located join is performed.
+ *       - Otherwise, a broadcast hash join is used.
+ */
 nlohmann::json ShardRouter::executeCrossShardJoin(
     const std::string& query,
     const std::string& join_field) {
@@ -471,15 +759,84 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         span.setAttribute("left_rows", static_cast<int64_t>(total_left_rows));
         span.setAttribute("hash_table_size", static_cast<int64_t>(hash_table.size()));
-        
-        // Phase 2: If we have a right-side query, execute it
-        // For now, return the merged left results with hash table stats
+
+        // Phase 2: Parse right-side collection from the query string and probe
+        // the hash table with right-side documents.
+        //
+        // Expected query format:
+        //   "JOIN <left_coll> ON <field> WITH <right_coll> [WHERE ...]"
+        // A plain collection name is also accepted as a fallback.
+        std::string right_collection;
+        {
+            const std::string with_kw = " WITH ";  // uppercase per convention
+            const std::string WITH_KW = " with ";  // case-insensitive fallback
+            auto pos = query.find(with_kw);
+            if (pos == std::string::npos) pos = query.find(WITH_KW);
+            if (pos != std::string::npos) {
+                pos += with_kw.size();
+                // Collection name ends at whitespace, ';', or end-of-string.
+                auto end = query.find_first_of(" \t\r\n;", pos);
+                right_collection = (end == std::string::npos)
+                    ? query.substr(pos)
+                    : query.substr(pos, end - pos);
+            }
+        }
+
+        size_t total_right_rows  = 0;
+        size_t total_matched_rows = 0;
+        uint64_t merge_version = makeMergeVersionToken();
+        for (const auto& shard_result : left_results) {
+            merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+        }
+        nlohmann::json joined_rows = nlohmann::json::array();
+
+        if (!right_collection.empty()) {
+            // Fetch right-side documents from all shards.
+            const std::string right_query =
+                "FOR doc IN " + right_collection + " RETURN doc";
+            auto right_results = scatterGather(right_query);
+            for (const auto& shard_result : right_results) {
+                merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+                if (!shard_result.success || !shard_result.data.is_array()) continue;
+                for (const auto& right_row : shard_result.data) {
+                    total_right_rows++;
+                    if (!right_row.contains(join_field)) continue;
+                    std::string key = right_row[join_field].is_string()
+                        ? right_row[join_field].get<std::string>()
+                        : right_row[join_field].dump();
+                    auto it = hash_table.find(key);
+                    if (it == hash_table.end()) continue;
+                    // Emit one merged row per matching left-side entry.
+                    for (const auto& left_row : it->second) {
+                        nlohmann::json merged = nlohmann::json::object();
+                        for (const auto& [k, v] : left_row.items()) {
+                            merged["left_" + k] = v;
+                        }
+                        for (const auto& [k, v] : right_row.items()) {
+                            const std::string rk = "right_" + k;
+                            if (!merged.contains(rk)) merged[rk] = v;
+                        }
+                        const uint64_t row_merge_version = std::max(
+                            merge_version,
+                            std::max(extractVersionToken(left_row), extractVersionToken(right_row)));
+                        merged["mergeVersion"] = row_merge_version;
+                        merged["version_token"] = row_merge_version;
+                        joined_rows.push_back(std::move(merged));
+                        ++total_matched_rows;
+                    }
+                }
+            }
+        }
+
         nlohmann::json result = {
-            {"join_type", "broadcast_hash"},
-            {"join_field", join_field},
-            {"total_rows", total_left_rows},
-            {"unique_keys", hash_table.size()},
-            {"data", mergeResults(left_results)}
+            {"join_type",    "broadcast_hash"},
+            {"join_field",   join_field},
+            {"left_rows",    total_left_rows},
+            {"right_rows",   total_right_rows},
+            {"matched_rows", total_matched_rows},
+            {"mergeVersion", merge_version},
+            {"version_token", merge_version},
+            {"data",         std::move(joined_rows)}
         };
         
         auto end_time = std::chrono::steady_clock::now();
@@ -488,10 +845,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         if (metrics_) {
             metrics_->recordCrossShardJoinDuration(strategy_name, static_cast<double>(duration_ms));
-            // Note: In a complete implementation, right_rows would come from the right-side query results
-            // For now, using total_left_rows as a placeholder for the result set size
-            // TODO: Track actual right-side row count when full join implementation is complete
-            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows, total_left_rows, total_left_rows);
+            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows,
+                                               total_right_rows, total_matched_rows);
         }
         
         return result;
@@ -509,10 +864,13 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         // Phase 2: Merge results from all shards
         nlohmann::json merged = mergeResults(results);
+        const uint64_t merge_version = merged.value("mergeVersion", makeMergeVersionToken());
         
         nlohmann::json result = {
             {"join_type", "co_located"},
             {"join_field", join_field},
+            {"mergeVersion", merge_version},
+            {"version_token", merge_version},
             {"data", merged}
         };
         
@@ -520,6 +878,11 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
     }
 }
 
+/**
+ * @brief Return aggregate routing counters collected by this router instance.
+ * @return JSON object with totals for all requests, local/remote dispatches,
+ *         scatter-gather operations, and observed errors.
+ */
 nlohmann::json ShardRouter::getStatistics() const {
     return nlohmann::json{
         {"total_requests", total_requests_.load()},
@@ -530,6 +893,15 @@ nlohmann::json ShardRouter::getStatistics() const {
     };
 }
 
+/**
+ * @brief Resolve the owning shard for a URN and dispatch the request.
+ * @param urn Entity identifier used for primary-shard resolution.
+ * @param method HTTP-style operation verb. Empty values are rejected fail-closed.
+ * @param path Relative API path to execute on the target shard. Empty values are rejected fail-closed.
+ * @param body Optional JSON payload for PUT/POST style requests.
+ * @return Result envelope containing the target shard id, payload, and any failure detail.
+ * @note Local shards are executed via @ref executeLocal while remote shards require a configured executor.
+ */
 ShardResult ShardRouter::routeRequest(
     const URN& urn,
     const std::string& method,
@@ -537,6 +909,23 @@ ShardResult ShardRouter::routeRequest(
     const std::optional<nlohmann::json>& body) {
     
     ShardResult result;
+
+    // Fail-closed guards: reject empty method and path
+    if (method.empty()) {
+        result.success = false;
+        result.error_msg = "method is empty";
+        errors_++;
+        spdlog::error("ShardRouter::routeRequest: method is empty");
+        return result;
+    }
+    
+    if (path.empty()) {
+        result.success = false;
+        result.error_msg = "path is empty";
+        errors_++;
+        spdlog::error("ShardRouter::routeRequest: path is empty");
+        return result;
+    }
     
     // Resolve URN to shard
     auto shard_info = resolver_->resolvePrimary(urn);
@@ -555,10 +944,17 @@ ShardResult ShardRouter::routeRequest(
         return executeLocal(method, path, body);
     }
     
-    // Execute remotely
-    remote_requests_++;
+    // Execute remotely — fail-closed when executor is not configured.
+    if (!executor_) {
+        result.success = false;
+        result.error_msg = "remote_executor_not_configured";
+        errors_++;
+        THEMIS_ERROR("ShardRouter[{}]: routeRequest rejected — remote_executor_not_configured (shard={})",
+                     config_.local_shard_id, result.shard_id);
+        return result;
+    }
+
     RemoteExecutor::Result exec_result;
-    
     if (method == "GET") {
         exec_result = executor_->get(*shard_info, path);
     } else if (method == "PUT" && body) {
@@ -568,25 +964,48 @@ ShardResult ShardRouter::routeRequest(
     } else if (method == "POST" && body) {
         exec_result = executor_->post(*shard_info, path, *body);
     }
-    
+
     result.success = exec_result.success;
     result.data = exec_result.data;
     result.error_msg = exec_result.error;
     result.execution_time_ms = exec_result.execution_time_ms;
-    
+
     return result;
 }
 
+/**
+ * @brief Execute a routed request against the local shard simulation facade.
+ * @param method HTTP-style operation verb. Empty values are rejected fail-closed.
+ * @param path Relative API path describing the local operation to emulate.
+ * @param body Optional JSON payload used for query or write-style requests.
+ * @return Result envelope containing locally synthesized payload data or an error description.
+ * @note Unknown methods, invalid URNs, and unsupported paths are converted into structured JSON errors.
+ */
 ShardResult ShardRouter::executeLocal(
     const std::string& method,
     const std::string& path,
     const std::optional<nlohmann::json>& body) {
     
-    auto start_time = std::chrono::steady_clock::now();
-    
     ShardResult result;
     result.shard_id = config_.local_shard_id;
     result.success = false;
+
+    // Fail-closed guards: reject empty method and path
+    if (method.empty()) {
+        result.error_msg = "method is empty";
+        errors_++;
+        spdlog::error("ShardRouter::executeLocal: method is empty");
+        return result;
+    }
+    
+    if (path.empty()) {
+        result.error_msg = "path is empty";
+        errors_++;
+        spdlog::error("ShardRouter::executeLocal: path is empty");
+        return result;
+    }
+    
+    auto start_time = std::chrono::steady_clock::now();
     
     try {
         // Parse the path to determine the operation type
@@ -747,15 +1166,30 @@ ShardResult ShardRouter::executeLocal(
     return result;
 }
 
+/**
+ * @brief Merge per-shard responses into one logical query result.
+ * @param results Individual shard results produced by scatter-gather or subset execution.
+ * @return JSON object containing merged result rows, per-shard errors, counters,
+ *         and monotonic merge version metadata.
+ * @note Successful array payloads are concatenated; non-array payloads are appended as single records.
+ */
 nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results) {
+    // W2-S07: Merge strategy for distributed query results
+    // - Conflict resolution: Last-write-wins based on shard response order
+    // - Consistency model: Read committed (eventual) from multiple shards
+    // - Duplicate handling: Client responsible for deduplication on keys
+    // - Ordering: Results ordered by shard response arrival, not key
+    
     nlohmann::json merged;
     merged["results"] = nlohmann::json::array();
     merged["errors"] = nlohmann::json::array();
     merged["shard_count"] = results.size();
     
     size_t success_count = 0;
+    uint64_t merge_version = makeMergeVersionToken();
     
     for (const auto& result : results) {
+        merge_version = std::max(merge_version, resolveShardResultVersion(result));
         if (result.success) {
             success_count++;
             
@@ -782,10 +1216,19 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     
     merged["success_count"] = success_count;
     merged["error_count"] = results.size() - success_count;
+    merged["mergeVersion"] = merge_version;
+    merged["version_token"] = merge_version;
     
     return merged;
 }
 
+/**
+ * @brief Apply offset/limit slicing to an already merged result set.
+ * @param merged JSON payload that may contain a `results` array.
+ * @param offset Zero-based start index within the merged `results` array.
+ * @param limit Maximum number of rows to return.
+ * @return Copy of @p merged with paginated `results` and pagination metadata when applicable.
+ */
 nlohmann::json ShardRouter::applyPagination(
     const nlohmann::json& merged,
     size_t offset,
@@ -813,6 +1256,11 @@ nlohmann::json ShardRouter::applyPagination(
     return paginated;
 }
 
+/**
+ * @brief Extract the first URN literal embedded in a query string.
+ * @param query Query text to inspect.
+ * @return Parsed URN when a matching literal is found and can be parsed; otherwise `std::nullopt`.
+ */
 std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     // Simple regex to find URN in query
     std::regex urn_pattern(R"(urn:themis:[^:]+:[^:]+:[^:]+:[a-f0-9-]+)");
@@ -825,6 +1273,11 @@ std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     return std::nullopt;
 }
 
+/**
+ * @brief Extract an explicit namespace selector from a query string.
+ * @param query Query text to inspect.
+ * @return Namespace token following the `NAMESPACE` keyword, or `std::nullopt` when absent.
+ */
 std::optional<std::string> ShardRouter::extractNamespace(const std::string& query) const {
     // Simple pattern matching for namespace
     std::regex ns_pattern(R"(NAMESPACE\s+([a-zA-Z0-9_]+))");
@@ -838,3 +1291,4 @@ std::optional<std::string> ShardRouter::extractNamespace(const std::string& quer
 }
 
 } // namespace themis::sharding
+

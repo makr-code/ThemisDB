@@ -1,27 +1,23 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timeseries.h                                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file timeseries.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_TIMESERIES_H
-#define THEMIS_TIMESERIES_H
+/*
+ * ThemisDB | File: timeseries.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <string_view>
@@ -108,6 +104,15 @@ public:
              const DataPoint& point);
     
     /**
+     * @brief Query data points in time range (all data)
+     * @param metric Metric name
+     * @param entity Entity ID
+     * @return Vector of data points
+     */
+    std::vector<DataPoint> query(std::string_view metric,
+                                  std::string_view entity) const;
+    
+    /**
      * @brief Query data points in time range
      * @param metric Metric name
      * @param entity Entity ID
@@ -115,10 +120,17 @@ public:
      * @return Vector of data points
      */
     std::vector<DataPoint> query(std::string_view metric,
-                                  std::string_view entity) const;
-    std::vector<DataPoint> query(std::string_view metric,
                                   std::string_view entity,
                                   const RangeQuery& query) const;
+    
+    /**
+     * @brief Aggregate data points in time range (all data)
+     * @param metric Metric name
+     * @param entity Entity ID
+     * @return Aggregation result
+     */
+    Aggregation aggregate(std::string_view metric,
+                         std::string_view entity) const;
     
     /**
      * @brief Aggregate data points in time range
@@ -127,8 +139,6 @@ public:
      * @param query Range query parameters
      * @return Aggregation result
      */
-    Aggregation aggregate(std::string_view metric,
-                         std::string_view entity) const;
     Aggregation aggregate(std::string_view metric,
                          std::string_view entity,
                          const RangeQuery& query) const;
@@ -156,6 +166,8 @@ public:
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
+
+  rocksdb::ColumnFamilyHandle* resolveColumnFamily() const;
     
     static constexpr const char* KEY_PREFIX = "ts:";
     
@@ -168,5 +180,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TIMESERIES_H

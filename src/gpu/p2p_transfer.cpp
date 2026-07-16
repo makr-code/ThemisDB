@@ -1,25 +1,21 @@
+/**
+ * @file p2p_transfer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            p2p_transfer.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bafc919a5  2026-02-28  fix(gpu): correct disablePeerAccess device ordinals; fix ... ║
-    • 5b1bf176b  2026-02-28  feat(gpu): implement GPUP2PTransferManager for peer-to-pe... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: p2p_transfer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 381
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=5, M=0, L=0
+ * PR History (last 5): #3113 feat(gpu): Peer-to-peer GPU... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -40,16 +36,17 @@
  */
 
 #include "themis/gpu/p2p_transfer.h"
-#include "themis/gpu/feature_flags.h"
-#include "themis/gpu/cluster_topology.h"
 
 #include <cstring>
 
+#include "themis/gpu/cluster_topology.h"
+#include "themis/gpu/feature_flags.h"
+
 #ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
+#include <cuda_runtime.h>
 #endif
 #ifdef THEMIS_ENABLE_HIP
-#  include <hip/hip_runtime.h>
+#include <hip/hip_runtime.h>
 #endif
 
 namespace themis {
@@ -59,17 +56,25 @@ namespace gpu {
 // p2pStatusName
 // ============================================================================
 
-const char* p2pStatusName(GPUP2PTransferManager::Status s) noexcept {
+const char *p2pStatusName(GPUP2PTransferManager::Status s) noexcept {
     using S = GPUP2PTransferManager::Status;
     switch (s) {
-        case S::OK:                          return "OK";
-        case S::FEATURE_DISABLED:            return "FEATURE_DISABLED";
-        case S::PEER_ACCESS_NOT_SUPPORTED:   return "PEER_ACCESS_NOT_SUPPORTED";
-        case S::PEER_ACCESS_ALREADY_ENABLED: return "PEER_ACCESS_ALREADY_ENABLED";
-        case S::PEER_ACCESS_NOT_ENABLED:     return "PEER_ACCESS_NOT_ENABLED";
-        case S::INVALID_DEVICE:              return "INVALID_DEVICE";
-        case S::TRANSFER_FAILED:             return "TRANSFER_FAILED";
-        case S::OUT_OF_MEMORY:               return "OUT_OF_MEMORY";
+        case S::OK:
+            return "OK";
+        case S::FEATURE_DISABLED:
+            return "FEATURE_DISABLED";
+        case S::PEER_ACCESS_NOT_SUPPORTED:
+            return "PEER_ACCESS_NOT_SUPPORTED";
+        case S::PEER_ACCESS_ALREADY_ENABLED:
+            return "PEER_ACCESS_ALREADY_ENABLED";
+        case S::PEER_ACCESS_NOT_ENABLED:
+            return "PEER_ACCESS_NOT_ENABLED";
+        case S::INVALID_DEVICE:
+            return "INVALID_DEVICE";
+        case S::TRANSFER_FAILED:
+            return "TRANSFER_FAILED";
+        case S::OUT_OF_MEMORY:
+            return "OUT_OF_MEMORY";
     }
     return "UNKNOWN";
 }
@@ -82,58 +87,60 @@ namespace {
 
 // Return the effective device list, falling back to DeviceDiscovery when the
 // caller passed an empty vector.
-std::vector<DeviceInfo> resolveDevices(const std::vector<DeviceInfo>& devices) {
-    if (!devices.empty()) return devices;
+std::vector<DeviceInfo> resolveDevices(const std::vector<DeviceInfo> &devices) {
+    if (!devices.empty()) {
+        return devices;
+    }
     return DeviceDiscovery::Enumerate();
 }
 
 // Validate that both indices are within the device list.
-bool devicesValid(int src, int dst, const std::vector<DeviceInfo>& devs) {
-    if (src < 0 || dst < 0) return false;
+bool devicesValid(int src, int dst, const std::vector<DeviceInfo> &devs) {
+    if (src < 0 || dst < 0) {
+        return false;
+    }
     const int n = static_cast<int>(devs.size());
     return src < n && dst < n && src != dst;
 }
 
 // Determine the preferred interconnect for the device pair (best-effort).
 // Uses GPUClusterTopology::detect() when no explicit topology is provided.
-InterconnectType detectInterconnect(int src, int dst,
-                                    const std::vector<DeviceInfo>& devs) {
-    if (!devicesValid(src, dst, devs)) return InterconnectType::CPU;
+InterconnectType detectInterconnect(int src, int dst, const std::vector<DeviceInfo> &devs) {
+    if (!devicesValid(src, dst, devs)) {
+        return InterconnectType::CPU;
+    }
     auto topo = GPUClusterTopology::detect(devs);
     return topo.preferredInterconnect(src, dst);
 }
 
-}  // namespace
+} // namespace
 
 // ============================================================================
 // canAccessPeer
 // ============================================================================
 
-bool GPUP2PTransferManager::canAccessPeer(
-    int src_device, int dst_device,
-    const std::vector<DeviceInfo>& devices) const
-{
-    if (src_device == dst_device) return false;
+bool GPUP2PTransferManager::canAccessPeer(int src_device, int dst_device,
+                                          const std::vector<DeviceInfo> &devices) const {
+    if (src_device == dst_device) {
+        return false;
+    }
     const auto devs = resolveDevices(devices);
-    if (!devicesValid(src_device, dst_device, devs)) return false;
+    if (!devicesValid(src_device, dst_device, devs)) {
+        return false;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
-    int can = 0;
-    cudaError_t err = cudaDeviceCanAccessPeer(
-        &can,
-        devs[static_cast<size_t>(src_device)].device_index,
-        devs[static_cast<size_t>(dst_device)].device_index);
+    int can         = 0;
+    cudaError_t err = cudaDeviceCanAccessPeer(&can, devs[static_cast<size_t>(src_device)].device_index,
+                                              devs[static_cast<size_t>(dst_device)].device_index);
     return (err == cudaSuccess) && (can != 0);
 #elif defined(THEMIS_ENABLE_HIP)
-    int can = 0;
-    hipError_t err = hipDeviceCanAccessPeer(
-        &can,
-        devs[static_cast<size_t>(src_device)].device_index,
-        devs[static_cast<size_t>(dst_device)].device_index);
+    int can        = 0;
+    hipError_t err = hipDeviceCanAccessPeer(&can, devs[static_cast<size_t>(src_device)].device_index,
+                                            devs[static_cast<size_t>(dst_device)].device_index);
     return (err == hipSuccess) && (can != 0);
 #else
     // CPU simulation: no hardware P2P available.
-    (void)devs;
     return false;
 #endif
 }
@@ -142,12 +149,9 @@ bool GPUP2PTransferManager::canAccessPeer(
 // enablePeerAccess
 // ============================================================================
 
-GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
-    int src_device, int dst_device,
-    const std::vector<DeviceInfo>& devices)
-{
-    if (!GPUFeatureFlags::GetInstance().isEnabled(
-            GPUFeatureFlags::Feature::PEER_TO_PEER)) {
+GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(int src_device, int dst_device,
+                                                                      const std::vector<DeviceInfo> &devices) {
+    if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::PEER_TO_PEER)) {
         return Status::FEATURE_DISABLED;
     }
 
@@ -210,7 +214,6 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
 
 #else
     // CPU fallback: no hardware P2P available; deny silently.
-    (void)devs;
     return Status::PEER_ACCESS_NOT_SUPPORTED;
 #endif
 
@@ -223,11 +226,8 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
 // disablePeerAccess
 // ============================================================================
 
-GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(
-    int src_device, int dst_device)
-{
-    if (!GPUFeatureFlags::GetInstance().isEnabled(
-            GPUFeatureFlags::Feature::PEER_TO_PEER)) {
+GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(int src_device, int dst_device) {
+    if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::PEER_TO_PEER)) {
         return Status::FEATURE_DISABLED;
     }
 
@@ -242,7 +242,7 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(
 #ifdef THEMIS_ENABLE_CUDA
     const int src_idx = it->second.src_device_index;
     const int dst_idx = it->second.dst_device_index;
-    int prev_device = 0;
+    int prev_device   = 0;
     cudaGetDevice(&prev_device);
     cudaSetDevice(src_idx);
     cudaDeviceDisablePeerAccess(dst_idx);
@@ -250,7 +250,7 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(
 #elif defined(THEMIS_ENABLE_HIP)
     const int src_idx = it->second.src_device_index;
     const int dst_idx = it->second.dst_device_index;
-    int prev_device = 0;
+    int prev_device   = 0;
     hipGetDevice(&prev_device);
     hipSetDevice(src_idx);
     hipDeviceDisablePeerAccess(dst_idx);
@@ -266,9 +266,7 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(
 // isPeerAccessEnabled
 // ============================================================================
 
-bool GPUP2PTransferManager::isPeerAccessEnabled(
-    int src_device, int dst_device) const
-{
+bool GPUP2PTransferManager::isPeerAccessEnabled(int src_device, int dst_device) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return enabled_pairs_.count(pairKey(src_device, dst_device)) > 0;
 }
@@ -277,14 +275,11 @@ bool GPUP2PTransferManager::isPeerAccessEnabled(
 // transfer
 // ============================================================================
 
-GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(
-    const TransferRequest& req,
-    const std::vector<DeviceInfo>& devices)
-{
+GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const TransferRequest &req,
+                                                                      const std::vector<DeviceInfo> &devices) {
     TransferResult result;
 
-    if (!GPUFeatureFlags::GetInstance().isEnabled(
-            GPUFeatureFlags::Feature::PEER_TO_PEER)) {
+    if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::PEER_TO_PEER)) {
         result.error_message = "PEER_TO_PEER feature is disabled";
         std::lock_guard<std::mutex> lock(mutex_);
         ++stats_.failed_transfers;
@@ -292,7 +287,7 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(
     }
 
     if (req.size_bytes == 0) {
-        result.ok = true;
+        result.ok                = true;
         result.bytes_transferred = 0;
         return result;
     }
@@ -326,11 +321,8 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(
     const int src_idx = devs[static_cast<size_t>(req.src_device)].device_index;
     const int dst_idx = devs[static_cast<size_t>(req.dst_device)].device_index;
 
-#  ifdef THEMIS_ENABLE_CUDA
-    cudaError_t err = cudaMemcpyPeer(
-        req.dst_ptr, dst_idx,
-        req.src_ptr, src_idx,
-        req.size_bytes);
+#ifdef THEMIS_ENABLE_CUDA
+    cudaError_t err = cudaMemcpyPeer(req.dst_ptr, dst_idx, req.src_ptr, src_idx, req.size_bytes);
 
     if (err != cudaSuccess) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -338,11 +330,8 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(
         ++stats_.failed_transfers;
         return result;
     }
-#  else  // THEMIS_ENABLE_HIP
-    hipError_t err = hipMemcpyPeer(
-        req.dst_ptr, dst_idx,
-        req.src_ptr, src_idx,
-        req.size_bytes);
+#else // THEMIS_ENABLE_HIP
+    hipError_t err = hipMemcpyPeer(req.dst_ptr, dst_idx, req.src_ptr, src_idx, req.size_bytes);
 
     if (err != hipSuccess) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -350,11 +339,10 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(
         ++stats_.failed_transfers;
         return result;
     }
-#  endif
+#endif
 
     // Determine the interconnect type for stats.
-    const InterconnectType itype = detectInterconnect(
-        req.src_device, req.dst_device, devs);
+    const InterconnectType itype = detectInterconnect(req.src_device, req.dst_device, devs);
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -380,7 +368,7 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(
     }
 #endif
 
-    result.ok = true;
+    result.ok                = true;
     result.bytes_transferred = req.size_bytes;
     return result;
 }

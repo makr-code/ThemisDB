@@ -1,0 +1,257 @@
+{
+  "rows": [
+    {
+      "scanner": "concurrency",
+      "gap_type": "data_race",
+      "before": 1617,
+      "after": 1220,
+      "delta": -397,
+      "pct": -24.55
+    },
+    {
+      "scanner": "reliability",
+      "gap_type": "no_timeout",
+      "before": 378,
+      "after": 330,
+      "delta": -48,
+      "pct": -12.7
+    },
+    {
+      "scanner": "memory",
+      "gap_type": "pointer_arithmetic",
+      "before": 2022,
+      "after": 845,
+      "delta": -1177,
+      "pct": -58.21
+    },
+    {
+      "scanner": "security",
+      "gap_type": "null_dereference",
+      "before": 1469,
+      "after": 570,
+      "delta": -899,
+      "pct": -61.2
+    },
+    {
+      "scanner": "container",
+      "gap_type": "iterator_invalidation",
+      "before": 677,
+      "after": 117,
+      "delta": -560,
+      "pct": -82.72
+    }
+  ],
+  "fp_candidate_count": 30,
+  "fp_candidates_top30": [
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\analytics\\olap.cpp",
+      "line": 296,
+      "snippet": "const size_t max_entries = impl_->config.result_cache_max_entries;"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\analytics\\olap.cpp",
+      "line": 297,
+      "snippet": "const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\gpu\\time_slice_scheduler.cpp",
+      "line": 188,
+      "snippet": "it->second.stats.queue_depth = it->second.queue.size();"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\llm\\inline_training_engine.cpp",
+      "line": 261,
+      "snippet": "impl_->registry      = std::move(registry);"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\llm\\lora_framework\\lora_feedback_storage.cpp",
+      "line": 35,
+      "snippet": "bool ok = config_.db->open();"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\llm\\lora_framework\\lora_feedback_storage.cpp",
+      "line": 442,
+      "snippet": "auto status = config_.graph_index->deleteEdge(edge_id);"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\network\\wire_protocol_v2.cpp",
+      "line": 170,
+      "snippet": "hdr.payload_length = static_cast<uint32_t>(payload->size());"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\rag\\continuous_learning_orchestrator.cpp",
+      "line": 181,
+      "snippet": "impl_->learning_loop_active = false;"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\security\\hsm_provider_pkcs11.cpp",
+      "line": 661,
+      "snippet": "r.cert_serial = impl_->cert_serial_cache_.empty()?\"REAL-CERT\":impl_->cert_serial_cache_;"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\security\\hsm_provider_pkcs11.cpp",
+      "line": 1023,
+      "snippet": "impl_->cert_serial_cache_ = serial_hex;"
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\sharding\\cross_shard_transaction.cpp",
+      "line": 2623,
+      "snippet": "stats->pending_transactions ="
+    },
+    {
+      "gap_type": "data_race",
+      "reason": "lock_scope_present",
+      "file": "src\\sharding\\metadata_shard.cpp",
+      "line": 149,
+      "snippet": "auto cached = cache_->get(cache_key);"
+    },
+    {
+      "gap_type": "iterator_invalidation",
+      "reason": "erase_after_find_pattern",
+      "file": "src\\graph\\graph_query_optimizer.cpp",
+      "line": 2081,
+      "snippet": "auto it = plan_cache_.find(key);"
+    },
+    {
+      "gap_type": "iterator_invalidation",
+      "reason": "erase_after_find_pattern",
+      "file": "src\\query\\query_cache.cpp",
+      "line": 325,
+      "snippet": "auto it = cache_.find(fingerprint);"
+    },
+    {
+      "gap_type": "iterator_invalidation",
+      "reason": "erase_after_find_pattern",
+      "file": "src\\transaction\\lock_manager.cpp",
+      "line": 142,
+      "snippet": "auto lt_it = lock_table_.find(key);"
+    },
+    {
+      "gap_type": "iterator_invalidation",
+      "reason": "erase_after_find_pattern",
+      "file": "src\\transaction\\lock_manager.cpp",
+      "line": 183,
+      "snippet": "auto lt_it = lock_table_.find(key);"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\base\\remote_registry_client.cpp",
+      "line": 149,
+      "snippet": "lock.lock();"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\base\\remote_registry_client.cpp",
+      "line": 177,
+      "snippet": "static_cast<std::ofstream *>(userp)->write(static_cast<char *>(contents), static_cast<std::streamsiz"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\llm\\async_inference_engine.cpp",
+      "line": 673,
+      "snippet": "queue_cv_.wait(lock, [this] { return request_queue_.empty(); });"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\network\\wire_protocol_connection_pool.cpp",
+      "line": 410,
+      "snippet": "lock.lock();"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\rag\\continuous_learning_client.cpp",
+      "line": 55,
+      "snippet": "batch_thread.join();"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\server\\mcp_server.cpp",
+      "line": 2831,
+      "snippet": "auto self = weak_self.lock();"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\server\\mqtt_client_service.cpp",
+      "line": 434,
+      "snippet": "asio::write(*asio_->ssl_stream, asio::buffer(pkt), we);"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\server\\postgres_session.cpp",
+      "line": 123,
+      "snippet": "if (auto self = weak_self.lock()) {"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "local_pem_file_io",
+      "file": "src\\sharding\\gossip_protocol.cpp",
+      "line": 667,
+      "snippet": "FILE* fp = fopen(key_path.c_str(), \"r\");"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\sharding\\raft_wal_integration.cpp",
+      "line": 90,
+      "snippet": "return config_.wal_manager->read(lsn);"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\updates\\hot_reload_engine.cpp",
+      "line": 471,
+      "snippet": "FILE* fp = fopen(dest.c_str(), \"wb\");"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\updates\\parallel_downloader.cpp",
+      "line": 382,
+      "snippet": "if (!backoff.wait()) break;"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\utils\\grpc_channel_pool.cpp",
+      "line": 84,
+      "snippet": "lock.lock();"
+    },
+    {
+      "gap_type": "no_timeout",
+      "reason": "timeout_already_present",
+      "file": "src\\utils\\rate_limiter.cpp",
+      "line": 53,
+      "snippet": "void RateLimiter::acquire(double tokens) {"
+    }
+  ]
+}

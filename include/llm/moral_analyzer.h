@@ -1,23 +1,21 @@
+/**
+ * @file moral_analyzer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            moral_analyzer.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     599                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: moral_analyzer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 589
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #966 Implement philosophy recomm... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -100,8 +98,8 @@ public:
      */
     struct PredictedOutcome {
         std::string description;
-        double probability;
-        double utility;  // -1.0 to 1.0
+        double probability = 0.0;
+        double utility = 0.0;  // -1.0 to 1.0
         std::map<std::string, double> stakeholder_impacts;
         std::vector<std::string> affected_principles;
     };
@@ -115,7 +113,7 @@ public:
         std::string philosophy;
         std::string principle_basis;
         std::string argument_type;  // pro, contra, rebuttal
-        double strength;  // 0.0 to 1.0
+        double strength = 0.0;  // 0.0 to 1.0
     };
     
     /**
@@ -127,8 +125,8 @@ public:
         std::vector<std::string> opposing_principles;
         std::vector<PredictedOutcome> outcomes;
         std::vector<EthicalArgument> arguments;
-        double total_score;
-        double confidence;
+        double total_score = 0.0;
+        double confidence = 0.0;
     };
     
     /**
@@ -142,7 +140,7 @@ public:
         std::string reasoning;
         std::vector<std::string> principle_citations;
         ReasoningPath reasoning_path;
-        double confidence;
+        double confidence = 0.0;
         std::map<std::string, std::string> alternative_perspectives;
         std::string graph_id;
         

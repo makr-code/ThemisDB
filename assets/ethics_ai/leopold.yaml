@@ -1,0 +1,274 @@
+school_id: leopold
+name: Environmental Ethics (Leopold)
+name_de: Umweltethik (Leopold)
+taxonomy_class: environmental
+tags:
+- leopold
+- umweltethik
+- land_ethik
+- oekosystem
+- biotic_community
+- naturschutz
+applicable_domains:
+- environmental_ethics
+- ai_ethics
+- technology
+convergence_compatible: []
+activation_conditions:
+- condition: dilemma.tags enthält environment ODER ecology ODER land
+  effect: always_active
+regulatory_constraints:
+  override_permitted: true
+  applicable_regulations: []
+  note: Umweltrecht als korrespondierendes Recht
+domain_overrides:
+  environmental_ethics:
+    weight_boost: 0.4
+    note: Originäre Domäne
+founders:
+- name: Aldo Leopold
+  years: 1887-1948
+  nationality: American
+  key_works:
+  - title: A Sand County Almanac
+    year: 1949
+    significance: Introduced 'land ethic' - ecocentric ethics
+  biography: Forester and conservationist, pioneer of environmental ethics and wilderness protection
+- name: Hans Jonas
+  years: 1903-1993
+  nationality: German-American
+  key_works:
+  - title: The Imperative of Responsibility
+    year: 1979
+    significance: Ethics for technological civilization, precautionary principle
+  biography: Philosopher who extended ethics to include responsibility for future generations and nature
+- name: Peter Singer
+  years: 1946-present
+  nationality: Australian
+  key_works:
+  - title: Animal Liberation
+    year: 1975
+    significance: Expanded moral consideration to animals
+  - title: Practical Ethics
+    year: 1979
+    significance: Applied ethics including environmental issues
+  biography: Utilitarian philosopher, pioneer of animal rights and environmental ethics
+historical_context:
+  period: 20th Century - Present
+  philosophical_movement: Environmental Philosophy, Deep Ecology
+  zeitgeist: Environmental crisis, sustainability, climate change, biodiversity loss
+  influences:
+  - source: Conservation Movement
+    thinkers:
+    - Muir
+    - Leopold
+    impact: Value of wilderness and nature
+  - source: Systems Thinking
+    thinkers:
+    - Carson
+    - Lovelock
+    impact: Interconnectedness of ecosystems
+  - source: Indigenous Philosophy
+    impact: Respect for nature, interconnectedness
+  reactions_against:
+  - Anthropocentrism (human-centered ethics)
+  - Unlimited economic growth paradigm
+  - Environmental degradation
+  - Species extinction
+main_theses:
+- thesis_id: land_ethic
+  name: Land Ethic (Leopold)
+  description: Expand ethical community to include land, animals, and plants
+  explanation: "'A thing is right when it tends to preserve the integrity, stability, \nand beauty of the biotic community.\
+    \ It is wrong when it tends otherwise.'\nEthics must extend beyond humans to encompass entire ecosystems.\n"
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: precautionary_principle
+  name: Precautionary Principle (Jonas)
+  description: In face of uncertainty, err on side of caution regarding environmental harm
+  explanation: 'When activities may lead to serious or irreversible environmental harm,
+
+    lack of full scientific certainty should not prevent protective measures.
+
+    Future generations have rights we must respect.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+- thesis_id: intrinsic_value
+  name: Intrinsic Value of Nature
+  description: Nature has value independent of human utility
+  explanation: 'Species, ecosystems, and nature itself have inherent worth,
+
+    not merely instrumental value for human purposes.
+
+    This grounds obligations to preserve biodiversity and wilderness.
+
+    '
+  token_budget: 180
+  activation_rounds:
+  - 1
+  - 2
+  - 3
+  round_role_weights:
+    PRO: 1.0
+    REBUTTAL: 0.9
+    SURREBUTTAL: 0.8
+    SYNTHESIS: 0.4
+    META_VERDICT: 0.2
+secondary_theses:
+- Intergenerational justice - obligations to future generations
+- Animal rights and welfare
+- Ecological limits to growth
+- Sustainability as ethical imperative
+- Climate justice and responsibility
+- Biodiversity conservation
+- Ecosystem services and natural capital
+- Environmental human rights
+decision_framework:
+  primary_test: Ecological Integrity Test
+  description: Is this fair to future generations?
+  steps:
+  - Assess impact on ecosystems and biodiversity
+  - Consider long-term environmental consequences
+  - Evaluate sustainability and regeneration
+  - Apply precautionary principle to uncertainty
+  secondary_test: Intergenerational Justice Test
+  criteria:
+  - Preserves natural resources
+  - Does not impose irreversible harm
+  - Maintains options for future
+  - Distributes burdens fairly across time
+strengths:
+- Addresses urgent environmental crises
+- Provides framework for sustainability
+- Extends moral consideration beyond humans
+- Recognizes interconnectedness of life
+- Supports intergenerational justice
+- Grounded in ecological science
+- Increasingly mainstream in policy
+weaknesses:
+- Tension between human needs and environmental protection
+- Difficulty prioritizing among environmental values
+- Challenge of valuing non-human entities
+- Potential conflict with development goals
+- Enforcement and compliance issues
+- Cultural variations in environmental values
+- Trade-offs between different environmental goods
+internal_debate:
+  anthropocentric_vs_ecocentric:
+    issue: Should ethics be human-centered or nature-centered?
+    positions:
+    - 'Anthropocentric: Protect environment for human benefit'
+    - 'Ecocentric: Nature has intrinsic value independent of humans'
+    - 'Pragmatic: Both approaches support conservation'
+  preservation_vs_conservation:
+    issue: Should nature be preserved untouched or managed sustainably?
+    positions:
+    - 'Preservationist: Protect wilderness from human impact'
+    - 'Conservationist: Sustainable use of natural resources'
+    - 'Restoration: Active intervention to restore degraded ecosystems'
+  individual_vs_systemic:
+    issue: Focus on individual actions or systemic change?
+    positions:
+    - 'Individual responsibility: Personal lifestyle changes'
+    - 'Systemic change: Transform economic and political systems'
+    - 'Both: Individual actions within systemic reform'
+philosophical_positioning:
+  relation_to_kantian: Extends duty and respect to include nature and future generations
+  relation_to_utilitarian: Considers welfare of all sentient beings, not just humans
+  relation_to_virtue_ethics: Cultivates ecological virtues like respect for nature
+  relation_to_care_ethics: Caring relationships extend to non-human world
+practical_applications:
+  climate_policy:
+    principle: Climate justice and mitigation
+    considerations:
+    - Reduce greenhouse gas emissions
+    - Support renewable energy transition
+    - Climate adaptation for vulnerable
+    - Fair distribution of climate costs
+  biodiversity:
+    principle: Species and habitat protection
+    considerations:
+    - Protected areas and wildlife corridors
+    - Endangered species conservation
+    - Ecosystem restoration
+    - Combat invasive species
+  resource_management:
+    principle: Sustainable use of natural resources
+    considerations:
+    - Renewable resource limits
+    - Circular economy principles
+    - Waste reduction and recycling
+    - Water conservation
+  land_use:
+    principle: Balance development and conservation
+    considerations:
+    - Environmental impact assessment
+    - Sustainable agriculture
+    - Urban green spaces
+    - Habitat connectivity
+modern_developments:
+  climate_emergency:
+    description: Recognition of climate crisis as existential threat
+    significance: Urgency in environmental action and policy
+  rights_of_nature:
+    description: Legal recognition of rivers, forests, ecosystems as rights-holders
+    significance: Paradigm shift in environmental law
+  planetary_boundaries:
+    description: Scientific framework for safe operating space for humanity
+    significance: Quantifies ecological limits
+  green_new_deal:
+    description: Integrated approach to climate and social justice
+    significance: Links environmental and economic transformation
+critiques:
+  development_critique: Environmental protection can limit economic development
+  anthropocentric_response: Only humans have moral standing, nature valuable instrumentally
+  practical_limits: Difficulty implementing ecocentric ethics in human society
+  cultural_imperialism: Western environmental ethics may not fit other cultures
+  misanthropy_concern: Deep ecology can devalue human welfare
+key_literature:
+- author: Leopold, Aldo
+  title: A Sand County Almanac
+  year: 1949
+- author: Jonas, Hans
+  title: The Imperative of Responsibility
+  year: 1979
+- author: Singer, Peter
+  title: Animal Liberation
+  year: 1975
+- author: Naess, Arne
+  title: Deep Ecology
+  year: 1973
+- author: Carson, Rachel
+  title: Silent Spring
+  year: 1962
+cross_school_tensions:
+- own_thesis: land_ethics
+  opposing_school: utilitarianism
+  opposing_thesis: greatest_happiness
+  tension_type: biocentric_community_vs_anthropocentric_aggregate
+  rebuttal_cite_weight: 0.85
+- own_thesis: biotic_community
+  opposing_school: kant
+  opposing_thesis: selbstzweck
+  tension_type: ecosystem_membership_vs_rational_subject_only
+  rebuttal_cite_weight: 0.7

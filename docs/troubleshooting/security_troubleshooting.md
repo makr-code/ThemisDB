@@ -381,4 +381,4 @@ security:
 - [HSM Production Setup](../security/HSM_PRODUCTION_SETUP.md)
 - [Zero Trust Policy Enforcer](../security/zero_trust_policy_enforcer.md)
 - [Access Control Framework](../security/access_control_framework.md)
-- [Security Executive Summary](../SECURITY_EXECUTIVE_SUMMARY.md)
+- [Security Executive Summary](../de/security/SECURITY_EXECUTIVE_SUMMARY.md)

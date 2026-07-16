@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Themis.IngestionTool
 
 Ein C# .NET Console-Tool zur rekursiven Durchsuchung von Verzeichnissen nach ingestierbaren Dateien mit Hash-basierter Duplikaterkennung und Metadatenextraktion für ThemisDB.

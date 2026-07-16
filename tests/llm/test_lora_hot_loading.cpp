@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_hot_loading.cpp                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:01:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     333                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b9d87ac07  2026-02-28  feat(llm): LoRA adapter hot-loading at inference time ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_hot_loading.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -307,6 +292,28 @@ TEST_F(LoRAHotLoadingTest, LoadAdapter_ModelScoped_OnlyAffectsTargetModel) {
 /// getLoadedLoRAAdapters returns empty when no adapters are registered.
 TEST_F(LoRAHotLoadingTest, GetLoadedAdapters_InitiallyEmpty) {
     EXPECT_TRUE(engine_->getLoadedLoRAAdapters().empty());
+}
+
+/// AC-5 performance gate: loadLoRAAdapter must complete in ≤ 5 s wall-clock.
+/// Gated on THEMIS_RUN_PERF_TESTS=1 so it is opt-in in CI.
+TEST_F(LoRAHotLoadingTest, HotLoad_WallClock_Under5Seconds) {
+    if (!std::getenv("THEMIS_RUN_PERF_TESTS")) {
+        GTEST_SKIP() << "Set THEMIS_RUN_PERF_TESTS=1 to enable performance gate";
+    }
+
+    auto path = makeMockAdapterFile("perf_7b");
+
+    auto t0 = std::chrono::steady_clock::now();
+    engine_->loadLoRAAdapter("perf-lora", path, 1.0f);
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                          std::chrono::steady_clock::now() - t0)
+                          .count();
+
+    EXPECT_LE(elapsed_ms, 5000)
+        << "Hot-load took " << elapsed_ms << " ms, expected ≤ 5000 ms";
+
+    // Adapter must be registered and pre-loaded on the plugin after the call.
+    EXPECT_TRUE(plugin_->isLoRALoaded("perf-lora"));
 }
 
 /// Calling loadLoRAAdapter before any model is registered still completes,

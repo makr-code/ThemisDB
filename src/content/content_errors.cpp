@@ -1,26 +1,25 @@
+/**
+ * @file content_errors.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_errors.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:57:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     425                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_errors.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 426
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "content/content_errors.h"
+
 #include <unordered_map>
 
 namespace themis {
@@ -55,48 +54,46 @@ bool ContentError::isClientError() const {
 bool ContentError::isServerError() const {
     int c = static_cast<int>(code);
     // Processing, storage, resource, and internal errors
-    return (c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) ||
-           (c >= 1300 && c < 1400) ||
-           (c >= 1500 && c < 1600) ||
-           (c >= 1900 && c < 2000);
+    return (c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) || (c >= 1300 && c < 1400)
+           || (c >= 1500 && c < 1600) || (c >= 1900 && c < 2000);
 }
 
 int ContentError::getHttpStatus() const {
     switch (code) {
         case ContentErrorCode::OK:
             return 200;
-        
+
         // Client errors (400-level)
         case ContentErrorCode::CONTENT_INVALID_INPUT:
         case ContentErrorCode::CONTENT_EMPTY:
         case ContentErrorCode::CONTENT_SCHEMA_INVALID:
-            return 400;  // Bad Request
-        
+            return 400; // Bad Request
+
         case ContentErrorCode::CONTENT_UNAUTHORIZED:
-            return 401;  // Unauthorized
-        
+            return 401; // Unauthorized
+
         case ContentErrorCode::CONTENT_MIME_TYPE_DENIED:
         case ContentErrorCode::CONTENT_MALWARE_DETECTED:
         case ContentErrorCode::CONTENT_PII_DETECTED:
         case ContentErrorCode::CONTENT_ABUSE_DETECTED:
-            return 403;  // Forbidden
-        
+            return 403; // Forbidden
+
         case ContentErrorCode::CONTENT_NOT_FOUND:
-            return 404;  // Not Found
-        
+            return 404; // Not Found
+
         case ContentErrorCode::CONTENT_TIMEOUT:
-            return 408;  // Request Timeout
-        
+            return 408; // Request Timeout
+
         case ContentErrorCode::CONTENT_SIZE_EXCEEDED:
-            return 413;  // Payload Too Large
-        
+            return 413; // Payload Too Large
+
         case ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED:
         case ContentErrorCode::CONTENT_MIME_TYPE_INVALID:
-            return 415;  // Unsupported Media Type
-        
+            return 415; // Unsupported Media Type
+
         case ContentErrorCode::CONTENT_RATE_LIMIT_EXCEEDED:
-            return 429;  // Too Many Requests
-        
+            return 429; // Too Many Requests
+
         // Server errors (500-level)
         case ContentErrorCode::CONTENT_PROCESSING_FAILED:
         case ContentErrorCode::CONTENT_EXTRACTION_FAILED:
@@ -108,18 +105,18 @@ int ContentError::getHttpStatus() const {
         case ContentErrorCode::CONTENT_ENCRYPTION_FAILED:
         case ContentErrorCode::CONTENT_INTERNAL_ERROR:
         case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
-            return 500;  // Internal Server Error
-        
+            return 500; // Internal Server Error
+
         case ContentErrorCode::CONTENT_PROCESSOR_UNAVAILABLE:
         case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
-            return 503;  // Service Unavailable
-        
+            return 503; // Service Unavailable
+
         case ContentErrorCode::CONTENT_QUEUE_FULL:
         case ContentErrorCode::CONTENT_BACKPRESSURE:
         case ContentErrorCode::CONTENT_MEMORY_LIMIT:
         case ContentErrorCode::CONTENT_CPU_LIMIT:
-            return 503;  // Service Unavailable
-        
+            return 503; // Service Unavailable
+
         default:
             return 500;
     }
@@ -127,85 +124,81 @@ int ContentError::getHttpStatus() const {
 
 json ContentError::toJson() const {
     json j;
-    j["code"] = static_cast<int>(code);
-    j["error"] = errorCodeToString(code);
+    j["code"]    = static_cast<int>(code);
+    j["error"]   = errorCodeToString(code);
     j["message"] = message;
-    
+
     if (!correlation_id.empty()) {
         j["correlation_id"] = correlation_id;
     }
-    
+
     if (!metadata.is_null() && !metadata.empty()) {
         j["metadata"] = metadata;
     }
-    
+
     return j;
 }
 
 json ContentError::toJsonVerbose() const {
     json j = toJson();
-    
+
     if (!details.empty()) {
         j["details"] = details;
     }
-    
+
     if (!content_id.empty()) {
         j["content_id"] = content_id;
     }
-    
-    j["category"] = errorCodeCategory(code);
-    j["http_status"] = getHttpStatus();
-    j["retryable"] = isRetryable();
+
+    j["category"]     = errorCodeCategory(code);
+    j["http_status"]  = getHttpStatus();
+    j["retryable"]    = isRetryable();
     j["client_error"] = isClientError();
     j["server_error"] = isServerError();
-    
+
     return j;
 }
 
-ContentError ContentError::fromJson(const json& j) {
+ContentError ContentError::fromJson(const json &j) {
     ContentError err;
-    
+
     if (j.contains("code") && j["code"].is_number()) {
         err.code = static_cast<ContentErrorCode>(j["code"].get<int>());
     }
-    
+
     if (j.contains("message") && j["message"].is_string()) {
         err.message = j["message"].get<std::string>();
     }
-    
+
     if (j.contains("details") && j["details"].is_string()) {
         err.details = j["details"].get<std::string>();
     }
-    
+
     if (j.contains("correlation_id") && j["correlation_id"].is_string()) {
         err.correlation_id = j["correlation_id"].get<std::string>();
     }
-    
+
     if (j.contains("content_id") && j["content_id"].is_string()) {
         err.content_id = j["content_id"].get<std::string>();
     }
-    
+
     if (j.contains("metadata")) {
         err.metadata = j["metadata"];
     }
-    
+
     return err;
 }
 
 ContentError ContentError::ok() {
     ContentError err;
-    err.code = ContentErrorCode::OK;
+    err.code    = ContentErrorCode::OK;
     err.message = "Success";
     return err;
 }
 
-ContentError ContentError::error(
-    ContentErrorCode code,
-    const std::string& message,
-    const std::string& details
-) {
+ContentError ContentError::error(ContentErrorCode code, const std::string &message, const std::string &details) {
     ContentError err;
-    err.code = code;
+    err.code    = code;
     err.message = message.empty() ? getDefaultErrorMessage(code) : message;
     err.details = details;
     return err;
@@ -219,7 +212,7 @@ std::string errorCodeToString(ContentErrorCode code) {
     switch (code) {
         case ContentErrorCode::OK:
             return "OK";
-        
+
         // Input Validation
         case ContentErrorCode::CONTENT_INVALID_INPUT:
             return "CONTENT_INVALID_INPUT";
@@ -237,7 +230,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_CORRUPT";
         case ContentErrorCode::CONTENT_SCHEMA_INVALID:
             return "CONTENT_SCHEMA_INVALID";
-        
+
         // Processing
         case ContentErrorCode::CONTENT_PROCESSING_FAILED:
             return "CONTENT_PROCESSING_FAILED";
@@ -253,7 +246,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_EMBEDDING_FAILED";
         case ContentErrorCode::CONTENT_INDEXING_FAILED:
             return "CONTENT_INDEXING_FAILED";
-        
+
         // Security
         case ContentErrorCode::CONTENT_MALWARE_DETECTED:
             return "CONTENT_MALWARE_DETECTED";
@@ -267,7 +260,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_SIGNATURE_INVALID";
         case ContentErrorCode::CONTENT_ENCRYPTION_FAILED:
             return "CONTENT_ENCRYPTION_FAILED";
-        
+
         // Storage
         case ContentErrorCode::CONTENT_NOT_FOUND:
             return "CONTENT_NOT_FOUND";
@@ -277,7 +270,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_DEDUPLICATION_FAILED";
         case ContentErrorCode::CONTENT_COMPRESSION_FAILED:
             return "CONTENT_COMPRESSION_FAILED";
-        
+
         // Rate Limiting
         case ContentErrorCode::CONTENT_RATE_LIMIT_EXCEEDED:
             return "CONTENT_RATE_LIMIT_EXCEEDED";
@@ -285,7 +278,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_QUEUE_FULL";
         case ContentErrorCode::CONTENT_BACKPRESSURE:
             return "CONTENT_BACKPRESSURE";
-        
+
         // Resources
         case ContentErrorCode::CONTENT_MEMORY_LIMIT:
             return "CONTENT_MEMORY_LIMIT";
@@ -293,7 +286,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_CPU_LIMIT";
         case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
             return "CONTENT_WORKER_UNAVAILABLE";
-        
+
         // Internal
         case ContentErrorCode::CONTENT_INTERNAL_ERROR:
             return "CONTENT_INTERNAL_ERROR";
@@ -301,7 +294,7 @@ std::string errorCodeToString(ContentErrorCode code) {
             return "CONTENT_CONFIGURATION_ERROR";
         case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
             return "CONTENT_DEPENDENCY_ERROR";
-        
+
         default:
             return "UNKNOWN_ERROR";
     }
@@ -309,16 +302,32 @@ std::string errorCodeToString(ContentErrorCode code) {
 
 std::string errorCodeCategory(ContentErrorCode code) {
     int c = static_cast<int>(code);
-    
-    if (c == 0) return "success";
-    if (c >= 1000 && c < 1100) return "validation";
-    if (c >= 1100 && c < 1200) return "processing";
-    if (c >= 1200 && c < 1300) return "security";
-    if (c >= 1300 && c < 1400) return "storage";
-    if (c >= 1400 && c < 1500) return "rate_limiting";
-    if (c >= 1500 && c < 1600) return "resources";
-    if (c >= 1900 && c < 2000) return "internal";
-    
+
+    if (c == 0) {
+        return "success";
+    }
+    if (c >= 1000 && c < 1100) {
+        return "validation";
+    }
+    if (c >= 1100 && c < 1200) {
+        return "processing";
+    }
+    if (c >= 1200 && c < 1300) {
+        return "security";
+    }
+    if (c >= 1300 && c < 1400) {
+        return "storage";
+    }
+    if (c >= 1400 && c < 1500) {
+        return "rate_limiting";
+    }
+    if (c >= 1500 && c < 1600) {
+        return "resources";
+    }
+    if (c >= 1900 && c < 2000) {
+        return "internal";
+    }
+
     return "unknown";
 }
 
@@ -326,7 +335,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
     switch (code) {
         case ContentErrorCode::OK:
             return "Success";
-        
+
         // Input Validation
         case ContentErrorCode::CONTENT_INVALID_INPUT:
             return "Invalid content input";
@@ -344,7 +353,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "Content is corrupted or malformed";
         case ContentErrorCode::CONTENT_SCHEMA_INVALID:
             return "Content does not match required schema";
-        
+
         // Processing
         case ContentErrorCode::CONTENT_PROCESSING_FAILED:
             return "Content processing failed";
@@ -360,7 +369,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "Failed to generate embeddings";
         case ContentErrorCode::CONTENT_INDEXING_FAILED:
             return "Failed to index content";
-        
+
         // Security
         case ContentErrorCode::CONTENT_MALWARE_DETECTED:
             return "Malware detected in content";
@@ -374,7 +383,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "Content signature verification failed";
         case ContentErrorCode::CONTENT_ENCRYPTION_FAILED:
             return "Content encryption failed";
-        
+
         // Storage
         case ContentErrorCode::CONTENT_NOT_FOUND:
             return "Content not found";
@@ -384,7 +393,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "Content deduplication failed";
         case ContentErrorCode::CONTENT_COMPRESSION_FAILED:
             return "Content compression failed";
-        
+
         // Rate Limiting
         case ContentErrorCode::CONTENT_RATE_LIMIT_EXCEEDED:
             return "Rate limit exceeded";
@@ -392,7 +401,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "Content processing queue is full";
         case ContentErrorCode::CONTENT_BACKPRESSURE:
             return "System is under load, please retry later";
-        
+
         // Resources
         case ContentErrorCode::CONTENT_MEMORY_LIMIT:
             return "Memory limit exceeded";
@@ -400,7 +409,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "CPU limit exceeded";
         case ContentErrorCode::CONTENT_WORKER_UNAVAILABLE:
             return "No workers available to process content";
-        
+
         // Internal
         case ContentErrorCode::CONTENT_INTERNAL_ERROR:
             return "Internal server error";
@@ -408,7 +417,7 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
             return "Configuration error";
         case ContentErrorCode::CONTENT_DEPENDENCY_ERROR:
             return "Dependency service error";
-        
+
         default:
             return "Unknown error";
     }

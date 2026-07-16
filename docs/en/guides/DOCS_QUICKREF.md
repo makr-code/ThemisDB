@@ -2,7 +2,7 @@
 
 > **Note:** This English quick reference points to the canonical German documents under `../de/` where no English version exists yet.
 
-**Last Updated:** December 20, 2025
+**Last Updated:** April 2026
 
 ## 🚀 Key Links
 
@@ -67,8 +67,8 @@
 - **Discussions:** https://github.com/makr-code/ThemisDB/discussions
 
 ### CI/CD Badges
-- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
-- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml)
+- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
+- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/05-quality_security_security-hardening-ci.yml)
 
 ## 📖 By Topic
 

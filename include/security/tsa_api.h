@@ -1,24 +1,20 @@
+/**
+ * @file tsa_api.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tsa_api.h                                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     383                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b41bc73a4  2026-03-01  Add RFC 3161 TSA API interface/wrapper: tsa_api.h, tsa_ap... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tsa_api.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -295,7 +291,7 @@ public:
      * @param req  Timestamp request (data or pre-computed hash).
      * @return     TSAResponse; check response.success before using the token.
      */
-    virtual TSAResponse requestTimestamp(const TSARequest& req) = 0;
+    [[nodiscard]] virtual TSAResponse requestTimestamp(const TSARequest& req) = 0;
 
     /**
      * Verify a previously obtained timestamp token against the original data.
@@ -303,19 +299,19 @@ public:
      * @param req  Verification request containing the data and token.
      * @return     true when the token is a valid imprint of req.data.
      */
-    virtual bool verifyToken(const TSAVerifyRequest& req) = 0;
+    [[nodiscard]] virtual bool verifyToken(const TSAVerifyRequest& req) = 0;
 
     /**
      * Check whether the configured TSA endpoint is reachable.
      *
      * @return true when the TSA responds to a lightweight HEAD request.
      */
-    virtual bool isAvailable() = 0;
+    [[nodiscard]] virtual bool isAvailable() = 0;
 
     /**
      * Return the most recent error message, or an empty string.
      */
-    virtual std::string getLastError() const = 0;
+    [[nodiscard]] virtual std::string getLastError() const = 0;
 };
 
 // ============================================================================

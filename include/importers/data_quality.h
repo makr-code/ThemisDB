@@ -1,0 +1,112 @@
+/**
+ * @file data_quality.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+/*
+ * ThemisDB | File: data_quality.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 101
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
+
+#include "importers/schema_inference.h"
+#include <string>
+#include <vector>
+#include <map>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace importers {
+
+/**
+ * @brief NIST SP 800-188 compliant Data Quality Framework.
+ *
+ * Evaluates six quality dimensions (completeness, accuracy, consistency,
+ * validity, timeliness, uniqueness) and emits structured reports.
+ *
+ * Standards:
+ *   - NIST SP 800-188 (Data Quality)
+ *   - FAIR Data Principles (Findable, Accessible, Interoperable, Reusable)
+ *   - DIN EN 15943
+ */
+class DataQualityFramework {
+public:
+    // ------------------------------------------------------------------
+    // Metrics
+    // ------------------------------------------------------------------
+    struct DataQualityMetrics {
+        double completeness{0.0};   ///< Fraction of non-null values  [0,1]
+        double accuracy{0.0};       ///< Pattern / format conformance  [0,1]
+        double consistency{0.0};    ///< Referential integrity score   [0,1]
+        double validity{0.0};       ///< Type conformance              [0,1]
+        double timeliness{0.0};     ///< Recency score                 [0,1]
+        double uniqueness{0.0};     ///< 1 – duplicate_rate            [0,1]
+        double overall_quality_score{0.0}; ///< Weighted average       [0,100]
+
+        json toJson() const;
+    };
+
+    // ------------------------------------------------------------------
+    // Report
+    // ------------------------------------------------------------------
+    struct QualityReport {
+        json metadata;
+        std::map<std::string, DataQualityMetrics> table_scores;
+        std::vector<std::string> issues;
+        std::vector<std::string> recommendations;
+        std::string generation_timestamp; ///< ISO 8601
+    };
+
+    // ------------------------------------------------------------------
+    // Assessor
+    // ------------------------------------------------------------------
+    class QualityAssessor {
+    public:
+        /**
+         * @brief Compute quality metrics for a single table.
+         * @param table_name  Name of the table being assessed.
+         * @param sample_data  Sampled rows (JSON objects).
+         * @param stats       Optional pre-computed column statistics.
+         */
+        DataQualityMetrics assessTable(
+            const std::string& table_name,
+            const std::vector<json>& sample_data,
+            const std::map<std::string, ColumnStatistics>& stats = {}
+        );
+
+        /**
+         * @brief Generate a full quality report for all tables.
+         * @param schemas   Schema descriptions.
+         * @param samples   Per-column sample data.
+         * @param stats     Column statistics.
+         */
+        QualityReport generateQualityReport(
+            const std::vector<InferenceTableSchema>& schemas,
+            const std::vector<SampleData>& samples = {},
+            const std::map<std::string, ColumnStatistics>& stats = {}
+        );
+
+    private:
+        double computeCompleteness(const std::vector<json>& rows,
+                                   const std::string& column) const;
+        double computeUniqueness(const std::vector<json>& rows,
+                                 const std::string& column) const;
+        double computeValidity(const std::vector<json>& rows,
+                               const std::string& column,
+                               const std::string& declared_type) const;
+    };
+};
+
+} // namespace importers
+} // namespace themis

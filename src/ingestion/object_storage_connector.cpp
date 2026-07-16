@@ -1,24 +1,21 @@
+/**
+ * @file object_storage_connector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=5, Sim=2, Debt=0, C=0, H=4, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            object_storage_connector.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:58:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     717                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7a7b91374  2026-02-27  Add S3/GCS/Azure Blob object storage source connector ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: object_storage_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 723
+ * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=5, Sim=2, Debt=0, C=0, H=5, M=4, L=0
+ * PR History (last 5): #3247 feat(ingestion): S3/GCS/Azu... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // When THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, or THEMIS_ENABLE_AZURE are
@@ -271,7 +268,17 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of ObjectStorageConnector without a live
+    //   object-storage endpoint by using injected list_fn_/fetch_fn_ lambdas.
+    // Activation: Active when list_fn_ is non-null (set via
+    //   ObjectStorageConnector::setListFnForTesting()).
+    // Production Delta: Object keys and content come from injected lambdas
+    //   instead of real HTTP/S3/GCS calls.  No authentication, no retries,
+    //   no bandwidth throttling.
+    // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
+    // Removal Plan: Not removed — remains the test-injection path.
+    // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
@@ -707,12 +714,22 @@ void ObjectStorageConnector::setRetryConfig(const RetryConfig& config) {
 }
 
 void ObjectStorageConnector::setObjectListForTesting(ObjectListFn fn) {
+    setObjectListProvider(std::move(fn));
+}
+
+void ObjectStorageConnector::setObjectListProvider(ObjectListFn fn) {
     impl_->setObjectListForTesting(std::move(fn));
 }
 
 void ObjectStorageConnector::setObjectFetchForTesting(ObjectFetchFn fn) {
+    setObjectFetchProvider(std::move(fn));
+}
+
+void ObjectStorageConnector::setObjectFetchProvider(ObjectFetchFn fn) {
     impl_->setObjectFetchForTesting(std::move(fn));
 }
 
 } // namespace ingestion
 } // namespace themis
+
+

@@ -1,68 +1,35 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_inference_engine.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     399                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
-    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
-    • 4987f75d3  2026-02-26  feat(llm): implement model hot-swap without engine restart ║
-    • c02012c46  2026-02-26  audit: fix stale Stubs count in file headers and add thre... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #pragma once
+
+/**
+ * @file async_inference_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
 
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llm_response_cache.h"
 #include "llm/prompt_policy.h"
 #include "llm/shared_worker_pool.h"
-#include <thread>
-#include <algorithm>
-#include <deque>
-#include <memory>
-#include <vector>
-#include <mutex>
-#include <shared_mutex>
-#include <condition_variable>
-#include <atomic>
-#include <future>
-#include <functional>
-#include <chrono>
 
-/**
- * @file async_inference_engine.h
- * @brief Asynchronous inference engine for ThemisDB
- * 
- * Runs LLM inference in separate thread pool, independent from ThemisDB's
- * main operations. Ensures inference doesn't block database operations.
- * 
- * Key features:
- * - Dedicated thread pool for inference
- * - Non-blocking request submission
- * - Priority queue for request scheduling
- * - Backpressure handling
- * - Cancellation support
- * 
- * Architecture:
- * - Main ThemisDB thread submits requests → returns immediately
- * - Inference threads process requests asynchronously
- * - Results returned via std::future or callback
- */
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <cstddef>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <queue>
+#include <shared_mutex>
+#include <string>
+#include <thread>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -71,6 +38,7 @@ namespace llm {
  * @brief Inference request with priority and metadata
  */
 struct AsyncInferenceRequest {
+    virtual ~AsyncInferenceRequest() = default;
     InferenceRequest request;
     int priority = 0;              // Higher = more urgent
     std::string request_id;        // Unique request ID
@@ -206,6 +174,50 @@ public:
         int priority = 0,
         std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
     );
+
+    /**
+     * @brief Token-streaming callback type.
+     *
+     * Called once per decoded token during streaming inference.  When
+     * @p is_final is true the token string is empty and no further calls
+     * will be made for this request (normal completion or cancellation).
+     *
+     * The callback is invoked from the worker thread; implementations must
+     * be thread-safe.  SSE framing is applied at the HTTP layer – the
+     * engine emits raw token strings.
+     *
+     * @note The @p token view is only valid for the duration of the callback
+     *       invocation.  If the value needs to be retained beyond the callback
+     *       return, copy it into a @c std::string before returning.
+     */
+    using TokenCallback = std::function<void(std::string_view token, bool is_final)>;
+
+    /**
+     * @brief Submit a streaming inference request.
+     *
+     * Submits the request to the worker queue and returns an InferenceHandle
+     * immediately.  The @p callback is invoked from the worker thread for
+     * each generated token (@p is_final == false) and once more with an
+     * empty token string and @p is_final == true when the stream ends
+     * (either on normal completion or on cancellation via
+     * InferenceHandle::cancel()).
+     *
+     * Thread-safety: @p callback must be safe to call from a worker thread
+     * concurrently with the HTTP layer consuming the tokens.
+     *
+     * @param request  Inference request; any existing stream_callback is
+     *                 overwritten by the internal wrapper.
+     * @param callback Per-token callback (see TokenCallback).
+     * @param priority Higher = more urgent (default: 0).
+     * @param timeout  Per-request timeout; zero means no timeout (default: 0).
+     * @return Handle for result retrieval and cancellation.
+     */
+    InferenceHandle submitStreaming(
+        const InferenceRequest& request,
+        TokenCallback           callback,
+        int                     priority = 0,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
+    );
     
     /**
      * @brief Submit RAG request (non-blocking)
@@ -318,9 +330,11 @@ private:
 
     // Optional deduplication cache (nullptr if disabled)
     std::shared_ptr<LLMResponseCache> dedup_cache_;
+    mutable std::mutex cache_meta_mutex_;  // Protects metadata access on cached responses
 
     // Optional prompt safety policy (nullptr → no prompt validation)
     std::shared_ptr<PromptPolicy> prompt_policy_;
+    mutable std::mutex policy_mutex_;  // Protects prompt_policy_ for thread-safe access
 
     // Worker threads
     std::vector<std::thread> workers_;

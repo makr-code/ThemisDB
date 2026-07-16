@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_arrow_flight.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:00:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     633                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ab2ac9533  2026-02-26  fix: resolve deadlock risk, missing thread include, and v... ║
-    • 1c13e549b  2026-02-26  feat: implement Arrow Flight RPC support for remote analy... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_arrow_flight.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -288,26 +272,35 @@ TEST(ArrowFlightClientTest, CloseDisconnects) {
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18842));
     EXPECT_TRUE(client->isConnected());
-    client->close();
+    (void)client->close();
     EXPECT_FALSE(client->isConnected());
-    server->stop();
+    (void)server->stop();
 }
 
 TEST(ArrowFlightClientTest, OperationsAfterCloseThrow) {
     auto server = ArrowFlightServer::create(makeServerOpts(18843));
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18843));
-    client->close();
+    (void)client->close();
 
-    EXPECT_THROW(client->listFlights(), std::runtime_error);
+    EXPECT_THROW({
+        auto flights = client->listFlights();
+        static_cast<void>(flights);
+    }, std::runtime_error);
     EXPECT_THROW(
-        client->doGet(FlightDescriptor::fromPath({"x"})),
+        {
+            auto batch = client->doGet(FlightDescriptor::fromPath({"x"}));
+            static_cast<void>(batch);
+        },
         std::runtime_error);
     auto empty = makeBatch(0);
     EXPECT_THROW(
-        client->doPut(empty, FlightDescriptor::fromPath({"x"})),
+        {
+            auto put_result = client->doPut(empty, FlightDescriptor::fromPath({"x"}));
+            static_cast<void>(put_result);
+        },
         std::runtime_error);
-    server->stop();
+    (void)server->stop();
 }
 
 // ===========================================================================
@@ -362,10 +355,13 @@ TEST(ArrowFlightClientTest, DoGetUnknownPathThrows) {
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18861));
     EXPECT_THROW(
-        client->doGet(FlightDescriptor::fromPath({"does_not_exist"})),
+        {
+            auto batch = client->doGet(FlightDescriptor::fromPath({"does_not_exist"}));
+            static_cast<void>(batch);
+        },
         std::runtime_error);
-    client->close();
-    server->stop();
+    (void)client->close();
+    (void)server->stop();
 }
 
 TEST(ArrowFlightClientTest, DoGetEmptyBatch) {
@@ -569,11 +565,14 @@ TEST(ArrowFlightServerTest, CrossServerClientIsolation) {
     auto c1 = ArrowFlightClient::connect(makeClientOpts(18892));
     // s2_only is on server 2; client 1 must not find it
     EXPECT_THROW(
-        c1->doGet(FlightDescriptor::fromPath({"s2_only"})),
+        {
+            auto batch = c1->doGet(FlightDescriptor::fromPath({"s2_only"}));
+            static_cast<void>(batch);
+        },
         std::runtime_error);
 
-    c1->close();
-    s1->stop();
+    (void)c1->close();
+    (void)s1->stop();
     s2->stop();
 }
 

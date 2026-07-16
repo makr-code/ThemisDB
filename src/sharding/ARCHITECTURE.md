@@ -1,225 +1,53 @@
-# Sharding Module — Architecture Guide
+# Architecture - Sharding Module
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
-**Module Path:** `src/sharding/`
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
----
+## Overview
 
-## 1. Overview
+The sharding module composes shard routing, consensus-aware coordination, cross-shard transaction control, repair/rebalance/migration behavior, and operational health/metrics surfaces into a bounded distributed data-partitioning subsystem.
 
-The Sharding module provides ThemisDB's horizontal scaling infrastructure: pluggable
-consensus algorithms (Raft, Gossip, Multi-Paxos), hash-based and range-based shard routing,
-cross-shard SAGA/2PC/3PC/Percolator transactions, automatic rebalancing, and the
-`ShardRepairEngine` for self-healing shard topology.
+## Main Execution Planes
 
----
+1. Routing and placement plane
+- key/tenant/request to shard decision behavior
+- consistent hash and adaptive routing behavior
 
-## 2. Design Principles
+2. Coordination and transaction plane
+- distributed coordinator and consensus-integrated operation behavior
+- cross-shard transaction and 2PC flow behavior
 
-- **Pluggable Consensus** – `ConsensusFactory` selects Raft, Gossip, or Paxos at runtime;
-  each is encapsulated behind the same `IConsensusModule` interface.
-- **Cross-Shard Transactions** – SAGA (compensating transactions) is the default for long-
-  running cross-shard operations; 2PC/3PC are available for strong atomicity.
-- **Virtual Nodes** – consistent hashing with virtual nodes enables smooth rebalancing
-  without full data migration.
-- **Self-Healing** – `ShardRepairEngine` continuously scans for degraded shards and
-  triggers erasure-coded recovery automatically.
-- **TrueTime** – `truetime.cpp` provides bounded-uncertainty timestamps for global
-  consistency across geographically distributed nodes.
+3. Durability and operations plane
+- WAL, repair, rebalancing, migration, and health/metrics behavior
 
----
+## Core Contracts
 
-## 3. Component Architecture
-
-### 3.1 Key Components (selected)
-
-| File | Role |
+| Contract | Behavior |
 |---|---|
-| `shard_manager.cpp` (via `raft_shard_manager.cpp`) | Shard topology and routing orchestrator |
-| `shard_router.cpp` | Hash/range-based shard routing |
-| `adaptive_shard_router.cpp` | Load-adaptive shard routing |
-| `consistent_hash.cpp` | Consistent hashing with virtual nodes |
-| `consensus_factory.cpp` | Runtime consensus selection (Raft/Gossip/Paxos) |
-| `raft_consensus.cpp` / `raft_consensus_adapter.cpp` | Raft consensus implementation |
-| `gossip_protocol.cpp` / `gossip_consensus_adapter.cpp` | Gossip protocol |
-| `paxos_consensus.cpp` | Multi-Paxos implementation |
-| `cross_shard_transaction.cpp` | SAGA transaction coordinator |
-| `two_phase_commit_coordinator.cpp` / `_participant.cpp` | 2PC implementation |
-| `distributed_transaction.cpp` | Distributed transaction lifecycle |
-| `shard_repair_engine.cpp` | Self-healing anti-entropy and erasure recovery |
-| `gpu_erasure_coder.cpp` / `.cu` | GPU-accelerated Reed-Solomon erasure coding |
-| `auto_rebalancer.cpp` | Automatic shard rebalancing |
-| `data_migrator.cpp` | Live data migration between shards |
-| `metadata_shard.cpp` | Horizontally partitioned metadata |
-| `raft_log.cpp` / `raft_wal_integration.cpp` | Raft WAL and log management |
-| `truetime.cpp` | TrueTime API for bounded-uncertainty timestamps |
-| `health_monitor.cpp` / `health_check.cpp` | Cluster health monitoring |
-| `shard_rpc_client.cpp` / `shard_rpc_server.cpp` | Cross-shard RPC |
-| `mtls_client.cpp` / `mtls_connection_pool.cpp` | mTLS-secured inter-shard connections |
-| `quorum_manager.cpp` | Quorum size management for write operations |
-| `hot_spare_manager.cpp` | Hot spare management for rapid failover |
-| `sharding_manager_edition.cpp` | Edition-based shard limits |
+| routing contract | deterministic shard selection under topology constraints |
+| coordination contract | explicit distributed decision and consensus outcomes |
+| transaction contract | explicit cross-shard commit/abort semantics |
+| operations contract | bounded repair/rebalance/migration with observable states |
 
-### 3.2 Component Diagram
+## Failure Semantics
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              Write Request (key: "user:12345")                   │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────────┐
-│                     ShardRouter                                  │
-│   consistent_hash(key) → shard_id                               │
-│   adaptive routing: load-balanced selection                     │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────────────┐
-│                  Target Shard Node                               │
-│   Consensus: Raft (leader) / Gossip / Paxos                     │
-│   WAL → replicate to replica nodes                              │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ cross-shard write?
-┌──────────────────────────▼──────────────────────────────────────┐
-│             CrossShardTransactionCoordinator                     │
-│   SAGA: compensating transactions per shard                     │
-│   2PC: prepare → commit (atomic)                                │
-└──────────────────────────────────────────────────────────────────┘
-```
+- routing/topology mismatches return explicit failures.
+- cross-shard transaction errors surface deterministic abort/rollback outcomes.
+- repair/rebalance job failures remain explicit and diagnosable.
+- WAL/quorum/health degradation is surfaced through operational signals.
 
----
+## Sourcecode Verification (Module: sharding/architecture)
 
-## 4. Data Flow
-
-### 4.1 Hash-Based Shard Routing
-
-```
-Write(key="user:12345", value={...})
-    │
-    ├─ consistent_hash("user:12345") → virtual_node 47 → shard 3
-    │
-    ├─ shard_rpc_client.forward(shard_3, write_request)
-    │
-    ├─ Shard 3 leader: WAL → Raft consensus → replicate to followers
-    │
-    └─ ack to client
-```
-
-### 4.2 Cross-Shard SAGA
-
-```
-Transfer(from_account: shard_1, to_account: shard_3, amount: 100)
-    │
-    ├─ SAGA coordinator:
-    │       ├─ Step 1: debit from_account (shard_1)
-    │       │       → success → record compensating action: credit
-    │       ├─ Step 2: credit to_account (shard_3)
-    │       │       → failure →
-    │       │               compensate: credit from_account (shard_1)
-    │       └─ all steps succeeded → commit
-    │
-    └─ atomic across shards (eventual consistency for SAGA)
-```
-
-### 4.3 Shard Repair
-
-```
-ShardRepairEngine background scan:
-    │
-    ├─ scan all shards for degraded documents (erasure check)
-    │
-    ├─ degraded doc found (1 shard failed out of 3):
-    │       ├─ fetch surviving chunks from healthy shards
-    │       ├─ gpu_erasure_coder: Reed-Solomon decode (GPU-accelerated)
-    │       └─ write recovered chunk to replacement shard
-    │
-    └─ prometheus metrics: repair_attempts++, repair_successes++
-```
-
----
-
-## 5. Integration Points
-
-| Direction | Module | Interface |
-|---|---|---|
-| **Uses** | `src/network/` | Wire protocol for inter-shard RPC |
-| **Uses** | `src/replication/` | Intra-shard WAL replication |
-| **Uses** | `src/storage/` | Per-shard RocksDB instance |
-| **Uses** | `src/gpu/` | VRAM for GPU erasure coding |
-| **Uses** | `src/observability/` | Shard health and repair metrics |
-| **Provides to** | `src/server/` | Distributed query routing |
-| **Provides to** | `src/transaction/` | Distributed transaction coordination |
-
----
-
-## 6. Threading & Concurrency Model
-
-- Raft leader election and log replication are event-driven (dedicated I/O thread).
-- Cross-shard transaction coordinator uses a state machine per transaction.
-- `ShardRepairEngine` runs on a background thread with configurable scan interval.
-- `ConsistentHash` is read-only after topology changes; topology updates use exclusive lock.
-- `GPUErasureCoder` uses the `src/gpu/` module's stream manager for async GPU work.
-
----
-
-## 7. Performance Architecture
-
-| Technique | Detail |
-|---|---|
-| Virtual nodes | Smooth rebalancing; configurable vnodes per physical node |
-| Gossip protocol | O(log N) cluster state propagation without central coordinator |
-| GPU erasure coding | Reed-Solomon on GPU: 10× throughput vs. CPU for large shards |
-| Adaptive routing | Routes to least-loaded shard dynamically |
-| WAL batching | Multiple entries batched per Raft round-trip |
-
----
-
-## 8. Security Considerations
-
-- All inter-shard RPC uses mTLS (`mtls_client.cpp`).
-- Shard RPC requests are signed (`signed_request.cpp`) to prevent replay attacks.
-- PKI certificates per shard (`pki_shard_certificate.cpp`) for mutual authentication.
-- Edition gates (`sharding_manager_edition.cpp`) limit shard count by deployment tier.
-
----
-
-## 9. Configuration
-
-| Parameter | Default | Description |
-|---|---|---|
-| `sharding.consensus` | "raft" | Consensus: raft / gossip / paxos |
-| `sharding.replication_factor` | 3 | Replicas per shard |
-| `sharding.vnodes_per_node` | 150 | Virtual nodes for consistent hashing |
-| `sharding.repair.enabled` | true | Enable ShardRepairEngine |
-| `sharding.repair.scan_interval_s` | 300 | Anti-entropy scan interval |
-| `sharding.gpu_erasure.enabled` | auto | GPU-accelerated erasure coding |
-
----
-
-## 10. Error Handling
-
-| Error Type | Strategy |
-|---|---|
-| Shard node failure | Raft election; reroute to replica; alert |
-| Cross-shard SAGA failure | Execute compensating actions; log |
-| 2PC participant timeout | Abort transaction; compensate |
-| Erasure recovery failure | Mark shard as FAILED; notify operator; hot spare |
-| Rebalancing failure | Rollback migration; log; retry with backoff |
-
----
-
-## 11. Known Limitations & Future Work
-
-- Paxos state persistence (`paxos_wal.cpp`) is in progress.
-- Full RPC integration between sharding and network modules is in progress.
-- Cross-region replication with WAN link optimization is planned.
-- Percolator optimistic concurrency is experimental.
-
----
-
-## 12. References
-
-- `src/sharding/README.md` — module overview
-- `docs/sharding/` — sharding documentation
-- `docs/DISTRIBUTED_ARCHITECTURE.md` — distributed architecture overview
-- `ARCHITECTURE.md` (root) — full system architecture
+- Verified files:
+  - src/sharding/shard_router.cpp
+  - src/sharding/adaptive_shard_router.cpp
+  - src/sharding/distributed_coordinator.cpp
+  - src/sharding/cross_shard_transaction.cpp
+  - src/sharding/shard_repair_engine.cpp
+  - src/sharding/auto_rebalancer.cpp
+  - src/sharding/wal_manager.cpp
+  - src/sharding/health_monitor.cpp
+- Verified architecture claims:
+  - routing/placement + coordination/transaction + durability/operations plane split
+  - explicit failure boundaries for routing, transaction, and job-execution faults
+  - module-local ownership of sharding-domain behavior

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_shard_routing.cpp                            ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:51:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_shard_routing.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Benchmark: Shard Routing Performance
@@ -30,12 +15,15 @@
 #include "sharding/remote_executor.h"
 #include "sharding/shard_topology.h"
 #include "sharding/urn.h"
+#include "sharding/mtls_connection_pool.h"
 #include <benchmark/benchmark.h>
+#include <openssl/ssl.h>
 #include <memory>
 #include <random>
 #include <string>
 #include <map>
 #include <cmath>
+#include <algorithm>
 
 using namespace themis::sharding;
 
@@ -222,6 +210,75 @@ BENCHMARK_REGISTER_F(ShardRoutingFixture, BatchRouting)
     ->Args({10, 100})   // 10 shards, batch size 100
     ->Args({100, 10})   // 100 shards, batch size 10
     ->Args({100, 100})  // 100 shards, batch size 100
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmarks: Connection Pool Reuse (SH-2 direct metric)
+// ============================================================================
+
+static void BM_ConnectionPoolHitRate(benchmark::State& state) {
+    const int operations_per_iteration = state.range(0);
+
+    EndpointConnectionPool::Config pool_cfg;
+    pool_cfg.min_connections = 2;
+    pool_cfg.max_connections = 32;
+    pool_cfg.enable_health_checks = false;
+
+    EndpointConnectionPool pool("bench-shard-endpoint", pool_cfg);
+
+    std::unique_ptr<SSL_CTX, decltype(&SSL_CTX_free)> ssl_ctx(
+        SSL_CTX_new(TLS_method()),
+        &SSL_CTX_free
+    );
+    if (!ssl_ctx) {
+        state.SkipWithError("SSL_CTX_new failed");
+        return;
+    }
+
+    SSL_CTX* raw_ctx = ssl_ctx.get();
+    pool.setConnectionFactory([raw_ctx](const std::string&) -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        SSL* ssl = SSL_new(raw_ctx);
+        if (!ssl) {
+            return std::nullopt;
+        }
+        return std::unique_ptr<SSL, SSLDeleter>(ssl);
+    });
+
+    if (!pool.warmUp()) {
+        state.SkipWithError("Connection pool warmup failed");
+        return;
+    }
+
+    uint64_t successful_acquires = 0;
+    for (auto _ : state) {
+        for (int i = 0; i < operations_per_iteration; ++i) {
+            auto conn = pool.getConnection(std::chrono::milliseconds(1));
+            if (conn && *conn) {
+                ++successful_acquires;
+                pool.releaseConnection(std::move(*conn));
+            }
+        }
+    }
+
+    const auto stats = pool.getStatistics();
+    const auto total_created = static_cast<double>(stats.total_created);
+    const auto total_ops = static_cast<double>(successful_acquires);
+
+    double hit_rate = 0.0;
+    if (total_ops > 0.0) {
+        hit_rate = std::max(0.0, (total_ops - total_created) / total_ops);
+    }
+
+    state.SetItemsProcessed(successful_acquires);
+    state.counters["connection_pool_hit_rate"] = benchmark::Counter(hit_rate * 100.0);
+    state.counters["pool_created_connections"] = stats.total_created;
+    state.counters["pool_idle_connections"] = stats.idle_connections;
+    state.counters["pool_active_connections"] = stats.active_connections;
+}
+
+BENCHMARK(BM_ConnectionPoolHitRate)
+    ->Arg(1000)
+    ->Arg(10000)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================

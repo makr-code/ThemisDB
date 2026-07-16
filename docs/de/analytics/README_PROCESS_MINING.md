@@ -102,7 +102,7 @@ This documentation suite covers the complete design and implementation plan for 
 
 ---
 
-### 5. [bpmn_future_enhancements.md](./bpmn_future_enhancements.md)
+### 5. [BPMN_FUTURE_ENHANCEMENTS.md](./BPMN_FUTURE_ENHANCEMENTS.md)
 **Future Enhancements** - Planned improvements for BPMN/process engine
 
 **Contents**:
@@ -466,5 +466,5 @@ This project delivers a **comprehensive design** for integrating process mining 
 
 ---
 
-**Last Updated**: 2025-12-24  
+**Last Updated**: 2026-04-06  
 **Next Review**: Start of Implementation Phase 2

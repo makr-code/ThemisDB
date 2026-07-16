@@ -1,26 +1,20 @@
+/**
+ * @file module_sandbox.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_sandbox.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     305                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-    • 5a40139ef  2026-02-26  audit(base): close stub, update headers and ROADMAP for p... ║
-    • 68907b86d  2026-02-26  feat(base): implement CPU-time limit (RLIMIT_CPU) for plu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_sandbox.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Module Sandbox & ABI Checker – Phase 4 Production Readiness
@@ -30,6 +24,13 @@
 //
 // These components extend the existing ModuleLoader (include/themis/base/module_loader.h)
 // with security and safety guarantees needed for production hot-reload.
+//
+// WASM Runtime Injection (v1.8.0):
+// ModuleSandbox::Config now has optional WASM isolation fields.  When
+// Config::enable_wasm_isolation is true, launch() creates an inner
+// WasmPluginSandbox and injects the best available WasmRuntime from the
+// WasmRuntimeInjector registry.  The resulting WasmPluginSandbox is
+// accessible via wasmSandbox() for loading .wasm plugin binaries.
 
 #pragma once
 
@@ -47,6 +48,11 @@ namespace modules {
 
 // ── Forward-declarations from module_loader.h ────────────────────────────────
 struct ModuleMetadata;
+
+// ── Forward-declaration to avoid circular includes ───────────────────────────
+// wasm_plugin_sandbox.h already includes this header; the full type is only
+// needed in module_sandbox.cpp and by callers that use wasmSandbox().
+class WasmPluginSandbox;
 
 // =============================================================================
 // AbiChecker – deep ABI-compatibility validation for safe hot-reload
@@ -230,6 +236,26 @@ public:
         std::vector<std::string> allowed_syscalls; ///< Empty = use default allow-list
 
         std::chrono::seconds shutdown_timeout{10}; ///< Grace period before SIGKILL
+
+        // ── WASM isolation (v1.8.0) ────────────────────────────────────────
+
+        /// Enable WASM-based plugin isolation on top of OS resource limits.
+        /// When true, launch() creates an inner WasmPluginSandbox and injects
+        /// the best available WasmRuntime from WasmRuntimeInjector.
+        bool enable_wasm_isolation = false;
+
+        /// WASM runtime name to inject (empty = auto-select highest-priority
+        /// registered backend via WasmRuntimeInjector::create()).
+        std::string wasm_runtime_name;
+
+        /// Number of 64-KiB WASM linear-memory pages for the plugin (default
+        /// 256 = 16 MiB).  Passed to the inner WasmPluginSandbox.
+        uint32_t wasm_linear_memory_pages = 256;
+
+        /// When false (default), imports that are not registered as host
+        /// functions cause the WASM module load to fail.
+        bool wasm_allow_unregistered_imports = false;
+
         static Config defaults() { return {}; }
     };
 
@@ -284,6 +310,25 @@ public:
      */
     SandboxStats stats() const;
 
+    // ── WASM isolation (v1.8.0) ────────────────────────────────────────────
+
+    /**
+     * @brief True if WASM isolation is active.
+     *
+     * WASM isolation is active when Config::enable_wasm_isolation was true
+     * *and* a WasmRuntime was successfully injected during launch().
+     */
+    bool isWasmIsolationActive() const noexcept;
+
+    /**
+     * @brief Return the inner WasmPluginSandbox.
+     *
+     * Non-null only when isWasmIsolationActive() is true.
+     * Use this to load .wasm plugin binaries and call their exports.
+     */
+    WasmPluginSandbox*       wasmSandbox() noexcept;
+    const WasmPluginSandbox* wasmSandbox() const noexcept;
+
 private:
     Config                   config_;
     std::string              module_name_;
@@ -295,11 +340,33 @@ private:
     struct PlatformHandle;
     std::unique_ptr<PlatformHandle> platform_;
 
+    // WASM isolation (v1.8.0)
+    std::unique_ptr<WasmPluginSandbox> wasm_sandbox_;
+    bool                               wasm_isolation_active_ = false;
+
     bool applyMemoryLimit();
     bool applyCpuLimit();
     bool applyNetworkIsolation();
     bool applyFilesystemRestrictions();
     bool applySyscallFilter();
+
+#if defined(__linux__)
+    /// @brief Set up a cgroup v2 sub-hierarchy for this sandbox instance.
+    ///
+    /// Creates `/sys/fs/cgroup/themis/<sandbox_id>/`, enables the memory and
+    /// cpu controllers in `cgroup.subtree_control`, writes `memory.max`, then
+    /// moves the current process into the new cgroup.  If CPU limiting is
+    /// enabled, `cpu.max` is written later by applyCpuLimit() when active.
+    /// Returns true on success; on failure emits spdlog::warn and the caller
+    /// falls back to RLIMIT_* enforcement.
+    bool setupCgroupV2();
+
+    /// @brief Remove the cgroup v2 directory created by setupCgroupV2().
+    ///
+    /// Migrates the current process back to the root cgroup before issuing
+    /// rmdir(2) on the sandbox-specific sub-directory.
+    void teardownCgroupV2();
+#endif
 };
 
 } // namespace modules

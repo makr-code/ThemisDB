@@ -1,23 +1,20 @@
+/**
+ * @file aql_translator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_translator.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     254                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_translator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -30,27 +27,42 @@
 namespace themis {
 
 // Bring query types into scope
-using query::Query;
-using query::Expression;
-using query::SortNode;
-using query::LimitNode;
-using query::FilterNode;
-using query::BinaryOpExpr;
-using query::FieldAccessExpr;
-using query::LiteralExpr;
-using query::LiteralValue;
-using query::ASTNodeType;
-using query::FunctionCallExpr;
-using query::BinaryOperator;
-using query::UnaryOperator;
-using query::UnaryOpExpr;
-using query::VariableExpr;
-using query::SimilarityCallExpr;
-using query::ProximityCallExpr;
-using query::ArrayLiteralExpr;
-using query::SubqueryExpr;
-using query::AnyExpr;
-using query::AllExpr;
+using Query = ::themis::query::Query;
+using Expression = ::themis::query::Expression;
+using SortNode = ::themis::query::SortNode;
+using LimitNode = ::themis::query::LimitNode;
+using FilterNode = ::themis::query::FilterNode;
+using BinaryOpExpr = ::themis::query::BinaryOpExpr;
+using FieldAccessExpr = ::themis::query::FieldAccessExpr;
+using LiteralExpr = ::themis::query::LiteralExpr;
+using LiteralValue = ::themis::query::LiteralValue;
+using ASTNodeType = ::themis::query::ASTNodeType;
+using FunctionCallExpr = ::themis::query::FunctionCallExpr;
+using BinaryOperator = ::themis::query::BinaryOperator;
+using UnaryOperator = ::themis::query::UnaryOperator;
+using UnaryOpExpr = ::themis::query::UnaryOpExpr;
+using VariableExpr = ::themis::query::VariableExpr;
+using SimilarityCallExpr = ::themis::query::SimilarityCallExpr;
+using ProximityCallExpr = ::themis::query::ProximityCallExpr;
+using ArrayLiteralExpr = ::themis::query::ArrayLiteralExpr;
+using SubqueryExpr = ::themis::query::SubqueryExpr;
+using AnyExpr = ::themis::query::AnyExpr;
+using AllExpr = ::themis::query::AllExpr;
+using ConjunctiveQuery = ::themis::query::ConjunctiveQuery;
+using DisjunctiveQuery = ::themis::query::DisjunctiveQuery;
+using VectorGeoQuery = ::themis::query::VectorGeoQuery;
+using ContentGeoQuery = ::themis::query::ContentGeoQuery;
+using ForNode = ::themis::query::ForNode;
+using LetNode = ::themis::query::LetNode;
+using ReturnNode = ::themis::query::ReturnNode;
+using CollectNode = ::themis::query::CollectNode;
+using PredicateEq = ::themis::query::PredicateEq;
+using PredicateRange = ::themis::query::PredicateRange;
+using PredicateFulltext = ::themis::query::PredicateFulltext;
+using PredicatePhrase = ::themis::query::PredicatePhrase;
+using PredicateFuzzy = ::themis::query::PredicateFuzzy;
+using PredicateSpatial = ::themis::query::PredicateSpatial;
+using OrderBy = ::themis::query::OrderBy;
 
 /**
  * Translates AQL AST to QueryEngine ConjunctiveQuery
@@ -75,7 +87,7 @@ public:
     struct TranslationResult {
         bool success = false;
         std::string error_message;
-        ConjunctiveQuery query; // für relationale AQL (single-FOR)
+        ConjunctiveQuery conjunctive_query; // fuer relationale AQL (single-FOR)
         
         // Graph-Traversal Query (optional)
         struct TraversalQuery {
@@ -103,6 +115,19 @@ public:
         };
         std::optional<JoinQuery> join;
         
+        // Spatial JOIN query: FOR a IN colA FOR b IN colB FILTER GEO_DISTANCE(a.f, b.f) <= threshold
+        struct SpatialJoinQuery {
+            std::string outer_collection; ///< Collection name for the outer (left) loop.
+            std::string inner_collection; ///< Collection name for the inner (right) loop.
+            std::string outer_var;        ///< Variable name bound by the outer FOR clause.
+            std::string inner_var;        ///< Variable name bound by the inner FOR clause.
+            std::string outer_field;      ///< Geometry field on the outer variable (e.g. "loc").
+            std::string inner_field;      ///< Geometry field on the inner variable (e.g. "loc").
+            double threshold_m = 0.0;     ///< Distance threshold in metres.
+            std::size_t max_pairs = 1'000'000; ///< Maximum result pairs (default 1 M).
+        };
+        std::optional<SpatialJoinQuery> spatial_join;
+
         // Disjunctive Query (OR support)
         std::optional<DisjunctiveQuery> disjunctive;
 
@@ -115,14 +140,14 @@ public:
         struct CTEExecution {
             std::string name;                          // CTE name
             std::shared_ptr<query::Query> subquery;    // AST for execution
-            bool should_materialize;                   // Based on heuristic
+            bool should_materialize = false;           // Based on heuristic
         };
         std::vector<CTEExecution> ctes;                // CTEs to execute before main query
         
         static TranslationResult Success(ConjunctiveQuery q) {
             TranslationResult r;
             r.success = true;
-            r.query = std::move(q);
+            r.conjunctive_query = std::move(q);
             return r;
         }
         
@@ -137,6 +162,13 @@ public:
             TranslationResult r;
             r.success = true;
             r.join = std::move(j);
+            return r;
+        }
+
+        static TranslationResult SuccessSpatialJoin(SpatialJoinQuery sj) {
+            TranslationResult r;
+            r.success = true;
+            r.spatial_join = std::move(sj);
             return r;
         }
         

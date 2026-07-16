@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_grammar_integration.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:01:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     155                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_grammar_integration.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -156,4 +141,64 @@ TEST(GrammarIntegrationTest, BasicConstructor_HandleMayBeNull_NoUndefinedBehavio
     // in a test environment.  The important thing is no crash or UB.
     (void)g.getHandle();
     SUCCEED();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Grammar API injection tests (GRAM-INJ-01..03)
+// Tests for themis_grammar_inject_api_functions()
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Forward declarations for the C injection/availability API (no llama.h needed).
+extern "C" {
+    bool themis_llama_grammar_available();
+    void themis_grammar_inject_api_functions(void*, void*, void*, void*);
+}
+
+namespace {
+    // Minimal mock grammar API functions for injection tests.
+    static void* mock_ginit(void* /*vocab*/, const char* /*g*/, const char* /*s*/) {
+        return reinterpret_cast<void*>(static_cast<uintptr_t>(0xBEEF));
+    }
+    static void  mock_gfree(void* /*grammar*/) {}
+    static void  mock_gsample(void* /*grammar*/, void* /*ctx*/, void* /*candidates*/) {}
+    static void  mock_gaccept(void* /*grammar*/, void* /*ctx*/, int /*token*/) {}
+} // namespace
+
+// GRAM-INJ-01: After injecting all 4 mock functions, grammar API reports available.
+TEST(GrammarApiInjectionTest, InjectedApiReportsAvailable) {
+    themis_grammar_inject_api_functions(
+        reinterpret_cast<void*>(mock_ginit),
+        reinterpret_cast<void*>(mock_gfree),
+        reinterpret_cast<void*>(mock_gsample),
+        reinterpret_cast<void*>(mock_gaccept));
+    EXPECT_TRUE(themis_llama_grammar_available());
+    // Clean up.
+    themis_grammar_inject_api_functions(nullptr, nullptr, nullptr, nullptr);
+}
+
+// GRAM-INJ-02: Partial injection (only init+free, sample/accept null) → NOT available.
+// themis_grammar_inject_api_functions requires ALL four functions to be non-null.
+TEST(GrammarApiInjectionTest, PartialInjectionIsNotAvailable) {
+    themis_grammar_inject_api_functions(
+        reinterpret_cast<void*>(mock_ginit),
+        reinterpret_cast<void*>(mock_gfree),
+        nullptr,   // sample missing
+        nullptr);  // accept missing
+    EXPECT_FALSE(themis_llama_grammar_available());
+    themis_grammar_inject_api_functions(nullptr, nullptr, nullptr, nullptr);
+}
+
+// GRAM-INJ-03: Clearing injection reverts to dlsym-detected path without crashing.
+TEST(GrammarApiInjectionTest, ClearInjectionRevertsGracefully) {
+    // First inject so the override is active.
+    themis_grammar_inject_api_functions(
+        reinterpret_cast<void*>(mock_ginit),
+        reinterpret_cast<void*>(mock_gfree),
+        reinterpret_cast<void*>(mock_gsample),
+        reinterpret_cast<void*>(mock_gaccept));
+    ASSERT_TRUE(themis_llama_grammar_available());
+    // Clear override — availability now reflects actual dlsym detection.
+    themis_grammar_inject_api_functions(nullptr, nullptr, nullptr, nullptr);
+    // Must not crash on subsequent availability check.
+    EXPECT_NO_THROW(themis_llama_grammar_available());
 }

@@ -1,95 +1,76 @@
 # Chimera Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
-**Beta** — All planned adapter implementations are complete in simulation mode (no live server
-required for tests). ThemisDB reference adapter and adapter factory infrastructure are
-functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and
-graph operations across 9 adapters. Build system fully registered; focused test targets available.
 
-## Completed ✅
-- [x] Adapter factory with thread-safe singleton registry
-- [x] Dynamic adapter registration without recompilation
-- [x] ThemisDB reference adapter implementation
-- [x] Base adapter infrastructure and connection management
-- [x] Multi-model operation wrappers (relational, vector, graph, document)
-- [x] Transaction coordination interfaces
-- [x] System information and metrics collection
-- [x] Alphabetic vendor-neutral ordering of registered systems
-- [x] Result type conversions and error handling
-- [x] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
-- [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
-- [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
-- [x] Elasticsearch adapter (full-text + vector search) (Issue: #1640)
-- [x] Pinecone adapter (managed vector search) (Issue: #1639)
-- [x] Qdrant adapter (native vector database)
-- [x] Weaviate adapter (native vector database)
-- [x] Neo4j adapter (native graph database) (Issue: #1650)
-- [x] Build system: all 9 adapters registered in `cmake/ChimeraAdapters.cmake` (unconditional – no LLM gate)
-- [x] Focused standalone test targets for all 10 test files in `tests/CMakeLists.txt`
+Production adapter runtime exists for the current ThemisDB adapter implementation, including simulation-mode behavior and conditional engine-dispatch integration surfaces.
 
-## In Progress 🚧
-- [~] PostgreSQL vendor adapter — simulation mode complete; production wiring to `libpqxx` pending (Issue: #1629)
-- [~] Production driver integration for all HTTP-based adapters (libmongocxx, cpp-httplib / cpr)
+## In Progress
 
-## Planned Features 📋
+- [~] hardening parity between simulation-mode and engine-backed dispatch paths (Target: Q3 2026)
+- [~] benchmark stabilization for adapter request/response compatibility pathways (Target: Q3 2026)
+- [~] diagnostics consistency improvements for capability and dispatch failure classes (Target: Q3 2026)
+- [~] v1.1.0: Production ThemisDB Adapter Integration with connection pooling (Target: Q3 2026)
+- [~] v1.1.0: Transaction Management with ACID properties and savepoints (Target: Q3 2026)
+- [~] v1.1.0: Error Recovery with exponential backoff retry strategy (Target: Q3 2026)
+- [~] v1.1.0: Batch Operation Optimization for throughput (Target: Q3 2026)
+- [~] v1.2.0: MongoDB/Qdrant/Neo4j Real Driver Integration (Target: Q4 2026)
 
-### Short-term (Next 3-6 months)
-- [ ] Production driver integration: `libpqxx` for PostgreSQL (Issue: #1632)
-- [ ] Production driver integration: `libmongocxx` for MongoDB
-- [ ] Production driver integration: HTTP client (`cpp-httplib` / `cpr`) for Elasticsearch, Pinecone, Qdrant, Weaviate
-- [ ] Neo4j Bolt/HTTP client integration for production deployments
+## Planned Features
 
-### Long-term (6-12 months)
-- [ ] Cross-system query federation for hybrid benchmarks (Issue: #1642)
-- [ ] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
-- [I] Cassandra adapter (wide-column) (Issue: #1641)
-- [ ] Adapter-level connection pooling
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior across adapter dispatch edge permutations (Target: Q4 2026)
+- [ ] expand regression coverage for engine-availability and fallback behavior (Target: Q4 2026)
+- [ ] improve operator diagnostics for adapter contract and runtime mismatch incidents (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline adapter p95/p99 envelopes for release-profile compatibility paths (Target: Q1 2027)
+- [ ] add dedicated chimera-native benchmark coverage for adapter operations (Target: Q1 2027)
+- [ ] evaluate modular multi-vendor adapter expansion strategy within src/chimera (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Adapter Infrastructure & Reference Implementation (Status: Completed ✅)
-- [x] Adapter factory with thread-safe singleton registry (`chimera/adapter_factory.cpp`)
-- [x] Dynamic adapter registration without recompilation
-- [x] ThemisDB reference adapter implementation (`chimera/adapters/themisdb_adapter.cpp`)
-- [x] Base adapter infrastructure and connection management
-- [x] Multi-model operation wrappers: relational, vector, graph, document
-- [x] Transaction coordination interfaces
-- [x] System information and metrics collection
-- [x] Alphabetic vendor-neutral ordering of registered systems
-- [x] Result type conversions and error handling
+### Phase 1: Design / API Contract
+- [ ] freeze adapter contract semantics for active major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for connection/capability/dispatch failures (Target: Q3 2026)
 
-### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
-- [~] PostgreSQL vendor adapter (`chimera/postgresql_adapter.cpp`) — simulation complete, production driver pending (Issue: #1656)
-- [x] MongoDB vendor adapter (`chimera/mongodb_adapter.cpp`) (Issue: #1657)
-- [x] Benchmark result normalization and scoring framework
+### Phase 2: Core Implementation
+- [ ] complete hardening for lifecycle and dispatch internals (Target: Q4 2026)
+- [ ] align simulation and engine-backed behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Ecosystem Expansion & Reporting (Status: Completed ✅)
-- [x] Weaviate adapter (native vector database)
-- [x] Qdrant adapter (native vector database)
-- [x] Elasticsearch adapter (full-text + vector search)
-- [x] Pinecone adapter (managed vector search)
-- [x] Neo4j adapter (native graph database)
-- [x] Unified benchmark harness (workload definitions, warm-up, run, report)
-- [x] Adapter capability matrix (which operations each system supports)
-- [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-closed behavior for invalid connection/dispatch states (Target: Q4 2026)
+- [ ] unify diagnostics across capability mismatch and unsupported-path classes (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for adapter lifecycle and dispatch edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core chimera module docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% line coverage — 10 focused test executables covering all 9 adapters, >500 test cases across all adapter test files
-- [x] Integration tests (adapter factory, ThemisDB, MongoDB, PostgreSQL, Elasticsearch, Pinecone, Qdrant, Weaviate, Neo4j)
-- [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
-- [P] Security audit (connection credential handling) (Issue: #1653)
-- [x] Documentation complete (primary docs synchronised with source)
-- [x] API stability guaranteed
 
-## Known Issues & Limitations
-- All vendor adapters are implemented in simulation mode (in-process `std::unordered_map`
-  storage, no live server required for tests); production use requires linking the respective
-  native client library (e.g. `libmongocxx`, `libpqxx`, `cpp-httplib`/`cpr` for HTTP-based
-  adapters) and replacing the simulation blocks.
-- No adapter-level connection pooling; each `create()` call produces a new independent
-  connection.
+- [x] core chimera surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for dispatch parity and edge cases
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- current source layout contains the ThemisDB adapter implementation only.
+- behavior parity for all engine-backed dispatch paths requires continued hardening.
+- benchmark depth remains limited for chimera-native adapter pathways.
 
 ## Breaking Changes
-- Adapter interface is stable; new capability methods will be added with default no-op implementations (backward-compatible)
+
+No breaking chimera-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

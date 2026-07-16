@@ -1,44 +1,138 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_judge_client.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:59:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     345                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
  * @file llm_judge_client.cpp
- * @brief LLM Judge Client - Connects prompts to InferenceEngineEnhanced
- * 
- * This client bridges RAG Judge evaluations to the LLM inference engine,
- * enabling automated evaluation with proper caching and batching.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=19, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/llm_judge_client.h"
+#include <stdexcept>
 #include "llm/inference_engine_enhanced.h"
+#include "llm/llama_wrapper.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
+#include <cstdlib>
+#include <array>
+#include <optional>
 #include <sstream>
 #include <iomanip>
 #include <atomic>
+#include <unordered_set>
 
 using json = nlohmann::json;
 
 namespace themis::rag::judge {
+
+namespace {
+namespace fs = std::filesystem;
+
+bool isModelFile(const fs::path& path) {
+    if (!fs::exists(path) || !fs::is_regular_file(path)) {
+        return false;
+    }
+
+    const auto extension = path.extension().string();
+    return extension == ".gguf" || extension == ".bin";
+}
+
+std::vector<fs::path> candidateModelDirs() {
+    std::vector<fs::path> dirs;
+
+    if (const char* env_dir = std::getenv("THEMIS_LLM_MODELS_PATH");
+        env_dir != nullptr && *env_dir != '\0') {
+        dirs.emplace_back(env_dir);
+    }
+
+    const auto cwd = fs::current_path();
+    constexpr std::array<std::string_view, 5> relative_dirs = {
+        "models",
+        "../models",
+        "../../models",
+        "../../../models",
+        "../../../../models",
+    };
+
+    for (const auto relative_dir : relative_dirs) {
+        dirs.emplace_back(cwd / relative_dir);
+    }
+
+    return dirs;
+}
+
+std::vector<std::string> candidateModelNames(const std::string& model_name) {
+    if (model_name.empty()) {
+        return {};
+    }
+
+    std::vector<std::string> names;
+    names.push_back(model_name);
+
+    const fs::path as_path(model_name);
+    if (as_path.extension().empty()) {
+        names.push_back(model_name + ".gguf");
+        names.push_back(model_name + ".bin");
+    }
+
+    return names;
+}
+
+std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
+    std::vector<fs::path> candidates;
+    std::unordered_set<std::string> seen;
+
+    const auto push_unique_if_model = [&](const fs::path& path) {
+        if (!isModelFile(path)) {
+            return;
+        }
+
+        const auto normalized = path.lexically_normal().string();
+        if (seen.insert(normalized).second) {
+            candidates.push_back(path);
+        }
+    };
+
+    if (const char* explicit_path = std::getenv("THEMIS_LLM_MODEL_PATH");
+        explicit_path != nullptr && *explicit_path != '\0') {
+        push_unique_if_model(fs::path(explicit_path));
+    }
+
+    if (!model_name.empty()) {
+        push_unique_if_model(fs::path(model_name));
+    }
+
+    const auto model_dirs = candidateModelDirs();
+    const auto model_names = candidateModelNames(model_name);
+
+    for (const auto& dir : model_dirs) {
+        if (!fs::exists(dir) || !fs::is_directory(dir)) {
+            continue;
+        }
+
+        for (const auto& name : model_names) {
+            push_unique_if_model(dir / name);
+        }
+    }
+
+    for (const auto& dir : model_dirs) {
+        if (!fs::exists(dir) || !fs::is_directory(dir)) {
+            continue;
+        }
+
+        for (const auto& entry : fs::directory_iterator(dir)) {
+            if (isModelFile(entry.path())) {
+                push_unique_if_model(entry.path());
+            }
+        }
+    }
+
+    return candidates;
+}
+} // namespace
 
 // ═══════════════════════════════════════════════════════════
 // LLMJudgeClient Implementation
@@ -48,6 +142,52 @@ struct LLMJudgeClient::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine;
     std::string model_id;
+
+    void tryAutoRegisterLocalModel() {
+        if (const char* disable_auto_register = std::getenv("THEMIS_DISABLE_LLM_AUTO_REGISTER");
+            disable_auto_register != nullptr &&
+            (std::string_view(disable_auto_register) == "1" ||
+             std::string_view(disable_auto_register) == "true" ||
+             std::string_view(disable_auto_register) == "TRUE")) {
+            THEMIS_INFO("LLMJudgeClient: local model auto-registration disabled by THEMIS_DISABLE_LLM_AUTO_REGISTER");
+            return;
+        }
+
+        const auto model_paths = resolveLocalModelPaths(config.model_name);
+        if (model_paths.empty()) {
+            THEMIS_DEBUG("LLMJudgeClient: no local model candidate found for '{}'", config.model_name);
+            return;
+        }
+
+        json plugin_config;
+        plugin_config["context_length"] = 4096;
+
+        for (const auto& model_path : model_paths) {
+            llm::LlamaWrapper::Config wrapper_config;
+            wrapper_config.enable_response_cache = false;
+            wrapper_config.use_continuous_batching = false;
+            auto plugin = std::make_shared<llm::LlamaWrapper>(wrapper_config);
+
+            try {
+                if (!plugin->loadModel(model_path.string(), plugin_config)) {
+                    THEMIS_WARN("LLMJudgeClient: failed to load local judge model candidate {}", model_path.string());
+                    continue;
+                }
+
+                inference_engine->registerModel(config.model_name, plugin);
+                model_id = config.model_name;
+                THEMIS_INFO("LLMJudgeClient auto-registered local model '{}' from {}",
+                            config.model_name, model_path.string());
+                return;
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("LLMJudgeClient: local model auto-registration failed for {}: {}",
+                            model_path.string(), ex.what());
+            }
+        }
+
+        THEMIS_WARN("LLMJudgeClient: found {} local model candidate(s), but none could be loaded for '{}'",
+                    model_paths.size(), config.model_name);
+    }
     
     Impl(const Config& cfg) : config(cfg) {
         // Initialize inference engine with appropriate config
@@ -59,6 +199,7 @@ struct LLMJudgeClient::Impl {
         
         inference_engine = std::make_shared<llm::InferenceEngineEnhanced>(engine_config);
         inference_engine->start();
+        tryAutoRegisterLocalModel();
         
         THEMIS_INFO("LLMJudgeClient initialized with model: {}", config.model_name);
     }
@@ -88,8 +229,8 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
         request.base_request.prompt = prompt;
         request.base_request.max_tokens = impl_->config.max_tokens;
-        request.base_request.temperature = impl_->config.temperature;
-        request.base_request.top_p = 0.95;
+        request.base_request.temperature = static_cast<float>(impl_->config.temperature);
+        request.base_request.top_p = 0.95f;
         request.base_request.stop_sequences = impl_->config.stop_sequences;
         
         request.priority = impl_->config.priority;
@@ -142,8 +283,8 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
             llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
             request.base_request.prompt = prompt;
             request.base_request.max_tokens = impl_->config.max_tokens;
-            request.base_request.temperature = impl_->config.temperature;
-            request.base_request.top_p = 0.95;
+            request.base_request.temperature = static_cast<float>(impl_->config.temperature);
+            request.base_request.top_p = 0.95f;
             request.base_request.stop_sequences = impl_->config.stop_sequences;
             
             request.priority = impl_->config.priority;
@@ -300,7 +441,7 @@ void LLMJudgeClient::parseEvaluationResponse(
             parsed.confidence = 0.5;  // Default
         }
         
-    } catch (const json::exception& e) {
+    } catch (const json::exception&) {
         // Fallback to simple parsing for non-JSON responses
         // Look for score
     size_t score_pos = response.find("\"score\"");
@@ -346,3 +487,4 @@ void LLMJudgeClient::parseEvaluationResponse(
 }
 
 } // namespace themis::rag::judge
+

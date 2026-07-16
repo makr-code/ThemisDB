@@ -2,7 +2,7 @@
 
 **Projektname:** RESPO (RAG-Enhanced Software Programming Optimizer)  
 **Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 6. April 2026  
 **Typ:** Recherche & Umsetzungsplan  
 **Projektpfad:** `projects/respo/`
 
@@ -637,7 +637,7 @@ version: '3.8'
 services:
   # ThemisDB Backend
   themisdb:
-    image: ghcr.io/makr-code/themis:latest
+    image: themisdb/themisdb:latest
     ports:
       - "8765:8765"
     volumes:
@@ -733,7 +733,7 @@ huggingface-cli download codellama/CodeLlama-13b-Instruct-hf --local-dir ./model
 huggingface-cli download microsoft/codebert-base --local-dir ./models/embedding
 
 # 2. Docker Images exportieren
-docker save ghcr.io/makr-code/themis:latest > themis.tar
+docker save themisdb/themisdb:latest > themis.tar
 docker save respo-api:latest > respo-api.tar
 docker save respo-vllm:latest > respo-vllm.tar
 

@@ -113,7 +113,7 @@ int llama_lora_adapter_set(llama_context*, int, float);
    - Line 1564: `llama_lora_adapter_stub.cpp` → `llama_lora_adapter.cpp`
 
 ### Created
-3. **`src/llm/llama_lora_adapter_README.md`**
+3. **`src/llm/LLAMA_LORA_ADAPTER_README.md`**
    - 6000+ words of documentation
    - Usage examples
    - Architecture diagrams

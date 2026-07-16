@@ -1,7 +1,7 @@
 # ThemisDB Konfigurations- und Tuning-Guide
 
 **Version:** 1.3.0  
-**Stand:** 25. Dezember 2025  
+**Stand:** 6. April 2026  
 **Zielgruppe:** Database Administrators, DevOps Engineers, System Architects
 
 ---
@@ -1146,7 +1146,7 @@ tracing:
 Bei Fragen oder Performance-Problemen:
 
 1. Collect metrics: `curl http://localhost:8765/stats`
-2. Check logs: `tail -f themis_server.log`
+2. Check logs: `tail -f logs/themis_server.log`
 3. Run benchmarks: `./scripts/run-arm-benchmarks.sh` (ARM) oder `./build/bench_*`
 4. Öffnen Sie ein Issue: https://github.com/makr-code/ThemisDB/issues
 

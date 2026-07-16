@@ -1,24 +1,21 @@
+/**
+ * @file hnsw_layer_optimizer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hnsw_layer_optimizer.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:54                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     172                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hnsw_layer_optimizer.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 159
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #800 Implement HNSW Layer Optimi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // HNSW Layer Optimizer for Vector Index Optimization
@@ -27,7 +24,7 @@
 
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <mutex>
@@ -65,7 +62,7 @@ struct HnswOptimizationConfig {
 /// Implements layer pruning, adaptive layer selection, and batch insert optimization
 /// for HNSW vector index to improve performance at scale (1B+ vectors)
 ///
-/// @sources
+/// Sources:
 /// - HNSW Algorithm: Malkov, Y. A., & Yashunin, D. A. (2018).
 ///   "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
 ///   IEEE Transactions on Pattern Analysis and Machine Intelligence
@@ -145,7 +142,7 @@ public:
     bool shouldPruneLayer(int current_layer, size_t candidate_count, size_t k) const;
     
     /// Get layer statistics for monitoring
-    std::map<int, LayerStats> getLayerStats() const;
+    std::unordered_map<int, LayerStats> getLayerStats() const;
     
     /// Get recent query statistics
     std::vector<QueryStats> getRecentQueryStats() const;
@@ -161,7 +158,7 @@ private:
     
     // Layer statistics tracking
     mutable std::mutex stats_mutex_;
-    std::map<int, LayerStats> layer_stats_;
+    std::unordered_map<int, LayerStats> layer_stats_;
     
     // Recent query statistics for adaptive optimization
     std::deque<QueryStats> recent_queries_;

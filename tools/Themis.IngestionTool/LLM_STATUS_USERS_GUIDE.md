@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Report beschreibt den Stand zum Zeitpunkt der Erstellung.
+> Für aktuellen Stand: Quellcode in `src/llm/` und `include/llm/` prüfen.
+
 # LLM Status Überwachung - Benutzerhandbuch
 
 ## Was ist neu?

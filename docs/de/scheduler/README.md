@@ -1,12 +1,12 @@
 # Scheduler-Modul – Sekundärdokumentation (DE)
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-04-06 -->
 <!-- Primärdokumentation: ../../../src/scheduler/ und ../../../include/scheduler/ -->
 
 **Modul:** `scheduler`  
 **Version:** v1.5.0  
 **Status:** ✅ Produktionsreif  
-**Geprüft:** 2026-03-09 (Commit `ae47515`)
+**Geprüft:** 2026-03-11 (Commit `1d4165d`)
 
 ---
 
@@ -20,8 +20,8 @@
 | [AQL_RETENTION_EXTENSIONS.md](AQL_RETENTION_EXTENSIONS.md) | AQL-Erweiterungen für Retention-Abfragen |
 | [DATA_RETENTION_DOWNSAMPLING.md](DATA_RETENTION_DOWNSAMPLING.md) | Downsampling-Algorithmen und -Konfiguration |
 | [SYSTEM_IMPACT_ANALYSIS.md](SYSTEM_IMPACT_ANALYSIS.md) | Systemauswirkungsanalyse des Schedulers auf ThemisDB |
-| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Historische Implementierungszusammenfassung (v0.0.x) |
-| [missing-implementations.md](missing-implementations.md) | Reality-Check-Befunde: fehlende oder unvollständige Implementierungen |
+| [IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/IMPLEMENTATION_SUMMARY.md) | Historische Implementierungszusammenfassung (v0.0.x) |
+| [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md) | Reality-Check-Befunde: fehlende oder unvollständige Implementierungen |
 
 ---
 
@@ -56,7 +56,7 @@ Aufgaben in ThemisDB. Er unterstützt:
 ## Fehlende Implementierungen
 
 Beim Reality-Check wurden Abweichungen zwischen Dokumentation und Sourcecode identifiziert.
-Details: → [missing-implementations.md](missing-implementations.md)
+Details: → [MISSING_IMPLEMENTATIONS.md](MISSING_IMPLEMENTATIONS.md)
 
 ---
 

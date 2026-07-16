@@ -1,30 +1,29 @@
+/**
+ * @file device_detector.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            device_detector.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:53:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     157                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c7ddd8c1e  2026-02-28  feat(geo): implement runtime GPU device detection and rep... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: device_detector.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 166
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #3111 [geo] Implement runtime GPU... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <string>
 #include <vector>
+#include <functional>
+#include <mutex>
 #include "themis/gpu/device_discovery.h"
 
 namespace themis {
@@ -72,6 +71,8 @@ struct GeoDeviceCapability {
  */
 class GeoDeviceDetector {
 public:
+    using EnumerateFn = std::function<std::vector<themis::gpu::DeviceInfo>()>;
+
     /**
      * @brief Enumerate all devices and assess their geo capability.
      *
@@ -152,7 +153,25 @@ public:
      * @brief Convenience overload: detect then serialise.
      */
     static std::string ReportJson();
+
+    /// Register a custom device enumeration bridge for CPU-only or test builds.
+    /// Thread-safe; pass an empty function to fall back to DeviceDiscovery::Enumerate().
+    static void setEnumerateFn(EnumerateFn fn) {
+        std::lock_guard<std::mutex> lk(enumerateFnMutex());
+        enumerateFnStorage() = std::move(fn);
+    }
+
+private:
+    static std::mutex& enumerateFnMutex() {
+        static std::mutex m;
+        return m;
+    }
+    static EnumerateFn& enumerateFnStorage() {
+        static EnumerateFn fn;
+        return fn;
+    }
 };
 
 } // namespace geo
 } // namespace themis
+

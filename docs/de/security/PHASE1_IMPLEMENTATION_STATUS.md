@@ -268,6 +268,6 @@ graph_protection:
 
 ---
 
-**Last Updated:** January 7, 2026  
+**Last Updated:** April 2026  
 **Author:** ThemisDB Security Team  
 **Next Review:** January 13, 2026

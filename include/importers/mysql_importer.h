@@ -1,33 +1,32 @@
+/**
+ * @file mysql_importer.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mysql_importer.h                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-03-09 03:53:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mysql_importer.h | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 205
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4288 feat(importers): MySQL/Mari... (2026-03-16) | #3227 [importers] Implement JDBC-... (2026-03-12) | #2529 [importers] Implement MySQL... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "importers/importer_interface.h"
+#include "importers/importer_interfaces.h"
 #include "plugins/plugin_interface.h"
 #include <atomic>
+#include <cstdint>
 #include <unordered_set>
+#include <mutex>
 
 namespace themis {
 namespace importers {
@@ -91,6 +90,7 @@ private:
     };
 
     std::atomic<bool> cancelled_{false};
+    mutable std::mutex config_type_overrides_mutex_;  ///< Protects config_type_overrides_ concurrent access
     std::map<std::string, TableSchema> schemas_;
     JdbcConfig jdbc_config_;                               ///< Parsed JDBC config from initialize()
     std::map<std::string, std::string> config_type_overrides_; ///< Type overrides from initialize()
@@ -100,7 +100,8 @@ private:
                        ImportStats& stats, ProgressCallback& callback);
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
     bool parseInsert(const std::string& sql, const ImportOptions& options,
-                     ImportStats& stats, size_t line_number);
+                     ImportStats& stats, size_t line_number,
+                     std::unordered_set<uint64_t>& delta_hashes);
 
     // Schema mapping
     std::string mapMySQLTypeToThemis(const std::string& mysql_type,
@@ -142,6 +143,19 @@ private:
     // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage,
                         size_t current, size_t total);
+
+    // Delta / incremental import helpers (same pattern as PostgreSQL importer).
+    // When ImportOptions::delta_hash_file is set, rows whose FNV-1a hash is already
+    // in the file are skipped; new hashes are persisted at end of import.
+    // Setting delta_key_columns = {"updated_at"} is the recommended high-watermark
+    // configuration for MySQL sources.
+    static uint64_t computeRowHash(const std::string& tuple_str,
+                                   const std::vector<std::string>& values,
+                                   const std::vector<std::string>& key_columns,
+                                   const std::vector<std::string>& schema_columns);
+    static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& delta_hash_file);
+    static void saveDeltaHashes(const std::string& delta_hash_file,
+                                const std::unordered_set<uint64_t>& hashes);
 };
 
 /**
@@ -165,6 +179,39 @@ public:
 
 private:
     std::unique_ptr<MySQLImporter> importer_;
+};
+
+} // namespace importers
+} // namespace themis
+
+/**
+ * @brief URI-scheme plugin registering MySQLImporter with ImporterSchemeRegistry.
+ *
+ * Handles "mysql://" and "mariadb://" source URIs.  Registered at static-init
+ * time via REGISTER_IMPORTER_PLUGIN so that the process-wide
+ * IImporterPluginRegistry::instance() can resolve MySQL/MariaDB sources
+ * without any manual wiring.
+ *
+ * The admin import API route POST /api/v1/import/mysql uses this plugin to
+ * create a fresh MySQLImporter for each request.
+ */
+namespace themis {
+namespace importers {
+
+class MySQLImporterSchemePlugin : public IImporterPlugin {
+public:
+    const char* pluginId() const override { return "mysql_plugin"; }
+
+    std::vector<std::string> supportedSchemes() const override {
+        return {"mysql", "mariadb"};
+    }
+
+    std::unique_ptr<IImporter> createImporter(
+            const ImportConfig& config) const override {
+        auto imp = std::make_unique<MySQLImporter>();
+        imp->initialize(config.json_config.empty() ? "{}" : config.json_config);
+        return imp;
+    }
 };
 
 } // namespace importers

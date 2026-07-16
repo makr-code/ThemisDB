@@ -445,6 +445,70 @@ tracing:
   otlp_endpoint: "http://localhost:4318"
 
 # =============================================================================
+# SAML 2.0 SERVICE PROVIDER (Single Sign-On)
+# =============================================================================
+#
+# Uncomment and fill in this section to enable SAML SP support.
+# All SAML endpoints (/api/v1/auth/saml/login, /acs, /slo, /metadata) return
+# HTTP 503 until this section is present and all mandatory fields are set.
+#
+# Obtain IdP metadata from your Identity Provider (Okta, ADFS, Azure AD, etc.)
+# and paste the relevant values below.
+#
+# saml:
+#   # --- Mandatory fields ---
+#
+#   # Identity Provider entity ID (from IdP metadata, e.g. the entityID attribute)
+#   idp_entity_id: "https://idp.example.com/saml2"
+#
+#   # IdP Single Sign-On URL (HTTP-Redirect binding)
+#   idp_sso_url: "https://idp.example.com/saml2/sso"
+#
+#   # Service Provider entity ID (must match what you register in the IdP)
+#   sp_entity_id: "https://themisdb.example.com/sp"
+#
+#   # Service Provider Assertion Consumer Service URL
+#   sp_acs_url: "https://themisdb.example.com/api/v1/auth/saml/acs"
+#
+#   # IdP signing certificate in PEM format (paste the full -----BEGIN CERTIFICATE----- block)
+#   idp_certificate_pem: |
+#     -----BEGIN CERTIFICATE-----
+#     MIIDazCCAlOgAwIBAgIUExampleCertificate...
+#     -----END CERTIFICATE-----
+#
+#   # --- Optional fields ---
+#
+#   # Require the IdP to sign the SAML Response envelope (default: true, recommended)
+#   require_signed_response: true
+#
+#   # Require the IdP to sign the SAML Assertion element (default: true, recommended)
+#   require_signed_assertion: true
+#
+#   # Allow legacy SHA-1 signatures for backward compatibility (default: false)
+#   allow_sha1_deprecated: false
+#
+#   # Acceptable clock skew between SP and IdP clocks in seconds (default: 60)
+#   clock_skew_seconds: 60
+#
+#   # Maximum assertion replay-cache size (default: 100000)
+#   max_replay_cache_size: 100000
+#
+#   # SAML attribute name carrying the user e-mail (default: "email")
+#   attr_email: "email"
+#
+#   # IdP Single Log-Out URL (optional; enables /api/v1/auth/saml/slo endpoint)
+#   idp_slo_url: "https://idp.example.com/saml2/slo"
+#
+#   # SP SLO callback URL (optional)
+#   sp_slo_url: "https://themisdb.example.com/api/v1/auth/saml/slo"
+#
+#   # SP metadata contact / organization info (shown in /api/v1/auth/saml/metadata)
+#   org_name: "My Organisation"
+#   org_display_name: "My Organisation (ThemisDB)"
+#   org_url: "https://www.example.com"
+#   contact_email: "admin@example.com"
+
+# =============================================================================
 # FEATURE FLAGS
 # =============================================================================
 features:
@@ -575,37 +639,87 @@ tenants:
     burst_size: 100                 # Token bucket burst size per tenant
 
 # =============================================================================
-# LLM CONFIGURATION (Optional - requires llama.cpp integration)
+# LLM CONFIGURATION (requires llama.cpp integration)
 # =============================================================================
-# See config/llm_config.example.yaml for detailed LLM configuration
-# Uncomment and adjust the following sections if using LLM features:
-#
-# llm:
-#   enabled: true
-#   default_plugin: "llamacpp"
-#   plugin_paths:
-#     - "./plugins"
-#   auto_load: true
-#
-# llm_plugins:
-#   llamacpp:
-#     type: "llama.cpp"
-#     enabled: true
-#     model:
-#       path: "/models/mistral-7b-instruct-v0.2.Q4_K_M.gguf"
-#       auto_load: true
-#     gpu:
-#       n_layers: 32
-#       use_cuda: true
-#       max_vram_mb: 14336
-#     context:
-#       n_ctx: 4096
-#       n_batch: 512
-#       n_threads: 8
-#
 # For complete LLM configuration options, see:
 # - config/llm_config.example.yaml
 # - docs/de/guides/LLM_COMPLETE_SETUP_GUIDE.md
+
+llm:
+  enabled: true
+  # required: false — graceful degradation mode.
+  # If the model file or the LoRA adapter is missing the server will log
+  # warnings but continue to start.  Set to true to make a missing/failed
+  # LLM a hard startup error.
+  required: false
+  default_plugin: "llamacpp"
+  plugin_paths:
+    - "./plugins"
+    - "/usr/local/lib/themis/plugins"
+  auto_load: true
+
+llm_plugins:
+  llamacpp:
+    type: "llama.cpp"
+    enabled: true
+
+    # Default model: TinyLlama 1.1B (GGUF, Q4_0)
+    # Download: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+    model:
+      path: "models/tinyllama-1.1b-q4_0.gguf"
+      id: "tinyllama"
+      auto_load: true
+
+    # GPU acceleration
+    # n_layers: 0  → CPU-only (safe default for any hardware).
+    # Increase to e.g. 22 to offload all TinyLlama layers to GPU:
+    #   n_layers: 22   # full GPU offload on TinyLlama 1.1B
+    # use_cuda and use_metal are mutually exclusive at runtime — llama.cpp
+    # activates whichever backend is available on the host (CUDA on NVIDIA,
+    # Metal on Apple Silicon). Having both flags true is harmless; only one
+    # will be selected during plugin initialisation.
+    gpu:
+      n_layers: 0
+      use_cuda: true
+      use_metal: true
+      use_vulkan: false
+      max_vram_mb: 2048
+
+    # Context and threading
+    context:
+      n_ctx: 4096
+      n_batch: 512
+      n_threads: 4
+
+    # Memory management
+    memory:
+      use_mmap: true
+      use_mlock: false
+
+    # LoRA adapter preloading
+    # The themis-docs-v1 adapter specialises TinyLlama for ThemisDB documentation
+    # queries (RAG, config help, troubleshooting).
+    # To generate the adapter run:
+    #   python scripts/train_lora.py --config config/lora_training_config.yaml
+    # See loras/README.md for details.
+    lora:
+      cache_slots: 4
+      cache_vram_mb: 256
+      preload:
+        - id: "themis-docs-v1"
+          path: "loras/themis-docs-v1.bin"
+          scale: 1.0
+
+    # Inference defaults
+    inference:
+      max_tokens: 512
+      temperature: 0.7
+      top_p: 0.9
+      top_k: 40
+      repetition_penalty: 1.1
+      stop_sequences:
+        - "<|endoftext|>"
+        - "</s>"
 
 # =============================================================================
 # PERFORMANCE TUNING
@@ -626,7 +740,7 @@ logging:
   level: "INFO"
   
   # Log file path
-  file: "./themis_server.log"
+  file: "./logs/themis_server.log"
   
   # Maximum log file size (MB) before rotation
   max_size_mb: 100

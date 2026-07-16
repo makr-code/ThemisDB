@@ -1,0 +1,71 @@
+# RPC gRPC Module Roadmap
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Status: current | validated: 2026-05-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
+## Current Status
+
+Production-capable gRPC RPC plugin runtime exists for server lifecycle operations, TLS/mTLS credentials handling, service registration, stream adapter support, and method-level observability.
+
+## In Progress
+
+- [~] hardening credential reload and runtime service transition edge behavior (Target: Q3 2026)
+- [~] improving diagnostics consistency for lifecycle/registration fault classes (Target: Q3 2026)
+- [~] stabilizing benchmark-backed release guardrails for WAL-apply gRPC path (Target: Q3 2026)
+
+## Planned Features
+
+### Short-term (3-6 months)
+- [ ] tighten deterministic behavior under concurrent service and reload operations (Target: Q4 2026)
+- [ ] expand stress coverage for stream adapter and registration edge scenarios (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for transport incident triage (Target: Q4 2026)
+
+### Mid-term (6-12 months)
+- [ ] re-baseline p95/p99 envelopes for gRPC apply and service lifecycle paths (Target: Q1 2027)
+- [ ] broaden benchmark depth for additional gRPC transport scenarios (Target: Q1 2027)
+- [ ] harden long-run reliability under sustained RPC traffic pressure (Target: Q1 2027)
+
+## Implementation Phases
+
+### Phase 1: Design / API Contract
+- [ ] freeze plugin lifecycle/registration/stream contracts for current major line (Target: Q3 2026)
+- [ ] define explicit error taxonomy for rpc_grpc failure classes (Target: Q3 2026)
+
+### Phase 2: Core Implementation
+- [ ] complete hardening for lifecycle and credential internals (Target: Q4 2026)
+- [ ] align registration/stream behavior to bounded runtime contracts (Target: Q4 2026)
+
+### Phase 3: Error Handling and Edge Cases
+- [ ] standardize fail-safe behavior for reload, registration, and stream path faults (Target: Q4 2026)
+- [ ] unify diagnostics across lifecycle/credentials/registration incidents (Target: Q4 2026)
+
+### Phase 4: Tests
+- [ ] expand focused regressions for credential and registration edge scenarios (Target: Q4 2026)
+- [ ] extend deterministic stress fixtures for sustained gRPC traffic paths (Target: Q4 2026)
+
+### Phase 5: Performance and Hardening
+- [ ] lock benchmark-backed release gates for gRPC WAL-apply hot paths (Target: Q4 2026)
+- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+
+### Phase 6: Documentation and Acceptance
+- [x] core rpc_grpc docs aligned to source-verifiable behavior
+- [x] roadmap/future planning separated from historical changelog entries
+
+## Production Readiness Checklist
+
+- [x] core rpc_grpc surfaces documented and source-verified
+- [x] module-level security and failure behavior documented
+- [x] benchmark mapping documented in performance expectations
+- [ ] remaining hardening tasks closed for lifecycle/credentials/stream edge paths
+- [ ] release benchmark stabilization complete
+
+## Known Issues and Limitations
+
+- runtime behavior depends on deployment credentials and service registration profile.
+- selected reload/registration edge scenarios need continued hardening.
+- benchmark depth should continue expanding beyond WAL-apply focused coverage.
+
+## Breaking Changes
+
+No breaking rpc_grpc contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.

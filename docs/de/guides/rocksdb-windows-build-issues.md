@@ -26,7 +26,7 @@ Knowledge base for RocksDB-related build issues on Windows.
 
 Comprehensive knowledge base for RocksDB build issues on Windows platforms.
 
-**Stand:** 22. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** 1.3.0  
 **Kategorie:** 🛠️ Developer/Technical
 

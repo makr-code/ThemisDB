@@ -1,32 +1,26 @@
+/**
+ * @file transaction_retry_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            transaction_retry_manager.h                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     397                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ad5decdf5  2026-02-26  Code audit: fix const_cast UB, pow() overflow, jitter val... ║
-    • c44891bf3  2026-02-26  Fix TransactionRetryManager: add thread include, fix Retr... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: transaction_retry_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright (c) 2024 ThemisDB
 // Licensed under the MIT License
 
-#ifndef THEMISDB_TRANSACTION_RETRY_MANAGER_H
-#define THEMISDB_TRANSACTION_RETRY_MANAGER_H
+#pragma once
 
 #include <chrono>
 #include <functional>
@@ -35,6 +29,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <thread>
 #include <unordered_map>
 
@@ -253,14 +248,13 @@ public:
                 
             } catch (const std::exception& e) {
                 attempt++;
-                stats_.total_retry_attempts.fetch_add(1);
                 
                 // Classify error
                 ErrorType error_type = classifyError(e.what());
                 
                 // Update error stats
                 {
-                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    std::lock_guard<std::shared_mutex> lock(stats_mutex_);
                     stats_.errors_by_type[error_type]++;
                 }
                 
@@ -292,6 +286,9 @@ public:
                     recordFailure();
                     throw std::runtime_error("Max retry attempts exceeded for: " + operation_name);
                 }
+                
+                // We will perform another attempt, so count this as a retry.
+                stats_.total_retry_attempts.fetch_add(1);
                 
                 // Calculate delay
                 uint32_t delay_ms = calculateDelay(attempt, policy);
@@ -369,7 +366,12 @@ private:
     /**
      * @brief Transition circuit breaker state
      */
-    void transitionCircuitState(CircuitState new_state) const;
+    bool transitionCircuitState(CircuitState new_state, std::string* alert_message) const;
+
+    /**
+     * @brief Invoke alert callback, if configured
+     */
+    void invokeAlertCallback(CircuitState state, const std::string& message) const;
     
     TransactionRetryConfig config_;
     RetryStatistics stats_;
@@ -386,13 +388,12 @@ private:
     std::uniform_real_distribution<double> jitter_dist_;
     
     // Stats mutex
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
     
     // Alert callback
+    mutable std::mutex callback_mutex_;
     AlertCallback alert_callback_;
 };
 
 }  // namespace storage
 }  // namespace themisdb
-
-#endif  // THEMISDB_TRANSACTION_RETRY_MANAGER_H

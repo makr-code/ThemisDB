@@ -1,27 +1,12 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            noop_implementations.h                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     206                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
-    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
-    • 31c83c701  2026-02-23  fix(core): repair syntax errors from develop merge; resto... ║
-    • 454802e88  2026-02-23  fix(core): fix syntax errors in core headers and improve ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file noop_implementations.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -35,12 +20,20 @@
 #include "core/concerns/i_feature_flags.h"
 #include "core/concerns/i_audit_log.h"
 
+#ifdef _MSC_VER
+#  pragma warning(push)
+#  pragma warning(disable: 4100) // unreferenced formal parameter (no-op impls intentionally ignore args)
+#endif
+
 namespace themis {
 namespace core {
 namespace concerns {
 
 /**
  * @brief No-op logger implementation for testing or when logging is disabled.
+ *
+ * All logging calls are intentionally dropped. setLevel()/getLevel() keep
+ * local state so tests can still verify configuration plumbing.
  */
 class NoOpLogger : public ILogger {
 public:
@@ -67,6 +60,10 @@ private:
 
 /**
  * @brief No-op tracer implementation for testing or when tracing is disabled.
+ *
+ * Span creation always returns invalid NoOpSpan instances. initialize()
+ * reports success and isInitialized() always returns true so startup flows
+ * that require an initialized tracer can proceed in no-tracing deployments.
  */
 class NoOpTracer : public ITracer {
 public:
@@ -103,6 +100,8 @@ public:
 
 /**
  * @brief No-op metrics implementation for testing or when metrics are disabled.
+ *
+ * All writes are discarded; exportMetrics() always returns an empty payload.
  */
 class NoOpMetrics : public IMetrics {
 public:
@@ -124,6 +123,9 @@ public:
 
 /**
  * @brief No-op cache implementation for testing or when caching is disabled.
+ *
+ * get() always misses, put() returns true to preserve call-site flow, and
+ * all counters remain zero.
  */
 class NoOpCache : public ICache {
 public:
@@ -190,6 +192,7 @@ public:
  * @brief No-op feature flag provider — all flags are always disabled.
  *
  * Use in unit tests or builds where feature-flag evaluation is not needed.
+ * setValue() is intentionally ignored and does not persist any state.
  */
 class NoOpFeatureFlags : public IFeatureFlags {
 public:
@@ -220,3 +223,7 @@ public:
 } // namespace concerns
 } // namespace core
 } // namespace themis
+
+#ifdef _MSC_VER
+#  pragma warning(pop)
+#endif

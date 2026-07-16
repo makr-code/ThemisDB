@@ -1,6 +1,6 @@
 # Themis – Security Hardening Guide
 
-**Stand:** 18. Januar 2026  
+**Stand:** 18. April 2026  
 **Version:** 1.4.0  
 **Kategorie:** Security
 
@@ -878,6 +878,7 @@ fi
 ## Server-Härtung
 - Reverse Proxy vor Themis (TLS, Rate Limiting, Auth): Nginx/Traefik empfohlen
 - TLS: TLS 1.2+, HSTS, sichere Cipher Suites, OCSP Stapling
+- HSM: In Produktion `hsm.provider: pkcs11` mit nichtleerem `hsm.pkcs11.library_path` konfigurieren; ohne HSM-Konfiguration oder explizites Stub-Opt-in (`THEMIS_ALLOW_HSM_STUB=1` / `--allow-stub-hsm`) bricht der Serverstart jetzt hart ab. Siehe `docs/security/HSM_PRODUCTION_SETUP.md`
 - Accounts: Least-Privilege Service User, kein Admin-Kontext
 - Firewall: Nur benötigte Ports (8765) freigeben, IP-Restriktionen erwägen
 - Logging: Security-Events zentralisieren; Log Rotation, WORM/ELK/Graylog

@@ -1,25 +1,20 @@
+/**
+ * @file edition_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            edition_manager.h                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:55:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     265                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a4de3d12c  2026-03-01  feat(themis): implement dynamic feature flag override API... ║
-    • 0cbb725b3  2026-02-23  feat(themis): implement edition_manager.cpp for Community... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: edition_manager.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -52,10 +47,10 @@
  *   }
  */
 
-#ifndef THEMIS_EDITION_MANAGER_H
-#define THEMIS_EDITION_MANAGER_H
+#pragma once
 
 #include "themis/edition.h"
+#include "themis/export.h"
 
 #include <mutex>
 #include <optional>
@@ -77,7 +72,7 @@ namespace edition {
  *
  * All public methods are thread-safe.
  */
-class EditionManager {
+class THEMIS_BASE_API EditionManager {
 public:
     /// Retrieve the process-wide singleton instance.
     static EditionManager& instance();
@@ -262,5 +257,3 @@ private:
 
 } // namespace edition
 } // namespace themis
-
-#endif // THEMIS_EDITION_MANAGER_H

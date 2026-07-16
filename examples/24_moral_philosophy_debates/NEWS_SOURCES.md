@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Verlässliche Nachrichtenquellen für Moral Philosophy Debates
 
 Dieses Dokument listet verlässliche Nachrichtenquellen auf, die für das Moral Philosophy Debates System genutzt werden können.

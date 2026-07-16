@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Phasenbericht** – Dieser Bericht beschreibt den Implementierungsstand nach Abschluss der jeweiligen Entwicklungsphase.
+
 # Phase 1 Completion - Implementation Report
 
 ## Status: Phase 1 Complete ✅

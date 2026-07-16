@@ -1,24 +1,21 @@
+/**
+ * @file hsm_key_provider_adapter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=26; TODO=1, Stub=22, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=11, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hsm_key_provider_adapter.cpp                       ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     490                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hsm_key_provider_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 596
+ * Gap Summary: total=26; TODO=1, Stub=22, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=34, M=7, L=0
+ * PR History (last 5): #2564 feat(security): HSM direct ... (2026-03-12) | #567 Integrate HSMProvider (PKCS... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/hsm_key_provider_adapter.h"
@@ -28,9 +25,26 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <algorithm>
+#include <cstdlib>
 
 namespace themis {
 namespace security {
+
+namespace {
+
+bool isStubHsmDekWrapAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+} // namespace
+
+// ── Process-wide injectable DEK bridge (STUB #47 / #48) ─────────────────────
+static HSMKeyProviderAdapter::WrapDEKFn   g_wrap_dek_fn;
+static HSMKeyProviderAdapter::UnwrapDEKFn g_unwrap_dek_fn;
+static std::mutex                          g_dek_fn_mutex;
+
+// ────────────────────────────────────────────────────────────────────────────
 
 HSMKeyProviderAdapter::HSMKeyProviderAdapter(
     std::shared_ptr<HSMProvider> hsm,
@@ -84,55 +98,68 @@ std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id, ui
     // Check cache first
     std::string cache_key = makeCacheKey(key_id, version);
     std::vector<uint8_t> dek;
-    
+     
     if (config_.enable_caching && getCachedDEK(cache_key, dek)) {
         stats_.cache_hits++;
         return dek;
     }
-    
+     
     stats_.cache_misses++;
-    
+     
     // Retrieve encrypted DEK from store
     std::lock_guard<std::mutex> lock(store_mutex_);
-    
+     
     auto key_it = key_store_.find(key_id);
     if (key_it == key_store_.end()) {
         throw KeyNotFoundException(key_id, version);
     }
-    
+     
     auto version_it = key_it->second.find(version);
     if (version_it == key_it->second.end()) {
         throw KeyNotFoundException(key_id, version);
     }
-    
+     
     // Check if key is deleted
     if (version_it->second.metadata.status == KeyStatus::DELETED) {
         throw KeyOperationException("Key is deleted: " + key_id + " v" + std::to_string(version));
     }
-    
+     
     // Unwrap DEK using HSM
-    dek = unwrapDEK(version_it->second.encrypted_dek);
-    
+    try {
+        dek = unwrapDEK(version_it->second.encrypted_dek);
+    } catch (const KeyOperationException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to unwrap DEK for key " + key_id + ": " + std::string(e.what()));
+    }
+     
     // Cache the decrypted DEK
     if (config_.enable_caching) {
         putCachedDEK(cache_key, dek);
     }
-    
+     
     return dek;
 }
 
 uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
     std::lock_guard<std::mutex> lock(store_mutex_);
-    
+     
     // Get current latest version
     uint32_t new_version = getLatestVersion(key_id) + 1;
-    
+     
     // Generate new DEK
     auto dek = generateRandomDEK();
-    
+     
     // Wrap DEK with HSM KEK
-    auto encrypted_dek = wrapDEK(dek);
-    
+    std::vector<uint8_t> encrypted_dek;
+    try {
+        encrypted_dek = wrapDEK(dek);
+    } catch (const KeyOperationException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to wrap DEK for rotation: " + std::string(e.what()));
+    }
+     
     // Mark old version as DEPRECATED
     if (key_store_.find(key_id) != key_store_.end()) {
         for (auto& [version, data] : key_store_[key_id]) {
@@ -141,7 +168,7 @@ uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
             }
         }
     }
-    
+     
     // Store new version
     KeyVersionData new_data;
     new_data.encrypted_dek = encrypted_dek;
@@ -151,13 +178,13 @@ uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
     new_data.metadata.status = KeyStatus::ACTIVE;
     new_data.metadata.created_at_ms = getCurrentTimeMs();
     new_data.metadata.expires_at_ms = 0; // Never expires
-    
+     
     key_store_[key_id][new_version] = new_data;
-    
+     
     stats_.key_rotations++;
-    
+     
     spdlog::info("Rotated key {} to version {}", key_id, new_version);
-    
+     
     return new_version;
 }
 
@@ -165,6 +192,10 @@ std::vector<KeyMetadata> HSMKeyProviderAdapter::listKeys() {
     std::lock_guard<std::mutex> lock(store_mutex_);
     
     std::vector<KeyMetadata> result;
+    // Pre-count total versions to avoid repeated reallocations
+    size_t total = 0;
+    for (const auto& [key_id, versions] : key_store_) { total += versions.size(); }
+    result.reserve(total);
     for (const auto& [key_id, versions] : key_store_) {
         for (const auto& [version, data] : versions) {
             result.push_back(data.metadata);
@@ -253,24 +284,31 @@ uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
     if (key_bytes.size() != 32) {
         throw std::invalid_argument("Key must be exactly 32 bytes for AES-256");
     }
-    
+     
     std::lock_guard<std::mutex> lock(store_mutex_);
-    
+     
     uint32_t version = metadata.version;
     if (version == 0) {
         version = getLatestVersion(key_id) + 1;
     }
-    
+     
     // Wrap DEK with HSM KEK
-    auto encrypted_dek = wrapDEK(key_bytes);
-    
+    std::vector<uint8_t> encrypted_dek;
+    try {
+        encrypted_dek = wrapDEK(key_bytes);
+    } catch (const KeyOperationException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw KeyOperationException("Failed to wrap key material: " + std::string(e.what()));
+    }
+     
     // Store encrypted DEK
     KeyVersionData new_data;
     new_data.encrypted_dek = encrypted_dek;
     new_data.metadata = metadata;
     new_data.metadata.key_id = key_id;
     new_data.metadata.version = version;
-    
+     
     if (new_data.metadata.algorithm.empty()) {
         new_data.metadata.algorithm = "AES-256-GCM";
     }
@@ -285,11 +323,11 @@ uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
             }
         }
     }
-    
+     
     key_store_[key_id][version] = new_data;
-    
+     
     spdlog::info("Created key {} version {} from bytes", key_id, version);
-    
+     
     return version;
 }
 
@@ -342,7 +380,7 @@ bool HSMKeyProviderAdapter::isHSMReady() const {
 std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
     std::vector<uint8_t> dek(32); // 256 bits for AES-256
     
-    if (RAND_bytes(dek.data(), dek.size()) != 1) {
+    if (RAND_bytes(dek.data(), static_cast<int>(dek.size())) != 1) {
         unsigned long err = ERR_get_error();
         char err_buf[256];
         ERR_error_string_n(err, err_buf, sizeof(err_buf));
@@ -354,8 +392,59 @@ std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
 
 std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& dek) {
     stats_.hsm_encrypt_operations++;
+
+    // ── Injected bridge (STUB #47) ────────────────────────────────────────────
+    {
+        WrapDEKFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+            fn = g_wrap_dek_fn;
+        }
+        if (fn) {
+            try {
+                return fn(dek);
+            } catch (const std::exception& e) {
+                stats_.hsm_errors++;
+                throw KeyOperationException(
+                    "WrapDEKFn bridge failed: " + std::string(e.what()));
+            } catch (...) {
+                stats_.hsm_errors++;
+                throw KeyOperationException("WrapDEKFn bridge failed: unknown error");
+            }
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     
     try {
+        if (hsm_ && hsm_->isStubProvider() && !isStubHsmDekWrapAllowed()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException(
+                "Refusing DEK wrap with stub HSM provider. "
+                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
+                "for explicit development/testing override."
+            );
+        }
+
+        // STUB/SIMULATION NOTE (wrapDEK):
+        // Purpose: Document the dual-path behavior of HSMKeyProviderAdapter.
+        //   When a real PKCS#11 HSM is present, encryptData() invokes C_Encrypt
+        //   with the HSM's public KEK (RSA-PKCS#1 v1.5 or OAEP depending on HSM
+        //   token configuration).  When the in-process stub HSMProvider is active
+        //   (THEMIS_USE_STUB_HSM or no library_path configured), encryptData()
+        //   falls back to AES-256-GCM with a randomly generated in-memory KEK
+        //   that is generated once per process lifetime and never persisted.
+        // Activation: Controlled by HSMProvider::isStubProvider(); true when
+        //   hsm_config.library_path is empty (no PKCS#11 library configured).
+        // Production Delta: The in-memory KEK is lost on process restart; any DEK
+        //   wrapped with the stub KEK cannot be unwrapped after a restart.
+        //   This means encrypted blobs are permanently inaccessible after a
+        //   restart unless the stub KEK is externally persisted (which it is not).
+        //   Using the stub in production without explicit --allow-stub-hsm is
+        //   blocked by HSMSecurityChecker at startup.
+        // Removal Plan: Configure a real PKCS#11 HSM (library_path + slot + PIN)
+        //   via the ThemisDB config file.  The stub path is then never taken.
+        //   Tracking: src/security/FUTURE_ENHANCEMENTS.md § "HSM Key Provider Production"
+        // Roadmap ref: src/ROADMAP.md §Security stub lifecycle
         // Use HSM to encrypt the DEK with the KEK stored in the HSM.
         // For real HSMs: uses PKCS#11 C_Encrypt (RSA-PKCS#1 v1.5) with the HSM public key.
         // For stub/fallback: uses AES-256-GCM with an in-memory stub KEK.
@@ -378,8 +467,45 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
 
 std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>& encrypted_dek) {
     stats_.hsm_decrypt_operations++;
+
+    // ── Injected bridge (STUB #48) ────────────────────────────────────────────
+    {
+        UnwrapDEKFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+            fn = g_unwrap_dek_fn;
+        }
+        if (fn) {
+            try {
+                return fn(encrypted_dek);
+            } catch (const std::exception& e) {
+                stats_.hsm_errors++;
+                throw KeyOperationException(
+                    "UnwrapDEKFn bridge failed: " + std::string(e.what()));
+            } catch (...) {
+                stats_.hsm_errors++;
+                throw KeyOperationException("UnwrapDEKFn bridge failed: unknown error");
+            }
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     
     try {
+        if (hsm_ && hsm_->isStubProvider() && !isStubHsmDekWrapAllowed()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException(
+                "Refusing DEK unwrap with stub HSM provider. "
+                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
+                "for explicit development/testing override."
+            );
+        }
+
+        // STUB/SIMULATION NOTE (unwrapDEK):
+        // Same dual-path as wrapDEK above.  In stub mode, decryptData() uses the
+        // same in-memory AES-256-GCM KEK that was used during wrapDEK.  If the
+        // process has restarted between wrap and unwrap the unwrap will fail.
+        // See the wrapDEK STUB NOTE above for full activation conditions and
+        // removal plan.
         // Use HSM to decrypt the wrapped DEK using the KEK stored in the HSM.
         // For real HSMs: uses PKCS#11 C_Decrypt (RSA-PKCS#1 v1.5) with the HSM private key.
         // For stub/fallback: uses AES-256-GCM with the same in-memory stub KEK used for wrapping.
@@ -487,5 +613,20 @@ int64_t HSMKeyProviderAdapter::getCurrentTimeMs() const {
     ).count();
 }
 
+// ── Static bridge setters (STUB #47 / #48) ───────────────────────────────────
+
+void HSMKeyProviderAdapter::setWrapDEKFn(WrapDEKFn fn) {
+    std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+    g_wrap_dek_fn = std::move(fn);
+}
+
+void HSMKeyProviderAdapter::setUnwrapDEKFn(UnwrapDEKFn fn) {
+    std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
+    g_unwrap_dek_fn = std::move(fn);
+}
+
 } // namespace security
 } // namespace themis
+
+
+

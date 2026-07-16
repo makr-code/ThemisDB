@@ -1,32 +1,28 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tsstore.h                                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     332                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file tsstore.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_TSSTORE_H
-#define THEMIS_TSSTORE_H
+/*
+ * ThemisDB | File: tsstore.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include <string>
 #include <vector>
 #include <optional>
+#include <span>
 #include <cstdint>
 #include <memory>
 #include <atomic>
@@ -43,8 +39,10 @@ namespace rocksdb {
 
 namespace themis {
 
-// Forward declaration
+// Forward declarations
 class TimeSeriesMetrics;
+class EncryptedChunkStore;
+class TSAutoBuffer;
 
 /**
  * @brief Time-Series Storage MVP (Sprint B)
@@ -200,6 +198,69 @@ public:
      * stored as individual entities like putDataPoint().
      */
     Result<void> putDataPoints(const std::vector<DataPoint>& points);
+
+    /**
+     * @brief Zero-copy view of a single time-series row for high-throughput batch ingestion.
+     *
+     * Unlike `DataPoint`, all string fields are `std::string_view` — no heap allocation is
+     * required at the call site.  The caller must ensure that the backing storage for
+     * `metric` and `entity` outlives the `putBatch()` call.
+     *
+     * `tags` and `metadata` are optional JSON blobs; pass an empty / null JSON value when
+     * not needed.
+     */
+    struct TSRow {
+        std::string_view metric;       ///< Metric name (e.g., "cpu_usage")
+        std::string_view entity;       ///< Entity ID   (e.g., "server01")
+        int64_t          timestamp_ms; ///< Unix epoch in milliseconds
+        double           value;        ///< Numeric sample value
+    };
+
+    /**
+     * @brief Result of a `putBatch()` call.
+     *
+     * On full success `failed_count == 0` and `row_errors` is empty.
+     * On partial validation failure some rows may be rejected before the
+     * `WriteBatch` is submitted; in that case the entire RocksDB write is
+     * still attempted with the valid rows only (no atomicity across invalid
+     * rows).
+     *
+     * On a RocksDB write failure the whole batch is rejected and
+     * `failed_count == total rows`.
+     */
+    struct BatchWriteResult {
+        size_t ok_count     = 0; ///< Rows accepted and written
+        size_t failed_count = 0; ///< Rows rejected (validation or storage error)
+
+        /// Per-row error details: (row_index, error_message).  Empty on full success.
+        std::vector<std::pair<size_t, std::string>> row_errors;
+
+        bool all_ok() const noexcept { return failed_count == 0; }
+    };
+
+    /**
+     * @brief High-throughput zero-copy batch write using `std::span`.
+     *
+     * Accepts a span of `TSRow` values and writes them using a single
+     * `rocksdb::WriteBatch` commit, amortising WAL and memtable overhead across
+     * the entire batch.  All valid rows are committed atomically; invalid rows
+     * (empty metric / entity) are reported in the `BatchWriteResult` but do not
+     * abort the write for the remaining rows.
+     *
+     * When Gorilla compression is enabled the rows are grouped by metric:entity,
+     * sorted by timestamp, Gorilla-encoded, and stored as compressed chunks —
+     * identical to `putDataPoints()` but without the intermediate `std::vector`
+     * allocation at the call site.
+     *
+     * @param rows   Span of TSRow values.  String views must remain valid for
+     *               the duration of the call.
+     * @return `Result<BatchWriteResult>` — ok() on successful RocksDB write;
+     *         error() only when the RocksDB `Write()` itself fails.
+     *
+     * Performance target: ≥ 1 M rows/s at p99 < 2 ms on an 8-core host
+     *                     (see ROADMAP — Multi-metric batch write API).
+     */
+    Result<BatchWriteResult> putBatch(std::span<const TSRow> rows);
     
     /**
      * @brief Query data points with filters
@@ -267,6 +328,25 @@ public:
     void clear();
     
     /**
+     * @brief Attach an EncryptedChunkStore to enable AES-256-GCM encryption.
+     *
+     * When set, all new Gorilla-compressed chunk writes are encrypted
+     * (compress-then-encrypt) and existing encrypted chunks are decrypted
+     * transparently on read.  Pass nullptr to disable encryption.
+     *
+     * Key access is audited via the AuditLogger that was configured on the
+     * provided EncryptedChunkStore.
+     *
+     * @param enc_store  Shared EncryptedChunkStore, or nullptr to disable.
+     */
+    void setEncryptedChunkStore(std::shared_ptr<EncryptedChunkStore> enc_store);
+
+    /**
+     * @brief Returns the currently attached EncryptedChunkStore (may be null).
+     */
+    std::shared_ptr<EncryptedChunkStore> getEncryptedChunkStore() const;
+
+    /**
      * @brief Set metrics collector for monitoring
      * @param metrics Shared pointer to TimeSeriesMetrics instance
      */
@@ -278,11 +358,60 @@ public:
      */
     std::shared_ptr<TimeSeriesMetrics> getMetrics() const { return metrics_; }
 
+    /**
+     * @brief Wire a TSAutoBuffer to receive single-point inserts when Gorilla compression
+     * is enabled.  When set, putDataPoint() routes through the buffer instead of writing
+     * directly to RocksDB, enabling Gorilla compression for IoT / streaming workloads.
+     *
+     * @param buf  Pointer to a TSAutoBuffer (not owned, must outlive this TSStore).
+     *             Pass nullptr to disable buffering and fall back to direct writes.
+     */
+    void setAutoBuffer(TSAutoBuffer* buf) { auto_buffer_ = buf; }
+
+    /**
+     * @brief Return the currently attached TSAutoBuffer, or nullptr if not set.
+     */
+    TSAutoBuffer* getAutoBuffer() const { return auto_buffer_; }
+
+    // ==================== System Metadata ====================
+
+    /**
+     * @brief Write a system metadata key-value pair (WAL-durable).
+     *
+     * Used internally for persisting small pieces of bookkeeping data
+     * (e.g., continuous-aggregate watermarks) in the same RocksDB instance
+     * without mixing them with time-series payload keys.
+     *
+     * Keys are stored under the "sys:" prefix and must not begin with
+     * that prefix when passed here (it is added automatically).
+     *
+     * @param key    Logical key (e.g., "wm:cagg:my_aggregate")
+     * @param value  Value string to store
+     * @return Result<void> on success, error on failure
+     */
+    Result<void> putSystemMeta(const std::string& key, const std::string& value);
+
+    /**
+     * @brief Read a system metadata entry.
+     * @param key  Logical key (same as used in putSystemMeta)
+     * @return Result containing the value string, or std::nullopt if not found
+     */
+    Result<std::optional<std::string>> getSystemMeta(const std::string& key) const;
+
+    /**
+     * @brief Delete a system metadata entry.
+     * @param key  Logical key to remove
+     * @return Result<void> on success, error on failure
+     */
+    Result<void> deleteSystemMeta(const std::string& key);
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
     Config config_;
     std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
+    std::shared_ptr<EncryptedChunkStore> enc_chunk_store_; // Optional AES-256-GCM wrapper
+    TSAutoBuffer* auto_buffer_ = nullptr; // Optional auto-buffer for single-point Gorilla inserts (not owned)
 
     // Out-of-order write statistics
     mutable std::atomic<uint64_t> ooo_accepted_{0};
@@ -295,6 +424,7 @@ private:
     
     static constexpr const char* KEY_PREFIX = "ts:";
     static constexpr const char* GORILLA_CHUNK_PREFIX = "tsc:";
+    static constexpr const char* SYS_META_PREFIX = "sys:";
     
     // Key format: "ts:{metric}:{entity}:{timestamp_ms}"
     std::string makeKey(const std::string& metric, 
@@ -329,5 +459,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TSSTORE_H

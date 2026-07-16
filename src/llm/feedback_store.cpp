@@ -1,23 +1,21 @@
+/**
+ * @file feedback_store.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_store.cpp                                 ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     860                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_store.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 896
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=8, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #365 Implement feedback collecti... (2026-03-11) | #1214 Add null-pointer safety uti... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/feedback_store.h"
@@ -28,12 +26,20 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <mutex>
 #include <regex>
+#include <mutex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <mutex>
 
 namespace themis {
 namespace llm {
+
+namespace {
+std::mutex g_spam_keywords_provider_mutex;
+FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
+} // namespace
 
 // ===== Helper function to convert enum to string =====
 
@@ -102,7 +108,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
     std::string type_str = j.value("type", "positive");
     try {
         entry.type = feedbackTypeFromString(type_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         entry.type = FeedbackType::POSITIVE; // Fallback for corrupted data
     }
     
@@ -116,7 +122,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
     std::string status_str = j.value("validation_status", "pending");
     try {
         entry.validation_status = validationStatusFromString(status_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         entry.validation_status = ValidationStatus::PENDING; // Fallback for corrupted data
     }
     
@@ -154,6 +160,16 @@ void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin)
 
 std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
+}
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = std::move(provider);
+}
+
+void FeedbackStore::clearSpamKeywordsProvider() {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = {};
 }
 
 
@@ -536,17 +552,42 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
-const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // Configurable spam keywords list
-    // TODO: In production, load these from a configuration file or database
-    // for runtime updates without recompilation
-    // Example: config/spam_keywords.txt or themisdb.spam_detection.keywords table
-    static const std::vector<std::string> spam_keywords = {
+std::vector<std::string> FeedbackStore::getSpamKeywords() {
+    // Default spam keywords used when no runtime provider is configured.
+    static const std::vector<std::string> default_spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
-    return spam_keywords;
+
+    SpamKeywordsProviderFn provider;
+    {
+        std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+        provider = g_spam_keywords_provider;
+    }
+
+    if (provider) {
+        try {
+            auto runtime_keywords = provider();
+            if (!runtime_keywords.empty()) {
+                runtime_keywords.erase(
+                    std::remove_if(runtime_keywords.begin(),
+                                   runtime_keywords.end(),
+                                   [](const auto& keyword) { return keyword.empty(); }),
+                    runtime_keywords.end());
+            }
+
+            if (!runtime_keywords.empty()) {
+                return runtime_keywords;
+            }
+
+            THEMIS_WARN("Spam keywords provider returned empty list; using built-in defaults");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Spam keywords provider failed: {}; using built-in defaults", e.what());
+        }
+    }
+
+    return default_spam_keywords;
 }
 
 bool FeedbackStore::isLikelySpam(const std::string& text) {
@@ -571,7 +612,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    const auto& spam_keywords = getSpamKeywords();
+    const auto spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
@@ -617,7 +658,7 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
 
 // ===== Plugin Integration =====
 
-ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedback) {
+ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     if (!validation_plugin_) {
         // No plugin, use basic validation
         return validateFeedback(feedback);
@@ -647,9 +688,13 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // TODO(feedback-plugin): Apply modifications if provided
-                // For now, accept modified feedback as approved
-                // Future: Apply modified_comment and modified_metadata from result
+                // Apply plugin-provided transformations before storing the feedback.
+                if (result.modified_comment.has_value()) {
+                    feedback.comment = *result.modified_comment;
+                }
+                if (result.modified_metadata.has_value()) {
+                    feedback.metadata = *result.modified_metadata;
+                }
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;

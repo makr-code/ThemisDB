@@ -1,0 +1,87 @@
+{
+  "ok": 10,
+  "rows": [
+    {
+      "benchmark": "bench_distributed_coordinator",
+      "file": "bench_distributed_coordinator.json",
+      "parseable": true,
+      "total": 14,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_distributed_knowledge",
+      "file": "bench_distributed_knowledge.json",
+      "parseable": true,
+      "total": 9,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_replication_throughput",
+      "file": "bench_replication_throughput.json",
+      "parseable": true,
+      "total": 7,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_sharding_performance",
+      "file": "bench_sharding_performance.json",
+      "parseable": true,
+      "total": 47,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_graph_traversal",
+      "file": "bench_graph_traversal.json",
+      "parseable": true,
+      "total": 52,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_vector_search",
+      "file": "bench_vector_search.json",
+      "parseable": true,
+      "total": 9,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_rag_hybrid_retriever",
+      "file": "bench_rag_hybrid_retriever.json",
+      "parseable": true,
+      "total": 20,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_llm_response_cache",
+      "file": "bench_llm_response_cache.json",
+      "parseable": true,
+      "total": 10,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_llm_inference_performance",
+      "file": "bench_llm_inference_performance.retry2.json",
+      "parseable": true,
+      "total": 26,
+      "errors": 0,
+      "status": "OK"
+    },
+    {
+      "benchmark": "bench_timeseries_ingestion",
+      "file": "bench_timeseries_ingestion.retry4_multithread.json",
+      "parseable": true,
+      "total": 26,
+      "errors": 0,
+      "status": "OK"
+    }
+  ],
+  "generated_at": "2026-05-15T19:20:45",
+  "total": 10
+}

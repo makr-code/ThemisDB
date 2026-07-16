@@ -41,7 +41,7 @@ detector.start();
 ### Recording Metrics
 
 ```cpp
-ShardMetrics metrics;
+PredictiveShardMetrics metrics;
 metrics.shard_id = "shard_001";
 metrics.timestamp = std::chrono::system_clock::now();
 metrics.avg_latency_ms = 10.5;

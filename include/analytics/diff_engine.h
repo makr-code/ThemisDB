@@ -1,28 +1,24 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            diff_engine.h                                      ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:52:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     286                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+/**
+ * @file diff_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
-#ifndef THEMIS_DIFF_ENGINE_H
-#define THEMIS_DIFF_ENGINE_H
+/*
+ * ThemisDB | File: diff_engine.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 309
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #385 Phase 1 & 2: Implement Name... (2026-03-11) | #542 Implement training control ... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1081 Enhance Diff-Engine: Fix ch... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#pragma once
 
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
@@ -30,6 +26,10 @@
 #include <vector>
 #include <optional>
 #include <chrono>
+#include <condition_variable>
+#include <functional>
+#include <mutex>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -136,11 +136,12 @@ public:
     
     ~DiffEngine() = default;
 
-    // Disable copy, allow move
+    // Disable copy; move is implicitly deleted because std::mutex / std::condition_variable
+    // are non-movable — keep = default so the compiler enforces this clearly.
     DiffEngine(const DiffEngine&) = delete;
     DiffEngine& operator=(const DiffEngine&) = delete;
-    DiffEngine(DiffEngine&&) = default;
-    DiffEngine& operator=(DiffEngine&&) = default;
+    DiffEngine(DiffEngine&&) = delete;
+    DiffEngine& operator=(DiffEngine&&) = delete;
 
     /**
      * @brief Compute diff between two sequence numbers
@@ -215,6 +216,16 @@ public:
      */
     json getCacheStats() const;
 
+    /**
+     * @brief Testing hook: called once per unique range computation, just before
+     *        listEvents().  May throw to simulate a mid-computation failure.
+     *        Pass an empty function to disable the hook.
+     *        NOT thread-safe — must be set before concurrent callers start.
+     */
+    void setComputeHookForTesting(std::function<void()> hook) {
+        compute_hook_for_testing_ = std::move(hook);
+    }
+
 private:
     Changefeed& changefeed_;
     transaction::SnapshotManager* snapshot_manager_;  // Optional, for tag-based diff
@@ -225,18 +236,38 @@ private:
         DiffResult result;
         std::chrono::system_clock::time_point cached_at;
     };
-    mutable std::map<std::pair<uint64_t, uint64_t>, CachedDiff> diff_cache_;
+
+    // Cache key type: (from_sequence, to_sequence)
+    using CacheKey = std::pair<uint64_t, uint64_t>;
+
+    // Hash functor for CacheKey (std::pair has no default hash)
+    struct CacheKeyHash {
+        std::size_t operator()(const CacheKey& k) const noexcept {
+            std::size_t h1 = std::hash<uint64_t>{}(k.first);
+            std::size_t h2 = std::hash<uint64_t>{}(k.second);
+            // Mix with a large prime to reduce collisions
+            return h1 ^ (h2 * 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
+        }
+    };
+
+    mutable std::map<CacheKey, CachedDiff> diff_cache_;
     mutable std::mutex cache_mutex_;
+    mutable std::condition_variable inflight_cv_;
+    mutable std::unordered_set<CacheKey, CacheKeyHash> inflight_keys_;
     static constexpr std::chrono::seconds CACHE_TTL{300}; // 5 minutes
     static constexpr size_t MAX_CACHE_SIZE = 100;
     static constexpr size_t MAX_DIFF_LIMIT = 1000000; // Maximum allowed limit
+
+    // Testing hook — see setComputeHookForTesting()
+    std::function<void()> compute_hook_for_testing_;
     
     /**
      * @brief Process changefeed events and categorize them
      */
     DiffResult processEvents(
         const std::vector<Changefeed::ChangeEvent>& events,
-        const DiffOptions& options
+        const DiffOptions& options,
+        uint64_t from_sequence
     );
     
     /**
@@ -277,11 +308,13 @@ private:
     
     /**
      * @brief Evict oldest cache entries if cache is full
+     * @deprecated The eviction logic is now inlined in computeDiff() using the
+     *             copy-evict-then-lock pattern. This function is retained for
+     *             backward-compatibility but is NOT called from the hot path.
+     *             Must NOT be called while holding cache_mutex_.
      */
     void evictOldCacheEntries();
 };
 
 } // namespace analytics
 } // namespace themis
-
-#endif // THEMIS_DIFF_ENGINE_H

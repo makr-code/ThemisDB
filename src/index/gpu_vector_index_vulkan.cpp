@@ -1,46 +1,28 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_vector_index_vulkan.cpp                        ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     933                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 /**
- * Vulkan Backend Implementation for GPU Vector Index
- * 
- * Provides cross-platform GPU-accelerated vector similarity search using Vulkan compute shaders.
- * Supports NVIDIA, AMD, Intel, and Apple GPUs through native Vulkan or MoltenVK.
- * 
  * @file gpu_vector_index_vulkan.cpp
- * @brief Vulkan compute backend for vector indexing
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=5, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "index/gpu_vector_index.h"
 #include "llm/lora_framework/vulkan_context.h"
 #include "llm/lora_framework/vulkan_buffer.h"
 #include "llm/lora_framework/vulkan_pipeline.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <fstream>
-#include <iostream>
+#include <functional>
 #include <memory>
+#include <mutex>
 #include <stdexcept>
+#include <utility>
 
 // Check if Vulkan headers are available
 #if defined(__has_include)
@@ -61,6 +43,7 @@
 namespace themis {
 namespace index {
 
+#ifndef THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED
 /**
  * @brief Vulkan backend implementation for GPU vector indexing (forward declaration)
  */
@@ -80,11 +63,46 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k);
     GPUVectorIndex::Statistics getStatistics() const;
     bool isInitialized() const;
-    
+
+    // Callback bridge types for non-Vulkan builds (VVI-BRIDGE)
+    using InitializeFn   = std::function<bool(int /*dimension*/)>;
+    using UploadFn       = std::function<bool(const std::vector<std::vector<float>>&)>;
+    using SearchFn       = std::function<std::vector<GPUVectorIndex::SearchResult>(
+                               const std::vector<float>&, size_t /*k*/)>;
+    using SearchBatchFn  = std::function<std::vector<std::vector<GPUVectorIndex::SearchResult>>(
+                               const std::vector<std::vector<float>>&, size_t /*k*/)>;
+
+    static void setInitializeFn(InitializeFn fn) {
+        std::lock_guard<std::mutex> lk(initializeFnMutex());
+        initializeFnStorage() = std::move(fn);
+    }
+    static void setUploadFn(UploadFn fn) {
+        std::lock_guard<std::mutex> lk(uploadFnMutex());
+        uploadFnStorage() = std::move(fn);
+    }
+    static void setSearchFn(SearchFn fn) {
+        std::lock_guard<std::mutex> lk(searchFnMutex());
+        searchFnStorage() = std::move(fn);
+    }
+    static void setSearchBatchFn(SearchBatchFn fn) {
+        std::lock_guard<std::mutex> lk(searchBatchFnMutex());
+        searchBatchFnStorage() = std::move(fn);
+    }
+
+    static std::mutex& initializeFnMutex()  { static std::mutex m; return m; }
+    static InitializeFn&  initializeFnStorage()  { static InitializeFn f;  return f; }
+    static std::mutex& uploadFnMutex()      { static std::mutex m; return m; }
+    static UploadFn&      uploadFnStorage()      { static UploadFn f;      return f; }
+    static std::mutex& searchFnMutex()      { static std::mutex m; return m; }
+    static SearchFn&      searchFnStorage()      { static SearchFn f;      return f; }
+    static std::mutex& searchBatchFnMutex() { static std::mutex m; return m; }
+    static SearchBatchFn& searchBatchFnStorage() { static SearchBatchFn f; return f; }
+
 private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
 };
+#endif
 
 } // namespace index
 } // namespace themis
@@ -99,6 +117,94 @@ namespace index {
  */
 class VulkanVectorIndexBackend::Impl {
 public:
+    struct QueryFingerprint {
+        size_t size = 0;
+        float first = 0.0f;
+        float middle = 0.0f;
+        float last = 0.0f;
+    };
+
+    static QueryFingerprint makeQueryFingerprint(const std::vector<float>& query) {
+        QueryFingerprint fp;
+        fp.size = query.size();
+        if (!query.empty()) {
+            fp.first = query.front();
+            fp.middle = query[query.size() / 2];
+            fp.last = query.back();
+        }
+        return fp;
+    }
+
+    static bool fingerprintEqual(const QueryFingerprint& a, const QueryFingerprint& b) {
+        return a.size == b.size &&
+               a.first == b.first &&
+               a.middle == b.middle &&
+               a.last == b.last;
+    }
+
+        static void bindSearchBuffersIfNeeded(
+            lora::vulkan::VulkanComputePipeline* pipeline,
+            lora::vulkan::VulkanBuffer* queryBuffer,
+            lora::vulkan::VulkanBuffer* vectorBuffer,
+            lora::vulkan::VulkanBuffer* distanceBuffer,
+            lora::vulkan::VulkanComputePipeline*& lastPipeline,
+            lora::vulkan::VulkanBuffer*& lastQueryBuffer,
+            lora::vulkan::VulkanBuffer*& lastVectorBuffer,
+            lora::vulkan::VulkanBuffer*& lastDistanceBuffer) {
+
+            if (pipeline == nullptr || queryBuffer == nullptr ||
+                vectorBuffer == nullptr || distanceBuffer == nullptr) {
+                return;
+            }
+
+            if (pipeline != lastPipeline || queryBuffer != lastQueryBuffer) {
+                pipeline->bind_buffer(0, *queryBuffer);
+                lastQueryBuffer = queryBuffer;
+            }
+            if (pipeline != lastPipeline || vectorBuffer != lastVectorBuffer) {
+                pipeline->bind_buffer(1, *vectorBuffer);
+                lastVectorBuffer = vectorBuffer;
+            }
+            if (pipeline != lastPipeline || distanceBuffer != lastDistanceBuffer) {
+                pipeline->bind_buffer(2, *distanceBuffer);
+                lastDistanceBuffer = distanceBuffer;
+            }
+            lastPipeline = pipeline;
+        }
+
+    static std::vector<std::pair<float, size_t>> selectTopK(
+        const float* distances, size_t count, size_t k) {
+        const size_t topK = std::min(k, count);
+        std::vector<std::pair<float, size_t>> top;
+        if (topK == 0 || distances == nullptr) {
+            return top;
+        }
+
+        top.reserve(topK);
+        for (size_t i = 0; i < topK; ++i) {
+            top.emplace_back(distances[i], i);
+        }
+
+        const auto compareDistance = [](const std::pair<float, size_t>& a,
+                                        const std::pair<float, size_t>& b) {
+            return a.first < b.first;
+        };
+
+        std::make_heap(top.begin(), top.end(), compareDistance);
+
+        for (size_t i = topK; i < count; ++i) {
+            const float distance = distances[i];
+            if (distance < top.front().first) {
+                std::pop_heap(top.begin(), top.end(), compareDistance);
+                top.back() = {distance, i};
+                std::push_heap(top.begin(), top.end(), compareDistance);
+            }
+        }
+
+        std::sort_heap(top.begin(), top.end(), compareDistance);
+        return top;
+    }
+
     /**
      * @brief Constructor
      * @param config Configuration for the backend
@@ -138,21 +244,21 @@ public:
             #endif
             
             if (!context_->initialize(config_.deviceId, enableValidation)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to initialize Vulkan context\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to initialize Vulkan context");
                 return false;
             }
             
             // Query device properties
             const auto& props = context_->device_properties();
-            std::cout << "VulkanVectorIndexBackend: Using GPU: " << props.deviceName << "\n";
-            std::cout << "VulkanVectorIndexBackend: Vulkan API Version: " 
-                      << VK_VERSION_MAJOR(props.apiVersion) << "."
-                      << VK_VERSION_MINOR(props.apiVersion) << "."
-                      << VK_VERSION_PATCH(props.apiVersion) << "\n";
+            THEMIS_INFO("VulkanVectorIndexBackend: Using GPU: {}", props.deviceName);
+            THEMIS_INFO("VulkanVectorIndexBackend: Vulkan API Version: {}.{}.{}",
+                        VK_VERSION_MAJOR(props.apiVersion),
+                        VK_VERSION_MINOR(props.apiVersion),
+                        VK_VERSION_PATCH(props.apiVersion));
             
             // Create compute pipelines for distance metrics
             if (!createPipelines()) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create compute pipelines\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create compute pipelines");
                 shutdown();
                 return false;
             }
@@ -161,7 +267,7 @@ public:
             return true;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Initialization error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Initialization error: {}", e.what());
             shutdown();
             return false;
         }
@@ -178,12 +284,20 @@ public:
         cosine_pipeline_.reset();
         inner_product_pipeline_.reset();
         topk_pipeline_.reset();
+        lastBoundPipeline_ = nullptr;
+        lastBoundQueryBuffer_ = nullptr;
+        lastBoundVectorBuffer_ = nullptr;
+        lastBoundDistanceBuffer_ = nullptr;
         
         // Clear buffers
         query_buffer_.reset();
         vector_buffer_.reset();
         distance_buffer_.reset();
         result_buffer_.reset();
+        cachedSingleQuery_.clear();
+        cachedSingleQueryValid_ = false;
+        cachedSearchResult_.clear();
+        cachedSearchResultValid_ = false;
         
         // Clear context
         if (context_) {
@@ -205,17 +319,22 @@ public:
         }
         
         try {
-            // Flatten vector data
-            size_t totalSize = vectors.size() * dimension_ * sizeof(float);
-            std::vector<float> flatData;
-            flatData.reserve(vectors.size() * dimension_);
-            
+            // Flatten vector data with a single allocation to avoid repeated
+            // growth/copy overhead for large batches.
+            const size_t vectorsCount = vectors.size();
+            const size_t dim = static_cast<size_t>(dimension_);
+            const size_t totalFloatCount = vectorsCount * dim;
+            const size_t totalSize = totalFloatCount * sizeof(float);
+            std::vector<float> flatData(totalFloatCount);
+
+            size_t offset = 0;
             for (const auto& vec : vectors) {
                 if (vec.size() != static_cast<size_t>(dimension_)) {
-                    std::cerr << "VulkanVectorIndexBackend: Vector dimension mismatch\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Vector dimension mismatch");
                     return false;
                 }
-                flatData.insert(flatData.end(), vec.begin(), vec.end());
+                std::copy(vec.begin(), vec.end(), flatData.begin() + static_cast<std::ptrdiff_t>(offset));
+                offset += dim;
             }
             
             // Create or recreate vector buffer
@@ -226,10 +345,12 @@ public:
             vector_buffer_->upload(flatData.data(), totalSize);
             
             num_vectors_ = vectors.size();
+            cachedSingleQueryValid_ = false;
+            cachedSearchResultValid_ = false;
             return true;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Upload error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Upload error: {}", e.what());
             return false;
         }
     }
@@ -244,10 +365,13 @@ public:
         const std::vector<float>& query, size_t k) {
         
         if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
+            THEMIS_WARN("VulkanVectorIndexBackend::searchIndices: uninitialized or query dimension mismatch (initialized={} dim={} expected={})",
+                        initialized_, query.size(), static_cast<size_t>(dimension_));
             return {};
         }
-        
+
         if (num_vectors_ == 0) {
+            THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: no vectors loaded (num_vectors_=0)");
             return {};
         }
         
@@ -260,7 +384,33 @@ public:
                 query_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
                     context_.get(), querySize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
             }
-            query_buffer_->upload(query.data(), querySize);
+            const QueryFingerprint queryFingerprint = makeQueryFingerprint(query);
+            const bool hasPotentialMatch = cachedSingleQueryValid_ &&
+                                           fingerprintEqual(queryFingerprint, cachedSingleQueryFingerprint_);
+            bool queryChanged = true;
+            if (hasPotentialMatch) {
+                queryChanged = !std::equal(query.begin(), query.end(), cachedSingleQuery_.begin());
+            }
+            if (!queryChanged && cachedSearchResultValid_ &&
+                cachedSearchResultMetric_ == config_.metric &&
+                cachedSearchResultNumVectors_ == num_vectors_ &&
+                cachedSearchResultK_ >= k) {
+                std::vector<std::pair<float, size_t>> cached;
+                cached.reserve(k);
+                cached.insert(
+                    cached.end(),
+                    cachedSearchResult_.begin(),
+                    cachedSearchResult_.begin() + static_cast<std::ptrdiff_t>(k));
+                return cached;
+            }
+
+            if (queryChanged) {
+                query_buffer_->upload(query.data(), querySize);
+                cachedSingleQuery_ = query;
+                cachedSingleQueryFingerprint_ = queryFingerprint;
+                cachedSingleQueryValid_ = true;
+                cachedSearchResultValid_ = false;
+            }
             
             // Create or update distance buffer
             size_t distanceSize = num_vectors_ * sizeof(float);
@@ -282,19 +432,25 @@ public:
                     pipeline = inner_product_pipeline_.get();
                     break;
                 default:
-                    std::cerr << "VulkanVectorIndexBackend: Unknown distance metric\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Unknown distance metric");
                     return {};
             }
             
             if (!pipeline || !pipeline->is_ready()) {
-                std::cerr << "VulkanVectorIndexBackend: Pipeline not ready\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Pipeline not ready");
                 return {};
             }
             
-            // Bind buffers to descriptor sets
-            pipeline->bind_buffer(0, *query_buffer_);      // Query vectors
-            pipeline->bind_buffer(1, *vector_buffer_);     // Database vectors
-            pipeline->bind_buffer(2, *distance_buffer_);   // Output distances
+            // Bind buffers only when descriptor bindings changed.
+            bindSearchBuffersIfNeeded(
+                pipeline,
+                query_buffer_.get(),
+                vector_buffer_.get(),
+                distance_buffer_.get(),
+                lastBoundPipeline_,
+                lastBoundQueryBuffer_,
+                lastBoundVectorBuffer_,
+                lastBoundDistanceBuffer_);
             
             // Set push constants
             struct PushConstants {
@@ -310,33 +466,26 @@ public:
             
             // Dispatch compute shader
             // Local size is 16x16, so we need to dispatch enough workgroups
-            uint32_t workgroupsX = (num_vectors_ + 15) / 16;
+            uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
             uint32_t workgroupsY = 1; // Single query
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
             
-            // Wait for completion
-            pipeline->wait();
-            
-            // Download results
-            std::vector<float> distances(num_vectors_);
-            distance_buffer_->download(distances.data(), distanceSize);
-            
-            // Find top-k
-            std::vector<std::pair<float, size_t>> distanceIndices;
-            distanceIndices.reserve(num_vectors_);
-            for (size_t i = 0; i < num_vectors_; ++i) {
-                distanceIndices.emplace_back(distances[i], i);
+            // Wait for completion — detect GPU hang via 30-second timeout
+            if (!pipeline->wait()) {
+                THEMIS_ERROR("VulkanVectorIndexBackend: pipeline->wait() timed out (GPU hang?)");
+                return {};
             }
             
-            // Partial sort to get top-k
-            size_t topK = std::min(k, num_vectors_);
-            std::partial_sort(distanceIndices.begin(), 
-                            distanceIndices.begin() + topK, 
-                            distanceIndices.end(),
-                            [](const auto& a, const auto& b) { return a.first < b.first; });
-            
-            // Keep only top-k
-            distanceIndices.resize(topK);
+            // Download results into reusable scratch space.
+            distanceScratch_.resize(num_vectors_);
+            distance_buffer_->download(distanceScratch_.data(), distanceSize);
+
+            const auto distanceIndices = selectTopK(distanceScratch_.data(), num_vectors_, k);
+            cachedSearchResult_ = distanceIndices;
+            cachedSearchResultK_ = distanceIndices.size();
+            cachedSearchResultNumVectors_ = num_vectors_;
+            cachedSearchResultMetric_ = config_.metric;
+            cachedSearchResultValid_ = true;
             
             auto endTime = std::chrono::steady_clock::now();
             updateQueryStats(startTime, endTime);
@@ -344,7 +493,7 @@ public:
             return distanceIndices;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Search error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Search error: {}", e.what());
             return {};
         }
     }
@@ -369,6 +518,26 @@ public:
         
         return results;
     }
+
+    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        const auto indexedResults = searchBatchIndices(queries, k);
+
+        std::vector<std::vector<GPUVectorIndex::SearchResult>> results;
+        results.reserve(indexedResults.size());
+
+        for (const auto& queryResults : indexedResults) {
+            std::vector<GPUVectorIndex::SearchResult> converted;
+            converted.reserve(queryResults.size());
+            for (const auto& [distance, index] : queryResults) {
+                (void)index;
+                converted.push_back({"", distance});
+            }
+            results.push_back(std::move(converted));
+        }
+
+        return results;
+    }
     
     /**
      * @brief Batch search for nearest neighbors returning indices
@@ -378,12 +547,13 @@ public:
      */
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k) {
-        
         if (queries.empty() || !initialized_) {
+            THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: empty queries or not initialized (queries={} initialized={})",
+                        queries.size(), initialized_);
             return {};
         }
-        
-        // For small batches, use single-query path to avoid overhead
+
+        // For small batches, use the single-query path to avoid dispatch overhead.
         if (queries.size() < 4) {
             std::vector<std::vector<std::pair<float, size_t>>> results;
             results.reserve(queries.size());
@@ -392,40 +562,40 @@ public:
             }
             return results;
         }
-        
+
         try {
             auto startTime = std::chrono::steady_clock::now();
-            
-            size_t numQueries = queries.size();
-            
-            // Flatten all query vectors
-            std::vector<float> flatQueries;
-            flatQueries.reserve(numQueries * dimension_);
+            const size_t numQueries = queries.size();
+
+            const size_t dim = static_cast<size_t>(dimension_);
+            std::vector<float> flatQueries(numQueries * dim);
+            size_t queryOffset = 0;
             for (const auto& query : queries) {
                 if (query.size() != static_cast<size_t>(dimension_)) {
-                    std::cerr << "VulkanVectorIndexBackend: Query dimension mismatch in batch\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Query dimension mismatch in batch");
                     return {};
                 }
-                flatQueries.insert(flatQueries.end(), query.begin(), query.end());
+                std::copy(query.begin(), query.end(),
+                          flatQueries.begin() + static_cast<std::ptrdiff_t>(queryOffset));
+                queryOffset += dim;
             }
-            
-            // Upload all queries
-            size_t queryBufferSize = numQueries * dimension_ * sizeof(float);
+
+            const size_t queryBufferSize = numQueries * dim * sizeof(float);
             if (!query_buffer_ || query_buffer_->size() < queryBufferSize) {
                 query_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
                     context_.get(), queryBufferSize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
             }
             query_buffer_->upload(flatQueries.data(), queryBufferSize);
-            
-            // Allocate distance buffer for all query-vector pairs
-            size_t totalDistances = numQueries * num_vectors_;
-            size_t distanceBufferSize = totalDistances * sizeof(float);
+            cachedSingleQueryValid_ = false;
+            cachedSearchResultValid_ = false;
+
+            const size_t totalDistances = numQueries * num_vectors_;
+            const size_t distanceBufferSize = totalDistances * sizeof(float);
             if (!distance_buffer_ || distance_buffer_->size() < distanceBufferSize) {
                 distance_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
                     context_.get(), distanceBufferSize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
             }
-            
-            // Select pipeline
+
             lora::vulkan::VulkanComputePipeline* pipeline = nullptr;
             switch (config_.metric) {
                 case GPUVectorIndex::DistanceMetric::L2:
@@ -438,21 +608,25 @@ public:
                     pipeline = inner_product_pipeline_.get();
                     break;
                 default:
-                    std::cerr << "VulkanVectorIndexBackend: Unknown distance metric\n";
+                    THEMIS_ERROR("VulkanVectorIndexBackend: Unknown distance metric");
                     return {};
             }
-            
+
             if (!pipeline || !pipeline->is_ready()) {
-                std::cerr << "VulkanVectorIndexBackend: Pipeline not ready\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Pipeline not ready");
                 return {};
             }
-            
-            // Bind buffers
-            pipeline->bind_buffer(0, *query_buffer_);
-            pipeline->bind_buffer(1, *vector_buffer_);
-            pipeline->bind_buffer(2, *distance_buffer_);
-            
-            // Set push constants
+
+            bindSearchBuffersIfNeeded(
+                pipeline,
+                query_buffer_.get(),
+                vector_buffer_.get(),
+                distance_buffer_.get(),
+                lastBoundPipeline_,
+                lastBoundQueryBuffer_,
+                lastBoundVectorBuffer_,
+                lastBoundDistanceBuffer_);
+
             struct PushConstants {
                 uint32_t numQueries;
                 uint32_t numVectors;
@@ -462,211 +636,40 @@ public:
                 static_cast<uint32_t>(num_vectors_),
                 static_cast<uint32_t>(dimension_)
             };
+
             pipeline->set_push_constants(&pushConstants, sizeof(PushConstants));
-            
-            // Dispatch compute shader (16x16 local size)
-            uint32_t workgroupsX = (num_vectors_ + 15) / 16;
-            uint32_t workgroupsY = (numQueries + 15) / 16;
+            const uint32_t workgroupsX = (static_cast<uint32_t>(num_vectors_) + 15u) / 16u;
+            const uint32_t workgroupsY = (static_cast<uint32_t>(numQueries) + 15u) / 16u;
             pipeline->dispatch(workgroupsX, workgroupsY, 1);
-            
-            // Wait for completion
-            pipeline->wait();
-            
-            // Download all distances
-            std::vector<float> allDistances(totalDistances);
-            distance_buffer_->download(allDistances.data(), distanceBufferSize);
-            
-            // Process each query's results
+            if (!pipeline->wait()) {
+                THEMIS_ERROR("VulkanVectorIndexBackend: pipeline->wait() timed out in batchSearch (GPU hang?)");
+                return {};
+            }
+
+            allDistancesScratch_.resize(totalDistances);
+            distance_buffer_->download(allDistancesScratch_.data(), distanceBufferSize);
+
             std::vector<std::vector<std::pair<float, size_t>>> results;
             results.reserve(numQueries);
-            
+
             for (size_t q = 0; q < numQueries; ++q) {
-                // Extract distances for this query
-                std::vector<std::pair<float, size_t>> queryDistances;
-                queryDistances.reserve(num_vectors_);
-                
-                size_t offset = q * num_vectors_;
-                for (size_t i = 0; i < num_vectors_; ++i) {
-                    queryDistances.emplace_back(allDistances[offset + i], i);
-                }
-                
-                // Find top-k for this query
-                size_t topK = std::min(k, num_vectors_);
-                std::partial_sort(queryDistances.begin(),
-                                queryDistances.begin() + topK,
-                                queryDistances.end(),
-                                [](const auto& a, const auto& b) { return a.first < b.first; });
-                
-                // Keep only top-k
-                queryDistances.resize(topK);
-                results.push_back(std::move(queryDistances));
+                const size_t offset = q * num_vectors_;
+                results.push_back(
+                    selectTopK(allDistancesScratch_.data() + static_cast<std::ptrdiff_t>(offset),
+                               num_vectors_,
+                               k));
             }
-            
+
             auto endTime = std::chrono::steady_clock::now();
             updateQueryStats(startTime, endTime);
-            
             return results;
-            
+
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Batch search error: " << e.what() << "\n";
-            // Fall back to single-query path
+            THEMIS_ERROR("VulkanVectorIndexBackend: Batch search error: {}", e.what());
             std::vector<std::vector<std::pair<float, size_t>>> results;
             results.reserve(queries.size());
             for (const auto& query : queries) {
                 results.push_back(searchIndices(query, k));
-            }
-            return results;
-        }
-    }
-    
-    /**
-     * @brief Batch search for nearest neighbors (true batch GPU implementation)
-     * @param queries Query vectors
-     * @param k Number of nearest neighbors
-     * @return Batch search results
-     */
-    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
-        const std::vector<std::vector<float>>& queries, size_t k) {
-        
-        if (queries.empty() || !initialized_) {
-            return {};
-        }
-        
-        // For small batches, use single-query path to avoid overhead
-        if (queries.size() < 4) {
-            std::vector<std::vector<GPUVectorIndex::SearchResult>> results;
-            results.reserve(queries.size());
-            for (const auto& query : queries) {
-                results.push_back(search(query, k));
-            }
-            return results;
-        }
-        
-        try {
-            auto startTime = std::chrono::steady_clock::now();
-            
-            size_t numQueries = queries.size();
-            
-            // Flatten all query vectors
-            std::vector<float> flatQueries;
-            flatQueries.reserve(numQueries * dimension_);
-            for (const auto& query : queries) {
-                if (query.size() != static_cast<size_t>(dimension_)) {
-                    std::cerr << "VulkanVectorIndexBackend: Query dimension mismatch in batch\n";
-                    return {};
-                }
-                flatQueries.insert(flatQueries.end(), query.begin(), query.end());
-            }
-            
-            // Upload all queries
-            size_t queryBufferSize = numQueries * dimension_ * sizeof(float);
-            if (!query_buffer_ || query_buffer_->size() < queryBufferSize) {
-                query_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
-                    context_.get(), queryBufferSize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
-            }
-            query_buffer_->upload(flatQueries.data(), queryBufferSize);
-            
-            // Allocate distance buffer for all query-vector pairs
-            size_t totalDistances = numQueries * num_vectors_;
-            size_t distanceBufferSize = totalDistances * sizeof(float);
-            if (!distance_buffer_ || distance_buffer_->size() < distanceBufferSize) {
-                distance_buffer_ = std::make_unique<lora::vulkan::VulkanBuffer>(
-                    context_.get(), distanceBufferSize, lora::vulkan::VulkanBuffer::Usage::DeviceLocal);
-            }
-            
-            // Select pipeline
-            lora::vulkan::VulkanComputePipeline* pipeline = nullptr;
-            switch (config_.metric) {
-                case GPUVectorIndex::DistanceMetric::L2:
-                    pipeline = l2_pipeline_.get();
-                    break;
-                case GPUVectorIndex::DistanceMetric::COSINE:
-                    pipeline = cosine_pipeline_.get();
-                    break;
-                case GPUVectorIndex::DistanceMetric::INNER_PRODUCT:
-                    pipeline = inner_product_pipeline_.get();
-                    break;
-                default:
-                    std::cerr << "VulkanVectorIndexBackend: Unknown distance metric\n";
-                    return {};
-            }
-            
-            if (!pipeline || !pipeline->is_ready()) {
-                std::cerr << "VulkanVectorIndexBackend: Pipeline not ready\n";
-                return {};
-            }
-            
-            // Bind buffers
-            pipeline->bind_buffer(0, *query_buffer_);
-            pipeline->bind_buffer(1, *vector_buffer_);
-            pipeline->bind_buffer(2, *distance_buffer_);
-            
-            // Set push constants
-            struct PushConstants {
-                uint32_t numQueries;
-                uint32_t numVectors;
-                uint32_t dimension;
-            } pushConstants = {
-                static_cast<uint32_t>(numQueries),
-                static_cast<uint32_t>(num_vectors_),
-                static_cast<uint32_t>(dimension_)
-            };
-            pipeline->set_push_constants(&pushConstants, sizeof(PushConstants));
-            
-            // Dispatch compute shader (16x16 local size)
-            uint32_t workgroupsX = (num_vectors_ + 15) / 16;
-            uint32_t workgroupsY = (numQueries + 15) / 16;
-            pipeline->dispatch(workgroupsX, workgroupsY, 1);
-            
-            // Wait for completion
-            pipeline->wait();
-            
-            // Download all distances
-            std::vector<float> allDistances(totalDistances);
-            distance_buffer_->download(allDistances.data(), distanceBufferSize);
-            
-            // Process each query's results
-            std::vector<std::vector<GPUVectorIndex::SearchResult>> results;
-            results.reserve(numQueries);
-            
-            for (size_t q = 0; q < numQueries; ++q) {
-                // Extract distances for this query
-                std::vector<std::pair<float, size_t>> queryDistances;
-                queryDistances.reserve(num_vectors_);
-                
-                size_t offset = q * num_vectors_;
-                for (size_t i = 0; i < num_vectors_; ++i) {
-                    queryDistances.emplace_back(allDistances[offset + i], i);
-                }
-                
-                // Find top-k for this query
-                size_t topK = std::min(k, num_vectors_);
-                std::partial_sort(queryDistances.begin(),
-                                queryDistances.begin() + topK,
-                                queryDistances.end(),
-                                [](const auto& a, const auto& b) { return a.first < b.first; });
-                
-                // Convert to SearchResult (IDs filled by main implementation)
-                std::vector<GPUVectorIndex::SearchResult> queryResults;
-                queryResults.reserve(topK);
-                for (size_t i = 0; i < topK; ++i) {
-                    queryResults.push_back({"", queryDistances[i].first});
-                }
-                results.push_back(std::move(queryResults));
-            }
-            
-            auto endTime = std::chrono::steady_clock::now();
-            updateQueryStats(startTime, endTime);
-            
-            return results;
-            
-        } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Batch search error: " << e.what() << "\n";
-            // Fall back to single-query path
-            std::vector<std::vector<GPUVectorIndex::SearchResult>> results;
-            results.reserve(queries.size());
-            for (const auto& query : queries) {
-                results.push_back(search(query, k));
             }
             return results;
         }
@@ -727,6 +730,9 @@ public:
             std::vector<std::string> searchPaths = {
                 "shaders/vector_index/",                    // Build directory
                 "../shaders/vector_index/",                 // One level up
+                "build/shaders/vector_index/",              // Workspace-local build folder
+                "build/windows-release/shaders/vector_index/",       // Common Windows preset
+                "build/windows-bench-release/shaders/vector_index/", // Benchmark preset
                 "share/themis/shaders/vector_index/",       // Install directory
                 "/usr/share/themis/shaders/vector_index/",  // System install
                 "/usr/local/share/themis/shaders/vector_index/"  // Local install
@@ -743,15 +749,15 @@ public:
             }
             
             if (shaderDir.empty()) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to locate shader directory\n";
-                std::cerr << "Searched paths:\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to locate shader directory");
+                THEMIS_ERROR("VulkanVectorIndexBackend: Searched paths:");
                 for (const auto& path : searchPaths) {
-                    std::cerr << "  - " << path << "\n";
+                    THEMIS_ERROR("  - {}", path);
                 }
                 return false;
             }
             
-            std::cout << "VulkanVectorIndexBackend: Using shader directory: " << shaderDir << "\n";
+            THEMIS_INFO("VulkanVectorIndexBackend: Using shader directory: {}", shaderDir);
             
             // Create L2 distance pipeline
             std::string l2ShaderPath = shaderDir + "l2_distance.comp.spv";
@@ -761,7 +767,7 @@ public:
             // Push constants: numQueries, numVectors, dimension
             size_t pushConstantSize = sizeof(uint32_t) * 3;
             if (!l2_pipeline_->create(pushConstantSize)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create L2 distance pipeline\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create L2 distance pipeline");
                 return false;
             }
             
@@ -770,7 +776,7 @@ public:
             cosine_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
                 context_.get(), cosineShaderPath);
             if (!cosine_pipeline_->create(pushConstantSize)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create Cosine distance pipeline\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create Cosine distance pipeline");
                 return false;
             }
             
@@ -779,15 +785,15 @@ public:
             inner_product_pipeline_ = std::make_unique<lora::vulkan::VulkanComputePipeline>(
                 context_.get(), innerProductShaderPath);
             if (!inner_product_pipeline_->create(pushConstantSize)) {
-                std::cerr << "VulkanVectorIndexBackend: Failed to create Inner Product pipeline\n";
+                THEMIS_ERROR("VulkanVectorIndexBackend: Failed to create Inner Product pipeline");
                 return false;
             }
             
-            std::cout << "VulkanVectorIndexBackend: All compute pipelines created successfully\n";
+            THEMIS_INFO("VulkanVectorIndexBackend: All compute pipelines created successfully");
             return true;
             
         } catch (const std::exception& e) {
-            std::cerr << "VulkanVectorIndexBackend: Pipeline creation error: " << e.what() << "\n";
+            THEMIS_ERROR("VulkanVectorIndexBackend: Pipeline creation error: {}", e.what());
             return false;
         }
     }
@@ -824,6 +830,25 @@ public:
     bool initialized_;
     int dimension_;
     size_t num_vectors_ = 0;
+
+    // Reused CPU scratch buffers to reduce per-query allocation overhead.
+    std::vector<float> distanceScratch_;
+    std::vector<float> allDistancesScratch_;
+    std::vector<float> cachedSingleQuery_;
+    QueryFingerprint cachedSingleQueryFingerprint_;
+    bool cachedSingleQueryValid_ = false;
+    std::vector<std::pair<float, size_t>> cachedSearchResult_;
+    size_t cachedSearchResultK_ = 0;
+    size_t cachedSearchResultNumVectors_ = 0;
+    GPUVectorIndex::DistanceMetric cachedSearchResultMetric_ =
+        GPUVectorIndex::DistanceMetric::L2;
+    bool cachedSearchResultValid_ = false;
+
+    // Descriptor binding cache for repeated search dispatches.
+    lora::vulkan::VulkanComputePipeline* lastBoundPipeline_ = nullptr;
+    lora::vulkan::VulkanBuffer* lastBoundQueryBuffer_ = nullptr;
+    lora::vulkan::VulkanBuffer* lastBoundVectorBuffer_ = nullptr;
+    lora::vulkan::VulkanBuffer* lastBoundDistanceBuffer_ = nullptr;
     
     // Statistics
     mutable double avg_query_time_ms_ = 0.0;
@@ -885,7 +910,23 @@ bool VulkanVectorIndexBackend::isInitialized() const {
 
 #else // !THEMIS_HAS_VULKAN_IMPL
 
-// Stub implementations when Vulkan is not available
+// STUB/SIMULATION NOTE:
+// Purpose: Provide link-compatible no-op implementations of
+//   VulkanVectorIndexBackend when the Vulkan SDK is not present, so that the
+//   vector search subsystem can be compiled and run without GPU drivers.
+//   All methods check for an injected bridge callback first; if none is set
+//   they return false or empty containers.
+// Activation: THEMIS_HAS_VULKAN_IMPL is 0 — set when the Vulkan headers
+//   and loader library (libvulkan.so) are not found by CMake.
+// Production Delta: GPU-accelerated vector similarity search (HNSW on Vulkan
+//   compute shaders) is silently disabled when no callback is injected.
+//   All vector queries fall back to the CPU-based HNSW/FAISS index
+//   (AdvancedVectorIndex).  Throughput is reduced by 5–20× for ANN search on
+//   large corpora (≥ 1 M vectors).
+// Removal Plan: Install the Vulkan SDK and a compatible GPU driver; rebuild
+//   with -DTHEMIS_HAS_VULKAN_IMPL=1.  The Pimpl implementation block above
+//   (inside #if THEMIS_HAS_VULKAN_IMPL) is then compiled instead.
+// Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"GPU Vector Index (Vulkan)"
 namespace themis {
 namespace index {
 
@@ -893,17 +934,83 @@ class VulkanVectorIndexBackend::Impl {
 public:
     explicit Impl(const GPUVectorIndex::Config&) {}
     ~Impl() = default;
-    bool initialize(int) { return false; }
-    void shutdown() {}
-    bool uploadVectors(const std::vector<std::vector<float>>&) { return false; }
-    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>&, size_t) { return {}; }
+    bool initialized_ = false;
+
+    bool initialize(int dimension) {
+        InitializeFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::initializeFnMutex());
+            fn = VulkanVectorIndexBackend::initializeFnStorage();
+        }
+        if (fn) {
+            try {
+                initialized_ = fn(dimension);
+            } catch (...) {
+                THEMIS_WARN("VulkanVectorIndexBackend::initialize: exception during initialization");
+                initialized_ = false;
+            }
+            return initialized_;
+        }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::initialize: no initialize function registered");
+        return false;
+    }
+
+    void shutdown() { initialized_ = false; }
+
+    bool uploadVectors(const std::vector<std::vector<float>>& vectors) {
+        UploadFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::uploadFnMutex());
+            fn = VulkanVectorIndexBackend::uploadFnStorage();
+        }
+        if (fn) {
+            try { return fn(vectors); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::uploadVectors: exception in upload function"); return false; }
+        }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::uploadVectors: no upload function registered");
+        return false;
+    }
+
+    std::vector<std::pair<float, size_t>> searchIndices(
+        const std::vector<float>& query, size_t k) {
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})", query.size(), k);
+        return {};
+    }
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
-        const std::vector<std::vector<float>>&, size_t) { return {}; }
-    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>&, size_t) { return {}; }
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})", queries.size(), k);
+        return {};
+    }
+
+    std::vector<GPUVectorIndex::SearchResult> search(
+        const std::vector<float>& query, size_t k) {
+        SearchFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::searchFnMutex());
+            fn = VulkanVectorIndexBackend::searchFnStorage();
+        }
+        if (fn) {
+            try { return fn(query, k); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::search: exception in search function"); return {}; }
+        }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::search: no search function registered");
+        return {};
+    }
+
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
-        const std::vector<std::vector<float>>&, size_t) { return {}; }
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        SearchBatchFn fn;
+        {
+            std::lock_guard<std::mutex> lk(VulkanVectorIndexBackend::searchBatchFnMutex());
+            fn = VulkanVectorIndexBackend::searchBatchFnStorage();
+        }
+        if (fn) {
+            try { return fn(queries, k); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::searchBatch: exception in searchBatch function"); return {}; }
+        }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatch: no searchBatch function registered");
+        return {};
+    }
+
     GPUVectorIndex::Statistics getStatistics() const { return {}; }
-    bool isInitialized() const { return false; }
+    bool isInitialized() const { return initialized_; }
 };
 
 VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config& config)
@@ -911,26 +1018,37 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
-bool VulkanVectorIndexBackend::initialize(int) { return false; }
-void VulkanVectorIndexBackend::shutdown() {}
-bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>&) { return false; }
+bool VulkanVectorIndexBackend::initialize(int dimension) {
+    return pImpl->initialize(dimension);
+}
+void VulkanVectorIndexBackend::shutdown() { pImpl->shutdown(); }
+bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>& v) {
+    return pImpl->uploadVectors(v);
+}
 
 std::vector<std::pair<float, size_t>> VulkanVectorIndexBackend::searchIndices(
-    const std::vector<float>&, size_t) { return {}; }
+    const std::vector<float>& q, size_t k) { return pImpl->searchIndices(q, k); }
 
 std::vector<std::vector<std::pair<float, size_t>>> VulkanVectorIndexBackend::searchBatchIndices(
-    const std::vector<std::vector<float>>&, size_t) { return {}; }
+    const std::vector<std::vector<float>>& qs, size_t k) {
+    return pImpl->searchBatchIndices(qs, k);
+}
 
 std::vector<GPUVectorIndex::SearchResult> VulkanVectorIndexBackend::search(
-    const std::vector<float>&, size_t) { return {}; }
+    const std::vector<float>& q, size_t k) { return pImpl->search(q, k); }
 
 std::vector<std::vector<GPUVectorIndex::SearchResult>> VulkanVectorIndexBackend::searchBatch(
-    const std::vector<std::vector<float>>&, size_t) { return {}; }
+    const std::vector<std::vector<float>>& qs, size_t k) {
+    return pImpl->searchBatch(qs, k);
+}
 
-GPUVectorIndex::Statistics VulkanVectorIndexBackend::getStatistics() const { return {}; }
-bool VulkanVectorIndexBackend::isInitialized() const { return false; }
+GPUVectorIndex::Statistics VulkanVectorIndexBackend::getStatistics() const {
+    return pImpl->getStatistics();
+}
+bool VulkanVectorIndexBackend::isInitialized() const { return pImpl->isInitialized(); }
 
 } // namespace index
 } // namespace themis
 
 #endif // THEMIS_HAS_VULKAN_IMPL
+

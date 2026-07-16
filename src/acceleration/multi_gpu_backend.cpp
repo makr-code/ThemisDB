@@ -1,31 +1,24 @@
+/**
+ * @file multi_gpu_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_backend.cpp                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:56:52                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     502                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ea484e8b0  2026-02-23  fix(acceleration): audit fixes — thread-safety, warning, ... ║
-    • 9e7afd57b  2026-02-23  feat(acceleration): implement MultiGPUVectorBackend with ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_backend.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 464
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
+ * PR History (last 5): #2703 feat(acceleration): impleme... (2026-03-12) | #2668 feat(acceleration): Multi-G... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "acceleration/multi_gpu_backend.h"
-#include "acceleration/cpu_backend.h"
-#include "acceleration/nccl_vector_backend.h"
-#include "acceleration/rccl_vector_backend.h"
 
 #include <algorithm>
 #include <cassert>
@@ -34,6 +27,10 @@
 #include <numeric>
 #include <stdexcept>
 #include <vector>
+
+#include "acceleration/cpu_backend.h"
+#include "acceleration/nccl_vector_backend.h"
+#include "acceleration/rccl_vector_backend.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -73,9 +70,9 @@ int MultiGPUVectorBackend::detectGPUCount() noexcept {
 // =============================================================================
 
 class MultiGPUVectorBackend::Impl {
-public:
+  public:
     Config config;
-    bool   initialized = false;
+    bool initialized = false;
 
     // Shard descriptors (built at initialize())
     std::vector<ShardDescriptor> shardDescs;
@@ -95,9 +92,11 @@ public:
     std::unique_ptr<RCCLVectorBackend> rcclBackend;
 #endif
 
-    explicit Impl(const Config& cfg) : config(cfg) {}
+    explicit Impl(const Config &cfg) : config(cfg) {}
 
-    ~Impl() { shutdown(); }
+    ~Impl() {
+        shutdown();
+    }
 
     // -------------------------------------------------------------------------
 
@@ -113,8 +112,8 @@ public:
         // Clamp to available GPU count
         int gpuCount = MultiGPUVectorBackend::detectGPUCount();
         if (gpuCount > 0 && static_cast<int>(deviceIds.size()) > gpuCount) {
-            std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size()
-                      << " devices but only " << gpuCount << " visible; clamping.\n";
+            std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size() << " devices but only " << gpuCount
+                      << " visible; clamping.\n";
             deviceIds.resize(static_cast<size_t>(gpuCount));
         }
 
@@ -142,13 +141,13 @@ public:
             auto sb = std::make_unique<CPUVectorBackend>();
             if (!sb->initialize()) {
                 if (!config.allowCPUFallback) {
-                    std::cerr << "MultiGPUVectorBackend: sub-backend init failed for device "
-                              << shardDescs[i].deviceId << "\n";
+                    std::cerr << "MultiGPUVectorBackend: sub-backend init failed for device " << shardDescs[i].deviceId
+                              << "\n";
                     return false;
                 }
                 std::cerr << "MultiGPUVectorBackend: warning — sub-backend init failed "
-                             "for device " << shardDescs[i].deviceId
-                          << "; retaining CPU fallback.\n";
+                             "for device "
+                          << shardDescs[i].deviceId << "; retaining CPU fallback.\n";
             }
             subBackends.push_back(std::move(sb));
         }
@@ -196,8 +195,8 @@ public:
         size_t offset    = 0;
 
         for (size_t i = 0; i < n; ++i) {
-            size_t count = base + (i < remainder ? 1 : 0);
-            ranges[i]          = shardDescs[i];  // copy shard descriptor (deviceId + zero-initialised range fields)
+            size_t count       = base + (i < remainder ? 1 : 0);
+            ranges[i]          = shardDescs[i]; // copy shard descriptor (deviceId + zero-initialised range fields)
             ranges[i].startIdx = offset;
             ranges[i].endIdx   = offset + count;
             offset += count;
@@ -210,14 +209,8 @@ public:
     // computeDistances — per-shard distance computation + global concat
     // -------------------------------------------------------------------------
 
-    std::vector<float> computeDistances(
-        const float* queries,
-        size_t       numQueries,
-        size_t       dim,
-        const float* vectors,
-        size_t       numVectors,
-        bool         useL2)
-    {
+    std::vector<float> computeDistances(const float *queries, size_t numQueries, size_t dim, const float *vectors,
+                                        size_t numVectors, bool useL2) {
         if (!initialized || subBackends.empty()) {
             return {};
         }
@@ -229,20 +222,21 @@ public:
         std::vector<float> result(numQueries * numVectors, 0.0f);
 
         for (size_t s = 0; s < ranges.size(); ++s) {
-            const auto& shard = ranges[s];
-            size_t shardSize = shard.numVectors();
-            if (shardSize == 0) continue;
+            const auto &shard = ranges[s];
+            size_t shardSize  = shard.numVectors();
+            if (shardSize == 0) {
+                continue;
+            }
 
-            const float* shardVectors = vectors + shard.startIdx * dim;
+            const float *shardVectors = vectors + shard.startIdx * dim;
 
-            auto shardDists = subBackends[s]->computeDistances(
-                queries, numQueries, dim, shardVectors, shardSize, useL2);
+            auto shardDists
+                = subBackends[s]->computeDistances(queries, numQueries, dim, shardVectors, shardSize, useL2);
 
             // Copy shard results into the global output at the correct column offsets
             for (size_t q = 0; q < numQueries; ++q) {
                 for (size_t v = 0; v < shardSize; ++v) {
-                    result[q * numVectors + shard.startIdx + v] =
-                        shardDists[q * shardSize + v];
+                    result[q * numVectors + shard.startIdx + v] = shardDists[q * shardSize + v];
                 }
             }
         }
@@ -254,15 +248,9 @@ public:
     // batchKnnSearch — fan-out to all shards, remap indices, merge top-k
     // -------------------------------------------------------------------------
 
-    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
-        const float* queries,
-        size_t       numQueries,
-        size_t       dim,
-        const float* vectors,
-        size_t       numVectors,
-        size_t       k,
-        bool         useL2)
-    {
+    std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(const float *queries, size_t numQueries,
+                                                                        size_t dim, const float *vectors,
+                                                                        size_t numVectors, size_t k, bool useL2) {
         if (!initialized || subBackends.empty()) {
             return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
         }
@@ -275,23 +263,24 @@ public:
 
         // Fan out to each shard
         for (size_t s = 0; s < ranges.size(); ++s) {
-            const auto& shard = ranges[s];
-            size_t shardSize = shard.numVectors();
-            if (shardSize == 0) continue;
+            const auto &shard = ranges[s];
+            size_t shardSize  = shard.numVectors();
+            if (shardSize == 0) {
+                continue;
+            }
 
-            const float* shardVectors = vectors + shard.startIdx * dim;
+            const float *shardVectors = vectors + shard.startIdx * dim;
 
             // k_local: search for min(k, shardSize) locally
             size_t kLocal = std::min(k, shardSize);
 
-            auto shardResults = subBackends[s]->batchKnnSearch(
-                queries, numQueries, dim, shardVectors, shardSize, kLocal, useL2);
+            auto shardResults
+                = subBackends[s]->batchKnnSearch(queries, numQueries, dim, shardVectors, shardSize, kLocal, useL2);
 
             // Remap shard-local indices to global indices
             for (size_t q = 0; q < numQueries; ++q) {
-                for (auto& [localIdx, dist] : shardResults[q]) {
-                    uint32_t globalIdx =
-                        static_cast<uint32_t>(shard.startIdx) + localIdx;
+                for (auto &[localIdx, dist] : shardResults[q]) {
+                    uint32_t globalIdx = static_cast<uint32_t>(shard.startIdx) + localIdx;
                     merged[q].emplace_back(globalIdx, dist);
                 }
             }
@@ -299,20 +288,18 @@ public:
 
         // Host-side top-k merge: partial sort then trim to k
         for (size_t q = 0; q < numQueries; ++q) {
-            auto& row = merged[q];
+            auto &row = merged[q];
             if (row.size() > k) {
                 std::partial_sort(row.begin(), row.begin() + k, row.end(),
-                    [](const std::pair<uint32_t, float>& a,
-                       const std::pair<uint32_t, float>& b) {
-                        return a.second < b.second;
-                    });
+                                  [](const std::pair<uint32_t, float> &a, const std::pair<uint32_t, float> &b) {
+                                      return a.second < b.second;
+                                  });
                 row.resize(k);
             } else {
                 std::sort(row.begin(), row.end(),
-                    [](const std::pair<uint32_t, float>& a,
-                       const std::pair<uint32_t, float>& b) {
-                        return a.second < b.second;
-                    });
+                          [](const std::pair<uint32_t, float> &a, const std::pair<uint32_t, float> &b) {
+                              return a.second < b.second;
+                          });
             }
         }
 
@@ -323,7 +310,8 @@ public:
     // Communication backend helpers
     // -------------------------------------------------------------------------
 
-    void initCommBackend(const std::vector<int>& deviceIds) {
+    void initCommBackend(const std::vector<int> &deviceIds) {
+        (void)deviceIds;
         CommBackend target = config.commBackend;
 
         if (target == CommBackend::AUTO) {
@@ -333,7 +321,7 @@ public:
             } else
 #endif
 #ifdef THEMIS_ENABLE_RCCL
-            if (RCCLVectorBackend::isRCCLAvailable()) {
+                if (RCCLVectorBackend::isRCCLAvailable()) {
                 target = CommBackend::RCCL;
             } else
 #endif
@@ -349,16 +337,16 @@ public:
             case CommBackend::NCCL: {
                 ncclBackend = std::make_unique<NCCLVectorBackend>();
                 NCCLVectorBackend::Config ncclCfg;
-                ncclCfg.worldSize     = static_cast<int>(deviceIds.size());
-                ncclCfg.rank          = 0;
-                ncclCfg.deviceIds     = deviceIds;
-                ncclCfg.enableP2P     = config.enableP2P;
-                ncclCfg.enableNVLink  = config.enableNVLink;
-                ncclCfg.bufferSizeMB  = config.commBufferSizeMB;
+                ncclCfg.worldSize    = static_cast<int>(deviceIds.size());
+                ncclCfg.rank         = 0;
+                ncclCfg.deviceIds    = deviceIds;
+                ncclCfg.enableP2P    = config.enableP2P;
+                ncclCfg.enableNVLink = config.enableNVLink;
+                ncclCfg.bufferSizeMB = config.commBufferSizeMB;
 
                 if (ncclBackend->initialize(ncclCfg)) {
                     activeComm = CommBackend::NCCL;
-                    success = true;
+                    success    = true;
                 } else {
                     std::cerr << "MultiGPUVectorBackend: NCCL init failed, "
                                  "falling back to CPU merge.\n";
@@ -380,7 +368,7 @@ public:
 
                 if (rcclBackend->initialize(rcclCfg)) {
                     activeComm = CommBackend::RCCL;
-                    success = true;
+                    success    = true;
                 } else {
                     std::cerr << "MultiGPUVectorBackend: RCCL init failed, "
                                  "falling back to CPU merge.\n";
@@ -391,9 +379,9 @@ public:
 #endif
             case CommBackend::CPU:
             default:
-                (void)deviceIds;  // unused when NCCL/RCCL are not compiled in
+                // unused when NCCL/RCCL are not compiled in
                 activeComm = CommBackend::CPU;
-                success = true;
+                success    = true;
                 break;
         }
 
@@ -404,9 +392,12 @@ public:
 
     std::string commBackendName() const {
         switch (activeComm) {
-            case CommBackend::NCCL: return "NCCL";
-            case CommBackend::RCCL: return "RCCL";
-            default:                return "CPU";
+            case CommBackend::NCCL:
+                return "NCCL";
+            case CommBackend::RCCL:
+                return "RCCL";
+            default:
+                return "CPU";
         }
     }
 };
@@ -415,11 +406,9 @@ public:
 // MultiGPUVectorBackend — public interface
 // =============================================================================
 
-MultiGPUVectorBackend::MultiGPUVectorBackend()
-    : MultiGPUVectorBackend(Config{}) {}
+MultiGPUVectorBackend::MultiGPUVectorBackend() : MultiGPUVectorBackend(Config{}) {}
 
-MultiGPUVectorBackend::MultiGPUVectorBackend(const Config& config)
-    : pImpl_(std::make_unique<Impl>(config)) {}
+MultiGPUVectorBackend::MultiGPUVectorBackend(const Config &config) : pImpl_(std::make_unique<Impl>(config)) {}
 
 MultiGPUVectorBackend::~MultiGPUVectorBackend() = default;
 
@@ -435,11 +424,9 @@ BackendCapabilities MultiGPUVectorBackend::getCapabilities() const {
     caps.supportsBatchProcessing = true;
     caps.supportsAsync           = false;
     caps.supportedPrecisions     = PrecisionMode::FP32;
-    caps.supportedMetrics        = metricBit(DistanceMetric::L2)
-                                 | metricBit(DistanceMetric::COSINE)
-                                 | metricBit(DistanceMetric::INNER_PRODUCT);
-    caps.deviceName = "Multi-GPU (" + std::to_string(pImpl_->shardDescs.size())
-                    + " shards)";
+    caps.supportedMetrics
+        = metricBit(DistanceMetric::L2) | metricBit(DistanceMetric::COSINE) | metricBit(DistanceMetric::INNER_PRODUCT);
+    caps.deviceName = "Multi-GPU (" + std::to_string(pImpl_->shardDescs.size()) + " shards)";
     return caps;
 }
 
@@ -448,10 +435,8 @@ bool MultiGPUVectorBackend::initialize() {
         clearError();
         return true;
     }
-    setError(ErrorContext(
-        AccelerationErrorCode::ContextCreationFailed,
-        name(),
-        "Failed to initialise multi-GPU sharding backend"));
+    setError(ErrorContext(AccelerationErrorCode::ContextCreationFailed, name(),
+                          "Failed to initialise multi-GPU sharding backend"));
     return false;
 }
 
@@ -459,30 +444,18 @@ void MultiGPUVectorBackend::shutdown() {
     pImpl_->shutdown();
 }
 
-std::vector<float> MultiGPUVectorBackend::computeDistances(
-    const float* queries,
-    size_t       numQueries,
-    size_t       dim,
-    const float* vectors,
-    size_t       numVectors,
-    bool         useL2)
-{
+std::vector<float> MultiGPUVectorBackend::computeDistances(const float *queries, size_t numQueries, size_t dim,
+                                                           const float *vectors, size_t numVectors, bool useL2) {
     return pImpl_->computeDistances(queries, numQueries, dim, vectors, numVectors, useL2);
 }
 
-std::vector<std::vector<std::pair<uint32_t, float>>> MultiGPUVectorBackend::batchKnnSearch(
-    const float* queries,
-    size_t       numQueries,
-    size_t       dim,
-    const float* vectors,
-    size_t       numVectors,
-    size_t       k,
-    bool         useL2)
-{
+std::vector<std::vector<std::pair<uint32_t, float>>>
+MultiGPUVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_t dim, const float *vectors,
+                                      size_t numVectors, size_t k, bool useL2) {
     return pImpl_->batchKnnSearch(queries, numQueries, dim, vectors, numVectors, k, useL2);
 }
 
-const std::vector<ShardDescriptor>& MultiGPUVectorBackend::shards() const noexcept {
+const std::vector<ShardDescriptor> &MultiGPUVectorBackend::shards() const noexcept {
     return pImpl_->shardDescs;
 }
 
@@ -495,8 +468,7 @@ MultiGPUVectorBackend::CommBackend MultiGPUVectorBackend::activeCommBackend() co
 }
 
 bool MultiGPUVectorBackend::isCollectiveOpsAvailable() const noexcept {
-    return pImpl_->activeComm == CommBackend::NCCL ||
-           pImpl_->activeComm == CommBackend::RCCL;
+    return pImpl_->activeComm == CommBackend::NCCL || pImpl_->activeComm == CommBackend::RCCL;
 }
 
 } // namespace acceleration

@@ -1,32 +1,26 @@
+/**
+ * @file stream_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            stream_manager.h                                   ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6206d7fc1  2026-02-27  fix(gpu): remove duplicate cuda_runtime.h include and cle... ║
-    • 739078d2b  2026-02-27  fix(gpu): fix compilation errors in GPUStreamManager and ... ║
-    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 7b7408fe7  2026-02-25  fix(gpu): code audit - complete GPUStreamManager CUDA+ROC... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: stream_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <chrono>
+#include <functional>
 #include <future>
 #include <memory>
 #include <mutex>
@@ -214,6 +208,24 @@ private:
 
     mutable std::mutex                          mutex_;
     std::unordered_map<std::string, Stream>     streams_;
+
+public:
+    // -----------------------------------------------------------------------
+    // Injectable CUDA backend bridge (STUB #77)
+    // -----------------------------------------------------------------------
+    /// Callback type: given a device index, return a GPULauncher::BackendFn
+    /// that dispatches work to a CUDA (or compatible) device.  Used as a
+    /// replacement for the real cudaStream_t path when THEMIS_ENABLE_CUDA is
+    /// not defined so that callers can inject a CUDA-like backend without
+    /// rebuilding with the CUDA Toolkit.
+    using CudaStreamBackendFn =
+        std::function<GPULauncher::BackendFn(int device_index)>;
+
+    /// Register a CUDA backend factory used by `createCudaStream()` when
+    /// THEMIS_ENABLE_CUDA is not defined.
+    /// Pass an empty `std::function` to clear and revert to the ROCm/CPU fallback.
+    /// Thread-safe (guarded by a static mutex).
+    static void setCudaStreamBackendFn(CudaStreamBackendFn fn);
 };
 
 

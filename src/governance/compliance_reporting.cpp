@@ -1,27 +1,21 @@
+/**
+ * @file compliance_reporting.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=62, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            compliance_reporting.cpp                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:13                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1582                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7844e4d32  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
-    • 1cb3e6183  2026-02-25  feat(governance): implement PDF and HTML compliance repor... ║
-    • 8d92986f6  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: compliance_reporting.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1612
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=91, L=0
+ * PR History (last 5): #4300 feat(governance): CSV expor... (2026-03-17) | #3008 [governance] Implement CCPA... (2026-03-12) | #2869 feat(governance): Implement... (2026-03-12)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/compliance_reporting.h"
@@ -115,7 +109,7 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     const std::vector<std::string>& actions
 ) const {
     CoverageResult result;
-    result.total_resources_checked = resources.size();
+    result.total_resources_checked = static_cast<int>(resources.size());
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
                  resources.size(), actions.size());
@@ -183,7 +177,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
             overlap.resource_pattern = pattern.substr(0, colon_pos);
             overlap.action_pattern = pattern.substr(colon_pos + 1);
             overlap.overlapping_rule_ids = rule_ids;
-            overlap.overlap_count = rule_ids.size();
+            overlap.overlap_count = static_cast<int>(rule_ids.size());
             
             overlaps.push_back(overlap);
         }
@@ -390,7 +384,7 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
         }
     }
     
-    status.total_requirements = filtered_reqs.size();
+    status.total_requirements = static_cast<int>(filtered_reqs.size());
     
     for (const auto& req : filtered_reqs) {
         if (checkRequirement(req, policy_mgr)) {
@@ -867,7 +861,7 @@ ComplianceReporter::PolicySummaryReport ComplianceReporter::generatePolicySummar
     PolicySummaryReport report;
     auto all_rules = policy_mgr.listRules();
     
-    report.total_rules = all_rules.size();
+    report.total_rules = static_cast<int>(all_rules.size());
     report.generated_at = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     
     for (const auto& rule : all_rules) {
@@ -1098,7 +1092,7 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
         }
     }
     
-    report.total_changes = report.changes.size();
+    report.total_changes = static_cast<int>(report.changes.size());
     
     THEMIS_INFO("Generated change history report: {} changes", report.total_changes);
     
@@ -1121,6 +1115,50 @@ std::string escapePDFString(const std::string& s) {
         else result += ' ';
     }
     return result;
+}
+
+/// Escape a value for CSV: wrap in double-quotes if it contains commas, quotes, or newlines.
+std::string csvEscape(const std::string& val) {
+    bool needs_quoting = val.find_first_of(",\"\n\r") != std::string::npos;
+    if (!needs_quoting) return val;
+    std::string out;
+    out.reserve(val.size() + 2);
+    out += '"';
+    for (char c : val) {
+        if (c == '"') out += '"'; // RFC 4180: escape double-quote by doubling
+        out += c;
+    }
+    out += '"';
+    return out;
+}
+
+/// Convert a JSON scalar value to a plain string for CSV output.
+std::string jsonScalarToString(const nlohmann::json& v) {
+    if (v.is_string()) return v.get<std::string>();
+    if (v.is_null())   return "";
+    return v.dump();
+}
+
+/// Generate a CSV document from a compliance report JSON.
+/// Top-level object keys are emitted as rows: Field,Value.
+/// Nested objects/arrays are JSON-serialised into the value column.
+std::string generateCSVFromJson(const nlohmann::json& report) {
+    std::ostringstream csv;
+    csv << "Field,Value\n";
+    if (report.is_object()) {
+        for (const auto& [key, val] : report.items()) {
+            csv << csvEscape(key) << ",";
+            if (val.is_object() || val.is_array()) {
+                csv << csvEscape(val.dump());
+            } else {
+                csv << csvEscape(jsonScalarToString(val));
+            }
+            csv << "\n";
+        }
+    } else {
+        csv << "data," << csvEscape(report.dump()) << "\n";
+    }
+    return csv.str();
 }
 
 /// Recursively render a JSON value to HTML
@@ -1402,8 +1440,8 @@ std::string ComplianceReporter::exportReport(
             return report.dump(2);
 
         case ReportFormat::CSV:
-            THEMIS_ERROR("CSV export not implemented for generic JSON reports");
-            return "";
+            THEMIS_INFO("Generating CSV compliance report");
+            return generateCSVFromJson(report);
 
         case ReportFormat::HTML: {
             THEMIS_INFO("Generating HTML compliance report");
@@ -1582,3 +1620,4 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
 
 } // namespace governance
 } // namespace themis
+

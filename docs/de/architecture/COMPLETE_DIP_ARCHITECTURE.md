@@ -362,7 +362,7 @@ auto storage = std::make_shared<StorageEngine>(
 - [Phase 1: DIP Interfaces](./PHASE1_DIP_INTERFACES.md)
 - [Phase 2: Generic Plugin System](./PHASE2_PLUGIN_SYSTEM.md)
 - [Phase 2.5: StorageEngine DI](./PHASE2_STORAGE_DI.md)
-- [Phase 3: QueryEngine DI](../../PHASE3_QUERYENGINE_DI_ARCHITECTURE.md)
+- [Phase 3: QueryEngine DI](../../architecture/PHASE3_QUERYENGINE_DI_ARCHITECTURE.md)
 - [Phase 4: IndexManager DI](./PHASE4_INDEXMANAGER_DI.md)
 - [Phase 5: SecurityLayer DI](./PHASE5_SECURITY_DI.md)
 

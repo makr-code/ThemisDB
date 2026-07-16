@@ -26,6 +26,11 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_filesystem.cpp
 )
 
+# Zero-Copy Blob Transfer (sendfile, mmap, S3 multipart streaming – Issue #231, v1.7.0)
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/storage/zero_copy_blob_transfer.cpp
+)
+
 # WebDAV blob storage
 if(THEMIS_ENABLE_WEBDAV)
     list(APPEND THEMIS_CORE_SOURCES

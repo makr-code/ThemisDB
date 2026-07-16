@@ -1,23 +1,21 @@
+/**
+ * @file quantization.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quantization.h                                     ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     249                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quantization.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 252
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #549 Implement QLoRA (Quantized ... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -25,6 +23,7 @@
 #include <vector>
 #include <cstdint>
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <stdexcept>
 
@@ -84,9 +83,10 @@ namespace nf4_constants {
  * to improve quantization accuracy. Typical block size: 64-128 elements.
  */
 struct QuantizationBlock {
-    float scale;      // Scaling factor for dequantization
-    float zero_point; // Zero point offset
-    size_t size;      // Number of elements in this block
+    virtual ~QuantizationBlock() = default;
+    float scale = 0.0f;      // Scaling factor for dequantization
+    float zero_point = 0.0f; // Zero point offset
+    size_t size = 0;      // Number of elements in this block
     
     QuantizationBlock() : scale(1.0f), zero_point(0.0f), size(0) {}
     QuantizationBlock(float s, float z, size_t sz) : scale(s), zero_point(z), size(sz) {}
@@ -100,6 +100,7 @@ struct QuantizationBlock {
  */
 class QuantizedTensor {
 public:
+    virtual ~QuantizedTensor() = default;
     QuantizedTensor() = default;
     
     /**
@@ -133,7 +134,7 @@ public:
 private:
     QuantizationType type_;
     std::vector<size_t> shape_;
-    size_t block_size_;
+    size_t block_size_ = 0;
     
     // Quantized data storage
     // For NF4: 2 values packed per byte (4 bits each)
@@ -148,6 +149,16 @@ private:
  * @brief Quantization operations
  */
 namespace quantization {
+
+    using DebugLogFn = std::function<void(const std::string&)>;
+
+    /**
+     * @brief Inject an alternative debug sink for quantization traces.
+     *
+     * This is primarily used by `THEMIS_NO_SPDLOG` builds so debug-level
+     * quantization diagnostics remain observable without linking spdlog.
+     */
+    void setDebugLogFn(DebugLogFn fn);
 
     /**
      * @brief Quantize a tensor to NF4 format

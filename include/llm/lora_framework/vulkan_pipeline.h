@@ -1,23 +1,21 @@
+/**
+ * @file vulkan_pipeline.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_pipeline.h                                  ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_pipeline.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 222
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): #571 Implement Vulkan compute pi... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,17 +93,28 @@ public:
     void set_push_constants(const void* data, size_t size, size_t offset = 0);
     
     /**
-     * @brief Dispatch compute shader
+     * @brief Dispatch compute shader.
+     *
+     * Records the compute workload into a one-time-submit command buffer and
+     * submits it to the Vulkan compute queue.
+     *
      * @param group_x Number of workgroups in X dimension
      * @param group_y Number of workgroups in Y dimension
      * @param group_z Number of workgroups in Z dimension
+     *
+     * @throws std::runtime_error if vkBeginCommandBuffer, vkEndCommandBuffer,
+     *         or vkQueueSubmit returns a non-VK_SUCCESS code.
      */
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     
     /**
-     * @brief Wait for pipeline execution to complete
+     * @brief Wait for pipeline execution to complete.
+     * @param timeout_ns Maximum time to wait in nanoseconds.
+     *   Defaults to 30 s, which is a safe upper bound for a single compute kernel.
+     *   Pass `UINT64_MAX` to wait indefinitely (discouraged — risks deadlock on GPU hang).
+     * @return true if completed within timeout, false on timeout/failure or missing fence.
      */
-    void wait();
+    bool wait(uint64_t timeout_ns = 30'000'000'000ULL);
     
     /**
      * @brief Check if pipeline is ready
@@ -214,7 +223,7 @@ public:
     bool bind_buffer(uint32_t, VulkanBuffer*) { return false; }
     bool set_push_constants(const void*, size_t) { return false; }
     bool dispatch(uint32_t, uint32_t, uint32_t) { return false; }
-    bool wait() { return false; }
+    bool wait(uint64_t = 0) { return false; }
 };
 
 } // namespace vulkan

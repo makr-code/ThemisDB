@@ -1,0 +1,1644 @@
+{
+  "summary": {
+    "generated_at": "2026-06-01 12:40:58",
+    "modules_analyzed": 62,
+    "modules_with_risks": 0,
+    "modules_without_docs_links": 0,
+    "modules_with_stale_docs": 0,
+    "modules_with_workload_underestimate_risk": 0
+  },
+  "modules": [
+    {
+      "module": "core",
+      "plan_files": [
+        "src/core/FUTURE_ENHANCEMENTS.md",
+        "src/core/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 11,
+      "plan_checkbox_total": 11,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 16,
+      "related_docs_high_relevance_count": 15,
+      "related_docs_open_tasks_high_relevance": 17,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/core/PRIMARY_SOURCES.md",
+        "docs/de/core/PRIMARY_SOURCES.md",
+        "docs/de/core/architecture.md",
+        "docs/troubleshooting/core_troubleshooting.md",
+        "docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md",
+        "docs/en/llm/LLM_CORE_DECISION_MATRIX.md",
+        "docs/de/reports/release_scope_core.md",
+        "docs/de/research/ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md"
+      ]
+    },
+    {
+      "module": "network",
+      "plan_files": [
+        "src/network/FUTURE_ENHANCEMENTS.md",
+        "src/network/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 5,
+      "plan_checkbox_total": 5,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 9,
+      "related_docs_high_relevance_count": 8,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/network/PRIMARY_SOURCES.md",
+        "docs/de/network/PRIMARY_SOURCES.md",
+        "docs/de/network/README.md",
+        "docs/de/network/inventory.md",
+        "docs/de/network/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/network_troubleshooting.md",
+        "docs/de/roadmap/network_roadmap.md",
+        "docs/de/features/features_government_network.md"
+      ]
+    },
+    {
+      "module": "query",
+      "plan_files": [
+        "src/query/FUTURE_ENHANCEMENTS.md",
+        "src/query/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 5,
+      "plan_checkbox_total": 5,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 36,
+      "related_docs_high_relevance_count": 33,
+      "related_docs_open_tasks_high_relevance": 64,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/query/PRIMARY_SOURCES.md",
+        "docs/de/query/PRIMARY_SOURCES.md",
+        "docs/de/query/README.md",
+        "docs/de/query/query_filtered_vector.md",
+        "docs/de/query/query_hybrid_benchmarks.md",
+        "docs/de/query/query_hybrid_overview.md",
+        "docs/de/query/query_vector_hybrid.md",
+        "docs/de/query/MISSING_IMPLEMENTATIONS.md"
+      ]
+    },
+    {
+      "module": "security",
+      "plan_files": [
+        "src/security/FUTURE_ENHANCEMENTS.md",
+        "src/security/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 5,
+      "plan_checkbox_total": 5,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 182,
+      "related_docs_high_relevance_count": 171,
+      "related_docs_open_tasks_high_relevance": 995,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/security/PRIMARY_SOURCES.md",
+        "docs/de/security/PRIMARY_SOURCES.md",
+        "docs/en/security/README.md",
+        "docs/de/security/ai_safety/README.md",
+        "docs/de/security/README.md",
+        "docs/security/README.md",
+        "docs/en/security/security_hardware_attack_vectors.md",
+        "docs/en/security/DOCS_ASSISTANT_SECURITY_ASSESSMENT.md"
+      ]
+    },
+    {
+      "module": "server",
+      "plan_files": [
+        "src/server/FUTURE_ENHANCEMENTS.md",
+        "src/server/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 5,
+      "plan_checkbox_total": 5,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 18,
+      "related_docs_high_relevance_count": 17,
+      "related_docs_open_tasks_high_relevance": 111,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/server/PRIMARY_SOURCES.md",
+        "docs/de/server/PRIMARY_SOURCES.md",
+        "docs/de/server/README.md",
+        "docs/de/server/inventory.md",
+        "docs/de/server/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/server_troubleshooting.md",
+        "docs/reports/HTTP_SERVER_CRITICAL_ISSUE.md",
+        "docs/reports/HTTP_SERVER_REFACTORING_ACTION_PLAN.md"
+      ]
+    },
+    {
+      "module": "transaction",
+      "plan_files": [
+        "src/transaction/FUTURE_ENHANCEMENTS.md",
+        "src/transaction/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 5,
+      "plan_checkbox_total": 5,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 20,
+      "related_docs_high_relevance_count": 18,
+      "related_docs_open_tasks_high_relevance": 15,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/transaction/PRIMARY_SOURCES.md",
+        "docs/de/transaction/PRIMARY_SOURCES.md",
+        "docs/de/transaction/README.md",
+        "docs/de/transaction/inventory.md",
+        "docs/de/transaction/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/transaction_troubleshooting.md",
+        "docs/issues/optimization_layers/IMPL-B5-transaction-semantics.md",
+        "docs/en/features/TRANSACTION_BEST_PRACTICES.md"
+      ]
+    },
+    {
+      "module": "acceleration",
+      "plan_files": [
+        "src/acceleration/FUTURE_ENHANCEMENTS.md",
+        "src/acceleration/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 27,
+      "related_docs_high_relevance_count": 26,
+      "related_docs_open_tasks_high_relevance": 40,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/acceleration/PRIMARY_SOURCES.md",
+        "docs/de/acceleration/PRIMARY_SOURCES.md",
+        "docs/de/acceleration/README.md",
+        "docs/de/acceleration/backends.md",
+        "docs/de/acceleration/MISSING_IMPLEMENTATIONS.md",
+        "docs/acceleration/README.md",
+        "docs/acceleration/capability_negotiation.md",
+        "docs/acceleration/error_codes.md"
+      ]
+    },
+    {
+      "module": "ai",
+      "plan_files": [
+        "src/ai/FUTURE_ENHANCEMENTS.md",
+        "src/ai/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 105,
+      "related_docs_high_relevance_count": 85,
+      "related_docs_open_tasks_high_relevance": 258,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/website/pages/kritis-airgap.md",
+        "docs/troubleshooting/training_troubleshooting.md",
+        "docs/training/SECURITY_AWARENESS_TRAINING.md",
+        "docs/schemas/LEGAL_TRAINING_SCHEMA.md",
+        "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md",
+        "docs/llm_orchestration/LEGAL_LORA_TRAINING_PIPELINE.md",
+        "docs/llm_orchestration/distributed_training_integration.md",
+        "docs/llm_orchestration/lora_production_training.md"
+      ]
+    },
+    {
+      "module": "analytics",
+      "plan_files": [
+        "src/analytics/FUTURE_ENHANCEMENTS.md",
+        "src/analytics/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 24,
+      "related_docs_high_relevance_count": 23,
+      "related_docs_open_tasks_high_relevance": 113,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/analytics/PRIMARY_SOURCES.md",
+        "docs/de/analytics/PRIMARY_SOURCES.md",
+        "docs/de/analytics/README.md",
+        "docs/de/analytics/NLP_TEXT_ANALYZER.md",
+        "docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md",
+        "docs/de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md",
+        "docs/de/analytics/README_PROCESS_MINING.md",
+        "docs/de/analytics/anomaly_detection_guide.md"
+      ]
+    },
+    {
+      "module": "api",
+      "plan_files": [
+        "src/api/FUTURE_ENHANCEMENTS.md",
+        "src/api/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 73,
+      "related_docs_high_relevance_count": 69,
+      "related_docs_open_tasks_high_relevance": 48,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/api/PRIMARY_SOURCES.md",
+        "docs/de/api/PRIMARY_SOURCES.md",
+        "docs/en/apis/HTTP_API_REFERENCE.md",
+        "docs/de/apis/apis_contentfs.md",
+        "docs/de/apis/apis_graphql.md",
+        "docs/de/apis/apis_hot_reload.md",
+        "docs/de/apis/apis_hybrid_search.md",
+        "docs/de/apis/apis_openapi.md"
+      ]
+    },
+    {
+      "module": "aql",
+      "plan_files": [
+        "src/aql/FUTURE_ENHANCEMENTS.md",
+        "src/aql/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 61,
+      "related_docs_high_relevance_count": 59,
+      "related_docs_open_tasks_high_relevance": 124,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/aql/PRIMARY_SOURCES.md",
+        "docs/de/aql/PRIMARY_SOURCES.md",
+        "docs/en/aql/README.md",
+        "docs/de/aql/README.md",
+        "docs/en/aql/aql_functions_reference.md",
+        "docs/en/aql/aql_query_templates.md",
+        "docs/de/aql/aql_language_scope.md",
+        "docs/de/aql/aql_pattern_matching.md"
+      ]
+    },
+    {
+      "module": "auth",
+      "plan_files": [
+        "src/auth/FUTURE_ENHANCEMENTS.md",
+        "src/auth/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 29,
+      "related_docs_high_relevance_count": 22,
+      "related_docs_open_tasks_high_relevance": 41,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/auth/PRIMARY_SOURCES.md",
+        "docs/de/auth/PRIMARY_SOURCES.md",
+        "docs/de/auth/README.md",
+        "docs/de/auth/jwt.md",
+        "docs/troubleshooting/auth_troubleshooting.md",
+        "docs/security/api_authentication_authorization.md",
+        "docs/security/changefeed_authentication.md",
+        "docs/reviews/AUTH_MODULE_REVIEW.md"
+      ]
+    },
+    {
+      "module": "base",
+      "plan_files": [
+        "src/base/FUTURE_ENHANCEMENTS.md",
+        "src/base/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 19,
+      "related_docs_high_relevance_count": 17,
+      "related_docs_open_tasks_high_relevance": 43,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/base/PRIMARY_SOURCES.md",
+        "docs/de/base/PRIMARY_SOURCES.md",
+        "docs/de/base/README.md",
+        "docs/de/base/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/base_troubleshooting.md",
+        "docs/reviews/BASE_ENTITIES_REVIEW_2026-02.md",
+        "docs/en/features/DOCS_ROCKSDB_DATABASE.md",
+        "docs/de/scheduler/ADAPTIVE_VS_TIME_BASED_RETENTION.md"
+      ]
+    },
+    {
+      "module": "cache",
+      "plan_files": [
+        "src/cache/FUTURE_ENHANCEMENTS.md",
+        "src/cache/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 30,
+      "related_docs_high_relevance_count": 29,
+      "related_docs_open_tasks_high_relevance": 9,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/cache/PRIMARY_SOURCES.md",
+        "docs/de/cache/PRIMARY_SOURCES.md",
+        "docs/de/cache/README.md",
+        "docs/de/src/cache/README.md",
+        "docs/cache_roadmap.md",
+        "docs/troubleshooting/cache_troubleshooting.md",
+        "docs/en/llm/LLM_RESPONSE_CACHE_METRICS.md",
+        "docs/en/llm/LLM_RESPONSE_CACHE_USAGE.md"
+      ]
+    },
+    {
+      "module": "cdc",
+      "plan_files": [
+        "src/cdc/FUTURE_ENHANCEMENTS.md",
+        "src/cdc/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 25,
+      "related_docs_high_relevance_count": 14,
+      "related_docs_open_tasks_high_relevance": 22,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/cdc/PRIMARY_SOURCES.md",
+        "docs/de/cdc/PRIMARY_SOURCES.md",
+        "docs/de/cdc/MISSING_IMPLEMENTATIONS.md",
+        "docs/CDC_OPERATIONS_RUNBOOK.md",
+        "docs/troubleshooting/cdc_troubleshooting.md",
+        "docs/de/roadmap/cdc_roadmap.md",
+        "docs/de/features/features_cdc.md",
+        "docs/de/features/TASK_SCHEDULER_CRON_CDC.md"
+      ]
+    },
+    {
+      "module": "chaos",
+      "plan_files": [
+        "src/chaos/FUTURE_ENHANCEMENTS.md",
+        "src/chaos/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 7,
+      "related_docs_high_relevance_count": 7,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/chaos/PRIMARY_SOURCES.md",
+        "docs/de/chaos/PRIMARY_SOURCES.md",
+        "docs/en/chaos/README.md",
+        "docs/de/chaos/README.md",
+        "docs/en/chaos/index.md",
+        "docs/de/chaos/index.md",
+        "docs/de/chaos/MISSING_IMPLEMENTATIONS.md"
+      ]
+    },
+    {
+      "module": "chimera",
+      "plan_files": [
+        "src/chimera/FUTURE_ENHANCEMENTS.md",
+        "src/chimera/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 11,
+      "related_docs_high_relevance_count": 11,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/chimera/PRIMARY_SOURCES.md",
+        "docs/de/chimera/PRIMARY_SOURCES.md",
+        "docs/en/chimera/README.md",
+        "docs/de/chimera/README.md",
+        "docs/en/chimera/index.md",
+        "docs/de/chimera/index.md",
+        "docs/de/chimera/MISSING_IMPLEMENTATIONS.md",
+        "docs/ci-cd/workflows/chimera-retry-policy-ci.md"
+      ]
+    },
+    {
+      "module": "config",
+      "plan_files": [
+        "src/config/FUTURE_ENHANCEMENTS.md",
+        "src/config/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 40,
+      "related_docs_high_relevance_count": 37,
+      "related_docs_open_tasks_high_relevance": 56,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/config/PRIMARY_SOURCES.md",
+        "docs/de/config/PRIMARY_SOURCES.md",
+        "docs/en/config/README.md",
+        "docs/de/config/README.md",
+        "docs/de/config/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/config_troubleshooting.md",
+        "docs/timeseries/CONFIG_GUIDE.md",
+        "docs/security/HSM_VENDOR_CONFIGURATIONS.md"
+      ]
+    },
+    {
+      "module": "content",
+      "plan_files": [
+        "src/content/FUTURE_ENHANCEMENTS.md",
+        "src/content/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 29,
+      "related_docs_high_relevance_count": 28,
+      "related_docs_open_tasks_high_relevance": 43,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/content/PRIMARY_SOURCES.md",
+        "docs/de/content/PRIMARY_SOURCES.md",
+        "docs/de/content/README.md",
+        "docs/de/content/content_filesystem_api.md",
+        "docs/de/content/content_geo_processor.md",
+        "docs/de/content/content_image_processor.md",
+        "docs/de/content/content_ingestion.md",
+        "docs/de/content/content_policy_implementation.md"
+      ]
+    },
+    {
+      "module": "distributed_knowledge",
+      "plan_files": [
+        "src/distributed_knowledge/FUTURE_ENHANCEMENTS.md",
+        "src/distributed_knowledge/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 16,
+      "related_docs_high_relevance_count": 16,
+      "related_docs_open_tasks_high_relevance": 93,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/distributed_knowledge/PRIMARY_SOURCES.md",
+        "docs/de/distributed_knowledge/PRIMARY_SOURCES.md",
+        "docs/en/distributed_knowledge/README.md",
+        "docs/de/distributed_knowledge/README.md",
+        "docs/de/distributed_knowledge/MISSING_IMPLEMENTATIONS.md",
+        "docs/issues/distributed_knowledge/DK-1-build-tests.md",
+        "docs/issues/distributed_knowledge/DK-2-layer-a-gossip.md",
+        "docs/issues/distributed_knowledge/DK-3-layer-b-fedlora.md"
+      ]
+    },
+    {
+      "module": "document",
+      "plan_files": [
+        "src/document/FUTURE_ENHANCEMENTS.md",
+        "src/document/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 85,
+      "related_docs_high_relevance_count": 76,
+      "related_docs_open_tasks_high_relevance": 647,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/document/PRIMARY_SOURCES.md",
+        "docs/de/document/PRIMARY_SOURCES.md",
+        "docs/de/document/README.md",
+        "docs/en/DOCUMENTATION_INDEX.md",
+        "docs/de/DOCUMENTATION_COMPENDIUM_PROPOSAL.md",
+        "docs/de/DOCUMENTATION_INDEX.md",
+        "docs/de/DOCUMENTATION_UPDATE_PLAN.md",
+        "docs/DOCUMENTATION_ARCHIVAL_PROCESS.md"
+      ]
+    },
+    {
+      "module": "ethics_ai",
+      "plan_files": [
+        "src/ethics_ai/FUTURE_ENHANCEMENTS.md",
+        "src/ethics_ai/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 3,
+      "related_docs_high_relevance_count": 3,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/ethics_ai/PRIMARY_SOURCES.md",
+        "docs/de/ethics_ai/PRIMARY_SOURCES.md",
+        "docs/de/ethics_ai/README.md"
+      ]
+    },
+    {
+      "module": "exporters",
+      "plan_files": [
+        "src/exporters/FUTURE_ENHANCEMENTS.md",
+        "src/exporters/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 11,
+      "related_docs_high_relevance_count": 11,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/exporters/PRIMARY_SOURCES.md",
+        "docs/de/exporters/PRIMARY_SOURCES.md",
+        "docs/de/exporters/README.md",
+        "docs/exporters/README.md",
+        "docs/de/exporters/MISSING_IMPLEMENTATIONS.md",
+        "docs/exporters/P0_IMPLEMENTATION.md",
+        "docs/exporters/P1_P2_IMPLEMENTATION.md",
+        "docs/troubleshooting/exporters_troubleshooting.md"
+      ]
+    },
+    {
+      "module": "failover",
+      "plan_files": [
+        "src/failover/FUTURE_ENHANCEMENTS.md",
+        "src/failover/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 6,
+      "related_docs_high_relevance_count": 6,
+      "related_docs_open_tasks_high_relevance": 7,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/failover/PRIMARY_SOURCES.md",
+        "docs/de/failover/PRIMARY_SOURCES.md",
+        "docs/en/failover/README.md",
+        "docs/de/failover/README.md",
+        "docs/de/failover/MISSING_IMPLEMENTATIONS.md",
+        "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md"
+      ]
+    },
+    {
+      "module": "geo",
+      "plan_files": [
+        "src/geo/FUTURE_ENHANCEMENTS.md",
+        "src/geo/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 27,
+      "related_docs_high_relevance_count": 26,
+      "related_docs_open_tasks_high_relevance": 21,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/geo/PRIMARY_SOURCES.md",
+        "docs/de/geo/PRIMARY_SOURCES.md",
+        "docs/en/geo/README.md",
+        "docs/de/geo/README.md",
+        "docs/de/geo/geo_acceleration_3d_games.md",
+        "docs/de/geo/geo_architecture.md",
+        "docs/de/geo/geo_benchmarks.md",
+        "docs/de/geo/geo_execution_plan.md"
+      ]
+    },
+    {
+      "module": "governance",
+      "plan_files": [
+        "src/governance/FUTURE_ENHANCEMENTS.md",
+        "src/governance/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 39,
+      "related_docs_high_relevance_count": 38,
+      "related_docs_open_tasks_high_relevance": 289,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/governance/PRIMARY_SOURCES.md",
+        "docs/de/governance/PRIMARY_SOURCES.md",
+        "docs/de/governance/README.md",
+        "docs/governance/documentation-history/README.md",
+        "docs/governance/README.md",
+        "docs/governance/documentation-history/DOCUMENTATION_UPDATE_APPROACH.md",
+        "docs/governance/documentation-history/DOCUMENTATION_UPDATE_PROGRESS.md",
+        "docs/governance/documentation-history/DOCUMENTATION_VALIDATION.md"
+      ]
+    },
+    {
+      "module": "gpu",
+      "plan_files": [
+        "src/gpu/FUTURE_ENHANCEMENTS.md",
+        "src/gpu/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 65,
+      "related_docs_high_relevance_count": 51,
+      "related_docs_open_tasks_high_relevance": 202,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/gpu/PRIMARY_SOURCES.md",
+        "docs/de/gpu/PRIMARY_SOURCES.md",
+        "docs/en/gpu/GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md",
+        "docs/en/gpu/GPU_MASTER_TRACKING.md",
+        "docs/en/gpu/GPU_VECTOR_INDEXING.md",
+        "docs/en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md",
+        "docs/en/gpu/GPU_VECTOR_INDEXING_IMPLEMENTATION.md",
+        "docs/en/gpu/MULTI_GPU_SETUP.md"
+      ]
+    },
+    {
+      "module": "graph",
+      "plan_files": [
+        "src/graph/FUTURE_ENHANCEMENTS.md",
+        "src/graph/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 24,
+      "related_docs_high_relevance_count": 23,
+      "related_docs_open_tasks_high_relevance": 29,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/graph/PRIMARY_SOURCES.md",
+        "docs/de/graph/PRIMARY_SOURCES.md",
+        "docs/de/graph/README.md",
+        "docs/troubleshooting/graph_troubleshooting.md",
+        "docs/tools/ingestion/ingest-graph-phi3.md",
+        "docs/en/security/knowledge_graph_protection.md",
+        "docs/en/llm/GRAPH_QUERY_EXAMPLES.md",
+        "docs/de/security/knowledge_graph_protection.md"
+      ]
+    },
+    {
+      "module": "importers",
+      "plan_files": [
+        "src/importers/FUTURE_ENHANCEMENTS.md",
+        "src/importers/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 12,
+      "related_docs_high_relevance_count": 12,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/importers/PRIMARY_SOURCES.md",
+        "docs/de/importers/PRIMARY_SOURCES.md",
+        "docs/de/importers/README.md",
+        "docs/importers/README.md",
+        "docs/importers/MDM_ARCHITECTURE.md",
+        "docs/importers/MDM_USER_GUIDE.md",
+        "docs/importers/POSTGRES_IMPORTER_V2.md",
+        "docs/importers/plugin_guide.md"
+      ]
+    },
+    {
+      "module": "index",
+      "plan_files": [
+        "src/index/FUTURE_ENHANCEMENTS.md",
+        "src/index/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 72,
+      "related_docs_high_relevance_count": 60,
+      "related_docs_open_tasks_high_relevance": 103,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/index/PRIMARY_SOURCES.md",
+        "docs/de/index/PRIMARY_SOURCES.md",
+        "docs/de/index/README.md",
+        "docs/en/INDEX.md",
+        "docs/de/INDEX.md",
+        "docs/build-guide/INDEX.md",
+        "docs/compendium/docs/index.md",
+        "docs/troubleshooting/index_troubleshooting.md"
+      ]
+    },
+    {
+      "module": "ingestion",
+      "plan_files": [
+        "src/ingestion/FUTURE_ENHANCEMENTS.md",
+        "src/ingestion/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 26,
+      "related_docs_high_relevance_count": 25,
+      "related_docs_open_tasks_high_relevance": 49,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/ingestion/PRIMARY_SOURCES.md",
+        "docs/de/ingestion/PRIMARY_SOURCES.md",
+        "docs/de/ingestion/README.md",
+        "docs/de/ingestion/inventory.md",
+        "docs/de/ingestion/MISSING_IMPLEMENTATIONS.md",
+        "docs/tutorials/CUSTOM_DOCUMENT_INGESTION.md",
+        "docs/troubleshooting/ingestion_troubleshooting.md",
+        "docs/tools/ingestion/ingest-py.md"
+      ]
+    },
+    {
+      "module": "llama_cpp",
+      "plan_files": [
+        "src/llama_cpp/FUTURE_ENHANCEMENTS.md",
+        "src/llama_cpp/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 19,
+      "related_docs_high_relevance_count": 18,
+      "related_docs_open_tasks_high_relevance": 8,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/llama_cpp/PRIMARY_SOURCES.md",
+        "docs/de/llama_cpp/PRIMARY_SOURCES.md",
+        "docs/en/llama_cpp/index.md",
+        "docs/en/llama_cpp/reality-check.md",
+        "docs/en/llama_cpp/roadmap-future-verification.md",
+        "docs/de/llama_cpp/index.md",
+        "docs/de/llama_cpp/reality-check.md",
+        "docs/de/llama_cpp/roadmap-future-verification.md"
+      ]
+    },
+    {
+      "module": "llm",
+      "plan_files": [
+        "src/llm/FUTURE_ENHANCEMENTS.md",
+        "src/llm/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 183,
+      "related_docs_high_relevance_count": 174,
+      "related_docs_open_tasks_high_relevance": 1125,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/llm/PRIMARY_SOURCES.md",
+        "docs/de/llm/PRIMARY_SOURCES.md",
+        "docs/en/llm/README.md",
+        "docs/de/llm/README.md",
+        "docs/llm/README.md",
+        "docs/en/llm/THEMIS_HELP_LORA_INTEGRATION.md",
+        "docs/en/llm/THEMIS_HELP_LORA_USER_GUIDE.md",
+        "docs/en/llm/THEMIS_MODEL_CLI.md"
+      ]
+    },
+    {
+      "module": "maintenance",
+      "plan_files": [
+        "src/maintenance/FUTURE_ENHANCEMENTS.md",
+        "src/maintenance/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 10,
+      "related_docs_high_relevance_count": 10,
+      "related_docs_open_tasks_high_relevance": 15,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/maintenance/PRIMARY_SOURCES.md",
+        "docs/de/maintenance/PRIMARY_SOURCES.md",
+        "docs/de/maintenance/README.md",
+        "docs/maintenance/README.md",
+        "docs/de/maintenance/MISSING_IMPLEMENTATIONS.md",
+        "docs/maintenance/MODULE_INTEGRATION_GUIDE.md",
+        "docs/maintenance/ORCHESTRATOR_DESIGN.md",
+        "docs/maintenance/MAINTENANCE_SCHEDULE.md"
+      ]
+    },
+    {
+      "module": "metadata",
+      "plan_files": [
+        "src/metadata/FUTURE_ENHANCEMENTS.md",
+        "src/metadata/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 19,
+      "related_docs_high_relevance_count": 18,
+      "related_docs_open_tasks_high_relevance": 24,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/metadata/PRIMARY_SOURCES.md",
+        "docs/de/metadata/PRIMARY_SOURCES.md",
+        "docs/de/metadata/README.md",
+        "docs/metadata/README.md",
+        "docs/de/metadata/inventory.md",
+        "docs/de/metadata/MISSING_IMPLEMENTATIONS.md",
+        "docs/metadata/metadata_roadmap.md",
+        "docs/metadata/operations_guide.md"
+      ]
+    },
+    {
+      "module": "observability",
+      "plan_files": [
+        "src/observability/FUTURE_ENHANCEMENTS.md",
+        "src/observability/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 29,
+      "related_docs_high_relevance_count": 28,
+      "related_docs_open_tasks_high_relevance": 18,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/observability/PRIMARY_SOURCES.md",
+        "docs/de/observability/PRIMARY_SOURCES.md",
+        "docs/de/observability/README.md",
+        "docs/observability/README.md",
+        "docs/en/observability/siem_dashboard_user_guide.md",
+        "docs/en/observability/siem_integration.md",
+        "docs/de/observability/MISSING_IMPLEMENTATIONS.md",
+        "docs/de/observability/inventory.md"
+      ]
+    },
+    {
+      "module": "onnx_clip",
+      "plan_files": [
+        "src/onnx_clip/FUTURE_ENHANCEMENTS.md",
+        "src/onnx_clip/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 5,
+      "related_docs_high_relevance_count": 5,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/onnx_clip/PRIMARY_SOURCES.md",
+        "docs/de/onnx_clip/PRIMARY_SOURCES.md",
+        "docs/de/onnx_clip/README.md",
+        "docs/en/onnx_clip/index.md",
+        "docs/de/onnx_clip/index.md"
+      ]
+    },
+    {
+      "module": "performance",
+      "plan_files": [
+        "src/performance/FUTURE_ENHANCEMENTS.md",
+        "src/performance/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 108,
+      "related_docs_high_relevance_count": 102,
+      "related_docs_open_tasks_high_relevance": 288,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/performance/PRIMARY_SOURCES.md",
+        "docs/de/performance/PRIMARY_SOURCES.md",
+        "docs/de/performance/README.md",
+        "docs/performance/README.md",
+        "docs/en/performance/WAL_MULTI_SSD_CONFIGURATION.md",
+        "docs/en/performance/HUGE_PAGES_IMPLEMENTATION_GUIDE.md",
+        "docs/en/PERFORMANCE_DASHBOARD_EXAMPLES.md",
+        "docs/en/PERFORMANCE_DASHBOARD_QUICKSTART.md"
+      ]
+    },
+    {
+      "module": "plugins",
+      "plan_files": [
+        "src/plugins/FUTURE_ENHANCEMENTS.md",
+        "src/plugins/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 36,
+      "related_docs_high_relevance_count": 35,
+      "related_docs_open_tasks_high_relevance": 152,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/plugins/PRIMARY_SOURCES.md",
+        "docs/de/plugins/PRIMARY_SOURCES.md",
+        "docs/de/plugins/README.md",
+        "docs/plugins/README.md",
+        "docs/en/plugins/SIGNED_PLUGIN_REPOSITORY.md",
+        "docs/en/plugins/USER_STORAGE_ENCRYPTED.md",
+        "docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md",
+        "docs/de/plugins/SIGNED_PLUGIN_REPOSITORY.md"
+      ]
+    },
+    {
+      "module": "process",
+      "plan_files": [
+        "src/process/FUTURE_ENHANCEMENTS.md",
+        "src/process/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 25,
+      "related_docs_high_relevance_count": 23,
+      "related_docs_open_tasks_high_relevance": 94,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/process/PRIMARY_SOURCES.md",
+        "docs/de/process/PRIMARY_SOURCES.md",
+        "docs/de/process/PROCESS_ANALYTICS_ROADMAP.md",
+        "docs/de/process/PROCESS_GRAPH_DIMENSIONS.md",
+        "docs/de/process/STATE_OF_THE_ART.md",
+        "docs/de/process/MISSING_IMPLEMENTATIONS.md",
+        "docs/governance/documentation-history/CONTINUOUS_DOCUMENTATION_PROCESS.md",
+        "docs/decisions/ADR-001-decision-record-yaml-processor.md"
+      ]
+    },
+    {
+      "module": "projects",
+      "plan_files": [
+        "src/projects/FUTURE_ENHANCEMENTS.md",
+        "src/projects/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 17,
+      "related_docs_high_relevance_count": 17,
+      "related_docs_open_tasks_high_relevance": 100,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/projects/PRIMARY_SOURCES.md",
+        "docs/de/projects/PRIMARY_SOURCES.md",
+        "docs/de/projects/README.md",
+        "docs/en/projects/KICKSTARTER_FAQ.md",
+        "docs/en/projects/KICKSTARTER_GOALS_AND_RISKS.md",
+        "docs/en/projects/KICKSTARTER_POSITIONING_AND_PERSPECTIVE.md",
+        "docs/en/projects/KICKSTARTER_PROJECT_HISTORY.md",
+        "docs/en/projects/KICKSTARTER_CAMPAIGN_NARRATIVE.md"
+      ]
+    },
+    {
+      "module": "prompt_engineering",
+      "plan_files": [
+        "src/prompt_engineering/FUTURE_ENHANCEMENTS.md",
+        "src/prompt_engineering/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 9,
+      "related_docs_high_relevance_count": 9,
+      "related_docs_open_tasks_high_relevance": 25,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/prompt_engineering/PRIMARY_SOURCES.md",
+        "docs/de/prompt_engineering/PRIMARY_SOURCES.md",
+        "docs/de/prompt_engineering/README.md",
+        "docs/de/prompt_engineering/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/prompt_engineering_troubleshooting.md",
+        "docs/llm_orchestration/PROMPT_ENGINEERING_ARCHITECTURE.md",
+        "docs/llm_orchestration/PROMPT_ENGINEERING_FRAMEWORK.md",
+        "docs/de/aql/aql_prompt_engineering.md"
+      ]
+    },
+    {
+      "module": "rag",
+      "plan_files": [
+        "src/rag/FUTURE_ENHANCEMENTS.md",
+        "src/rag/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 70,
+      "related_docs_high_relevance_count": 53,
+      "related_docs_open_tasks_high_relevance": 167,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/rag/PRIMARY_SOURCES.md",
+        "docs/de/rag/PRIMARY_SOURCES.md",
+        "docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md",
+        "docs/en/rag/CONTINUOUS_LEARNING.md",
+        "docs/de/rag/KONTINUIERLICHES_LERNEN.md",
+        "docs/use-cases/RAG_LLM_USE_CASE.md",
+        "docs/troubleshooting/rag_troubleshooting.md",
+        "docs/troubleshooting/storage_troubleshooting.md"
+      ]
+    },
+    {
+      "module": "replication",
+      "plan_files": [
+        "src/replication/FUTURE_ENHANCEMENTS.md",
+        "src/replication/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 14,
+      "related_docs_high_relevance_count": 14,
+      "related_docs_open_tasks_high_relevance": 13,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/replication/PRIMARY_SOURCES.md",
+        "docs/de/replication/PRIMARY_SOURCES.md",
+        "docs/de/replication/README.md",
+        "docs/replication/README.md",
+        "docs/replication-ha-guide.md",
+        "docs/troubleshooting/replication_troubleshooting.md",
+        "docs/en/sharding/replication_raid_plan.md",
+        "docs/ci-cd/workflows/02-feature-modules/replication/bidirectional-replication-ci.md"
+      ]
+    },
+    {
+      "module": "rpc_grpc",
+      "plan_files": [
+        "src/rpc_grpc/FUTURE_ENHANCEMENTS.md",
+        "src/rpc_grpc/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 3,
+      "related_docs_high_relevance_count": 3,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/rpc_grpc/PRIMARY_SOURCES.md",
+        "docs/de/rpc_grpc/PRIMARY_SOURCES.md",
+        "docs/de/rpc_grpc/README.md"
+      ]
+    },
+    {
+      "module": "scheduler",
+      "plan_files": [
+        "src/scheduler/FUTURE_ENHANCEMENTS.md",
+        "src/scheduler/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 17,
+      "related_docs_high_relevance_count": 16,
+      "related_docs_open_tasks_high_relevance": 54,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/scheduler/PRIMARY_SOURCES.md",
+        "docs/de/scheduler/PRIMARY_SOURCES.md",
+        "docs/de/scheduler/README.md",
+        "docs/de/scheduler/AQL_RETENTION_EXTENSIONS.md",
+        "docs/de/scheduler/DATA_RETENTION_DOWNSAMPLING.md",
+        "docs/de/scheduler/HYBRID_RETENTION_MANAGER.md",
+        "docs/de/scheduler/MISSING_IMPLEMENTATIONS.md",
+        "docs/de/scheduler/SYSTEM_IMPACT_ANALYSIS.md"
+      ]
+    },
+    {
+      "module": "scraper",
+      "plan_files": [
+        "src/scraper/FUTURE_ENHANCEMENTS.md",
+        "src/scraper/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 1,
+      "related_docs_high_relevance_count": 1,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/de/scraper/README.md"
+      ]
+    },
+    {
+      "module": "search",
+      "plan_files": [
+        "src/search/FUTURE_ENHANCEMENTS.md",
+        "src/search/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 40,
+      "related_docs_high_relevance_count": 39,
+      "related_docs_open_tasks_high_relevance": 135,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/search/PRIMARY_SOURCES.md",
+        "docs/de/search/PRIMARY_SOURCES.md",
+        "docs/de/search/README.md",
+        "docs/de/search/HYBRID_SEARCH_GUIDE.md",
+        "docs/de/search/SEARCH_FEATURE_MATRIX.md",
+        "docs/de/search/VECTOR_AUTO_BUFFER.md",
+        "docs/de/search/VECTOR_SEARCH_GUIDE.md",
+        "docs/de/search/fulltext_api.md"
+      ]
+    },
+    {
+      "module": "sharding",
+      "plan_files": [
+        "src/sharding/FUTURE_ENHANCEMENTS.md",
+        "src/sharding/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 47,
+      "related_docs_high_relevance_count": 44,
+      "related_docs_open_tasks_high_relevance": 140,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/sharding/PRIMARY_SOURCES.md",
+        "docs/de/sharding/PRIMARY_SOURCES.md",
+        "docs/sharding/README.md",
+        "docs/en/sharding/PRODUCTION_READINESS_RAID_HTTP_GRPC.md",
+        "docs/en/sharding/RAFT_CONSENSUS_PER_SHARD.md",
+        "docs/en/sharding/RAID6_IMPLEMENTATION_COMPLETE.md",
+        "docs/en/sharding/RAID_BUILD_DEPLOY.md",
+        "docs/en/sharding/RAID_DOCUMENTATION_HUB.md"
+      ]
+    },
+    {
+      "module": "stable_diffusion",
+      "plan_files": [
+        "src/stable_diffusion/FUTURE_ENHANCEMENTS.md",
+        "src/stable_diffusion/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 5,
+      "related_docs_high_relevance_count": 5,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/stable_diffusion/PRIMARY_SOURCES.md",
+        "docs/de/stable_diffusion/PRIMARY_SOURCES.md",
+        "docs/en/stable_diffusion/index.md",
+        "docs/de/stable_diffusion/index.md",
+        "docs/de/stable_diffusion/MISSING_IMPLEMENTATIONS.md"
+      ]
+    },
+    {
+      "module": "storage",
+      "plan_files": [
+        "src/storage/FUTURE_ENHANCEMENTS.md",
+        "src/storage/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 48,
+      "related_docs_high_relevance_count": 46,
+      "related_docs_open_tasks_high_relevance": 31,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/storage/PRIMARY_SOURCES.md",
+        "docs/de/storage/PRIMARY_SOURCES.md",
+        "docs/en/storage/README.md",
+        "docs/de/storage/README.md",
+        "docs/storage/README.md",
+        "docs/en/storage/ROCKSDB_OPTIMIZATION_GUIDE.md",
+        "docs/de/storage/ROCKSDB_HARDENING_AUDIT.md",
+        "docs/de/storage/storage_blob_redundancy.md"
+      ]
+    },
+    {
+      "module": "temporal",
+      "plan_files": [
+        "src/temporal/FUTURE_ENHANCEMENTS.md",
+        "src/temporal/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 10,
+      "related_docs_high_relevance_count": 10,
+      "related_docs_open_tasks_high_relevance": 7,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/temporal/PRIMARY_SOURCES.md",
+        "docs/de/temporal/PRIMARY_SOURCES.md",
+        "docs/de/temporal/README.md",
+        "docs/troubleshooting/temporal_troubleshooting.md",
+        "docs/de/releases/2025-11-11-temporal-aggregation.md",
+        "docs/de/plugins/TEMPORAL_SNAPSHOTS_CONSISTENCY.md",
+        "docs/de/features/features_temporal_graphs.md",
+        "docs/de/features/features_temporal_queries.md"
+      ]
+    },
+    {
+      "module": "tensor",
+      "plan_files": [
+        "src/tensor/FUTURE_ENHANCEMENTS.md",
+        "src/tensor/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 2,
+      "related_docs_high_relevance_count": 2,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/de/src/tensor/README.md",
+        "docs/de/reports/TENSOR_HYPERINDEXBUILDER_REVIEW_AUDIT_2026-05-13.md"
+      ]
+    },
+    {
+      "module": "themis",
+      "plan_files": [
+        "src/themis/FUTURE_ENHANCEMENTS.md",
+        "src/themis/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 43,
+      "related_docs_high_relevance_count": 38,
+      "related_docs_open_tasks_high_relevance": 74,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/themis/PRIMARY_SOURCES.md",
+        "docs/de/themis/PRIMARY_SOURCES.md",
+        "docs/en/themis/index.md",
+        "docs/en/themis/reference.md",
+        "docs/de/themis/index.md",
+        "docs/de/themis/reference.md",
+        "docs/de/themis/MISSING_IMPLEMENTATIONS.md",
+        "docs/de/THEMISDB_MONETARY_VALUATION_ANALYSIS.confidential.md"
+      ]
+    },
+    {
+      "module": "timeseries",
+      "plan_files": [
+        "src/timeseries/FUTURE_ENHANCEMENTS.md",
+        "src/timeseries/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 13,
+      "related_docs_high_relevance_count": 13,
+      "related_docs_open_tasks_high_relevance": 19,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/timeseries/PRIMARY_SOURCES.md",
+        "docs/de/timeseries/PRIMARY_SOURCES.md",
+        "docs/de/timeseries/README.md",
+        "docs/timeseries/README.md",
+        "docs/de/timeseries/STORAGE_METHODS.md",
+        "docs/de/timeseries/AUTO_BUFFER.md",
+        "docs/timeseries/CONFIG_GUIDE.md",
+        "docs/troubleshooting/timeseries_troubleshooting.md"
+      ]
+    },
+    {
+      "module": "toolbox",
+      "plan_files": [
+        "src/toolbox/FUTURE_ENHANCEMENTS.md",
+        "src/toolbox/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 7,
+      "related_docs_high_relevance_count": 7,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/toolbox/PRIMARY_SOURCES.md",
+        "docs/de/toolbox/PRIMARY_SOURCES.md",
+        "docs/en/toolbox/index.md",
+        "docs/en/toolbox/reference.md",
+        "docs/de/toolbox/index.md",
+        "docs/de/toolbox/reference.md",
+        "docs/de/toolbox/MISSING_IMPLEMENTATIONS.md"
+      ]
+    },
+    {
+      "module": "training",
+      "plan_files": [
+        "src/training/FUTURE_ENHANCEMENTS.md",
+        "src/training/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 26,
+      "related_docs_high_relevance_count": 20,
+      "related_docs_open_tasks_high_relevance": 35,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/training/PRIMARY_SOURCES.md",
+        "docs/de/training/PRIMARY_SOURCES.md",
+        "docs/de/training/README.md",
+        "docs/training/security/README.md",
+        "docs/training/README.md",
+        "docs/de/training/MISSING_IMPLEMENTATIONS.md",
+        "docs/training/SECURITY_AWARENESS_TRAINING.md",
+        "docs/troubleshooting/training_troubleshooting.md"
+      ]
+    },
+    {
+      "module": "updates",
+      "plan_files": [
+        "src/updates/FUTURE_ENHANCEMENTS.md",
+        "src/updates/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 17,
+      "related_docs_high_relevance_count": 16,
+      "related_docs_open_tasks_high_relevance": 12,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/updates/PRIMARY_SOURCES.md",
+        "docs/de/updates/PRIMARY_SOURCES.md",
+        "docs/en/updates/index.md",
+        "docs/de/updates/index.md",
+        "docs/de/updates/MISSING_IMPLEMENTATIONS.md",
+        "docs/troubleshooting/updates_troubleshooting.md",
+        "docs/performance/ISSUE_UPDATES_2026-04-07.md",
+        "docs/de/releases/updates_checker.md"
+      ]
+    },
+    {
+      "module": "user_storage_encrypted",
+      "plan_files": [
+        "src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md",
+        "src/user_storage_encrypted/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 6,
+      "related_docs_high_relevance_count": 6,
+      "related_docs_open_tasks_high_relevance": 14,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/user_storage_encrypted/PRIMARY_SOURCES.md",
+        "docs/de/user_storage_encrypted/PRIMARY_SOURCES.md",
+        "docs/de/user_storage_encrypted/README.md",
+        "docs/de/user_storage_encrypted/MISSING_IMPLEMENTATIONS.md",
+        "docs/en/plugins/USER_STORAGE_ENCRYPTED.md",
+        "docs/de/plugins/USER_STORAGE_ENCRYPTED.md"
+      ]
+    },
+    {
+      "module": "utils",
+      "plan_files": [
+        "src/utils/FUTURE_ENHANCEMENTS.md",
+        "src/utils/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 4,
+      "related_docs_high_relevance_count": 4,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/utils/PRIMARY_SOURCES.md",
+        "docs/de/utils/PRIMARY_SOURCES.md",
+        "docs/de/utils/README.md",
+        "docs/troubleshooting/utils_troubleshooting.md"
+      ]
+    },
+    {
+      "module": "voice",
+      "plan_files": [
+        "src/voice/FUTURE_ENHANCEMENTS.md",
+        "src/voice/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 10,
+      "related_docs_high_relevance_count": 10,
+      "related_docs_open_tasks_high_relevance": 12,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/voice/PRIMARY_SOURCES.md",
+        "docs/de/voice/PRIMARY_SOURCES.md",
+        "docs/de/voice/README.md",
+        "docs/en/voice/VOICE_MODULE_GUIDE.md",
+        "docs/en/voice/VOICE_TROUBLESHOOTING.md",
+        "docs/troubleshooting/voice_troubleshooting.md",
+        "docs/en/features/voice_assistant_guide.md",
+        "docs/en/features/voice_assistant_integration.md"
+      ]
+    },
+    {
+      "module": "whisper",
+      "plan_files": [
+        "src/whisper/FUTURE_ENHANCEMENTS.md",
+        "src/whisper/MODULE_GAPS.md"
+      ],
+      "plan_open_tasks": 0,
+      "plan_checkbox_total": 0,
+      "plan_newest": "2026-06-01",
+      "related_docs_count": 5,
+      "related_docs_high_relevance_count": 5,
+      "related_docs_open_tasks_high_relevance": 0,
+      "docs_newest": "2026-06-01",
+      "docs_minus_plan_days": -1,
+      "status": "OK",
+      "risk_score": 0,
+      "high_relevance_docs": [
+        "docs/en/whisper/PRIMARY_SOURCES.md",
+        "docs/de/whisper/PRIMARY_SOURCES.md",
+        "docs/en/whisper/README.md",
+        "docs/de/whisper/README.md",
+        "docs/de/whisper/MISSING_IMPLEMENTATIONS.md"
+      ]
+    }
+  ]
+}

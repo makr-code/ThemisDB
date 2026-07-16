@@ -1,20 +1,21 @@
+/**
+ * @file service_mesh_api_handler.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            service_mesh_api_handler.cpp                       ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-09 20:00:00                                ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: service_mesh_api_handler.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 172
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * PR History (last 5): none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB – Service Mesh REST API handler.
@@ -23,6 +24,8 @@
 #include "server/service_mesh_api_handler.h"
 
 #include <nlohmann/json.hpp>
+
+#include "utils/tracing.h"
 
 #ifdef THEMIS_ENABLE_SERVICE_MESH
 #include "network/service_mesh.h"
@@ -77,6 +80,7 @@ http::response<http::string_body> ServiceMeshApiHandler::makeDisabled(
 http::response<http::string_body> ServiceMeshApiHandler::handleStatus(
     const http::request<http::string_body>& req) const
 {
+    auto span = ::themis::Tracer::startSpan("handleStatus");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {
@@ -116,6 +120,7 @@ http::response<http::string_body> ServiceMeshApiHandler::handleStatus(
 http::response<http::string_body> ServiceMeshApiHandler::handleConfig(
     const http::request<http::string_body>& req) const
 {
+    auto span = ::themis::Tracer::startSpan("handleConfig");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {
@@ -148,6 +153,7 @@ http::response<http::string_body> ServiceMeshApiHandler::handleConfig(
 http::response<http::string_body> ServiceMeshApiHandler::handleAnnotations(
     const http::request<http::string_body>& req) const
 {
+    auto span = ::themis::Tracer::startSpan("handleAnnotations");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {

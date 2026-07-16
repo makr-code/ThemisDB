@@ -1,27 +1,21 @@
+/**
+ * @file api_gateway.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            api_gateway.cpp                                    ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     975                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 39d0b757f  2026-02-26  audit: fix stub tests RegisterHandler/HealthStatusWithErr... ║
-    • bfbf88c10  2026-02-26  feat(api): integrate Kong and Nginx as API gateways ║
-    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: api_gateway.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 1014
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=10, M=8, L=0
+ * PR History (last 5): #4146 feat(server): API Versionin... (2026-03-13) | #2991 feat(api): Integrate Kong a... (2026-03-12) | #2765 [api] Add versioned endpoin... (2026-03-12) | #2756 feat(api): Versioned URL pr... (2026-03-12) | #814 Implement API Gateway and Q... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/api_gateway.h"
@@ -143,20 +137,23 @@ http::response<http::string_body> APIGateway::handleRequest(
     
     try {
         // 1. Authentication check
-        if (auth_ && auth_->isEnabled()) {
-            bool auth_ok = false;
-            auto auth_header = req.find(http::field::authorization);
-            if (auth_header != req.end()) {
-                auto token = AuthMiddleware::extractBearerToken(auth_header->value());
-                if (token) {
-                    auto result = auth_->validateToken(*token);
-                    auth_ok = result.authorized;
+        if (auth_) {
+            auto& auth = *auth_;
+            if (auth.isEnabled()) {
+                bool auth_ok = false;
+                const auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
+                    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
+                    if (token) {
+                        auto result = auth.validateToken(*token);
+                        auth_ok = result.authorized;
+                    }
                 }
-            }
-            if (!auth_ok) {
-                rate_limited_requests_++;
-                return makeErrorResponse(http::status::unauthorized,
-                                        "Authentication failed", req);
+                if (!auth_ok) {
+                    rate_limited_requests_++;
+                    return makeErrorResponse(http::status::unauthorized,
+                                            "Authentication failed", req);
+                }
             }
         }
         
@@ -274,6 +271,7 @@ nlohmann::json APIGateway::executeFederatedQuery(
         throw Error(static_cast<int>(ErrorCode::ConfigurationError), 
                    "Shard router not configured for query federation");
     }
+    auto& shard_router = *shard_router_;
     
     try {
         spdlog::info("Executing federated query: user={}", auth_context.user_id);
@@ -283,7 +281,7 @@ nlohmann::json APIGateway::executeFederatedQuery(
         // - Query analysis
         // - Routing to appropriate shards
         // - Result aggregation
-        auto result = shard_router_->executeQuery(query);
+        auto result = shard_router.executeQuery(query);
         
         return result;
         
@@ -389,7 +387,8 @@ void APIGateway::registerDeprecation(
     const APIDeprecationInfo& info
 ) {
     if (version_manager_) {
-        version_manager_->registerDeprecation(endpoint, info);
+        auto& version_manager = *version_manager_;
+        version_manager.registerDeprecation(endpoint, info);
     }
 }
 
@@ -425,11 +424,16 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
     const sharding::URN& urn,
     const http::request<http::string_body>& req
 ) {
+    if (!shard_router_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Shard router not available", req);
+    }
+    auto& shard_router = *shard_router_;
     nlohmann::json result_body;
     bool ok = false;
 
     if (req.method() == http::verb::get) {
-        auto data = shard_router_->get(urn);
+        auto data = shard_router.get(urn);
         if (data) {
             result_body = *data;
             ok = true;
@@ -446,10 +450,10 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
                     std::string("Invalid JSON: ") + e.what(), req);
             }
         }
-        ok = shard_router_->put(urn, body);
+        ok = shard_router.put(urn, body);
         if (ok) result_body = {{"status", "ok"}};
     } else if (req.method() == http::verb::delete_) {
-        ok = shard_router_->del(urn);
+        ok = shard_router.del(urn);
         if (ok) result_body = {{"status", "deleted"}};
     }
 
@@ -511,18 +515,20 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
 
     // Prefer V2 rate limiter if available
     if (rate_limiter_v2_) {
+        auto& rate_limiter_v2 = *rate_limiter_v2_;
         // Extract client ID from request (prefer user ID from JWT)
         std::string client_id = "anonymous";
         
         // Check if Authorization header exists for user-based rate limiting
-        auto auth_header = req.find(http::field::authorization);
-        if (auth_header != req.end()) {
-            std::string auth_value = std::string(auth_header->value());
+        const auto auth_header = req[http::field::authorization];
+        if (!auth_header.empty()) {
+            std::string auth_value = std::string(auth_header.data(), auth_header.size());
             
             // Extract JWT subject if possible (via AuthMiddleware)
             if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
+                auto& auth = *auth_;
                 std::string token = auth_value.substr(7);
-                auto ctx = auth_->extractContext(token);
+                auto ctx = auth.extractContext(token);
                 if (ctx && !ctx->user_id.empty()) {
                     client_id = ctx->user_id;  // Use JWT subject as client ID
                 } else {
@@ -547,36 +553,38 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         auto priority = TokenBucketRateLimiter::Priority::NORMAL;
         // Future: Extract priority from JWT claims (e.g., ctx->premium = true)
         
-        return rate_limiter_v2_->allowRequest(client_id, 1, priority);
+        return rate_limiter_v2.allowRequest(client_id, 1, priority);
     }
     
     // Fallback to V1 rate limiter
     if (!rate_limiter_) {
         return true;
     }
+    auto& rate_limiter = *rate_limiter_;
     
     // Extract client ID from request (could be IP, user ID, etc.)
     std::string client_id = "default";
     
     // Check if Authorization header exists
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header != req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (!auth_header.empty()) {
         // Use auth header as client ID
-        client_id = std::string(auth_header->value());
+        client_id = std::string(auth_header.data(), auth_header.size());
     } else {
         // Fall back to IP or other identifier
         client_id = ipClientId();
     }
     
-    return rate_limiter_->allowRequest(client_id);
+    return rate_limiter.allowRequest(client_id);
 }
 
-bool APIGateway::checkLoadShedding(const http::request<http::string_body>& req) {
+bool APIGateway::checkLoadShedding(const http::request<http::string_body>& /*req*/) {
     if (!load_shedder_) {
         return true;
     }
+    auto& load_shedder = *load_shedder_;
     
-    return !load_shedder_->shouldReject(LoadShedder::Priority::NORMAL);
+    return !load_shedder.shouldReject(LoadShedder::Priority::NORMAL);
 }
 
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
@@ -615,6 +623,7 @@ http::response<http::string_body> APIGateway::executeRemote(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     
     // Check circuit breaker
     if (config_.enable_circuit_breaker) {
@@ -644,7 +653,7 @@ http::response<http::string_body> APIGateway::executeRemote(
         }
 
         // No URN found — forward as a generic query
-        auto query_result = shard_router_->executeQuery(std::string(req.target()));
+        auto query_result = shard_router.executeQuery(std::string(req.target()));
         if (config_.enable_circuit_breaker) {
             getCircuitBreaker(shard_id)->recordSuccess();
         }
@@ -673,6 +682,7 @@ http::response<http::string_body> APIGateway::executeScatterGather(
         return makeErrorResponse(http::status::service_unavailable,
                                 "Shard router not available", req);
     }
+    auto& shard_router = *shard_router_;
     
     try {
         // Parse request body as query — body is required for scatter-gather
@@ -695,7 +705,7 @@ http::response<http::string_body> APIGateway::executeScatterGather(
         }
         
         // Execute scatter-gather via shard router
-        auto results = shard_router_->scatterGather(query);
+        auto results = shard_router.scatterGather(query);
         
         // Aggregate results
         nlohmann::json response_body;
@@ -798,6 +808,7 @@ APIVersion APIGateway::processVersionHeaders(
             APIVersionConfig::CURRENT_PATCH
         };
     }
+    auto& version_manager = *version_manager_;
     
     // Check for version prefix in URL path first (e.g. "/v1/entities").
     // Strip query string before inspecting the path so that a target like
@@ -815,30 +826,54 @@ APIVersion APIGateway::processVersionHeaders(
             url_version_str = *path_version;
             version_header = *path_version;
         } else {
-            // Fall back to Accept-Version header
-            auto it = req.find(APIHeaders::ACCEPT_VERSION);
+            // Priority 1: API-Version request header (client's current version)
+            auto it = req.find(APIHeaders::API_VERSION);
             if (it != req.end()) {
                 version_header = std::string(it->value());
+            }
+            // Priority 2: Accept-Version header (legacy)
+            if (version_header.empty()) {
+                auto it2 = req.find(APIHeaders::ACCEPT_VERSION);
+                if (it2 != req.end()) {
+                    version_header = std::string(it2->value());
+                }
             }
         }
     }
 
-    // Resolve version: URL path prefix takes precedence over Accept-Version header.
-    // The raw URL token (e.g. "v1", "v1.4") is passed directly to resolveVersion so
-    // that partial versions resolve to the latest matching release (v1 → v1.4.1, etc.)
+    // Check for Accept-API-Version range header (e.g. "1.0-2.0").
+    // When present and no explicit version was determined from the URL or
+    // API-Version header, resolve the best matching version within the range.
     APIVersion version;
     if (url_version_str) {
-        version = version_manager_->resolveVersion(*url_version_str);
+        version = version_manager.resolveVersion(*url_version_str);
         spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
+    } else if (!version_header.empty()) {
+        version = version_manager.resolveVersion(version_header);
     } else {
-        version = version_manager_->resolveVersion(version_header);
+        // Check Accept-API-Version range header as final fallback
+        auto range_it = req.find(APIHeaders::ACCEPT_API_VERSION);
+        if (range_it != req.end()) {
+            auto range = APIVersionRange::parse(std::string(range_it->value()));
+            if (range) {
+                version = version_manager.resolveVersionRange(*range);
+                spdlog::debug("APIGateway: version resolved from Accept-API-Version range '{}': {}",
+                              std::string(range_it->value()), version.toString());
+            } else {
+                spdlog::warn("APIGateway: invalid Accept-API-Version range '{}', using current",
+                             std::string(range_it->value()));
+                version = version_manager.getCurrentVersion();
+            }
+        } else {
+            version = version_manager.resolveVersion("");
+        }
     }
 
     // Add API-Version response header
     response.set(APIHeaders::API_VERSION, version.toString());
     
     // Check if version is supported
-    if (!version_manager_->isVersionSupported(version)) {
+    if (!version_manager.isVersionSupported(version)) {
         spdlog::warn("Unsupported API version requested: {}", version.toString());
         
         if (config_.enforce_version_check) {
@@ -858,6 +893,7 @@ void APIGateway::addDeprecationHeaders(
     if (!version_manager_) {
         return;
     }
+    auto& version_manager = *version_manager_;
     
     // Extract endpoint path — strip query string so ?page=1 doesn't break lookup
     std::string endpoint = std::string(req.target());
@@ -871,7 +907,7 @@ void APIGateway::addDeprecationHeaders(
     endpoint = stripVersionPrefix(endpoint);
     
     // Check if endpoint is deprecated
-    auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);
+    auto deprecation = version_manager.getDeprecationInfo(endpoint, version);
     if (!deprecation) {
         return;
     }
@@ -880,6 +916,20 @@ void APIGateway::addDeprecationHeaders(
     response.set(APIHeaders::DEPRECATION_WARNING, 
                  "true; deprecated-version=\"" + deprecation->deprecated_in.toString() + 
                  "\"; removal-version=\"" + deprecation->removed_in.toString() + "\"");
+
+    // Add API-Deprecated header (issue-specified format: "v1.0 (remove YYYY-MM-DD)")
+    // Use major.minor format (no patch) to match the documented "v1.0" style.
+    auto removal_time_t = std::chrono::system_clock::to_time_t(deprecation->removal_date);
+    std::tm removal_tm_api;
+    portable_gmtime_r_impl(&removal_time_t, &removal_tm_api);
+    char api_deprecated_buf[64];
+    std::strftime(api_deprecated_buf, sizeof(api_deprecated_buf), "%Y-%m-%d", &removal_tm_api);
+    std::string deprecated_version_str = "v" +
+        std::to_string(deprecation->deprecated_in.major) + "." +
+        std::to_string(deprecation->deprecated_in.minor);
+    response.set(APIHeaders::API_DEPRECATED,
+                 deprecated_version_str + " (remove " +
+                 std::string(api_deprecated_buf) + ")");
     
     // Add Sunset header (RFC 8594) with removal date
     auto removal_time = std::chrono::system_clock::to_time_t(deprecation->removal_date);

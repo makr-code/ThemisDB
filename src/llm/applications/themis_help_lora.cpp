@@ -1,26 +1,25 @@
+/**
+ * @file themis_help_lora.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=12, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.cpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     655                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 715
+ * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=21, M=7, L=0
+ * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #371 Implement ThemisHelpLoRA: D... (2026-03-11) | #370 Integrate themis_help_lora ... (2026-03-11) | #376 Implement Real LLM Integrat... (2026-03-11)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/applications/themis_help_lora.h"
+#include <stdexcept>
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/lora_framework/lora_audit_logger.h"
 #include "llm/lora_framework/lora_training_service.h"
@@ -41,6 +40,27 @@ namespace applications {
 using json = nlohmann::json;
 using namespace themis::llm::lora;
 
+namespace {
+std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
+    if (config.model_path_provider) {
+        try {
+            auto resolved = config.model_path_provider(config.base_model_id);
+            if (!resolved.empty()) {
+                return resolved;
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}': {}",
+                         config.base_model_id, e.what());
+        } catch (...) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}'",
+                         config.base_model_id);
+        }
+    }
+
+    return "models/" + config.base_model_id + ".gguf";
+}
+} // namespace
+
 class ThemisHelpLoRA::Impl {
 public:
     // Configuration
@@ -55,6 +75,7 @@ public:
     
     // State
     std::string current_adapter_version;
+    std::vector<std::string> version_history;   // ordered list of published versions
     std::atomic<bool> is_trained{false};
     std::atomic<int64_t> total_queries{0};
     std::atomic<int64_t> successful_queries{0};
@@ -67,6 +88,7 @@ public:
     explicit Impl(const Config& cfg)
         : config(cfg)
         , current_adapter_version("v1.0")
+        , version_history({"v1.0"})
     {
         // Initialize orchestrator
         lora::LoRAOrchestrator::Config orch_config;
@@ -89,13 +111,22 @@ public:
         llama_config.n_threads = 4;
         llama_config.use_mmap = true;
         llama_config.use_kv_cache_reuse = true;
-        llama_config.enable_response_cache = true;
+        // Response cache requires an explicit persistent data directory;
+        // leave disabled here so the caller can opt in via the Config.
+        llama_config.enable_response_cache = false;
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
 
-        // Initialize LoRA training service
+        // Initialize LoRA training service — resolve model path via injected provider
         LoRATrainingService::Config training_cfg;
-        training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        if (cfg.model_path_provider) {
+            training_cfg.base_model_path = cfg.model_path_provider(cfg.base_model_id);
+            if (training_cfg.base_model_path.empty()) {
+                training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+            }
+        } else {
+            training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        }
         training_cfg.default_hyperparameters = cfg.hyperparameters;
         training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
@@ -107,6 +138,23 @@ public:
         // The queryInternal() method will attempt to load the model on-demand,
         // either from local storage or via remote download (Ollama) if
         // enable_remote_loading is configured.
+    }
+
+    std::string resolveBaseModelPath() const {
+        if (config.model_path_provider) {
+            try {
+                auto resolved = config.model_path_provider(config.base_model_id);
+                if (!resolved.empty()) {
+                    return resolved;
+                }
+                spdlog::warn("Model path provider returned empty path for model '{}'; using default path fallback",
+                             config.base_model_id);
+            } catch (const std::exception& e) {
+                spdlog::warn("Model path provider failed for model '{}': {}. Using default path fallback",
+                             config.base_model_id, e.what());
+            }
+        }
+        return "models/" + config.base_model_id + ".gguf";
     }
     
     std::string buildDocumentationPrompt(const std::string& question) {
@@ -122,7 +170,7 @@ public:
         return prompt.str();
     }
     
-    std::string queryInternal(const std::string& question, const std::string& user_id) {
+    std::string queryInternal(const std::string& question, const std::string& /*user_id*/) {
         auto start = std::chrono::system_clock::now();
         
         try {
@@ -133,9 +181,20 @@ public:
                 // Try to load model - this may fail if model file is not available
                 // In that case, we'll fall back to placeholder responses
                 try {
-                    // TODO: Get model path from LLMModelStorage
-                    // For now, use a default path that can be configured
-                    std::string model_path = "models/" + config.base_model_id + ".gguf";
+                    // Resolve model path: prefer the injected ModelPathProviderFn
+                    // (LLMModelStorage::resolveGGUFPath), fall back to the
+                    // relative convention only when no provider is wired.
+                    std::string model_path;
+                    if (config.model_path_provider) {
+                        model_path = config.model_path_provider(config.base_model_id);
+                        if (model_path.empty()) {
+                            spdlog::warn("ModelPathProviderFn returned empty path for '{}'; "
+                                         "falling back to relative path", config.base_model_id);
+                            model_path = "models/" + config.base_model_id + ".gguf";
+                        }
+                    } else {
+                        model_path = "models/" + config.base_model_id + ".gguf";
+                    }
                     bool loaded = llama_wrapper->loadModel(model_path);
                     
                     if (loaded) {
@@ -285,7 +344,7 @@ void ThemisHelpLoRA::addPositiveFeedback(
     
     impl_->feedback_buffer.push_back(item);
     
-    spdlog::debug("Positive feedback added for question: {} (user: {})", question, user_id);
+    spdlog::debug("Positive feedback added (user: {}, question_length: {})", user_id, question.length());
 }
 
 void ThemisHelpLoRA::addNegativeFeedback(
@@ -306,7 +365,7 @@ void ThemisHelpLoRA::addNegativeFeedback(
     
     impl_->feedback_buffer.push_back(item);
     
-    spdlog::info("Negative feedback with correction: {} (user: {})", question, user_id);
+    spdlog::info("Negative feedback with correction (user: {}, question_length: {}, correction_length: {})", user_id, question.length(), correction.length());
 }
 
 bool ThemisHelpLoRA::trainFromFeedback() {
@@ -352,8 +411,9 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
 
-        // Increment version
+        // Increment version and record in history
         impl_->current_adapter_version = incrementVersion(impl_->current_adapter_version);
+        impl_->version_history.push_back(impl_->current_adapter_version);
         impl_->is_trained = true;
 
         size_t num_samples = impl_->feedback_buffer.size();
@@ -494,8 +554,8 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
 }
 
 PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
-    int64_t total = impl_->total_queries.load();
-    int64_t successful = impl_->successful_queries.load();
+    int64_t total = impl_->total_queries.load(std::memory_order_acquire);
+    int64_t successful = impl_->successful_queries.load(std::memory_order_acquire);
     int64_t failed = total - successful;
     
     double success_rate = (total > 0) ? 
@@ -507,7 +567,7 @@ PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
     metrics.failed_queries = failed;
     metrics.success_rate = success_rate;
     metrics.average_latency_ms = (total > 0)
-        ? static_cast<double>(impl_->total_latency_us.load()) / total / 1000.0
+        ? static_cast<double>(impl_->total_latency_us.load(std::memory_order_acquire)) / total / 1000.0
         : 0.0;
     metrics.cache_hit_rate = 0.0;  // No response cache implemented yet
     
@@ -570,15 +630,23 @@ std::string ThemisHelpLoRA::getVersion() const {
 }
 
 bool ThemisHelpLoRA::isTrained() const {
-    return impl_->is_trained.load();
+    return impl_->is_trained.load(std::memory_order_acquire);
 }
 
 bool ThemisHelpLoRA::rollbackToPreviousVersion() {
     try {
         bool success = impl_->orchestrator->rollback(impl_->config.adapter_id);
         if (success) {
-            // Decrement version
-            impl_->current_adapter_version = decrementVersion(impl_->current_adapter_version);
+            // Use version history to restore the real predecessor version.
+            // If multiple training passes have been performed the history holds every
+            // published version in order; pop the current one and restore the previous.
+            if (impl_->version_history.size() > 1) {
+                impl_->version_history.pop_back();
+                impl_->current_adapter_version = impl_->version_history.back();
+            } else {
+                // No prior version recorded — fall back to string decrement.
+                impl_->current_adapter_version = decrementVersion(impl_->current_adapter_version);
+            }
             spdlog::info("Rolled back to version: {}", impl_->current_adapter_version);
         }
         return success;
@@ -638,11 +706,11 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             // Decrement minor version
             return "v" + major + "." + std::to_string(minor_num - 1);
         } else if (major_num > 1) {
-            // Minor is 0, decrement major and reset minor to 0
-            // TODO: In a production system, implement proper version history tracking
-            // to determine the actual previous version (e.g., v2.0 -> v1.5 if v1.5
-            // was the last v1.x version). For now, this simplified approach is
-            // sufficient for the initial implementation.
+            // No version history available for this major boundary; return the
+            // floor of the previous major series.  rollbackToPreviousVersion()
+            // uses the recorded version_history instead, so this path is only
+            // reached when decrementVersion() is called directly without a
+            // valid history (e.g., in standalone unit tests).
             return "v" + std::to_string(major_num - 1) + ".0";
         } else {
             // Already at minimum version v1.0
@@ -656,3 +724,4 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
 } // namespace applications
 } // namespace llm
 } // namespace themis
+

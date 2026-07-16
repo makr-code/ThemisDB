@@ -1,6 +1,6 @@
 # CI/CD for ARM and Multi-Architecture Builds
 
-**Stand:** 26. Dezember 2025  
+**Stand:** 6. April 2026  
 **Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment
 
@@ -116,7 +116,13 @@ Artifacts are retained for 7 days.
 
 Multi-architecture Docker images are automatically built and optionally pushed to:
 
-**GitHub Container Registry:**
+> **Stand 2026-04 (aktueller Release-Pfad):**
+> Community-Container werden ueber den aktiven Workflow
+> `.github/workflows/04-release_publish-community.yml` nach Docker Hub unter
+> `themisdb/themisdb` veroeffentlicht (`latest` + Versions-Tag).
+> Die unten aufgefuehrten branch-basierten GHCR-Tags sind historisch zu verstehen.
+
+**GitHub Container Registry (historisch/Legacy):**
 - `ghcr.io/makr-code/themisdb:main` - Latest main branch build (minimal)
 - `ghcr.io/makr-code/themisdb:main-llm` - Latest with LLM
 - `ghcr.io/makr-code/themisdb:main-llm-gpu` - Latest with LLM + GPU
@@ -124,12 +130,9 @@ Multi-architecture Docker images are automatically built and optionally pushed t
 - `ghcr.io/makr-code/themisdb:develop` - Latest develop branch build
 - `ghcr.io/makr-code/themisdb:<branch>-<sha>` - Branch builds with commit SHA
 
-**Docker Hub (Public):**
-- `themisdb/themisdb:latest` - Latest stable (minimal, ~150 MB)
-- `themisdb/themisdb:v1.3.0` - Version 1.3.0 (minimal)
-- `themisdb/themisdb:v1.3.0-llm` - Version 1.3.0 with LLM (~250 MB)
-- `themisdb/themisdb:v1.3.0-gpu` - Version 1.3.0 with LLM + GPU (~300 MB)
-- `themisdb/themisdb:v1.3.0-full` - Version 1.3.0 with all features (~350 MB)
+**Docker Hub (Public, aktiv):**
+- `themisdb/themisdb:latest` - Aktuelles Community-Release
+- `themisdb/themisdb:<version>` - Versionierter Release-Tag (z. B. `1.8.1-rc1`)
 
 **Supported Platforms per Image:**
 - `linux/amd64`
@@ -288,10 +291,10 @@ If builds fail with vcpkg errors:
 The README displays build status for all architectures:
 
 ```markdown
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
+[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/01-core_themis-core-ci.yml)
 ```
 
-> **Note:** Multi-arch build status (ARM, x86_64) is tracked via the `themis-core-ci.yml` workflow. Dedicated `arm-build.yml` and `build-multiarch.yml` workflows are not currently active.
+> **Note:** Multi-arch build status (ARM, x86_64) is tracked via the `01-core/themis-core-ci.yml` workflow. Dedicated `arm-build.yml` and `build-multiarch.yml` workflows are not currently active.
 
 ### GitHub Actions Dashboard
 
