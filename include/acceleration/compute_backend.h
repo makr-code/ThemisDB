@@ -593,6 +593,8 @@ struct KernelCoverage {
 /// Aggregated kernel-coverage report returned by KernelRegistry::validate().
 struct ValidationReport {
     std::vector<KernelCoverage> entries;
+    /// Returns true if all backends are complete (no missing slots).
+    [[nodiscard]] bool allComplete() const;
     /// Returns a human-readable multi-line summary.
     [[nodiscard]] std::string summary() const;
 };
@@ -601,9 +603,25 @@ struct ValidationReport {
 /// One shared instance lives inside BackendRegistry.
 class KernelRegistry {
 public:
-    void registerANN   (BackendType bt, ANNKernelDispatch    d) { annDispatch_[bt]    = std::move(d); }
-    void registerGeo   (BackendType bt, GeoKernelDispatch    d) { geoDispatch_[bt]    = std::move(d); }
-    void registerMatrix(BackendType bt, MatrixKernelDispatch d) { matrixDispatch_[bt] = std::move(d); }
+    /// Register the ANN kernel dispatch table for @p bt.
+    void registerANNDispatch   (BackendType bt, ANNKernelDispatch    d) { annDispatch_[bt]    = std::move(d); }
+    /// Register the Geo kernel dispatch table for @p bt.
+    void registerGeoDispatch   (BackendType bt, GeoKernelDispatch    d) { geoDispatch_[bt]    = std::move(d); }
+    /// Register the Matrix kernel dispatch table for @p bt.
+    void registerMatrixDispatch(BackendType bt, MatrixKernelDispatch d) { matrixDispatch_[bt] = std::move(d); }
+
+    /// Test if ANN dispatch table exists for @p bt.
+    [[nodiscard]] bool hasANNDispatch(BackendType bt) const noexcept {
+        return annDispatch_.find(bt) != annDispatch_.end();
+    }
+    /// Test if Geo dispatch table exists for @p bt.
+    [[nodiscard]] bool hasGeoDispatch(BackendType bt) const noexcept {
+        return geoDispatch_.find(bt) != geoDispatch_.end();
+    }
+    /// Test if Matrix dispatch table exists for @p bt.
+    [[nodiscard]] bool hasMatrixDispatch(BackendType bt) const noexcept {
+        return matrixDispatch_.find(bt) != matrixDispatch_.end();
+    }
 
     [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType bt) const noexcept {
         auto it = annDispatch_.find(bt); return it != annDispatch_.end() ? it->second : ANNKernelDispatch{};
@@ -619,6 +637,9 @@ public:
     [[nodiscard]] GeoKernelDispatch        lookupGeoWithFallback(BackendType primary) const noexcept;
     [[nodiscard]] std::vector<BackendType> registeredBackends() const;
     [[nodiscard]] ValidationReport         validate() const;
+
+    /// Clear all registered dispatch tables.
+    void clear() noexcept { annDispatch_.clear(); geoDispatch_.clear(); matrixDispatch_.clear(); }
 
 private:
     std::unordered_map<BackendType, ANNKernelDispatch>    annDispatch_;

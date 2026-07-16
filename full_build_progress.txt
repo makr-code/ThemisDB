@@ -5778,3 +5778,901 @@ C:\Projects\ThemisDB\build-msvc-windows-release\proto_generated\shard_rpc.pb.h(1
 [4624/9445] Building CXX object cmake\tests\cai\CMakeFiles\module_cai_test_cai_safety_module_focused.dir\test_cai_safety_module.cpp.obj
 [4625/9445] Building CXX object cmake\tests\base\CMakeFiles\module_base_test_base_interfaces_focused.dir\test_base_interfaces.cpp.obj
 C:\Projects\ThemisDB\tests\base\test_base_interfaces.cpp(370): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4626/9445] Building CXX object cmake\tests\capability\CMakeFiles\module_capability_test_capability_matcher_focused.dir\test_capability_matcher.cpp.obj
+[4627/9445] Building CXX object cmake\tests\canonical\CMakeFiles\module_canonical_test_canonical_resolver_focused.dir\test_canonical_resolver.cpp.obj
+[4628/9445] Building CXX object cmake\tests\catalog\CMakeFiles\module_catalog_test_catalog_exporter_focused.dir\test_catalog_exporter.cpp.obj
+[4629/9445] Building CXX object cmake\tests\ccpa\CMakeFiles\module_ccpa_test_ccpa_rules_focused.dir\test_ccpa_rules.cpp.obj
+[4630/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_backpressure_signal_focused.dir\test_cdc_backpressure_signal.cpp.obj
+[4631/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_admin_focused.dir\test_cdc_admin.cpp.obj
+[4632/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_batch_commit_coordinator_focused.dir\test_cdc_batch_commit_coordinator.cpp.obj
+C:\Projects\ThemisDB\tests\cdc\test_cdc_batch_commit_coordinator.cpp(298): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4633/9445] Building CXX object cmake\tests\batch\CMakeFiles\module_batch_test_batch_nl_to_aql_translation_focused.dir\test_batch_nl_to_aql_translation.cpp.obj
+[4634/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_changefeed_buffer_focused.dir\test_cdc_changefeed_buffer.cpp.obj
+[4635/9445] Building CXX object cmake\tests\blob\CMakeFiles\module_blob_test_blob_streaming_focused.dir\test_blob_streaming.cpp.obj
+C:\Projects\ThemisDB\tests\blob\test_blob_streaming.cpp(391): warning C4127: Bedingter Ausdruck ist konstant
+C:\Projects\ThemisDB\tests\blob\test_blob_streaming.cpp(391): note: Verwenden Sie stattdessen ggf. die Anweisung "if constexpr".
+[4636/9445] Building CXX object cmake\tests\branch\CMakeFiles\module_branch_test_branch_conflict_resolution_focused.dir\test_branch_conflict_resolution.cpp.obj
+[4637/9445] Building CXX object cmake\tests\branch\CMakeFiles\module_branch_test_branch_integration_focused.dir\test_branch_integration.cpp.obj
+[4638/9445] Building CXX object cmake\tests\aql\CMakeFiles\module_aql_test_aql_shortestpath_focused.dir\test_aql_shortestpath.cpp.obj
+[4639/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_changefeed_sequence_counter_focused.dir\test_cdc_changefeed_sequence_counter.cpp.obj
+[4640/9445] Building CXX object cmake\tests\blue\CMakeFiles\module_blue_test_blue_green_deployment_focused.dir\test_blue_green_deployment.cpp.obj
+[4641/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_debezium_format_focused.dir\test_cdc_debezium_format.cpp.obj
+[4642/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_delivery_guarantee_config_focused.dir\test_cdc_delivery_guarantee_config.cpp.obj
+[4643/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_delivery_tracker_focused.dir\test_cdc_delivery_tracker.cpp.obj
+[4644/9445] Building CXX object cmake\tests\cache\CMakeFiles\module_cache_test_cache_hit_rate_slo_monitor_focused.dir\test_cache_hit_rate_slo_monitor.cpp.obj
+[4645/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_error_codes_focused.dir\test_cdc_error_codes.cpp.obj
+[4646/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_event_schema_focused.dir\test_cdc_event_schema.cpp.obj
+[4647/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_filter_pipeline_focused.dir\test_cdc_filter_pipeline.cpp.obj
+C:\Projects\ThemisDB\tests\cdc\test_cdc_filter_pipeline.cpp(301): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4648/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_kafka_producer_focused.dir\test_cdc_kafka_producer.cpp.obj
+[4649/9445] Building CXX object cmake\tests\branch\CMakeFiles\module_branch_test_branch_manager_focused.dir\test_branch_manager.cpp.obj
+[4650/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_materialized_view_focused.dir\test_cdc_materialized_view.cpp.obj
+[4651/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_metrics_focused.dir\test_cdc_metrics.cpp.obj
+[4652/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_pause_control_focused.dir\test_cdc_pause_control.cpp.obj
+C:\Projects\ThemisDB\tests\cdc\test_cdc_pause_control.cpp(233): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\cdc\test_cdc_pause_control.cpp(236): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4653/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_replay_controller_focused.dir\test_cdc_replay_controller.cpp.obj
+C:\Projects\ThemisDB\tests\cdc\test_cdc_replay_controller.cpp(319): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\cdc\test_cdc_replay_controller.cpp(321): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\cdc\test_cdc_replay_controller.cpp(323): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4654/9445] Building CXX object cmake\tests\canary\CMakeFiles\module_canary_test_canary_rollout_focused.dir\test_canary_rollout.cpp.obj
+[4655/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_change_stream_compressor_focused.dir\test_cdc_change_stream_compressor.cpp.obj
+[4656/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_schema_registry_focused.dir\test_cdc_schema_registry.cpp.obj
+[4657/9445] Building CXX object cmake\tests\capabilityautogenerator\CMakeFiles\module_capabilityautogenerator_test_capabilityautogenerator_persist_state_focused.dir\test_capabilityautogenerator_persist_state.cpp.obj
+[4658/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_changefeed_core_focused.dir\test_cdc_changefeed_core.cpp.obj
+[4659/9445] Building CXX object cmake\tests\chain\CMakeFiles\module_chain_test_chain_of_thought_focused.dir\test_chain_of_thought.cpp.obj
+[4660/9445] Building CXX object cmake\tests\changefeed\CMakeFiles\module_changefeed_test_changefeed_ordering_focused.dir\test_changefeed_ordering.cpp.obj
+[4661/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_event_enrichment_focused.dir\test_cdc_event_enrichment.cpp.obj
+[4662/9445] Building CXX object cmake\tests\cache\CMakeFiles\module_cache_test_cache_admin_api_handler_focused.dir\test_cache_admin_api_handler.cpp.obj
+[4663/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_dead_letter_queue_focused.dir\test_cdc_dead_letter_queue.cpp.obj
+[4664/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_fan_in_focused.dir\test_cdc_fan_in.cpp.obj
+[4665/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_cross_collection_stream_focused.dir\test_cdc_cross_collection_stream.cpp.obj
+[4666/9445] Building CXX object cmake\tests\chaos\CMakeFiles\module_chaos_test_chaos_framework_focused.dir\test_chaos_framework.cpp.obj
+[4667/9445] Building CXX object cmake\tests\changefeed\CMakeFiles\module_changefeed_test_changefeed_governance_headers_focused.dir\test_changefeed_governance_headers.cpp.obj
+[4668/9445] Building CXX object cmake\tests\chaos\CMakeFiles\module_chaos_test_chaos_framework_focused.dir\__\__\src\chaos\chaos_framework.cpp.obj
+[4669/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_operation_filter_focused.dir\test_cdc_operation_filter.cpp.obj
+[4670/9445] Building CXX object cmake\tests\chaos\CMakeFiles\module_chaos_test_chaos_stress_focused.dir\test_chaos_stress.cpp.obj
+[4671/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_consumer_group_focused.dir\test_cdc_consumer_group.cpp.obj
+[4672/9445] Building CXX object cmake\tests\chaos\CMakeFiles\module_chaos_test_chaos_stress_focused.dir\__\__\src\chaos\chaos_framework.cpp.obj
+[4673/9445] Building CXX object cmake\tests\bpmn\CMakeFiles\module_bpmn_test_bpmn_wire_protocol_focused.dir\test_bpmn_wire_protocol.cpp.obj
+[4674/9445] Building CXX object cmake\tests\circuit\CMakeFiles\module_circuit_test_circuit_breaker_focused.dir\test_circuit_breaker.cpp.obj
+[4675/9445] Building CXX object cmake\tests\claim\CMakeFiles\module_claim_test_claim_extractor_focused.dir\test_claim_extractor.cpp.obj
+[4676/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_outbox_focused.dir\test_cdc_outbox.cpp.obj
+[4677/9445] Building CXX object cmake\tests\classify\CMakeFiles\module_classify_test_classify_bridge_integration_focused.dir\test_classify_bridge_integration.cpp.obj
+[4678/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_production_fixes_focused.dir\test_cdc_production_fixes.cpp.obj
+C:\Projects\ThemisDB\tests\cdc\test_cdc_production_fixes.cpp(190): warning C4101: "e": Unreferenzierte lokale Variable
+C:\Projects\ThemisDB\tests\cdc\test_cdc_production_fixes.cpp(374): warning C4101: "e": Unreferenzierte lokale Variable
+[4679/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_gdpr_redaction_focused.dir\test_cdc_gdpr_redaction.cpp.obj
+[4680/9445] Building CXX object cmake\tests\cloud\CMakeFiles\module_cloud_test_cloud_agent_focused.dir\test_cloud_agent.cpp.obj
+[4681/9445] Building CXX object cmake\tests\cloud\CMakeFiles\module_cloud_test_cloud_sdk_integration_focused.dir\test_cloud_sdk_integration.cpp.obj
+[4682/9445] Building CXX object cmake\tests\cms\CMakeFiles\module_cms_test_cms_signing_focused.dir\test_cms_signing.cpp.obj
+[4683/9445] Building CXX object cmake\tests\columnar\CMakeFiles\module_columnar_test_columnar_cache_focused.dir\test_columnar_cache.cpp.obj
+[4684/9445] Building CXX object cmake\tests\columnar\CMakeFiles\module_columnar_test_columnar_cache_focused.dir\__\__\src\storage\columnar_cache.cpp.obj
+[4685/9445] Building CXX object cmake\tests\column\CMakeFiles\module_column_test_column_lineage_focused.dir\test_column_lineage.cpp.obj
+[4686/9445] Building CXX object cmake\tests\community\CMakeFiles\module_community_test_community_detection_aql_focused.dir\test_community_detection_aql.cpp.obj
+[4687/9445] Building CXX object cmake\tests\community\CMakeFiles\module_community_test_community_detection_functions_focused.dir\test_community_detection_functions.cpp.obj
+[4688/9445] Building CXX object cmake\tests\compliance\CMakeFiles\module_compliance_test_compliance_security_governance_focused.dir\test_compliance_security_governance.cpp.obj
+[4689/9445] Building CXX object cmake\tests\compliance\CMakeFiles\module_compliance_test_compliance_reporting_focused.dir\test_compliance_reporting.cpp.obj
+[4690/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_retention_focused.dir\test_cdc_retention.cpp.obj
+[4691/9445] Building CXX object cmake\tests\compression\CMakeFiles\module_compression_test_compression_strategy_focused.dir\test_compression_strategy.cpp.obj
+[4692/9445] Building CXX object cmake\tests\collective\CMakeFiles\module_collective_test_collective_backends_focused.dir\test_collective_backends.cpp.obj
+[4693/9445] Building CXX object cmake\tests\compute\CMakeFiles\module_compute_test_compute_graph_header_focused.dir\test_compute_graph_header.cpp.obj
+C:\Projects\ThemisDB\tests\compute\test_compute_graph_header.cpp(219): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4694/9445] Building CXX object cmake\tests\clo\CMakeFiles\module_clo_test_clo_loops_focused.dir\test_clo_loops.cpp.obj
+[4695/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_ws_handler_focused.dir\test_cdc_ws_handler.cpp.obj
+[4696/9445] Building CXX object cmake\tests\concerns\CMakeFiles\module_concerns_test_concerns_context_focused.dir\test_concerns_context.cpp.obj
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(212): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(390): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(599): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(614): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(2013): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4697/9445] Building CXX object cmake\tests\concurrency\CMakeFiles\module_concurrency_test_concurrency_race_detection_focused.dir\test_concurrency_race_detection.cpp.obj
+[4698/9445] Building CXX object cmake\tests\concurrent\CMakeFiles\module_concurrent_test_concurrent_cache_focused.dir\test_concurrent_cache.cpp.obj
+[4699/9445] Building CXX object cmake\tests\chaos\CMakeFiles\module_chaos_test_chaos_scheduler_focused.dir\test_chaos_scheduler.cpp.obj
+[4700/9445] Building CXX object cmake\tests\concurrent\CMakeFiles\module_concurrent_test_concurrent_write_controller_focused.dir\__\__\src\storage\concurrent_write_controller.cpp.obj
+[4701/9445] Building CXX object cmake\tests\cloud\CMakeFiles\module_cloud_test_cloud_storage_backup_comprehensive_focused.dir\test_cloud_storage_backup_comprehensive.cpp.obj
+[4702/9445] Building CXX object cmake\tests\concurrent\CMakeFiles\module_concurrent_test_concurrent_write_controller_focused.dir\test_concurrent_write_controller.cpp.obj
+[4703/9445] Building CXX object cmake\tests\confidential\CMakeFiles\module_confidential_test_confidential_computing_focused.dir\test_confidential_computing.cpp.obj
+C:\Projects\ThemisDB\tests\confidential\test_confidential_computing.cpp(183): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\confidential\test_confidential_computing.cpp(190): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\confidential\test_confidential_computing.cpp(197): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\confidential\test_confidential_computing.cpp(211): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\confidential\test_confidential_computing.cpp(246): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4704/9445] Building CXX object cmake\tests\connection\CMakeFiles\module_connection_test_connection_compression_focused.dir\test_connection_compression.cpp.obj
+[4705/9445] Building CXX object cmake\tests\columnar\CMakeFiles\module_columnar_test_columnar_format_focused.dir\test_columnar_format.cpp.obj
+[4706/9445] Building CXX object cmake\tests\consistent\CMakeFiles\module_consistent_test_consistent_hash_focused.dir\test_consistent_hash.cpp.obj
+[4707/9445] Building CXX object cmake\tests\consensus\CMakeFiles\module_consensus_test_consensus_module_focused.dir\test_consensus_module.cpp.obj
+[4708/9445] Building CXX object cmake\tests\compaction\CMakeFiles\module_compaction_test_compaction_manager_focused.dir\test_compaction_manager.cpp.obj
+[4709/9445] Building CXX object cmake\tests\consistent\CMakeFiles\module_consistent_test_consistent_hash_distribution_focused.dir\test_consistent_hash_distribution.cpp.obj
+[4710/9445] Building CXX object cmake\tests\connector\CMakeFiles\module_connector_test_connector_mode_api_focused.dir\test_connector_mode_api.cpp.obj
+[4711/9445] Building CXX object cmake\tests\constitutional\CMakeFiles\module_constitutional_test_constitutional_reasoning_focused.dir\test_constitutional_reasoning.cpp.obj
+[4712/9445] Building CXX object cmake\tests\cloud\CMakeFiles\module_cloud_test_cloud_backup_focused.dir\test_cloud_backup.cpp.obj
+[4713/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_audio_processor_focused.dir\test_content_audio_processor.cpp.obj
+[4714/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_features_focused.dir\test_content_features.cpp.obj
+[4715/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_embedding_pipeline_focused.dir\test_content_embedding_pipeline.cpp.obj
+[4716/9445] Building CXX object cmake\tests\chunk\CMakeFiles\module_chunk_test_chunk_level_encryption_focused.dir\test_chunk_level_encryption.cpp.obj
+[4717/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_con007_con012_remediations_focused.dir\test_content_con007_con012_remediations.cpp.obj
+[4718/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_errors_focused.dir\test_content_errors.cpp.obj
+[4719/9445] Building CXX object cmake\tests\compressed\CMakeFiles\module_compressed_test_compressed_storage_focused.dir\test_compressed_storage.cpp.obj
+[4720/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_html_processor_focused.dir\test_content_html_processor.cpp.obj
+[4721/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_language_detector_focused.dir\test_content_language_detector.cpp.obj
+[4722/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_metrics_focused.dir\test_content_metrics.cpp.obj
+[4723/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_markdown_processor_focused.dir\test_content_markdown_processor.cpp.obj
+[4724/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_logger_focused.dir\test_content_logger.cpp.obj
+[4725/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_pipeline_hardening_focused.dir\test_content_pipeline_hardening.cpp.obj
+[4726/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_policy_manual_focused.dir\test_content_policy_manual.cpp.obj
+[4727/9445] Building CXX object cmake\tests\composite\CMakeFiles\module_composite_test_composite_index_focused.dir\test_composite_index.cpp.obj
+[4728/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_processor_chain_focused.dir\test_content_processor_chain.cpp.obj
+[4729/9445] Building CXX object cmake\tests\compute\CMakeFiles\module_compute_test_compute_interfaces_focused.dir\test_compute_interfaces.cpp.obj
+[4730/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_version_manager_focused.dir\test_content_version_manager.cpp.obj
+[4731/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_streaming_ingestion_focused.dir\test_content_streaming_ingestion.cpp.obj
+[4732/9445] Building CXX object cmake\tests\changefeed\CMakeFiles\module_changefeed_test_changefeed_sse_writer_focused.dir\test_changefeed_sse_writer.cpp.obj
+[4733/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_propagation_focused.dir\__\__\src\core\concerns\context_propagation.cpp.obj
+[4734/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_propagation_focused.dir\test_context_propagation.cpp.obj
+[4735/9445] Building CXX object cmake\tests\chunked\CMakeFiles\module_chunked_test_chunked_response_writer_focused.dir\test_chunked_response_writer.cpp.obj
+[4736/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\test_context_window_budget_strategy.cpp.obj
+[4737/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_focused.dir\test_context_window_budget.cpp.obj
+[4738/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\prior_round_compressor.cpp.obj
+[4739/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\cross_school_tension_resolver.cpp.obj
+[4740/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\llm_cascade_router.cpp.obj
+[4741/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\convergence_marker_engine.cpp.obj
+[4742/9445] Building CXX object cmake\tests\cdc\CMakeFiles\module_cdc_test_cdc_subscription_auth_focused.dir\test_cdc_subscription_auth.cpp.obj
+[4743/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\tournament_mode_selector.cpp.obj
+[4744/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\position_abstract_validator.cpp.obj
+[4745/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\synthesis_matrix_builder.cpp.obj
+[4746/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_budget_strategy_focused.dir\__\__\src\ethics_ai\discourse_memory_store.cpp.obj
+[4747/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_agg_focused.dir\test_continuous_agg.cpp.obj
+[4748/9445] Building CXX object cmake\tests\context\CMakeFiles\module_context_test_context_window_manager_focused.dir\test_context_window_manager.cpp.obj
+[4749/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_batch_scheduler_focused.dir\test_continuous_batch_scheduler.cpp.obj
+C:\Projects\ThemisDB\tests\continuous\test_continuous_batch_scheduler.cpp(58): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\tests\continuous\test_continuous_batch_scheduler.cpp(188): warning C4189: "req_ptr": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\continuous\test_continuous_batch_scheduler.cpp(221): warning C4189: "req_ptr": Lokale Variable ist initialisiert aber nicht referenziert
+[4750/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_profiler_focused.dir\test_continuous_profiler.cpp.obj
+[4751/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_learning_client_focused.dir\test_continuous_learning_client.cpp.obj
+[4752/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_fs_focused.dir\test_content_fs.cpp.obj
+[4753/9445] Building CXX object cmake\tests\cpu\CMakeFiles\module_cpu_test_cpu_backend_exact_focused.dir\test_cpu_backend_exact.cpp.obj
+[4754/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_archive_processor_validation_focused.dir\test_archive_processor_validation.cpp.obj
+[4755/9445] Building CXX object cmake\tests\cot\CMakeFiles\module_cot_test_cot_tracer_focused.dir\test_cot_tracer.cpp.obj
+[4756/9445] Building CXX object cmake\tests\crash\CMakeFiles\module_crash_test_crash_recovery_direct_focused.dir\test_crash_recovery_direct.cpp.obj
+[4757/9445] Building CXX object cmake\tests\cron\CMakeFiles\module_cron_test_cron_parser_focused.dir\test_cron_parser.cpp.obj
+[4758/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_pipeline_focused.dir\test_content_pipeline.cpp.obj
+[4759/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_deduplication_focused.dir\test_content_deduplication.cpp.obj
+[4760/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_cluster_federation_focused.dir\test_cross_cluster_federation.cpp.obj
+[4761/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_fulltext_index_focused.dir\test_content_fulltext_index.cpp.obj
+[4762/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_geo_spatial_focused.dir\test_cross_module_geo_spatial.cpp.obj
+[4763/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_cache_anomaly_focused.dir\test_cross_module_cache_anomaly.cpp.obj
+[4764/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_german_egov_focused.dir\test_cross_module_german_egov.cpp.obj
+[4765/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_policy_focused.dir\test_content_policy.cpp.obj
+[4766/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_index_matryoshka_focused.dir\test_cross_module_index_matryoshka.cpp.obj
+[4767/9445] Building CXX object cmake\tests\cpu\CMakeFiles\module_cpu_test_cpu_gpu_parity_focused.dir\__\__\src\acceleration\cuda_backend.cpp.obj
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "useL2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "numVectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "vectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "dim": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "numQueries": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "queries": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(453): warning C4100: "useL2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(453): warning C4100: "numVectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(452): warning C4100: "vectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(452): warning C4100: "dim": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1241): warning C4100: "maxDepth": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1779): warning C4100: "useHaversine": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "count": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "longitudes2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "latitudes2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1777): warning C4100: "longitudes1": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1777): warning C4100: "latitudes1": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1857): warning C4100: "numPolygonVertices": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1856): warning C4100: "polygonCoords": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1856): warning C4100: "numPoints": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1855): warning C4100: "pointLons": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1855): warning C4100: "pointLats": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(2051): warning C4100: "opaque_stream": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(2051): warning C4100: "params": nicht referenzierter Parameter
+[4768/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_security_governance_focused.dir\test_cross_module_security_governance.cpp.obj
+[4769/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_query_engine_focused.dir\test_continuous_query_engine.cpp.obj
+C:\Projects\ThemisDB\tests\continuous\test_continuous_query_engine.cpp(115): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\continuous\test_continuous_query_engine.cpp(116): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\continuous\test_continuous_query_engine.cpp(117): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\continuous\test_continuous_query_engine.cpp(150): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\continuous\test_continuous_query_engine.cpp(151): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4770/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_temporal_bitemporal_focused.dir\test_cross_module_temporal_bitemporal.cpp.obj
+C:\Projects\ThemisDB\tests\cross\test_cross_module_temporal_bitemporal.cpp(73): warning C4505: "before": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[4771/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_training_governance_focused.dir\test_cross_module_training_governance.cpp.obj
+[4772/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_training_governance_focused.dir\__\__\src\training\ada_lora_adapter.cpp.obj
+[4773/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_security_focused.dir\test_content_security.cpp.obj
+[4774/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_training_governance_focused.dir\__\__\src\training\lora_adapter.cpp.obj
+[4775/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_training_governance_focused.dir\__\__\src\training\lora_adapter_merger.cpp.obj
+[4776/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_shard_distribution_focused.dir\test_cross_shard_distribution.cpp.obj
+[4777/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_shard_coordinator_focused.dir\test_cross_shard_coordinator.cpp.obj
+[4778/9445] Building CXX object cmake\tests\chaos\CMakeFiles\module_chaos_test_chaos_network_focused.dir\test_chaos_network.cpp.obj
+C:\Projects\ThemisDB\tests\chaos\test_chaos_network.cpp(185): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\chaos\test_chaos_network.cpp(190): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\chaos\test_chaos_network.cpp(196): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\chaos\test_chaos_network.cpp(223): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4779/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_shard_ssi_focused.dir\test_cross_shard_ssi.cpp.obj
+[4780/9445] Building CXX object cmake\tests\cpu\CMakeFiles\module_cpu_test_cpu_gpu_parity_focused.dir\test_cpu_gpu_parity.cpp.obj
+[4781/9445] Building CXX object cmake\tests\content\CMakeFiles\module_content_test_content_toolbox_bridge_focused.dir\test_content_toolbox_bridge.cpp.obj
+C:\Projects\ThemisDB\tests\content\test_content_toolbox_bridge.cpp(255): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\content\test_content_toolbox_bridge.cpp(256): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\content\test_content_toolbox_bridge.cpp(313): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\content\test_content_toolbox_bridge.cpp(314): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4782/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_shard_transaction_focused_focused.dir\test_cross_shard_transaction_focused.cpp.obj
+[4783/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_tenant_policy_inheritance_focused.dir\test_cross_tenant_policy_inheritance.cpp.obj
+[4784/9445] Building CXX object cmake\tests\coordinated\CMakeFiles\module_coordinated_test_coordinated_update_manager_focused.dir\test_coordinated_update_manager.cpp.obj
+[4785/9445] Building CXX object cmake\tests\cte\CMakeFiles\module_cte_test_cte_cache_focused.dir\test_cte_cache.cpp.obj
+[4786/9445] Building CXX object cmake\tests\cte\CMakeFiles\module_cte_test_cte_error_handling_focused.dir\test_cte_error_handling.cpp.obj
+[4787/9445] Building CXX object cmake\tests\crash\CMakeFiles\module_crash_test_crash_recovery_manager_focused.dir\test_crash_recovery_manager.cpp.obj
+[4788/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_agg_comprehensive_focused.dir\test_continuous_agg_comprehensive.cpp.obj
+C:\Projects\ThemisDB\tests\continuous\test_continuous_agg_comprehensive.cpp(550): warning C4189: "windows": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\continuous\test_continuous_agg_comprehensive.cpp(753): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\continuous\test_continuous_agg_comprehensive.cpp(754): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\continuous\test_continuous_agg_comprehensive.cpp(761): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4789/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_hnsw_graph_traversal_focused.dir\test_cuda_hnsw_graph_traversal.cpp.obj
+C:\Projects\ThemisDB\tests\cuda\test_cuda_hnsw_graph_traversal.cpp(21): warning C4505: "themis::`anonymous-namespace'::makeVector": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[4790/9445] Building CXX object cmake\tests\continuous\CMakeFiles\module_continuous_test_continuous_learning_orchestrator_focused.dir\test_continuous_learning_orchestrator.cpp.obj
+[4791/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_acceleration_index_focused.dir\test_cross_module_acceleration_index.cpp.obj
+[4792/9445] Building CXX object cmake\tests\custom\CMakeFiles\module_custom_test_custom_metric_types_focused.dir\test_custom_metric_types.cpp.obj
+[4793/9445] Building CXX object cmake\tests\database\CMakeFiles\module_database_test_database_connection_manager_focused.dir\test_database_connection_manager.cpp.obj
+[4794/9445] Building CXX object cmake\tests\database\CMakeFiles\module_database_test_database_domain_auto_labeler_focused.dir\__\__\src\training\database_domain_auto_labeler.cpp.obj
+[4795/9445] Building CXX object cmake\tests\database\CMakeFiles\module_database_test_database_domain_auto_labeler_focused.dir\test_database_domain_auto_labeler.cpp.obj
+[4796/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_lingual_search_focused.dir\test_cross_lingual_search.cpp.obj
+[4797/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_ann_search_focused.dir\__\__\src\acceleration\cuda_backend.cpp.obj
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "useL2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "numVectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "vectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "dim": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "numQueries": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "queries": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(453): warning C4100: "useL2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(453): warning C4100: "numVectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(452): warning C4100: "vectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(452): warning C4100: "dim": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1241): warning C4100: "maxDepth": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1779): warning C4100: "useHaversine": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "count": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "longitudes2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "latitudes2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1777): warning C4100: "longitudes1": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1777): warning C4100: "latitudes1": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1857): warning C4100: "numPolygonVertices": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1856): warning C4100: "polygonCoords": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1856): warning C4100: "numPoints": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1855): warning C4100: "pointLons": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1855): warning C4100: "pointLats": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(2051): warning C4100: "opaque_stream": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(2051): warning C4100: "params": nicht referenzierter Parameter
+[4798/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_graph_lineage_focused.dir\test_cross_module_graph_lineage.cpp.obj
+[4799/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_graph_capture_focused.dir\test_cuda_graph_capture.cpp.obj
+[4800/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_geo_backend_focused.dir\test_cuda_geo_backend.cpp.obj
+[4801/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_ann_search_focused.dir\test_cuda_ann_search.cpp.obj
+[4802/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_hnsw_large_k_focused.dir\__\__\src\acceleration\cuda_backend.cpp.obj
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "useL2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "numVectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(377): warning C4100: "vectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "dim": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "numQueries": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(376): warning C4100: "queries": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(453): warning C4100: "useL2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(453): warning C4100: "numVectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(452): warning C4100: "vectors": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(452): warning C4100: "dim": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1241): warning C4100: "maxDepth": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1779): warning C4100: "useHaversine": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "count": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "longitudes2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1778): warning C4100: "latitudes2": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1777): warning C4100: "longitudes1": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1777): warning C4100: "latitudes1": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1857): warning C4100: "numPolygonVertices": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1856): warning C4100: "polygonCoords": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1856): warning C4100: "numPoints": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1855): warning C4100: "pointLons": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(1855): warning C4100: "pointLats": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(2051): warning C4100: "opaque_stream": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp(2051): warning C4100: "params": nicht referenzierter Parameter
+[4803/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_hnsw_large_k_focused.dir\test_cuda_hnsw_large_k.cpp.obj
+[4804/9445] Building CXX object cmake\tests\cuda\CMakeFiles\module_cuda_test_cuda_geo_kernels_focused.dir\test_cuda_geo_kernels.cpp.obj
+[4805/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_query_sharding_focused.dir\test_cross_module_query_sharding.cpp.obj
+[4806/9445] Building CXX object cmake\tests\cross\CMakeFiles\module_cross_test_cross_module_timeseries_forecasting_focused.dir\test_cross_module_timeseries_forecasting.cpp.obj
+[4807/9445] Building CXX object cmake\tests\dependency\CMakeFiles\module_dependency_test_dependency_resolution_engine_focused.dir\test_dependency_resolution_engine.cpp.obj
+[4808/9445] Building CXX object cmake\tests\decision\CMakeFiles\module_decision_test_decision_record_e2e_focused.dir\test_decision_record_e2e.cpp.obj
+[4809/9445] Building CXX object cmake\tests\decision\CMakeFiles\module_decision_test_decision_record_yaml_processor_focused.dir\test_decision_record_yaml_processor.cpp.obj
+[4810/9445] Building CXX object cmake\tests\cypher\CMakeFiles\module_cypher_test_cypher_parser_focused.dir\test_cypher_parser.cpp.obj
+[4811/9445] Building CXX object cmake\tests\cte\CMakeFiles\module_cte_test_cte_correlated_subquery_focused.dir\test_cte_correlated_subquery.cpp.obj
+[4812/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\test_directx_backend.cpp.obj
+[4813/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\llm\lora_framework\directx_buffer.cpp.obj
+[4814/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\llm\lora_framework\directx_context.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(4813): warning C4244: "=": Konvertierung von "wchar_t" in "char", mglicher Datenverlust
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(4813): note: der Vorlageninstanziierungskontext (der lteste zuerst) ist
+C:\Projects\ThemisDB\src\llm\lora_framework\directx_context.cpp(178): note: Siehe Verweis auf die gerade kompilierte Instanziierung "std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)" der Funktions-Vorlage.
+        with
+        [
+            _Elem=wchar_t,
+            _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+            _Alloc=std::allocator<char>
+        ]
+C:\Projects\ThemisDB\src\llm\lora_framework\directx_context.cpp(178): note: Ersten Verweis auf "std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string" in "themis::lora::directx::DirectXContext::create_device" anzeigen
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\xstring(812): note: Siehe Verweis auf die gerade kompilierte Instanziierung "void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)" der Funktions-Vorlage.
+        with
+        [
+            _Size_type=unsigned __int64,
+            _Iter=wchar_t *,
+            _Sent=wchar_t *,
+            _Size=unsigned __int64
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\xstring(968): note: Siehe Verweis auf die gerade kompilierte Instanziierung "_OutIt *std::_Copy_n_unchecked4<wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)" der Funktions-Vorlage.
+        with
+        [
+            _OutIt=char *,
+            _Size=unsigned __int64,
+            _InIt=wchar_t *,
+            _SizeTy=unsigned __int64
+        ]
+[4815/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\llm\lora_framework\directx_descriptors.cpp.obj
+[4816/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\llm\lora_framework\directx_pipeline.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\directx_pipeline.cpp(238): warning C4100: "table_index": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\llm\lora_framework\directx_pipeline.cpp(246): warning C4100: "table_index": nicht referenzierter Parameter
+[4817/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\llm\lora_framework\directx_shader.cpp.obj
+[4818/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\llm\lora_framework\kernels\directx_kernels.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(338): warning C4189: "srv_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(419): warning C4189: "srv_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(496): warning C4189: "srv_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(654): warning C4189: "srv_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(753): warning C4189: "srv_grad_output": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(742): warning C4189: "uav_grad_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(751): warning C4189: "srv_A": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(749): warning C4189: "srv_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(744): warning C4189: "uav_grad_input": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(870): warning C4189: "srv_grad_output": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(847): warning C4189: "uav_grad_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(868): warning C4189: "srv_A": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(866): warning C4189: "srv_B": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(849): warning C4189: "uav_grad_input": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\llm\lora_framework\kernels\directx_kernels.cpp(982): warning C4189: "srv_embedding_weights": Lokale Variable ist initialisiert aber nicht referenziert
+[4819/9445] Building CXX object cmake\tests\disaster\CMakeFiles\module_disaster_test_disaster_recovery_manager_focused.dir\test_disaster_recovery_manager.cpp.obj
+[4820/9445] Building CXX object cmake\tests\disaster\CMakeFiles\module_disaster_test_disaster_recovery_manager_focused.dir\__\__\src\failover\disaster_recovery_manager.cpp.obj
+[4821/9445] Building CXX object cmake\tests\discourse\CMakeFiles\module_discourse_test_discourse_engine_focused.dir\test_discourse_engine.cpp.obj
+[4822/9445] Building CXX object cmake\tests\db\CMakeFiles\module_db_test_data_consistency_focused.dir\test_data_consistency.cpp.obj
+[4823/9445] Building CXX object cmake\tests\db\CMakeFiles\module_db_test_concurrent_operations_focused.dir\test_concurrent_operations.cpp.obj
+[4824/9445] Building CXX object cmake\tests\discourse\CMakeFiles\module_discourse_test_discourse_engine_focused.dir\__\__\src\ethics_ai\discourse_engine.cpp.obj
+[4825/9445] Building CXX object cmake\tests\discourse\CMakeFiles\module_discourse_test_discourse_engine_focused.dir\__\__\src\ethics_ai\philosophy_loader.cpp.obj
+C:\Projects\ThemisDB\src\ethics_ai\philosophy_loader.cpp(65): warning C4100: "filepath": nicht referenzierter Parameter
+[4826/9445] Building CXX object cmake\tests\discourse\CMakeFiles\module_discourse_test_discourse_engine_focused.dir\__\__\src\ethics_ai\rag_context_engine.cpp.obj
+[4827/9445] Building CXX object cmake\tests\directx\CMakeFiles\module_directx_test_directx_backend_focused.dir\__\__\src\acceleration\directx_backend_full.cpp.obj
+[4828/9445] Building CXX object cmake\tests\discourse\CMakeFiles\module_discourse_test_discourse_engine_focused.dir\__\__\src\ethics_ai\ethics_ai_types.cpp.obj
+[4829/9445] Building CXX object cmake\tests\disk\CMakeFiles\module_disk_test_disk_space_monitor_focused.dir\test_disk_space_monitor.cpp.obj
+C:\Projects\ThemisDB\tests\disk\test_disk_space_monitor.cpp(98): warning C4100: "info": nicht referenzierter Parameter
+C:\Projects\ThemisDB\tests\disk\test_disk_space_monitor.cpp(327): warning C4100: "msg": nicht referenzierter Parameter
+C:\Projects\ThemisDB\tests\disk\test_disk_space_monitor.cpp(326): warning C4100: "info": nicht referenzierter Parameter
+[4830/9445] Building CXX object cmake\tests\db\CMakeFiles\module_db_test_transaction_isolation_focused.dir\test_transaction_isolation.cpp.obj
+[4831/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_cache_coordinator_focused.dir\test_distributed_cache_coordinator.cpp.obj
+[4832/9445] Building CXX object cmake\tests\db\CMakeFiles\module_db_test_index_performance_focused.dir\test_index_performance.cpp.obj
+[4833/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_cache_integration_focused.dir\test_distributed_cache_integration.cpp.obj
+[4834/9445] Building CXX object cmake\tests\device\CMakeFiles\module_device_test_device_manager_focused.dir\test_device_manager.cpp.obj
+[4835/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_catalog_focused.dir\__\__\src\metadata\distributed_catalog.cpp.obj
+[4836/9445] Building CXX object cmake\tests\delegate\CMakeFiles\module_delegate_test_delegate_evaluator_focused.dir\__\__\src\document\round_trip_editor.cpp.obj
+[4837/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_coordinator_focused.dir\test_distributed_coordinator.cpp.obj
+[4838/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_cluster_updates_focused.dir\test_distributed_cluster_updates.cpp.obj
+[4839/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_flame_graph_focused.dir\test_distributed_flame_graph.cpp.obj
+[4840/9445] Building CXX object cmake\tests\delegate\CMakeFiles\module_delegate_test_delegate_evaluator_focused.dir\__\__\src\rag\delegate_evaluator.cpp.obj
+[4841/9445] Building CXX object cmake\tests\delegate\CMakeFiles\module_delegate_test_delegate_evaluator_focused.dir\test_delegate_evaluator.cpp.obj
+[4842/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_knowledge_integration_focused.dir\__\__\src\rag\rlaif_trainer.cpp.obj
+C:\Projects\ThemisDB\src\rag\rlaif_trainer.cpp(453): warning C4244: "Initialisierung": Konvertierung von "_Rep" in "long", mglicher Datenverlust
+        with
+        [
+            _Rep=__int64
+        ]
+C:\Projects\ThemisDB\src\rag\rlaif_trainer.cpp(453): warning C4244: "Initialisierung": Konvertierung von "_Rep" in "const long", mglicher Datenverlust
+        with
+        [
+            _Rep=__int64
+        ]
+[4843/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_knowledge_focused.dir\test_distributed_knowledge.cpp.obj
+[4844/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_saga_focused.dir\test_distributed_saga.cpp.obj
+[4845/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_knowledge_or_focused.dir\test_distributed_knowledge_or.cpp.obj
+C:\Projects\ThemisDB\tests\distributed\test_distributed_knowledge_or.cpp(203): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\distributed\test_distributed_knowledge_or.cpp(220): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4846/9445] Building CXX object cmake\tests\deadlock\CMakeFiles\module_deadlock_test_deadlock_detection_focused.dir\test_deadlock_detection.cpp.obj
+[4847/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_saga_consensus_qw39_focused.dir\test_distributed_saga_consensus_qw39.cpp.obj
+[4848/9445] Building CXX object cmake\tests\database\CMakeFiles\module_database_test_database_maintenance_orchestrator_focused.dir\test_database_maintenance_orchestrator.cpp.obj
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(248): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(249): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(250): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(369): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(437): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(438): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(493): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\database\test_database_maintenance_orchestrator.cpp(494): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4849/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_tracing_focused.dir\test_distributed_tracing.cpp.obj
+[4850/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_trainer_guard_focused.dir\test_distributed_trainer_guard.cpp.obj
+[4851/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_time_coordinator_focused.dir\test_distributed_time_coordinator.cpp.obj
+[4852/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_training_coordinator_focused.dir\test_distributed_training_coordinator.cpp.obj
+[4853/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_transactions_focused.dir\test_distributed_transactions.cpp.obj
+[4854/9445] Building CXX object cmake\tests\decision\CMakeFiles\module_decision_test_decision_record_integration_focused.dir\test_decision_record_integration.cpp.obj
+[4855/9445] Building CXX object cmake\tests\docs\CMakeFiles\module_docs_test_docs_assistant_aql_focused.dir\test_docs_assistant_aql.cpp.obj
+[4856/9445] Building CXX object cmake\tests\dynamic\CMakeFiles\module_dynamic_test_dynamic_feature_flags_focused.dir\test_dynamic_feature_flags.cpp.obj
+[4857/9445] Building CXX object cmake\tests\dspy\CMakeFiles\module_dspy_test_dspy_module_focused.dir\test_dspy_module.cpp.obj
+[4858/9445] Building CXX object cmake\tests\domain\CMakeFiles\module_domain_test_domain_durability_focused.dir\test_domain_durability.cpp.obj
+[4859/9445] Building CXX object cmake\tests\ebpf\CMakeFiles\module_ebpf_test_ebpf_tracer_focused.dir\test_ebpf_tracer.cpp.obj
+[4860/9445] Building CXX object cmake\tests\edition\CMakeFiles\module_edition_test_edition_manager_focused.dir\test_edition_manager.cpp.obj
+[4861/9445] Building CXX object cmake\tests\embedded\CMakeFiles\module_embedded_test_embedded_llm_focused.dir\test_embedded_llm.cpp.obj
+[4862/9445] Building CXX object cmake\tests\egov\CMakeFiles\module_egov_test_egov_data_driven_focused.dir\test_egov_data_driven.cpp.obj
+[4863/9445] Building CXX object cmake\tests\egov\CMakeFiles\module_egov_test_egov_data_driven_focused.dir\__\__\src\analytics\llm_process_analyzer.cpp.obj
+[4864/9445] Building CXX object cmake\tests\eid\CMakeFiles\module_eid_test_eid_authenticator_focused.dir\test_eid_authenticator.cpp.obj
+[4865/9445] Building CXX object cmake\tests\embedding\CMakeFiles\module_embedding_test_embedding_cache_focused.dir\test_embedding_cache.cpp.obj
+[4866/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_txn_api_handler_focused.dir\test_distributed_txn_api_handler.cpp.obj
+[4867/9445] Building CXX object cmake\tests\encryption\CMakeFiles\module_encryption_test_encryption_focused.dir\test_encryption.cpp.obj
+[4868/9445] Building CXX object cmake\tests\enhanced\CMakeFiles\module_enhanced_test_enhanced_query_cache_focused.dir\test_enhanced_query_cache.cpp.obj
+[4869/9445] Building CXX object cmake\tests\enhanced\CMakeFiles\module_enhanced_test_enhanced_plugin_security_focused.dir\test_enhanced_plugin_security.cpp.obj
+[4870/9445] Building CXX object cmake\tests\entity\CMakeFiles\module_entity_test_entity_linking_focused.dir\test_entity_linking.cpp.obj
+[4871/9445] Building CXX object cmake\tests\entity\CMakeFiles\module_entity_test_entity_matching_focused.dir\test_entity_matching.cpp.obj
+[4872/9445] Building CXX object cmake\tests\envoy\CMakeFiles\module_envoy_test_envoy_xds_focused.dir\test_envoy_xds.cpp.obj
+[4873/9445] Building CXX object cmake\tests\diff\CMakeFiles\module_diff_test_diff_engine_focused.dir\test_diff_engine.cpp.obj
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(94): warning C4189: "seq2": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(270): warning C4189: "seq1": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(272): warning C4189: "seq2": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(526): warning C4189: "seq1": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(721): warning C4189: "seq2": Lokale Variable ist initialisiert aber nicht referenziert
+[4874/9445] Building CXX object cmake\tests\epoch\CMakeFiles\module_epoch_test_epoch_fencing_focused.dir\test_epoch_fencing.cpp.obj
+[4875/9445] Building CXX object cmake\tests\error\CMakeFiles\module_error_test_error_codes_focused.dir\test_error_codes.cpp.obj
+[4876/9445] Building CXX object cmake\tests\er\CMakeFiles\module_er_test_er_diagram_exporter_focused.dir\test_er_diagram_exporter.cpp.obj
+[4877/9445] Building CXX object cmake\tests\ethical\CMakeFiles\module_ethical_test_ethical_guidelines_manager_focused.dir\test_ethical_guidelines_manager.cpp.obj
+[4878/9445] Building CXX object cmake\tests\eviction\CMakeFiles\module_eviction_test_eviction_strategies_focused.dir\test_eviction_strategies.cpp.obj
+[4879/9445] Building CXX object cmake\tests\discourse\CMakeFiles\module_discourse_test_discourse_engine_focused.dir\__\__\src\ethics_ai\argument_store.cpp.obj
+[4880/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_catalog_focused.dir\test_distributed_catalog.cpp.obj
+[4881/9445] Building CXX object cmake\tests\explainability\CMakeFiles\module_explainability_test_explainability_reason_builder_focused.dir\test_explainability_reason_builder.cpp.obj
+[4882/9445] Building CXX object cmake\tests\explainability\CMakeFiles\module_explainability_test_explainability_reason_builder_focused.dir\__\__\src\rag\explainability_reason_builder.cpp.obj
+C:\Projects\ThemisDB\src\rag\explainability_reason_builder.cpp(42): warning C4505: "themis::rag::`anonymous-namespace'::param": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[4883/9445] Building CXX object cmake\tests\explanation\CMakeFiles\module_explanation_test_explanation_generator_focused.dir\__\__\src\llm\explanation_generator.cpp.obj
+C:\Projects\ThemisDB\src\llm\explanation_generator.cpp(191): warning C4100: "query": nicht referenzierter Parameter
+C:\Projects\ThemisDB\src\llm\explanation_generator.cpp(402): warning C4244: "Argument": Konvertierung von "int" in "_Elem", mglicher Datenverlust
+        with
+        [
+            _Elem=char
+        ]
+[4884/9445] Building CXX object cmake\tests\explanation\CMakeFiles\module_explanation_test_explanation_generator_focused.dir\test_explanation_generator.cpp.obj
+[4885/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_knowledge_integration_focused.dir\test_distributed_knowledge_integration.cpp.obj
+C:\Projects\ThemisDB\tests\distributed\test_distributed_knowledge_integration.cpp(319): warning C4189: "secret": Lokale Variable ist initialisiert aber nicht referenziert
+[4886/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_hybrid_search_focused.dir\test_distributed_hybrid_search.cpp.obj
+[4887/9445] Building CXX object cmake\tests\encrypted\CMakeFiles\module_encrypted_test_encrypted_blob_backend_focused.dir\test_encrypted_blob_backend.cpp.obj
+[4888/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_aql_predicate_filter_focused.dir\test_aql_predicate_filter.cpp.obj
+[4889/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_task_coordinator_focused.dir\test_distributed_task_coordinator.cpp.obj
+[4890/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_data_augmentation_focused.dir\test_data_augmentation.cpp.obj
+[4891/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_export_format_registry_focused.dir\test_export_format_registry.cpp.obj
+[4892/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_format_template_focused.dir\test_format_template.cpp.obj
+[4893/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_huggingface_hub_client_focused.dir\test_huggingface_hub_client.cpp.obj
+[4894/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_incremental_exporter_focused.dir\test_incremental_exporter.cpp.obj
+[4895/9445] Building CXX object cmake\tests\enhanced\CMakeFiles\module_enhanced_test_enhanced_backup_focused.dir\test_enhanced_backup.cpp.obj
+[4896/9445] Building CXX object cmake\tests\error\CMakeFiles\module_error_test_error_registry_focused.dir\test_error_registry.cpp.obj
+[4897/9445] Building CXX object cmake\tests\encryption\CMakeFiles\module_encryption_test_encryption_e2e_focused.dir\test_encryption_e2e.cpp.obj
+[4898/9445] Building CXX object cmake\tests\document\CMakeFiles\module_document_test_document_store_focused.dir\test_document_store.cpp.obj
+[4899/9445] Building CXX object cmake\tests\erasure\CMakeFiles\module_erasure_test_erasure_coding_backend_focused.dir\test_erasure_coding_backend.cpp.obj
+[4900/9445] Building CXX object cmake\tests\event\CMakeFiles\module_event_test_event_trigger_focused.dir\test_event_trigger.cpp.obj
+[4901/9445] Building CXX object cmake\tests\distributed\CMakeFiles\module_distributed_test_distributed_gateway_focused.dir\test_distributed_gateway.cpp.obj
+[4902/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_arrow_ipc_exporter_focused.dir\test_arrow_ipc_exporter.cpp.obj
+[4903/9445] Building CXX object cmake\tests\feature\CMakeFiles\module_feature_test_feature_flags_focused.dir\test_feature_flags.cpp.obj
+[4904/9445] Building CXX object cmake\tests\federated\CMakeFiles\module_federated_test_federated_distillation_coordinator_focused.dir\test_federated_distillation_coordinator.cpp.obj
+[4905/9445] Building CXX object cmake\tests\federated\CMakeFiles\module_federated_test_federated_distillation_coordinator_focused.dir\__\__\src\distributed_knowledge\federated_distillation_coordinator.cpp.obj
+[4906/9445] Building CXX object cmake\tests\entity\CMakeFiles\module_entity_test_entity_api_raid_integration_focused.dir\test_entity_api_raid_integration.cpp.obj
+[4907/9445] Building CXX object cmake\tests\federated\CMakeFiles\module_federated_test_federated_poisoning_detection_focused.dir\test_federated_poisoning_detection.cpp.obj
+[4908/9445] Building CXX object cmake\tests\faiss\CMakeFiles\module_faiss_test_faiss_gpu_backend_focused.dir\test_faiss_gpu_backend.cpp.obj
+[4909/9445] Building CXX object cmake\tests\entity\CMakeFiles\module_entity_test_entity_api_handler_batch_focused.dir\test_entity_api_handler_batch.cpp.obj
+[4910/9445] Building CXX object cmake\tests\federated\CMakeFiles\module_federated_test_federated_privacy_training_focused.dir\test_federated_privacy_training.cpp.obj
+[4911/9445] Building CXX object cmake\tests\federation\CMakeFiles\module_federation_test_federation_admin_focused.dir\test_federation_admin.cpp.obj
+[4912/9445] Building CXX object cmake\tests\feedback\CMakeFiles\module_feedback_test_feedback_collector_focused.dir\test_feedback_collector.cpp.obj
+[4913/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_parquet_exporter_focused.dir\test_parquet_exporter.cpp.obj
+[4914/9445] Building CXX object cmake\tests\feedback\CMakeFiles\module_feedback_test_feedback_collector_scaling_focused.dir\test_feedback_collector_scaling.cpp.obj
+[4915/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_streaming_exporter_focused.dir\test_streaming_exporter.cpp.obj
+[4916/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_join_exporter_focused.dir\test_join_exporter.cpp.obj
+[4917/9445] Building CXX object cmake\tests\external\CMakeFiles\module_external_test_external_scheduler_adapter_focused.dir\test_external_scheduler_adapter.cpp.obj
+[4918/9445] Building CXX object cmake\tests\faceted\CMakeFiles\module_faceted_test_faceted_search_focused.dir\test_faceted_search.cpp.obj
+[4919/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_export_encryption_focused.dir\test_export_encryption.cpp.obj
+[4920/9445] Building CXX object cmake\tests\feedback\CMakeFiles\module_feedback_test_feedback_store_focused.dir\test_feedback_store.cpp.obj
+[4921/9445] Building CXX object cmake\tests\fewshot\CMakeFiles\module_fewshot_test_fewshot_optimizer_focused.dir\test_fewshot_optimizer.cpp.obj
+[4922/9445] Building CXX object cmake\tests\filtered\CMakeFiles\module_filtered_test_filtered_vector_search_focused.dir\test_filtered_vector_search.cpp.obj
+[4923/9445] Building CXX object cmake\tests\fewshot\CMakeFiles\module_fewshot_test_fewshot_optimizer_focused.dir\__\__\src\llm\fewshot_optimizer.cpp.obj
+[4924/9445] Building CXX object cmake\tests\field\CMakeFiles\module_field_test_field_encryption_batch_focused.dir\test_field_encryption_batch.cpp.obj
+[4925/9445] Building CXX object cmake\tests\flash\CMakeFiles\module_flash_test_flash_attention_correctness_focused.dir\test_flash_attention_correctness.cpp.obj
+cl : Befehlszeile warning D9025 : "/DTHEMIS_ENABLE_VULKAN" wird durch "/UTHEMIS_ENABLE_VULKAN" berschrieben
+[4926/9445] Building CXX object cmake\tests\flash\CMakeFiles\module_flash_test_flash_attention_correctness_focused.dir\__\__\src\llm\attention\flash_attention.cpp.obj
+cl : Befehlszeile warning D9025 : "/DTHEMIS_ENABLE_VULKAN" wird durch "/UTHEMIS_ENABLE_VULKAN" berschrieben
+[4927/9445] Building CXX object cmake\tests\flash\CMakeFiles\module_flash_test_flash_attention_correctness_focused.dir\__\__\src\llm\attention\kv_cache_manager.cpp.obj
+cl : Befehlszeile warning D9025 : "/DTHEMIS_ENABLE_VULKAN" wird durch "/UTHEMIS_ENABLE_VULKAN" berschrieben
+[4928/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_huggingface_exporter_focused.dir\test_huggingface_exporter.cpp.obj
+[4929/9445] Building CXX object cmake\tests\fused\CMakeFiles\module_fused_test_fused_lora_kernels_focused.dir\test_fused_lora_kernels.cpp.obj
+[4930/9445] Building CXX object cmake\tests\flatfile\CMakeFiles\module_flatfile_test_flatfile_importer_focused.dir\test_flatfile_importer.cpp.obj
+[4931/9445] Building CXX object cmake\tests\fuzz\CMakeFiles\module_fuzz_test_fuzz_core_focused.dir\test_fuzz_core.cpp.obj
+[4932/9445] Building CXX object cmake\tests\exporters\CMakeFiles\module_exporters_test_jsonl_llm_exporter_focused.dir\test_jsonl_llm_exporter.cpp.obj
+[4933/9445] Building CXX object cmake\tests\gap008\CMakeFiles\module_gap008_test_gap008_provenance_cli_focused.dir\test_gap008_provenance_cli.cpp.obj
+[4934/9445] Building CXX object cmake\tests\gate\CMakeFiles\module_gate_test_gate_result_focused.dir\test_gate_result.cpp.obj
+[4935/9445] Building CXX object cmake\tests\gdpr\CMakeFiles\module_gdpr_test_gdpr_and_cross_border_focused.dir\test_gdpr_and_cross_border.cpp.obj
+[4936/9445] Building CXX object cmake\tests\gdpr\CMakeFiles\module_gdpr_test_gdpr_and_cross_border_focused.dir\__\__\src\governance\gdpr_subject_rights.cpp.obj
+[4937/9445] Building CXX object cmake\tests\flash\CMakeFiles\module_flash_test_flash_lora_focused.dir\test_flash_lora.cpp.obj
+cl : Befehlszeile warning D9025 : "/DTHEMIS_ENABLE_VULKAN" wird durch "/UTHEMIS_ENABLE_VULKAN" berschrieben
+[4938/9445] Building CXX object cmake\tests\federated\CMakeFiles\module_federated_test_federated_identity_manager_focused.dir\__\__\src\auth\federated_identity_manager.cpp.obj
+[4939/9445] Building CXX object cmake\tests\generic\CMakeFiles\module_generic_test_generic_plugin_registry_focused.dir\test_generic_plugin_registry.cpp.obj
+[4940/9445] Building CXX object cmake\tests\federated\CMakeFiles\module_federated_test_federated_identity_manager_focused.dir\test_federated_identity_manager.cpp.obj
+[4941/9445] Building CXX object cmake\tests\export\CMakeFiles\module_export_test_export_api_handler_focused.dir\test_export_api_handler.cpp.obj
+[4942/9445] Building CXX object cmake\tests\fused\CMakeFiles\module_fused_test_fused_kernels_focused.dir\test_fused_kernels.cpp.obj
+[4943/9445] Building CXX object cmake\tests\failover\CMakeFiles\module_failover_test_failover_chaos_scenarios_focused.dir\test_failover_chaos_scenarios.cpp.obj
+[4944/9445] Building CXX object cmake\tests\failover\CMakeFiles\module_failover_test_failover_chaos_scenarios_focused.dir\__\__\src\failover\auto_failover_manager.cpp.obj
+[4945/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_3d_functions_focused.dir\test_geo_3d_functions.cpp.obj
+[4946/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_clustering_focused.dir\test_geo_clustering.cpp.obj
+[4947/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_device_detector_focused.dir\test_geo_device_detector.cpp.obj
+[4948/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_ewkb_focused.dir\test_geo_ewkb.cpp.obj
+[4949/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_json_geometry_focused.dir\test_geo_json_geometry.cpp.obj
+[4950/9445] Building CXX object cmake\tests\gap008\CMakeFiles\module_gap008_test_gap008_observability_focused.dir\test_gap008_observability.cpp.obj
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(108): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(122): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(138): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(152): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(155): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(214): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(215): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\gap008\test_gap008_observability.cpp(234): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4951/9445] Building CXX object cmake\tests\fulltext\CMakeFiles\module_fulltext_test_fulltext_phrase_fuzzy_focused.dir\test_fulltext_phrase_fuzzy.cpp.obj
+[4952/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_precision_mode_focused.dir\test_geo_precision_mode.cpp.obj
+[4953/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_processor_gdal_focused.dir\test_geo_processor_gdal.cpp.obj
+[4954/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_raster_focused.dir\test_geo_raster.cpp.obj
+[4955/9445] Building CXX object cmake\tests\fuzzy\CMakeFiles\module_fuzzy_test_fuzzy_matcher_focused.dir\test_fuzzy_matcher.cpp.obj
+[4956/9445] Building CXX object cmake\tests\gap008\CMakeFiles\module_gap008_test_gap008_backup_automation_focused.dir\test_gap008_backup_automation.cpp.obj
+[4957/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_rtree_focused.dir\test_geo_rtree.cpp.obj
+[4958/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_replication_consistency_focused.dir\test_geo_replication_consistency.cpp.obj
+[4959/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_st_buffer_focused.dir\test_geo_st_buffer.cpp.obj
+[4960/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_spatial_join_focused.dir\test_geo_spatial_join.cpp.obj
+[4961/9445] Building CXX object cmake\tests\feedback\CMakeFiles\module_feedback_test_feedback_plugin_modify_focused.dir\test_feedback_plugin_modify.cpp.obj
+C:\Projects\ThemisDB\tests\feedback\test_feedback_plugin_modify.cpp(74): warning C4244: "=": Konvertierung von "int" in "_Elem", mglicher Datenverlust
+        with
+        [
+            _Elem=char
+        ]
+C:\Projects\ThemisDB\tests\feedback\test_feedback_plugin_modify.cpp(273): warning C4100: "feedback": nicht referenzierter Parameter
+[4962/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_st_union_difference_focused.dir\test_geo_st_union_difference.cpp.obj
+[4963/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_tile_server_focused.dir\test_geo_tile_server.cpp.obj
+[4964/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_topology_router_focused.dir\test_geo_topology_router.cpp.obj
+[4965/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_validator_focused.dir\test_geo_validator.cpp.obj
+[4966/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_wgs84_spherical_focused.dir\test_geo_wgs84_spherical.cpp.obj
+[4967/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_gpu_kernel_dispatcher_focused.dir\test_gpu_kernel_dispatcher.cpp.obj
+[4968/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_gpu_backend_production_focused.dir\test_gpu_backend_production.cpp.obj
+C:\Projects\ThemisDB\tests\geo\test_gpu_backend_production.cpp(159): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4969/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_raster_query_interface_focused.dir\test_raster_query_interface.cpp.obj
+[4970/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_rtree_cursor_focused.dir\test_rtree_cursor.cpp.obj
+[4971/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_cuda_geo_kernels_focused.dir\test_cuda_geo_kernels.cpp.obj
+[4972/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_spatial_join_filter_focused.dir\test_spatial_join_filter.cpp.obj
+[4973/9445] Building CXX object cmake\tests\fuzz\CMakeFiles\module_fuzz_test_fuzz_security_focused.dir\test_fuzz_security.cpp.obj
+C:\Projects\ThemisDB\tests\fuzz\test_fuzz_security.cpp(531): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[4974/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_temporal_spatial_query_focused.dir\test_temporal_spatial_query.cpp.obj
+[4975/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_3d_functions_autofocused.dir\test_geo_3d_functions.cpp.obj
+[4976/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_temporal_spatial_query_builder_focused.dir\test_temporal_spatial_query_builder.cpp.obj
+[4977/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_clustering_autofocused.dir\test_geo_clustering.cpp.obj
+[4978/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_ewkb_autofocused.dir\test_geo_ewkb.cpp.obj
+[4979/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_device_detector_autofocused.dir\test_geo_device_detector.cpp.obj
+[4980/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_json_geometry_autofocused.dir\test_geo_json_geometry.cpp.obj
+[4981/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_precision_mode_autofocused.dir\test_geo_precision_mode.cpp.obj
+[4982/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_processor_gdal_autofocused.dir\test_geo_processor_gdal.cpp.obj
+[4983/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_raster_autofocused.dir\test_geo_raster.cpp.obj
+[4984/9445] Building CXX object cmake\tests\general\CMakeFiles\module_general_test_general_traversal_focused.dir\test_general_traversal.cpp.obj
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(137): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(122): note: Siehe Deklaration von "result"
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(158): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(148): note: Siehe Deklaration von "result"
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(186): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(171): note: Siehe Deklaration von "result"
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(213): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(198): note: Siehe Deklaration von "result"
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(236): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(224): note: Siehe Deklaration von "result"
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(271): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(259): note: Siehe Deklaration von "result"
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(302): warning C4456: Deklaration von "result" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\tests\general\test_general_traversal.cpp(289): note: Siehe Deklaration von "result"
+[4985/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_replication_consistency_autofocused.dir\test_geo_replication_consistency.cpp.obj
+[4986/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_rtree_autofocused.dir\test_geo_rtree.cpp.obj
+[4987/9445] Building CXX object cmake\tests\feedback\CMakeFiles\module_feedback_test_feedback_api_handler_focused.dir\test_feedback_api_handler.cpp.obj
+[4988/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_st_buffer_autofocused.dir\test_geo_st_buffer.cpp.obj
+[4989/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_spatial_join_autofocused.dir\test_geo_spatial_join.cpp.obj
+[4990/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_st_union_difference_autofocused.dir\test_geo_st_union_difference.cpp.obj
+[4991/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_tile_server_autofocused.dir\test_geo_tile_server.cpp.obj
+[4992/9445] Building CXX object cmake\tests\gap008\CMakeFiles\module_gap008_test_gap008_provenance_api_focused.dir\test_gap008_provenance_api.cpp.obj
+[4993/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_hip_geo_kernels_focused.dir\test_hip_geo_kernels.cpp.obj
+[4994/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_index_integration_focused.dir\test_geo_index_integration.cpp.obj
+[4995/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_gpu_backend_focused.dir\test_geo_gpu_backend.cpp.obj
+[4996/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_topology_router_autofocused.dir\test_geo_topology_router.cpp.obj
+[4997/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_wgs84_spherical_autofocused.dir\test_geo_wgs84_spherical.cpp.obj
+[4998/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_validator_autofocused.dir\test_geo_validator.cpp.obj
+[4999/9445] Building CXX object cmake\tests\geometric\CMakeFiles\module_geometric_test_geometric_distances_focused.dir\test_geometric_distances.cpp.obj
+[5000/9445] Building CXX object cmake\tests\gguf\CMakeFiles\module_gguf_test_gguf_loader_focused.dir\test_gguf_loader.cpp.obj
+[5001/9445] Building CXX object cmake\tests\gguf\CMakeFiles\module_gguf_test_gguf_metadata_focused.dir\__\__\src\storage\gguf_metadata.cpp.obj
+[5002/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_aql_st_queryengine_focused.dir\test_aql_st_queryengine.cpp.obj
+[5003/9445] Building CXX object cmake\tests\gguf\CMakeFiles\module_gguf_test_gguf_metadata_focused.dir\test_gguf_metadata.cpp.obj
+[5004/9445] Building CXX object cmake\tests\global\CMakeFiles\module_global_test_global_transaction_manager_focused.dir\test_global_transaction_manager.cpp.obj
+[5005/9445] Building CXX object cmake\tests\gorilla\CMakeFiles\module_gorilla_test_gorilla_focused.dir\test_gorilla.cpp.obj
+[5006/9445] Building CXX object cmake\tests\gorilla\CMakeFiles\module_gorilla_test_gorilla_error_recovery_focused.dir\test_gorilla_error_recovery.cpp.obj
+[5007/9445] Building CXX object cmake\tests\gorilla\CMakeFiles\module_gorilla_test_gorilla_codec_edge_cases_focused.dir\test_gorilla_codec_edge_cases.cpp.obj
+[5008/9445] Building CXX object cmake\tests\gorilla\CMakeFiles\module_gorilla_test_gorilla_probe_focused.dir\test_gorilla_probe.cpp.obj
+[5009/9445] Building CXX object cmake\tests\gorilla\CMakeFiles\module_gorilla_test_gorilla_simd_focused.dir\test_gorilla_simd.cpp.obj
+[5010/9445] Building CXX object cmake\tests\gossip\CMakeFiles\module_gossip_test_gossip_config_manager_focused_focused.dir\test_gossip_config_manager_focused.cpp.obj
+[5011/9445] Building CXX object cmake\tests\gossip\CMakeFiles\module_gossip_test_gossip_custom_handler_focused.dir\test_gossip_custom_handler.cpp.obj
+[5012/9445] Building CXX object cmake\tests\governance\CMakeFiles\module_governance_test_governance_compliance_time_window_focused.dir\test_governance_compliance_time_window.cpp.obj
+[5013/9445] Building CXX object cmake\tests\governance\CMakeFiles\module_governance_test_governance_opa_adapter_focused.dir\test_governance_opa_adapter.cpp.obj
+[5014/9445] Building CXX object cmake\tests\governance\CMakeFiles\module_governance_test_governance_policy_simulation_focused.dir\test_governance_policy_simulation.cpp.obj
+[5015/9445] Building CXX object cmake\tests\governance\CMakeFiles\module_governance_test_governance_policy_hot_reload_focused.dir\test_governance_policy_hot_reload.cpp.obj
+[5016/9445] Building CXX object cmake\tests\governance\CMakeFiles\module_governance_test_governance_review_scheduler_focused.dir\test_governance_review_scheduler.cpp.obj
+[5017/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_admin_api_focused.dir\test_gpu_admin_api.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5018/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_alerts_focused.dir\test_gpu_alerts.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5019/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_rtree_cpu_integration_focused.dir\test_rtree_cpu_integration.cpp.obj
+[5020/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_audit_log_focused.dir\test_gpu_audit_log.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5021/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_cluster_coordinator_focused.dir\test_gpu_cluster_coordinator.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5022/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_cluster_topology_focused.dir\test_gpu_cluster_topology.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5023/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_spatial_index_focused.dir\test_spatial_index.cpp.obj
+[5024/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_config_focused.dir\test_gpu_config.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5025/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_device_discovery_focused.dir\test_gpu_device_discovery.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5026/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_gpu_backend_autofocused.dir\test_geo_gpu_backend.cpp.obj
+[5027/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_erasure_coding_focused.dir\test_gpu_erasure_coding.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5028/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_aql_st_functions_focused.dir\test_aql_st_functions.cpp.obj
+[5029/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_index_integration_autofocused.dir\test_geo_index_integration.cpp.obj
+[5030/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_feature_flags_focused.dir\test_gpu_feature_flags.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5031/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_graph_cache_focused.dir\test_gpu_graph_cache.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5032/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_admin_api_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5033/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_audit_log_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5034/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_alerts_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5035/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_cluster_topology_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5036/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_cluster_coordinator_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5037/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_compression_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5038/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_config_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5039/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_kernel_validator_focused.dir\test_gpu_kernel_validator.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5040/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_launcher_focused.dir\test_gpu_launcher.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5041/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_load_balancer_focused.dir\test_gpu_load_balancer.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5042/9445] Building CXX object cmake\tests\gnn\CMakeFiles\module_gnn_test_gnn_embeddings_focused.dir\test_gnn_embeddings.cpp.obj
+[5043/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_topology_api_handler_focused.dir\test_geo_topology_api_handler.cpp.obj
+[5044/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_memory_hierarchy_focused.dir\test_gpu_memory_hierarchy.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5045/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_memory_management_focused.dir\test_gpu_memory_management.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5046/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_device_discovery_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5047/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_memory_pool_focused.dir\test_gpu_memory_pool.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5048/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_erasure_coding_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5049/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_metrics_focused.dir\test_gpu_metrics.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5050/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_feature_flags_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5051/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_compression_focused.dir\test_gpu_compression.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5052/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_mig_manager_focused.dir\test_gpu_mig_manager.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5053/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_graph_cache_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5054/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_module_focused.dir\test_gpu_module.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5055/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_graph_traversal_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5056/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_olap_accelerator_focused.dir\test_gpu_olap_accelerator.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5057/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_kernel_validator_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5058/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_p2p_transfer_focused.dir\test_gpu_p2p_transfer.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5059/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_policy_focused.dir\test_gpu_policy.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5060/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_load_balancer_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5061/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_launcher_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5062/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_lora_layers_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5063/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_memory_hierarchy_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5064/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_lora_layers_focused.dir\test_gpu_lora_layers.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5065/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_memory_management_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5066/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_profiler_focused.dir\test_gpu_profiler.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5067/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_query_accelerator_focused.dir\test_gpu_query_accelerator.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5068/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_memory_pool_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5069/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_query_accelerator_parity_focused.dir\test_gpu_query_accelerator_parity.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5070/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_rocm_backend_focused.dir\test_gpu_rocm_backend.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5071/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_safe_fail_focused.dir\test_gpu_safe_fail.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5072/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_metrics_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5073/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_safe_fail_module_focused.dir\test_gpu_safe_fail_module.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5074/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_mig_manager_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5075/9445] Building CXX object cmake\tests\geo\CMakeFiles\module_geo_test_geo_topology_api_handler_autofocused.dir\test_geo_topology_api_handler.cpp.obj
+[5076/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_olap_accelerator_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5077/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_stream_cuda_bridge_focused.dir\test_gpu_stream_cuda_bridge.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5078/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_module_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5079/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_stubs_comprehensive_focused.dir\test_gpu_stubs_comprehensive.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5080/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_stream_manager_focused.dir\test_gpu_stream_manager.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5081/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_p2p_transfer_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5082/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_temperature_telemetry_focused.dir\test_gpu_temperature_telemetry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5083/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_graph_traversal_focused.dir\test_gpu_graph_traversal.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5084/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_tensor_focused.dir\test_gpu_tensor.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5085/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_policy_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5086/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_profiler_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5087/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_query_accelerator_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5088/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_time_slice_scheduler_focused.dir\test_gpu_time_slice_scheduler.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5089/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_query_accelerator_parity_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5090/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_rocm_backend_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5091/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_training_loop_focused.dir\test_gpu_training_loop.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5092/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_unified_memory_focused.dir\test_gpu_unified_memory.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5093/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_shader_coverage_focused.dir\test_gpu_shader_coverage.cpp.obj
+FAILED: [code=2] cmake/tests/gpu/CMakeFiles/module_gpu_test_gpu_shader_coverage_focused.dir/test_gpu_shader_coverage.cpp.obj 
+C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe\sccache-v0.10.0-x86_64-pc-windows-msvc\sccache.exe C:\PROGRA~1\MICROS~3\2022\PROFES~1\VC\Tools\MSVC\1444~1.352\bin\Hostx64\x64\cl.exe  /nologo /TP -DABSL_CONSUME_DLL -DFMT_SHARED -DGGML_BACKEND_SHARED -DGGML_SHARED -DGGML_USE_CPU -DGGML_USE_VULKAN -DGTEST_LINKED_AS_SHARED_LIBRARY=1 -DLLAMA_SHARED -DMI_DISABLE_REDIRECT=1 -DNOMINMAX -DPROTOBUF_USE_DLLS -DSIMDJSON_THREADS_ENABLED=1 -DSIMDJSON_USING_WINDOWS_DYNAMIC_LIBRARY=1 -DSPDLOG_COMPILED_LIB -DSPDLOG_FMT_EXTERNAL -DSPDLOG_SHARED_LIB -DTHEMIS_BASE_ENABLED -DTHEMIS_BUILD_HOST=\"DESKTOP-712S8LO\" -DTHEMIS_BUILD_USER=\"mkrueger\" -DTHEMIS_COMMUNITY_EDITION -DTHEMIS_CONTENT_ENABLED -DTHEMIS_EDITION_COMMUNITY -DTHEMIS_EDITION_STRING=\"COMMUNITY\" -DTHEMIS_ENABLE_LLM=1 -DTHEMIS_ENABLE_MIMALLOC -DTHEMIS_ENABLE_OFFICE -DTHEMIS_ENABLE_VULKAN -DTHEMIS_GEO_ENABLED -DTHEMIS_GIT_BRANCH=\"develop\" -DTHEMIS_GIT_COMMIT=\"b6bdbc2d422ba7a389d10c5c0b518fd25dac4e49\" -DTHEMIS_GIT_COMMIT_DATE="\"2026-07-16 17:22:46 +0200\"" -DTHEMIS_GIT_DIRTY=1 -DTHEMIS_GPU_MAX_VRAM_GB=8 -DTHEMIS_GRAPH_ENABLED -DTHEMIS_HAS_ARROW=1 -DTHEMIS_HAS_ARROW_FLIGHT=1 -DTHEMIS_HAS_AVX2=1 -DTHEMIS_HAS_CURL=1 -DTHEMIS_HAS_FAISS=1 -DTHEMIS_HAS_GTEST=1 -DTHEMIS_HAS_HTTPLIB=1 -DTHEMIS_HAS_LDAP=1 -DTHEMIS_HAS_MIMALLOC=1 -DTHEMIS_HAS_MSGPACK=1 -DTHEMIS_HAS_ONNX=1 -DTHEMIS_HAS_PARQUET=1 -DTHEMIS_HAS_PROMETHEUS=1 -DTHEMIS_INGESTION_ENABLED -DTHEMIS_LICENSE_BUILD_ID=\"community-default\" -DTHEMIS_LICENSE_BUILD_TIMESTAMP="\"2026-07-16 15:42:48 UTC\"" -DTHEMIS_LICENSE_CONTACT_EMAIL=\"community@themisdb.com\" -DTHEMIS_LICENSE_EDITION=\"COMMUNITY\" -DTHEMIS_LICENSE_EXPIRY_DATE=\"9999-12-31\" -DTHEMIS_LICENSE_ISSUED_DATE=\"2026-01-01\" -DTHEMIS_LICENSE_KEY=\"THEMIS-COMMUNITY-OPENSOURCE\" -DTHEMIS_LICENSE_MAX_CORES=-1 -DTHEMIS_LICENSE_MAX_NODES=5 -DTHEMIS_LICENSE_MAX_STORAGE_TB=-1 -DTHEMIS_LICENSE_ORG_ID=\"COMMUNITY\" -DTHEMIS_LICENSE_ORG_NAME="\"ThemisDB Community\"" -DTHEMIS_LICENSE_SIGNATURE=\"\" -DTHEMIS_LLAMA_CPP_EXPECTED_COMMIT=\"b7974\" -DTHEMIS_LLM_ENABLED -DTHEMIS_NETWORK_ENABLED -DTHEMIS_PLUGIN_BLOB_AZURE_ENABLED -DTHEMIS_PLUGIN_BLOB_S3_ENABLED -DTHEMIS_PLUGIN_HUGGINGFACE_ENABLED -DTHEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX_ENABLED -DTHEMIS_PLUGIN_IMPORTER_KAFKA_ENABLED -DTHEMIS_PLUGIN_IMPORTER_MONGODB_ENABLED -DTHEMIS_PLUGIN_IMPORTER_MYSQL_ENABLED -DTHEMIS_PLUGIN_IMPORTER_POSTGRES_ENABLED -DTHEMIS_PLUGIN_IMPORTER_S3_ENABLED -DTHEMIS_PLUGIN_IMPORTER_SQLITE_ENABLED -DTHEMIS_PLUGIN_RPC_GRPC_ENABLED -DTHEMIS_PLUGIN_SYSTEM_ENABLED -DTHEMIS_QUERY_ENABLED -DTHEMIS_SECURITY_ENABLED -DTHEMIS_SERVER_PROFILE_DEFAULT=\"standard\" -DTHEMIS_SHARDING_ENABLED -DTHEMIS_SHARDING_MAX_NODES=5 -DTHEMIS_STORAGE_ENABLED -DTHEMIS_TEST_BUILD=1 -DTHEMIS_TIMESERIES_ENABLED -DTHEMIS_TRANSACTION_ENABLED -DTHEMIS_USE_HUGE_PAGES=1 -DTHEMIS_USE_LIRS_CACHE -DTHEMIS_USE_RCU_INDEX -DTHEMIS_VERSION=\"1.9.0\" -DTHEMIS_VERSION_STRING=\"1.9.0-beta\" -DTHEMIS_WIRE_V1_PROTO_AVAILABLE -DWIN32_LEAN_AND_MEAN -D_CRT_SECURE_NO_WARNINGS -D_ITERATOR_DEBUG_LEVEL=0 -D_WIN32_WINNT=0x0A00 -I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um" -I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt" -I"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include" -IC:\Projects\ThemisDB\build-msvc-windows-release\include -IC:\Projects\ThemisDB\include -IC:\Projects\ThemisDB\src -IC:\Projects\ThemisDB\llama.cpp\src\..\include -IC:\Projects\ThemisDB\llama.cpp\ggml\src\..\include -external:IC:\Projects\ThemisDB\vcpkg_installed\x64-windows\include -external:IC:\Projects\ThemisDB\vcpkg\packages\zlib_x64-windows\include -external:IC:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\onnxruntime -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD /W4 /WX- /fp:precise /Gy /permissive- /EHsc /w14018 /arch:AVX2 /utf-8 /wd4701 /bigobj /wd4702 /wd5072 /wd4996 /O2 /GL- /W0 /wd4251 /wd4275 /showIncludes /Focmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_shader_coverage_focused.dir\test_gpu_shader_coverage.cpp.obj /Fdcmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_shader_coverage_focused.dir\ /FS -c C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(235): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(235): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(235): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(235): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(235): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(251): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(257): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(257): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(257): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(257): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(257): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(272): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(277): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(277): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(277): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(277): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(277): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(301): error C2039: "registerGeoDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(306): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(306): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(306): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(306): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(306): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(319): error C2039: "registerGeoDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(324): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(324): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(324): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(324): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(324): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(340): error C2039: "registerMatrixDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(345): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(345): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(345): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(345): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(345): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(360): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(367): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(371): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(371): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(371): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(371): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(371): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(391): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(395): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(414): error C2039: "registerGeoDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(417): error C2039: "registerGeoDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(430): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(431): error C2039: "registerGeoDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(432): error C2039: "registerMatrixDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(446): error C2039: "registerANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(447): error C2039: "hasANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(447): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(447): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(447): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(447): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(449): error C2039: "clear" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(450): error C2039: "hasANNDispatch" ist kein Member von "themis::acceleration::KernelRegistry".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(602): note: Siehe Deklaration von "themis::acceleration::KernelRegistry"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(450): error C2512: "testing::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(450): note: "testing::AssertionResult::AssertionResult": Kein geeigneter Standardkonstruktor verfgbar
+C:\Projects\ThemisDB\vcpkg_installed\x64-windows\include\gtest/gtest-assertion-result.h(162): note: kann "testing::AssertionResult::AssertionResult(const T &,std::enable_if<!std::is_convertible<T,testing::AssertionResult>::value,void>::type *)" sein
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(450): note: bei Anpassung der Argumentliste "()"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(450): error C2737: "gtest_ar_": Das Objekt "const" muss initialisiert werden.
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(466): error C2039: "allComplete" ist kein Member von "themis::acceleration::ValidationReport".
+C:\Projects\ThemisDB\include\acceleration/compute_backend.h(594): note: Siehe Deklaration von "themis::acceleration::ValidationReport"
+C:\Projects\ThemisDB\tests\gpu\test_gpu_shader_coverage.cpp(466): error C2737: "complete": Das Objekt "const" muss initialisiert werden.
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5094/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_safe_fail_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5095/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_safe_fail_module_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5096/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_vram_allocation_focused.dir\test_gpu_vram_allocation.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5097/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_shader_coverage_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5098/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_stream_cuda_bridge_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5099/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_stream_manager_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5100/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_stubs_comprehensive_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5101/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_temperature_telemetry_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5102/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_tensor_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5103/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_time_slice_scheduler_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5104/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_training_loop_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5105/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_unified_memory_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5106/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_vector_index_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5107/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_vram_allocation_focused.dir\__\__\src\acceleration\kernel_registry.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+[5108/9445] Building CXX object cmake\tests\gpu\CMakeFiles\module_gpu_test_gpu_vector_index_focused.dir\test_gpu_vector_index.cpp.obj
+cl : Befehlszeile warning D9025 : "/W4" wird durch "/W0" berschrieben
+ninja: build stopped: subcommand failed.

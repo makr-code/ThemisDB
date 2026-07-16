@@ -178,10 +178,69 @@ ValidationReport KernelRegistry::validate() const {
             cov.matrixComplete = ok;
         }
 
-        report.entries.push_back(std::move(cov));
+// ---------------------------------------------------------------------------
+// ValidationReport::allComplete()
+// ---------------------------------------------------------------------------
+
+bool ValidationReport::allComplete() const {
+    if (entries.empty()) return true;
+    for (const auto& entry : entries) {
+        if (entry.hasANN && !entry.annComplete)       return false;
+        if (entry.hasGeo && !entry.geoComplete)       return false;
+        if (entry.hasMatrix && !entry.matrixComplete) return false;
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// ValidationReport::summary()
+// ---------------------------------------------------------------------------
+
+std::string ValidationReport::summary() const {
+    std::ostringstream oss;
+
+    if (entries.empty()) {
+        oss << "No backends registered.\n";
+        return oss.str();
     }
 
-    return report;
+    for (const auto& entry : entries) {
+        oss << backendTypeName(entry.backend) << ": ";
+
+        if (!entry.hasANN && !entry.hasGeo && !entry.hasMatrix) {
+            oss << "no kernels\n";
+            continue;
+        }
+
+        std::vector<std::string> statuses;
+        if (entry.hasANN) {
+            statuses.push_back(entry.annComplete ? "ANN✓" : "ANN✗");
+        }
+        if (entry.hasGeo) {
+            statuses.push_back(entry.geoComplete ? "Geo✓" : "Geo✗");
+        }
+        if (entry.hasMatrix) {
+            statuses.push_back(entry.matrixComplete ? "Matrix✓" : "Matrix✗");
+        }
+
+        for (size_t i = 0; i < statuses.size(); ++i) {
+            if (i > 0) oss << " | ";
+            oss << statuses[i];
+        }
+
+        if (!entry.missingSlots.empty()) {
+            oss << " [Missing: ";
+            for (size_t i = 0; i < entry.missingSlots.size(); ++i) {
+                if (i > 0) oss << ", ";
+                oss << entry.missingSlots[i];
+            }
+            oss << "]";
+        }
+
+        oss << "\n";
+    }
+
+    return oss.str();
 }
 
 // ---------------------------------------------------------------------------

@@ -101,6 +101,12 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     if(THEMIS_GIT_EXECUTABLE)
         set(_themis_missing_submodules "")
         foreach(_themis_submodule IN ITEMS "ffmpeg" "llama.cpp" "whisper.cpp" "stable-diffusion.cpp")
+            if(_themis_submodule STREQUAL "llama.cpp" AND
+               EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+                # Legacy layout support: if external/llama.cpp exists, do not force
+                # initialization of root llama.cpp submodule.
+                continue()
+            endif()
             if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/.git" AND
                NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/CMakeLists.txt")
                 list(APPEND _themis_missing_submodules "${_themis_submodule}")
