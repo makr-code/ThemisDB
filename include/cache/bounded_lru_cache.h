@@ -54,6 +54,16 @@ public:
         size_t max_entries = 100'000;           // Maximum entries in cache
         std::chrono::seconds ttl{3600};         // Time-to-live (1 hour default)
         bool enable_statistics = true;          // Track hits/misses
+
+        /// @brief C4: AI/LLM safety — maximum serialised entry size in bytes.
+        ///        Entries whose JSON dump exceeds this limit are rejected.
+        ///        Default: 64 MiB.
+        size_t   max_entry_size_bytes = 67108864U; // 64 MiB
+
+        /// @brief C4: AI/LLM safety — maximum per-entry TTL in seconds.
+        ///        Entries with ttl_seconds > this value are rejected.
+        ///        Default: 86 400 s (24 hours).
+        uint32_t max_ttl_seconds      = 86400U;    // 24 hours
     };
     
     /**

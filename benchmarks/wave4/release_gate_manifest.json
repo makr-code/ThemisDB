@@ -1,0 +1,168 @@
+{
+  "$schema": "https://themisdb.io/schemas/release-gate-manifest/v1",
+  "manifest_version": "1.0.0",
+  "target_release": "v1.5.0",
+  "generated": "2026-07-16",
+  "description": "Release-critical benchmark gate definitions for ThemisDB Wave 4. All gates MUST pass before any production release.",
+
+  "baseline_freeze": {
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "cmake_preset": "linux-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04",
+    "seed": 42
+  },
+
+  "regression_policy": {
+    "minor_threshold_pct": 5,
+    "major_threshold_pct": 10,
+    "critical_threshold_pct": 20,
+    "metric_direction": {
+      "latency": "lower_is_better",
+      "throughput": "higher_is_better",
+      "cv": "lower_is_better"
+    },
+    "min_samples": 30,
+    "warmup_iterations": 5
+  },
+
+  "gates": [
+    {
+      "id": "W4A-01",
+      "name": "Storage Write Throughput",
+      "benchmark": "bench_w4a_release_gates",
+      "benchmark_filter": "StorageBenchFixture/W4A_01_WriteThroughput/500",
+      "metric": "items_per_second",
+      "direction": "higher_is_better",
+      "regression_threshold_pct": 10,
+      "severity": "major",
+      "workload_family": "oltp",
+      "description": "Sequential kv write throughput — OLTP baseline. Regression blocks release.",
+      "criticality": "release-blocking"
+    },
+    {
+      "id": "W4A-02",
+      "name": "Storage Read Latency P99",
+      "benchmark": "bench_w4a_release_gates",
+      "benchmark_filter": "StorageBenchFixture/W4A_02_ReadLatencyP99/10000",
+      "metric": "p99_ns",
+      "direction": "lower_is_better",
+      "regression_threshold_pct": 15,
+      "severity": "major",
+      "workload_family": "oltp",
+      "description": "P99 read latency over 10k pre-populated keys. Regression blocks release.",
+      "criticality": "release-blocking"
+    },
+    {
+      "id": "W4A-03",
+      "name": "Vector Insert Throughput",
+      "benchmark": "bench_w4a_release_gates",
+      "benchmark_filter": "VectorBenchFixture/W4A_03_VectorInsertThroughput/200",
+      "metric": "items_per_second",
+      "direction": "higher_is_better",
+      "regression_threshold_pct": 10,
+      "severity": "major",
+      "workload_family": "vector",
+      "description": "ANN write path insert throughput. Regression blocks release.",
+      "criticality": "release-blocking"
+    },
+    {
+      "id": "W4A-04",
+      "name": "Vector k-NN Search Latency P99",
+      "benchmark": "bench_w4a_release_gates",
+      "benchmark_filter": "VectorBenchFixture/W4A_04_VectorSearchLatency/10000",
+      "metric": "p99_ns",
+      "direction": "lower_is_better",
+      "regression_threshold_pct": 15,
+      "severity": "major",
+      "workload_family": "vector",
+      "description": "P99 k-NN (k=10) latency over 10k vector index. Regression blocks release.",
+      "criticality": "release-blocking"
+    },
+    {
+      "id": "W4A-05",
+      "name": "Graph BFS Depth-2 Latency P99",
+      "benchmark": "bench_w4a_release_gates",
+      "benchmark_filter": "GraphBenchFixture/W4A_05_GraphBFSDepth2/5000",
+      "metric": "p99_ns",
+      "direction": "lower_is_better",
+      "regression_threshold_pct": 20,
+      "severity": "minor",
+      "workload_family": "graph",
+      "description": "P99 BFS traversal at depth=2 over 5k-node graph. Minor regression is advisory.",
+      "criticality": "advisory"
+    },
+    {
+      "id": "W4A-06",
+      "name": "Mixed Concurrent Throughput (4 threads)",
+      "benchmark": "bench_w4a_release_gates",
+      "benchmark_filter": "BM_W4A_06_MixedConcurrent/500",
+      "metric": "items_per_second",
+      "direction": "higher_is_better",
+      "regression_threshold_pct": 15,
+      "severity": "major",
+      "workload_family": "oltp",
+      "description": "Mixed 50/50 read-write with 4 concurrent threads. Regression blocks release.",
+      "criticality": "release-blocking"
+    }
+  ],
+
+  "resilience_reference_gates": [
+    {
+      "id": "W4B-01-mode1",
+      "name": "Write Latency Under Mild Degradation",
+      "benchmark": "bench_w4b_resilience",
+      "benchmark_filter": "DegradedStorageFixture/W4B_01_WritesUnderLatencyInjection/1",
+      "metric": "p99_ns",
+      "direction": "lower_is_better",
+      "max_degradation_pct_vs_baseline": 50,
+      "severity": "advisory",
+      "description": "P99 write latency under 50–200 µs artificial latency must not exceed 2× W4A-01 baseline.",
+      "criticality": "advisory"
+    },
+    {
+      "id": "W4B-01-mode2",
+      "name": "Write Latency Under Severe Degradation",
+      "benchmark": "bench_w4b_resilience",
+      "benchmark_filter": "DegradedStorageFixture/W4B_01_WritesUnderLatencyInjection/2",
+      "metric": "p99_ns",
+      "direction": "lower_is_better",
+      "max_degradation_pct_vs_baseline": 300,
+      "severity": "advisory",
+      "description": "P99 write latency under 500–2000 µs artificial latency. Advisory only.",
+      "criticality": "advisory"
+    },
+    {
+      "id": "W4B-06-25pct",
+      "name": "Recovery Throughput (25% data loss)",
+      "benchmark": "bench_w4b_resilience",
+      "benchmark_filter": "StorageBenchFixture/W4B_06_RecoveryThroughput/25",
+      "metric": "items_per_second",
+      "direction": "higher_is_better",
+      "min_recovery_throughput_pct_of_write": 80,
+      "severity": "advisory",
+      "description": "Recovery write throughput after 25% data loss must be >= 80% of clean write baseline.",
+      "criticality": "advisory"
+    }
+  ],
+
+  "variance_acceptance_criteria": [
+    {
+      "gate_id": "W4C-03",
+      "metric": "cv",
+      "max_cv": 0.15,
+      "description": "Storage write CV must be <= 15% for reliable regression detection."
+    },
+    {
+      "gate_id": "W4C-04",
+      "metric": "cv",
+      "max_cv": 0.15,
+      "description": "Vector search CV must be <= 15% for reliable regression detection."
+    }
+  ],
+
+  "activation_runbook": "benchmarks/wave4/RUNBOOK.md",
+  "governance_contact": "ThemisDB Performance Team",
+  "review_cadence": "quarterly"
+}

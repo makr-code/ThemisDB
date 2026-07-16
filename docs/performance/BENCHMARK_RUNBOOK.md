@@ -3440,8 +3440,213 @@ endif()
    - Schritte zur Reproduktion
 
 **Maintainer**: ThemisDB Benchmark Team  
-**Letzte Aktualisierung**: 2026-02-02  
-**Dokument-Version**: 2.0.0
+**Letzte Aktualisierung**: 2026-07-16  
+**Dokument-Version**: 2.1.0
+
+---
+
+## 📐 Welle 2 – Cross-Modul-Performance-Abdeckung
+
+**Dateipfad**: `benchmarks/wave2/`  
+**Status**: ✅ Produktionsreif  
+**Hinzugefügt**: 2026-07-16
+
+### Übersicht
+
+Welle 2 ergänzt die Benchmark-Suite um belastbare Cross-Modul-Performance-Pfade,
+Parallelitäts-/Contention-Szenarien und reproduzierbare Messmethodik.
+Alle drei Benchmark-Targets folgen dem Standard-Fixture-Muster des Projekts
+(SetUp außerhalb des Messpfads, DoNotOptimize für Ergebnisse, kIsRate-Counter).
+
+### Benchmark-Targets
+
+| Datei | Target | Fokus |
+|---|---|---|
+| `bench_w2a_mixed_path.cpp` | `bench_w2a_mixed_path` | Mehrstufige Pipelines (ingest → index → query) |
+| `bench_w2b_concurrency.cpp` | `bench_w2b_concurrency` | Concurrency-Szenarien (Throughput, Tail Latency, Contention) |
+| `bench_w2c_recovery.cpp` | `bench_w2c_recovery` | Warm/Cold-Pfad, DB-Reopen, WAL-Replay |
+
+---
+
+### B2-A: Mixed-Path Benchmarks
+
+**Datei**: `benchmarks/wave2/bench_w2a_mixed_path.cpp`
+
+Misst end-to-end-Latenz und -Throughput von mehrstufigen Pipelines über
+Storage-, Index- und Query-Module hinweg.
+
+#### Szenarien
+
+| Benchmark | Beschreibung |
+|---|---|
+| `W2A_SecondaryPipelineFixture/IngestIndexLookup` | KV ingest → SecondaryIndex update → Lookup |
+| `W2A_VectorPipelineFixture/IngestIndexQuery` | KV ingest → VectorIndex insert → ANN kNN |
+| `BM_W2A_BatchIngestIndexQuery` | Batch-ingest → Batch-index → kNN-Query |
+
+#### Run-Kommandos
+
+```bash
+# Alle W2A Benchmarks
+./bench_w2a_mixed_path --benchmark_filter=W2A
+
+# Nur Pipeline A (secondary index)
+./bench_w2a_mixed_path --benchmark_filter=IngestIndexLookup
+
+# Pipeline B mit verschiedenen Dimensionen
+./bench_w2a_mixed_path --benchmark_filter=IngestIndexQuery
+
+# Batch-Variante
+./bench_w2a_mixed_path --benchmark_filter=BatchIngestIndexQuery
+
+# JSON-Export für Regression-Vergleich
+./bench_w2a_mixed_path --benchmark_format=json --benchmark_out=w2a_results.json
+```
+
+#### Schlüssel-Metriken
+
+- **`items_per_sec`**: vollständige Pipeline-Round-Trips pro Sekunde
+- **`pipeline_ns`**: mittlere Latenz pro Iteration in Nanosekunden
+- **`batch_size`** / **`dim`**: Parametrisierungs-Hinweise für den Batch-Benchmark
+
+#### Interpretationshinweise
+
+- Vergleiche `IngestIndexQuery` mit `dim=64` vs. `dim=256`, um den
+  Einfluss der Vektordimension auf den Cross-Modul-Overhead zu isolieren.
+- `IngestIndexLookup` mit Threads=1/2/4 zeigt, ob der SecondaryIndex
+  thread-safe skaliert.
+- `BatchIngestIndexQuery` mit `batchSize=8` vs. `batchSize=32` zeigt den
+  Amortisierungseffekt des Index-Overheads pro Batch.
+
+---
+
+### B2-B: Concurrency/Contention Benchmarks
+
+**Datei**: `benchmarks/wave2/bench_w2b_concurrency.cpp`
+
+Misst Throughput, Tail-Latenz und Skalierungseffizienz unter konkurrenter Last.
+
+#### Szenarien
+
+| Benchmark | Thread-Modi | Beschreibung |
+|---|---|---|
+| `W2B_KvWriteFixture/ConcurrentWrites_Disjoint` | 1/2/4/8 | Schreibzugriffe auf disjunkte Schlüssel (kein Hotspot) |
+| `W2B_KvWriteFixture/ConcurrentWrites_Overlapping` | 1/2/4/8 | Schreibzugriffe auf kleines Schlüssel-Domain (maximale Contention) |
+| `W2B_KvWriteFixture/ConcurrentMixed_ReadWrite` | 2/4/8 | Gemischte Lese-/Schreiblast (Read-Write-Contention) |
+| `W2B_VectorConcurrencyFixture/ConcurrentInsertQuery` | 1/2/4/8 | Concurrent HNSW-Insert + kNN-Query |
+| `BM_W2B_ReaderWriterFanout` | N=1/2/4/8 | N Reader-Threads + 1 Writer-Thread (Fan-out) |
+
+#### Run-Kommandos
+
+```bash
+# Alle W2B Benchmarks
+./bench_w2b_concurrency --benchmark_filter=W2B
+
+# Nur Contention-Szenarien
+./bench_w2b_concurrency --benchmark_filter="Disjoint|Overlapping"
+
+# Concurrent Vector Benchmarks
+./bench_w2b_concurrency --benchmark_filter=ConcurrentInsertQuery
+
+# Reader-Writer Fan-out
+./bench_w2b_concurrency --benchmark_filter=ReaderWriterFanout
+
+# JSON-Export
+./bench_w2b_concurrency --benchmark_format=json --benchmark_out=w2b_results.json
+```
+
+#### Schlüssel-Metriken
+
+- **`ops_per_sec`**: aggregierte Operationen/Sekunde über alle Threads
+  (via `kAvgThreads`; Gesamt = `ops_per_sec × thread_count`)
+- **`read_ops`**: Anzahl der Lesezugriffe der Reader-Threads (Szenario 5)
+- **`write_ops_per_sec`**: Schreib-Throughput des Writer-Threads (Szenario 5)
+
+#### Interpretationshinweise
+
+- **Lineare Skalierung** von `ops_per_sec × N` zeigt geringe Lock-Contention.
+- **Sub-lineare Skalierung** zeigt Hotspot-Overhead; vergleiche
+  `ConcurrentWrites_Disjoint` vs. `ConcurrentWrites_Overlapping` zur Isolation.
+- **Contention-Overhead** = `1 − (Overlapping_ops / Disjoint_ops)` bei gleicher Thread-Anzahl.
+- `ConcurrentMixed_ReadWrite` mit Threads=8 testet den häufigen OLTP-Lastfall.
+
+---
+
+### B2-C: Recovery/Warm-vs-Cold Path Benchmarks
+
+**Datei**: `benchmarks/wave2/bench_w2c_recovery.cpp`
+
+Misst die Performance-Differenz zwischen warmem (Cache-heißem) und kaltem
+(frisch geöffnetem) Datenbankpfad sowie Latenz restart-naher Operationen.
+
+#### Szenarien
+
+| Benchmark | Beschreibung |
+|---|---|
+| `BM_W2C_ColdRead` | Kalter KV-Lesepfad (frisch geöffnete DB) |
+| `W2C_WarmReadFixture/WarmRead` | Warmer KV-Lesepfad (Block-Cache heiß) |
+| `BM_W2C_ReopenLatency_NoWAL` | DB close() + open() ohne WAL |
+| `BM_W2C_WalReplayRead` | Schreiben mit WAL → Reopen → erster Read (WAL-Replay) |
+| `BM_W2C_AnnSearch_Cold` | Kalter ANN-kNN-Query (Index frisch initialisiert) |
+| `W2C_WarmAnnFixture/AnnSearch_Warm` | Warmer ANN-kNN-Query (100 Warmup-Queries) |
+
+#### Run-Kommandos
+
+```bash
+# Alle W2C Benchmarks
+./bench_w2c_recovery --benchmark_filter=W2C
+
+# Warm/Cold KV-Vergleich
+./bench_w2c_recovery --benchmark_filter="ColdRead|WarmRead"
+
+# DB-Reopen und WAL-Replay
+./bench_w2c_recovery --benchmark_filter="ReopenLatency|WalReplay"
+
+# ANN Warm/Cold Vergleich
+./bench_w2c_recovery --benchmark_filter="AnnSearch"
+
+# JSON-Export
+./bench_w2c_recovery --benchmark_format=json --benchmark_out=w2c_results.json
+```
+
+#### Schlüssel-Metriken
+
+- **`latency_us`**: mittlere Latenz pro Operation in Mikrosekunden
+- **`wal_keys_written`**: Anzahl der WAL-persistierten Schlüssel (Szenario 4)
+
+#### Interpretationshinweise
+
+- **Warm/Cold-Ratio KV** = `ColdRead_latency_us / WarmRead_latency_us`.
+  Werte > 2 zeigen signifikanten Block-Cache-Nutzen.
+- **WAL-Overhead** = `WalReplayRead_ms / ReopenLatency_NoWAL_ms`.
+  Skaliert mit der Anzahl der WAL-Schlüssel.
+- **ANN Warm/Cold-Ratio** = `AnnSearch_Cold_us / AnnSearch_Warm_us`.
+  Misst den Effekt der HNSW-internen Struktur-Caches.
+
+---
+
+### Gemeinsame Ausführung aller Welle-2-Benchmarks
+
+```bash
+# Build (Linux Release)
+cmake --preset linux-release
+cmake --build --preset linux-release --parallel 8 \
+  --target bench_w2a_mixed_path bench_w2b_concurrency bench_w2c_recovery
+
+# Alle Welle-2-Benchmarks sequenziell ausführen
+for bench in bench_w2a_mixed_path bench_w2b_concurrency bench_w2c_recovery; do
+  ./${bench} --benchmark_format=json --benchmark_out="${bench}_$(date +%Y%m%d).json"
+done
+```
+
+### Reproduzierbarkeits-Hinweise
+
+- Alle Fixtures verwenden feste Seeds (`std::mt19937(42)` o.ä.) für deterministischen
+  Datensatz-Aufbau.
+- Warmup-Daten werden **außerhalb** des Messpfads erzeugt (`SetUp` oder
+  `state.PauseTiming()`).
+- Für maximale Stabilität: mindestens 3 Wiederholungen mit
+  `--benchmark_repetitions=3 --benchmark_report_aggregates_only=true`.
+- Für Tail-Latenz-Messung: `--benchmark_enable_random_interleaving=true`.
 
 ---
 

@@ -150,4 +150,29 @@ TEST_F(RagAiPipelineTest, RAG04_InferenceFailureReturnsStableFallbackWithoutCorr
     EXPECT_EQ(llm_->InferenceCalls(), 1U);
 }
 
+TEST_F(RagAiPipelineTest, RAG05_EmbeddingFailureDegradesWithoutRunningInference) {
+    index_->IndexDocument("doc_rag_5", {"embed-fallback"});
+    llm_->SetEmbeddingFailure(true);
+
+    const auto response = pipeline_->Ask("embedding unavailable", "embed-fallback");
+
+    ASSERT_TRUE(response.ok);
+    EXPECT_EQ(response.answer, "fallback:embedding-unavailable");
+    EXPECT_EQ(llm_->EmbeddingCalls(), 1U);
+    EXPECT_EQ(llm_->InferenceCalls(), 0U);
+}
+
+TEST_F(RagAiPipelineTest, RAG06_CacheHitProducesDeterministicAnswerAcrossRepeatedRuns) {
+    index_->IndexDocument("doc_rag_6", {"stable"});
+    pipeline_->SetGraphContext("stable", "entity:Stable#1");
+
+    const auto first = pipeline_->Ask("repeatable prompt", "stable");
+    const auto second = pipeline_->Ask("repeatable prompt", "stable");
+
+    ASSERT_TRUE(first.ok);
+    ASSERT_TRUE(second.ok);
+    EXPECT_EQ(first.answer, second.answer);
+    EXPECT_TRUE(second.cache_hit);
+}
+
 } // namespace themis::test

@@ -3,9 +3,11 @@
 # ROADMAP
 
 ## Current Status
-- [~] Cross-Module-Pipeline-Test-Suite initial umgesetzt (Target: 2026-Q3)
+- [x] Cross-Module-Pipeline-Test-Suite Wave 1 abgeschlossen (Target: 2026-Q3)
+- [x] Wave 2 Cross-Modul-Härtung: CMX-01..CMX-06 + REC-01..REC-07 umgesetzt (Target: 2026-Q3)
 - [x] Gemeinsame Pipeline-Testhelpers in `test_fixture.h` und `test_data_generator.h` erweitert (Target: 2026-Q3)
-- [x] CTest-Label `pipeline_integration` eingeführt und für neue Pipeline-Tests vergeben (Target: 2026-Q3)
+- [x] CTest-Label `pipeline_integration` und `cross_module` eingeführt (Target: 2026-Q3)
+- [x] `SeededTestDataGenerator` + `MockRetryScheduler` + `DeterministicIntegrationFixture` hinzugefügt (Target: 2026-Q3)
 
 ## In Progress
 - [~] Pipeline-Suite in CI-Läufen stabilisieren und Flaky-Risiken reduzieren (Target: 2026-Q3)
@@ -28,13 +30,19 @@
 - [x] `security_pipeline_test.cpp` mit SEC-01..SEC-06 umgesetzt (Target: 2026-Q3)
 - [x] `analytics_export_pipeline_test.cpp` mit AEP-01..AEP-03 umgesetzt (Target: 2026-Q3)
 - [x] `application_profile_pipeline_test.cpp` mit APP-01..APP-13 für produktionsnahes Nutzungsprofil umgesetzt (Target: 2026-Q3)
+- [x] Wave 2 W2-A/W2-B: `cross_module_ingest_index_query_test.cpp` mit CMX-01..CMX-06 umgesetzt (Target: 2026-Q3)
+- [x] Wave 2 W2-B: `cross_module_recovery_pipeline_test.cpp` mit REC-01..REC-07 umgesetzt (Target: 2026-Q3)
+- [x] Wave 2 W2-C: `SeededTestDataGenerator` + `GenerateDocumentBatch()` + `GenerateVectorBatch()` in `test_data_generator.h` ergänzt (Target: 2026-Q3)
+- [x] Wave 2 W2-C: `MockRetryScheduler` + `DeterministicIntegrationFixture` in `test_fixture.h` ergänzt (Target: 2026-Q3)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [x] Auth/Syntax/Content/Inference/Failover-Fehlerpfade als eigene Pipeline-Tests ergänzt (Target: 2026-Q3)
 - [x] Weitere Edge-Cases für Timeouts, Retries und Circuit-Breaker umgesetzt (APP-11..APP-13) (Target: 2026-Q4)
+- [x] Wave 2 Recovery-Szenarien: Retry (REC-01..REC-02), Partial Failure (REC-03), Rollback (REC-04), Re-Ingest (REC-06), Concurrency (REC-07) (Target: 2026-Q3)
 
 ### Phase 4: Tests
 - [x] Neue Pipeline-Tests unter CTest-Label `pipeline_integration` registriert (Target: 2026-Q3)
+- [x] Wave 2 Tests unter CTest-Label `cross_module` + `wave2` registriert (Target: 2026-Q3)
 - [x] Offline-Ausführbarkeit über Mocks ohne externe Services sichergestellt (Target: 2026-Q3)
 
 ### Phase 5: Performance/Hardening

@@ -180,6 +180,15 @@ def _percentile(sorted_values: Sequence[float], p: float) -> float:
     return float(sorted_values[lo] + (sorted_values[hi] - sorted_values[lo]) * frac)
 
 
+def _sample_percentiles(values: Sequence[float]) -> Dict[str, float]:
+    sorted_values = sorted(values)
+    return {
+        "p50": _percentile(sorted_values, 50.0),
+        "p95": _percentile(sorted_values, 95.0),
+        "p99": _percentile(sorted_values, 99.0),
+    }
+
+
 def _bootstrap_ci_mean_diff(
     baseline: Sequence[float],
     treatment: Sequence[float],
@@ -279,6 +288,119 @@ def _relative_improvement_percent(
     return ((baseline_mean - treatment_mean) / baseline_mean) * 100.0
 
 
+def _analyze_directional_drift_percent(
+    window_samples: Sequence[float],
+    *,
+    higher_is_better: bool,
+) -> Optional[Dict[str, Any]]:
+    if not window_samples:
+        return None
+
+    values = [float(x) for x in window_samples]
+    if any(math.isnan(x) or math.isinf(x) for x in values):
+        raise ValueError("time_window_samples enthält NaN/Inf")
+    if len(values) < 2:
+        raise ValueError("time_window_samples benötigt mindestens 2 Werte")
+
+    first = values[0]
+    last = values[-1]
+    if first == 0:
+        directional_drift = 0.0
+    elif higher_is_better:
+        directional_drift = ((last - first) / first) * 100.0
+    else:
+        directional_drift = ((first - last) / first) * 100.0
+
+    regression_drift = max(0.0, -directional_drift)
+    return {
+        "window_count": len(values),
+        "first_window_value": first,
+        "last_window_value": last,
+        "directional_drift_percent": directional_drift,
+        "regression_drift_percent": regression_drift,
+        "degrading_over_time": directional_drift < 0.0,
+    }
+
+
+def _analyze_saturation_points(samples: Sequence[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    if not samples:
+        return None
+    if len(samples) < 2:
+        raise ValueError("saturation_samples benötigt mindestens 2 Lastpunkte")
+
+    points: List[Dict[str, float]] = []
+    for item in samples:
+        load = float(item.get("load", 0.0))
+        throughput = float(item.get("throughput", 0.0))
+        if math.isnan(load) or math.isinf(load) or math.isnan(throughput) or math.isinf(throughput):
+            raise ValueError("saturation_samples enthält NaN/Inf")
+        points.append({"load": load, "throughput": throughput})
+
+    points.sort(key=lambda x: x["load"])
+    peak = max(points, key=lambda x: x["throughput"])
+    knee_load = peak["load"]
+
+    for idx in range(1, len(points)):
+        prev_tput = points[idx - 1]["throughput"]
+        curr_tput = points[idx]["throughput"]
+        if prev_tput > 0 and curr_tput < prev_tput:
+            knee_load = points[idx]["load"]
+            break
+
+    return {
+        "peak_throughput": peak["throughput"],
+        "load_at_peak_throughput": peak["load"],
+        "estimated_saturation_load": knee_load,
+        "sample_count": len(points),
+    }
+
+
+def _recovery_percentiles(samples: Sequence[float]) -> Optional[Dict[str, float]]:
+    if not samples:
+        return None
+    values = [float(x) for x in samples]
+    if any(math.isnan(x) or math.isinf(x) for x in values):
+        raise ValueError("recovery_time_seconds_samples enthält NaN/Inf")
+    return _sample_percentiles(values)
+
+
+def _evaluate_wave6_guardrails(
+    guardrails: Dict[str, Any],
+    *,
+    treatment_mean: float,
+    treatment_percentiles: Dict[str, float],
+    drift_analysis: Optional[Dict[str, Any]],
+    recovery_analysis: Optional[Dict[str, float]],
+) -> List[str]:
+    failures: List[str] = []
+
+    max_p99_latency = guardrails.get("max_p99_latency_ms")
+    if max_p99_latency is not None and treatment_percentiles["p99"] > float(max_p99_latency):
+        failures.append("max_p99_latency_ms_exceeded")
+
+    min_mean_threshold = guardrails.get("min_treatment_mean")
+    if min_mean_threshold is not None and treatment_mean < float(min_mean_threshold):
+        failures.append("min_treatment_mean_not_met")
+
+    max_regression_drift = guardrails.get("max_regression_drift_percent")
+    if (
+        max_regression_drift is not None
+        and drift_analysis is not None
+        and drift_analysis["regression_drift_percent"] > float(max_regression_drift)
+    ):
+        failures.append("max_regression_drift_percent_exceeded")
+
+    max_recovery_time_p95 = guardrails.get("max_recovery_time_seconds_p95")
+    if (
+        max_recovery_time_p95 is not None
+        and recovery_analysis is not None
+        and recovery_analysis["p95"] > float(max_recovery_time_p95)
+    ):
+        failures.append("max_recovery_time_seconds_p95_exceeded")
+
+    return failures
+
+
 def evaluate_experiment(
     experiment: Dict[str, Any],
     *,
@@ -303,6 +425,8 @@ def evaluate_experiment(
     baseline_mean = statistics.mean(baseline)
     treatment_mean = statistics.mean(treatment)
     delta = treatment_mean - baseline_mean
+    baseline_percentiles = _sample_percentiles(baseline)
+    treatment_percentiles = _sample_percentiles(treatment)
 
     ci = _bootstrap_ci_mean_diff(
         baseline,
@@ -335,12 +459,31 @@ def evaluate_experiment(
     else:
         classification = "neutral"
 
+    drift_analysis = _analyze_directional_drift_percent(
+        experiment.get("time_window_samples", []),
+        higher_is_better=metric.higher_is_better,
+    )
+    saturation_analysis = _analyze_saturation_points(experiment.get("saturation_samples", []))
+    recovery_analysis = _recovery_percentiles(experiment.get("recovery_time_seconds_samples", []))
+
+    wave6_guardrails = experiment.get("wave6_guardrails", {})
+    if not isinstance(wave6_guardrails, dict):
+        raise ValueError("wave6_guardrails muss ein Objekt sein")
+    wave6_gate_failures = _evaluate_wave6_guardrails(
+        wave6_guardrails,
+        treatment_mean=treatment_mean,
+        treatment_percentiles=treatment_percentiles,
+        drift_analysis=drift_analysis,
+        recovery_analysis=recovery_analysis,
+    )
+
     budget_pct = float(experiment.get("performance_budget_percent", metric.practical_significance_percent))
-    gate_violation = metric.critical and (-improvement_pct) > budget_pct
+    gate_violation = (metric.critical and (-improvement_pct) > budget_pct) or bool(wave6_gate_failures)
 
     return {
         "experiment_id": str(experiment.get("id", "")).strip() or "unnamed-experiment",
         "subsystem": str(experiment.get("subsystem", "unknown")).strip(),
+        "wave6_track": str(experiment.get("wave6_track", "")).strip() or "unspecified",
         "metric": metric.name,
         "classification": classification,
         "gate_violation": gate_violation,
@@ -349,6 +492,8 @@ def evaluate_experiment(
             "sample_count_treatment": len(treatment),
             "baseline_mean": baseline_mean,
             "treatment_mean": treatment_mean,
+            "baseline_percentiles": baseline_percentiles,
+            "treatment_percentiles": treatment_percentiles,
             "delta": delta,
             "bootstrap_ci": ci,
             "p_value": p_value,
@@ -363,6 +508,12 @@ def evaluate_experiment(
         "governance": {
             "performance_budget_percent": budget_pct,
             "critical_metric": metric.critical,
+            "wave6_gate_failures": wave6_gate_failures,
+        },
+        "wave6_analysis": {
+            "drift": drift_analysis,
+            "saturation": saturation_analysis,
+            "recovery_time_seconds": recovery_analysis,
         },
         "scenario": {
             "workload_family": scenario.workload_family,
@@ -445,6 +596,8 @@ def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
         "neutral": sum(1 for r in results if r["classification"] == "neutral"),
         "signifikant_positiv": sum(1 for r in results if r["classification"] == "signifikant_positiv"),
         "gate_violations": len(tickets),
+        "wave6_gate_violations": sum(1 for r in results if r.get("governance", {}).get("wave6_gate_failures")),
+        "wave6_tracks": sorted({r.get("wave6_track", "unspecified") for r in results}),
         "required_workload_families": sorted(_REQUIRED_WORKLOAD_FAMILIES),
         "baseline_freeze": {
             "compiler": baseline_freeze.compiler,

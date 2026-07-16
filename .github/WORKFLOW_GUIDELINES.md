@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (19)
+## Aktive Workflows (20)
 - `.github/workflows/00-shared_changelog-update.yml`
 - `.github/workflows/00-shared_changelog-backfill.yml`
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
@@ -20,6 +20,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
 - `.github/workflows/09-pr-gates_scanner-delta-report.yml`
 - `.github/workflows/09-pr-gates_high-exception-record.yml`
+- `.github/workflows/license-compliance.yml`
 - `.github/workflows/sbom-ci.yml`
 - `.github/workflows/security-dast-ci.yml`
 - `.github/workflows/soc2-evidence-ci.yml`
@@ -72,6 +73,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.
 - Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
 - Third-party Actions auf stabile Major-Versionen pinnen.
+- Compliance-Gates fuer Dependencies muessen branch- und pfadbegrenzt sein und ein downloadbares Audit-Artefakt erzeugen.
 
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:

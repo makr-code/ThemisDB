@@ -9,7 +9,8 @@ portability, placement, integrity, and recovery semantics.
 
 ## Header Ownership Map
 
-> These headers are deferred to the implementation PR. The table documents planned ownership.
+> Most headers remain deferred to future implementation PRs. `integrity_verification.h`
+> is now the active Phase-2 baseline for EPIC 3.4.
 
 | Header | EPIC sub-issue | Contract focus |
 |---|---|---|
