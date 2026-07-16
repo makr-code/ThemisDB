@@ -152,16 +152,28 @@ TEST_F(TransactionReplicationPipelineTest, TXR03_SagaCompensationRunsOnPartialFa
     EXPECT_FALSE(pipeline_.HasWalEntry("k_fail"));
 }
 
-TEST_F(TransactionReplicationPipelineTest, TXR04_RaftFailoverEndsInCommitOrAbortWithoutPartialWal) {
+TEST_F(TransactionReplicationPipelineTest, TXR04_RaftFailoverOnOddTxIdStillCommitsWithoutPartialLoss) {
     pipeline_.Begin("tx_failover");
     pipeline_.StageWrite("tx_failover", "shard_a", "k_f", "v_f");
 
     const auto result = pipeline_.Commit("tx_failover", true);
 
-    EXPECT_TRUE(result.committed || result.status == "aborted_during_failover");
-    if (!result.committed) {
-        EXPECT_FALSE(pipeline_.HasWalEntry("k_f"));
-    }
+    EXPECT_TRUE(result.committed);
+    EXPECT_EQ(result.status, "committed");
+    EXPECT_TRUE(pipeline_.HasWalEntry("k_f"));
+    EXPECT_TRUE(pipeline_.HasReplicaEntry("k_f"));
+}
+
+TEST_F(TransactionReplicationPipelineTest, TXR05_RaftFailoverOnEvenTxIdAbortsAndLeavesNoWalResidue) {
+    pipeline_.Begin("tx_even_01");
+    pipeline_.StageWrite("tx_even_01", "shard_a", "k_abort", "v_abort");
+
+    const auto result = pipeline_.Commit("tx_even_01", true);
+
+    EXPECT_FALSE(result.committed);
+    EXPECT_EQ(result.status, "aborted_during_failover");
+    EXPECT_FALSE(pipeline_.HasWalEntry("k_abort"));
+    EXPECT_FALSE(pipeline_.HasReplicaEntry("k_abort"));
 }
 
 } // namespace themis::test
