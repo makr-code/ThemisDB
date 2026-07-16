@@ -873,6 +873,7 @@ foreach(_src IN LISTS METADATA_AUTOGEN_PREFIX_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_CURRENT_LIST_DIR}/..  # tests/ root — provides utils/test_stability.h
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}

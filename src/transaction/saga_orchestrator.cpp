@@ -438,7 +438,6 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
 
     while (!ready.empty() && failure_reason.empty()) {
         std::vector<std::string> wave = std::move(ready);
-        ready.clear();
 
         for (const auto& name : wave) {
             status_rec.step_states[name] = StepState::RUNNING;

@@ -107,6 +107,8 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	Plan plan;
 	plan.orderedPredicates.reserve(q.predicates.size());
 	plan.details.reserve(q.predicates.size());
+	bool used_planner_fallback = false;
+	std::string fallback_reason = "none";
 
 	// Pre-load table statistics once so we pay the TableStats copy cost at most
 	// once per call rather than once per predicate.  The copy is acceptable
@@ -134,7 +136,14 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 				cnt = static_cast<size_t>(
 				    it->second.selectivity *
 				    static_cast<double>(table_stats_ptr->row_count));
+				used_planner_fallback = true;
+				fallback_reason = "statistics_selectivity";
 			}
+		}
+
+		if (cnt == 0 && !capped && fallback_reason == "none") {
+			used_planner_fallback = true;
+			fallback_reason = "deterministic_zero_estimate";
 		}
 
 		plan.details.push_back(Estimation{p, cnt, capped});
@@ -163,6 +172,12 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		double cost_estimate = plan.details.empty() ? 0.0
 		    : static_cast<double>(plan.details[idx[0]].estimatedCount);
 		metrics_collector_->observeHistogram("query.optimizer.cost_estimate", cost_estimate);
+		if (used_planner_fallback) {
+			metrics_collector_->addCounter(
+			    "query_planner_fallback_total", 1,
+			    {{"reason", fallback_reason},
+			     {"table", q.table.empty() ? "unknown" : q.table}});
+		}
 	}
 
 	// ---- Serialization strategy advice ----
