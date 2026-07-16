@@ -7,6 +7,10 @@
 - [x] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (README, INDEX, AUDIT, SECURITY, ROADMAP) (Target: 2026-Q2)
 - [x] CMake-Registrierungsaudit-Tool `audit_benchmark_registration.py` implementiert — 196/196 Quellen registriert (Target: 2026-Q2)
 - [x] Syntax-Fehler (C-Block-Header) in `scientific_evaluation_framework.py` behoben (Target: 2026-Q2)
+- [x] Wave-6-Release-Candidate-Suite inkl. finaler Guardrails/Drift-/Sättigungs-/Recovery-Auswertung über `benchmarks/ci_wave6_release_candidate_experiments.json` und Framework-Reportfelder umgesetzt (Target: 2026-Q3)
+
+## In Progress
+- [~] Wave-6-Operability-Härtung: reproduzierbarer Repro-/Triage-Runbook-Pfad für finale Go/No-Go-Entscheidungen (Target: 2026-Q3)
 - [x] **Wave 4 (B4-A):** Release-kritische Governance-Benchmarks (W4A-01..W4A-06) + `release_gate_manifest.json` implementiert (Target: 2026-Q3)
 - [x] **Wave 4 (B4-B):** Resilience/Degradations-Szenarien (W4B-01..W4B-06): Latenz-Injektion, Backpressure, CPU-Contention, Partial-Failure, Recovery (Target: 2026-Q3)
 - [x] **Wave 4 (B4-C):** Determinismus- und Varianz-Benchmarks (W4C-01..W4C-06): CV-Akzeptanzgates, Seed-Stabilität, Warmup-Effektivität, Teardown-Isolation (Target: 2026-Q3)
