@@ -67,7 +67,7 @@ struct ArtifactIntegrity {
     /// Number of payload bytes covered by @p crc32.
     uint64_t payload_bytes = 0;
 
-    /// True when crc32 != 0 and matches the current payload.
+    /// True when a non-zero CRC token is present (payload match is not verified here).
     [[nodiscard]] bool isValid() const noexcept { return crc32 != 0; }
 };
 

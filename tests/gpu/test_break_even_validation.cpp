@@ -490,12 +490,3 @@ TEST_F(BreakEvenValidatorTest, Integration_RealisticWorkload_BFS) {
 }  // namespace testing
 }  // namespace acceleration
 }  // namespace themis
-
-// ============================================================================
-// Main Entry Point
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

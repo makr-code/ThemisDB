@@ -396,5 +396,3 @@ private:
 
 }  // namespace acceleration
 }  // namespace themis
-
-#endif  // THEMIS_ACCELERATION_BREAK_EVEN_VALIDATOR_H

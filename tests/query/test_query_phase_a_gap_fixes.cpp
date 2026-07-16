@@ -14,6 +14,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include "query/tensor_aware_query_optimizer.h"
 #include "query/query_canceller.h"
 #include "query/query_rewrite_rule.h"
