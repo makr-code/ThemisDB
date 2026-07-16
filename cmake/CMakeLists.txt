@@ -2646,6 +2646,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/sharding_manager_edition.cpp
     ../src/sharding/slo_monitor.cpp
+    ../src/sharding/lora_artifact_distribution.cpp
 
     # Hardware acceleration (core abstraction layer - always included)
     ../src/acceleration/compute_backend.cpp

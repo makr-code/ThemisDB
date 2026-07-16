@@ -14,6 +14,8 @@ Runtime distributed behavior, fault-path tests, and benchmark evidence remain pe
 
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
 - [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
+- [~] Phase 5: Adapter-Distribution & Sharding-Kopplung — LoRA artifact distribution interfaces,
+  RAID/Merkle proof engine, distribution receipts, shard snapshots, and recovery ordering (Issue #5418, Target: Q3 2026)
 
 ## Planned Features
 
@@ -41,6 +43,8 @@ Runtime distributed behavior, fault-path tests, and benchmark evidence remain pe
 - [ ] contract and fault-path tests implemented in `tests/epic3_distributed_tensor/`
 
 ### Phase 5: Performance and Hardening
+- [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
+  RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
 - [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
 
 ### Phase 6: Documentation and Acceptance
