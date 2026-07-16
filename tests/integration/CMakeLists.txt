@@ -319,6 +319,34 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6c_failure_injection_recovery_t
 endif()
 
 # ============================================================================
+# Wave 5 Integration Tests
+# W5-A: Production-Critical E2E Journey Coverage (E2E-01..E2E-08)
+# W5-B: Failure Injection & Recovery Validation  (FIR-01..FIR-08)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5a_e2e_critical_journeys_test.cpp")
+    add_integration_test(
+        w5a_e2e_critical_journeys_test
+        pipeline/w5a_e2e_critical_journeys_test.cpp
+    )
+    set_tests_properties(w5a_e2e_critical_journeys_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave5;w5a;release_critical;e2e"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5b_failure_injection_recovery_test.cpp")
+    add_integration_test(
+        w5b_failure_injection_recovery_test
+        pipeline/w5b_failure_injection_recovery_test.cpp
+    )
+    set_tests_properties(w5b_failure_injection_recovery_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave5;w5b;release_critical;recovery"
+        TIMEOUT 300
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 
