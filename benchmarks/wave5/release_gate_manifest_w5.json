@@ -1,0 +1,125 @@
+{
+  "_comment": "Wave 5 Release Gate Manifest — benchmarks/baselines/wave5/release_gate_manifest_w5.json",
+  "_doc": "Defines hard performance guardrails for release-critical paths. Used by report_variance_w5.py and CI gate workflow.",
+  "version": "5.0.0",
+  "wave": "w5",
+  "updated": "2026-07-16",
+  "regression_thresholds": {
+    "warn_pct":  10,
+    "fail_pct":  20,
+    "cv_max_pct": 5
+  },
+  "gates": [
+    {
+      "id":          "W5D-1",
+      "name":        "CRUD Read Latency",
+      "benchmark":   "BM_W5D_Gate1_ReadLatency",
+      "counter":     "gate_pass",
+      "threshold":   1.0,
+      "operator":    "==",
+      "description": "p50 ≤ 20 µs AND p99 ≤ 200 µs for point-lookup after canonical 3-phase warmup",
+      "severity":    "FAIL",
+      "supplemental_counters": {
+        "p50_us": { "max": 20  },
+        "p99_us": { "max": 200 }
+      }
+    },
+    {
+      "id":          "W5D-2",
+      "name":        "CRUD Write Throughput",
+      "benchmark":   "BM_W5D_Gate2_WriteThroughput",
+      "counter":     "gate_pass",
+      "threshold":   1.0,
+      "operator":    "==",
+      "description": "Sustained single-threaded write throughput ≥ 80 000 ops/s with 2 secondary indexes",
+      "severity":    "FAIL",
+      "supplemental_counters": {
+        "throughput": { "min": 80000 }
+      }
+    },
+    {
+      "id":          "W5D-3",
+      "name":        "Secondary-Index Range Scan",
+      "benchmark":   "BM_W5D_Gate3_RangeScanLatency",
+      "counter":     "gate_pass",
+      "threshold":   1.0,
+      "operator":    "==",
+      "description": "100-record sequential range scan p99 ≤ 500 µs",
+      "severity":    "FAIL",
+      "supplemental_counters": {
+        "p99_us": { "max": 500 }
+      }
+    },
+    {
+      "id":          "W5D-4",
+      "name":        "Batch Commit Latency",
+      "benchmark":   "BM_W5D_Gate4_BatchCommitLatency",
+      "counter":     "gate_pass",
+      "threshold":   1.0,
+      "operator":    "==",
+      "description": "100-record batch commit p99 ≤ 5 ms (5 000 µs)",
+      "severity":    "FAIL",
+      "supplemental_counters": {
+        "p99_ms": { "max": 5 }
+      }
+    },
+    {
+      "id":          "W5C-CV",
+      "name":        "Measurement CV Gate",
+      "benchmark":   "BM_W5C_ReadVariance",
+      "counter":     "CV_ok",
+      "threshold":   1.0,
+      "operator":    "==",
+      "description": "Coefficient of variation of read latency ≤ 5% after canonical warmup",
+      "severity":    "WARN",
+      "supplemental_counters": {
+        "CV_pct": { "max": 5 }
+      }
+    },
+    {
+      "id":          "W5C-RNG",
+      "name":        "RNG Determinism",
+      "benchmark":   "BM_W5C_RngDeterminism/1000",
+      "counter":     "deterministic",
+      "threshold":   1.0,
+      "operator":    "==",
+      "description": "Canonical seed=42 must produce identical key sequences across runs",
+      "severity":    "FAIL"
+    }
+  ],
+  "workload_profiles": {
+    "W5A": {
+      "label": "Production-Critical Workloads",
+      "benchmarks": [
+        "BM_W5A_CRUD_SteadyStateRead",
+        "BM_W5A_CRUD_SteadyStateWrite",
+        "BM_W5A_CRUD_BurstRead",
+        "BM_W5A_VectorSearch_1NN",
+        "BM_W5A_VectorSearch_10NN",
+        "BM_W5A_GraphBFS_2Hop",
+        "BM_W5A_BatchIngest_Sustained"
+      ],
+      "soft_targets": {
+        "SteadyStateRead_ops_s":  150000,
+        "SteadyStateWrite_ops_s":  80000,
+        "BurstRead_ops_s":         60000,
+        "VectorSearch1NN_us":       200,
+        "GraphBFS2Hop_us":          500,
+        "BatchIngest_rec_s":       20000
+      }
+    },
+    "W5B": {
+      "label": "Degradation / Failure Validation",
+      "benchmarks": [
+        "BM_W5B_ReadLatencyInjection/0",
+        "BM_W5B_ReadLatencyInjection/50",
+        "BM_W5B_ReadLatencyInjection/100",
+        "BM_W5B_ReadLatencyInjection/500",
+        "BM_W5B_WriteFlood_Throughput",
+        "BM_W5B_IndexRebuild_Cost",
+        "BM_W5B_MixedContention_80_20"
+      ],
+      "notes": "Degradation benchmarks produce diagnostic data; no hard gates. Track throughput cliff vs. injected delay and contention regressions."
+    }
+  }
+}
