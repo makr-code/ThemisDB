@@ -39,6 +39,7 @@
 #include <numeric>
 #include <random>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "storage/base_entity.h"

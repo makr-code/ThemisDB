@@ -253,15 +253,18 @@ BENCHMARK_F(BurstPeakFixture, SOK03_BurstPeakTailLatency)(benchmark::State& stat
     // Phase multipliers: steady(1x) → burst(2x) → peak(3x)
     static constexpr int kPhases[] = {1, 2, 3};
     int seg = 0;
+    int64_t total_ops = 0;
     for (auto _ : state) {
         state.PauseTiming();
         int phase_mult = kPhases[seg % 3];
         ++seg;
         state.ResumeTiming();
-        DoReads(*db_, kOpsPerSegment * phase_mult, kSoakRecordCount,
+        const int ops_this_segment = kOpsPerSegment * phase_mult;
+        DoReads(*db_, ops_this_segment, kSoakRecordCount,
                 kW7CanonicalSeed + 300 + static_cast<uint64_t>(seg));
+        total_ops += ops_this_segment;
     }
-    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * kOpsPerSegment);
+    state.SetItemsProcessed(total_ops);
 }
 BENCHMARK_REGISTER_F(BurstPeakFixture, SOK03_BurstPeakTailLatency)
     ->Iterations(kSteadySegments + kBurstSegments + kPeakSegments)
@@ -277,16 +280,19 @@ BENCHMARK_F(BurstPeakFixture, SOK04_PeakRecoveryNormalisation)(benchmark::State&
     static constexpr int kPeakMult     = 3;
     static constexpr int kRecoveryMult = 1;
     int seg = 0;
+    int64_t total_ops = 0;
     for (auto _ : state) {
         state.PauseTiming();
         bool is_recovery = (seg >= kPeakSegments);
         int  mult        = is_recovery ? kRecoveryMult : kPeakMult;
         ++seg;
         state.ResumeTiming();
-        DoReads(*db_, kOpsPerSegment * mult, kSoakRecordCount,
+        const int ops_this_segment = kOpsPerSegment * mult;
+        DoReads(*db_, ops_this_segment, kSoakRecordCount,
                 kW7CanonicalSeed + 400 + static_cast<uint64_t>(seg));
+        total_ops += ops_this_segment;
     }
-    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * kOpsPerSegment);
+    state.SetItemsProcessed(total_ops);
 }
 BENCHMARK_REGISTER_F(BurstPeakFixture, SOK04_PeakRecoveryNormalisation)
     ->Iterations(kPeakSegments + kRecoverySegments)
