@@ -5150,6 +5150,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
+    # EPIC 1 Retrieval — LoRAPackage & PortableAdapterProduct (Phase 3, 2026-07-16)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/retrieval/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/retrieval
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/retrieval)
+    endif()
+
     # Non-compiled plugin manifests / legacy orchestration: plugins/
     if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins

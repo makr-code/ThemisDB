@@ -1,4 +1,4 @@
-# Documentation-first CMake scaffold for planned benchmarks.
+# EPIC 1 Retrieval benchmarks
 
 set(EPIC1_RETRIEVAL_PLANNED_BENCHMARKS
     ann_retrieval_bench.cc
@@ -8,4 +8,21 @@ set(EPIC1_RETRIEVAL_PLANNED_BENCHMARKS
     federated_bench.cc
 )
 
-# Benchmark targets will be enabled incrementally alongside implementation work.
+# lora_loading_bench is now implemented; enable it when benchmark::benchmark is available.
+if(TARGET benchmark::benchmark AND TARGET themis_retrieval)
+    add_executable(epic1_lora_loading_bench
+        "${CMAKE_CURRENT_SOURCE_DIR}/lora_loading_bench.cc"
+    )
+    target_include_directories(epic1_lora_loading_bench PRIVATE
+        ${THEMIS_ROOT_DIR}/src/retrieval/include
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(epic1_lora_loading_bench PRIVATE
+        themis_retrieval
+        benchmark::benchmark
+        Threads::Threads
+    )
+    target_compile_features(epic1_lora_loading_bench PRIVATE cxx_std_17)
+endif()
+
+# Remaining benchmark targets will be enabled incrementally alongside implementation work.

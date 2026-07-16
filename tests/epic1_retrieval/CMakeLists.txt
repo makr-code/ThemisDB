@@ -1,17 +1,38 @@
-# EPIC 1 Retrieval contract tests — placeholder only.
-# Test source files (*.cc) are out of scope for this PR and will be added separately.
+# EPIC 1 Retrieval tests — lora_package_test.cc
 
-# Test sources will be listed here with the implementation PR:
-# set(EPIC1_RETRIEVAL_TESTS ...)
+set(EPIC1_RETRIEVAL_TESTS
+    lora_package_test.cc
+)
 
-# Wired when GTest and the retrieval scaffold sources are available.
-# Uncomment and adapt the block below once the parent CMakeLists adds
-# the retrieval library target (epic1_retrieval_lib).
-#
-# foreach(test_src IN LISTS EPIC1_RETRIEVAL_TESTS)
-#     get_filename_component(test_name ${test_src} NAME_WE)
-#     add_executable(${test_name} ${test_src})
-#     target_link_libraries(${test_name} PRIVATE epic1_retrieval_lib GTest::gtest_main)
-#     add_test(NAME ${test_name} COMMAND ${test_name})
-# endforeach()
+foreach(_src IN LISTS EPIC1_RETRIEVAL_TESTS)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "epic1_retrieval_${_stem}_focused")
+    set(_ctest  "${_stem}_epic1_retrieval_FocusedTests")
 
+    if(TARGET ${_target})
+        continue()
+    endif()
+
+    add_executable(${_target} "${CMAKE_CURRENT_SOURCE_DIR}/${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/src/retrieval/include
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(${_target} PRIVATE
+        themis_retrieval
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+    target_compile_features(${_target} PRIVATE cxx_std_17)
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    themis_register_module_focused_test(
+        MODULE epic1_retrieval
+        NAME ${_ctest}
+        TARGET ${_target}
+        TIER unit
+        TIMEOUT 120
+        LABELS epic1_retrieval lora_package
+    )
+endforeach()
