@@ -37,7 +37,6 @@ std::vector<std::string> tokeniseWords(const std::string& text) {
             cur += static_cast<char>(std::tolower(ch));
         } else if (!cur.empty()) {
             tokens.push_back(std::move(cur));
-            cur.clear();
         }
     }
     if (!cur.empty()) {

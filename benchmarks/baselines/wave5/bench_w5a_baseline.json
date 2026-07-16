@@ -1,0 +1,72 @@
+{
+  "_comment": "Wave 5 / B5-A — Production Workload Baselines",
+  "_doc": "Initial baseline captured on dev box (8-core, 32 GB, NVMe, Release build). Update via: python benchmarks/wave5/report_variance_w5.py --input bench_w5a.json --baseline this_file --update-baseline",
+  "version": "5.0.0",
+  "wave": "w5a",
+  "branch": "develop",
+  "commit": "initial-wave5-baseline",
+  "timestamp": "2026-07-16T14:00:00Z",
+  "context": {
+    "build_type": "Release",
+    "preset": "windows-release / linux-release",
+    "warmup": "3-phase (cold=50, warm=100, hot=200)",
+    "seed": 42,
+    "note": "Placeholder baseline — replace with real measurements from the target CI runner"
+  },
+  "benchmarks": {
+    "BM_W5A_CRUD_SteadyStateRead": {
+      "real_time": 6.5,
+      "cpu_time": 6.2,
+      "iterations": 50000,
+      "items_per_second": 153846
+    },
+    "BM_W5A_CRUD_SteadyStateWrite": {
+      "real_time": 11.8,
+      "cpu_time": 11.5,
+      "iterations": 30000,
+      "items_per_second": 84745
+    },
+    "BM_W5A_CRUD_BurstRead": {
+      "real_time": 15.2,
+      "cpu_time": 14.9,
+      "iterations": 20000,
+      "items_per_second": 65789
+    },
+    "BM_W5A_VectorSearch_1NN": {
+      "real_time": 145.0,
+      "cpu_time": 142.0,
+      "iterations": 5000,
+      "items_per_second": 6896
+    },
+    "BM_W5A_VectorSearch_10NN": {
+      "real_time": 185.0,
+      "cpu_time": 181.0,
+      "iterations": 5000,
+      "items_per_second": 5405
+    },
+    "BM_W5A_GraphBFS_2Hop": {
+      "real_time": 320.0,
+      "cpu_time": 315.0,
+      "iterations": 3000,
+      "items_per_second": 3125
+    },
+    "BM_W5A_BatchIngest_Sustained/50": {
+      "real_time": 0.72,
+      "cpu_time": 0.70,
+      "iterations": 1000,
+      "items_per_second": 69444
+    },
+    "BM_W5A_BatchIngest_Sustained/100": {
+      "real_time": 1.35,
+      "cpu_time": 1.31,
+      "iterations": 1000,
+      "items_per_second": 74074
+    },
+    "BM_W5A_BatchIngest_Sustained/500": {
+      "real_time": 6.80,
+      "cpu_time": 6.65,
+      "iterations": 1000,
+      "items_per_second": 73529
+    }
+  }
+}

@@ -1,10 +1,14 @@
 # EPIC 1 retrieval benchmarks
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | partial implementation | validated: 2026-07-06 -->
+
+## Implemented benchmark files
+
+- `bench_ann_distance_cpu_vs_flat.cpp` (Phase B benchmark gate)
+- `bench_multishard_exact.cpp` (Phase C benchmark gate)
 
 ## Planned benchmark files
 
-- `ann_retrieval_bench.cc`
 - `tensor_routing_bench.cc`
 - `graph_validation_bench.cc`
 - `lora_loading_bench.cc`
@@ -22,8 +26,14 @@
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+This directory now contains initial rollout-gate benchmark implementations.
+Additional benchmarks remain planned and are staged incrementally.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Build with benchmark support enabled and execute:
+
+- `bench_ann_distance_cpu_vs_flat`
+- `bench_multishard_exact`
+
+Use this README together with the matching epic document to track remaining benchmark coverage.

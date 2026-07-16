@@ -52,7 +52,6 @@ std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
         if (ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
             if (!current.empty()) {
                 tokens.push_back(std::move(current));
-                current.clear();
             }
         } else {
             if (case_insensitive && ch <= 0x7F && std::isupper(ch)) {

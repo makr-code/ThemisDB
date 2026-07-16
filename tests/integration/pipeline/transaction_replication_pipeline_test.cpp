@@ -56,6 +56,12 @@ public:
             }
         }
 
+        // STUB/SIMULATION NOTE:
+        // Purpose: Simulate deterministic Raft failover abort for testing even/odd failover paths.
+        // Activation: raft_failover=true and the tx_id string has even length (length % 2 == 0).
+        // Production Delta: Real Raft failover is driven by leader election and log durability,
+        //   not by tx_id string length. The length parity is a test-only stand-in.
+        // Removal Plan: Replace with a proper mock Raft leader-election injector when available.
         if (raft_failover && (tx_id.size() % 2 == 0)) {
             pending_.erase(it);
             return {false, "aborted_during_failover"};
@@ -152,16 +158,30 @@ TEST_F(TransactionReplicationPipelineTest, TXR03_SagaCompensationRunsOnPartialFa
     EXPECT_FALSE(pipeline_.HasWalEntry("k_fail"));
 }
 
-TEST_F(TransactionReplicationPipelineTest, TXR04_RaftFailoverEndsInCommitOrAbortWithoutPartialWal) {
+// tx_id "tx_failover" has 11 characters (odd length) → raft failover does NOT abort → committed.
+TEST_F(TransactionReplicationPipelineTest, TXR04_RaftFailoverWithOddLengthTxIdStillCommitsWithoutPartialLoss) {
     pipeline_.Begin("tx_failover");
     pipeline_.StageWrite("tx_failover", "shard_a", "k_f", "v_f");
 
     const auto result = pipeline_.Commit("tx_failover", true);
 
-    EXPECT_TRUE(result.committed || result.status == "aborted_during_failover");
-    if (!result.committed) {
-        EXPECT_FALSE(pipeline_.HasWalEntry("k_f"));
-    }
+    EXPECT_TRUE(result.committed);
+    EXPECT_EQ(result.status, "committed");
+    EXPECT_TRUE(pipeline_.HasWalEntry("k_f"));
+    EXPECT_TRUE(pipeline_.HasReplicaEntry("k_f"));
+}
+
+// tx_id "tx_even_01" has 10 characters (even length) → raft failover aborts → no WAL residue.
+TEST_F(TransactionReplicationPipelineTest, TXR05_RaftFailoverWithEvenLengthTxIdAbortsAndLeavesNoWalResidue) {
+    pipeline_.Begin("tx_even_01");
+    pipeline_.StageWrite("tx_even_01", "shard_a", "k_abort", "v_abort");
+
+    const auto result = pipeline_.Commit("tx_even_01", true);
+
+    EXPECT_FALSE(result.committed);
+    EXPECT_EQ(result.status, "aborted_during_failover");
+    EXPECT_FALSE(pipeline_.HasWalEntry("k_abort"));
+    EXPECT_FALSE(pipeline_.HasReplicaEntry("k_abort"));
 }
 
 } // namespace themis::test

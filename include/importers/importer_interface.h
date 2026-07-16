@@ -103,6 +103,9 @@ enum class ImportErrorCode : uint32_t {
     // SQL parsing errors – extended range (206)
     BINARY_COPY_FORMAT   = 206,  ///< Binary (non-text) COPY data detected; unsupported
 
+    // Timeout / deadline errors (110-119)
+    DEADLINE_EXCEEDED    = 110,  ///< Import operation exceeded configured import_timeout_ms
+
     // Conflict resolution errors (600-699)
     CONFLICT_ERROR       = 600,  ///< ERROR strategy triggered on key conflict
 
@@ -576,6 +579,24 @@ struct ImportOptions {
     /// existing ThemisDB records using the configured strategy.
     EntityLinkingConfig entity_linking;
 
+    // -------------------------------------------------------------------------
+    // I1: Connection / operation timeout enforcement (Phase 4 hardening)
+    // -------------------------------------------------------------------------
+
+    /// Maximum milliseconds allowed for the entire importData() call.
+    /// When exceeded the import is aborted with a DEADLINE_EXCEEDED (110) error
+    /// and a structured audit event is emitted via THEMIS_WARN.
+    /// Set to 0 (default) to disable the timeout guard.
+    ///
+    /// Typical values:
+    ///   connection_timeout_ms = 5000   (file open / header validation)
+    ///   query_timeout_ms      = 30000  (full dump processing)
+    ///   fetch_timeout_ms      = 10000  (per result-set fetch window)
+    ///
+    /// All three share the single import_timeout_ms budget in file-based importers.
+    /// Live-connection importers may honour them individually.
+    uint32_t import_timeout_ms = 0;   ///< 0 = disabled
+
     json toJson() const {
         return json{
             {"dry_run", dry_run},
@@ -606,7 +627,8 @@ struct ImportOptions {
             {"preserve_relationships", preserve_relationships},
             {"validate_references", validate_references},
             {"relationship_mapping_mode", relationship_mapping_mode},
-            {"entity_linking", entity_linking.toJson()}
+            {"entity_linking", entity_linking.toJson()},
+            {"import_timeout_ms", import_timeout_ms}
         };
     }
 };

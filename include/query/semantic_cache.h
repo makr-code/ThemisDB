@@ -134,6 +134,14 @@ public:
     SemanticQueryCache(RocksDBWrapper& db, VectorIndexManager& vim, const Config& config);
     ~SemanticQueryCache() = default;
     
+    // Delete copy and move operations (non-moveable due to std::mutex and references)
+    SemanticQueryCache(const SemanticQueryCache&) = delete;
+    SemanticQueryCache& operator=(const SemanticQueryCache&) = delete;
+    SemanticQueryCache(SemanticQueryCache&&) = delete;  // Deleted: contains std::mutex and references
+    SemanticQueryCache& operator=(SemanticQueryCache&&) = delete;  // Deleted: contains std::mutex and references
+    
+    /// @cwe CWE-457: Mutex and member references are non-moveable, so move operations explicitly deleted
+    
     // Cache operations
     Status put(std::string_view query, std::string_view result_json);
     LookupResult get(std::string_view query);

@@ -63,6 +63,8 @@
 #include <thread>
 #include <chrono>
 
+#include "utils/test_stability.h"
+
 using namespace themisdb::temporal;
 
 // ============================================================================
@@ -74,9 +76,11 @@ static Timestamp before(Timestamp t) {
     return t - 1;
 }
 
-/// Insert a small sleep so that now() advances between operations.
+/// Spin until the wall-clock millisecond counter advances by at least 1 unit,
+/// guaranteeing that the next now() call returns a strictly greater Timestamp.
+/// Uses yield() to avoid a blind fixed-duration sleep (flaky on loaded CI).
 static void advanceClock() {
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    themis::test::wait_for_clock_advance_ms();
 }
 
 // ============================================================================

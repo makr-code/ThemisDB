@@ -33,6 +33,30 @@ python3 benchmarks/run_benchmark_orchestrator.py --help
 bash benchmarks/run_all_benchmarks.sh
 ```
 
+## Wave 3: Full-Function / Production-nahe Suite
+
+W3 deckt priorisierte End-to-End-nahe Critical-Workloads mit reproduzierbaren
+Profilen (`read-heavy`, `write-heavy`, `mixed`) sowie Scale-/Stress-Dimensionen
+(`small|medium|large`, Parallelität, Request-Mix) ab.
+
+Run (produktionsnah, mit vorhandenen Binaries):
+
+```bash
+python3 benchmarks/wave3_benchmark_suite.py run \
+  --benchmark-bin-dir <build>/bin \
+  --profiles-file benchmarks/wave3_workload_profiles.json \
+  --output benchmarks/benchmark_results/wave3_current.json
+```
+
+Vergleich + Guardrails (Regressionserkennung):
+
+```bash
+python3 benchmarks/wave3_benchmark_suite.py compare \
+  --baseline benchmarks/benchmark_results/wave3_baseline.json \
+  --current benchmarks/benchmark_results/wave3_current.json \
+  --output benchmarks/benchmark_results/wave3_compare.json
+```
+
 ## Installation
 
 Benchmark-Buildartefakte werden über den CMake-Preset `nightly-bench-sweep` erzeugt.
@@ -54,8 +78,20 @@ Hinweis zur CTest-Integration: Benchmarks sind standardmäßig keine obligatoris
 
 Historische Ergebniszahlen in älteren Reports bleiben als Historie erhalten. Für aktuelle Aussagen sind reproduzierbare Kommandos, Parameter und Artefakte (`results/`, JSON/CSV-Ausgaben) maßgeblich.
 
+## Messhygiene (Welle 1 / PR-A)
+
+Priorisierte C++-Benchmarks wurden im Rahmen der Benchmark-Härtung (Welle 1) standardisiert. Die verbindlichen Regeln für reproduzierbare Messungen sind in [`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md) dokumentiert.
+
+Kurzfassung der Pflichtregeln:
+- **Fester RNG-Seed**: `kCanonicalRngSeed = 42` (aus `bench_fixtures.h`) — kein `std::random_device`.
+- **OS-Temp-Pfade**: DB-Artefakte unter `std::filesystem::temp_directory_path()` mit Timestamp-Suffix.
+- **Setup/Mess-Trennung**: Setup-Code in `SetUp()`, nicht im Mess-Loop.
+- **`UseRealTime()`**: Pflicht bei I/O-gebundenen Benchmarks.
+- **Konsistente Metriken**: `SetItemsProcessed()`, `qps`-Counter, Dataset-Größen.
+
 ## Navigation
 
 - Bereichsindex: [`INDEX.md`](INDEX.md)
 - Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Messhygiene: [`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md)
 - Erweiterungen: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
