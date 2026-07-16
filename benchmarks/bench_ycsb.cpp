@@ -55,8 +55,9 @@ namespace {
     constexpr int FIELD_COUNT = 10;
     constexpr int FIELD_LENGTH = 100;
     
-    // Random generators
-    std::mt19937 rng{std::random_device{}()};
+    // Deterministic, fixed seed for reproducible benchmark measurements.
+    // Seeding from std::random_device is intentionally avoided here.
+    std::mt19937 rng{42};
     
     std::string makeRandomString(size_t len) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -131,8 +132,15 @@ namespace {
 class YCSBLiteFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = std::string("tmp/bench_ycsb_") +
-                   std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+        // Use the OS temp directory so the path is valid regardless of the
+        // working directory, and include a steady-clock timestamp for
+        // uniqueness across concurrent or repeated runs.
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("themis_bench_ycsb_" +
+                     std::to_string(std::chrono::steady_clock::now()
+                                        .time_since_epoch()
+                                        .count())))
+                       .string();
         cleanupTestDB(db_path_);
         
         // Configure database for YCSB workload

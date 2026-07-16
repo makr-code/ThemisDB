@@ -61,8 +61,13 @@ ExactCaseEnv buildExactCaseEnv(
     const char* name_suffix
 ) {
     ExactCaseEnv env;
-    env.db_path = std::string("data/themis_bench_vector_exact_") + name_suffix + "_" +
-                  std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+    // Use the OS temp directory so the path is valid regardless of the working
+    // directory. Timestamp suffix ensures uniqueness across repeated calls.
+    const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+    env.db_path = (std::filesystem::temp_directory_path() /
+                   (std::string("themis_bench_vec_exact_") + name_suffix + "_" +
+                    std::to_string(ts)))
+                      .string();
     std::error_code ec;
     std::filesystem::remove_all(env.db_path, ec);
 
@@ -116,7 +121,12 @@ struct SearchEnv {
 
     void initOnce() {
         if (ready) return;
-        const std::string db_path = "data/themis_bench_vector_search";
+        // Use the OS temp directory so the path is valid regardless of the
+        // working directory.
+        const std::string db_path =
+            (std::filesystem::temp_directory_path() /
+             "themis_bench_vector_search")
+                .string();
         std::error_code ec; std::filesystem::remove_all(db_path, ec);
 
         RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 128; cfg.block_cache_size_mb = 256;
@@ -179,7 +189,13 @@ static void BM_VectorSearch_efSearch(benchmark::State& state) {
 // Args: {dim}
 static void BM_VectorInsert_Batch100(benchmark::State& state) {
     const int dim = static_cast<int>(state.range(0));
-    const std::string db_path = "data/themis_bench_vector_insert";
+    // Use the OS temp directory so the path is valid regardless of the working
+    // directory. Timestamp suffix ensures uniqueness across repeated runs.
+    const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+    const std::string db_path =
+        (std::filesystem::temp_directory_path() /
+         ("themis_bench_vec_insert_" + std::to_string(ts)))
+            .string();
     std::error_code ec; std::filesystem::remove_all(db_path, ec);
 
     RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 128; cfg.block_cache_size_mb = 256;
@@ -326,12 +342,14 @@ BENCHMARK(BM_VectorSearch_efSearch)
     ->Args({64, 10})
     ->Args({128, 10})
     ->Args({256, 10})
-    ->Unit(benchmark::kMillisecond);
+    ->Unit(benchmark::kMillisecond)
+    ->UseRealTime();
 
 BENCHMARK(BM_VectorInsert_Batch100)
     ->Args({64})  // dim=64
     ->Args({128}) // dim=128
-    ->Unit(benchmark::kMillisecond);
+    ->Unit(benchmark::kMillisecond)
+    ->UseRealTime();
 
 BENCHMARK(BM_L2Distance_1000_512)->Unit(benchmark::kMillisecond)->UseRealTime();
 BENCHMARK(BM_CosineDistance_1000_512)->Unit(benchmark::kMillisecond)->UseRealTime();
