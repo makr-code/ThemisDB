@@ -1,14 +1,19 @@
 /*
- * ThemisDB | File: test_data_generator.h | Version: 0.0.48
+ * ThemisDB | File: test_data_generator.h | Version: 0.0.49
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file test_data_generator.h
  * @brief Utilities for generating integration and cross-module pipeline test data.
+ *
+ * Wave 2 additions (2026-07):
+ * - `kCanonicalSeed` constant for reproducible cross-module test runs.
+ * - `SeededTestDataGenerator` subclass that uses a fixed seed so all generated
+ *   values are deterministic across machines and CI environments.
+ * - `GenerateDocumentBatch()` and `GenerateVectorBatch()` helpers for bulk fixture
+ *   creation used by the Wave 2 cross-module pipeline suites.
  */
 
 #pragma once
@@ -23,8 +28,18 @@
 namespace themis {
 namespace test {
 
+/// @brief Canonical RNG seed used by all Wave 2 cross-module fixture tests.
+///
+/// Using a fixed seed guarantees byte-identical data across CI runs and local
+/// developer machines, which is required for regression-baseline comparisons.
+static constexpr uint32_t kCanonicalSeed = 42U;
+
 /**
  * @brief Generates test data for integration and pipeline tests.
+ *
+ * The default constructor uses `std::random_device` so values differ per run.
+ * Use `SeededTestDataGenerator` (or pass an explicit seed to the protected
+ * constructor) for deterministic, reproducible test data.
  */
 class TestDataGenerator {
 public:
@@ -121,8 +136,83 @@ public:
         };
     }
 
+    /**
+     * @brief Generates a batch of @p count documents with a common @p prefix and
+     *        optional @p terms list attached to each document.
+     *
+     * All documents have sequential ids (`<prefix>_<index>`) so the batch is
+     * deterministic when used together with `SeededTestDataGenerator`.
+     *
+     * @param count   Number of documents to produce.
+     * @param prefix  ID prefix; also used as the collection name hint.
+     * @param terms   Search terms to attach to every document.
+     * @return Vector of JSON documents ready for ingestion.
+     */
+    [[nodiscard]] std::vector<nlohmann::json> GenerateDocumentBatch(
+            size_t count,
+            const std::string& prefix = "doc",
+            const std::vector<std::string>& terms = {}) {
+        std::vector<nlohmann::json> batch;
+        batch.reserve(count);
+        for (size_t i = 0; i < count; ++i) {
+            auto doc = GenerateTestDocument(prefix + "_" + std::to_string(i));
+            // Override id to be deterministic index-based so tests can assert order.
+            doc["id"] = prefix + "_" + std::to_string(i);
+            doc["seq"] = static_cast<int>(i);
+            if (!terms.empty()) {
+                doc["terms"] = nlohmann::json(terms);
+            }
+            batch.push_back(std::move(doc));
+        }
+        return batch;
+    }
+
+    /**
+     * @brief Generates a batch of unit-normalized float embeddings.
+     *
+     * @param count  Number of embedding vectors.
+     * @param dims   Dimensionality of each vector.
+     * @return Vector of embedding vectors.
+     */
+    [[nodiscard]] std::vector<std::vector<float>> GenerateVectorBatch(
+            size_t count, size_t dims = 8) {
+        std::vector<std::vector<float>> result;
+        result.reserve(count);
+        for (size_t i = 0; i < count; ++i) {
+            result.push_back(GenerateEmbedding(dims));
+        }
+        return result;
+    }
+
+protected:
+    /// @brief Seed-accepting constructor for `SeededTestDataGenerator`.
+    explicit TestDataGenerator(uint32_t seed) : gen_(seed) {}
+
 private:
     std::mt19937 gen_;
+};
+
+/**
+ * @brief Deterministic variant of `TestDataGenerator` seeded with
+ *        `kCanonicalSeed` (42).
+ *
+ * Use this class in Wave 2 cross-module tests wherever reproducibility across
+ * CI runs is required.  All generated values are identical on every invocation
+ * with the same call sequence, regardless of host platform.
+ *
+ * Example:
+ * @code
+ *   SeededTestDataGenerator gen;
+ *   auto docs = gen.GenerateDocumentBatch(10, "cross", {"alpha", "beta"});
+ *   // docs[0]["id"] == "cross_0", docs[1]["id"] == "cross_1", etc.
+ * @endcode
+ */
+class SeededTestDataGenerator : public TestDataGenerator {
+public:
+    SeededTestDataGenerator() : TestDataGenerator(kCanonicalSeed) {}
+
+    /// @brief Construct with an explicit seed; useful for parameterised tests.
+    explicit SeededTestDataGenerator(uint32_t seed) : TestDataGenerator(seed) {}
 };
 
 } // namespace test
