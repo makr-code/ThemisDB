@@ -1,7 +1,7 @@
 # Phase 4: Query, Importers & Cache Module Remediation — Issue #5184
 
 **Date:** 2026-06-03  
-**Status:** Implementation Planning  
+**Status:** ✅ IMPLEMENTATION COMPLETE (2026-07-06)  
 **Scope:** Three high-priority modules with significant actionable findings  
 **Objective:** Address 340+ critical/high findings with comprehensive security, performance, and reliability improvements
 
@@ -71,25 +71,25 @@ Leverage patterns from Phase 3 (server module) and apply across three modules:
 **Effort Estimate:** 3–4 weeks for comprehensive remediation
 
 #### Block 1: Query Module — Performance & Reliability Hardening (Week 1-2)
-- [ ] **Query Timeouts:** Add deadline enforcement to query_engine.cpp (semaphore_wait → wait_with_timeout)
-- [ ] **Container Pre-allocation:** Optimize vector patterns in aql_runner.cpp, adaptive_join.cpp
-- [ ] **Audit Logging:** Add structured logging for federation and cross-cluster operations
-- [ ] **Concurrency:** Fix data race patterns in query_engine.cpp (shared context access)
-- **Expected Impact:** ~80–100 findings, 150+ LOC changes
+- [x] **Query Timeouts:** tbbWaitWithTimeout() helper wraps ~11 tg.wait() sites with deadline measurement + audit logging
+- [x] **Container Pre-allocation:** reserve() in aql_runner.cpp, adaptive_join.cpp, aql_translator.cpp
+- [x] **Audit Logging:** federation_dispatch/merge/failure events in query_federation.cpp + aql_runner.cpp
+- [x] **Concurrency:** config_mutex_ + atomic timeout members; setStatisticsCollector/setCollectionAccessChecker protected
+- **Actual Impact:** 270 net LOC, 20 tests
 
 #### Block 2: Importers Module — Security & Performance (Week 2-3)
-- [ ] **Importer Timeouts:** Add database connection timeouts to postgres/mysql importers
-- [ ] **Input Validation:** Harden schema inference bounds checking (SQL injection prevention)
-- [ ] **Container Optimization:** Pre-allocate result vectors, fix iterator patterns
-- [ ] **Audit Logging:** Track import failures and security events (auth, schema changes)
-- **Expected Impact:** ~85–105 findings, 120+ LOC changes
+- [x] **Importer Timeouts:** 5s connect / 30s query timeout guards in postgres/mysql importers
+- [x] **Input Validation:** isValidIdentifier() + kMax* constants; SQL injection prevention in schema_inference.cpp
+- [x] **Container Optimization:** reserve(32) for result vectors in postgres/mysql importers
+- [x] **Audit Logging:** 5 structured event types per importer (import_start/success/failed/auth_failure/schema_change)
+- **Actual Impact:** 286 net LOC, 34 tests
 
 #### Block 3: Cache Module — Timeout & Concurrency Safety (Week 3-4)
-- [ ] **Cache Timeouts:** Fix 3+ CRITICAL no-timeout findings in adaptive_query_cache.cpp
-- [ ] **Concurrency Safety:** Add mutex protection to data races in distributed_cache_coordinator.cpp
-- [ ] **LLM AI Safety:** Validate cache entry shapes and lifetime bounds
-- [ ] **Monitoring:** Add structured telemetry for cache evictions and timeouts
-- **Expected Impact:** ~70–90 findings, 100+ LOC changes
+- [x] **Cache Timeouts:** l3_mutex_ → std::timed_mutex; 7× try_lock_until(1s) + cache_lock_timeout audit event
+- [x] **Concurrency Safety:** coordinator_ready_ std::atomic<bool> + DCL pattern in distributed_cache_coordinator
+- [x] **LLM AI Safety:** Size + TTL bounds validation in bounded_lru_cache put()
+- [x] **Monitoring:** 3 SLO/eviction/replication-failure telemetry events in cache_hit_rate_slo_monitor + cache_replication_coordinator
+- **Actual Impact:** 270 net LOC, 24 tests
 
 ---
 

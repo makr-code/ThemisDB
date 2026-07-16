@@ -220,4 +220,19 @@ TEST_F(QueryExecutionPipelineTest, QP05_ParallelQueriesKeepMetricsConsistent) {
     EXPECT_EQ(pipeline_->SuccessCount(), kThreads * kPerThread);
 }
 
+TEST_F(QueryExecutionPipelineTest, QP06_StorageMissReturnsDeterministicErrorWithoutPollutingSuccessMetrics) {
+    const auto token = data_gen_->GeneratePipelineToken(true);
+    auth_->AllowToken(token);
+    index_->IndexDocument("doc_missing_payload", {"missing"});
+
+    const auto before_events = audit_->Count();
+    const auto result = pipeline_->Execute(token, "FOR d IN docs RETURN d", "missing");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "404 storage_miss");
+    EXPECT_FALSE(result.cache_hit);
+    EXPECT_EQ(pipeline_->SuccessCount(), 0U);
+    EXPECT_EQ(audit_->Count(), before_events);
+}
+
 } // namespace themis::test
