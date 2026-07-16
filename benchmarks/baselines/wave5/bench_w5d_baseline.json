@@ -1,0 +1,61 @@
+{
+  "_comment": "Wave 5 / B5-D — Governance Gate Baselines",
+  "_doc": "Baseline for release-gate benchmarks. All gate_pass counters must equal 1.0. Thresholds defined in release_gate_manifest_w5.json.",
+  "version": "5.0.0",
+  "wave": "w5d",
+  "branch": "develop",
+  "commit": "initial-wave5-baseline",
+  "timestamp": "2026-07-16T14:00:00Z",
+  "context": {
+    "build_type": "Release",
+    "preset": "windows-release / linux-release",
+    "warmup": "3-phase (cold=50, warm=100, hot=200)",
+    "seed": 42,
+    "note": "Placeholder baseline — replace with real measurements from the target CI runner"
+  },
+  "benchmarks": {
+    "BM_W5D_Gate1_ReadLatency": {
+      "real_time": 6.8,
+      "cpu_time": 6.6,
+      "iterations": 5000,
+      "items_per_second": 147059,
+      "counters": {
+        "p50_us":   6.5,
+        "p99_us":  45.2,
+        "gate_pass": 1.0
+      }
+    },
+    "BM_W5D_Gate2_WriteThroughput": {
+      "real_time": 11.9,
+      "cpu_time": 11.6,
+      "iterations": 30000,
+      "items_per_second": 84034,
+      "counters": {
+        "throughput": 84034,
+        "gate_pass":  1.0
+      }
+    },
+    "BM_W5D_Gate3_RangeScanLatency": {
+      "real_time": 185.0,
+      "cpu_time": 181.0,
+      "iterations": 2000,
+      "items_per_second": 5405,
+      "counters": {
+        "p50_us":  165.0,
+        "p99_us":  290.0,
+        "gate_pass": 1.0
+      }
+    },
+    "BM_W5D_Gate4_BatchCommitLatency": {
+      "real_time": 1.42,
+      "cpu_time": 1.38,
+      "iterations": 1000,
+      "items_per_second": 70422,
+      "counters": {
+        "p50_ms":  1.35,
+        "p99_ms":  2.85,
+        "gate_pass": 1.0
+      }
+    }
+  }
+}
