@@ -21,7 +21,7 @@ gaps as of Wave 3 completion.
 | FFW-02  | Unauthorized ingest: no state mutation | — | ✅ | ✅ |
 | FFW-03  | Query on missing index term: domain error | — | ✅ | ✅ |
 | FFW-04  | Token revocation blocks all subsequent actions | ✅ (pre-revoke) | ✅ (post-revoke) | ✅ |
-| FFW-05  | Concurrent ingest + query: no lost writes or duplicates | ✅ | — | ✅ |
+| FFW-05  | Concurrent ingest: no lost writes or duplicates | ✅ | — | ✅ |
 | FFW-06  | LLM degradation fallback + recovery | ✅ (after recovery) | ✅ (during degradation) | ✅ |
 | FFW-07  | Export snapshot content matches ingested event count | ✅ | — | ✅ |
 | FFW-08  | Multi-tenant complete flow: strict cross-tenant isolation | ✅ | ✅ (cross-tenant read blocked) | ✅ |
@@ -150,6 +150,9 @@ Wave 3 tests use **domain-level assertions**, not no-crash-only checks:
 // ✅ Domain-level assertion — preferred
 EXPECT_EQ(qr.error_code, "index_miss")
     << "Query on missing term must return 'index_miss', not an empty result";
+
+// ✅ Equivalent short form (semicolon on same line)
+EXPECT_EQ(qr.error_code, "index_miss");
 
 // ❌ No-crash-only — insufficient
 EXPECT_FALSE(qr.ok);

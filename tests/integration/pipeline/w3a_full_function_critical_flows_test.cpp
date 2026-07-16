@@ -80,7 +80,7 @@ struct SnapshotResult {
  * // Reason: self-contained pipeline model for integration coverage of critical flows
  * // Activation: test-only (THEMIS_TEST_BUILD=1)
  * // Production Delta: no RocksDB, no gRPC, no GPU; mocked auth/index/LLM
- * // Approved By: Wave 3 test hardening task (issue tests(w3))
+ * // Approved By: @makr-code (maintainer) — PR tests(w3) Wave 3 test hardening
  * // Removal Target: keep permanently as integration coverage harness
  */
 class FullFunctionPipeline {
@@ -259,7 +259,7 @@ public:
     [[nodiscard]] SnapshotResult ExportSnapshot(const std::string& tenant_id,
                                                 const std::filesystem::path& output_file) {
         const size_t event_count = TenantEventCount(tenant_id);
-        const size_t cdc_count   = CdcCount();
+        const size_t cdc_count   = TenantCdcCount(tenant_id);
 
         std::ofstream out(output_file);
         if (!out.is_open()) {
@@ -292,6 +292,22 @@ public:
     [[nodiscard]] size_t CdcCount() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return cdc_log_.size();
+    }
+
+    /**
+     * @brief Returns number of CDC log entries for the given tenant.
+     * @param tenant_id Tenant namespace to query.
+     */
+    [[nodiscard]] size_t TenantCdcCount(const std::string& tenant_id) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const std::string prefix = "cdc:insert:" + tenant_id + "::";
+        size_t count = 0U;
+        for (const auto& entry : cdc_log_) {
+            if (entry.rfind(prefix, 0U) == 0U) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     /**
@@ -448,6 +464,8 @@ TEST_F(W3AFullFunctionCriticalFlowsTest, FFW02_UnauthorizedIngestDoesNotMutateSt
         << "FFW-02: CDC log must remain empty after failed ingest";
     EXPECT_EQ(storage_->Size(), 0U)
         << "FFW-02: Storage must not receive any entry after failed ingest";
+    EXPECT_TRUE(index_->Search("sensitive").empty())
+        << "FFW-02: Index must not contain the rejected term after failed ingest";
 
     EXPECT_TRUE(audit_->Contains("ingest", "auth_failed"))
         << "FFW-02: Audit must record auth_failed for rejected ingest";
@@ -529,12 +547,12 @@ TEST_F(W3AFullFunctionCriticalFlowsTest, FFW04_TokenRevocationBlocksAllSubsequen
 }
 
 // ---------------------------------------------------------------------------
-// FFW-05: Concurrent ingest and query keeps state consistent
+// FFW-05: Concurrent ingest keeps state consistent
 // ---------------------------------------------------------------------------
 
 /**
- * @test FFW-05 — Concurrent ingest and query operations from multiple threads
- *               produce consistent final state (no double-counts, no lost writes).
+ * @test FFW-05 — Concurrent ingest operations from multiple threads produce
+ *               consistent final state (no double-counts, no lost writes).
  *
  * Acceptance Criteria:
  * - All 10 ingest threads complete successfully without race conditions.
@@ -542,7 +560,7 @@ TEST_F(W3AFullFunctionCriticalFlowsTest, FFW04_TokenRevocationBlocksAllSubsequen
  * - CdcCount equals TenantEventCount.
  * - TotalIngestedCount equals 10 (no duplicates, no lost writes).
  */
-TEST_F(W3AFullFunctionCriticalFlowsTest, FFW05_ConcurrentIngestAndQueryKeepsStateConsistent) {
+TEST_F(W3AFullFunctionCriticalFlowsTest, FFW05_ConcurrentIngestKeepsStateConsistent) {
     constexpr size_t kWorkers     = 10U;
     constexpr size_t kEventsEach  = 1U;
 

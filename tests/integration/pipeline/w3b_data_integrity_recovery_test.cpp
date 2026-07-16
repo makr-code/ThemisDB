@@ -101,7 +101,7 @@ struct RecoveryResult {
  */
 struct StoreSnapshot {
     std::unordered_map<std::string, std::string> data;
-    size_t checksum{0}; ///< Simple XOR checksum of key+value lengths.
+    size_t checksum{0}; ///< XOR of std::hash<std::string>(key) ^ std::hash<std::string>(value) for all entries.
 };
 
 // ---------------------------------------------------------------------------
@@ -121,7 +121,7 @@ struct StoreSnapshot {
  * //         data integrity and restart-stability invariants
  * // Activation: test-only (THEMIS_TEST_BUILD=1)
  * // Production Delta: no RocksDB WAL, no disk I/O, in-memory only
- * // Approved By: Wave 3 test hardening task (issue tests(w3))
+ * // Approved By: @makr-code (maintainer) — PR tests(w3) Wave 3 test hardening
  * // Removal Target: keep permanently as integration coverage harness
  */
 class DataIntegrityPipeline {
@@ -165,16 +165,25 @@ public:
      */
     [[nodiscard]] CommitResult Commit(const std::string& tx_id) {
         std::lock_guard<std::mutex> lock(mutex_);
+
+        // Move staged (prepared) entries for this tx_id into the journal so that
+        // Recovery() can replay them after a crash. Entries staged for other
+        // transactions remain in pending_for_commit_.
+        std::vector<WalEntry> remaining_pending;
+        for (auto& entry : pending_for_commit_) {
+            if (entry.transaction_id == tx_id) {
+                journal_.push_back(entry);
+            } else {
+                remaining_pending.push_back(std::move(entry));
+            }
+        }
+        pending_for_commit_ = std::move(remaining_pending);
+
+        // Append the commit marker for this transaction.
         journal_.push_back({WalEntryType::kCommit, tx_id, "", ""});
 
+        // Apply all write/delete journal entries for this tx_id to the store.
         size_t applied = 0U;
-        for (const auto& entry : pending_for_commit_) {
-            ApplyEntryLocked(entry);
-            ++applied;
-        }
-        pending_for_commit_.clear();
-
-        // Flush all write/delete entries for this tx_id from the journal to store
         for (const auto& entry : journal_) {
             if (entry.transaction_id != tx_id) {
                 continue;
