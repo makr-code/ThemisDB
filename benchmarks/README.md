@@ -78,8 +78,20 @@ Hinweis zur CTest-Integration: Benchmarks sind standardmäßig keine obligatoris
 
 Historische Ergebniszahlen in älteren Reports bleiben als Historie erhalten. Für aktuelle Aussagen sind reproduzierbare Kommandos, Parameter und Artefakte (`results/`, JSON/CSV-Ausgaben) maßgeblich.
 
+## Messhygiene (Welle 1 / PR-A)
+
+Priorisierte C++-Benchmarks wurden im Rahmen der Benchmark-Härtung (Welle 1) standardisiert. Die verbindlichen Regeln für reproduzierbare Messungen sind in [`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md) dokumentiert.
+
+Kurzfassung der Pflichtregeln:
+- **Fester RNG-Seed**: `kCanonicalRngSeed = 42` (aus `bench_fixtures.h`) — kein `std::random_device`.
+- **OS-Temp-Pfade**: DB-Artefakte unter `std::filesystem::temp_directory_path()` mit Timestamp-Suffix.
+- **Setup/Mess-Trennung**: Setup-Code in `SetUp()`, nicht im Mess-Loop.
+- **`UseRealTime()`**: Pflicht bei I/O-gebundenen Benchmarks.
+- **Konsistente Metriken**: `SetItemsProcessed()`, `qps`-Counter, Dataset-Größen.
+
 ## Navigation
 
 - Bereichsindex: [`INDEX.md`](INDEX.md)
 - Roadmap: [`ROADMAP.md`](ROADMAP.md)
+- Messhygiene: [`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md)
 - Erweiterungen: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)

@@ -230,6 +230,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/application_profile_pipeline_tes
 endif()
 
 # ============================================================================
+# Wave 2 Cross-Module Pipeline Tests (W2-A / W2-B)
+# ============================================================================
+
+# W2-A + W2-B: Ingest → Index → Query composed cross-module flow (CMX-01..CMX-06)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/cross_module_ingest_index_query_test.cpp")
+    add_integration_test(
+        cross_module_ingest_index_query_test
+        pipeline/cross_module_ingest_index_query_test.cpp
+    )
+    set_tests_properties(cross_module_ingest_index_query_test PROPERTIES
+        LABELS "integration;pipeline_integration;cross_module;wave2;ingest;query"
+    )
+endif()
+
+# W2-B: Negative / recovery cross-module paths (REC-01..REC-07)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/cross_module_recovery_pipeline_test.cpp")
+    add_integration_test(
+        cross_module_recovery_pipeline_test
+        pipeline/cross_module_recovery_pipeline_test.cpp
+    )
+    set_tests_properties(cross_module_recovery_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;cross_module;wave2;recovery"
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 

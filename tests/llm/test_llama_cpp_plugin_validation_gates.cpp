@@ -411,8 +411,12 @@ TEST_F(LlamaCppPluginValidationTest, PluginGenerateStubMode) {
     auto req = createDefaultRequest();
     auto response = plugin.generate(req);
     
-    // Stub mode should return either success or an error, and text may be empty
-    EXPECT_TRUE(response.success == false || response.success == true || response.text.empty());
+    // Keep the success/error contract meaningful in stub mode.
+    if (response.success) {
+        EXPECT_FALSE(response.text.empty());
+    } else {
+        EXPECT_FALSE(response.error_message.empty());
+    }
 }
 
 TEST_F(LlamaCppPluginValidationTest, PluginUnloadModel) {
