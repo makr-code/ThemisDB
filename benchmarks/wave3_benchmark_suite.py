@@ -47,10 +47,22 @@ class WorkloadProfile:
 
 
 def _default_profiles() -> List[WorkloadProfile]:
-    shared_dims = (
-        WorkloadDimension("small", ".*(1000|10000).*", 1, "read=90,write=10"),
-        WorkloadDimension("medium", ".*(100000|50000).*", 4, "read=70,write=30"),
-        WorkloadDimension("large", ".*(1000000|500000).*", 8, "read=50,write=50"),
+    # Each profile uses its own dimensions so filters are anchored to the
+    # actual arg suffixes in those specific binaries (not shared across profiles).
+    ycsb_dims = (
+        WorkloadDimension("small", "/10000$", 1, "read=90,write=10"),
+        WorkloadDimension("medium", "/100000$", 4, "read=70,write=30"),
+        WorkloadDimension("large", "/1000000$", 8, "read=50,write=50"),
+    )
+    batch_insert_dims = (
+        WorkloadDimension("small", "_100$", 1, "read=20,write=80"),
+        WorkloadDimension("medium", "_1000$", 4, "read=30,write=70"),
+        WorkloadDimension("large", "_1000$", 8, "read=40,write=60"),
+    )
+    mixed_dims = (
+        WorkloadDimension("small", "/10$", 1, "read=60,write=40"),
+        WorkloadDimension("medium", "/100$", 4, "read=55,write=45"),
+        WorkloadDimension("large", "/(1024|2048)$", 8, "read=50,write=50"),
     )
     return [
         WorkloadProfile(
@@ -58,7 +70,7 @@ def _default_profiles() -> List[WorkloadProfile]:
             profile="read-heavy",
             description="YCSB + retrieval path coverage",
             benchmark_binary="bench_ycsb",
-            dimensions=shared_dims,
+            dimensions=ycsb_dims,
             guardrails=Guardrails(8.0, 10.0, 15.0),
         ),
         WorkloadProfile(
@@ -66,7 +78,7 @@ def _default_profiles() -> List[WorkloadProfile]:
             profile="write-heavy",
             description="Batch ingest + update path coverage",
             benchmark_binary="bench_batch_insert",
-            dimensions=shared_dims,
+            dimensions=batch_insert_dims,
             guardrails=Guardrails(10.0, 12.0, 18.0),
         ),
         WorkloadProfile(
@@ -74,7 +86,7 @@ def _default_profiles() -> List[WorkloadProfile]:
             profile="mixed",
             description="Cross-component end-to-end mixed flow",
             benchmark_binary="bench_cross_functional_end_to_end",
-            dimensions=shared_dims,
+            dimensions=mixed_dims,
             guardrails=Guardrails(9.0, 10.0, 15.0),
         ),
     ]
@@ -175,11 +187,12 @@ def _run_single(
     cmd = [
         str(benchmark_bin),
         f"--benchmark_filter={dim.benchmark_filter}",
-        "--benchmark_format=json",
+        "--benchmark_out_format=json",
         f"--benchmark_out={out_json}",
         f"--benchmark_repetitions={repetitions}",
         "--benchmark_report_aggregates_only=true",
         f"--benchmark_min_time={min_time}",
+        f"--benchmark_threads={dim.parallelism}",
     ]
 
     started = time.perf_counter()
@@ -231,6 +244,13 @@ def run_wave3(
                     temp_out_dir,
                 )
                 metrics = _extract_metrics(raw)
+                if metrics["samples"] == 0:
+                    raise RuntimeError(
+                        f"Zero samples collected for workload '{profile.workload_id}' "
+                        f"scale '{dim.dataset_scale}': benchmark_filter "
+                        f"'{dim.benchmark_filter}' matched no benchmarks in "
+                        f"'{bench_bin.name}'. Check the filter and binary."
+                    )
                 context = raw.get("context", {})
 
             results.append(

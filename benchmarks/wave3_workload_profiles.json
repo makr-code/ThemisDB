@@ -13,19 +13,19 @@
       "dimensions": [
         {
           "dataset_scale": "small",
-          "benchmark_filter": ".*(1000|10000).*",
+          "benchmark_filter": "/10000$",
           "parallelism": 1,
           "request_mix": "read=90,write=10"
         },
         {
           "dataset_scale": "medium",
-          "benchmark_filter": ".*(100000|50000).*",
+          "benchmark_filter": "/100000$",
           "parallelism": 4,
           "request_mix": "read=70,write=30"
         },
         {
           "dataset_scale": "large",
-          "benchmark_filter": ".*(1000000|500000).*",
+          "benchmark_filter": "/1000000$",
           "parallelism": 8,
           "request_mix": "read=50,write=50"
         }
@@ -44,19 +44,19 @@
       "dimensions": [
         {
           "dataset_scale": "small",
-          "benchmark_filter": ".*(1000|10000).*",
+          "benchmark_filter": "_100$",
           "parallelism": 1,
           "request_mix": "read=20,write=80"
         },
         {
           "dataset_scale": "medium",
-          "benchmark_filter": ".*(100000|50000).*",
+          "benchmark_filter": "_1000$",
           "parallelism": 4,
           "request_mix": "read=30,write=70"
         },
         {
           "dataset_scale": "large",
-          "benchmark_filter": ".*(1000000|500000).*",
+          "benchmark_filter": "_1000$",
           "parallelism": 8,
           "request_mix": "read=40,write=60"
         }
@@ -75,19 +75,19 @@
       "dimensions": [
         {
           "dataset_scale": "small",
-          "benchmark_filter": ".*(10|100).*",
+          "benchmark_filter": "/10$",
           "parallelism": 1,
           "request_mix": "read=60,write=40"
         },
         {
           "dataset_scale": "medium",
-          "benchmark_filter": ".*(100|1000).*",
+          "benchmark_filter": "/100$",
           "parallelism": 4,
           "request_mix": "read=55,write=45"
         },
         {
           "dataset_scale": "large",
-          "benchmark_filter": ".*(1000|10000).*",
+          "benchmark_filter": "/(1024|2048)$",
           "parallelism": 8,
           "request_mix": "read=50,write=50"
         }
