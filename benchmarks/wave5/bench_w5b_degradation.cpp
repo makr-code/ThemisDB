@@ -33,6 +33,7 @@
 #include <benchmark/benchmark.h>
 
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 
@@ -145,6 +146,7 @@ public:
 
         idx_ = std::make_unique<SecondaryIndexManager>(*db_);
         idx_->createIndex("r", "cat", false);
+        readKeys_.reserve(kW5BWarmup + kW5BCorpus);
 
         w5b::Rng rng(kW5BSeed);
         for (int i = 0; i < kW5BWarmup + kW5BCorpus; ++i) {
@@ -152,8 +154,7 @@ public:
             e.setField("cat", rng.key(6));
             e.setField("val", rng.integer(0, 9999));
             idx_->put("r", e);
-            if (i < static_cast<int>(readKeys_.capacity()))
-                readKeys_.push_back("k_" + std::to_string(i));
+            readKeys_.push_back("k_" + std::to_string(i));
         }
     }
 
@@ -188,8 +189,8 @@ BENCHMARK_DEFINE_F(W5bLatencyInjectionFixture, ReadLatencyInjection)(
     for (auto _ : state) {
         const auto& k = readKeys_[ki % readKeys_.size()];
         auto t0 = std::chrono::steady_clock::now();
-        auto entity = idx_->get("r", k);
-        benchmark::DoNotOptimize(entity);
+        auto blob = db_->get(KeySchema::makeRelationalKey("r", k));
+        benchmark::DoNotOptimize(blob);
         auto t1 = std::chrono::steady_clock::now();
 
         hist.record(
@@ -223,55 +224,66 @@ BENCHMARK_REGISTER_F(W5bLatencyInjectionFixture, ReadLatencyInjection)
  * @brief BM_W5B_WriteFlood_Throughput
  *
  * Floods the storage layer with kW5BWriteFlood sequential writes from
- * multiple threads (Arg(0) = thread count).  Captures the throughput
+ * multiple threads (benchmark::Threads controls concurrency). Captures the throughput
  * plateau and stall onset that occurs when write-buffers fill.
  *
  * Recovery measurement: a subsequent read pass immediately after flood
  * reveals whether read latency has been elevated by compaction pressure.
  */
-static void BM_W5B_WriteFlood_Throughput(benchmark::State& state) {
-    const int threads = static_cast<int>(state.range(0));
+class W5bWriteFloodFixture : public benchmark::Fixture {
+public:
+    void SetUp(::benchmark::State& /*state*/) override {
+        dbPath_ = w5b::tempPath("w5b_flood");
+        fs::create_directories(dbPath_);
 
-    auto dbPath = w5b::tempPath("w5b_flood");
-    fs::create_directories(dbPath);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path                 = dbPath_.string();
+        cfg.block_cache_size_mb     = 64;
+        cfg.compression_default     = "lz4";
+        cfg.max_write_buffer_number = 4;
+        cfg.memtable_size_mb        = 64;
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open())
+            throw std::runtime_error("W5bWriteFloodFixture: open failed");
+        idx_ = std::make_unique<SecondaryIndexManager>(*db_);
+        idx_->createIndex("flood", "t", false);
+        seq_.store(0, std::memory_order_relaxed);
+    }
 
-    RocksDBWrapper::Config cfg;
-    cfg.db_path                   = dbPath.string();
-    cfg.block_cache_size_mb       = 64;
-    cfg.compression_default       = "lz4";
-    cfg.max_write_buffer_number   = 4;
-    cfg.memtable_size_mb          = 64;
-    auto db = std::make_unique<RocksDBWrapper>(cfg);
-    if (!db->open())
-        throw std::runtime_error("BM_W5B_WriteFlood: open failed");
-    SecondaryIndexManager idx(*db);
-    idx.createIndex("flood", "t", false);
+    void TearDown(::benchmark::State& /*state*/) override {
+        idx_.reset();
+        db_->close();
+        db_.reset();
+        std::error_code ec;
+        fs::remove_all(dbPath_, ec);
+    }
 
-    std::atomic<int> seq{0};
-    w5b::Rng rng(kW5BSeed + 5);
+protected:
+    fs::path                               dbPath_;
+    std::unique_ptr<RocksDBWrapper>        db_;
+    std::unique_ptr<SecondaryIndexManager> idx_;
+    std::atomic<int>                       seq_{0};
+};
 
+BENCHMARK_DEFINE_F(W5bWriteFloodFixture, WriteFlood_Throughput)(benchmark::State& state) {
+    w5b::Rng rng(kW5BSeed + static_cast<uint64_t>(state.thread_index()) + 5);
     for (auto _ : state) {
-        const int id = seq.fetch_add(1, std::memory_order_relaxed);
+        const int id = seq_.fetch_add(1, std::memory_order_relaxed);
         BaseEntity e("f_" + std::to_string(id));
         e.setField("t", rng.key(8));
         e.setField("n", static_cast<int64_t>(id));
-        idx.put("flood", e);
+        idx_->put("flood", e);
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("write-flood, " + std::to_string(threads) + " thread(s)");
-
-    db->close();
-    std::error_code ec;
-    fs::remove_all(dbPath, ec);
+    state.SetLabel("write-flood, " + std::to_string(state.threads()) + " thread(s)");
 }
-BENCHMARK(BM_W5B_WriteFlood_Throughput)
-    ->Arg(1)
-    ->Arg(2)
-    ->Arg(4)
+BENCHMARK_REGISTER_F(W5bWriteFloodFixture, WriteFlood_Throughput)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime()
-    ->Threads(1)   // thread count driven by Arg to avoid fixture threading issues
+    ->Threads(1)
+    ->Threads(2)
+    ->Threads(4)
     ->Iterations(5'000);
 
 // ===========================================================================
@@ -423,8 +435,8 @@ BENCHMARK_DEFINE_F(W5bMixedContention, Mixed80_20)(benchmark::State& state) {
             idx_->put("m", e);
         } else {
             const auto& k = readKeys_[ki % readKeys_.size()];
-            auto entity = idx_->get("m", k);
-            benchmark::DoNotOptimize(entity);
+            auto blob = db_->get(KeySchema::makeRelationalKey("m", k));
+            benchmark::DoNotOptimize(blob);
             ++ki;
         }
     }

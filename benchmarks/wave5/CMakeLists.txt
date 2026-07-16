@@ -32,6 +32,7 @@ if(NOT TARGET benchmark::benchmark)
 endif()
 
 message(STATUS "[wave5] Configuring Wave 5 benchmark targets")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/bench_results")
 
 # ---------------------------------------------------------------------------
 # Helper — adds a Wave 5 benchmark target with standard link deps and CTest

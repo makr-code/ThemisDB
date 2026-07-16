@@ -34,6 +34,7 @@
 #include <benchmark/benchmark.h>
 
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "index/vector_index.h"
@@ -187,8 +188,8 @@ BENCHMARK_DEFINE_F(W5aCrudFixture, SteadyStateRead)(benchmark::State& state) {
     std::size_t idx = 0;
     for (auto _ : state) {
         const auto& key = readKeys_[idx % readKeys_.size()];
-        auto entity = idx_->get("rec", key);
-        benchmark::DoNotOptimize(entity);
+        auto blob = db_->get(KeySchema::makeRelationalKey("rec", key));
+        benchmark::DoNotOptimize(blob);
         ++idx;
     }
     state.SetItemsProcessed(state.iterations());
@@ -232,8 +233,8 @@ BENCHMARK_DEFINE_F(W5aCrudFixture, BurstRead)(benchmark::State& state) {
     std::size_t idx = static_cast<std::size_t>(state.thread_index()) * 7;
     for (auto _ : state) {
         const auto& key = readKeys_[idx % readKeys_.size()];
-        auto entity = idx_->get("rec", key);
-        benchmark::DoNotOptimize(entity);
+        auto blob = db_->get(KeySchema::makeRelationalKey("rec", key));
+        benchmark::DoNotOptimize(blob);
         ++idx;
     }
     state.SetItemsProcessed(state.iterations());
@@ -264,14 +265,27 @@ public:
         dbPath_ = w5a::makeTempPath("w5a_vec");
         fs::create_directories(dbPath_);
 
-        VectorIndexConfig cfg;
-        cfg.dimension = kVectorDim;
-        cfg.db_path   = dbPath_.string();
-        idx_ = std::make_shared<VectorIndexManager>(cfg);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path             = dbPath_.string();
+        cfg.block_cache_size_mb = 128;
+        cfg.compression_default = "lz4";
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open())
+            throw std::runtime_error("W5aVectorFixture: RocksDB open failed");
+
+        idx_ = std::make_unique<VectorIndexManager>(*db_);
+        const auto initStatus = idx_->init("vec", kVectorDim, VectorIndexManager::Metric::COSINE);
+        if (!initStatus.ok)
+            throw std::runtime_error("W5aVectorFixture: Vector index init failed: " + initStatus.message);
 
         w5a::Rng rng(kW5CanonicalSeed);
-        for (int i = 0; i < kDefaultVectors; ++i)
-            idx_->insert("v_" + std::to_string(i), rng.vec(kVectorDim));
+        for (int i = 0; i < kDefaultVectors; ++i) {
+            BaseEntity entity("v_" + std::to_string(i));
+            entity.setField("embedding", rng.vec(kVectorDim));
+            const auto addStatus = idx_->addEntity(entity, "embedding");
+            if (!addStatus.ok)
+                throw std::runtime_error("W5aVectorFixture: addEntity failed: " + addStatus.message);
+        }
 
         // Pre-generate query vectors
         w5a::Rng qrng(kW5CanonicalSeed + 99);
@@ -282,14 +296,19 @@ public:
 
     void TearDown(::benchmark::State& /*state*/) override {
         idx_.reset();
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
         std::error_code ec;
         fs::remove_all(dbPath_, ec);
     }
 
 protected:
-    fs::path                                dbPath_;
-    std::shared_ptr<VectorIndexManager>     idx_;
-    std::vector<std::vector<float>>         queries_;
+    fs::path                            dbPath_;
+    std::unique_ptr<RocksDBWrapper>     db_;
+    std::unique_ptr<VectorIndexManager> idx_;
+    std::vector<std::vector<float>>     queries_;
 };
 
 /**
@@ -302,7 +321,8 @@ protected:
 BENCHMARK_DEFINE_F(W5aVectorFixture, Search1NN)(benchmark::State& state) {
     std::size_t qi = 0;
     for (auto _ : state) {
-        auto results = idx_->search(queries_[qi % queries_.size()], 1);
+        auto [status, results] = idx_->searchKnn(queries_[qi % queries_.size()], 1);
+        benchmark::DoNotOptimize(status.ok);
         benchmark::DoNotOptimize(results);
         ++qi;
     }
@@ -323,7 +343,8 @@ BENCHMARK_REGISTER_F(W5aVectorFixture, Search1NN)
 BENCHMARK_DEFINE_F(W5aVectorFixture, Search10NN)(benchmark::State& state) {
     std::size_t qi = 0;
     for (auto _ : state) {
-        auto results = idx_->search(queries_[qi % queries_.size()], 10);
+        auto [status, results] = idx_->searchKnn(queries_[qi % queries_.size()], 10);
+        benchmark::DoNotOptimize(status.ok);
         benchmark::DoNotOptimize(results);
         ++qi;
     }
@@ -351,35 +372,52 @@ public:
         dbPath_ = w5a::makeTempPath("w5a_graph");
         fs::create_directories(dbPath_);
 
-        GraphIndexConfig cfg;
-        cfg.db_path = dbPath_.string();
-        graph_ = std::make_shared<GraphIndexManager>(cfg);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path             = dbPath_.string();
+        cfg.block_cache_size_mb = 128;
+        cfg.compression_default = "lz4";
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open())
+            throw std::runtime_error("W5aGraphFixture: RocksDB open failed");
+
+        graph_ = std::make_unique<GraphIndexManager>(*db_);
 
         w5a::Rng rng(kW5CanonicalSeed);
-        for (int i = 0; i < kGraphNodes; ++i)
-            graph_->addNode("n_" + std::to_string(i), {{"id", std::to_string(i)}});
-
         for (int i = 0; i < kGraphNodes; ++i) {
             for (int e = 0; e < kEdgesPerNode; ++e) {
                 int j = static_cast<int>(rng.integer(0, kGraphNodes - 1));
-                if (j != i)
-                    graph_->addEdge("n_" + std::to_string(i),
-                                    "n_" + std::to_string(j),
-                                    "link", {});
+                if (j != i) {
+                    const std::string from = "n_" + std::to_string(i);
+                    const std::string to = "n_" + std::to_string(j);
+                    const std::string edgeId = "e_" + std::to_string(i) + "_" + std::to_string(e) + "_" + std::to_string(j);
+                    BaseEntity edge(edgeId);
+                    edge.setField("id", edgeId);
+                    edge.setField("_from", from);
+                    edge.setField("_to", to);
+                    edge.setField("_type", "link");
+                    const auto status = graph_->addEdge(edge);
+                    if (!status.ok)
+                        throw std::runtime_error("W5aGraphFixture: addEdge failed: " + status.message);
+                }
             }
         }
     }
 
     void TearDown(::benchmark::State& /*state*/) override {
         graph_.reset();
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
         std::error_code ec;
         fs::remove_all(dbPath_, ec);
     }
 
 protected:
-    fs::path                                dbPath_;
-    std::shared_ptr<GraphIndexManager>      graph_;
-    w5a::Rng                                rng_{kW5CanonicalSeed + 7};
+    fs::path                           dbPath_;
+    std::unique_ptr<RocksDBWrapper>    db_;
+    std::unique_ptr<GraphIndexManager> graph_;
+    w5a::Rng                           rng_{kW5CanonicalSeed + 7};
 };
 
 /**
@@ -392,7 +430,8 @@ BENCHMARK_DEFINE_F(W5aGraphFixture, BFS2Hop)(benchmark::State& state) {
     int src = 0;
     for (auto _ : state) {
         const std::string node = "n_" + std::to_string(src % kGraphNodes);
-        auto neighbours = graph_->getNeighbours(node, 2);
+        auto [status, neighbours] = graph_->bfs(node, 2);
+        benchmark::DoNotOptimize(status.ok);
         benchmark::DoNotOptimize(neighbours);
         ++src;
     }

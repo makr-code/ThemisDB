@@ -33,7 +33,7 @@ Exit codes
     2  Invalid input (file not found, parse error)
 
 Gate thresholds (aligned with release_gate_manifest_w5.json):
-    gate_pass  counter == 1.0  → PASS; 0.0 → FAIL
+    Per-gate counters from manifest (e.g. gate_pass, CV_ok, deterministic)
     Regression: real_time increase > 10% over baseline → WARN
                 real_time increase > 20% over baseline → FAIL
 """
@@ -92,14 +92,31 @@ def extract_benchmarks(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
                 result[name] = dict(entry, name=name)
     return result
 
+
+def load_gate_manifest() -> list[dict[str, Any]]:
+    """Load Wave 5 gate definitions from release manifest, if available."""
+    manifest_path = Path(__file__).with_name("release_gate_manifest_w5.json")
+    if not manifest_path.exists():
+        return []
+    try:
+        with open(manifest_path, encoding="utf-8") as f:
+            data = json.load(f)
+        gates = data.get("gates", [])
+        return gates if isinstance(gates, list) else []
+    except (OSError, json.JSONDecodeError):
+        return []
+
 # ---------------------------------------------------------------------------
 # Gate validation
 # ---------------------------------------------------------------------------
 
 
-def check_gates(benchmarks: dict[str, dict[str, Any]]) -> tuple[int, int, list[str]]:
+def check_gates(
+    benchmarks: dict[str, dict[str, Any]],
+    gates: list[dict[str, Any]],
+) -> tuple[int, int, list[str]]:
     """
-    Inspect all benchmarks for gate_pass counter.
+    Inspect all benchmarks for release manifest gate counters.
 
     Returns
     -------
@@ -108,15 +125,54 @@ def check_gates(benchmarks: dict[str, dict[str, Any]]) -> tuple[int, int, list[s
     passed, failed = 0, 0
     messages: list[str] = []
 
+    if gates:
+        for gate in gates:
+            benchmark_name = str(gate.get("benchmark", ""))
+            counter_name = str(gate.get("counter", "gate_pass"))
+            threshold = float(gate.get("threshold", 1.0))
+            operator = str(gate.get("operator", "=="))
+
+            matching = [
+                (name, bm) for name, bm in benchmarks.items()
+                if name == benchmark_name or name.startswith(f"{benchmark_name}/")
+            ]
+            if not matching:
+                failed += 1
+                messages.append(f"  ✗  {benchmark_name} — gate MISSING (not found in input)")
+                continue
+
+            gate_failed = False
+            for name, bm in matching:
+                counters: dict[str, Any] = bm.get("counters", {})
+                value = counters.get(counter_name)
+                ok = False
+                if isinstance(value, (int, float)):
+                    if operator == "==":
+                        ok = float(value) == threshold
+                    elif operator == ">=":
+                        ok = float(value) >= threshold
+                    elif operator == "<=":
+                        ok = float(value) <= threshold
+                if not ok:
+                    gate_failed = True
+                    label = bm.get("label", "")
+                    messages.append(
+                        f"  ✗  {name} — {counter_name}={value} {operator} {threshold} FAIL  [{label}]"
+                    )
+
+            if gate_failed:
+                failed += 1
+            else:
+                passed += 1
+                messages.append(f"  ✓  {benchmark_name} — gate PASS")
+        return passed, failed, messages
+
     for name, bm in benchmarks.items():
         counters: dict[str, Any] = bm.get("counters", {})
-        if "gate_pass" not in counters:
-            continue
-        gate_val = counters["gate_pass"]
-        if gate_val == 1.0:
+        if "gate_pass" in counters and counters["gate_pass"] == 1.0:
             passed += 1
             messages.append(f"  ✓  {name} — gate PASS")
-        else:
+        elif "gate_pass" in counters:
             failed += 1
             label = bm.get("label", "")
             messages.append(f"  ✗  {name} — gate FAIL  [{label}]")
@@ -289,7 +345,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--gates-only", action="store_true",
-        help="Check gate_pass counters only; skip regression comparison",
+        help="Check manifest-defined gate counters only; skip regression comparison",
     )
     parser.add_argument(
         "--multi-run", metavar="FILE", nargs="+",
@@ -314,7 +370,7 @@ def main() -> int:
     exit_code      = 0
 
     # --- Gate validation ---
-    g_pass, g_fail, g_msgs = check_gates(current_bms)
+    g_pass, g_fail, g_msgs = check_gates(current_bms, load_gate_manifest())
     print(f"\n=== Wave 5 Gate Validation: {args.input} ===")
     for m in g_msgs:
         print(m)

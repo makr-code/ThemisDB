@@ -33,6 +33,7 @@
 #include <benchmark/benchmark.h>
 
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 
@@ -182,14 +183,14 @@ public:
             idx_->put("d", e);
         }
         for (int i = 0; i < kW5CWarmupWarm; ++i) {
-            auto ent = idx_->get("d", keys_[i % keys_.size()]);
-            (void)ent;
+            auto blob = db_->get(KeySchema::makeRelationalKey("d", keys_[i % keys_.size()]));
+            (void)blob;
         }
 
         // Phase 3: hot reads
         for (int i = 0; i < kW5CWarmupHot; ++i) {
-            auto ent = idx_->get("d", keys_[i % keys_.size()]);
-            (void)ent;
+            auto blob = db_->get(KeySchema::makeRelationalKey("d", keys_[i % keys_.size()]));
+            (void)blob;
         }
     }
 
@@ -223,7 +224,7 @@ BENCHMARK_DEFINE_F(W5cVarianceFixture, ReadVariance)(benchmark::State& state) {
     for (auto _ : state) {
         const auto& k = keys_[ki % keys_.size()];
         const auto t0 = std::chrono::steady_clock::now();
-        auto ent = idx_->get("d", k);
+        auto ent = db_->get(KeySchema::makeRelationalKey("d", k));
         const auto t1 = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(ent);
 
@@ -327,14 +328,14 @@ static void BM_W5C_WarmupConvergence(benchmark::State& state) {
                           : (phase == 1) ? kW5CWarmupCold + kW5CWarmupWarm
                                          : kW5CWarmupCold + kW5CWarmupWarm + kW5CWarmupHot;
     for (int i = 0; i < warmupCount; ++i) {
-        auto ent = idx.get("wc", keys[i % keys.size()]);
-        (void)ent;
+        auto blob = db->get(KeySchema::makeRelationalKey("wc", keys[i % keys.size()]));
+        (void)blob;
     }
 
     std::size_t ki = 0;
     for (auto _ : state) {
-        auto ent = idx.get("wc", keys[ki % keys.size()]);
-        benchmark::DoNotOptimize(ent);
+        auto blob = db->get(KeySchema::makeRelationalKey("wc", keys[ki % keys.size()]));
+        benchmark::DoNotOptimize(blob);
         ++ki;
     }
 
@@ -454,23 +455,23 @@ static void BM_W5C_CanonicalWarmup_Throughput(benchmark::State& state) {
         idx.put("cw", e);
     }
     for (int i = 0; i < kW5CWarmupWarm; ++i) {
-        auto ent = idx.get("cw", keys[i % keys.size()]);
-        (void)ent;
+        auto blob = db->get(KeySchema::makeRelationalKey("cw", keys[i % keys.size()]));
+        (void)blob;
     }
 
     // Phase 3: random hot reads
     w5c::Rng hotRng(kW5CSeed + 99);
     for (int i = 0; i < kW5CWarmupHot; ++i) {
         int idx_i = static_cast<int>(hotRng.integer(0, keys.size() - 1));
-        auto ent  = idx.get("cw", keys[idx_i]);
-        (void)ent;
+        auto blob = db->get(KeySchema::makeRelationalKey("cw", keys[idx_i]));
+        (void)blob;
     }
 
     // Measurement window
     std::size_t ki = 0;
     for (auto _ : state) {
-        auto ent = idx.get("cw", keys[ki % keys.size()]);
-        benchmark::DoNotOptimize(ent);
+        auto blob = db->get(KeySchema::makeRelationalKey("cw", keys[ki % keys.size()]));
+        benchmark::DoNotOptimize(blob);
         ++ki;
     }
 

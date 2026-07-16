@@ -41,6 +41,7 @@
 #include <benchmark/benchmark.h>
 
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 
@@ -49,6 +50,7 @@
 #include <filesystem>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <random>
 #include <string>
 #include <vector>
@@ -174,16 +176,16 @@ public:
             idx_->put("gate", e);
         }
         for (int i = 0; i < kW5DWarmupWarm; ++i) {
-            auto ent = idx_->get("gate", keys_[i % keys_.size()]);
-            (void)ent;
+            auto blob = db_->get(KeySchema::makeRelationalKey("gate", keys_[i % keys_.size()]));
+            (void)blob;
         }
 
         // Phase 3: random hot reads
         w5d::Rng hotRng(kW5DSeed + 77);
         for (int i = 0; i < kW5DWarmupHot; ++i) {
             int idx_i = static_cast<int>(hotRng.integer(0, keys_.size() - 1));
-            auto ent  = idx_->get("gate", keys_[idx_i]);
-            (void)ent;
+            auto blob = db_->get(KeySchema::makeRelationalKey("gate", keys_[idx_i]));
+            (void)blob;
         }
 
         writeSeq_ = kW5DWarmupCold + kW5DCorpus;
@@ -228,7 +230,7 @@ BENCHMARK_DEFINE_F(W5dGateFixture, Gate1_ReadLatency)(benchmark::State& state) {
     for (auto _ : state) {
         const auto& k = keys_[ki % keys_.size()];
         const auto t0 = std::chrono::steady_clock::now();
-        auto ent = idx_->get("gate", k);
+        auto ent = db_->get(KeySchema::makeRelationalKey("gate", k));
         const auto t1 = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(ent);
 
@@ -316,10 +318,13 @@ BENCHMARK_DEFINE_F(W5dGateFixture, Gate3_RangeScanLatency)(benchmark::State& sta
     for (auto _ : state) {
         const int64_t rangeLo = static_cast<int64_t>(1'000'000 + lo);
         const int64_t rangeHi = rangeLo + scanWindow - 1;
+        const auto lower = std::optional<std::string>(std::to_string(rangeLo));
+        const auto upper = std::optional<std::string>(std::to_string(rangeHi));
 
         const auto t0 = std::chrono::steady_clock::now();
-        auto results = idx_->scanRange("gate", "seq", rangeLo, rangeHi);
+        auto [status, results] = idx_->scanKeysRange("gate", "seq", lower, upper, true, true, scanWindow, false);
         const auto t1 = std::chrono::steady_clock::now();
+        benchmark::DoNotOptimize(status.ok);
         benchmark::DoNotOptimize(results);
 
         latencies.push_back(

@@ -1,5 +1,5 @@
 {
-  "_comment": "Wave 5 Release Gate Manifest — benchmarks/baselines/wave5/release_gate_manifest_w5.json",
+  "_comment": "Wave 5 Release Gate Manifest — benchmarks/wave5/release_gate_manifest_w5.json",
   "_doc": "Defines hard performance guardrails for release-critical paths. Used by report_variance_w5.py and CI gate workflow.",
   "version": "5.0.0",
   "wave": "w5",

@@ -79,7 +79,7 @@ cmake --build --preset linux-release --parallel 16 \
 ### 3.3 Run all Wave 5 benchmarks via CTest
 
 ```bash
-ctest --preset windows-release -L wave5 --output-on-failure -j 1 --timeout 120
+ctest --preset linux-release -L wave5 --output-on-failure -j 1 --timeout 120
 ```
 
 ### 3.4 Run a single target with JSON output
