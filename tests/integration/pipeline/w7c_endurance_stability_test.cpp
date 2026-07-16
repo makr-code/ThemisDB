@@ -73,7 +73,7 @@ private:
 };
 
 // ---------------------------------------------------------------------------
-// LatencyProbe — records p50/max latency per phase
+// LatencyProbe — records average/max latency inputs per phase
 // ---------------------------------------------------------------------------
 
 struct LatencyStats {
@@ -411,13 +411,15 @@ TEST_F(EnduranceStabilityTest, ESC02_LoadSpikeTransitionIdleBurstIdleLatencyReco
 
     // Latency recovery invariant: post-burst avg must not exceed 10× idle avg
     // (using microseconds; both are in-memory so they will be very fast)
-    if (idle_stats.count > 0 && idle_stats.total.count() > 0) {
-        const double idle_avg     = static_cast<double>(idle_stats.total.count())     / static_cast<double>(idle_stats.count);
-        const double recovery_avg = static_cast<double>(recovery_stats.total.count()) / static_cast<double>(recovery_stats.count);
-        EXPECT_LE(recovery_avg, idle_avg * 10.0 + 1000.0)
-            << "post-burst latency has not recovered; idle_avg=" << idle_avg
-            << "us recovery_avg=" << recovery_avg << "us";
-    }
+    const double idle_avg =
+        static_cast<double>(idle_stats.total.count()) /
+        static_cast<double>(idle_stats.count);
+    const double recovery_avg =
+        static_cast<double>(recovery_stats.total.count()) /
+        static_cast<double>(recovery_stats.count);
+    EXPECT_LE(recovery_avg, idle_avg * 10.0 + 1000.0)
+        << "post-burst latency has not recovered; idle_avg=" << idle_avg
+        << "us recovery_avg=" << recovery_avg << "us";
 }
 
 // ===========================================================================

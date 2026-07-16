@@ -34,7 +34,7 @@ namespace {
 static constexpr uint32_t kCanonicalSeed = 42;
 
 // ---------------------------------------------------------------------------
-// RetryableOperation — simulates intermittent failure with exponential backoff
+// RetryableOperation — simulates intermittent failure with fixed retry delay
 // ---------------------------------------------------------------------------
 
 struct RetryPolicy {
@@ -52,7 +52,8 @@ public:
         OpStatus last_status{OpStatus::kTransientFailure};
     };
 
-    // op_fn returns true on success; fail_until_attempt causes transient failures
+    // fail_until_attempt injects transient failures; permanent_failure forces
+    // an immediate permanent failure result.
     [[nodiscard]] RunResult Run(const RetryPolicy& policy,
                                  size_t             fail_until_attempt,
                                  bool               permanent_failure = false) {
@@ -93,14 +94,16 @@ public:
         bool        timed_out{false};
     };
 
-    // Run a stage with a simulated latency; timeout_ms = 0 means no timeout
+    // Run a stage with a simulated latency; timeout == 0 means no timeout.
     [[nodiscard]] StageResult RunStage(const std::string& name,
                                         std::chrono::milliseconds simulated_latency,
                                         std::chrono::milliseconds timeout) {
         const auto start = std::chrono::steady_clock::now();
         std::this_thread::sleep_for(simulated_latency);
         const auto elapsed = std::chrono::steady_clock::now() - start;
-        const bool timed_out = elapsed > timeout + std::chrono::milliseconds(10);
+        const bool timed_out =
+            timeout.count() > 0 &&
+            elapsed > timeout + std::chrono::milliseconds(10);
         return {name, !timed_out, timed_out};
     }
 };
