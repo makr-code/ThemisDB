@@ -11,7 +11,7 @@ ThemisDB implements an automated license compliance process to ensure that all d
 The License Compliance workflow (`.github/workflows/license-compliance.yml`) runs automatically on:
 
 - **Pull Requests**: Checks all dependency changes
-- **Push to Main Branches**: Validates license compliance in main/develop branches
+- **Push to permanent branches**: Validates license compliance on `develop`, `community`, `enterprise`, `hyperscaler`, `military`, and `minimal`
 - **Monthly Audit**: Automatic check on the first day of each month
 - **Manual Trigger**: Can be started anytime via GitHub Actions UI
 
@@ -76,9 +76,9 @@ These licenses are accepted with **warning** when using dynamic linking:
 
 ### 3. Unknown Licenses ❓
 
-Licenses not defined in the policy require manual review.
+Licenses not defined in the policy are treated as non-whitelisted and require manual review.
 
-**Action**: Warning displayed, manual review required.
+**Action**: Pull request is blocked until the dependency is approved or replaced.
 
 ## Workflow Integration
 
@@ -86,12 +86,12 @@ Licenses not defined in the policy require manual review.
 
 For each pull request, automatically:
 
-1. **License Scan**: All dependencies are checked for their licenses
-2. **Policy Validation**: Licenses are checked against the defined policy
-3. **PR Comment**: Result is displayed as a comment in the PR
-4. **Status Check**: PR status is set to "failed" on violations
+1. **License Scan**: All direct and transitive packages declared through `vcpkg.json` are checked
+2. **Policy Validation**: SPDX license expressions are evaluated against `.license-policy.json`
+3. **License SBOM Generated**: `vcpkg-license-sbom.json` and `license-summary.md` are uploaded as artifacts
+4. **Status Check**: PR status is set to `failed` for blocked or non-whitelisted licenses
 
-### Example PR Comment
+### Example Workflow Summary
 
 ```markdown
 ## 📋 License Compliance Check
@@ -101,10 +101,10 @@ For each pull request, automatically:
 All dependencies comply with the license policy.
 
 **Summary:**
-- 🔴 Violations: 0
+- 🔴 Blocked: 0
 - 🟡 Warnings: 1
 
-[View detailed report in workflow summary](...)
+[Download the license SBOM and summary artifacts](...)
 ```
 
 ### Blocking PRs on Violations
@@ -112,9 +112,9 @@ All dependencies comply with the license policy.
 When a license violation is detected:
 
 1. ❌ The PR check fails
-2. 📝 A detailed report is added as a PR comment
-3. 🚫 The PR cannot be merged
-4. 📋 The workflow summary shows details of violations
+2. 📝 `license-summary.md` lists the affected packages, SPDX expressions, and policy decisions
+3. 🚫 The PR must not merge until the status check is green again
+4. 📋 `vcpkg-license-sbom.json` records the full package inventory for audits and releases
 
 ## Process for License Violations
 
@@ -170,7 +170,7 @@ Run a manual audit anytime:
 
 ```bash
 # Via GitHub Actions UI
-# 1. Go to Actions → License Compliance
+# 1. Go to Actions → Compliance — License Policy Gate
 # 2. Click "Run workflow"
 # 3. Select branch
 # 4. Click "Run workflow"
@@ -180,9 +180,8 @@ Run a manual audit anytime:
 
 All audit reports are stored as artifacts:
 
-- `license-report.txt` - Summary
-- `vcpkg-licenses.json` - vcpkg dependencies
-- `npm-licenses.json` - npm dependencies (if present)
+- `license-summary.md` - review and audit summary
+- `vcpkg-license-sbom.json` - license SBOM for direct and transitive vcpkg dependencies
 
 **Retention**: 90 days
 
@@ -220,7 +219,7 @@ The license compliance workflow works together with the SBOM workflow:
 
 - SBOM contains license information for all dependencies
 - Generated with every release
-- See `.github/workflows/sbom.yml`
+- See `.github/workflows/sbom-ci.yml`
 
 ### Security Scanning
 
@@ -234,10 +233,10 @@ The security scan workflow (`.github/workflows/security-scan.yml`) includes a ba
 
 During code reviews:
 
-1. Check license compliance status
-2. Manually review new dependencies
-3. Ask questions if unclear
-4. Document license decisions in PR
+1. Check the `Compliance — License Policy Gate` status
+2. Download `license-summary.md` or `vcpkg-license-sbom.json` when deeper review is needed
+3. Manually review warnings and exceptions
+4. Document license decisions in the PR
 
 ## Compliance Standards
 

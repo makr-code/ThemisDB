@@ -54,10 +54,17 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/device_manager.h"
-#include "acceleration/graphics_backends.h"
 #include "acceleration/multi_gpu_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "utils/logger.h"
+#ifdef THEMIS_ENABLE_VULKAN
+#include "acceleration/graphics_backends.h"
+#endif
+#if defined(THEMIS_ENABLE_OPENGL) && !defined(THEMIS_ENABLE_VULKAN)
+// graphics_backends.h declares both VulkanVectorBackend and OpenGLVectorBackend.
+// Include it here when Vulkan is disabled so OpenGLVectorBackend is reachable.
+#include "acceleration/graphics_backends.h"
+#endif
 #ifdef THEMIS_ENABLE_HIP
 #include "acceleration/hip_backend.h"
 #endif
@@ -101,8 +108,6 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     // registerBackend() checks isAvailable() at runtime; silently skipped
     // when no CUDA-capable GPU is detected.
 #ifdef THEMIS_ENABLE_CUDA
-    registerBackend(std::make_unique<CUDAVectorBackend>());
-    registerBackend(std::make_unique<CUDAGeoBackend>());
     registerBackend(std::make_unique<CUDAMatrixBackend>());
 #endif
 
@@ -113,7 +118,6 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     // (AMD, Intel, ARM, Qualcomm) that has no CUDA but supports Vulkan 1.x.
 #ifdef THEMIS_ENABLE_VULKAN
     registerBackend(std::make_unique<VulkanVectorBackend>());
-    registerBackend(std::make_unique<VulkanGeoBackend>());
 #endif
 
     // Register HIP vector and geo backends for AMD GPUs.
@@ -131,11 +135,6 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
 #ifdef THEMIS_ENABLE_OPENCL
     registerBackend(std::make_unique<OpenCLVectorBackend>());
 #endif
-
-    // Register the DirectX backend on all platforms.  On non-Windows or
-    // non-DirectX builds the stub implementation reports unavailable and is
-    // therefore skipped by registerBackend().
-    registerBackend(std::make_unique<DirectXVectorBackend>());
 
     // Register OpenGL Compute Shader backend for platform-wide GPU acceleration.
     // Uses EGL headless context (no display required); falls back to CPU kernels
@@ -158,14 +157,6 @@ BackendRegistry &BackendRegistry::instance() {
 
 void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) {
     if (backend && backend->isAvailable()) {
-        auto *vectorBackend = dynamic_cast<IVectorBackend *>(backend.get());
-        auto *graphBackend  = dynamic_cast<IGraphBackend *>(backend.get());
-        auto *geoBackend    = dynamic_cast<IGeoBackend *>(backend.get());
-        auto *matrixBackend = dynamic_cast<IMatrixBackend *>(backend.get());
-        const auto annDispatch = vectorBackend ? vectorBackend->populateANNDispatch() : ANNKernelDispatch{};
-        const auto geoDispatch = geoBackend ? geoBackend->populateGeoDispatch() : GeoKernelDispatch{};
-        const auto matrixDispatch = matrixBackend ? matrixBackend->populateMatrixDispatch() : MatrixKernelDispatch{};
-
         std::unique_lock<std::shared_mutex> lock(registryMutex_);
         THEMIS_INFO("Registered backend: {} (type={})", backend->name(), static_cast<int>(backend->type()));
 
@@ -177,25 +168,16 @@ void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) 
             rb.base = backend.get();
         }
         if (!rb.vectorPtr) {
-            rb.vectorPtr = vectorBackend;
-            if (rb.vectorPtr) {
-                kernelRegistry_.registerANNDispatch(bt, annDispatch);
-            }
+            rb.vectorPtr = dynamic_cast<IVectorBackend *>(backend.get());
         }
         if (!rb.graphPtr) {
-            rb.graphPtr = graphBackend;
+            rb.graphPtr = dynamic_cast<IGraphBackend *>(backend.get());
         }
         if (!rb.geoPtr) {
-            rb.geoPtr = geoBackend;
-            if (rb.geoPtr) {
-                kernelRegistry_.registerGeoDispatch(bt, geoDispatch);
-            }
+            rb.geoPtr = dynamic_cast<IGeoBackend *>(backend.get());
         }
         if (!rb.matrixPtr) {
-            rb.matrixPtr = matrixBackend;
-            if (rb.matrixPtr) {
-                kernelRegistry_.registerMatrixDispatch(bt, matrixDispatch);
-            }
+            rb.matrixPtr = dynamic_cast<IMatrixBackend *>(backend.get());
         }
 
         backends_.push_back(std::move(backend));
@@ -267,36 +249,6 @@ IComputeBackend *BackendRegistry::getBackend(BackendType type) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     auto it = typeIndex_.find(type);
     return (it != typeIndex_.end()) ? it->second.base : nullptr;
-}
-
-bool BackendRegistry::hasANNDispatch(BackendType type) const noexcept {
-    std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return kernelRegistry_.hasANNDispatch(type);
-}
-
-bool BackendRegistry::hasGeoDispatch(BackendType type) const noexcept {
-    std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return kernelRegistry_.hasGeoDispatch(type);
-}
-
-bool BackendRegistry::hasMatrixDispatch(BackendType type) const noexcept {
-    std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return kernelRegistry_.hasMatrixDispatch(type);
-}
-
-ANNKernelDispatch BackendRegistry::getANNDispatch(BackendType type) const noexcept {
-    std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return kernelRegistry_.getANNDispatch(type);
-}
-
-GeoKernelDispatch BackendRegistry::getGeoDispatch(BackendType type) const noexcept {
-    std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return kernelRegistry_.getGeoDispatch(type);
-}
-
-MatrixKernelDispatch BackendRegistry::getMatrixDispatch(BackendType type) const noexcept {
-    std::shared_lock<std::shared_mutex> lock(registryMutex_);
-    return kernelRegistry_.getMatrixDispatch(type);
 }
 
 // static
@@ -532,7 +484,6 @@ void BackendRegistry::shutdownAll() {
     }
     backends_.clear();
     typeIndex_.clear();
-    kernelRegistry_.clear();
 
     // Clear cached startup selections; the backends they pointed to are gone.
     selectedVectorBackend_ = nullptr;

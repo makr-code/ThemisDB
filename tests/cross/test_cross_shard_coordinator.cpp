@@ -28,6 +28,7 @@
 #include <filesystem>
 #include <future>
 #include <memory>
+#include <stdexcept>
 #include <thread>
 #include <chrono>
 #ifdef _WIN32
@@ -1174,6 +1175,100 @@ TEST(DISABLED_CrossShard3PCCallbackTest, PreCommitNackAbortsTransaction) {
     EXPECT_FALSE(coordinator->commit(txn));
 
     coordinator->stop();
+}
+
+TEST(CrossShard3PCCallbackContractTest, MissingPreCommitCallbackFailsClosed) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig cfg;
+    cfg.default_protocol = TransactionProtocol::THREE_PHASE_COMMIT;
+    cfg.transaction_log_path = makeTempTxnLogPath("themisdb_3pc_missing_precommit_");
+
+    CrossShardTransactionCoordinator coordinator(cfg, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    const std::string txn_id = "txn-3pc-missing-precommit";
+    ASSERT_TRUE(coordinator.beginTransaction(
+        txn_id, TransactionProtocol::THREE_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.addParticipant(
+        txn_id, "shard-A", "localhost:50051", {"write:key-A"}));
+
+    EXPECT_FALSE(coordinator.commit(txn_id));
+
+    const auto state = coordinator.getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ABORTED);
+
+    coordinator.stop();
+}
+
+TEST(CrossShard3PCCallbackContractTest, ThrowingPreCommitCallbackTreatedAsNack) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig cfg;
+    cfg.default_protocol = TransactionProtocol::THREE_PHASE_COMMIT;
+    cfg.transaction_log_path = makeTempTxnLogPath("themisdb_3pc_throwing_precommit_");
+
+    CrossShardTransactionCoordinator coordinator(cfg, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+    ASSERT_TRUE(coordinator.start());
+
+    coordinator.setPreCommitCallback(
+        [](const std::string&, const std::string&) -> bool {
+            throw std::runtime_error("precommit callback failure");
+        });
+
+    const std::string txn_id = "txn-3pc-throwing-precommit";
+    ASSERT_TRUE(coordinator.beginTransaction(
+        txn_id, TransactionProtocol::THREE_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.addParticipant(
+        txn_id, "shard-A", "localhost:50052", {"write:key-B"}));
+
+    EXPECT_FALSE(coordinator.commit(txn_id));
+
+    const auto state = coordinator.getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ABORTED);
+
+    coordinator.stop();
+}
+
+TEST(CrossShard3PCCallbackContractTest, ThrowingDeferredCallbackFailsClosed) {
+    auto consensus = std::make_shared<MockConsensusModule>();
+    CrossShardTransactionConfig cfg;
+    cfg.default_protocol = TransactionProtocol::THREE_PHASE_COMMIT;
+    cfg.transaction_log_path = makeTempTxnLogPath("themisdb_3pc_throwing_deferred_");
+
+    CrossShardTransactionCoordinator coordinator(cfg, consensus);
+    ASSERT_TRUE(coordinator.initialize());
+
+    // Set callbacks before start() so the retry thread is spawned by start()
+    // when it checks deferred_precommit_callback_ under callbacks_mutex_.
+    coordinator.setPreCommitCallback(
+        [](const std::string& shard_id, const std::string&) -> bool {
+            return shard_id == "shard-A";
+        });
+    coordinator.setDeferredPreCommitCallback(
+        [](const std::string&, const std::vector<std::string>&) {
+            throw std::runtime_error("deferred callback failure");
+        });
+
+    ASSERT_TRUE(coordinator.start());
+
+    const std::string txn_id = "txn-3pc-throwing-deferred";
+    ASSERT_TRUE(coordinator.beginTransaction(
+        txn_id, TransactionProtocol::THREE_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator.addParticipant(
+        txn_id, "shard-A", "localhost:50053", {"write:key-C"}));
+    ASSERT_TRUE(coordinator.addParticipant(
+        txn_id, "shard-B", "localhost:50054", {"write:key-D"}));
+
+    EXPECT_FALSE(coordinator.commit(txn_id));
+
+    const auto state = coordinator.getTransactionState(txn_id);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::ABORTED);
+
+    coordinator.stop();
 }
 
 // ============================================================================

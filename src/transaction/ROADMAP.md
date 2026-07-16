@@ -9,6 +9,7 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
 
 ## In Progress
 - [~] Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)
+  - [x] `ITransactionCoordinator` unified interface for all commit protocols (2PC, 3PC, SAGA, Percolator, Calvin) — Issue #5374
   - [ ] Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions (Target: Q3 2026)
   - [ ] Tighten timeout and rollback determinism under sustained contention and mixed workloads (Target: Q3 2026)
 

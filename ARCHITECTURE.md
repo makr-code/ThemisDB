@@ -999,6 +999,19 @@ cmake --build build -j$(nproc)
 ctest --test-dir build
 ```
 
+### Cross-Compilation Validation Rules
+
+Cross-compilation configure runs enforce a strict consistency check in
+`cmake/validation/CrossCompileValidation.cmake`:
+
+- `CMAKE_CROSSCOMPILING=TRUE` requires `CMAKE_TOOLCHAIN_FILE`.
+- `VCPKG_TARGET_TRIPLET` must match `CMAKE_SYSTEM_PROCESSOR` + `CMAKE_SYSTEM_NAME`
+  (for example `arm64-linux`, `arm-linux`, `x64-windows`, `x64-mingw-static`).
+- `CMAKE_SYSROOT` is mandatory for Linux ARM cross targets (`arm64`, `armv7`) and must exist.
+
+The CI workflow `.github/workflows/cmake-multi-platform.yml` validates these
+rules via a triplet matrix before regular build/test execution.
+
 ### Running Locally
 ```bash
 # Start server
@@ -1528,4 +1541,3 @@ build if any discrepancies are found.
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

@@ -28,7 +28,6 @@
 #include "geo/device_detector.h"
 #include "geo/gpu_kernel_dispatcher.h"
 #include "geo/spatial_backend.h"
-#include "acceleration/compute_backend.h"
 #include "themis/gpu/audit_log.h"
 #include "themis/gpu/device_discovery.h"
 #include "themis/gpu/metrics.h"
@@ -566,23 +565,17 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
     /// Build the kernel dispatch table at construction time.
     static themis::acceleration::GeoKernelDispatch buildDispatchTable() noexcept {
-        auto& registry = themis::acceleration::BackendRegistry::instance();
-        constexpr themis::acceleration::BackendType kPreferredGeoBackends[] = {
-            themis::acceleration::BackendType::CUDA,
-            themis::acceleration::BackendType::HIP,
-            themis::acceleration::BackendType::VULKAN,
-            themis::acceleration::BackendType::DIRECTX,
-        };
-        for (const auto backendType : kPreferredGeoBackends) {
-            if (!registry.hasGeoDispatch(backendType)) {
-                continue;
-            }
-            auto dispatch = registry.getGeoDispatch(backendType);
-            if (dispatch.launchDistance || dispatch.launchContainment) {
-                return dispatch;
-            }
-        }
-
+#ifdef THEMIS_GEO_CUDA
+        themis::acceleration::GeoKernelDispatch d;
+        d.launchDistance    = launchGeoDistanceKernel;
+        d.launchContainment = launchGeoContainmentKernel;
+        return d;
+#elif defined(THEMIS_GEO_HIP)
+        themis::acceleration::GeoKernelDispatch d;
+        d.launchDistance    = hip_launchGeoDistanceKernel;
+        d.launchContainment = hip_launchGeoContainmentKernel;
+        return d;
+#else
         // STUB/SIMULATION NOTE:
         // Purpose: Allow GPU spatial backend to run without CUDA or HIP GPU kernels.
         //   Returns an empty GeoKernelDispatch (all function pointers null).
@@ -590,17 +583,18 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         //   batchIntersects / batchDistance calls to the CPU exact fallback via
         //   `getCpuExactBackend()`.  GPUSafeFail circuit-breaker and audit logging
         //   are still active; only the GPU kernel dispatch is absent.
-        // Activation: No registered accelerator backend (CUDA/HIP/Vulkan/DirectX)
-        //   exposes a non-empty GeoKernelDispatch at construction time.
+        // Activation: Neither `THEMIS_GEO_CUDA` nor `THEMIS_GEO_HIP` is defined
+        //   (default for CPU-only builds or builds without GPU kernel compilation).
         // Production Delta: GPU-accelerated geospatial distance and containment
         //   kernels are unavailable.  All spatial batch ops route to CPU; expected
         //   ≥ 8× GPU speedup is absent.  `batch_fallbacks_` counter increments for
         //   every batch call (100 % CPU fallback rate).
-        // Removal Plan: Ensure the desired geo backend is registered into
-        //   acceleration::BackendRegistry so KernelRegistry lookup resolves a
-        //   non-empty GeoKernelDispatch.
+        // Removal Plan: Compile with `-DTHEMIS_GEO_CUDA=1` (for NVIDIA) or
+        //   `-DTHEMIS_GEO_HIP=1` (for AMD) and ensure the corresponding CUDA/HIP
+        //   kernel objects are linked.
         // Roadmap ref: src/geo/FUTURE_ENHANCEMENTS.md §"CUDA Geospatial Kernels"
         return themis::acceleration::GeoKernelDispatch{};
+#endif
     }
 
     /// Returns true if the batch is all Points vs the same Polygon — the

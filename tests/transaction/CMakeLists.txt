@@ -233,6 +233,47 @@ else()
     message(STATUS "Transaction Isolation Levels focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_isolation_levels.cpp")
 endif()
 
+# ITransactionCoordinator Interface Contract Tests (Issue #5374)
+# ITC-1..39: CommitProtocol enum, CoordinatorCapabilities, TxnCoordinatorResult,
+#            TxnCoordinatorOptions, lifecycle (begin/prepare/commit/abort),
+#            state queries, WAL recovery, mockability, non-copyability.
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_itransaction_coordinator.cpp")
+    message(STATUS "Adding ITransactionCoordinator interface contract tests (Issue #5374)")
+
+    add_executable(test_itransaction_coordinator_focused
+        test_itransaction_coordinator.cpp
+    )
+
+    target_include_directories(test_itransaction_coordinator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_itransaction_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_itransaction_coordinator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME ITransactionCoordinatorInterfaceTests
+        TARGET test_itransaction_coordinator_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS coordinator interface 2pc saga percolator calvin strategy-pattern
+    )
+
+    message(STATUS "  ITransactionCoordinator: CommitProtocol, capabilities, lifecycle, state, recovery, mockability")
+else()
+    message(STATUS "ITransactionCoordinator interface tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_itransaction_coordinator.cpp")
+endif()
+
 # AUTOGEN PREFIX BLOCK: transaction
 file(GLOB TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_*.cpp"

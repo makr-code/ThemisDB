@@ -24,6 +24,7 @@ For full protocol details — 2PC/3PC flows, Raft log integration, saga rollback
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
+| `transaction_coordinator.h` | `ITransactionCoordinator` | **Unified Strategy-pattern interface for all commit-protocol coordinators** (2PC, 3PC, SAGA, Percolator, Calvin) |
 | `transaction_manager.h` | `ITransactionManager` | Core local transaction interface |
 | `global_transaction_manager.h` | `GlobalTransactionManager` | Cross-node transaction coordinator |
 | `distributed_transaction_manager.h` | `IDistributedTransactionManager` | Distributed 2PC/3PC interface |
@@ -85,3 +86,13 @@ The saga pattern is split across three headers for extensibility:
 - **Tensor Mid-Layer**: `transaction_batcher.h` enables efficient tensor batch writes with MVCC semantics
 - **LLM/LoRA Final Layer**: `transaction_semantic_advisor.h` can expose conflict semantics to an LLM decision layer
 - **ANN Frontdoor**: index mutations are wrapped via `ITransactionManager` to ensure ANN index consistency
+
+---
+
+## 7. Unified Coordinator Interface
+
+`transaction_coordinator.h` defines `ITransactionCoordinator`, the Strategy-pattern
+interface that unifies all five commit protocols under a single API.  See
+[`docs/ITRANSACTION_COORDINATOR.md`](../../docs/ITRANSACTION_COORDINATOR.md) for
+the interface specification, ASCII-UML hierarchy, and the phased migration plan
+for existing coordinators.
