@@ -18,6 +18,7 @@
 #include <memory>
 #include <vector>
 #include <random>
+#include <cstdint>
 
 namespace themis::tensor::bench {
 
@@ -44,11 +45,38 @@ public:
     }
 
 protected:
+    static TensorTrainCore makeSyntheticTrain(std::uint32_t seed) {
+        TensorTrainCore core;
+        core.train.mode_sizes = {8, 8, 8};
+        core.cores.resize(3);
+
+        core.cores[0].r_left = 1;
+        core.cores[0].n = 8;
+        core.cores[0].r_right = 2;
+
+        core.cores[1].r_left = 2;
+        core.cores[1].n = 8;
+        core.cores[1].r_right = 2;
+
+        core.cores[2].r_left = 2;
+        core.cores[2].n = 8;
+        core.cores[2].r_right = 1;
+
+        std::mt19937 rng(seed);
+        std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+        for (auto& tt_core : core.cores) {
+            tt_core.data.resize(tt_core.r_left * tt_core.n * tt_core.r_right);
+            for (auto& value : tt_core.data) {
+                value = dist(rng);
+            }
+        }
+        return core;
+    }
+
     void populateAdapters(int count) {
         for (int i = 0; i < count; ++i) {
             std::string key = "adapter:model:v1:" + std::to_string(i);
-            TensorTrainCore core;
-            core.cores.resize(3);
+            TensorTrainCore core = makeSyntheticTrain(static_cast<std::uint32_t>(i + 1));
 
             (void)adapter_repo_->store("tenant1", "domain1", key, core);
             fingerprint_graph_->addAdapter(key, core, "tenant1", "domain1");
@@ -127,7 +155,7 @@ BENCHMARK_F(TensorPipelineFixture, MidLayerSummarization_SingleScope)(benchmark:
 
 BENCHMARK_F(TensorPipelineFixture, FingerprintGraphFindSimilar_Top10)(benchmark::State& state) {
     std::string query_key = "adapter:model:v1:query";
-    TensorTrainCore query_core;
+    TensorTrainCore query_core = TensorPipelineFixture::makeSyntheticTrain(424242);
     fingerprint_graph_->addAdapter(query_key, query_core, "tenant1", "domain1");
     
     for (auto _ : state) {

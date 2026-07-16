@@ -26,6 +26,7 @@
 #include "acceleration/cpu_backend.h"
 #include "acceleration/kernel_invocation.h"
 #include "themis/gpu/query_accelerator.h"
+#include "utils/simd_distance.h"
 
 #include <algorithm>
 #include <cmath>
@@ -140,13 +141,15 @@ static void BM_TEN_S1_CosineScalar(benchmark::State& state) {
 
     for (auto _ : state) {
         float sum = 0.0f;
-        for (std::size_t i = 0; i < batch; ++i) {
-            sum += scalarCosine(queries.data() + i * dim, database.data() + i * dim, dim);
+        for (std::size_t qi = 0; qi < batch; ++qi) {
+            for (std::size_t di = 0; di < batch; ++di) {
+                sum += scalarCosine(queries.data() + qi * dim, database.data() + di * dim, dim);
+            }
         }
         benchmark::DoNotOptimize(sum);
     }
 
-    state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(batch));
+    state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(batch * batch));
     state.counters["dim"] = static_cast<double>(dim);
     state.counters["path"] = 0; // scalar
 }
@@ -229,16 +232,19 @@ static void BM_TEN_S2_FrobeniusGPUDispatch(benchmark::State& state) {
 
     const auto data = makeNormal(elems, 3002);
 
+    bool last_used_gpu = false;
     for (auto _ : state) {
         // dotProduct(v, v) = ||v||^2; sqrt gives Frobenius norm.
         auto result = accel.dotProduct(data, data);
-        benchmark::DoNotOptimize(result);
+        const float norm = std::sqrt(result.value);
+        last_used_gpu = result.used_gpu;
+        benchmark::DoNotOptimize(norm);
     }
 
     state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(elems));
     state.counters["elems"] = static_cast<double>(elems);
     state.counters["path"] = 1;
-    state.counters["used_gpu"] = accel.getStats().gpu_ops > 0 ? 1.0 : 0.0;
+    state.counters["used_gpu"] = last_used_gpu ? 1.0 : 0.0;
 }
 
 BENCHMARK(BM_TEN_S2_FrobeniusGPUDispatch)
@@ -260,13 +266,8 @@ static void BM_TEN_S3_DotProductCPU(benchmark::State& state) {
     const auto a = makeNormal(elems, 4001);
     const auto b = makeNormal(elems, 4002);
 
-    auto& backend = cpuVecBackend();
-
     for (auto _ : state) {
-        // Single-query KNN with k=1 exercises the distance kernel for contraction.
-        auto result = backend.batchKnnSearch(
-            a.data(), /*numQueries=*/1, elems,
-            b.data(), /*numVectors=*/1, /*k=*/1, /*useL2=*/false);
+        const float result = themis::simd::inner_product(a.data(), b.data(), elems);
         benchmark::DoNotOptimize(result);
     }
 
@@ -293,15 +294,17 @@ static void BM_TEN_S3_DotProductGPU(benchmark::State& state) {
     const auto a = makeNormal(elems, 5001);
     const auto b = makeNormal(elems, 5002);
 
+    bool last_used_gpu = false;
     for (auto _ : state) {
         auto result = accel.dotProduct(a, b);
+        last_used_gpu = result.used_gpu;
         benchmark::DoNotOptimize(result);
     }
 
     state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(elems));
     state.counters["elems"] = static_cast<double>(elems);
     state.counters["path"] = 1;
-    state.counters["used_gpu"] = accel.getStats().gpu_ops > 0 ? 1.0 : 0.0;
+    state.counters["used_gpu"] = last_used_gpu ? 1.0 : 0.0;
 }
 
 BENCHMARK(BM_TEN_S3_DotProductGPU)
@@ -327,6 +330,8 @@ static void BM_TEN_S4_BatchSimilarityCPU(benchmark::State& state) {
 
     auto queries  = makeNormal(batch * dim, 6001);
     auto database = makeNormal(num_vectors * dim, 6002);
+    rowNormalize(queries.data(), batch, dim);
+    rowNormalize(database.data(), num_vectors, dim);
 
     auto& backend = cpuVecBackend();
 
@@ -363,18 +368,21 @@ static void BM_TEN_S4_BatchSimilarityGPU(benchmark::State& state) {
 
     auto queries  = makeNormal(batch * dim, 7001);
     auto database = makeNormal(num_vectors * dim, 7002);
+    rowNormalize(queries.data(), batch, dim);
+    rowNormalize(database.data(), num_vectors, dim);
 
+    bool last_used_gpu = false;
     for (auto _ : state) {
         auto result = accel.annSearch(queries, batch, dim, database, num_vectors, top_k, false);
+        last_used_gpu = result.used_gpu;
         benchmark::DoNotOptimize(result);
     }
 
-    const auto stats = accel.getStats();
     state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(batch * num_vectors));
     state.counters["num_vectors"] = static_cast<double>(num_vectors);
     state.counters["batch"] = static_cast<double>(batch);
     state.counters["path"] = 1;
-    state.counters["used_gpu"] = stats.gpu_ops > 0 ? 1.0 : 0.0;
+    state.counters["used_gpu"] = last_used_gpu ? 1.0 : 0.0;
 }
 
 BENCHMARK(BM_TEN_S4_BatchSimilarityGPU)
@@ -637,6 +645,12 @@ BENCHMARK(BM_TEN_G4_ResidualGPU)
 
 // ============================================================================
 // TEN-M1 — mmap Cold vs Warm Page-Cache Simulation
+//
+// STUB/SIMULATION NOTE:
+// Purpose: Provide stable CI-safe benchmark coverage for TEN-M1 without OS-specific mmap setup.
+// Activation: Always active in benchmark-only binary bench_tensor_cpu_gpu_dispatch.
+// Production Delta: Uses allocation/memcpy timing instead of true mmap/page-cache behavior.
+// Removal Plan: Replace with real mmap-backed benchmark implementation in benchmark matrix phase 2.
 //
 // Simulates cold-cache latency (first-access allocation + copy) vs warm-cache
 // latency (already-hot buffer read) for a tensor shard resident on disk.

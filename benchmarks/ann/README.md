@@ -48,6 +48,5 @@ The benchmark matrix for CPU SIMD vs GPU dispatch in ANN, Tensor, and Graph path
 - [`docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md`](../../docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md) — Per-scenario detail with parameters, metrics, and acceptance gates
 
 ANN-specific scenarios are identified by prefix `ANN-` in both documents.
-The planned binary for GPU-extended ANN benchmarks is `bench_ann_cpu_gpu_dispatch`
+The benchmark binary for GPU-extended ANN benchmarks is `bench_ann_cpu_gpu_dispatch`
 (see matrix §10 Benchmark Binary Plan).
-

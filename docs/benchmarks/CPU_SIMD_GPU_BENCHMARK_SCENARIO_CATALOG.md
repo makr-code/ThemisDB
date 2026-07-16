@@ -18,9 +18,9 @@ break-even classification.
 <LAYER>-<TYPE><N>
   LAYER : ANN | TEN | GRP | UPD | PLN | CRS
   TYPE  : S (similarity/search) | B (batch sweep) | K (top-K) | Q (quantised)
-          G (GPU kernel) | M (mmap) | F (frontier) | N (neighborhood)
+          G (GPU kernel) | F (frontier) | N (neighborhood)
           X (sync-heavy) | C (commit) | W (worker) | BE (break-even) | P (planner)
-          T (transfer) | M (memory)
+          T (transfer) | M (layer-specific: TEN-M* = mmap, CRS-M* = memory pressure)
   N     : sequential number within layer+type
 ```
 

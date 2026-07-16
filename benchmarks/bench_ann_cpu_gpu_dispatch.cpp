@@ -19,6 +19,7 @@
 #include <filesystem>
 #include <memory>
 #include <numeric>
+#include <mutex>
 #include <random>
 #include <stdexcept>
 #include <string>
@@ -130,12 +131,11 @@ struct HnswSearchEnv {
 
 HnswSearchEnv& cosineHnswEnv() {
     static HnswSearchEnv env;
-    static bool initialized = false;
-
-    if (!initialized) {
+    static std::once_flag init_once;
+    std::call_once(init_once, [&]() {
         env.dim = 128;
         env.count = 4000;
-        env.db_path = "/tmp/themis_bench_ann_cpu_gpu_dispatch_hnsw";
+        env.db_path = (std::filesystem::temp_directory_path() / "themis_bench_ann_cpu_gpu_dispatch_hnsw").string();
         std::error_code ec;
         std::filesystem::remove_all(env.db_path, ec);
 
@@ -171,8 +171,7 @@ HnswSearchEnv& cosineHnswEnv() {
             }
         }
 
-        initialized = true;
-    }
+    });
 
     return env;
 }
