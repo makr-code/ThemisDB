@@ -97,6 +97,7 @@ track remain gated.
 - [x] deterministic JSON hashing and manifest-facing proof/receipt serialization implemented
 - [x] cached-receipt versus fresh-verification rules documented for query-path consumers
 - [x] 3.4 runtime distributed failure semantics completed across recovery/planner integration
+- [x] lifecycle transition helpers (`transitionToRebuilding`, `transitionToReadyAfterRebuild`, `transitionToFailed`) and planner freshness gate helper (`shouldRejectForPlanner`) implemented in `ArtifactInvalidationManager` (issue #5442, Target: Q3 2026)
 - [ ] Phase A: tensor delta log + manifest store wired (Target: Q3 2026)
 - [ ] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026)
 - [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)

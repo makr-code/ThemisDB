@@ -37,6 +37,10 @@
  *   LSM-29  ArtifactInvalidationManager marks INVALIDATED with reason
  *   LSM-30  ArtifactInvalidationManager::shouldInvalidateForRankBreach detects breach
  *   LSM-31  ArtifactInvalidationManager::shouldInvalidateForResidual detects threshold breach
+ *   LSM-32  ArtifactInvalidationManager::transitionToRebuilding sets REBUILDING mode and timestamp
+ *   LSM-33  ArtifactInvalidationManager::transitionToReadyAfterRebuild rematerializes READY artifact
+ *   LSM-34  ArtifactInvalidationManager::transitionToFailed records failed rebuild state
+ *   LSM-35  ArtifactInvalidationManager::shouldRejectForPlanner enforces lifecycle freshness gates
  */
 
 #include "src/distributed_tensor/include/artifact_manifest.h"
@@ -462,6 +466,94 @@ TEST(LifecycleStalenessManagement, LSM31_InvalidationManagerDetectsResidualBreac
 
     // Exactly at threshold
     EXPECT_FALSE(mgr.shouldInvalidateForResidual(m, 0.5));
+}
+
+TEST(LifecycleStalenessManagement, LSM32_InvalidationManagerTransitionsToRebuilding) {
+    ArtifactManifest m = makeLifecycleManifest();
+    m.lifecycle_state = LifecycleState::STALE;
+    m.update_mode = UpdateMode::PATCH;
+    m.updated_at_unix_sec = 1000;
+
+    ArtifactInvalidationManager mgr;
+    const ArtifactManifest rebuilding = mgr.transitionToRebuilding(m, UpdateMode::PARTIAL_REFIT, 2000);
+
+    EXPECT_EQ(rebuilding.lifecycle_state, LifecycleState::REBUILDING);
+    EXPECT_EQ(rebuilding.update_mode, UpdateMode::PARTIAL_REFIT);
+    EXPECT_EQ(rebuilding.updated_at_unix_sec, 2000);
+    EXPECT_EQ(m.lifecycle_state, LifecycleState::STALE);
+}
+
+TEST(LifecycleStalenessManagement, LSM33_InvalidationManagerTransitionsToReadyAfterRebuild) {
+    ArtifactManifest m = makeLifecycleManifest();
+    m.lifecycle_state = LifecycleState::REBUILDING;
+    m.delta_lag = 99;
+    m.artifact_age_ms = 5000;
+    m.invalidation_reason = InvalidationReason::STALENESS_EXCEEDED;
+    m.last_rebuild_at_unix_sec = 1200;
+    m.last_verified_unix_sec = 1100;
+    m.updated_at_unix_sec = 1200;
+
+    ArtifactInvalidationManager mgr;
+    const ArtifactManifest ready = mgr.transitionToReadyAfterRebuild(
+        m,
+        RebuildState::REBUILT,
+        501,
+        900,
+        3000);
+
+    EXPECT_EQ(ready.lifecycle_state, LifecycleState::READY);
+    EXPECT_EQ(ready.rebuild_state, RebuildState::REBUILT);
+    EXPECT_EQ(ready.source_seq_start, 501u);
+    EXPECT_EQ(ready.source_seq_end, 900u);
+    EXPECT_EQ(ready.delta_lag, 0u);
+    EXPECT_EQ(ready.artifact_age_ms, 0u);
+    EXPECT_EQ(ready.invalidation_reason, InvalidationReason::UNKNOWN);
+    EXPECT_EQ(ready.last_rebuild_at_unix_sec, 3000);
+    EXPECT_EQ(ready.last_verified_unix_sec, 3000);
+    EXPECT_EQ(ready.updated_at_unix_sec, 3000);
+}
+
+TEST(LifecycleStalenessManagement, LSM34_InvalidationManagerTransitionsToFailed) {
+    ArtifactManifest m = makeLifecycleManifest();
+    m.lifecycle_state = LifecycleState::REBUILDING;
+    m.updated_at_unix_sec = 1000;
+
+    ArtifactInvalidationManager mgr;
+    const ArtifactManifest failed = mgr.transitionToFailed(
+        m,
+        InvalidationReason::SHARD_UNAVAILABLE,
+        2500);
+
+    EXPECT_EQ(failed.lifecycle_state, LifecycleState::FAILED);
+    EXPECT_EQ(failed.invalidation_reason, InvalidationReason::SHARD_UNAVAILABLE);
+    EXPECT_EQ(failed.updated_at_unix_sec, 2500);
+}
+
+TEST(LifecycleStalenessManagement, LSM35_InvalidationManagerPlannerGateRejectsCorrectly) {
+    ArtifactInvalidationManager mgr;
+    ArtifactManifest m = makeLifecycleManifest();
+
+    m.lifecycle_state = LifecycleState::READY;
+    m.last_verified_unix_sec = 1000;
+    m.staleness_threshold_sec = 300;
+    m.delta_lag = 10;
+    m.residual = 0.1;
+    EXPECT_FALSE(mgr.shouldRejectForPlanner(m, 1200, 100, 0.5));
+
+    m.lifecycle_state = LifecycleState::REBUILDING;
+    EXPECT_TRUE(mgr.shouldRejectForPlanner(m, 1200, 100, 0.5));
+
+    m.lifecycle_state = LifecycleState::READY;
+    m.last_verified_unix_sec = 500;
+    EXPECT_TRUE(mgr.shouldRejectForPlanner(m, 1200, 100, 0.5));
+
+    m.last_verified_unix_sec = 1200;
+    m.delta_lag = 200;
+    EXPECT_TRUE(mgr.shouldRejectForPlanner(m, 1200, 100, 0.5));
+
+    m.delta_lag = 10;
+    m.residual = 0.9;
+    EXPECT_TRUE(mgr.shouldRejectForPlanner(m, 1200, 100, 0.5));
 }
 
 }  // namespace
