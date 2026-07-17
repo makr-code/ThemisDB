@@ -402,15 +402,15 @@ TEST_F(ContractCompatibilityReliabilityTest,
 
     // V1-compliant record — must pass
     SchemaRecord v1_record;
-    v1_record["name"]  = {"",  FieldType::kString,  "Alice", 0, false};
-    v1_record["value"] = {"",  FieldType::kInteger, "",     42, false};
+    v1_record["name"]  = {FieldType::kString, "Alice", 0, false};
+    v1_record["value"] = {FieldType::kInteger, "", 42, false};
 
     const auto r1 = validator.Validate(v1_record);
     EXPECT_TRUE(r1.ok) << "V1-compliant record must pass V1 schema";
 
     // V2 record adds "tags" (unknown to V1 validator) — must still pass
     SchemaRecord v2_record = v1_record;
-    v2_record["tags"] = {"", FieldType::kString, "alpha,beta", 0, false};
+    v2_record["tags"] = {FieldType::kString, "alpha,beta", 0, false};
 
     const auto r2 = validator.Validate(v2_record);
     EXPECT_TRUE(r2.ok) << "V2 record with unknown field must still pass V1 schema";
@@ -434,8 +434,8 @@ TEST_F(ContractCompatibilityReliabilityTest,
 
     // Record missing required "name"
     SchemaRecord record;
-    record["id"]    = {"", FieldType::kString, "doc-1", 0, false};
-    record["score"] = {"", FieldType::kInteger, "", 99, false};
+    record["id"]    = {FieldType::kString, "doc-1", 0, false};
+    record["score"] = {FieldType::kInteger, "", 99, false};
 
     const auto result = validator.Validate(record);
     EXPECT_FALSE(result.ok) << "missing required field must fail validation";
@@ -443,7 +443,7 @@ TEST_F(ContractCompatibilityReliabilityTest,
     EXPECT_EQ(result.errors[0], "missing_required:name");
 
     // Record with all required fields present — must pass
-    record["name"] = {"", FieldType::kString, "Alice", 0, false};
+    record["name"] = {FieldType::kString, "Alice", 0, false};
     const auto ok_result = validator.Validate(record);
     EXPECT_TRUE(ok_result.ok);
     EXPECT_TRUE(ok_result.errors.empty());
@@ -510,16 +510,16 @@ TEST_F(ContractCompatibilityReliabilityTest,
 
     // Correct types
     SchemaRecord correct;
-    correct["count"] = {"", FieldType::kInteger, "", 7, false};
-    correct["label"] = {"", FieldType::kString, "ok", 0, false};
+    correct["count"] = {FieldType::kInteger, "", 7, false};
+    correct["label"] = {FieldType::kString, "ok", 0, false};
 
     const auto r_ok = validator.Validate(correct);
     EXPECT_TRUE(r_ok.ok);
 
     // "count" provided as string — type mismatch
     SchemaRecord wrong_type;
-    wrong_type["count"] = {"", FieldType::kString, "seven", 0, false};  // wrong type!
-    wrong_type["label"] = {"", FieldType::kString, "label", 0, false};
+    wrong_type["count"] = {FieldType::kString, "seven", 0, false};  // wrong type!
+    wrong_type["label"] = {FieldType::kString, "label", 0, false};
 
     const auto r_err = validator.Validate(wrong_type);
     EXPECT_FALSE(r_err.ok) << "string value for integer field must fail";
@@ -528,8 +528,8 @@ TEST_F(ContractCompatibilityReliabilityTest,
 
     // "label" provided as integer — type mismatch
     SchemaRecord wrong_label;
-    wrong_label["count"] = {"", FieldType::kInteger, "", 1, false};
-    wrong_label["label"] = {"", FieldType::kInteger, "", 99, false};  // wrong type!
+    wrong_label["count"] = {FieldType::kInteger, "", 1, false};
+    wrong_label["label"] = {FieldType::kInteger, "", 99, false};  // wrong type!
 
     const auto r_err2 = validator.Validate(wrong_label);
     EXPECT_FALSE(r_err2.ok);

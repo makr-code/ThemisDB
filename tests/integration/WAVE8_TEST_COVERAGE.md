@@ -20,7 +20,7 @@ deliverable (W8D).
 |----------|------|-------|--------------|--------------|
 | W8A | `pipeline/w8a_incident_regression_shielding_test.cpp` | IRS-01..IRS-08 | `wave8;w8a;release_critical;incident_regression` | ✅ Blocks release |
 | W8B | `pipeline/w8b_contract_compatibility_reliability_test.cpp` | CCR-01..CCR-08 | `wave8;w8b;contract_compat;release_critical` | ✅ Blocks release |
-| W8C | `pipeline/w8c_determinism_flake_ci_signal_test.cpp` | DFQ-01..DFQ-08 | `wave8;w8c;determinism;flake_burndown;ci_signal` | ✅ Blocks release |
+| W8C | `pipeline/w8c_determinism_flake_ci_signal_test.cpp` | DFQ-01..DFQ-08 | `wave8;w8c;release_critical;determinism;flake_burndown;ci_signal` | ✅ Blocks release |
 | W8D | `WAVE8_TEST_COVERAGE.md`, `WAVE8_TRIAGE_RUNBOOK.md` | — | — | Documentation |
 
 ---

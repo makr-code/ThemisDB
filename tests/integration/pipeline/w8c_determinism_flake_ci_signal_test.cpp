@@ -21,7 +21,10 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstdint>
+#include <cstdio>
 #include <mutex>
+#include <limits>
 #include <optional>
 #include <random>
 #include <sstream>
@@ -47,7 +50,7 @@ public:
     /// @brief Construct with an explicit seed.
     explicit DeterministicDataProducer(uint32_t seed) : rng_(seed) {}
 
-    /// @brief Generate @p count keys of the form "key-{hex16}".
+    /// @brief Generate @p count keys of the form "key-{hex8}".
     /// Two instances with the same seed produce identical sequences.
     [[nodiscard]] std::vector<std::string> GenerateKeys(size_t count) {
         std::vector<std::string> keys;
