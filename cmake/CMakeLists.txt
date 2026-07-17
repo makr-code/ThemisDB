@@ -5151,14 +5151,6 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
-<<<<<<< HEAD
-    # EPIC 2 Evaluation module — benchmark_matrix and evaluation contracts
-    # Issue #5438: EPIC 2.2 benchmark matrix implementation
-    # -------------------------------------------------------------------------
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/evaluation/CMakeLists.txt")
-        add_subdirectory(${THEMIS_ROOT_DIR}/src/evaluation
-                         ${CMAKE_CURRENT_BINARY_DIR}/src/evaluation)
-=======
     # EPIC 1 Retrieval — LoRAPackage & PortableAdapterProduct (Phase 3, 2026-07-16)
     # Moved to the dedicated THEMIS_BUILD_RETRIEVAL option block below.
     # Distributed Tensor Artifacts module (EPIC 5428 Phase 3, 2026-07-13)
@@ -5167,13 +5159,24 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
        NOT TARGET themis_distributed_tensor)
         add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
                          ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
->>>>>>> origin/develop
     endif()
 
     # Non-compiled plugin manifests / legacy orchestration: plugins/
     if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins
                          ${CMAKE_CURRENT_BINARY_DIR}/plugins)
+    endif()
+endif()
+
+
+# EPIC 2 Evaluation module — benchmark_matrix and hardware_profile contracts.
+# Issue #5438: EPIC 2.2 benchmark matrix implementation.
+# Available in all editions (not enterprise-only).
+option(THEMIS_BUILD_EVALUATION "Build the EPIC 2 evaluation module (BenchmarkMatrix / HardwareProfile)" ON)
+if(THEMIS_BUILD_EVALUATION AND EXISTS "${THEMIS_ROOT_DIR}/src/evaluation/CMakeLists.txt")
+    if(NOT TARGET themis_evaluation)
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/evaluation
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/evaluation)
     endif()
 endif()
 

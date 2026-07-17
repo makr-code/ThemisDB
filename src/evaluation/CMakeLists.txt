@@ -1,17 +1,18 @@
-<<<<<<< HEAD
 # EPIC 2 — Evaluation & Benchmarking module.
-# Issue #5438: benchmark_matrix (EPIC 2.2) implemented.
+# Includes benchmark_matrix (EPIC 2.2, Issue #5438) and hardware_profile sources.
 
 # ============================================================================
 # themis_evaluation — EPIC 2 evaluation library
 # ============================================================================
 
 set(EVALUATION_PUBLIC_HEADERS
-    include/benchmark_matrix.h
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/benchmark_matrix.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/hardware_profile.h"
 )
 
 set(EVALUATION_SOURCES
-    src/benchmark_matrix.cc
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark_matrix.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/hardware_profile.cc"
 )
 
 if(NOT TARGET themis_evaluation)
@@ -19,14 +20,15 @@ if(NOT TARGET themis_evaluation)
 
     target_include_directories(themis_evaluation
         PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include/evaluation>
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
 
     target_compile_features(themis_evaluation PUBLIC cxx_std_17)
 
-    # No external dependencies: benchmark_matrix is self-contained.
+    # No external dependencies: evaluation library is self-contained.
     target_compile_definitions(themis_evaluation PRIVATE THEMIS_EVALUATION_BUILD=1)
 
     install(TARGETS themis_evaluation
@@ -38,17 +40,3 @@ if(NOT TARGET themis_evaluation)
         COMPONENT evaluation
     )
 endif()
-=======
-# EPIC 2 — Evaluation & Benchmarking
-# Hardware-profile sources are now present; the remaining EPIC 2 targets stay opt-in.
-
-set(EVALUATION_PUBLIC_HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/hardware_profile.h"
-)
-
-set(EVALUATION_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/hardware_profile.cc"
-)
-
-# Parent build integration remains deferred until the broader evaluation module is enabled.
->>>>>>> origin/develop

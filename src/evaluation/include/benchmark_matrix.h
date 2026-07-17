@@ -307,7 +307,8 @@ struct BenchmarkEntry {
  * when a measurement has genuinely not been taken.
  *
  * Thread safety: concurrent `lookup` calls are safe.  All mutating operations
- * (`record`, `clear`) must be serialised by the caller.
+ * (`record`, `clear`, `invalidateScenario`, `invalidateDimension`) must be
+ * serialised by the caller.
  *
  * Usage example:
  * @code
@@ -418,7 +419,8 @@ public:
 
     /**
      * @brief Return only the scenarios for which every required dimension has
-     *        at least one clean measurement.
+     *        sufficient data (passes `hasSufficientData()`, default ≥ 3 samples
+     *        and no `INSUFFICIENT_METRIC_DATA` flag).
      *
      * @param required_dimensions Dimensions that must be present.
      * @returns Scenarios satisfying the coverage requirement.
@@ -452,9 +454,9 @@ public:
      * @param a            First scenario.
      * @param b            Second scenario.
      * @param dimension    The dimension to compare on.
-     * @param[out] ratio   Output: `a_value / b_value` (or nullopt on missing data).
      *
-     * @returns `std::nullopt` if either scenario is missing the measurement.
+     * @returns `a_value / b_value`, or `std::nullopt` if either scenario is
+     *          missing the measurement or `b_value` is zero.
      */
     [[nodiscard]] std::optional<double>
     compareScenarios(BenchmarkScenario a,
