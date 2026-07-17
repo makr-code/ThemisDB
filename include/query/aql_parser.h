@@ -930,6 +930,25 @@ struct AqlTransactionBlock {
 class AQLParser {
 public:
     AQLParser() = default;
+    ~AQLParser() = default;
+    
+    /**
+     * @brief Move constructor
+     * @note AQLParser is stateless, so move operations are trivial
+     * @cwe CWE-457: Stateless design ensures moved-from state is always valid
+     */
+    AQLParser(AQLParser&&) noexcept = default;
+    
+    /**
+     * @brief Move assignment operator
+     * @note AQLParser is stateless, so move operations are trivial
+     * @cwe CWE-672: Stateless design prevents use-after-move issues
+     */
+    AQLParser& operator=(AQLParser&&) noexcept = default;
+    
+    // Delete copy operations (stateless but still follows best practices)
+    AQLParser(const AQLParser&) = delete;
+    AQLParser& operator=(const AQLParser&) = delete;
     
     /**
      * Parse an AQL query string into an AST.

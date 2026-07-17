@@ -788,12 +788,14 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     for (const auto& incoming : disjuncts) {
                         ConjunctiveQuery combined;
                         combined.table = existing.table;
-                        // Merge equality predicates
+                        // Merge equality predicates (Q3: pre-allocate)
+                        combined.predicates.reserve(existing.predicates.size() + incoming.predicates.size());
                         combined.predicates = existing.predicates;
                         combined.predicates.insert(combined.predicates.end(),
                                                    incoming.predicates.begin(),
                                                    incoming.predicates.end());
-                        // Merge range predicates
+                        // Merge range predicates (Q3: pre-allocate)
+                        combined.rangePredicates.reserve(existing.rangePredicates.size() + incoming.rangePredicates.size());
                         combined.rangePredicates = existing.rangePredicates;
                         combined.rangePredicates.insert(combined.rangePredicates.end(),
                                                         incoming.rangePredicates.begin(),
@@ -1729,19 +1731,23 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
             if (!error.empty()) return {};
             
             // Cartesian product: (A OR B) AND (C OR D) = (A AND C) OR (A AND D) OR (B AND C) OR (B AND D)
+            // Q3: Pre-allocate to the exact cartesian-product size to avoid incremental reallocations.
             std::vector<ConjunctiveQuery> result;
+            result.reserve(leftDNF.size() * rightDNF.size());
             for (const auto& leftConj : leftDNF) {
                 for (const auto& rightConj : rightDNF) {
                     ConjunctiveQuery merged;
                     merged.table = table;
                     
-                    // Merge predicates
+                    // Merge predicates (Q3: pre-allocate combined size)
+                    merged.predicates.reserve(leftConj.predicates.size() + rightConj.predicates.size());
                     merged.predicates = leftConj.predicates;
                     merged.predicates.insert(merged.predicates.end(), 
                                             rightConj.predicates.begin(), 
                                             rightConj.predicates.end());
                     
-                    // Merge range predicates
+                    // Merge range predicates (Q3: pre-allocate combined size)
+                    merged.rangePredicates.reserve(leftConj.rangePredicates.size() + rightConj.rangePredicates.size());
                     merged.rangePredicates = leftConj.rangePredicates;
                     merged.rangePredicates.insert(merged.rangePredicates.end(),
                                                  rightConj.rangePredicates.begin(),

@@ -148,6 +148,24 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
             tr.error_message
         );
     }
+
+    // Q2: Structured audit event — federation request dispatch telemetry
+    // Determine which query type is being dispatched and log it for cross-cluster traceability.
+    {
+        const char* request_type = "conjunctive";
+        int shard_count = 1;
+        if      (tr.vector_geo.has_value())   { request_type = "vector_geo";    }
+        else if (tr.content_geo.has_value())  { request_type = "content_geo";   }
+        else if (tr.disjunctive.has_value())  { request_type = "or_disjunctive";
+            shard_count = static_cast<int>(tr.disjunctive->disjuncts.size());   }
+        else if (tr.traversal.has_value())    { request_type = "graph_traversal"; }
+        else if (tr.join.has_value())         { request_type = "join";           }
+        else if (tr.spatial_join.has_value()) { request_type = "spatial_join";   }
+        THEMIS_INFO("[audit] {{\"event\":\"federation_dispatch\","
+                    "\"request_type\":\"{}\",\"shard_count\":{},"
+                    "\"query_hash\":\"{}\"}}",
+                    request_type, shard_count, query_hash);
+    }
     
     // Vector+Geo hybrid dispatch
     if (tr.vector_geo.has_value()) {
@@ -367,6 +385,11 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     nlohmann::json arr = nlohmann::json::array();
     for (const auto& row : jit_result->rows) arr.push_back(row);
     reopt_guard.finish(jit_result->rows.size());
+    // Q2: Structured audit — federated result merge (conjunctive path)
+    THEMIS_INFO("[audit] {{\"event\":\"federation_result_merge\","
+                "\"result_count\":{},\"truncated\":false,"
+                "\"query_hash\":\"{}\"}}",
+                (*jit_result).rows.size(), query_hash);
     return Ok(nlohmann::json({{"type","and"},{"results", arr}}));
 }
 
@@ -415,6 +438,8 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
     node.estimated_cost   = est_cost;
     node.estimated_rows   = static_cast<size_t>(est_nodes);
 
+    // Q3: Pre-allocate attributes vector (4 base + 1 optional end vertex)
+    node.attributes.reserve(5);
     node.attributes.push_back("start: " + tv.startVertex);
     node.attributes.push_back("depth: " + std::to_string(tv.minDepth) +
                                ".." + std::to_string(tv.maxDepth));

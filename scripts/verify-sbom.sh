@@ -30,11 +30,13 @@ fi
 echo "[verify-sbom] SBOM file:    ${SBOM_FILE}"
 echo "[verify-sbom] vcpkg.json:   ${VCPKG_JSON}"
 
-python3 - <<PYTHON
+python3 - "${VCPKG_JSON}" "${SBOM_FILE}" <<'PYTHON'
 import json, sys
 
+vcpkg_json_path, sbom_file_path = sys.argv[1], sys.argv[2]
+
 # Load vcpkg.json to extract registered dependencies
-with open("${VCPKG_JSON}") as f:
+with open(vcpkg_json_path) as f:
     vcpkg = json.load(f)
 
 registered = set()
@@ -45,7 +47,7 @@ for dep in vcpkg.get("dependencies", []):
         registered.add(dep["name"].lower())
 
 # Load the CycloneDX SBOM
-with open("${SBOM_FILE}") as f:
+with open(sbom_file_path) as f:
     sbom = json.load(f)
 
 components = sbom.get("components", [])
@@ -56,10 +58,9 @@ for comp in components:
     # Only check library-type components (skip OS packages, etc.)
     if pkg_type not in ("library", "framework"):
         continue
-    # Skip standard system libraries
+    # Skip standard system libraries (e.g. libssl, glibc, musl, openssl, zlib)
     if any(name.startswith(p) for p in ("lib", "glibc", "musl", "openssl", "zlib")):
-        # Only flag if not in vcpkg.json
-        pass
+        continue
     if name and name not in registered:
         unregistered.append(f"{name} (type={pkg_type})")
 
@@ -67,8 +68,7 @@ if unregistered:
     print(f"[verify-sbom] WARNING: {len(unregistered)} unregistered component(s):")
     for u in unregistered:
         print(f"  - {u}")
-    # Non-fatal warning for transitive deps; callers can choose to fail
-    sys.exit(0)
+    sys.exit(1)
 else:
     print(f"[verify-sbom] All {len(components)} SBOM components verified against vcpkg.json")
     sys.exit(0)

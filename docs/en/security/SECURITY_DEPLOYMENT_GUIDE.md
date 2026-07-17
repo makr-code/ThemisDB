@@ -2650,6 +2650,58 @@ echo ""
 echo "=== Operating system hardening complete ==="
 ```
 
+### Compiler Security Hardening (SEC-CC-4)
+
+ThemisDB automatically enables compiler and linker hardening flags for all **Release builds**.
+No additional configuration is required for standard presets.
+
+**Active flags per platform:**
+
+| Platform | Compile flags | Linker flags |
+|---|---|---|
+| Linux (GCC/Clang) | `-fstack-protector-strong` `-D_FORTIFY_SOURCE=3` `-fPIE` `-fstack-clash-protection`* | `-pie` `-Wl,-z,relro` `-Wl,-z,now` `-Wl,-z,noexecstack` |
+| macOS (Clang) | `-fstack-protector-strong` `-D_FORTIFY_SOURCE=3` `-fPIE` `-fstack-clash-protection`* | `-pie` |
+| Windows (MSVC) | `/GS` `/sdl` `/guard:cf` | `/GUARD:CF` `/NXCOMPAT` `/DYNAMICBASE` |
+
+\* `-fstack-clash-protection` is applied when supported by the compiler (GCC ≥ 8, Clang ≥ 11).
+† RELRO linker flags (`-Wl,-z,relro/-z,now/-z,noexecstack`) are **Linux-only**; macOS `ld64` does not support ELF-style `-z` flags. ASLR and stack protection are provided natively by the macOS OS and `ld64`.
+
+**Build command (hardening on by default):**
+```bash
+cmake --preset community-release
+cmake --build --preset community-release
+```
+
+**Verify hardening on Linux:**
+```bash
+# Requires checksec tool
+checksec --file=build-linux-release/themisdb_server
+# Expected: Full RELRO, Canary found, NX enabled, PIE enabled
+```
+
+**Important:** Disabling hardening (`-DTHEMIS_DISABLE_SECURITY_HARDENING=ON`) is a
+security policy violation (SEC-CC-4) and must not be used in production builds.
+
+**Sanitizer presets (development/CI use only, not for production):**
+
+| Preset | Purpose |
+|---|---|
+| `community-asan` | AddressSanitizer: detect heap/stack overflows, use-after-free |
+| `community-ubsan` | UBSan: detect signed overflow, misaligned access, null-deref |
+| `linux-asan` / `linux-ubsan` | Same as above but with vcpkg dependency resolution |
+
+```bash
+# Example: run tests under AddressSanitizer
+cmake --preset community-asan
+cmake --build --preset community-asan --parallel $(nproc)
+ASAN_OPTIONS=detect_leaks=1 ctest --preset community-asan --output-on-failure
+```
+
+For the complete flag reference, compiler version requirements, and policy for new
+platforms see [`docs/de/security/COMPILER_SECURITY_HARDENING.md`](../../de/security/COMPILER_SECURITY_HARDENING.md).
+
+---
+
 ### Application Hardening
 
 **ThemisDB Security Configuration:**

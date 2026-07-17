@@ -1,6 +1,6 @@
 # Distributed Tensor Module Architecture
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-13 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -9,15 +9,16 @@
 management, shard placement, integrity verification, recovery management, distributed
 planning, and tensor infrastructure coordination.
 
-Current architecture is scaffold-first: headers capture contract boundaries and matching
-translation units anchor implementation ownership for phased delivery.
+Current architecture is implementation-first for Phases 1-3: headers define the
+public contracts, translation units provide the default runtime behavior, and the
+focused EPIC 3 regression suite verifies the new failure/degraded-mode semantics.
 
 ## Component Map
 
-> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
-> The table below documents planned file ownership; no code files exist yet.
+> Source files and public headers are now implemented. The table below documents
+> the active ownership map used by the current build.
 
-| Component | Planned contract | Planned implementation |
+| Component | Active contract | Active implementation |
 |---|---|---|
 | Artifact classes | `include/tensor_artifact_classes.h` | `src/tensor_artifact_classes.cc` |
 | Manifest schema | `include/artifact_manifest.h` | `src/artifact_manifest.cc` |
@@ -30,18 +31,18 @@ translation units anchor implementation ownership for phased delivery.
 ## Boundaries
 
 In scope:
-- EPIC 3 contract ownership and sequencing
+- EPIC 3 contract ownership, sequencing, and default runtime behavior
 - integration seams with EPIC 1 retrieval and EPIC 2 evaluation
-- phase-gated readiness documentation
+- phase-gated readiness documentation and focused regression coverage
 
-Out of scope at scaffold stage:
-- production distributed-placement/recovery runtime behavior claims
+Out of scope at the current stage:
 - finalized scale and fault-injection benchmark outcomes
 - default pipeline enablement
 
 ## Integration Surfaces
 
 - Planning: `docs/EPIC3_ARCHITECTURE.md` and EPIC 3 sub-issue docs
-- Planned contracts: `src/distributed_tensor/include/*.h` (deferred to implementation PR)
-- Planned implementation: `src/distributed_tensor/src/*.cc` (deferred to implementation PR)
+- Public contracts: `include/distributed_tensor/*.h`
+- Runtime implementation: `src/distributed_tensor/*.cc`
+- Focused verification: `tests/epic3_distributed_tensor/test_phase3_failure_semantics.cpp`
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`

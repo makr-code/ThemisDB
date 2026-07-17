@@ -1,0 +1,206 @@
+{
+  "seed": 42,
+  "confidence_level": 0.95,
+  "alpha": 0.05,
+  "bootstrap_iterations": 300,
+  "permutation_iterations": 300,
+  "baseline_freeze": {
+    "compiler": "g++-14",
+    "compiler_flags": "-O3 -DNDEBUG",
+    "preset": "linux-ninja-release",
+    "hardware_profile": "ci-x64-32c-128g",
+    "os_image": "ubuntu-24.04"
+  },
+  "ticket_defaults": {
+    "project": "PERF",
+    "owner": "release-performance"
+  },
+  "experiments": [
+    {
+      "id": "b6a-release-critical-steady",
+      "subsystem": "query",
+      "wave6_track": "B6-A",
+      "hypothesis": {
+        "h0": "Steady release-critical path does not improve.",
+        "h1": "Steady release-critical path improves p95 latency.",
+        "expected_effect_direction": "improve",
+        "risks": ["cache pollution", "scheduler noise"],
+        "stop_criteria": ["error_rate > 1%", "p99 > guardrail"]
+      },
+      "scenario": {
+        "workload_family": "oltp",
+        "dataset_size": "120M rows",
+        "query_mix": "steady-70r-30w",
+        "concurrency_profile": "32 clients",
+        "warmup_runs": 6,
+        "cache_mode": "warm",
+        "numa_mode": "interleaved",
+        "io_profile": "nvme",
+        "gpu_allocation": "none"
+      },
+      "metric": {
+        "name": "p95_latency_ms",
+        "higher_is_better": false,
+        "practical_significance_percent": 2.5,
+        "critical": true
+      },
+      "baseline_samples": [12.1, 12.0, 12.3, 11.9, 12.2, 12.1, 12.4, 12.0, 12.2, 11.8, 12.1, 12.3, 12.0, 12.2, 11.9, 12.4, 12.1, 12.3, 12.0, 12.2, 11.9, 12.1, 12.3, 12.0, 12.2, 11.8, 12.1, 12.4, 12.0, 12.2],
+      "treatment_samples": [11.4, 11.3, 11.5, 11.2, 11.4, 11.3, 11.6, 11.2, 11.4, 11.1, 11.3, 11.5, 11.2, 11.4, 11.1, 11.6, 11.3, 11.5, 11.2, 11.4, 11.1, 11.3, 11.5, 11.2, 11.4, 11.1, 11.3, 11.6, 11.2, 11.4],
+      "performance_budget_percent": 2.0,
+      "wave6_guardrails": {
+        "max_p99_latency_ms": 12.0,
+        "max_regression_drift_percent": 3.0
+      }
+    },
+    {
+      "id": "b6a-release-critical-burst-peak",
+      "subsystem": "storage",
+      "wave6_track": "B6-A",
+      "hypothesis": {
+        "h0": "Burst/peak profile does not improve throughput.",
+        "h1": "Burst/peak profile improves throughput and keeps tails controlled.",
+        "expected_effect_direction": "improve",
+        "risks": ["write amplification", "queue backlog"],
+        "stop_criteria": ["throughput < guardrail", "tail buildup"]
+      },
+      "scenario": {
+        "workload_family": "hybrid",
+        "dataset_size": "2TB fixture",
+        "query_mix": "burst-peak-45r-55w",
+        "concurrency_profile": "16->96->32 clients",
+        "warmup_runs": 8,
+        "cache_mode": "mixed",
+        "numa_mode": "single-socket",
+        "io_profile": "nvme+wal",
+        "gpu_allocation": "none"
+      },
+      "metric": {
+        "name": "throughput_ops_per_sec",
+        "higher_is_better": true,
+        "practical_significance_percent": 3.0,
+        "critical": true
+      },
+      "baseline_samples": [104800, 105100, 104900, 105300, 104700, 105000, 104850, 105250, 104950, 105150, 104820, 105050, 104910, 105210, 104760, 105000, 104890, 105200, 104940, 105120, 104860, 105040, 104930, 105240, 104780, 105010, 104900, 105220, 104970, 105140],
+      "treatment_samples": [110200, 110500, 110300, 110700, 110100, 110400, 110250, 110650, 110350, 110550, 110220, 110450, 110310, 110610, 110160, 110420, 110290, 110630, 110370, 110580, 110240, 110470, 110330, 110690, 110180, 110430, 110300, 110620, 110390, 110560],
+      "performance_budget_percent": 2.0,
+      "saturation_samples": [
+        {"load": 16, "throughput": 91000},
+        {"load": 32, "throughput": 103000},
+        {"load": 64, "throughput": 110500},
+        {"load": 96, "throughput": 109800}
+      ],
+      "wave6_guardrails": {
+        "min_treatment_mean": 109000
+      }
+    },
+    {
+      "id": "b6b-soak-throughput-drift",
+      "subsystem": "query",
+      "wave6_track": "B6-B",
+      "hypothesis": {
+        "h0": "Soak run shows no throughput stability improvement.",
+        "h1": "Soak run reduces throughput drift and keeps service stable.",
+        "expected_effect_direction": "improve",
+        "risks": ["memory growth", "background compaction"],
+        "stop_criteria": ["drift > guardrail", "tail latency accumulation"]
+      },
+      "scenario": {
+        "workload_family": "oltp",
+        "dataset_size": "120M rows",
+        "query_mix": "soak-60r-40w",
+        "concurrency_profile": "48 clients",
+        "warmup_runs": 6,
+        "cache_mode": "warm",
+        "numa_mode": "interleaved",
+        "io_profile": "nvme",
+        "gpu_allocation": "none"
+      },
+      "metric": {
+        "name": "throughput_ops_per_sec",
+        "higher_is_better": true,
+        "practical_significance_percent": 2.0,
+        "critical": true
+      },
+      "baseline_samples": [98500, 98600, 98750, 98400, 98800, 98550, 98650, 98700, 98450, 98850, 98580, 98680, 98720, 98420, 98810, 98590, 98640, 98740, 98460, 98820, 98570, 98690, 98710, 98430, 98830, 98560, 98670, 98730, 98440, 98840],
+      "treatment_samples": [99700, 99800, 99950, 99600, 100000, 99750, 99850, 99900, 99650, 100050, 99780, 99880, 99920, 99620, 100010, 99790, 99840, 99940, 99660, 100020, 99770, 99890, 99910, 99630, 100030, 99760, 99870, 99930, 99640, 100040],
+      "performance_budget_percent": 2.0,
+      "time_window_samples": [100200, 100050, 99960, 99910, 99880, 99850, 99820, 99790],
+      "wave6_guardrails": {
+        "max_regression_drift_percent": 3.0
+      }
+    },
+    {
+      "id": "b6c-degradation-fault-recovery",
+      "subsystem": "replication",
+      "wave6_track": "B6-C",
+      "hypothesis": {
+        "h0": "Fault/degradation profile does not improve recovery behavior.",
+        "h1": "Fault/degradation profile keeps tail latency and recovery time within limits.",
+        "expected_effect_direction": "improve",
+        "risks": ["partial replica failures", "backpressure loops"],
+        "stop_criteria": ["recovery > guardrail", "p99 > guardrail"]
+      },
+      "scenario": {
+        "workload_family": "hybrid",
+        "dataset_size": "1.5TB fixture",
+        "query_mix": "degraded-50r-50w",
+        "concurrency_profile": "64 clients",
+        "warmup_runs": 8,
+        "cache_mode": "warm",
+        "numa_mode": "interleaved",
+        "io_profile": "network-latency+backpressure",
+        "gpu_allocation": "none"
+      },
+      "metric": {
+        "name": "p99_latency_ms",
+        "higher_is_better": false,
+        "practical_significance_percent": 3.0,
+        "critical": true
+      },
+      "baseline_samples": [58.0, 57.8, 58.4, 57.6, 58.2, 58.1, 57.9, 58.3, 57.7, 58.5, 58.0, 57.8, 58.4, 57.6, 58.2, 58.1, 57.9, 58.3, 57.7, 58.5, 58.0, 57.8, 58.4, 57.6, 58.2, 58.1, 57.9, 58.3, 57.7, 58.5],
+      "treatment_samples": [53.8, 53.6, 54.1, 53.5, 53.9, 53.7, 53.6, 54.0, 53.4, 54.2, 53.8, 53.6, 54.1, 53.5, 53.9, 53.7, 53.6, 54.0, 53.4, 54.2, 53.8, 53.6, 54.1, 53.5, 53.9, 53.7, 53.6, 54.0, 53.4, 54.2],
+      "performance_budget_percent": 2.0,
+      "recovery_time_seconds_samples": [16.2, 15.8, 16.5, 15.6, 16.1, 16.0, 15.9, 16.3, 15.7, 16.4],
+      "wave6_guardrails": {
+        "max_p99_latency_ms": 55.0,
+        "max_recovery_time_seconds_p95": 17.0
+      }
+    },
+    {
+      "id": "b6d-final-gate-variance-control",
+      "subsystem": "benchmark-governance",
+      "wave6_track": "B6-D",
+      "hypothesis": {
+        "h0": "Final release gate does not improve comparability.",
+        "h1": "Final release gate keeps variance and tails controlled for go/no-go.",
+        "expected_effect_direction": "improve",
+        "risks": ["dataset drift", "environment noise"],
+        "stop_criteria": ["variance envelope exceeded", "critical guardrail breach"]
+      },
+      "scenario": {
+        "workload_family": "rag",
+        "dataset_size": "frozen-fixture-v6",
+        "query_mix": "steady+burst+peak",
+        "concurrency_profile": "24/64/96 phased",
+        "warmup_runs": 10,
+        "cache_mode": "deterministic-warm",
+        "numa_mode": "single-socket",
+        "io_profile": "nvme-pinned",
+        "gpu_allocation": "none"
+      },
+      "metric": {
+        "name": "end_to_end_latency_ms",
+        "higher_is_better": false,
+        "practical_significance_percent": 2.0,
+        "critical": true
+      },
+      "baseline_samples": [31.4, 31.3, 31.5, 31.2, 31.4, 31.3, 31.5, 31.2, 31.4, 31.3, 31.5, 31.2, 31.4, 31.3, 31.5, 31.2, 31.4, 31.3, 31.5, 31.2, 31.4, 31.3, 31.5, 31.2, 31.4, 31.3, 31.5, 31.2, 31.4, 31.3],
+      "treatment_samples": [30.2, 30.1, 30.3, 30.0, 30.2, 30.1, 30.3, 30.0, 30.2, 30.1, 30.3, 30.0, 30.2, 30.1, 30.3, 30.0, 30.2, 30.1, 30.3, 30.0, 30.2, 30.1, 30.3, 30.0, 30.2, 30.1, 30.3, 30.0, 30.2, 30.1],
+      "performance_budget_percent": 1.5,
+      "wave6_guardrails": {
+        "max_p99_latency_ms": 30.5,
+        "max_regression_drift_percent": 2.0
+      }
+    }
+  ]
+}

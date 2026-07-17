@@ -1,0 +1,16 @@
+[
+  {
+    "file": "src/utils/pii_detector.cpp",
+    "line_no": 101,
+    "category": "D_Other",
+    "pattern": "auto old_engines = std::move(engines_);",
+    "code_snippet": "    \n    // Backup current engines\n    auto old_engines = std::move(engines_);\n    engines_.clear();\n    ",
+    "severity": "MEDIUM",
+    "affected_modules": [
+      "utils"
+    ],
+    "user_controlled": false,
+    "state_access": false,
+    "description": "Use-after-move: variable 'engines_' accessed after std::move()"
+  }
+]

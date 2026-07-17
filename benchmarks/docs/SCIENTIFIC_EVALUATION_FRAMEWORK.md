@@ -49,6 +49,11 @@ Für jedes Experiment:
 - Kritische Metriken (`critical=true`) werden gegen `performance_budget_percent` geprüft.
 - Bei Gate-Verletzung wird ein Regression-Ticket-Objekt erzeugt (`regression_tickets`).
 - CI kann `summary.gate_violations > 0` als Fail-Gate nutzen.
+- Für Release-Candidate-Härtung (Wave 6) werden zusätzliche Guardrails über `wave6_guardrails` ausgewertet:
+  - `max_p99_latency_ms`
+  - `min_treatment_mean`
+  - `max_regression_drift_percent`
+  - `max_recovery_time_seconds_p95`
 
 ## 4. Benchmark-Katalog (Initial)
 
@@ -84,3 +89,18 @@ python3 benchmarks/scripts/scientific_evaluation_framework.py \
 ```
 
 Damit ist ein vollständiger End-to-End-Evaluationszyklus CI-fähig.
+
+## 7. Wave 6 (Release Candidate Hardening)
+
+Die Wave-6-Suite liegt in:
+
+- `benchmarks/ci_wave6_release_candidate_experiments.json`
+
+Zusätzliche Wave-6-Ausgaben im Report:
+
+- `results[].wave6_track` (B6-A/B6-B/B6-C/B6-D Zuordnung)
+- `results[].wave6_analysis.drift` (Throughput-/Latency-Drift über Zeitfenster)
+- `results[].wave6_analysis.saturation` (geschätzter Sättigungspunkt)
+- `results[].wave6_analysis.recovery_time_seconds` (p50/p95/p99 Recovery-Verteilung)
+- `results[].governance.wave6_gate_failures` (konkrete Guardrail-Verletzungen)
+- `summary.wave6_gate_violations` und `summary.wave6_tracks`

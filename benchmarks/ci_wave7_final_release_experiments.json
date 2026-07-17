@@ -1,0 +1,137 @@
+{
+  "schema_version": "2.0",
+  "wave": "7",
+  "description": "Wave 7 Final Release Sign-off — CI experiment configuration for scientific_evaluation_framework.py",
+  "effective_date": "2026-07-16",
+
+  "baseline_freeze": {
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "preset": "linux-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04"
+  },
+
+  "global_settings": {
+    "seed": 42,
+    "warmup_iterations": 500,
+    "repetitions": 5,
+    "min_sample_size": 30,
+    "benchmark_out_format": "json",
+    "benchmark_filter_prefix": "W7"
+  },
+
+  "experiment_groups": [
+    {
+      "group": "W7-A-ReleaseSignoff",
+      "description": "Final release-critical workload sign-off benchmarks",
+      "binary": "bench_w7a_release_critical_signoff",
+      "filter": "W7A/.*",
+      "metric": "latency_p99_us",
+      "hypothesis": {
+        "h0": "p99 latency does not exceed prior-release baseline for all sign-off workloads",
+        "h1": "p99 latency exceeds baseline by more than 5% — regression detected",
+        "expected_effect_direction": "neutral",
+        "risks": ["hardware-variance", "CI-runner-shared-load"],
+        "stop_criteria": ["budget_violation", "sample_size_reached"]
+      },
+      "scenario": {
+        "workload_family": "oltp",
+        "dataset_size": "medium-50k",
+        "query_mix": "read-write-scan-batch",
+        "concurrency_profile": "single-threaded",
+        "warmup_runs": 500,
+        "cache_mode": "warm"
+      },
+      "performance_budget_percent": 5.0,
+      "gates": ["GATE-W7-01", "GATE-W7-02", "GATE-W7-03", "GATE-W7-04"]
+    },
+    {
+      "group": "W7-B-EnduranceSoak",
+      "description": "Endurance/Soak & Peak Transition Validation",
+      "binary": "bench_w7b_endurance_soak",
+      "filter": "W7B/.*",
+      "metric": "throughput_ops_per_s",
+      "hypothesis": {
+        "h0": "Throughput does not drift more than 10% across steady-state soak segments",
+        "h1": "Throughput drifts beyond 10% — stability regression detected",
+        "expected_effect_direction": "neutral",
+        "risks": ["compaction-interference", "memory-pressure-accumulation"],
+        "stop_criteria": ["drift_exceeded", "segment_count_reached"]
+      },
+      "scenario": {
+        "workload_family": "oltp",
+        "dataset_size": "large-100k",
+        "query_mix": "steady-burst-peak-recovery",
+        "concurrency_profile": "single-and-multi-threaded",
+        "warmup_runs": 1000,
+        "cache_mode": "warm"
+      },
+      "performance_budget_percent": 10.0,
+      "gates": ["SGATE-W7-03"]
+    },
+    {
+      "group": "W7-C-DegradationFault",
+      "description": "Degradation, Fault & Recovery Performance Characterization",
+      "binary": "bench_w7c_degradation_fault_recovery",
+      "filter": "W7C/.*",
+      "metric": "latency_p99_us",
+      "hypothesis": {
+        "h0": "Latency under fault injection does not exceed 5× healthy baseline",
+        "h1": "Fault-injected latency exceeds 5× baseline — unacceptable degradation",
+        "expected_effect_direction": "neutral",
+        "risks": ["non-deterministic-fault-timing", "OS-scheduler-interference"],
+        "stop_criteria": ["budget_violation", "sample_size_reached"]
+      },
+      "scenario": {
+        "workload_family": "oltp",
+        "dataset_size": "medium-50k",
+        "query_mix": "fault-injected-mixed",
+        "concurrency_profile": "single-and-multi-threaded",
+        "warmup_runs": 500,
+        "cache_mode": "cold-and-warm"
+      },
+      "performance_budget_percent": 400.0,
+      "gates": []
+    },
+    {
+      "group": "W7-D-Guardrails",
+      "description": "Final Guardrails, Variance Zeroing & Operability",
+      "binary": "bench_w7d_guardrails_variance_operability",
+      "filter": "W7D/.*",
+      "metric": "cv_percent",
+      "hypothesis": {
+        "h0": "CV < 5% for reads and < 8% for writes; hard gate counters = 1.0",
+        "h1": "CV exceeds thresholds or gate counters = 0.0 — measurement quality regression",
+        "expected_effect_direction": "neutral",
+        "risks": ["CI-runner-noise", "non-deterministic-OS-scheduling"],
+        "stop_criteria": ["cv_exceeded", "gate_counter_failed"]
+      },
+      "scenario": {
+        "workload_family": "oltp",
+        "dataset_size": "medium-50k",
+        "query_mix": "read-write-mixed",
+        "concurrency_profile": "single-threaded",
+        "warmup_runs": 500,
+        "cache_mode": "warm"
+      },
+      "performance_budget_percent": 5.0,
+      "gates": ["GATE-W7-05", "GATE-W7-06", "SGATE-W7-01", "SGATE-W7-02", "SGATE-W7-05"]
+    }
+  ],
+
+  "ci_commands": {
+    "run_w7a": "bench_w7a_release_critical_signoff --benchmark_out=results/w7a.json --benchmark_out_format=json --benchmark_repetitions=5 --benchmark_filter=W7A/",
+    "run_w7b": "bench_w7b_endurance_soak --benchmark_out=results/w7b.json --benchmark_out_format=json --benchmark_filter=W7B/",
+    "run_w7c": "bench_w7c_degradation_fault_recovery --benchmark_out=results/w7c.json --benchmark_out_format=json --benchmark_repetitions=5 --benchmark_filter=W7C/",
+    "run_w7d": "bench_w7d_guardrails_variance_operability --benchmark_out=results/w7d.json --benchmark_out_format=json --benchmark_repetitions=7 --benchmark_filter=W7D/",
+    "evaluate_gates": "python3 benchmarks/wave7/report_variance_w7.py --input results/w7a.json --manifest benchmarks/wave7/release_gate_manifest_w7.json --output results/wave7_gate_report.json"
+  },
+
+  "artifact_paths": {
+    "results_dir": "benchmarks/results/wave7",
+    "gate_report": "benchmarks/results/wave7/gate_report.json",
+    "regression_tickets": "benchmarks/results/wave7/regression_tickets.json",
+    "variance_report": "benchmarks/results/wave7/variance_report.txt"
+  }
+}

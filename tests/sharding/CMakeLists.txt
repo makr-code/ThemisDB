@@ -244,6 +244,42 @@ elseif(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_sharding_phase5.cpp")
 endif()
 
 # ============================================================================
+# Phase 5 LoRA Artifact Distribution Tests (Issue #5418)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_phase5_lora_distribution.cpp")
+    message(STATUS "Adding Sharding: Phase 5 LoRA Artifact Distribution tests (#5418)")
+    add_executable(test_sharding_phase5_lora_distribution
+        test_sharding_phase5_lora_distribution.cpp)
+    target_include_directories(test_sharding_phase5_lora_distribution PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src)
+    target_link_libraries(test_sharding_phase5_lora_distribution PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_sharding_phase5_lora_distribution PRIVATE
+        THEMIS_TEST_BUILD=1)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(test_sharding_phase5_lora_distribution PRIVATE
+            nlohmann_json::nlohmann_json)
+    endif()
+    set_target_properties(test_sharding_phase5_lora_distribution PROPERTIES
+        CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON)
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingPhase5LoRADistributionTests
+        TARGET  test_sharding_phase5_lora_distribution
+        TIER    unit
+        TIMEOUT 60
+        LABELS  phase5 lora-distribution sharding merkle receipt chain recovery artifact)
+    message(STATUS "  P5-L01..P5-L03: LoRAPackageRef validation")
+    message(STATUS "  P5-L04..P5-L10: InMemoryAdapterDistributionStore CRUD")
+    message(STATUS "  P5-L11..P5-L16: DefaultMerkleProofEngine tree & proof verification")
+    message(STATUS "  P5-L17..P5-L22: Distribution manager distribute/confirm/fail/recover")
+    message(STATUS "  P5-L23..P5-L24: ShardDistributionSnapshot & recovery ordering")
+    message(STATUS "  P5-L25:         End-to-end artifact receipt chain (Send/Confirm/Recover)")
+endif()
+
+# ============================================================================
 # RAID-Paxos and Dual-Consensus Tests
 # ============================================================================
 

@@ -282,9 +282,9 @@ private:
         // Cosine similarity
         double dot = 0.0, mag_a = 0.0, mag_b = 0.0;
         for (size_t i = 0; i < a.size(); ++i) {
-            dot += a[i] * b[i];
-            mag_a += a[i] * a[i];
-            mag_b += b[i] * b[i];
+            dot += static_cast<double>(a[i]) * b[i];
+            mag_a += static_cast<double>(a[i]) * a[i];
+            mag_b += static_cast<double>(b[i]) * b[i];
         }
         
         if (mag_a == 0.0 || mag_b == 0.0) {

@@ -173,8 +173,9 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
         std::vector<nlohmann::json> others;
         int scan_index = -1;
 
-        int i = 0;
-        for (auto& child : *children_it) {
+        const std::size_t child_count = children_it->size();
+        for (std::size_t ci = 0; ci < child_count; ++ci) {
+            auto& child = (*children_it)[ci];
             if (hasType(child, "filter")) {
                 filters.push_back(std::move(child));
             } else {
@@ -183,7 +184,6 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
                 }
                 others.push_back(std::move(child));
             }
-            ++i;
         }
 
         if (filters.empty() || scan_index < 0) return;

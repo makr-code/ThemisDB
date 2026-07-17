@@ -110,6 +110,7 @@ include_directories(
     ${THEMIS_ROOT_DIR}/src
     ${THEMIS_ROOT_DIR}/benchmarks
     ${GTest_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}  # Allows test utilities (e.g. utils/test_stability.h) to be included
 )
 
 file(GLOB_RECURSE ALL_TEST_SOURCES
@@ -23196,6 +23197,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_temporal_bitempor
     target_include_directories(test_cross_module_temporal_bitemporal_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests  # Provides utils/test_stability.h and other test utilities
     )
 
     target_link_libraries(test_cross_module_temporal_bitemporal_focused PRIVATE

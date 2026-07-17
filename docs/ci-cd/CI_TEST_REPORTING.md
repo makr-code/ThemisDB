@@ -27,6 +27,9 @@ Test reporting is implemented in the following workflows:
 - `feature-ci.yml` - Feature/bugfix branch CI
 - `main-ci.yml` - Main branch verification (with critical issue creation)
 
+#### PR Gate Workflows (Release Readiness)
+- `09-pr-gates_release-critical-tests.yml` - verpflichtender Gate-Lauf für release-kritische Integrationsflüsse mit `release_critical` Label und Flake-Check (`--repeat until-fail:5`)
+
 #### SDK Test Workflows
 - `java-sdk-test.yml` - Java SDK tests (Maven Surefire reports)
 - `python-sdk-test.yml` - Python SDK tests (pytest JUnit XML)

@@ -96,6 +96,19 @@ struct GGUFSTConfig {
 /// GGUF-ST Section Header
 struct SectionHeader {
     virtual ~SectionHeader() = default;
+
+    /// @brief Move constructor — transfers magic, version, data_size, flags, and reserved fields.
+    /// @note Move semantics: POD fields copied from source; source left in zero-initialised state.
+    SectionHeader(SectionHeader&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: all POD fields transferred; source left in zero-initialised state.
+    SectionHeader& operator=(SectionHeader&&) noexcept = default;
+
+    SectionHeader(const SectionHeader&) = default;
+    SectionHeader& operator=(const SectionHeader&) = default;
+    SectionHeader() = default;
+
     char magic[4];          // Section identifier
     uint32_t version = 0;       // Section format version
     uint64_t data_size = 0;     // Size of data following header
@@ -108,6 +121,18 @@ struct SectionHeader {
 class GGUFSTAdapter {
 public:
     virtual ~GGUFSTAdapter() = default;
+
+    /// @brief Move constructor — transfers storage shared_ptr and config; source config reset to defaults.
+    /// @note Move semantics: std::shared_ptr move transfers co-ownership; GGUFSTConfig is trivially copyable.
+    GGUFSTAdapter(GGUFSTAdapter&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: storage_ and config_ replaced; old storage_ ref-count decremented.
+    GGUFSTAdapter& operator=(GGUFSTAdapter&&) noexcept = default;
+
+    GGUFSTAdapter(const GGUFSTAdapter&) = delete;
+    GGUFSTAdapter& operator=(const GGUFSTAdapter&) = delete;
+
     explicit GGUFSTAdapter(
         std::shared_ptr<storage::BlobStorageManager> storage,
         const GGUFSTConfig& config = {}

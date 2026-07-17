@@ -378,10 +378,15 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Construct with optional configuration.
+     * @brief Construct with default configuration.
+     */
+    AnnFrontdoor();
+
+    /**
+     * @brief Construct with explicit configuration.
      * @param config  Routing thresholds and defaults.
      */
-    explicit AnnFrontdoor(Config config = {});
+    explicit AnnFrontdoor(Config config);
     ~AnnFrontdoor();
 
     // Non-copyable; move is allowed.

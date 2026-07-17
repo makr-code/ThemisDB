@@ -30,6 +30,14 @@
 
 namespace themis::rag {
 
+// ============================================================================
+// Sprint 8 Phase 1: Use-After-Move Safety (GAP C-1-C-4)
+// ============================================================================
+// Model objects and inference engines use shared_ptr for shared ownership
+// through pipeline stages. This ensures models remain valid even when
+// moved between asynchronous pipeline stages.
+// Pattern: shared_ptr<Model> for pipeline stages; prevents use-after-move.
+
 // Static member to hold the inference engine
 static std::shared_ptr<llm::InferenceEngineEnhanced> g_inference_engine = nullptr;
 static std::mutex g_engine_mutex;

@@ -184,6 +184,117 @@ MultiLoRAManager::~MultiLoRAManager() {
     spdlog::info("MultiLoRAManager destroyed, all LoRAs unloaded");
 }
 
+/**
+ * @brief Move constructor implementation
+ * 
+ * Transfers ownership of internal resources (eviction thread, LoRA slots, GPU state)
+ * from the source object to this object. The source object is left in a valid empty state.
+ * 
+ * @cwe CWE-457: Ensures moved-from state is valid
+ */
+MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
+    : config_(std::move(other.config_)),
+      loras_(std::move(other.loras_)),
+      total_vram_bytes_(other.total_vram_bytes_),
+      eviction_thread_(std::move(other.eviction_thread_)),
+      eviction_thread_running_(other.eviction_thread_running_.load()),
+      eviction_thread_done_(other.eviction_thread_done_.load()),
+      gpu_vram_usage_(std::move(other.gpu_vram_usage_)),
+      next_round_robin_gpu_(other.next_round_robin_gpu_),
+      lora_tenants_(std::move(other.lora_tenants_)),
+      audit_log_(std::move(other.audit_log_)),
+      gpu_health_status_(std::move(other.gpu_health_status_)),
+      gpu_last_health_check_(std::move(other.gpu_last_health_check_)),
+      fusion_cache_(std::move(other.fusion_cache_)),
+      fusion_configs_(std::move(other.fusion_configs_)),
+      fusion_schedules_(std::move(other.fusion_schedules_)),
+      fusion_metrics_(std::move(other.fusion_metrics_)),
+      total_fusions_(other.total_fusions_),
+      fusion_cache_hits_(other.fusion_cache_hits_),
+      fusion_cache_misses_(other.fusion_cache_misses_),
+      fusion_invalidations_(other.fusion_invalidations_),
+      apply_adapter_fn_(std::move(other.apply_adapter_fn_)),
+      remove_adapter_fn_(std::move(other.remove_adapter_fn_)) {
+    
+    // Reset source object to valid empty state
+    other.total_vram_bytes_ = 0;
+    other.next_round_robin_gpu_ = 0;
+    other.eviction_thread_running_.store(false);
+    other.eviction_thread_done_.store(true);
+    other.total_fusions_ = 0;
+    other.fusion_cache_hits_ = 0;
+    other.fusion_cache_misses_ = 0;
+    other.fusion_invalidations_ = 0;
+}
+
+/**
+ * @brief Move assignment operator implementation
+ * 
+ * Transfers ownership of internal resources from the source object to this object.
+ * Cleans up existing resources before transfer. Safe for self-assignment.
+ * 
+ * @param other Source object to move from
+ * @return Reference to this object
+ * @cwe CWE-415: Proper cleanup before reassignment prevents double-free
+ * @cwe CWE-672: Source left in valid state prevents use-after-free
+ */
+MultiLoRAManager& MultiLoRAManager::operator=(MultiLoRAManager&& other) noexcept {
+    if (this != &other) {
+        // Clean up existing resources first
+        stopEvictionThread();
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            
+            // Free all existing LoRAs
+            for (auto& [id, lora] : loras_) {
+                if (lora && lora->adapter_handle) {
+                    llama_lora_adapter_free(lora->adapter_handle);
+                    lora->adapter_handle = nullptr;
+                }
+            }
+            loras_.clear();
+        }
+        
+        // Transfer ownership from other
+        config_ = std::move(other.config_);
+        loras_ = std::move(other.loras_);
+        total_vram_bytes_ = other.total_vram_bytes_;
+        eviction_thread_ = std::move(other.eviction_thread_);
+        eviction_thread_running_.store(other.eviction_thread_running_.load());
+        eviction_thread_done_.store(other.eviction_thread_done_.load());
+        gpu_vram_usage_ = std::move(other.gpu_vram_usage_);
+        next_round_robin_gpu_ = other.next_round_robin_gpu_;
+        lora_tenants_ = std::move(other.lora_tenants_);
+        audit_log_ = std::move(other.audit_log_);
+        gpu_health_status_ = std::move(other.gpu_health_status_);
+        gpu_last_health_check_ = std::move(other.gpu_last_health_check_);
+        fusion_cache_ = std::move(other.fusion_cache_);
+        fusion_configs_ = std::move(other.fusion_configs_);
+        fusion_schedules_ = std::move(other.fusion_schedules_);
+        fusion_metrics_ = std::move(other.fusion_metrics_);
+        total_fusions_ = other.total_fusions_;
+        fusion_cache_hits_ = other.fusion_cache_hits_;
+        fusion_cache_misses_ = other.fusion_cache_misses_;
+        fusion_invalidations_ = other.fusion_invalidations_;
+        apply_adapter_fn_ = std::move(other.apply_adapter_fn_);
+        remove_adapter_fn_ = std::move(other.remove_adapter_fn_);
+        
+        // Reset source object to valid empty state
+        other.total_vram_bytes_ = 0;
+        other.next_round_robin_gpu_ = 0;
+        other.eviction_thread_running_.store(false);
+        other.eviction_thread_done_.store(true);
+        other.total_fusions_ = 0;
+        other.fusion_cache_hits_ = 0;
+        other.fusion_cache_misses_ = 0;
+        other.fusion_invalidations_ = 0;
+        
+        spdlog::info("MultiLoRAManager move-assigned, resources transferred");
+    }
+    
+    return *this;
+}
+
 void MultiLoRAManager::setQuantizationConfig(const LoRAQuantizationConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.quantization = config;

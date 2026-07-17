@@ -183,7 +183,6 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
                 std::transform(cur.begin(), cur.end(), cur.begin(),
                                [](unsigned char ch) { return std::tolower(ch); });
                 tokens.push_back(std::move(cur));
-                cur.clear();
             }
         } else {
             cur.push_back(static_cast<char>(c));
