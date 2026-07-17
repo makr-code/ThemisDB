@@ -20,6 +20,9 @@ OPERATORS = {
 }
 
 
+_SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
+
+
 def load_json(path: pathlib.Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -39,7 +42,17 @@ def evaluate_gate(gate: dict[str, Any], metrics_by_profile: dict[str, dict[str, 
     profile_id = gate["profile_id"]
     metric_name = gate["metric"]
     operator_symbol = gate["operator"]
-    comparator = OPERATORS[operator_symbol]
+
+    comparator = OPERATORS.get(operator_symbol)
+    if comparator is None:
+        return {
+            "gate": gate["id"],
+            "profile_id": profile_id,
+            "metric": metric_name,
+            "status": "invalid_operator",
+            "message": f"unknown operator '{operator_symbol}' in gate '{gate['id']}'; "
+                       f"supported: {sorted(OPERATORS)}",
+        }
 
     profile_metrics = metrics_by_profile.get(profile_id)
     if profile_metrics is None:
@@ -102,15 +115,15 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--manifest",
-        default="release_gate_manifest_epic3.json",
+        default=_SCRIPT_DIR / "release_gate_manifest_epic3.json",
         type=pathlib.Path,
-        help="Path to the EPIC 3 gate manifest JSON.",
+        help="Path to the EPIC 3 gate manifest JSON (default: alongside this script).",
     )
     parser.add_argument(
         "--profiles",
-        default="phase5_workload_profiles.json",
+        default=_SCRIPT_DIR / "phase5_workload_profiles.json",
         type=pathlib.Path,
-        help="Path to the EPIC 3 workload profile JSON.",
+        help="Path to the EPIC 3 workload profile JSON (default: alongside this script).",
     )
     parser.add_argument(
         "--input",

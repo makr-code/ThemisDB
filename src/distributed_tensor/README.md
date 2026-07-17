@@ -1,10 +1,6 @@
 # Distributed Tensor Module Documentation
 
-<<<<<<< HEAD
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-07-17 -->
-=======
-<!-- Status: Phase 3 Complete | EPIC 5428 Runtime Safety Gates | validated: 2026-07-13 -->
->>>>>>> origin/develop
+<!-- Status: Phase 3 Complete | EPIC 5428 Runtime Safety Gates | validated: 2026-07-17 -->
 
 ## Purpose
 
@@ -28,13 +24,6 @@ active community-build integration, and a focused Phase 3 regression suite.
 
 ## Current Delivery State
 
-<<<<<<< HEAD
-- Wave A complete: architecture and sub-issue planning docs available in `docs/EPIC3_*.md`.
-- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
-- Wave C partial: distributed correctness tests remain pending for
-  `tests/epic3_distributed_tensor/`; Phase 5 benchmark governance assets now exist in
-  `benchmarks/epic3_distributed_tensor/`, but measured runtime evidence is still pending.
-=======
 - ✅ Phase 1: Architecture and planning documented
 - ✅ **Phase 2: Core implementation COMPLETE**
   - All 7 components implemented with production-ready API contracts
@@ -50,22 +39,14 @@ active community-build integration, and a focused Phase 3 regression suite.
 - 🔄 Phase 5: Performance & hardening (Target: Q4 2026)
 - 🔄 Phase 6: Acceptance documentation (Target: Q1 2027)
 - 🔄 Phase 7: Production integration (Target: Q1 2027)
->>>>>>> origin/develop
 
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: artifact and infrastructure contracts documented
-<<<<<<< HEAD
-- [ ] Phase 2: file-level skeleton surfaces created (deferred to implementation PR)
-- [ ] Phase 3: failure handling for placement/integrity/recovery paths
-- [ ] Phase 4: distributed contract tests and fault-injection scenarios
-- [~] Phase 5: scale/performance hardening scaffold, deterministic gates, and runbooks
-=======
 - [x] **Phase 2: Core implementation with all 7 components**
 - [x] Phase 3: failure handling for placement/integrity/recovery paths
 - [~] Phase 4: distributed contract tests and fault-injection scenarios
-- [ ] Phase 5: scale/performance hardening for multi-node environments
->>>>>>> origin/develop
+- [~] Phase 5: scale/performance hardening scaffold, deterministic gates, and runbooks
 - [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
 - [ ] Phase 7: integration with production retrieval/evaluation pipelines
 
@@ -120,25 +101,12 @@ Out of scope (Phases 3-7):
 
 ## Build Integration
 
-<<<<<<< HEAD
-No standalone installation step is required while the module remains in scaffold mode.
-Build targets are intentionally held behind phase-gate approval.
-
-## Usage
-
-Use this documentation to:
-- align EPIC 3 sub-issue planning with concrete file ownership
-- track wave/phase readiness for distributed tensor work
-- prepare test and benchmark rollout without enabling production targets
-- track Phase 5 gate definitions before any Phase 6 acceptance claims are published
-=======
 - Static library: `themis_distributed_tensor`
 - Community build graph integration via `cmake/CMakeLists.txt`
 - Focused CTest target: `test_phase3_failure_semantics_epic3_distributed_tensor_FocusedTests`
 - C++17 standard compliance
 - Full Doxygen documentation included
 - RAII resource management and move semantics throughout
->>>>>>> origin/develop
 
 ## References
 

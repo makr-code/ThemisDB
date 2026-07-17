@@ -1,10 +1,6 @@
 # EPIC 3 distributed tensor tests
 
-<<<<<<< HEAD
-<!-- Status: current | planning scaffold | validated: 2026-07-17 -->
-=======
 <!-- Status: current | phase-3 focused coverage | validated: 2026-07-13 -->
->>>>>>> origin/develop
 
 ## Implemented test files
 

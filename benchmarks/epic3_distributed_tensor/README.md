@@ -1,17 +1,6 @@
 # EPIC 3 distributed tensor benchmarks
 
-<<<<<<< HEAD
-<!-- Status: current | phase-5 scaffold | validated: 2026-07-17 -->
-
-## Scope
-
-Phase 5 defines deterministic benchmark governance for `src/distributed_tensor`
-without claiming measured production behavior before the runtime implementation
-exists. The files in this directory reserve workload identities, hard gates, and
-triage rules for the later execution phase.
-=======
 <!-- Status: current | phase-5 benchmark suite implemented | validated: 2026-07-13 -->
->>>>>>> origin/develop
 
 ## Implemented benchmark files
 
@@ -30,30 +19,11 @@ triage rules for the later execution phase.
 
 ## Measurement goals
 
-<<<<<<< HEAD
-- Capture planner latency, placement throughput, integrity verification cost, and recovery budgets
-- Keep topology, dataset, and degraded-node assumptions explicit for every workload profile
-- Use canonical seed `42` for reproducible artifact layouts and retry schedules
-- Carry variance and gate output forward into Phase 6 acceptance documentation
-
-## Hardening scenarios reserved in this scaffold
-
-- degraded-mode retrieval with one unavailable node
-- retry/recovery convergence after shard rebuild initiation
-- integrity verification under sustained manifest churn
-- infrastructure control-plane stability under placement pressure
-
-## Evidence status
-
-- Gate definitions: present
-- Deterministic workload profiles: present
-- Runtime measurements: pending the distributed tensor implementation PR
-- Phase 6 acceptance promotion: blocked until measured evidence is attached per gate
-=======
 - Capture placement, integrity, recovery, and retrieval overhead for issue #5428
-- Keep topology size, shard count, and degraded-mode assumptions explicit
+- Keep topology size, shard count, and degraded-node assumptions explicit for every workload profile
+- Use canonical seed `42` for reproducible artifact layouts and retry schedules
 - Preserve reproducible workload classes for cross-epic planner comparisons
->>>>>>> origin/develop
+- Carry variance and gate output forward into Phase 6 acceptance documentation
 
 ## Reference
 
@@ -63,19 +33,6 @@ triage rules for the later execution phase.
 
 ## Installation
 
-<<<<<<< HEAD
-No standalone installation step is required for the metadata scaffold.
-Executable benchmark targets remain intentionally disabled until the runtime
-module sources are available.
-
-## Usage
-
-Use this directory to:
-
-- lock workload names and benchmark ownership before runtime code lands
-- review measurable gate thresholds without asserting unmeasured claims
-- prepare Phase 6 evidence collection and variance reporting inputs
-=======
 This directory now contributes focused Google Benchmark targets when
 `THEMIS_BUILD_BENCHMARKS=ON` and benchmark dependencies are available.
 
@@ -83,4 +40,4 @@ This directory now contributes focused Google Benchmark targets when
 
 Use this README together with the local `CMakeLists.txt` and EPIC 3 docs to
 extend measured baselines without introducing scaffold-only code paths.
->>>>>>> origin/develop
+

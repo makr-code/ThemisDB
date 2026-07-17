@@ -1,30 +1,21 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<<<<<<< HEAD
 <!-- Status: current | validated: 2026-07-17 -->
-=======
-<!-- Status: current | validated: 2026-07-13 -->
->>>>>>> origin/develop
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
 ## Current Status
 
-<<<<<<< HEAD
-EPIC 3 distributed tensor contract ownership is documented for sub-issues 3.1–3.7.
-Header and source files are deferred to a dedicated implementation PR.
-Runtime distributed behavior, fault-path tests, and measured benchmark evidence remain pending.
-Phase 5 benchmark governance assets now exist, including deterministic workload profiles,
-hard-gate definitions, and triage/runbook documentation.
-=======
 EPIC 3 distributed tensor contract ownership and core implementation are complete
 for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
 implemented and verified. Phase 4 broadened contract and fault-path coverage has
 been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
 sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
-planner, infrastructure). Benchmark evidence and final acceptance documentation
-remain pending.
+planner, infrastructure). Phase 5 benchmark governance assets (workload profiles,
+gate manifest, variance script, runbook, triage docs) are present in
+`benchmarks/epic3_distributed_tensor/`. Benchmark runtime evidence and final
+acceptance documentation remain pending.
 
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
@@ -35,21 +26,16 @@ acceleration) targets 2027+.
 **Module readiness**: implementation and Phase 3/4 validation are complete for the EPIC 3
 core artifact path; benchmark evidence, acceptance documentation, and the follow-on tensor-update
 track remain gated.
->>>>>>> origin/develop
 
 ## In Progress
 
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
-<<<<<<< HEAD
-- [x] phase-gate acceptance criteria definition for distributed benchmark readiness (Target: Q3 2026)
-- [~] phase-5 benchmark metadata scaffold and hardening gates in `benchmarks/epic3_distributed_tensor/` (Target: Q3 2026)
-=======
 - [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
 - [~] Phase 5: Adapter-Distribution & Sharding-Kopplung — LoRA artifact distribution interfaces,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, and recovery ordering (Issue #5418, Target: Q3 2026)
 - [~] tensor artifact manifest schema: ArtifactManifest + ManifestStore wiring (Target: Q3 2026)
 - [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
->>>>>>> origin/develop
+- [x] phase-5 benchmark metadata scaffold and hardening gates in `benchmarks/epic3_distributed_tensor/` (Target: Q3 2026)
 
 ## Planned Features
 
@@ -136,17 +122,10 @@ track remain gated.
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-<<<<<<< HEAD
-- [~] deterministic workload profiles, release-gate manifest, and triage/runbook assets implemented in `benchmarks/epic3_distributed_tensor/`
-- [ ] runtime benchmark source files and measured baselines captured against the distributed tensor implementation
-
-### Phase 6: Documentation and Acceptance
-- [x] core distributed tensor docs aligned to source-verifiable scaffold state
-- [ ] acceptance docs tied to measured runtime behavior and recorded gate results
-=======
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [x] deterministic workload profiles, release-gate manifest, and triage/runbook assets implemented in `benchmarks/epic3_distributed_tensor/`
+- [ ] runtime benchmark source files and measured baselines captured against the distributed tensor implementation
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
@@ -157,7 +136,6 @@ track remain gated.
 - [x] core distributed tensor docs aligned to source-verifiable implementation state
 - [x] tensor-update rollout track documented in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468)
 - [ ] acceptance docs tied to measured runtime behavior
->>>>>>> origin/develop
 
 ### Phase 7: Production Integration
 - [ ] default pipeline integration enabled after gates are met
@@ -169,11 +147,7 @@ track remain gated.
 
 - [x] contract ownership and scope boundaries documented
 - [x] security and performance expectations documented for scaffold phase
-<<<<<<< HEAD
 - [x] phase-5 benchmark governance and deterministic gate definitions documented
-- [ ] runtime resilience hardening completed
-- [ ] test and benchmark gates executed against runtime implementation and passing
-=======
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
 - [x] runtime resilience hardening completed for Phase 3 safety gates
 - [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
@@ -196,4 +170,3 @@ track remain gated.
 
 - No roadmap-level breaking change planned. Phase transitions are additive and gated.
 - Any change to the ArtifactManifest schema must be backward-compatible or versioned.
->>>>>>> origin/develop

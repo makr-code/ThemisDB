@@ -1,10 +1,6 @@
 # Audit Report - Distributed Tensor Module
 
-<<<<<<< HEAD
 <!-- Status: current | validated: 2026-07-17 -->
-=======
-<!-- Status: current | validated: 2026-07-13 -->
->>>>>>> origin/develop
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -25,14 +21,11 @@
 - `src/distributed_tensor/*.cc`
 - `src/distributed_tensor/include/README.md`
 - `src/distributed_tensor/CMakeLists.txt`
-<<<<<<< HEAD
+- `tests/epic3_distributed_tensor/CMakeLists.txt`
+- `tests/epic3_distributed_tensor/test_phase3_failure_semantics.cpp`
 - `benchmarks/epic3_distributed_tensor/README.md`
 - `benchmarks/epic3_distributed_tensor/phase5_workload_profiles.json`
 - `benchmarks/epic3_distributed_tensor/release_gate_manifest_epic3.json`
-=======
-- `tests/epic3_distributed_tensor/CMakeLists.txt`
-- `tests/epic3_distributed_tensor/test_phase3_failure_semantics.cpp`
->>>>>>> origin/develop
 
 > Phase 3 delivery verified that the module now builds in the community preset
 > and that the focused EPIC 3 regression suite passes in CTest.
@@ -48,14 +41,9 @@
 
 2. [DT-AUD-02] Dedicated distributed benchmarks are pending.
 - Severity: medium
-<<<<<<< HEAD
 - Evidence: Phase 5 benchmark governance metadata now exists, but runtime benchmark sources,
   result bundles, and the dedicated test suite are still missing.
 - Action: land runtime benchmark/test sources and record gate outcomes.
-=======
-- Evidence: roadmap still tracks `benchmarks/epic3_distributed_tensor/` as Phase 5 work.
-- Action: deliver benchmark suites and enforce regression gates.
->>>>>>> origin/develop
 
 ### Closed
 

@@ -101,13 +101,15 @@ jobs:
         # Exit code is captured but the step does not abort immediately so the
         # SARIF and artifact upload always complete.
         run: |
-          set +e  # do not abort on non-zero exit
+          set -o pipefail
+          set +e  # do not abort on non-zero exit; capture exit code manually
           find src/ include/ -type f \( -name '*.cpp' -o -name '*.cc' \) \
             | sort \
             | xargs -P "$(nproc)" -I{} \
                 clang-tidy -p build-community-release --quiet {} 2>&1 \
             | tee clang-tidy-output.txt
-          EXIT_CODE=$?
+          XARGS_EXIT=${PIPESTATUS[1]}
+          EXIT_CODE=${XARGS_EXIT}
 
           # Determine if actionable findings were emitted
           if grep -qE '^\S.*:[0-9]+:[0-9]+: (warning|error):' clang-tidy-output.txt; then
@@ -167,15 +169,17 @@ jobs:
 
       - name: Run clang-format check
         id: fmt
-        # --dry-run: do not modify files; --Werror: exit non-zero on violation.
+        # --dry-run: do not modify files; --Werror: exit non-zero on any violation.
         # Captures violations; does not abort so artifact upload always runs.
         run: |
-          set +e
+          set -o pipefail
+          set +e  # do not abort on non-zero exit; capture exit code manually
           find src/ include/ -type f \( -name '*.cpp' -o -name '*.cc' -o -name '*.h' -o -name '*.hpp' \) \
             | sort \
-            | xargs clang-format --dry-run 2>&1 \
+            | xargs clang-format --dry-run --Werror 2>&1 \
             | tee clang-format-report.txt
-          EXIT_CODE=$?
+          XARGS_EXIT=${PIPESTATUS[1]}
+          EXIT_CODE=${XARGS_EXIT}
 
           if [ -s clang-format-report.txt ]; then
             echo "has_violations=true" >> "$GITHUB_OUTPUT"

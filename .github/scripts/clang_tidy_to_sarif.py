@@ -2,12 +2,14 @@
 """Convert clang-tidy text output to SARIF 2.1.0 format.
 
 Usage:
-    python3 clang_tidy_to_sarif.py <clang-tidy-output.txt> <output.sarif> [--repo-root <path>]
+    python3 clang_tidy_to_sarif.py <clang-tidy-output.txt> <output.sarif> \
+        [--repo-root <path>] [--tool-version <X>]
 
 Parses diagnostic lines of the form:
     /abs/path/to/file.cpp:LINE:COL: LEVEL: MESSAGE [CHECK-NAME]
 
 and emits a SARIF v2.1.0 document suitable for upload to GitHub Code Scanning.
+Note- and remark-level diagnostics are filtered to reduce Code Scanning noise.
 """
 from __future__ import annotations
 
@@ -57,8 +59,8 @@ def parse_clang_tidy_output(text: str, repo_root: str) -> list[dict]:
         if not m:
             continue
         level_raw = m.group("level")
-        if level_raw == "note":
-            # Notes are usually related to a previous diagnostic; skip as
+        if level_raw in ("note", "remark"):
+            # Notes and remarks are usually related to a previous diagnostic; skip as
             # top-level results to avoid noise in the Code Scanning view.
             continue
         rule_id = m.group("rule") or "clang-tidy"

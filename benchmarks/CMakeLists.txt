@@ -194,10 +194,6 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/CMakeLists.txt")
     add_subdirectory(transaction)
 endif()
-<<<<<<< HEAD
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
-    add_subdirectory(epic3_distributed_tensor)
-=======
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wave8/CMakeLists.txt")
     add_subdirectory(wave8)
 endif()
@@ -210,7 +206,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wave4/CMakeLists.txt")
 endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wave2/CMakeLists.txt")
     add_subdirectory(wave2)
->>>>>>> origin/develop
 endif()
 
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
