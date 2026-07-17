@@ -211,7 +211,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_module.cpp" AND NOT TARGET benc
     message(STATUS "Adding GPU Module benchmarks")
 
     add_executable(bench_gpu_module
-        bench_gpu_module.cpp
+        gpu/bench_gpu_module.cpp
     )
 
     target_link_libraries(bench_gpu_module PRIVATE
@@ -513,7 +513,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_training_cycle.cpp" AND (THEMIS
     message(STATUS "Adding GPU Training Cycle benchmarks")
     
     add_executable(bench_gpu_training_cycle
-        bench_gpu_training_cycle.cpp
+        gpu/bench_gpu_training_cycle.cpp
     )
     
     target_link_libraries(bench_gpu_training_cycle PRIVATE
@@ -740,7 +740,7 @@ endif()
 
 # ============================================================================
 # GPU Backends Benchmark (Issue #5 — M05 GPU matrix)
-# bench_gpu_backends.cpp uses per-backend #ifdef guards (THEMIS_ENABLE_CUDA,
+# gpu/bench_gpu_backends.cpp uses per-backend #ifdef guards (THEMIS_ENABLE_CUDA,
 # THEMIS_ENABLE_HIP, THEMIS_ENABLE_VULKAN) — always builds; GPU sections
 # activate at compile time when the matching flag is ON.
 # ============================================================================
@@ -749,7 +749,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_backends.cpp")
     message(STATUS "Adding GPU Backends benchmarks (CPU always + GPU per-backend flags)")
 
     add_executable(bench_gpu_backends
-        bench_gpu_backends.cpp
+        gpu/bench_gpu_backends.cpp
     )
 
     target_link_libraries(bench_gpu_backends PRIVATE
@@ -940,7 +940,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
     message(STATUS "Adding RAG Ethics benchmarks")
     
     add_executable(bench_rag_ethics
-        bench_rag_ethics.cpp
+        rag/bench_rag_ethics.cpp
     )
     
     target_link_libraries(bench_rag_ethics PRIVATE
@@ -1053,7 +1053,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_hybrid_retriever.cpp")
     message(STATUS "Adding RAG Hybrid Retriever benchmarks")
 
     add_executable(bench_rag_hybrid_retriever
-        bench_rag_hybrid_retriever.cpp
+        rag/bench_rag_hybrid_retriever.cpp
     )
 
     target_link_libraries(bench_rag_hybrid_retriever PRIVATE
@@ -1094,7 +1094,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
     message(STATUS "Adding RAG Evaluation benchmarks")
 
     add_executable(bench_rag_evaluation
-        bench_rag_evaluation.cpp
+        rag/bench_rag_evaluation.cpp
     )
 
     target_link_libraries(bench_rag_evaluation PRIVATE
@@ -1227,7 +1227,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_traversal.cpp")
     message(STATUS "Adding Graph Traversal benchmarks")
 
     add_executable(bench_graph_traversal
-        bench_graph_traversal.cpp
+        graph/bench_graph_traversal.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
     )
 
@@ -1262,7 +1262,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_fingerprint_graph.cpp")
     message(STATUS "Adding TensorFingerprintGraph benchmarks")
 
     add_executable(bench_tensor_fingerprint_graph
-        bench_tensor_fingerprint_graph.cpp
+        tensor/bench_tensor_fingerprint_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/tensor_fingerprint_graph.cpp
     )
 
@@ -1297,7 +1297,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_query_optimizer.cpp")
     message(STATUS "Adding Graph Query Optimizer benchmarks")
 
     add_executable(bench_graph_query_optimizer
-        bench_graph_query_optimizer.cpp
+        graph/bench_graph_query_optimizer.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
@@ -1336,7 +1336,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_fingerprint.cpp")
     message(STATUS "Adding Tensor Fingerprint Graph benchmarks (Phase 8.5)")
 
     add_executable(bench_tensor_fingerprint
-        bench_tensor_fingerprint.cpp
+        tensor/bench_tensor_fingerprint.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/tensor_fingerprint_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/graph/tensor_deduplication_manager.cpp
     )
@@ -1372,7 +1372,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
     message(STATUS "Adding Storage Performance benchmarks")
     
     add_executable(bench_storage_performance
-        bench_storage_performance.cpp
+        storage/bench_storage_performance.cpp
     )
     
     target_link_libraries(bench_storage_performance PRIVATE
@@ -1606,7 +1606,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     message(STATUS "Adding LLM Inference Performance benchmarks")
     
     add_executable(bench_llm_inference_performance
-        bench_llm_inference_performance.cpp
+        llm/bench_llm_inference_performance.cpp
     )
     
     target_link_libraries(bench_llm_inference_performance PRIVATE
@@ -1742,7 +1742,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vram_allo
     message(STATUS "Adding GPU VRAM Allocation benchmarks")
     
     add_executable(bench_gpu_vram_allocation
-        bench_gpu_vram_allocation.cpp
+        gpu/bench_gpu_vram_allocation.cpp
     )
     
     target_link_libraries(bench_gpu_vram_allocation PRIVATE
@@ -1919,7 +1919,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
     message(STATUS "Adding governance policy evaluation latency benchmarks")
 
     add_executable(bench_governance_policy_latency
-        bench_governance_policy_latency.cpp
+        governance/bench_governance_policy_latency.cpp
     )
 
     target_link_libraries(bench_governance_policy_latency PRIVATE
@@ -1994,7 +1994,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
     message(STATUS "Adding security module benchmarks")
 
     add_executable(bench_security
-        bench_security.cpp
+        security/bench_security.cpp
     )
 
     target_include_directories(bench_security PRIVATE
@@ -2088,7 +2088,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
     message(STATUS "Adding ConfigPathResolver cache hit rate and resolution latency benchmarks")
 
     add_executable(bench_config_path_resolver
-        bench_config_path_resolver.cpp
+        config/bench_config_path_resolver.cpp
         ../src/config/config_path_resolver.cpp
     )
 
@@ -2125,7 +2125,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_migration_scanner.cpp")
     message(STATUS "Adding ConfigMigrationScanner throughput benchmarks")
 
     add_executable(bench_config_migration_scanner
-        bench_config_migration_scanner.cpp
+        config/bench_config_migration_scanner.cpp
     )
 
     target_link_libraries(bench_config_migration_scanner PRIVATE
@@ -2161,7 +2161,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_acceleration_dispatch.cpp")
     message(STATUS "Adding Acceleration Dispatch benchmarks")
 
     add_executable(bench_acceleration_dispatch
-        bench_acceleration_dispatch.cpp
+        acceleration/bench_acceleration_dispatch.cpp
     )
 
     target_link_libraries(bench_acceleration_dispatch PRIVATE
@@ -2194,7 +2194,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_pipeline.cpp")
     message(STATUS "Adding CDC Pipeline benchmarks")
 
     add_executable(bench_cdc_pipeline
-        bench_cdc_pipeline.cpp
+        cdc/bench_cdc_pipeline.cpp
     )
 
     target_link_libraries(bench_cdc_pipeline PRIVATE
@@ -2232,7 +2232,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_temporal_queries.cpp")
     message(STATUS "Adding Temporal Queries benchmarks")
 
     add_executable(bench_temporal_queries
-        bench_temporal_queries.cpp
+        temporal/bench_temporal_queries.cpp
     )
 
     target_link_libraries(bench_temporal_queries PRIVATE
@@ -2342,7 +2342,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_replication_throughput.cpp")
     message(STATUS "Adding Replication Throughput benchmarks")
 
     add_executable(bench_replication_throughput
-        bench_replication_throughput.cpp
+        replication/bench_replication_throughput.cpp
     )
 
     target_link_libraries(bench_replication_throughput PRIVATE
@@ -2459,7 +2459,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_observability_goals.cpp")
     message(STATUS "Adding Observability: 1:1 goal-coverage benchmarks (OBS-1, OBS-2, OBS-3)")
 
     add_executable(bench_observability_goals
-        bench_observability_goals.cpp
+        observability/bench_observability_goals.cpp
     )
 
     target_include_directories(bench_observability_goals PRIVATE
@@ -2527,7 +2527,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_index_rebuild.cpp")
     message(STATUS "Adding Index Rebuild benchmarks (Issue #1884)")
 
     add_executable(bench_index_rebuild
-        bench_index_rebuild.cpp
+        index/bench_index_rebuild.cpp
     )
 
     target_link_libraries(bench_index_rebuild PRIVATE
@@ -2863,7 +2863,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vector_index.cpp")
         message(STATUS "Adding GPU Vector Index benchmarks (THEMIS_ENABLE_GPU=ON, Issue #1884)")
 
         add_executable(bench_gpu_vector_index
-            bench_gpu_vector_index.cpp
+            gpu/bench_gpu_vector_index.cpp
         )
 
         target_link_libraries(bench_gpu_vector_index PRIVATE
@@ -2946,7 +2946,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_kv.cpp")
     message(STATUS "Adding Ingestion KV benchmarks (Issue #1911)")
 
     add_executable(bench_ingestion_kv
-        bench_ingestion_kv.cpp
+        ingestion/bench_ingestion_kv.cpp
     )
 
     target_link_libraries(bench_ingestion_kv PRIVATE
@@ -2979,7 +2979,7 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_v
     message(STATUS "Adding Voice Assistant benchmarks (Issue #2356)")
 
     add_executable(bench_voice_assistant
-        bench_voice_assistant.cpp
+        voice/bench_voice_assistant.cpp
     )
 
     target_link_libraries(bench_voice_assistant PRIVATE
@@ -3010,7 +3010,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
     message(STATUS "Adding prompt engineering performance benchmarks")
 
     add_executable(bench_prompt_engineering
-        bench_prompt_engineering.cpp
+        prompt_engineering/bench_prompt_engineering.cpp
     )
 
     target_link_libraries(bench_prompt_engineering PRIVATE
@@ -3045,7 +3045,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
     message(STATUS "Adding Exporters throughput benchmarks")
 
     add_executable(bench_exporters
-        bench_exporters.cpp
+        exporters/bench_exporters.cpp
     )
 
     target_link_libraries(bench_exporters PRIVATE
@@ -3142,7 +3142,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metadata_cache.cpp")
     message(STATUS "Adding Metadata Cache performance benchmarks (META-MISSING-001)")
 
     add_executable(bench_metadata_cache
-        bench_metadata_cache.cpp
+        metadata/bench_metadata_cache.cpp
     )
 
     target_link_libraries(bench_metadata_cache PRIVATE
@@ -3174,7 +3174,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
     message(STATUS "Adding Content Versioning benchmarks (Issue #1699)")
 
     add_executable(bench_content_versioning
-        bench_content_versioning.cpp
+        content/bench_content_versioning.cpp
     )
 
     target_link_libraries(bench_content_versioning PRIVATE
@@ -3228,7 +3228,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_processor_paths.cpp")
     message(STATUS "Adding Content Processor Path benchmarks (Issue #1699)")
 
     add_executable(bench_content_processor_paths
-        bench_content_processor_paths.cpp
+        content/bench_content_processor_paths.cpp
     )
 
     target_link_libraries(bench_content_processor_paths PRIVATE
@@ -3254,7 +3254,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_geo_cpu_gpu.cpp")
     message(STATUS "Adding Geo CPU/GPU parity benchmarks")
 
     add_executable(bench_geo_cpu_gpu
-        bench_geo_cpu_gpu.cpp
+        geo/bench_geo_cpu_gpu.cpp
     )
 
     target_link_libraries(bench_geo_cpu_gpu PRIVATE
@@ -3295,7 +3295,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_retrieval.cpp")
     message(STATUS "Adding Process retrieval benchmarks (embedding + HNSW + full-text)")
 
     add_executable(bench_process_retrieval
-        bench_process_retrieval.cpp
+        process/bench_process_retrieval.cpp
     )
 
     target_link_libraries(bench_process_retrieval PRIVATE
@@ -3330,7 +3330,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_hardware_capability.cpp")
     message(STATUS "Adding GPU hardware capability benchmarks (P2P, NVLink, load-balancer)")
 
     add_executable(bench_gpu_hardware_capability
-        bench_gpu_hardware_capability.cpp
+        gpu/bench_gpu_hardware_capability.cpp
     )
 
     target_link_libraries(bench_gpu_hardware_capability PRIVATE
@@ -3391,7 +3391,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
     message(STATUS "Adding Sharding performance benchmarks")
 
     add_executable(bench_sharding_performance
-        bench_sharding_performance.cpp
+        sharding/bench_sharding_performance.cpp
     )
 
     target_link_libraries(bench_sharding_performance PRIVATE
@@ -3519,7 +3519,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_ingestion.cpp")
     message(STATUS "Adding Timeseries Ingestion & Downsampling benchmarks (TS-6)")
 
     add_executable(bench_timeseries_ingestion
-        bench_timeseries_ingestion.cpp
+        timeseries/bench_timeseries_ingestion.cpp
     )
 
     target_include_directories(bench_timeseries_ingestion PRIVATE
@@ -3562,7 +3562,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_timeseries_adaptive_flush.cpp")
     message(STATUS "Adding Timeseries Adaptive Flush benchmarks (PERF-D1)")
 
     add_executable(bench_timeseries_adaptive_flush
-        bench_timeseries_adaptive_flush.cpp
+        timeseries/bench_timeseries_adaptive_flush.cpp
     )
 
     target_include_directories(bench_timeseries_adaptive_flush PRIVATE
@@ -3607,7 +3607,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_query_lazy_eval.cpp")
     message(STATUS "Adding Query Engine Lazy Evaluation benchmarks (PERF-D7, v1.0.0)")
 
     add_executable(bench_query_lazy_eval
-        bench_query_lazy_eval.cpp
+        query/bench_query_lazy_eval.cpp
     )
 
     target_link_libraries(bench_query_lazy_eval PRIVATE
@@ -3678,7 +3678,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_wake_word_batch.cpp")
     message(STATUS "Adding Voice wake-word and batch-processor benchmarks")
 
     add_executable(bench_voice_wake_word_batch
-        bench_voice_wake_word_batch.cpp
+        voice/bench_voice_wake_word_batch.cpp
     )
 
     target_include_directories(bench_voice_wake_word_batch PRIVATE
@@ -3715,7 +3715,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llama_cpp_inference.cpp")
     message(STATUS "Adding llama.cpp inference benchmarks")
 
     add_executable(bench_llama_cpp_inference
-        bench_llama_cpp_inference.cpp
+        llama_cpp/bench_llama_cpp_inference.cpp
         ${CMAKE_SOURCE_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
         ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
     )
@@ -3771,7 +3771,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp" AND NOT 
     message(STATUS "Adding Whisper transcription benchmarks")
 
     add_executable(bench_whisper_transcription
-        bench_whisper_transcription.cpp
+        whisper/bench_whisper_transcription.cpp
         ${CMAKE_SOURCE_DIR}/src/whisper/whisper_plugin.cpp
         ${CMAKE_SOURCE_DIR}/src/whisper/whisper_config.cpp
         ${CMAKE_SOURCE_DIR}/src/whisper/audio_chunk_reader.cpp
@@ -3902,7 +3902,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_themis_core.cpp")
     message(STATUS "Adding Themis core SLO benchmarks (TH-1..TH-5)")
 
     add_executable(bench_themis_core
-        bench_themis_core.cpp
+        themis/bench_themis_core.cpp
     )
 
     target_include_directories(bench_themis_core PRIVATE
@@ -3938,7 +3938,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_extraction.cpp")
     message(STATUS "Adding ingestion extraction and LLM-latency benchmarks")
 
     add_executable(bench_ingestion_extraction
-        bench_ingestion_extraction.cpp
+        ingestion/bench_ingestion_extraction.cpp
     )
 
     target_include_directories(bench_ingestion_extraction PRIVATE
@@ -3985,7 +3985,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_quality_judge.cpp")
     message(STATUS "Adding IngestionQualityJudge benchmarks (Phase 7)")
 
     add_executable(bench_ingestion_quality_judge
-        bench_ingestion_quality_judge.cpp
+        ingestion/bench_ingestion_quality_judge.cpp
     )
 
     target_include_directories(bench_ingestion_quality_judge PRIVATE
@@ -4023,7 +4023,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_import_retrieval.cpp")
     message(STATUS "Adding process module import/retrieval/prompt-size benchmarks")
 
     add_executable(bench_process_import_retrieval
-        bench_process_import_retrieval.cpp
+        process/bench_process_import_retrieval.cpp
     )
 
     target_include_directories(bench_process_import_retrieval PRIVATE
@@ -4062,7 +4062,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_mining.cpp")
     message(STATUS "Adding Process Mining benchmarks")
 
     add_executable(bench_process_mining
-        bench_process_mining.cpp
+        process/bench_process_mining.cpp
     )
 
     target_include_directories(bench_process_mining PRIVATE
@@ -4100,7 +4100,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_chaos_stress.cpp")
     message(STATUS "Adding chaos framework extended stress benchmarks")
 
     add_executable(bench_chaos_stress
-        bench_chaos_stress.cpp
+        chaos/bench_chaos_stress.cpp
         ${CMAKE_SOURCE_DIR}/src/chaos/chaos_framework.cpp
     )
 
@@ -4321,7 +4321,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge.cpp" AND NOT 
     message(STATUS "Adding Distributed Knowledge Federation benchmarks (DK-8, Session 9)")
 
     add_executable(bench_distributed_knowledge
-        bench_distributed_knowledge.cpp
+        distributed_knowledge/bench_distributed_knowledge.cpp
     )
 
     target_include_directories(bench_distributed_knowledge PRIVATE
@@ -4361,7 +4361,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge_or.cpp" AND N
     message(STATUS "Adding Distributed Knowledge OR benchmarks (DK-OR, Session 11)")
 
     add_executable(bench_distributed_knowledge_or
-        bench_distributed_knowledge_or.cpp
+        distributed_knowledge/bench_distributed_knowledge_or.cpp
     )
 
     target_include_directories(bench_distributed_knowledge_or PRIVATE
@@ -4400,7 +4400,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp" AND NOT TARG
     message(STATUS "Adding LLM+RAID pipeline benchmarks (Phase 3 LoRA/RAID + Phase 6 Distributed Inference)")
 
     add_executable(bench_llm_raid_pipeline
-        bench_llm_raid_pipeline.cpp
+        llm/bench_llm_raid_pipeline.cpp
     )
 
     target_include_directories(bench_llm_raid_pipeline PRIVATE
@@ -4458,7 +4458,7 @@ themis_add_standard_benchmark(bench_embedded_llm           bench_embedded_llm.cp
 themis_add_standard_benchmark(bench_encryption             bench_encryption.cpp)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ethics_ai_plugin.cpp")
     if(NOT TARGET bench_ethics_ai_plugin)
-        add_executable(bench_ethics_ai_plugin bench_ethics_ai_plugin.cpp)
+        add_executable(bench_ethics_ai_plugin ethics_ai/bench_ethics_ai_plugin.cpp)
         install(TARGETS bench_ethics_ai_plugin RUNTIME DESTINATION bin/benchmarks)
     endif()
 
@@ -4499,11 +4499,11 @@ endif()
 themis_add_standard_benchmark(bench_extended_context       bench_extended_context.cpp)
 themis_add_standard_benchmark(bench_flash_attention        bench_flash_attention.cpp)
 themis_add_standard_benchmark(bench_gnn_embeddings         bench_gnn_embeddings.cpp)
-themis_add_standard_benchmark(bench_geo_dbscan             bench_geo_dbscan.cpp)
+themis_add_standard_benchmark(bench_geo_dbscan             geo/bench_geo_dbscan.cpp)
 themis_add_standard_benchmark(bench_geojson_parse          bench_geojson_parse.cpp)
 themis_add_standard_benchmark(bench_gorilla_codec          bench_gorilla_codec.cpp)
 themis_add_standard_benchmark(bench_gossip_config          bench_gossip_config.cpp)
-themis_add_standard_benchmark(bench_gpu_erasure            bench_gpu_erasure.cpp)
+themis_add_standard_benchmark(bench_gpu_erasure            gpu/bench_gpu_erasure.cpp)
 themis_add_standard_benchmark(bench_hsm_provider           bench_hsm_provider.cpp)
 themis_add_standard_benchmark(bench_hybrid_aql_sugar       bench_hybrid_aql_sugar.cpp)
 themis_add_standard_benchmark(bench_image_analysis         bench_image_analysis.cpp)
@@ -4511,10 +4511,10 @@ themis_add_standard_benchmark(bench_image_analysis_latency bench_image_analysis_
 themis_add_standard_benchmark(bench_insert_profiling       bench_insert_profiling.cpp)
 themis_add_standard_benchmark(bench_latency_comprehensive  bench_latency_comprehensive.cpp)
 themis_add_standard_benchmark(bench_legal_lora_pipeline    bench_legal_lora_pipeline.cpp)
-themis_add_standard_benchmark(bench_llm_infrastructure     bench_llm_infrastructure.cpp)
-themis_add_standard_benchmark(bench_llm_judge_integration  bench_llm_judge_integration.cpp)
-themis_add_standard_benchmark(bench_llm_real_models        bench_llm_real_models.cpp)
-themis_add_standard_benchmark(bench_llm_response_cache     bench_llm_response_cache.cpp)
+themis_add_standard_benchmark(bench_llm_infrastructure     llm/bench_llm_infrastructure.cpp)
+themis_add_standard_benchmark(bench_llm_judge_integration  llm/bench_llm_judge_integration.cpp)
+themis_add_standard_benchmark(bench_llm_real_models        llm/bench_llm_real_models.cpp)
+themis_add_standard_benchmark(bench_llm_response_cache     llm/bench_llm_response_cache.cpp)
 themis_add_standard_benchmark(bench_locality_aware_router  bench_locality_aware_router.cpp)
 themis_add_standard_benchmark(bench_lock_contention        bench_lock_contention.cpp)
 themis_add_standard_benchmark(bench_lora_inline            bench_lora_inline.cpp)
@@ -4534,8 +4534,8 @@ themis_add_standard_benchmark(bench_scalability_comprehensive bench_scalability_
 themis_add_standard_benchmark(bench_shard_resource_manager bench_shard_resource_manager.cpp)
 themis_add_standard_benchmark(bench_simd_distance          bench_simd_distance.cpp)
 themis_add_standard_benchmark(bench_simple_insert_test     bench_simple_insert_test.cpp)
-themis_add_standard_benchmark(bench_tensor_deduplication_manager bench_tensor_deduplication_manager.cpp)
-themis_add_standard_benchmark(bench_tensor_integration_baseline bench_tensor_integration_baseline.cpp)
+themis_add_standard_benchmark(bench_tensor_deduplication_manager tensor/bench_tensor_deduplication_manager.cpp)
+themis_add_standard_benchmark(bench_tensor_integration_baseline tensor/bench_tensor_integration_baseline.cpp)
 themis_add_standard_benchmark(bench_tpcc                   bench_tpcc.cpp)
 themis_add_standard_benchmark(bench_tpch                   bench_tpch.cpp)
 themis_add_standard_benchmark(bench_v1_3_0_features        bench_v1_3_0_features.cpp)

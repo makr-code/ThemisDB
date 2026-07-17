@@ -85,7 +85,134 @@ std::size_t AqlSafetyValidator::findKeyword(const std::string& haystack,
 }
 
 std::optional<AqlSafetyValidator::Violation>
+AqlSafetyValidator::validateMutationSafety(const std::string& aql_query) const {
+    // --- Embedded NUL character check ----------------------------------------
+    if (aql_query.find('\0') != std::string::npos) {
+        return Violation{
+            "NUL_INJECTION",
+            aql_query.find('\0'),
+            "AQL_MUTATION_SAFETY: Embedded NUL character detected in query. "
+            "This is a classic injection vector and is unconditionally rejected."
+        };
+    }
+
+    const std::string upper = toUpper(aql_query);
+
+    // --- Multi-statement injection patterns -----------------------------------
+    static constexpr const char* kInjectionPatterns[] = {
+        "; DROP ",
+        "; DELETE ",
+        "; UPDATE ",
+    };
+    for (const auto* pat : kInjectionPatterns) {
+        const std::size_t pos = findKeyword(upper, pat);
+        if (pos != std::string::npos) {
+            // Translate back to a keyword label (strip leading "; ")
+            const std::string label = std::string(pat).substr(2);
+            return Violation{
+                label,
+                pos,
+                fmt::format(
+                    "AQL_MUTATION_SAFETY: Multi-statement injection pattern '{}' "
+                    "detected at position {}. Embedded statements after semicolons "
+                    "are not permitted.",
+                    pat, pos)
+            };
+        }
+    }
+
+    // --- Unbounded UPDATE check (UPDATE … without FILTER or WHERE) ------------
+    {
+        const std::size_t updatePos = findKeyword(upper, "UPDATE ");
+        if (updatePos != std::string::npos) {
+            const bool hasFilter = findKeyword(upper, "FILTER ") != std::string::npos ||
+                                   findKeyword(upper, " WHERE ") != std::string::npos ||
+                                   findKeyword(upper, "WHERE ")  != std::string::npos;
+            if (!hasFilter) {
+                return Violation{
+                    "UNBOUNDED_UPDATE",
+                    updatePos,
+                    fmt::format(
+                        "AQL_MUTATION_SAFETY: UPDATE at position {} has no FILTER or "
+                        "WHERE clause. This could affect the entire collection. "
+                        "Add a FILTER/WHERE predicate or acknowledge the risk explicitly.",
+                        updatePos)
+                };
+            }
+        }
+    }
+
+    // --- Unbounded REMOVE check (REMOVE … without FILTER or WHERE) -----------
+    {
+        const std::size_t removePos = findKeyword(upper, "REMOVE ");
+        if (removePos != std::string::npos) {
+            const bool hasFilter = findKeyword(upper, "FILTER ") != std::string::npos ||
+                                   findKeyword(upper, " WHERE ") != std::string::npos ||
+                                   findKeyword(upper, "WHERE ")  != std::string::npos;
+            if (!hasFilter) {
+                return Violation{
+                    "UNBOUNDED_REMOVE",
+                    removePos,
+                    fmt::format(
+                        "AQL_MUTATION_SAFETY: REMOVE at position {} has no FILTER or "
+                        "WHERE clause. This could delete the entire collection. "
+                        "Add a FILTER/WHERE predicate or acknowledge the risk explicitly.",
+                        removePos)
+                };
+            }
+        }
+    }
+
+    // --- Suspiciously large LIMIT check (> 100000) ----------------------------
+    {
+        std::size_t searchFrom = 0;
+        while (true) {
+            const std::size_t limitPos = upper.find("LIMIT ", searchFrom);
+            if (limitPos == std::string::npos) break;
+            searchFrom = limitPos + 6;
+
+            // Skip whitespace after LIMIT
+            std::size_t numStart = limitPos + 6;
+            while (numStart < upper.size() && upper[numStart] == ' ') ++numStart;
+
+            // Parse the number
+            std::size_t numEnd = numStart;
+            while (numEnd < upper.size() && std::isdigit(static_cast<unsigned char>(upper[numEnd])))
+                ++numEnd;
+
+            if (numEnd > numStart) {
+                try {
+                    const int64_t limitVal = std::stoll(upper.substr(numStart, numEnd - numStart));
+                    if (limitVal > 100000) {
+                        return Violation{
+                            "LARGE_LIMIT",
+                            limitPos,
+                            fmt::format(
+                                "AQL_MUTATION_SAFETY: LIMIT value {} at position {} "
+                                "exceeds the safety threshold of 100000. "
+                                "Large LIMIT values in mutation queries may indicate "
+                                "bulk-delete or bulk-update attacks.",
+                                limitVal, limitPos)
+                        };
+                    }
+                } catch (...) {
+                    // Ignore parse failures — not a valid integer, not a threat
+                }
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(const std::string& aql_query) const {
+    // When mutations are explicitly allowed, skip the keyword-blocking scan
+    // but still run injection-pattern and safety checks.
+    if (mode_ == ValidationMode::AllowMutations) {
+        return validateMutationSafety(aql_query);
+    }
+
     const std::string upper = toUpper(aql_query);
 
     // --- Single-keyword scan ------------------------------------------------

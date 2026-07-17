@@ -55,6 +55,7 @@
 // For detailed documentation, see docs/DISTRIBUTED_TRANSACTIONS.md
 
 #include "sharding/distributed_transaction.h"
+#include "sharding/wal_logging_helper.h"
 #include "sharding/shard_rpc_client.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
@@ -77,6 +78,13 @@ namespace themis::sharding {
 /** @brief Return coordinator label used in metrics, defaulting to "default". */
 static inline std::string coordinatorLabel(const DistributedTransactionCoordinator::Config& cfg) {
     return cfg.coordinator_id.empty() ? "default" : cfg.coordinator_id;
+}
+
+/** @brief Return stable WAL helper component ID for distributed coordinator logs. */
+static inline std::string_view recoveryWalComponentId(
+    const DistributedTransactionCoordinator::Config& cfg
+) {
+    return cfg.coordinator_id.empty() ? std::string_view{"default"} : std::string_view{cfg.coordinator_id};
 }
 
 /** @brief Construct distributed transaction coordinator and initialize recovery WAL. */
@@ -863,20 +871,15 @@ void DistributedTransactionCoordinator::logBeginStateForRecovery(
         });
     }
 
-    try {
-        WALEntry entry;
-        entry.type = WALEntryType::BEGIN_TX;
-        entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-        entry.transaction_id = txn.transaction_id;
-        entry.data = std::move(begin_data);
-        wal_manager_->append(entry);
-        wal_manager_->flush();
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to log BEGIN state for transaction {} to WAL: {}",
-                    txn.transaction_id, e.what());
-    }
+    WALLoggingHelper::appendEntry(
+        wal_manager_.get(),
+        WALEntryType::BEGIN_TX,
+        txn.transaction_id,
+        begin_data,
+        /*sync=*/true,
+        "distributed-coordinator-recovery",
+        recoveryWalComponentId(config_)
+    );
 }
 
 bool DistributedTransactionCoordinator::logDecisionStateForRecovery(
@@ -910,25 +913,15 @@ bool DistributedTransactionCoordinator::logDecisionStateForRecovery(
         });
     }
 
-    try {
-        WALEntry entry;
-        entry.type = commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX;
-        entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-        entry.transaction_id = txn.transaction_id;
-        entry.data = std::move(recovery_data);
-        wal_manager_->append(entry);
-        wal_manager_->flush();
-        return true;
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to log {} {} marker for transaction {} to WAL: {}",
-                    commit ? "COMMIT" : "ABORT",
-                    phase,
-                    txn.transaction_id,
-                    e.what());
-        return false;
-    }
+    return WALLoggingHelper::appendEntryWithResult(
+        wal_manager_.get(),
+        commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+        txn.transaction_id,
+        recovery_data,
+        /*sync=*/true,
+        "distributed-coordinator-recovery",
+        recoveryWalComponentId(config_)
+    ).has_value();
 }
 
 void DistributedTransactionCoordinator::logTransactionForRecovery(
@@ -957,27 +950,20 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
         });
     }
     
-    // Write to WAL for durability
-    try {
-        WALEntry entry;
-        entry.type = txn.state == TransactionState::ABORTED
+    const auto lsn = WALLoggingHelper::appendEntryWithResult(
+        wal_manager_.get(),
+        txn.state == TransactionState::ABORTED
             ? WALEntryType::ABORT_TX
-            : WALEntryType::COMMIT_TX;
-        entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-        entry.transaction_id = txn.transaction_id;
-        entry.data = recovery_data;
-        
-        LSN lsn = wal_manager_->append(entry);
-        wal_manager_->flush(); // Ensure durability
-        
-        THEMIS_INFO("Transaction {} logged for recovery at LSN {}", 
-                   txn.transaction_id, lsn.toString());
-        
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to log transaction {} to WAL: {}", 
-                    txn.transaction_id, e.what());
+            : WALEntryType::COMMIT_TX,
+        txn.transaction_id,
+        recovery_data,
+        /*sync=*/true,
+        "distributed-coordinator-recovery",
+        recoveryWalComponentId(config_)
+    );
+    if (lsn.has_value()) {
+        THEMIS_INFO("Transaction {} logged for recovery at LSN {}",
+                    txn.transaction_id, lsn->toString());
     }
 }
 
@@ -1007,28 +993,22 @@ bool DistributedTransactionCoordinator::logPreparedStateForRecovery(
         });
     }
     
-    // Write PREPARED state to WAL for in-doubt recovery
-    try {
-        WALEntry entry;
-        entry.type = WALEntryType::PREPARE_TX;
-        entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-        entry.transaction_id = txn.transaction_id;
-        entry.data = prepared_data;
-        
-        LSN lsn = wal_manager_->append(entry);
-        wal_manager_->flush();
-        
-        THEMIS_DEBUG("Transaction {} PREPARED state logged at LSN {}", 
-                    txn.transaction_id, lsn.toString());
-        return true;
-        
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to log PREPARED state for transaction {} to WAL: {}", 
-                    txn.transaction_id, e.what());
+    const auto lsn = WALLoggingHelper::appendEntryWithResult(
+        wal_manager_.get(),
+        WALEntryType::PREPARE_TX,
+        txn.transaction_id,
+        prepared_data,
+        /*sync=*/true,
+        "distributed-coordinator-recovery",
+        recoveryWalComponentId(config_)
+    );
+    if (!lsn.has_value()) {
         return false;
     }
+
+    THEMIS_DEBUG("Transaction {} PREPARED state logged at LSN {}",
+                 txn.transaction_id, lsn->toString());
+    return true;
 }
 
 /** @brief Recover in-doubt transactions by replaying WAL entries. */
