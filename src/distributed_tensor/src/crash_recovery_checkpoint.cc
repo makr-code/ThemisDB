@@ -200,11 +200,7 @@ uint64_t CrashRecoveryCheckpoint::cleanupOldCheckpoints(uint32_t retention_days)
 
   try {
     auto now = std::chrono::system_clock::now();
-<<<<<<< HEAD
-    auto cutoff_time = now - std::chrono::hours(static_cast<int>(24) * retention_days);
-=======
     auto cutoff_time = now - std::chrono::hours(24 * retention_days);
->>>>>>> origin/develop
 
     for (const auto& entry : fs::directory_iterator(checkpoint_dir_)) {
       if (entry.is_regular_file() && entry.path().extension() == ".chk") {

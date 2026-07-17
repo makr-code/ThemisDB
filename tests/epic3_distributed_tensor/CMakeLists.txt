@@ -62,17 +62,11 @@ else()
     message(STATUS "EPIC3 ManifestStore tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 endif()
 
-<<<<<<< HEAD
 # ── TensorDeltaLog tests (sub-issue #5472, TDL-01..18) ──────────────────────
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
     message(STATUS "Adding EPIC5518: TensorDeltaLog tests (TDL-01..18)")
 
-=======
-# ── Phase B delta-log and rebuild-fallback tests ──────────────────────────────
-
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
->>>>>>> origin/develop
     add_executable(test_tensor_delta_log
         test_tensor_delta_log.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
@@ -81,18 +75,12 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
     target_include_directories(test_tensor_delta_log PRIVATE
         ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
-<<<<<<< HEAD
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
         ${THEMIS_ROOT_DIR}/src
-=======
-        ${THEMIS_ROOT_DIR}/src
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
->>>>>>> origin/develop
     )
 
     target_link_libraries(test_tensor_delta_log PRIVATE
         ${TEST_LIBS}
-<<<<<<< HEAD
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -102,17 +90,10 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
     )
 
     target_compile_features(test_tensor_delta_log PRIVATE cxx_std_17)
-=======
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_tensor_delta_log PRIVATE THEMIS_TEST_BUILD=1)
->>>>>>> origin/develop
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
             MODULE distributed_tensor
-<<<<<<< HEAD
             NAME TensorDeltaLogTests
             TARGET test_tensor_delta_log
             TIER unit
@@ -162,17 +143,26 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_update_worker.cpp")
     )
 
     target_compile_features(test_tensor_update_worker PRIVATE cxx_std_17)
-=======
-            NAME test_tensor_delta_log
-            TARGET test_tensor_delta_log
+
+    if(COMMAND themis_register_module_focused_test)
+        themis_register_module_focused_test(
+            MODULE distributed_tensor
+            NAME TensorUpdateWorkerTests
+            TARGET test_tensor_update_worker
             TIER unit
             TIMEOUT 60
-            LABELS distributed_tensor phase-b delta-log
+            LABELS distributed_tensor tensor_update_worker dynamic_update hybrid_retrieval
         )
     else()
-        add_test(NAME test_tensor_delta_log COMMAND test_tensor_delta_log)
+        add_test(NAME TensorUpdateWorkerTests COMMAND test_tensor_update_worker)
     endif()
+
+    message(STATUS "  TUW: lifecycle, decideStrategy, processTask, thresholds (TUW-01..15)")
+else()
+    message(STATUS "EPIC5518 TensorUpdateWorker tests not found")
 endif()
+
+# ── Phase B rebuild-fallback tests ────────────────────────────────────────────
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
     add_executable(test_tensor_rebuild_fallback
@@ -199,26 +189,10 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
     )
 
     target_compile_definitions(test_tensor_rebuild_fallback PRIVATE THEMIS_TEST_BUILD=1)
->>>>>>> origin/develop
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
             MODULE distributed_tensor
-<<<<<<< HEAD
-            NAME TensorUpdateWorkerTests
-            TARGET test_tensor_update_worker
-            TIER unit
-            TIMEOUT 60
-            LABELS distributed_tensor tensor_update_worker dynamic_update hybrid_retrieval
-        )
-    else()
-        add_test(NAME TensorUpdateWorkerTests COMMAND test_tensor_update_worker)
-    endif()
-
-    message(STATUS "  TUW: lifecycle, decideStrategy, processTask, thresholds (TUW-01..15)")
-else()
-    message(STATUS "EPIC5518 TensorUpdateWorker tests not found")
-=======
             NAME test_tensor_rebuild_fallback
             TARGET test_tensor_rebuild_fallback
             TIER unit
@@ -228,7 +202,6 @@ else()
     else()
         add_test(NAME test_tensor_rebuild_fallback COMMAND test_tensor_rebuild_fallback)
     endif()
->>>>>>> origin/develop
 endif()
 
 file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
@@ -238,11 +211,8 @@ file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
 
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_manifest_store_phase_a\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_delta_log\\.cpp$")
-<<<<<<< HEAD
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_update_worker\\.cpp$")
-=======
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_rebuild_fallback\\.cpp$")
->>>>>>> origin/develop
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc")
     list(APPEND EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES

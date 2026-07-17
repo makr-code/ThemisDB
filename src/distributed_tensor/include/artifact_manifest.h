@@ -52,50 +52,6 @@ enum class ArtifactKind : uint8_t {
     SHARD_SUMMARY    = 2,
 };
 
-/**
- * @brief Lifecycle state for an advisory tensor artifact.
- *
- * ACTIVE and STALE remain readable by the planner subject to freshness and
- * residual gates. INVALIDATED artifacts must force exact-graph fallback.
- */
-enum class LifecycleState : uint8_t {
-    ACTIVE      = 0,
-    STALE       = 1,
-    INVALIDATED = 2,
-};
-
-/**
- * @brief Last maintenance action applied to an artifact.
- */
-enum class RebuildState : uint8_t {
-    NONE               = 0,
-    PATCHED            = 1,
-    PARTIAL_REFITTED   = 2,
-    REBUILT            = 3,
-};
-
-/**
- * @brief Update strategy used to publish the current manifest version.
- */
-enum class UpdateMode : uint8_t {
-    NONE          = 0,
-    PATCH         = 1,
-    PARTIAL_REFIT = 2,
-    REBUILD       = 3,
-};
-
-/**
- * @brief Reason an artifact left the ACTIVE/STALE lifecycle.
- */
-enum class InvalidationReason : uint8_t {
-    NONE                = 0,
-    STALE_DATA          = 1,
-    INTEGRITY_FAILURE   = 2,
-    RANK_CAP_BREACH     = 3,
-    RESIDUAL_THRESHOLD  = 4,
-    MANUAL_INVALIDATION = 5,
-};
-
 // ---------------------------------------------------------------------------
 // RebuildState
 // ---------------------------------------------------------------------------
@@ -333,7 +289,6 @@ struct ArtifactManifest {
     /// Integrity token computed over the artifact payload.
     ArtifactIntegrity integrity;
 
-<<<<<<< HEAD
     // -----------------------------------------------------------------------
     // Dynamic update lifecycle fields (Phase B+, populated by update worker)
     // -----------------------------------------------------------------------
@@ -384,6 +339,12 @@ struct ArtifactManifest {
     /// Current lifecycle state of the artifact.
     LifecycleState lifecycle_state = LifecycleState::ACTIVE;
 
+    /// Advisory-only invariant flag. This must stay true for all rollout phases.
+    bool advisory_only = true;
+
+    /// Current artifact age in milliseconds (updated by refreshArtifactAge()).
+    uint64_t artifact_age_ms = 0;
+
     /// Reason the artifact was invalidated (only meaningful when
     /// @p lifecycle_state == LifecycleState::INVALIDATED).
     InvalidationReason invalidation_reason = InvalidationReason::UNKNOWN;
@@ -411,47 +372,6 @@ struct ArtifactManifest {
      * @return true if the computed hash diverges from @p manifest_hash.
      */
     [[nodiscard]] bool isCorrupted() const;
-=======
-    /// Current lifecycle state.
-    LifecycleState lifecycle_state = LifecycleState::ACTIVE;
-
-    /// Advisory-only invariant flag. This must stay true for all rollout phases here.
-    bool advisory_only = true;
-
-    /// Sequence range from the exact graph lineage captured by this artifact.
-    uint64_t source_seq_start = 0;
-    uint64_t source_seq_end   = 0;
-
-    /// Delta backlog relative to the exact graph source.
-    uint64_t delta_lag = 0;
-
-    /// Current artifact age in milliseconds.
-    uint64_t artifact_age_ms = 0;
-
-    /// Last full rebuild time in seconds since Unix epoch.
-    int64_t last_rebuild_at_unix_sec = 0;
-
-    /// Freshness budget for staleness checks.
-    int64_t staleness_threshold_sec = 0;
-
-    /// Approximation residual for advisory quality checks.
-    double residual = 0.0;
-
-    /// Maximum permitted rank growth for partial refits (0 disables the cap).
-    uint32_t rank_cap = 0;
-
-    /// Current observed rank after the latest update.
-    uint32_t rank_status = 0;
-
-    /// Last maintenance action applied.
-    RebuildState rebuild_state = RebuildState::NONE;
-
-    /// Strategy used to produce the current version.
-    UpdateMode update_mode = UpdateMode::NONE;
-
-    /// Why the artifact was invalidated, if applicable.
-    InvalidationReason invalidation_reason = InvalidationReason::NONE;
->>>>>>> origin/develop
 
     /**
      * @brief Freshness age in seconds relative to @p now.
@@ -509,30 +429,11 @@ struct ArtifactManifest {
      * @brief Returns true when the artifact may still be consulted by the planner.
      *
      * INVALIDATED entries are always unusable; ACTIVE and STALE remain advisory.
+     *
+     * @param now_unix_sec  Current time (unused; reserved for future TTL gates).
+     * @return              true when lifecycle_state is ACTIVE or STALE.
      */
-    [[nodiscard]] bool isUsable([[maybe_unused]] int64_t now_unix_sec = 0) const noexcept {
-        return lifecycle_state == LifecycleState::ACTIVE
-            || lifecycle_state == LifecycleState::STALE;
-    }
-
-    /**
-     * @brief Returns true when the artifact exceeds its explicit staleness budget.
-     */
-    [[nodiscard]] bool isStale(int64_t now_unix_sec) const noexcept {
-        if (staleness_threshold_sec <= 0) {
-            return false;
-        }
-
-        const auto age_ms = computeArtifactAgeMs(now_unix_sec);
-        return age_ms > static_cast<uint64_t>(staleness_threshold_sec) * 1000ULL;
-    }
-
-    /**
-     * @brief Returns true when the artifact integrity token is absent or invalid.
-     */
-    [[nodiscard]] bool isCorrupted() const noexcept {
-        return !integrity.isValid();
-    }
+    [[nodiscard]] bool isUsable(int64_t now_unix_sec = 0) const;
 
     /**
      * @brief Refresh derived temporal fields after publication.
