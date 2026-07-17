@@ -229,7 +229,6 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
-<<<<<<< HEAD
 ### ✅ EPIC 2.5 Query Planner Phases 5-7 Complete (2026-07-06)
 
 **EPIC 2.5 Hybrid Query Planner — All Seven Phases Complete**
@@ -270,8 +269,6 @@ of the EPIC 2.5 hybrid query planner have been delivered:
 - `docs/adr/adr-e2-003-query-planner-routing-model.md` — ADR follow-up updated
 - Issue #5467 (CPU/GPU boundary integration — EPIC 2.5)
 
-
-=======
 ### EPIC 1.3 Graph Truth Validation Layer — Phase 2: Core Implementation (2026-07-01)
 
 **New**:
@@ -293,7 +290,6 @@ of the EPIC 2.5 hybrid query planner have been delivered:
 - PR #5513 (Graph Truth Validation Layer, Phase 2).
 
 ### Graph Module Phase 2.2 Verification (2026-07-01)
->>>>>>> origin/develop
 
 **Verified & Documented**:
 - explain_plan.cpp defensive serialization patterns (toDot/toJson empty handlers)

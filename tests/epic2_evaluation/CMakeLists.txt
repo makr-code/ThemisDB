@@ -1,9 +1,10 @@
-<<<<<<< HEAD
-# EPIC 2 evaluation tests — query planner (EPIC 2.5, Phases 2-4).
+# EPIC 2 evaluation tests — query planner (EPIC 2.5, Phases 2-4) and
+# EPIC 2.2 hardware_profile + benchmark_matrix tests.
 # See docs/EPIC2_QUERY_PLANNER.md and tests/epic2_evaluation/README.md.
-#
-# Test source files for other EPIC 2 sub-issues (*.cc) are out of scope for
-# this PR and will be added separately.
+
+# ============================================================================
+# query_planner_test — EPIC 2.5 query planner GTest suite
+# ============================================================================
 
 set(EPIC2_EVALUATION_TESTS
     query_planner_test.cc
@@ -25,9 +26,6 @@ if(TARGET epic2_evaluation_lib AND TARGET GTest::gtest_main)
         add_test(NAME ${test_name} COMMAND ${test_name})
     endforeach()
 endif()
-=======
-# EPIC 2 Evaluation contract tests.
-# Covers benchmark_matrix (EPIC 2.2, Issue #5438) and hardware_profile.
 
 # ============================================================================
 # hardware_profile_test — registered with module-focused test framework
@@ -36,7 +34,6 @@ endif()
 set(EPIC2_EVALUATION_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/hardware_profile_test.cc"
 )
->>>>>>> origin/develop
 
 foreach(_src IN LISTS EPIC2_EVALUATION_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)

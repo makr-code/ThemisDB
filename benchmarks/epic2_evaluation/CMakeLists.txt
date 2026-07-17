@@ -2,16 +2,12 @@ if(NOT THEMIS_BUILD_BENCHMARKS)
     return()
 endif()
 
-<<<<<<< HEAD
-set(EPIC2_EVALUATION_PLANNED_BENCHMARKS
-    hardware_profile_bench.cc
-    benchmark_matrix_bench.cc
-    metrics_computation_bench.cc
-    artifact_staleness_bench.cc
-    storage_strategy_bench.cc
-)
+message(STATUS "Configuring benchmark module: epic2_evaluation")
 
-# planner_decision_bench — wired once epic2_evaluation_lib is available (Phase 7).
+# ============================================================================
+# planner_decision_bench — EPIC 2.5 query planner overhead benchmark
+# Activated when epic2_evaluation_lib is available (requires THEMIS_BUILD_EPIC2).
+# ============================================================================
 if(TARGET epic2_evaluation_lib)
     add_executable(planner_decision_bench planner_decision_bench.cc)
     target_include_directories(planner_decision_bench PRIVATE
@@ -20,18 +16,6 @@ if(TARGET epic2_evaluation_lib)
     target_link_libraries(planner_decision_bench PRIVATE epic2_evaluation_lib)
     target_compile_features(planner_decision_bench PRIVATE cxx_std_17)
 endif()
-
-# Benchmark targets will be enabled incrementally alongside implementation work.
-=======
-message(STATUS "Configuring benchmark module: epic2_evaluation")
-
-# benchmark_matrix_bench requires themis_evaluation (EPIC 2.2 specific).
-# It is handled explicitly below; the remaining two benchmarks use the
-# standard macro which links themis_distributed_tensor when available.
-set(EPIC2_EVALUATION_BENCHMARKS
-    planner_decision_bench.cc
-    storage_strategy_bench.cc
-)
 
 # ============================================================================
 # benchmark_matrix_bench — activated (Issue #5438)
@@ -78,7 +62,13 @@ if(NOT TARGET benchmark_matrix_bench)
     endif()
 endif()
 
-foreach(_src IN LISTS EPIC2_EVALUATION_BENCHMARKS)
+# storage_strategy_bench and other planned benchmarks use the standard macro
+# when themis_distributed_tensor is available.
+set(EPIC2_EVALUATION_PLANNED_BENCHMARKS
+    storage_strategy_bench.cc
+)
+
+foreach(_src IN LISTS EPIC2_EVALUATION_PLANNED_BENCHMARKS)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "bench_epic2_evaluation_${_stem}")
     themis_add_standard_benchmark(${_target} "${_src}")
@@ -91,4 +81,3 @@ foreach(_src IN LISTS EPIC2_EVALUATION_BENCHMARKS)
         endif()
     endif()
 endforeach()
->>>>>>> origin/develop
