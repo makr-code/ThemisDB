@@ -99,7 +99,6 @@ bool PIIDetector::reload(const std::string& config_path) {
     
     // Backup current engines
     auto old_engines = std::move(engines_);
-    engines_.clear();
     
     last_error_.clear();
     

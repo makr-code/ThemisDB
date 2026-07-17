@@ -4,12 +4,11 @@
 
 ## Purpose
 
-This directory provides EPIC 2 skeleton implementation files that reserve ownership,
-module boundaries, and integration order while production policy logic is still pending.
+This directory now contains the first EPIC 2 runtime-owned implementation
+(`hardware_profile.cc`) while reserving ownership and integration order for the
+remaining planned sources.
 
 ## Source Ownership Map
-
-> These source files are deferred to the implementation PR. The table documents planned ownership.
 
 | Source file | EPIC sub-issue | Planned runtime responsibility |
 |---|---|---|
@@ -23,8 +22,9 @@ module boundaries, and integration order while production policy logic is still 
 
 ## Delivery Expectations
 
-- next: Phase-2 scaffold baseline to be added in the implementation PR
-- after: Phase-3 behavior definitions for validation failures, policy conflicts, and fallback paths
+- delivered: hardware profile registration, validation, and tier-transition guards
+- next: remaining Phase-2 EPIC 2 sources to be added in later implementation PRs
+- after: broader Phase-3 behavior definitions for validation failures, policy conflicts, and fallback paths
 - later: tests, benchmark evidence, acceptance docs, and product integration per roadmap
 
 ## Integration Notes
@@ -34,11 +34,11 @@ module boundaries, and integration order while production policy logic is still 
 
 ## Installation
 
-No standalone installation step is required while these files remain skeleton sources.
+No standalone installation step is required for the current source set.
 
 ## Usage
 
-Use this README to track source ownership and phase readiness before enabling targets.
+Use this README to track source ownership and phase readiness while additional EPIC 2 sources are added.
 
 ## References
 

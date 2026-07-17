@@ -25,7 +25,6 @@ from scanners.gs3_step01_ai_llm_prompt_injection import LlmPromptInjectionScanne
 from scanners.gs3_step01_ai_header_drift import HeaderDriftScanner
 from scanners.gs3_step01_core_error_handling import ErrorHandlingScanner
 from scanners.gs3_step01_core_memory_safety import MemorySafetyScannerImproved as MemorySafetyScanner
-from scanners.gs3_step01_core_raii import RAIIGapScanner as ModernRAIIScanner
 from scanners.gs3_step01_core_thread_safety import ThreadSafetyScannerImproved as ThreadSafetyScanner
 from scanners.gs3_step01_core_concurrency import ConcurrencyGapScanner
 from scanners.gs3_step01_core_container import ContainerGapScanner
@@ -50,11 +49,14 @@ from scanners.gs3_step03_security_military_hardening import MilitaryHardeningSca
 from scanners.gs3_step04_quality_audit_logging import AuditLoggingScanImproved as AuditLoggingScan
 from scanners.gs3_step04_design_deprecated_apis import DeprecatedAPIsScan
 from scanners.gs3_step04_design_determinism import DeterminismScannerImproved as DeterminismScan
+from scanners.gs3_step04_design_const_correctness import ConstCorrectnessApiScan
 from scanners.gs3_step04_design_gpu_memory import GPUMemorySafetyScan
 from scanners.gs3_step04_design_llm_ai_safety import LLMAISafetyScan
 from scanners.gs3_step04_design_observability import ObservabilityScannerImproved as ObservabilityScan
 from scanners.gs3_step04_design_performance_patterns import PerformanceAntiPatternsScanImproved as PerformanceAntiPatternsScan
 from scanners.gs3_step04_design_query_correctness import QueryCorrectnessScan
+from scanners.gs3_step04_design_const_correctness import ConstCorrectnessApiDesignScan
+from scanners.gs3_step04_design_template_meta import TemplateMetaProgrammingScan
 from scanners.gs3_step04_design_distributed_consistency import DistributedConsistencyScanImproved as DistributedConsistencyScan
 from scanners.gs3_step04_design_architecture import ThemisArchitectureRulesScan
 from scanners.gs3_step04_design_bridge_interface import ThemisBridgeInterfaceRulesScan
@@ -117,7 +119,6 @@ class UniformFullScanner(BaseGapScanner):
             ("phase1_memory_safety", MemorySafetyScanner()),
             ("phase1_error_handling", ErrorHandlingScanner()),
             ("phase1_thread_safety", ThreadSafetyScanner()),
-            ("phase1_raii", ModernRAIIScanner()),
         ]
 
         for phase_key, scanner in modern_phase1:
@@ -183,7 +184,10 @@ class UniformFullScanner(BaseGapScanner):
         phase7_10_scanners = [
             ("audit_logging", AuditLoggingScan(str(self.source_path))),
             ("deprecated_apis", DeprecatedAPIsScan(str(self.source_path))),
+            ("const_correctness", ConstCorrectnessApiScan(str(self.source_path))),
             ("performance_patterns", PerformanceAntiPatternsScan(str(self.source_path))),
+            ("const_correctness", ConstCorrectnessApiDesignScan(str(self.source_path))),
+            ("template_meta_programming", TemplateMetaProgrammingScan(str(self.source_path))),
             ("gpu_memory", GPUMemorySafetyScan(str(self.source_path))),
             ("query_correctness", QueryCorrectnessScan(str(self.source_path))),
             ("distributed_consistency", DistributedConsistencyScan(str(self.source_path))),

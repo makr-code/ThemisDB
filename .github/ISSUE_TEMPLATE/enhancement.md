@@ -33,6 +33,15 @@ Explain why this improvement would be valuable.
 - [ ] [Describe the second specific acceptance criterion]
 - [ ] Ensure all existing tests pass and new tests are added where appropriate.
 
+## Supply-Chain Checklist (for new/external dependencies)
+
+<!-- Fill out this section if the enhancement introduces or updates third-party dependencies. -->
+
+- [ ] No new/external dependency change in scope **or** SBOM update requirement is documented
+- [ ] Dependency source authenticity is defined (signature/GPG/hash verification path)
+- [ ] `vcpkg.json` `builtin-baseline` impact was reviewed and verified
+- [ ] Release artifact impact is documented (SBOM + checksum evidence)
+
 ## Additional Context
 
 Add any other context, benchmarks, or references here.

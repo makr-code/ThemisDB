@@ -11,6 +11,7 @@
 
 - [📋 Übersicht](#-übersicht)
 - [🔧 SBOM-Generierung](#-sbom-generierung)
+- [🛡️ Supply-Chain-Policy](#️-supply-chain-policy)
 - [📦 Hauptabhängigkeiten](#-hauptabhängigkeiten)
 - [🔍 Vulnerability Scanning](#-vulnerability-scanning)
 - [📊 SBOM-Formate](#-sbom-formate)
@@ -42,11 +43,34 @@ Ein Software Bill of Materials (SBOM) ist ein detailliertes Inventar aller Kompo
 Der SBOM wird automatisch bei jedem Release über GitHub Actions generiert:
 
 ```yaml
-# .github/workflows/sbom.yml
-- Trigger: push to main, tags, releases
-- Tools: Syft, Grype
-- Outputs: SPDX, CycloneDX
+# .github/workflows/sbom-ci.yml
+- Trigger: push auf develop/community, tags, releases
+- Tools: Syft, Trivy
+- Outputs: SPDX, CycloneDX, SHA256SUMS, vcpkg-baseline-verification
 ```
+
+---
+
+## 🛡️ Supply-Chain-Policy
+
+Für neue/externe Dependencies gelten verbindlich folgende Mindestanforderungen:
+
+1. **SBOM-Pflicht:** Jede Build-/Release-Pipeline erzeugt SPDX + CycloneDX und archiviert die Artefakte.
+2. **Hash-Konsistenz:** SBOM-Artefakte werden mit SHA256 dokumentiert und im Workflow validiert.
+3. **Baseline-Verifikation:** `vcpkg.json` `builtin-baseline` muss auf einen kryptographisch verifizierten Commit zeigen.
+4. **Review-Gate:** Dependency-Änderungen müssen in Issue/PR den Supply-Chain-Check explizit abhaken.
+
+### Automatisierte Baseline-Prüfung (vcpkg)
+
+Der Workflow führt `scripts/verify-vcpkg-baseline-signature.sh` aus und erzeugt ein Evidenz-Artefakt:
+
+- `sbom-vcpkg-baseline-verification.json`
+
+Die Prüfung schlägt fehl, wenn:
+
+- `builtin-baseline` fehlt/ungültig ist
+- der Commit nicht zum erwarteten SHA aufgelöst wird
+- der Commit nicht als signiert/verifiziert nachweisbar ist
 
 ### Manuelle Generierung
 

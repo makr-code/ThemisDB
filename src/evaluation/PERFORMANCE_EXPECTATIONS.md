@@ -1,13 +1,14 @@
 # Evaluation Module Performance Expectations
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-13 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Baseline
 
-Evaluation module behavior is at documentation scaffold stage. Module structure and
-planning docs exist; contract headers (`*.h`), skeleton translation units (`*.cc`),
-production planner/metrics execution, and benchmark evidence are deferred to the implementation PR.
+Evaluation module behavior remains documentation-first for EPIC 2 interfaces, but
+Phase 5 baseline evidence now exists through source-verifiable benchmark runners in
+`benchmarks/epic2_evaluation/` that exercise planner/placement/recovery paths tied
+to issue #5428.
 
 ## Phase-Gated Performance Expectations
 
@@ -26,7 +27,7 @@ production planner/metrics execution, and benchmark evidence are deferred to the
 
 ## Benchmark Work Items
 
-- implement `benchmarks/epic2_evaluation/`
+- keep `benchmarks/epic2_evaluation/` aligned with issue #5428 workload classes
 - map benchmark scenarios to hardware profile classes and policy modes
 - maintain release-baseline tracking for phase-gate promotion
 

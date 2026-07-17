@@ -517,6 +517,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	if (!db_.put(metaKey, marker)) {
 		return Status::Error("createCompositeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
+	SecondaryIndexMetadataCache::instance().invalidate(std::string(table));
 	std::string colList;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) colList += ", ";
@@ -3009,7 +3010,6 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 				std::transform(current.begin(), current.end(), current.begin(),
 					[](unsigned char c) { return std::tolower(c); });
 				tokens.emplace_back(std::move(current));
-				current.clear();
 			}
 		} else {
 			current += c;

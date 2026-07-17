@@ -319,6 +319,7 @@ Typical artefacts of one release:
 - MSI package
 - container image
 - checksum file
+- SBOM artefacts (`sbom-source.cyclonedx.json`, `sbom-source.spdx.json`, `sbom-source.SHA256SUMS`, `sbom-vcpkg-baseline-verification.json`)
 
 Rules:
 
@@ -511,6 +512,7 @@ Before tagging, verify manually:
 - artefacts were built successfully
 - package contents are plausible
 - checksums were generated if required
+- SBOM + Supply-Chain evidence was generated and archived (policy: `docs/de/security/security_sbom.md`)
 - WinGet manifests were regenerated and validated (`winget validate`) if a Windows ZIP or MSI artefact changed
 - no unintended local changes are included
 

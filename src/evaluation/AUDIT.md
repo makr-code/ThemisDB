@@ -1,6 +1,6 @@
 # Audit Report - Evaluation Module
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -32,10 +32,11 @@
 - Evidence: roadmap phases 3-7 are still open.
 - Action: implement/verify runtime policy and failure semantics.
 
-2. [EVAL-AUD-02] Dedicated tests and benchmarks are pending.
+2. [EVAL-AUD-02] Dedicated EPIC 2 contract tests are still pending.
 - Severity: medium
-- Evidence: roadmap references `tests/epic2_evaluation/` and `benchmarks/epic2_evaluation/` as pending work.
-- Action: deliver suites and enforce regression gates.
+- Evidence: `tests/epic2_evaluation/` remains a scaffold placeholder while
+  benchmark baselines now exist under `benchmarks/epic2_evaluation/`.
+- Action: deliver contract/regression tests and enforce benchmark gates together.
 
 ### Closed
 
