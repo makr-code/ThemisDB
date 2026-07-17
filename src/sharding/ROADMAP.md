@@ -1,12 +1,20 @@
 # Sharding Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase C), §7 (risk) -->
 
 ## Current Status
 
 Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability.
+
+**Hybrid Retrieval Rollout Readiness**: 35% 🔴 (issue #5468).
+- Phase A (single-shard exact): ✅ Ready — single-shard path is stable.
+- Phase B (multi-shard exact): ❌ Q3 2026 — blocked by 340+ cross-shard thread-safety gaps.
+- Phase C (distributed summary-first): ❌ Q4 2026 — requires consensus coordination robustness.
+- **Critical**: Multi-shard is disabled until Phase C thread-safety and lock-ordering gates pass.
+- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## In Progress
 
@@ -16,6 +24,14 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [x] Real AWS S3, Azure Storage, and Google Cloud Storage SDK integrations for cloud backup (Target: Q2 2026)
 
 ## Planned Features
+
+### Hybrid Retrieval Rollout Gates (issue #5468)
+- [ ] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (Target: Q3 2026)
+- [ ] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (Target: Q3 2026)
+- [ ] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (implemented; environment validation pending) (Target: Q4 2026)
+- [~] Phase C benchmark gate: `bench_multishard_exact` (implemented; environment validation pending) (Target: Q4 2026)
+- [ ] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior under sustained shard migration and skewed load (Target: Q4 2026)

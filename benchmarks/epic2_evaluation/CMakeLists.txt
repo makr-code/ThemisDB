@@ -1,15 +1,21 @@
+<<<<<<< HEAD
 # Documentation-first CMake scaffold for planned benchmarks.
 # Issue #5438: benchmark_matrix_bench (EPIC 2.2) activated.
+=======
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+>>>>>>> origin/develop
 
-set(EPIC2_EVALUATION_PLANNED_BENCHMARKS
-    hardware_profile_bench.cc
+message(STATUS "Configuring benchmark module: epic2_evaluation")
+
+set(EPIC2_EVALUATION_BENCHMARKS
     benchmark_matrix_bench.cc
-    metrics_computation_bench.cc
     planner_decision_bench.cc
-    artifact_staleness_bench.cc
     storage_strategy_bench.cc
 )
 
+<<<<<<< HEAD
 # ============================================================================
 # benchmark_matrix_bench — activated (Issue #5438)
 # ============================================================================
@@ -54,3 +60,18 @@ if(NOT TARGET benchmark_matrix_bench)
         message(STATUS "benchmark_matrix_bench: Google Benchmark or themis_evaluation not available – skipped")
     endif()
 endif()
+=======
+foreach(_src IN LISTS EPIC2_EVALUATION_BENCHMARKS)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "bench_epic2_evaluation_${_stem}")
+    themis_add_standard_benchmark(${_target} "${_src}")
+    if(TARGET ${_target})
+        target_include_directories(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/benchmarks
+        )
+        if(TARGET themis_distributed_tensor)
+            target_link_libraries(${_target} PRIVATE themis_distributed_tensor)
+        endif()
+    endif()
+endforeach()
+>>>>>>> origin/develop

@@ -104,6 +104,19 @@ public:
     explicit BiTemporalTable(std::string table_name,
                              std::string source_node = "local");
 
+    // Non-copyable; move explicitly deleted because std::mutex is not movable.
+    // Use std::shared_ptr<BiTemporalTable> when shared ownership is needed,
+    // or pass by reference for in-process transfers.
+    //
+    /// @note Move semantics: BiTemporalTable is intentionally non-movable. The
+    ///   internal std::mutex cannot be moved, and moving a live table under
+    ///   concurrent access would create data-race hazards (CWE-362). Wrap in
+    ///   std::shared_ptr<BiTemporalTable> when shared/transferred ownership is required.
+    BiTemporalTable(const BiTemporalTable&)            = delete;
+    BiTemporalTable& operator=(const BiTemporalTable&) = delete;
+    BiTemporalTable(BiTemporalTable&&)                 = delete;
+    BiTemporalTable& operator=(BiTemporalTable&&)      = delete;
+
     // ── DML ──────────────────────────────────────────────────────────────────
 
     /**

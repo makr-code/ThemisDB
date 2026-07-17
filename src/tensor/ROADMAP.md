@@ -13,6 +13,7 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 - [~] hardening tensor index/bridge behavior under concurrent workload pressure (Target: Q3 2026)
 - [~] improving diagnostics consistency across tensor index, bridge, and graph operations (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for tensor fingerprint and dedup paths (Target: Q3 2026)
+- [x] federated and cross-shard tensor summaries (Completed 2026-07-06, Issue #5427)
 
 ## Planned Features
 

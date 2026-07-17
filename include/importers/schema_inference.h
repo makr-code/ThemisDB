@@ -170,6 +170,35 @@ public:
 
     explicit SchemaInferenceEngine(Config cfg = Config{});
 
+    // -----------------------------------------------------------------
+    // I2: Input validation helpers (Phase 4 hardening)
+    // -----------------------------------------------------------------
+
+    /// Maximum allowed length for a table or column identifier.
+    static constexpr size_t kMaxIdentifierLength = 128;
+
+    /// Maximum number of tables accepted by inferImplicitRelationships()
+    /// and estimateCardinalities().  Inputs exceeding this are rejected
+    /// to prevent quadratic O(n²) worst-case CPU/memory blow-up.
+    static constexpr size_t kMaxTableCount = 5000;
+
+    /// Maximum number of columns per table accepted by validation.
+    static constexpr size_t kMaxColumnCount = 1600;
+
+    /**
+     * @brief Validate a SQL identifier (table or column name) for safe use
+     *        in dynamically-constructed query strings.
+     *
+     * Accepts identifiers consisting solely of ASCII letters, digits, and
+     * underscores, between 1 and kMaxIdentifierLength characters. All SQL
+     * metacharacters (quotes, semicolons, dashes, dots, spaces, etc.) cause
+     * the function to return false.
+     *
+     * @param identifier  The string to validate.
+     * @return true if the identifier is safe for SQL use; false otherwise.
+     */
+    static bool isValidIdentifier(const std::string& identifier);
+
 private:
     Config config_;
 

@@ -205,6 +205,52 @@ ctest --preset <PRESET_NAME> --output-on-failure
 
 ---
 
+## 3c) Reproducible Builds Policy
+
+ThemisDB build metadata is reproducible by policy:
+
+- `cmake/BuildInfo.cmake` uses `SOURCE_DATE_EPOCH` when it is set.
+- If `SOURCE_DATE_EPOCH` is not set, BuildInfo falls back to the Git `HEAD`
+  commit timestamp so repeated builds from the same source tree do not drift by
+  configure time alone.
+- If neither source is available, the build falls back to configure time only
+  for non-strict local builds and emits a warning because that output is not
+  reproducible.
+
+### Strict mode for CI, release packaging, and audit builds
+
+Use `-DTHEMIS_REQUIRE_REPRODUCIBLE_BUILD=ON` whenever a build must fail instead
+of silently falling back to non-reproducible metadata.
+
+```bash
+export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+cmake --preset community-release -DTHEMIS_REQUIRE_REPRODUCIBLE_BUILD=ON
+cmake --build --preset community-release --parallel 16
+```
+
+This follows the `SOURCE_DATE_EPOCH` convention used by Debian, F-Droid, and
+the wider reproducible-builds ecosystem.
+
+CI enforcement lives in
+`.github/workflows/09-pr-gates_reproducible-builds.yml`, which uploads the
+generated `build_info.h` files plus their SHA-256 digests as audit evidence.
+
+### Local verification
+
+Run the focused reproducibility probe to verify that identical source plus
+identical `SOURCE_DATE_EPOCH` produces identical generated build metadata:
+
+```bash
+export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+cmake -DOUTPUT_DIR=/tmp/themis-repro -P cmake/VerifyReproducibleBuildInfo.cmake
+```
+
+The probe configures isolated temporary build directories, compares the SHA-256
+hashes of the generated `build_info.h` artifacts, and fails if the metadata is
+not deterministic.
+
+---
+
 ## 4) Troubleshooting Presets
 
 ### Error: "Could not find toolchain file: vcpkg/scripts/buildsystems/vcpkg.cmake"
@@ -313,4 +359,3 @@ For quick reference, here's the complete preset matrix:
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

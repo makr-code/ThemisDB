@@ -294,6 +294,10 @@ void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
         THEMIS_WARN("[CacheReplicationCoordinator] fanout queue full ({} entries); "
                     "dropping invalidation for key='{}'",
                     kRetryQueueCapacity, item.key);
+        // C3: Structured eviction tracking telemetry.
+        THEMIS_WARN("{{\"event\":\"eviction_fanout_drop\",\"eviction_reason\":\"queue_full\","
+                    "\"evicted_entries\":1,\"freed_bytes\":0,\"key\":\"{}\"}}",
+                    item.key);
         std::lock_guard<std::mutex> ml(metrics_mutex_);
         ++fanout_dropped_;
         return;
@@ -349,6 +353,10 @@ void CacheReplicationCoordinator::fanoutWorker() {
             } catch (const std::exception& e) {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
                             peer->address(), e.what());
+                // C3: Structured replication failure telemetry.
+                THEMIS_WARN("{{\"event\":\"replication_failure\",\"replica_id\":\"{}\","
+                            "\"reason\":\"{}\",\"retry_count\":{}}}",
+                            peer->address(), e.what(), item.attempts);
                 failed_peers.push_back(peer);
             } catch (const std::string& e) {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
@@ -371,6 +379,10 @@ void CacheReplicationCoordinator::fanoutWorker() {
             } else {
                 THEMIS_WARN("[CacheReplicationCoordinator] dropping invalidation for "
                             "key='{}' after {} attempts", item.key, kMaxRetryAttempts);
+                // C3: Structured max-retry eviction telemetry.
+                THEMIS_WARN("{{\"event\":\"eviction_fanout_drop\",\"eviction_reason\":\"max_retries\","
+                            "\"evicted_entries\":1,\"freed_bytes\":0,\"key\":\"{}\"}}",
+                            item.key);
                 std::lock_guard<std::mutex> ml(metrics_mutex_);
                 ++fanout_failed_;
             }

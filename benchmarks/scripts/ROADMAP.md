@@ -5,6 +5,7 @@
 - [x] `audit_benchmark_registration.py` — CMake-Registrierungsintegrität als CI-geeignetes CLI-Tool implementiert (Target: 2026-Q2)
 - [x] Syntax-Fehler in `scientific_evaluation_framework.py` (C-Block-Header) behoben (Target: 2026-Q2)
 - [x] Audit-, Security- und Roadmap-Dokumentation für `benchmarks/scripts` vervollständigt (Target: 2026-Q2)
+- [x] Wave-6-Guardrails im Evaluator ergänzt (p99-, Drift-, Recovery- und Throughput-Gates inkl. Track-Tagging) (Target: 2026-Q3)
 
 ## In Progress
 - [~] CLI-Integration-Test für `scientific_evaluation_framework.py` als eigenständiges Test-Target (Target: 2026-Q3)

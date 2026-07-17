@@ -27,6 +27,9 @@
 #include <utility>
 #include <unordered_map>
 #include <memory>
+#include <mutex>
+#include <atomic>
+#include <chrono>
 #include <nlohmann/json.hpp>
 #include "utils/expected.h"
 #include "themis/base/interfaces/storage_interface.h"
@@ -405,7 +408,10 @@ public:
      * The pointer is non-owning; the caller manages the lifetime.
      * Pass nullptr to disable statistics-based optimisation.
      */
-    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept {
+        std::lock_guard<std::mutex> lk(config_mutex_);
+        stats_collector_ = sc;
+    }
 
     /**
      * @brief Inject a collection-access checker (QE-2 fix).
@@ -429,8 +435,47 @@ public:
                            const std::string& caller_id)> checker,
         std::string caller_id = "") noexcept
     {
+        std::lock_guard<std::mutex> lk(config_mutex_);
         collection_access_checker_ = std::move(checker);
         collection_access_caller_id_ = std::move(caller_id);
+    }
+
+    /**
+     * @brief Inject an optional non-owning audit sink for query phase telemetry.
+     *
+     * When set, key execution phases (parallel scans, entity loading, federation
+     * dispatch) emit structured JSON audit events to the provided logger.
+     * The pointer is non-owning; the caller manages the lifetime.
+     * Pass nullptr to disable audit logging.
+     *
+     * Thread-safe: protected by the internal config_mutex_.
+     *
+     * @param al Pointer to AuditLogger instance, or nullptr to disable.
+     */
+    void setAuditLogger(::themis::utils::AuditLogger* al) noexcept {
+        std::lock_guard<std::mutex> lk(config_mutex_);
+        audit_logger_ = al;
+    }
+
+    /**
+     * @brief Configure per-query execution timeout for parallel TBB task groups.
+     *
+     * When elapsed time after tg.wait() exceeds @p query_timeout a structured
+     * timeout audit event is emitted and a warning is logged.  The timeout is
+     * advisory — it does not interrupt already-running TBB tasks.
+     *
+     * Default: 30 000 ms for queries, 1 000 ms for lock acquisition.
+     *
+     * @param query_timeout  Maximum allowed wall-clock time for a full query.
+     * @param lock_timeout   Maximum allowed time for a single lock attempt.
+     */
+    void setQueryTimeout(
+        std::chrono::milliseconds query_timeout = std::chrono::seconds(30),
+        std::chrono::milliseconds lock_timeout  = std::chrono::seconds(1)) noexcept
+    {
+        std::lock_guard<std::mutex> lk(config_mutex_);
+        query_timeout_ms_ = query_timeout;
+        lock_timeout_ms_  = lock_timeout;
     }
 
     /**
@@ -788,6 +833,30 @@ private:
     ::themis::utils::AuditLogger* audit_logger_ = nullptr;  ///< Optional non-owning audit sink for query phase telemetry
     std::function<bool(const std::string&, const std::string&)> collection_access_checker_;
     std::string collection_access_caller_id_;  ///< Caller identity forwarded to access checker
+
+    struct AuditConfigSnapshot {
+        ::themis::utils::AuditLogger* audit_logger;
+        std::chrono::milliseconds query_timeout_ms;
+    };
+
+    // ── Concurrency protection (Q4) ─────────────────────────────────────────
+    /// Guards runtime-configurable fields (audit_logger_, stats_collector_,
+    /// collection_access_checker_, collection_access_caller_id_,
+    /// query_timeout_ms_, lock_timeout_ms_) against concurrent set/get races.
+    mutable std::mutex config_mutex_;
+
+    [[nodiscard]] AuditConfigSnapshot snapshotAuditConfig() const noexcept {
+        std::lock_guard<std::mutex> lk(config_mutex_);
+        return AuditConfigSnapshot{audit_logger_, query_timeout_ms_};
+    }
+
+    /// Per-query advisory timeout: how long a tg.wait() phase may take before
+    /// a structured timeout audit event is emitted.  Default: 30 s.
+    std::chrono::milliseconds query_timeout_ms_{30000};
+
+    /// Per-lock advisory timeout: threshold for lock-acquisition warnings.
+    /// Default: 1 s.
+    std::chrono::milliseconds lock_timeout_ms_{1000};
     
     // New interface-based dependencies (used with DI constructors)
     // When these are set, they take precedence over legacy pointers
@@ -890,6 +959,5 @@ struct QueryEngine::EvaluationContext {
 
 } // namespace query
 } // namespace themis
-
 
 

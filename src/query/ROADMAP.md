@@ -1,11 +1,18 @@
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase A–B), §7 (risk) -->
 
 # Query Module Roadmap
 
 ## Current Status
 Production-ready multi-model query stack with parser, optimizer, execution, federation, caching, and compatibility layers in active use.
+
+**Hybrid Retrieval Rollout Readiness**: 55% 🟡 (issue #5468).
+- Phase A (single-shard exact): ✅ Ready with error-path fixes (return-value checks, exception handling).
+- Phase B (hybrid planning): 🟡 Q3 2026 — thread-safety in parallel plan optimization required.
+- Phase C (parallel optimization): 🟡 Q3 2026+ after thread-safety fixes (140 gaps).
+- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## In Progress
 - [~] Query hardening wave for safety, resilience, and predictable performance (Target: Q3 2026)
@@ -46,6 +53,15 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 
 ## Planned Features
 
+### Hybrid Retrieval Rollout Gates (issue #5468)
+- [ ] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
+- [ ] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
+- [ ] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (Target: Q3 2026)
+- [ ] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
+- [ ] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
+- [ ] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (Target: Q3 2026)
+- [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)
+
 ### Short-term (3-6 months)
 - [ ] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (Target: v2.0.0-beta Q3 2026)
 - [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
@@ -76,8 +92,8 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [ ] Tighten JIT fallback and equivalence checks for hot-query compilation paths (Target: Q1 2027)
 
 ### Phase 5: Documentation and Release Readiness
-- [ ] Keep query docs source-aligned with explicit sourcecode verification evidence per update cycle (Target: ongoing)
-- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
+- [x] Keep query docs source-aligned with explicit sourcecode verification evidence per update cycle (Target: ongoing)
+- [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
 - Status: Tracking in progress

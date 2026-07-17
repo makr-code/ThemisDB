@@ -131,19 +131,19 @@ class QueryCorrectnessScan:
             if has_named_placeholder and not has_bind_call and not self._is_likely_query_literal(line):
                 continue
 
-                # Check if value is validated
-                prev_lines = '\n'.join(lines[max(0, idx-10):idx])
-                
-                if not re.search(r'(validate|check|assert|range)', prev_lines, re.IGNORECASE):
-                    self.gaps.append({
-                        'file': str(file_path.relative_to(self.repo_root)),
-                        'line': idx,
-                        'category': 'query_correctness',
-                        'severity': 'HIGH',
-                        'pattern': 'missing_param_validation',
-                        'description': 'Query parameter binding without validation',
-                        'context': line.strip()
-                    })
+            # Check if value is validated
+            prev_lines = '\n'.join(lines[max(0, idx-10):idx])
+
+            if not re.search(r'(validate|check|assert|range)', prev_lines, re.IGNORECASE):
+                self.gaps.append({
+                    'file': str(file_path.relative_to(self.repo_root)),
+                    'line': idx,
+                    'category': 'query_correctness',
+                    'severity': 'HIGH',
+                    'pattern': 'missing_param_validation',
+                    'description': 'Query parameter binding without validation',
+                    'context': line.strip()
+                })
     
     def _check_type_mismatches(self, file_path: Path, lines: List[str]):
         """Find type mismatches in WHERE clauses"""

@@ -4794,7 +4794,6 @@ void BatchedAckTracker::flushPending() {
     AckBatch batch;
     batch.sequences   = std::move(pending_);
     batch.created_at  = std::chrono::system_clock::now();
-    pending_.clear();
 
     stats_total_acks_.fetch_add(batch.sequences.size());
     stats_total_batches_.fetch_add(1);

@@ -2646,6 +2646,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/sharding_manager_edition.cpp
     ../src/sharding/slo_monitor.cpp
+    ../src/sharding/lora_artifact_distribution.cpp
 
     # Hardware acceleration (core abstraction layer - always included)
     ../src/acceleration/compute_backend.cpp
@@ -5150,12 +5151,23 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
+<<<<<<< HEAD
     # EPIC 2 Evaluation module — benchmark_matrix and evaluation contracts
     # Issue #5438: EPIC 2.2 benchmark matrix implementation
     # -------------------------------------------------------------------------
     if(EXISTS "${THEMIS_ROOT_DIR}/src/evaluation/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/evaluation
                          ${CMAKE_CURRENT_BINARY_DIR}/src/evaluation)
+=======
+    # EPIC 1 Retrieval — LoRAPackage & PortableAdapterProduct (Phase 3, 2026-07-16)
+    # Moved to the dedicated THEMIS_BUILD_RETRIEVAL option block below.
+    # Distributed Tensor Artifacts module (EPIC 5428 Phase 3, 2026-07-13)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
+       NOT TARGET themis_distributed_tensor)
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
+>>>>>>> origin/develop
     endif()
 
     # Non-compiled plugin manifests / legacy orchestration: plugins/
@@ -5163,6 +5175,22 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins
                          ${CMAKE_CURRENT_BINARY_DIR}/plugins)
     endif()
+endif()
+
+# EPIC 1 Retrieval module — available in all editions (not enterprise-only).
+# Builds themis_retrieval; opt out by passing -DTHEMIS_BUILD_RETRIEVAL=OFF.
+option(THEMIS_BUILD_RETRIEVAL "Build the EPIC 1 retrieval module (LoRAPackage / PortableAdapterProduct)" ON)
+if(THEMIS_BUILD_RETRIEVAL AND EXISTS "${THEMIS_ROOT_DIR}/src/retrieval/CMakeLists.txt")
+    if(NOT TARGET themis_retrieval)
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/retrieval
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/retrieval)
+    endif()
+# Distributed Tensor Artifacts module (EPIC 5428) is community-visible and
+# must be available outside enterprise-plugin builds as well.
+if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
+   NOT TARGET themis_distributed_tensor)
+    add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
+                     ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
 endif()
 
 # Enterprise Modules (new modular DLL architecture)

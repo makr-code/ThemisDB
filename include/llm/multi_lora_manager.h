@@ -343,6 +343,37 @@ public:
     ~MultiLoRAManager();
     
     /**
+     * @brief Move constructor for resource transfer
+     * 
+     * Transfers ownership of internal resources (threads, GPU state) from other
+     * to this object. The source object is left in a valid empty state.
+     * 
+     * @param other Source object to move from (left in valid empty state)
+     * @note Marked noexcept: move operations don't throw
+     * @cwe CWE-457 (Uninitialized Variable) prevention: ensures moved-from state is valid
+     */
+    MultiLoRAManager(MultiLoRAManager&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator for resource transfer
+     * 
+     * Transfers ownership of internal resources from other to this object.
+     * Cleans up existing resources before transfer. Self-assignment safe.
+     * 
+     * @param other Source object to move from
+     * @return Reference to this object
+     * @note Marked noexcept: move operations don't throw
+     * @cwe CWE-415 (Double Free) prevention: proper cleanup before reassignment
+     * @cwe CWE-672 (Use After Free) prevention: source left in valid state
+     */
+    MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
+    
+    // Delete copy constructor and assignment (Rule of Five)
+    // Resources are not copyable due to unique_ptr and thread ownership
+    MultiLoRAManager(const MultiLoRAManager&) = delete;
+    MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
+    
+    /**
      * @brief Set quantization configuration
      * 
      * Configures quantization parameters for subsequently loaded LoRAs.
