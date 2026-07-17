@@ -15,23 +15,28 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include <filesystem>
+#include <chrono>
 #include <vector>
 
 using namespace themis;
 
-static const std::string DB_PATH = "bench_batch_insert_db";
-
 class BatchInsertBenchmark : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        // Clean up old DB
-        if (std::filesystem::exists(DB_PATH)) {
-            std::filesystem::remove_all(DB_PATH);
+        // Unique path under the OS temp directory prevents collisions between
+        // concurrent or repeated benchmark runs.
+        const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("themis_bench_batch_insert_" + std::to_string(ts))).string();
+
+        // Clean up any leftover from a previous abnormal exit
+        if (std::filesystem::exists(db_path_)) {
+            std::filesystem::remove_all(db_path_);
         }
         
         // Configure and open database
         RocksDBWrapper::Config config;
-        config.db_path = DB_PATH;
+        config.db_path = db_path_;
         config.compression_default = "lz4";
         config.block_cache_size_mb = 256;
         config.disable_wal_for_benchmark = false;  // Keep WAL enabled for TransactionDB
@@ -60,8 +65,8 @@ public:
         db.reset();
         
         // Cleanup
-        if (std::filesystem::exists(DB_PATH)) {
-            std::filesystem::remove_all(DB_PATH);
+        if (std::filesystem::exists(db_path_)) {
+            std::filesystem::remove_all(db_path_);
         }
     }
     
@@ -75,6 +80,7 @@ public:
         return entity;
     }
     
+    std::string db_path_;
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<SecondaryIndexManager> indexMgr;
 };

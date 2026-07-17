@@ -26,6 +26,10 @@ Diese Uebersicht verlinkt nur auf stabile Einstiegsseiten und reduziert Root-Rau
 - Monitoring Setup: [en/operations/MONITORING_SETUP_GUIDE.md](en/operations/MONITORING_SETUP_GUIDE.md)
 - Backup/Restore Hub: [BACKUP_RESTORE_DOCS_INDEX.md](BACKUP_RESTORE_DOCS_INDEX.md)
 - Replikation/HA: [replication/README.md](replication/README.md)
+- AI/ML Pipeline (E2E): [PIPELINE_E2E_GUIDE.md](PIPELINE_E2E_GUIDE.md)
+- Pipeline SOPs: [operations/PIPELINE_E2E_SOPs.md](operations/PIPELINE_E2E_SOPs.md)
+- Pipeline Review Templates: [reviews/PIPELINE_REVIEW_TEMPLATES.md](reviews/PIPELINE_REVIEW_TEMPLATES.md)
+- Pipeline Lessons Learned: [PIPELINE_LESSONS_LEARNED.md](PIPELINE_LESSONS_LEARNED.md)
 
 ## 4) Lernen und Enablement
 

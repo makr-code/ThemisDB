@@ -29,13 +29,30 @@
 
 Production graph runtime exists across query planning, constraint-aware traversal, rewrite/explain support, parallel and distributed execution, and reasoning-oriented graph capabilities.
 
+**Hybrid Retrieval Rollout Readiness**: 60% 🟢 (issue #5468).
+- L0 gap verification: 0 real gaps — all 9 findings verified as defensive patterns (2026-06-25).
+- Phase A (exact-first, CPU-first graph truth): ✅ Ready. Graph truth is exact and CPU-first in all phases.
+- Phase B (graph validation): ✅ Ready with minor error-path hardening.
+- Phase C (hybrid planning): ✅ Ready for exact graph layer; Category B kernels conditional.
+- **Invariant**: Category C kernels (policy, provenance, transactions) are CPU-first permanently.
+  GPU acceleration is never permitted on policy enforcement or transaction paths.
+- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
+
 ## In Progress
 
 - [~] hardening GPU/distributed traversal parity and fallback determinism in mixed-capability environments (Target: Q3 2026)
 - [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for constraint denial, fallback, and reasoning conflict incidents (Target: Q3 2026)
+- [~] hybrid retrieval rollout Phase A entry: error path and thread-safety hardening (Target: Q3 2026)
 
 ## Planned Features
+
+### Hybrid Retrieval Rollout Gates (issue #5468)
+- [ ] Phase A gate: fix 50% of error-handling gaps (195 → ~98) in exact traversal paths (Target: Q3 2026)
+- [ ] Phase A gate: fix 50% of thread-safety gaps (240 → ~120) under concurrent access (Target: Q3 2026)
+- [ ] Phase A ctest gate: `test_graph_exact_traversal` with error injection (Target: Q3 2026)
+- [ ] Phase C gate: Category B kernel fallback paths hardened (BFS frontier cutoff, Dijkstra overflow) (Target: Q4 2026)
+- [ ] Permanent invariant: `ann_frontdoor_route_type` metric confirms no GPU path for Category C (ongoing)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for high fan-out constrained traversals under mixed query shapes (Target: Q4 2026)

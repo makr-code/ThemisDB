@@ -32,7 +32,6 @@ std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& tex
         } else {
             if (!word.empty()) {
                 tokens.push_back(std::move(word));
-                word.clear();
             }
         }
     }

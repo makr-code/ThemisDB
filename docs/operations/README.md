@@ -21,6 +21,7 @@ This directory contains operational handbooks, runbooks, and specialized guides 
 | [OPERATIONS_HANDBOOK.md](OPERATIONS_HANDBOOK.md) | Comprehensive operational procedures: access management, incident response, DR, logging, compliance, CI/CD automation |
 | [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md) | Phase 5 operational tooling runbook: startup, monitoring, troubleshooting, backup/recovery, scaling |
 | [THEMISCTL_ADMIN_GUIDE.md](THEMISCTL_ADMIN_GUIDE.md) | Admin CLI (`themisctl`) reference: installation, all commands, REPL, configuration |
+| [PIPELINE_E2E_SOPs.md](PIPELINE_E2E_SOPs.md) | Role-based SOPs for the full RAG→Package→Build→Deploy→Recover pipeline (Dev, Operator, Auditor, Data Owner) |
 
 ### Access Management
 

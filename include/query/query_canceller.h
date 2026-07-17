@@ -12,6 +12,7 @@
 #pragma once
 
 #include <atomic>
+#include <chrono>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -126,7 +127,7 @@ public:
     };
 
 private:
-    mutable std::mutex mutex_;
+    mutable std::timed_mutex mutex_;
     std::unordered_map<std::string,
                        std::weak_ptr<QueryCancellationToken>> tokens_;
 };

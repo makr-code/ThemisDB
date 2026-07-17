@@ -15,6 +15,7 @@
 #include "storage/base_entity.h"
 #include <benchmark/benchmark.h>
 #include <filesystem>
+#include <chrono>
 #include <random>
 #include <queue>
 #include <stack>
@@ -29,8 +30,12 @@ using namespace themis;
 class GraphTraversalBenchmarkFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        // Clean up any existing test database
-        test_db_path_ = "./data/bench_graph_traversal_tmp";
+        // Unique path under the OS temp directory prevents collisions between
+        // concurrent or repeated benchmark runs.
+        const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        test_db_path_ = (std::filesystem::temp_directory_path() /
+                         ("themis_bench_graph_traversal_" + std::to_string(ts)))
+                            .string();
         if (std::filesystem::exists(test_db_path_)) {
             std::filesystem::remove_all(test_db_path_);
         }

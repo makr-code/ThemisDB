@@ -1,7 +1,7 @@
 # Evaluation Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -20,7 +20,7 @@ Runtime policy behavior, full tests, and benchmark evidence remain pending.
 ### Short-term (3-6 months)
 - [ ] implement phase-3 runtime error/policy behavior (Target: Q4 2026)
 - [ ] deliver phase-4 verification and regression suites (Target: Q4 2026)
-- [ ] establish phase-5 benchmark/hardening baselines (Target: Q4 2026)
+- [x] establish phase-5 benchmark/hardening baselines (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
 - [ ] complete phase-6 acceptance documentation from measured evidence (Target: Q1 2027)
@@ -41,7 +41,7 @@ Runtime policy behavior, full tests, and benchmark evidence remain pending.
 - [ ] contract and integration tests implemented in `tests/epic2_evaluation/`
 
 ### Phase 5: Performance and Hardening
-- [ ] benchmark suite implemented in `benchmarks/epic2_evaluation/`
+- [x] benchmark suite implemented in `benchmarks/epic2_evaluation/`
 
 ### Phase 6: Documentation and Acceptance
 - [x] core evaluation docs aligned to source-verifiable scaffold state
