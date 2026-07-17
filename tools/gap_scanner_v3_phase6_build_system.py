@@ -90,17 +90,18 @@ class BuildSystemScanner:
         self, file_path: Path, lines: List[str], content: str
     ) -> None:
         """B-1: target_link_libraries referencing names that are not declared targets."""
-        # Collect declared targets in this file
+        # Collect declared targets in this file.
+        # CMake target names may contain letters, digits, underscores, hyphens, and dots.
         declared: set = set()
         for m in re.finditer(
-            r'(?:add_executable|add_library)\s*\(\s*(\w+)', content
+            r'(?:add_executable|add_library)\s*\(\s*([\w.\-]+)', content
         ):
             declared.add(m.group(1))
 
         for idx, line in enumerate(lines, 1):
             m = re.search(
-                r'target_link_libraries\s*\(\s*(\w+)\s+(PRIVATE|PUBLIC|INTERFACE)\s+'
-                r'([\w: ]+)\)',
+                r'target_link_libraries\s*\(\s*([\w.\-]+)\s+(PRIVATE|PUBLIC|INTERFACE)\s+'
+                r'([\w.: \-]+)\)',
                 line,
             )
             if not m:
@@ -132,9 +133,13 @@ class BuildSystemScanner:
         self, file_path: Path, lines: List[str]
     ) -> None:
         """B-2: add_compile_options() applies globally and may conflict with targets."""
+        # Only flag when target_compile_options() is also present: mixing global and
+        # per-target flags in the same file creates hard-to-debug conflicts.
+        content = '\n'.join(lines)
+        if not re.search(r'\btarget_compile_options\s*\(', content):
+            return
         for idx, line in enumerate(lines, 1):
             if re.search(r'\badd_compile_options\s*\(', line):
-                # Warn only if there are also target_compile_options in the same file
                 self._gap(
                     file_path, idx, 'global_compile_options', 'MEDIUM',
                     'add_compile_options() applies to ALL subsequent targets; '
@@ -151,8 +156,9 @@ class BuildSystemScanner:
         self, file_path: Path, lines: List[str], content: str
     ) -> None:
         """B-3: Release builds should carry debug info for production diagnostics."""
-        # Only meaningful for CMakePresets.json or root CMakeLists
-        if file_path.name not in {'CMakeLists.txt', 'CMakePresets.json'}:
+        # Only meaningful for root CMakeLists.txt (CMakePresets.json is not passed
+        # to scan_files() and therefore never reaches this check).
+        if file_path.name != 'CMakeLists.txt':
             return
 
         # Look for Release build type without -g / /Zi

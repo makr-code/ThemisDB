@@ -361,30 +361,32 @@ PlannerDecision DefaultQueryPlanner::selectPath(
             // No artifact present → ANN-only.
             d = makeAnnOnlyDecision(eligibility, config);
         } else if (tensorSummaryEligible(freshness, config)) {
-            // ------------------------------------------------------------------
-            // Path 2 — ANN + Tensor Summary
-            // ------------------------------------------------------------------
-            d = makeAnnTensorSummaryDecision(eligibility, config);
+            // Tensor freshness gates passed.  Choose between Path 2 and Path 3
+            // based on whether the caller requires exact graph validation.
+            if (eligibility.requires_exact_graph_validation) {
+                // ------------------------------------------------------------------
+                // Path 3 — ANN + Tensor Refinement + Exact Graph Validation
+                //
+                // Used for quality-critical queries where tensor improves candidate
+                // ranking but graph truth must confirm the final answer.  Category C
+                // sub-paths within this path remain CPU-only.
+                // ------------------------------------------------------------------
+                d = makeAnnTensorExactGraphDecision(eligibility, config);
+            } else {
+                // ------------------------------------------------------------------
+                // Path 2 — ANN + Tensor Summary
+                // ------------------------------------------------------------------
+                d = makeAnnTensorSummaryDecision(eligibility, config);
+            }
         } else {
-            // Tensor gates failed — record the specific reason.
+            // Tensor gates failed — determine reason and fall back to Path 4.
             const FallbackReason tensorReason =
                 (freshness.artifact_age_ms > 0 || freshness.rebuild_in_progress)
                     ? tensorFreshnessFallbackReason(freshness, config)
                     : FallbackReason::TensorArtifactMissing;
 
-            // ------------------------------------------------------------------
-            // Path 3 — ANN + Tensor Refinement + Exact Graph Validation
-            //
-            // Used when tensor freshness passes but exact graph validation is also
-            // required (quality-critical queries).  If tensor is stale, fall through
-            // to Path 4.
-            // ------------------------------------------------------------------
-            if (tensorReason == FallbackReason::None) {
-                d = makeAnnTensorExactGraphDecision(eligibility, config);
-            } else {
-                // Tensor is stale / missing → Path 4.
-                d = makeDirectExactGraphDecision(tensorReason, config);
-            }
+            // Tensor is stale / missing → Path 4.
+            d = makeDirectExactGraphDecision(tensorReason, config);
         }
     } else {
         // ------------------------------------------------------------------

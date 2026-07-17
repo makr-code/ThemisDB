@@ -253,7 +253,7 @@ class UnifiedGapScannerV3:
         results['deprecated_apis'] = deprecated_results
         
         # Phase 8 Scanners
-        print("\n[19/30] Performance Patterns Gap Scanner (Phase 8)")
+        print("\n[18/30] Performance Patterns Gap Scanner (Phase 8)")
         print("-" * 80)
         perf_patterns_scanner = PerformanceAntiPatternsScan(str(self.repo_root))
         perf_patterns_gaps = perf_patterns_scanner.scan_files(src_files)

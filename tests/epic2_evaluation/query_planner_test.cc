@@ -280,6 +280,42 @@ TEST_F(QueryPlannerTest, AnnTensorSummary_FallsBackOnRankCapExceeded) {
     EXPECT_EQ(d.fallback_reason, FallbackReason::TensorRankCapExceeded);
 }
 
+// --- Path 3: ANN + Tensor Refinement + Exact Graph Validation ---
+
+TEST_F(QueryPlannerTest, AnnTensorExactGraph_SelectedWhenQualityCritical) {
+    // requires_exact_graph_validation=true + fresh artifact → Path 3
+    auto e                              = makeFullEligibility();
+    e.requires_exact_graph_validation   = true;
+    const auto f = makeFreshArtifact();
+    const auto d = planner_->selectPath(e, f, config_);
+
+    EXPECT_EQ(d.path, ExecutionPath::AnnTensorExactGraph);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::None);
+    EXPECT_TRUE(d.uses_tensor);
+    EXPECT_TRUE(d.uses_exact_graph);
+}
+
+TEST_F(QueryPlannerTest, AnnTensorExactGraph_WithoutFlagSelectsPath2) {
+    // requires_exact_graph_validation=false (default) + fresh artifact → Path 2
+    const auto e = makeFullEligibility();
+    const auto f = makeFreshArtifact();
+    const auto d = planner_->selectPath(e, f, config_);
+
+    EXPECT_EQ(d.path, ExecutionPath::AnnTensorSummary);
+    EXPECT_FALSE(d.uses_exact_graph);
+}
+
+TEST_F(QueryPlannerTest, AnnTensorExactGraph_StaleArtifactFallsToPath4EvenWhenQualityCritical) {
+    // Stale artifact → Path 4 regardless of requires_exact_graph_validation
+    auto e                              = makeFullEligibility();
+    e.requires_exact_graph_validation   = true;
+    const auto f = makeStaleArtifact();
+    const auto d = planner_->selectPath(e, f, config_);
+
+    EXPECT_EQ(d.path, ExecutionPath::DirectExactGraph);
+    EXPECT_EQ(d.fallback_reason, FallbackReason::TensorArtifactStale);
+}
+
 // --- Path 4: Direct Exact Graph ---
 
 TEST_F(QueryPlannerTest, DirectExactGraph_SelectedWhenAnnDisabled) {
@@ -454,7 +490,7 @@ public:
     }
 
     PlannerDecision last_decision;
-    uint64_t        last_latency_us{0};
+    uint64_t        last_latency_us{UINT64_MAX};  // Sentinel: UINT64_MAX means "not yet set"
     int             call_count{0};
 };
 
@@ -537,9 +573,8 @@ TEST(PlannerObserver, ObserverReceivesNonZeroLatency) {
 
     planner->selectPath(e, f, c);
 
-    // Latency must be recorded (≥ 0 µs; practically > 0 on any real clock).
-    // We test only that it was set (not a magic sentinel).
-    EXPECT_GE(obs.last_latency_us, 0u);
+    // Verify the observer was called and latency was set (sentinel replaced).
+    EXPECT_LT(obs.last_latency_us, UINT64_MAX);
 }
 
 TEST(PlannerObserver, ObserverWithFreshArtifactPath2) {

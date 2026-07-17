@@ -31,12 +31,9 @@
 
 #pragma once
 
-#include <chrono>
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <string>
-#include <string_view>
 
 namespace themis {
 namespace evaluation {
@@ -289,6 +286,12 @@ struct ExecutionEligibility {
     // Policy overrides
     bool force_exact{false};            ///< Override: always use exact graph (Path 4).
     bool force_cpu{false};              ///< Override: disable all GPU paths.
+
+    /// Quality-critical flag: when true and tensor freshness gates pass, the planner
+    /// selects Path 3 (ANN + Tensor Refinement + Exact Graph) instead of Path 2
+    /// (ANN + Tensor Summary). Use for queries where tensor improves ranking but
+    /// graph truth must confirm the final answer (e.g., security-sensitive lookups).
+    bool requires_exact_graph_validation{false};
 
     // Module readiness (gap analysis thresholds)
     bool query_thread_safety_ok{false}; ///< Parallel plan optimization is safe.
