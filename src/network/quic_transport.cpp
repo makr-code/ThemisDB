@@ -160,8 +160,8 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
     }
 
     // QUIC requires TLS 1.3; reject older versions.
-    SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
-    SSL_CTX_set_max_proto_version(ctx, TLS1_3_VERSION);
+    SSL_CTX_set_min_proto_version(ctx.get(), TLS1_3_VERSION);
+    SSL_CTX_set_max_proto_version(ctx.get(), TLS1_3_VERSION);
 
     // Load certificate chain and private key only when paths are provided.
     if (!cert_path.empty() &&

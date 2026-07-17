@@ -26,6 +26,7 @@
 
 #ifdef THEMIS_ENABLE_HIP
 #include <hip/hip_runtime.h>
+#include <hipblas/hipblas.h>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -330,8 +331,6 @@ private:
 // ============================================================================
 // hipBLAS Handle RAII Wrapper
 // ============================================================================
-
-#include <hipblas/hipblas.h>
 
 /**
  * @brief RAII wrapper for hipblasHandle_t.

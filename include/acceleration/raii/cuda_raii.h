@@ -26,6 +26,7 @@
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
+#include <cublas_v2.h>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -289,8 +290,6 @@ private:
 // ============================================================================
 // cuBLAS Handle RAII Wrapper
 // ============================================================================
-
-#include <cublas_v2.h>
 
 /**
  * @brief RAII wrapper for cublasHandle_t.
