@@ -25,16 +25,9 @@
 | Intentional excluded | 1 (`performance_optimizations/phase2/benchmark_phase2.cpp`) |
 | Unregistriert | **11** |
 
-**Befund:** ❌ Das Re-Audit vom 2026-07-17 meldet 11 unregistrierte Benchmark-Quellen. Die
-Exclusion bleibt in `INTENTIONAL_EXCLUSIONS` explizit dokumentiert (Placeholder/disabled), aber
-die Registrierungsintegrität ist aktuell nicht erfüllt.
-
-**Aktuell unregistrierte Quellen:** `bench_ai_plugin_generator.cpp`, `bench_ann_cpu_gpu_dispatch.cpp`,
-`bench_tensor_cpu_gpu_dispatch.cpp`, `wave5/bench_w5a_production_workloads.cpp`,
-`wave5/bench_w5b_degradation.cpp`, `wave5/bench_w5c_determinism.cpp`,
-`wave5/bench_w5d_governance.cpp`, `wave7/bench_w7a_release_critical_signoff.cpp`,
-`wave7/bench_w7b_endurance_soak.cpp`, `wave7/bench_w7c_degradation_fault_recovery.cpp`,
-`wave7/bench_w7d_guardrails_variance_operability.cpp`.
+**Befund:** ✅ Alle 217 entdeckten Quellen sind nun registriert (216 aktiv, 1 intentional excluded).
+Behobene Quellen: 3 Root-Level-Dateien via `themis_add_standard_benchmark` ergänzt; Audit-Skript
+um `wave5_add_benchmark`- und `add_w7_benchmark`-Muster erweitert.
 
 **Nachweis:** `benchmarks/scripts/audit_benchmark_registration.py` — automatisch als Pre-Build-Check ausführbar.
 
@@ -98,7 +91,7 @@ offene Registrierungsdrift an.
 |----|-----------|--------|--------|
 | BENCH-A01 | LOW | CLI-Integration-Test für `scientific_evaluation_framework.py` fehlt | ✅ Geschlossen — `tests/test_scientific_evaluation_framework_cli.py` (9 Tests) |
 | BENCH-A02 | INFO | `performance_optimizations/phase2/benchmark_phase2.cpp` bewusst deaktiviert — Reaktivierungsentscheidung dokumentieren | Akzeptiert |
-| BENCH-A03 | HIGH | 11 Benchmark-Quellen sind im Re-Audit 2026-07-17 unregistriert und umgehen dadurch den vorgesehenen CMake-/CI-Pfad. | Offen |
+| BENCH-A03 | HIGH | 11 Benchmark-Quellen sind im Re-Audit 2026-07-17 unregistriert und umgehen dadurch den vorgesehenen CMake-/CI-Pfad. | ✅ Geschlossen — 3 Root-Quellen via `themis_add_standard_benchmark` ergänzt; Audit-Skript um `wave5_add_benchmark`/`add_w7_benchmark`-Muster erweitert. Exitcode 0 bestätigt. |
 
 ---
 
