@@ -39,6 +39,7 @@
 #include "src/distributed_tensor/include/snapshot_update_worker.h"
 #include "src/distributed_tensor/include/artifact_manifest.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cstdint>
 #include <memory>

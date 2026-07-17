@@ -346,35 +346,25 @@ struct ArtifactManifest {
      * @brief True when this entry has exceeded its staleness threshold.
      *
      * Uses @p last_verified_unix_sec and @p staleness_threshold_sec.
-     * Returns false when threshold is 0 (disabled) or @p now_unix_sec is 0.
+     * Returns false when @p staleness_threshold_sec is 0 (threshold disabled).
+     * Returns true when @p last_verified_unix_sec is 0 (never verified).
      *
      * @param now_unix_sec  Current time as Unix timestamp (seconds).
      * @return              true if the entry is stale.
      */
-    [[nodiscard]] bool isStale(int64_t now_unix_sec) const noexcept {
-        if (staleness_threshold_sec == 0) {
-            return false;
-        }
-        if (last_verified_unix_sec == 0) {
-            return true;  // never verified → treat as stale
-        }
-        return (now_unix_sec - last_verified_unix_sec) > staleness_threshold_sec;
-    }
+    [[nodiscard]] bool isStale(int64_t now_unix_sec) const;
 
     /**
      * @brief True when integrity verification has detected corruption.
      *
-     * The check relies on the lightweight @c ArtifactIntegrity token.
-     * Returns false when no integrity token is present (token not computed).
+     * Compares a freshly-computed hash of the manifest's canonical fields
+     * (all fields except @p manifest_hash itself) against the stored
+     * @p manifest_hash.  Returns false when @p manifest_hash is empty
+     * (hash not yet computed).
      *
-     * @return true if the CRC token is set but the payload_bytes field
-     *         indicates a mismatch with expected values.
+     * @return true if the computed hash diverges from @p manifest_hash.
      */
-    [[nodiscard]] bool isCorrupted() const noexcept {
-        // Conservative: only flag as corrupted when a non-zero CRC exists
-        // but payload_bytes is unexpectedly zero (sentinel for corruption).
-        return integrity.crc32 != 0 && integrity.payload_bytes == 0;
-    }
+    [[nodiscard]] bool isCorrupted() const;
 
     /**
      * @brief Freshness age in seconds relative to @p now.
