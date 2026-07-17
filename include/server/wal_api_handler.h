@@ -118,8 +118,8 @@ private:
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
     // Authentication secrets
-    const std::string wal_shared_secret_;
-    const std::string wal_hmac_secret_;
+    std::string wal_shared_secret_;
+    std::string wal_hmac_secret_;
     
     // Metrics
     std::atomic<uint64_t> wal_apply_success_{0};

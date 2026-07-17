@@ -1,5 +1,0 @@
-S0 re-audit plan (2026-07-17)
-1. Read src/AUDIT.md and extract exact S0 claims.
-2. Inspect current source or moved replacements for each listed finding.
-3. Classify each as fixed / partially fixed / still vulnerable / not found-moved with exact evidence lines.
-4. Write src/AUDIT_REVALIDATION_2026-07-17.md with summary, table, risks, and methodology.
