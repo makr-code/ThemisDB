@@ -25,8 +25,8 @@
 ## Installation
 
 `hardware_profile_test.cc` and `query_planner_test.cc` are active and wired through the
-local `CMakeLists.txt`. The remaining planned files stay deferred until their matching
-EPIC 2 surfaces exist.
+local `CMakeLists.txt` with the same target-availability gates used by that file. The
+remaining planned files stay deferred until their matching EPIC 2 surfaces exist.
 
 ## Usage
 

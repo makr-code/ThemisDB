@@ -11,13 +11,13 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
-- Added root governance docs (`ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `FUTURE_ENHANCEMENTS`, `ROADMAP`, `AUDIT`) aligned to current EPIC 2 scaffold state.
+- Added root governance docs (`ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `FUTURE_ENHANCEMENTS`, `ROADMAP`, `AUDIT`) aligned to the shipped EPIC 2.5 planner state and current EPIC 2 mixed-stage delivery.
 - Kept roadmap/future planning and historical change tracking separated.
 - Added Phase 5 benchmark baselines in `benchmarks/epic2_evaluation/` for issue
   #5428 planner decision, scenario-matrix, and storage-strategy overhead checks.
 - Updated evaluation-module docs to reflect the shipped EPIC 2.5 hybrid query planner
-  contract, implementation, focused tests, and hardening benchmark surfaces for issue
-  #5441.
+  contract, implementation, focused tests, and hardening benchmark surfaces tracked by
+  issue #5441.
 
 ## [0.1.0] - 2026-06-01
 

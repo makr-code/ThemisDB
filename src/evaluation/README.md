@@ -29,7 +29,7 @@ continue to advance behind their own phase gates.
   `tests/epic2_evaluation/hardware_profile_test.cc` and for hybrid planning in
   `tests/epic2_evaluation/query_planner_test.cc`.
 - Wave C active: benchmark baselines now exist in `benchmarks/epic2_evaluation/`,
-  including `planner_decision_bench.cc` for issue #5441 hardening work.
+  including `planner_decision_bench.cc` for tracking issue #5441 hardening work.
 - Remaining EPIC 2 surfaces continue to be phased independently and should not be
   treated as implemented unless their local docs and source files say so.
 
