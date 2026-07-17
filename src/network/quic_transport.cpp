@@ -50,6 +50,36 @@ namespace {
 /// thread-safe but the guard is cheap and silences the data_race scanner.
 static std::mutex g_quic_transport_rng_mutex;
 
+struct SslCtxDeleter {
+    void operator()(SSL_CTX* ctx) const noexcept {
+        if (ctx) {
+            SSL_CTX_free(ctx);
+        }
+    }
+};
+
+struct SslDeleter {
+    void operator()(SSL* ssl) const noexcept {
+        if (ssl) {
+            SSL_free(ssl);
+        }
+    }
+};
+
+struct QuicConnWithTlsDeleter {
+    void operator()(ngtcp2_conn* conn) const noexcept {
+        if (!conn) {
+            return;
+        }
+        if (void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn)) {
+            SSL_free(static_cast<SSL*>(tls_handle));
+        }
+        ngtcp2_conn_del(conn);
+    }
+};
+
+using QuicConnOwner = std::unique_ptr<ngtcp2_conn, QuicConnWithTlsDeleter>;
+
 static int safeRandBytes(uint8_t* dest, size_t len) noexcept {
     std::lock_guard<std::mutex> lock(g_quic_transport_rng_mutex);
     return RAND_bytes(dest, static_cast<int>(len));
@@ -124,7 +154,7 @@ QuicTransport::~QuicTransport() {
 /* static */
 SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
                                          const std::string& key_path) {
-    SSL_CTX* ctx = SSL_CTX_new(TLS_server_method());
+    std::unique_ptr<SSL_CTX, SslCtxDeleter> ctx(SSL_CTX_new(TLS_server_method()));
     if (!ctx) {
         return nullptr;
     }
@@ -135,23 +165,21 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
 
     // Load certificate chain and private key only when paths are provided.
     if (!cert_path.empty() &&
-        SSL_CTX_use_certificate_chain_file(ctx, cert_path.c_str()) != 1) {
+        SSL_CTX_use_certificate_chain_file(ctx.get(), cert_path.c_str()) != 1) {
         THEMIS_ERROR("[QuicTransport] Failed to load certificate: {}", cert_path);
-        SSL_CTX_free(ctx);
         return nullptr;
     }
 
     if (!key_path.empty() &&
-        SSL_CTX_use_PrivateKey_file(ctx, key_path.c_str(), SSL_FILETYPE_PEM) != 1) {
+        SSL_CTX_use_PrivateKey_file(ctx.get(), key_path.c_str(), SSL_FILETYPE_PEM) != 1) {
         THEMIS_ERROR("[QuicTransport] Failed to load private key: {}", key_path);
-        SSL_CTX_free(ctx);
         return nullptr;
     }
 
     // Configure ALPN: advertise "tmdb" for the binary wire protocol over QUIC.
     static const unsigned char kAlpn[] = "\x04tmdb";
     SSL_CTX_set_alpn_select_cb(
-        ctx,
+        ctx.get(),
         [](SSL* /*ssl*/,
            const unsigned char** out, unsigned char* outlen,
            const unsigned char* in, unsigned int inlen,
@@ -169,7 +197,7 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
     // Keep context setup portable across OpenSSL builds that omit QUIC-specific
     // SSL extension APIs.
 
-    return ctx;
+    return ctx.release();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -238,11 +266,7 @@ void QuicTransport::stop() {
             if (conn) {
                 // Retrieve and free the per-connection SSL object before
                 // deleting the ngtcp2_conn to prevent a memory leak.
-                void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn);
-                if (tls_handle) {
-                    SSL_free(static_cast<SSL*>(tls_handle));
-                }
-                ngtcp2_conn_del(conn);
+                QuicConnWithTlsDeleter{}(conn);
             }
         }
         sessions_.clear();
@@ -327,11 +351,7 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
         if (rv != 0) {
             if (rv == NGTCP2_ERR_DRAINING || rv == NGTCP2_ERR_DROP_CONN) {
                 // Connection is closing; free SSL and remove it.
-                void* tls = ngtcp2_conn_get_tls_native_handle(it->second);
-                if (tls) {
-                    SSL_free(static_cast<SSL*>(tls));
-                }
-                ngtcp2_conn_del(it->second);
+                QuicConnWithTlsDeleter{}(it->second);
                 sessions_.erase(it);
                 std::lock_guard<std::mutex> slk(stats_mutex_);
                 ++stats_.connections_closed;
@@ -413,12 +433,12 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
     };
 
     // Create a fresh SSL object for this connection.
-    SSL* ssl = SSL_new(ssl_ctx_);
+    std::unique_ptr<SSL, SslDeleter> ssl(SSL_new(ssl_ctx_));
     if (!ssl) {
         THEMIS_ERROR("[QuicTransport] SSL_new failed for {}", key);
         return;
     }
-    SSL_set_accept_state(ssl);
+    SSL_set_accept_state(ssl.get());
 
     // Enable QUIC datagram support (RFC 9221) by advertising
     // max_datagram_frame_size in the server transport parameters.
@@ -439,32 +459,31 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
     ngtcp2_path path;
     std::memset(&path, 0, sizeof(path));
 
-    ngtcp2_conn* conn = nullptr;
-    int rv = ngtcp2_conn_server_new(&conn, &hd.dcid, &scid, &path,
+    ngtcp2_conn* conn_raw = nullptr;
+    int rv = ngtcp2_conn_server_new(&conn_raw, &hd.dcid, &scid, &path,
                                     kQuicVersion1, &callbacks, &settings,
                                     &params, nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("[QuicTransport] ngtcp2_conn_server_new({}): {}",
                      key, ngtcp2_strerror(rv));
-        SSL_free(ssl);
         return;
     }
+    QuicConnOwner conn(conn_raw);
 
-    ngtcp2_conn_set_tls_native_handle(conn, ssl);
+    ngtcp2_conn_set_tls_native_handle(conn.get(), ssl.get());
+    ssl.release();
 
     // Feed the Initial packet.
     ngtcp2_pkt_info pi;
     std::memset(&pi, 0, sizeof(pi));
-    rv = ngtcp2_conn_read_pkt(conn, &path, &pi, data, len, quicNow());
+    rv = ngtcp2_conn_read_pkt(conn.get(), &path, &pi, data, len, quicNow());
     if (rv != 0 && rv != NGTCP2_ERR_RETRY) {
         THEMIS_WARN("[QuicTransport] ngtcp2_conn_read_pkt (new, {}): {}",
                     key, ngtcp2_strerror(rv));
-        ngtcp2_conn_del(conn);
-        SSL_free(ssl);
         return;
     }
 
-    sessions_[key] = conn;
+    sessions_[key] = conn.release();
     {
         std::lock_guard<std::mutex> slk(stats_mutex_);
         ++stats_.connections_accepted;
@@ -502,4 +521,3 @@ QuicTransport::Stats QuicTransport::getStats() const {
 }  // namespace themis::network
 
 #endif  // THEMIS_ENABLE_HTTP3
-
