@@ -229,6 +229,46 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
+### ✅ EPIC 2.5 Query Planner Phases 5-7 Complete (2026-07-06)
+
+**EPIC 2.5 Hybrid Query Planner — All Seven Phases Complete**
+
+Phases 5 (performance & hardening), 6 (documentation & acceptance), and 7 (integration)
+of the EPIC 2.5 hybrid query planner have been delivered:
+
+**Phase 5 — Performance & Hardening**:
+- `PlannerObserver` interface added to `src/evaluation/include/query_planner.h`:
+  `onDecision(decision, latency_us)` hook invoked after every `selectPath()` call.
+- Wall-clock latency measurement (µs) wired into `DefaultQueryPlanner::selectPath()`.
+- `makeDefaultQueryPlanner(PlannerObserver*)` factory overload for observer injection.
+- Module gap threshold monitoring: `FallbackReason::ModuleGapThreshold` tracked per decision.
+- `benchmarks/epic2_evaluation/planner_decision_bench.cc` created: per-path overhead
+  benchmarks (Path 1–5), gap-block counter, 10 µs soft regression threshold.
+
+**Phase 6 — Documentation & Acceptance**:
+- `docs/EPIC2_QUERY_PLANNER.md` — Phases 5/6/7 checkboxes marked complete; two new
+  acceptance criteria added (observability + benchmark file).
+- `docs/adr/adr-e2-003-query-planner-routing-model.md` — Follow-up section updated;
+  implementation and test PRs linked; integration deferred items documented.
+
+**Phase 7 — Integration**:
+- `benchmarks/epic2_evaluation/CMakeLists.txt` — `planner_decision_bench` target wired
+  when `epic2_evaluation_lib` is available.
+- `ROADMAP.md` `evaluation` module row updated from THIN/PLACEHOLDER to HARDENING.
+
+**Tests** (8 new observability tests, total ~40 test cases in suite):
+- `PlannerObserver` null-observer safety, call count, correct decision forwarding
+  for all five paths, latency recording, and factory-with-observer smoke test.
+
+**References**:
+- `src/evaluation/include/query_planner.h` — PlannerObserver interface + factory overload
+- `src/evaluation/src/query_planner.cc` — observer injection + timing
+- `tests/epic2_evaluation/query_planner_test.cc` — Phase 5 observability tests
+- `benchmarks/epic2_evaluation/planner_decision_bench.cc` — planner overhead benchmark
+- `docs/EPIC2_QUERY_PLANNER.md` — Phase 5-7 sign-off
+- `docs/adr/adr-e2-003-query-planner-routing-model.md` — ADR follow-up updated
+- Issue #5467 (CPU/GPU boundary integration — EPIC 2.5)
+
 ### EPIC 1.3 Graph Truth Validation Layer — Phase 2: Core Implementation (2026-07-01)
 
 **New**:

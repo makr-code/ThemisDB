@@ -1,8 +1,9 @@
 # EPIC 2 — Evaluation & Benchmarking module.
-# Includes benchmark_matrix (EPIC 2.2, Issue #5438) and hardware_profile sources.
+# Includes benchmark_matrix (EPIC 2.2, Issue #5438), hardware_profile sources,
+# and the query planner (EPIC 2.5) implementation.
 
 # ============================================================================
-# themis_evaluation — EPIC 2 evaluation library
+# themis_evaluation — EPIC 2.2 evaluation library (benchmark_matrix, hardware_profile)
 # ============================================================================
 
 set(EVALUATION_PUBLIC_HEADERS
@@ -39,4 +40,27 @@ if(NOT TARGET themis_evaluation)
         DESTINATION include/evaluation
         COMPONENT evaluation
     )
+endif()
+
+# ============================================================================
+# epic2_evaluation_lib — EPIC 2.5 query planner library
+# ============================================================================
+
+set(EVALUATION_QUERY_PLANNER_HEADERS
+    include/query_planner.h
+)
+set(EVALUATION_QUERY_PLANNER_SOURCES
+    src/query_planner.cc
+)
+
+# Activated when the build environment provides GTest (via vcpkg) or
+# THEMIS_BUILD_EPIC2 is explicitly set.
+if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
+    add_library(epic2_evaluation_lib STATIC
+        ${EVALUATION_QUERY_PLANNER_SOURCES}
+    )
+    target_include_directories(epic2_evaluation_lib PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    target_compile_features(epic2_evaluation_lib PUBLIC cxx_std_17)
 endif()

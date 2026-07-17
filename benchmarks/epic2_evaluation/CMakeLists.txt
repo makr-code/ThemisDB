@@ -4,13 +4,18 @@ endif()
 
 message(STATUS "Configuring benchmark module: epic2_evaluation")
 
-# benchmark_matrix_bench requires themis_evaluation (EPIC 2.2 specific).
-# It is handled explicitly below; the remaining two benchmarks use the
-# standard macro which links themis_distributed_tensor when available.
-set(EPIC2_EVALUATION_BENCHMARKS
-    planner_decision_bench.cc
-    storage_strategy_bench.cc
-)
+# ============================================================================
+# planner_decision_bench — EPIC 2.5 query planner overhead benchmark
+# Activated when epic2_evaluation_lib is available (requires THEMIS_BUILD_EPIC2).
+# ============================================================================
+if(TARGET epic2_evaluation_lib)
+    add_executable(planner_decision_bench planner_decision_bench.cc)
+    target_include_directories(planner_decision_bench PRIVATE
+        ${THEMIS_ROOT_DIR}/src/evaluation
+    )
+    target_link_libraries(planner_decision_bench PRIVATE epic2_evaluation_lib)
+    target_compile_features(planner_decision_bench PRIVATE cxx_std_17)
+endif()
 
 # ============================================================================
 # benchmark_matrix_bench — activated (Issue #5438)
@@ -57,7 +62,13 @@ if(NOT TARGET benchmark_matrix_bench)
     endif()
 endif()
 
-foreach(_src IN LISTS EPIC2_EVALUATION_BENCHMARKS)
+# storage_strategy_bench and other planned benchmarks use the standard macro
+# when themis_distributed_tensor is available.
+set(EPIC2_EVALUATION_PLANNED_BENCHMARKS
+    storage_strategy_bench.cc
+)
+
+foreach(_src IN LISTS EPIC2_EVALUATION_PLANNED_BENCHMARKS)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "bench_epic2_evaluation_${_stem}")
     themis_add_standard_benchmark(${_target} "${_src}")

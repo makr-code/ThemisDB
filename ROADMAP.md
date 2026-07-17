@@ -563,7 +563,7 @@ Audit method:
 | **distributed_tensor** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
 | **document** | HARDENING | LOC=2362, Stub/KLOC=8,89, Tests=47, TestRefs=20 |
 | **ethics_ai** | HARDENING | LOC=6315, Stub/KLOC=10,45, Tests=0, TestRefs=42 |
-| **evaluation** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
+| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2.5 Phases 1-7 complete (query_planner.h + query_planner.cc + 40 GTests + PlannerObserver + planner_decision_bench.cc) |
 | **exporters** | HARDENING | LOC=9810, Stub/KLOC=7,03, Tests=378, TestRefs=15 |
 | **failover** | HARDENING | LOC=1259, Stub/KLOC=6,35, Tests=17, TestRefs=6 |
 | **geo** | HARDENING | LOC=8825, Stub/KLOC=8,95, Tests=761, TestRefs=38 |
@@ -1549,18 +1549,18 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
 
-### Phase 6 Extended Scanners (Q3-Q4 2026) — 🟡 PLANNED
+### Phase 6 Extended Scanners (Q3-Q4 2026) — 🟠 IN PROGRESS
 
 **Objective:** Implement 5 new advanced scanners (8 weeks + 1 integration, ~1,480 LOC, 48–55 detection patterns)
 
-| ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Timeline |
-|----|---------|---------|----------|-----|-----------|----------|----------|
-| P6-1 | ABI Safety & Memory Layout | CWE-400/401 | 8–10 | 320 | HIGH | 🟠 High | Week 1-2 |
-| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 |
-| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 |
-| P6-4 | Build System Hardening | Build safety | 6–8 | 280 | MEDIUM | 🟡 Medium | Week 1-2 |
-| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 |
-| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** |
+| ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Timeline | Status |
+|----|---------|---------|----------|-----|-----------|----------|----------|--------|
+| P6-1 | ABI Safety & Memory Layout | CWE-400/401 | 8–10 | 320 | HIGH | 🟠 High | Week 1-2 | ✅ Done 2026-07-06 |
+| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 | ⬜ Next |
+| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 | ⬜ Planned |
+| P6-4 | Build System Hardening | Build safety | 6–8 | 280 | MEDIUM | 🟡 Medium | Week 1-2 | ✅ Done 2026-07-06 |
+| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 | ⬜ Planned |
+| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** | |
 
 **Expected Results:**
 - Phase 1-6 Projection: 187,390–188,390 → **193,390–198,390 gaps** (+6,000–10,000)
