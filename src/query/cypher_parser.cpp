@@ -43,6 +43,7 @@
 #include <cctype>
 #include <sstream>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 namespace query {
@@ -407,6 +408,7 @@ struct CypherParser::Parser {
             try {
                 ast.skip = std::stoll(t.value);
             } catch (...) {
+                THEMIS_DEBUG("cypher_parser::parseQuery: unhandled exception caught");
                 throw CypherParseError{"SKIP value '" + t.value + "' is out of integer range", t.position};
             }
         }
@@ -417,6 +419,7 @@ struct CypherParser::Parser {
             try {
                 ast.limit = std::stoll(t.value);
             } catch (...) {
+                THEMIS_WARN("cypher_parser::parseQuery: unhandled exception caught");
                 throw CypherParseError{"LIMIT value '" + t.value + "' is out of integer range", t.position};
             }
         }
@@ -505,6 +508,7 @@ struct CypherParser::Parser {
             try {
                 v = std::stoll(current().value);
             } catch (...) {
+                THEMIS_WARN("cypher_parser::parseLiteralValue: unhandled exception caught");
                 throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -516,6 +520,7 @@ struct CypherParser::Parser {
             try {
                 v = std::stod(current().value);
             } catch (...) {
+                THEMIS_WARN("cypher_parser::parseLiteralValue: unhandled exception caught");
                 throw CypherParseError{"Float literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -587,6 +592,7 @@ struct CypherParser::Parser {
                 try {
                     hops = std::stoi(current().value);
                 } catch (...) {
+                    THEMIS_WARN("cypher_parser::parseRelPattern: unhandled exception caught");
                     throw CypherParseError{"Hop count out of integer range", current().position};
                 }
                 if (hops < 0 || hops > kMaxHops) {
@@ -606,6 +612,7 @@ struct CypherParser::Parser {
                     try {
                         hops = std::stoi(current().value);
                     } catch (...) {
+                        THEMIS_WARN("cypher_parser: unhandled exception caught");
                         throw CypherParseError{"Hop count out of integer range", current().position};
                     }
                     if (hops < 0 || hops > kMaxHops) {
@@ -800,6 +807,7 @@ struct CypherParser::Parser {
             try {
                 v = std::stoll(current().value);
             } catch (...) {
+                THEMIS_WARN("cypher_parser::parsePrimary: unhandled exception caught");
                 throw CypherParseError{"Integer literal '" + current().value + "' is out of range",
                                        current().position};
             }
@@ -811,6 +819,7 @@ struct CypherParser::Parser {
             try {
                 v = std::stod(current().value);
             } catch (...) {
+                THEMIS_WARN("cypher_parser::parsePrimary: unhandled exception caught");
                 throw CypherParseError{"Float literal '" + current().value + "' is out of range",
                                        current().position};
             }

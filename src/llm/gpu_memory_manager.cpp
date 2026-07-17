@@ -36,6 +36,7 @@
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
+#include "utils/logger.h"
 
 // CUDA error checking macro
 #define CUDA_CHECK(call) \
@@ -262,6 +263,7 @@ inline void cleanupRawAllocation(void* ptr,
     try {
         detail::MemoryHolder cleanup_holder(ptr, bytes, type, gpu_available, gpu_device_id);
     } catch (...) {
+        THEMIS_WARN("gpu_memory_manager::isTrackedGpuNoLock: unhandled exception caught");
         // Best-effort cleanup in failure fallback path.
     }
 }

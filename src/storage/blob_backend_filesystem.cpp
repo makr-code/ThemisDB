@@ -167,6 +167,7 @@ bool FilesystemBlobBackend::isAvailable() const {
     try {
         return fs::exists(base_path_) && fs::is_directory(base_path_);
     } catch (...) {
+        THEMIS_WARN("blob_backend_filesystem: unhandled exception caught");
         return false;
     }
 }

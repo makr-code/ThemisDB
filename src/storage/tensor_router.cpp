@@ -24,6 +24,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include "utils/logger.h"
 
 namespace themis {
 namespace storage {
@@ -181,6 +182,7 @@ struct TensorRouter::Impl {
                 res.kappa = (denom > 1e-9) ? (2.0 * log_n / denom) : 0.0;
             }
         } catch (...) {
+            THEMIS_WARN("tensor_router: unhandled exception caught");
             res = {1.0, 1, 0.0, 0.0};
         }
         return res;

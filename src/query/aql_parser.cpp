@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <fmt/format.h>
+#include "utils/logger.h"
 
 namespace themis {
 namespace query {
@@ -720,6 +721,7 @@ private:
         int64_t first;
         try { first = std::stoll(current().value); }
         catch (...) {
+            THEMIS_WARN("aql_parser::parseLimitClause: unhandled exception caught");
             throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
         }
         advance();
@@ -732,6 +734,7 @@ private:
             int64_t second;
             try { second = std::stoll(current().value); }
             catch (...) {
+                THEMIS_WARN("aql_parser::parseLimitClause: unhandled exception caught");
                 throw std::runtime_error("LIMIT value '" + current().value + "' is out of integer range");
             }
             advance();
@@ -1062,6 +1065,7 @@ private:
             int64_t value;
             try { value = std::stoll(current().value); }
             catch (...) {
+                THEMIS_WARN("aql_parser: unhandled exception caught");
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -1071,6 +1075,7 @@ private:
             double value;
             try { value = std::stod(current().value); }
             catch (...) {
+                THEMIS_WARN("aql_parser: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
@@ -1610,6 +1615,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
         try {
             args.push_back(std::stoll(t));
         } catch (...) {
+            THEMIS_WARN("aql_parser: unhandled exception caught");
             return make_err(fmt::format("Invalid window argument '{}' in WINDOW clause", t));
         }
         ++ti;

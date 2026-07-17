@@ -32,6 +32,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cctype>
+#include "utils/logger.h"
 
 namespace {
     // Helper function to escape SQL string literals
@@ -164,6 +165,7 @@ void PostgresSession::armReadTimeout() {
             sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
             stop();
         } catch (...) {
+            THEMIS_WARN("postgres_session: unhandled exception caught");
             logCurrentException("Read-timeout handler error");
             stop();
         }
@@ -186,6 +188,7 @@ void PostgresSession::armWriteTimeout() {
             sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
             stop();
         } catch (...) {
+            THEMIS_WARN("postgres_session: unhandled exception caught");
             logCurrentException("Write-timeout handler error");
             stop();
         }
@@ -1552,6 +1555,7 @@ void PostgresSession::doWrite() {
                 std::cerr << "[PostgresSession] Write completion handler error: " << e.what() << "\n";
                 stop();
             } catch (...) {
+                THEMIS_WARN("postgres_session: unhandled exception caught");
                 logCurrentException("Write completion handler error");
                 stop();
             }

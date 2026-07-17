@@ -180,6 +180,7 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
                 }
                 return std::nullopt;
             } catch (...) {
+                THEMIS_DEBUG("base_entity::constexpr: unhandled exception caught");
                 return std::nullopt;
             }
         }

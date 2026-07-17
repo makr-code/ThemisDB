@@ -34,6 +34,7 @@
 #include <unordered_map>
 
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace query {
@@ -503,6 +504,7 @@ private:
             stmt.limit = [&]() -> int64_t {
                 try { return std::stoll(current().value); }
                 catch (...) {
+                    THEMIS_WARN("sql_parser: unhandled exception caught");
                     throw std::runtime_error("SQL LIMIT value '" + current().value + "' is out of integer range");
                 }
             }();
@@ -516,6 +518,7 @@ private:
                 stmt.offset = [&]() -> int64_t {
                     try { return std::stoll(current().value); }
                     catch (...) {
+                        THEMIS_WARN("sql_parser: unhandled exception caught");
                         throw std::runtime_error("SQL OFFSET value '" + current().value + "' is out of integer range");
                     }
                 }();
@@ -836,6 +839,7 @@ private:
             int64_t val;
             try { val = std::stoll(current().value); }
             catch (...) {
+                THEMIS_WARN("sql_parser::parsePrimary: unhandled exception caught");
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -848,6 +852,7 @@ private:
             double val;
             try { val = std::stod(current().value); }
             catch (...) {
+                THEMIS_WARN("sql_parser::parsePrimary: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
@@ -893,6 +898,7 @@ private:
         if (check(SQLTokenType::INT_LIT)) {
             int64_t v;
             try { v = std::stoll(current().value); } catch (...) {
+                THEMIS_WARN("sql_parser::parseLiteralValue: unhandled exception caught");
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -901,6 +907,7 @@ private:
         if (check(SQLTokenType::FLOAT_LIT)) {
             double v;
             try { v = std::stod(current().value); } catch (...) {
+                THEMIS_WARN("sql_parser::parseLiteralValue: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();
