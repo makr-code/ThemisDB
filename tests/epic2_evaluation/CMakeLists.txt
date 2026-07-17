@@ -94,3 +94,71 @@ if(NOT TARGET benchmark_matrix_test)
         message(STATUS "benchmark_matrix_test: GTest or themis_evaluation not available – skipped")
     endif()
 endif()
+
+# ============================================================================
+# retrieval_metrics_test — GTest coverage for retrieval metrics (Issue #5439)
+# ============================================================================
+
+if(NOT TARGET retrieval_metrics_test)
+    find_package(GTest QUIET)
+    if(GTest_FOUND AND TARGET themis_evaluation)
+        add_executable(retrieval_metrics_test
+            retrieval_metrics_test.cc
+        )
+
+        target_include_directories(retrieval_metrics_test PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../src/evaluation
+        )
+
+        target_link_libraries(retrieval_metrics_test PRIVATE
+            themis_evaluation
+            GTest::gtest_main
+        )
+
+        target_compile_features(retrieval_metrics_test PRIVATE cxx_std_17)
+
+        add_test(
+            NAME retrieval_metrics_test
+            COMMAND retrieval_metrics_test
+        )
+        set_tests_properties(retrieval_metrics_test PROPERTIES
+            LABELS "evaluation;epic2;metrics"
+        )
+    else()
+        message(STATUS "retrieval_metrics_test: GTest or themis_evaluation not available – skipped")
+    endif()
+endif()
+
+# ============================================================================
+# ablation_framework_test — GTest coverage for ablation framework (Issue #5439)
+# ============================================================================
+
+if(NOT TARGET ablation_framework_test)
+    find_package(GTest QUIET)
+    if(GTest_FOUND AND TARGET themis_evaluation)
+        add_executable(ablation_framework_test
+            ablation_framework_test.cc
+        )
+
+        target_include_directories(ablation_framework_test PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../src/evaluation
+        )
+
+        target_link_libraries(ablation_framework_test PRIVATE
+            themis_evaluation
+            GTest::gtest_main
+        )
+
+        target_compile_features(ablation_framework_test PRIVATE cxx_std_17)
+
+        add_test(
+            NAME ablation_framework_test
+            COMMAND ablation_framework_test
+        )
+        set_tests_properties(ablation_framework_test PROPERTIES
+            LABELS "evaluation;epic2;ablation"
+        )
+    else()
+        message(STATUS "ablation_framework_test: GTest or themis_evaluation not available – skipped")
+    endif()
+endif()
