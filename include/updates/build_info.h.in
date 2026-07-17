@@ -11,7 +11,8 @@
 // Falls back to "unknown" when the build directory is not inside a git repo.
 #define THEMIS_BUILD_ID "@THEMIS_BUILD_ID@"
 
-// UTC ISO-8601 timestamp of the cmake configure run (e.g. "2026-04-14T19:00:00Z").
+// UTC ISO-8601 build timestamp. Uses SOURCE_DATE_EPOCH when set; otherwise
+// BuildInfo.cmake falls back to deterministic git metadata when available.
 #define THEMIS_BUILD_TIMESTAMP "@THEMIS_BUILD_TIMESTAMP@"
 
 // Ed25519 signature over the canonical manifest string:
