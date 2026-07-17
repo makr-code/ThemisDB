@@ -15,6 +15,12 @@ sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
 planner, infrastructure). Benchmark evidence and final acceptance documentation
 remain pending.
 
+**Tensor Storage Strategy Assessment** (issue #5443): quantization, mmap, and
+zero-copy strategy for tensor and adapter artifacts assessed and implemented.
+API (`tensor_storage_strategy.h`), implementation (`tensor_storage_strategy.cc`),
+31 unit tests (QSE/MML/ZCA/SSA), and assessment documentation
+(`TENSOR_STORAGE_STRATEGY_ASSESSMENT.md`) delivered.
+
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
 (manifest schema + advisory-only policy) is ready to begin. Phase B (delta log + partial refit)
@@ -35,6 +41,27 @@ track remain gated.
 - [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
 
 ## Planned Features
+
+### Quantization, mmap, and Zero-Copy Storage Strategy (Issue #5443)
+
+- [x] Design: quantization level evaluation matrix and API contract (Target: Q3 2026)
+- [x] Design: mmap/zero-copy API design — MmapRegion, MmapLoader, ZeroCopyAccessor (Target: Q3 2026)
+- [x] Phase 1: `include/distributed_tensor/tensor_storage_strategy.h` — full public API (Target: Q3 2026)
+- [x] Phase 2: `src/distributed_tensor/src/tensor_storage_strategy.cc` — POSIX/Windows mmap loader,
+  QuantizationAssessor, StorageStrategyAssessor (Target: Q3 2026)
+- [x] Phase 3: Error handling — FILE_NOT_FOUND, PERMISSION_DENIED, empty files, unsupported platform,
+  non-calibrated INT8/INT4, memory-budget fallback (Target: Q3 2026)
+- [x] Phase 4: 31 unit tests (QSE-01..10, MML-01..08, ZCA-01..06, SSA-01..06) in
+  `tests/epic3_distributed_tensor/test_tensor_storage_strategy.cpp` (Target: Q3 2026)
+- [x] Phase 5: Performance documentation: mmap vs read() trade-offs, quantization compression table
+  (`TENSOR_STORAGE_STRATEGY_ASSESSMENT.md`) (Target: Q3 2026)
+- [x] Phase 6: Assessment document with production recommendations
+  (`src/distributed_tensor/TENSOR_STORAGE_STRATEGY_ASSESSMENT.md`) (Target: Q3 2026)
+- [ ] Phase 7: Wire `StorageStrategyAssessor::assess()` into `ManifestStore::store()` artifact registration (Target: Q4 2026)
+- [ ] Phase 7: Wire `MmapLoader` into the tensor fetch path for zero-copy consumer delivery (Target: Q4 2026)
+- [ ] Phase 7: Expose `QuantizationLevel` as a field in `ArtifactManifest` for Phase B+ tracking (Target: Q4 2026)
+- [ ] INT4 de-quantization (nibble-unpack) path — follow-on after Phase B (Target: Q4 2026)
+- [ ] Direct I/O (`O_DIRECT`) load path for cache-bypass workloads (Target: Q4 2026)
 
 ### Tensor-Update Infrastructure Track (issue #5468)
 

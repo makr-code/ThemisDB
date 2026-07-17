@@ -36,6 +36,7 @@ set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/recovery_manager.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/distributed_planner.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_infrastructure.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_storage_strategy.h
 )
 
 set(DISTRIBUTED_TENSOR_SOURCES
@@ -46,6 +47,7 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/recovery_manager.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/distributed_planner.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_storage_strategy.cc
 )
 
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})
