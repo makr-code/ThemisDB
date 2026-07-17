@@ -108,11 +108,14 @@ jobs:
             | xargs -P "$(nproc)" -I{} \
                 clang-tidy -p build-community-release --quiet {} 2>&1 \
             | tee clang-tidy-output.txt
-          XARGS_EXIT=${PIPESTATUS[1]}
-          EXIT_CODE=${XARGS_EXIT}
+          # Pipeline: find[0] | sort[1] | xargs[2] | tee[3]
+          EXIT_CODE=${PIPESTATUS[2]}
 
-          # Determine if actionable findings were emitted
-          if grep -qE '^\S.*:[0-9]+:[0-9]+: (warning|error):' clang-tidy-output.txt; then
+          # Treat non-zero xargs exit OR grep match as findings.
+          # Non-zero exit catches compilation-DB load errors that don't
+          # produce warning/error lines and would otherwise be silently ignored.
+          if grep -qE '^\S.*:[0-9]+:[0-9]+: (warning|error):' clang-tidy-output.txt \
+              || [ "${EXIT_CODE}" -ne 0 ]; then
             echo "has_findings=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_findings=false" >> "$GITHUB_OUTPUT"
@@ -178,10 +181,13 @@ jobs:
             | sort \
             | xargs clang-format --dry-run --Werror 2>&1 \
             | tee clang-format-report.txt
-          XARGS_EXIT=${PIPESTATUS[1]}
-          EXIT_CODE=${XARGS_EXIT}
+          # Pipeline: find[0] | sort[1] | xargs[2] | tee[3]
+          EXIT_CODE=${PIPESTATUS[2]}
 
-          if [ -s clang-format-report.txt ]; then
+          # Treat non-zero xargs exit OR non-empty report as violations.
+          # Non-zero exit catches clang-format invocation errors that produce
+          # no output but would otherwise leave has_violations=false.
+          if [ -s clang-format-report.txt ] || [ "${EXIT_CODE}" -ne 0 ]; then
             echo "has_violations=true" >> "$GITHUB_OUTPUT"
             LINES=$(wc -l < clang-format-report.txt)
             echo "::warning::clang-format found style violations (${LINES} line(s)). See artifact clang-format-results."
