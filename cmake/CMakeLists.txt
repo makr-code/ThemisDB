@@ -1801,6 +1801,9 @@ set(THEMIS_CORE_SOURCES
     ../src/tensor/tensor_index_manager.cpp
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
+    # Distributed Tensor Retrieval (EPIC 3)
+    ../src/tensor/tensor_summary_types.cpp
+    ../src/distributed_tensor/src/distributed_planner.cc
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp
@@ -5151,6 +5154,9 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
+    # Distributed Tensor Retrieval and Manifesting (EPIC 3, 2026-07-06)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt")
     # EPIC 1 Retrieval — LoRAPackage & PortableAdapterProduct (Phase 3, 2026-07-16)
     # Moved to the dedicated THEMIS_BUILD_RETRIEVAL option block below.
     # Distributed Tensor Artifacts module (EPIC 5428 Phase 3, 2026-07-13)

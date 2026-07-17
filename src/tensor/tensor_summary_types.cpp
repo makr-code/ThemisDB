@@ -88,10 +88,66 @@ ShardSummary SummaryFactory::createShardSummary(
         0;
     summary.compression_info = compression_result;
     summary.created_at = getCurrentTimestamp();
+    summary.last_update_timestamp = getCurrentTimestamp();
     summary.shard_healthy = true;
     summary.routing_reason = "shard_summary_created";
+    summary.freshness_state = SummaryFreshnessState::FRESH;
     
     return summary;
+}
+
+// ============================================================================
+// ShardSummary freshness checking implementation
+// ============================================================================
+
+bool ShardSummary::isStale(const std::string& now_timestamp) const noexcept {
+    // First check explicit state
+    if (freshness_state == SummaryFreshnessState::STALE ||
+        freshness_state == SummaryFreshnessState::INVALID) {
+        return true;
+    }
+
+    // Check TTL if enabled
+    if (freshness_ttl_seconds == 0) {
+        // TTL disabled
+        return false;
+    }
+
+    // Parse timestamps and compute age
+    if (last_update_timestamp.empty()) {
+        return true;  // No timestamp = stale
+    }
+
+    try {
+        // Simple timestamp parsing: expect ISO-8601 format
+        // Get current time or use provided timestamp
+        auto now = std::chrono::system_clock::now();
+        auto now_time_t = std::chrono::system_clock::to_time_t(now);
+
+        // Parse last_update_timestamp (simplified parsing)
+        std::tm tm = {};
+        std::istringstream iss(last_update_timestamp);
+        iss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
+        
+        if (iss.fail()) {
+            return true;  // Parse error = treat as stale
+        }
+
+        auto update_time_t = std::mktime(&tm);
+        long age_seconds = std::difftime(now_time_t, update_time_t);
+
+        return age_seconds > static_cast<long>(freshness_ttl_seconds);
+    } catch (...) {
+        return true;  // Any exception = treat as stale
+    }
+}
+
+void ShardSummary::markAsFresh(bool update_timestamp) noexcept {
+    freshness_state = SummaryFreshnessState::FRESH;
+    if (update_timestamp) {
+        created_at = getCurrentTimestamp();
+        last_update_timestamp = getCurrentTimestamp();
+    }
 }
 
 } // namespace tensor
