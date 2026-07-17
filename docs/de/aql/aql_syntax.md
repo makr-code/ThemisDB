@@ -7,6 +7,16 @@
 
 **Inspiriert von:** ArangoDB AQL, mit Fokus auf Multi-Modell-Queries
 
+> **v2.0.0-Hinweis**
+>
+> Dieses Dokument beschreibt den produktiven Stand von **AQL v1.3.x**. Die in Planung befindlichen
+> **v2.0.0**-Erweiterungen für Mutations, DDL, Geospatial und Full-Text-Suche werden separat über die
+> Roadmaps in `src/query/` geführt und sind nicht Bestandteil der hier dokumentierten Baseline.
+>
+> **Wichtige Einschränkung für v1.x:** Geospatial-bezogene AQL-Nutzung ist in der v1.x-Dokumentation
+> derzeit auf **LET-basierte Vorbereitungs-/Hilfsausdrücke** beschränkt; voll integrierte räumliche
+> Query-Syntax und zugehörige Parser-/Executor-Pfade sind für **v2.0.0** geplant.
+
 ---
 
 ## 📑 Inhaltsverzeichnis
@@ -1196,4 +1206,3 @@ Datenvolumen reduzieren bevor gruppiert wird.
 
 **Dokumentations-Version:** 1.3 (03. November 2025)  
 **Letzte Aktualisierung:** FULLTEXT + AND Hybrid Queries implementiert (13 Tests PASSED)
-
