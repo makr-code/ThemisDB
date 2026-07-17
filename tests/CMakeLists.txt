@@ -2853,6 +2853,53 @@ else()
 endif()
 
 # ============================================================================
+# Graph Exact Traversal Phase A Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
+    message(STATUS "Adding Graph Exact Traversal Phase A tests")
+
+    add_executable(test_graph_exact_traversal
+        graph/test_graph_exact_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_exact_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_exact_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_exact_traversal)
+        add_dependencies(test_graph_exact_traversal sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME GraphExactTraversalPhaseATests COMMAND test_graph_exact_traversal)
+
+    set_tests_properties(GraphExactTraversalPhaseATests PROPERTIES
+        LABELS "graph;distributed;phase_a;exact_traversal;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Graph Exact Traversal Phase A: invalid input, shard failure, fallback metrics")
+else()
+    message(STATUS "Graph Exact Traversal Phase A tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
+endif()
+
+# ============================================================================
 # GPU Graph Traversal Tests (standalone - CPU fallback, no GPU required)
 # ============================================================================
 
