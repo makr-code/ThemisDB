@@ -191,12 +191,14 @@ enum class ExactnessViolation : uint16_t {
     ApproximateForTruthBearing   = 100,
     /// A bounded-zone result was returned for a truth-bearing query.
     BoundedForTruthBearing       = 101,
+    /// The requested zone is looser than the canonical minimum for the layer.
+    RequestedZoneBelowCanonicalMinimum = 102,
 
     // Category C enforcement
     /// A Category C sub-path (ACL / provenance / transaction) was routed to
     /// a non-Exact layer.
     CategoryCOnNonExactLayer     = 200,
-    /// GPU dispatch was attempted for a Category C kernel.
+    /// GPU dispatch was attempted for a CPU-only exactness path.
     CategoryCGpuAttempt          = 201,
 
     // Artifact quality
@@ -242,7 +244,8 @@ struct ApproximationBoundary {
     bool truth_bearing{false};
 
     /// True when GPU dispatch is structurally permitted for this layer.
-    /// Category-level eligibility (A/B/C) must still be checked at call time.
+    /// `checkBoundary(..., uses_gpu=true)` and `validatePlannedPath()` use this
+    /// to reject CPU-only layers such as ExactGraph.
     bool gpu_eligible{true};
 
     /// True when violations at this layer are fail-closed (reject, not downgrade).
@@ -368,6 +371,7 @@ public:
      * @param category    The kernel category in use at this layer.
      * @param policy      Active governance policy.
      * @param confidence  Query-time confidence score in [0.0, 1.0].
+     * @param uses_gpu    True when this layer is being asked to dispatch on GPU.
      * @return            A @ref BoundaryCheckResult with decision and optional
      *                    violation code.
      *
@@ -378,7 +382,8 @@ public:
         ApproximationZone          zone,
         KernelCategory             category,
         const ApproximationPolicy& policy,
-        double                     confidence) const noexcept = 0;
+        double                     confidence,
+        bool                       uses_gpu = false) const noexcept = 0;
 
     /**
      * @brief Validate that a planner decision respects approximation boundaries.

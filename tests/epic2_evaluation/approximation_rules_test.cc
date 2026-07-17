@@ -241,6 +241,7 @@ TEST_F(GovernanceRuleViolationTest, GRV06_BoundedZone_OnExactGraph_Escalates)
         policy,
         /*confidence=*/1.0);
     EXPECT_EQ(r.decision,  GovernanceDecision::EscalateToExact);
+    EXPECT_EQ(r.violation, ExactnessViolation::BoundedForTruthBearing);
 }
 
 /// GRV-07: Exact zone on Ann layer → Allow (stricter than canonical Approximate).
@@ -256,7 +257,7 @@ TEST_F(GovernanceRuleViolationTest, GRV07_ExactZone_OnAnnLayer_IsAllowed)
     EXPECT_EQ(r.violation, ExactnessViolation::None);
 }
 
-/// GRV-08: Bypass on truth-bearing layer denied when allow_bypass=false.
+/// GRV-08: Truth-bearing non-Exact request is never reported as allowed.
 TEST_F(GovernanceRuleViolationTest, GRV08_TruthBearing_NoBypass_IsDenied)
 {
     ASSERT_FALSE(policy.allow_bypass);
@@ -342,7 +343,7 @@ TEST_F(PolicyOverrideTest, POL05_AllowBypass_TruthBearingWithNonExact_IsAllowed)
 {
     // ExactGraph is truth-bearing; try Approximate zone with bypass enabled.
     // Note: ExactGraph layer still enforces zone ≥ Exact via the zone-mismatch
-    // rule (Rule 2), which fires before the bypass check.  Bypass is meaningful
+    // rule (Rule 3), which fires before the bypass check.  Bypass is meaningful
     // for hypothetical custom layers; this test verifies the bypass path itself
     // via DistributedShard which is not truth-bearing by default.
     auto policy              = makePermissivePolicy();
@@ -394,6 +395,8 @@ TEST_F(EscalateToExactTest, ESC01_ApproxZone_OnBoundedLayer_Escalates)
         policy,
         /*confidence=*/1.0);
     EXPECT_EQ(r.decision, GovernanceDecision::EscalateToExact);
+    EXPECT_EQ(r.violation,
+              ExactnessViolation::RequestedZoneBelowCanonicalMinimum);
 }
 
 /// ESC-02: Confidence at the exact boundary (0.80) passes for Bounded zone.
@@ -433,12 +436,14 @@ TEST_F(EscalateToExactTest, ESC04_ApproxZone_OnDistributedShard_Escalates)
         policy,
         /*confidence=*/1.0);
     EXPECT_EQ(r.decision, GovernanceDecision::EscalateToExact);
+    EXPECT_EQ(r.violation,
+              ExactnessViolation::RequestedZoneBelowCanonicalMinimum);
 }
 
 /// ESC-05: Bounded zone on ExactGraph layer → Escalate (not Deny; not fail-closed for this check).
 TEST_F(EscalateToExactTest, ESC05_BoundedZone_OnExactGraph_Escalates)
 {
-    // ExactGraph fires Rule 2 (zone != Exact on ExactGraph) → EscalateToExact.
+    // ExactGraph fires Rule 3 (zone != Exact on ExactGraph) → EscalateToExact.
     const auto r = engine->checkBoundary(
         RetrievalLayer::ExactGraph,
         ApproximationZone::Bounded,
@@ -537,29 +542,15 @@ TEST_F(ValidatePlannedPathTest, VPP07_ResultCarriesPolicyVersion)
     EXPECT_EQ(r.policy_version, "v-vpp-test");
 }
 
-/// VPP-08: AnnTensorSummary with confidence below threshold → EscalateToExact.
-TEST_F(ValidatePlannedPathTest, VPP08_AnnTensorSummary_LowConfidence_Escalates)
+/// VPP-08: DirectExactGraph path with GPU dispatch → Deny.
+TEST_F(ValidatePlannedPathTest, VPP08_DirectExactGraphPath_WithGpu_IsDenied)
 {
-    policy.min_confidence_bounded = 0.95;
-    const auto d = makeDecision(ExecutionPath::AnnTensorSummary);
+    const auto d = makeDecision(
+        ExecutionPath::DirectExactGraph,
+        /*gpu=*/true, /*tensor=*/false, /*exact=*/true);
     const auto r = engine->validatePlannedPath(d, policy);
-    // Bounded layer check with confidence == min_confidence_bounded (0.95) passes exactly
-    // but here the engine passes policy.min_confidence_bounded as the confidence,
-    // so it should just pass.  Use a higher threshold to force escalation.
-    // Rebuild: if min == 0.95 and engine passes 0.80 as confidence → escalate.
-    policy.min_confidence_bounded = 0.81;
-    const auto r2 = engine->validatePlannedPath(
-        makeDecision(ExecutionPath::AnnTensorSummary), policy);
-    // The engine internally passes min_confidence_bounded as the confidence value;
-    // with threshold 0.81, this should escalate.
-    // The engine uses policy.min_confidence_bounded as confidence for the Bounded check.
-    // So if the threshold is 0.81 and confidence is also 0.80 (default in engine), escalate.
-    // Actually looking at the code: the engine passes policy.min_confidence_bounded
-    // directly as confidence to checkBoundary for the TensorSummary layer.
-    // So the confidence == threshold → Allow.
-    // To force escalation we must have threshold > confidence that is passed.
-    // Let's just verify the Allow case and test direct Deny.
-    EXPECT_NE(r2.decision, GovernanceDecision::Deny);
+    EXPECT_EQ(r.decision, GovernanceDecision::Deny);
+    EXPECT_EQ(r.violation, ExactnessViolation::CategoryCGpuAttempt);
 }
 
 // ===========================================================================

@@ -32,8 +32,9 @@ confidence falls below `ApproximationPolicy::min_confidence_bounded`.
    them to Approximate or Bounded is rejected immediately
    (`GovernanceDecision::Deny`).
 2. **GPU ban on ExactGraph** — GPU dispatch to the ExactGraph layer is never permitted.
-   This is enforced by `ApproximationBoundary::gpu_eligible = false` and checked via
-   `checkBoundary()`.
+   This is enforced by `ApproximationBoundary::gpu_eligible = false` and rejected by
+   `checkBoundary(..., uses_gpu=true)` / `validatePlannedPath()` when the planned path
+   attributes GPU dispatch to the ExactGraph stage.
 3. **Zone strictness** — the requested zone must be ≥ the canonical minimum for the
    layer.  Requesting a looser zone triggers `GovernanceDecision::EscalateToExact`
    (or Deny for fail-closed layers).
@@ -82,7 +83,7 @@ confidence falls below `ApproximationPolicy::min_confidence_bounded`.
 - [x] EDG-01..06: edge cases (unknown layer, boundary confidence, `isAllowed()`)
 
 ### Phase 5: Performance and hardening
-- [x] All check methods are `noexcept`; zero heap allocation for check paths
+- [x] All check methods are `noexcept`; boundary lookup stays O(1) with static metadata
 - [x] Canonical boundary table is `constexpr` array — O(1) lookup, no branching on layer
 - [x] `isZoneStrictEnough()` is a `constexpr` predicate — inlined at call site
 - [x] Bypass and escalation strategies documented in code and this governance doc

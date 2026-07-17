@@ -82,6 +82,7 @@ if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
     )
     target_include_directories(epic2_approximation_lib PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
     target_compile_features(epic2_approximation_lib PUBLIC cxx_std_17)
     # approximation_rules.cc includes query_planner.h; link the planner lib.

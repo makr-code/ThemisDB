@@ -138,6 +138,26 @@ constexpr std::array<ApproximationBoundary, 4> kCanonicalBoundaries = {{
     return 1.0; // unknown zone — conservative
 }
 
+[[nodiscard]] constexpr ExactnessViolation truthBearingViolationFor(
+    ApproximationZone zone) noexcept
+{
+    return zone == ApproximationZone::Bounded
+        ? ExactnessViolation::BoundedForTruthBearing
+        : ExactnessViolation::ApproximateForTruthBearing;
+}
+
+[[nodiscard]] constexpr uint8_t decisionPriority(
+    GovernanceDecision decision) noexcept
+{
+    switch (decision) {
+        case GovernanceDecision::Allow:           return 0;
+        case GovernanceDecision::Bypass:          return 1;
+        case GovernanceDecision::EscalateToExact: return 2;
+        case GovernanceDecision::Deny:            return 3;
+    }
+    return 0;
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -170,6 +190,7 @@ public:
      * @param category    Kernel category active at this layer.
      * @param policy      Active governance policy.
      * @param confidence  Query-time confidence in [0.0, 1.0].
+     * @param uses_gpu    True when this layer is being asked to dispatch on GPU.
      * @return @ref BoundaryCheckResult with decision and optional violation.
      */
     [[nodiscard]] BoundaryCheckResult checkBoundary(
@@ -177,10 +198,21 @@ public:
         ApproximationZone          zone,
         KernelCategory             category,
         const ApproximationPolicy& policy,
-        double                     confidence) const noexcept override
+        double                     confidence,
+        bool                       uses_gpu) const noexcept override
     {
         BoundaryCheckResult result;
         result.policy_version = policy.policy_version;
+
+        ApproximationBoundary canonical{};
+        if (!lookupCanonical(layer, canonical)) {
+            result.decision  = GovernanceDecision::Deny;
+            result.violation = ExactnessViolation::UnknownLayer;
+            result.explanation =
+                "Unknown RetrievalLayer value: " +
+                std::to_string(static_cast<int>(layer));
+            return result;
+        }
 
         // ------------------------------------------------------------------
         // Rule 1: Category C fail-closed — always requires Exact zone.
@@ -208,14 +240,26 @@ public:
         }
 
         // ------------------------------------------------------------------
-        // Rule 2: ExactGraph layer rejects GPU dispatch (gpu_eligible=false).
-        // The caller should not request Approximate/Bounded on ExactGraph.
+        // Rule 2: CPU-only layers reject GPU dispatch attempts.
+        // ------------------------------------------------------------------
+        if (uses_gpu && !canonical.gpu_eligible) {
+            result.decision  = GovernanceDecision::Deny;
+            result.violation = ExactnessViolation::CategoryCGpuAttempt;
+            result.explanation =
+                "GPU dispatch is not permitted for layer "
+                + std::to_string(static_cast<int>(layer)) + ". "
+                "policy=" + policy.policy_version;
+            return result;
+        }
+
+        // ------------------------------------------------------------------
+        // Rule 3: ExactGraph requires the Exact zone.
         // ------------------------------------------------------------------
         if (layer == RetrievalLayer::ExactGraph &&
             zone != ApproximationZone::Exact)
         {
             result.decision  = GovernanceDecision::EscalateToExact;
-            result.violation = ExactnessViolation::ApproximateForTruthBearing;
+            result.violation = truthBearingViolationFor(zone);
             result.explanation =
                 "ExactGraph layer is truth-bearing and requires Exact zone; "
                 "escalating from zone="
@@ -225,7 +269,7 @@ public:
         }
 
         // ------------------------------------------------------------------
-        // Rule 3: Policy-driven ACL / provenance / transaction enforcement.
+        // Rule 4: Policy-driven ACL / provenance / transaction enforcement.
         // These mirror Category C but are enforced per-policy flag so that
         // future policy relaxation is possible without code changes.
         // ------------------------------------------------------------------
@@ -248,26 +292,16 @@ public:
         }
 
         // ------------------------------------------------------------------
-        // Rule 4: Zone strictness — requested zone must be ≥ canonical minimum.
+        // Rule 5: Zone strictness — requested zone must be ≥ canonical minimum.
         // ------------------------------------------------------------------
-        ApproximationBoundary canonical{};
-        if (!lookupCanonical(layer, canonical)) {
-            result.decision  = GovernanceDecision::Deny;
-            result.violation = ExactnessViolation::UnknownLayer;
-            result.explanation =
-                "Unknown RetrievalLayer value: " +
-                std::to_string(static_cast<int>(layer));
-            return result;
-        }
-
         if (!isZoneStrictEnough(zone, canonical.zone)) {
             // Looser zone than the canonical minimum requested — escalate
             // rather than deny, so the caller can upgrade the path safely.
             if (canonical.fail_closed) {
                 result.decision  = GovernanceDecision::Deny;
                 result.violation = canonical.truth_bearing
-                    ? ExactnessViolation::ApproximateForTruthBearing
-                    : ExactnessViolation::BoundedForTruthBearing;
+                    ? truthBearingViolationFor(zone)
+                    : ExactnessViolation::RequestedZoneBelowCanonicalMinimum;
                 result.explanation =
                     "Layer " + std::to_string(static_cast<int>(layer)) +
                     " is fail-closed and requires zone >= " +
@@ -279,8 +313,8 @@ public:
             }
             result.decision  = GovernanceDecision::EscalateToExact;
             result.violation = canonical.truth_bearing
-                ? ExactnessViolation::ApproximateForTruthBearing
-                : ExactnessViolation::BoundedForTruthBearing;
+                ? truthBearingViolationFor(zone)
+                : ExactnessViolation::RequestedZoneBelowCanonicalMinimum;
             result.explanation =
                 "Requested zone is looser than canonical minimum for layer "
                 + std::to_string(static_cast<int>(layer)) +
@@ -290,7 +324,7 @@ public:
         }
 
         // ------------------------------------------------------------------
-        // Rule 5: Confidence threshold.
+        // Rule 6: Confidence threshold.
         // ------------------------------------------------------------------
         const double threshold = minConfidence(zone, policy);
         if (confidence < threshold) {
@@ -318,14 +352,14 @@ public:
         }
 
         // ------------------------------------------------------------------
-        // Rule 6: Advisory-query gate.
+        // Rule 7: Advisory-query gate.
         // If the caller requests an approximate zone for a non-advisory query
         // (truth_bearing layer), and bypass is not allowed, deny.
         // ------------------------------------------------------------------
         if (canonical.truth_bearing && zone != ApproximationZone::Exact) {
             if (!policy.allow_bypass) {
                 result.decision  = GovernanceDecision::Deny;
-                result.violation = ExactnessViolation::ApproximateForTruthBearing;
+                result.violation = truthBearingViolationFor(zone);
                 result.explanation =
                     "Layer is truth-bearing but requested zone is not Exact "
                     "and bypass is disabled. "
@@ -375,15 +409,15 @@ public:
         // Derive implied zones from the decision flags.
         // GPU usage implies Category A/B; exact graph implies Category C.
         const KernelCategory graphCategory = KernelCategory::C;
-        const KernelCategory annCategory   =
-            decision.uses_gpu ? KernelCategory::A : KernelCategory::A;
+        const KernelCategory annCategory   = KernelCategory::A;
 
         // Helper lambda: run checkBoundary and return Deny/Escalate early.
         auto check = [&](RetrievalLayer  layer,
                          ApproximationZone zone,
                          KernelCategory    cat,
-                         double            conf) -> BoundaryCheckResult {
-            return checkBoundary(layer, zone, cat, policy, conf);
+                         double            conf,
+                         bool              uses_gpu = false) -> BoundaryCheckResult {
+            return checkBoundary(layer, zone, cat, policy, conf, uses_gpu);
         };
 
         BoundaryCheckResult worst;
@@ -392,8 +426,8 @@ public:
         worst.violation      = ExactnessViolation::None;
 
         auto merge = [&](const BoundaryCheckResult& r) {
-            if (static_cast<uint8_t>(r.decision) >
-                static_cast<uint8_t>(worst.decision))
+            if (decisionPriority(r.decision) >
+                decisionPriority(worst.decision))
             {
                 worst = r;
             }
@@ -403,25 +437,25 @@ public:
             case ExecutionPath::AnnOnly:
                 merge(check(RetrievalLayer::Ann,
                             ApproximationZone::Approximate,
-                            annCategory, 1.0));
+                            annCategory, 1.0, decision.uses_gpu));
                 break;
 
             case ExecutionPath::AnnTensorSummary:
                 merge(check(RetrievalLayer::Ann,
                             ApproximationZone::Approximate,
-                            annCategory, 1.0));
+                            annCategory, 1.0, decision.uses_gpu));
                 merge(check(RetrievalLayer::TensorSummary,
                             ApproximationZone::Bounded,
-                            annCategory, policy.min_confidence_bounded));
+                            annCategory, policy.min_confidence_bounded, decision.uses_gpu));
                 break;
 
             case ExecutionPath::AnnTensorExactGraph:
                 merge(check(RetrievalLayer::Ann,
                             ApproximationZone::Approximate,
-                            annCategory, 1.0));
+                            annCategory, 1.0, decision.uses_gpu));
                 merge(check(RetrievalLayer::TensorSummary,
                             ApproximationZone::Bounded,
-                            annCategory, policy.min_confidence_bounded));
+                            annCategory, policy.min_confidence_bounded, decision.uses_gpu));
                 merge(check(RetrievalLayer::ExactGraph,
                             ApproximationZone::Exact,
                             graphCategory, 1.0));
@@ -430,13 +464,13 @@ public:
             case ExecutionPath::DirectExactGraph:
                 merge(check(RetrievalLayer::ExactGraph,
                             ApproximationZone::Exact,
-                            graphCategory, 1.0));
+                            graphCategory, 1.0, decision.uses_gpu));
                 break;
 
             case ExecutionPath::DistributedSummaryFirstExactOnDemand:
                 merge(check(RetrievalLayer::DistributedShard,
                             ApproximationZone::Bounded,
-                            annCategory, policy.min_confidence_bounded));
+                            annCategory, policy.min_confidence_bounded, decision.uses_gpu));
                 merge(check(RetrievalLayer::ExactGraph,
                             ApproximationZone::Exact,
                             graphCategory, 1.0));
