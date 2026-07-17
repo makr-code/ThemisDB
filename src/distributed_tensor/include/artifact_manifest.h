@@ -24,6 +24,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <map>
 #include <optional>
 #include <string>
 #include <vector>
@@ -93,6 +94,92 @@ enum class UpdateMode : uint8_t {
     PARTIAL_REFIT = 2,
     /// Full rebuild was performed (> 50 % delta fraction).
     REBUILD = 3,
+};
+
+// ---------------------------------------------------------------------------
+// LifecycleState
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Lifecycle state of a tensor artifact.
+ *
+ * Used by the planner and invalidation manager to determine whether an
+ * artifact is safe to use for routing decisions.
+ */
+enum class LifecycleState : uint8_t {
+    /// Artifact is current and safe for advisory use.
+    ACTIVE = 0,
+    /// Artifact is outdated; should be refreshed before use.
+    STALE = 1,
+    /// Artifact has been invalidated and must not be used.
+    INVALIDATED = 2,
+};
+
+// ---------------------------------------------------------------------------
+// InvalidationReason
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Reason why an artifact was invalidated.
+ *
+ * Persisted in the manifest so that consumers can distinguish transient
+ * staleness from hard integrity failures.
+ */
+enum class InvalidationReason : uint8_t {
+    /// Reason is unknown or not set.
+    UNKNOWN = 0,
+    /// CRC or payload integrity check failed.
+    INTEGRITY_CHECK_FAILED = 1,
+    /// Staleness threshold exceeded.
+    STALENESS_EXCEEDED = 2,
+    /// Source artifact was invalidated (cascade).
+    SOURCE_INVALIDATED = 3,
+    /// Source lineage is corrupted.
+    SOURCE_LINEAGE_CORRUPTED = 4,
+    /// Policy rule violation.
+    POLICY_VIOLATION = 5,
+    /// Explicit admin/operator request.
+    ADMIN_REQUESTED = 6,
+    /// Owning shard is unavailable.
+    SHARD_UNAVAILABLE = 7,
+};
+
+// ---------------------------------------------------------------------------
+// InvalidationReasonUtils
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Utility functions for @c InvalidationReason enum conversions.
+ */
+struct InvalidationReasonUtils {
+    /// Convert an @c InvalidationReason to its canonical string representation.
+    /// @param reason  Value to convert.
+    /// @return        Non-empty string; "UNKNOWN" for unrecognised values.
+    static std::string reasonToString(InvalidationReason reason);
+
+    /// Parse a canonical string back to an @c InvalidationReason value.
+    /// @param reason_str  String produced by reasonToString().
+    /// @return            Parsed value, or std::nullopt on failure.
+    static std::optional<InvalidationReason> stringToReason(const std::string& reason_str);
+};
+
+// ---------------------------------------------------------------------------
+// ArtifactLifecyclePolicy
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Utility functions for @c LifecycleState enum conversions.
+ */
+struct ArtifactLifecyclePolicy {
+    /// Convert a @c LifecycleState value to its canonical string representation.
+    /// @param state  Value to convert.
+    /// @return       Non-empty string; "UNKNOWN" for unrecognised values.
+    static std::string stateToString(LifecycleState state);
+
+    /// Parse a canonical string back to a @c LifecycleState value.
+    /// @param state_str  String produced by stateToString().
+    /// @return           Parsed value, or std::nullopt on failure.
+    static std::optional<LifecycleState> stringToState(const std::string& state_str);
 };
 
 // ---------------------------------------------------------------------------
@@ -243,6 +330,17 @@ struct ArtifactManifest {
     /// Maximum allowed age (seconds) before the artifact is considered stale.
     /// 0 disables threshold-based staleness (artifact is always fresh by age).
     int64_t staleness_threshold_sec = 0;
+
+    // -----------------------------------------------------------------------
+    // Lifecycle and invalidation fields (Phase B+)
+    // -----------------------------------------------------------------------
+
+    /// Current lifecycle state of the artifact.
+    LifecycleState lifecycle_state = LifecycleState::ACTIVE;
+
+    /// Reason the artifact was invalidated (only meaningful when
+    /// @p lifecycle_state == LifecycleState::INVALIDATED).
+    InvalidationReason invalidation_reason = InvalidationReason::UNKNOWN;
 
     /**
      * @brief True when this entry has exceeded its staleness threshold.
