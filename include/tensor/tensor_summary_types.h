@@ -134,6 +134,22 @@ struct PackageSummary : public BaseTensorSummary {
 };
 
 // ============================================================================
+// Freshness state enumeration for shard summaries
+// ============================================================================
+
+/**
+ * @brief Freshness state of a shard summary.
+ * 
+ * Used to track whether a summary is suitable for routing decisions,
+ * exact fragment loading, or must be rejected as stale.
+ */
+enum class SummaryFreshnessState : uint8_t {
+    FRESH = 0,      ///< Summary is current and can be used for routing
+    STALE = 1,      ///< Summary has exceeded TTL and should be rejected
+    INVALID = 2     ///< Summary is corrupted or invalid
+};
+
+// ============================================================================
 // ShardSummary — summary for cross-shard results
 // ============================================================================
 
@@ -142,6 +158,7 @@ struct PackageSummary : public BaseTensorSummary {
  * 
  * Represents compression of candidates retrieved from a single shard,
  * with metadata about shard relevance and contribution.
+ * Includes freshness tracking for distributed summary-first routing.
  */
 struct ShardSummary : public BaseTensorSummary {
     /// Shard identifier (e.g., "shard_0", "eu-west-1/shard_5").
@@ -170,6 +187,56 @@ struct ShardSummary : public BaseTensorSummary {
 
     /// Compressed candidate summaries from this shard.
     std::vector<std::string> compressed_candidates;
+
+    // ─── Freshness & Staleness Tracking ───────────────────────────────────
+
+    /// Timestamp (ISO-8601) when this summary was last updated on the shard.
+    std::string last_update_timestamp;
+
+    /// Time-to-live for this summary in seconds (0 = no TTL).
+    uint32_t freshness_ttl_seconds = 3600;
+
+    /// Current freshness state (FRESH, STALE, or INVALID).
+    SummaryFreshnessState freshness_state = SummaryFreshnessState::FRESH;
+
+    /**
+     * @brief Check if this summary is stale based on current time.
+     * 
+     * A summary is considered stale if:
+     * - freshness_state == STALE or INVALID, OR
+     * - Current time > last_update_timestamp + freshness_ttl_seconds
+     * 
+     * @param now_timestamp ISO-8601 timestamp for comparison (defaults to now)
+     * @return true if summary is stale or invalid
+     */
+    [[nodiscard]] bool isStale(const std::string& now_timestamp = "") const noexcept;
+
+    /**
+     * @brief Mark this summary as stale.
+     * 
+     * Used when discovery or validation detects that the summary is outdated.
+     */
+    void markAsStale() noexcept {
+        freshness_state = SummaryFreshnessState::STALE;
+    }
+
+    /**
+     * @brief Mark this summary as invalid.
+     * 
+     * Used when discovery detects corruption or integrity failure.
+     */
+    void markAsInvalid() noexcept {
+        freshness_state = SummaryFreshnessState::INVALID;
+    }
+
+    /**
+     * @brief Mark this summary as fresh.
+     * 
+     * Updates freshness_state to FRESH and optionally updates timestamp.
+     * 
+     * @param update_timestamp if true, sets created_at to current time
+     */
+    void markAsFresh(bool update_timestamp = false) noexcept;
 };
 
 // ============================================================================

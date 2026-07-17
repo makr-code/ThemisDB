@@ -5,3 +5,4 @@ endif()
 message(STATUS "Configuring benchmark module: aql")
 
 themis_add_standard_benchmark(bench_aql_functions bench_aql_functions.cpp)
+themis_add_standard_benchmark(bench_aql_mutations bench_aql_mutations.cpp)
