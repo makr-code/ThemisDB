@@ -127,7 +127,7 @@ enum class ComputeVariant : uint8_t {
  * ## Validity constraints
  * - `FreshnessVariant::Stale` is only meaningful when `path_variant` includes
  *   a tensor layer. When combined with `PathVariant::AnnOnly`, the freshness
- *   field is ignored and a warning is recorded.
+ *   field is ignored.
  * - `ComputeVariant::Gpu` requires `gpu_available == true` in the runtime
  *   context. If the GPU is not available the experiment falls back to CPU and
  *   records the deviation in the result.
@@ -203,7 +203,8 @@ struct AblationResult {
     ///        threshold, indicating unsafe planner use.
     bool has_unsafe_residual{false};
 
-    /// @brief Per-query error messages (empty when error_count == 0).
+    /// @brief Per-query diagnostics (errors and edge-case warnings).
+    ///        This vector can be non-empty even when `error_count == 0`.
     std::vector<std::string> per_query_errors;
 };
 

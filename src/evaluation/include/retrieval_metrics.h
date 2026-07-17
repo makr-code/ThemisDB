@@ -347,7 +347,7 @@ struct TensorGraphRuntimeMetrics {
     /// Mean delta lag (unprocessed log entries) across all queries.
     double mean_delta_lag{0.0};
 
-    /// Mean residual / approximation error; values ≥ 1.0 indicate perfect reconstruction.
+    /// Mean residual / approximation error (lower is better; 0.0 is perfect).
     double mean_residual_error{0.0};
 
     /// Fraction of queries where the tensor rank exceeded the configured cap.
@@ -416,12 +416,14 @@ struct TensorGraphSnapshot {
  * @brief Compute aggregated tensor-graph runtime metrics over a window of snapshots.
  *
  * @param snapshots           Per-query or per-period snapshots. Must not be empty.
- * @param max_residual_error  Threshold above which the residual is flagged in
- *                            the returned `mean_residual_error` field comment.
+ * @param max_residual_error  Maximum acceptable residual per snapshot.
+ *                            Any snapshot above this threshold causes an error.
  *
  * @return Aggregated @ref TensorGraphRuntimeMetrics over the window.
  *
  * @throws MetricError when `snapshots` is empty.
+ * @throws MetricError with kind @ref MetricErrorKind::ResidualTooHighForPlanner
+ *         when a snapshot residual exceeds `max_residual_error`.
  */
 [[nodiscard]] TensorGraphRuntimeMetrics computeTensorGraphRuntimeMetrics(
     const std::vector<TensorGraphSnapshot>& snapshots,
@@ -477,10 +479,11 @@ public:
     /**
      * @brief Compute aggregated tensor-graph runtime metrics over all collected snapshots.
      *
-     * @param max_residual_error  Residual threshold passed to the underlying computation.
+     * @param max_residual_error  Maximum acceptable residual per snapshot.
      * @return Aggregated @ref TensorGraphRuntimeMetrics.
      *
-     * @throws MetricError when no snapshots have been recorded.
+     * @throws MetricError when no snapshots have been recorded or a snapshot
+     *         exceeds `max_residual_error`.
      */
     [[nodiscard]] TensorGraphRuntimeMetrics summarizeTensorGraph(
         double max_residual_error = 0.10) const;

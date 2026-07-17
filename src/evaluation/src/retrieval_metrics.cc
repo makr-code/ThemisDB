@@ -46,7 +46,7 @@ namespace evaluation {
 
 namespace {
 
-/// @brief Guard: throw MetricError when `cond` is true.
+/// @brief Guard helper that always throws a MetricError.
 [[noreturn]] void throwMetric(MetricErrorKind kind, std::string_view msg) {
     throw MetricError(kind, msg);
 }
@@ -529,6 +529,11 @@ TensorGraphRuntimeMetrics computeTensorGraphRuntimeMetrics(
 
     for (const auto& s : snapshots) {
         requireFinite(s.residual_error, "snapshot residual_error");
+        if (s.isResidualUnsafe(max_residual_error)) {
+            throwMetric(
+                MetricErrorKind::ResidualTooHighForPlanner,
+                "snapshot residual_error exceeds max_residual_error");
+        }
 
         sum_age      += static_cast<double>(s.artifact_age_ms);
         sum_delta    += static_cast<double>(s.delta_lag);

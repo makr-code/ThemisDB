@@ -1,6 +1,6 @@
 /**
  * @file retrieval_metrics_test.cc
- * @brief Unit tests for the layered retrieval evaluation metrics (EPIC 2 Phase 4).
+ * @brief Unit tests for the layered retrieval evaluation metrics (EPIC 2 Phase 2).
  *
  * Covers:
  *  - RM-01..RM-08: Retrieval quality (Recall\@k, Precision\@k, NDCG\@k, MRR,
@@ -43,16 +43,6 @@ using namespace themis::evaluation;
 // ============================================================================
 
 namespace {
-
-/// Build a ranked list of `n` items; first `relevant` items are relevant.
-std::vector<RankedResult> makeRanked(std::size_t n, const std::vector<std::string>& ids) {
-    std::vector<RankedResult> v;
-    v.reserve(ids.size());
-    for (std::size_t i = 0; i < ids.size() && i < n; ++i) {
-        v.push_back({ids[i], static_cast<double>(ids.size() - i)});
-    }
-    return v;
-}
 
 /// Build a TensorGraphSnapshot with all defaults (no exact fallback, no issues).
 TensorGraphSnapshot makeCleanSnapshot(uint64_t age_ms = 1000) {
@@ -391,6 +381,17 @@ TEST(TensorGraphRuntime, TG09_ThrowsOnEmptySnapshots) {
     EXPECT_THROW(
         computeTensorGraphRuntimeMetrics({}),
         MetricError);
+}
+
+TEST(TensorGraphRuntime, TG10_ThrowsWhenResidualExceedsThreshold) {
+    auto s = makeCleanSnapshot();
+    s.residual_error = 0.20;
+    try {
+        (void)computeTensorGraphRuntimeMetrics({s}, 0.10);
+        FAIL() << "Expected MetricError";
+    } catch (const MetricError& e) {
+        EXPECT_EQ(e.kind(), MetricErrorKind::ResidualTooHighForPlanner);
+    }
 }
 
 // ============================================================================
