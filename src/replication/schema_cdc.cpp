@@ -23,6 +23,7 @@
 
 #include <chrono>
 #include <memory>
+#include "utils/logger.h"
 
 namespace themisdb {
 namespace replication {
@@ -163,6 +164,7 @@ void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
         auto encoded = encoder.encode(ev, wal_entry.collection);
         payload_bytes = std::move(encoded.data);
     } catch (...) {
+        THEMIS_WARN("schema_cdc: unhandled exception caught");
         std::lock_guard<std::mutex> slock(stats_mutex_);
         ++stats_.encoding_errors;
         return;

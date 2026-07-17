@@ -29,6 +29,7 @@
 #include "llm/llm_ingestion_bridge.h"
 #include <stdexcept>
 #include <spdlog/spdlog.h>
+#include "utils/logger.h"
 
 namespace themis {
 namespace llm {
@@ -62,6 +63,7 @@ bool LlmIngestionBridge::isAvailable() const {
         const auto plugins = LLMPluginManager::instance().listPlugins();
         return !plugins.empty();
     } catch (...) {
+        THEMIS_WARN("llm_ingestion_bridge: unhandled exception caught");
         return false;
     }
 }
@@ -74,6 +76,7 @@ std::string LlmIngestionBridge::description() const {
         }
         return "LlmIngestionBridge → LLMPluginManager/" + plugins.front();
     } catch (...) {
+        THEMIS_WARN("llm_ingestion_bridge: unhandled exception caught");
         return "LlmIngestionBridge (unavailable)";
     }
 }

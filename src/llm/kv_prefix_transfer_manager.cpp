@@ -13,6 +13,7 @@
 #include <stdexcept>
 
 #include <spdlog/spdlog.h>
+#include "utils/logger.h"
 
 namespace themis::llm {
 
@@ -53,6 +54,7 @@ KVPrefixTransferManager::KVPrefixTransferManager(
                     return custom;
                 }
             } catch (...) {
+                THEMIS_WARN("kv_prefix_transfer_manager::remote_executor_: unhandled exception caught");
                 // fail-closed: default back to NullKVStateSerializer
             }
         }

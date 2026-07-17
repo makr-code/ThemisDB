@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (20)
+## Aktive Workflows (21)
 - `.github/workflows/00-shared_changelog-update.yml`
 - `.github/workflows/00-shared_changelog-backfill.yml`
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
@@ -27,6 +27,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/copilot-ollama-router-ci.yml`
 - `.github/workflows/copilot-regression-guard.yml`
 - `.github/workflows/performance-regression-check.yml`
+- `.github/workflows/08-quality_clang-tidy-analysis.yml`
 
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.

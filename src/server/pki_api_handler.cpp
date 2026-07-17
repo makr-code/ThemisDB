@@ -544,6 +544,7 @@ nlohmann::json PkiApiHandler::getStatus() {
                 status["hsm_keys_count"] = keys.size();
                 status["hsm_status"] = "connected";
             } catch (...) {
+                THEMIS_WARN("pki_api_handler: unhandled exception caught");
                 status["hsm_status"] = "error";
             }
         }

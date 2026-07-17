@@ -71,6 +71,7 @@ namespace {
                 octets[i] = octet;
             }
         } catch (...) {
+            THEMIS_WARN("voice_api_handler::parseIPv4: unhandled exception caught");
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -1632,6 +1633,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
             }
             limit = static_cast<size_t>(parsed_limit);
         } catch (...) {
+            THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1728,6 +1730,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
             }
             limit = static_cast<size_t>(parsed_limit);
         } catch (...) {
+            THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
                 "limit must be an integer between 1 and 1000");
@@ -1880,6 +1883,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
     try {
         return json::parse(req.body());
     } catch (...) {
+        THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -1997,6 +2001,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     try {
         components = utils::parseURL(url);
     } catch (...) {
+        THEMIS_DEBUG("voice_api_handler: unhandled exception caught");
         throw std::invalid_argument("Invalid URL format");
     }
     

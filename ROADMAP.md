@@ -489,14 +489,13 @@ Audit method:
 - [ ] Team Assignment: Team A (2–3 engineers for Mutations + DDL), Team B (1–2 for DDL after Phase 1), Team C (1 for Geospatial + FTS)
 - [ ] Architecture Review: Present AQL_MUTATIONS_ROADMAP.md to architecture board
 - [ ] GitHub Issues: Convert roadmap checkbox tasks into issues with phase labels
-- [ ] Documentation Updates:
-  - [ ] Mark `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` as v1.3.1 proposal
-  - [ ] Add v2.0.0 disclaimers to `docs/de/aql/aql_syntax.md` (Geospatial LET-only for v1.x)
-  - [ ] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
-- [x] Feature Branches:
-  - [x] `feature/aql-mutations-phase1` (Tokenizer + AST) — **Delivered 2026-07-15**: 11 DML tokens, MutationNode hierarchy (InsertNode/UpdateNode/RemoveNode/ReplaceNode/UpsertNode), AQLParser::parseMutation(), AqlSafetyValidator::ValidationMode, 50+ tests
-  - [x] `feature/aql-mutations-phase2-3` (Safety + Semantic Validation + Translation + Executor) — **Delivered 2026-07-15**: validateMutationSafety(), AqlMutationValidator, AqlMutationTranslator, MutationExecutionPlan, MutationExecutor + StorageContext abstraction, 118 tests (51 validation + 35 translator + 32 executor)
-  - [x] `feature/aql-mutations-phase4` (Transaction Support & Atomicity) — **Delivered 2026-07-15**: AqlTransactionBlock extended with `ordered_statements` (AqlStatement Kind::Query/Mutation), parseTransactionBlock() recognizes INSERT/UPDATE/DELETE/REMOVE/REPLACE/UPSERT, MutationTransactionContext (undo-log proxy + rollback), executeMultiStatementAql(3-arg) with atomic mutation + query dispatch, 18 tests (P4-01..P4-18)
+- [x] Documentation Updates:
+  - [x] Mark `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` as v1.3.1 proposal
+  - [x] Add v2.0.0 disclaimers to `docs/de/aql/aql_syntax.md` (Geospatial LET-only for v1.x)
+  - [x] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
+- [ ] Feature Branches:
+  - [ ] `feature/aql-mutations-phase1` (Tokenizer + AST)
+  - [ ] `feature/aql-geospatial-parser` (Parser integration)
   - [ ] `feature/aql-fts-enhancement` (Query optimizer)
 
 ---

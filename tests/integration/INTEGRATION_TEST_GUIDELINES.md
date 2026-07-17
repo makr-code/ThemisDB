@@ -58,19 +58,27 @@ tests/integration/
   - Security: `SEC-01..SEC-06`
   - Analytics/Export: `AEP-01..AEP-03`
   - Application Profile E2E: `APP-01..APP-13`
+  - **Wave 2 — Cross-Module Ingest/Query**: `CMX-01..CMX-06` (file: `cross_module_ingest_index_query_test.cpp`, labels: `cross_module;wave2`)
+  - **Wave 2 — Cross-Module Recovery**: `REC-01..REC-07` (file: `cross_module_recovery_pipeline_test.cpp`, labels: `cross_module;wave2`)
+  - **Wave 3 — Full-Function Critical Flows**: `FFW-01..FFW-08` (file: `w3a_full_function_critical_flows_test.cpp`, labels: `wave3;w3a`)
+  - **Wave 3 — Data/State Integrity & Recovery**: `DIR-01..DIR-08` (file: `w3b_data_integrity_recovery_test.cpp`, labels: `wave3;w3b`)
   - **Wave 5 — E2E Journeys**: `E2E-01..E2E-08` (file: `w5a_e2e_critical_journeys_test.cpp`, labels: `wave5;w5a;release_critical`)
   - **Wave 5 — Failure/Recovery**: `FIR-01..FIR-08` (file: `w5b_failure_injection_recovery_test.cpp`, labels: `wave5;w5b;release_critical`)
-- **CTest Label**: `pipeline_integration`
-- **Release Gate Labels**: `release_critical`, `wave5`  — these are mandatory on every PR to `develop`, `community`, or `enterprise`.
   - Wave 6 — Critical Journey Hardening: `RCJ-01..RCJ-08` (`w6a`)
   - Wave 6 — Stress/Soak/Stability: `SSS-01..SSS-08` (`w6b`)
   - Wave 6 — Failure Injection/Recovery: `FIR-01..FIR-08` (`w6c`)
-- **CTest Label**: `pipeline_integration`
-- **Wave 6 CTest Labels**: `wave6;w6a;release_candidate` / `wave6;w6b;stress_soak` / `wave6;w6c;failure_injection`
-  - Wave 3-A Full-Function Critical Flows: `FFW-01..FFW-08`
-  - Wave 3-B Data/State Integrity & Recovery: `DIR-01..DIR-08`
-- **CTest Label**: `pipeline_integration`
-- **Wave 3 Label**: `wave3` (used with `ctest -L wave3` to run only W3 tests)
+- **Wave 7 — Final Critical Journey Sign-off**: `FJS-01..FJS-08` (file: `w7a_final_journey_signoff_test.cpp`, labels: `wave7;w7a;release_critical;final_signoff`)
+- **Wave 7 — Recovery/Resilience**: `HCR-01..HCR-08` (file: `w7b_recovery_resilience_test.cpp`, labels: `wave7;w7b;release_critical;recovery_resilience`)
+- **Wave 7 — Endurance/Stability**: `ESC-01..ESC-08` (file: `w7c_endurance_stability_test.cpp`, labels: `wave7;w7c;endurance;stability_cert`)
+- **Baseline CTest Label**: `pipeline_integration`
+- **Wave-specific CTest Labels**:
+  - Wave 2: `cross_module;wave2`
+  - Wave 3: `wave3;w3a` / `wave3;w3b`
+  - Wave 5: `wave5;w5a;release_critical` / `wave5;w5b;release_critical`
+  - Wave 6: `wave6;w6a;release_candidate` / `wave6;w6b;stress_soak` / `wave6;w6c;failure_injection`
+  - Wave 7: `wave7;w7a;release_critical;final_signoff` / `wave7;w7b;release_critical;recovery_resilience` / `wave7;w7c;endurance;stability_cert`
+- **Release gate workflow**: `.github/workflows/09-pr-gates_release-critical-tests.yml` runs
+  `ctest -L release_critical` for the release-blocking pipeline suites.
 - **Expectation**: Pipeline tests must run offline with deterministic mocks (no GPU, no external LLM service, no Kafka dependency).
 
 ### Shared Pipeline Test Helpers

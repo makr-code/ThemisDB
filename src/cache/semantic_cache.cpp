@@ -50,6 +50,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::CacheEntry::fromJson(con
     } catch (const nlohmann::json::exception&) {
         return std::nullopt;
     } catch (...) {
+        THEMIS_DEBUG("semantic_cache: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -185,6 +186,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string 
         miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     } catch (...) {
+        THEMIS_DEBUG("semantic_cache: unhandled exception caught");
         miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     }
@@ -274,6 +276,7 @@ uint64_t SemanticCache::clearExpired() {
             }
             removed++;
         } catch (...) {
+            THEMIS_WARN("semantic_cache::it: unhandled exception caught");
             // Invalid entry, remove it.
             if (cf_handle_) {
                 batch.Delete(cf_handle_, it->key());

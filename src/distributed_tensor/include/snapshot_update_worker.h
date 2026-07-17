@@ -147,7 +147,7 @@ struct UpdateMetrics {
 class SnapshotBasedUpdateWorker {
  public:
   /// Creates a new update worker.
-  SnapshotBasedUpdateWorker();
+  explicit SnapshotBasedUpdateWorker(ManifestStore* manifest_store = nullptr) noexcept;
 
   virtual ~SnapshotBasedUpdateWorker() = default;
 
@@ -271,6 +271,10 @@ class SnapshotBasedUpdateWorker {
   /// @param handler Shared error recovery handler instance
   void setErrorRecoveryHandler(std::shared_ptr<ErrorRecoveryHandler> handler);
 
+  /// Sets the advisory manifest store used for publish operations.
+  /// @param manifest_store Store to receive updated manifests; may be nullptr
+  void setManifestStore(ManifestStore* manifest_store) noexcept;
+
   /// Recovers from a crash by loading checkpoint.
   /// @param artifact_id Artifact to recover
   /// @return true if recovery was successful or no checkpoint exists, false on error
@@ -322,6 +326,7 @@ class SnapshotBasedUpdateWorker {
   std::shared_ptr<DistributedLockManager> lock_manager_;
   std::shared_ptr<StaleArtifactDetector> stale_detector_;
   std::shared_ptr<ErrorRecoveryHandler> error_handler_;
+  ManifestStore* manifest_store_ = nullptr;
   std::string worker_id_;  // Unique worker identifier for locking
 
   /// Internal helper to check if rank cap would be breached.

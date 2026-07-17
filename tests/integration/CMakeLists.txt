@@ -424,6 +424,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8c_determinism_flake_ci_signal_
 endif()
 
 # ============================================================================
+# Wave 9 — Security Hardening, SLA Compliance, Chaos Fault Tolerance
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9a_security_hardening_audit_test.cpp")
+    add_integration_test(
+        w9a_security_hardening_audit_test
+        pipeline/w9a_security_hardening_audit_test.cpp
+    )
+    set_tests_properties(w9a_security_hardening_audit_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave9;w9a;release_critical;security_hardening"
+        TIMEOUT 120
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9b_sla_compliance_uptime_test.cpp")
+    add_integration_test(
+        w9b_sla_compliance_uptime_test
+        pipeline/w9b_sla_compliance_uptime_test.cpp
+    )
+    set_tests_properties(w9b_sla_compliance_uptime_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave9;w9b;release_critical;sla_compliance"
+        TIMEOUT 120
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9c_chaos_fault_tolerance_test.cpp")
+    add_integration_test(
+        w9c_chaos_fault_tolerance_test
+        pipeline/w9c_chaos_fault_tolerance_test.cpp
+    )
+    set_tests_properties(w9c_chaos_fault_tolerance_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave9;w9c;release_critical;chaos_fault_tolerance"
+        TIMEOUT 120
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 

@@ -1,6 +1,6 @@
-> **Navigation:** Dieser Index verweist auf die Modulstruktur. Links bei Umstrukturierung aktualisieren.
-
 # Benchmarks Index (`benchmarks/`)
+
+> **Navigation:** Dieser Index verweist auf die Modulstruktur. Links bei Umstrukturierung aktualisieren.
 
 Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.
 
@@ -17,6 +17,8 @@ Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.
 - CI-Gate-Spezifikation: [`docs/CI_GATE.md`](docs/CI_GATE.md)
 - Wissenschaftliches Evaluations-Framework: [`docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md`](docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md)
 - Wave-3 Full-Function Suite: [`docs/WAVE3_BENCHMARK_SUITE.md`](docs/WAVE3_BENCHMARK_SUITE.md)
+- Wave-5 Release-Gate Suite: [`wave5/RUNBOOK_W5.md`](wave5/RUNBOOK_W5.md)
+- Wave-7 Final-Signoff-Suite: [`wave7/RUNBOOK_W7.md`](wave7/RUNBOOK_W7.md), [`wave7/WAVE7_BENCHMARK_COVERAGE.md`](wave7/WAVE7_BENCHMARK_COVERAGE.md)
 - Registrierungs-Audit: `python3 benchmarks/scripts/audit_benchmark_registration.py`
 
 ## Fachbereiche
@@ -30,8 +32,8 @@ Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.
 ## Ausführung
 
 ```bash
-cmake --preset linux-ninja-perf
-cmake --build --preset linux-ninja-perf
+cmake --preset nightly-bench-sweep
+cmake --build --preset nightly-bench-sweep
 python3 benchmarks/run_benchmark_orchestrator.py --help
 ```
 

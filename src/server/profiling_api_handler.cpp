@@ -24,6 +24,7 @@
 #include <charconv>
 #include "utils/tracing.h"
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -414,6 +415,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
         value = std::stoi(value_str);
         return true;
     } catch (...) {
+        THEMIS_WARN("profiling_api_handler: unhandled exception caught");
         value = default_value;
         return false;
     }

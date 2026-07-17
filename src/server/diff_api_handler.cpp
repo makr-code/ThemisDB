@@ -26,6 +26,7 @@
 #include <iomanip>
 #include <sstream>
 #include "utils/tracing.h"
+#include "utils/logger.h"
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 
@@ -157,6 +158,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
         } catch (...) {
+            THEMIS_WARN("diff_api_handler: unhandled exception caught");
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -167,6 +169,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
         } catch (...) {
+            THEMIS_WARN("diff_api_handler: unhandled exception caught");
             throw std::invalid_argument("Invalid offset parameter");
         }
     }

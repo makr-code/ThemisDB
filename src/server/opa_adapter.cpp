@@ -35,6 +35,7 @@
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <mutex>
+#include "utils/logger.h"
 
 namespace themis {
 
@@ -112,6 +113,7 @@ std::optional<bool> OpaAdapter::parseOpaResponse(const std::string& response_bod
         // where undefined / empty results indicate denial.
         if (result.is_object() && !result.empty()) return true;
     } catch (...) {
+        THEMIS_WARN("opa_adapter: unhandled exception caught");
         // Parse failure → treat as unavailable
     }
     return std::nullopt;

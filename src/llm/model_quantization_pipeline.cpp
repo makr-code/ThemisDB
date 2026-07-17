@@ -41,6 +41,7 @@ namespace spdlog {
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "utils/logger.h"
 
 namespace fs = std::filesystem;
 
@@ -110,6 +111,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                     if (qtype == "gptq") return ModelFormat::GPTQ;
                 }
             } catch (...) {
+                THEMIS_WARN("model_quantization_pipeline: unhandled exception caught");
                 // config.json present but malformed – fall through to heuristics
             }
         }

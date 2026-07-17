@@ -5,6 +5,10 @@
 ## Current Status
 - [x] Cross-Module-Pipeline-Test-Suite Wave 1 abgeschlossen (Target: 2026-Q3)
 - [x] Wave 2 Cross-Modul-Härtung: CMX-01..CMX-06 + REC-01..REC-07 umgesetzt (Target: 2026-Q3)
+- [x] Wave 3 Critical-Flow- und Recovery-Suiten: FFW-01..FFW-08 + DIR-01..DIR-08 umgesetzt (Target: 2026-Q3)
+- [x] Wave 5 Release-Critical E2E- und Failure/Recovery-Suiten: E2E-01..E2E-08 + FIR-01..FIR-08 umgesetzt (Target: 2026-Q3)
+- [x] Wave 6 Release-Candidate-Hardening: RCJ-01..RCJ-08 + SSS-01..SSS-08 + FIR-01..FIR-08 umgesetzt (Target: 2026-Q3)
+- [x] Wave 7 Final-Signoff- und Recovery/Endurance-Suiten: FJS-01..FJS-08 + HCR-01..HCR-08 + ESC-01..ESC-08 umgesetzt (Target: 2026-Q3)
 - [x] Gemeinsame Pipeline-Testhelpers in `test_fixture.h` und `test_data_generator.h` erweitert (Target: 2026-Q3)
 - [x] CTest-Label `pipeline_integration` und `cross_module` eingeführt (Target: 2026-Q3)
 - [x] `SeededTestDataGenerator` + `MockRetryScheduler` + `DeterministicIntegrationFixture` hinzugefügt (Target: 2026-Q3)
@@ -43,6 +47,10 @@
 ### Phase 4: Tests
 - [x] Neue Pipeline-Tests unter CTest-Label `pipeline_integration` registriert (Target: 2026-Q3)
 - [x] Wave 2 Tests unter CTest-Label `cross_module` + `wave2` registriert (Target: 2026-Q3)
+- [x] Wave 3 Tests unter CTest-Labels `wave3;w3a` (e2e) und `wave3;w3b` (recovery) registriert (Target: 2026-Q3)
+- [x] Wave 5 Tests unter CTest-Labels `wave5;w5a;release_critical` (e2e) und `wave5;w5b;release_critical` (recovery) registriert (Target: 2026-Q3)
+- [x] Wave 6 Tests unter CTest-Labels `wave6;w6a;release_candidate`, `wave6;w6b;stress_soak`, `wave6;w6c;failure_injection` registriert (Target: 2026-Q3)
+- [x] Wave 7 Tests unter CTest-Labels `wave7;w7a;release_critical`, `wave7;w7b;release_critical;recovery_resilience`, `wave7;w7c;endurance;stability_cert` registriert (Target: 2026-Q3)
 - [x] Offline-Ausführbarkeit über Mocks ohne externe Services sichergestellt (Target: 2026-Q3)
 
 ### Phase 5: Performance/Hardening
@@ -51,6 +59,7 @@
 
 ### Phase 6: Dokumentation & Abnahme
 - [x] `INTEGRATION_TEST_GUIDELINES.md` um Pipeline-Konventionen und Label-Flow ergänzt (Target: 2026-Q3)
+- [x] Wave-spezifische Coverage-/Governance-Dokumente für Wave 3/5/6/7 hinterlegt (`WAVE3_TEST_COVERAGE.md`, `WAVE5_TEST_COVERAGE.md`, `WAVE5_TEST_GOVERNANCE.md`, `WAVE6_TEST_COVERAGE.md`, `WAVE7_TEST_COVERAGE.md`, `WAVE7_TRIAGE_RUNBOOK.md`) (Target: 2026-Q3)
 - [~] Abnahme der Pipeline-Suite über CI-Stabilisierung und Regression-Baselines offen (Target: 2026-Q4)
 
 ## Production Readiness Checklist

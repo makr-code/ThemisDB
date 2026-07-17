@@ -1040,6 +1040,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleUnloadModel");
         return createErrorResponse(http::status::internal_server_error, "Failed to unload model");
     }
@@ -1083,6 +1084,7 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleModelInfo");
         return createErrorResponse(http::status::internal_server_error, "Model info retrieval failed");
     }
@@ -1133,6 +1135,7 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleIngestModel");
         return createErrorResponse(http::status::internal_server_error, "Model ingestion failed");
     }
@@ -1173,6 +1176,7 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleListLoRAs");
         return createErrorResponse(http::status::internal_server_error, "Failed to list LoRAs");
     }
@@ -1236,6 +1240,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleLoadLoRA");
         return createErrorResponse(http::status::internal_server_error, "Failed to load LoRA");
     }
@@ -1283,6 +1288,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleUnloadLoRA");
         return createErrorResponse(http::status::internal_server_error, "Failed to unload LoRA");
     }
@@ -1314,6 +1320,7 @@ http::response<http::string_body> LLMApiHandler::handleStats(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleStats");
         return createErrorResponse(http::status::internal_server_error, "Failed to get statistics");
     }
@@ -1355,6 +1362,7 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleCacheStats");
         return createErrorResponse(http::status::internal_server_error, "Failed to get cache statistics");
     }
@@ -1382,6 +1390,7 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleClearCache");
         return createErrorResponse(http::status::internal_server_error, "Failed to clear caches");
     }
@@ -1413,6 +1422,7 @@ http::response<http::string_body> LLMApiHandler::handleHealth(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleHealth");
         return createErrorResponse(http::status::internal_server_error, "Health check failed");
     }
@@ -1574,6 +1584,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleDocsQuery");
         return createErrorResponse(http::status::internal_server_error, "Documentation query failed");
     }
@@ -1636,6 +1647,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleDocsConfig");
         return createErrorResponse(http::status::internal_server_error, "Configuration help failed");
     }
@@ -1700,6 +1712,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleDocsTroubleshoot");
         return createErrorResponse(http::status::internal_server_error, "Troubleshooting help failed");
     }
@@ -1794,6 +1807,7 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid feedback parameters", e.what());
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleCreateFeedback");
         return createErrorResponse(http::status::internal_server_error, "Feedback creation failed");
     }
@@ -1956,6 +1970,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
             e.what()
         );
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleListFeedback");
         return createErrorResponse(http::status::internal_server_error, "Failed to list feedback");
     }
@@ -2166,6 +2181,7 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
             return res;
         }
     } catch (...) {
+        THEMIS_WARN("llm_api_handler: unhandled exception caught");
         logCurrentException("LLMApiHandler::handleOpenAIChatCompletions failed");
         auto err = llm::OpenAICompatAdapter::buildError(
             "Failed to handle chat completions request", "server_error");

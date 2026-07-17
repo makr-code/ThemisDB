@@ -105,14 +105,18 @@ Zieldatei: `.vscode/launch.json` (repo-versioniert via `.vscode.example/launch.j
 > `workflow_dispatch`-only oder non-blocking, bis Trigger-Qualität verifiziert.
 
 ### 4.1 clang-tidy + clang-format CI-Job
-- [ ] Neuen Job in bestehendem Workflow evaluieren (Präferenz vor neuem File)
-- [ ] Falls eigener Workflow: `paths:` eng auf `src/**/*.{cpp,hpp}` und
-  `include/**/*.{h,hpp}` begrenzen; `concurrency` + `cancel-in-progress: true`
-- [ ] SARIF-Output aktivieren und als GitHub Code Scanning Artefakt hochladen
-  (nahtlose Integration in GitHub Security tab)
-- [ ] Erst als `workflow_dispatch`-only starten; nach Verifikation als
+- [x] Neuen Job in bestehendem Workflow evaluieren (Präferenz vor neuem File)
+  — Ergebnis: eigener Workflow günstiger; cmake-multi-platform.yml hat zu breite PR-Trigger,
+    die governance-inkompatibel mit clang-tidy wären.
+- [x] Falls eigener Workflow: `workflow_dispatch`-only für ersten Rollout;
+  PR-Trigger mit enger `paths:`-Begrenzung erst nach Trigger-Qualitätsprüfung
+- [x] SARIF-Output aktivieren und als GitHub Code Scanning Artefakt hochladen
+  (nahtlose Integration in GitHub Security tab) — via `clang_tidy_to_sarif.py` +
+  `github/codeql-action/upload-sarif@v3`
+- [x] Erst als `workflow_dispatch`-only starten; nach Verifikation als
   optional non-blocking PR-Check aktivieren
-- [ ] Eintrag in `WORKFLOW_REGISTRY.md` + `WORKFLOW_GUIDELINES.md` pflegen
+  — Implementiert in `.github/workflows/08-quality_clang-tidy-analysis.yml`
+- [x] Eintrag in `WORKFLOW_REGISTRY.md` + `WORKFLOW_GUIDELINES.md` pflegen
 - [ ] Lokal verifizieren: `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all`
 
 ### 4.2 AddressSanitizer (ASan) in Nightly-Sweep integrieren

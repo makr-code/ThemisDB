@@ -38,6 +38,7 @@
 #include <sstream>
 #include <rocksdb/utilities/transaction_db.h>
 #include "utils/tracing.h"
+#include "utils/logger.h"
 
 using nlohmann::json;
 
@@ -117,6 +118,7 @@ std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_
         json j = json::parse(value);
         return PiiMapping::fromJson(j);
     } catch (...) {
+        THEMIS_DEBUG("pii_api_handler: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -170,6 +172,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
             ++index;
             ++total;
         } catch (...) {
+            THEMIS_WARN("pii_api_handler: unhandled exception caught");
             // skip malformed entries
         }
     }

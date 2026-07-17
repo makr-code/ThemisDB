@@ -110,6 +110,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
         } catch (const char*) {
             ok = false;
         } catch (...) {
+            THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
             ok = false;
         }
         std::lock_guard<std::mutex> lk(stats_mutex_);
@@ -143,6 +144,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
         } catch (const char*) {
             ok = false;
         } catch (...) {
+            THEMIS_WARN("distributed_cache_coordinator: unhandled exception caught");
             ok = false;
         }
         std::lock_guard<std::mutex> lk(stats_mutex_);

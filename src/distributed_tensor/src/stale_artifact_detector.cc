@@ -195,7 +195,7 @@ void StaleArtifactDetector::updateStalenessHistory(const std::string& artifact_i
   stats_.total_staleness_detections++;
 }
 
-std::optional<StalenessHistory> StaleArtifactDetector::getStalenessHistory(
+std::optional<StaleArtifactDetector::StalenessHistory> StaleArtifactDetector::getStalenessHistory(
     const std::string& artifact_id) {
   auto it = history_.find(artifact_id);
 

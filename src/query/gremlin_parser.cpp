@@ -39,6 +39,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
+#include "utils/logger.h"
 
 namespace themis {
 namespace query {
@@ -234,6 +235,7 @@ struct GremlinParser::Parser {
             int64_t n;
             try { n = std::stoll(t.value); }
             catch (...) {
+                THEMIS_WARN("gremlin_parser::parseValue: unhandled exception caught");
                 throw std::runtime_error("Integer literal '" + t.value + "' is out of range at position "
                                          + std::to_string(t.position));
             }
@@ -244,6 +246,7 @@ struct GremlinParser::Parser {
             double d;
             try { d = std::stod(t.value); }
             catch (...) {
+                THEMIS_WARN("gremlin_parser::parseValue: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + t.value + "' is out of range at position "
                                          + std::to_string(t.position));
             }
@@ -465,6 +468,7 @@ struct GremlinParser::Parser {
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count = std::stoll(peek().value); }
                     catch (...) {
+                        THEMIS_WARN("gremlin_parser: unhandled exception caught");
                         throw std::runtime_error("Gremlin limit count '" + peek().value + "' is out of range");
                     }
                     consume();
@@ -476,6 +480,7 @@ struct GremlinParser::Parser {
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count = std::stoll(peek().value); }
                     catch (...) {
+                        THEMIS_WARN("gremlin_parser: unhandled exception caught");
                         throw std::runtime_error("Gremlin range start '" + peek().value + "' is out of range");
                     }
                     consume();
@@ -484,6 +489,7 @@ struct GremlinParser::Parser {
                 if (check(GremlinTokenType::INT_LIT)) {
                     try { step.count2 = std::stoll(peek().value); }
                     catch (...) {
+                        THEMIS_WARN("gremlin_parser: unhandled exception caught");
                         throw std::runtime_error("Gremlin range end '" + peek().value + "' is out of range");
                     }
                     consume();
@@ -550,6 +556,7 @@ struct GremlinParser::Parser {
                 int64_t iv;
                 try { iv = std::stoll(peek().value); }
                 catch (...) {
+                    THEMIS_WARN("gremlin_parser::parse: unhandled exception caught");
                     throw std::runtime_error("Integer value '" + peek().value + "' is out of range");
                 }
                 start.values.emplace_back(iv);

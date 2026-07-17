@@ -4,6 +4,7 @@
 /// @date 2026-07-03
 
 #include "src/distributed_tensor/include/crash_recovery_checkpoint.h"
+#include <cctype>
 #include <fstream>
 #include <sstream>
 #include <filesystem>
@@ -199,7 +200,7 @@ uint64_t CrashRecoveryCheckpoint::cleanupOldCheckpoints(uint32_t retention_days)
 
   try {
     auto now = std::chrono::system_clock::now();
-    auto cutoff_time = now - std::chrono::days(retention_days);
+    auto cutoff_time = now - std::chrono::hours(24 * retention_days);
 
     for (const auto& entry : fs::directory_iterator(checkpoint_dir_)) {
       if (entry.is_regular_file() && entry.path().extension() == ".chk") {
