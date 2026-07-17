@@ -5,7 +5,7 @@
 - [x] Dokumentierter End-to-End-Playbook- und Katalogpfad in `benchmarks/docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md` bereitgestellt (Target: 2026-Q2)
 - [x] CI-Gate-Spezifikation für Framework-CLI als verpflichtender Gate-Job in `benchmarks/docs/CI_GATE.md` dokumentiert (Target: 2026-Q2)
 - [x] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (README, INDEX, AUDIT, SECURITY, ROADMAP) (Target: 2026-Q2)
-- [x] CMake-Registrierungsaudit-Tool `audit_benchmark_registration.py` implementiert — 196/196 Quellen registriert (Target: 2026-Q2)
+- [~] CMake-Registrierungsaudit-Tool `audit_benchmark_registration.py` liefert reproduzierbare Drift-Erkennung — Re-Audit 2026-07-17: 217 Quellen entdeckt, 205 registriert, 1 intentional excluded, 11 unregistrierte (Target: 2026-Q3)
 - [x] Syntax-Fehler (C-Block-Header) in `scientific_evaluation_framework.py` behoben (Target: 2026-Q2)
 - [x] Wave-6-Release-Candidate-Suite inkl. finaler Guardrails/Drift-/Sättigungs-/Recovery-Auswertung über `benchmarks/ci_wave6_release_candidate_experiments.json` und Framework-Reportfelder umgesetzt (Target: 2026-Q3)
 
@@ -16,8 +16,8 @@
 - [x] **Wave 4 (B4-C):** Determinismus- und Varianz-Benchmarks (W4C-01..W4C-06): CV-Akzeptanzgates, Seed-Stabilität, Warmup-Effektivität, Teardown-Isolation (Target: 2026-Q3)
 - [x] **Wave 4 (B4-D):** Diagnose- und Reporting-Benchmarks (W4D-01..W4D-05) + `report_variance.py` + `RUNBOOK.md` implementiert (Target: 2026-Q3)
 
-## In Progress
 - [~] Welle 3 (B3-A/B3-B/B3-C): Full-Function Critical Workloads + Scale/Stress + Regression-Guardrails in `wave3_benchmark_suite.py` und `wave3_workload_profiles.json` (Target: 2026-Q3)
+- [~] CMake-Registrierungsdrift für 11 Benchmark-Quellen (`wave5/`, `wave7/`, Root-Dispatch-Binaries) abbauen und Re-Audit wieder auf 0 Unregistrierte bringen (Target: 2026-Q3)
 - [~] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph) mit evidenzbasierten CPU-SIMD-vs-GPU-Szenarien, Break-Even-Schwellenwerten und Dynamic-Tensor-Update-Track (Issue: #5466, Target: 2026-Q3)
   - [x] Benchmark-Matrix-Dokument erstellt: `docs/benchmarks/CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md`
   - [x] Szenario-Katalog erstellt: `docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md`
@@ -78,7 +78,7 @@
 
 ## Known Issues & Limitations
 - [I] Statistische Verfahren basieren auf CPU-seitiger Python-Auswertung; sehr große Stichproben erhöhen Laufzeit deutlich.
-- [I] Aktive GitHub-Workflow-Definitionen fehlen im Repository (`.github/no_workflows`), daher ist die CI-Aktivierung aktuell nur über externe/Downstream-Pipelines möglich. Gate-Spezifikation liegt in `benchmarks/docs/CI_GATE.md` bereit.
+- [I] Ein benchmark-spezifischer Workflow `.github/workflows/benchmark-gate.yml` fehlt weiterhin; aktive PR-Gates existieren bereits unter `.github/workflows/`, decken den Benchmark-Registrierungsaudit aber noch nicht ab. Gate-Spezifikation liegt in `benchmarks/docs/CI_GATE.md` bereit.
 - [I] Wave 4 Baseline-Verzeichnis (`benchmarks/wave4/baselines/`) ist initial leer — muss nach erstem validen Release-Lauf befüllt werden.
 - [I] `BackpressureSimulator` in `wave4_fixtures.h` ist nicht thread-safe für parallele Benchmark-Bodies; für Multi-Thread-Szenarien pro Thread instanziieren.
 

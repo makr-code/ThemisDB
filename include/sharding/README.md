@@ -4,12 +4,13 @@
 
 This directory contains public header files for the ThemisDB sharding module.
 
-<!-- Status: current | validated: 2026-05-13 -->
+<!-- Status: current | validated: 2026-07-17 -->
 <!-- Links: ../../src/sharding/README.md · ../../src/sharding/ROADMAP.md · ../../src/sharding/FUTURE_ENHANCEMENTS.md -->
 
 ## Purpose
 
-Public interfaces and declarations for sharding, distributed consensus, replication, and cluster management functionality.
+Public interfaces and declarations for sharding, distributed consensus, replication, cluster
+management, and adapter-distribution functionality.
 
 ## Primary API Entry Points
 
@@ -18,6 +19,7 @@ Public interfaces and declarations for sharding, distributed consensus, replicat
 - `cross_shard_transaction.h` — cross-shard transaction coordinator contract (2PC/3PC/SAGA/Percolator-style).
 - `shard_repair_engine.h` + `redundancy_strategy.h` — anti-entropy orchestration and erasure-coding repair APIs.
 - `admin_api.h` + `prometheus_metrics.h` — operational/admin integration surfaces.
+- `lora_artifact_distribution.h` — LoRA/package distribution receipts, shard snapshots, and recovery ordering APIs.
 
 ## Configuration Surfaces (Selected)
 
@@ -151,6 +153,10 @@ Use module-level docs in `src/sharding/` for runtime behavior and operational co
 - `cloud_agent.h` — Cloud provider integration agent
 - `cloud_backup.h` — Cloud-native shard backup
 - `gpu_erasure_coder.h` — GPU-accelerated erasure coding
+
+### Adapter Distribution
+
+- `lora_artifact_distribution.h` — adapter distribution store, Merkle proof engine, and distribution manager contracts
 
 ### Identifiers
 

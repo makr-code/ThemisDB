@@ -1,21 +1,19 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
-
 # ThemisDB Graph Module - Tests
 
-<!-- Status: current | validated: 2026-06-25 -->
+<!-- Status: current | validated: 2026-07-17 -->
 <!-- Links: ../src/graph/README.md · ../src/graph/ROADMAP.md · ../src/graph/ARCHITECTURE.md -->
 
-## ⚠️ L0 Risk Alert (2026-06-25)
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-**Status: CRITICAL GAPS DETECTED IN BACKING IMPLEMENTATIONS**
+## Current Status
 
-- **Total Gaps**: 9 (8 critical, 1 high) — affects source module, not tests
-- **Blocked Tests**: Some integration scenarios may be blocked waiting for `explain_plan` and `ontology_manager` implementations
-- **Backing Files at Risk**:
-  - `src/graph/explain_plan.cpp` (2 critical)
-  - `src/graph/ontology_manager.cpp` (2 critical)
-  - `src/graph/rotate_completion.cpp` (3 critical)
-- **Action**: See `src/graph/README.md` and `src/graph/ROADMAP.md` for mitigation and implementation timeline.
+- The earlier graph gap alert was closed on 2026-06-25: canonical source verification in
+  `src/graph/README.md` and `src/graph/ROADMAP.md` reports **0 verified gaps** in the backing
+  implementation.
+- The tests in this directory are no longer blocked by `explain_plan`, `ontology_manager`, or
+  `rotate_completion` follow-up work.
+- Focused graph tests are registered through `tests/graph/CMakeLists.txt` and can be selected with
+  the label `module:graph`.
 
 ---
 
@@ -66,14 +64,14 @@ This directory contains comprehensive test suites for ThemisDB's Graph module, i
 ## Build & Run
 
 ```bash
-# Build all graph tests
-cmake --build --preset windows-release --target module_graph_test_*
+# Build one focused graph test target (repeat with other `module_graph_*` targets as needed)
+cmake --build --preset linux-release --target module_graph_test_graph_query_optimizer_focused
 
-# Run all graph tests
-ctest --preset windows-release -R "^test_graph" --output-on-failure
+# Run all graph-focused tests
+ctest --preset linux-release -L "module:graph" --output-on-failure
 
 # Run specific test
-ctest --preset windows-release -R "test_graph_query_optimizer" --output-on-failure
+ctest --preset linux-release -R "test_graph_query_optimizer_GraphFocusedTests" --output-on-failure
 ```
 
 ## Notes
