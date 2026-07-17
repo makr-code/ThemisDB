@@ -36,8 +36,13 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
-- [ ] Add deterministic regression suites for routing and policy enforcement under load (Target: Q4 2026)
+- [~] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
+  - [x] CBS-H-01..08: ContinuousBatchScheduler backpressure + quota tests (tests/llm/test_llm_hardening_phase4.cpp)
+  - [x] TQM-H-01..04: TokenQuotaManager sliding-window semantics
+  - [~] Distributed orchestration / remote-shard failure paths (pending)
+- [~] Add deterministic regression suites for routing and policy enforcement under load (Target: Q4 2026)
+  - [x] PCL-H-01..06: PromptPolicy concurrent access + hot-swap safety
+  - [x] SHD-H-01..04: Engine + scheduler shutdown-under-load teardown
 
 ### Phase 5: Performance and Hardening
 - [ ] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
