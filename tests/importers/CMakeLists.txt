@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-cmake_minimum_required(VERSION 3.20)
-# Placeholder module test directory for mirrored src structure.
-=======
 # importers module tests — Phase 4 Block 2 hardening
 
 file(GLOB IMPORTERS_MODULE_TEST_SOURCES
@@ -42,4 +38,3 @@ foreach(_src IN LISTS IMPORTERS_MODULE_TEST_SOURCES)
         LABELS  importers phase4
     )
 endforeach()
->>>>>>> origin/develop
