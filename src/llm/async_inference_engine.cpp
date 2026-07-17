@@ -16,6 +16,7 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include "utils/logger.h"
 
 namespace themis {
 namespace llm {
@@ -207,6 +208,7 @@ InferenceHandle AsyncInferenceEngine::submit(
                     }
                     try { promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
                 } catch (...) {
+                    THEMIS_WARN("async_inference_engine: unhandled exception caught");
                     try { promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
@@ -454,6 +456,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                     if (async_req->callback) async_req->callback(response);
                     try { promise->set_value(response); } catch (...) {}
                 } catch (...) {
+                    THEMIS_WARN("async_inference_engine: unhandled exception caught");
                     try { promise->set_exception(std::current_exception()); } catch (...) {}
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
@@ -1056,6 +1059,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                                 std::runtime_error("Request dropped: queue full")));
                     }
                 } catch (...) {
+                    THEMIS_WARN("async_inference_engine: unhandled exception caught");
                     // Promise may already be satisfied; ignore.
                 }
 
@@ -1126,6 +1130,7 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
                         std::make_exception_ptr(
                             std::runtime_error("Request timed out")));
                 } catch (...) {
+                    THEMIS_WARN("async_inference_engine: unhandled exception caught");
                     // Promise already satisfied; ignore.
                 }
             }

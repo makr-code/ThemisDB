@@ -758,6 +758,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                 }
                 
             } catch (...) {
+                THEMIS_WARN("rope_api_handler: unhandled exception caught");
                 ++errors;
             }
         }

@@ -330,6 +330,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             auto gpu_stats = json::parse(gpu_json_str);
             response["gpu_backend"] = gpu_stats;
         } catch (...) {
+            THEMIS_DEBUG("spatial_api_handler: unhandled exception caught");
             response["gpu_backend"] = nullptr;
         }
         

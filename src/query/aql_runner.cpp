@@ -91,6 +91,7 @@ collectGeometries(query::QueryEngine& engine,
             }
             out.emplace_back(e.getPrimaryKey(), std::move(geom));
         } catch (...) {
+            THEMIS_WARN("aql_runner::getReoptimizer: unhandled exception caught");
             ++skipped;
             // Skip documents with unparseable geometry
         }

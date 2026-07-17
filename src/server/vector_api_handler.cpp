@@ -179,6 +179,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
                 }
                 offset = static_cast<size_t>(std::stoull(cur));
             } catch (...) {
+                THEMIS_WARN("vector_api_handler: unhandled exception caught");
                 offset = 0;
             }
         }
@@ -333,6 +334,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 }
             }
         } catch (...) {
+            THEMIS_WARN("vector_api_handler: unhandled exception caught");
             vector_enc_enabled = false; // fail-safe
         }
 
@@ -414,6 +416,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 auto st = vector_index_->addEntity(e, *batch, vector_field);
                 if (st.ok) ++inserted; else { ++errors; }
             } catch (...) {
+                THEMIS_WARN("vector_api_handler: unhandled exception caught");
                 ++errors;
             }
         }

@@ -23,6 +23,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include "utils/tracing.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -102,6 +103,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
             try {
                 limit = std::stoull(req.get_param_value("limit"));
             } catch (...) {
+                THEMIS_WARN("snapshot_api_handler: unhandled exception caught");
                 sendError(res, 400, "Invalid limit parameter");
                 return;
             }

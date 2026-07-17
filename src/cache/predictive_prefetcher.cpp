@@ -417,6 +417,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
         } catch (const char*) {
             return true;
         } catch (...) {
+            THEMIS_WARN("predictive_prefetcher: unhandled exception caught");
             return true;
         }
 

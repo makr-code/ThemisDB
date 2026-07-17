@@ -23,6 +23,7 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
+#include "utils/logger.h"
 
 namespace themis {
 namespace storage {
@@ -60,6 +61,7 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
 
         return db_->put(key, value);
     } catch (...) {
+        THEMIS_WARN("security_signature_manager::db_: unhandled exception caught");
         return false;
     }
 }
@@ -83,6 +85,7 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
         
         return SecuritySignature::deserialize(value);
     } catch (...) {
+        THEMIS_DEBUG("security_signature_manager::db_: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -95,6 +98,7 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
         }
         return db_->del(key);
     } catch (...) {
+        THEMIS_WARN("security_signature_manager: unhandled exception caught");
         return false;
     }
 }
@@ -155,6 +159,7 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
         
         return std::string(hex_output);
     } catch (...) {
+        THEMIS_WARN("security_signature_manager: unhandled exception caught");
         return "";
     }
 }
@@ -178,6 +183,7 @@ std::string SecuritySignatureManager::normalizeResourceId(const std::string& pat
         
         return normalized;
     } catch (...) {
+        THEMIS_WARN("security_signature_manager: unhandled exception caught");
         return path; // Return original if normalization fails
     }
 }
@@ -205,6 +211,7 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
         // Compare hashes
         return (current_hash == sig->hash);
     } catch (...) {
+        THEMIS_WARN("security_signature_manager: unhandled exception caught");
         return false;
     }
 }

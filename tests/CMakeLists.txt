@@ -27955,3 +27955,66 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_task_lora_ablation.cpp")
 
     message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
 endif()
+
+# ============================================================================
+# G003: Error Handling & Thread Safety remediation tests
+# EHS-01..EHS-08 + TSF-01..TSF-08 + RVC-01..RVC-04
+# Issue: GAP-SCAN-2026-06-21 G003
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cpp")
+    message(STATUS "Adding G003 error-handling & thread-safety tests (EHS-01..08, TSF-01..08, RVC-01..04)")
+
+    add_executable(test_g003_error_handling_thread_safety_focused
+        test_g003_error_handling_thread_safety.cpp
+    )
+
+    target_include_directories(test_g003_error_handling_thread_safety_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_g003_error_handling_thread_safety_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_g003_error_handling_thread_safety_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_g003_error_handling_thread_safety_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_g003_error_handling_thread_safety_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    set_tests_properties(
+        G003_ExceptionHandlingSafety.EHS01_CatchAllLogsBeforeContinuing
+        G003_ExceptionHandlingSafety.EHS02_ParseCatchAllReturnsSafeDefault
+        G003_ExceptionHandlingSafety.EHS03_RaiiReleasesMutexOnException
+        G003_ExceptionHandlingSafety.EHS04_ThreadBoundaryException
+        G003_ExceptionHandlingSafety.EHS05_TransactionRollbackOnException
+        G003_ExceptionHandlingSafety.EHS06_NestedExceptionContext
+        G003_ExceptionHandlingSafety.EHS07_NoexceptCatchAllSafeFallback
+        G003_ExceptionHandlingSafety.EHS08_MultiHandlerDispatchResilient
+        G003_ThreadSafety.TSF01_MutexProtectsSharedCounter
+        G003_ThreadSafety.TSF02_ConsistentLockOrderingPreventsDeadlock
+        G003_ThreadSafety.TSF03_AtomicIncrementUnderContention
+        G003_ThreadSafety.TSF04_SharedMutexReaderWriterPattern
+        G003_ThreadSafety.TSF05_RaiiLockGuardReleasesOnException
+        G003_ThreadSafety.TSF06_ConditionVariableWithPredicate
+        G003_ThreadSafety.TSF07_CheckThenActUnderLockPreventsDoubleCompute
+        G003_ThreadSafety.TSF08_ExceptionSafeLockedScope
+        G003_ReturnValueChecks.RVC01_OptionalReturnCheckedBeforeUse
+        G003_ReturnValueChecks.RVC02_BooleanReturnCodeChecked
+        G003_ReturnValueChecks.RVC03_NullPointerGuardBeforeDereference
+        G003_ReturnValueChecks.RVC04_ErrorPropagationChain
+        PROPERTIES
+        LABELS "error_handling;thread_safety;g003;reliability;release_critical"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)")
+endif()
