@@ -440,6 +440,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
         try {
             rocksdb_json = json::parse(rocksdb_stats);
         } catch (...) {
+            THEMIS_DEBUG("monitoring_api_handler: unhandled exception caught");
             rocksdb_json = {{"error", "Failed to parse RocksDB stats"}};
         }
         
@@ -499,6 +500,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
             {"type", build_config.build_type}
         };
     } catch (...) {
+        THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
         // If build info fails, continue with basic capabilities
     }
 
@@ -573,6 +575,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
                 };
             }
         } catch (...) {
+            THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
             // If schema manager fails, continue without schema capabilities
             caps["schema_awareness"] = {
                 {"enabled", false}
@@ -610,6 +613,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         try {
             rdb = json::parse(storage_->getStats());
         } catch (...) {
+            THEMIS_DEBUG("monitoring_api_handler: unhandled exception caught");
             rdb = json::object();
         }
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
@@ -782,6 +786,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                     try {
                         return std::stoi(level.substr(1));
                     } catch (...) {
+                        THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                     }
                 }
                 return -1;
@@ -1324,6 +1329,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                     duration_minutes = j["duration_minutes"].get<int>();
                 }
             } catch (...) {
+                THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                 // ignore JSON parse errors; use default duration
             }
         }
@@ -1438,6 +1444,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
                 out = std::stoll(value, &consumed);
                 return consumed == value.size();
             } catch (...) {
+                THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                 return false;
             }
         };

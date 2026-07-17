@@ -98,9 +98,7 @@ Http3Handler::Http3Handler(
 }
 
 Http3Handler::~Http3Handler() {
-    if (ssl_ctx_) {
-        SSL_CTX_free(ssl_ctx_);
-    }
+    stop();
 }
 
 SSL_CTX* Http3Handler::createSslContext(const std::string& cert_path,
@@ -171,13 +169,17 @@ void Http3Handler::doAccept() {
     socket_.async_receive_from(
         boost::asio::buffer(recv_buffer_),
         remote_endpoint_,
-        [this](boost::system::error_code ec, std::size_t bytes_transferred) {
-            try {
-                onReceive(ec, bytes_transferred);
-            } catch (...) {
-                logCurrentException("HTTP/3 receive callback failed");
-                if (running_.load(std::memory_order_acquire) && socket_.is_open()) {
-                    doAccept();
+        [weak_self = weak_from_this()](boost::system::error_code ec,
+                                       std::size_t bytes_transferred) {
+            if (auto self = weak_self.lock()) {
+                try {
+                    self->onReceive(ec, bytes_transferred);
+                } catch (...) {
+                    logCurrentException("HTTP/3 receive callback failed");
+                    if (self->running_.load(std::memory_order_acquire) &&
+                        self->socket_.is_open()) {
+                        self->doAccept();
+                    }
                 }
             }
         }
@@ -246,7 +248,7 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
             THEMIS_INFO("HTTP/3 new QUIC connection from {}", session_key);
             
             auto session = std::make_shared<Http3Session>(
-                socket_, remote_endpoint_, server_, ssl_ctx_, max_idle_timeout_ms_, prod_cfg_
+                socket_, remote_endpoint_, server_, ssl_ctx_.get(), max_idle_timeout_ms_, prod_cfg_
             );
             sessions_[session_key] = session;
             if (!cid_hex.empty()) {
@@ -270,19 +272,21 @@ void Http3Handler::armCleanupTimer() {
     // stop() cancels pending waits and flips running_ so callbacks fail-close
     // during teardown and do not re-arm cleanup.
     cleanup_timer_.expires_after(std::chrono::seconds(30));
-    cleanup_timer_.async_wait([this](boost::system::error_code ec) {
-        if (ec || !running_.load(std::memory_order_acquire)) {
-            return;
-        }
+    cleanup_timer_.async_wait([weak_self = weak_from_this()](boost::system::error_code ec) {
+        if (auto self = weak_self.lock()) {
+            if (ec || !self->running_.load(std::memory_order_acquire)) {
+                return;
+            }
 
-        try {
-            cleanupInactiveSessions();
-        } catch (...) {
-            logCurrentException("HTTP/3 cleanup timer error");
-        }
+            try {
+                self->cleanupInactiveSessions();
+            } catch (...) {
+                logCurrentException("HTTP/3 cleanup timer error");
+            }
 
-        if (running_.load(std::memory_order_acquire)) {
-            armCleanupTimer();
+            if (self->running_.load(std::memory_order_acquire)) {
+                self->armCleanupTimer();
+            }
         }
     });
 }
@@ -370,8 +374,6 @@ Http3Session::Http3Session(
     : socket_(socket)
     , remote_endpoint_(remote_endpoint)
     , server_(server)
-    , quic_conn_(nullptr)
-    , http3_conn_(nullptr)
     , ssl_ctx_(ssl_ctx)
     , ssl_(nullptr)
     , idle_timer_(socket.get_executor())
@@ -384,26 +386,19 @@ Http3Session::Http3Session(
 }
 
 Http3Session::~Http3Session() {
-    if (http3_conn_) {
-        nghttp3_conn_del(http3_conn_);
-    }
-    if (quic_conn_) {
-        ngtcp2_conn_del(quic_conn_);
-    }
-    if (ssl_) {
-        SSL_free(ssl_);
-    }
+    boost::system::error_code ignored;
+    idle_timer_.cancel(ignored);
 }
 
 void Http3Session::start() {
     // Initialize SSL for QUIC
-    ssl_ = SSL_new(ssl_ctx_);
-    if (!ssl_) {
+    std::unique_ptr<SSL, void(*)(SSL*)> ssl(SSL_new(ssl_ctx_), &SSL_free);
+    if (!ssl) {
         THEMIS_ERROR("HTTP/3: SSL_new failed");
         return;
     }
     
-    SSL_set_accept_state(ssl_);
+    SSL_set_accept_state(ssl.get());
     // 0-RTT: enable early data on TLS session resumption
     (void)prod_cfg_.enable_0rtt;
     
@@ -457,15 +452,18 @@ void Http3Session::start() {
     ngtcp2_path path;
     memset(&path, 0, sizeof(path));
     
-    int rv = ngtcp2_conn_server_new(&quic_conn_, &dcid, &scid, &path,
+    ngtcp2_conn* quic_conn_raw = nullptr;
+    int rv = ngtcp2_conn_server_new(&quic_conn_raw, &dcid, &scid, &path,
                                     NGTCP2_PROTO_VER_V1, &callbacks, &settings,
                                     &params, nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: ngtcp2_conn_server_new failed: {}", ngtcp2_strerror(rv));
         return;
     }
+    quic_conn_.reset(quic_conn_raw);
     
-    ngtcp2_conn_set_tls_native_handle(quic_conn_, ssl_);
+    ngtcp2_conn_set_tls_native_handle(quic_conn_.get(), ssl.get());
+    ssl_ = ssl.release();
     
     // Initialize nghttp3
     nghttp3_callbacks http3_callbacks;
@@ -481,29 +479,21 @@ void Http3Session::start() {
     http3_settings.qpack_blocked_streams = 100;
     http3_settings.h3_datagram = 1;  // RFC 9297: advertise H3_DATAGRAM support
     
-    rv = nghttp3_conn_server_new(&http3_conn_, &http3_callbacks, &http3_settings,
+    nghttp3_conn* http3_conn_raw = nullptr;
+    rv = nghttp3_conn_server_new(&http3_conn_raw, &http3_callbacks, &http3_settings,
                                  nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: nghttp3_conn_server_new failed: {}", nghttp3_strerror(rv));
         return;
     }
+    http3_conn_.reset(http3_conn_raw);
     
     // Bind HTTP/3 to QUIC
-    ngtcp2_conn_set_stream_user_data(quic_conn_, 0, http3_conn_);
+    ngtcp2_conn_set_stream_user_data(quic_conn_.get(), 0, http3_conn_.get());
     
     THEMIS_INFO("HTTP/3 session started successfully");
     
-    // Start idle timer
-    idle_timer_.expires_after(std::chrono::milliseconds(max_idle_timeout_ms_));
-    idle_timer_.async_wait([this](boost::system::error_code ec) {
-        if (!ec) {
-            try {
-                onTimeout();
-            } catch (...) {
-                logCurrentException("HTTP/3 idle timeout handler error");
-            }
-        }
-    });
+    scheduleIdleTimeout();
 }
 
 void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endpoint& peer) {
@@ -519,7 +509,7 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
     memset(&path, 0, sizeof(path));
     path.remote.addrlen = sizeof(peer);
     
-    int rv = ngtcp2_conn_read_pkt(quic_conn_, &path, &pi, data, len, getTimestamp());
+    int rv = ngtcp2_conn_read_pkt(quic_conn_.get(), &path, &pi, data, len, getTimestamp());
     if (rv != 0) {
         THEMIS_WARN("HTTP/3: ngtcp2_conn_read_pkt failed: {}", ngtcp2_strerror(rv));
         return;
@@ -528,18 +518,7 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
     // Process any outgoing packets
     doWrite();
     
-    // Reset idle timer
-    idle_timer_.cancel();
-    idle_timer_.expires_after(std::chrono::milliseconds(max_idle_timeout_ms_));
-    idle_timer_.async_wait([this](boost::system::error_code ec) {
-        if (!ec) {
-            try {
-                onTimeout();
-            } catch (...) {
-                logCurrentException("HTTP/3 idle timeout handler error");
-            }
-        }
-    });
+    scheduleIdleTimeout();
 }
 
 bool Http3Session::isActive() const {
@@ -548,8 +527,8 @@ bool Http3Session::isActive() const {
     }
     
     // Check if connection is in closing or draining state
-    if (ngtcp2_conn_in_closing_period(quic_conn_) ||
-        ngtcp2_conn_in_draining_period(quic_conn_)) {
+    if (ngtcp2_conn_in_closing_period(quic_conn_.get()) ||
+        ngtcp2_conn_in_draining_period(quic_conn_.get())) {
         return false;
     }
     
@@ -569,7 +548,7 @@ void Http3Session::doWrite() {
     
     for (;;) {
         ngtcp2_ssize nwrite = ngtcp2_conn_write_pkt(
-            quic_conn_, &ps.path, &pi, write_buffer_.data(),
+            quic_conn_.get(), &ps.path, &pi, write_buffer_.data(),
             write_buffer_.size(), getTimestamp()
         );
         
@@ -614,7 +593,7 @@ void Http3Session::doRead() {
         int fin = 0;
 
         nghttp3_ssize sveccnt = nghttp3_conn_writev_stream(
-            http3_conn_, &stream_id, &fin, vec,
+            http3_conn_.get(), &stream_id, &fin, vec,
             static_cast<size_t>(sizeof(vec) / sizeof(vec[0]))
         );
 
@@ -633,7 +612,7 @@ void Http3Session::doRead() {
 
         ngtcp2_ssize datalen = 0;
         ngtcp2_ssize nwrite = ngtcp2_conn_writev_stream(
-            quic_conn_, &ps.path, &pi,
+            quic_conn_.get(), &ps.path, &pi,
             write_buffer_.data(), write_buffer_.size(),
             &datalen, wflags, stream_id,
             reinterpret_cast<const ngtcp2_vec*>(vec),
@@ -644,7 +623,7 @@ void Http3Session::doRead() {
         if (nwrite < 0) {
             if (nwrite == NGTCP2_ERR_WRITE_MORE) {
                 if (stream_id >= 0 && datalen > 0) {
-                    nghttp3_conn_add_write_offset(http3_conn_, stream_id,
+                    nghttp3_conn_add_write_offset(http3_conn_.get(), stream_id,
                         static_cast<size_t>(datalen));
                 }
                 continue;
@@ -655,7 +634,7 @@ void Http3Session::doRead() {
         }
 
         if (stream_id >= 0 && datalen > 0) {
-            nghttp3_conn_add_write_offset(http3_conn_, stream_id,
+            nghttp3_conn_add_write_offset(http3_conn_.get(), stream_id,
                 static_cast<size_t>(datalen));
         }
 
@@ -696,9 +675,28 @@ void Http3Session::onRead(boost::system::error_code ec,
 void Http3Session::onTimeout() {
     THEMIS_INFO("HTTP/3: Session timeout");
     if (quic_conn_) {
-        ngtcp2_conn_handle_expiry(quic_conn_, getTimestamp());
+        ngtcp2_conn_handle_expiry(quic_conn_.get(), getTimestamp());
         doWrite();
     }
+}
+
+void Http3Session::scheduleIdleTimeout() {
+    boost::system::error_code ignored;
+    idle_timer_.cancel(ignored);
+    idle_timer_.expires_after(std::chrono::milliseconds(max_idle_timeout_ms_));
+    auto weak_self = weak_from_this();
+    idle_timer_.async_wait([weak_self](boost::system::error_code ec) {
+        if (ec) {
+            return;
+        }
+        if (auto self = weak_self.lock()) {
+            try {
+                self->onTimeout();
+            } catch (...) {
+                logCurrentException("HTTP/3 idle timeout handler error");
+            }
+        }
+    });
 }
 
 void Http3Session::onPathMigration(const udp::endpoint& new_remote) {
@@ -854,7 +852,7 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
         return 1;
     };
     
-    int rv = nghttp3_conn_submit_response(http3_conn_, stream_id, nva.data(),
+    int rv = nghttp3_conn_submit_response(http3_conn_.get(), stream_id, nva.data(),
                                           nva.size(), &dr);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: nghttp3_conn_submit_response failed: {}", nghttp3_strerror(rv));
@@ -872,7 +870,7 @@ int Http3Session::setupCrypto() {
 }
 
 int Http3Session::feedCryptoData(ngtcp2_encryption_level level, const uint8_t* data, size_t len) {
-    int rv = ngtcp2_crypto_read_write_crypto_data(quic_conn_, level, data, len);
+    int rv = ngtcp2_crypto_read_write_crypto_data(quic_conn_.get(), level, data, len);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: ngtcp2_crypto_read_write_crypto_data failed: {}", ngtcp2_strerror(rv));
         return -1;
@@ -928,7 +926,7 @@ int Http3Session::recvStreamDataCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags
 
         // Feed to nghttp3
         nghttp3_ssize nread = nghttp3_conn_read_stream(
-            self->http3_conn_, stream_id, data, datalen, 0
+            self->http3_conn_.get(), stream_id, data, datalen, 0
         );
 
         if (nread < 0) {
@@ -953,7 +951,7 @@ int Http3Session::ackStreamDataCallback(ngtcp2_conn* /*conn*/, int64_t stream_id
             return NGTCP2_ERR_CALLBACK_FAILURE;
         }
         if (self->http3_conn_) {
-            nghttp3_conn_add_ack_offset(self->http3_conn_, stream_id, datalen);
+            nghttp3_conn_add_ack_offset(self->http3_conn_.get(), stream_id, datalen);
         }
         return 0;
     } catch (...) {
@@ -1049,7 +1047,7 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
 
     // Check if the peer supports datagrams (max_datagram_frame_size > 0).
     const ngtcp2_transport_params* remote_params =
-        ngtcp2_conn_get_remote_transport_params(quic_conn_);
+        ngtcp2_conn_get_remote_transport_params(quic_conn_.get());
     size_t max_dgram =
         remote_params ? static_cast<size_t>(remote_params->max_datagram_frame_size) : 0;
     if (max_dgram == 0) {
@@ -1081,7 +1079,7 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
 
     int accepted = 0;
     ngtcp2_ssize nwrite = ngtcp2_conn_write_datagram(
-        quic_conn_, &ps.path, &pi,
+        quic_conn_.get(), &ps.path, &pi,
         pkt_buf.data(), pkt_buf.size(),
         &accepted, 0 /* flags */,
         0 /* dgram_id: unused; ngtcp2 uses this for ACK tracking, 0 means untracked */,
@@ -1212,4 +1210,3 @@ int Http3Session::http3EndStreamCallback(nghttp3_conn* /*conn*/, int64_t stream_
 } // namespace themis
 
 #endif // THEMIS_ENABLE_HTTP3
-

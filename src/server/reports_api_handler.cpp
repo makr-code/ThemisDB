@@ -87,6 +87,7 @@ nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& re
                         last_ts = ts;
                     }
                 } catch (...) {
+                    THEMIS_WARN("reports_api_handler: unhandled exception caught");
                     // Ignore parse errors for robustness
                 }
             }

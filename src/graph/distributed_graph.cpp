@@ -28,6 +28,7 @@
 #include <functional>
 #include <future>
 #include <limits>
+#include <optional>
 #include <shared_mutex>
 #include <spdlog/spdlog.h>
 #include <thread>
@@ -45,6 +46,33 @@ void recordExactTraversalError(std::string_view operation, std::string_view reas
         "graph_exact_traversal_errors_total", 1,
         {{"operation", std::string(operation)},
          {"reason", std::string(reason)}});
+}
+
+template <typename T>
+Result<T> makeInvalidTraversalInput(std::string_view operation, std::string message) {
+    recordExactTraversalError(operation, "invalid_input");
+    return Err<T>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, std::move(message));
+}
+
+std::optional<std::string> validateConstraintSet(const GraphQueryOptimizer::QueryConstraints &constraints) {
+    if (constraints.max_depth.has_value() && constraints.max_depth.value() < 0) {
+        return "Query constraints require non-negative max_depth";
+    }
+
+    if (constraints.required_vertices.empty() || constraints.forbidden_vertices.empty()) {
+        return std::nullopt;
+    }
+
+    std::unordered_set<std::string> forbidden(constraints.forbidden_vertices.begin(),
+                                              constraints.forbidden_vertices.end());
+    for (const auto &vertex : constraints.required_vertices) {
+        if (forbidden.count(vertex) > 0U) {
+            return "Query constraints conflict: vertex '" + vertex
+                   + "' cannot be both required and forbidden";
+        }
+    }
+
+    return std::nullopt;
 }
 
 } // namespace
@@ -214,6 +242,18 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
 Result<GraphIndexManager::PathResult>
 DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string_view target_vertex,
                                       const GraphQueryOptimizer::QueryConstraints &constraints) {
+    if (start_vertex.empty()) {
+        return makeInvalidTraversalInput<GraphIndexManager::PathResult>(
+            "shortest_path", "Distributed shortest path requires a non-empty start vertex");
+    }
+    if (target_vertex.empty()) {
+        return makeInvalidTraversalInput<GraphIndexManager::PathResult>(
+            "shortest_path", "Distributed shortest path requires a non-empty target vertex");
+    }
+    if (const auto constraint_error = validateConstraintSet(constraints); constraint_error.has_value()) {
+        return makeInvalidTraversalInput<GraphIndexManager::PathResult>("shortest_path", *constraint_error);
+    }
+
     auto shards = healthyShards();
     if (shards.empty()) {
         recordExactTraversalError("shortest_path", "no_healthy_shards");
@@ -238,7 +278,21 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
     if (!start_shard.empty() && start_shard == target_shard) {
         for (auto &[sid, exec] : shards) {
             if (sid == start_shard) {
-                auto res = exec->executeDijkstra(start_local, target_local, constraints);
+                Result<GraphIndexManager::PathResult> res =
+                    Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                                       "single-shard distributed execution failed");
+                try {
+                    res = exec->executeDijkstra(start_local, target_local, constraints);
+                } catch (const std::exception &ex) {
+                    recordExactTraversalError("shortest_path", "shard_execution_exception");
+                    spdlog::warn("distributed_graph: single-shard shortest-path execution threw exception: {}",
+                                 ex.what());
+                    break;
+                } catch (...) {
+                    recordExactTraversalError("shortest_path", "shard_execution_exception");
+                    spdlog::warn("distributed_graph: single-shard shortest-path execution threw non-standard exception");
+                    break;
+                }
                 // Normalize empty path as "not found" at distributed layer so
                 // callers receive ERR_GRAPH_PATH_NOT_FOUND consistently.
                 if (res && !res->path.empty()) {
@@ -270,7 +324,20 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
     bool found_any = false;
 
     for (auto &f : futures) {
-        auto res = f.get();
+        Result<GraphIndexManager::PathResult> res =
+            Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                               "distributed shard future failed");
+        try {
+            res = f.get();
+        } catch (const std::exception &ex) {
+            recordExactTraversalError("shortest_path", "shard_execution_exception");
+            spdlog::warn("distributed_graph: shortest-path shard future threw exception: {}", ex.what());
+            continue;
+        } catch (...) {
+            recordExactTraversalError("shortest_path", "shard_execution_exception");
+            spdlog::warn("distributed_graph: shortest-path shard future threw non-standard exception");
+            continue;
+        }
         if (!res || res->path.empty()) {
             if (!res) {
                 recordExactTraversalError("shortest_path", "shard_execution_failed");
@@ -299,6 +366,18 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
 Result<std::vector<std::string>>
 DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
                                        const GraphQueryOptimizer::QueryConstraints &constraints) {
+    if (start_vertex.empty()) {
+        return makeInvalidTraversalInput<std::vector<std::string>>(
+            "k_hop_neighbors", "Distributed k-hop traversal requires a non-empty start vertex");
+    }
+    if (k < 0) {
+        return makeInvalidTraversalInput<std::vector<std::string>>(
+            "k_hop_neighbors", "Distributed k-hop traversal requires a non-negative hop count");
+    }
+    if (const auto constraint_error = validateConstraintSet(constraints); constraint_error.has_value()) {
+        return makeInvalidTraversalInput<std::vector<std::string>>("k_hop_neighbors", *constraint_error);
+    }
+
     auto shards = healthyShards();
     if (shards.empty()) {
         recordExactTraversalError("k_hop_neighbors", "no_healthy_shards");
@@ -326,7 +405,20 @@ DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
     std::vector<std::string> merged;
 
     for (auto &f : futures) {
-        auto res = f.get();
+        Result<std::vector<std::string>> res =
+            Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                          "distributed shard future failed");
+        try {
+            res = f.get();
+        } catch (const std::exception &ex) {
+            recordExactTraversalError("k_hop_neighbors", "shard_execution_exception");
+            spdlog::warn("distributed_graph: k-hop shard future threw exception: {}", ex.what());
+            continue;
+        } catch (...) {
+            recordExactTraversalError("k_hop_neighbors", "shard_execution_exception");
+            spdlog::warn("distributed_graph: k-hop shard future threw non-standard exception");
+            continue;
+        }
         if (!res) {
             recordExactTraversalError("k_hop_neighbors", "shard_execution_failed");
             spdlog::debug("distributed_graph: k-hop BFS shard returned error, skipping");
@@ -351,6 +443,10 @@ DistributedGraphManager::optimizePlan([[maybe_unused]] std::string_view start_ve
                                       [[maybe_unused]] std::string_view target_vertex,
                                       GraphQueryOptimizer::QueryPattern pattern,
                                       [[maybe_unused]] const GraphQueryOptimizer::QueryConstraints &constraints) {
+    if (const auto constraint_error = validateConstraintSet(constraints); constraint_error.has_value()) {
+        return makeInvalidTraversalInput<GraphQueryOptimizer::OptimizationPlan>("optimize_plan", *constraint_error);
+    }
+
     auto shards = healthyShards();
     if (shards.empty()) {
         return Err<GraphQueryOptimizer::OptimizationPlan>(

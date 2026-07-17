@@ -4446,6 +4446,8 @@ endif()
 # Batch-wired benchmarks (standard Google Benchmark targets)
 # ============================================================================
 
+themis_add_standard_benchmark(bench_ai_plugin_generator    bench_ai_plugin_generator.cpp)
+themis_add_standard_benchmark(bench_ann_cpu_gpu_dispatch   bench_ann_cpu_gpu_dispatch.cpp)
 themis_add_standard_benchmark(bench_arm_memory             bench_arm_memory.cpp)
 themis_add_standard_benchmark(bench_arm_simd               bench_arm_simd.cpp)
 themis_add_standard_benchmark(bench_async_io_multiscan     bench_async_io_multiscan.cpp)
@@ -4537,8 +4539,40 @@ themis_add_standard_benchmark(bench_scalability_comprehensive bench_scalability_
 themis_add_standard_benchmark(bench_shard_resource_manager bench_shard_resource_manager.cpp)
 themis_add_standard_benchmark(bench_simd_distance          bench_simd_distance.cpp)
 themis_add_standard_benchmark(bench_simple_insert_test     bench_simple_insert_test.cpp)
+themis_add_standard_benchmark(bench_tensor_cpu_gpu_dispatch bench_tensor_cpu_gpu_dispatch.cpp)
+themis_add_standard_benchmark(bench_tensor_deduplication_manager bench_tensor_deduplication_manager.cpp)
+themis_add_standard_benchmark(bench_tensor_integration_baseline bench_tensor_integration_baseline.cpp)
 themis_add_standard_benchmark(bench_tensor_deduplication_manager tensor/bench_tensor_deduplication_manager.cpp)
 themis_add_standard_benchmark(bench_tensor_integration_baseline tensor/bench_tensor_integration_baseline.cpp)
+
+# ── Dynamic Tensor Update benchmarks — sub-issue #5472 (BDU-01..10) ─────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/bench_tensor_dynamic_update.cpp" AND NOT TARGET bench_tensor_dynamic_update)
+    add_executable(bench_tensor_dynamic_update
+        tensor/bench_tensor_dynamic_update.cpp
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/stale_artifact_detector.cc
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/error_recovery_handler.cc
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/distributed_lock_manager.cc
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/artifact_invalidation.cc
+    )
+    target_include_directories(bench_tensor_dynamic_update PRIVATE
+        ${CMAKE_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    target_link_libraries(bench_tensor_dynamic_update PRIVATE
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_features(bench_tensor_dynamic_update PRIVATE cxx_std_17)
+    themis_apply_benchmark_release_flags(bench_tensor_dynamic_update)
+    message(STATUS "Adding benchmark: bench_tensor_dynamic_update (BDU-01..10, sub-issue #5472)")
+endif()
+
 themis_add_standard_benchmark(bench_tpcc                   bench_tpcc.cpp)
 themis_add_standard_benchmark(bench_tpch                   bench_tpch.cpp)
 themis_add_standard_benchmark(bench_v1_3_0_features        bench_v1_3_0_features.cpp)

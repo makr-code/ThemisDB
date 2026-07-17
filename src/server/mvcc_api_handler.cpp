@@ -28,6 +28,7 @@
 #include <fmt/format.h>
 #include <chrono>
 #include "utils/tracing.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -132,6 +133,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
             try {
                 ts_val = std::stoull(req.get_param_value("timestamp"));
             } catch (...) {
+                THEMIS_WARN("mvcc_api_handler: unhandled exception caught");
                 sendError(res, 400, "Invalid timestamp parameter (must be uint64)");
                 return;
             }

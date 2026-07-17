@@ -2086,6 +2086,7 @@ int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
         int64_t ts = std::stoll(json_doc.substr(pos), &consumed);
         return (consumed > 0) ? ts : -1;
     } catch (...) {
+        THEMIS_DEBUG("replication_manager: unhandled exception caught");
         return -1;
     }
 }
@@ -4363,6 +4364,7 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
                     return 0;
                 }
             } catch (...) {
+                THEMIS_WARN("replication_manager: unhandled exception caught");
                 return 0;
             }
         }
@@ -4377,6 +4379,7 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
     try {
         return std::stoull(seq_str);
     } catch (...) {
+        THEMIS_WARN("replication_manager: unhandled exception caught");
         return 0;
     }
 }
@@ -5409,6 +5412,7 @@ void CrossClusterSubscription::enable() {
                     break;
             }
         } catch (...) {
+            THEMIS_WARN("replication_manager: unhandled exception caught");
             error_count_.fetch_add(1);
         }
     });
@@ -6015,6 +6019,7 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
     try {
         return std::stoull(seq_str);
     } catch (...) {
+        THEMIS_WARN("replication_manager::config_: unhandled exception caught");
         return 0;
     }
 }
@@ -6182,6 +6187,7 @@ bool MultiRegionActiveActiveManager::validateSessionToken(
                 return false;  // Token expired
             }
         } catch (...) {
+            THEMIS_WARN("replication_manager: unhandled exception caught");
             return false;
         }
     }
@@ -6805,6 +6811,7 @@ uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) cons
                 std::chrono::system_clock::now().time_since_epoch()).count();
             if (now_ms > expiry_ms) return 0;  // expired
         } catch (...) {
+            THEMIS_WARN("replication_manager::config_: unhandled exception caught");
             return 0;
         }
     }
@@ -6813,6 +6820,7 @@ uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) cons
     try {
         return std::stoull(token.substr(seq_pos + 4));
     } catch (...) {
+        THEMIS_WARN("replication_manager::config_: unhandled exception caught");
         return 0;
     }
 }

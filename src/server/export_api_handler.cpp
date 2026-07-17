@@ -217,6 +217,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                 try {
                     entity = BaseEntity::fromJson(key, value);
                 } catch (...) {
+                    THEMIS_DEBUG("export_api_handler: unhandled exception caught");
                     return true; // skip malformed records
                 }
 
@@ -253,6 +254,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
                         if (to_date.has_value()   && dt > *to_date)   { return true; }
                     }
                 } catch (...) {
+                    THEMIS_WARN("export_api_handler: unhandled exception caught");
                     return true; // skip malformed records
                 }
 

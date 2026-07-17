@@ -8664,6 +8664,7 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
                 if (body.contains("key_id")) key_id = body.value("key_id", "");
             }
         } catch (...) {
+            THEMIS_DEBUG("http_server: unhandled exception caught");
             // ignore body parse errors; fallback to query param
         }
         if (key_id.empty()) {
@@ -8714,6 +8715,7 @@ http::response<http::string_body> HttpServer::handleApiKeyCreate(
         }
         json body;
         try { body = json::parse(req.body()); } catch (...) {
+            THEMIS_DEBUG("http_server: unhandled exception caught");
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
         auto& api_key_mgmt = *api_key_mgmt_;
@@ -8788,6 +8790,7 @@ http::response<http::string_body> HttpServer::handleApiKeyUpdate(
         }
         json body;
         try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {
+            THEMIS_DEBUG("http_server: unhandled exception caught");
             return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
         }
         auto& api_key_mgmt = *api_key_mgmt_;
@@ -8852,6 +8855,7 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
         json body;
         if (!req.body().empty()) {
             try { body = json::parse(req.body()); } catch (...) {
+                THEMIS_DEBUG("http_server: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
@@ -8967,6 +8971,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
                     current_session = body["current_session_id"].get<std::string>();
                 }
             } catch (...) {
+                THEMIS_WARN("http_server: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
         }
@@ -9101,6 +9106,7 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
                     session_index = body_json["session_index"].get<std::string>();
                 }
             } catch (...) {
+                THEMIS_DEBUG("http_server: unhandled exception caught");
                 // Non-JSON bodies (e.g. form-encoded) are silently ignored for SLO.
             }
         }
@@ -9710,6 +9716,7 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         }
         return std::nullopt;
     } catch (...) {
+        THEMIS_WARN("http_server: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -9766,6 +9773,7 @@ http::response<http::string_body> HttpServer::handleConfig(
             try {
                 body = json::parse(req.body());
             } catch (...) {
+                THEMIS_DEBUG("http_server: unhandled exception caught");
                 return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
             }
             
@@ -11028,6 +11036,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_WARN("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }
@@ -11095,6 +11104,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fulltext search error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_DEBUG("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "Unknown fulltext search error", req);
     }
 }
@@ -11285,6 +11295,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_DEBUG("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
@@ -11309,6 +11320,7 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_WARN("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -11333,6 +11345,7 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_DEBUG("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -11488,6 +11501,7 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_WARN("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
@@ -11518,6 +11532,7 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_DEBUG("http_server: unhandled exception caught");
         return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
@@ -12382,6 +12397,7 @@ void HttpServer::Session::processRequest() {
             auto ep = socket_.remote_endpoint();
             request_.set("X-Themis-Peer-Addr", ep.address().to_string());
         } catch (...) {
+            THEMIS_WARN("http_server: unhandled exception caught");
             // Ignore: best-effort; rate limiting falls back to empty key.
         }
 
@@ -12710,6 +12726,7 @@ void HttpServer::SslSession::processRequest() {
             auto ep = stream_.lowest_layer().remote_endpoint();
             request_.set("X-Themis-Peer-Addr", ep.address().to_string());
         } catch (...) {
+            THEMIS_WARN("http_server: unhandled exception caught");
             // Ignore: best-effort; rate limiting falls back to empty key.
         }
 

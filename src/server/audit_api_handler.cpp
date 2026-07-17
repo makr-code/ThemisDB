@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <cctype>
 #include "utils/tracing.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -126,6 +127,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
             event = nlohmann::json::parse(event_data);
         }
     } catch (...) {
+        THEMIS_DEBUG("audit_api_handler: unhandled exception caught");
         // If parsing fails, treat as raw string
     }
     
@@ -192,6 +194,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             entries.push_back(entry);
             
         } catch (...) {
+            THEMIS_WARN("audit_api_handler: unhandled exception caught");
             // Skip malformed lines
             continue;
         }

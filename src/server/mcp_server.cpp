@@ -1846,6 +1846,7 @@ json McpServer::toolGetErrorInfo(const json& args) {
             {"error", metadata.toJSON()}
         };
     } catch (...) {
+        THEMIS_DEBUG("mcp_server: unhandled exception caught");
         // Search by query
         auto results = registry.searchErrors(query);
         

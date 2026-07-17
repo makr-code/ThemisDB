@@ -614,6 +614,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                             auto parsed = nlohmann::json::parse(plain_str);
                                             obj[f] = parsed;
                                         } catch (...) {
+                                            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                                             obj[f] = plain_str;
                                         }
                                     } else {
@@ -2107,6 +2108,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto entity = themis::BaseEntity::deserialize(pk, *blob);
                             res["entities"].push_back(entity.toJson());
                         } catch (...) {
+                            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                             res["entities"].push_back(nlohmann::json({{"_key", pk}}));
                         }
                     } else {
@@ -2122,6 +2124,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto edgeEnt = themis::BaseEntity::deserialize(eid, *eblob);
                             res["entities"].push_back(edgeEnt.toJson());
                         } catch (...) {
+                            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                             res["entities"].push_back(nlohmann::json({{"_edge", eid}}));
                         }
                     } else {
@@ -2163,6 +2166,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto ent = themis::BaseEntity::deserialize(pk, *blob);
                                 jpath["vertices"].push_back(ent.toJson());
                             } catch (...) {
+                                THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                                 jpath["vertices"].push_back(nlohmann::json({{"_key", pk}}));
                             }
                         } else {
@@ -2178,6 +2182,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto eent = themis::BaseEntity::deserialize(eid, *eblob);
                                 jpath["edges"].push_back(eent.toJson());
                             } catch (...) {
+                                THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                                 jpath["edges"].push_back(nlohmann::json({{"_edge", eid}}));
                             }
                         } else {
@@ -2255,6 +2260,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto entity = themis::BaseEntity::deserialize(key, entity_blob);
                         entities.push_back(nlohmann::json::parse(entity.toJson()));
                     } catch (...) {
+                        THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                         // Skip malformed entities
                     }
                 }
@@ -2450,6 +2456,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto projected = evalExpr(jq.return_node->expression);
                                 entities.push_back(projected);
                             } catch (...) {
+                                THEMIS_WARN("query_api_handler: unhandled exception caught");
                                 // Skip malformed entry
                             }
                             return true; // continue scan
@@ -2611,6 +2618,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                         early_empty_due_to_cursor = true;
                                     }
                                 } catch (...) {
+                                    THEMIS_WARN("query_api_handler: unhandled exception caught");
                                     early_empty_due_to_cursor = true;
                                 }
                             }
@@ -3328,6 +3336,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             order_value = *maybe_value;
                         }
                     } catch (...) {
+                        THEMIS_WARN("query_api_handler: unhandled exception caught");
                         // If extraction fails, continue without order_value
                     }
                 }
@@ -3704,6 +3713,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         try {
             result = json::parse(aql_resp.body());
         } catch (...) {
+            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
             result = json::object();
         }
 

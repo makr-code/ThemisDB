@@ -10,6 +10,7 @@
 #include <utility>
 #include <algorithm>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 namespace cache {
@@ -171,6 +172,7 @@ void CacheManager::dispatch_event(const CacheEvent& event) noexcept {
                 entry.handler(event);
             }
         } catch (...) {
+            THEMIS_WARN("cache_manager: unhandled exception caught");
             // Log but continue processing other handlers
         }
     }

@@ -15,6 +15,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include "utils/logger.h"
 
 namespace themis {
 namespace storage {
@@ -184,6 +185,7 @@ bool NlpMetadataExtractor::enrichEntity(
         
         return true;
     } catch (...) {
+        THEMIS_WARN("nlp_metadata_extractor: unhandled exception caught");
         return false;
     }
 }
@@ -361,6 +363,7 @@ NlpMetadataExtractor::ExtractedMetadata::fromJson(const std::string& json_str) {
         if (j.contains("avg_sentence_length")) meta.avg_sentence_length = j["avg_sentence_length"];
         if (j.contains("avg_word_length")) meta.avg_word_length = j["avg_word_length"];
     } catch (...) {
+        THEMIS_WARN("nlp_metadata_extractor: unhandled exception caught");
         // Return empty metadata on parse error
     }
     

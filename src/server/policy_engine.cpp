@@ -93,6 +93,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                     }
                     return p;
                 } catch (...) {
+                    THEMIS_WARN("policy_engine: unhandled exception caught");
                     return std::nullopt;
                 }
             };
@@ -143,6 +144,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
             last_loaded_mtime_ = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
                 mtime - decltype(mtime)::clock::now() + std::chrono::system_clock::now());
         } catch (...) {
+            THEMIS_WARN("policy_engine: unhandled exception caught");
             last_loaded_mtime_ = std::chrono::system_clock::now();
         }
         return true;
@@ -407,6 +409,7 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
         if (j.contains("allowed_user_agent_patterns")) for (const auto& ua : j["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
         return p;
     } catch (...) {
+        THEMIS_WARN("policy_engine: unhandled exception caught");
         return std::nullopt;
     }
 }
