@@ -1,5 +1,6 @@
 # Distributed Tensor Module Documentation
 
+<!-- Status: Phase 3 Complete | EPIC 5428 Runtime Safety Gates | validated: 2026-07-17 -->
 <!-- Status: Phase 4 Complete | EPIC 5428 Contract Coverage Delivered | validated: 2026-07-17 -->
 
 ## Purpose
@@ -46,7 +47,7 @@ active community-build integration, and focused Phase 3 plus broadened Phase 4 r
 - [x] **Phase 2: Core implementation with all 7 components**
 - [x] Phase 3: failure handling for placement/integrity/recovery paths
 - [x] Phase 4: distributed contract tests and fault-injection scenarios
-- [ ] Phase 5: scale/performance hardening for multi-node environments
+- [~] Phase 5: scale/performance hardening scaffold, deterministic gates, and runbooks
 - [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
 - [ ] Phase 7: integration with production retrieval/evaluation pipelines
 

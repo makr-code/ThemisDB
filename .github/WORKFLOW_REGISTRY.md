@@ -57,6 +57,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Zielgerichteter Guard fuer Copilot/CMake-Regressionen mit klar begrenztem PR-Scope
 - `.github/workflows/performance-regression-check.yml`
   — Enger Storage-Performance-Check fuer Benchmarks und Performance-relevante C++-Aenderungen
+- `.github/workflows/08-quality_clang-tidy-analysis.yml`
+  — Statische Analyse via clang-tidy (SARIF → GitHub Code Scanning) und clang-format-Stil-Pruefung; `workflow_dispatch`-only (Phase 4.1 TODO_KI_WORKFLOW_IMPROVEMENTS.md); erzeugt Artefakt `clang-tidy-results` + SARIF-Upload; optionaler Hard-Gate via `fail_on_warnings`/`fail_on_format_violations`
 
 ## Quarantaene: `.github/no_workflows/`
 Workflows in diesem Verzeichnis sind absichtlich deaktiviert. Eine Rueckverschiebung nach `.github/workflows/` ist nur zulaessig, wenn alle folgenden Punkte vorab dokumentiert sind:

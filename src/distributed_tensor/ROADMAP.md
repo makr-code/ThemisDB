@@ -1,7 +1,7 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-13 -->
+<!-- Status: current | validated: 2026-07-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
@@ -12,8 +12,10 @@ for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
 implemented and verified. Phase 4 broadened contract and fault-path coverage has
 been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
 sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
-planner, infrastructure). Benchmark evidence and final acceptance documentation
-remain pending.
+planner, infrastructure). Phase 5 benchmark governance assets (workload profiles,
+gate manifest, variance script, runbook, triage docs) are present in
+`benchmarks/epic3_distributed_tensor/`. Benchmark runtime evidence and final
+acceptance documentation remain pending.
 
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
@@ -33,6 +35,7 @@ track remain gated.
   RAID/Merkle proof engine, distribution receipts, shard snapshots, and recovery ordering (Issue #5418, Target: Q3 2026)
 - [~] tensor artifact manifest schema: ArtifactManifest + ManifestStore wiring (Target: Q3 2026)
 - [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
+- [x] phase-5 benchmark metadata scaffold and hardening gates in `benchmarks/epic3_distributed_tensor/` (Target: Q3 2026)
 
 ## Planned Features
 
@@ -121,7 +124,8 @@ track remain gated.
 ### Phase 5: Performance and Hardening
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [x] deterministic workload profiles, release-gate manifest, and triage/runbook assets implemented in `benchmarks/epic3_distributed_tensor/`
+- [ ] runtime benchmark source files and measured baselines captured against the distributed tensor implementation
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
@@ -143,6 +147,7 @@ track remain gated.
 
 - [x] contract ownership and scope boundaries documented
 - [x] security and performance expectations documented for scaffold phase
+- [x] phase-5 benchmark governance and deterministic gate definitions documented
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
 - [x] runtime resilience hardening completed for Phase 3 safety gates
 - [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites

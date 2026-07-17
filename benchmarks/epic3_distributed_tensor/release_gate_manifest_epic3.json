@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "module": "epic3_distributed_tensor",
+  "phase": "phase5_performance_and_hardening",
+  "status": "pending_measurement",
+  "canonical_seed": 42,
+  "result_bundle_schema": "epic3_phase5_results_v1",
+  "gates": [
+    {
+      "id": "GATE-E3-P5-01",
+      "profile_id": "planner_latency_healthy",
+      "metric": "latency_p99_us",
+      "operator": "<=",
+      "threshold": 750,
+      "unit": "us",
+      "status": "pending"
+    },
+    {
+      "id": "GATE-E3-P5-02",
+      "profile_id": "placement_throughput_balanced",
+      "metric": "throughput_ops_per_sec",
+      "operator": ">=",
+      "threshold": 25000,
+      "unit": "ops/s",
+      "status": "pending"
+    },
+    {
+      "id": "GATE-E3-P5-03",
+      "profile_id": "integrity_under_manifest_churn",
+      "metric": "verification_success_ratio",
+      "operator": ">=",
+      "threshold": 0.999,
+      "unit": "ratio",
+      "status": "pending"
+    },
+    {
+      "id": "GATE-E3-P5-04",
+      "profile_id": "recovery_rebuild_degraded",
+      "metric": "recovery_time_ms",
+      "operator": "<=",
+      "threshold": 30000,
+      "unit": "ms",
+      "status": "pending"
+    },
+    {
+      "id": "GATE-E3-P5-05",
+      "profile_id": "infrastructure_control_plane_stability",
+      "metric": "availability_ratio",
+      "operator": ">=",
+      "threshold": 0.99,
+      "unit": "ratio",
+      "status": "pending"
+    },
+    {
+      "id": "GATE-E3-P5-06",
+      "profile_id": "planner_latency_healthy",
+      "metric": "coefficient_of_variation_pct",
+      "operator": "<=",
+      "threshold": 5.0,
+      "unit": "percent",
+      "status": "pending"
+    }
+  ]
+}

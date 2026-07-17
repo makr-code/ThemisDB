@@ -23,6 +23,7 @@
 - Phase A ManifestStore advisory-only behavior is covered by `MS-01..12`
 - Phase B local-maintenance gates now cover delta-log extraction and rebuild fallback behavior
 - Benchmark comparisons live in the matching `benchmarks/` epic directory
+- Reserve hardening scenarios for degraded mode, retry/recovery, and integrity under load
 
 ## Reference
 
