@@ -205,7 +205,7 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
         
         return parseDatabase(db_json);
     } catch (...) {
-        THEMIS_DEBUG("docs_assistant::cosineQuantized: unhandled exception caught");
+        THEMIS_DEBUG("docs_assistant::loadDatabase: unhandled exception caught");
         return false;
     }
 }

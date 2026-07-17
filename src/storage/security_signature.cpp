@@ -100,7 +100,7 @@ std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::jso
     // already a specific exception type — not catch (...); returns nullopt on any
     // JSON parse or field-access error — false positive.
     } catch (...) {
-        THEMIS_DEBUG("security_signature::isValidResourceId: unhandled exception caught");
+        THEMIS_DEBUG("security_signature::fromJson: unhandled exception caught");
         return std::nullopt;
     }
 }

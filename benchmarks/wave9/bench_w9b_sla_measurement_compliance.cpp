@@ -21,8 +21,7 @@
  *   SMC-08  SLA gate counter emission throughput (gate_passed = 1.0 path)
  *
  * Hard gates (evaluated by release_gate_manifest_w9.json):
- *   - SMC-04 recovery cycle ≤ 5 ms (5000 µs)
- *   - SMC-08 gate emission ≥ 80 000 ops/s
+ *   - SMC-04 recovery cycle ≤ 5 ms (5000 µs)  [GATE-W9-04]
  *
  * @note Uses kW9CanonicalSeed = 42 for all PRNG seeding.
  */
@@ -270,7 +269,7 @@ BENCHMARK(SMC07_DegradedModeThroughput_Floor)
     ->UseRealTime();
 
 // ===========================================================================
-// SMC-08: SLA gate counter emission throughput — HARD GATE ≥ 80 000 ops/s
+// SMC-08: SLA gate counter emission throughput
 // ===========================================================================
 
 static void SMC08_SlaGateCounter_EmissionThroughput(benchmark::State& state) {

@@ -93,7 +93,34 @@ def compute_stats(times: List[float]) -> Dict[str, float]:
 # Gate evaluation
 # ---------------------------------------------------------------------------
 
-def evaluate_gate(stats: Dict[str, float], gate: Dict[str, Any]) -> bool:
+def extract_counter_mean(benchmarks: List[Dict[str, Any]], name: str, counter: str) -> Optional[float]:
+    """Return the mean of *counter* across all non-summary repetitions of *name*.
+
+    Covers two Google Benchmark emission styles:
+    - ``state.SetItemsProcessed(N)`` → ``"items_per_second"`` direct field.
+    - ``state.counters["x"] = v`` → ``"counters": {"x": v}`` sub-object.
+    """
+    values: List[float] = []
+    for b in benchmarks:
+        bname: str = b.get("name", "")
+        if bname.startswith(name) and not any(
+            bname.endswith(sfx)
+            for sfx in ("_mean", "_stddev", "_median", "_cv")
+        ):
+            v = b.get(counter)
+            if v is None:
+                v = (b.get("counters") or {}).get(counter)
+            if v is not None:
+                values.append(float(v))
+    return statistics.mean(values) if values else None
+
+
+def evaluate_gate(
+    stats: Dict[str, float],
+    gate: Dict[str, Any],
+    benchmarks: Optional[List[Dict[str, Any]]] = None,
+    base_name: str = "",
+) -> bool:
     metric: str    = gate["metric"]
     threshold: float = float(gate["threshold"])
     direction: str = gate["direction"]
@@ -101,14 +128,22 @@ def evaluate_gate(stats: Dict[str, float], gate: Dict[str, Any]) -> bool:
     value: Optional[float] = None
     if metric == "latency_p99_us":
         value = stats.get("p99")
-    elif metric == "items_per_second":
-        # items/s is not directly in time stats; reported via counter
-        # In real tooling, parse from benchmark counters field
-        return True  # advisory — counter-based, not latency-based
     elif metric == "cv_percent":
         value = stats.get("cv_pct")
-    elif metric in ("triage_completeness", "operability_coverage_pct"):
-        return True  # counter-based, evaluated separately
+    elif metric == "throughput_drift_pct":
+        # Throughput drift across repetitions is captured by the CV of latency samples.
+        value = stats.get("cv_pct")
+    elif metric in (
+        "items_per_second",
+        "triage_completeness",
+        "operability_coverage_pct",
+        "key_mismatches",
+    ):
+        # These metrics are emitted as benchmark counters; extract from raw data.
+        if benchmarks and base_name:
+            value = extract_counter_mean(benchmarks, base_name, metric)
+        if value is None:
+            return True  # counter not present in this run — skip
     else:
         value = stats.get(metric)
 
@@ -199,7 +234,7 @@ def main() -> int:
             bm_name: str = gate.get("benchmark", "")
             if base not in bm_name:
                 continue
-            passed = evaluate_gate(stats, gate)
+            passed = evaluate_gate(stats, gate, benchmarks, base)
             if not passed and gate.get("severity") == "blocking":
                 hard_gate_failures += 1
             gate_results.append({

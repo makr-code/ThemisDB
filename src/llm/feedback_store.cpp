@@ -109,7 +109,7 @@ FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohma
     try {
         entry.type = feedbackTypeFromString(type_str);
     } catch (...) {
-        THEMIS_WARN("feedback_store::validationStatusFromString: unhandled exception caught");
+        THEMIS_WARN("feedback_store::feedbackTypeFromString: unhandled exception caught");
         entry.type = FeedbackType::POSITIVE; // Fallback for corrupted data
     }
     
