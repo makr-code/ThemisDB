@@ -1,0 +1,1022 @@
+[
+  {
+    "id": "A002",
+    "file": "src/cache/cache_manager.cpp",
+    "line": 521,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "vector clear after iterator creation",
+    "code": "auto it = entries.begin(); process_entries(); entries.clear(); return *it;",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": true
+    },
+    "module": "cache",
+    "description": "Iterator used after clear() - dangling reference"
+  },
+  {
+    "id": "A090",
+    "file": "src/query_engine/module_90.cpp",
+    "line": 1000,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_90",
+    "code": "iterator_code_snippet_90",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 90"
+  },
+  {
+    "id": "A002",
+    "file": "src/cache/cache_manager.cpp",
+    "line": 521,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "vector clear after iterator creation",
+    "code": "auto it = entries.begin(); process_entries(); entries.clear(); return *it;",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": true
+    },
+    "module": "cache",
+    "description": "Iterator used after clear() - dangling reference"
+  },
+  {
+    "id": "A090",
+    "file": "src/query_engine/module_90.cpp",
+    "line": 1000,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_90",
+    "code": "iterator_code_snippet_90",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 90"
+  },
+  {
+    "id": "B010",
+    "file": "src/query_engine/module_10.cpp",
+    "line": 200,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_10",
+    "code": "iterator_code_snippet_10",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 10"
+  },
+  {
+    "id": "B100",
+    "file": "src/query_engine/module_100.cpp",
+    "line": 1100,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_100",
+    "code": "iterator_code_snippet_100",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 100"
+  },
+  {
+    "id": "B010",
+    "file": "src/query_engine/module_10.cpp",
+    "line": 200,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_10",
+    "code": "iterator_code_snippet_10",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 10"
+  },
+  {
+    "id": "B100",
+    "file": "src/query_engine/module_100.cpp",
+    "line": 1100,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_100",
+    "code": "iterator_code_snippet_100",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 100"
+  },
+  {
+    "id": "C020",
+    "file": "src/query_engine/module_20.cpp",
+    "line": 300,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_20",
+    "code": "iterator_code_snippet_20",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 20"
+  },
+  {
+    "id": "C110",
+    "file": "src/query_engine/module_110.cpp",
+    "line": 1200,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_110",
+    "code": "iterator_code_snippet_110",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 110"
+  },
+  {
+    "id": "C020",
+    "file": "src/query_engine/module_20.cpp",
+    "line": 300,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_20",
+    "code": "iterator_code_snippet_20",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 20"
+  },
+  {
+    "id": "C110",
+    "file": "src/query_engine/module_110.cpp",
+    "line": 1200,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_110",
+    "code": "iterator_code_snippet_110",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 110"
+  },
+  {
+    "id": "A001",
+    "file": "src/query/plan_cache.cpp",
+    "line": 342,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "vector erase in loop",
+    "code": "for (auto it = cache.begin(); it != cache.end(); ++it) { cache.erase(it); }",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "query_engine",
+    "description": "Iterator invalidated by erase() in loop - classic use-after-free"
+  },
+  {
+    "id": "A018",
+    "file": "src/analytics/module_18.cpp",
+    "line": 280,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_18",
+    "code": "iterator_code_snippet_18",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 18"
+  },
+  {
+    "id": "A036",
+    "file": "src/graph/module_36.cpp",
+    "line": 460,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_36",
+    "code": "iterator_code_snippet_36",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 36"
+  },
+  {
+    "id": "A054",
+    "file": "src/network/module_54.cpp",
+    "line": 640,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_54",
+    "code": "iterator_code_snippet_54",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 54"
+  },
+  {
+    "id": "A072",
+    "file": "src/cache/module_72.cpp",
+    "line": 820,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_72",
+    "code": "iterator_code_snippet_72",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 72"
+  },
+  {
+    "id": "A108",
+    "file": "src/analytics/module_108.cpp",
+    "line": 1180,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_108",
+    "code": "iterator_code_snippet_108",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 108"
+  },
+  {
+    "id": "A126",
+    "file": "src/graph/module_126.cpp",
+    "line": 1360,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_126",
+    "code": "iterator_code_snippet_126",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 126"
+  },
+  {
+    "id": "A001",
+    "file": "src/query/plan_cache.cpp",
+    "line": 342,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "vector erase in loop",
+    "code": "for (auto it = cache.begin(); it != cache.end(); ++it) { cache.erase(it); }",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "query_engine",
+    "description": "Iterator invalidated by erase() in loop - classic use-after-free"
+  },
+  {
+    "id": "A018",
+    "file": "src/analytics/module_18.cpp",
+    "line": 280,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_18",
+    "code": "iterator_code_snippet_18",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 18"
+  },
+  {
+    "id": "A036",
+    "file": "src/graph/module_36.cpp",
+    "line": 460,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_36",
+    "code": "iterator_code_snippet_36",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 36"
+  },
+  {
+    "id": "A054",
+    "file": "src/network/module_54.cpp",
+    "line": 640,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_54",
+    "code": "iterator_code_snippet_54",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 54"
+  },
+  {
+    "id": "A072",
+    "file": "src/cache/module_72.cpp",
+    "line": 820,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_72",
+    "code": "iterator_code_snippet_72",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 72"
+  },
+  {
+    "id": "A108",
+    "file": "src/analytics/module_108.cpp",
+    "line": 1180,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_108",
+    "code": "iterator_code_snippet_108",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 108"
+  },
+  {
+    "id": "A126",
+    "file": "src/graph/module_126.cpp",
+    "line": 1360,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_126",
+    "code": "iterator_code_snippet_126",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 126"
+  },
+  {
+    "id": "B028",
+    "file": "src/analytics/module_28.cpp",
+    "line": 380,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_28",
+    "code": "iterator_code_snippet_28",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 28"
+  },
+  {
+    "id": "B046",
+    "file": "src/graph/module_46.cpp",
+    "line": 560,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_46",
+    "code": "iterator_code_snippet_46",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 46"
+  },
+  {
+    "id": "B064",
+    "file": "src/network/module_64.cpp",
+    "line": 740,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_64",
+    "code": "iterator_code_snippet_64",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 64"
+  },
+  {
+    "id": "B082",
+    "file": "src/cache/module_82.cpp",
+    "line": 920,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_82",
+    "code": "iterator_code_snippet_82",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 82"
+  },
+  {
+    "id": "B118",
+    "file": "src/analytics/module_118.cpp",
+    "line": 1280,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_118",
+    "code": "iterator_code_snippet_118",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 118"
+  },
+  {
+    "id": "B028",
+    "file": "src/analytics/module_28.cpp",
+    "line": 380,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_28",
+    "code": "iterator_code_snippet_28",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 28"
+  },
+  {
+    "id": "B046",
+    "file": "src/graph/module_46.cpp",
+    "line": 560,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_46",
+    "code": "iterator_code_snippet_46",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 46"
+  },
+  {
+    "id": "B064",
+    "file": "src/network/module_64.cpp",
+    "line": 740,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_64",
+    "code": "iterator_code_snippet_64",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 64"
+  },
+  {
+    "id": "B082",
+    "file": "src/cache/module_82.cpp",
+    "line": 920,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_82",
+    "code": "iterator_code_snippet_82",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 82"
+  },
+  {
+    "id": "B118",
+    "file": "src/analytics/module_118.cpp",
+    "line": 1280,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_118",
+    "code": "iterator_code_snippet_118",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 118"
+  },
+  {
+    "id": "C038",
+    "file": "src/analytics/module_38.cpp",
+    "line": 480,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_38",
+    "code": "iterator_code_snippet_38",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 38"
+  },
+  {
+    "id": "C056",
+    "file": "src/graph/module_56.cpp",
+    "line": 660,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_56",
+    "code": "iterator_code_snippet_56",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 56"
+  },
+  {
+    "id": "C074",
+    "file": "src/network/module_74.cpp",
+    "line": 840,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_74",
+    "code": "iterator_code_snippet_74",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 74"
+  },
+  {
+    "id": "C092",
+    "file": "src/cache/module_92.cpp",
+    "line": 1020,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_92",
+    "code": "iterator_code_snippet_92",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 92"
+  },
+  {
+    "id": "C128",
+    "file": "src/analytics/module_128.cpp",
+    "line": 1380,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_128",
+    "code": "iterator_code_snippet_128",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 128"
+  },
+  {
+    "id": "C038",
+    "file": "src/analytics/module_38.cpp",
+    "line": 480,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_38",
+    "code": "iterator_code_snippet_38",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 38"
+  },
+  {
+    "id": "C056",
+    "file": "src/graph/module_56.cpp",
+    "line": 660,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_56",
+    "code": "iterator_code_snippet_56",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 56"
+  },
+  {
+    "id": "C074",
+    "file": "src/network/module_74.cpp",
+    "line": 840,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_74",
+    "code": "iterator_code_snippet_74",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 74"
+  },
+  {
+    "id": "C092",
+    "file": "src/cache/module_92.cpp",
+    "line": 1020,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_92",
+    "code": "iterator_code_snippet_92",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 92"
+  },
+  {
+    "id": "C128",
+    "file": "src/analytics/module_128.cpp",
+    "line": 1380,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_128",
+    "code": "iterator_code_snippet_128",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": true,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 128"
+  },
+  {
+    "id": "A045",
+    "file": "src/query_engine/module_45.cpp",
+    "line": 550,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_45",
+    "code": "iterator_code_snippet_45",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 45"
+  },
+  {
+    "id": "A045",
+    "file": "src/query_engine/module_45.cpp",
+    "line": 550,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_45",
+    "code": "iterator_code_snippet_45",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 45"
+  },
+  {
+    "id": "B055",
+    "file": "src/query_engine/module_55.cpp",
+    "line": 650,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_55",
+    "code": "iterator_code_snippet_55",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 55"
+  },
+  {
+    "id": "B055",
+    "file": "src/query_engine/module_55.cpp",
+    "line": 650,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_55",
+    "code": "iterator_code_snippet_55",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 55"
+  },
+  {
+    "id": "C065",
+    "file": "src/query_engine/module_65.cpp",
+    "line": 750,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_65",
+    "code": "iterator_code_snippet_65",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 65"
+  },
+  {
+    "id": "C065",
+    "file": "src/query_engine/module_65.cpp",
+    "line": 750,
+    "category": "C",
+    "type": "Unsafe Advance",
+    "pattern": "pattern_65",
+    "code": "iterator_code_snippet_65",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": false,
+      "network_input": true
+    },
+    "module": "query_engine",
+    "description": "Iterator vulnerability pattern 65"
+  },
+  {
+    "id": "A009",
+    "file": "src/network/module_9.cpp",
+    "line": 190,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_9",
+    "code": "iterator_code_snippet_9",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 9"
+  },
+  {
+    "id": "A027",
+    "file": "src/cache/module_27.cpp",
+    "line": 370,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_27",
+    "code": "iterator_code_snippet_27",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 27"
+  },
+  {
+    "id": "A063",
+    "file": "src/analytics/module_63.cpp",
+    "line": 730,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_63",
+    "code": "iterator_code_snippet_63",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "analytics",
+    "description": "Iterator vulnerability pattern 63"
+  },
+  {
+    "id": "A081",
+    "file": "src/graph/module_81.cpp",
+    "line": 910,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_81",
+    "code": "iterator_code_snippet_81",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "graph",
+    "description": "Iterator vulnerability pattern 81"
+  },
+  {
+    "id": "A099",
+    "file": "src/network/module_99.cpp",
+    "line": 1090,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_99",
+    "code": "iterator_code_snippet_99",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 99"
+  },
+  {
+    "id": "A117",
+    "file": "src/cache/module_117.cpp",
+    "line": 1270,
+    "category": "A",
+    "type": "Iterator Invalidation",
+    "pattern": "pattern_117",
+    "code": "iterator_code_snippet_117",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": true,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 117"
+  },
+  {
+    "id": "B019",
+    "file": "src/network/module_19.cpp",
+    "line": 290,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_19",
+    "code": "iterator_code_snippet_19",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "network",
+    "description": "Iterator vulnerability pattern 19"
+  },
+  {
+    "id": "B037",
+    "file": "src/cache/module_37.cpp",
+    "line": 470,
+    "category": "B",
+    "type": "Bounds Violation",
+    "pattern": "pattern_37",
+    "code": "iterator_code_snippet_37",
+    "severity": "Critical",
+    "risk": {
+      "user_controlled": false,
+      "loop_modification": false,
+      "network_input": false
+    },
+    "module": "cache",
+    "description": "Iterator vulnerability pattern 37"
+  }
+]

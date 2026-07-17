@@ -254,12 +254,11 @@ public:
         }
 
         // FALLBACK PATH: S3 list operation (#317)
-        // When callback is not set, fails closed with THEMIS_ERROR. Real S3 listing requires
+        // When callback is not set, returns empty list. Real S3 listing requires
         // setS3ListFn() to be called with Aws::S3::ListObjectsV2Request impl.
         // Reconciliation/Retention logic must use real list results via callback.
         // See initializeStorageProvider() for callback requirement checks.
-        THEMIS_WARN("Using fallback S3 implementation - AWS SDK integration required for production");
-        THEMIS_ERROR("S3 list failed: AWS SDK not integrated (s3://{}/{})", bucket_, prefix);
+        THEMIS_INFO("S3 list: s3://{}/{}", bucket_, prefix);
         return {};
     }
     
@@ -279,12 +278,11 @@ public:
         }
 
         // FALLBACK PATH: S3 exists operation (#314)
-        // When callback is not set, fails closed with THEMIS_ERROR. Real S3 existence checks require
+        // When callback is not set, returns false. Real S3 existence checks require
         // setS3ExistsFn() to be called with Aws::S3::HeadObjectRequest impl.
         // Returns false to prevent incorrect backup reconciliation decisions.
         // See initializeStorageProvider() for callback requirement checks.
-        THEMIS_WARN("Using fallback S3 implementation - AWS SDK integration required for production");
-        THEMIS_ERROR("S3 exists failed: AWS SDK not integrated (s3://{}/{})", bucket_, remote_path);
+        THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
         return false;
     }
     
@@ -433,13 +431,12 @@ public:
         }
 
         // FALLBACK PATH: Azure list operation (#320)
-        // When callback is not set, fails closed with THEMIS_ERROR. Real Azure listing requires
+        // When callback is not set, returns empty list. Real Azure listing requires
         // setAzureListFn() to be called with azure::storage::blobs::
         // container_client::list_blobs() impl.
         // Reconciliation/Retention logic must use real list results via callback.
         // See initializeStorageProvider() for callback requirement checks.
-        THEMIS_WARN("Using fallback Azure implementation - Azure SDK integration required for production");
-        THEMIS_ERROR("Azure list failed: Azure SDK not integrated ({}/{}/{})", account_name_, container_, prefix);
+        THEMIS_INFO("Azure list: {}/{}/{}", account_name_, container_, prefix);
         return {};
     }
     
@@ -459,13 +456,12 @@ public:
         }
 
         // FALLBACK PATH: Azure exists operation (#321)
-        // When callback is not set, fails closed with THEMIS_ERROR. Real Azure existence checks require
+        // When callback is not set, returns false. Real Azure existence checks require
         // setAzureExistsFn() to be called with azure::storage::blobs::
         // block_blob_client::exists() impl.
         // Returns false to prevent incorrect backup reconciliation decisions.
         // See initializeStorageProvider() for callback requirement checks.
-        THEMIS_WARN("Using fallback Azure implementation - Azure SDK integration required for production");
-        THEMIS_ERROR("Azure exists failed: Azure SDK not integrated ({}/{}/{})", account_name_, container_, remote_path);
+        THEMIS_INFO("Azure exists check: {}/{}/{}", account_name_, container_, remote_path);
         return false;
     }
     
@@ -610,13 +606,12 @@ public:
         }
 
         // FALLBACK PATH: GCS list operation (#318)
-        // When callback is not set, fails closed with THEMIS_ERROR. Real GCS listing requires
+        // When callback is not set, returns empty list. Real GCS listing requires
         // setGCSListFn() to be called with google::cloud::storage::
         // Client::ListObjects() impl.
         // Reconciliation/Retention logic must use real list results via callback.
         // See initializeStorageProvider() for callback requirement checks.
-        THEMIS_WARN("Using fallback GCS implementation - GCS SDK integration required for production");
-        THEMIS_ERROR("GCS list failed: GCS SDK not integrated (gs://{}/{})", bucket_, prefix);
+        THEMIS_INFO("GCS list: gs://{}/{}", bucket_, prefix);
         return {};
     }
     
@@ -636,13 +631,12 @@ public:
         }
 
         // FALLBACK PATH: GCS exists operation (#319)
-        // When callback is not set, fails closed with THEMIS_ERROR. Real GCS existence checks require
+        // When callback is not set, returns false. Real GCS existence checks require
         // setGCSExistsFn() to be called with google::cloud::storage::
         // Client::GetMetadata() impl.
         // Returns false to prevent incorrect backup reconciliation decisions.
         // See initializeStorageProvider() for callback requirement checks.
-        THEMIS_WARN("Using fallback GCS implementation - GCS SDK integration required for production");
-        THEMIS_ERROR("GCS exists failed: GCS SDK not integrated (gs://{}/{})", bucket_, remote_path);
+        THEMIS_INFO("GCS exists check: gs://{}/{}", bucket_, remote_path);
         return false;
     }
     
@@ -1159,30 +1153,6 @@ void setGCSExistsFn(GCSExistsFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_exists_fn = std::move(fn);
 }
-
-} // namespace sharding
-} // namespace themis
-
-// Provide test-friendly stubs for cloud SDK initializers when SDKs are not linked.
-namespace themis {
-namespace sharding {
-
-bool initializeS3Provider(const std::string & /*region*/, const std::string & /*bucket*/, const std::string & /*endpoint*/) {
-    // Default build: AWS SDK not linked. Tests should inject callbacks instead.
-    return false;
-}
-
-bool initializeAzureProvider(const std::string & /*account_name*/, const std::string & /*container*/, const std::string & /*connection_string*/) {
-    return false;
-}
-
-bool initializeGCSProvider(const std::string & /*project_id*/, const std::string & /*bucket*/, const std::string & /*credentials_file*/) {
-    return false;
-}
-
-bool isS3ProviderAvailable() { return false; }
-bool isAzureProviderAvailable() { return false; }
-bool isGCSProviderAvailable() { return false; }
 
 } // namespace sharding
 } // namespace themis

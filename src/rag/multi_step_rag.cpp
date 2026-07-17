@@ -238,7 +238,6 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
         {
             // Current batch is full — flush it.
             batches.push_back(std::move(current_batch));
-            current_batch.clear();
             current_tokens = 0u;
 
             if (batches.size() >= config_.max_map_steps) break;

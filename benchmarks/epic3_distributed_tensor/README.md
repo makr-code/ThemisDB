@@ -1,21 +1,19 @@
 # EPIC 3 distributed tensor benchmarks
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | phase-5 benchmark suite implemented | validated: 2026-07-13 -->
 
-## Planned benchmark files
+## Implemented benchmark files
 
-- `manifest_coordination_bench.cc`
 - `placement_strategy_bench.cc`
 - `integrity_verification_bench.cc`
 - `recovery_rebuild_bench.cc`
 - `distributed_retrieval_bench.cc`
-- `infrastructure_bench.cc`
 
 ## Measurement goals
 
-- Capture latency, throughput, and resource cost for the matching sub-issues
-- Keep hardware profile, dataset, and planner assumptions explicit
-- Store enough metadata to compare approximation strategies across runs
+- Capture placement, integrity, recovery, and retrieval overhead for issue #5428
+- Keep topology size, shard count, and degraded-mode assumptions explicit
+- Preserve reproducible workload classes for cross-epic planner comparisons
 
 ## Reference
 
@@ -23,8 +21,10 @@
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+This directory now contributes focused Google Benchmark targets when
+`THEMIS_BUILD_BENCHMARKS=ON` and benchmark dependencies are available.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Use this README together with the local `CMakeLists.txt` and EPIC 3 docs to
+extend measured baselines without introducing scaffold-only code paths.

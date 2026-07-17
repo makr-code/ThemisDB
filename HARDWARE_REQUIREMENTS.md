@@ -3,8 +3,8 @@
 # ThemisDB Hardware Requirements
 ## For Hybrid Knowledge Retrieval Architecture
 
-**Status:** Draft  
-**Date:** 2026-06-01
+**Status:** Active baseline  
+**Date:** 2026-07-15
 
 ---
 
@@ -37,6 +37,17 @@ Different layers stress different resources:
 
 ## 3. Hardware Profiles
 
+The canonical built-in profile IDs used by EPIC 2 evaluation code are:
+
+- `development`
+- `production`
+- `high_performance_federated`
+
+They are defined in:
+
+- `src/evaluation/include/hardware_profile.h`
+- `src/evaluation/src/hardware_profile.cc`
+
 ## 3.1 Development Profile
 
 ### Purpose
@@ -44,10 +55,10 @@ Local development, functional testing, architectural prototyping.
 
 ### Baseline
 - CPU: 8–16 cores
-- RAM: 32–64 GB
-- Storage: 1 fast NVMe SSD
-- GPU: optional mid-range GPU
-- Network: standard developer workstation network
+- RAM: 32–64 GiB
+- Storage: 1 × 512 GiB–1 TiB fast NVMe SSD
+- GPU: optional 0–12 GiB mid-range GPU
+- Network: 1–10 GbE workstation-class network
 
 ### Typical Use
 - limited HNSW
@@ -64,11 +75,11 @@ Local development, functional testing, architectural prototyping.
 Single-instance production deployment with ANN + Tensor + Graph + LLM integration.
 
 ### Baseline
-- CPU: 16–32+ cores
-- RAM: 128 GB+
-- Storage: high-performance NVMe
-- GPU: at least one inference-capable GPU with sufficient VRAM
-- Network: reliable low-latency datacenter networking
+- CPU: 16–32 cores
+- RAM: 128–256 GiB
+- Storage: 2–4 × high-performance NVMe drives, 2–4 TiB total
+- GPU: 1–2 inference-capable GPUs, 24–48 GiB VRAM
+- Network: 10–25 GbE low-latency datacenter networking
 
 ### Typical Use
 - HNSW for hot data
@@ -85,11 +96,11 @@ Single-instance production deployment with ANN + Tensor + Graph + LLM integratio
 Distributed ThemisDB, cross-shard tensor summaries, heavy RAG, larger models, advanced adaptation.
 
 ### Baseline
-- CPU: 32+ cores
-- RAM: 256 GB+
-- Storage: multiple NVMe devices
-- GPU: multiple GPUs or dedicated inference/training nodes
-- Network: low-latency, high-bandwidth interconnect
+- CPU: 32–64 cores
+- RAM: 256–512 GiB
+- Storage: 4–8 NVMe devices, 4–16 TiB total
+- GPU: 2–4 GPUs, 48–80 GiB VRAM
+- Network: 100–200 Gbps low-latency fabric or equivalent interconnect
 
 ### Typical Use
 - shard summary exchange
@@ -191,6 +202,12 @@ Recommended data placement model:
 - rebuildable derived artifacts
 - infrequently accessed summaries
 - object-store / slower storage candidates
+
+### Tiering Rules Used by the Hardware Profile Registry
+
+- **Development:** live hot/warm/cold rebalancing is disabled; cold storage can remain local.
+- **Production:** live rebalancing is enabled; cold storage expects remote/object-backed capacity.
+- **High-Performance / Federated:** live rebalancing is enabled and cold storage expects remote/object-backed capacity.
 
 ---
 

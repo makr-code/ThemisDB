@@ -326,13 +326,15 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 
 ---
 
-### Phase 7-10 Extended Scanners (Q1-Q2 2027) — 🔵 FUTURE PLANNING
+### Phase 7-10 Extended Scanners (Q1-Q2 2027) — ✅ COMPLETE 2026-07-13
 
 **Objective:** Advanced domain-specific and compliance scanners targeting code quality, performance, and system correctness gaps.
 
-#### Phase 7: Compliance & Audit Layer (2-3 weeks, ~600 LOC)
+**Status:** All 9 scanners implemented. Test command: `python -m unittest tools.scanners.test_phase7_10_scanners -v`
 
-##### P7-1 · Audit Trail & Logging Consistency (320 LOC) — 🔴 CRITICAL
+#### Phase 7: Compliance & Audit Layer ✅
+
+##### P7-1 · Audit Trail & Logging Consistency — ✅ COMPLETE
 
 | Aspect | Details |
 |--------|----------|
@@ -717,67 +719,6 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 ## Wave B — High / Near-term (v1.5.0 – v1.8.0)
 
 > Calendar: Q3 2026 – Q1 2027. These items are required for production hardening.
-
----
-
-### ✅ VERIFICATION: P2/P3 Stub Completion Summary (2026-06-30)
-
-**Status: ALL RESOLVED** — All P2 priority items and P3 cloud backup SDK integration callbacks verified.
-
-#### P2 Items Verification
-
-| Item | Stub | Resolution | Verification | Status |
-|------|------|-----------|-------------|--------|
-| #297 | `FeedbackStore::applyPluginValidation()` — MODIFY action stubs | Modified comment/metadata now applied before APPROVED | `src/llm/feedback_store.cpp:692-696` | ✅ VERIFIED |
-| #306 | `OAuth2Provider::handleLogout()` — RFC 7009 revocation not executed | Revocation endpoint parsed & POST executed with refresh token | `include/auth/oidc_provider.h:47`, `src/auth/oidc_provider.cpp`, `src/server/oauth2_provider.cpp` | ✅ VERIFIED |
-| #307 | `RopeApiHandler::handleStatsGet()` — placeholder metadata | Real stats from `VectorIndexManager::getStatistics()` | `src/server/rope_api_handler.cpp:832` | ✅ VERIFIED |
-| #308 | `VoiceApiHandler::handleDeleteSession()` — soft-clear workaround | Hard-delete via `VoiceAssistant::deleteSession()`, HTTP 404 on not-found | `include/voice/voice_assistant.h:400`, `src/voice/voice_assistant.cpp:567` | ✅ VERIFIED |
-| #309 | `GPUMemoryManager::updateGPUHealth()` — hardcoded 0.0°C temperature | NVML-based per-device temperature probing with utilization fallback | `src/llm/gpu_memory_manager.cpp:272-321` | ✅ VERIFIED |
-| #310 | `AutoRebalancer::signOperation()` — UNSIGNED fallback signature | Fail-closed: empty return on key/config/signing failures | `src/sharding/auto_rebalancer.cpp:403-411` | ✅ VERIFIED |
-| #311 | `PaxosStatePersistence::persistAccept()` — placeholder payload mapping | Structured payload with `raw_command` + parsed JSON persisted to WAL | `src/sharding/paxos_state_persistence.cpp:266-269` | ✅ VERIFIED |
-
-#### P3 Cloud Backup SDK Integration (15 callbacks)
-
-**Overall Status:** ✅ ALL CALLBACKS PRODUCTION-READY
-
-**S3/AWS Provider (5 callbacks):**
-```
-Callbacks: Upload, Download, Delete, List, Exists
-Location: include/sharding/cloud_backup.h:309-313
-Implementation: src/sharding/cloud_backup.cpp (S3StorageProvider class)
-Status: ✅ Fail-closed, thread-safe, callback injection ready
-Test: CreateBackupUsesS3UploadCallbackWithoutMockMode + 5 provider tests
-```
-
-**Azure Storage Provider (5 callbacks):**
-```
-Callbacks: Upload, Download, Delete, List, Exists
-Location: include/sharding/cloud_backup.h:314-318
-Implementation: src/sharding/cloud_backup.cpp (AzureStorageProvider class)
-Status: ✅ Fail-closed, thread-safe, callback injection ready
-Test: CreateBackupUsesAzureUploadCallbackWithoutMockMode + 5 provider tests
-```
-
-**Google Cloud Storage (GCS) Provider (5 callbacks):**
-```
-Callbacks: Upload, Download, Delete, List, Exists
-Location: include/sharding/cloud_backup.h:319-323
-Implementation: src/sharding/cloud_backup.cpp (GCSStorageProvider class)
-Status: ✅ Fail-closed, thread-safe, callback injection ready
-Test: CreateBackupUsesGCSUploadCallbackWithoutMockMode + 5 provider tests
-```
-
-**Key Design Features (verified):**
-- ✅ All operations fail-closed (THEMIS_ERROR logged) when callback not set
-- ✅ Thread-safe callback storage via `std::lock_guard<std::mutex>`
-- ✅ Exception-safe (try-catch wrapper with error return)
-- ✅ No hardcoded fallback paths or always-false stubs
-- ✅ Production deployment requires explicit callback wiring before provider instantiation
-
-**Documentation:**
-- Comprehensive callback documentation: `include/sharding/cloud_backup.h` (lines 60-85)
-- Integration guide: `src/sharding/cloud_backup.cpp` (lines 49-84, "Cloud Backup Provider Injection System")
-- Test examples: `tests/test_cloud_backup.cpp` (provider-specific integration tests)
 
 ---
 
