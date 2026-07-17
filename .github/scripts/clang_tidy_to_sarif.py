@@ -22,8 +22,11 @@ from pathlib import Path
 
 # Matches the primary diagnostic line emitted by clang-tidy:
 #   /abs/path/file.cpp:123:45: warning: some message [check-name]
+# On Windows, paths include a drive letter followed by ':', e.g. C:\path\file.cpp.
+# The optional non-capturing group (?:[A-Za-z]:)? handles that prefix so the drive
+# colon is not mistaken for the field separator.
 _DIAG_RE = re.compile(
-    r"^(?P<file>[^:]+):(?P<line>\d+):(?P<col>\d+):\s+"
+    r"^(?P<file>(?:[A-Za-z]:)?[^:]+):(?P<line>\d+):(?P<col>\d+):\s+"
     r"(?P<level>error|warning|note|remark):\s+"
     r"(?P<message>.+?)(?:\s+\[(?P<rule>[^\]]+)\])?\s*$"
 )

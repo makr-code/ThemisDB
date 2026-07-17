@@ -73,8 +73,21 @@ def evaluate_gate(gate: dict[str, Any], metrics_by_profile: dict[str, dict[str, 
             "message": f"missing metric '{metric_name}' for profile '{profile_id}'",
         }
 
-    actual_value = profile_metrics[metric_name]
-    threshold = gate["threshold"]
+    actual_raw = profile_metrics[metric_name]
+    threshold_raw = gate["threshold"]
+    try:
+        actual_value = float(actual_raw)
+        threshold = float(threshold_raw)
+    except (TypeError, ValueError) as exc:
+        return {
+            "gate": gate["id"],
+            "profile_id": profile_id,
+            "metric": metric_name,
+            "status": "type_error",
+            "message": (
+                f"could not coerce metric values to float for gate '{gate['id']}': {exc}"
+            ),
+        }
     passed = comparator(actual_value, threshold)
     return {
         "gate": gate["id"],
