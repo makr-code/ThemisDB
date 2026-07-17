@@ -26,7 +26,6 @@
 #include "acceleration/compute_backend.h"
 #include "utils/logger.h"
 #include <stdexcept>
-#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <functional>
@@ -151,15 +150,15 @@ public:
     bool initialize() override {
         if (initialized_) return true;
         
-        std::cout << "ZLUDA Backend: Initializing..." << std::endl;
-        std::cout << "ZLUDA: CUDA compatibility layer for AMD GPUs" << std::endl;
+        THEMIS_INFO("ZLUDA Backend: Initializing...");
+        THEMIS_INFO("ZLUDA: CUDA compatibility layer for AMD GPUs");
         
         // Load ZLUDA library
         zludaLib_ = dlopen("libcuda.so.zluda", RTLD_NOW);
         if (!zludaLib_) {
             zludaLib_ = dlopen("libcuda.so", RTLD_NOW);
             if (!zludaLib_) {
-                std::cerr << "Failed to load ZLUDA library" << std::endl;
+                THEMIS_WARN("ZLUDA: failed to load ZLUDA library -- backend unavailable");
                 return false;
             }
         }
@@ -179,28 +178,28 @@ public:
         // Check device count
         int deviceCount = 0;
         if (fnGetDeviceCount_(&deviceCount) != ZLUDA_SUCCESS || deviceCount == 0) {
-            std::cerr << "No ZLUDA-compatible devices found" << std::endl;
+            THEMIS_WARN("ZLUDA: no ZLUDA-compatible devices found");
             return false;
         }
         
-        std::cout << "ZLUDA: Found " << deviceCount << " AMD GPU(s)" << std::endl;
+        THEMIS_INFO("ZLUDA: found {} AMD GPU(s)", deviceCount);
         
         // Set device
         deviceId_ = 0;
         if (fnSetDevice_(deviceId_) != ZLUDA_SUCCESS) {
-            std::cerr << "Failed to set ZLUDA device" << std::endl;
+            THEMIS_WARN("ZLUDA: failed to set ZLUDA device {}", deviceId_);
             return false;
         }
         
         // Create stream
         if (fnStreamCreate_(&stream_) != ZLUDA_SUCCESS) {
-            std::cerr << "Failed to create ZLUDA stream" << std::endl;
+            THEMIS_WARN("ZLUDA: failed to create ZLUDA stream");
             return false;
         }
         
         initialized_ = true;
-        std::cout << "ZLUDA Backend: Successfully initialized" << std::endl;
-        std::cout << "Note: ZLUDA allows running CUDA kernels on AMD GPUs" << std::endl;
+        THEMIS_INFO("ZLUDA Backend: successfully initialized");
+        THEMIS_INFO("ZLUDA: running CUDA kernels on AMD GPUs via ZLUDA compatibility layer");
         
         return true;
     }
@@ -230,17 +229,17 @@ public:
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, useL2);
             } catch (const std::exception& e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: " << e.what()
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: computeDistances callback failed: {} "
+                            "(fail-closed -> returning empty result)", e.what());
                 return {};
             } catch (const std::string& e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: " << e
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: computeDistances callback failed: {} "
+                            "(fail-closed -> returning empty result)", e);
                 return {};
             } catch (const char* e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: "
-                          << (e ? e : "<null>")
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: computeDistances callback failed: {} "
+                            "(fail-closed -> returning empty result)",
+                            (e ? e : "<null>"));
                 return {};
             }
         }
@@ -271,7 +270,7 @@ public:
         }
 
         if (!initialized_) {
-            std::cerr << "ZLUDA backend not initialized" << std::endl;
+            THEMIS_WARN("ZLUDA: computeDistances -- backend not initialized, falling back to CPU");
             return {};
         }
 
@@ -302,23 +301,23 @@ public:
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
             } catch (const std::exception& e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what()
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: batchKnnSearch callback failed: {} "
+                            "(fail-closed -> returning empty result)", e.what());
                 return {};
             } catch (const std::string& e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: batchKnnSearch callback failed: {} "
+                            "(fail-closed -> returning empty result)", e);
                 return {};
             } catch (const char* e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: "
-                          << (e ? e : "<null>")
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: batchKnnSearch callback failed: {} "
+                            "(fail-closed -> returning empty result)",
+                            (e ? e : "<null>"));
                 return {};
             }
         }
 
         if (!initialized_) {
-            std::cerr << "ZLUDA backend not initialized" << std::endl;
+            THEMIS_WARN("ZLUDA: batchKnnSearch -- backend not initialized, falling back to CPU");
             return {};
         }
 
