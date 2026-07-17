@@ -327,6 +327,262 @@ private:
     int previousDevice_;
 };
 
+// ============================================================================
+// hipBLAS Handle RAII Wrapper
+// ============================================================================
+
+#include <hipblas/hipblas.h>
+
+/**
+ * @brief RAII wrapper for hipblasHandle_t.
+ *
+ * Ensures the hipBLAS handle is destroyed even when exceptions are thrown
+ * between hipblasCreate() and hipblasDestroy().
+ *
+ * @par Example
+ * HipblasHandle blas;
+ * if (!blas.create()) { return; } // creation failed — no leak
+ * // use blas.get() for hipBLAS calls
+ * // handle automatically destroyed on scope exit
+ */
+class HipblasHandle {
+public:
+    /// @brief Default constructor; does not create a handle.
+    HipblasHandle() noexcept : handle_(nullptr) {}
+
+    /// @brief Construct and immediately create a handle.
+    /// @throws std::runtime_error if hipblasCreate fails.
+    explicit HipblasHandle(bool createNow) : handle_(nullptr) {
+        if (createNow) {
+            createOrThrow();
+        }
+    }
+
+    // Non-copyable
+    HipblasHandle(const HipblasHandle&)            = delete;
+    HipblasHandle& operator=(const HipblasHandle&) = delete;
+
+    // Movable
+    HipblasHandle(HipblasHandle&& other) noexcept : handle_(other.handle_) {
+        other.handle_ = nullptr;
+    }
+
+    HipblasHandle& operator=(HipblasHandle&& other) noexcept {
+        if (this != &other) {
+            destroy();
+            handle_       = other.handle_;
+            other.handle_ = nullptr;
+        }
+        return *this;
+    }
+
+    ~HipblasHandle() { destroy(); }
+
+    /**
+     * @brief Create a hipBLAS handle.
+     * @return true on success, false on failure (no exception).
+     */
+    bool create() noexcept {
+        if (handle_) { destroy(); }
+        return hipblasCreate(&handle_) == HIPBLAS_STATUS_SUCCESS;
+    }
+
+    /**
+     * @brief Create a hipBLAS handle, throwing on failure.
+     * @throws std::runtime_error if hipblasCreate fails.
+     */
+    void createOrThrow() {
+        if (handle_) { destroy(); }
+        if (hipblasCreate(&handle_) != HIPBLAS_STATUS_SUCCESS) {
+            throw std::runtime_error("Failed to create hipBLAS handle");
+        }
+    }
+
+    /// @brief Returns the underlying handle (nullptr if not created).
+    hipblasHandle_t get() const noexcept { return handle_; }
+
+    /// @brief Returns true if a valid handle has been created.
+    bool valid() const noexcept { return handle_ != nullptr; }
+
+    /// @brief Release ownership without destroying; caller takes responsibility.
+    hipblasHandle_t release() noexcept {
+        hipblasHandle_t tmp = handle_;
+        handle_             = nullptr;
+        return tmp;
+    }
+
+private:
+    void destroy() noexcept {
+        if (handle_) {
+            hipblasDestroy(handle_);
+            handle_ = nullptr;
+        }
+    }
+
+    hipblasHandle_t handle_;
+};
+
+// ============================================================================
+// Typed HIP Device Buffer (RAII, exception-safe)
+// ============================================================================
+
+/**
+ * @brief Type-safe RAII wrapper for a HIP device buffer of element type T.
+ *
+ * Allocates @p count elements of type T on the device and frees them on
+ * destruction.  All copy operations to/from host memory are bounds-checked.
+ *
+ * @tparam T Element type (must be trivially copyable for host↔device copies).
+ *
+ * @par Example
+ * HipDeviceBuffer<float> d_a(n);
+ * d_a.copyFrom(host_vec.data(), n);
+ * // use d_a.get() with hipBLAS / kernel calls
+ * // freed automatically on scope exit — exception-safe
+ */
+template<typename T>
+class HipDeviceBuffer {
+public:
+    /// @brief Default constructor; allocates nothing.
+    HipDeviceBuffer() noexcept : ptr_(nullptr), count_(0) {}
+
+    /**
+     * @brief Allocate @p count elements of T on the device.
+     * @param count Number of elements to allocate.
+     * @throws std::runtime_error if hipMalloc fails.
+     */
+    explicit HipDeviceBuffer(size_t count) : ptr_(nullptr), count_(0) {
+        if (count > 0) { allocate(count); }
+    }
+
+    // Non-copyable
+    HipDeviceBuffer(const HipDeviceBuffer&)            = delete;
+    HipDeviceBuffer& operator=(const HipDeviceBuffer&) = delete;
+
+    // Movable
+    HipDeviceBuffer(HipDeviceBuffer&& other) noexcept
+        : ptr_(other.ptr_), count_(other.count_) {
+        other.ptr_   = nullptr;
+        other.count_ = 0;
+    }
+
+    HipDeviceBuffer& operator=(HipDeviceBuffer&& other) noexcept {
+        if (this != &other) {
+            free();
+            ptr_         = other.ptr_;
+            count_       = other.count_;
+            other.ptr_   = nullptr;
+            other.count_ = 0;
+        }
+        return *this;
+    }
+
+    ~HipDeviceBuffer() { free(); }
+
+    /**
+     * @brief Allocate @p count elements on the device.
+     * @throws std::runtime_error on allocation failure.
+     */
+    void allocate(size_t count) {
+        if (ptr_) { free(); }
+        if (count == 0) { return; }
+        hipError_t err = hipMalloc(&ptr_, count * sizeof(T));
+        if (err != hipSuccess) {
+            throw std::runtime_error(
+                std::string("HipDeviceBuffer: hipMalloc failed (") +
+                std::to_string(count * sizeof(T)) + " bytes): " +
+                hipGetErrorString(err));
+        }
+        count_ = count;
+    }
+
+    /**
+     * @brief Try to allocate; returns false instead of throwing on failure.
+     * @param count Number of elements to allocate.
+     * @return true on success.
+     */
+    bool tryAllocate(size_t count) noexcept {
+        if (ptr_) { free(); }
+        if (count == 0) { return true; }
+        if (hipMalloc(&ptr_, count * sizeof(T)) != hipSuccess) {
+            ptr_   = nullptr;
+            count_ = 0;
+            return false;
+        }
+        count_ = count;
+        return true;
+    }
+
+    /**
+     * @brief Copy @p count elements from host @p src into device buffer.
+     * @param src   Host pointer with at least @p count valid elements.
+     * @param count Number of elements to copy (must be ≤ capacity).
+     * @throws std::runtime_error on copy failure or bounds violation.
+     */
+    void copyFrom(const T* src, size_t count) {
+        if (!ptr_) {
+            throw std::runtime_error("HipDeviceBuffer: copyFrom on unallocated buffer");
+        }
+        if (count > count_) {
+            throw std::runtime_error("HipDeviceBuffer: copyFrom size exceeds allocation");
+        }
+        hipError_t err = hipMemcpy(ptr_, src, count * sizeof(T), hipMemcpyHostToDevice);
+        if (err != hipSuccess) {
+            throw std::runtime_error(
+                std::string("HipDeviceBuffer: hipMemcpy H2D failed: ") +
+                hipGetErrorString(err));
+        }
+    }
+
+    /**
+     * @brief Copy @p count elements from device buffer to host @p dst.
+     * @param dst   Host pointer with capacity for at least @p count elements.
+     * @param count Number of elements to copy (must be ≤ capacity).
+     * @throws std::runtime_error on copy failure or bounds violation.
+     */
+    void copyTo(T* dst, size_t count) const {
+        if (!ptr_) {
+            throw std::runtime_error("HipDeviceBuffer: copyTo on unallocated buffer");
+        }
+        if (count > count_) {
+            throw std::runtime_error("HipDeviceBuffer: copyTo size exceeds allocation");
+        }
+        hipError_t err = hipMemcpy(dst, ptr_, count * sizeof(T), hipMemcpyDeviceToHost);
+        if (err != hipSuccess) {
+            throw std::runtime_error(
+                std::string("HipDeviceBuffer: hipMemcpy D2H failed: ") +
+                hipGetErrorString(err));
+        }
+    }
+
+    /// @brief Returns a typed device pointer.
+    T*     get() const noexcept { return ptr_; }
+    /// @brief Returns the allocated element count.
+    size_t count() const noexcept { return count_; }
+    /// @brief Returns true if allocated and non-empty.
+    bool   valid() const noexcept { return ptr_ != nullptr; }
+
+    /// @brief Release ownership; caller is responsible for hipFree.
+    T* release() noexcept {
+        T* tmp   = ptr_;
+        ptr_     = nullptr;
+        count_   = 0;
+        return tmp;
+    }
+
+private:
+    void free() noexcept {
+        if (ptr_) {
+            hipFree(ptr_);
+            ptr_   = nullptr;
+            count_ = 0;
+        }
+    }
+
+    T*     ptr_;
+    size_t count_;
+};
+
 } // namespace raii
 } // namespace acceleration
 } // namespace themis

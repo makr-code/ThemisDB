@@ -286,6 +286,262 @@ private:
     size_t size_;
 };
 
+// ============================================================================
+// cuBLAS Handle RAII Wrapper
+// ============================================================================
+
+#include <cublas_v2.h>
+
+/**
+ * @brief RAII wrapper for cublasHandle_t.
+ *
+ * Ensures the cuBLAS handle is destroyed even when exceptions are thrown
+ * between cublasCreate() and cublasDestroy().
+ *
+ * @par Example
+ * CublasHandle blas;
+ * if (!blas.create()) { return; } // creation failed — no leak
+ * // use blas.get() for cuBLAS calls
+ * // handle automatically destroyed on scope exit
+ */
+class CublasHandle {
+public:
+    /// @brief Default constructor; does not create a handle.
+    CublasHandle() noexcept : handle_(nullptr) {}
+
+    /// @brief Construct and immediately create a handle.
+    /// @throws std::runtime_error if cublasCreate fails.
+    explicit CublasHandle(bool createNow) : handle_(nullptr) {
+        if (createNow) {
+            createOrThrow();
+        }
+    }
+
+    // Non-copyable
+    CublasHandle(const CublasHandle&)            = delete;
+    CublasHandle& operator=(const CublasHandle&) = delete;
+
+    // Movable
+    CublasHandle(CublasHandle&& other) noexcept : handle_(other.handle_) {
+        other.handle_ = nullptr;
+    }
+
+    CublasHandle& operator=(CublasHandle&& other) noexcept {
+        if (this != &other) {
+            destroy();
+            handle_       = other.handle_;
+            other.handle_ = nullptr;
+        }
+        return *this;
+    }
+
+    ~CublasHandle() { destroy(); }
+
+    /**
+     * @brief Create a cuBLAS handle.
+     * @return true on success, false on failure (no exception).
+     */
+    bool create() noexcept {
+        if (handle_) { destroy(); }
+        return cublasCreate(&handle_) == CUBLAS_STATUS_SUCCESS;
+    }
+
+    /**
+     * @brief Create a cuBLAS handle, throwing on failure.
+     * @throws std::runtime_error if cublasCreate fails.
+     */
+    void createOrThrow() {
+        if (handle_) { destroy(); }
+        if (cublasCreate(&handle_) != CUBLAS_STATUS_SUCCESS) {
+            throw std::runtime_error("Failed to create cuBLAS handle");
+        }
+    }
+
+    /// @brief Returns the underlying handle (nullptr if not created).
+    cublasHandle_t get() const noexcept { return handle_; }
+
+    /// @brief Returns true if a valid handle has been created.
+    bool valid() const noexcept { return handle_ != nullptr; }
+
+    /// @brief Release ownership without destroying; caller takes responsibility.
+    cublasHandle_t release() noexcept {
+        cublasHandle_t tmp = handle_;
+        handle_            = nullptr;
+        return tmp;
+    }
+
+private:
+    void destroy() noexcept {
+        if (handle_) {
+            cublasDestroy(handle_);
+            handle_ = nullptr;
+        }
+    }
+
+    cublasHandle_t handle_;
+};
+
+// ============================================================================
+// Typed CUDA Device Buffer (RAII, exception-safe)
+// ============================================================================
+
+/**
+ * @brief Type-safe RAII wrapper for a CUDA device buffer of element type T.
+ *
+ * Allocates @p count elements of type T on the device and frees them on
+ * destruction.  All copy operations to/from host memory are bounds-checked.
+ *
+ * @tparam T Element type (must be trivially copyable for host↔device copies).
+ *
+ * @par Example
+ * CudaDeviceBuffer<float> d_a(n);
+ * d_a.copyFrom(host_vec.data(), n);
+ * // use d_a.get() with cuBLAS / kernel calls
+ * // freed automatically on scope exit — exception-safe
+ */
+template<typename T>
+class CudaDeviceBuffer {
+public:
+    /// @brief Default constructor; allocates nothing.
+    CudaDeviceBuffer() noexcept : ptr_(nullptr), count_(0) {}
+
+    /**
+     * @brief Allocate @p count elements of T on the device.
+     * @param count Number of elements to allocate.
+     * @throws std::runtime_error if cudaMalloc fails.
+     */
+    explicit CudaDeviceBuffer(size_t count) : ptr_(nullptr), count_(0) {
+        if (count > 0) { allocate(count); }
+    }
+
+    // Non-copyable
+    CudaDeviceBuffer(const CudaDeviceBuffer&)            = delete;
+    CudaDeviceBuffer& operator=(const CudaDeviceBuffer&) = delete;
+
+    // Movable
+    CudaDeviceBuffer(CudaDeviceBuffer&& other) noexcept
+        : ptr_(other.ptr_), count_(other.count_) {
+        other.ptr_   = nullptr;
+        other.count_ = 0;
+    }
+
+    CudaDeviceBuffer& operator=(CudaDeviceBuffer&& other) noexcept {
+        if (this != &other) {
+            free();
+            ptr_         = other.ptr_;
+            count_       = other.count_;
+            other.ptr_   = nullptr;
+            other.count_ = 0;
+        }
+        return *this;
+    }
+
+    ~CudaDeviceBuffer() { free(); }
+
+    /**
+     * @brief Allocate @p count elements on the device.
+     * @throws std::runtime_error on allocation failure.
+     */
+    void allocate(size_t count) {
+        if (ptr_) { free(); }
+        if (count == 0) { return; }
+        cudaError_t err = cudaMalloc(&ptr_, count * sizeof(T));
+        if (err != cudaSuccess) {
+            throw std::runtime_error(
+                std::string("CudaDeviceBuffer: cudaMalloc failed (") +
+                std::to_string(count * sizeof(T)) + " bytes): " +
+                cudaGetErrorString(err));
+        }
+        count_ = count;
+    }
+
+    /**
+     * @brief Try to allocate; returns false instead of throwing on failure.
+     * @param count Number of elements to allocate.
+     * @return true on success.
+     */
+    bool tryAllocate(size_t count) noexcept {
+        if (ptr_) { free(); }
+        if (count == 0) { return true; }
+        if (cudaMalloc(&ptr_, count * sizeof(T)) != cudaSuccess) {
+            ptr_   = nullptr;
+            count_ = 0;
+            return false;
+        }
+        count_ = count;
+        return true;
+    }
+
+    /**
+     * @brief Copy @p count elements from host @p src into device buffer.
+     * @param src   Host pointer with at least @p count valid elements.
+     * @param count Number of elements to copy (must be ≤ capacity).
+     * @throws std::runtime_error on copy failure or bounds violation.
+     */
+    void copyFrom(const T* src, size_t count) {
+        if (!ptr_) {
+            throw std::runtime_error("CudaDeviceBuffer: copyFrom on unallocated buffer");
+        }
+        if (count > count_) {
+            throw std::runtime_error("CudaDeviceBuffer: copyFrom size exceeds allocation");
+        }
+        cudaError_t err = cudaMemcpy(ptr_, src, count * sizeof(T), cudaMemcpyHostToDevice);
+        if (err != cudaSuccess) {
+            throw std::runtime_error(
+                std::string("CudaDeviceBuffer: cudaMemcpy H2D failed: ") +
+                cudaGetErrorString(err));
+        }
+    }
+
+    /**
+     * @brief Copy @p count elements from device buffer to host @p dst.
+     * @param dst   Host pointer with capacity for at least @p count elements.
+     * @param count Number of elements to copy (must be ≤ capacity).
+     * @throws std::runtime_error on copy failure or bounds violation.
+     */
+    void copyTo(T* dst, size_t count) const {
+        if (!ptr_) {
+            throw std::runtime_error("CudaDeviceBuffer: copyTo on unallocated buffer");
+        }
+        if (count > count_) {
+            throw std::runtime_error("CudaDeviceBuffer: copyTo size exceeds allocation");
+        }
+        cudaError_t err = cudaMemcpy(dst, ptr_, count * sizeof(T), cudaMemcpyDeviceToHost);
+        if (err != cudaSuccess) {
+            throw std::runtime_error(
+                std::string("CudaDeviceBuffer: cudaMemcpy D2H failed: ") +
+                cudaGetErrorString(err));
+        }
+    }
+
+    /// @brief Returns a typed device pointer.
+    T*     get() const noexcept { return ptr_; }
+    /// @brief Returns the allocated element count.
+    size_t count() const noexcept { return count_; }
+    /// @brief Returns true if allocated and non-empty.
+    bool   valid() const noexcept { return ptr_ != nullptr; }
+
+    /// @brief Release ownership; caller is responsible for cudaFree.
+    T* release() noexcept {
+        T* tmp   = ptr_;
+        ptr_     = nullptr;
+        count_   = 0;
+        return tmp;
+    }
+
+private:
+    void free() noexcept {
+        if (ptr_) {
+            cudaFree(ptr_);
+            ptr_   = nullptr;
+            count_ = 0;
+        }
+    }
+
+    T*     ptr_;
+    size_t count_;
+};
+
 } // namespace raii
 } // namespace acceleration
 } // namespace themis
