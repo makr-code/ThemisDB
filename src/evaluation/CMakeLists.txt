@@ -1,19 +1,25 @@
 # EPIC 2 — Evaluation & Benchmarking module.
 # Includes benchmark_matrix (EPIC 2.2, Issue #5438), hardware_profile sources,
-# and the query planner (EPIC 2.5) implementation.
+# the query planner (EPIC 2.5), retrieval metrics and ablation framework
+# (Issue #5439) implementations.
 
 # ============================================================================
 # themis_evaluation — EPIC 2.2 evaluation library (benchmark_matrix, hardware_profile)
+#                   + EPIC 2 Phase 2 retrieval metrics and ablation framework
 # ============================================================================
 
 set(EVALUATION_PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/benchmark_matrix.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/hardware_profile.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/retrieval_metrics.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/ablation_framework.h"
 )
 
 set(EVALUATION_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark_matrix.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/hardware_profile.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/retrieval_metrics.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/ablation_framework.cc"
 )
 
 if(NOT TARGET themis_evaluation)
