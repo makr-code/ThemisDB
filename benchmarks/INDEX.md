@@ -16,6 +16,7 @@ Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.
 
 - CI-Gate-Spezifikation: [`docs/CI_GATE.md`](docs/CI_GATE.md)
 - Wissenschaftliches Evaluations-Framework: [`docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md`](docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md)
+- Wave-3 Full-Function Suite: [`docs/WAVE3_BENCHMARK_SUITE.md`](docs/WAVE3_BENCHMARK_SUITE.md)
 - Registrierungs-Audit: `python3 benchmarks/scripts/audit_benchmark_registration.py`
 
 ## Fachbereiche

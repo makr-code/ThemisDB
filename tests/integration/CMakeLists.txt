@@ -165,7 +165,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/query_execution_pipeline_test.cp
         pipeline/query_execution_pipeline_test.cpp
     )
     set_tests_properties(query_execution_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;query"
+        LABELS "integration;pipeline_integration;pipeline;query;release_critical;resilience;deterministic"
     )
 endif()
 
@@ -175,7 +175,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/ingestion_pipeline_test.cpp")
         pipeline/ingestion_pipeline_test.cpp
     )
     set_tests_properties(ingestion_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;ingestion"
+        LABELS "integration;pipeline_integration;pipeline;ingestion;release_critical;resilience;degradation"
     )
 endif()
 
@@ -185,7 +185,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/rag_ai_pipeline_test.cpp")
         pipeline/rag_ai_pipeline_test.cpp
     )
     set_tests_properties(rag_ai_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;rag"
+        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic"
     )
 endif()
 
@@ -195,7 +195,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/transaction_replication_pipeline
         pipeline/transaction_replication_pipeline_test.cpp
     )
     set_tests_properties(transaction_replication_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;transaction;replication"
+        LABELS "integration;pipeline_integration;pipeline;transaction;replication;release_critical;resilience;degradation"
     )
 endif()
 
@@ -205,7 +205,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/security_pipeline_test.cpp")
         pipeline/security_pipeline_test.cpp
     )
     set_tests_properties(security_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;security"
+        LABELS "integration;pipeline_integration;pipeline;security;release_critical;resilience"
     )
 endif()
 
@@ -225,7 +225,161 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/application_profile_pipeline_tes
         pipeline/application_profile_pipeline_test.cpp
     )
     set_tests_properties(application_profile_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;e2e;application_profile"
+        LABELS "integration;pipeline_integration;pipeline;e2e;application_profile;release_critical;resilience;degradation;deterministic"
+    )
+endif()
+
+# ============================================================================
+# Wave 2 Cross-Module Pipeline Tests (W2-A / W2-B)
+# ============================================================================
+
+# W2-A + W2-B: Ingest → Index → Query composed cross-module flow (CMX-01..CMX-06)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/cross_module_ingest_index_query_test.cpp")
+    add_integration_test(
+        cross_module_ingest_index_query_test
+        pipeline/cross_module_ingest_index_query_test.cpp
+    )
+    set_tests_properties(cross_module_ingest_index_query_test PROPERTIES
+        LABELS "integration;pipeline_integration;cross_module;wave2;ingest;query"
+    )
+endif()
+
+# W2-B: Negative / recovery cross-module paths (REC-01..REC-07)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/cross_module_recovery_pipeline_test.cpp")
+    add_integration_test(
+        cross_module_recovery_pipeline_test
+        pipeline/cross_module_recovery_pipeline_test.cpp
+    )
+    set_tests_properties(cross_module_recovery_pipeline_test PROPERTIES
+        LABELS "integration;pipeline_integration;cross_module;wave2;recovery"
+    )
+endif()
+
+# ============================================================================
+# Wave 3 Integration Tests
+# ============================================================================
+
+# W3-A: Full-Function Critical Flows (FFW-01..FFW-08)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w3a_full_function_critical_flows_test.cpp")
+    add_integration_test(
+        w3a_full_function_critical_flows_test
+        pipeline/w3a_full_function_critical_flows_test.cpp
+    )
+    set_tests_properties(w3a_full_function_critical_flows_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave3;w3a;e2e"
+    )
+endif()
+
+# W3-B: Data/State Integrity & Recovery (DIR-01..DIR-08)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w3b_data_integrity_recovery_test.cpp")
+    add_integration_test(
+        w3b_data_integrity_recovery_test
+        pipeline/w3b_data_integrity_recovery_test.cpp
+    )
+    set_tests_properties(w3b_data_integrity_recovery_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave3;w3b;recovery"
+    )
+endif()
+
+# ============================================================================
+# Wave 6 — Release-Candidate Hardening, Stress/Soak, Failure Injection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6a_critical_journey_hardening_test.cpp")
+    add_integration_test(
+        w6a_critical_journey_hardening_test
+        pipeline/w6a_critical_journey_hardening_test.cpp
+    )
+    set_tests_properties(w6a_critical_journey_hardening_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave6;w6a;release_candidate"
+        TIMEOUT 120
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6b_stress_soak_stability_test.cpp")
+    add_integration_test(
+        w6b_stress_soak_stability_test
+        pipeline/w6b_stress_soak_stability_test.cpp
+    )
+    set_tests_properties(w6b_stress_soak_stability_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave6;w6b;stress_soak"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6c_failure_injection_recovery_test.cpp")
+    add_integration_test(
+        w6c_failure_injection_recovery_test
+        pipeline/w6c_failure_injection_recovery_test.cpp
+    )
+    set_tests_properties(w6c_failure_injection_recovery_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave6;w6c;failure_injection"
+        TIMEOUT 120
+    )
+endif()
+
+# ============================================================================
+# Wave 5 Integration Tests
+# W5-A: Production-Critical E2E Journey Coverage (E2E-01..E2E-08)
+# W5-B: Failure Injection & Recovery Validation  (FIR-01..FIR-08)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5a_e2e_critical_journeys_test.cpp")
+    add_integration_test(
+        w5a_e2e_critical_journeys_test
+        pipeline/w5a_e2e_critical_journeys_test.cpp
+    )
+    set_tests_properties(w5a_e2e_critical_journeys_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave5;w5a;release_critical;e2e"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5b_failure_injection_recovery_test.cpp")
+    add_integration_test(
+        w5b_failure_injection_recovery_test
+        pipeline/w5b_failure_injection_recovery_test.cpp
+    )
+    set_tests_properties(w5b_failure_injection_recovery_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave5;w5b;release_critical;recovery"
+        TIMEOUT 300
+    )
+endif()
+
+# ============================================================================
+# Wave 7 — Final Sign-off, Recovery/Resilience, Endurance/Stability
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7a_final_journey_signoff_test.cpp")
+    add_integration_test(
+        w7a_final_journey_signoff_test
+        pipeline/w7a_final_journey_signoff_test.cpp
+    )
+    set_tests_properties(w7a_final_journey_signoff_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7a;release_critical;final_signoff"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7b_recovery_resilience_test.cpp")
+    add_integration_test(
+        w7b_recovery_resilience_test
+        pipeline/w7b_recovery_resilience_test.cpp
+    )
+    set_tests_properties(w7b_recovery_resilience_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7b;release_critical;recovery_resilience"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7c_endurance_stability_test.cpp")
+    add_integration_test(
+        w7c_endurance_stability_test
+        pipeline/w7c_endurance_stability_test.cpp
+    )
+    set_tests_properties(w7c_endurance_stability_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7c;endurance;stability_cert"
+        TIMEOUT 600
     )
 endif()
 
@@ -295,5 +449,6 @@ endif()
 message(STATUS "Integration tests configured in: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "  - Test infrastructure: test_fixture.h, test_data_generator.h")
 message(STATUS "  - Pipeline suite label: pipeline_integration")
+message(STATUS "  - Release-critical label: release_critical")
 message(STATUS "  - To enable tests: uncomment sections in CMakeLists.txt as implementations complete")
 message(STATUS "  - Run with: ctest -R integration")

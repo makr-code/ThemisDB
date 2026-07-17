@@ -108,6 +108,11 @@ if(THEMIS_ENABLE_LLM)
 
         # LoRA Adapter Provenance, Snapshots, and Merkle-chained Audit Log
         ../src/llm/lora_framework/lora_provenance.cpp
+
+        # Phase 4: HashChain & Provenance Layer (LoRAPackage, AdapterProduct,
+        # DistributionReceipt, ReceiptChain, ReceiptManifest, ShardLedger)
+        # Resolves issue #5417.
+        ../src/llm/lora_framework/lora_package_provenance.cpp
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp

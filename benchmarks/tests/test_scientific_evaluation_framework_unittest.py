@@ -2,11 +2,13 @@
 """Unittests for benchmarks/scripts/scientific_evaluation_framework.py."""
 
 import unittest
+import json
 import random
 from pathlib import Path
 import sys
 
 _SCRIPTS = Path(__file__).resolve().parent.parent / "scripts"
+_WAVE6_INPUT = Path(__file__).resolve().parent.parent / "ci_wave6_release_candidate_experiments.json"
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
@@ -40,6 +42,7 @@ def _base_payload():
             {
                 "id": "oltp-p95-latency",
                 "subsystem": "query",
+                "wave6_track": "B6-A",
                 "hypothesis": {
                     "h0": "No latency improvement.",
                     "h1": "Treatment lowers p95 latency.",
@@ -100,6 +103,53 @@ class ScientificEvaluationFrameworkTests(unittest.TestCase):
         self.assertEqual(report["summary"]["gate_violations"], 1)
         self.assertEqual(len(report["regression_tickets"]), 1)
         self.assertEqual(report["results"][0]["classification"], "regressiv")
+
+    def test_wave6_percentiles_and_track_are_reported(self):
+        report = sef.run_pipeline(_base_payload())
+        result = report["results"][0]
+        self.assertEqual(result["wave6_track"], "B6-A")
+        self.assertIn("baseline_percentiles", result["statistics"])
+        self.assertIn("treatment_percentiles", result["statistics"])
+        self.assertIn("p99", result["statistics"]["treatment_percentiles"])
+        self.assertIn("B6-A", report["summary"]["wave6_tracks"])
+
+    def test_wave6_guardrail_violation_sets_gate(self):
+        payload = _base_payload()
+        payload["experiments"][0]["wave6_guardrails"] = {
+            "max_p99_latency_ms": 10.5,
+        }
+        report = sef.run_pipeline(payload)
+        self.assertEqual(report["summary"]["gate_violations"], 1)
+        self.assertEqual(report["summary"]["wave6_gate_violations"], 1)
+        self.assertIn(
+            "max_p99_latency_ms_exceeded",
+            report["results"][0]["governance"]["wave6_gate_failures"],
+        )
+
+    def test_wave6_drift_and_recovery_analysis(self):
+        payload = _base_payload()
+        payload["experiments"][0]["wave6_track"] = "B6-B"
+        payload["experiments"][0]["time_window_samples"] = [10.0, 10.8, 11.6, 12.4]
+        payload["experiments"][0]["recovery_time_seconds_samples"] = [6.5, 7.1, 5.9, 6.8, 7.4]
+        payload["experiments"][0]["wave6_guardrails"] = {
+            "max_regression_drift_percent": 5.0,
+            "max_recovery_time_seconds_p95": 8.0,
+        }
+        report = sef.run_pipeline(payload)
+        result = report["results"][0]
+        drift = result["wave6_analysis"]["drift"]
+        recovery = result["wave6_analysis"]["recovery_time_seconds"]
+        self.assertTrue(drift["degrading_over_time"])
+        self.assertGreater(drift["regression_drift_percent"], 0.0)
+        self.assertGreater(recovery["p95"], 0.0)
+        self.assertIn("max_regression_drift_percent_exceeded", result["governance"]["wave6_gate_failures"])
+
+    def test_wave6_reference_suite_executes_without_gate_violation(self):
+        payload = json.loads(_WAVE6_INPUT.read_text(encoding="utf-8"))
+        report = sef.run_pipeline(payload)
+        self.assertEqual(report["summary"]["total_experiments"], 5)
+        self.assertEqual(report["summary"]["gate_violations"], 0)
+        self.assertEqual(report["summary"]["wave6_gate_violations"], 0)
 
 
 if __name__ == "__main__":

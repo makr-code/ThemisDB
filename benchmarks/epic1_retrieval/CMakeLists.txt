@@ -1,12 +1,9 @@
 # EPIC 1 Retrieval benchmarks
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
 
-set(EPIC1_RETRIEVAL_PLANNED_BENCHMARKS
-    ann_retrieval_bench.cc
-    tensor_routing_bench.cc
-    graph_validation_bench.cc
-    lora_loading_bench.cc
-    federated_bench.cc
-)
+message(STATUS "Configuring benchmark module: epic1_retrieval")
 
 # lora_loading_bench is now implemented; enable it when benchmark::benchmark is available.
 if(TARGET benchmark::benchmark AND TARGET themis_retrieval)
@@ -26,3 +23,5 @@ if(TARGET benchmark::benchmark AND TARGET themis_retrieval)
 endif()
 
 # Remaining benchmark targets will be enabled incrementally alongside implementation work.
+themis_add_standard_benchmark(bench_ann_distance_cpu_vs_flat bench_ann_distance_cpu_vs_flat.cpp)
+themis_add_standard_benchmark(bench_multishard_exact bench_multishard_exact.cpp)

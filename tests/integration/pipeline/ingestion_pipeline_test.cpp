@@ -165,4 +165,40 @@ TEST_F(IngestionPipelineTest, IP04_ContinuousIngestionFeedsSubscribersWithChange
     EXPECT_NE(events[1].find("cdc:"), std::string::npos);
 }
 
+TEST_F(IngestionPipelineTest, IP05_SchemaValidationErrorIsAuditedAndStorageRemainsConsistent) {
+    IngestionPipeline pipeline(storage_, index_, audit_, 10);
+
+    auto doc = data_gen_->GenerateTestDocument("schema");
+    const auto id = doc["id"].get<std::string>();
+    doc.erase("title");
+
+    const auto outcome = pipeline.IngestDocument(doc);
+
+    EXPECT_FALSE(outcome.ok);
+    EXPECT_EQ(outcome.error, "schema_validation_error");
+    EXPECT_FALSE(storage_->Contains(id));
+    EXPECT_TRUE(index_->Search(id).empty());
+    EXPECT_TRUE(audit_->Contains("metadata", "schema_error"));
+}
+
+TEST_F(IngestionPipelineTest, IP06_ResumeStopsOnBrokenDocumentAndRetainsCheckpointForRecovery) {
+    IngestionPipeline pipeline(storage_, index_, audit_, 5);
+
+    auto docs = data_gen_->GenerateTestDocuments(3, "resume");
+    for (auto& doc : docs) {
+        doc["terms"] = nlohmann::json::array({"resume"});
+    }
+    docs[1].erase("title");
+
+    const auto checkpoint_after_failure = pipeline.ResumeFromCheckpoint(docs);
+    EXPECT_EQ(checkpoint_after_failure, 1U);
+    EXPECT_EQ(pipeline.CdcEvents().size(), 1U);
+    EXPECT_TRUE(audit_->Contains("metadata", "schema_error"));
+
+    docs[1]["title"] = "repaired";
+    const auto final_checkpoint = pipeline.ResumeFromCheckpoint(docs);
+    EXPECT_EQ(final_checkpoint, docs.size());
+    EXPECT_EQ(pipeline.CdcEvents().size(), docs.size());
+}
+
 } // namespace themis::test
