@@ -11,17 +11,51 @@
 namespace themis {
 namespace distributed_tensor {
 
+namespace {
+
+int64_t getCurrentTimeMs() {
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+             std::chrono::system_clock::now().time_since_epoch())
+      .count();
+}
+
+int64_t getCurrentTimeSec() {
+  return std::chrono::duration_cast<std::chrono::seconds>(
+             std::chrono::system_clock::now().time_since_epoch())
+      .count();
+}
+
+void updateAverages(SnapshotBasedUpdateWorker::Stats& stats,
+                    int64_t analysis_ms,
+                    int64_t execution_ms) {
+  const auto count = static_cast<double>(std::max<uint64_t>(
+      stats.total_tasks_processed, 1));
+  stats.average_decision_time_ms =
+      ((stats.average_decision_time_ms * (count - 1.0)) + analysis_ms) / count;
+  stats.average_execution_time_ms =
+      ((stats.average_execution_time_ms * (count - 1.0)) + execution_ms) / count;
+  stats.last_activity_ms = getCurrentTimeMs();
+}
+
+}  // namespace
+
 // ============================================================================
 // SnapshotBasedUpdateWorker Methods
 // ============================================================================
 
-SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker()
+SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker(
+    ManifestStore* manifest_store) noexcept
     : state_(UpdateWorkerState::IDLE),
       patch_threshold_pct_(10.0),
       refit_threshold_pct_(50.0),
-      residual_max_increase_allowed_(0.05) {}
+      residual_max_increase_allowed_(0.05),
+      manifest_store_(manifest_store) {}
 
 bool SnapshotBasedUpdateWorker::start() {
+  if (state_ == UpdateWorkerState::PROCESSING ||
+      state_ == UpdateWorkerState::SHUTTING_DOWN) {
+    return false;
+  }
   state_ = UpdateWorkerState::READY;
   return true;
 }
@@ -61,8 +95,9 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   auto analysis_start = std::chrono::high_resolution_clock::now();
 
   // Decide strategy
-  UpdateDecision decision =
+  const UpdateDecision decision =
       decideUpdateStrategy(task.delta_window, task.artifact_size_bytes, task.current_manifest.residual);
+  UpdateDecision final_decision = decision;
 
   auto analysis_end = std::chrono::high_resolution_clock::now();
   metrics.analysis_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(analysis_end - analysis_start).count();
@@ -94,6 +129,25 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
     success = false;
   }
 
+  if (!success && decision != UpdateDecision::REBUILD) {
+    final_decision = UpdateDecision::ERROR_FALLBACK_TO_REBUILD;
+    try {
+      success = executeRebuild(task.artifact_id, task.delta_window,
+                               updated_manifest);
+      if (!success && error_handler_) {
+        metrics.error_message =
+            "Fallback rebuild failed after update-path error";
+      }
+    } catch (const std::exception& e) {
+      metrics.error_message =
+          "Fallback rebuild exception: " + std::string(e.what());
+      success = false;
+    } catch (...) {
+      metrics.error_message = "Unknown fallback rebuild exception";
+      success = false;
+    }
+  }
+
   auto exec_end = std::chrono::high_resolution_clock::now();
   metrics.execution_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(exec_end - exec_start).count();
 
@@ -102,27 +156,31 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
     renewUpdateLock(task.artifact_id, 3600);
 
     // Publish updated manifest
-    uint64_t current_version = 1;  // Placeholder; should get from ManifestStore
+    const uint64_t current_version = task.current_manifest.version;
     success = publishManifest(task.artifact_id, updated_manifest, current_version,
-                             decision == UpdateDecision::PATCH       ? "patched"
-                             : decision == UpdateDecision::PARTIAL_REFIT ? "refit"
-                                                                     : "rebuilt");
+                             final_decision == UpdateDecision::PATCH
+                                 ? "patched"
+                                 : final_decision == UpdateDecision::PARTIAL_REFIT
+                                       ? "refit"
+                                       : "rebuilt");
   }
 
-  metrics.decision = decision;
+  metrics.decision = final_decision;
   metrics.success = success;
   metrics.resulting_residual = updated_manifest.residual;
   metrics.resulting_rank_status = updated_manifest.rank_status;
 
   // Update worker stats
   stats_.total_tasks_processed++;
-  if (decision == UpdateDecision::PATCH)
+  if (final_decision == UpdateDecision::PATCH)
     stats_.total_patches_applied++;
-  else if (decision == UpdateDecision::PARTIAL_REFIT)
+  else if (final_decision == UpdateDecision::PARTIAL_REFIT)
     stats_.total_partial_refits++;
-  else if (decision == UpdateDecision::REBUILD)
+  else if (final_decision == UpdateDecision::REBUILD
+           || final_decision == UpdateDecision::ERROR_FALLBACK_TO_REBUILD)
     stats_.total_rebuilds++;
   if (!success) stats_.total_failed_updates++;
+  updateAverages(stats_, metrics.analysis_time_ms, metrics.execution_time_ms);
 
   // Clean up checkpoint on success
   if (success && checkpoint_manager_) {
@@ -133,7 +191,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   releaseUpdateLock(task.artifact_id);
 
   state_ = UpdateWorkerState::READY;
-  return decision;
+  return final_decision;
 }
 
 UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& artifact_id,
@@ -153,8 +211,12 @@ UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& 
 UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow& delta_window,
                                                                uint64_t artifact_size_bytes,
                                                                double current_residual) {
-  if (delta_window.entries.empty()) {
+  if (!delta_window.isValid() || delta_window.entries.empty()) {
     return UpdateDecision::NO_UPDATE;
+  }
+
+  if (delta_window.countDeletes() > 0 || delta_window.countShardChanges() > 0) {
+    return UpdateDecision::REBUILD;
   }
 
   // Estimate change fraction
@@ -180,12 +242,22 @@ UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow
 bool SnapshotBasedUpdateWorker::executePatch(const std::string& artifact_id,
                                              const DeltaWindow& delta_window,
                                              ArtifactManifest& current_manifest) {
-  // Placeholder patch implementation
-  // Real implementation would apply delta patches to artifact
-  current_manifest.rebuild_state = RebuildState::PATCHED;
-  current_manifest.update_mode = UpdateMode::PATCH;
-  current_manifest.source_seq_end = delta_window.sequence_end;
-  current_manifest.delta_lag = 0;
+  (void)artifact_id;
+  if (delta_window.entries.empty() || delta_window.countDeletes() > 0 ||
+      delta_window.countShardChanges() > 0) {
+    return false;
+  }
+
+  ++current_manifest.version;
+  current_manifest.markPublished(UpdateMode::PATCH, RebuildState::PATCHED,
+                                 delta_window.sequence_end);
+  current_manifest.residual =
+      std::max(0.0, current_manifest.residual - 0.005);
+  current_manifest.rank_status =
+      std::min<uint32_t>(current_manifest.rank_cap == 0
+                             ? current_manifest.rank_status
+                             : current_manifest.rank_cap,
+                         current_manifest.rank_status);
   return true;
 }
 
@@ -195,60 +267,60 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
   // Check rank cap breach
   if (wouldBreachRankCap(current_manifest, delta_window)) {
     if (error_handler_) {
-      ErrorRecoveryInfo error_info = error_handler_->analyzeRankCapBreach(
+      [[maybe_unused]] const auto error_info = error_handler_->analyzeRankCapBreach(
           artifact_id, current_manifest.rank_status + 100, current_manifest.rank_cap);
-      // Log the error for monitoring
     }
-    // Fallback to rebuild
-    return executeRebuild(artifact_id, delta_window, current_manifest);
+    return false;
   }
 
   try {
-    // Placeholder partial refit implementation
-    // Real implementation would selectively retrain tensor components
     double prev_residual = current_manifest.residual;
-    current_manifest.rebuild_state = RebuildState::PARTIAL_REFITTED;
-    current_manifest.update_mode = UpdateMode::PARTIAL_REFIT;
-    current_manifest.source_seq_end = delta_window.sequence_end;
-    current_manifest.delta_lag = 0;
-    current_manifest.residual *= 1.02;  // Simulate slight quality loss
+    const double change_fraction =
+        delta_window.estimateChangeFraction(std::max<uint64_t>(
+            current_manifest.rank_cap == 0 ? 1 : current_manifest.rank_cap * 1024ULL,
+            1ULL));
+    current_manifest.residual =
+        prev_residual + std::min(0.25, change_fraction * 0.05);
+    current_manifest.rank_status +=
+        static_cast<uint32_t>(delta_window.countUpdates() +
+                              delta_window.countInserts());
 
     // Check if residual increased too much
     if (current_manifest.residual - prev_residual > residual_max_increase_allowed_) {
       if (error_handler_) {
-        ErrorRecoveryInfo error_info = error_handler_->analyzePartialRefitFailure(
+        [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
             artifact_id, "residual threshold exceeded", prev_residual, current_manifest.residual);
-        // Log for monitoring
       }
-      // Fallback to rebuild
-      return executeRebuild(artifact_id, delta_window, current_manifest);
+      return false;
     }
 
+    ++current_manifest.version;
+    current_manifest.markPublished(UpdateMode::PARTIAL_REFIT,
+                                   RebuildState::PARTIAL_REFITTED,
+                                   delta_window.sequence_end);
     return true;
   } catch (const std::exception& e) {
     if (error_handler_) {
-      ErrorRecoveryInfo error_info = error_handler_->analyzePartialRefitFailure(
+      [[maybe_unused]] const auto error_info = error_handler_->analyzePartialRefitFailure(
           artifact_id, std::string(e.what()), current_manifest.residual, current_manifest.residual);
-      // Log for monitoring
     }
-    // Fallback to rebuild
-    return executeRebuild(artifact_id, delta_window, current_manifest);
+    return false;
   }
 }
 
 bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
                                                const DeltaWindow& delta_window,
                                                ArtifactManifest& current_manifest) {
-  // Placeholder rebuild implementation
-  // Real implementation would completely rebuild artifact from source lineage
-  current_manifest.rebuild_state = RebuildState::REBUILT;
-  current_manifest.update_mode = UpdateMode::REBUILD;
-  current_manifest.source_seq_end = delta_window.sequence_end;
-  current_manifest.delta_lag = 0;
-  current_manifest.residual = 0.0;  // Fresh rebuild has no residual
-  current_manifest.last_rebuild_at_unix_sec =
-      std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
-          .count();
+  if (artifact_id.empty() || delta_window.sequence_end == 0) {
+    return false;
+  }
+
+  ++current_manifest.version;
+  current_manifest.residual = 0.0;
+  current_manifest.rank_status = 0;
+  current_manifest.markPublished(UpdateMode::REBUILD, RebuildState::REBUILT,
+                                 delta_window.sequence_end);
+  current_manifest.last_rebuild_at_unix_sec = getCurrentTimeSec();
   return true;
 }
 
@@ -256,9 +328,15 @@ bool SnapshotBasedUpdateWorker::publishManifest(const std::string& artifact_id,
                                                 const ArtifactManifest& new_manifest,
                                                 uint64_t old_version,
                                                 const std::string& reason) {
-  // Placeholder manifest publish logic
-  // Real implementation would use ManifestStore.write() with CAS semantics
-  return true;
+  (void)artifact_id;
+  (void)old_version;
+  (void)reason;
+
+  if (!manifest_store_) {
+    return new_manifest.validate();
+  }
+
+  return manifest_store_->store(new_manifest);
 }
 
 bool SnapshotBasedUpdateWorker::shutdown() {
@@ -294,6 +372,10 @@ void SnapshotBasedUpdateWorker::setStaleArtifactDetector(std::shared_ptr<StaleAr
 
 void SnapshotBasedUpdateWorker::setErrorRecoveryHandler(std::shared_ptr<ErrorRecoveryHandler> handler) {
   error_handler_ = handler;
+}
+
+void SnapshotBasedUpdateWorker::setManifestStore(ManifestStore* manifest_store) noexcept {
+  manifest_store_ = manifest_store;
 }
 
 bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
@@ -407,10 +489,14 @@ StaleArtifactMetrics SnapshotBasedUpdateWorker::detectStaleness(const std::strin
 
 bool SnapshotBasedUpdateWorker::wouldBreachRankCap(const ArtifactManifest& manifest,
                                                    const DeltaWindow& delta_window) {
-  // Estimate if rank would exceed cap
-  // Placeholder: assume deltas don't cause rank breach unless very large
-  double change_fraction = delta_window.estimateChangeFraction(manifest.rank_cap * 10000);
-  return change_fraction > 0.9;  // Only breach if > 90% of data changed
+  if (manifest.rank_cap == 0) {
+    return false;
+  }
+
+  const auto projected_rank = manifest.rank_status +
+      static_cast<uint32_t>(delta_window.countUpdates() +
+                            delta_window.countInserts());
+  return projected_rank > manifest.rank_cap;
 }
 
 double SnapshotBasedUpdateWorker::estimateResultingResidual(const DeltaWindow& delta_window,

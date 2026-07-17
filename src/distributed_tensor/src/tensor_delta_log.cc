@@ -4,16 +4,46 @@
 /// @date 2026-07-03
 
 #include "src/distributed_tensor/include/tensor_delta_log.h"
-#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <chrono>
-#include <sstream>
 #include <iomanip>
-
-using json = nlohmann::json;
+#include <sstream>
+#include <string>
 
 namespace themis {
 namespace distributed_tensor {
+
+namespace {
+
+int64_t getCurrentTimeMs() {
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+             std::chrono::system_clock::now().time_since_epoch())
+      .count();
+}
+
+void applyRetentionLocked(std::vector<DeltaLogEntry>& entries,
+                          size_t max_entries_retention,
+                          int64_t max_age_ms_retention,
+                          int64_t now_ms) {
+  if (max_entries_retention > 0 && entries.size() > max_entries_retention) {
+    entries.erase(entries.begin(),
+                  entries.begin() + static_cast<std::ptrdiff_t>(
+                                         entries.size() - max_entries_retention));
+  }
+
+  if (max_age_ms_retention <= 0) {
+    return;
+  }
+
+  const auto cutoff_ms = now_ms - max_age_ms_retention;
+  entries.erase(std::remove_if(entries.begin(), entries.end(),
+                               [cutoff_ms](const DeltaLogEntry& entry) {
+                                 return entry.recorded_at_ms < cutoff_ms;
+                               }),
+                entries.end());
+}
+
+}  // namespace
 
 // ============================================================================
 // DeltaLogEntry Methods
@@ -146,54 +176,60 @@ bool DeltaWindow::isValid() const {
 }
 
 std::string DeltaWindow::toJSON() const {
-  json j;
-  j["artifact_id"] = artifact_id;
-  j["sequence_start"] = sequence_start;
-  j["sequence_end"] = sequence_end;
-  j["extracted_at_ms"] = extracted_at_ms;
-  j["total_payload_size_bytes"] = total_payload_size_bytes;
-  j["entry_count"] = entries.size();
+  std::ostringstream oss;
+  oss << artifact_id << "\n"
+      << sequence_start << "\n"
+      << sequence_end << "\n"
+      << extracted_at_ms << "\n"
+      << total_payload_size_bytes << "\n"
+      << entries.size() << "\n";
 
-  json entries_array = json::array();
   for (const auto& entry : entries) {
-    json entry_obj;
-    entry_obj["sequence_number"] = entry.sequence_number;
-    entry_obj["mutation_type"] = static_cast<int>(entry.mutation_type);
-    entry_obj["affected_entity_id"] = entry.affected_entity_id;
-    entry_obj["recorded_at_ms"] = entry.recorded_at_ms;
-    entry_obj["source_transaction_id"] = entry.source_transaction_id;
-    entry_obj["shard_hint"] = entry.shard_hint;
-    entry_obj["payload_size_bytes"] = entry.payload_size_bytes;
-    entry_obj["payload_checksum"] = entry.payload_checksum;
-    entries_array.push_back(entry_obj);
+    oss << entry.serialize() << "\n";
   }
-  j["entries"] = entries_array;
 
-  return j.dump(2);
+  return oss.str();
 }
 
 std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
   try {
-    json j = json::parse(json_str);
     DeltaWindow window;
+    std::istringstream iss(json_str);
+    std::string line;
 
-    window.artifact_id = j["artifact_id"].get<std::string>();
-    window.sequence_start = j["sequence_start"].get<uint64_t>();
-    window.sequence_end = j["sequence_end"].get<uint64_t>();
-    window.extracted_at_ms = j["extracted_at_ms"].get<int64_t>();
-    window.total_payload_size_bytes = j["total_payload_size_bytes"].get<uint64_t>();
+    if (!std::getline(iss, window.artifact_id)) {
+      return std::nullopt;
+    }
+    if (!std::getline(iss, line)) {
+      return std::nullopt;
+    }
+    window.sequence_start = std::stoull(line);
+    if (!std::getline(iss, line)) {
+      return std::nullopt;
+    }
+    window.sequence_end = std::stoull(line);
+    if (!std::getline(iss, line)) {
+      return std::nullopt;
+    }
+    window.extracted_at_ms = std::stoll(line);
+    if (!std::getline(iss, line)) {
+      return std::nullopt;
+    }
+    window.total_payload_size_bytes = std::stoull(line);
+    if (!std::getline(iss, line)) {
+      return std::nullopt;
+    }
 
-    for (const auto& entry_obj : j["entries"]) {
-      DeltaLogEntry entry;
-      entry.sequence_number = entry_obj["sequence_number"].get<uint64_t>();
-      entry.mutation_type = static_cast<DeltaMutationType>(entry_obj["mutation_type"].get<int>());
-      entry.affected_entity_id = entry_obj["affected_entity_id"].get<std::string>();
-      entry.recorded_at_ms = entry_obj["recorded_at_ms"].get<int64_t>();
-      entry.source_transaction_id = entry_obj["source_transaction_id"].get<std::string>();
-      entry.shard_hint = entry_obj["shard_hint"].get<std::string>();
-      entry.payload_size_bytes = entry_obj["payload_size_bytes"].get<uint32_t>();
-      entry.payload_checksum = entry_obj["payload_checksum"].get<std::string>();
-      window.entries.push_back(entry);
+    const auto entry_count = std::stoull(line);
+    for (uint64_t i = 0; i < entry_count; ++i) {
+      if (!std::getline(iss, line)) {
+        return std::nullopt;
+      }
+      auto entry = DeltaLogEntry::deserialize(line);
+      if (!entry) {
+        return std::nullopt;
+      }
+      window.entries.push_back(*entry);
     }
 
     if (!window.isValid()) {
@@ -221,13 +257,18 @@ uint64_t TensorDeltaLog::appendDelta(DeltaMutationType mutation_type,
                                      const std::string& source_transaction_id,
                                      const std::string& shard_hint,
                                      uint32_t payload_size_bytes) {
+  if (artifact_id_.empty() || affected_entity_id.empty() ||
+      source_transaction_id.empty()) {
+    return 0;
+  }
+
+  std::lock_guard<std::mutex> lock(entries_mutex_);
+
   // Increment sequence number
   ++current_sequence_;
 
   // Get current timestamp
-  int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                       std::chrono::system_clock::now().time_since_epoch())
-                       .count();
+  const int64_t now_ms = getCurrentTimeMs();
 
   // Create and validate entry
   DeltaLogEntry entry;
@@ -248,6 +289,8 @@ uint64_t TensorDeltaLog::appendDelta(DeltaMutationType mutation_type,
   // Append to log
   entries_.push_back(entry);
   last_recorded_ms_ = now_ms;
+  applyRetentionLocked(entries_, max_entries_retention_, max_age_ms_retention_,
+                       now_ms);
 
   return current_sequence_;
 }
@@ -257,13 +300,16 @@ std::optional<DeltaWindow> TensorDeltaLog::extractWindow(uint64_t sequence_start
     return std::nullopt;
   }
 
+  std::lock_guard<std::mutex> lock(entries_mutex_);
+  if (entries_.empty() || sequence_end > current_sequence_) {
+    return std::nullopt;
+  }
+
   DeltaWindow window;
   window.artifact_id = artifact_id_;
   window.sequence_start = sequence_start;
   window.sequence_end = sequence_end;
-  window.extracted_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                               std::chrono::system_clock::now().time_since_epoch())
-                               .count();
+  window.extracted_at_ms = getCurrentTimeMs();
 
   // Collect entries in range
   for (const auto& entry : entries_) {
@@ -273,22 +319,50 @@ std::optional<DeltaWindow> TensorDeltaLog::extractWindow(uint64_t sequence_start
     }
   }
 
-  if (!window.isValid()) {
+  if (!window.isValid() || window.entries.front().sequence_number != sequence_start
+      || window.entries.back().sequence_number != sequence_end) {
+    return std::nullopt;
+  }
+
+  uint64_t expected = sequence_start;
+  for (const auto& entry : window.entries) {
+    if (entry.sequence_number != expected) {
+      return std::nullopt;
+    }
+    ++expected;
+  }
+
+  if (expected - 1 != sequence_end) {
     return std::nullopt;
   }
 
   return window;
 }
 
-uint64_t TensorDeltaLog::getCurrentSequence() const { return current_sequence_; }
+uint64_t TensorDeltaLog::getCurrentSequence() const {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
+  return current_sequence_;
+}
 
-size_t TensorDeltaLog::size() const { return entries_.size(); }
+size_t TensorDeltaLog::size() const {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
+  return entries_.size();
+}
 
-bool TensorDeltaLog::empty() const { return entries_.empty(); }
+bool TensorDeltaLog::empty() const {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
+  return entries_.empty();
+}
 
-void TensorDeltaLog::clear() { entries_.clear(); }
+void TensorDeltaLog::clear() {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
+  entries_.clear();
+  current_sequence_ = 0;
+  last_recorded_ms_ = 0;
+}
 
 size_t TensorDeltaLog::getMemoryUsage() const {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
   size_t memory = artifact_id_.capacity() + sizeof(TensorDeltaLog);
   for (const auto& entry : entries_) {
     memory += sizeof(DeltaLogEntry) + entry.affected_entity_id.capacity() +
@@ -310,6 +384,7 @@ int64_t TensorDeltaLog::loadFromStorage() {
 }
 
 size_t TensorDeltaLog::garbage_collect(uint64_t cutoff_sequence) {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
   size_t removed = 0;
   auto it = entries_.begin();
   while (it != entries_.end()) {
@@ -329,12 +404,9 @@ void TensorDeltaLog::setRetentionPolicy(size_t max_entries, int64_t max_age_ms) 
 }
 
 TensorDeltaLog::Stats TensorDeltaLog::getStats() const {
+  std::lock_guard<std::mutex> lock(entries_mutex_);
   Stats stats;
   stats.total_deltas = entries_.size();
-
-  int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                       std::chrono::system_clock::now().time_since_epoch())
-                       .count();
 
   for (const auto& entry : entries_) {
     stats.total_payload_bytes += entry.payload_size_bytes;

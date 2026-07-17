@@ -37,6 +37,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <mutex>
 #include <chrono>
 #include <optional>
 
@@ -286,6 +287,7 @@ class TensorDeltaLog {
 
  protected:
   std::string artifact_id_;
+  mutable std::mutex entries_mutex_;
   std::vector<DeltaLogEntry> entries_;
   uint64_t current_sequence_ = 0;
   int64_t last_recorded_ms_ = 0;
