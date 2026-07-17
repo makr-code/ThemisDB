@@ -106,12 +106,11 @@ def aggregate_benchmarks(raw: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
         if real_time is not None:
             groups.setdefault(base, []).append(float(real_time))
 
-        # Collect custom counters (drift signals, gate flags, etc.)
+        # Collect custom counters (drift signals, gate flags, throughput fields, etc.)
         for key, value in bench.items():
             if key in ("name", "run_name", "run_type", "repetitions",
                        "repetition_index", "threads", "iterations",
-                       "real_time", "cpu_time", "time_unit",
-                       "items_per_second", "bytes_per_second"):
+                       "real_time", "cpu_time", "time_unit"):
                 continue
             if isinstance(value, (int, float)):
                 counters.setdefault(base, {}).setdefault(key, []).append(float(value))
@@ -229,7 +228,7 @@ METRIC_MAP: Dict[str, str] = {
     "latency_p99_us":         "p99",
     "latency_p99_ms":         "p99",
     "latency_mean_us":        "mean",
-    "items_per_second":       "mean",
+    "items_per_second":       "ctr_items_per_second",
     "throughput_drift_pct":   "cv_pct",
     "cv_percent":             "cv_pct",
     "read_drift_cv_pct":      "ctr_read_drift_cv_pct",

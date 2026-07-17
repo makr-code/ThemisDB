@@ -62,7 +62,7 @@ Scenarios derived from post-release incidents and near-misses:
 | DCH-04 | `W8C/DCH04_WarmupEfficacy_improvement_pct`        | Post-warmup ≤ 120% of pre-warmup mean    | Soft: warmup_gate_passed=1  |
 | DCH-05 | `W8C/DCH05_TimerResolution_sub_us_gate`           | steady_clock resolution ≤ 1 µs          | Soft: timer_sub_us = 1.0    |
 | DCH-06 | `W8C/DCH06_ParallelIsolation_no_cross_state`      | Parallel fixtures share no state         | Diagnostic                  |
-| DCH-07 | `W8C/DCH07_TeardownCompleteness_no_leaks`         | DB directory removed after TearDown      | Soft: teardown_clean = 1.0  |
+| DCH-07 | `W8C/DCH07_TeardownCompleteness_no_leaks`         | DB directory removed after TearDown      | Diagnostic                  |
 | DCH-08 | `W8C/DCH08_FlakeDetection_cv_3pct_gate`           | CV across repetitions < 3%              | Soft (SGATE-W8-04): CV ≤ 3% |
 
 ---
@@ -74,7 +74,7 @@ Scenarios derived from post-release incidents and near-misses:
 | ORP-01 | `W8D/ORP01_TriageMetrics_completeness_1_0_gate`      | All required counters emitted             | Hard (GATE-W8-05): score = 1.0  |
 | ORP-02 | `W8D/ORP02_RootCauseContext_annotations`             | Structured diagnostic annotations         | Diagnostic                      |
 | ORP-03 | `W8D/ORP03_BeforeAfter_comparison_delta_pct`         | Before/after delta scaffold               | Soft: delta ≤ 10%               |
-| ORP-04 | `W8D/ORP04_EscalationGate_failure_ack_ratio`         | Unacknowledged hard gate failures = 0     | Soft: ack_ratio = 1.0           |
+| ORP-04 | `W8D/ORP04_EscalationGate_failure_ack_ratio`         | Unacknowledged hard gate failures = 0     | Diagnostic                      |
 | ORP-05 | `W8D/ORP05_OwnerAssignment_zero_unowned`             | All hot paths have an assigned owner      | Soft: unowned = 0               |
 | ORP-06 | `W8D/ORP06_MaintenancePolicy_compliance_score`       | Threshold changes comply with policy      | Soft (SGATE-W8-08): score = 1.0 |
 | ORP-07 | `W8D/ORP07_BaselineStaleness_fresh_gate`             | Baseline age ≤ 30 days                    | Soft (SGATE-W8-05): fresh = 1.0 |

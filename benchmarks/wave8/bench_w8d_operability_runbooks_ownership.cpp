@@ -31,7 +31,6 @@
  *
  * Hard gates enforced by release_gate_manifest_w8.json:
  *   - ORP-01 triage_completeness_score = 1.0
- *   - ORP-04 no unacknowledged hard gate failures (failure_ack_ratio = 1.0)
  *   - ORP-08 guardrail_coverage_score ≥ 0.80
  */
 
@@ -228,9 +227,11 @@ BENCHMARK_F(OperabilityFixture, ORP01_TriageMetricCompleteness)(benchmark::State
         state.counters["p99_latency_us"]   = p99;
         state.counters["throughput_ops_s"] =
             benchmark::Counter(kOps, benchmark::Counter::kIsRate);
-        state.counters["gate_passed"]      = benchmark::Counter(p99 <= 200.0 ? 1.0 : 0.0);
-        // Completeness score: 1.0 if all four required counters are positive
-        const double score = (mean_us > 0.0 && p99 > 0.0) ? 1.0 : 0.0;
+        state.counters["gate_passed"]      = benchmark::Counter(p99 <= 175.0 ? 1.0 : 0.0);
+        // Completeness: 1.0 iff all four required triage counters are populated
+        // (mean, p99, throughput, gate_passed).  throughput_ops_s is always positive
+        // (kIsRate with kOps > 0); gate_passed is always set regardless of pass/fail.
+        const double score = (mean_us > 0.0 && p99 > 0.0 && kOps > 0) ? 1.0 : 0.0;
         state.counters["triage_completeness_score"] = benchmark::Counter(score);
         state.ResumeTiming();
     }

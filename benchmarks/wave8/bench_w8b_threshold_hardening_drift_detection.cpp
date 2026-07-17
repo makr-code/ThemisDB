@@ -315,10 +315,14 @@ BENCHMARK_F(DriftDetectionFixture, THD03_ReadThroughputDrift)(benchmark::State& 
 
     const double slope   = trend_slope(segment_ops);
     const double cv      = cv_percent(segment_ops);
+    // Normalise slope to % of first-segment throughput so the gate is unit-consistent
+    // with kDriftTolerancePct (a percentage), not raw ops/s per segment.
+    const double norm_slope_pct = (segment_ops[0] > 1e-12)
+        ? (std::abs(slope) / segment_ops[0]) * 100.0 : 0.0;
     state.counters["read_drift_slope_ops_s_per_seg"] = slope;
     state.counters["read_drift_cv_pct"]              = cv;
     state.counters["read_drift_gate_passed"] =
-        benchmark::Counter(std::abs(slope) < kDriftTolerancePct ? 1.0 : 0.0);
+        benchmark::Counter(norm_slope_pct < kDriftTolerancePct ? 1.0 : 0.0);
     state.SetItemsProcessed(
         static_cast<int64_t>(kDriftSegments) * kOpsPerSegment *
         static_cast<int64_t>(state.iterations()));
@@ -361,10 +365,14 @@ BENCHMARK_F(DriftDetectionFixture, THD04_WriteThroughputDrift)(benchmark::State&
 
     const double slope = trend_slope(segment_ops);
     const double cv    = cv_percent(segment_ops);
+    // Normalise slope to % of first-segment throughput so the gate is unit-consistent
+    // with kDriftTolerancePct (a percentage), not raw ops/s per segment.
+    const double norm_slope_pct = (segment_ops[0] > 1e-12)
+        ? (std::abs(slope) / segment_ops[0]) * 100.0 : 0.0;
     state.counters["write_drift_slope_ops_s_per_seg"] = slope;
     state.counters["write_drift_cv_pct"]              = cv;
     state.counters["write_drift_gate_passed"] =
-        benchmark::Counter(std::abs(slope) < kDriftTolerancePct ? 1.0 : 0.0);
+        benchmark::Counter(norm_slope_pct < kDriftTolerancePct ? 1.0 : 0.0);
     state.SetItemsProcessed(
         static_cast<int64_t>(kDriftSegments) * kOpsPerSegment *
         static_cast<int64_t>(state.iterations()));
@@ -576,8 +584,10 @@ BENCHMARK_F(DriftDetectionFixture, THD08_CompositeDriftScore)(benchmark::State& 
                     std::chrono::steady_clock::now() - t0).count());
         }
 
-        std::sort(latencies.begin(), latencies.end());
-        const double cv    = cv_percent(latencies);
+        // CV requires a sorted order; slope requires the original time-ordered sequence.
+        std::vector<double> sorted_latencies = latencies;
+        std::sort(sorted_latencies.begin(), sorted_latencies.end());
+        const double cv    = cv_percent(sorted_latencies);
         const double slope = trend_slope(latencies);
 
         const double cv_pass    = (cv    <= 5.0)  ? 1.0 : 0.0;

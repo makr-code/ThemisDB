@@ -494,7 +494,10 @@ BENCHMARK_F(ParallelIsolationFixture, DCH06_ParallelIsolation)(benchmark::State&
     KeyGenerator kg(kW8CanonicalSeed + static_cast<uint64_t>(instance_id_) * 1000);
     int reads = 0, misses = 0;
     for (auto _ : state) {
-        const std::string key = "pi_" + std::to_string(kg.NextKey(1000).back() % 1000);
+        // NextKey(1000) returns "k_X" (X ∈ [0, 999]); extract X to form a valid
+        // "pi_X" key matching the range inserted in SetUp.
+        const std::string raw_key = kg.NextKey(1000);
+        const std::string key = "pi_" + raw_key.substr(2); // strip "k_" prefix
         std::string val;
         const bool found = db_->get(key, val);
         ++reads;
@@ -558,10 +561,16 @@ BENCHMARK_F(TeardownVerifyFixture, DCH07_TeardownCompleteness)(benchmark::State&
     for (auto _ : state) {
         const std::string key = kg.NextKey(500);
         std::string val;
-        benchmark::DoNotOptimize(db_->get("tv_" + key.substr(key.rfind('_') + 1), val));
+        benchmark::DoNotOptimize(db_->get("tv_" + key.substr(2), val));
     }
-    // The actual teardown check runs in TearDown(); emit a placeholder counter.
-    state.counters["teardown_clean"] = benchmark::Counter(1.0); // verified post-run
+    // Perform the actual teardown check outside timing: close the DB, remove
+    // the directory (same steps as TearDown()), and verify the path is gone.
+    // TearDown() will subsequently call reset()/RemoveAll() on the already-cleaned
+    // resources, which are both no-ops.
+    db_.reset();
+    RemoveAll(db_path_);
+    teardown_clean_ = !fs::exists(db_path_);
+    state.counters["teardown_clean"] = benchmark::Counter(teardown_clean_ ? 1.0 : 0.0);
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
 BENCHMARK_REGISTER_F(TeardownVerifyFixture, DCH07_TeardownCompleteness)
