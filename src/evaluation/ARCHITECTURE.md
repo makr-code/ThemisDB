@@ -9,13 +9,10 @@
 definition, evaluation metrics, approximation governance, query planning, artifact
 lifecycle management, and storage strategy selection.
 
-Current architecture is scaffold-first: headers define interface contracts while paired
-translation units maintain implementation ownership boundaries.
+Current architecture is mixed-stage: the hardware-profile contract and implementation are
+live, while the remaining EPIC 2 surfaces stay scaffold-first.
 
 ## Component Map
-
-> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
-> The table below documents planned file ownership; no code files exist yet.
 
 | Component | Planned contract | Planned implementation |
 |---|---|---|
@@ -42,6 +39,7 @@ Out of scope at scaffold stage:
 ## Integration Surfaces
 
 - Planning: `docs/EPIC2_ARCHITECTURE.md` and EPIC 2 sub-issue docs
-- Planned contracts: `src/evaluation/include/*.h` (deferred to implementation PR)
-- Planned implementation: `src/evaluation/src/*.cc` (deferred to implementation PR)
+- Implemented contract: `src/evaluation/include/hardware_profile.h`
+- Implemented runtime: `src/evaluation/src/hardware_profile.cc`
+- Remaining contracts/implementations: deferred to later implementation PRs
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`

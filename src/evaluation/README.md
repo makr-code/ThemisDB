@@ -5,12 +5,10 @@
 ## Purpose
 
 `src/evaluation` is the EPIC 2 surface for making retrieval decisions measurable,
-hardware-aware, and policy-governed. The current module state is documentation-first:
-contract headers and matching skeleton sources are available for phased delivery.
+hardware-aware, and policy-governed. The hardware-profile component is now implemented;
+the remaining EPIC 2 components stay documentation-first until their phase gates land.
 
 ## Development-Plan Alignment (EPIC 2)
-
-> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
 
 | Sub-issue | Planned contract | Planned source | Primary planning docs |
 |---|---|---|---|
@@ -25,6 +23,10 @@ contract headers and matching skeleton sources are available for phased delivery
 ## Current Delivery State
 
 - Wave A complete: EPIC 2 architecture and sub-issue docs are in `docs/EPIC2_*.md`.
+- Wave B partial: `hardware_profile.h/.cc` now provide the first EPIC 2 runtime-owned contract.
+  Remaining headers and sources stay deferred to later implementation PRs.
+- Wave C partial: focused contract coverage exists for hardware profiles in
+  `tests/epic2_evaluation/hardware_profile_test.cc`; broader regression and benchmark suites remain pending.
 - Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
 - Wave C partial: benchmark baselines now exist in `benchmarks/epic2_evaluation/`
   for issue #5428 planner/placement/recovery evaluation paths; dedicated EPIC 2
@@ -33,6 +35,10 @@ contract headers and matching skeleton sources are available for phased delivery
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: design and API contract baselines captured
+- [~] Phase 2: hardware-profile implementation landed; other EPIC 2 surfaces remain deferred
+- [~] Phase 3: hardware-profile validation and transition guards implemented; broader policy hooks pending
+- [~] Phase 4: hardware-profile contract tests implemented; wider matrix coverage pending
+- [ ] Phase 5: hardening against drift/cost regressions
 - [ ] Phase 2: skeleton code surfaces established (deferred to implementation PR)
 - [ ] Phase 3: policy enforcement behavior and failure semantics
 - [ ] Phase 4: verification matrix and regression tests
