@@ -384,6 +384,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7c_endurance_stability_test.cpp
 endif()
 
 # ============================================================================
+# Wave 8 — Post-Release Reliability Hardening
+# W8-A: Incident Regression Shielding         (IRS-01..IRS-08)
+# W8-B: Contract & Compatibility Reliability  (CCR-01..CCR-08)
+# W8-C: Determinism, Flake Burn-down & CI     (DFQ-01..DFQ-08)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8a_incident_regression_shielding_test.cpp")
+    add_integration_test(
+        w8a_incident_regression_shielding_test
+        pipeline/w8a_incident_regression_shielding_test.cpp
+    )
+    set_tests_properties(w8a_incident_regression_shielding_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave8;w8a;release_critical;incident_regression"
+        TIMEOUT 120
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8b_contract_compatibility_reliability_test.cpp")
+    add_integration_test(
+        w8b_contract_compatibility_reliability_test
+        pipeline/w8b_contract_compatibility_reliability_test.cpp
+    )
+    set_tests_properties(w8b_contract_compatibility_reliability_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave8;w8b;release_critical;contract_compat"
+        TIMEOUT 120
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8c_determinism_flake_ci_signal_test.cpp")
+    add_integration_test(
+        w8c_determinism_flake_ci_signal_test
+        pipeline/w8c_determinism_flake_ci_signal_test.cpp
+    )
+    set_tests_properties(w8c_determinism_flake_ci_signal_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave8;w8c;release_critical;determinism;flake_burndown;ci_signal"
+        TIMEOUT 120
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 
