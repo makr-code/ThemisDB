@@ -21,9 +21,9 @@
 | Metrik | Ergebnis |
 |--------|---------|
 | Benchmark-Quellen entdeckt | 217 |
-| In CMake registriert | 205 |
+| In CMake registriert | 216 |
 | Intentional excluded | 1 (`performance_optimizations/phase2/benchmark_phase2.cpp`) |
-| Unregistriert | **11** |
+| Unregistriert | **0** |
 
 **Befund:** ✅ Alle 217 entdeckten Quellen sind nun registriert (216 aktiv, 1 intentional excluded).
 Behobene Quellen: 3 Root-Level-Dateien via `themis_add_standard_benchmark` ergänzt; Audit-Skript
@@ -50,8 +50,7 @@ um `wave5_add_benchmark`- und `add_w7_benchmark`-Muster erweitert.
 - Liest ausschließlich lokale Dateisystem-Pfade; fehlerhafte Token werden übersprungen, nicht geworfen.
 - Exitcode 0 = sauber, Exitcode 1 = unregistrierte Quellen gefunden (CI-geeignet).
 
-**Befund:** ✅ Geeignet als CI-Gate-Tool; aktueller Exitcode 1 auf dem Re-Audit zeigt korrekt die
-offene Registrierungsdrift an.
+**Befund:** ✅ Geeignet als CI-Gate-Tool; aktueller Exitcode 0 auf dem Re-Audit 2026-07-17 bestätigt: keine Registrierungsdrift vorhanden.
 
 ---
 
