@@ -285,6 +285,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_cross_coordinator_wal_recovery.cpp")
         test_cross_coordinator_wal_recovery.cpp
         ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_cross_coordinator_wal_recovery_focused PRIVATE

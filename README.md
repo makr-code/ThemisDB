@@ -197,16 +197,17 @@ ThemisDB is organised into tracked source modules under `src/`, grouped into fou
 ### Distributed Transactions
 
 ThemisDB supports distributed transactions across shards using a family of commit protocols.
-Three concrete coordinator classes share the `ITransactionCoordinator` interface:
+Three concrete coordinator classes share the `IRecoverableTwoPhaseCoordinator` recovery contract:
 
 | Coordinator | Protocols | Use Case |
 |---|---|---|
 | `TwoPhaseCommitCoordinator` | 2PC | Standalone 2PC in sharding module |
 | `CrossShardTransactionCoordinator` | 2PC · 3PC · SAGA · Percolator · Calvin | Multi-protocol orchestration |
-| `DistributedTransactionCoordinator` | 2PC · SAGA | Transaction-manager layer |
+| `DistributedTransactionCoordinator` | 2PC (+ optional Percolator fast-path) | TrueTime-based distributed 2PC coordinator |
 
-All WAL writes use `WALLoggingHelper` (`include/sharding/wal_logging_helper.h`) for a
-consistent durability pattern across coordinators.
+`WALLoggingHelper` (`include/sharding/wal_logging_helper.h`) is used by
+`TwoPhaseCommitCoordinator` and `DistributedTransactionCoordinator` (both `WALManager`-backed).
+`CrossShardTransactionCoordinator` uses its own `TransactionWAL` backend.
 
 → Full architecture reference: [docs/architecture/transaction_coordinators.md](docs/architecture/transaction_coordinators.md)  
 → Interface design: [docs/ITRANSACTION_COORDINATOR.md](docs/ITRANSACTION_COORDINATOR.md)
@@ -347,4 +348,3 @@ See [tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md#cicd-integration) for more C
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-06-21
-

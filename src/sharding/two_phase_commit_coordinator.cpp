@@ -23,11 +23,11 @@
 //
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
 //
-// CC-5: ThemisDB provides three transaction coordinator classes.  A shared
-// ITransactionCoordinator interface (include/transaction/transaction_coordinator.h)
-// and WALLoggingHelper (include/sharding/wal_logging_helper.h) unify the API
-// and WAL-write pattern as of v2.0.0.  WAL formats remain coordinator-specific;
-// a transaction begun with one coordinator CANNOT be recovered by another.
+// CC-5: ThemisDB provides three transaction coordinator classes that share the
+// IRecoverableTwoPhaseCoordinator recovery contract and coordinator-specific APIs.
+// WALLoggingHelper (include/sharding/wal_logging_helper.h) centralizes the
+// WAL-write pattern for WALManager-backed coordinators only; WAL formats remain
+// coordinator-specific and cross-coordinator recovery is not available.
 // Cross-coordinator recovery tooling is planned for v3.0.0.
 // → Architecture reference: docs/architecture/transaction_coordinators.md
 

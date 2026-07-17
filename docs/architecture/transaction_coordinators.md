@@ -6,21 +6,25 @@
 ## 1. Overview
 
 ThemisDB provides three concrete transaction coordinator classes, all implementing the
-[`ITransactionCoordinator`](../ITRANSACTION_COORDINATOR.md) unified interface:
+`IRecoverableTwoPhaseCoordinator` recovery contract while exposing coordinator-specific APIs.
+`ITransactionCoordinator` remains the documented unification target for migration planning
+([`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md)).
 
 | Class | Header | Namespace | Primary Protocol |
 |---|---|---|---|
 | `TwoPhaseCommitCoordinator` | `include/sharding/two_phase_commit_coordinator.h` | `themis::sharding` | Standalone 2PC |
 | `CrossShardTransactionCoordinator` | `include/sharding/cross_shard_transaction.h` | `themisdb::sharding` | Multi-protocol (2PC / 3PC / SAGA / Percolator / Calvin) |
-| `DistributedTransactionCoordinator` | `include/sharding/distributed_transaction.h` | `themis::sharding` | 2PC + distributed SAGA |
+| `DistributedTransactionCoordinator` | `include/sharding/distributed_transaction.h` | `themis::sharding` | 2PC (+ optional Percolator fast-path) |
 
 All three classes inherit from `themis::transaction::IRecoverableTwoPhaseCoordinator`, which
-in turn inherits from `themis::transaction::ITransactionCoordinator`.  This hierarchy is
-documented in full at [`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md).
+in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The proposed
+`ITransactionCoordinator` unification contract is documented at
+[`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md).
 
-> **Audit Note (CC-5):** Historically these coordinators evolved independently.  The shared
-> `ITransactionCoordinator` interface and `WALLoggingHelper` utility were introduced as part
-> of issue #5372 (v2.0.0) to unify WAL format and provide a common recovery contract.
+> **Audit Note (CC-5):** Historically these coordinators evolved independently.  As of
+> issue #5372 (v2.0.0), they share the `IRecoverableTwoPhaseCoordinator` recovery contract.
+> `WALLoggingHelper` centralizes WAL write logic only for `WALManager`-backed coordinators;
+> WAL formats remain coordinator-specific.
 > A transaction started with coordinator A can still only be fully recovered by coordinator A;
 > cross-coordinator recovery tooling is planned for v3.0.0 (see §7 below).
 
@@ -32,14 +36,14 @@ documented in full at [`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORD
 
 | Feature | `TwoPhaseCommitCoordinator` | `CrossShardTransactionCoordinator` | `DistributedTransactionCoordinator` |
 |---|---|---|---|
-| **Protocols supported** | 2PC | 2PC · 3PC · SAGA · Percolator · Calvin | 2PC · SAGA (compensating) |
+| **Protocols supported** | 2PC | 2PC · 3PC · SAGA · Percolator · Calvin | 2PC (+ optional Percolator fast-path) |
 | **WAL backend** | `WALManager` via `WALLoggingHelper` | `TransactionWAL` (dedicated per-txn WAL) | `WALManager` via `WALLoggingHelper` |
 | **Snapshot recovery** | ✗ | ✅ (`TransactionSnapshotManager`) | ✗ |
 | **Deadlock detection** | ✗ (timeout only) | ✅ (distributed wait-for graph) | ✅ (timeout + cycle detection) |
 | **Distributed FK validation** | ✗ | ✅ (injected `CrossShardForeignKeyValidator`) | ✗ |
-| **Participant model** | `ShardRpcClientAdapter` | `CrossShardParticipant` (state machine per shard) | `IDistributedParticipantCallback` |
-| **noexcept callbacks** | N/A | Required (see §4) | Required (see §4) |
-| **Recovery entry point** | `recoverInDoubtTransactions()` | `recoverFromWAL()` | `recoverFromWAL()` |
+| **Participant model** | `ShardRpcClientAdapter` | `CrossShardParticipant` (state machine per shard) | `TransactionParticipant` (`shard_id` + `endpoint`) |
+| **noexcept callbacks** | N/A | Required (see §4) | N/A |
+| **Recovery entry point** | `recoverInDoubtTransactions()` | `recoverFromWAL()` | `recoverInDoubtTransactions()` |
 | **Thread safety** | ✅ (internal mutex) | ✅ (timed mutex) | ✅ (internal mutex) |
 
 ### 2.2 Use-Case Guide — When to Use Which Coordinator
@@ -48,7 +52,7 @@ documented in full at [`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORD
 |---|---|
 | Simple cross-shard 2PC in sharding module | `TwoPhaseCommitCoordinator` |
 | Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic) | `CrossShardTransactionCoordinator` |
-| Transaction manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionCoordinator` |
+| Transaction-manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionManager` (`transaction/`) |
 | New code / greenfield | Prefer `CrossShardTransactionCoordinator` — it has the richest protocol set and WAL recovery |
 
 ### 2.3 Known Limitations
@@ -132,7 +136,7 @@ forward execution and backwards compensation internally.
 
 ## 4. Callback Contracts and noexcept Requirements
 
-### 4.1 State-Change Callback (all coordinators)
+### 4.1 State-Change Callback (`CrossShardTransactionCoordinator`)
 
 ```cpp
 // Signature (CrossShardTransactionCoordinator)
@@ -180,7 +184,8 @@ using DeferredPreCommitFn = std::function<void(
 
 ### 4.4 Participant Callbacks (`IDistributedParticipantCallback`)
 
-Used by `DistributedTransactionCoordinator`.
+Used by `DistributedTransactionManager` (transaction module), not by
+`DistributedTransactionCoordinator`.
 
 ```cpp
 // Interface (include/transaction/distributed_transaction_manager.h)
@@ -318,7 +323,7 @@ Start: I need distributed transaction support
 │     NO  ↓
 │
 ├─► Am I integrating at the transaction-manager layer using IDistributedParticipantCallback?
-│     YES → DistributedTransactionCoordinator
+│     YES → DistributedTransactionManager
 │     NO  ↓
 │
 ├─► Am I in the sharding module and need standalone 2PC with WALManager?
@@ -350,28 +355,28 @@ Start: Which commit protocol for my use case?
 
 ## 7. Migration Guide
 
-### 7.1 v1.x → v2.0 (ITransactionCoordinator Interface)
+### 7.1 v1.x → v2.0 (Current API Surface)
 
-Callers that held a concrete coordinator type can migrate to the unified interface:
+The current v2.0 coordinators still expose concrete coordinator APIs for execution.
+Use the concrete coordinator API for protocol operations, and the shared recovery
+contract (`IRecoverableTwoPhaseCoordinator`) for crash-recovery orchestration.
 
 ```cpp
-// Before (v1.x)
+// Current v2.0 execution API (TwoPhaseCommitCoordinator)
 TwoPhaseCommitCoordinator coord("my-coord");
-coord.beginTransaction("txn-1", {});
-coord.commitTransaction("txn-1");
-
-// After (v2.0)
-#include "transaction/transaction_coordinator.h"
-std::unique_ptr<ITransactionCoordinator> coord =
-    std::make_unique<TwoPhaseCommitCoordinator>("my-coord");
-auto r = coord->begin("txn-1");
-if (r) coord->commit("txn-1");
+auto outcome = coord.commit(
+    "txn-1",
+    {{"shard-a", nlohmann::json::array()}}
+);
+if (outcome.committed()) {
+    // committed
+}
 ```
 
-Breaking changes:
-- `begin()`, `prepare()`, `commit()`, `abort()` now return `TxnCoordinatorResult` instead
-  of `bool`.  Use `if (result)` or check `result.code`.
-- `recoverInDoubtTransactions()` is now part of `IRecoverableTwoPhaseCoordinator`.
+Recovery contract alignment:
+- `recoverInDoubtTransactions()` is part of `IRecoverableTwoPhaseCoordinator`.
+- The `ITransactionCoordinator` API in `docs/ITRANSACTION_COORDINATOR.md` is the
+  documented migration target for a future unification phase.
 
 ### 7.2 v2.0 → v3.0 (Unified WAL Format — Planned)
 

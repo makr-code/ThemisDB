@@ -30,6 +30,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <system_error>
 
 using namespace themis::sharding;
 using namespace themis::transaction;
@@ -46,6 +47,15 @@ static std::filesystem::path makeTempDir(const std::string& suffix) {
     std::filesystem::create_directories(p);
     return p;
 }
+
+struct TempDirCleanup {
+    std::filesystem::path path;
+
+    ~TempDirCleanup() noexcept {
+        std::error_code ec;
+        std::filesystem::remove_all(path, ec);
+    }
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // WALLoggingHelper contract tests
@@ -70,27 +80,28 @@ TEST(CrossCoordinatorWALRecovery, NullWAL_AppendWithResult_ReturnsNullopt) {
 // CWR-2: appendEntryWithResult returns a valid LSN when a real WAL is provided.
 TEST(CrossCoordinatorWALRecovery, RealWAL_AppendWithResult_ReturnsValidLSN) {
     auto dir = makeTempDir("cwr2");
+    TempDirCleanup cleanup{dir};
 
-    WALManagerConfig cfg;
-    cfg.wal_directory = dir.string();
-    cfg.segment_size  = 1 * 1024 * 1024;
-    WALManager wal(cfg);
-    ASSERT_TRUE(wal.initialize());
+    {
+        WALManagerConfig cfg;
+        cfg.wal_directory = dir.string();
+        cfg.segment_size  = 1 * 1024 * 1024;
+        WALManager wal(cfg);
+        ASSERT_TRUE(wal.initialize());
 
-    auto result = WALLoggingHelper::appendEntryWithResult(
-        &wal,
-        WALEntryType::BEGIN_TX,
-        "txn-cwr-2",
-        nlohmann::json{{"coordinator_id", "coord-a"}, {"participants", nlohmann::json::array()}},
-        /*sync=*/false,
-        "coordinator",
-        "coord-a"
-    );
+        auto result = WALLoggingHelper::appendEntryWithResult(
+            &wal,
+            WALEntryType::BEGIN_TX,
+            "txn-cwr-2",
+            nlohmann::json{{"coordinator_id", "coord-a"}, {"participants", nlohmann::json::array()}},
+            /*sync=*/false,
+            "coordinator",
+            "coord-a"
+        );
 
-    EXPECT_TRUE(result.has_value())
-        << "appendEntryWithResult should return a valid LSN for a live WAL";
-
-    std::filesystem::remove_all(dir);
+        EXPECT_TRUE(result.has_value())
+            << "appendEntryWithResult should return a valid LSN for a live WAL";
+    }
 }
 
 // CWR-3: void overload (appendEntry) does not throw for nullptr or live WAL.
@@ -108,24 +119,26 @@ TEST(CrossCoordinatorWALRecovery, AppendEntry_VoidOverload_DoesNotThrow) {
     });
 
     auto dir = makeTempDir("cwr3");
-    WALManagerConfig cfg;
-    cfg.wal_directory = dir.string();
-    WALManager wal(cfg);
-    ASSERT_TRUE(wal.initialize());
+    TempDirCleanup cleanup{dir};
 
-    EXPECT_NO_THROW({
-        WALLoggingHelper::appendEntry(
-            &wal,
-            WALEntryType::COMMIT_TX,
-            "txn-cwr-3b",
-            nlohmann::json{{"decision", "commit"}},
-            /*sync=*/false,
-            "coordinator",
-            "coord-a"
-        );
-    });
+    {
+        WALManagerConfig cfg;
+        cfg.wal_directory = dir.string();
+        WALManager wal(cfg);
+        ASSERT_TRUE(wal.initialize());
 
-    std::filesystem::remove_all(dir);
+        EXPECT_NO_THROW({
+            WALLoggingHelper::appendEntry(
+                &wal,
+                WALEntryType::COMMIT_TX,
+                "txn-cwr-3b",
+                nlohmann::json{{"decision", "commit"}},
+                /*sync=*/false,
+                "coordinator",
+                "coord-a"
+            );
+        });
+    }
 }
 
 // CWR-4: JSON payload embedded in WALEntry::data is preserved verbatim.
@@ -204,18 +217,19 @@ TEST(CrossCoordinatorWALRecovery, DTM_RecoverWithoutWAL_ReturnsZero) {
 // for any coordinator to recover.
 TEST(CrossCoordinatorWALRecovery, DTM_RecoverFromEmptyWAL_ReturnsZero) {
     auto dir = makeTempDir("cwr8");
+    TempDirCleanup cleanup{dir};
 
-    DistributedTxnManagerConfig cfg;
-    cfg.prepare_timeout     = std::chrono::milliseconds(500);
-    cfg.commit_timeout      = std::chrono::milliseconds(500);
-    cfg.default_txn_timeout = std::chrono::seconds(30);
-    cfg.wal_directory       = dir.string();
-    cfg.enable_recovery_log = true;
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.prepare_timeout     = std::chrono::milliseconds(500);
+        cfg.commit_timeout      = std::chrono::milliseconds(500);
+        cfg.default_txn_timeout = std::chrono::seconds(30);
+        cfg.wal_directory       = dir.string();
+        cfg.enable_recovery_log = true;
 
-    DistributedTransactionManager mgr("cwr-8-coord", cfg);
-    const size_t resolved = mgr.recoverInDoubtTransactions();
-    EXPECT_EQ(resolved, size_t{0})
-        << "A freshly initialised WAL has no in-doubt transactions to recover";
-
-    std::filesystem::remove_all(dir);
+        DistributedTransactionManager mgr("cwr-8-coord", cfg);
+        const size_t resolved = mgr.recoverInDoubtTransactions();
+        EXPECT_EQ(resolved, size_t{0})
+            << "A freshly initialised WAL has no in-doubt transactions to recover";
+    }
 }

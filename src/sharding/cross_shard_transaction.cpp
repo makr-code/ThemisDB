@@ -21,11 +21,11 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //
-// CC-5: ThemisDB provides three transaction coordinator classes.  A shared
-// ITransactionCoordinator interface (include/transaction/transaction_coordinator.h)
-// and WALLoggingHelper (include/sharding/wal_logging_helper.h) unify the API
-// and WAL-write pattern as of v2.0.0.  WAL formats remain coordinator-specific;
-// a transaction begun with one coordinator CANNOT be recovered by another.
+// CC-5: ThemisDB provides three transaction coordinator classes that share the
+// IRecoverableTwoPhaseCoordinator recovery contract and coordinator-specific APIs.
+// This coordinator uses TransactionWAL (not WALLoggingHelper), and WAL formats
+// remain coordinator-specific; a transaction begun with one coordinator cannot
+// be recovered by another.
 // Cross-coordinator recovery tooling is planned for v3.0.0.
 // → Architecture reference: docs/architecture/transaction_coordinators.md
 
