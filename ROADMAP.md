@@ -1576,19 +1576,24 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Objective:** Prioritized hardening of Top 10 critical modules targeting 25% gap reduction
 
-| Rank | Module | Phase 1-5 Gaps | CRITICAL | HIGH | Target Reduction (25%) | Est. Effort |
-|------|--------|---|-------|------|-----|----------|
-| 1 | llm | 19,838 | 3,200 | 16,600 | -4,960 | ~8 weeks |
-| 2 | server | 16,183 | 2,600 | 13,500 | -4,046 | ~7 weeks |
-| 3 | sharding | 9,296 | 1,500 | 7,750 | -2,324 | ~4 weeks |
-| 4 | index | 7,633 | 1,230 | 6,350 | -1,908 | ~4 weeks |
-| 5 | query | 7,327 | 1,180 | 6,130 | -1,832 | ~4 weeks |
-| 6 | storage | 5,892 | 950 | 4,900 | -1,473 | ~3 weeks |
-| 7 | analytics | 4,250 | 680 | 3,550 | -1,063 | ~2 weeks |
-| 8 | rag | 4,100 | 660 | 3,400 | -1,025 | ~2 weeks |
-| 9 | security | 3,814 | 614 | 3,180 | -954 | ~2 weeks |
-| 10 | content | 3,278 | 528 | 2,730 | -820 | ~2 weeks |
-| **Tier 1 Total** | — | **82,611** | **13,142** | **68,090** | **-20,653 (25%)** | **~43 weeks** |
+| Rank | Module | Phase 1-5 Gaps | CRITICAL | HIGH | Target Reduction (25%) | Est. Effort | Status |
+|------|--------|---|-------|------|-----|----------|--------|
+| 1 | llm | 19,838 | 3,200 | 16,600 | -4,960 | ~8 weeks | 🟠 Block A delivered (2026-07-17) |
+| 2 | server | 16,183 | 2,600 | 13,500 | -4,046 | ~7 weeks | ⬜ Queued |
+| 3 | sharding | 9,296 | 1,500 | 7,750 | -2,324 | ~4 weeks | ⬜ Queued |
+| 4 | index | 7,633 | 1,230 | 6,350 | -1,908 | ~4 weeks | ⬜ Queued |
+| 5 | query | 7,327 | 1,180 | 6,130 | -1,832 | ~4 weeks | ⬜ Queued |
+| 6 | storage | 5,892 | 950 | 4,900 | -1,473 | ~3 weeks | ⬜ Queued |
+| 7 | analytics | 4,250 | 680 | 3,550 | -1,063 | ~2 weeks | ⬜ Queued |
+| 8 | rag | 4,100 | 660 | 3,400 | -1,025 | ~2 weeks | ⬜ Queued |
+| 9 | security | 3,814 | 614 | 3,180 | -954 | ~2 weeks | ⬜ Queued |
+| 10 | content | 3,278 | 528 | 2,730 | -820 | ~2 weeks | ⬜ Queued |
+| **Tier 1 Total** | — | **82,611** | **13,142** | **68,090** | **-20,653 (25%)** | **~43 weeks** | — |
+
+**LLM Block A Deliverables (2026-07-17):**
+- `src/llm/llm_client_default.cpp`: stub TODO replaced with LLMPluginManager delegation (plugin path) + deterministic keyword fallback (no-plugin path); random sleep simulation removed
+- `tests/llm/test_llm_hardening_phase4.cpp`: 22 new GTest cases covering CBS-H (backpressure), TQM-H (quota), PCL-H (concurrent policy), SHD-H (shutdown under load)
+- `src/llm/ROADMAP.md`: Phase 4 markers updated to `[~]` in progress
 
 **Strategy:** Root-cause analysis by gap category; shared patterns across modules; parallel fix development by module teams.
 
