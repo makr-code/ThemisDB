@@ -29,7 +29,9 @@
 #include "utils/zstd_codec.h"
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
+#include <algorithm>
 #include <chrono>
+#include <climits>
 
 namespace themis {
 namespace server {
@@ -62,7 +64,9 @@ http::response<http::string_body> WALApiHandler::handleApply(
     // HMAC/shared-secret auth (optional)
     if (!wal_shared_secret_.empty()) {
         auto hdr = req.find("X-WAL-Auth");
-        if (hdr == req.end() || hdr->value() != wal_shared_secret_) {
+        const std::string provided_secret =
+            (hdr == req.end()) ? std::string{} : std::string(hdr->value());
+        if (hdr == req.end() || !timingSafeEqual(wal_shared_secret_, provided_secret)) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
     }
@@ -202,6 +206,10 @@ void WALApiHandler::recordLatency(int64_t elapsed_us) {
 }
 
 std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::string& data) {
+    if (key.size() > static_cast<size_t>(INT_MAX) || data.size() > static_cast<size_t>(INT_MAX)) {
+        return {};
+    }
+
     unsigned int len = 0;
     unsigned char* result = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.size()),
                                  reinterpret_cast<const unsigned char*>(data.data()), data.size(), nullptr, &len);
@@ -219,11 +227,17 @@ std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::stri
 }
 
 bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
-    unsigned char diff = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
-        diff |= static_cast<unsigned char>(a[i] ^ b[i]);
+    const size_t max_len = std::max(a.size(), b.size());
+    unsigned char diff = static_cast<unsigned char>(a.size() ^ b.size());
+
+    for (size_t i = 0; i < max_len; ++i) {
+        const unsigned char av =
+            (i < a.size()) ? static_cast<unsigned char>(a[i]) : static_cast<unsigned char>(0);
+        const unsigned char bv =
+            (i < b.size()) ? static_cast<unsigned char>(b[i]) : static_cast<unsigned char>(0);
+        diff |= static_cast<unsigned char>(av ^ bv);
     }
+
     return diff == 0;
 }
 
