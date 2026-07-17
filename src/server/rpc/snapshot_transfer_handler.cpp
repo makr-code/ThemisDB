@@ -31,6 +31,7 @@
 #include <xxhash.h>
 #include <openssl/sha.h>
 #include <fstream>
+#include <memory>
 #include <sstream>
 #include <chrono>
 #include <thread>
@@ -83,7 +84,6 @@ class SnapshotTransferHandler::Impl {
 public:
     Impl() 
         : db_(nullptr)
-        , checkpoint_(nullptr)
         , total_bytes_(0)
         , transferred_bytes_(0)
         , total_chunks_(0)
@@ -91,11 +91,9 @@ public:
         , cancelled_(false)
         , start_time_(std::chrono::steady_clock::now()) {}
     
-    ~Impl() {
-        if (checkpoint_) {
-            delete checkpoint_;
-        }
-    }
+    // Destructor is compiler-generated; checkpoint_ (unique_ptr) cleaned up
+    // automatically — no manual delete required.
+    ~Impl() = default;
     
     SnapshotStatus CreateSnapshot(const SnapshotConfig& config) {
         config_ = config;
@@ -114,11 +112,14 @@ public:
         snapshot_dir_ = (resolveSnapshotRootDir() / config_.snapshot_id).string();
         fs::create_directories(snapshot_dir_);
         
-        // Create RocksDB checkpoint
-        rocksdb::Status s = rocksdb::Checkpoint::Create(db_, &checkpoint_);
+        // Create RocksDB checkpoint — store in unique_ptr to prevent leaks on
+        // early returns or exceptions after successful creation.
+        rocksdb::Checkpoint* raw_checkpoint = nullptr;
+        rocksdb::Status s = rocksdb::Checkpoint::Create(db_, &raw_checkpoint);
         if (!s.ok()) {
             return SnapshotStatus::ERROR_ROCKSDB_ERROR;
         }
+        checkpoint_.reset(raw_checkpoint);
         
         if (config_.is_incremental && !config_.base_snapshot_id.empty()) {
             // For incremental: Export WAL and new SST files since base snapshot
@@ -778,7 +779,9 @@ private:
     
     SnapshotConfig config_;
     rocksdb::DB* db_;
-    rocksdb::Checkpoint* checkpoint_;
+    /// @brief RAII ownership of the RocksDB Checkpoint object.
+    /// Replaces the previous raw pointer + manual delete in destructor.
+    std::unique_ptr<rocksdb::Checkpoint> checkpoint_;
     std::string snapshot_dir_;
 
     // Allow external injection of the RocksDB instance (e.g. from the shard server).
