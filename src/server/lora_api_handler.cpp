@@ -1091,6 +1091,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         // Token is valid
         return true;
     } catch (...) {
+        THEMIS_DEBUG("lora_api_handler: unhandled exception caught");
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }
@@ -1139,6 +1140,7 @@ std::optional<json> LoRAApiHandler::parseRequestBody(
             return parsed;
         }
     } catch (...) {
+        THEMIS_DEBUG("lora_api_handler: unhandled exception caught");
         return std::nullopt;
     }
     

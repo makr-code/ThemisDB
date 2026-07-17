@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "module": "epic3_distributed_tensor",
+  "phase": "phase5_performance_and_hardening",
+  "canonical_seed": 42,
+  "profiles": [
+    {
+      "id": "planner_latency_healthy",
+      "planned_benchmark": "distributed_retrieval_bench.cc",
+      "description": "Cross-shard retrieval planning with healthy topology.",
+      "seed": 42,
+      "topology": {
+        "nodes": 3,
+        "replication_factor": 2,
+        "degraded_nodes": 0
+      },
+      "dataset": {
+        "artifacts": 50000,
+        "manifests": 50000,
+        "shards": 96
+      },
+      "metrics": [
+        "latency_p50_us",
+        "latency_p95_us",
+        "latency_p99_us",
+        "coefficient_of_variation_pct"
+      ]
+    },
+    {
+      "id": "placement_throughput_balanced",
+      "planned_benchmark": "placement_strategy_bench.cc",
+      "description": "Balanced shard placement throughput under steady write pressure.",
+      "seed": 42,
+      "topology": {
+        "nodes": 5,
+        "replication_factor": 3,
+        "degraded_nodes": 0
+      },
+      "dataset": {
+        "placement_requests": 250000,
+        "candidate_nodes": 5,
+        "stripe_width": 8
+      },
+      "metrics": [
+        "throughput_ops_per_sec",
+        "queue_backlog_items",
+        "coefficient_of_variation_pct"
+      ]
+    },
+    {
+      "id": "integrity_under_manifest_churn",
+      "planned_benchmark": "integrity_verification_bench.cc",
+      "description": "Integrity verification latency during concurrent manifest updates.",
+      "seed": 42,
+      "topology": {
+        "nodes": 4,
+        "replication_factor": 2,
+        "degraded_nodes": 0
+      },
+      "dataset": {
+        "artifacts": 20000,
+        "verification_batches": 2000,
+        "manifest_mutations_per_minute": 5000
+      },
+      "metrics": [
+        "latency_p99_us",
+        "verification_success_ratio",
+        "coefficient_of_variation_pct"
+      ]
+    },
+    {
+      "id": "recovery_rebuild_degraded",
+      "planned_benchmark": "recovery_rebuild_bench.cc",
+      "description": "Shard rebuild convergence after a single-node failure.",
+      "seed": 42,
+      "topology": {
+        "nodes": 5,
+        "replication_factor": 3,
+        "degraded_nodes": 1
+      },
+      "dataset": {
+        "artifacts": 15000,
+        "rebuild_shards": 24,
+        "retry_budget": 3
+      },
+      "metrics": [
+        "recovery_time_ms",
+        "retry_attempts_per_shard",
+        "residual_integrity_failures",
+        "coefficient_of_variation_pct"
+      ]
+    },
+    {
+      "id": "infrastructure_control_plane_stability",
+      "planned_benchmark": "infrastructure_bench.cc",
+      "description": "Control-plane stability under mixed placement and recovery pressure.",
+      "seed": 42,
+      "topology": {
+        "nodes": 6,
+        "replication_factor": 3,
+        "degraded_nodes": 1
+      },
+      "dataset": {
+        "health_events": 10000,
+        "placement_requests": 40000,
+        "recovery_events": 1000
+      },
+      "metrics": [
+        "latency_p99_us",
+        "availability_ratio",
+        "coefficient_of_variation_pct"
+      ]
+    }
+  ]
+}

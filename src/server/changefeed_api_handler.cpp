@@ -271,6 +271,7 @@ std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const 
         std::lock_guard<std::mutex> lock(delivered_mutex_);
         return delivered_events_;
     } catch (...) {
+        THEMIS_DEBUG("changefeed_api_handler: unhandled exception caught");
         return {};
     }
 }

@@ -18,6 +18,7 @@
 #include <numeric>
 #include <stdexcept>
 #include <cstring>
+#include "utils/logger.h"
 
 namespace themis::storage {
 
@@ -200,6 +201,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         }
         return t;
     } catch (...) {
+        THEMIS_WARN("tensor_train_decomposer: unhandled exception caught");
         return std::nullopt;
     }
 }

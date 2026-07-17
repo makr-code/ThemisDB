@@ -19,6 +19,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 namespace query {
@@ -181,6 +182,7 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
                     return;
                 }
             } catch (...) {
+                THEMIS_WARN("tensor_aware_query_optimizer: unhandled exception caught");
                 // Visitor threw; fall through to string-scan heuristic.
             }
         }
@@ -197,6 +199,7 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
         try {
             detected_fn = detector(node);
         } catch (...) {
+            THEMIS_WARN("tensor_aware_query_optimizer: unhandled exception caught");
             // Fail closed to deterministic description scan below.
             detected_fn.reset();
         }

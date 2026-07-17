@@ -18,13 +18,15 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// ZLUDA Backend Implementation
+// ZLUDA Backend Implementation - MODIFIED
 // ZLUDA: CUDA compatibility layer for AMD GPUs
 // Allows running CUDA code on AMD hardware without modification
 
+#include "acceleration/zluda_backend.h"
 #include "acceleration/compute_backend.h"
+#include "utils/logger.h"
 #include <stdexcept>
-#include <iostream>
+#include <algorithm>
 #include <vector>
 #include <functional>
 #include <mutex>
@@ -87,6 +89,13 @@ public:
     /// Inject a batchKnnSearch callback for non-PTX/test/integration paths.
     /// Thread-safe: callback storage is guarded by a static mutex.
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn);
+    /**
+     * @brief Inject the generic ZludaKernelFn bridge.
+     *
+     * @param fn  Callable satisfying ZludaKernelFn; clears when null.
+     * @note Thread-safe -- guarded by s_callback_fn_mutex_.
+     */
+    static void setZludaKernelFnImpl(ZludaKernelFn fn);
 
     ZLUDAVectorBackend() = default;
     ~ZLUDAVectorBackend() override { shutdown(); }
@@ -141,15 +150,15 @@ public:
     bool initialize() override {
         if (initialized_) return true;
         
-        std::cout << "ZLUDA Backend: Initializing..." << std::endl;
-        std::cout << "ZLUDA: CUDA compatibility layer for AMD GPUs" << std::endl;
+        THEMIS_INFO("ZLUDA Backend: Initializing...");
+        THEMIS_INFO("ZLUDA: CUDA compatibility layer for AMD GPUs");
         
         // Load ZLUDA library
         zludaLib_ = dlopen("libcuda.so.zluda", RTLD_NOW);
         if (!zludaLib_) {
             zludaLib_ = dlopen("libcuda.so", RTLD_NOW);
             if (!zludaLib_) {
-                std::cerr << "Failed to load ZLUDA library" << std::endl;
+                THEMIS_WARN("ZLUDA: failed to load ZLUDA library -- backend unavailable");
                 return false;
             }
         }
@@ -169,28 +178,28 @@ public:
         // Check device count
         int deviceCount = 0;
         if (fnGetDeviceCount_(&deviceCount) != ZLUDA_SUCCESS || deviceCount == 0) {
-            std::cerr << "No ZLUDA-compatible devices found" << std::endl;
+            THEMIS_WARN("ZLUDA: no ZLUDA-compatible devices found");
             return false;
         }
         
-        std::cout << "ZLUDA: Found " << deviceCount << " AMD GPU(s)" << std::endl;
+        THEMIS_INFO("ZLUDA: found {} AMD GPU(s)", deviceCount);
         
         // Set device
         deviceId_ = 0;
         if (fnSetDevice_(deviceId_) != ZLUDA_SUCCESS) {
-            std::cerr << "Failed to set ZLUDA device" << std::endl;
+            THEMIS_WARN("ZLUDA: failed to set ZLUDA device {}", deviceId_);
             return false;
         }
         
         // Create stream
         if (fnStreamCreate_(&stream_) != ZLUDA_SUCCESS) {
-            std::cerr << "Failed to create ZLUDA stream" << std::endl;
+            THEMIS_WARN("ZLUDA: failed to create ZLUDA stream");
             return false;
         }
         
         initialized_ = true;
-        std::cout << "ZLUDA Backend: Successfully initialized" << std::endl;
-        std::cout << "Note: ZLUDA allows running CUDA kernels on AMD GPUs" << std::endl;
+        THEMIS_INFO("ZLUDA Backend: successfully initialized");
+        THEMIS_INFO("ZLUDA: running CUDA kernels on AMD GPUs via ZLUDA compatibility layer");
         
         return true;
     }
@@ -220,42 +229,58 @@ public:
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, useL2);
             } catch (const std::exception& e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: " << e.what()
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: computeDistances callback failed: {} "
+                            "(fail-closed -> returning empty result)", e.what());
                 return {};
             } catch (const std::string& e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: " << e
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: computeDistances callback failed: {} "
+                            "(fail-closed -> returning empty result)", e);
                 return {};
             } catch (const char* e) {
-                std::cerr << "ZLUDA: computeDistances callback failed: "
-                          << (e ? e : "<null>")
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: computeDistances callback failed: {} "
+                            "(fail-closed -> returning empty result)",
+                            (e ? e : "<null>"));
                 return {};
             }
         }
 
+        // -- Bridge 2: ZludaKernelFn (checked before initialized-guard)
+        {
+            ZludaKernelFn kfn;
+            {
+                std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+                kfn = s_zluda_kernel_fn_;
+            }
+            if (kfn) {
+                std::vector<float> input;
+                input.reserve(numQueries * dim + numVectors * dim);
+                input.insert(input.end(), queries, queries + numQueries * dim);
+                input.insert(input.end(), vectors, vectors + numVectors * dim);
+                try {
+                    auto result = kfn(input);
+                    if (!result.empty()) return result;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("ZLUDA: ZludaKernelFn threw in computeDistances: {} "
+                                "-- falling back to CPU", e.what());
+                } catch (...) {
+                    THEMIS_WARN("ZLUDA: ZludaKernelFn threw unknown exception in "
+                                "computeDistances -- falling back to CPU");
+                }
+            }
+        }
+
         if (!initialized_) {
-            std::cerr << "ZLUDA backend not initialized" << std::endl;
+            THEMIS_WARN("ZLUDA: computeDistances -- backend not initialized, falling back to CPU");
             return {};
         }
 
     // STUB/SIMULATION NOTE:
-    // Purpose: Allows ZLUDABackend to compile and report initialization success
-    //          while actual CUDA PTX kernel loading and execution via ZLUDA is
-    //          not yet implemented.
-    // Activation: Always — no PTX binary is compiled into or loaded by ThemisDB.
-    // Production Delta: computeDistances() and batchKnnSearch() return empty
-    //                   results; all vector distance computations fall through
-    //                   to CPU paths.  AMD GPU acceleration via ZLUDA is
-    //                   completely non-functional at runtime.
-    // Removal Plan: Compile CUDA kernel sources to PTX; load PTX via cuModuleLoadData();
-    //               launch kernels via cuLaunchKernel() through the ZLUDA dlopen
-    //               handles.  See src/acceleration/FUTURE_ENHANCEMENTS.md §ZLUDA Activation.
-    std::cerr << "ZLUDA: Kernel execution requires CUDA-compiled PTX" << std::endl;
-    std::cerr << "ZLUDA: Falling back to CPU (STUB — no PTX loaded)" << std::endl;
-
-    return {}; // STUB: no GPU kernel executed
+    // Activation: When no ZludaKernelFn or typed bridge is injected and
+    //             no PTX is loaded via cuModuleLoadData().
+    // Removal Plan: Load PTX via cuModuleLoadData; launch via cuLaunchKernel.
+    THEMIS_WARN("ZLUDA: computeDistances requires CUDA PTX kernel -- "
+                "no PTX loaded, falling back to CPU");
+    return {};
     }
     
     std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
@@ -276,29 +301,73 @@ public:
             try {
                 return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
             } catch (const std::exception& e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what()
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: batchKnnSearch callback failed: {} "
+                            "(fail-closed -> returning empty result)", e.what());
                 return {};
             } catch (const std::string& e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: batchKnnSearch callback failed: {} "
+                            "(fail-closed -> returning empty result)", e);
                 return {};
             } catch (const char* e) {
-                std::cerr << "ZLUDA: batchKnnSearch callback failed: "
-                          << (e ? e : "<null>")
-                          << " (fail-closed -> returning empty result)" << std::endl;
+                THEMIS_WARN("ZLUDA: batchKnnSearch callback failed: {} "
+                            "(fail-closed -> returning empty result)",
+                            (e ? e : "<null>"));
                 return {};
             }
         }
 
         if (!initialized_) {
-            std::cerr << "ZLUDA backend not initialized" << std::endl;
+            THEMIS_WARN("ZLUDA: batchKnnSearch -- backend not initialized, falling back to CPU");
             return {};
         }
 
-        std::cerr << "ZLUDA: batchKnnSearch requires CUDA-compiled PTX"
-                  << " (Falling back to CPU - STUB — no PTX loaded)" << std::endl;
+        // -- Bridge 2: ZludaKernelFn (checked before initialized-guard)
+        {
+            ZludaKernelFn kfn;
+            {
+                std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+                kfn = s_zluda_kernel_fn_;
+            }
+            if (kfn) {
+                std::vector<float> input;
+                input.reserve(numQueries * dim + numVectors * dim);
+                input.insert(input.end(), queries, queries + numQueries * dim);
+                input.insert(input.end(), vectors, vectors + numVectors * dim);
+                try {
+                    auto raw_out = kfn(input);
+                    if (raw_out.size() == numQueries * numVectors) {
+                        std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
+                        const size_t kk = std::min(k, numVectors);
+                        for (size_t q = 0; q < numQueries; ++q) {
+                            const float* row = raw_out.data() + q * numVectors;
+                            std::vector<std::pair<uint32_t, float>> dists(numVectors);
+                            for (size_t v = 0; v < numVectors; ++v)
+                                dists[v] = {static_cast<uint32_t>(v), row[v]};
+                            std::partial_sort(dists.begin(),
+                                              dists.begin() + static_cast<std::ptrdiff_t>(kk),
+                                              dists.end(),
+                                              [](const auto& a, const auto& b) {
+                                                  return a.second < b.second;
+                                              });
+                            dists.resize(kk);
+                            result[q] = std::move(dists);
+                        }
+                        return result;
+                    }
+                    THEMIS_WARN("ZLUDA: ZludaKernelFn size mismatch in batchKnnSearch"
+                                " -- falling back to CPU");
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("ZLUDA: ZludaKernelFn threw in batchKnnSearch: {} "
+                                "-- falling back to CPU", e.what());
+                } catch (...) {
+                    THEMIS_WARN("ZLUDA: ZludaKernelFn threw unknown exception in "
+                                "batchKnnSearch -- falling back to CPU");
+                }
+            }
+        }
 
+        THEMIS_WARN("ZLUDA: batchKnnSearch requires CUDA PTX kernel -- "
+                    "no PTX loaded, falling back to CPU");
         return {};
     }
 
@@ -306,6 +375,7 @@ private:
     static std::mutex s_callback_fn_mutex_;
     static ComputeDistancesFn s_compute_distances_fn_;
     static BatchKnnSearchFn s_batch_knn_fn_;
+    static ZludaKernelFn s_zluda_kernel_fn_;
 
     void loadFunctions() {
         fnGetDeviceCount_ = (PFN_zludaGetDeviceCount)dlsym(zludaLib_, "cuDeviceGetCount");
@@ -342,6 +412,7 @@ private:
 std::mutex ZLUDAVectorBackend::s_callback_fn_mutex_;
 ZLUDAVectorBackend::ComputeDistancesFn ZLUDAVectorBackend::s_compute_distances_fn_;
 ZLUDAVectorBackend::BatchKnnSearchFn ZLUDAVectorBackend::s_batch_knn_fn_;
+ZludaKernelFn ZLUDAVectorBackend::s_zluda_kernel_fn_;
 
 void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
     std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
@@ -351,6 +422,11 @@ void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
 void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
     std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_batch_knn_fn_ = std::move(fn);
+}
+
+void ZLUDAVectorBackend::setZludaKernelFnImpl(ZludaKernelFn fn) {
+    std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
+    s_zluda_kernel_fn_ = std::move(fn);
 }
 
 /// Free-function wrapper for injecting ZLUDA computeDistances callback bridges.
@@ -369,6 +445,14 @@ void setZLUDABatchKnnSearchFn(
     std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
         const float*, size_t, size_t, const float*, size_t, size_t, bool)> fn) {
     ZLUDAVectorBackend::setBatchKnnSearchFn(std::move(fn));
+}
+
+/// @brief Public free-function bridge entry point for ZludaKernelFn.
+/// Delegates to ZLUDAVectorBackend::setZludaKernelFnImpl().
+/// @param fn Callable satisfying ZludaKernelFn; null clears the bridge.
+/// @note Thread-safe.
+void setZludaKernelFn(ZludaKernelFn fn) {
+    ZLUDAVectorBackend::setZludaKernelFnImpl(std::move(fn));
 }
 
 [[nodiscard]] std::unique_ptr<IVectorBackend> createZLUDABackend() {

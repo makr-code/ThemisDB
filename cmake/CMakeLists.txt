@@ -5154,12 +5154,9 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
-    # Distributed Tensor Retrieval and Manifesting (EPIC 3, 2026-07-06)
-    # -------------------------------------------------------------------------
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt")
-    # EPIC 1 Retrieval — LoRAPackage & PortableAdapterProduct (Phase 3, 2026-07-16)
-    # Moved to the dedicated THEMIS_BUILD_RETRIEVAL option block below.
     # Distributed Tensor Artifacts module (EPIC 5428 Phase 3, 2026-07-13)
+    # Registration here (inside THEMIS_BUILD_ENTERPRISE_PLUGINS) is superseded by
+    # the standalone block below; this guard prevents double-add in enterprise builds.
     # -------------------------------------------------------------------------
     if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
        NOT TARGET themis_distributed_tensor)
@@ -5172,7 +5169,7 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins
                          ${CMAKE_CURRENT_BINARY_DIR}/plugins)
     endif()
-endif()
+endif() # THEMIS_BUILD_ENTERPRISE_PLUGINS
 
 
 # EPIC 2 Evaluation module — benchmark_matrix and hardware_profile contracts.
@@ -5194,6 +5191,8 @@ if(THEMIS_BUILD_RETRIEVAL AND EXISTS "${THEMIS_ROOT_DIR}/src/retrieval/CMakeList
         add_subdirectory(${THEMIS_ROOT_DIR}/src/retrieval
                          ${CMAKE_CURRENT_BINARY_DIR}/src/retrieval)
     endif()
+endif() # THEMIS_BUILD_RETRIEVAL
+
 # Distributed Tensor Artifacts module (EPIC 5428) is community-visible and
 # must be available outside enterprise-plugin builds as well.
 if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND

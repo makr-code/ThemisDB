@@ -414,6 +414,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
             } catch (...) {
+                THEMIS_WARN("async_job_api_handler: unhandled exception caught");
                 {
                     std::lock_guard<std::mutex> rlock(job->mu);
                     job->error      = "unknown error during async AQL execution";

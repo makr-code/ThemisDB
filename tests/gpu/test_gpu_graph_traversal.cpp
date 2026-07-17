@@ -10,6 +10,7 @@
 #include "graph/gpu_traversal.h"
 #include "graph/graph_query_optimizer.h"
 #include "index/graph_index.h"
+#include "observability/metrics_collector.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <algorithm>
@@ -253,6 +254,59 @@ TEST_F(GPUGraphTraversalTest, BFS_UsedCPUFallback_IsTrue) {
     auto res = trav_->bfs("A");
     ASSERT_TRUE(res.has_value());
     EXPECT_TRUE(res->used_cpu_fallback);
+}
+
+TEST_F(GPUGraphTraversalTest, BFS_NegativeMaxDepth_ReturnsInvalidInputAndMetric) {
+    auto& metrics = themis::observability::MetricsCollector::getInstance();
+    metrics.reset();
+
+    loadGraph();
+    themis::graph::GPUGraphTraversal::Config cfg;
+    cfg.max_depth = -1;
+
+    auto res = trav_->bfs("A", cfg);
+    EXPECT_FALSE(res.has_value());
+    EXPECT_EQ(res.error().code(), themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+
+    const auto exported = metrics.getPrometheusMetrics();
+    EXPECT_NE(exported.find("graph_acceleration_routes_total"), std::string::npos);
+    EXPECT_NE(exported.find("operation=\"bfs\""), std::string::npos);
+    EXPECT_NE(exported.find("route=\"rejected\""), std::string::npos);
+    EXPECT_NE(exported.find("reason=\"invalid_config\""), std::string::npos);
+}
+
+TEST_F(GPUGraphTraversalTest, DFS_NegativeGpuDevice_ReturnsInvalidInputAndMetric) {
+    auto& metrics = themis::observability::MetricsCollector::getInstance();
+    metrics.reset();
+
+    loadGraph();
+    themis::graph::GPUGraphTraversal::Config cfg;
+    cfg.gpu_device = -1;
+
+    auto res = trav_->dfs("A", cfg);
+    EXPECT_FALSE(res.has_value());
+    EXPECT_EQ(res.error().code(), themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+
+    const auto exported = metrics.getPrometheusMetrics();
+    EXPECT_NE(exported.find("graph_acceleration_routes_total"), std::string::npos);
+    EXPECT_NE(exported.find("operation=\"dfs\""), std::string::npos);
+    EXPECT_NE(exported.find("route=\"rejected\""), std::string::npos);
+    EXPECT_NE(exported.find("reason=\"invalid_config\""), std::string::npos);
+}
+
+TEST_F(GPUGraphTraversalTest, BFS_EmitsCpuRouteMetricWhenGpuUnavailable) {
+    auto& metrics = themis::observability::MetricsCollector::getInstance();
+    metrics.reset();
+
+    loadGraph();
+    auto res = trav_->bfs("A");
+    ASSERT_TRUE(res.has_value());
+
+    const auto exported = metrics.getPrometheusMetrics();
+    EXPECT_NE(exported.find("graph_acceleration_routes_total"), std::string::npos);
+    EXPECT_NE(exported.find("operation=\"bfs\""), std::string::npos);
+    EXPECT_NE(exported.find("route=\"cpu\""), std::string::npos);
+    EXPECT_NE(exported.find("reason=\"gpu_unavailable\""), std::string::npos);
 }
 
 // ---------------------------------------------------------------------------

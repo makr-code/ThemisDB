@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "wave": "9",
+  "description": "Wave 9 Security Hardening, SLA Compliance & Chaos Fault Tolerance Performance Gates.",
+  "effective_date": "2026-07-17",
+  "owners": ["platform-perf@themisdb"],
+
+  "baseline_freeze": {
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "preset": "linux-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04"
+  },
+
+  "seed": 42,
+  "warmup_iterations": 500,
+  "repetitions": 5,
+  "min_sample_size": 30,
+
+  "hard_gates": [
+    {
+      "id": "GATE-W9-01",
+      "benchmark": "W9A/SOA08_ConcurrentAuditWrite_P99Gate_100k",
+      "metric": "items_per_second",
+      "threshold": 100000,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "Concurrent audit log write throughput must sustain ≥ 100 000 ops/s.",
+      "rationale": "Audit logging is on the hot write path in security-hardened deployments; below 100 k ops/s, write-heavy workloads lose audit coverage under peak load."
+    },
+    {
+      "id": "GATE-W9-02",
+      "benchmark": "W9A/SOA01_AuthTokenValidation_Throughput",
+      "metric": "latency_p99_us",
+      "threshold": 150,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Auth token validation p99 must not exceed 150 µs.",
+      "rationale": "Auth validation is on every request path; p99 > 150 µs adds perceptible latency to interactive workloads and violates the W9 auth SLA."
+    },
+    {
+      "id": "GATE-W9-03",
+      "benchmark": "W9C/CFR04_NodeRestartRejoin_CycleLatency",
+      "metric": "latency_p99_us",
+      "threshold": 2000,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Node restart and cluster rejoin cycle must complete within 2000 µs.",
+      "rationale": "RTO for a single-node restart must be under 2 ms for the cluster to maintain quorum without client-visible disruption."
+    },
+    {
+      "id": "GATE-W9-04",
+      "benchmark": "W9B/SMC04_RTOSimulation_RecoveryCycleLatency",
+      "metric": "latency_p99_us",
+      "threshold": 5000,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "RTO simulation recovery cycle must complete within 5 000 µs (5 ms).",
+      "rationale": "SLA contract requires recovery within 3 cycles; each cycle must stay under 5 ms to meet the overall RTO budget."
+    },
+    {
+      "id": "GATE-W9-05",
+      "benchmark": "W9D/MTI08_MultiTenantGate_SelfCheck",
+      "metric": "triage_completeness",
+      "threshold": 1.0,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "Multi-tenant isolation gate self-check must report triage_completeness = 1.0.",
+      "rationale": "Benchmarks without gate_passed counters produce no CI signal; 100% coverage required for all W9 gate IDs."
+    },
+    {
+      "id": "GATE-W9-06",
+      "benchmark": "W9D/MTI07_TenantAwareConcurrentWrite_Throughput",
+      "metric": "items_per_second",
+      "threshold": 60000,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "Multi-tenant concurrent write throughput must sustain ≥ 60 000 ops/s.",
+      "rationale": "Cross-tenant write throughput floor ensures that tenant-namespace overhead does not degrade write performance beyond the W9 SLA threshold."
+    }
+  ],
+
+  "soft_gates": [
+    {
+      "id": "SGATE-W9-01",
+      "benchmark": "W9B/SMC02_P99LatencyMeasurement_Overhead",
+      "metric": "cv_percent",
+      "threshold": 5.0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "p99 latency measurement CV should stay below 5%.",
+      "rationale": "High CV in the p99 estimator masks real SLA compliance signals."
+    },
+    {
+      "id": "SGATE-W9-02",
+      "benchmark": "W9C/CFR05_WriteStorm_CompletionTime",
+      "metric": "throughput_drift_pct",
+      "threshold": 8.0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Write-storm completion time must not drift more than 8% across repetitions.",
+      "rationale": "High variance in write-storm completion indicates scheduling or lock-contention instability."
+    },
+    {
+      "id": "SGATE-W9-03",
+      "benchmark": "W9A/SOA06_NonceStoreLookup_Throughput",
+      "metric": "key_mismatches",
+      "threshold": 0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Nonce store must produce zero false-negative lookups.",
+      "rationale": "Any false negative in the nonce store would allow a replay attack to succeed."
+    }
+  ],
+
+  "regression_policy": {
+    "tolerance_percent": 5.0,
+    "min_regressions_for_block": 1,
+    "auto_ticket_on_hard_gate_failure": true,
+    "ci_action_on_hard_gate_failure": "block_merge",
+    "ci_action_on_soft_gate_failure": "warn_and_continue",
+    "report_output": "benchmarks/results/wave9/gate_report.json",
+    "regression_tickets_output": "benchmarks/results/wave9/regression_tickets.json"
+  },
+
+  "known_limitations": [
+    "SOA-01 auth validation uses an in-process FNV-1a hash rather than a real HMAC; production values will differ when a hardware crypto accelerator is in use.",
+    "SMC-04 RTO simulation uses logical step counts, not wall-clock time; actual recovery latency depends on network and disk I/O not captured here.",
+    "CFR-04 node rejoin uses in-process map copy; real rejoin involves WAL replay and network handshake not captured in this benchmark.",
+    "MTI-07 concurrent writes use a std::mutex-guarded map; production isolation may use separate RocksDB column families with different contention characteristics.",
+    "MTI-08 triage_completeness of 1.0 is asserted by count; tooling must verify each benchmark executable at release time."
+  ]
+}

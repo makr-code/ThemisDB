@@ -17,7 +17,28 @@ jobs:
       - name: Setup prerequisites
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake ninja-build
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            ninja-build \
+            pkg-config \
+            librocksdb-dev \
+            libgtest-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libzstd-dev \
+            libfmt-dev \
+            libspdlog-dev \
+            nlohmann-json3-dev \
+            libtbb-dev \
+            libyaml-cpp-dev \
+            libmimalloc-dev \
+            libcurl4-openssl-dev \
+            libboost-system-dev \
+            libboost-filesystem-dev \
+            libgrpc++-dev \
+            libprotobuf-dev \
+            protobuf-compiler-grpc
 
       - name: Configure (community-release)
         run: |
@@ -120,9 +141,31 @@ jobs:
       - name: Setup prerequisites
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            build-essential cmake ninja-build \
-            rpm dpkg-dev file
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            ninja-build \
+            pkg-config \
+            rpm \
+            dpkg-dev \
+            file \
+            librocksdb-dev \
+            libgtest-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libzstd-dev \
+            libfmt-dev \
+            libspdlog-dev \
+            nlohmann-json3-dev \
+            libtbb-dev \
+            libyaml-cpp-dev \
+            libmimalloc-dev \
+            libcurl4-openssl-dev \
+            libboost-system-dev \
+            libboost-filesystem-dev \
+            libgrpc++-dev \
+            libprotobuf-dev \
+            protobuf-compiler-grpc
 
       - name: Configure (community-release)
         run: cmake --preset community-release

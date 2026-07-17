@@ -27,9 +27,11 @@
 // the underlying hardware.
 
 #include "graph/gpu_traversal.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <chrono>
+#include <optional>
 #include <queue>
 #include <unordered_set>
 #include <vector>
@@ -64,6 +66,24 @@ bool probeGPUAvailability(int /*device*/) noexcept {
 #else
     return false;
 #endif
+}
+
+void recordTraversalRoute(std::string_view operation, std::string_view route, std::string_view reason) {
+    observability::MetricsCollector::getInstance().addCounter(
+        "graph_acceleration_routes_total", 1,
+        {{"operation", std::string(operation)},
+         {"route", std::string(route)},
+         {"reason", std::string(reason)}});
+}
+
+std::optional<std::string> validateTraversalConfig(const GPUGraphTraversal::Config &config) {
+    if (config.gpu_device < 0) {
+        return "GPUGraphTraversal requires a non-negative gpu_device index";
+    }
+    if (config.max_depth < 0) {
+        return "GPUGraphTraversal requires a non-negative max_depth";
+    }
+    return std::nullopt;
 }
 
 } // anonymous namespace
@@ -265,11 +285,15 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
     }
 
     const bool can_use_gpu = gpu_available_ && vertex_count_ >= config.min_vertices_for_gpu;
+    const std::string cpu_route_reason =
+        can_use_gpu ? "gpu_kernel_fallback"
+                    : (gpu_available_ ? "graph_below_threshold" : "gpu_unavailable");
 
     if (can_use_gpu) {
         std::vector<int> gpu_dist;
         if (runBFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_dist)) {
             result.used_cpu_fallback = false;
+            recordTraversalRoute("bfs", "gpu", "hardware_accelerated");
 
             std::vector<std::pair<int, uint32_t>> ordered;
             ordered.reserve(gpu_dist.size());
@@ -304,6 +328,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
             return result;
         }
     }
+
+    recordTraversalRoute("bfs", "cpu", cpu_route_reason);
 
     std::vector<uint32_t> current_frontier;
     current_frontier.push_back(start_id);
@@ -382,6 +408,9 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
     }
 
     const bool can_use_gpu = gpu_available_ && vertex_count_ >= config.min_vertices_for_gpu;
+    const std::string cpu_route_reason =
+        can_use_gpu ? "gpu_kernel_fallback"
+                    : (gpu_available_ ? "graph_below_threshold" : "gpu_unavailable");
 
     TraversalResult result;
     result.used_cpu_fallback = true;
@@ -390,6 +419,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
         std::vector<int> gpu_order;
         if (runDFSCudaIfAvailable(row_offsets_, column_indices_, start_id, forbidden_mask, config, result, gpu_order)) {
             result.used_cpu_fallback = false;
+            recordTraversalRoute("dfs", "gpu", "hardware_accelerated");
 
             std::vector<std::pair<int, uint32_t>> ordered;
             ordered.reserve(gpu_order.size());
@@ -412,6 +442,8 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
             return result;
         }
     }
+
+    recordTraversalRoute("dfs", "cpu", cpu_route_reason);
 
     // Stack holds (vertex_id, depth)
     std::vector<std::pair<uint32_t, int>> stack;
@@ -472,13 +504,19 @@ Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(const std::str
 
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(const std::string &start_vertex,
                                                                   const Config &config) {
+    if (const auto config_error = validateTraversalConfig(config); config_error.has_value()) {
+        recordTraversalRoute("bfs", "rejected", "invalid_config");
+        return Err<TraversalResult>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, *config_error);
+    }
     if (vertex_count_ == 0) {
+        recordTraversalRoute("bfs", "rejected", "graph_not_loaded");
         return Err<TraversalResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                                     "GPUGraphTraversal::bfs: graph not loaded — call load() first");
     }
 
     auto opt_id = findVertexId(start_vertex);
     if (!opt_id) {
+        recordTraversalRoute("bfs", "rejected", "unknown_start_vertex");
         return Err<TraversalResult>(errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
                                     "BFS start vertex not found: " + start_vertex);
     }
@@ -496,13 +534,19 @@ Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(const std::str
 
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(const std::string &start_vertex,
                                                                   const Config &config) {
+    if (const auto config_error = validateTraversalConfig(config); config_error.has_value()) {
+        recordTraversalRoute("dfs", "rejected", "invalid_config");
+        return Err<TraversalResult>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, *config_error);
+    }
     if (vertex_count_ == 0) {
+        recordTraversalRoute("dfs", "rejected", "graph_not_loaded");
         return Err<TraversalResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                                     "GPUGraphTraversal::dfs: graph not loaded — call load() first");
     }
 
     auto opt_id = findVertexId(start_vertex);
     if (!opt_id) {
+        recordTraversalRoute("dfs", "rejected", "unknown_start_vertex");
         return Err<TraversalResult>(errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
                                     "DFS start vertex not found: " + start_vertex);
     }

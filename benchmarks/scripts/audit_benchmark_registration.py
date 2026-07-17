@@ -47,6 +47,16 @@ def normalize_cpp_token(token: str, cmake_dir: Path) -> str | None:
         return None
 
 
+NAMED_REGISTRATION_PATTERNS = [
+    # themis_add_standard_benchmark(target source.cpp)
+    r"themis_add_standard_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*\)",
+    # wave5_add_benchmark(target source.cpp label)
+    r"wave5_add_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*[^\)]*\)",
+    # add_w7_benchmark(target source.cpp)
+    r"add_w7_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*\)",
+]
+
+
 def collect_registered_sources() -> set[str]:
     registered: set[str] = set()
 
@@ -54,13 +64,11 @@ def collect_registered_sources() -> set[str]:
         cmake_dir = cmake_file.parent.resolve()
         text = cmake_file.read_text(encoding="utf-8", errors="ignore")
 
-        for match in re.finditer(
-            r"themis_add_standard_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*\)",
-            text,
-        ):
-            normalized = normalize_cpp_token(match.group(1), cmake_dir)
-            if normalized:
-                registered.add(normalized)
+        for pattern in NAMED_REGISTRATION_PATTERNS:
+            for match in re.finditer(pattern, text):
+                normalized = normalize_cpp_token(match.group(1), cmake_dir)
+                if normalized:
+                    registered.add(normalized)
 
         for match in re.finditer(r"add_executable\(\s*[^\s\)]+(.*?)\)", text, re.S):
             for token in re.findall(r"([A-Za-z0-9_./${}-]+\.cpp)", match.group(1)):

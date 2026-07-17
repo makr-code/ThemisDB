@@ -83,3 +83,42 @@ foreach(_src IN LISTS ACCELERATION_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS acceleration autogen
     )
 endforeach()
+# ---------------------------------------------------------------------------
+# ZludaKernelFn bridge tests (P4 -- ZLUDA-Backend Bridge API)
+# Compiled with THEMIS_ENABLE_ZLUDA=1 so the bridge code is reachable without
+# requiring real ZLUDA/AMD GPU hardware.
+# ---------------------------------------------------------------------------
+if(NOT TARGET test_zluda_backend_bridge)
+    add_executable(test_zluda_backend_bridge
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_zluda_backend.cpp
+        ${THEMIS_ROOT_DIR}/src/acceleration/zluda_backend.cpp
+    )
+
+    target_include_directories(test_zluda_backend_bridge PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_zluda_backend_bridge PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_zluda_backend_bridge PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_ZLUDA=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE acceleration
+        NAME ZludaBackendBridgeTests
+        TARGET test_zluda_backend_bridge
+        TIER unit
+        TIMEOUT 60
+        LABELS acceleration zluda bridge-injection thread-safety
+    )
+
+    message(STATUS "ZLUDA backend bridge tests registered (THEMIS_ENABLE_ZLUDA=1, no GPU required)")
+endif()

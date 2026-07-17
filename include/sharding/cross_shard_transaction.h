@@ -769,6 +769,8 @@ private:
 
     /// Injected 3PC PreCommit RPC callback (CST-6).
     /// Protected by callbacks_mutex_.
+    /// Contract: must not throw; missing callback causes execute3PC() to fail closed.
+    /// → See docs/architecture/transaction_coordinators.md §4.2 for the full callback contract.
     PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
 
     DeferredPreCommitFn deferred_precommit_callback_;///< Optional callback for deferred PreCommit retry.

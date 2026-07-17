@@ -1549,44 +1549,50 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
 
-### Phase 6 Extended Scanners (Q3-Q4 2026) — 🟠 IN PROGRESS
+### Phase 6 Extended Scanners (Q3-Q4 2026) — ✅ COMPLETE 2026-07-13
 
 **Objective:** Implement 5 new advanced scanners (8 weeks + 1 integration, ~1,480 LOC, 48–55 detection patterns)
 
 | ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Timeline | Status |
 |----|---------|---------|----------|-----|-----------|----------|----------|--------|
 | P6-1 | ABI Safety & Memory Layout | CWE-400/401 | 8–10 | 320 | HIGH | 🟠 High | Week 1-2 | ✅ Done 2026-07-06 |
-| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 | ⬜ Next |
-| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 | ⬜ Planned |
+| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 | ✅ Done 2026-07-13 |
+| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 | ✅ Done 2026-07-13 |
 | P6-4 | Build System Hardening | Build safety | 6–8 | 280 | MEDIUM | 🟡 Medium | Week 1-2 | ✅ Done 2026-07-06 |
-| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 | ⬜ Planned |
-| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** | |
+| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 | ✅ Done 2026-07-13 |
+| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** | ✅ **COMPLETE** |
 
-**Expected Results:**
-- Phase 1-6 Projection: 187,390–188,390 → **193,390–198,390 gaps** (+6,000–10,000)
-- Coverage increase: 18 scanners (Phase 1-4: 8 + Phase 5: 5 + Phase 6: 5)
-- All 65 modules re-scanned with full Phase 1-6 suite
-- Effort estimate: ~3,850–4,000 weeks to fix all gaps (Phase 1-6 total)
+**Delivered Results:**
+- Phase 1-6 scanner suite: 18 scanners active (Phase 1-4: 8 + Phase 5: 5 + Phase 6: 5)
+- Implementation: gs3_step04_design_const_correctness.py, gs3_step04_design_template_meta.py, gs3_step04_design_ownership_lifetime.py
+- Test coverage: test_phase6_sprint34_scanners.py, test_phase6_sprint56_scanners.py
+- All 65 modules ready for Phase 1-10 suite scanning
+- Integrated with Phase 7-10 scanners (27 total scanners)
 
 **Detailed Design & Sprint Breakdown:** [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
 
-### Module Hardening — Tier 1 (Q3-Q4 2026) — 📋 QUEUED
+### Module Hardening — Tier 1 (Q3-Q4 2026) — 🟠 IN PROGRESS (Started 2026-07-17)
 
 **Objective:** Prioritized hardening of Top 10 critical modules targeting 25% gap reduction
 
-| Rank | Module | Phase 1-5 Gaps | CRITICAL | HIGH | Target Reduction (25%) | Est. Effort |
-|------|--------|---|-------|------|-----|----------|
-| 1 | llm | 19,838 | 3,200 | 16,600 | -4,960 | ~8 weeks |
-| 2 | server | 16,183 | 2,600 | 13,500 | -4,046 | ~7 weeks |
-| 3 | sharding | 9,296 | 1,500 | 7,750 | -2,324 | ~4 weeks |
-| 4 | index | 7,633 | 1,230 | 6,350 | -1,908 | ~4 weeks |
-| 5 | query | 7,327 | 1,180 | 6,130 | -1,832 | ~4 weeks |
-| 6 | storage | 5,892 | 950 | 4,900 | -1,473 | ~3 weeks |
-| 7 | analytics | 4,250 | 680 | 3,550 | -1,063 | ~2 weeks |
-| 8 | rag | 4,100 | 660 | 3,400 | -1,025 | ~2 weeks |
-| 9 | security | 3,814 | 614 | 3,180 | -954 | ~2 weeks |
-| 10 | content | 3,278 | 528 | 2,730 | -820 | ~2 weeks |
-| **Tier 1 Total** | — | **82,611** | **13,142** | **68,090** | **-20,653 (25%)** | **~43 weeks** |
+| Rank | Module | Phase 1-5 Gaps | CRITICAL | HIGH | Target Reduction (25%) | Est. Effort | Status |
+|------|--------|---|-------|------|-----|----------|--------|
+| 1 | llm | 19,838 | 3,200 | 16,600 | -4,960 | ~8 weeks | 🟠 Block A delivered (2026-07-17) |
+| 2 | server | 16,183 | 2,600 | 13,500 | -4,046 | ~7 weeks | ⬜ Queued |
+| 3 | sharding | 9,296 | 1,500 | 7,750 | -2,324 | ~4 weeks | ⬜ Queued |
+| 4 | index | 7,633 | 1,230 | 6,350 | -1,908 | ~4 weeks | ⬜ Queued |
+| 5 | query | 7,327 | 1,180 | 6,130 | -1,832 | ~4 weeks | ⬜ Queued |
+| 6 | storage | 5,892 | 950 | 4,900 | -1,473 | ~3 weeks | ⬜ Queued |
+| 7 | analytics | 4,250 | 680 | 3,550 | -1,063 | ~2 weeks | ⬜ Queued |
+| 8 | rag | 4,100 | 660 | 3,400 | -1,025 | ~2 weeks | ⬜ Queued |
+| 9 | security | 3,814 | 614 | 3,180 | -954 | ~2 weeks | ⬜ Queued |
+| 10 | content | 3,278 | 528 | 2,730 | -820 | ~2 weeks | ⬜ Queued |
+| **Tier 1 Total** | — | **82,611** | **13,142** | **68,090** | **-20,653 (25%)** | **~43 weeks** | — |
+
+**LLM Block A Deliverables (2026-07-17):**
+- `src/llm/llm_client_default.cpp`: stub TODO replaced with LLMPluginManager delegation (plugin path) + deterministic keyword fallback (no-plugin path); random sleep simulation removed
+- `tests/llm/test_llm_hardening_phase4.cpp`: 22 new GTest cases covering CBS-H (backpressure), TQM-H (quota), PCL-H (concurrent policy), SHD-H (shutdown under load)
+- `src/llm/ROADMAP.md`: Phase 4 markers updated to `[~]` in progress
 
 **Strategy:** Root-cause analysis by gap category; shared patterns across modules; parallel fix development by module teams.
 
