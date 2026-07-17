@@ -539,10 +539,10 @@ Audit method:
 - [ ] Team Assignment: Team A (2–3 engineers for Mutations + DDL), Team B (1–2 for DDL after Phase 1), Team C (1 for Geospatial + FTS)
 - [ ] Architecture Review: Present AQL_MUTATIONS_ROADMAP.md to architecture board
 - [ ] GitHub Issues: Convert roadmap checkbox tasks into issues with phase labels
-- [ ] Documentation Updates:
-  - [ ] Mark `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` as v1.3.1 proposal
-  - [ ] Add v2.0.0 disclaimers to `docs/de/aql/aql_syntax.md` (Geospatial LET-only for v1.x)
-  - [ ] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
+- [x] Documentation Updates:
+  - [x] Mark `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` as v1.3.1 proposal
+  - [x] Add v2.0.0 disclaimers to `docs/de/aql/aql_syntax.md` (Geospatial LET-only for v1.x)
+  - [x] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
 - [ ] Feature Branches:
   - [ ] `feature/aql-mutations-phase1` (Tokenizer + AST)
   - [ ] `feature/aql-geospatial-parser` (Parser integration)
