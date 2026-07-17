@@ -50,6 +50,51 @@ enum class ArtifactKind : uint8_t {
 };
 
 // ---------------------------------------------------------------------------
+// RebuildState
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Describes how the artifact was last updated.
+ *
+ * Tracks the lifecycle state of a tensor artifact after the snapshot
+ * update worker processes a delta window.  Used by the planner to
+ * determine confidence in the artifact before use.
+ */
+enum class RebuildState : uint8_t {
+    /// Artifact has never been updated (initial state).
+    INITIAL = 0,
+    /// Artifact was patched (small delta, O(delta_size) cost).
+    PATCHED = 1,
+    /// Artifact underwent selective partial refit.
+    PARTIAL_REFITTED = 2,
+    /// Artifact was fully rebuilt from source graph state.
+    REBUILT = 3,
+    /// Artifact is in an invalid/unknown state; treat as stale.
+    INVALID = 4,
+};
+
+// ---------------------------------------------------------------------------
+// UpdateMode
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Describes the update strategy applied by the snapshot update worker.
+ *
+ * Mirrors @c UpdateDecision but persisted in the manifest so that consumers
+ * can reason about the cost and quality of the last update cycle.
+ */
+enum class UpdateMode : uint8_t {
+    /// No update has been applied yet.
+    NONE = 0,
+    /// Patch was applied (< 10 % delta fraction).
+    PATCH = 1,
+    /// Partial refit was applied (10–50 % delta fraction).
+    PARTIAL_REFIT = 2,
+    /// Full rebuild was performed (> 50 % delta fraction).
+    REBUILD = 3,
+};
+
+// ---------------------------------------------------------------------------
 // ArtifactIntegrity
 // ---------------------------------------------------------------------------
 
@@ -116,6 +161,34 @@ struct ArtifactManifest {
 
     /// Integrity token computed over the artifact payload.
     ArtifactIntegrity integrity;
+
+    // -----------------------------------------------------------------------
+    // Dynamic update lifecycle fields (Phase B+, populated by update worker)
+    // -----------------------------------------------------------------------
+
+    /// Reconstruction quality residual in [0.0, 1.0]; 0.0 = perfect fidelity.
+    /// Values above the configured epsilon_threshold trigger advisory-only mode.
+    double residual = 0.0;
+
+    /// Current TT decomposition rank of the artifact.
+    /// Compared against rank_cap to detect runaway rank growth.
+    uint32_t rank_status = 0;
+
+    /// Maximum allowed TT rank; exceeding this triggers a forced rebuild.
+    uint32_t rank_cap = 256;
+
+    /// State of the artifact after the last update cycle.
+    RebuildState rebuild_state = RebuildState::INITIAL;
+
+    /// Strategy used by the update worker in the last update cycle.
+    UpdateMode update_mode = UpdateMode::NONE;
+
+    /// Sequence number of the last exact-graph commit reflected in this artifact.
+    uint64_t source_seq_end = 0;
+
+    /// Number of exact-graph commits not yet reflected in this artifact.
+    /// High values trigger advisory-only mode in the query planner.
+    uint64_t delta_lag = 0;
 
     /**
      * @brief Freshness age in seconds relative to @p now.
