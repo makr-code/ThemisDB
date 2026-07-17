@@ -24,6 +24,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -61,8 +62,8 @@ enum class ArtifactKind : uint8_t {
  * determine confidence in the artifact before use.
  */
 enum class RebuildState : uint8_t {
-    /// Artifact has never been updated (initial state).
-    INITIAL = 0,
+    /// Artifact has never been updated (pristine/initial state).
+    PRISTINE = 0,
     /// Artifact was patched (small delta, O(delta_size) cost).
     PATCHED = 1,
     /// Artifact underwent selective partial refit.
@@ -92,6 +93,44 @@ enum class UpdateMode : uint8_t {
     PARTIAL_REFIT = 2,
     /// Full rebuild was performed (> 50 % delta fraction).
     REBUILD = 3,
+};
+
+// ---------------------------------------------------------------------------
+// RebuildStateUtils
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Utility functions for @c RebuildState enum conversions.
+ */
+struct RebuildStateUtils {
+    /// Convert a @c RebuildState value to its canonical string representation.
+    /// @param state  Value to convert.
+    /// @return       Non-empty string; "UNKNOWN" for unrecognised values.
+    static std::string stateToString(RebuildState state);
+
+    /// Parse a canonical string back to a @c RebuildState value.
+    /// @param state_str  String produced by stateToString().
+    /// @return           Parsed value, or std::nullopt on failure.
+    static std::optional<RebuildState> stringToState(const std::string& state_str);
+};
+
+// ---------------------------------------------------------------------------
+// UpdateModeUtils
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Utility functions for @c UpdateMode enum conversions.
+ */
+struct UpdateModeUtils {
+    /// Convert an @c UpdateMode value to its canonical string representation.
+    /// @param mode  Value to convert.
+    /// @return      Non-empty string; "unknown" for unrecognised values.
+    static std::string modeToString(UpdateMode mode);
+
+    /// Parse a canonical string back to an @c UpdateMode value.
+    /// @param mode_str  String produced by modeToString().
+    /// @return          Parsed value, or std::nullopt on failure.
+    static std::optional<UpdateMode> stringToMode(const std::string& mode_str);
 };
 
 // ---------------------------------------------------------------------------
@@ -178,10 +217,13 @@ struct ArtifactManifest {
     uint32_t rank_cap = 256;
 
     /// State of the artifact after the last update cycle.
-    RebuildState rebuild_state = RebuildState::INITIAL;
+    RebuildState rebuild_state = RebuildState::PRISTINE;
 
     /// Strategy used by the update worker in the last update cycle.
     UpdateMode update_mode = UpdateMode::NONE;
+
+    /// Sequence number of the first exact-graph commit covered by this artifact.
+    uint64_t source_seq_start = 0;
 
     /// Sequence number of the last exact-graph commit reflected in this artifact.
     uint64_t source_seq_end = 0;
@@ -189,6 +231,52 @@ struct ArtifactManifest {
     /// Number of exact-graph commits not yet reflected in this artifact.
     /// High values trigger advisory-only mode in the query planner.
     uint64_t delta_lag = 0;
+
+    /// Unix timestamp (seconds) when the artifact was last fully rebuilt.
+    /// 0 means the artifact has never been rebuilt; used by staleness detection.
+    int64_t last_rebuild_at_unix_sec = 0;
+
+    /// Unix timestamp (seconds) when this manifest entry was last verified.
+    /// 0 means never verified; used by @c isStale() to classify freshness.
+    int64_t last_verified_unix_sec = 0;
+
+    /// Maximum allowed age (seconds) before the artifact is considered stale.
+    /// 0 disables threshold-based staleness (artifact is always fresh by age).
+    int64_t staleness_threshold_sec = 0;
+
+    /**
+     * @brief True when this entry has exceeded its staleness threshold.
+     *
+     * Uses @p last_verified_unix_sec and @p staleness_threshold_sec.
+     * Returns false when threshold is 0 (disabled) or @p now_unix_sec is 0.
+     *
+     * @param now_unix_sec  Current time as Unix timestamp (seconds).
+     * @return              true if the entry is stale.
+     */
+    [[nodiscard]] bool isStale(int64_t now_unix_sec) const noexcept {
+        if (staleness_threshold_sec == 0) {
+            return false;
+        }
+        if (last_verified_unix_sec == 0) {
+            return true;  // never verified → treat as stale
+        }
+        return (now_unix_sec - last_verified_unix_sec) > staleness_threshold_sec;
+    }
+
+    /**
+     * @brief True when integrity verification has detected corruption.
+     *
+     * The check relies on the lightweight @c ArtifactIntegrity token.
+     * Returns false when no integrity token is present (token not computed).
+     *
+     * @return true if the CRC token is set but the payload_bytes field
+     *         indicates a mismatch with expected values.
+     */
+    [[nodiscard]] bool isCorrupted() const noexcept {
+        // Conservative: only flag as corrupted when a non-zero CRC exists
+        // but payload_bytes is unexpectedly zero (sentinel for corruption).
+        return integrity.crc32 != 0 && integrity.payload_bytes == 0;
+    }
 
     /**
      * @brief Freshness age in seconds relative to @p now.

@@ -4564,6 +4564,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/bench_tensor_dynamic_update.cpp" A
         Threads::Threads
     )
     target_compile_features(bench_tensor_dynamic_update PRIVATE cxx_std_17)
+    themis_apply_benchmark_release_flags(bench_tensor_dynamic_update)
     message(STATUS "Adding benchmark: bench_tensor_dynamic_update (BDU-01..10, sub-issue #5472)")
 endif()
 
