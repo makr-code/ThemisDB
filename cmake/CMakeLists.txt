@@ -5174,6 +5174,18 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     endif()
 endif()
 
+
+# EPIC 2 Evaluation module — benchmark_matrix and hardware_profile contracts.
+# Issue #5438: EPIC 2.2 benchmark matrix implementation.
+# Available in all editions (not enterprise-only).
+option(THEMIS_BUILD_EVALUATION "Build the EPIC 2 evaluation module (BenchmarkMatrix / HardwareProfile)" ON)
+if(THEMIS_BUILD_EVALUATION AND EXISTS "${THEMIS_ROOT_DIR}/src/evaluation/CMakeLists.txt")
+    if(NOT TARGET themis_evaluation)
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/evaluation
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/evaluation)
+    endif()
+endif()
+
 # EPIC 1 Retrieval module — available in all editions (not enterprise-only).
 # Builds themis_retrieval; opt out by passing -DTHEMIS_BUILD_RETRIEVAL=OFF.
 option(THEMIS_BUILD_RETRIEVAL "Build the EPIC 1 retrieval module (LoRAPackage / PortableAdapterProduct)" ON)
