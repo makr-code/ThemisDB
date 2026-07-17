@@ -62,10 +62,56 @@ else()
     message(STATUS "EPIC3 ManifestStore tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 endif()
 
-# ── TensorDeltaLog tests (sub-issue #5472, TDL-01..18) ──────────────────────
+# ── Lifecycle & Staleness Management tests (issue #5442, LSM-01..31) ──────────
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_lifecycle_staleness_management.cpp")
+    message(STATUS "Adding EPIC3: Lifecycle & Staleness Management tests (LSM-01..31)")
+
+    add_executable(test_lifecycle_staleness_management
+        test_lifecycle_staleness_management.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_invalidation.cc
+    )
+
+    target_include_directories(test_lifecycle_staleness_management PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lifecycle_staleness_management PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lifecycle_staleness_management PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(COMMAND themis_register_module_focused_test)
+        themis_register_module_focused_test(
+            MODULE distributed_tensor
+            NAME LifecycleStalenessManagementTests
+            TARGET test_lifecycle_staleness_management
+            TIER unit
+            TIMEOUT 60
+            LABELS distributed_tensor lifecycle staleness advisory-only
+        )
+    else()
+        add_test(NAME LifecycleStalenessManagementTests COMMAND test_lifecycle_staleness_management)
+    endif()
+
+    message(STATUS "  Lifecycle: state machine, staleness, invalidation, advisory-only (LSM-01..31)")
+else()
+    message(STATUS "EPIC3 Lifecycle tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_lifecycle_staleness_management.cpp")
+endif()
+
+# ── Phase A Tensor Delta Log tests (TDL-01..18) ────────────────────────────
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
-    message(STATUS "Adding EPIC5518: TensorDeltaLog tests (TDL-01..18)")
+    message(STATUS "Adding EPIC3: Phase A Tensor Delta Log tests (TDL-01..18)")
 
     add_executable(test_tensor_delta_log
         test_tensor_delta_log.cpp
@@ -89,119 +135,70 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    target_compile_features(test_tensor_delta_log PRIVATE cxx_std_17)
-
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
             MODULE distributed_tensor
-            NAME TensorDeltaLogTests
+            NAME TensorDeltaLogPhaseATests
             TARGET test_tensor_delta_log
             TIER unit
             TIMEOUT 60
-            LABELS distributed_tensor tensor_delta_log dynamic_update hybrid_retrieval
+            LABELS distributed_tensor tensor_delta_log phase-a phase-b
         )
     else()
-        add_test(NAME TensorDeltaLogTests COMMAND test_tensor_delta_log)
+        add_test(NAME TensorDeltaLogPhaseATests COMMAND test_tensor_delta_log)
     endif()
 
-    message(STATUS "  TDL: append, extractWindow, serialization, GC, stats (TDL-01..18)")
+    message(STATUS "  TensorDeltaLog: append, window extraction, serialization, GC, retention (TDL-01..18)")
 else()
-    message(STATUS "EPIC5518 TensorDeltaLog tests not found")
+    message(STATUS "EPIC3 TensorDeltaLog tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
 endif()
 
-# ── SnapshotBasedUpdateWorker tests (sub-issue #5472, TUW-01..15) ────────────
-
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_update_worker.cpp")
-    message(STATUS "Adding EPIC5518: SnapshotBasedUpdateWorker tests (TUW-01..15)")
-
-    add_executable(test_tensor_update_worker
-        test_tensor_update_worker.cpp
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/stale_artifact_detector.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/error_recovery_handler.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/distributed_lock_manager.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_invalidation.cc
-    )
-
-    target_include_directories(test_tensor_update_worker PRIVATE
-        ${THEMIS_ROOT_DIR}
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_tensor_update_worker PRIVATE
-        ${TEST_LIBS}
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_tensor_update_worker PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    target_compile_features(test_tensor_update_worker PRIVATE cxx_std_17)
-
-    if(COMMAND themis_register_module_focused_test)
-        themis_register_module_focused_test(
-            MODULE distributed_tensor
-            NAME TensorUpdateWorkerTests
-            TARGET test_tensor_update_worker
-            TIER unit
-            TIMEOUT 60
-            LABELS distributed_tensor tensor_update_worker dynamic_update hybrid_retrieval
-        )
-    else()
-        add_test(NAME TensorUpdateWorkerTests COMMAND test_tensor_update_worker)
-    endif()
-
-    message(STATUS "  TUW: lifecycle, decideStrategy, processTask, thresholds (TUW-01..15)")
-else()
-    message(STATUS "EPIC5518 TensorUpdateWorker tests not found")
-endif()
-
-# ── Phase B rebuild-fallback tests ────────────────────────────────────────────
+# ── Phase B Tensor Rebuild Fallback tests (RFB-01..10) ──────────────────────
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
+    message(STATUS "Adding EPIC3: Phase B Tensor Rebuild Fallback tests (RFB-01..10)")
+
     add_executable(test_tensor_rebuild_fallback
         test_tensor_rebuild_fallback.cpp
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/distributed_lock_manager.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/stale_artifact_detector.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/error_recovery_handler.cc
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
     )
 
     target_include_directories(test_tensor_rebuild_fallback PRIVATE
         ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_tensor_rebuild_fallback PRIVATE
         ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
         Threads::Threads
     )
 
-    target_compile_definitions(test_tensor_rebuild_fallback PRIVATE THEMIS_TEST_BUILD=1)
+    target_compile_definitions(test_tensor_rebuild_fallback PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
             MODULE distributed_tensor
-            NAME test_tensor_rebuild_fallback
+            NAME TensorRebuildFallbackPhaseB Tests
             TARGET test_tensor_rebuild_fallback
             TIER unit
             TIMEOUT 60
-            LABELS distributed_tensor phase-b rebuild-fallback
+            LABELS distributed_tensor tensor_update snapshot_worker phase-b
         )
     else()
-        add_test(NAME test_tensor_rebuild_fallback COMMAND test_tensor_rebuild_fallback)
+        add_test(NAME TensorRebuildFallbackPhaseBTests COMMAND test_tensor_rebuild_fallback)
     endif()
+
+    message(STATUS "  SnapshotUpdateWorker: patch/refit/rebuild decisions, fallback, metrics (RFB-01..10)")
+else()
+    message(STATUS "EPIC3 TensorRebuildFallback tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
 endif()
 
 file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
@@ -210,8 +207,8 @@ file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
 )
 
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_manifest_store_phase_a\\.cpp$")
+list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_lifecycle_staleness_management\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_delta_log\\.cpp$")
-list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_update_worker\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_rebuild_fallback\\.cpp$")
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc")

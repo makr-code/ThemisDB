@@ -1,7 +1,7 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-17 -->
+<!-- Status: current | validated: 2026-07-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
@@ -12,16 +12,8 @@ for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
 implemented and verified. Phase 4 broadened contract and fault-path coverage has
 been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
 sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
-planner, infrastructure). Phase 5 benchmark governance assets (workload profiles,
-gate manifest, variance script, runbook, triage docs) are present in
-`benchmarks/epic3_distributed_tensor/`. Benchmark runtime evidence and final
-acceptance documentation remain pending.
-
-**Tensor Storage Strategy Assessment** (issue #5443): quantization, mmap, and
-zero-copy strategy for tensor and adapter artifacts assessed and implemented.
-API (`tensor_storage_strategy.h`), implementation (`tensor_storage_strategy.cc`),
-31 unit tests (QSE/MML/ZCA/SSA), and assessment documentation
-(`TENSOR_STORAGE_STRATEGY_ASSESSMENT.md`) delivered.
+planner, infrastructure). Benchmark evidence and final acceptance documentation
+remain pending.
 
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
@@ -40,39 +32,18 @@ track remain gated.
 - [~] Phase 5: Adapter-Distribution & Sharding-Kopplung — LoRA artifact distribution interfaces,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, and recovery ordering (Issue #5418, Target: Q3 2026)
 - [~] tensor artifact manifest schema: ArtifactManifest + ManifestStore wiring (Target: Q3 2026)
+- [x] derived-artifact lifecycle and staleness management: LifecycleState FSM, ArtifactClassifier, manifest fields, invalidation manager (issue #5442, Target: Q3 2026)
 - [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
-- [x] phase-5 benchmark metadata scaffold and hardening gates in `benchmarks/epic3_distributed_tensor/` (Target: Q3 2026)
 
 ## Planned Features
-
-### Quantization, mmap, and Zero-Copy Storage Strategy (Issue #5443)
-
-- [x] Design: quantization level evaluation matrix and API contract (Target: Q3 2026)
-- [x] Design: mmap/zero-copy API design — MmapRegion, MmapLoader, ZeroCopyAccessor (Target: Q3 2026)
-- [x] Phase 1: `include/distributed_tensor/tensor_storage_strategy.h` — full public API (Target: Q3 2026)
-- [x] Phase 2: `src/distributed_tensor/src/tensor_storage_strategy.cc` — POSIX/Windows mmap loader,
-  QuantizationAssessor, StorageStrategyAssessor (Target: Q3 2026)
-- [x] Phase 3: Error handling — FILE_NOT_FOUND, PERMISSION_DENIED, empty files, unsupported platform,
-  non-calibrated INT8/INT4, memory-budget fallback (Target: Q3 2026)
-- [x] Phase 4: 31 unit tests (QSE-01..10, MML-01..08, ZCA-01..06, SSA-01..06) in
-  `tests/epic3_distributed_tensor/test_tensor_storage_strategy.cpp` (Target: Q3 2026)
-- [x] Phase 5: Performance documentation: mmap vs read() trade-offs, quantization compression table
-  (`TENSOR_STORAGE_STRATEGY_ASSESSMENT.md`) (Target: Q3 2026)
-- [x] Phase 6: Assessment document with production recommendations
-  (`src/distributed_tensor/TENSOR_STORAGE_STRATEGY_ASSESSMENT.md`) (Target: Q3 2026)
-- [ ] Phase 7: Wire `StorageStrategyAssessor::assess()` into `ManifestStore::store()` artifact registration (Target: Q4 2026)
-- [ ] Phase 7: Wire `MmapLoader` into the tensor fetch path for zero-copy consumer delivery (Target: Q4 2026)
-- [ ] Phase 7: Expose `QuantizationLevel` as a field in `ArtifactManifest` for Phase B+ tracking (Target: Q4 2026)
-- [ ] INT4 de-quantization (nibble-unpack) path — follow-on after Phase B (Target: Q4 2026)
-- [ ] Direct I/O (`O_DIRECT`) load path for cache-bypass workloads (Target: Q4 2026)
 
 ### Tensor-Update Infrastructure Track (issue #5468)
 
 #### Phase A — Exact-First Infrastructure (Q3 2026, start)
-- [~] tensor delta log schema (Target: Q3 2026)
+- [ ] tensor delta log schema (Target: Q3 2026)
 - [x] manifest schema committed with advisory-only artifact policy documented (Target: Q3 2026)
 - [x] Prometheus freshness metrics wired (`tensor_freshness_age_seconds`, `tensor_delta_log_entries_total`) (Target: Q3 2026)
-- [~] snapshot-based rebuild worker (Target: Q3 2026)
+- [ ] snapshot-based rebuild worker (Target: Q3 2026)
 - [ ] exact graph fallback guarantee documented and tested (Target: Q3 2026)
 
 #### Phase B — Local Tensor Maintenance (Q3 2026, weeks 6–9)
@@ -115,6 +86,9 @@ track remain gated.
 - [x] EPIC 3.4 (Integrity Model) contract ownership mapped and documented
 - [x] tensor-update rollout track staged (Phases A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md`
 - [x] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
+- [x] derived-artifact lifecycle model: `LifecycleState` (READY/STALE/INVALIDATED/REBUILDING/FAILED), `TruthSemantic`, `ArtifactClass`, `RebuildState`, `UpdateMode`, `InvalidationReason` defined in `artifact_manifest.h` (issue #5442, Target: Q3 2026)
+- [x] manifest lifecycle fields defined: `source_seq_start`, `source_seq_end`, `delta_lag`, `artifact_age_ms`, `residual`, `rank_cap`, `lifecycle_state`, `invalidation_reason` (issue #5442, Target: Q3 2026)
+- [x] advisory-only enforcement: `ArtifactClassifier::isValidCombination` prevents DERIVED/EPHEMERAL from acquiring GROUND_TRUTH semantic (issue #5442, Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [x] production translation units and public headers implemented
@@ -123,8 +97,9 @@ track remain gated.
 - [x] deterministic JSON hashing and manifest-facing proof/receipt serialization implemented
 - [x] cached-receipt versus fresh-verification rules documented for query-path consumers
 - [x] 3.4 runtime distributed failure semantics completed across recovery/planner integration
-- [~] Phase A: tensor delta log + manifest store wired (Target: Q3 2026)
-- [~] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026)
+- [x] lifecycle transition helpers (`transitionToRebuilding`, `transitionToReadyAfterRebuild`, `transitionToFailed`) and planner freshness gate helper (`shouldRejectForPlanner`) implemented in `ArtifactInvalidationManager` (issue #5442, Target: Q3 2026)
+- [~] Phase A: tensor delta log + manifest store wired (Target: Q3 2026) [test suite: TDL-01..18, RFB-01..10]
+- [~] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026) [decision logic + execute path]
 - [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
 - [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
 
@@ -144,19 +119,19 @@ track remain gated.
 - [x] receipt chain verification tests (genesis, appends, tampering)
 - [x] integration tests for full verification workflow
 - [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
-- [~] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
-- [~] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
+- [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
+- [~] `test_tensor_delta_log` — Phase A/B ctest gate (Target: Q3 2026) [TDL-01..TDL-18, TDL-A1..A3]
+- [~] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026) [RFB-01..RFB-10, RFB-A1..A5]
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
-- [x] deterministic workload profiles, release-gate manifest, and triage/runbook assets implemented in `benchmarks/epic3_distributed_tensor/`
-- [ ] runtime benchmark source files and measured baselines captured against the distributed tensor implementation
+- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
-- [~] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
+- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
 - [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -174,7 +149,6 @@ track remain gated.
 
 - [x] contract ownership and scope boundaries documented
 - [x] security and performance expectations documented for scaffold phase
-- [x] phase-5 benchmark governance and deterministic gate definitions documented
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
 - [x] runtime resilience hardening completed for Phase 3 safety gates
 - [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
