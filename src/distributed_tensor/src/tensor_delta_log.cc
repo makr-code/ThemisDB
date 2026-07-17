@@ -175,7 +175,7 @@ bool DeltaWindow::isValid() const {
   return true;
 }
 
-std::string DeltaWindow::toJSON() const {
+std::string DeltaWindow::serialize() const {
   std::ostringstream oss;
   oss << artifact_id << "\n"
       << sequence_start << "\n"
@@ -191,10 +191,10 @@ std::string DeltaWindow::toJSON() const {
   return oss.str();
 }
 
-std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
+std::optional<DeltaWindow> DeltaWindow::deserialize(const std::string& data) {
   try {
     DeltaWindow window;
-    std::istringstream iss(json_str);
+    std::istringstream iss(data);
     std::string line;
 
     if (!std::getline(iss, window.artifact_id)) {

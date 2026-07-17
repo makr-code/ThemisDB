@@ -57,8 +57,8 @@ TEST(TensorDeltaLogTest, WindowSerializationRoundTrips) {
     const auto window = log.extractWindow(1, 2);
     ASSERT_TRUE(window.has_value());
 
-    const auto encoded = window->toJSON();
-    const auto decoded = DeltaWindow::fromJSON(encoded);
+    const auto encoded = window->serialize();
+    const auto decoded = DeltaWindow::deserialize(encoded);
     ASSERT_TRUE(decoded.has_value());
     EXPECT_EQ(decoded->artifact_id, "artifact-users");
     EXPECT_EQ(decoded->entries.size(), 2u);

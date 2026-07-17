@@ -158,13 +158,14 @@ struct DeltaWindow {
   /// Checks if window is valid (has entries and consistent sequence ordering).
   bool isValid() const;
 
-  /// Serializes window to JSON string for persistence/transmission.
-  std::string toJSON() const;
+  /// Serializes window to a compact newline-delimited string for persistence/transmission.
+  /// @return Serialized string representation of this window
+  std::string serialize() const;
 
-  /// Deserializes window from JSON string.
-  /// @param json_str JSON string
+  /// Deserializes window from the compact string format produced by serialize().
+  /// @param data Serialized string produced by serialize()
   /// @return Deserialized window on success, std::nullopt on parse error
-  static std::optional<DeltaWindow> fromJSON(const std::string& json_str);
+  static std::optional<DeltaWindow> deserialize(const std::string& data);
 };
 
 /// @brief TensorDeltaLog: Records mutations in exact graph state for tensor artifact updates.

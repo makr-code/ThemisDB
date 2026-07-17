@@ -47,10 +47,10 @@
 ### Phase 4: Tests
 - [x] Neue Pipeline-Tests unter CTest-Label `pipeline_integration` registriert (Target: 2026-Q3)
 - [x] Wave 2 Tests unter CTest-Label `cross_module` + `wave2` registriert (Target: 2026-Q3)
-- [x] Wave 3 Tests unter CTest-Label `wave3` + `w3a|w3b` registriert (Target: 2026-Q3)
-- [x] Wave 5 Tests unter CTest-Label `wave5` + `release_critical` registriert (Target: 2026-Q3)
-- [x] Wave 6 Tests unter CTest-Label `wave6` + `release_candidate|stress_soak|failure_injection` registriert (Target: 2026-Q3)
-- [x] Wave 7 Tests unter CTest-Label `wave7` + `release_critical|endurance|stability_cert` registriert (Target: 2026-Q3)
+- [x] Wave 3 Tests unter CTest-Labels `wave3;w3a` (e2e) und `wave3;w3b` (recovery) registriert (Target: 2026-Q3)
+- [x] Wave 5 Tests unter CTest-Labels `wave5;w5a;release_critical` (e2e) und `wave5;w5b;release_critical` (recovery) registriert (Target: 2026-Q3)
+- [x] Wave 6 Tests unter CTest-Labels `wave6;w6a;release_candidate`, `wave6;w6b;stress_soak`, `wave6;w6c;failure_injection` registriert (Target: 2026-Q3)
+- [x] Wave 7 Tests unter CTest-Labels `wave7;w7a;release_critical`, `wave7;w7b;release_critical;recovery_resilience`, `wave7;w7c;endurance;stability_cert` registriert (Target: 2026-Q3)
 - [x] Offline-Ausführbarkeit über Mocks ohne externe Services sichergestellt (Target: 2026-Q3)
 
 ### Phase 5: Performance/Hardening

@@ -134,7 +134,7 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
     try {
       success = executeRebuild(task.artifact_id, task.delta_window,
                                updated_manifest);
-      if (!success && error_handler_) {
+      if (!success) {
         metrics.error_message =
             "Fallback rebuild failed after update-path error";
       }
