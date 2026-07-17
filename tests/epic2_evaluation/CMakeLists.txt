@@ -1,13 +1,16 @@
-# EPIC 2 evaluation tests — query planner (EPIC 2.5, Phases 2-4) and
+# EPIC 2 evaluation tests — query planner (EPIC 2.5, Phases 2-4),
+# approximation governance rules (EPIC 2.4, Issue #5440), and
 # EPIC 2.2 hardware_profile + benchmark_matrix tests.
 # See docs/EPIC2_QUERY_PLANNER.md and tests/epic2_evaluation/README.md.
 
 # ============================================================================
 # query_planner_test — EPIC 2.5 query planner GTest suite
+# approximation_rules_test — EPIC 2.4 approximation governance GTest suite
 # ============================================================================
 
 set(EPIC2_EVALUATION_TESTS
     query_planner_test.cc
+    approximation_rules_test.cc
 )
 
 # Wire tests when the epic2_evaluation_lib target and GTest are available.
@@ -18,10 +21,19 @@ if(TARGET epic2_evaluation_lib AND TARGET GTest::gtest_main)
         target_include_directories(${test_name} PRIVATE
             ${THEMIS_ROOT_DIR}/src/evaluation
         )
-        target_link_libraries(${test_name} PRIVATE
-            epic2_evaluation_lib
-            GTest::gtest_main
-        )
+        # Base planner library; approximation test also needs approximation lib.
+        if(test_src STREQUAL "approximation_rules_test.cc" AND
+           TARGET epic2_approximation_lib)
+            target_link_libraries(${test_name} PRIVATE
+                epic2_approximation_lib
+                GTest::gtest_main
+            )
+        else()
+            target_link_libraries(${test_name} PRIVATE
+                epic2_evaluation_lib
+                GTest::gtest_main
+            )
+        endif()
         target_compile_features(${test_name} PRIVATE cxx_std_17)
         add_test(NAME ${test_name} COMMAND ${test_name})
     endforeach()

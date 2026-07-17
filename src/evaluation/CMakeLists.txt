@@ -64,3 +64,28 @@ if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
     )
     target_compile_features(epic2_evaluation_lib PUBLIC cxx_std_17)
 endif()
+
+# ============================================================================
+# epic2_approximation_lib — EPIC 2.4 approximation boundary rule engine
+# ============================================================================
+
+set(EVALUATION_APPROXIMATION_HEADERS
+    include/approximation_rules.h
+)
+set(EVALUATION_APPROXIMATION_SOURCES
+    src/approximation_rules.cc
+)
+
+if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
+    add_library(epic2_approximation_lib STATIC
+        ${EVALUATION_APPROXIMATION_SOURCES}
+    )
+    target_include_directories(epic2_approximation_lib PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    target_compile_features(epic2_approximation_lib PUBLIC cxx_std_17)
+    # approximation_rules.cc includes query_planner.h; link the planner lib.
+    if(TARGET epic2_evaluation_lib)
+        target_link_libraries(epic2_approximation_lib PUBLIC epic2_evaluation_lib)
+    endif()
+endif()
