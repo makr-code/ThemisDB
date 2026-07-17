@@ -166,6 +166,12 @@ CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const 
     }
 
     last_result_ = result;
+
+    // C3: Structured hit-rate snapshot telemetry — emitted on every evaluation.
+    THEMIS_DEBUG("{{\"event\":\"hit_rate_snapshot\",\"interval_ms\":0,"
+                 "\"hit_rate\":{:.4f},\"miss_rate\":{:.4f},\"total_requests\":{}}}",
+                 result.hit_rate, (total > 0 ? 1.0 - result.hit_rate : 0.0), total);
+
     return result;
 }
 
@@ -298,6 +304,13 @@ void CacheHitRateSloMonitor::fireAlert(ViolationLevel level, double hit_rate, ui
                 (level == ViolationLevel::CRITICAL ? config_.critical_threshold : config_.warning_threshold),
                 total_requests);
 
+    // C3: Structured SLO breach telemetry event.
+    THEMIS_WARN("{{\"event\":\"slo_breach\",\"slo_threshold\":{:.4f},"
+                "\"actual_hit_rate\":{:.4f},\"level\":\"{}\","
+                "\"cache_name\":\"{}\"}}",
+                (level == ViolationLevel::CRITICAL ? config_.critical_threshold : config_.warning_threshold),
+                hit_rate, violationLevelToString(level), config_.cache_name);
+
     if (alertmanager_) {
         auto send_result = alertmanager_->sendAlert(alert);
         if (!send_result) {
@@ -405,6 +418,14 @@ void CacheHitRateSloMonitor::fireLatencyAlert(ViolationLevel level, double p99_m
 
     THEMIS_WARN("Cache latency SLO violation [{}]: p99={:.3f}ms (threshold={:.3f}ms)", violationLevelToString(level),
                 p99_ms, (level == ViolationLevel::CRITICAL ? config_.p99_critical_ms : config_.p99_warn_ms));
+
+    // C3: Structured latency SLO breach telemetry event.
+    THEMIS_WARN("{{\"event\":\"latency_slo_breach\",\"p99_ms\":{:.3f},"
+                "\"threshold_ms\":{:.3f},\"level\":\"{}\","
+                "\"cache_name\":\"{}\"}}",
+                p99_ms,
+                (level == ViolationLevel::CRITICAL ? config_.p99_critical_ms : config_.p99_warn_ms),
+                violationLevelToString(level), config_.cache_name);
 
     if (alertmanager_) {
         auto send_result = alertmanager_->sendAlert(alert);

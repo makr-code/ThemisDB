@@ -22,6 +22,15 @@ python3 benchmarks/scripts/scientific_evaluation_framework.py \
   --tickets-output /path/to/regression_tickets.json
 ```
 
+Wave-6-Referenzlauf (Release-Candidate Hardening):
+
+```bash
+python3 benchmarks/scripts/scientific_evaluation_framework.py \
+  --input benchmarks/ci_wave6_release_candidate_experiments.json \
+  --output benchmarks/results/wave6_report.json \
+  --tickets-output benchmarks/results/wave6_regression_tickets.json
+```
+
 ## Hinweise
 - Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
 - Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.

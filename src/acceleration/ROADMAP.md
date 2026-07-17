@@ -1,12 +1,20 @@
 # Acceleration Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase B–C), §7 (risk) -->
 
 ## Current Status
 
 Production-grade acceleration runtime with backend selection, fallback orchestration, plugin/security guards, and multi-device integration.
+
+**Hybrid Retrieval Rollout Readiness**: 45% 🟡 (issue #5468).
+- Phase A (exact-first): ✅ No acceleration used — safe.
+- Phase B (advisory-only Category A: distance, TopK): 🟡 Q3 2026 after result validation hardening (320 gaps).
+- Phase C (Category B: Geo, BFS, Dijkstra with parity tests): ⚠️ Q4 2026 after 60% total gap reduction + parity suite.
+- **Mandatory**: Category C kernels (policy, provenance, transactions) remain CPU-first permanently.
+- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## In Progress
 
@@ -15,6 +23,19 @@ Production-grade acceleration runtime with backend selection, fallback orchestra
 - [~] Benchmark and regression gate consolidation for acceleration-critical release profiles (Target: Q3 2026)
 
 ## Planned Features
+
+### Hybrid Retrieval Rollout Gates (issue #5468)
+- [ ] Phase B pre-requisite: result validation for Category A kernels (distance, TopK) — 320 gaps → 128 (Target: Q3 2026)
+- [ ] Phase B pre-requisite: memory boundary violation fixes (195 gaps → 78) (Target: Q3 2026)
+- [ ] Phase B pre-requisite: CONSTRAINT_A1–A5 enforcement for Category A kernels (Target: Q3 2026)
+- [ ] Phase B pre-requisite: AddressSanitizer gate clean before merge (Target: Q3 2026)
+- [ ] Phase C pre-requisite: Geo kernel validation gates (lat/lon bounds, distance range) (Target: Q4 2026)
+- [ ] Phase C pre-requisite: BFS frontier cutoff (10K nodes/hop, max 3 hops) + CPU fallback (Target: Q4 2026)
+- [ ] Phase C pre-requisite: Dijkstra edge-weight non-negative + overflow guard + CPU fallback (Target: Q4 2026)
+- [ ] Phase C ctest gate: `test_category_b_parity_geo` (Haversine GPU vs CPU) (Target: Q4 2026)
+- [ ] Phase C ctest gate: `test_category_b_parity_bfs` (Target: Q4 2026)
+- [ ] Phase C ctest gate: `test_category_b_parity_dijkstra` (Target: Q4 2026)
+- [ ] Phase C benchmark gate: `bench_category_b_gpu_cpu_parity` (Target: Q4 2026)
 
 ### Short-term (3-6 months)
 - [ ] Expand deterministic regressions for backend-selection and fallback edge cases (Target: Q4 2026)

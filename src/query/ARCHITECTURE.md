@@ -3,7 +3,7 @@
 # Query Module — Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-05-31
+**Last Updated:** 2026-07-13
 **Module Path:** `src/query/`
 
 ---
@@ -217,6 +217,20 @@ AQL: "FOR doc IN documents
 - Spill-to-disk for large intermediate results is planned.
 - Additional benchmark evidence is still needed for some vectorized and federated performance envelopes.
 - Some advanced optimization and distributed behaviors continue to be hardened incrementally.
+
+---
+
+## 12. Source Verification Evidence
+
+- Parser and translation references in this document were re-checked against
+  `src/query/aql_parser.cpp`, `src/query/aql_parser_json.cpp`,
+  `src/query/aql_translator.cpp`, and `include/query/aql_parser.h`.
+- Optimizer and execution references were re-checked against
+  `src/query/query_optimizer.cpp`, `src/query/adaptive_optimizer.cpp`,
+  `src/query/query_engine.cpp`, and `src/query/runtime_reoptimizer.cpp`.
+- Distributed/federated and cancellation references were re-checked against
+  `src/query/query_federation.cpp`, `src/query/cross_cluster_federation.cpp`,
+  `src/query/query_canceller.cpp`, and `src/query/continuous_query_engine.cpp`.
 
 ---
 

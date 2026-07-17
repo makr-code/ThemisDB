@@ -72,8 +72,8 @@
       }
     },
     "unknown": {
-      "action": "warn",
-      "reason": "License not recognized - manual review required"
+      "action": "block",
+      "reason": "License not recognized - not whitelisted, manual review required before merge"
     }
   },
   "compliance": {

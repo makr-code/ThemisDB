@@ -98,7 +98,6 @@ std::vector<std::string> tokenise(const std::string& s) {
             c == ';' || c == '=' || c == '<' || c == '>' || c == '!') {
             if (!cur.empty()) {
                 tokens.push_back(std::move(cur));
-                cur.clear();
             }
         } else {
             cur += c;
