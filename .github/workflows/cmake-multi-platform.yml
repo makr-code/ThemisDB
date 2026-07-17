@@ -81,6 +81,33 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Install Linux system dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
+          ninja-build \
+          pkg-config \
+          librocksdb-dev \
+          libgtest-dev \
+          libssl-dev \
+          zlib1g-dev \
+          libzstd-dev \
+          libfmt-dev \
+          libspdlog-dev \
+          nlohmann-json3-dev \
+          libtbb-dev \
+          libyaml-cpp-dev \
+          libmimalloc-dev \
+          libcurl4-openssl-dev \
+          libboost-system-dev \
+          libboost-filesystem-dev \
+          libgrpc++-dev \
+          libprotobuf-dev \
+          protobuf-compiler-grpc
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -105,7 +132,8 @@ jobs:
   # Sanitizer jobs — SEC-CC-4 companion (AddressSanitizer + UBSan)
   #
   # Triggered automatically on every push/PR to develop (using the
-  # community-asan / community-ubsan presets which need no vcpkg).
+  # community-asan / community-ubsan presets which need no vcpkg but do require
+  # the Linux system packages installed below).
   # Can also be triggered manually via workflow_dispatch with sanitizer=asan/ubsan/both.
   #
   # These jobs complement the Release hardening flags (stack-protector, PIE,
@@ -129,11 +157,28 @@ jobs:
       run: |
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
           ninja-build \
+          pkg-config \
           libasan8 \
+          librocksdb-dev \
           libgtest-dev \
           libssl-dev \
-          zlib1g-dev
+          zlib1g-dev \
+          libzstd-dev \
+          libfmt-dev \
+          libspdlog-dev \
+          nlohmann-json3-dev \
+          libtbb-dev \
+          libyaml-cpp-dev \
+          libmimalloc-dev \
+          libcurl4-openssl-dev \
+          libboost-system-dev \
+          libboost-filesystem-dev \
+          libgrpc++-dev \
+          libprotobuf-dev \
+          protobuf-compiler-grpc
 
     - name: Configure (ASan)
       run: cmake --preset community-asan -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
@@ -162,10 +207,27 @@ jobs:
       run: |
         sudo apt-get update -qq
         sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
           ninja-build \
+          pkg-config \
+          librocksdb-dev \
           libgtest-dev \
           libssl-dev \
-          zlib1g-dev
+          zlib1g-dev \
+          libzstd-dev \
+          libfmt-dev \
+          libspdlog-dev \
+          nlohmann-json3-dev \
+          libtbb-dev \
+          libyaml-cpp-dev \
+          libmimalloc-dev \
+          libcurl4-openssl-dev \
+          libboost-system-dev \
+          libboost-filesystem-dev \
+          libgrpc++-dev \
+          libprotobuf-dev \
+          protobuf-compiler-grpc
 
     - name: Configure (UBSan)
       run: cmake --preset community-ubsan -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
